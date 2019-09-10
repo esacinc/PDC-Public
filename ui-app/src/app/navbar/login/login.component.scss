@@ -1,0 +1,71 @@
+.title{
+	text-align: left;
+    font-family: 'Lato';
+    font-weight: 400;
+    font-size: 16px;
+}
+
+div.google-login-button input {
+	background-image: url(../../../assets/css/images/btn_google_signin_dark_normal_web.png);
+    background-repeat: no-repeat;
+    width: 195px;
+    height: 50px;
+}
+
+div.nih-login-button input {
+	background-image: url(../../../assets/css/images/era_Commons_login.png);
+    background-repeat: no-repeat;
+    width: 195px;
+    height: 50px;
+}
+
+.login-actions {
+    display: -webkit-flex; 
+    -webkit-justify-content: space-around; 
+    display: flex; 
+    justify-content: space-around;
+}
+
+.social-login-container {
+    display: -webkit-flex; 
+    -webkit-justify-content: center; 
+    display: flex; 
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.social-login-item {
+    //background-color:#245571;
+  }
+
+  .user-login-container {
+    display: -webkit-flex; 
+    -webkit-justify-content: center; 
+    display: flex; 
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  .user-login-item{
+    float: left!important;
+  }
+  
+  .user-login-link{
+    float: left!important;
+    text-align: left;
+    padding-bottom: 1rem;
+  }
+
+  .forget-password-link{
+    float: right!important;
+    text-align: right;
+    padding-bottom: 1rem;
+  }
+
+  .rememberme-checkbox{
+    font-weight: 400!important;
+    text-align: left;
+    margin-bottom: 1rem!important;
+  }

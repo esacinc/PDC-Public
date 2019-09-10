@@ -1,0 +1,121 @@
+<div class="row browse-study" style="font-family:'Lato';">	
+	<div style="width: 100%">
+		<div *ngIf="totalRecords > 0 && !loading" class="ui-helper-clearfix" style="float: left">
+			<h3 style="font-family: 'Lato'; font-size:14px;float:left">{{totalRecords > 1 ? 'Total studies: ' + totalRecords : 'Total study: ' + totalRecords }}</h3>
+		</div>
+		<div style="float: right; padding: 2%">
+			<button matTooltip="Please use CPTAC Data Portal for downloading the files" id="downloadWholeManifest" mat-raised-button mat-primary label="Download Selection" (click)="downloadAllManifest()" style="font-family:'Lato';float:right;font-weight:bold;" [disabled]="iscompleteManifestDisabled()">Download All Manifests</button>
+		</div> 
+	</div>
+	
+      <p-table class="table-striped ui-datatable-odd" #dt [columns]="cols" [value]="filteredStudiesData" [lazy]="true" [paginator]="true" [(first)]="offset" 
+				[rows]="10" [pageLinks]="5" [rowsPerPageOptions]="[10,20,50]" [totalRecords]="totalRecords"
+				[loading]="loading" [resizableColumns]="true" columnResizeMode="expand" responsive="true"
+				(onRowUnselect) ="onRowUnselected($event)" (onRowSelect)="onRowSelected($event)" [(selection)]="selectedStudies" 
+				dataKey="submitter_id_name" (onLazyLoad)="loadNewPage($event)" id="studyDataTable">
+	    <ng-template pTemplate="caption">
+			<div class="ui-helper-clearfix">
+				<div id="selectedStudiesCount" *ngIf="!isDownloadDisabled()" style="float:left">Studies selected for download: {{selectedStudies.length}}</div>
+				<button matTooltip="Please use CPTAC Data Portal for downloading the files" id="downloadStudyManifest" mat-raised-button mat-primary label="Download Selection" (click)="studyTableExportCSV(dt)" style="font-family:'Lato';float:right" [disabled]="isDownloadDisabled()" >Download Study Manifest</button>
+			</div>
+		</ng-template>
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+				<th rowspan=3 class="ui-datatable-tableheader" style="width:6%; align-content: center !important; overflow: unset;" pResizableColumn>
+					<p-checkbox  id="studyDataChk" [(ngModel)]="headercheckbox" binary="true" (onChange)="onTableHeaderCheckboxToggle()" ></p-checkbox >
+					<mat-select id="dataForManifestExport" class="card-body card-list" [(ngModel)]="selectedHeaderCheckbox"
+					(selectionChange)="changeHeaderCheckbox($event)">
+						<mat-option *ngFor="let checkboxOption of checkboxOptions" [value]="checkboxOption">
+							{{checkboxOption}}
+						</mat-option>
+					</mat-select>
+				</th>
+				<!-- @@@PDC-262 link headers to data dictionary -->                
+				<th rowspan=3 class="ui-datatable-tableheader" style="width:12%;" [pSortableColumn]="cols[0].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Study" target="_blank" style="color:white">Study</a><p-sortIcon [field]="cols[0].field"></p-sortIcon></th>
+				<th rowspan=3 class="ui-datatable-tableheader" style="width:7%" [pSortableColumn]="cols[1].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Project" target="_blank" style="color:white">Project</a><p-sortIcon [field]="cols[1].field"></p-sortIcon></th>
+				<th rowspan=3 class="ui-datatable-tableheader" style="width:9%" [pSortableColumn]="cols[2].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Program" target="_blank" style="color:white">Program</a><p-sortIcon [field]="cols[2].field"></p-sortIcon></th>
+				<th rowspan=3 class="ui-datatable-tableheader" style="width:10%" [pSortableColumn]="cols[3].field" pResizableColumn>
+					<div class="ui-datatable-tableheader-flex-container">
+						<div>
+							<a href="{{staticUrlBase}}dictionaryitem.html?eName=Case#disease_type" target="_blank" style="color:white">
+								<div>Disease</div>Type
+							</a>
+						</div>
+						<div>	
+							<p-sortIcon [field]="cols[3].field"></p-sortIcon>
+						</div>
+					</div>
+				</th>	
+				<th rowspan=3 class="ui-datatable-tableheader" style="width:7%" [pSortableColumn]="cols[4].field" pResizableColumn>
+					<div class="ui-datatable-tableheader-flex-container">
+						<div>
+							<a href="{{staticUrlBase}}dictionaryitem.html?eName=Case#primary_site" target="_blank" style="color:white">
+								<div>Primary</div>Site
+							</a>
+						</div>	
+						<div>	
+							<p-sortIcon [field]="cols[4].field"></p-sortIcon>
+						</div>
+					</div>
+				</th>	
+				<th rowspan=3 class="ui-datatable-tableheader" style="width:7%" [pSortableColumn]="cols[5].field" pResizableColumn>
+					<div class="ui-datatable-tableheader-flex-container">
+						<div>
+							<a href="{{staticUrlBase}}dictionaryitem.html?eName=Study#analytical_fraction" target="_blank" style="color:white">
+								Analytical<br>Fraction
+							</a>
+						</div>
+						<div>
+							<p-sortIcon [field]="cols[5].field"></p-sortIcon>
+						</div>
+					</div>
+				</th>
+				<th rowspan=3 class="ui-datatable-tableheader" style="width:8%" [pSortableColumn]="cols[6].field" pResizableColumn>
+					<div class="ui-datatable-tableheader-flex-container">
+						<div>
+							<a href="{{staticUrlBase}}dictionaryitem.html?eName=Study#experiment_type" target="_blank" style="color:white">Experiment<br>Type</a>
+						</div>
+						<div>
+							<p-sortIcon [field]="cols[6].field"></p-sortIcon>
+						</div>
+					</div>
+				</th>
+				<th rowspan=3 class="ui-datatable-tableheader" style="width:4%;padding:0px" pResizableColumn>Cases #</th>
+			</tr>
+			<tr>
+				<th colspan=7 class="ui-datatable-tableheader-collapsed" style="text-align: center" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=File" target="_blank" style="color:white">Available files for data category</a></th>
+			</tr>
+			<tr>
+				<th rowspan=1 class="ui-datatable-tableheader-continue" style="width:3%" pResizableColumn>Raw</th>
+				<th rowspan=1 class="ui-datatable-tableheader-continue" style="width:4%" pResizableColumn>mzML</th>
+				<th rowspan=1 class="ui-datatable-tableheader-continue" style="width:8%;padding:0px" pResizableColumn>Metadata</th>
+				<th rowspan=1 class="ui-datatable-tableheader-continue" style="width:3%" pResizableColumn>PSM</th>
+				<th rowspan=2 class="ui-datatable-tableheader-continue" style="width:12%;padding:0px" pResizableColumn><div>Protein</div>Assembly</th>
+				<th rowspan=2 class="ui-datatable-tableheader-continue" style="width:12%;padding:0px" pResizableColumn><div>Protein</div>Databases</th>
+				<th rowspan=2 class="ui-datatable-tableheader-continue" style="width:10%" pResizableColumn><div>Quality</div>Metrics</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-studyData>
+            <tr style="font-size: 11px;"[pSelectableRow]="studyData">
+			  <td style="width:6%; align-content: center !important"><p-tableCheckbox id="studyData{{studyData.submitter_id_name}}" [value]="studyData"></p-tableCheckbox></td>
+              <td style="width:12%;word-wrap: break-word; white-space: normal;"><a href="javascript:void(0);" (click)="showStudySummary(studyData.study_submitter_id)">{{studyData.submitter_id_name}}</a></td>
+              <td style="width:7%;word-wrap: break-word; white-space: normal;">{{studyData.project_name}}</td>
+              <td style="width:9%;word-wrap: break-word; white-space: normal;">{{studyData.program_name}}</td>
+              <td style="width:10%;word-wrap: break-word; white-space: normal;">{{studyData.disease_type}}</td>
+			  <td style="width:7%;word-wrap: break-word; white-space: normal;">{{studyData.primary_site}}</td>
+			  <td style="width:7%;word-wrap: break-word; white-space: normal;">{{studyData.analytical_fraction}}</td>
+			  <td style="width:8%;word-wrap: break-word; white-space: normal;">{{studyData.experiment_type}}</td>
+			  <td style="width:4%;word-wrap: break-word; white-space: normal;"><a [class.disabled]="studyData.cases_count == 0" href="javascript:void(0)" (click)="changeTabForCaseCount(studyData.submitter_id_name)">{{studyData.cases_count}}</a></td>
+			  <td style="width:3%;word-wrap: break-word; white-space: normal;"><a [class.disabled]="!studyData.raw_count" href="javascript:void(0)" (click)="changeTabForFileType(studyData.submitter_id_name, 'Proprietary')"><span *ngIf="studyData.raw_count">{{studyData.raw_count}}</span><span *ngIf="!studyData.raw_count">0</span></a></td>
+			  <td style="width:4%;word-wrap: break-word; white-space: normal;"><a [class.disabled]="!studyData.mzml_count" href="javascript:void(0)" (click)="changeTabForFileType(studyData.submitter_id_name, 'Open Standard')"><span *ngIf="studyData.mzml_count">{{studyData.mzml_count}}</span><span *ngIf="!studyData.mzml_count">0</span></a></td>
+			  <td style="width:7%;word-wrap: break-word; white-space: normal;"><a [class.disabled]="!studyData.metadata_count" href="javascript:void(0)" (click)="changeTabForFileType(studyData.submitter_id_name, 'Document')"><span *ngIf="studyData.metadata_count">{{studyData.metadata_count}}</span><span *ngIf="!studyData.metadata_count">0</span></a></td>
+			  <td style="width:3%;word-wrap: break-word; white-space: normal;"><a [class.disabled]="!studyData.psm_count" href="javascript:void(0)" (click)="changeTabForFileType(studyData.submitter_id_name, 'Open Standard')"><span *ngIf="studyData.psm_count">{{studyData.psm_count}}</span><span *ngIf="!studyData.psm_count">0</span></a></td>
+			  <td style="width:11%;word-wrap: break-word; white-space: normal;"><a [class.disabled]="!studyData.protein_assembly_count" href="javascript:void(0)" (click)="changeTabForFileType(studyData.submitter_id_name, 'Text')"><span *ngIf="studyData.protein_assembly_count">{{studyData.protein_assembly_count}}</span><span *ngIf="!studyData.protein_assembly_count">0</span></a></td>
+			  <td style="width:11%;word-wrap: break-word; white-space: normal;"><a [class.disabled]="!studyData.protein_databases_count" href="javascript:void(0)" (click)="changeTabForFileType(studyData.submitter_id_name, 'Text')"><span *ngIf="studyData.protein_databases_count">{{studyData.protein_databases_count}}</span><span *ngIf="!studyData.protein_databases_count">0</span></a></td>
+			  <td style="width:10%;word-wrap: break-word; white-space: normal;"><a [class.disabled]="!studyData.quality_metrics_count" href="javascript:void(0)" (click)="changeTabForFileType(studyData.submitter_id_name, 'Web')"><span *ngIf="studyData.quality_metrics_count">{{studyData.quality_metrics_count}}</span><span *ngIf="!studyData.quality_metrics_count">0</span></a></td>
+			</tr>
+        </ng-template>
+      </p-table>
+      <br>
+    </div>
+  

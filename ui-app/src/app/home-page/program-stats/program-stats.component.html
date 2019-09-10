@@ -1,0 +1,92 @@
+
+<mat-toolbar>
+        <mat-toolbar-row class="toolbar-second-row stats">
+          <div class="stats">
+            <span>
+                <div style="padding-left: 40px">
+                <table>
+                    <thead>
+                    <tr matTooltip="Number of Programs">
+                    <th rowspan=2 style="padding-right: 10px"><img src="./assets/css/images/Program_Icon.png"/></th>
+                    <th class="data-row" id="programsCount" colspan=1 >{{programsCounter}}</th>
+                    </tr>
+                    <tr>
+                        <th class="label-row" id="programsLabel">Programs</th>
+                    </tr>
+                    </thead>
+                </table>
+                </div>
+                </span>
+            <span>
+                <table>
+                  <thead>
+                     <tr matTooltip="Total data volume">
+                      <th rowspan=2 style="padding-right: 10px"><img src="./assets/css/images/Data_Volume_Icon.png"/></th>
+                      <th class="data-row" id="dataVolumeResult" colspan=1 >{{dataSize}} TB</th>
+                       </tr>
+                       <tr>
+                         <th  class="label-row" id="dataVolumeLabel">Data volume</th>
+                        </tr>
+                    </thead>
+                </table>
+            </span>
+            <span>
+                    <table>
+                      <thead>
+                         <tr matTooltip="Number of raw and processed data files">
+                          <th rowspan=2 style="padding-right: 10px"><img src="./assets/css/images/Data_Files_Icon.png"/></th>
+                          <th class="data-row" id="dataFilesResult" colspan=1 >{{filesCounter | number}}</th>
+                           </tr>
+                           <tr>
+                             <th class="label-row" id="dataFilesLabel">Data files</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </span>
+                <span>
+                        <table>
+                          <thead>
+                             <tr matTooltip="Number of identified MS/MS spectra at 1% spectral FDR">
+                              <th rowspan=2 style="padding-right: 10px"><img src="./assets/css/images/Spectra_Icon.png"/></th>
+                              <th class="data-row" id="spectraCount" colspan=1 >{{spectraCounter | number}}</th>
+                               </tr>
+                               <tr>
+                                 <th class="label-row" id="spectraLabel">Spectra</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </span>
+                <span>
+                    <table>
+                       <thead>
+                         <tr matTooltip="Number of distinct peptide sequences identified by the PDC Common Data Analysis Pipeline Peptide Spectral Match analysis at 1% spectral FDR">
+                           <th rowspan=2 style="padding-right: 10px"><img src="./assets/css/images/Peptides_new.png"/></th>
+                           <th class="data-row" id="peptideCount" colspan=1 >{{peptideCounter | number}}</th>
+                         </tr>
+                         <tr>
+                         <th class="label-row" id="peptideLabel">Peptides</th>
+                         </tr>
+                       </thead>
+                    </table>
+            </span>
+            <span>
+                <table>
+                    <thead>
+                      <tr matTooltip="Number of proteins identified by the PDC Common Data Analysis Pipeline in at least one analytical sample, with at most 1% protein FDR">
+                       <th rowspan=2 style="padding-right: 10px"><img src="./assets/css/images/Proteins_new.png"/></th>
+                         <th class="data-row" id="proteinCount" colspan=1 >{{proteinCounter | number}}</th>
+                      </tr>
+                      <tr>
+                        <th class="label-row" id="proteinLabel">Proteins</th>
+                      </tr>
+                      </thead>
+                     </table>
+
+                </span>
+          </div>
+          </mat-toolbar-row>
+         <mat-toolbar-row class="toolbar-second-row">
+        </mat-toolbar-row>
+        <mat-toolbar-row class="toolbar-second-row">
+          </mat-toolbar-row>
+</mat-toolbar>

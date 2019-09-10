@@ -1,0 +1,215 @@
+.filters-wrapper{
+	background: #254A61;
+	box-shadow: 0 2px 7px 0 rgba(0,0,0,0.24);
+	border-radius: 0 0px 0px 0px;
+}
+
+$header-height: 128px;
+$stateActiveBgColor: #3baae3;
+
+.float-button-right {
+  // This fills the remaining space, by using flexbox. 
+  flex: 1 1 auto;
+}
+
+.browse-filter {
+	font-family: 'Lato';
+	padding-left:0px;
+	padding-right: 0px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	border-top: 0px;
+}
+
+.browse-filter .checked-state{
+	font-weight: 600;
+}
+
+.browse-filter .card-header {
+	font-weight: 'regular';
+	font-size: 14px;
+	background: rgb(120, 167, 192);
+	margin-bottom: 0px;
+	border-bottom: 0px;
+	padding-bottom: 0px;
+	border: 1px;
+	color: #000000;
+	align-items: center;
+} 
+
+.browse-filter .card-title {
+	font-weight: 'regular';
+	font-size: 14px;
+//	background: #254A61;
+	background: rgb(120, 167, 192);
+	margin-bottom: 0px;
+	border-bottom: 0px;
+	padding-bottom: 8px;
+	border: 0px;
+	color: #000000;
+}
+
+//@@@PDC-683 - Add Gene Name filter to Gene filter tab with prepopulated genes list
+.mat-select-value-text {
+    white-space: pre-wrap!important;
+    overflow: scroll!important;
+    text-overflow: ellipsis!important;
+}
+.mat-select-panel .mat-option {
+	font-size: 12px!important;
+    line-height: 2em!important;
+    height: 2em!important;
+    min-width: 520px!important;
+}
+
+.mat-panel-title {
+	font-size: 14px;
+	font-family: 'Lato';
+	background: rgb(120, 167, 192);
+	margin-bottom: 0px;
+	border-bottom: 0px;
+	padding-bottom: 8px;
+	border: 0px;
+	color: #000000;
+}
+ .browse-filter .card-body {
+ // background: rgb(149, 190, 212);
+	background: #FFFFFF;
+	padding-top: 0px;
+  	padding-left: 0px;
+	padding-bottom: 0px;
+	//color: #000000;
+	 flex:1 1 auto;
+} 
+
+//@@@PDC-517 styling filter category title and align with reset button
+.browse-filter-title{
+	color:white; 
+	font-weight:600;
+	font-size:15px; 
+	height:40px; 
+	line-height:40px;
+}
+
+.card-list-checkbox-single-ln {
+	margin-top: -1.0rem;
+	margin-bottom: -1.0rem;
+	padding-bottom: 0rem;
+	padding-top: -1.0rem;
+}
+
+.card-list-checkbox-multi-ln {
+	margin-top: -0.8rem;
+	margin-bottom: -0.8rem;
+	padding-bottom: 0rem;
+	padding-top: 0rem;
+	height: 40px;
+}
+
+.browse-data {
+	font-family: 'Lato';
+	padding-left:0px;
+	padding-right: 0px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	border-top: 0px;
+}
+
+.side-bar-tabs /deep/.mat-tab-label{
+	min-width: 110px!important;
+	padding: 10px!important;
+	justify-content: left!important;
+   }
+
+/deep/ .sidenavFiltersPanel .mat-expansion-panel-body {
+	padding-left: 0px!important;
+	padding-right: 0px!important;
+	padding-bottom: 0px!important;
+}
+
+/deep/ .sidenavFiltersPanel .mat-list-item {
+	padding-right: 0px!important;
+	height: 35px!important;
+	line-height: 100%;
+}
+
+/deep/.mat-expansion-indicator {
+    position: absolute!important;
+	left: 7.5px!important;
+  }
+
+.mat-expansion-panel-header, .mat-expansion-panel-header:hover{
+	background: rgb(120, 167, 192)!important;
+	padding-right:0px!important;
+}
+
+.mat-expansion-panel-header-title{
+	margin-right:0px!important;
+}
+// PDC-620: Make the filter selection tabs along the left side of the window
+/deep/ {
+	.sideBarNavigation .mat-tab-label-container {
+		display: flex;
+		flex-grow: 1;
+		overflow: hidden;
+		z-index: 1;
+		width: 38px;
+	}
+	.sideBarNavigation .mat-tab-group {
+		flex-direction: row;
+	}
+	.sideBarNavigation .mat-tab-labels {
+		flex-direction: column;
+		width: 60px;
+		height: 540px;
+		margin-left: -40px;
+	}
+	.sideBarNavigation .mat-tab-body-wrapper {
+		flex: 1 1 auto;
+	}
+	.sideBarNavigation .mat-tab-header {
+		border-bottom: none;
+	}
+
+	.sideBarNavigation .mat-ink-bar {
+		height: 100%;
+		left: 98% !important;
+	}
+
+	.sideBarNavigation .mat-tab-header-pagination {
+		display: none !important;
+	}
+
+	.sideBarNavigation .mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary .mat-ink-bar {
+		background-color: #F0F0F0;
+	}
+
+	.sideBarNavigation .mat-tab-label-active{
+		background-color: #E8E8E8 !important;
+		border-radius: 2px;
+	}
+
+	.sideBarNavigation .mat-tab-label {
+		-ms-transform: rotate(90deg);
+		-webkit-transform: rotate(90deg);
+		transform: rotate(90deg);
+		min-width: 200%;
+		border-right: 1px solid #dddddd;
+		height: 100%;
+		text-transform: uppercase;
+		font-weight: bold;
+		color: black;
+	}
+
+	.sideBarNavigation #mat-tab-label-1-1 {
+		min-width: 150px !important;
+		padding-top: 50px !important;
+	}
+
+	.sideBarNavigation #mat-tab-label-1-0, .sideBarNavigation #mat-tab-label-1-1, .sideBarNavigation #mat-tab-label-1-2,
+	.sideBarNavigation #mat-tab-label-1-3,  .sideBarNavigation #mat-tab-label-1-4{
+		justify-content: center !important;
+		padding-left: 20px !important;
+	}
+
+}

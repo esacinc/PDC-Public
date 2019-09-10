@@ -1,0 +1,23 @@
+<div *ngIf='bottomNavDisplayFlag' >
+<mat-toolbar >
+    <mat-toolbar-row style="position:relative; height:35px" class="bottom-navbar-links title-center">
+      <a style="color:white;" href="javascript:void(0)" (click)="viewPrivacyPolicy()">Privacy Policy</a> &nbsp;&nbsp; | &nbsp; &nbsp;
+      <a style="color:white;" target="_" href="/pdc">Site home</a> &nbsp;&nbsp; | &nbsp; &nbsp;
+      <a style="color:white;" target="_" href="https://www.cancer.gov/policies">Policies</a> &nbsp; &nbsp; | &nbsp; &nbsp;
+      <a style="color:white;" target="_" href="https://www.cancer.gov/policies/accessibility">Accessibility</a> &nbsp; &nbsp; | &nbsp; &nbsp;
+      <a style="color:white;" target="_" href="https://www.cancer.gov/policies/foia">FOIA</a>
+    </mat-toolbar-row>
+    <mat-toolbar-row style="height:35px" class="bottom-navbar-links title-center">
+      <a style="color:white;" target="_" href="https://www.hhs.gov/">U.S. Department of Health and Human Services</a> &nbsp; &nbsp; | &nbsp; &nbsp; 
+      <a style="color:white;" target="_" href="https://www.nih.gov/">National Institutes of Health</a> &nbsp; &nbsp; | &nbsp;&nbsp;
+      <a style="color:white;" target="_" href="https://www.cancer.gov/">National Cancer Institute</a> &nbsp; &nbsp; | &nbsp; &nbsp;
+      <a style="color:white;" target="_" href="https://www.usa.gov/">USA.gov</a>
+    </mat-toolbar-row>
+    <mat-toolbar-row style="height:35px; font-size: 12px !important" class="bottom-navbar-links title-center">
+    NIH... Turning Discovery Into Health ®
+    </mat-toolbar-row>
+	<mat-toolbar-row style="height:35px; font-size: 12px !important" class="bottom-navbar-links title-center">
+    Build Tag: {{tag}}
+    </mat-toolbar-row>
+</mat-toolbar>
+</div>

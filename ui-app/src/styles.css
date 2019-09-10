@@ -1,0 +1,24 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import url('https://fonts.googleapis.com/css?family=Lato:100,700');
+
+/* LEFT align */
+.mat-list .mat-list-item.left .mat-list-item-content{
+    justify-content: flex-start;
+}
+
+/* RIGHT align */
+.mat-list .mat-list-item.right .mat-list-item-content{
+    justify-content: flex-end;
+}
+
+/* If you will use matLine */
+
+/* LEFT align */
+.mat-list .mat-list-item.left .mat-list-text>*{
+margin: 0 auto 0 0;
+}
+/* RIGHT align */
+.mat-list .mat-list-item.right .mat-list-text>*{
+margin: 0 0 0 auto;
+}

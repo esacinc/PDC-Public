@@ -1,0 +1,57 @@
+	<div class="row" style="font-family:'Lato';">
+	<div style="width: 100%">
+			<div *ngIf="totalRecords > 0 && !loading" >
+					<h3 style="font-family: 'Lato'; font-size:14px;float:left">{{totalRecords > 1 ? 'Total records: ' + totalRecords : 'Total record: ' + totalRecords }}</h3>
+			</div>
+			<div style="float: right; padding: 2%">
+					<button matTooltip="Please use CPTAC Data Portal for downloading the files" id="downloadWholeManifest" mat-raised-button mat-primary label="Download Selection" (click)="downloadAllManifest()" style="font-family:'Lato';float:right;font-weight:bold;" [disabled]="iscompleteManifestDisabled()">Download All Manifests</button>
+			</div> 
+	</div>
+
+      <p-table class="table-striped ui-datatable-odd" #dt [columns]="cols" [value]="filteredGenesData" [lazy]="true" [paginator]="true" [(first)]="offset" 
+				[rows]="10" [pageLinks]="5" [rowsPerPageOptions]="[10,20,50]" [totalRecords]="totalRecords"
+				[loading]="loading" [resizableColumns]="true" columnResizeMode="expand" responsive="true" 
+				(onRowUnselect) ="onRowUnselected($event)" (onRowSelect)="onRowSelected($event)" [(selection)]="selectedGenesData" 
+				dataKey="gene_name" (onLazyLoad)="loadNewPage($event)" id="genesDataTable">
+	    <ng-template pTemplate="caption">
+			<div class="ui-helper-clearfix">
+				<div id="selectedGenesDataCount" *ngIf="!isDownloadDisabled()" style="float:left">Genes data selected for download: {{selectedGenesData.length}}</div>
+				<button matTooltip="Please use CPTAC Data Portal for downloading the files" id="downloadGeneData"  mat-raised-button mat-primary label="Download Selection" (click)="geneTableExportCSV(dt)" [disabled]="isDownloadDisabled()" style="font-family:'Lato';float:right" >Download Genes Manifest</button>
+			</div>
+		</ng-template>
+        <ng-template style="font-size: 12px; background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%);" pTemplate="header">
+            <tr style="font-size: 12px;">
+				<th class="ui-datatable-tableheader" style="width:7%;overflow: unset;" pResizableColumn>
+					<p-checkbox  id="geneDataChk" [(ngModel)]="headercheckbox" binary="true" (onChange)="onTableHeaderCheckboxToggle()" ></p-checkbox >
+					<mat-select id="dataForManifestExport" class="card-body card-list" [(ngModel)]="selectedHeaderCheckbox"
+					(selectionChange)="changeHeaderCheckbox($event)">
+						<mat-option *ngFor="let checkboxOption of checkboxOptions" [value]="checkboxOption">
+							{{checkboxOption}}
+						</mat-option>
+					</mat-select>
+					</th>            
+                <th class="ui-datatable-tableheader" style="width:6%;" [pSortableColumn]="cols[0].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Gene#gene_name" target="_blank" style="color:white">Gene</a><p-sortIcon [field]="cols[0].field"></p-sortIcon></th>
+			    <th class="ui-datatable-tableheader" style="width:12%" [pSortableColumn]="cols[1].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Gene#chromosome" target="_blank" style="color:white">Chromosome</a><p-sortIcon [field]="cols[1].field"></p-sortIcon></th>
+			    <th class="ui-datatable-tableheader" style="width:10%" [pSortableColumn]="cols[2].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Gene#locus" target="_blank" style="color:white">Locus</a><p-sortIcon [field]="cols[2].field"></p-sortIcon></th>
+			    <th class="ui-datatable-tableheader" style="width:12%;" [pSortableColumn]="cols[3].field" pResizableColumn>No of Studies<p-sortIcon [field]="cols[3].field"></p-sortIcon></th>
+			    <th class="ui-datatable-tableheader" style="width:13%" pResizableColumn>PTM Sites</th>
+			    <th class="ui-datatable-tableheader" style="width:51%" [pSortableColumn]="cols[4].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Gene#proteins" target="_blank" style="color:white">Proteins</a><p-sortIcon [field]="cols[4].field"></p-sortIcon></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-geneData>
+            <tr style="font-size: 11px;" [pSelectableRow]="geneData" >
+				<td style="width:7%;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"><p-tableCheckbox id="geneData{{geneData.gene_name}}" [value]="geneData"></p-tableCheckbox></td>              
+                <td style="width:6%;word-wrap: break-word; white-space: normal;"><a href="javascript:void(0);" (click)="showGeneSummary(geneData.gene_name)">{{geneData.gene_name }}</a></td>
+                <td style="width:12%;word-wrap: break-word; white-space: normal;">{{geneData.chromosome}}</td>
+                <td style="width:10%;word-wrap: break-word; white-space: normal;">{{geneData.locus}}</td>
+                <td style="width:12%;word-wrap: break-word; white-space: normal;">{{geneData.num_study}}</td>
+				<td style="width:13%;word-wrap: break-word; white-space: normal;">
+					<div *ngFor="let ptmData of ptmStatsData[geneData.gene_name]?.ptm_type_counter" style="float:left">{{ptmData.ptm_type}} ({{ptmData.counter}}) </div>
+				</td>
+				<td style="width:51%;word-wrap: break-word; white-space: normal;">{{geneData.proteins}}</td>
+            </tr>
+        </ng-template>
+		<p-paginator rows="10" totalRecords="120"></p-paginator> 
+      </p-table>
+      <br>
+    </div>

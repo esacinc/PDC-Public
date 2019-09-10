@@ -1,0 +1,82 @@
+
+.mat-button.mat-small {
+  min-width: 1%;
+}
+
+.toolbar-second-row {
+    background-image: linear-gradient(-133deg, #246A92 0%, #245571 100%);
+  }
+//  $header-height: 12.8rem;
+//  $card-height: 37.8rem;
+
+.browse-page .header {
+    display: flex;
+    align-items: center;
+    // height: 10rem;
+    margin-left: 0px;
+   // box-sizing: border-box;
+    // border-bottom: solid 1px rgba(0,0,0,0.12);
+    color: rgba(0,0,0,0.6);  
+  
+  }
+  .browse-page .card {
+    padding-right: 0px;
+    border: 0px;
+   // margin: -12.8rem auto 0;
+    padding-top: 0px;
+    padding-left: 0px;
+    // width: 100%;
+}
+.browse-page .card-header {
+  font-family: 'Lato';
+  font-weight: 400;
+  // padding-left: 1.0rem;
+  padding-right: 0px;
+  font-size: 16px;
+  background:#ffffff;
+  border: 0px;
+  padding-bottom: 0px;
+  color: #585858;
+}
+.browse-filter {
+  font-family: 'Lato';
+  background: #254A61;
+  // background: rgb(149, 190, 212);
+ // box-shadow: 0 2px 7px 0 rgba(0,0,0,0.24);
+  border: 0px;
+  font-size: 20px;
+  //padding-top: 0.5rem;
+  //padding-bottom: 0.5rem;
+  //padding-left: 0.5rem;
+  //padding-right: 1.0rem;
+  // margin-bottom: 0.1rem;
+//  border-radius: 0 0px 0px 0px;
+  color: #ffffff
+}
+
+.browse-filter .card-header {
+ 
+  font-weight: 400;
+ // padding-left: 1.0rem;
+  font-size: 16px;
+  color: #585858;
+}
+.browse-page .card-body {
+  padding-left: 0px;
+  border-left: 0px;
+  margin-left: 0px;
+  border-right-style: none;
+  border-left-style: none;
+  box-shadow: none !important;
+}
+
+.browse-filter-header-image {
+  background-image: url('../../assets/css/images/Triangle.png');
+}
+
+//@@@PDC-277: Add a filter crumb bar at the top that explains the filter criteria selected
+.breadCrumbButtons {
+  cursor: pointer;
+  margin-bottom: 10px;
+  padding: 3px;
+}

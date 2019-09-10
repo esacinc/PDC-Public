@@ -1,0 +1,351 @@
+<title>CASE SUMMARY</title>
+<button mat-icon-button style="float: right; flex: 0 0 auto;" (click)="close()">
+    <fa name="times" style="light"></fa>
+</button>
+
+<!--//@@@PDC-461  Make all summary dialog windows headers sticky-->
+<h2 mat-dialog-title style="color:#245672" >CASE SUMMARY: {{case_submitter_id}}</h2>
+
+<mat-dialog-content style='max-height: 80vh; '>
+	<div class="row" style="width: 100%;">
+		<mat-card style="width:100%">
+			<mat-card-header class="case-summary">
+				<mat-card-title class="case-summary">CASE DETAILS</mat-card-title>
+			</mat-card-header>
+			<mat-card-content style="overflow-y: auto; word-wrap: break-word; white-space: normal;font-size: 12px;">
+				<table id="caseSummaryCard">
+					<tr><td class="summary-card-name-left-cell">Case UUID</td><td class="summary-card-value-left-cell">{{caseSummaryData.case_id}}</td>
+						<td class="summary-card-name-right-cell">Disease Type</td><td class="summary-card-value-right-cell">{{caseSummaryData.disease_type}}</td>
+					</tr>
+					<tr><td class="summary-card-name-left-cell">Source Case ID</td><td class="summary-card-value-left-cell">{{case_submitter_id}}</td>
+						<td class="summary-card-name-right-cell">Program</td><td class="summary-card-value-right-cell">{{caseSummaryData.program_name}}</td>
+					</tr>
+					<tr><td class="summary-card-name-left-cell">Project</td><td class="summary-card-value-left-cell"><a href="javascript:void(0)">{{caseSummaryData.project_name}}</a></td>
+						<td class="summary-card-name-right-cell">Primary Site</td><td class="summary-card-value-right-cell">{{caseSummaryData.primary_site}}</td>
+					</tr>
+				</table>
+			</mat-card-content>
+		</mat-card>
+	</div>
+	<div class="row" style="width: 100%; padding-top: 20px;">
+		<mat-tab-group mat-stretch-tabs="always" style="width:100%;">
+			<mat-tab label="DEMOGRAPHY">
+				<div *ngIf="loading">
+					<mat-spinner></mat-spinner>
+				</div>
+				<table style="max-height:200px;overflow-y: auto;display: block!important;font-size: 12px; width: 100%; padding-top: 10px" id="caseSummaryDemography">
+					<div *ngFor="let caseData of caseDetailedSummaryData.demographics">
+						<tr style="padding-top: 10px">
+							<td class="summary-card-name-left-cell">Gender</td><td class="summary-card-value-right-cell">{{caseData.gender}}</td>
+						</tr>
+						<tr style="padding-top: 10px">
+							<td class="summary-card-name-left-cell">Ethnicity</td><td class="summary-card-value-right-cell">{{caseData.ethnicity}}</td>
+						</tr>
+						<tr style="padding-top: 10px">
+							<td class="summary-card-name-left-cell">Race</td><td class="summary-card-value-right-cell">{{caseData.race}}</td>
+						</tr>
+				    </div>
+				</table>
+		    </mat-tab>
+		    <mat-tab label="DIAGNOSIS">
+			  <div *ngIf="showMore;else show_more">
+				<table style="max-height:200px;overflow-y: auto;display: block!important;font-size: 12px; width: 100%; padding-top: 10px" id="caseSummaryDiagnosis">
+					<div *ngFor="let diagnosis of diagnoses">
+						<tr style="padding-top: 10px"><td class="summary-card-name-left-cell">Age at Diagnosis</td>
+							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.age_at_diagnosis)">{{diagnosis.age_at_diagnosis}}</td>
+							<td class="summary-card-name-right-cell">Morphology</td>
+							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.morphology)">{{diagnosis.morphology}}</td>
+						</tr>
+						<tr><td class="summary-card-name-left-cell">Primary Diagnosis</td>
+							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.primary_diagnosis)">{{diagnosis.primary_diagnosis}}</td>
+							<td class="summary-card-name-right-cell">Tumor Grade</td>
+							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.tumor_grade)">{{diagnosis.tumor_grade}}</td>
+						</tr>
+						<tr><td class="summary-card-name-left-cell">Tumor Stage</td>
+							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.tumor_stage)">{{diagnosis.tumor_stage}}</td>
+							<td class="summary-card-name-right-cell">Tissue or Organ of Origin</td>
+							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.tissue_or_organ_of_origin)">{{diagnosis.tissue_or_organ_of_origin}}</td>
+						</tr>
+						<tr><td class="summary-card-name-left-cell">Diagnosis Submitter ID</td>
+							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.diagnosis_submitter_id)">{{diagnosis.diagnosis_submitter_id}}</td>
+							<td class="summary-card-name-right-cell">Days to Best Overall Rresponse</td>
+							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.days_to_best_overall_response)">{{diagnosis.days_to_best_overall_response}}</td>
+						</tr>
+						<tr><td class="summary-card-name-left-cell">Classification of Tumor</td>
+							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.classification_of_tumor)">{{diagnosis.classification_of_tumor}}</td>
+							<td class="summary-card-name-right-cell">Days to Diagnosis</td>
+							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.days_to_diagnosis)">{{diagnosis.days_to_diagnosis}}</td>
+						</tr>
+						<tr><td class="summary-card-name-left-cell">Days to Last Follow up</td>
+							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.days_to_last_follow_up)">{{diagnosis.days_to_last_follow_up}}</td>
+							<td class="summary-card-name-right-cell">Days to HIV Diagnosis</td>
+							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.days_to_hiv_diagnosis)">{{diagnosis.days_to_hiv_diagnosis}}</td>
+						</tr>
+						<tr><td class="summary-card-name-left-cell">Days to Last Known Disease Status</td>
+							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.days_to_last_known_disease_status)">{{diagnosis.days_to_last_known_disease_status}}</td>
+							<td class="summary-card-name-right-cell">Days to New Event</td>
+							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.days_to_new_event)">{{diagnosis.days_to_new_event}}</td>
+						</tr>
+						<tr><td class="summary-card-name-left-cell">Days to Recurrence</td>
+							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.days_to_recurrence)">{{diagnosis.days_to_recurrence}}</td>
+							<td class="summary-card-name-right-cell">Figo Stage</td>
+							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.figo_stage)">{{diagnosis.figo_stage}}</td>
+						</tr>
+						<tr><td class="summary-card-name-left-cell">Last Known Disease Status</td>
+							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.last_known_disease_status)">{{diagnosis.last_known_disease_status}}</td>
+							<td class="summary-card-name-right-cell">HIV Positive</td>
+							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.hiv_positive)">{{diagnosis.hiv_positive}}</td>
+						</tr>
+						<tr><td class="summary-card-name-left-cell">HPV  Positive Type</td>
+							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.hpv_positive_type)">{{diagnosis.hpv_positive_type}}</td>
+							<td class="summary-card-name-right-cell">Colon Polyps History</td>
+							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.colon_polyps_history)">{{diagnosis.colon_polyps_history}}</td>
+						</tr>
+						<tr><td class="summary-card-name-left-cell">Progression or Recurrence</td>
+							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.progression_or_recurrence)">{{diagnosis.progression_or_recurrence}}</td>
+							<td class="summary-card-name-right-cell">HPV Status</td>
+							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.hpv_status)">{{diagnosis.hpv_status}}</td>
+						</tr>
+						<tr><td class="summary-card-name-left-cell">Site of Resection or Biopsy</td>
+							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.site_of_resection_or_biopsy)">{{diagnosis.site_of_resection_or_biopsy}}</td>
+							<td class="summary-card-name-right-cell">ISS Stage</td>
+							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.iss_stage)">{{diagnosis.iss_stage}}</td>
+						</tr>
+						<tr><td class="summary-card-name-left-cell">Vital Status</td>
+							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.vital_status)">{{diagnosis.vital_status}}</td>
+							<td class="summary-card-name-right-cell">Laterality</td>
+							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.laterality)">{{diagnosis.laterality}}</td>
+						</tr>
+						<tr><td class="summary-card-name-left-cell">Days to Birth</td>
+							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.days_to_birth)">{{diagnosis.days_to_birth}}</td>
+							<td class="summary-card-name-right-cell">LDH Level at Diagnosis</td>
+							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.ldh_level_at_diagnosis)">{{diagnosis.ldh_level_at_diagnosis}}</td>
+						</tr>
+						<tr><td class="summary-card-name-left-cell">Days to Death</td>
+							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.days_to_death)">{{diagnosis.days_to_death}}</td>
+							<td class="summary-card-name-right-cell">LDH Normal Range Upper</td>
+							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.ldh_normal_range_upper)">{{diagnosis.ldh_normal_range_upper}}</td>
+						</tr>
+						<tr><td class="summary-card-name-left-cell">Prior Malignancy</td>
+							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.prior_malignancy)">{{diagnosis.prior_malignancy}}</td>
+							<td class="summary-card-name-right-cell">Lymph Nodes Positive</td>
+							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.lymph_nodes_positive)">{{diagnosis.lymph_nodes_positive}}</td>
+						</tr>
+						<tr><td class="summary-card-name-left-cell">AJCC Clinical m</td>
+							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.ajcc_clinical_m)">{{diagnosis.ajcc_clinical_m}}</td>
+							<td class="summary-card-name-right-cell">Lymphatic Invasion Present</td>
+							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.lymphatic_invasion_present)">{{diagnosis.lymphatic_invasion_present}}</td>
+						</tr>
+						<tr><td class="summary-card-name-left-cell">AJCC clinical n</td>
+							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.ajcc_clinical_n)">{{diagnosis.ajcc_clinical_n}}</td>
+							<td class="summary-card-name-right-cell">Method_ of Diagnosis</td>
+							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.method_of_diagnosis)">{{diagnosis.method_of_diagnosis}}</td>
+						</tr>
+						<tr><td class="summary-card-name-left-cell">AJCC clinical Stage</td>
+							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.ajcc_clinical_stage)">{{diagnosis.ajcc_clinical_stage}}</td>
+							<td class="summary-card-name-right-cell">New Eevent Anatomic Site</td>
+							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.new_event_anatomic_site)">{{diagnosis.new_event_anatomic_site}}</td>
+						</tr>
+						<tr><td class="summary-card-name-left-cell">AJCC clinical t</td>
+							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.ajcc_clinical_t)">{{diagnosis.ajcc_clinical_t}}</td>
+							<td class="summary-card-name-right-cell">New Event Type</td>
+							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.new_event_type)">{{diagnosis.new_event_type}}</td>
+						</tr>
+						<tr><td class="summary-card-name-left-cell">AJCC pathologic m</td>
+							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.ajcc_pathologic_m)">{{diagnosis.ajcc_pathologic_m}}</td>
+							<td class="summary-card-name-right-cell">Overall Survival</td>
+							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.overall_survival)">{{diagnosis.overall_survival}}</td>
+						</tr>
+						<tr><td class="summary-card-name-left-cell">AJCC pathologic n</td>
+							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.ajcc_pathologic_n)">{{diagnosis.ajcc_pathologic_n}}</td>
+							<td class="summary-card-name-right-cell">Perineural Invasion Present</td>
+							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.perineural_invasion_present)">{{diagnosis.perineural_invasion_present}}</td>
+						</tr>
+						<tr><td class="summary-card-name-left-cell">AJCC pathologic Stage</td>
+							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.ajcc_pathologic_stage)">{{diagnosis.ajcc_pathologic_stage}}</td>
+							<td class="summary-card-name-right-cell">Prior Treatment</td>
+							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.prior_treatment)">{{diagnosis.prior_treatment}}</td>
+						</tr>
+						<tr><td class="summary-card-name-left-cell">AJCC pathologic t</td>
+							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.ajcc_pathologic_t)">{{diagnosis.ajcc_pathologic_t}}</td>
+							<td class="summary-card-name-right-cell">Progression Free Survival</td>
+							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.progression_free_survival)">{{diagnosis.progression_free_survival}}</td>
+						</tr>
+						<tr><td class="summary-card-name-left-cell">Ann Arbor b Symptoms</td>
+							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.ann_arbor_b_symptoms)">{{diagnosis.ann_arbor_b_symptoms}}</td>
+							<td class="summary-card-name-right-cell">Progression Free Survival Svent</td>
+							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.progression_free_survival_event)">{{diagnosis.progression_free_survival_event}}</td>
+						</tr>
+						<tr><td class="summary-card-name-left-cell">Ann Arbor Clinical Stage</td>
+							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.ann_arbor_clinical_stage)">{{diagnosis.ann_arbor_clinical_stage}}</td>
+							<td class="summary-card-name-right-cell">Residual Disease</td>
+							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.residual_disease)">{{diagnosis.residual_disease}}</td>
+						</tr>
+						<tr><td class="summary-card-name-left-cell">Ann Arbor Extranodal Involvement</td>
+							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.ann_arbor_extranodal_involvement)">{{diagnosis.ann_arbor_extranodal_involvement}}</td>
+							<td class="summary-card-name-right-cell">Vascular Invasion Present</td>
+							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.vascular_invasion_present)">{{diagnosis.vascular_invasion_present}}</td>
+						</tr>
+						<tr><td class="summary-card-name-left-cell">Ann Arbor Pathologic Stage</td>
+							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.ann_arbor_pathologic_stage)">{{diagnosis.ann_arbor_pathologic_stage}}</td>
+							<td class="summary-card-name-right-cell">Year of Diagnosis</td>
+							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.year_of_diagnosis)">{{diagnosis.year_of_diagnosis}}</td>
+						</tr>
+						<tr><td class="summary-card-name-left-cell">Best Overall Response</td>
+							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.best_overall_response)">{{diagnosis.best_overall_response}}</td>
+							<td class="summary-card-name-right-cell">Burkitt Lymphoma Clinical Variant</td>
+							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.burkitt_lymphoma_clinical_variant)">{{diagnosis.burkitt_lymphoma_clinical_variant}}</td>
+						</tr>
+						<tr><td class="summary-card-name-left-cell">Cause of Death</td>
+							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.cause_of_death)">{{diagnosis.cause_of_death}}</td>
+							<td class="summary-card-name-right-cell">Circumferential Resection Margin</td>
+							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.circumferential_resection_margin)">{{diagnosis.circumferential_resection_margin}}</td>
+						</tr>
+						<tr><td><button  mat-stroked-button (click)="showLessClicked()">Show less</button></td><td></td></tr>
+					</div>
+				</table>
+			  </div>
+			  <ng-template #show_more>
+				<table style="max-height:200px;overflow-y: auto;display: block!important;font-size: 12px; width: 100%; padding-top: 10px">
+					<div *ngFor="let diagnosis of diagnoses">
+						<tr style="padding-top: 10px">
+							<td class="summary-card-name-left-cell">Age at Diagnosis</td>
+							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.age_at_diagnosis)">{{diagnosis.age_at_diagnosis}}</td>
+							<td class="summary-card-name-right-cell">Morphology</td>
+							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.morphology)">{{diagnosis.morphology}}</td>
+						</tr>
+						<tr>
+							<td class="summary-card-name-left-cell">Primary Diagnosis</td>
+							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.primary_diagnosis)">{{diagnosis.primary_diagnosis}}</td>
+							<td class="summary-card-name-right-cell">Tumor Grade</td>
+							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.tumor_grade)">{{diagnosis.tumor_grade}}</td>
+						</tr>
+						<tr>
+							<td class="summary-card-name-left-cell">Tumor Stage</td>
+							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.tumor_stage)">{{diagnosis.tumor_stage}}</td>
+							<td class="summary-card-name-right-cell">Tissue or Organ of Origin</td>
+							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.tissue_or_organ_of_origin)">{{diagnosis.tissue_or_organ_of_origin}}</td>
+						</tr>
+						<tr><td><button  mat-stroked-button (click)="showMoreClicked()">Show more</button></td><td></td></tr>
+					</div>
+				</table>
+			  </ng-template>
+			</mat-tab>
+		</mat-tab-group>
+	</div>
+	<div class="row" style="width: 100%; padding-top: 30px;">
+		<div class="col-md-7" style="padding-right:10px; padding-left:0">
+			<mat-card>
+				<mat-card-header class="case-summary">
+					<mat-card-title class="case-summary">FILE COUNTS BY EXPERIMENTAL STRATEGY</mat-card-title>
+				</mat-card-header>
+				<mat-card-content>
+					<table class="table table-striped" id="caseSummExperStrat">
+						<thead>
+							<tr style="font-size: 12px;background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%);">
+								<th class="ui-datatable-tableheader" style="width:25%;">Aquisition Type</th>
+								<th class="ui-datatable-tableheader" style="width:35%;">Study</th>
+								<th class="ui-datatable-tableheader" style="width:25%">Experimental Strategy</th>
+								<th class="ui-datatable-tableheader" style="width:15%">Files</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr *ngFor="let fileCount of experimentFileCount" style="font-size: 12px;">
+								<td style="width:25%;word-wrap: break-word; white-space: normal;">{{fileCount.acquisition_type}}</td>
+								<td style="width:35%;word-wrap: break-word; white-space: normal;"><a href="javascript:void(0);" (click)="showStudySummary(fileCount.submitter_id_name)">{{fileCount.submitter_id_name}}</a></td>
+								<td style="width:25%;word-wrap: break-word; white-space: normal;">{{fileCount.experiment_type}}</td>
+								<td style="width:15%;word-wrap: break-word; white-space: normal;"><a target="_blank" href= "/pdc/browse/filters/study_name:{{fileCount.submitter_id_name}}&acquisition_type:{{fileCount.acquisition_type}}&experiment_type:{{fileCount.experiment_type}}&selectedTab:3">{{fileCount.files_count}}</a></td>
+							</tr>
+						</tbody>
+					</table>
+				</mat-card-content>
+			</mat-card>
+		</div>
+		<div class="col-md-5" style="padding-right:0; padding-left:10px">
+			<mat-card>
+				<mat-card-header class="case-summary" >
+					<mat-card-title class="case-summary">FILE COUNTS BY DATA CATEGORY</mat-card-title>
+				</mat-card-header>
+				<mat-card-content>
+					<table class="table table-striped" id="caseSummFileCounts">
+						<thead>
+							<tr style="font-size: 12px;background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%);">
+								<th class="ui-datatable-tableheader" style="width:50%;">Data Category</th>
+								<th class="ui-datatable-tableheader" style="width:50%">Files</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr style="font-size: 12px;" *ngFor="let categoryDetails of dataCategoryFileCount">
+								<td style="width:50%;word-wrap: break-word;white-space: normal;">{{categoryDetails.data_category}} ({{categoryDetails.file_type}})</td>
+								<td style="width:50%;word-wrap: break-word;white-space: normal;"><a target="_blank" href= "/pdc/browse/filters/data_category:{{categoryDetails.data_category}}&file_type:{{categoryDetails.file_type}}&selectedTab:3">{{categoryDetails.files_count}}</a></td>
+							</tr>
+						</tbody>
+					</table>
+				</mat-card-content>
+			</mat-card>
+		</div>
+	</div>
+	<div class="row" style="width: 100%; padding-top: 20px;">
+	  <mat-card style="width:100%">
+	    <mat-card-header class="case-summary" >
+			<mat-card-title  class="case-summary" >BIOSPECIMEN</mat-card-title>
+		</mat-card-header>
+	    <mat-card-content style="overflow-y: auto;max-height: 200px; width:100%">
+		  <mat-tab-group mat-stretch-tabs="always" style="width:100%;">
+		    <mat-tab label="SAMPLES">
+				<div *ngIf="loading">
+					<mat-spinner></mat-spinner>
+				</div>
+				<table  style="font-size: 12px; width: 100%; padding-top: 10px" id="biospecimenSummTable">
+					<div *ngFor="let sample of samples">
+						<tr style="padding-top: 10px"><td class="tab-table-field-name">GDC Sample ID</td><td class="tab-table-field-value">{{sample.gdc_sample_id}}</td></tr>
+						<tr><td class="tab-table-field-name">Sample Submitter ID</td><td class="tab-table-field-value">{{sample.sample_submitter_id}}</td></tr>
+						<tr><td class="tab-table-field-name">GDC Project ID</td><td class="tab-table-field-value">{{sample.gdc_project_id}}</td></tr>
+						<tr><td class="tab-table-field-name">Sample Type</td><td class="tab-table-field-value">{{sample.sample_type}}</td></tr>
+						<tr><td class="tab-table-field-name">Biospecimen Anatomic Site</td><td class="tab-table-field-value">{{sample.biospecimen_anatomic_site}}</td></tr>
+						<tr><td class="tab-table-field-name">Sample Type</td><td class="tab-table-field-value">{{sample.sample_type}}</td></tr>
+						<tr><td class="tab-table-field-name">Composition</td><td class="tab-table-field-value">{{sample.composition}}</td></tr>
+						<tr><td class="tab-table-field-name">Current Weight</td><td class="tab-table-field-value">{{sample.current_weight}}</td></tr>
+						<tr><td class="tab-table-field-name">Days to Collection</td><td class="tab-table-field-value">{{sample.days_to_collection}}</td></tr>
+						<tr><td class="tab-table-field-name">Days to Sample Procurement</td><td class="tab-table-field-value">{{sample.days_to_sample_procurement}}</td></tr>
+						<tr><td class="tab-table-field-name">Diagnosis Pathologically Confirmed</td><td class="tab-table-field-value">{{sample.diagnosis_pathologically_confirmed}}</td></tr>
+						<tr><td class="tab-table-field-name">Freezing Method</td><td class="tab-table-field-value">{{sample.freezing_method}}</td></tr>
+						<tr><td class="tab-table-field-name">Initial Weight</td><td class="tab-table-field-value">{{sample.initial_weight}}</td></tr>
+						<tr><td class="tab-table-field-name">Intermediate Dimension</td><td class="tab-table-field-value">{{sample.Intermediate_dimension}}</td></tr>
+						<tr><td class="tab-table-field-name">Is FFPE</td><td class="tab-table-field-value">{{sample.is_ffpe}}</td></tr>
+						<tr><td class="tab-table-field-name">Longest Dimension</td><td class="tab-table-field-value">{{sample.longest_dimension}}</td></tr>
+						<tr><td class="tab-table-field-name">Method of Sample Procurement</td><td class="tab-table-field-value">{{sample.method_of_sample_procurement}}</td></tr>
+						<tr><td class="tab-table-field-name">OCT Embedded</td><td class="tab-table-field-value">{{sample.oct_embedded}}</td></tr>
+						<tr><td class="tab-table-field-name">Pthology Report UUID</td><td class="tab-table-field-value">{{sample.pathology_report_uuid}}</td></tr>
+						<tr><td class="tab-table-field-name">Preservation Method</td><td class="tab-table-field-value">{{sample.preservation_method}}</td></tr>
+						<tr><td class="tab-table-field-name">Sample Type ID</td><td class="tab-table-field-value">{{sample.sample_type_id}}</td></tr>
+						<tr><td class="tab-table-field-name">Shortest Dimension</td><td class="tab-table-field-value">{{sample.shortest_dimension}}</td></tr>
+						<tr><td class="tab-table-field-name">Time between Clamping and Freezing</td><td class="tab-table-field-value">{{sample.time_between_clamping_and_freezing}}</td></tr>
+						<tr><td class="tab-table-field-name">Time between Excision and Freezing</td><td class="tab-table-field-value">{{sample.time_between_excision_and_freezing}}</td></tr>
+						<tr><td class="tab-table-field-name">Tissue Type</td><td class="tab-table-field-value">{{sample.tissue_type}}</td></tr>
+						<tr><td class="tab-table-field-name">Tumor Code</td><td class="tab-table-field-value">{{sample.tumor_code}}</td></tr>
+						<tr><td class="tab-table-field-name">Tumor Code ID</td><td class="tab-table-field-value">{{sample.tumor_code_id}}</td></tr>
+						<tr><td class="tab-table-field-name" style="border-bottom: 1px solid #ddd;">Tumor Descriptor</td><td class="tab-table-field-value" style="border-bottom: 1px solid #ddd;">{{sample.tumor_descriptor}}</td></tr>
+					</div>
+				</table>
+		    </mat-tab>
+		    <mat-tab label="ALIQUOTS">
+				<div *ngIf="loading">
+					<mat-spinner></mat-spinner>
+				</div>
+				<table style="width:100%;font-size: 12px;padding-top: 10px" id="aliquotSummTable">
+					<div *ngFor="let aliquot of aliquots">
+						<tr style="padding-top: 10px"><td class="tab-table-field-name">Aliquot Submitter ID</td><td class="tab-table-field-value">{{aliquot.aliquot_submitter_id}}</td></tr>
+						<tr><td class="tab-table-field-name">Aliquot Quantity</td><td class="tab-table-field-value" >{{aliquot.aliquot_quantity}}</td></tr>
+						<tr><td class="tab-table-field-name">Aliquot Volume</td><td class="tab-table-field-value">{{aliquot.aliquot_volume}}</td></tr>
+						<tr><td class="tab-table-field-name">Amount</td><td class="tab-table-field-value">{{aliquot.amount}}</td></tr>
+						<tr><td class="tab-table-field-name">Analyte Type</td><td class="tab-table-field-value">{{aliquot.analyte_type}}</td></tr>
+						<tr><td class="tab-table-field-name" style="border-bottom: 1px solid #ddd;">Concentration</td><td class="tab-table-field-value" style="border-bottom: 1px solid #ddd;">{{aliquot.concentration}}</td></tr>
+					</div>
+				</table>
+		    </mat-tab>
+		  </mat-tab-group>
+		</mat-card-content>
+	  </mat-card>
+	</div>
+</mat-dialog-content>

@@ -1,0 +1,16 @@
+{
+    "heatmaps": [
+     {
+         "menu-label": "Quantitation",
+         "children": [
+             {
+                 "menu-label": "Reporter ion intensity - Log2Ratio",
+                 "filename":"S020-1.all_peptides_log2ratio_rounded.tsv",
+                 "col-header": "Aliquot",
+                 "row-header": "Gene",
+                 "tooltip": "Average, normalized log-ratio of reporter ion intensity to ion intensity from a pooled, common reference associated with the glyco site in acquisitions from a specific aliquot of a biological sample"
+             }
+        ]
+        }
+    ]
+}

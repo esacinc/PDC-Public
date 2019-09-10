@@ -1,0 +1,63 @@
+<h2 mat-dialog-title style="text-align: center;">
+  <b>Join NCI Proteomic Data Portal</b>
+</h2>
+<div style="text-align: center; margin-top:-2.5rem; margin-bottom: 1rem;">
+  <img src="assets/css/images/login_dialog.png" alt="login dialog" width="667" height="133" />
+</div>
+<mat-dialog-content class="mat-typography">
+  <div class="welcome-page-message">
+    <p style="text-align: justify">
+      NCI Proteomic Data Commons (PDC) is a pilot project is aimed to democratize access to cancer-related proteomic datasets
+      as well as to provide sustainable computational support to the cancer research community. While most of the data in PDC
+      is freely available with no restrictions, PDC will eventually host some controlled access data that requires
+      authentication through NIH eRA Commons and dbGaP authorization. PDC also has a workspace component that currently allows
+      users to submit data to PDC, store their mass spectrometry data and eventually to analyze the uploaded data.
+    </p>
+    <p style="text-align: justify">
+      If you are interested in using these PDC resources, you may sign in or sign up below.
+    </p>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="middle">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <div class="social-login-container">
+          <button mat-raised-button (click)="socialSignIn('google')" class="social-login-item"><img
+              src="assets/css/images/google_icon.png" width="25" height="25" alt="google login" />&nbsp; Sign in with
+            Google
+            &nbsp;</button>
+          <br />
+          <br />
+          <button mat-raised-button (click)="nihSignIn()" class="social-login-item"><img
+              src="assets/css/images/era_icon.png" width="25" height="23" alt="eRA login" />&nbsp; Sign in with
+            NIH/eRA</button>
+        </div>
+      </div>
+      <div class="col">
+        <div class="user-login-container">
+          <form [formGroup]="loginForm" (ngSubmit)="emailLogin()" class="form" name="pdcLoginForm" novalidate>
+            <div class="form-group">
+              <input type="text" class="form-control" id="email" name="email" formControlName="email"
+                placeholder='Email'>
+              <mat-error *ngIf="email.invalid && !isValidFormSubmitted">{{systemErrorMessage}}</mat-error>
+            </div>
+            <div class="form-group">
+              <input type="password" class="form-control" id="password" name="password" formControlName="userPass"
+                placeholder='Password'>
+              <!--<mat-error *ngIf="first_name.invalid&&isValidFormSubmitted!=null">First name is required</mat-error>-->
+            </div>
+            <div><a class="user-login-link" href="javascript:void(0)" (click)="registerWithEmail()">Don't have an
+                account? Click here to sign up.</a></div>
+            <div class="rememberme-checkbox">
+              <mat-checkbox formControlName="rememberMeCheckbox" (click)="rememberUserName()"><span style="font-weight: 400">Remember me</span></mat-checkbox>
+              <a class="forget-password-link" href="javascript:void(0)" (click)="forgotPassword()">Forgot password?</a>
+            </div>
+            <button id="pdcLogin" mat-raised-button class="user-login-item">Login</button>
+          </form>
+          <span *ngIf="systemErrorMessage != ''" style="color:red">{{ systemErrorMessage }}</span><br />
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-dialog-actions>

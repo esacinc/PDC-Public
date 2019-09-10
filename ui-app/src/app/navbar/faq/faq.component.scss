@@ -1,0 +1,24 @@
+$header-height: 10.8rem;
+.about-page .card .card-body {
+      padding: 0;
+      margin-left: 2px;
+      margin: -$header-height auto 0;
+      width: 100%;
+  }
+  
+.mat-card {
+	font-family: 'Lato';
+}
+
+.faq-question {
+	font-size: 16px;
+	font-family: 'LatoBold';
+	margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.faq-response {
+	font-size: 16px;
+    color: #555555;
+	font-family: 'Lato';
+}

@@ -1,0 +1,277 @@
+<title>STUDY SUMMARY</title>
+<button mat-icon-button style="float: right; flex: 0 0 auto;" (click)="close(false)">
+	<fa name="times" style="light"></fa>
+</button>
+
+<!--//@@@PDC-461  Make all summary dialog windows headers sticky-->
+<h2 mat-dialog-title style="color:#245672" >STUDY SUMMARY: {{studySummaryData.submitter_id_name}}</h2>
+
+<mat-dialog-content style='max-height: 80vh; '>
+		<div class="row" style="width: 100%;vertical-align: middle">
+	<div class="col-md-2" style="align-items: center;">
+		<mat-card style="background:#21b5f0;font-family: 'Lato';font-weight: 400;color:#ffffff;text-align: center;">
+			<mat-card-content>
+				<span style="font-size: 20px;">
+					{{studySummaryData.cases_count}}
+				</span><br>
+				Cases
+			</mat-card-content>
+		</mat-card>
+		<mat-card style="background:#078abf;font-family: 'Lato';font-weight: 400;color:#ffffff;text-align: center;">
+			<mat-card-content>
+				<span style="font-size: 20px;">
+					{{studySummaryData.aliquots_count}}
+				</span><br>
+				Aliquots
+			</mat-card-content>
+		</mat-card>
+	</div>
+	<div class="col-md-10" style="align-items: center;">
+		<mat-card style="width: 100%;">
+			<mat-card-header class="study-summary">
+				<mat-card-title class="study-summary">SUMMARY</mat-card-title>
+			</mat-card-header>
+			<mat-card-content style="max-height:330px; overflow-y:auto; word-wrap:break-word; white-space:normal;">
+				<table id="studySummaryCard">
+					<tbody style="width:99%; overflow-y:auto">
+						<tr><td class="summary-card-name-left-cell">Study ID</td>
+							<td class="summary-card-value-left-cell">{{study_id}}</td>
+							<td class="summary-card-name-right-cell">Embargo Release Date</td>
+							<td class="summary-card-value-right-cell">{{studySummaryData.embargo_date | date :  "MMMM d, y"}}</td></tr>
+						<tr><td class="summary-card-name-left-cell">Analyitical Fraction</td>
+							<td class="summary-card-value-left-cell">{{studySummaryData.analytical_fraction}}</td>
+							<td class="summary-card-name-right-cell">Study Name</td>
+							<td class="summary-card-value-right-cell">{{studySummaryData.submitter_id_name}}</td></tr>
+						<tr><td class="summary-card-name-left-cell">Disease Types</td>
+							<td class="summary-card-value-left-cell">{{studySummaryData.disease_type}}</td>
+							<td class="summary-card-name-right-cell">Experimental Startegy</td>
+							<td class="summary-card-value-right-cell">{{studySummaryData.experiment_type}}</td></tr>
+						<tr><td class="summary-card-name-left-cell"></td>
+							<td class="summary-card-value-left-cell"></td>
+							<td class="summary-card-name-right-cell">Project ID</td>
+							<td class="summary-card-value-right-cell">{{studySummaryData.project_name}}</td></tr>
+					</tbody>
+				</table>
+			</mat-card-content>
+		</mat-card>
+	</div>
+</div>
+<div class="row" style="padding-top:10px">
+	<mat-tab-group mat-stretch-tabs="always" style="width:100%; padding-top: 5px; padding-left: 20px; padding-right: 45px; padding-bottom: 5px;">
+		<mat-tab><ng-template mat-tab-label>
+				Description<a href={{description_help_url}} target="_"><mat-icon matTooltip="Description" class="help-icon">help</mat-icon></a>
+			  </ng-template>
+			<div *ngIf="loading">
+				<mat-spinner></mat-spinner>
+			</div>
+			<br>
+			<div style = "max-height:220px;overflow-y: auto;display: block!important;font-size: 12px; width: 100%;" *ngIf="studySummaryData.study_description" [innerHTML]="toHTML(studySummaryData.study_description)"></div>
+			<br>
+		</mat-tab>
+		<mat-tab> <ng-template mat-tab-label>
+						PROTOCOL<a href={{protocol_help_url}} target="_"><mat-icon matTooltip="View PDC dictionary" class="help-icon">help</mat-icon></a>
+			  		</ng-template>
+			<div *ngIf="loading">
+				<mat-spinner></mat-spinner>
+			</div>
+			<div *ngIf="protocol">
+				<table style="max-height:220px;overflow-y: auto;display: block!important;font-size: 12px; width: 100%;" id="protocolDataTable">
+					<tr style="background-color: rgba(0,0,0,.05);">
+						<td style="text-align: center;" colspan="2" ><b>General details</b></td></tr>
+					<tr><td class="tab-table-field-name">Protocol Name</td>
+						<td class="tab-table-field-value">{{protocol.protocol_name}}</td></tr>
+					<tr><td class="tab-table-field-name">Quantitation Strategy</td>
+						<td class="tab-table-field-value">{{protocol.quantitation_strategy}}</td></tr>	
+					<tr><td class="tab-table-field-name">Label Free Quantiataion</td>
+						<td class="tab-table-field-value">{{protocol.label_free_quantiataion}}</td></tr>
+					<tr><td class="tab-table-field-name">Labeled Quantitation</td>
+						<td class="tab-table-field-value">{{protocol.labeled_quantitation}}</td></tr>
+					<tr><td class="tab-table-field-name">Isobaric Labeling Reagent</td>
+						<td class="tab-table-field-value">{{protocol.isobaric_labeling_reagent}}</td></tr>
+					<tr><td class="tab-table-field-name">Reporter Ion MS Level</td>
+						<td class="tab-table-field-value">{{protocol.reporter_ion_ms_level}}</td></tr>
+					<tr style="background-color: rgba(0,0,0,.05);">
+						<td style="text-align: center;" colspan="2"><b>Analytical Sample Preparation</b></td></tr>	
+					<tr><td class="tab-table-field-name">Digestion Reagent</td>
+						<td class="tab-table-field-value">{{protocol.digestion_reagent}}</td></tr>
+					<tr><td class="tab-table-field-name">Alkylation Reagent</td>
+						<td class="tab-table-field-value">{{protocol.alkylation_reagent}}</td></tr>
+					<tr><td class="tab-table-field-name">Enrichment Strategy</td>
+						<td class="tab-table-field-value">{{protocol.enrichment_strategy}}</td></tr>
+					<tr><td class="tab-table-field-name">Enrichment</td>
+						<td class="tab-table-field-value">{{protocol.enrichment}}</td></tr>
+					<tr><td class="tab-table-field-name">Chromatography Dimensions Count</td>
+						<td class="tab-table-field-value">{{protocol.chromatography_dimensions_count}}</td></tr>
+					<tr><td class="tab-table-field-name">1D Chromatography Type</td>
+						<td class="tab-table-field-value">{{protocol.one_d_chromatography_type}}</td></tr>
+					<tr><td class="tab-table-field-name">2D Chromatography Type</td>
+						<td class="tab-table-field-value">{{protocol.two_d_chromatography_type}}</td></tr>
+					<tr><td class="tab-table-field-name">Fractions Analyzed Count</td>
+						<td class="tab-table-field-value">{{protocol.fractions_analyzed_count}}</td></tr>
+					<tr style="background-color: rgba(0,0,0,.05);">
+						<td style="text-align: center;" colspan="2"><b>Liquid Chromatography</b></td></tr>
+					<tr><td class="tab-table-field-name">Column Type</td>
+						<td class="tab-table-field-value">{{protocol.column_type}}</td></tr>
+					<tr><td class="tab-table-field-name">Amount on Column</td>
+						<td class="tab-table-field-value">{{protocol.amount_on_column}} {{protocol.amount_on_column_uom}}</td></tr>
+					<tr><td class="tab-table-field-name">Column Length</td>
+						<td class="tab-table-field-value">{{protocol.column_length}} {{protocol.column_length_uom}}</td></tr>
+					<tr><td class="tab-table-field-name">Column Inner Diameter</td>
+						<td class="tab-table-field-value">{{protocol.column_inner_diameter}} {{protocol.column_inner_diameter_uom}}</td></tr>
+					<tr><td class="tab-table-field-name">Particle Size</td>
+						<td class="tab-table-field-value">{{protocol.particle_size}} {{protocol.particle_size_uom}}</td></tr>
+					<tr><td class="tab-table-field-name">Particle Type</td>
+						<td class="tab-table-field-value">{{protocol.particle_type}}</td></tr>
+					<tr><td class="tab-table-field-name">Gradient Length</td>
+						<td class="tab-table-field-value">{{protocol.gradient_length}} {{protocol.gradient_length_uom}}</td></tr>
+					<tr style="background-color: rgba(0,0,0,.05);">
+						<td style="text-align: center;" colspan="2"><b>Mass Spectrometry</b></td></tr>
+					<tr><td class="tab-table-field-name">Instrument Make</td>
+						<td class="tab-table-field-value">{{protocol.instrument_make}}</td></tr>
+					<tr><td class="tab-table-field-name">Instrument Model</td>
+						<td class="tab-table-field-value">{{protocol.instrument_model}}</td></tr>
+					<tr><td class="tab-table-field-name">Dissociation Type</td>
+						<td class="tab-table-field-value">{{protocol.dissociation_type}}</td></tr>
+					<tr><td class="tab-table-field-name">MS1 Resolution</td>
+						<td class="tab-table-field-value">{{protocol.ms1_resolution}}</td></tr>
+					<tr><td class="tab-table-field-name">MS2 Resulution</td>
+						<td class="tab-table-field-value">{{protocol.ms2_resolution}}</td></tr>
+					<tr><td class="tab-table-field-name">DDA TopN</td>
+						<td class="tab-table-field-value">{{protocol.dda_topn}}</td></tr>
+					<tr><td class="tab-table-field-name">Normalized Collision Energy</td>
+						<td class="tab-table-field-value">{{protocol.normalized_collision_energy}}</td></tr>
+					<tr><td class="tab-table-field-name">Acquistion Type</td>
+						<td class="tab-table-field-value">{{protocol.acquistion_type}}</td></tr>
+					<tr><td class="tab-table-field-name">DIA Multiplexing</td>
+						<td class="tab-table-field-value">{{protocol.dia_multiplexing}}</td></tr>
+					<tr><td class="tab-table-field-name">DIA IMS</td>
+						<td class="tab-table-field-value">{{protocol.dia_ims}}</td></tr>
+				</table>
+			</div>
+		</mat-tab>
+		<mat-tab label="WORKFLOW">
+			<span><ng-template mat-tab-label>
+					WORKFLOW<a href={{workflow_help_url}} target="_">
+					<mat-icon matTooltip="View PDC dictionary" class="help-icon">help</mat-icon></a>
+			  	</ng-template>
+			</span>
+			<div *ngIf="loading">
+				<mat-spinner></mat-spinner>
+			</div>
+			<div *ngIf="workflowData">
+				<table style="max-height:220px;overflow-y: auto;display: block!important;font-size: 12px; width: 100%;" id="workflowDataTable">
+					<tr><td class="tab-table-field-name">Workflow Metadata Submitter ID</td>
+						<td class="tab-table-field-value">{{workflowData.workflow_metadata_submitter_id}}</td></tr>
+					<tr><td class="tab-table-field-name">Raw Data Conversion</td>
+						<td class="tab-table-field-value">{{workflowData.raw_data_conversion}}</td></tr>
+					<tr><td class="tab-table-field-name">Raw Data Processing</td>
+						<td class="tab-table-field-value">{{workflowData.raw_data_processing}}</td></tr>
+					<tr><td class="tab-table-field-name">MS1 Data Analysis</td>
+						<td class="tab-table-field-value">{{workflowData.ms1_data_analysis}}</td></tr>
+					<tr><td class="tab-table-field-name">Sequence Database Search</td>
+						<td class="tab-table-field-value">{{workflowData.sequence_database_search}}</td></tr>
+					<tr><td class="tab-table-field-name">Search Database Parameters</td>
+						<td class="tab-table-field-value">{{workflowData.search_database_parameters}}</td></tr>
+					<tr><td class="tab-table-field-name">PSM Report Generation</td>
+						<td class="tab-table-field-value">{{workflowData.psm_report_generation}}</td></tr>
+					<tr><td class="tab-table-field-name">Phosphate Localization</td>
+						<td class="tab-table-field-value">{{workflowData.phosphosite_localization}}</td></tr>
+					<tr><td class="tab-table-field-name">CDAP Reports</td>
+						<td class="tab-table-field-value">{{workflowData.cdap_reports}}</td></tr>
+					<tr><td class="tab-table-field-name">CPTAC DCC mzidentml</td>
+						<td class="tab-table-field-value">{{workflowData.cptac_dcc_mzidentml}}</td></tr>
+					<tr><td class="tab-table-field-name">CPTAC DCC Tools</td>
+						<td class="tab-table-field-value">{{workflowData.cptac_dcc_tools}}</td></tr>
+					<tr><td class="tab-table-field-name">CPTAC Galaxy Tools</td>
+						<td class="tab-table-field-value">{{workflowData.cptac_galaxy_tools}}</td></tr>
+					<tr><td class="tab-table-field-name">CPTAC Galaxy Workflows</td>
+						<td class="tab-table-field-value">{{workflowData.cptac_galaxy_workflows}}</td></tr>
+					<tr><td class="tab-table-field-name">Gene to Prot</td>
+						<td class="tab-table-field-value">{{workflowData.gene_to_prot}}</td></tr>
+					<tr><td></td><td></td></tr><br>
+					<tr><td class="tab-table-field-name">mzidentml Refseq</td>
+						<td class="tab-table-field-value">{{workflowData.mzidentml_refseq}}</td></tr>
+					<tr><td class="tab-table-field-name">mzidentml Uniprot</td>
+						<td class="tab-table-field-value">{{workflowData.mzidentml_uniprot}}</td></tr>
+					<tr><td class="tab-table-field-name">Refseq Database Version</td>
+						<td class="tab-table-field-value">{{workflowData.refseq_database_version}}</td></tr>
+					<tr><td class="tab-table-field-name">Uniprot Database Version</td>
+						<td class="tab-table-field-value">{{workflowData.uniport_database_version}}</td></tr>
+					<!-- *** These are aditional fields available via API ***
+					<tr><td style="padding-right:10px">CPTAC Study ID</td><td>{{workflowData.cptac_study_id}}</td></tr>
+						<tr><td style="padding-right:10px">HGNC Version</td><td>{{workflowData.hgnc_version}}</td></tr>
+						<tr><td style="padding-right:10px">Instrument</td><td>{{workflowData.instrument}}</td></tr>
+						<tr><td style="padding-right:10px">Protocol Submitter ID</td><td>{{workflowData.protocol_submitter_id}}</td></tr>
+						<tr><td style="padding-right:10px">Submitter ID Name</td><td>{{workflowData.submitter_id_name}}</td></tr>-->
+				</table>
+			</div>
+		</mat-tab>
+		<mat-tab><ng-template mat-tab-label>
+				DUA<a href={{dua_help_url}} target="_"><mat-icon matTooltip="Data Use Agreement" class="help-icon">help</mat-icon></a>
+			  </ng-template>
+			<div *ngIf="duaAvailable" style = "max-height:220px;overflow-y: auto;display: block!important;font-size: 12px; width: 100%;"><h3>Data Use Agreement</h3><p>CPTAC requests that data users abide by the same principles that were previously established in the Fort Lauderdale and Amsterdam meetings. The recommendations from the Fort Lauderdale meeting (2003) on best practices and principles for <a href="https://www.genome.gov/pages/research/wellcomereport0303.pdf" class="ext" target="_blank" rel="noopener noreferrer">sharing large-scale genomic data<span class="ext" aria-label="(link is external)"></span></a> address the roles and responsibilities of data producers, data users and funders of community resource projects. The aim of the recommendations is to establish and maintain an appropriate balance between the interests that data users have in rapid access to data and the needs that data producers have to publish and receive recognition for their work. The conclusion of the attendees at the Fort Lauderdale meeting was that a “responsible use” approach for secondary data users would be sufficient to ensure that the efforts of data producers will be recognized. “Responsible use” was defined as allowing data producers to have the opportunity to publish the initial global analyses of the data within a reasonable period of time prior to secondary analyses.</p>
+				<p>In 2008, the NCI’s OCCPR organized a workshop to discuss how and when proteomics data should be released. The result was the <a href="https://www.ncbi.nlm.nih.gov/pubmed/19344107" target="_blank">Amsterdam Principles</a> that established guidelines for the timing of data release, comprehensiveness of a dataset, data format, deposition to repositories, quality metrics, and responsibility for proteomic data release. Participants agreed that mass spectrometry output data files should be available to support the claims of proteomics publications. In 2010, NCI’s OCCPR convened a follow-on workshop to address quality metrics for proteomics with an emphasis on mass spectrometry. As a sign of solidarity for these principles, four peer-reviewed journals simultaneously published the <a href="https://www.ncbi.nlm.nih.gov/pubmed/22069307" target="_blank">corollary to Amsterdam Principles</a>.</p>
+				<p>Agreeing to abide by these principles and the CPTAC Publication Guidelines is required to gain access to CPTAC data.</p>
+				<h4>Publication Guidelines and Embargo Period</h4>
+				<p>CPTAC is a community resource project and data are made available rapidly after generation for community research use. To act in accord with the Fort Lauderdale Principles and support the continued timely public release of large-scale proteomic data prior to publication, researchers who plan to prepare manuscripts or presentations involving CPTAC data and journal editors who receive such manuscripts are encouraged to coordinate their independent reports with CPTAC’s publication schedule. This may be done by contacting the CPTAC network at <a href="mailto:cancer.proteomics@mail.nih.gov" class="mailto">cancer.proteomics@mail.nih.gov<span class="mailto" aria-label="(link sends e-mail)"></span></a>.</p>
+				<p>CPTAC defines a global analysis publication as the first marker paper, authored by one or more members of the CPTAC, which includes analysis of the existing CPTAC data generated on the tumor type or sample set at the time of a data freeze. Specifically, these manuscripts report on the comprehensive, integrated analyses of multiple CPTAC datasets which may include: characterization of global proteome and/or PTMs such as phosphorylation, acetylation, glycosylation and ubiquitination, and reverse-phase protein analysis. Prior to a global analysis publication on a specific tumor type, available datasets should be considered pre-publication data subject to the standard principles of scientific etiquette regarding publication of findings using data obtained from other sources.</p>
+				<p>The CPTAC program has established the following policy to clarify freedom of CPTAC and non-CPTAC users to publish findings using CPTAC data. There are no limitations on submitting manuscripts to a journal and subsequent publications containing analyses using any CPTAC dataset if the dataset meets one of the following three freedom-to-publish criteria:</p>
+				<ul><li>A global analysis publication paper has been published on that tumor type or sample set; or</li>
+				<li>22 months (embargo period) upon all samples received at data production site; or</li>
+				<li>The author or presenter receives specific approval from the CPTAC Steering Committee.</li>
+				</ul><p>The specific status of each tumor dataset is displayed on the study page under Available Data tab.</p>
+				<p><span style="color:#333333;"><strong>Citing CPTAC Data in Publications</strong></span></p>
+				<p>The CPTAC program requests that publications using data from this program include the following statement: “Data used in this publication were generated by the National Cancer Institute Clinical Proteomic Tumor Analysis Consortium (CPTAC).”</p>
+				<p>If you have questions, contact <a href="mailto:cancer.proteomics@mail.nih.gov" class="mailto">cancer.proteomics@mail.nih.gov<span class="mailto" aria-label="(link sends e-mail)"></span></a>.</p>
+			</div>
+			<div *ngIf="!duaAvailable" style = "max-height:220px;overflow-y: auto;display: block!important;font-size: 12px; width: 100%;">
+				<br><p>No Data Use Agreement available.</p>
+			</div>
+		</mat-tab>
+	</mat-tab-group>
+  </div>
+  <div class="row" style="width: 100%; padding-top: 20px;">
+		<div class="col-md-6">
+			<mat-card class="data-categories-table">
+				<mat-card-content>
+				<table class="table table-striped" style="width:100%" id="dataCategoryStudyTable">
+					<thead>
+						<tr style="font-size: 12px;background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%);">
+							<th class="ui-datatable-tableheader" style="width:40%;">Data Category</th>
+							<th class="ui-datatable-tableheader" style="width:30%">Files (n={{totalFilesCount}})</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr style="font-size: 12px;" *ngFor="let categoryDetails of fileCountsRaw">
+							<td style="width:40%;word-wrap: break-word;white-space: normal;">{{categoryDetails.data_category}} ({{categoryDetails.file_type}})</td>
+							<td style="width:30%;word-wrap: break-word;white-space: normal;"><a target="_blank" href= "/pdc/browse/filters/study_name:{{studySummaryData.submitter_id_name}}&data_category:{{categoryDetails.data_category}}&file_type:{{categoryDetails.file_type}}&selectedTab:3">{{categoryDetails.files_count}}</a></td>
+						</tr>
+					</tbody>
+				  </table>
+				</mat-card-content>
+			</mat-card>
+		</div>
+		<div class="col-md-6">
+			<mat-card>
+				<mat-card-header class="study-summary" >
+					<mat-card-title  class="study-summary" >PUBLICATIONS</mat-card-title>
+				</mat-card-header>
+				<mat-card-content>
+					<div *ngIf="!loading && publications && publications.length===0">
+						No publications
+					</div>
+					<p-table [value]="publications" [loading]="loading" [resizableColumns]="true" responsive="true" id="publicationsStudyTable">
+						<ng-template pTemplate="body" let-publication>
+							<tr style="font-size: 11px;border: 0px">
+							<td style="width:10%;padding-bottom: 3px; align-content: center !important;border: 0px"><a href="{{publication.pubmed_id}}" target="_blank"><img src="./assets/css/images/pubmedIcon.png" style="width:30px;height:30px"></a></td>
+							<td style="width:90%;padding-bottom: 3px; align-content: center !important; word-wrap: break-word; white-space: inherit;border: 0px">{{publication.title}}</td>
+							</tr>
+						</ng-template>
+					</p-table>
+				</mat-card-content>
+			</mat-card>
+			<br>
+			<button mat-raised-button mat-primary [disabled] = "!heatmapAvailable" (click)="close(true,studySummaryData.submitter_id_name)" id="viewHeatMapFromStudySummary">View Heatmaps</button>
+		</div>
+  </div>
+</mat-dialog-content>

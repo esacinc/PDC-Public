@@ -1,0 +1,24 @@
+.overlayScreen .modal-body {
+    font-size: 14px;
+  }
+  
+  /deep/ .overlay-screen-backdrop {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: block;
+  } 
+  
+  ::ng-deep .overlay-screen-dialog-panel {
+    position: initial;
+    border: 1px solid rgb(204, 204, 204);
+    background: rgb(255, 255, 255);
+    border-radius: 4px;
+    margin: 200px auto;
+    padding: 0px;
+    width: 65%;
+    box-shadow: rgba(0, 0, 0, 0.5) 0px 5px 15px; 
+  } 

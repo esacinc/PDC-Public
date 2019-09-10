@@ -1,0 +1,89 @@
+.ui-tree {
+    width: 500px !important;
+
+}
+.workflow-manager .header {
+    display: flex;
+    align-items: center;
+    margin-left: 0px;
+ 	font-family: 'Lato';
+	font-weight: 400;
+	padding-left: 10px;
+	padding-right: 0px;
+	font-size: 20px;
+	border: 0px;
+	padding-bottom: 0px;
+	color: #ffffff;
+  }
+.study-summary .mat-card-title{
+	font-family: 'Lato';
+	font-weight: 400;
+	font-size: 16px;
+}
+.card-header {
+  font-family: 'Lato';
+  font-weight: 400;
+  padding-left: 10px;
+  font-size: 20px;
+}
+.browse-page .card-body {
+  padding-left: 0px;
+  border-left: 0px;
+  margin-left: 0px;
+  border-right-style: none;
+  border-left-style: none;
+  box-shadow: none !important;
+}
+.publications-card {
+	box-shadow: none!important;
+	background: #a4bdcb; 
+}
+
+.ui-datatable-odd {
+    background: rgb(225, 239, 252);
+}
+.ui-datatable-even {
+    background: none repeat scroll 0 0 rgb(154, 181, 204);
+    
+}
+
+.ui-datatable-tableheader {
+    background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%) !important;
+    border:0px !important;
+    color: white !important;
+}
+
+.data-categories-table{
+	padding: 0 !important;
+}
+ 
+.table-striped > tbody >  tr:nth-of-type(odd){
+	background-color: #ffffff;
+}
+ 
+.table-striped > tbody >  tr:nth-of-type(even){
+	background-color: rgb(225, 239, 252);
+}
+  
+.mat-list .mat-list-item .mat-list-item-content {
+	font-size: 12px;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+	height: 8px
+}
+
+::-webkit-scrollbar-button {
+    background: #ccc
+}
+::-webkit-scrollbar-track-piece {
+    background: #a4bdcb
+}
+::-webkit-scrollbar-thumb{
+	background: #245571;
+}
+
+.mat-card-content{
+	font-size:12px;
+}

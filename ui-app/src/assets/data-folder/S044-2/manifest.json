@@ -1,0 +1,16 @@
+{
+    "heatmaps": [
+     {
+         "menu-label": "Quantitation",
+         "children": [
+             {
+                 "menu-label": "Reporter ion intensity - Log2Ratio",
+                 "filename":"S044-2-log2_ratio.gct",
+                 "col-header": "Aliquot",
+                 "row-header": "Gene",
+                 "tooltip": "Average, normalized log-ratio of reporter ion intensity to ion intensity from a pooled, common reference associated with the phospho site in acquisitions from a specific aliquot of a biological sample"
+             }
+        ]
+        }
+    ]
+}

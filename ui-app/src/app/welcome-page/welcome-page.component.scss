@@ -1,0 +1,36 @@
+.welcome-page-message {
+	text-align: center;
+	display: inline-block;
+    vertical-align: middle;
+	font-size: 16px;
+	font-family: 'Lato';
+}
+
+div.google-login-button input {
+	background-image: url(../../assets/css/images/btn_google_signin_dark_normal_web.png);
+    background-repeat: no-repeat;
+    width: 195px;
+    height: 50px;
+	margin-left: auto;
+    margin-right: auto;
+}
+
+div.nih-login-button input {
+	background-image: url(../../assets/css/images/era_Commons_login.png);
+    background-repeat: no-repeat;
+    width: 195px;
+    height: 50px;
+	margin-left: auto;
+    margin-right: auto;
+}
+.welcome-page-img {
+	display: flex;
+    margin-left: auto;
+    margin-right: auto;
+	width: 60%;
+}
+.researcher-type-radio-group {
+	display: inline-flex;
+	flex-direction: column;
+}
+

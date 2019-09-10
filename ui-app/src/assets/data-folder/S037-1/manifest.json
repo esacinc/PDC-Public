@@ -1,0 +1,46 @@
+{
+    "heatmaps": [
+     {
+         "menu-label": "Spectra",
+         "children": [
+         {
+            "menu-label": "Identified spectra",
+            "filename":"S037-1.spectral_counts.tsv",
+            "col-header": "Aliquot",
+            "row-header": "Genes",
+            "tooltip": "Number of spectra confidently matched to peptides associated with the gene in acquisitions from a  biological sample"
+        }
+        ]
+     },
+     {
+         "menu-label": "Identified Peptides",
+         "children": [{
+             "menu-label": "Distinct Peptides",
+             "filename":"S037-1.distinct_peptides.tsv",
+             "col-header": "Aliquot",
+             "row-header": "Genes",
+             "tooltip": "Number of distinct peptide sequences associated with the gene in acquisitions from a biological sample"
+         },
+         {
+             "menu-label": "Unshared Peptides",
+             "filename":"S037-1.unshared_peptides.tsv",
+             "col-header": "Aliquot",
+             "row-header": "Gene",
+             "tooltip": "Number of unshared peptide sequences associated with the gene in acquisitions from a biological sample"
+         }
+         ]
+     },
+     {
+         "menu-label": "Quantitation",
+         "children": [
+             {
+                 "menu-label": "Normalized Precursor Area",
+                 "filename":"S037-1.all_peptides_log10_ion_intensity.tsv",
+                 "col-header": "Aliquot",
+                 "row-header": "Gene",
+                 "tooltip": "Summed log10 ion intensity for all peptides associated with the gene in acquisitions from a biological sample"
+             }
+        ]
+        }
+    ]
+}

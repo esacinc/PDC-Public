@@ -1,0 +1,169 @@
+.toolbar-second-row {
+    background-image: linear-gradient(-133deg, #246A92 0%, #245571 100%);
+  }
+
+div.stats {
+    display:table;
+    width:100%;
+    table-layout: fixed;
+}
+div.stats span {
+    display:table-cell;
+    text-align:center;
+    border: 1px solid gray;
+}
+
+$header-height: 10.8rem;
+
+.front-page .header {
+  display: flex;
+  align-items: center;
+  height: $header-height;
+  margin-left: 1px;
+  box-sizing: border-box;
+  border-bottom: solid 1px rgba(0,0,0,0.12);
+  color: rgba(0,0,0,0.6);
+  .title {
+    margin-right: auto;
+    font-size: 12px;
+  }
+}
+.front-page .card {
+    padding: 0;
+    margin-left: 2px;
+    margin: -$header-height auto 0;
+    width: 100%;
+}
+.front-page .card-header {
+  font-family: 'Lato';
+  font-weight: 500;
+  font-size: 20px;
+  padding-top: 0px;
+  background-color: #FFFFFF;
+  border-bottom: solid 0px;
+  color: #585858;
+}
+.front-page .card-disease {
+  font-family: 'Lato';
+  font-weight: 200;
+  font-size: 12px;
+  background-image: linear-gradient(-180deg, #3A8BB8 5%, #1C5A7D 90%);
+  color: #FFFFFF
+}
+
+.front-page .card-body {
+  font-family: 'Lato';
+  font-size: 12px;
+  //height: 32rem;
+  color: #000000;
+  padding-bottom: 20px;
+}
+.container {
+  margin-right: 0;
+}
+.cases-card-header {
+  background-image: linear-gradient(-180deg, #3A8BB8 5%, #3A8BB8 90%);
+  color: #FFFFFF;
+  font-family: 'Lato';
+  font-size: 20px;
+}
+.disease-type-card-body {
+  background-image: linear-gradient(-180deg, #3A8BB8 5%, #1C5A7D 90%);
+  color: #FFFFFF;
+  // height: 540px; 
+}
+.disease-type-card-list {
+  background: rgba(255,255,255,0.08);
+  font-family: 'Lato';
+  border-radius: 2px;
+  border-top: 0px;
+  padding-top: 0px;
+  margin-bottom: 6px;
+  padding-left: 0px;
+  margin-top: 0px;
+  color: #FFFFFF;
+  font-weight: 100
+}
+.disease-count {
+  font-size: 20px;
+  font-family: 'Lato';
+  font-weight: bold;
+  float: left;
+  padding-right: 0px;
+  padding-left: 10px;
+  margin-right: 0px;
+  align-content: flex-end;
+  color: #FFFFFF;
+}
+.disease-label {
+  font-size: 14px;
+  font-weight: 400;
+  padding-top: 5px;
+  padding-left: 0px; 
+  color: #FFFFFF;
+}
+
+
+.program-stats .content {
+  height: 400px;
+}
+.bottom-card-row {
+  background: #f1efef;
+  margin-left: 0px !important;
+  border-left: 0px !important;
+
+  padding-top: 10px;
+  border-bottom: 0px;
+  //padding-bottom: 38px;
+  padding-right: 0px;
+  padding-left: 0px;
+  width: 100%;
+}
+.bottom-card {
+  box-shadow: none!important;
+  //height:250px;
+  height:100%;
+  font-family: 'Lato';
+  //font-weight: 400;
+  font-size: 14px;
+  color: #454545;
+  letter-spacing: 0;
+  //line-height: 24px;
+  padding-left: 0px;
+  
+  padding-right: 0px;
+  padding-top:0px;
+  padding-bottom:5px;
+  
+}
+.bottom-card-list-item {
+  box-shadow: none!important;
+  //height:250px;
+  height:30px !important;
+  font-family: 'Lato';
+  //font-weight: 400;
+  font-size: 12px;
+  color: #454545;
+  letter-spacing: 0;
+  //line-height: 24px;
+  padding-left: 0px;
+  
+  padding-right: 0px;
+  padding-top:0px;
+  
+}
+
+.bottom-row-card-header {
+  font-family: 'Lato';
+  font-size: 18px;
+  font-weight: 400;
+  letter-spacing: 0;
+  display:flex;
+  padding-left: 0px !important;
+  padding-right: 0px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  justify-content:center;
+  background-image: linear-gradient(-180deg, #3A8BB8 5%, #1C5A7D 90%);
+  color: #FFFFFF;
+}

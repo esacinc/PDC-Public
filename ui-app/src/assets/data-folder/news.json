@@ -1,0 +1,16 @@
+{ 
+"news": [ 
+    {
+      "label": "68th ASMS Conference on Mass Spec and Allied Topic June 2-6, 2019 Georgia World Congress Center, Atlanta, GA",
+      "link": "https://www.asms.org/conferences/annual-conference/annual-conference-homepage"
+    },
+    {
+      "label": "CPTAC Releases UCEC, ccRCC Discovery Data and Other Study Datasets",
+      "link": "https://proteomics.cancer.gov/news_and_announcements/cptac-releases-ucec-ccrcc-discovery-data-and-other-study-datasets"
+    },
+    {
+      "label": "16th US HUPO Annual Conference Proteomics at the Westin Seattle, March 8-11, 2020 ",
+      "link": "https://www.ushupo.org/Home/tabid/36/Default.aspx"
+    }
+    ]
+}

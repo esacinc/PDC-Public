@@ -1,0 +1,39 @@
+.browse-file {
+    font-family: 'Lato';
+    font-size: 12px;
+}
+
+.ui-datatable-odd {
+    background: rgb(225, 239, 252);
+}
+.ui-datatable-even {
+    background: none repeat scroll 0 0 rgb(154, 181, 204);
+}
+
+.ui-datatable-tableheader {
+    background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%) !important;
+    border:0px !important;
+    color: white !important;
+}
+
+.ui-datatable-tableheader-flex-container{
+    display:-webkit-flex; 
+    display:flex;
+    float: left;
+    align-items: center;
+ }
+
+ /* @@@PDC-551: Need smaller font for paginator pages on Browse page tables to fit 3 digit numbers */
+ :host /deep/ .ui-paginator .ui-paginator-pages .ui-paginator-page{ 
+    min-width: 2.5em !important; 
+ }
+
+ /* @@@PDC-1000: Column header for Gene list tab needs to be expanded */
+ :host /deep/ .ui-table th {
+    word-wrap: break-word;
+ }
+
+  /* @@@PDC-1063: Implement select all, select page, select none for all tabs */
+  :host /deep/ #dataForManifestExport .mat-select-value {
+    display:none !important;
+ }

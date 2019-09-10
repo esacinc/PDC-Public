@@ -1,0 +1,607 @@
+<mat-card-header class="browse-filter" style="background: #254A61; line-height:2">
+    <span class="float-button-left" style="color:white; font-family: Lato; font-size: 20px">
+    <img width="20px" height="20px" src="./assets/css/images/Triangle.png"/>
+          &nbsp; FILTERS
+    </span>
+	<div *ngIf="loading && loadingURLParams"><i class="pi pi-spin pi-spinner" style="font-size: 3em; color:white"></i></div>
+	<span class="float-button-right"></span>
+    <button mat-icon-button mat-primary label="Undo" id="clearAllSelections" (click)="clearAllSelections()" matTooltip="Clear all selection"
+        *ngIf="selectedProjects.length > 0 || selectedPrograms.length > 0 || selectedPrimarySites.length > 0 || selectedDiseases.length > 0 || 
+		selectedAnFracs.length > 0 || selectedExpStarts.length > 0 || selectedAcquisitions.length > 0 || selectedStudyFilter.length > 0 || 
+		selectedSampleType.length > 0 || selectedEthnicity.length > 0 || selectedRace.length > 0 || selectedGender.length > 0 || selectedGeneStudyList.length > 0 ||
+		selectedTumorGrade.length > 0 || selectedDataCategory.length > 0 || selectedFileType.length > 0 || selectedAccess.length > 0 || selectedBiospecimenStatus.length > 0 || selectedCaseStatus.length > 0 || selectedDownloadable.length > 0 || selectedDownloadableRadiobuttonVal != ''" style="color:white">
+    <fa name="undo"></fa></button>
+    </mat-card-header>
+    <mat-tab-group animationDuration="0ms" class='side-bar-tabs' [selectedIndex]="selectedTab < 5 ? selectedTab : 0" >
+      <mat-tab>
+        <ng-template mat-tab-label>
+            General
+            <span class="float-button-right"></span>
+            <button mat-icon-button mat-primary label="Undo" id="clearGeneralSelections" (click)="clearAllGeneralSelections()" matTooltip="Clear all General selection"
+            *ngIf="selectedProjects.length > 0 || selectedPrograms.length > 0 || selectedPrimarySites.length > 0 || selectedDiseases.length > 0 || selectedAnFracs.length > 0 || selectedExpStarts.length > 0 || selectedAcquisitions.length > 0" >
+            <fa name="undo"></fa></button>
+        </ng-template>
+        <mat-expansion-panel [expanded]="true" class="sidenavFiltersPanel">
+        <mat-expansion-panel-header [collapsedHeight]="'40px'" [expandedHeight]="'40px'">
+          <mat-panel-title>
+          <a href="{{staticUrlBase}}dictionaryitem.html?eName=Project" target="_blank" class="browse-filter-title">Project</a>
+          <span class="float-button-right"></span>
+          <button mat-icon-button mat-primary class="browse-filter-title" id="clearProjectSelections" *ngIf="selectedProjects.length > 0"  label="Undo" (click)="clearSelectionsProjects()" matTooltip="Clear projects selection"><fa name="undo"></fa></button>
+          <!-- @@@PDC-320 -->
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+          <mat-list class="card-body card-list"  style="padding-left:0px; padding-right:0px;" id="projectFiltersList">
+            <div *ngFor="let project of projectsFilter" class="browse-filter" >
+            <mat-list-item [ngStyle]="getStyleForCheckbox(project.filterName, selectedProjects)" >
+              <p-checkbox name="group1" id="group1{{project.filterName}}"
+                value={{project.filterName}}
+                [(ngModel)]="selectedProjects"
+                [disabled]="project.filterCount == 0"
+                (onChange)="filterDataByProject($event)">
+              </p-checkbox> &nbsp; &nbsp;
+            <div [ngStyle]="getStyleForCheckbox(project.filterName, selectedProjects)">
+              {{project.filterName}} ({{project.filterCount}} {{project.filterCount > 1 ? 'Studies' : 'Study'}})
+            </div>
+            </mat-list-item>
+          </div>
+          </mat-list>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel [expanded]="true" class="sidenavFiltersPanel">
+            <mat-expansion-panel-header [collapsedHeight]="'40px'" [expandedHeight]="'40px'">
+                <mat-panel-title>
+                  <a href="{{staticUrlBase}}dictionaryitem.html?eName=Case#primary_site" class="browse-filter-title" target="_blank" >Primary Site</a>
+                  <!-- @@@PDC-320 -->
+                  <span class="float-button-right"></span>
+                  <button mat-icon-button mat-primary class="browse-filter-title" id="clearPrimarysites" *ngIf="selectedPrimarySites.length > 0" label="Undo" (click)="clearSelectionsPrimarySite()" matTooltip="Clear primary sites selection"><fa name="undo"></fa></button>
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <mat-list class="card-body card-list" id="primarySiteList">
+                  <div *ngFor="let prim_site of primarySitesFilter" class="browse-filter">
+                    <mat-list-item  [ngStyle]="getStyleForCheckbox(prim_site.filterName, selectedPrimarySites)" >
+                        <p-checkbox name="group2" id="group2{{prim_site.filterName}}"
+                              value={{prim_site.filterName}}
+                              [(ngModel)]="selectedPrimarySites"
+                  [disabled]="prim_site.filterCount == 0"
+                              (onChange)="filterDataByPrimarySite($event)">
+                          </p-checkbox> &nbsp; &nbsp;
+                          <div [ngStyle]="getStyleForCheckbox(prim_site.filterName, selectedPrimarySites)">
+                              {{prim_site.filterName}} ({{prim_site.filterCount}} {{prim_site.filterCount > 1 ? 'Studies' : 'Study'}})
+                          </div>
+                    </mat-list-item>
+                  </div>
+              </mat-list>
+        </mat-expansion-panel>
+        <mat-expansion-panel [expanded]="true" class="sidenavFiltersPanel">
+            <mat-expansion-panel-header [collapsedHeight]="'40px'" [expandedHeight]="'40px'">
+                <mat-panel-title>
+                  <a href="{{staticUrlBase}}dictionaryitem.html?eName=Program" class="browse-filter-title" target="_blank">Program</a>
+                    <!-- @@@PDC-320 -->
+                  <span class="float-button-right"></span>
+                  <button mat-icon-button mat-primary class="browse-filter-title" id="clearPrograms" *ngIf="selectedPrograms.length > 0" label="Undo" (click)="clearSelectionsPrograms()" matTooltip="Clear programs selection"><fa name="undo"></fa></button>
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <mat-list class="card-body card-list" id="programsList">
+                  <div *ngFor="let program of programsFilter" class="browse-filter">
+                    <mat-list-item  [ngStyle]="getStyleForCheckbox(program.filterName, selectedPrograms)">
+                        <p-checkbox name="group3" id="group3{{program.filterName}}"
+                              value={{program.filterName}}
+                              [(ngModel)]="selectedPrograms"
+                [disabled]="program.filterCount == 0"
+                              (onChange)="filterDataByProgram($event)">
+                          </p-checkbox> &nbsp; &nbsp;
+                            <div [ngStyle]="getStyleForCheckbox(program.filterName, selectedPrograms)">
+                              {{program.filterName}} ({{program.filterCount}} {{program.filterCount > 1 ? 'Studies' : 'Study'}})
+                            </div>
+                    </mat-list-item>
+                  </div>
+              </mat-list>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel [expanded]="true" class="sidenavFiltersPanel">
+            <mat-expansion-panel-header [collapsedHeight]="'40px'" [expandedHeight]="'40px'">
+                <mat-panel-title>
+                    <a href="{{staticUrlBase}}dictionaryitem.html?eName=Case#disease_type" class="browse-filter-title" target="_blank">Disease Type</a>
+                    <!-- @@@PDC-320 -->
+                    <span class="float-button-right"></span>
+                    <button mat-icon-button mat-primary class="browse-filter-title" id="clearDiseaseTypes" *ngIf="selectedDiseases.length > 0" label="Undo" (click)="clearSelectionsDiseaseType()" matTooltip="Clear disease types selection"><fa name="undo"></fa></button>
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <mat-list class="card-body card-list" id="diseaseTypeList">
+                  <div *ngFor="let disease of diseaseTypesFilter" class="browse-filter">
+                    <mat-list-item  [ngStyle]="getStyleForCheckbox(disease.filterName, selectedDiseases)">
+                        <p-checkbox name="group4" id="group4{{disease.filterName}}"
+                              value={{disease.filterName}}
+                              [(ngModel)]="selectedDiseases"
+                [disabled]="disease.filterCount == 0"
+                              (onChange)="filterDataByDiseaseType($event)">
+                          </p-checkbox> &nbsp; &nbsp;
+                            <div [ngStyle]="getStyleForCheckbox(disease.filterName, selectedDiseases)">
+                              {{disease.filterName}} ({{disease.filterCount}} {{disease.filterCount > 1 ? 'Studies' : 'Study'}})
+                            </div>
+                    </mat-list-item>
+                  </div>
+              </mat-list>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel [expanded]="true" class="sidenavFiltersPanel">
+            <mat-expansion-panel-header [collapsedHeight]="'40px'" [expandedHeight]="'40px'">
+                <mat-panel-title>
+                    <a href="{{staticUrlBase}}dictionaryitem.html?eName=Study#analytical_fraction" class="browse-filter-title" target="_blank">Analytical Fraction</a>
+                    <!-- @@@PDC-320 -->
+                    <span class="float-button-right"></span>
+                    <button mat-icon-button mat-primary class="browse-filter-title" id="clearAnalyticalFractions" *ngIf="selectedAnFracs.length > 0" label="Undo" (click)="clearSelectionsAnalyticalFraction()" matTooltip="Clear analytical fractions selection"><fa name="undo"></fa></button>
+                  </mat-panel-title>
+              </mat-expansion-panel-header>
+              <mat-list class="card-body card-list" id="analyticalFractionList">
+                  <div *ngFor="let an_frac of analyticalFractionsFilter" class="browse-filter">
+                    <mat-list-item  [ngStyle]="getStyleForCheckbox(an_frac.filterName, selectedAnFracs)">
+                          <p-checkbox name="group5" id="group5{{an_frac.filterName}}"
+                                value={{an_frac.filterName}}
+
+                                [(ngModel)]="selectedAnFracs"
+                [disabled]="an_frac.filterCount == 0"
+                                (onChange)="filterDataByAnalyticalFraction($event)">
+                            </p-checkbox> &nbsp; &nbsp;
+                              <div [ngStyle]="getStyleForCheckbox(an_frac.filterName, selectedAnFracs)">
+                                {{an_frac.filterName}} ({{an_frac.filterCount}} {{an_frac.filterCount > 1 ? 'Studies' : 'Study'}})
+                              </div>
+                      </mat-list-item>
+                  </div>
+                </mat-list>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel [expanded]="true" class="sidenavFiltersPanel">
+            <mat-expansion-panel-header [collapsedHeight]="'40px'" [expandedHeight]="'40px'">
+                <mat-panel-title>
+                    <a href="{{staticUrlBase}}dictionaryitem.html?eName=Study#experiment_type" class="browse-filter-title" target="_blank">Experiment Type</a>
+                    <!-- @@@PDC-320 -->
+                    <span class="float-button-right"></span>
+                    <button mat-icon-button mat-primary class="browse-filter-title" id="experimentTypes" *ngIf="selectedExpStarts.length > 0" label="Undo" (click)="clearSelectionsExperimentalStrategy()" matTooltip="Clear experiment types selection"><fa name="undo"></fa></button>
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <mat-list class="card-body card-list" id="experimentTypeList">
+                  <div *ngFor="let exp_start of experimentalStrategiesFilter" class="browse-filter">
+                    <mat-list-item  [ngStyle]="getStyleForCheckbox(exp_start.filterName, selectedExpStarts)">
+                        <p-checkbox name="group6" id="group6{{exp_start.filterName}}"
+                            value={{exp_start.filterName}}
+                            [(ngModel)]="selectedExpStarts"
+                [disabled]="exp_start.filterCount == 0"
+                            (onChange)="filterDataByExperimentalStrategy($event)">
+                        </p-checkbox> &nbsp; &nbsp;
+                        <div [ngStyle]="getStyleForCheckbox(exp_start.filterName, selectedExpStarts)">
+                          {{exp_start.filterName}} ({{exp_start.filterCount}} {{exp_start.filterCount > 1 ? 'Studies' : 'Study'}})
+                        </div>
+                      </mat-list-item>
+                    </div>
+                  </mat-list>
+        </mat-expansion-panel>
+		
+		<mat-expansion-panel [expanded]="true" class="sidenavFiltersPanel">
+          <mat-expansion-panel-header [collapsedHeight]="'40px'" [expandedHeight]="'40px'">
+            <mat-panel-title>
+              <a href="{{staticUrlBase}}dictionaryitem.html?eName=Study#acquisition_type" class="browse-filter-title" target="_blank">Acquisition
+                Type</a>
+              <!-- @@@PDC-320 -->
+              <span class="float-button-right"></span>
+              <button mat-icon-button mat-primary class="browse-filter-title" id="experimentTypes" *ngIf="selectedAcquisitions.length > 0"
+                label="Undo" (click)="clearSelectionsAcquisitions()" matTooltip="Clear experiment types selection">
+                <fa name="undo"></fa>
+              </button>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <mat-list class="card-body card-list" id="experimentTypeList">
+            <div *ngFor="let acq_start of acquisitionFilter" class="browse-filter">
+              <mat-list-item [ngStyle]="getStyleForCheckbox(acq_start.filterName, selectedAcquisitions)">
+                <p-checkbox name="group6" id="group6{{acq_start.filterName}}" value={{acq_start.filterName}} [(ngModel)]="selectedAcquisitions"
+                  [disabled]="acq_start.filterCount == 0" (onChange)="filterDataByAcquisition($event)">
+                </p-checkbox> &nbsp; &nbsp;
+                <div [ngStyle]="getStyleForCheckbox(acq_start.filterName, selectedAcquisitions)">
+                  {{acq_start.filterName}} ({{acq_start.filterCount}} {{acq_start.filterCount > 1 ? 'Studies' : 'Study'}})
+                </div>
+              </mat-list-item>
+            </div>
+          </mat-list>
+        </mat-expansion-panel>
+      </mat-tab>
+	  <!--PDC-567-->
+	  <mat-tab >
+          <ng-template mat-tab-label>
+              Biospecimen
+              <button mat-icon-button mat-primary label="Undo" id="clearBioscpecimenDataCategory" (click)="clearAllBiospecimenSelections()" matTooltip="Clear all Biospecimen selections"
+              *ngIf="selectedStudyFilter.length > 0 || selectedSampleType.length > 0 || selectedBiospecimenStatus.length > 0" >
+              <fa name="undo"></fa></button>
+          </ng-template>
+		  <mat-expansion-panel [expanded]="true" class="sidenavFiltersPanel">
+              <mat-expansion-panel-header [collapsedHeight]="'40px'" [expandedHeight]="'40px'">
+                  <mat-panel-title>
+                  <span class="browse-filter-title float-button-left">
+                    <a href="{{staticUrlBase}}dictionaryitem.html?eName=Study" target="_blank" class="browse-filter-title">Study</a>
+                  </span>
+                  <span class="float-button-right"></span>
+                  <button mat-icon-button mat-primary class="browse-filter-title" id="clearStudyFilterSelections" *ngIf="selectedStudyFilter.length > 0" label="Undo" (click)="clearSelectionsStudyID()" matTooltip="Clear data categories selection"><fa name="undo"></fa></button>
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+				<mat-select placeholder="Select one or more studies" class="card-body card-list" [(ngModel)]="selectedStudyFilter"  (selectionChange)="filterDataByStudy($event)" multiple>
+					<mat-option *ngFor="let study of studyFilter" [value]="study.filterName">
+						{{study.filterName}}
+					</mat-option>
+				</mat-select>
+          </mat-expansion-panel>
+          <mat-expansion-panel [expanded]="true" class="sidenavFiltersPanel">
+              <mat-expansion-panel-header [collapsedHeight]="'40px'" [expandedHeight]="'40px'">
+                  <mat-panel-title>
+                  <span class="browse-filter-title float-button-left">
+                    <a href="{{staticUrlBase}}dictionaryitem.html?eName=Sample#sample_type" target="_blank" class="browse-filter-title">Sample Type</a>
+                  </span>
+                  <span class="float-button-right"></span>
+                  <button mat-icon-button mat-primary class="browse-filter-title" id="clearDataCategorySelections" *ngIf="selectedSampleType.length > 0" label="Undo" (click)="clearSelectionsSampleType()" matTooltip="Clear data categories selection"><fa name="undo"></fa></button>
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <mat-list class="card-body card-list" id="dataCategoryList">
+                    <div *ngFor="let sampleType of sampleTypeFilter" class="browse-filter">
+                      <mat-list-item  [ngStyle]="getStyleForCheckbox(sampleType.filterName, selectedSampleType)">
+                          <p-checkbox name="group7" id="group7{{sampleType}}"
+                              value={{sampleType.filterName}}
+                              [(ngModel)]="selectedSampleType"
+                              [disabled]="sampleType.filterCount == 0"
+                              (onChange)="filterDataBySampleType($event)">
+                          </p-checkbox> &nbsp; &nbsp;
+                          <div>
+                            {{sampleType.filterName}} ({{sampleType.filterCount}} {{sampleType.filterCount > 1 ? 'Studies' : 'Study'}})
+                          </div>
+                        </mat-list-item>
+                      </div>
+                    </mat-list>
+          </mat-expansion-panel>
+          <mat-expansion-panel [expanded]="true" class="sidenavFiltersPanel">
+              <mat-expansion-panel-header [collapsedHeight]="'40px'" [expandedHeight]="'40px'">
+                <mat-panel-title>
+                  <span class="browse-filter-title float-button-left">
+                    <a href="{{staticUrlBase}}dictionaryitem.html?eName=File#biospecimenStatus" target="_blank" class="browse-filter-title">Biospecimen Status</a>
+                  </span>
+                  <span class="float-button-right"></span>
+                  <button mat-icon-button mat-primary class="browse-filter-title" id="clearSelectionsBiospecimenStatus"
+                    *ngIf="selectedBiospecimenStatus.length > 0" label="Undo" (click)="clearSelectionsBiospecimenStatus()"
+                    matTooltip="Clear biospecimen status selection">
+                    <fa name="undo"></fa>
+                  </button>
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <mat-list class="card-body card-list" id="biospecimenStatusList">
+                <div *ngFor="let biospecimenStatus of biospecimenStatusFilter" class="browse-filter">
+                  <mat-list-item [ngStyle]="getStyleForCheckbox(biospecimenStatus.filterName, selectedBiospecimenStatus)">
+                    <p-checkbox name="group7" id="group7{{biospecimenStatus.filterName}}" value={{biospecimenStatus.filterName}}
+                      [(ngModel)]="selectedBiospecimenStatus" [disabled]="biospecimenStatus.filterCount == 0" (onChange)="filterDataByBiospecimenStatus($event)">
+                    </p-checkbox> &nbsp; &nbsp;
+                    <div [ngStyle]="getStyleForCheckbox(biospecimenStatus.filterName, selectedBiospecimenStatus)">
+                      {{biospecimenStatus.filterName}} ({{biospecimenStatus.filterCount}} {{biospecimenStatus.filterCount > 1 ? 'Studies' : 'Study'}})
+                    </div>
+                  </mat-list-item>
+                </div>
+              </mat-list>
+            </mat-expansion-panel>
+      </mat-tab>
+	  <!--End of PDC-567 -->
+	  <!--PDC-535-->
+	  <mat-tab>
+        <ng-template mat-tab-label>
+            Clinical
+            <span class="float-button-right"></span>
+            <button mat-icon-button mat-primary label="Undo" id="clearClinicalSelections" (click)="clearAllClinicalSelections()" matTooltip="Clear all selection"
+            *ngIf="selectedEthnicity.length > 0 || selectedRace.length > 0 || selectedGender.length > 0 || selectedTumorGrade.length > 0 || selectedCaseStatus.length > 0" >
+            <fa name="undo"></fa></button>
+        </ng-template>
+        <mat-expansion-panel [expanded]="true" class="sidenavFiltersPanel">
+			<mat-expansion-panel-header [collapsedHeight]="'40px'" [expandedHeight]="'40px'">
+			  <mat-panel-title>
+			  <a href="{{staticUrlBase}}dictionaryitem.html?eName=Demographic#ethnicity" target="_blank" class="browse-filter-title">Ethnicity</a>
+			  <span class="float-button-right"></span>
+			  <button mat-icon-button mat-primary class="browse-filter-title" id="clearEthnicitySelections" *ngIf="selectedEthnicity.length > 0"  label="Undo" (click)="clearSelectionsEthnicity()" matTooltip="Clear ethnicity selection"><fa name="undo"></fa></button>
+			  <!-- @@@PDC-320 -->
+			  </mat-panel-title>
+			</mat-expansion-panel-header>
+            <mat-list class="card-body card-list"  style="padding-left:0px; padding-right:0px;" id="ethnicityFiltersList">
+				<div *ngFor="let ethnicity of ethnicityFilter" class="browse-filter" >
+				  <mat-list-item [ngStyle]="getStyleForCheckbox(ethnicity.filterName, selectedEthnicity)" >
+					<p-checkbox name="group1" id="group1{{ethnicity.filterName}}"
+						value={{ethnicity.filterName}}
+						[(ngModel)]="selectedEthnicity"
+						[disabled]="ethnicity.filterCount == 0"
+						(onChange)="filterDataByEthnicity($event)">
+					</p-checkbox> &nbsp; &nbsp;
+					<div [ngStyle]="getStyleForCheckbox(ethnicity.filterName, selectedEthnicity)">
+						{{ethnicity.filterName}} ({{ethnicity.filterCount}} {{ethnicity.filterCount > 1 ? 'Studies' : 'Study'}})
+					</div>
+				  </mat-list-item>
+				</div>
+			</mat-list>
+        </mat-expansion-panel>
+		<mat-expansion-panel [expanded]="true" class="sidenavFiltersPanel">
+			<mat-expansion-panel-header [collapsedHeight]="'40px'" [expandedHeight]="'40px'">
+			  <mat-panel-title>
+			  <a href="{{staticUrlBase}}dictionaryitem.html?eName=Demographic#race" target="_blank" class="browse-filter-title">Race</a>
+			  <span class="float-button-right"></span>
+			  <button mat-icon-button mat-primary class="browse-filter-title" id="clearRaceSelections" *ngIf="selectedRace.length > 0"  label="Undo" (click)="clearSelectionsRace()" matTooltip="Clear race selection"><fa name="undo"></fa></button>
+			  <!-- @@@PDC-320 -->
+			  </mat-panel-title>
+			</mat-expansion-panel-header>
+            <mat-list class="card-body card-list"  style="padding-left:0px; padding-right:0px;" id="raceFiltersList">
+				<div *ngFor="let race of raceFilter" class="browse-filter" >
+				  <mat-list-item [ngStyle]="getStyleForCheckbox(race.filterName, selectedRace)" >
+					<p-checkbox name="group1" id="group1{{race.filterName}}"
+						value={{race.filterName}}
+						[(ngModel)]="selectedRace"
+						[disabled]="race.filterCount == 0"
+						(onChange)="filterDataByRace($event)">
+					</p-checkbox> &nbsp; &nbsp;
+					<div [ngStyle]="getStyleForCheckbox(race.filterName, selectedRace)">
+						{{race.filterName}} ({{race.filterCount}} {{race.filterCount > 1 ? 'Studies' : 'Study'}})
+					</div>
+				  </mat-list-item>
+				</div>
+			</mat-list>
+        </mat-expansion-panel>
+		<mat-expansion-panel [expanded]="true" class="sidenavFiltersPanel">
+			<mat-expansion-panel-header [collapsedHeight]="'40px'" [expandedHeight]="'40px'">
+			  <mat-panel-title>
+			  <a href="{{staticUrlBase}}dictionaryitem.html?eName=Demographic#gender" target="_blank" class="browse-filter-title">Gender</a>
+			  <span class="float-button-right"></span>
+			  <button mat-icon-button mat-primary class="browse-filter-title" id="clearGenderSelections" *ngIf="selectedGender.length > 0"  label="Undo" (click)="clearSelectionsGender()" matTooltip="Clear gender selection"><fa name="undo"></fa></button>
+			  <!-- @@@PDC-320 -->
+			  </mat-panel-title>
+			</mat-expansion-panel-header>
+            <mat-list class="card-body card-list"  style="padding-left:0px; padding-right:0px;" id="genderFiltersList">
+				<div *ngFor="let gender of genderFilter" class="browse-filter" >
+				  <mat-list-item [ngStyle]="getStyleForCheckbox(gender.filterName, selectedGender)" >
+					<p-checkbox name="group1" id="group1{{gender.filterName}}"
+						value={{gender.filterName}}
+						[(ngModel)]="selectedGender"
+						[disabled]="gender.filterCount == 0"
+						(onChange)="filterDataByGender($event)">
+					</p-checkbox> &nbsp; &nbsp;
+					<div [ngStyle]="getStyleForCheckbox(gender.filterName, selectedGender)">
+						{{gender.filterName}} ({{gender.filterCount}} {{gender.filterCount > 1 ? 'Studies' : 'Study'}})
+					</div>
+				  </mat-list-item>
+				</div>
+			</mat-list>
+        </mat-expansion-panel>
+		<mat-expansion-panel [expanded]="true" class="sidenavFiltersPanel">
+			<mat-expansion-panel-header [collapsedHeight]="'40px'" [expandedHeight]="'40px'">
+			  <mat-panel-title>
+			  <a href="{{staticUrlBase}}dictionaryitem.html?eName=Diagnosis#tumor_grade" target="_blank" class="browse-filter-title">Tumor Grade</a>
+			  <span class="float-button-right"></span>
+			  <button mat-icon-button mat-primary class="browse-filter-title" id="clearProjectGradeSelections" *ngIf="selectedTumorGrade.length > 0"  label="Undo" (click)="clearSelectionsTumorGrade()" matTooltip="Clear tumor grade selection"><fa name="undo"></fa></button>
+			  <!-- @@@PDC-320 -->
+			  </mat-panel-title>
+			</mat-expansion-panel-header>
+            <mat-list class="card-body card-list"  style="padding-left:0px; padding-right:0px;" id="tumorGradeFiltersList">
+				<div *ngFor="let tumorGrade of tumorGradeFilter" class="browse-filter" >
+				  <mat-list-item [ngStyle]="getStyleForCheckbox(tumorGrade.filterName, selectedTumorGrade)" >
+					<p-checkbox name="group1" id="group1{{tumorGrade.filterName}}"
+						value={{tumorGrade.filterName}}
+						[(ngModel)]="selectedTumorGrade"
+						[disabled]="tumorGrade.filterCount == 0"
+						(onChange)="filterDataByTumorGrade($event)">
+					</p-checkbox> &nbsp; &nbsp;
+					<div [ngStyle]="getStyleForCheckbox(tumorGrade.filterName, selectedTumorGrade)">
+						{{tumorGrade.filterName}} ({{tumorGrade.filterCount}} {{tumorGrade.filterCount > 1 ? 'Studies' : 'Study'}})
+					</div>
+				  </mat-list-item>
+				</div>
+			</mat-list>
+        </mat-expansion-panel>
+        <mat-expansion-panel [expanded]="true" class="sidenavFiltersPanel">
+            <mat-expansion-panel-header [collapsedHeight]="'40px'" [expandedHeight]="'40px'">
+              <mat-panel-title>
+                <span class="browse-filter-title float-button-left">
+                  <a href="{{staticUrlBase}}dictionaryitem.html?eName=File#caseStatus" target="_blank" class="browse-filter-title">Case Status</a>
+                </span>
+                <span class="float-button-right"></span>
+                <button mat-icon-button mat-primary class="browse-filter-title" id="clearSelectionsCaseStatus"
+                  *ngIf="selectedCaseStatus.length > 0" label="Undo" (click)="clearSelectionsCaseStatus()"
+                  matTooltip="Clear case status selection">
+                  <fa name="undo"></fa>
+                </button>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-list class="card-body card-list" id="caseStatusList">
+              <div *ngFor="let caseStatus of caseStatusFilter" class="browse-filter">
+                <mat-list-item [ngStyle]="getStyleForCheckbox(caseStatus.filterName, selectedCaseStatus)">
+                  <p-checkbox name="group7" id="group7{{caseStatus.filterName}}" value={{caseStatus.filterName}}
+                    [(ngModel)]="selectedCaseStatus" [disabled]="caseStatus.filterCount == 0" (onChange)="filterDataByCaseStatus($event)">
+                  </p-checkbox> &nbsp; &nbsp;
+                  <div [ngStyle]="getStyleForCheckbox(caseStatus.filterName, selectedCaseStatus)">
+                    {{caseStatus.filterName}} ({{caseStatus.filterCount}} {{caseStatus.filterCount > 1 ? 'Studies' : 'Study'}})
+                  </div>
+                </mat-list-item>
+              </div>
+            </mat-list>
+          </mat-expansion-panel>
+	  </mat-tab>
+	  <!--END PDC-535-->
+      <mat-tab>
+        <ng-template mat-tab-label>
+          Files
+          <button mat-icon-button mat-primary label="Undo" id="clearFilesDataCategory" (click)="clearAllFileSelections()"
+            matTooltip="Clear all selection"
+            *ngIf="selectedDataCategory.length > 0 || selectedStudyFilter.length > 0 || selectedFileType.length > 0 || selectedAccess.length > 0 || selectedDownloadable.length > 0 || selectedDownloadableRadiobuttonVal != ''">
+            <fa name="undo"></fa>
+          </button>
+        </ng-template>
+        <mat-expansion-panel [expanded]="true" class="sidenavFiltersPanel">
+          <mat-expansion-panel-header [collapsedHeight]="'40px'" [expandedHeight]="'40px'">
+            <mat-panel-title>
+              <span class="browse-filter-title float-button-left">
+                <a href="{{staticUrlBase}}dictionaryitem.html?eName=Study" target="_blank" class="browse-filter-title">Study</a>
+              </span>
+              <span class="float-button-right"></span>
+              <button mat-icon-button mat-primary class="browse-filter-title" id="clearStudyFilterSelections"
+                *ngIf="selectedStudyFilter.length > 0" label="Undo" (click)="clearSelectionsStudyID()"
+                matTooltip="Clear data categories selection">
+                <fa name="undo"></fa>
+              </button>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <mat-select placeholder="Select one or more studies" class="card-body card-list" [(ngModel)]="selectedStudyFilter"
+            (selectionChange)="filterDataByStudy($event)" multiple>
+            <mat-option *ngFor="let study of studyFilter" [value]="study.filterName">
+              {{study.filterName}}
+            </mat-option>
+          </mat-select>
+        </mat-expansion-panel>
+        <mat-expansion-panel [expanded]="true" class="sidenavFiltersPanel">
+          <mat-expansion-panel-header [collapsedHeight]="'40px'" [expandedHeight]="'40px'">
+            <mat-panel-title>
+              <span class="browse-filter-title float-button-left">
+                <a href="{{staticUrlBase}}dictionaryitem.html?eName=File#data_category" target="_blank" class="browse-filter-title">Data Category</a>
+              </span>
+              <span class="float-button-right"></span>
+              <button mat-icon-button mat-primary class="browse-filter-title" id="clearDataCategorySelections"
+                *ngIf="selectedDataCategory.length > 0" label="Undo" (click)="clearSelectionsDataCategory()"
+                matTooltip="Clear data categories selection">
+                <fa name="undo"></fa>
+              </button>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <mat-list class="card-body card-list" id="dataCategoryList">
+            <div *ngFor="let dataCategory of dataCategoryFilter" class="browse-filter">
+              <mat-list-item [ngStyle]="getStyleForCheckbox(dataCategory.filterName, selectedDataCategory)">
+                <p-checkbox name="group7" id="group7{{dataCategory.filterName}}" value={{dataCategory.filterName}}
+                  [(ngModel)]="selectedDataCategory" [disabled]="dataCategory.filterCount == 0"
+                  (onChange)="filterDataByDataCategory($event)">
+                </p-checkbox> &nbsp; &nbsp;
+                <div [ngStyle]="getStyleForCheckbox(dataCategory.filterName, selectedDataCategory)">
+                  {{dataCategory.filterName}} ({{dataCategory.filterCount}} {{dataCategory.filterCount > 1 ? 'Studies' : 'Study'}})
+                </div>
+              </mat-list-item>
+            </div>
+          </mat-list>
+        </mat-expansion-panel>
+        <mat-expansion-panel [expanded]="true" class="sidenavFiltersPanel">
+          <mat-expansion-panel-header [collapsedHeight]="'40px'" [expandedHeight]="'40px'">
+            <mat-panel-title>
+              <span class="browse-filter-title float-button-left">
+                <a href="{{staticUrlBase}}dictionaryitem.html?eName=File#file_type" target="_blank" class="browse-filter-title">File Type</a>
+              </span>
+              <span class="float-button-right"></span>
+              <button mat-icon-button mat-primary class="browse-filter-title" id="clearFileTypeSelections"
+                *ngIf="selectedFileType.length > 0" label="Undo" (click)="clearSelectionsFileType()"
+                matTooltip="Clear data categories selection">
+                <fa name="undo"></fa>
+              </button>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <mat-list class="card-body card-list" id="fileTypeList">
+            <div *ngFor="let fileType of fileTypeFilter" class="browse-filter">
+              <mat-list-item [ngStyle]="getStyleForCheckbox(fileType.filterName, selectedFileType)">
+                <p-checkbox name="group7" id="group7{{fileType.filterName}}" value={{fileType.filterName}}
+                  [(ngModel)]="selectedFileType" [disabled]="fileType.filterCount == 0" (onChange)="filterDataByFileType($event)">
+                </p-checkbox> &nbsp; &nbsp;
+                <div [ngStyle]="getStyleForCheckbox(fileType.filterName, selectedFileType)">
+                  {{fileType.filterName}} ({{fileType.filterCount}} {{fileType.filterCount > 1 ? 'Studies' : 'Study'}})
+                </div>
+              </mat-list-item>
+            </div>
+          </mat-list>
+        </mat-expansion-panel>
+        <mat-expansion-panel [expanded]="true" class="sidenavFiltersPanel">
+          <mat-expansion-panel-header [collapsedHeight]="'40px'" [expandedHeight]="'40px'">
+            <mat-panel-title>
+              <span class="browse-filter-title float-button-left">
+                <a href="{{staticUrlBase}}dictionaryitem.html?eName=File#access" target="_blank" class="browse-filter-title">Access</a>
+              </span>
+              <span class="float-button-right"></span>
+              <button mat-icon-button mat-primary class="browse-filter-title" id="clearAccessSelections"
+                *ngIf="selectedAccess.length > 0" label="Undo" (click)="clearSelectionsAccess()"
+                matTooltip="Clear data categories selection">
+                <fa name="undo"></fa>
+              </button>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <mat-list class="card-body card-list" id="accessList">
+            <div *ngFor="let access of accessFilter" class="browse-filter">
+              <mat-list-item [ngStyle]="getStyleForCheckbox(access.filterName, selectedAccess)">
+                <p-checkbox name="group7" id="group7{{access.filterName}}" value={{access.filterName}}
+                  [(ngModel)]="selectedAccess" [disabled]="access.filterCount == 0" (onChange)="filterDataByAccess($event)">
+                </p-checkbox> &nbsp; &nbsp;
+                <div [ngStyle]="getStyleForCheckbox(access.filterName, selectedAccess)">
+                  {{access.filterName}} ({{access.filterCount}} {{access.filterCount > 1 ? 'Studies' : 'Study'}})
+                </div>
+              </mat-list-item>
+            </div>
+          </mat-list>
+        </mat-expansion-panel>
+        <mat-expansion-panel [expanded]="true" class="sidenavFiltersPanel">
+            <mat-expansion-panel-header [collapsedHeight]="'40px'" [expandedHeight]="'40px'">
+              <mat-panel-title>
+                <span class="browse-filter-title float-button-left">
+                  <a href="{{staticUrlBase}}dictionaryitem.html?eName=File#access" target="_blank" class="browse-filter-title">Downloadable</a>
+                </span>
+                <span class="float-button-right"></span>
+                <button mat-icon-button mat-primary class="browse-filter-title" id="clearDownloadableSelections"
+                  *ngIf="selectedDownloadable.length > 0 || selectedDownloadableRadiobuttonVal != ''" label="Undo" (click)="clearSelectionsDownloadable()"
+                  matTooltip="Clear data categories selection">
+                  <fa name="undo"></fa>
+                </button>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-list class="card-body card-list" id="downloadableList">
+              <div *ngFor="let downloadable of downloadableFilter" class="browse-filter">
+                <mat-list-item [ngStyle]="getStyleForCheckbox(downloadable.filterName, selectedDownloadable)">
+                  <p-radioButton name="group8" id="group8{{downloadable.filterName}}" value={{downloadable.filterName}}
+                    [(ngModel)]="selectedDownloadableRadiobuttonVal" (onClick)="filterDataByDownloadable($event)">
+                  </p-radioButton> &nbsp; &nbsp;
+                  <div [ngStyle]="getStyleForCheckbox(downloadable.filterName, selectedDownloadable)">
+                    {{downloadable.filterName}}
+                  </div>
+                </mat-list-item>
+              </div>
+            </mat-list>
+          </mat-expansion-panel>
+      </mat-tab>
+	  <mat-tab >
+          <ng-template mat-tab-label>
+              Genes
+              <button mat-icon-button mat-primary label="Undo" id="clearAllGenesSelections" (click)="clearAllGenesSelections()" matTooltip="Clear all Genes selections"
+              *ngIf="selectedGeneStudyList.length > 0" >
+              <fa name="undo"></fa></button>
+          </ng-template>
+		  <mat-expansion-panel [expanded]="true" class="sidenavFiltersPanel" >
+				<mat-expansion-panel-header [collapsedHeight]="'40px'" [expandedHeight]="'40px'">
+                  <mat-panel-title>
+                  <span class="browse-filter-title float-button-left">
+                      Gene
+                  </span>
+                  <span class="float-button-right"></span>
+                  <button mat-icon-button mat-primary class="browse-filter-title" id="clearGenesCategorySelection" label="Undo" 
+						*ngIf="selectedGeneStudyList.length > 0" (click)="clearAllGenesSelections()" matTooltip="Clear all genes symbols selections"><fa name="undo"></fa></button>
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+				Prebuilt genes list
+				<mat-select class="card-body card-list" [(value)]="selectedGeneNames" [(ngModel)]="selectedGeneSelectField" (selectionChange)="triggerInputEvent(selectedGeneNames)">
+					<mat-option *ngFor="let geneNameField of prebuildGeneList" [value]="geneNameField.geneNamesList" style="font-size: 12px; line-height: 2em; height: 2em; min-width: 520px;">
+					  {{geneNameField.listName}}
+					</mat-option>
+				</mat-select>
+				Enter your genes names manually
+				<textarea matInput id="genesNamesInputField" name="genesNamesInputField" [(ngModel)]="selectedGeneNames" 
+					(ngModelChange)="triggerInputEvent(selectedGeneNames)" style="width:97%; height:165px"></textarea>
+				<br>
+				<div *ngIf="selectedGeneNames.length == 0">
+					<button mat-button style="color:#a71111; font-weight:400; width:180px">Please enter one<br> or more gene symbols.</button></div>
+				<div *ngIf="!loadingGeneSymbolValidation && allGeneNamesValid && selectedGeneNames.length > 0">
+					<button mat-button style="background-color:#11a747; color:white; font-weight:400">All gene symbols are valid.</button></div>
+				<div *ngIf="!loadingGeneSymbolValidation && !allGeneNamesValid && selectedGeneNames.length > 0">
+					<button mat-button style="background-color:#f44336; color:white; font-weight:400" >Invalid gene symbols.</button></div>
+				<div *ngIf="loadingGeneSymbolValidation">
+					<button mat-button><i class="pi pi-spin pi-spinner"></i> Validating gene symbols...</button></div>
+				<br>
+				<button pButton id="queryGeneNamesFilter" (click)="filterDataByGeneName()" [disabled]="loadingGeneSymbolValidation || !allGeneNamesValid || !(selectedGeneNames.length > 0)"
+						style="margin:auto; display:block;">Submit Query</button>
+				<br>
+          </mat-expansion-panel>
+      </mat-tab>
+    <!--   <mat-tab label="Third"  >Content 3</mat-tab> -->
+    </mat-tab-group>

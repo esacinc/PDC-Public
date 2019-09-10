@@ -1,0 +1,104 @@
+<div style="padding-left: 5px; overflow-x:hidden">
+    <mat-sidenav-container style="min-height: 1100px; padding-left:5px!important">
+      <!-- @@@PDC-320 slightly changed the width of sidebar filters to make reset button always appear aligned to filter name -->
+      <mat-sidenav #sidenav style=" margin-top: 3px; width:330px; padding-left:15px!important" mode="side" opened [(opened)]="opened" class="sideBarNavigation">
+        
+        <mat-card class="card" style="padding:0px!important">
+          <mat-card-header class="browse-filter">
+          <!-- <mat-card-title class="browse-filter"> 
+            <img width="20px" height="20px" src="./assets/css/images/Triangle.png"/>
+            &nbsp; FILTERS &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+            <button mat-icon-button style="padding-right:0px!important; padding-top: 0px"
+              matTooltip="Hide filters" (click)="sidenav.toggle()" id="hideFiltersOptionBottom"><fa name="angle-double-left"></fa></button>
+          </mat-card-title> -->
+          </mat-card-header>
+          <browse-filters [breadCrumbFilters]="filtersChangedInBreadcrumbBar" (selectedFilesDataCategoryFilters)=onFilesFiltersSelected($event) (selectedFilters)=onFilterSelected($event) [parentCharts]="parentCharts" 
+							[selectedTab]="selectedTab" (selectedTabForStudySummary)="selectedTabChange($event)">
+            Starting filters...
+          </browse-filters>
+        </mat-card>
+        <button mat-icon-button style="padding-right:0px!important; padding-top: 0px"
+      matTooltip="Hide filters" (click)="sidenav.toggle()"><fa name="angle-double-left"></fa></button>
+
+    </mat-sidenav>
+    
+    <mat-sidenav-content style="margin-top: 3px; overflow: hidden; ">
+      <button *ngIf="opened"  mat-icon-button style="padding-right:0px!important; padding-top: 0px"
+        matTooltip="Hide filters" (click)="sidenav.toggle()" id="hideFiltersOptionTop"><fa name="angle-double-left"></fa></button>
+     <button mat-icon-button matTooltip="Show filters"
+        *ngIf="!opened" (click)="sidenav.toggle()" id="showFilters"><fa name="angle-double-right"></fa>
+      </button>
+      <span *ngIf="breadcrumbs.length == 0" style="font-size: 15px; font-weight : bold; margin-left: -10px !important;">
+          Start searching by selecting a facet
+      </span>
+      <div *ngIf="breadcrumbs.length > 0" style="padding-left:13px; padding-right:15px; ">
+          <button *ngIf="breadcrumbs.length > 0" class="btn btn-primary breadCrumbButtons" (click)="clearAllSelections()"> CLEAR </button> &nbsp;
+          <span *ngFor="let crumb of breadcrumbs; index as i">
+            <button class="btn btn-primary breadCrumbButtons" style="background-color: black" (click)="deleteBreadcrumb(crumb)">{{crumb.value}}&nbsp;&nbsp;&nbsp;<i class="fa fa-close" style="font-size:10px"></i></button> &nbsp;
+            <button class="btn btn-primary breadCrumbButtons" disabled="true">{{crumb.separator}}</button> &nbsp;
+            <span *ngIf="crumb.separator === 'IN'"> ( &nbsp; </span>
+            <span *ngFor="let facetValue of crumb.facetValues">
+              <button class="btn btn-primary breadCrumbButtons" style="background-color: grey" (click)="deleteBreadcrumbVal(facetValue)">{{facetValue.value}}&nbsp;&nbsp;&nbsp;<i class="fa fa-close" style="font-size:10px"></i></button> &nbsp;
+            </span>
+            <span *ngIf="crumb.separator === 'IN'">) </span>
+            <button *ngIf="breadcrumbs.length > 1 && i < breadcrumbs.length-1" class="btn btn-primary breadCrumbButtons" disabled="true"> AND </button> &nbsp;
+          </span>
+      </div>
+      <div class="" style="padding-left:10px; padding-right:15px; ">  
+           <mat-card class="browse-page card" style="padding-left:0px; padding-top:0px!important;">
+              <div class="row">
+                <div class="col-md-4" style="padding-top:0px; padding-right: 20px">
+                    <mat-card class="browse-page card-header mat-elevation-z0" style="padding-bottom:0px!important; margin-bottom:0px; padding-top: 0px">
+                      <mat-card-title class="card-header">ANALYTICAL FRACTIONS</mat-card-title>
+                      <div style="padding-bottom:0px!important; margin-bottom:0px; padding-top: 0px" id="analyticalFractionChart" [chart]="analyticalFractionsChart"></div>
+                    </mat-card>
+                </div>
+                <div class="col-md-4" style="padding-top:0px">
+                <mat-card class="browse-page card-header mat-elevation-z0" style="padding-top:0px">
+                  <mat-card-title class="browse-page card-header">DISEASE TYPES</mat-card-title>
+                  <div id="diseaseTypeChart" [chart]="diseaseTypesChart"></div>
+                </mat-card>
+                </div>
+                <div class="col-md-4" style="padding-top:0px; padding-right: 20px">
+                <mat-card class="browse-page card-header mat-elevation-z0" style="padding-top: 0px">
+                  <mat-card-title class="card-header">EXPERIMENT TYPES</mat-card-title>
+                  <div id="expCntChart" [chart]="expCountChart"></div>
+                </mat-card>
+                </div>
+              </div>
+            </mat-card>
+      </div>
+      <div style="margin-left: 10px;margin-top: 10px;" *ngIf="controlFileDownloadSpinner == true"><i class="fa fa-spinner fa-spin" style="font-size:24px"></i>&nbsp;&nbsp;&nbsp;File Download in progress. Please wait... </div>
+          <!-- <mat-card class="mat-card" style="padding-top: 3px; padding-left:8px; padding-right:12px; overflow-x: hidden;"> -->
+        <mat-tab-group [selectedIndex]="selectedTab" (selectedTabChange)="selectedTabChange($event)" style="padding-left: 10px; padding-right: 10px; overflow-x:hidden; display:table">
+		    <mat-tab label="{{studyTotalRecords > 1 ? 'Studies ('+studyTotalRecords + ')' : 'Study ('+studyTotalRecords + ')'  }}">
+              <div style="padding-left:0px; margin-left: 15px; margin-right: 10px">
+					      <browse-by-study (isTableLoading)="handleTabLoading($event)" [handleTableLoading]="handleTableLoading" [enableDownloadAllManifests]="enableDownloadAllManifests" [newFilterValue]="newFilterValue" (studyTotalRecordChanged)="totalRecordChanged($event)" (selectedTabChangeForCaseCount)="changeTabForCaseCount($event)" (selectedTabChangeForFileType)="changeTabForFileType($event)" (downloadWholeManifestFlag)="downloadWholeManifest($event)" [downloadAllManifests]="downloadAllManifests">Starting browse by study...</browse-by-study>
+			        </div>
+            </mat-tab>
+            <mat-tab label=" {{biospecimenTotalRecords > 1 ? 'Biospecimens ('+biospecimenTotalRecords + ')' : 'Biospecimen ('+biospecimenTotalRecords + ')'  }}">
+			        <div style="padding-left:0px; margin-left: 15px; margin-right: 10px">
+				        <browse-by-case (isTableLoading)="handleTabLoading($event)" [handleTableLoading]="handleTableLoading" [enableDownloadAllManifests]="enableDownloadAllManifests" [newFilterValue]="newFilterValue" (biospecimenTotalRecordChanged)="totalRecordChanged($event)" (downloadWholeManifestFlag)="downloadWholeManifest($event)" [downloadAllManifests]="downloadAllManifests">Starting browse by case...</browse-by-case>
+			        </div>
+            </mat-tab>
+	        <mat-tab label="Clinical ({{clinicalTotalRecords}})">
+			        <div style="padding-left:0px; margin-left: 15px; margin-right: 10px">
+				        <browse-by-clinical (isTableLoading)="handleTabLoading($event)" [handleTableLoading]="handleTableLoading" [enableDownloadAllManifests]="enableDownloadAllManifests" [newFilterValue]="newFilterValue" (clinicalTotalRecordChanged)="totalRecordChanged($event)" (downloadWholeManifestFlag)="downloadWholeManifest($event)" [downloadAllManifests]="downloadAllManifests">Starting browse by clinical data...</browse-by-clinical>
+			        </div>
+		    </mat-tab>            
+		    <mat-tab label="{{fileTotalRecords > 1 ? 'Files ('+fileTotalRecords + ')' : 'File ('+fileTotalRecords + ')'  }}">
+              <div style="padding-left:0px; margin-left: 15px; margin-right: 10px">
+			          <browse-by-file (isFileTableLoading)="handleTabLoading($event)" [handleTableLoading]="handleTableLoading" [enableDownloadAllManifests]="enableDownloadAllManifests" [otherTabsLoaded]="otherTabsLoaded" [newFilesFilterValue]="newFilesFilterValue" [newFilterValue]="newFilterValue" (fileTotalRecordChanged)="totalRecordChanged($event)" (downloadWholeManifestFlag)="downloadWholeManifest($event)" [downloadAllManifests]="downloadAllManifests">Starting browse by file...</browse-by-file>
+              </div>
+            </mat-tab>
+			  <mat-tab label="Genes ({{genesTotalRecords}})">
+			        <div style="padding-left:0px; margin-left: 15px; margin-right: 10px">
+				        <browse-by-gene (isTableLoading)="handleTabLoading($event)" [handleTableLoading]="handleTableLoading" [enableDownloadAllManifests]="enableDownloadAllManifests" [newFilterValue]="newFilterValue" (genesTotalRecordChanged)="totalRecordChanged($event)" (downloadWholeManifestFlag)="downloadWholeManifest($event)" [downloadAllManifests]="downloadAllManifests">Starting browse by genes data...</browse-by-gene>
+			        </div>
+		    </mat-tab>   
+	        </mat-tab-group>
+          <!-- </mat-card> -->
+        </mat-sidenav-content>
+   </mat-sidenav-container>
+</div>
+  

@@ -1,0 +1,16 @@
+version: 0.0
+os: linux
+
+files:
+  - source: /ui-app/dist
+    destination: /home/ec2-user/PDC_Build/pdc/dist
+  - source: /documentation/dev
+    destination: /home/ec2-user/PDC_Build/pdc/publicapi-documentation
+
+hooks:
+  BeforeInstall:
+    - location: /ui-app/codedeploy/cleanupScript.sh
+      timeout: 300
+  ApplicationStart:
+    - location: /ui-app/codedeploy/startupServer.sh
+      timeout: 300           

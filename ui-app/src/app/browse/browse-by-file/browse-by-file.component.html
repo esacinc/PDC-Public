@@ -1,0 +1,115 @@
+	<div class="row" style="font-family:'Lato';">
+	<div style="width: 100%">
+			<div *ngIf="totalRecords > 0 && !loading" >
+					<h3 style="font-family: 'Lato'; font-size:14px;float:left">{{totalRecords > 1 ? 'Total files: ' + totalRecords : 'Total file: ' + totalRecords }}</h3>
+			</div>
+			<div style="float: right; padding: 2%">
+					<button matTooltip="Please use CPTAC Data Portal for downloading the files" id="downloadWholeManifest" mat-raised-button mat-primary label="Download Selection" (click)="downloadAllManifest()" style="font-family:'Lato';float:right;font-weight:bold;" [disabled]="iscompleteManifestDisabled()">Download All Manifests</button>
+			</div>
+	</div>
+
+      <p-table class="table-striped ui-datatable-odd " #dt [columns]="cols" [value]="filteredFilesData" [lazy]="true" [paginator]="true" [(first)]="offset" 
+				[rows]="10" [pageLinks]="5" [rowsPerPageOptions]="[10,20,50,100]" [totalRecords]="totalRecords"
+				[loading]="loading" [resizableColumns]="true" columnResizeMode="expand" responsive="true" 
+				(onRowUnselect) ="onRowUnselected($event)" (onRowSelect)="onRowSelected($event)" [(selection)]="selectedFiles" dataKey="file_name" (onLazyLoad)="loadFiles($event)" id="fileDataTable" >
+	    <ng-template pTemplate="caption">
+			<div class="ui-helper-clearfix">
+				<!-- <button mat-raised-button mat-primary [hidden]="isDownloadDisabled()" class="workflow-btn" [matMenuTriggerFor]="menu">Workflows <fa name="angle-double-down"></fa></button> -->
+					<mat-menu #menu="matMenu">
+					  <button mat-menu-item (click)="showStudySummary()">CDAP</button>
+					  <button mat-menu-item>Other</button>
+					</mat-menu>
+				<div id="selectedFilesDataCount" *ngIf="!isDownloadDisabled()" style="float:left">Files data selected for download: {{selectedFiles.length}}</div>				
+				<button matTooltip="Please use CPTAC Data Portal for downloading the files" id="downloadFileManifest" mat-raised-button mat-primary label="Download Selection" (click)="fileTableExportCSV()" [disabled]="isDownloadDisabled()" style="font-family:'Lato';float:right" >Download File Manifest</button>
+			</div>
+		</ng-template>
+				<ng-template pTemplate="header">
+					<tr style="font-size: 12px;">
+						<th class="ui-datatable-tableheader" style="width:7%;overflow: unset;">
+							<p-checkbox  id="fileDataChk" [(ngModel)]="headercheckbox" binary="true" (onChange)="onTableHeaderCheckboxToggle()"></p-checkbox >
+							<mat-select id="dataForManifestExport" class="card-body card-list" [(ngModel)]="selectedHeaderCheckbox"
+							(selectionChange)="changeHeaderCheckbox($event)">
+								<mat-option *ngFor="let checkboxOption of checkboxOptions" [value]="checkboxOption">
+									{{checkboxOption}}
+								</mat-option>
+							</mat-select>
+						</th>
+						<!-- @@@PDC-262 link headers to data dictionary -->
+						<th class="ui-datatable-tableheader" style="width:18%;" [pSortableColumn]="cols[0].field"><a
+								href="{{staticUrlBase}}dictionaryitem.html?eName=Study" target="_blank" style="color:white">Study</a>
+							<p-sortIcon [field]="cols[0].field"></p-sortIcon>
+						</th>
+						<th class="ui-datatable-tableheader" style="width:25%" [pSortableColumn]="cols[1].field"><a
+								href="{{staticUrlBase}}dictionaryitem.html?eName=File#file_name" target="_blank" style="color:white">File
+								Name</a>
+							<p-sortIcon [field]="cols[1].field"></p-sortIcon>
+						</th>
+						<th class="ui-datatable-tableheader" style="width:7%" [pSortableColumn]="cols[2].field">
+							<div class="ui-datatable-tableheader-flex-container">
+								<div>
+									<a href="{{staticUrlBase}}dictionaryitem.html?eName=Study%20Run%20Metadata" target="_blank"
+										style="color:white">
+										Run Metadata<br>ID
+									</a>
+								</div>
+								<div>
+									<p-sortIcon [field]="cols[2].field"></p-sortIcon>
+								</div>
+							</div>
+						</th>
+						<th class="ui-datatable-tableheader" style="width:13%" [pSortableColumn]="cols[3].field"><a
+								href="{{staticUrlBase}}dictionaryitem.html?eName=Project" target="_blank" style="color:white">Project</a>
+							<p-sortIcon [field]="cols[3].field"></p-sortIcon>
+						</th>
+						<th rowspan=3 class="ui-datatable-tableheader" style="width:11%" [pSortableColumn]="cols[4].field">Data Category
+							<p-sortIcon [field]="cols[4].field"></p-sortIcon>
+						</th>
+						<th rowspan=3 class="ui-datatable-tableheader" style="width:9%" [pSortableColumn]="cols[5].field">File Type
+							<p-sortIcon [field]="cols[5].field"></p-sortIcon>
+						</th>
+						<th rowspan=3 class="ui-datatable-tableheader" style="width:6%" [pSortableColumn]="cols[6].field">Access
+							<p-sortIcon [field]="cols[6].field"></p-sortIcon>
+						</th>
+						<th class="ui-datatable-tableheader" style="width:8%" [pSortableColumn]="cols[7].field">
+							<div class="ui-datatable-tableheader-flex-container">
+								<div class="ui-datatable-tableheader-flex-header">
+									File<br>Size (MB)
+								</div>
+								<div class="ui-datatable-tableheader-flex-sorticon">
+									<p-sortIcon [field]="cols[7].field"></p-sortIcon>
+								</div>
+							</div>
+						</th>
+						<th class="ui-datatable-tableheader" style="width:10%" [pSortableColumn]="cols[8].field">
+								<div class="ui-datatable-tableheader-flex-container">
+									<div class="ui-datatable-tableheader-flex-header">
+										Downloadable
+									</div>
+									<div class="ui-datatable-tableheader-flex-sorticon">
+										<p-sortIcon [field]="cols[8].field"></p-sortIcon>
+									</div>
+								</div>
+						</th>
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="body" let-fileData let-rowIndex="rowIndex">
+					<tr style="font-size: 11px;" [pSelectableRow]="fileData">
+						<td style="width:3%;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">
+							<p-tableCheckbox id="fileData-{{rowIndex}}-{{fileData.submitter_id_name}}" [value]="fileData"></p-tableCheckbox>
+						</td>
+						<td style="width:13%;word-wrap: break-word; white-space: normal;">{{fileData.submitter_id_name }}</td>
+						<td style="width:25%;word-wrap: break-word; white-space: normal;">{{fileData.file_name}}</td>
+						<td style="width:10%;word-wrap: break-word; white-space: normal;">{{fileData.study_run_metadata_submitter_id}}</td>
+						<td style="width:13%;word-wrap: break-word; white-space: normal;">{{fileData.project_name}}</td>
+						<td style="width:9%;word-wrap: break-word; white-space: normal;">{{fileData.data_category}}</td>
+						<td style="width:9%;word-wrap: break-word; white-space: normal;">{{fileData.file_type}}</td>
+						<td style="width:9%;word-wrap: break-word; white-space: normal;">{{fileData.access}}</td>
+						<td style="width:10%;word-wrap: break-word; white-space: normal;">{{fileData.file_size / 1000000 | number:'.3'}}
+						</td>
+						<td style="width:9%;word-wrap: break-word; white-space: normal;">{{fileData.downloadable}}</td>
+					</tr>
+				</ng-template>
+		<p-paginator rows="10" totalRecords="120"></p-paginator> 
+      </p-table>
+      <br>
+    </div>

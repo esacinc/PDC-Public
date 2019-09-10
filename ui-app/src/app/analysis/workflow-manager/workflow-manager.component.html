@@ -1,0 +1,54 @@
+<button mat-button style="float: right; flex: 0 0 auto;" (click)="close()">x</button>
+<div *ngIf="data_loading">
+    <mat-spinner></mat-spinner>
+</div>
+<div class="row mat-card-header" style="background-color: #fafafa;" >
+    <div style="font-family: Lato; size: 49px">
+        <h2 mat-dialog-title>Manage CDAP Submissions</h2>
+    </div>
+</div>
+<div class="row">
+    <mat-card style="width: 100%; padding-bottom: 5px">
+
+        <mat-card-header class="study-summary">
+            <mat-card-title class="study-summary">Pipeline Inputs</mat-card-title>
+        </mat-card-header>
+        <mat-card-content style="overflow-y:auto; word-wrap:break-word; white-space:normal;">    
+            <div class="col-md-6">
+                Selected Files:
+                <p-tree styleClass=".ui-tree" [value]="file_metadata" ></p-tree>
+            </div>
+            <div class="col-md-4">
+                Available Workflows:
+                <mat-select [(value)]="selectedWorkflow" placeholder="">
+                        <mat-option *ngFor="let workflow of available_workflows" value={{workflow.menu_label}}>
+                          {{workflow.menu_label}}
+                        </mat-option>
+                </mat-select>
+                <div id="err" style="color:red">{{error_message}}</div>
+            </div>
+            <div class="col-md-2">
+                    <button mat-raised-button mat-primary id="submitWorkflow" (click)="submitWorkflow()" style="font-family:'Lato';float:right" [disabled]="!workflowEnabled()">Submit Workflow</button>
+            </div>
+                
+        </mat-card-content>
+    </mat-card>
+</div>
+<div class="row">
+    <h3 mat-dialog-title>Workflow Status:</h3>
+</div>
+<!-- Cluster password is PDCus3r67 -->
+<div class="row">
+    <mat-card style="width: 100%;">
+        <mat-card-header class="study-summary">
+            <mat-card-title class="study-summary">
+                <div  *ngIf="!cluster_available" matTooltip="Cluster Not Available">Galaxy Cluster: <em>PDC-CDAP</em> <i class="fa fa-arrow-circle-o-down" aria-hidden="true"></i></div>
+                <div *ngIf="cluster_available" matTooltip="Cluster Available">Galaxy Cluster: <em>PDC-CDAP</em><i class="fa fa-arrow-circle-o-up" aria-hidden="true"></i></div>
+        
+            </mat-card-title>
+        </mat-card-header>
+        <mat-card-content style="max-height:330px; overflow-y:auto; word-wrap:break-word; white-space:normal;">    
+        Old Workflows Submitted
+        </mat-card-content>
+    </mat-card>
+</div>

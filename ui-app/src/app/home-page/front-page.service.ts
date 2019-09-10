@@ -1,0 +1,136 @@
+import { Injectable } from '@angular/core';
+import {Response, Headers, RequestOptions} from '@angular/http';
+import {HttpClient} from '@angular/common/http';
+
+
+import { Apollo } from 'apollo-angular';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import gql from 'graphql-tag';
+import "rxjs/add/operator/map";
+import { TissueSite, QueryTissueSites, QueryDiseases, Disease, Program, 
+		QueryPrograms, QueryPortalStats, PortalStats, QueryAllCasesData, SunburstData, QuerySunburstData } from '../types';
+		
+const NEWS_FILE_NAME = 'assets/data-folder/news.json';
+
+// @@@PDC-168 This service class provides Apollo client graphql queries for a summary view of the data that is in the PDC database.
+@Injectable()
+export class FrontPageService {
+
+headers: Headers;
+options: RequestOptions;
+tissueSites: Observable<TissueSite[]>;
+portalStats: Observable<PortalStats[]>;
+
+private querySub: any;
+
+constructor(private http: HttpClient, private apollo: Apollo) {
+
+this.headers = new Headers({ 'Content-Type': 'application/json',
+                                     'Accept': 'q=0.8;application/json;q=0.9' });
+this.options = new RequestOptions({ headers: this.headers });
+}
+
+// @@@PDC-363
+getNewsItems() : Observable<any> {
+	return this.http.get(NEWS_FILE_NAME);
+}
+//@@@PDC-223
+	getTissueSites() {
+		return this.apollo.watchQuery<QueryTissueSites>({
+		   query: gql`
+			query allTissueSites{		
+				uiTissueSiteCaseCount {
+					tissue_or_organ_of_origin
+					cases_count
+				}
+			}`
+		  })
+		  .valueChanges
+		  .pipe(
+			map(result => result.data)
+		  );
+	}
+	
+// @@@PDC-210
+getPortalStats() {
+	return this.apollo.watchQuery<QueryPortalStats>({
+		query: gql`
+	 query allStats{
+		pdcDataStats{
+    program,
+    study,
+    spectra,
+    data_label,
+    protein,
+    project,
+    peptide,
+    data_size,
+    data_label,
+    data_file
+  	}
+	 }`
+	}).valueChanges.pipe(map(result => result.data));
+}
+	
+	getDiseases() {
+		return this.apollo.watchQuery<QueryDiseases>({
+		   query: gql`
+			query allDiseases{
+			  diseasesAvailable {
+			  disease_type
+			  tissue_or_organ_of_origin
+			  project_submitter_id
+			  cases_count
+			}
+		   } `
+		  })
+		  .valueChanges
+		  .pipe(
+			map(result => result.data.diseasesAvailable)
+		  ); 
+		
+	}
+	
+	getAllPrograms(){
+		return this.apollo.watchQuery<QueryPrograms>({
+			query: gql`
+				query Programs{
+					 allPrograms {
+						program_submitter_id
+						name
+						sponsor
+						start_date
+						end_date
+						program_manager
+						projects {
+						  project_submitter_id
+						}
+					  }
+				}`
+		})
+		.valueChanges
+		.pipe(
+        map(result => result.data.allPrograms)
+      ); 
+	}
+
+	getSunburstChartData(){
+		return this.apollo.watchQuery<QuerySunburstData>({
+			query: gql`
+				query sunburstChartData{
+			    uiSunburstChart {
+					project_submitter_id
+					tissue_or_organ_of_origin
+					disease_type
+					sample_type
+					cases_count
+			    }
+			}`
+		})
+		.valueChanges
+		.pipe(
+        map(result => result.data)
+      ); 
+	}
+}

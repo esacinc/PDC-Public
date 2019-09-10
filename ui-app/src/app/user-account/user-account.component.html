@@ -1,0 +1,69 @@
+<title>Welcome</title>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-5" style="text-align:center;">
+			<img src="./assets/css/images/WelcomePageImage.png" style="width:75%;" />
+		</div>
+		<div class="col-md-7">
+			<h2 style="color:#245672; text-align: center;">Change your account details</h2>
+			<h4 *ngIf="formInvalidMessage!=''"><br><span style="color:red">{{formInvalidMessage}}</span><br></h4>
+			<form [formGroup]="registrationForm" (ngSubmit)="submitUpdate()" class="form" style="padding:10px" name="pdcRegistrationForm" novalidate>
+				<div class="form-group">
+					<label for="first_name" style="display: inline-block;">My first name is:</label>
+					<input type="text" class="form-control" id="first_name" style="display: inline-block;"
+								required name="first_name" formControlName="first_name">
+					 <mat-error *ngIf="first_name.invalid&&isValidFormSubmitted!=null">First name is required</mat-error>
+				</div>
+				<div class="form-group">
+					<label for="last_name">My last name is:</label>
+					<input type="text" class="form-control" id="last_name" required
+							formControlName="last_name" name="last_name">
+					<mat-error *ngIf="last_name.invalid&&isValidFormSubmitted!=null">Last name is required</mat-error>
+				</div>
+				<div class="form-group">
+					<label for="email">My email address is:</label>
+					<input type="text" class="form-control" id="email" required formControlName="email" name="email">
+					<mat-error *ngIf="email.invalid&&isValidFormSubmitted!=null">email is required</mat-error>
+				</div>
+				<div class="form-group">
+					<label for="organization">My organization is:</label>
+					<input type="text" class="form-control" id="organization" required
+							formControlName="organization" name="organization">
+					<mat-error *ngIf="organization.invalid&&isValidFormSubmitted!=null">Organization is required</mat-error>
+				</div>
+				<div class="form-group" >
+					<label for ="researcherType">Best describes my needs: </label>
+					<mat-radio-group class="researcher-type-radio-group" [(ngModel)]="selectedResearcherType"
+									 formControlName="searchType" id="researcherType" name="researcherTypeRadioGroup" required>
+						<mat-radio-button value="bench" >
+							<i class="fas fa-flask fa-2x"></i> Bench Scientist
+						</mat-radio-button>
+
+						<mat-radio-button value="proteomics">
+							<i class="fas fa-user fa-2x"></i> Proteomics Researher
+						</mat-radio-button>
+
+						<mat-radio-button value="bioinformatician" >
+							<i class="fas fa-laptop fa-2x"></i> Bioinformatician
+						</mat-radio-button>
+
+						<mat-radio-button value="other">
+							<i class="fas fa-users fa-2x"></i> Other, specify
+						</mat-radio-button>
+						<div *ngIf="selectedResearcherType=='other'">
+							<div class="form-group">
+								<input type="text" class="form-control" id="other_researcher_type" [(ngModel)]="otherResearcherType" [ngModelOptions]="{standalone: true}">
+							</div>
+						</div>
+						<mat-error *ngIf="searchType.invalid&&isValidFormSubmitted!=null">Choice is required</mat-error>
+					</mat-radio-group>
+				</div>
+				<button id="pdcUpdateUserData" mat-raised-button>Update User Data</button>
+				<button id="pdcCancelUpdate" mat-raised-button routerLink='/pdc'>Cancel</button>
+			</form>
+			<span style="float: left; margin-bottom: 15px; margin-left: 10px; margin-top: 20px;">
+				<button id="pdcCancelAccount" mat-raised-button (click)="cancelUserAccount()"><b>Cancel Account</b></button>
+			</span>
+		</div>
+	</div>
+</div>

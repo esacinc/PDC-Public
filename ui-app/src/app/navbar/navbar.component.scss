@@ -1,0 +1,82 @@
+
+
+.navbar-toolbar-row{
+  font-family: 'Lato';
+  font-size: 14px;
+  color: #245978;
+  letter-spacing: 0;
+  line-height: 20px;
+  background-color: #FFFFFF;
+}
+.navbar-toolbar-spacer {
+  flex: 1 1 auto;
+}
+.toolbar-row{
+  font-family: 'Lato';
+  font-size: 14px;
+  letter-spacing: 0;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  margin-bottom: 0px;
+  color: #585858;
+  background: #EFF2F3;
+  // line-height: 20px;
+  min-height: auto;
+}
+
+.toolbar-row-button{
+  font-family: 'Lato';
+  font-size: 14px;
+  letter-spacing: 0;
+  color: #585858;
+  background-color: #FFFFFF;
+  // line-height: 20px;
+}
+.toolbar-row .toolbar-fill-remaining-space {
+  /* This fills the remaining space, by using flexbox. 
+     Every toolbar row uses a flexbox row layout. */
+  flex: 1 1 auto; 
+  background-color: rgb(181, 192, 196);
+}
+
+.toolbar-second-row {
+  background-image: linear-gradient(-133deg, #246A92 0%, #245571 100%);
+}
+
+.no-transition {
+  -webkit-transition: height 0.01s;
+  -moz-transition: height 0.01s;
+  -ms-transition: height 0.01s;
+  -o-transition: height 0.01s;
+  transition: none
+}
+
+.custom-navbar-menu {
+	border: 0!important;
+}
+
+.custom-navbar-menu-item {
+	font-family: 'Lato';
+    font-size: 16px;
+    letter-spacing: 0;
+	color: #585858;
+	text-decoration: none!important;
+}
+
+.custom-menu-item {
+    width: 100%;
+	text-align: left;
+	line-height: 36px;
+	font-size: 14px;
+	border: none;
+	text-decoration: none!important;
+}
+
+div.cdk-overlay-connected-position-bounding-box {
+	width: 100%;
+}
+
+.mat-menu-item-highlighted, .mat-menu-item.cdk-keyboard-focused, .mat-menu-item.cdk-program-focused, .mat-menu-item:hover, .mat-menu-item:focus{
+	border: none;
+}	
+	

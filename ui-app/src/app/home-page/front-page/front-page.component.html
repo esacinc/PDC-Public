@@ -1,0 +1,174 @@
+
+<app-program-stats></app-program-stats>
+<div style="background-color: #fafafa;">
+  <div class="container-fluid pr-10">
+    <div class="row" style="padding-bottom: 20px">
+      <div class="col-md-6 ml-0 front-page" id="tissueSites">
+          <mat-card class="front-page card card-body">
+            <!--<mat-card-title class="front-page card-header">TISSUE SITES</mat-card-title>-->
+              <!--<div [chart]="tissuesChart"></div>-->
+			  <div [chart]="casesChart"></div>
+          </mat-card>
+      </div>
+      <div class="col-md-6 front-page" id="diseaseTypes">
+		<div class="row">
+          <mat-card class="front-page card card-body disease-type-card-body">
+            <mat-card-title matTooltip="Number of Cases for a disease type" class="front-page cases-card-header">DISEASE TYPES</mat-card-title>
+            <mat-list class="list-group disease-type-card-list">
+             <div class="disease-type-card-list" id="disease-type-card-list" *ngFor="let disease of diseasesTotalCounts">
+              <div class="row">
+                <div class="col-md-8">
+                  <div class="disease-label" style="padding-left:10px">{{disease.disease_type}}</div>
+                </div>
+                <div matTooltip="Number of Cases for a disease type" class="col-md-4"><div class="disease-count">{{disease.cases_count}}</div>
+                </div>
+              </div>
+             </div>
+			</mat-list>
+          </mat-card>
+		</div>
+		<div class="row" style="padding-top:10px">
+			<div class="col-md-6" id="recentReleases"  style="padding-left: 0!important;padding-right: 0!important;">
+				<mat-card class="bottom-card">
+				  <mat-card-header class="bottom-row-card-header">RECENT RELEASES</mat-card-header>
+				  <mat-card-content id="recentReleasesContent">
+					<mat-list >
+						<mat-list-item class="bottom-card-list-item">
+						  <mat-icon mat-done-icon>done</mat-icon> &nbsp; &nbsp; MVP 0.1 API Release
+						</mat-list-item>
+						<mat-list-item class="bottom-card-list-item">
+						  <mat-icon mat-done-icon>done</mat-icon> &nbsp; &nbsp; <div>MVP 0.2 Portal Release - July 15, 2018</div>
+						</mat-list-item>
+						<mat-list-item class="bottom-card-list-item">
+							<mat-icon mat-done-icon>done</mat-icon> &nbsp; &nbsp;<div>MVP 0.3 Workspace Release - September 15, 2018</div>
+						</mat-list-item>
+						<mat-list-item class="bottom-card-list-item">
+							<mat-icon mat-done-icon>done</mat-icon> &nbsp; &nbsp;<div>MVP 0.4 New data sets and UI features - January 30, 2018</div>
+						</mat-list-item>
+						<mat-list-item class="bottom-card-list-item" style = "padding-top: 1.5%">
+							<mat-icon mat-done-icon>done</mat-icon> &nbsp; &nbsp;<div>MVP 0.5 Removed the requirement to register and login to the PDC Data Browser - June 2019</div>
+						</mat-list-item>
+					</mat-list>
+					</mat-card-content>
+				</mat-card>
+			</div>
+			<div class="col-md-6" id="newsSection"  style="padding-left: 0!important;padding-right: 0!important;">
+				<mat-card class="bottom-card">
+				  <mat-card-header class="bottom-row-card-header">NEWS</mat-card-header>
+				  <mat-card-content id="newsSectionContent">
+					<mat-list>
+						<mat-list-item *ngFor="let aNews of newsItems" class="bottom-card-list-item" style="margin-bottom: 15px; padding-top: 10px!important">
+							<mat-icon mat-open_in_browser-icon>open_in_browser</mat-icon>&nbsp;&nbsp;<a target="_" href="{{aNews.link}}">{{aNews.label}}</a>
+						</mat-list-item>
+					</mat-list>
+					</mat-card-content>
+				</mat-card>
+			</div>
+		</div>
+		<div class="row" style="padding-top:10px" >
+			<div class="col-md-6" id="tools-and-pipelines"  style="padding-left: 0!important;padding-right: 0!important;">
+				<mat-card class="bottom-card">
+				  <mat-card-header class="bottom-row-card-header">TOOLS & PIPELINES</mat-card-header>
+				  <mat-card-content id="toolAndPipelinesContent">
+					<mat-list>
+						<mat-list-item class="bottom-card-list-item">
+						  <mat-icon mat-dns-icon>dns</mat-icon>  &nbsp; &nbsp; <a href={{harmonization_url}} target="_blank">Common Data Analysis Pipeline (CDAP)</a>
+						</mat-list-item>
+						<mat-list-item class="bottom-card-list-item">
+						  <mat-icon mat-dns-icon>dns</mat-icon>  &nbsp; &nbsp; <a href={{pepquery_url}} target="_blank">PepQuery</a>
+						</mat-list-item>
+					</mat-list>
+					</mat-card-content>
+				</mat-card>
+			</div>
+			<div class="col-md-6" id="helpSection"  style="padding-left: 0!important;padding-right: 0!important;">
+				<mat-card  class="bottom-card">
+				  <mat-card-header class="bottom-row-card-header">HELP</mat-card-header>
+				  <mat-card-content class="bottom-card" id="helpContent">
+					<mat-list>
+						<mat-list-item class="bottom-card-list-item">
+							<mat-icon mat-help-icon>help</mat-icon> &nbsp; &nbsp; <a href={{dictionary_url}} target="_blank">Data Dictionary</a>
+						</mat-list-item>
+						<!-- <mat-list-item class="bottom-card">
+						  <mat-icon mat-help-icon>help</mat-icon> &nbsp; &nbsp; Portal Documentation
+						</mat-list-item> -->
+						<mat-list-item class="bottom-card-list-item">
+							<mat-icon mat-help-icon>help</mat-icon> &nbsp; &nbsp; <a [href]=getSubmissionPortalDocsURL() target="_blank">Submission Portal Documentation</a>
+						</mat-list-item>
+						 <mat-list-item class="bottom-card-list-item">
+						  <mat-icon mat-help-icon>help</mat-icon>  &nbsp; &nbsp; <a href = {{apidocumentation_url}} target="_blank">API Documentation</a>
+						</mat-list-item>
+					</mat-list>
+				  </mat-card-content>
+				</mat-card>
+			</div>
+		</div>
+      </div>
+    </div>
+<!--
+    <div class="row bottom-card-row" style="padding-left:0px; width: 100%; margin-left: 0em;">
+		<div class="col-md-3" id="recentReleases">
+            <mat-card class="bottom-card">
+              <mat-card-header class="bottom-row-card-header">RECENT RELEASES</mat-card-header>
+              <mat-card-content id="recentReleasesContent">
+                <mat-list >
+                    <mat-list-item class="bottom-card">
+                      <mat-icon mat-done-icon>done</mat-icon> &nbsp; &nbsp; MVP 0.1 API Release
+                    </mat-list-item>
+                    <mat-list-item class="bottom-card">
+                      <mat-icon mat-done-icon>done</mat-icon> &nbsp; &nbsp; <div>MVP 0.2 Portal Release - July 15, 2018</div>
+                    </mat-list-item>
+                    <mat-list-item class="bottom-card">
+                        <mat-icon mat-done-icon>done</mat-icon> &nbsp; &nbsp;<div>MVP 0.3 Workspace Release - September 15, 2018</div>
+                    </mat-list-item>
+                </mat-list>
+                </mat-card-content>
+            </mat-card>
+		</div>
+		<div class="col-md-3" id="newsSection">
+			<mat-card class="bottom-card">
+			  <mat-card-header class="bottom-row-card-header">NEWS</mat-card-header>
+			  <mat-card-content id="newsSectionContent">
+				<mat-list>
+					<mat-list-item *ngFor="let aNews of newsItems" class="bottom-card" style="margin-bottom: 15px; padding-top: 10px!important">
+						<mat-icon mat-open_in_browser-icon>open_in_browser</mat-icon>&nbsp;&nbsp;<a target="_" href="{{aNews.link}}">{{aNews.label}}</a>
+					</mat-list-item>
+				</mat-list>
+				</mat-card-content>
+			</mat-card>
+		</div>
+		<div class="col-md-3" id="tools-and-pipelines">
+			<mat-card class="bottom-card">
+			  <mat-card-header class="bottom-row-card-header">TOOLS & PIPELINES</mat-card-header>
+			  <mat-card-content id="toolAndPipelinesContent">
+				<mat-list>
+					<mat-list-item class="bottom-card">
+					  <mat-icon mat-dns-icon>dns</mat-icon>  &nbsp; &nbsp; <a href={{harmonization_url}} target="_blank">Common Data Analysis Pipeline (CDAP)</a>
+					</mat-list-item>
+
+				</mat-list>
+				</mat-card-content>
+			</mat-card>
+		</div>
+		<div class="col-md-3" id="helpSection">
+			<mat-card  class="bottom-card">
+			  <mat-card-header class="bottom-row-card-header">HELP</mat-card-header>
+			  <mat-card-content class="bottom-card" id="helpContent">
+				<mat-list>
+					<mat-list-item class="bottom-card">
+						<mat-icon mat-help-icon>help</mat-icon> &nbsp; &nbsp; <a href={{dictionary_url}} target="_blank">Data Dictionary</a>
+					</mat-list-item>
+					<mat-list-item class="bottom-card">
+						<mat-icon mat-help-icon>help</mat-icon> &nbsp; &nbsp; <a [href]=getSubmissionPortalDocsURL() target="_blank">Submission Portal Documentation</a>
+					</mat-list-item>
+					 <mat-list-item class="bottom-card">
+					  <mat-icon mat-help-icon>help</mat-icon>  &nbsp; &nbsp; <a href = {{apidocumentation_url}} target="_blank">API Documentation</a>
+					</mat-list-item>
+				</mat-list>
+			  </mat-card-content>
+			</mat-card>
+		</div>
+	</div>-->
+
+  </div>
+</div>

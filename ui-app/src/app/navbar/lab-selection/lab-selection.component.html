@@ -1,0 +1,36 @@
+<div class="title">Your email is not registered with the PDC Workspace. Create Account</div>
+<p></p>
+<div style="float:left;margin-right:20px;">
+	<label>First Name</label>
+	<input value="{{firstName}}" id="firstNameSubmitData" disabled="true" size="25">
+</div>
+<div style="float:left;">
+	<label>Last Name</label>
+	<input value="{{lastName}}" id="lastNameSubmitData" disabled="true" size="25">
+</div>
+<div style="float:left;margin-top:10px;">
+	<label>Email</label>
+	<input value="{{userEmail}}" id="emailSubmitData" disabled="true" size="55">
+</div>
+<div style="float:left;margin-top:10px;">
+	<label>Program</label>
+</div>
+<div class="programs" id="programSubmitData">
+	<div *ngFor="let lab of selectedLabs">
+ 	    {{lab.name}}
+ 	</div>
+</div>
+<div class="addProgram">
+	<label style="margin-left:10px;margin-top:10px">Add Program - Note: MVP users, please type MVP and select only "MVP TEST PROGRAM"</label>
+	  <input #searchBox id="search-box" placeholder="Enter program name" (keyup)="search(searchBox.value)" [(ngModel)]="searchTerm"/>
+
+	  <ul class="search-result">
+	    <li *ngFor="let lab of labs$ | async" (click)="addLab(lab)">
+	      {{lab.name}}
+	    </li>
+	  </ul>
+<div style="float:left;margin-top:20px;">
+	<button mat-button id="cancelSubmitData" (click)="close('true')">Cancel</button>
+	<button mat-button id="register" (click)="registerUser()" disabled="true">Register</button>
+</div>
+

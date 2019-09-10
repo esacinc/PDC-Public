@@ -1,0 +1,115 @@
+.analysis-manager {
+	font-family: 'Lato';
+	padding-left:0px;
+	padding-right: 0px;
+	padding-top: 0px;
+	border-top: 0px;
+	margin-bottom: 0px;
+	margin-left: 1px;
+	border-bottom: 0px;
+	padding-bottom: 0px;
+	border: 1px;
+	
+}
+.heatmap-menu-label {
+	font-family: 'Lato';
+	color: #000000;
+	font-size: 12px;
+	padding-left:0px;
+	padding-right: 0px;
+	padding-top: 0px;
+	border-top: 0px;
+	margin-bottom: 0px;
+	margin-left: 1px;
+	border-bottom: 0px;
+	padding-bottom: 0px;
+	border: 1px;
+}
+.heatmap-menu-item {
+	color: #ffffff;
+	font-family: 'Lato';
+	font-size: 15px;
+	padding-top: 0px;
+	border-top: 0px;
+	margin-bottom: 0px;
+	margin-top: 0px;
+	border-bottom: 0px;
+	padding-bottom: 0px;
+	
+}
+
+
+.analysis-manager .menu{
+	font-weight: regular;
+	font-size: 16px;
+	background: rgb(120, 167, 192);
+	height: 100rem;
+	color: #000000;
+	margin-left: 2px;
+	border-left: 2px;
+	padding-left: 2px;
+	align-items: flex-start;
+}
+
+.browse-filter .checked-state{
+	font-weight: 600;
+}
+
+.browse-filter .card-header {
+	font-family: 'Lato';
+	font-weight: 700;
+	font-size: 16px;
+//	background: #254A61;
+	background: rgb(120, 167, 192);
+	margin-bottom: 0px;
+	border-bottom: 0px;
+	padding-bottom: 0px;
+	border: 1px;
+	color: #000000
+}
+.browse-filter .card-title {
+	font-family: 'Lato';
+	font-weight: 'regular';
+	font-size: 16px;
+//	background: #254A61;
+	background: rgb(120, 167, 192);
+	margin-bottom: 0px;
+	border-bottom: 0px;
+	padding-bottom: 8px;
+	border: 1px;
+	color: #000000
+}
+.browse-filter .card-body {
+  font-weight: 400;
+  font-size: 12px;
+  // background:#254A61;
+  background: rgb(149, 190, 212);
+  padding-top: 0px;
+  padding-left: 0px;
+  padding-bottom: 0px;
+  color: #000000;
+}
+
+.browse-filter .card-list {
+	//background: #1B3E53;
+	background: rgb(149, 190, 212);
+	border-radius: 0px;
+	border-top: 0px;
+	padding-top: 0px;
+	padding-right: 0px;
+	margin-bottom: 0px;
+	margin-top: 0px;
+	color: #000000!important;
+	font-weight: 300;
+	font-size: 14px;
+	justify-content: flex-start;
+	align-self: stretch;
+}
+.browse-data {
+	font-family: 'Lato';
+	padding-left:0px;
+	padding-right: 0px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	border-top: 0px;
+}

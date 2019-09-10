@@ -1,0 +1,29 @@
+$header-height: 10.8rem;
+.about-page .header {
+    display: flex;
+    align-items: center;
+    height: $header-height;
+    margin-left: 1px;
+    box-sizing: border-box;
+    border-bottom: solid 1px rgba(0,0,0,0.12);
+    color: rgba(0,0,0,0.6);
+    .title {
+      margin-right: auto;
+      font-size: 12px;
+    }
+  }
+  .about-page .card {
+      padding: 0;
+      margin-left: 2px;
+      margin: -$header-height auto 0;
+      width: 100%;
+  }
+  .about-page .card-header {
+    font-family: 'Lato';
+    font-weight: 500;
+    font-size: 20px;
+    padding-top: 0px;
+    background-color: #FFFFFF;
+    border-bottom: solid 0px;
+    color: #585858;
+  }

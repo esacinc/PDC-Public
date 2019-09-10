@@ -1,0 +1,87 @@
+<title>Welcome</title>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-5" style="text-align:center;">
+			<img src="./assets/css/images/WelcomePageImage.png" style="width:75%;" />
+		</div>
+		<div class="col-md-7">
+			<h2 style="color:#245672; text-align: center;">Join NCI Proteomic Data Portal Alpha Program!</h2>
+			<p style="color:#245672;"> Tell us about yourself</p>
+			<p> Please provide information about yourself to help us personalize your experience.</p>
+			<h4 *ngIf="formInvalidMessage!=''"><br><span style="color:red">{{formInvalidMessage}}</span><br></h4>
+			<form [formGroup]="registrationForm" (ngSubmit)="submitRegistration()" class="form" style="padding:10px" name="pdcRegistrationForm" novalidate>
+				<div class="form-group">
+					<label for="first_name" style="display: inline-block;">My first name is:</label>
+					<input type="text" class="form-control" id="first_name" style="display: inline-block;"
+								required name="first_name" formControlName="first_name">
+					 <mat-error *ngIf="first_name.invalid&&isValidFormSubmitted!=null">First name is required</mat-error>
+				</div>
+				<div class="form-group">
+					<label for="last_name">My last name is:</label>
+					<input type="text" class="form-control" id="last_name" required
+							formControlName="last_name" name="last_name">
+					<mat-error *ngIf="last_name.invalid&&isValidFormSubmitted!=null">Last name is required</mat-error>
+				</div>
+				<div class="form-group">
+					<label for="email">My email address is:</label>
+					<input type="text" class="form-control" id="email" required formControlName="email" name="email">
+					<mat-error *ngIf="email.invalid&&isValidFormSubmitted!=null">email is required</mat-error>
+				</div>
+				<div class="form-group">
+					<label for="organization">My organization is:</label>
+					<input type="text" class="form-control" id="organization" required
+							formControlName="organization" name="organization">
+					<mat-error *ngIf="organization.invalid&&isValidFormSubmitted!=null">Organization is required</mat-error>
+				</div>
+				<div class="form-group" >
+					<label for ="researcherType">Best describes my needs: </label>
+					<mat-radio-group class="researcher-type-radio-group" [(ngModel)]="selectedResearcherType"
+									 formControlName="searchType" id="researcherType" name="researcherTypeRadioGroup" required>
+						<mat-radio-button value="bench" >
+							<i class="fas fa-flask fa-2x"></i> Bench Scientist
+						</mat-radio-button>
+
+						<mat-radio-button value="proteomics">
+							<i class="fas fa-user fa-2x"></i> Proteomics Researher
+						</mat-radio-button>
+
+						<mat-radio-button value="bioinformatician" >
+							<i class="fas fa-laptop fa-2x"></i> Bioinformatician
+						</mat-radio-button>
+
+						<mat-radio-button value="other">
+							<i class="fas fa-users fa-2x"></i> Other, specify
+						</mat-radio-button>
+						<div *ngIf="selectedResearcherType=='other'">
+							<div class="form-group">
+								<input type="text" class="form-control" id="other_researcher_type" [(ngModel)]="otherResearcherType" [ngModelOptions]="{standalone: true}">
+							</div>
+						</div>
+						<mat-error *ngIf="searchType.invalid&&isValidFormSubmitted!=null">Choice is required</mat-error>
+					</mat-radio-group>
+				</div>
+				<!-- PDC-824 Allow email/password registration -->
+				<div class="form-group" *ngIf="idProvider==='PDC'">
+					<label for="password">Password:</label>
+					<input type="password" class="form-control" id="password" required formControlName="user_pass" name="password">
+					<span style="font-size: 9px; color: gray"> 
+					<ul>Password requirements:
+					<li>Minimum password length: 8 characters</li>
+					<li>At least one uppercase letter</li>
+					<li>At least one lowercase letter</li>
+					<li>At least one number</li>
+					<li>At least one non-alphanumeric character</li></ul>
+					</span>
+					<mat-error *ngIf="user_pass.invalid && passwordInvalidMessage != ''">{{passwordInvalidMessage}}<br></mat-error>
+					<label for="password_confirm">Confirm password:</label>
+					<input type="password" class="form-control" id="password_confirm" required formControlName="user_pass" name="password">
+					<mat-error *ngIf="user_pass.invalid&&isValidFormSubmitted!=null&&password_confirm!=password">Password does not match</mat-error>
+				</div>
+        
+				<div class="form-group">By registering with the NCI Proteomic Data Portal you agree to our <a target="_" href="javascript:void(0)" (click)="viewPrivacyPolicy()" style="text-decoration: underline;">Privacy Policy.</a></div>
+				<button id="pdcRegister" mat-raised-button>Submit</button>
+				<button id="pdcCancelRegistration" mat-raised-button routerLink='/pdc'>Cancel</button>
+			</form>
+		</div>
+	</div>
+</div>

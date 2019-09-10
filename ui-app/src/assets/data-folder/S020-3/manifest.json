@@ -1,0 +1,23 @@
+{
+    "heatmaps": [
+     {
+         "menu-label": "Quantitation",
+         "children": [
+             {
+                 "menu-label": "Reporter ion intensity - Log2Ratio",
+                 "filename":"S020-3-log2_ratio.gct",
+                 "col-header": "Aliquot",
+                 "row-header": "Gene",
+                 "tooltip": "Average, normalized log-ratio of reporter ion intensity to ion intensity from a pooled, common reference associated with the gene in acquisitions from a specific aliquot of a biological sample"
+             },
+             {
+                 "menu-label": "Reporter ion intensity - Log2Ratio - Unshared Peptides only",
+                 "filename":"S020-3-unshared_log2_ratio.gct",
+                 "col-header": "Aliquot",
+                 "row-header": "Gene",
+                 "tooltip": "Average, normalized log-ratio of reporter ion intensity to ion intensity from a pooled, common reference from unshared peptides associated with the gene in acquisitions from a specific aliquot of a biological sample"
+             }
+        ]
+        }
+    ]
+}
