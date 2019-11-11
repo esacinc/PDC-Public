@@ -79,16 +79,17 @@ describe("FrontPageService", () => {
     apolloController.verify();
   }));
 
+    //@@@PDC-1123 call ui wrapper API
   it("test getPortalStats", inject([FrontPageService], (service: FrontPageService) => {
     service.getPortalStats().subscribe(data => {
-      expect(data["pdcDataStats"]).toBeDefined();
-      expect(data["pdcDataStats"].length).toBe(1);
-      expect(data["pdcDataStats"][0].program).toBe(1);
+      expect(data["uiPdcDataStats"]).toBeDefined();
+      expect(data["uiPdcDataStats"].length).toBe(1);
+      expect(data["uiPdcDataStats"][0].program).toBe(1);
     });
 
     const op = apolloController.expectOne(gql`
       query allStats {
-        pdcDataStats {
+        uiPdcDataStats {
           program
           study
           spectra
@@ -105,7 +106,7 @@ describe("FrontPageService", () => {
 
     op.flush({
       data: {
-        pdcDataStats: [
+        uiPdcDataStats: [
           {
             program: 1,
             study: 15,
@@ -124,6 +125,7 @@ describe("FrontPageService", () => {
     apolloController.verify();
   }));
 
+    //@@@PDC-1123 call ui wrapper API
   it("test getDiseases", inject([FrontPageService], (service: FrontPageService) => {
     service.getDiseases().subscribe(data => {
       expect(data).toBeDefined();
@@ -133,7 +135,7 @@ describe("FrontPageService", () => {
 
     const op = apolloController.expectOne(gql`
       query allDiseases {
-        diseasesAvailable {
+        uiDiseasesAvailable {
           disease_type
           tissue_or_organ_of_origin
           project_submitter_id
@@ -144,7 +146,7 @@ describe("FrontPageService", () => {
 
     op.flush({
       data: {
-        diseasesAvailable: [
+        uiDiseasesAvailable: [
           {
             disease_type: "Breast Invasive Carcinoma",
             tissue_or_organ_of_origin: "Breast",
@@ -171,9 +173,10 @@ describe("FrontPageService", () => {
       expect(data[0]["program_submitter_id"]).toBe("CPTAC");
     });
 
+    //@@@PDC-1123 call ui wrapper API
     const op = apolloController.expectOne(gql`
       query Programs {
-        allPrograms {
+        uiAllPrograms {
           program_submitter_id
           name
           sponsor
@@ -189,7 +192,7 @@ describe("FrontPageService", () => {
 
     op.flush({
       data: {
-        allPrograms: [
+        uiAllPrograms: [
           {
             program_submitter_id: "CPTAC",
             name: "Clinical Proteomic Tumor Analysis Consortium",

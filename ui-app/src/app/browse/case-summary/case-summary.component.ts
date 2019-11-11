@@ -149,20 +149,41 @@ export class CaseSummaryComponent implements OnInit {
 	this.loading = true;
 	this.caseSummaryService.getDataCategoryFileByCaseCountData(this.case_submitter_id).subscribe((data: any) =>{
 		let fileCountsRaw = data.uiDataCategoryFileCount;
-		this.dataCategoryFileCount = data.uiDataCategoryFileCount;
+		this.dataCategoryFileCount = this.mergeDataCategoryFiles(data.uiDataCategoryFileCount);
 		this.loading = false;
 	});
+  }
+  
+  mergeDataCategoryFiles(dataCategoryFileCount: any[]){
+	let dataCategoryMap = new Map();
+	for(let dataCategory of dataCategoryFileCount){
+		if(dataCategoryMap.has(dataCategory.data_category+dataCategory.file_type)){
+			let data = dataCategoryMap.get(dataCategory.data_category+dataCategory.file_type);
+			data.submitter_id_name = data.submitter_id_name+"|"+ dataCategory.submitter_id_name;
+			data.files_count = data.files_count + dataCategory.files_count;
+			dataCategoryMap.set(dataCategory.data_category+dataCategory.file_type, data);
+		}else{
+			let data = {};
+			data['data_category'] = dataCategory.data_category;
+			data['file_type'] = dataCategory.file_type;
+			data['files_count'] = dataCategory.files_count;
+			data['submitter_id_name'] = dataCategory.submitter_id_name;
+			dataCategoryMap.set(dataCategory.data_category+dataCategory.file_type, data);
+		}
+	}
+	return Array.from(dataCategoryMap.values());
   }
   
   getCaseSummaryData(){
 	this.loading = true;
 	this.caseSummaryService.getDetailedCaseSummaryData(this.case_submitter_id).subscribe((data: any) =>{
-		this.caseDetailedSummaryData = data.case;
-		this.samples = data.case.samples;
+		//@@@PDC-1123 add ui wrappers public APIs
+		this.caseDetailedSummaryData = data.uiCaseSummary;
+		this.samples = data.uiCaseSummary.samples;
 		for (let sample of this.samples){
 			this.aliquots = this.aliquots.concat(sample.aliquots);
 		}
-		this.diagnoses = this.removeNullValues(data.case.diagnoses);
+		this.diagnoses = this.removeNullValues(data.uiCaseSummary.diagnoses);
 		this.loading = false;
 	});
   }

@@ -63,11 +63,11 @@ const defineCustomModels = (db) => {
 	  * used in experimentalMetadata query.
 	  */
 	  //@@@PDC-191 experimental metadata API
+	  //@@@PDC-1120 StudyRunMetadata table change
 	  const ModelStudyRunMetadata = db.getSequelize().define('study_run_metadata', {
 		study_run_metadata_id: { type: Sequelize.STRING,
 					  primaryKey: true   },
 		study_run_metadata_submitter_id: { type: Sequelize.STRING },
-		instrument: { type: Sequelize.STRING },
 		fraction: { type: Sequelize.STRING },
 	  }, {
 		  timestamps: false,
@@ -236,6 +236,7 @@ const defineCustomModels = (db) => {
 	  //@@@PDC-271 API to retrieve protocol data for PDC UI
 	  //@@@PDC-652 new protocol structure
 	  //@@@PDC-898 new public APIs--protocolPerStudy
+	  //@@@PDC-1154 column name correction: fractions_analyzed_count
 	  /**
 	  * ModelProtocol is a utility and used in 
 	  * projectsPerInstrument and uiProtocol queries.
@@ -265,7 +266,7 @@ const defineCustomModels = (db) => {
 		  chromatography_dimensions_count: { type: Sequelize.STRING },
 		  one_d_chromatography_type: { type: Sequelize.STRING },
 		  two_d_chromatography_type: { type: Sequelize.STRING },
-		  fractions_anatyzed_count: { type: Sequelize.STRING },
+		  fractions_analyzed_count: { type: Sequelize.STRING },
 		  column_type: { type: Sequelize.STRING },
 		  amount_on_column: { type: Sequelize.STRING },
 		  amount_on_column_uom: { type: Sequelize.STRING },
@@ -548,12 +549,15 @@ const defineCustomModels = (db) => {
 	  ModelStudyPublic.removeAttribute('id');
 	  
 	  //@@@PDC-898 new public APIs--studyExperimentalDesign
+	  //@@@PDC-1120 StudyRunMetadata table change
+	  //@@@PDC-1156 add is_ref
 	  const ModelStudyExperimentalDesign = db.getSequelize().define('dummy', {
 		  study_run_metadata_id: { type: Sequelize.STRING,
 					  primaryKey: true },
 		  study_run_metadata_submitter_id: { type: Sequelize.STRING },
 		  study_id: { type: Sequelize.STRING },
 		  study_submitter_id: { type: Sequelize.STRING },
+		  aliquot_is_ref: { type: Sequelize.STRING },
 		  acquisition_type: { type: Sequelize.STRING },
 		  analyte:  { type: Sequelize.STRING},
 		  plex_dataset_name:  { type: Sequelize.STRING},
@@ -565,16 +569,21 @@ const defineCustomModels = (db) => {
 		  itraq_115:  { type: Sequelize.STRING},
 		  itraq_116:  { type: Sequelize.STRING},
 		  itraq_117:  { type: Sequelize.STRING},
-		  tmt10_126:  { type: Sequelize.STRING},
-		  tmt10_127n:  { type: Sequelize.STRING},
-		  tmt10_127c:  { type: Sequelize.STRING},
-		  tmt10_128n:  { type: Sequelize.STRING},
-		  tmt10_128c:  { type: Sequelize.STRING},
-		  tmt10_129n:  { type: Sequelize.STRING},
-		  tmt10_129c:  { type: Sequelize.STRING},
-		  tmt10_130n:  { type: Sequelize.STRING},
-		  tmt10_130c:  { type: Sequelize.STRING},
-		  tmt10_131:  { type: Sequelize.STRING},
+		  itraq_118:  { type: Sequelize.STRING},
+		  itraq_119:  { type: Sequelize.STRING},
+		  itraq_120:  { type: Sequelize.STRING},
+		  itraq_121:  { type: Sequelize.STRING},
+		  tmt_126:  { type: Sequelize.STRING},
+		  tmt_127n:  { type: Sequelize.STRING},
+		  tmt_127c:  { type: Sequelize.STRING},
+		  tmt_128n:  { type: Sequelize.STRING},
+		  tmt_128c:  { type: Sequelize.STRING},
+		  tmt_129n:  { type: Sequelize.STRING},
+		  tmt_129c:  { type: Sequelize.STRING},
+		  tmt_130n:  { type: Sequelize.STRING},
+		  tmt_130c:  { type: Sequelize.STRING},
+		  tmt_131:  { type: Sequelize.STRING},
+		  tmt_131c:  { type: Sequelize.STRING},
 	  }, {
 		  timestamps: false,
 		  underscored: true,

@@ -1,6 +1,6 @@
 <mat-card-header class="browse-filter" style="background: #254A61; line-height:2">
     <span class="float-button-left" style="color:white; font-family: Lato; font-size: 20px">
-    <img width="20px" height="20px" src="./assets/css/images/Triangle.png"/>
+    <img width="20px" height="20px" src="./assets/css/images/Triangle.png" alt="Filters"/>
           &nbsp; FILTERS
     </span>
 	<div *ngIf="loading"><i class="pi pi-spin pi-spinner" style="font-size: 3em; color:white"></i></div>
@@ -31,7 +31,7 @@
         </mat-expansion-panel-header>
           <mat-list class="card-body card-list"  style="padding-left:0px; padding-right:0px;" id="projectFiltersList">
             <div *ngFor="let project of projectsFilter" class="browse-filter" >
-            <mat-list-item [ngStyle]="getStyleForCheckbox(project.filterName, selectedProjects)" >
+            <label><mat-list-item [ngStyle]="getStyleForCheckbox(project.filterName, selectedProjects)" >
               <p-checkbox name="group1" id="group1{{project.filterName}}"
                 value={{project.filterName}}
                 [(ngModel)]="selectedProjects"
@@ -39,9 +39,9 @@
                 (onChange)="filterDataByProject($event)">
               </p-checkbox> &nbsp; &nbsp;
             <div [ngStyle]="getStyleForCheckbox(project.filterName, selectedProjects)">
-              {{project.filterName}} ({{project.filterCount}} {{project.filterCount > 1 ? 'Studies' : 'Study'}})
+              {{project.filterName}} <!-- ({{project.filterCount}} {{project.filterCount > 1 ? 'Studies' : 'Study'}}) -->
             </div>
-            </mat-list-item>
+            </mat-list-item></label>
           </div>
           </mat-list>
         </mat-expansion-panel>
@@ -57,7 +57,7 @@
               </mat-expansion-panel-header>
               <mat-list class="card-body card-list" id="primarySiteList">
                   <div *ngFor="let prim_site of primarySitesFilter" class="browse-filter">
-                    <mat-list-item  [ngStyle]="getStyleForCheckbox(prim_site.filterName, selectedPrimarySites)" >
+                  <label><mat-list-item  [ngStyle]="getStyleForCheckbox(prim_site.filterName, selectedPrimarySites)" >
                         <p-checkbox name="group2" id="group2{{prim_site.filterName}}"
                               value={{prim_site.filterName}}
                               [(ngModel)]="selectedPrimarySites"
@@ -65,9 +65,9 @@
                               (onChange)="filterDataByPrimarySite($event)">
                           </p-checkbox> &nbsp; &nbsp;
                           <div [ngStyle]="getStyleForCheckbox(prim_site.filterName, selectedPrimarySites)">
-                              {{prim_site.filterName}} ({{prim_site.filterCount}} {{prim_site.filterCount > 1 ? 'Studies' : 'Study'}})
+                              {{prim_site.filterName}} <!-- ({{prim_site.filterCount}} {{prim_site.filterCount > 1 ? 'Studies' : 'Study'}}) -->
                           </div>
-                    </mat-list-item>
+                    </mat-list-item></label>
                   </div>
               </mat-list>
         </mat-expansion-panel>
@@ -82,7 +82,7 @@
               </mat-expansion-panel-header>
               <mat-list class="card-body card-list" id="programsList">
                   <div *ngFor="let program of programsFilter" class="browse-filter">
-                    <mat-list-item  [ngStyle]="getStyleForCheckbox(program.filterName, selectedPrograms)">
+                  <label><mat-list-item  [ngStyle]="getStyleForCheckbox(program.filterName, selectedPrograms)">
                         <p-checkbox name="group3" id="group3{{program.filterName}}"
                               value={{program.filterName}}
                               [(ngModel)]="selectedPrograms"
@@ -90,9 +90,9 @@
                               (onChange)="filterDataByProgram($event)">
                           </p-checkbox> &nbsp; &nbsp;
                             <div [ngStyle]="getStyleForCheckbox(program.filterName, selectedPrograms)">
-                              {{program.filterName}} ({{program.filterCount}} {{program.filterCount > 1 ? 'Studies' : 'Study'}})
+                              {{program.filterName}} <!-- ({{program.filterCount}} {{program.filterCount > 1 ? 'Studies' : 'Study'}}) -->
                             </div>
-                    </mat-list-item>
+                    </mat-list-item></label>
                   </div>
               </mat-list>
         </mat-expansion-panel>
@@ -108,7 +108,7 @@
               </mat-expansion-panel-header>
               <mat-list class="card-body card-list" id="diseaseTypeList">
                   <div *ngFor="let disease of diseaseTypesFilter" class="browse-filter">
-                    <mat-list-item  [ngStyle]="getStyleForCheckbox(disease.filterName, selectedDiseases)">
+                  <label><mat-list-item  [ngStyle]="getStyleForCheckbox(disease.filterName, selectedDiseases)">
                         <p-checkbox name="group4" id="group4{{disease.filterName}}"
                               value={{disease.filterName}}
                               [(ngModel)]="selectedDiseases"
@@ -116,9 +116,9 @@
                               (onChange)="filterDataByDiseaseType($event)">
                           </p-checkbox> &nbsp; &nbsp;
                             <div [ngStyle]="getStyleForCheckbox(disease.filterName, selectedDiseases)">
-                              {{disease.filterName}} ({{disease.filterCount}} {{disease.filterCount > 1 ? 'Studies' : 'Study'}})
+                              {{disease.filterName}} <!-- ({{disease.filterCount}} {{disease.filterCount > 1 ? 'Studies' : 'Study'}}) -->
                             </div>
-                    </mat-list-item>
+                    </mat-list-item></label>
                   </div>
               </mat-list>
         </mat-expansion-panel>
@@ -134,8 +134,8 @@
               </mat-expansion-panel-header>
               <mat-list class="card-body card-list" id="analyticalFractionList">
                   <div *ngFor="let an_frac of analyticalFractionsFilter" class="browse-filter">
-                    <mat-list-item  [ngStyle]="getStyleForCheckbox(an_frac.filterName, selectedAnFracs)">
-                          <p-checkbox name="group5" id="group5{{an_frac.filterName}}"
+                    <label><mat-list-item  [ngStyle]="getStyleForCheckbox(an_frac.filterName, selectedAnFracs)">
+                    <p-checkbox name="group5" id="group5{{an_frac.filterName}}"
                                 value={{an_frac.filterName}}
 
                                 [(ngModel)]="selectedAnFracs"
@@ -143,9 +143,9 @@
                                 (onChange)="filterDataByAnalyticalFraction($event)">
                             </p-checkbox> &nbsp; &nbsp;
                               <div [ngStyle]="getStyleForCheckbox(an_frac.filterName, selectedAnFracs)">
-                                {{an_frac.filterName}} ({{an_frac.filterCount}} {{an_frac.filterCount > 1 ? 'Studies' : 'Study'}})
+                                {{an_frac.filterName}} <!-- ({{an_frac.filterCount}} {{an_frac.filterCount > 1 ? 'Studies' : 'Study'}}) -->
                               </div>
-                      </mat-list-item>
+                      </mat-list-item></label>
                   </div>
                 </mat-list>
         </mat-expansion-panel>
@@ -161,17 +161,17 @@
               </mat-expansion-panel-header>
               <mat-list class="card-body card-list" id="experimentTypeList">
                   <div *ngFor="let exp_start of experimentalStrategiesFilter" class="browse-filter">
-                    <mat-list-item  [ngStyle]="getStyleForCheckbox(exp_start.filterName, selectedExpStarts)">
-                        <p-checkbox name="group6" id="group6{{exp_start.filterName}}"
+                    <label><mat-list-item  [ngStyle]="getStyleForCheckbox(exp_start.filterName, selectedExpStarts)">
+                    <p-checkbox name="group6" id="group6{{exp_start.filterName}}"
                             value={{exp_start.filterName}}
                             [(ngModel)]="selectedExpStarts"
                 [disabled]="exp_start.filterCount == 0"
                             (onChange)="filterDataByExperimentalStrategy($event)">
                         </p-checkbox> &nbsp; &nbsp;
                         <div [ngStyle]="getStyleForCheckbox(exp_start.filterName, selectedExpStarts)">
-                          {{exp_start.filterName}} ({{exp_start.filterCount}} {{exp_start.filterCount > 1 ? 'Studies' : 'Study'}})
+                          {{exp_start.filterName}} <!-- ({{exp_start.filterCount}} {{exp_start.filterCount > 1 ? 'Studies' : 'Study'}}) -->
                         </div>
-                      </mat-list-item>
+                      </mat-list-item></label>
                     </div>
                   </mat-list>
         </mat-expansion-panel>
@@ -191,14 +191,14 @@
           </mat-expansion-panel-header>
           <mat-list class="card-body card-list" id="experimentTypeList">
             <div *ngFor="let acq_start of acquisitionFilter" class="browse-filter">
-              <mat-list-item [ngStyle]="getStyleForCheckbox(acq_start.filterName, selectedAcquisitions)">
+            <label><mat-list-item [ngStyle]="getStyleForCheckbox(acq_start.filterName, selectedAcquisitions)">
                 <p-checkbox name="group6" id="group6{{acq_start.filterName}}" value={{acq_start.filterName}} [(ngModel)]="selectedAcquisitions"
                   [disabled]="acq_start.filterCount == 0" (onChange)="filterDataByAcquisition($event)">
                 </p-checkbox> &nbsp; &nbsp;
                 <div [ngStyle]="getStyleForCheckbox(acq_start.filterName, selectedAcquisitions)">
-                  {{acq_start.filterName}} ({{acq_start.filterCount}} {{acq_start.filterCount > 1 ? 'Studies' : 'Study'}})
+                  {{acq_start.filterName}} <!-- ({{acq_start.filterCount}} {{acq_start.filterCount > 1 ? 'Studies' : 'Study'}}) -->
                 </div>
-              </mat-list-item>
+              </mat-list-item></label>
             </div>
           </mat-list>
         </mat-expansion-panel>
@@ -239,7 +239,7 @@
                 </mat-expansion-panel-header>
                 <mat-list class="card-body card-list" id="dataCategoryList">
                     <div *ngFor="let sampleType of sampleTypeFilter" class="browse-filter">
-                      <mat-list-item  [ngStyle]="getStyleForCheckbox(sampleType.filterName, selectedSampleType)">
+                    <label><mat-list-item  [ngStyle]="getStyleForCheckbox(sampleType.filterName, selectedSampleType)">
                           <p-checkbox name="group7" id="group7{{sampleType}}"
                               value={{sampleType.filterName}}
                               [(ngModel)]="selectedSampleType"
@@ -247,9 +247,9 @@
                               (onChange)="filterDataBySampleType($event)">
                           </p-checkbox> &nbsp; &nbsp;
                           <div>
-                            {{sampleType.filterName}} ({{sampleType.filterCount}} {{sampleType.filterCount > 1 ? 'Studies' : 'Study'}})
+                            {{sampleType.filterName}} <!-- ({{sampleType.filterCount}} {{sampleType.filterCount > 1 ? 'Studies' : 'Study'}}) -->
                           </div>
-                        </mat-list-item>
+                        </mat-list-item></label>
                       </div>
                     </mat-list>
           </mat-expansion-panel>
@@ -275,7 +275,7 @@
 			</mat-expansion-panel-header>
             <mat-list class="card-body card-list"  style="padding-left:0px; padding-right:0px;" id="ethnicityFiltersList">
 				<div *ngFor="let ethnicity of ethnicityFilter" class="browse-filter" >
-				  <mat-list-item [ngStyle]="getStyleForCheckbox(ethnicity.filterName, selectedEthnicity)" >
+        <label><mat-list-item [ngStyle]="getStyleForCheckbox(ethnicity.filterName, selectedEthnicity)" >
 					<p-checkbox name="group1" id="group1{{ethnicity.filterName}}"
 						value={{ethnicity.filterName}}
 						[(ngModel)]="selectedEthnicity"
@@ -283,9 +283,9 @@
 						(onChange)="filterDataByEthnicity($event)">
 					</p-checkbox> &nbsp; &nbsp;
 					<div [ngStyle]="getStyleForCheckbox(ethnicity.filterName, selectedEthnicity)">
-						{{ethnicity.filterName}} ({{ethnicity.filterCount}} {{ethnicity.filterCount > 1 ? 'Studies' : 'Study'}})
+						{{ethnicity.filterName}} <!-- ({{ethnicity.filterCount}} {{ethnicity.filterCount > 1 ? 'Studies' : 'Study'}}) -->
 					</div>
-				  </mat-list-item>
+				  </mat-list-item></label>
 				</div>
 			</mat-list>
         </mat-expansion-panel>
@@ -300,7 +300,7 @@
 			</mat-expansion-panel-header>
             <mat-list class="card-body card-list"  style="padding-left:0px; padding-right:0px;" id="raceFiltersList">
 				<div *ngFor="let race of raceFilter" class="browse-filter" >
-				  <mat-list-item [ngStyle]="getStyleForCheckbox(race.filterName, selectedRace)" >
+        <label><mat-list-item [ngStyle]="getStyleForCheckbox(race.filterName, selectedRace)" >
 					<p-checkbox name="group1" id="group1{{race.filterName}}"
 						value={{race.filterName}}
 						[(ngModel)]="selectedRace"
@@ -308,9 +308,9 @@
 						(onChange)="filterDataByRace($event)">
 					</p-checkbox> &nbsp; &nbsp;
 					<div [ngStyle]="getStyleForCheckbox(race.filterName, selectedRace)">
-						{{race.filterName}} ({{race.filterCount}} {{race.filterCount > 1 ? 'Studies' : 'Study'}})
+						{{race.filterName}} <!-- ({{race.filterCount}} {{race.filterCount > 1 ? 'Studies' : 'Study'}}) -->
 					</div>
-				  </mat-list-item>
+				  </mat-list-item></label>
 				</div>
 			</mat-list>
         </mat-expansion-panel>
@@ -325,7 +325,7 @@
 			</mat-expansion-panel-header>
             <mat-list class="card-body card-list"  style="padding-left:0px; padding-right:0px;" id="genderFiltersList">
 				<div *ngFor="let gender of genderFilter" class="browse-filter" >
-				  <mat-list-item [ngStyle]="getStyleForCheckbox(gender.filterName, selectedGender)" >
+        <label><mat-list-item [ngStyle]="getStyleForCheckbox(gender.filterName, selectedGender)" >
 					<p-checkbox name="group1" id="group1{{gender.filterName}}"
 						value={{gender.filterName}}
 						[(ngModel)]="selectedGender"
@@ -333,9 +333,9 @@
 						(onChange)="filterDataByGender($event)">
 					</p-checkbox> &nbsp; &nbsp;
 					<div [ngStyle]="getStyleForCheckbox(gender.filterName, selectedGender)">
-						{{gender.filterName}} ({{gender.filterCount}} {{gender.filterCount > 1 ? 'Studies' : 'Study'}})
+						{{gender.filterName}} <!-- ({{gender.filterCount}} {{gender.filterCount > 1 ? 'Studies' : 'Study'}}) -->
 					</div>
-				  </mat-list-item>
+				  </mat-list-item></label>
 				</div>
 			</mat-list>
         </mat-expansion-panel>
@@ -350,7 +350,7 @@
 			</mat-expansion-panel-header>
             <mat-list class="card-body card-list"  style="padding-left:0px; padding-right:0px;" id="tumorGradeFiltersList">
 				<div *ngFor="let tumorGrade of tumorGradeFilter" class="browse-filter" >
-				  <mat-list-item [ngStyle]="getStyleForCheckbox(tumorGrade.filterName, selectedTumorGrade)" >
+        <label><mat-list-item [ngStyle]="getStyleForCheckbox(tumorGrade.filterName, selectedTumorGrade)" >
 					<p-checkbox name="group1" id="group1{{tumorGrade.filterName}}"
 						value={{tumorGrade.filterName}}
 						[(ngModel)]="selectedTumorGrade"
@@ -358,9 +358,9 @@
 						(onChange)="filterDataByTumorGrade($event)">
 					</p-checkbox> &nbsp; &nbsp;
 					<div [ngStyle]="getStyleForCheckbox(tumorGrade.filterName, selectedTumorGrade)">
-						{{tumorGrade.filterName}} ({{tumorGrade.filterCount}} {{tumorGrade.filterCount > 1 ? 'Studies' : 'Study'}})
+						{{tumorGrade.filterName}} <!-- ({{tumorGrade.filterCount}} {{tumorGrade.filterCount > 1 ? 'Studies' : 'Study'}}) -->
 					</div>
-				  </mat-list-item>
+				  </mat-list-item></label>
 				</div>
 			</mat-list>
         </mat-expansion-panel>

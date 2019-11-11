@@ -2,6 +2,7 @@
 //@@@PDC-566 Add sample_type and acquisition filters
 //@@@PDC-774 add downloadable
 //@@@PDC-894 add status filters
+//@@@PDC-1189 add number of studies per filter value
 const UIFilter = `
 type UIFilter {
 	project_name: [UIFilterElement]
@@ -27,6 +28,7 @@ type UIFilter {
 
 type UIFilterElement {
 	filterName: String
+	filterStudyCount: Int
 	filterValue: [String]
 }	
 `

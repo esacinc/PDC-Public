@@ -60,6 +60,7 @@ const defineSequelizeModels = (db) => {
 	  * SampleModel is mapped to the table of sample and used in 
 	  * case queries.
 	  */
+	  //@@@PDC-1093 change data type of is_ffpe from int to string
 	  const SampleModel = db.getSequelize().define('sample', {
 		  sample_id: { type: Sequelize.STRING,
 					  primaryKey: true   },
@@ -78,7 +79,7 @@ const defineSequelizeModels = (db) => {
 		  freezing_method: { type: Sequelize.STRING },
 		  initial_weight: { type: Sequelize.FLOAT }, 
 		  intermediate_dimension: { type: Sequelize.STRING },
-		  is_ffpe: { type: Sequelize.INTEGER },
+		  is_ffpe: { type: Sequelize.STRING },
 		  longest_dimension: { type: Sequelize.STRING },
 		  method_of_sample_procurement: { type: Sequelize.STRING },
 		  oct_embedded: { type: Sequelize.STRING },

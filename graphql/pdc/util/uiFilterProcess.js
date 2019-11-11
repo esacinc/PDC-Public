@@ -68,8 +68,10 @@ function uiFilterProcess(uiFilters) {
     let mapValue = filterData[filterName];
     finalFilterData[filterName] = [];
     mapValue.forEach((value, key) =>{
+		//@@@PDC-1189 add number of studies per filter value
         let obj = {
             filterName: key,
+			filterStudyCount: value.size,
             filterValue: [...value]
         };
         finalFilterData[filterName].push(obj);

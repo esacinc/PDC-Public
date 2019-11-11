@@ -9,8 +9,9 @@ import { ProgramStatsComponent } from './program-stats.component';
 
 class MockFrontPageService {
   getPortalStats(): Observable<any> {
+    //@@@PDC-1123 call ui wrapper API
     return of({
-      pdcDataStats: [
+      uiPdcDataStats: [
         {
           program: 1,
           project: 2,

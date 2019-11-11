@@ -278,6 +278,7 @@ getCasesByExperimentalStrategy(){
 	// @@@PDC-221 - Added filtering for the charts on the browse page
 	// @@@PDC-616 Add acquisition type to the general filters
 	onFilterSelected(filterValue: string) {
+		filterValue = filterValue.replace('_slash','/');
 		var filter_field = filterValue.split(':'); // the structure is field_name: "value1;value2"
 		if (filter_field[0] == "gene_study_name") {
 			//if the filter field is gene_study_name, do not pass it to other tabs.
@@ -507,7 +508,7 @@ getCasesByExperimentalStrategy(){
 
 	//@@@PDC-277: Add a filter crumb bar at the top that explains the filter criteria selected
 	clearAllSelections() {
-		this.filtersChangedInBreadcrumbBar = "Clear all selections";
+		this.filtersChangedInBreadcrumbBar = new String("Clear all selections");
 	}
 
 	//@@@PDC-277: Add a filter crumb bar at the top that explains the filter criteria selected

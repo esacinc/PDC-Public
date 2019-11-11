@@ -396,6 +396,7 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 	//@@@PDC-1063: Implement select all, select page, select none for all tabs
 	changeHeaderCheckbox($event) {
 		let checkboxVal = this.selectedHeaderCheckbox;
+		this.selectedStudies = this.currentPageSelectedStudy = [];
 		switch (checkboxVal) {
 			case 'Select all pages': 
 						this.downloadCompleteManifest(true);

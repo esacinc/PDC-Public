@@ -1,4 +1,6 @@
 //@@@PDC-898 new public APIs--biospecimenPerStudy
+//@@@PDC-1127 add pool and taxon
+//@@@PDC-1156 add is_ref
 const Biospecimen = `
 type Biospecimen {
 	aliquot_id: String 
@@ -7,6 +9,7 @@ type Biospecimen {
 	case_submitter_id: String	
 	aliquot_submitter_id: String 
 	case_status: String
+	aliquot_is_ref: String
 	aliquot_status: String
 	sample_status: String
 	sample_submitter_id: String
@@ -14,6 +17,8 @@ type Biospecimen {
 	sample_type: String
 	disease_type: String
 	primary_site: String
+	pool: String
+	taxon: String
 }`
 ;
 

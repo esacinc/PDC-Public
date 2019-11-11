@@ -1,3 +1,4 @@
+import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from 'angular-6-social-login';
 import { of } from 'rxjs';
 
@@ -10,6 +11,13 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { ChorusauthService } from '../chorusauth.service';
 import { PDCUserService } from '../pdcuser.service';
 import { WelcomePageComponent } from './welcome-page.component';
+
+
+class MockDialog {
+  open(): any {
+    return { afterClosed: () => of("closed") };
+  }
+}
 
 class MockAuthService {
   signIn(providerId: string): Promise<any> {
@@ -40,7 +48,8 @@ describe("WelcomePageComponent", () => {
       providers: [
         ChorusauthService,
         PDCUserService,
-        { provide: AuthService, useClass: MockAuthService }
+        { provide: AuthService, useClass: MockAuthService },
+        { provide: MatDialog, useClass: MockDialog },
       ]
     }).compileComponents();
   }));
@@ -128,7 +137,7 @@ describe("WelcomePageComponent", () => {
     component.eRAnihSignIn("nihuid");
     expect(userSpy).toHaveBeenCalledWith("nihuid");
     userSpy.calls.mostRecent().returnValue.subscribe(() => {
-      expect(routeSpy).toHaveBeenCalledWith(["registration"]);
+      expect(routeSpy).toHaveBeenCalledWith(["pdc"]);
       done();
     });
   });

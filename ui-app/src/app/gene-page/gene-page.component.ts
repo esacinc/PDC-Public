@@ -116,9 +116,10 @@ export class GenePageComponent implements OnInit, OnChanges {
   
   getGeneSummaryData(){
 	  this.loadingGeneSummary = true;
+    //@@@PDC-1123 call ui wrapper API
 	  setTimeout(() => {
 		  this.genePageService.getGeneDetails(this.gene_id.toUpperCase()).subscribe((data: any) =>{
-			this.geneSummaryData = data.geneSpectralCount;
+			this.geneSummaryData = data.uiGeneSpectralCount;
 			this.loadingGeneSummary = false;
 		  });
 	  }, 1000);

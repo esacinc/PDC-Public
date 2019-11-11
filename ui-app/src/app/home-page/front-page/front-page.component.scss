@@ -167,3 +167,8 @@ $header-height: 10.8rem;
   background-image: linear-gradient(-180deg, #3A8BB8 5%, #1C5A7D 90%);
   color: #FFFFFF;
 }
+
+//@@@PDC-1119: Make the disease types table on the home page clickable
+.frontPage_diseasetype {
+  color: #FFFFFF;
+}

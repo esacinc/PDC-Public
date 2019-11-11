@@ -22,3 +22,341 @@ margin: 0 auto 0 0;
 .mat-list .mat-list-item.right .mat-list-text>*{
 margin: 0 0 0 auto;
 }
+
+/* @@@PDC-1214 - Replace the sunburst chart with the human body image with drill down */
+#human-body-highlights {
+   /* position: relative;*/
+    top: -20px;
+}
+#human-body-highlights > svg {
+    position: absolute;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+#human-body-root {
+		position: relative;
+		min-height: 515px;
+		padding-top: 110px; 
+		padding-bottom: 160px; 
+}
+#human-body-root .chart {
+		margin-top: 35px;
+		color: #fff;
+		position: relative;
+		left: 200px;
+		width: 80%;
+}
+
+@media only screen and (max-width: 1600px) {
+	#human-body-root {
+		padding-left: 2%;
+		padding-right: 10%;
+	}
+}
+
+@media only screen and (min-width: 1601px) {
+	#human-body-root {
+		padding-left: 7%;
+	}
+}
+
+@media only screen and (min-width: 1376px) {
+	#human-body-root .chart {
+		padding-right: 13%;
+	}
+}
+
+@media only screen and (max-width: 1375px) {
+	#human-body-root .chart {
+		padding-right: 5%;
+	}
+}
+
+#homePageFilters #human-body-root .chart {
+    left: 290px;
+}
+
+#human-body-front-page-root .chart {
+   padding-left: 15%;
+}
+
+#human-body-root .chart g {
+    color: #000;
+}
+#human-body-svg-container {
+    position: absolute;
+}
+#title {
+    color: white;
+    font-size: 20px;
+    /*font-weight: bold;*/
+    position: absolute;
+    width: 300px;
+    left: 280px;
+    margin-top: 10px;
+}
+#human-body-root #title {
+    left: 360px;
+}
+
+
+#male {
+    left: -88px;
+    position: relative;
+}
+
+#female {
+    left: -278px;
+    position: relative;
+}
+#female-organs {
+    position: relative;
+    top: -15px;
+    left: -435px;
+    width: 123px;
+}
+#male-organs {
+    position: relative;
+    height: 34px;
+    width: 25px;
+   /* top: 255px;*/
+    left: -120px;
+}
+#Mouth {
+    height: 16px;
+    width: 18px;
+    top: 50px;
+    left: 161px;
+    opacity: 0.2 !important;
+}
+#Breast {
+    height: 40px;
+    width: 40px;
+    top: 117px;
+    left: 167px;
+    opacity: 0.2 !important;
+}
+#Kidney {
+    height: 21px;
+    width: 15px;
+    top: 178px;
+    left: 178px;
+    opacity: 0.2 !important;
+}
+#Uterus {
+    height: 23px;
+    width: 21px;
+    top: 230px;
+    left: 156px;
+    opacity: 0.2 !important;
+}
+
+#Uterus-NOS {
+    height: 23px;
+    width: 21px;
+    top: 230px;
+    left: 156px;
+    opacity: 0.2 !important;
+}
+
+#Ovary {
+    height: 13px;
+    width: 13px;
+    top: 229px;
+    left: 174px;
+    opacity: 0.2 !important;
+}
+#Colorectal {
+    height: 95px;
+    width: 87px;
+    top: 190px;
+    left: 125px;
+}
+#Colon {
+    height: 95px;
+    width: 87px;
+    top: 190px;
+    left: 125px;
+}
+#Rectum {
+    height: 95px;
+    width: 87px;
+    top: 190px;
+    left: 125px;
+}
+#Stomach {
+    height: 43px;
+    width: 45px;
+    top: 146px;
+    left: 149px;
+    opacity: 0.2 !important;
+}
+
+#Brain {
+    height: 35px;
+    width: 50px;
+    top: 0px;
+    left: 143px;
+    opacity: 0.2 !important;
+}
+
+#Lung {
+    height: 55px;
+    width: 37px;
+    top: 113px;
+    left: 133px;
+    opacity: 0.2 !important;
+}
+
+#Bronchus-and-lung {
+	height: 55px;
+    width: 37px;
+    top: 113px;
+    left: 133px;
+    opacity: 0.2 !important;
+}
+
+#Liver {
+    height: 42px;
+    width: 47px;
+    top: 158px;
+    left: 148px;
+    opacity: 0.3 !important;
+}
+
+/* #Brain {
+    height: 35px;
+    width: 50px;
+    top: 20px;
+    left: 183px;
+}
+#Lung {
+    height: 55px;
+    width: 37px;
+    top: 133px;
+    left: 173px;
+}
+#Pleura {
+    height: 26px;
+    width: 37px;
+    top: 161px;
+    left: 173px;
+}
+#Lymph-Nodes {
+    height: 70px;
+    width: 45px;
+    top: 83px;
+    left: 159px;
+}
+#Soft-Tissue {
+    height: 369px;
+    width: 128px;
+    top: 89px;
+    left: 138px;
+}
+#Eye {
+    height: 20px;
+    width: 20px;
+    top: 39px;
+    left: 205px;
+} */
+/* #Adrenal-Gland {
+    height: 12px;
+    width: 14px;
+    top: 197px;
+    left: 219px;
+}
+#Bile-Duct {
+    height: 28px;
+    width: 11px;
+    top: 190px;
+    left: 195px;
+}
+#Pancreas {
+    height: 21px;
+    width: 45px;
+    top: 191px;
+    left: 183px;
+}
+#Bladder {
+    height: 16px;
+    width: 25px;
+    top: 258px;
+    left: 194px;
+}
+#Prostate {
+    height: 25px;
+    width: 30px;
+    top: 269px;
+    left: 103px;
+}
+#Testis {
+    height: 23px;
+    width: 15px;
+    top: 288px;
+    left: 124px;
+} */
+
+/* #Cervix {
+    height: 14px;
+    width: 15px;
+    top: 258px;
+    left: 199px;
+} */
+
+/* #Liver {
+    height: 42px;
+    width: 47px;
+    top: 173px;
+    left: 188px;
+} */
+
+/* #Blood {
+    height: 153px;
+    width: 35px;
+    top: 243px;
+    left: 211px;
+}
+#Bone {
+    height: 89px;
+    width: 14px;
+    top: 383px;
+    left: 212px;
+}
+#Bone-Marrow {
+    height: 114px;
+    width: 30px;
+    top: 371px;
+    left: 204px;
+}
+#Skin {
+    height: 227px;
+    width: 57px;
+    top: 95px;
+    left: 221px;
+}
+#Nervous-System {
+    height: 279px;
+    width: 56px;
+    top: 222px;
+    left: 159px;
+}
+#Thyroid {
+    height: 16px;
+    width: 18px;
+    top: 90px;
+    left: 198px;
+}
+#Thymus {
+    height: 23px;
+    width: 17px;
+    top: 147px;
+    left: 200px;
+}
+#Esophagus {
+    height: 57px;
+    width: 20px;
+    top: 86px;
+    left: 197px;
+} */

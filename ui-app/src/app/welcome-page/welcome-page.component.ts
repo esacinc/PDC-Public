@@ -7,6 +7,8 @@ import { AuthService, GoogleLoginProvider } from 'angular-6-social-login';
 import { ChorusauthService } from '../chorusauth.service';
 import { environment } from '../../environments/environment';
 import { PDCUserService } from '../pdcuser.service';
+import { RegistrationComponent} from '../navbar/registration/registration.component';
+import { MatDialog, MatDialogConfig, MatIconRegistry } from '@angular/material';
 
 @Component({
   selector: 'welcome-page',
@@ -16,6 +18,7 @@ import { PDCUserService } from '../pdcuser.service';
 
 //@@@PDC-371 Develop PDC welcome screen 
 //@@@PDC-516 angular lazy loading 
+//@@@PDC-1182: New user login not going to registration page
 export class WelcomePageComponent implements OnInit {
 
   username:string = '';
@@ -24,7 +27,7 @@ export class WelcomePageComponent implements OnInit {
 
   constructor(private chorusService: ChorusauthService, private socialAuthService: AuthService,
 				private router: Router, private http: HttpClient, private userService: PDCUserService,
-				private activeRoute: ActivatedRoute) {
+				private activeRoute: ActivatedRoute, private dialog: MatDialog) {
 				}
   
   // Authenticate the user with Google
@@ -81,12 +84,18 @@ export class WelcomePageComponent implements OnInit {
 				break;
 			//user not registered
 			case 1:
-				if (this.userService.getEmail()) {
+				//@@@PDC-1182: New user login not going to registration page
+				this.router.navigate(['pdc']);
+  				if (this.userService.getEmail()) {
 					this.userService.setUserIDType("NIH");
 				} else {
 					this.userService.setUserIDType("eRA");
 				}
-        this.router.navigate(['registration']);
+				const dialogConfig = new MatDialogConfig();
+				dialogConfig.width = "55%";
+				dialogConfig.minWidth = 980;
+				dialogConfig.height = '80%';
+				this.dialog.open(RegistrationComponent, dialogConfig);
 				break;
 			//system error
 			case 2:

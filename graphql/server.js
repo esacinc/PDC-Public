@@ -80,7 +80,7 @@ var authorize = async function(req, res, next) {
 	var api = getAPI(req.query.query);
 	if (api !== 'noTrack') {
 		req.visitor.pageview().send();
-		//console.log("pageview sent!");		
+		console.log("pageview sent: "+api);		
 	}
 	
 	//console.log('Email: '+ email);

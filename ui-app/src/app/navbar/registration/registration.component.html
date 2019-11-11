@@ -2,7 +2,7 @@
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-md-5" style="text-align:center;">
-			<img src="./assets/css/images/WelcomePageImage.png" style="width:75%;margin-top: 300px;" />
+			<img src="./assets/css/images/WelcomePageImage.png" style="width:75%;margin-top: 300px;" alt="Welcome Page Image"/>
 		</div>
 		<div class="col-md-7">
 			<h2 style="color:#245672; text-align: center;">Join NCI Proteomic Data Portal!</h2>
@@ -77,8 +77,8 @@
 					<input type="password" class="form-control" id="password_confirm" required formControlName="user_pass" name="password">
 					<mat-error *ngIf="user_pass.invalid&&isValidFormSubmitted!=null&&password_confirm!=password">Password does not match</mat-error>
 				</div>
-        
-				<div class="form-group">By registering with the NCI Proteomic Data Portal you agree to our <a target="_" href="javascript:void(0)" (click)="viewPrivacyPolicy()" style="text-decoration: underline;">Privacy Policy.</a></div>
+				<!--PDC-1070 - privacy policy window became an overlay window, so no need to open a new tab -->
+				<div class="form-group">By registering with the NCI Proteomic Data Portal you agree to our <a href="javascript:void(0)" (click)="viewPrivacyPolicy()" style="text-decoration: underline;">Privacy Policy.</a></div>
 				<button id="pdcRegister" mat-raised-button>Submit</button>&nbsp; &nbsp;
 				<button id="pdcCancelRegistration" mat-raised-button (click)="onCancelClick()">Cancel</button>
 			</form>

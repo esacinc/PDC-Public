@@ -4,7 +4,7 @@
 						<h3 style="font-family: 'Lato'; font-size:14px;float:left">{{totalRecords > 1 ? 'Total records: ' + totalRecords : 'Total record: ' + totalRecords }}</h3>
 				</div>
 				<div style="float: right; padding: 2%">
-						<button matTooltip="Please use CPTAC Data Portal for downloading the files" id="downloadWholeManifest" mat-raised-button mat-primary label="Download Selection" (click)="downloadAllManifest()" style="font-family:'Lato';float:right;font-weight:bold" [disabled]="iscompleteManifestDisabled()">Download All Manifests</button>
+						<button matTooltip="Please use CPTAC Data Portal for downloading the files" id="downloadWholeManifest" mat-raised-button mat-primary label="Download Selection" (click)="downloadAllManifest()" style="font-family:'Lato';float:right;font-weight:bold" [disabled]="iscompleteManifestDisabled()" aria-label="Download All Manifests">Download All Manifests</button>
 				</div>
 		</div>
 
@@ -12,32 +12,34 @@
 				[rows]="10" [pageLinks]="5" [rowsPerPageOptions]="[10,20,50]" [totalRecords]="totalRecords"
 				[loading]="loading" [resizableColumns]="true" columnResizeMode="expand" responsive="true" 
 				(onRowUnselect) ="onRowUnselected($event)" (onRowSelect)="onRowSelected($event)" [(selection)]="selectedClinicalData" 
-				dataKey="case_submitter_id" (onLazyLoad)="loadNewPage($event)" id="clinicalDataTable">
+				dataKey="case_submitter_id" (onLazyLoad)="loadNewPage($event)" id="clinicalDataTable" paginatorPosition="both">
 	    <ng-template pTemplate="caption">
 			<div class="ui-helper-clearfix">
 				<div id="selectedClinicalDataCount" *ngIf="!isDownloadDisabled()" style="float:left">Clinical data selected for download: {{selectedClinicalData.length}}</div>
-				<button matTooltip="Please use CPTAC Data Portal for downloading the files" id="downloadClinical"  mat-raised-button mat-primary label="Download Selection" (click)="clinicalTableExportCSV(dt)" [disabled]="isDownloadDisabled()" style="font-family:'Lato';float:right" >Download Clinical Manifest</button>
+				<button matTooltip="Please use CPTAC Data Portal for downloading the files" id="downloadClinical"  mat-raised-button mat-primary label="Download Selection" (click)="clinicalTableExportCSV(dt)" [disabled]="isDownloadDisabled()" style="font-family:'Lato';float:right" aria-label="Download Clinical Manifests">Download Clinical Manifest</button>
 			</div>
 		</ng-template>
         <ng-template style="font-size: 12px; background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%);" pTemplate="header">
             <tr style="font-size: 12px;">
 				<th class="ui-datatable-tableheader" style="width:6%;overflow: unset;">
-					<p-checkbox  id="clinicalDataChk" [(ngModel)]="headercheckbox" binary="true" (onChange)="onTableHeaderCheckboxToggle()" ></p-checkbox >
+					<label><p-checkbox  id="clinicalDataChk" [(ngModel)]="headercheckbox" binary="true" (onChange)="onTableHeaderCheckboxToggle()" ></p-checkbox >
 					<mat-select id="dataForManifestExport" class="card-body card-list" [(ngModel)]="selectedHeaderCheckbox"
 					(selectionChange)="changeHeaderCheckbox($event)">
 						<mat-option *ngFor="let checkboxOption of checkboxOptions" [value]="checkboxOption">
 							{{checkboxOption}}
 						</mat-option>
 					</mat-select>
+					<span style="display:none">Select all rows</span>
+					</label>
 				</th>
 				<!-- @@@PDC-262 link headers to data dictionary -->                
-                <th class="ui-datatable-tableheader" style="width:12%;" [pSortableColumn]="cols[0].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Case" target="_blank" style="color:white">Cases Submitter ID</a><p-sortIcon [field]="cols[0].field"></p-sortIcon></th>
-			    <th class="ui-datatable-tableheader" style="width:15%" [pSortableColumn]="cols[1].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Case#gdc_case_id" target="_blank" style="color:white">External Case ID</a><p-sortIcon [field]="cols[1].field"></p-sortIcon></th>
-			    <th class="ui-datatable-tableheader" style="width:8%" [pSortableColumn]="cols[2].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Demographic#ethnicity" target="_blank" style="color:white">Ethnicity</a><p-sortIcon [field]="cols[2].field"></p-sortIcon></th>
-			    <th class="ui-datatable-tableheader" style="width:6%" [pSortableColumn]="cols[3].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Demographic#gender" target="_blank" style="color:white">Gender</a><p-sortIcon [field]="cols[3].field"></p-sortIcon></th>
-			    <th class="ui-datatable-tableheader" style="width:6%" [pSortableColumn]="cols[4].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Demographic#race" target="_blank" style="color:white">Race</a><p-sortIcon [field]="cols[4].field"></p-sortIcon></th>
-			    <th class="ui-datatable-tableheader" style="width:8%" [pSortableColumn]="cols[5].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Diagnosis#morphology" target="_blank" style="color:white">Morphology</a><p-sortIcon [field]="cols[5].field"></p-sortIcon></th>
-				<th class="ui-datatable-tableheader" style="width:10%" [pSortableColumn]="cols[6].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Diagnosis#primary_diagnosis" target="_blank" style="color:white">Primary Diagnosis</a><p-sortIcon [field]="cols[6].field"></p-sortIcon></th>
+                <th class="ui-datatable-tableheader" style="width:12%;" [pSortableColumn]="cols[0].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Case" target="_blank" style="color:white">Cases Submitter ID</a><p-sortIcon [field]="cols[0].field" ariaLabel="Sort Case submitter ID in ascending/descending order"></p-sortIcon></th>
+			    <th class="ui-datatable-tableheader" style="width:15%" [pSortableColumn]="cols[1].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Case#gdc_case_id" target="_blank" style="color:white">External Data Resource</a><p-sortIcon [field]="cols[1].field" ariaLabel="Sort External Case ID in ascending/descending order"></p-sortIcon></th>
+			    <th class="ui-datatable-tableheader" style="width:8%" [pSortableColumn]="cols[2].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Demographic#ethnicity" target="_blank" style="color:white">Ethnicity</a><p-sortIcon [field]="cols[2].field" ariaLabel="Sort Ethinicity column in ascending/descending order"></p-sortIcon></th>
+			    <th class="ui-datatable-tableheader" style="width:6%" [pSortableColumn]="cols[3].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Demographic#gender" target="_blank" style="color:white">Gender</a><p-sortIcon [field]="cols[3].field" ariaLabel="Sort Gender column in ascending/descending order"></p-sortIcon></th>
+			    <th class="ui-datatable-tableheader" style="width:6%" [pSortableColumn]="cols[4].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Demographic#race" target="_blank" style="color:white">Race</a><p-sortIcon [field]="cols[4].field" ariaLabel="Sort Race column in ascending/descending order"></p-sortIcon></th>
+			    <th class="ui-datatable-tableheader" style="width:8%" [pSortableColumn]="cols[5].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Diagnosis#morphology" target="_blank" style="color:white">Morphology</a><p-sortIcon [field]="cols[5].field" ariaLabel="Sort Morphology column in ascending/descending order"></p-sortIcon></th>
+				<th class="ui-datatable-tableheader" style="width:10%" [pSortableColumn]="cols[6].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Diagnosis#primary_diagnosis" target="_blank" style="color:white">Primary Diagnosis</a><p-sortIcon [field]="cols[6].field" ariaLabel="Sort Primary Diagnosis column in ascending/descending order"></p-sortIcon></th>
 				<th class="ui-datatable-tableheader" style="width:8%" [pSortableColumn]="cols[7].field">
 					<div class="ui-datatable-tableheader-flex-container">
 						<div>
@@ -46,7 +48,7 @@
 							</a>
 						</div>
 						<div class="ui-datatable-tableheader-flex-sorticon">
-							<p-sortIcon [field]="cols[7].field"></p-sortIcon>
+							<p-sortIcon [field]="cols[7].field" ariaLabel="Sort Site of Resection column in ascending/descending order"></p-sortIcon>
 						</div>
 					</div>
 				</th>
@@ -58,20 +60,24 @@
 							</a>
 						</div>
 						<div class="ui-datatable-tableheader-flex-sorticon">
-							<p-sortIcon [field]="cols[8].field"></p-sortIcon>
+							<p-sortIcon [field]="cols[8].field" ariaLabel="Sort Tissue column in ascending/descending order"></p-sortIcon>
 						</div>
 					</div>
 				</th>
-				<th class="ui-datatable-tableheader" style="width:8%" [pSortableColumn]="cols[9].field"><a href="{{staticUrlBase}}dictionaryitem.html?eName=Diagnosis#tumor_grade" target="_blank" style="color:white">Tumor Grade</a><p-sortIcon [field]="cols[9].field"></p-sortIcon></th>
-				<th class="ui-datatable-tableheader" style="width:8%" [pSortableColumn]="cols[10].field"><a href="{{staticUrlBase}}dictionaryitem.html?eName=Diagnosis#tumor_stage" target="_blank" style="color:white">Tumor Stage</a><p-sortIcon [field]="cols[10].field"></p-sortIcon></th>
+				<th class="ui-datatable-tableheader" style="width:8%" [pSortableColumn]="cols[9].field"><a href="{{staticUrlBase}}dictionaryitem.html?eName=Diagnosis#tumor_grade" target="_blank" style="color:white">Tumor Grade</a><p-sortIcon [field]="cols[9].field" ariaLabel="Sort Tumor Grade column in ascending/descending order"></p-sortIcon></th>
+				<th class="ui-datatable-tableheader" style="width:8%" [pSortableColumn]="cols[10].field"><a href="{{staticUrlBase}}dictionaryitem.html?eName=Diagnosis#tumor_stage" target="_blank" style="color:white">Tumor Stage</a><p-sortIcon [field]="cols[10].field" ariaLabel="Sort Tumor Stage column in ascending/descending order"></p-sortIcon></th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-clinicalData>
             <tr style="font-size: 11px;" [pSelectableRow]="clinicalData" >
-				<td style="width:6%;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"><p-tableCheckbox id="clinicalData{{clinicalData.case_submitter_id}}" [value]="clinicalData"></p-tableCheckbox></td>
+				<td style="width:6%;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"><p-tableCheckbox id="clinicalData{{clinicalData.case_submitter_id}}" [value]="clinicalData" class="browsePageCheckboxes"></p-tableCheckbox></td>
 				<!-- @@@PDC-462 show submitter id -->                
                 <td style="width:15%;word-wrap: break-word; white-space: normal;"><a href="javascript:void(0);" (click)="showCaseSummary(clinicalData.case_submitter_id)">{{clinicalData.case_submitter_id }}</a>&nbsp;&nbsp;<span style='color:red' *ngIf="clinicalData.status == 'Disqualified'">{{clinicalData.status}}</span></td>
-                <td style="width:12%;word-wrap: break-word; white-space: normal;text-align: center"><a [href]="fetchUrl(clinicalData.external_case_id)" target="_blank"><img [src]="getIcon(clinicalData.external_case_id)">{{displayTextforExternalID(clinicalData.external_case_id)}}</a></td>
+				<td style="width:12%;word-wrap: break-word; white-space: normal;text-align: center"><a [href]="fetchUrl(clinicalData.external_case_id)" title="Go to genomic resource" target="_blank"><img [src]="getIcon(clinicalData.external_case_id, 'genomic')" alt=""><span style="display:none">Click on the External Reference Image</span>{{displayTextforExternalID(clinicalData.external_case_id)}}</a>
+					<div *ngIf="clinicalData.imaging_resource">
+						<a href="{{clinicalData.imaging_resource}}" title="Go to imaging resource" target="_blank"><img [src]="getIcon(clinicalData.external_case_id, 'tcia')" alt="" style="height: 20px;margin-top: 6%;background-color: gray;"><span style="display:none">Click on the External Reference Image</span></a>
+					</div>
+				</td>
                 <td style="width:8%;word-wrap: break-word; white-space: normal;">{{clinicalData.ethnicity}}</td>
                 <td style="width:6%;word-wrap: break-word; white-space: normal;">{{clinicalData.gender}}</td>
 				<td style="width:6%;word-wrap: break-word; white-space: normal;">{{clinicalData.race}}</td>

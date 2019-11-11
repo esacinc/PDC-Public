@@ -276,11 +276,12 @@ export class BrowseByFileService {
   }
 
   getControlledFilesDetails(fileIds: string): Promise<any> {
-    return this.apollo
+	//@@@PDC-1123 call ui wrapper API    
+	return this.apollo
       .query<any>({
         query: gql`
           query CasePerFile($file_id: String!) {
-            casePerFile(file_id: $file_id) {
+            uiCasePerFile(file_id: $file_id) {
               file_id
               case_id
               case_submitter_id

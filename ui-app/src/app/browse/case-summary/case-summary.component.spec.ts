@@ -31,9 +31,10 @@ class MockCaseSummaryService {
     });
   }
 
+  //@@@PDC-1123 add ui wrappers public APIs
   getDetailedCaseSummaryData(): Observable<any> {
     return of({
-      case: {
+      uiCaseSummary: {
         samples: [
           {
             aliquots: [

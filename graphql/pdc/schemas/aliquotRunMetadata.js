@@ -1,20 +1,15 @@
 //@@@PDC-191 experimental metadata API
+//@@@PDC-1120 AliquotRunMetadata table change
 const AliquotRunMetadata =`
 type AliquotRunMetadata {
 	aliquot_run_metadata_id: String
 	aliquot_run_metadata_submitter_id: String
 	aliquot_submitter_id: String
 	label: String
-	pcc: String
 	experiment_number: Int
-	acquisition_file_name: String
-	lab: String
 	fraction: String
-	instrument: String
-	operator: String
 	replicate_number: String
 	date: Date
-	condition: String
 	alias: String
 	analyte: String
 	aliquot: Aliquot

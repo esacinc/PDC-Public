@@ -15,19 +15,27 @@
 		<button mat-button *ngIf="selectedSearchTerm" mat-icon-button style="float:right" aria-label="Clear" id="clearButton"  title="Clear" (click)="selectedSearchTerm=''">
 			<mat-icon>close</mat-icon>
 		</button>
-		<input type="text" placeholder="e.g. BRCC3, 05BR003, kinase" id="search-term" title="Enter a Gene symbol or Case ID" 
+		<span>
+			<input type="text" placeholder="e.g. BRCC3, 05BR003, kinase" id="search-term" title="Enter a Gene symbol or Case ID" 
 			matInput [formControl]="searchFormControl" [matAutocomplete]="auto" 
 			[(ngModel)]="selectedSearchTerm" (ngModelChange)="openSearchTermSummary(option)" style="background:rgb(250, 250, 250); border-radius: 2px; width:60%; float: right">
 			<mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFunc">
 				<mat-option *ngFor="let option of filteredOptions | async" [value]="option" style="height:55px; line-height:18px;" [innerHtml]="option.name | searchStyle: selectedSearchTerm"></mat-option>
 			</mat-autocomplete>
+		</span>
 		<i class="fas fa-search" style="float:right;font-size: 2em; color: lightgrey;">&nbsp;</i>
 		<!-- end of PDC-428 modifications -->
 	  </div>
 	</span>
 	</mat-toolbar-row>
 </mat-toolbar>
-
+<mat-toolbar style="min-height: 0px;">
+	<mat-toolbar-row class="toolbar-row-button" style="height: 21px;">
+		<span style="position: absolute;" id="searchTermLabel">
+			<label for="search-term" style="vertical-align: text-bottom;line-height: initial;font-size: 12px;font-weight:bolder">Search by Gene or Case ID</label>
+		</span>	
+	</mat-toolbar-row>
+</mat-toolbar>
 <div *ngIf='navDisplayFlag'>
   <mat-toolbar class="toolbar-row">
 	<mat-toolbar-row >

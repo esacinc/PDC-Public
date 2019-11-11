@@ -1,3 +1,4 @@
+//@@@PDC-1093 change data type of is_ffpe from int to string
 const Sample = `
 type Sample {
 	sample_id: String
@@ -15,7 +16,7 @@ type Sample {
 	freezing_method: String
 	initial_weight: Float 
 	intermediate_dimension: String
-	is_ffpe: Int
+	is_ffpe: String
 	longest_dimension: String
 	method_of_sample_procurement: String
 	oct_embedded: String

@@ -1,5 +1,5 @@
 <title>CASE SUMMARY</title>
-<button mat-icon-button style="float: right; flex: 0 0 auto;" (click)="close()">
+<button mat-icon-button style="float: right; flex: 0 0 auto;" (click)="close()" aria-label="Close">
     <fa name="times" style="light"></fa>
 </button>
 
@@ -20,7 +20,7 @@
 					<tr><td class="summary-card-name-left-cell">Source Case ID</td><td class="summary-card-value-left-cell">{{case_submitter_id}}</td>
 						<td class="summary-card-name-right-cell">Program</td><td class="summary-card-value-right-cell">{{caseSummaryData.program_name}}</td>
 					</tr>
-					<tr><td class="summary-card-name-left-cell">Project</td><td class="summary-card-value-left-cell"><a href="javascript:void(0)">{{caseSummaryData.project_name}}</a></td>
+					<tr><td class="summary-card-name-left-cell">Project</td><td class="summary-card-value-left-cell"><a target="_blank" href= "/pdc/browse/filters/project_name:{{caseSummaryData.project_name}}">{{caseSummaryData.project_name}}</a></td>
 						<td class="summary-card-name-right-cell">Primary Site</td><td class="summary-card-value-right-cell">{{caseSummaryData.primary_site}}</td>
 					</tr>
 				</table>
@@ -52,7 +52,7 @@
 				<table style="max-height:200px;overflow-y: auto;display: block!important;font-size: 12px; width: 100%; padding-top: 10px" id="caseSummaryDiagnosis">
 					<div *ngFor="let diagnosis of diagnoses">
 						<tr style="padding-top: 10px"><td class="summary-card-name-left-cell">Age at Diagnosis</td>
-							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.age_at_diagnosis)">{{diagnosis.age_at_diagnosis}}</td>
+							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.age_at_diagnosis)">{{diagnosis.age_at_diagnosis}} {{diagnosis.age_at_diagnosis > 1 ? 'days' : 'day'}}</td>
 							<td class="summary-card-name-right-cell">Morphology</td>
 							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.morphology)">{{diagnosis.morphology}}</td>
 						</tr>
@@ -210,7 +210,7 @@
 					<div *ngFor="let diagnosis of diagnoses">
 						<tr style="padding-top: 10px">
 							<td class="summary-card-name-left-cell">Age at Diagnosis</td>
-							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.age_at_diagnosis)">{{diagnosis.age_at_diagnosis}}</td>
+							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.age_at_diagnosis)">{{diagnosis.age_at_diagnosis}} {{diagnosis.age_at_diagnosis > 1 ? 'days' : 'day'}}</td>
 							<td class="summary-card-name-right-cell">Morphology</td>
 							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.morphology)">{{diagnosis.morphology}}</td>
 						</tr>
@@ -277,7 +277,7 @@
 						<tbody>
 							<tr style="font-size: 12px;" *ngFor="let categoryDetails of dataCategoryFileCount">
 								<td style="width:50%;word-wrap: break-word;white-space: normal;">{{categoryDetails.data_category}} ({{categoryDetails.file_type}})</td>
-								<td style="width:50%;word-wrap: break-word;white-space: normal;"><a target="_blank" href= "/pdc/browse/filters/data_category:{{categoryDetails.data_category}}&file_type:{{categoryDetails.file_type}}&selectedTab:3">{{categoryDetails.files_count}}</a></td>
+								<td style="width:50%;word-wrap: break-word;white-space: normal;"><a target="_blank" href= "/pdc/browse/filters/study_name:{{categoryDetails.submitter_id_name}}&data_category:{{categoryDetails.data_category}}&file_type:{{categoryDetails.file_type}}&selectedTab:3">{{categoryDetails.files_count}}</a></td>
 							</tr>
 						</tbody>
 					</table>
@@ -298,12 +298,12 @@
 				</div>
 				<table  style="font-size: 12px; width: 100%; padding-top: 10px" id="biospecimenSummTable">
 					<div *ngFor="let sample of samples">
-						<tr style="padding-top: 10px"><td class="tab-table-field-name">GDC Sample ID</td><td class="tab-table-field-value">{{sample.gdc_sample_id}}</td></tr>
+						<!--<tr style="padding-top: 10px"><td class="tab-table-field-name">GDC Sample ID</td><td class="tab-table-field-value">{{sample.gdc_sample_id}}</td></tr>-->
 						<tr><td class="tab-table-field-name">Sample Submitter ID</td><td class="tab-table-field-value">{{sample.sample_submitter_id}}</td></tr>
-						<tr><td class="tab-table-field-name">GDC Project ID</td><td class="tab-table-field-value">{{sample.gdc_project_id}}</td></tr>
+						<!--<tr><td class="tab-table-field-name">GDC Project ID</td><td class="tab-table-field-value">{{sample.gdc_project_id}}</td></tr>-->
 						<tr><td class="tab-table-field-name">Sample Type</td><td class="tab-table-field-value">{{sample.sample_type}}</td></tr>
 						<tr><td class="tab-table-field-name">Biospecimen Anatomic Site</td><td class="tab-table-field-value">{{sample.biospecimen_anatomic_site}}</td></tr>
-						<tr><td class="tab-table-field-name">Sample Type</td><td class="tab-table-field-value">{{sample.sample_type}}</td></tr>
+						<!--<tr><td class="tab-table-field-name">Sample Type</td><td class="tab-table-field-value">{{sample.sample_type}}</td></tr>-->
 						<tr><td class="tab-table-field-name">Composition</td><td class="tab-table-field-value">{{sample.composition}}</td></tr>
 						<tr><td class="tab-table-field-name">Current Weight</td><td class="tab-table-field-value">{{sample.current_weight}}</td></tr>
 						<tr><td class="tab-table-field-name">Days to Collection</td><td class="tab-table-field-value">{{sample.days_to_collection}}</td></tr>

@@ -53,9 +53,10 @@ constructor(private apollo: Apollo) {
       ); 
 	}
 		
+    //@@@PDC-1123 call ui wrapper API
 	caseDataDetailedQuery = gql`
 				query FilteredStudiesData($case_submitter_id: String!){
-					  case(case_submitter_id: $case_submitter_id) {
+					  uiCaseSummary(case_submitter_id: $case_submitter_id) {
 						  case_id
 						  case_submitter_id
 						  project_submitter_id
@@ -221,6 +222,7 @@ constructor(private apollo: Apollo) {
 				query DataCategoryFileByCaseCountQuery($case_submitter_id_filter: String!){
 				  uiDataCategoryFileCount (case_submitter_id: $case_submitter_id_filter) {
 					file_type
+					submitter_id_name
 					data_category
 					files_count
 				}

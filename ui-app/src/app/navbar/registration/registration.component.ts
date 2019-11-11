@@ -194,9 +194,9 @@ export class RegistrationComponent implements OnInit {
               this.userService.getUserIDType() === "PDC" &&
               this.userService.getIsRegistered() === 0
             ) {
-              alert("User registered successfully, waiting for email confirmation.");
+              alert("Thank you for registering with PDC. You will receive a message to confirm your registration at the email address provided. Once confirmed, you should be able to login with your email id password.");
               console.log(
-                "User registered successfully, waiting for email confirmation."
+                "Thank you for registering with PDC. You will receive a message to confirm your registration at the email address provided. Once confirmed, you should be able to login with your email id password."
               );
               this.router.navigate(["pdc"]);
             } else {

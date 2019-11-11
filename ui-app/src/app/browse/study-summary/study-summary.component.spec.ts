@@ -13,9 +13,16 @@ import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { StudySummaryComponent } from "./study-summary.component";
+import { MatDialog } from '@angular/material/dialog';
 
 class MockStudySummaryOverlayService {
   open() {}
+}
+
+class MockDialog {
+  open(): any {
+    return { afterClosed: () => of("closed") };
+  }
 }
 
 class MockStudySummaryService {
@@ -106,8 +113,9 @@ class MockStudySummaryService {
   }
 
   getWorkflowMetadata(): Observable<any> {
-    return of({
-      workflowMetadata: [
+	//@@@PDC-1123 call ui wrapper API    
+	return of({
+      uiWorkflowMetadata: [
         {
           workflow_metadata_submitter_id: "TCGA_Breast_Cancer_Proteome",
           study_submitter_id: "S015-1",
@@ -201,8 +209,9 @@ class MockStudySummaryService {
   }
 
   getFilesCounts(): Observable<any> {
-    return of({
-      filesCountPerStudy: [
+	//@@@PDC-1123 call ui wrapper API
+	return of({
+      uiFilesCountPerStudy: [
         {
           study_submitter_id: "ST25730263",
           file_type: "RAW",
@@ -214,6 +223,71 @@ class MockStudySummaryService {
           files_count: 38
         }
       ]
+    });
+  }
+
+  getFilteredClinicalDataPaginated(): Observable<any> {
+    return of({
+      getPaginatedUIClinical: {
+        total: 369,
+        uiClinical: [
+          {
+            case_id: "cae72878-63d6-11e8-bcf1-0a2705229b82",
+            case_submitter_id: "14CO003",
+            external_case_id: null,
+            ethnicity: "not hispanic or latino",
+            gender: "female",
+            race: "white",
+            morphology: "not reported",
+            primary_diagnosis: "Colon Adenocarcinoma",
+            site_of_resection_or_biopsy: "not reported",
+            tissue_or_organ_of_origin: "Colon",
+            tumor_grade: "not reported",
+            tumor_stage: "Stage IIIB"
+          }
+        ],
+        pagination: {
+          count: 10,
+          sort: "",
+          from: 0,
+          page: 1,
+          total: 369,
+          pages: 37,
+          size: 10
+        }
+      }
+    });
+  }
+  
+  getFilteredCasesPaginated(): Observable<any> {
+    return of({
+      getPaginatedUICase: {
+        total: 1038,
+        uiCases: [
+          {
+            aliquot_id: "2de529de-6427-11e8-bcf1-0a2705229b82",
+            sample_id: "25567fdb-641d-11e8-bcf1-0a2705229b82",
+            case_id: "cae72878-63d6-11e8-bcf1-0a2705229b82",
+            aliquot_submitter_id: "fd4edc52-09ef-4b01-be7c-f23f05_D2",
+            sample_submitter_id: "fd4edc52-09ef-4b01-be7c-f23f05",
+            case_submitter_id: "14CO003",
+            program_name: "Clinical Proteomic Tumor Analysis Consortium",
+            project_name: "CPTAC-Confirmatory",
+            sample_type: "Primary Tumor",
+            disease_type: "Colon Adenocarcinoma",
+            primary_site: "Colon"
+          }
+        ],
+        pagination: {
+          count: 10,
+          sort: "",
+          from: 0,
+          page: 1,
+          total: 1038,
+          pages: 104,
+          size: 10
+        }
+      }
     });
   }
 }
@@ -252,7 +326,8 @@ describe("StudySummaryComponent", () => {
                 project_name: ""
               }
             }
-          }
+          },
+          { provide: MatDialog, useClass: MockDialog }
         ]
       }
     });

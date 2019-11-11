@@ -70,9 +70,10 @@ describe("WorkflowManagerComponent", () => {
     expect(component.workflowEnabled()).toBeTruthy();
   });
 
+    //@@@PDC-1123 call ui wrapper API
   it("test ngOnInit", () => {
     let queryResults = {
-      getFileMetadata: [
+      uiFileMetadata: [
         {
           file_name: "0013936b-5a56-466f-8844-237d46e60a1f.raw",
           analyte: "Protein",

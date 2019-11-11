@@ -183,16 +183,5 @@ constructor(private apollo: Apollo) {
 				return result.data;})
 		); 
 	}
-	
-    private extractData(res: Response){
-	    console.log('extract data');
-	    console.log(res);
-	    let body = res.json();
-	    return body || {};
-    }
   
-    private handleError(error: any): Promise<any> {
-	    console.error('An error occured', error);
-	    return Promise.reject(error.message || error);
-    }
 }

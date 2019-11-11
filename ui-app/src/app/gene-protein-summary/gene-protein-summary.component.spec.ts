@@ -13,9 +13,10 @@ import { NO_ERRORS_SCHEMA } from "@angular/core";
 
 class MockGeneProteinSummaryService {
 
+  //@@@PDC-1123 call ui wrapper API
   getGeneDetails(gene_id: string): Observable<any> {
     return of({
-      geneSpectralCount:{}
+      uiGeneSpectralCount:{}
     });
   }
 

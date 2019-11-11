@@ -96,9 +96,10 @@ export class GeneProteinSummaryComponent implements OnInit {
   
   getGeneSummaryData(){
 	  this.loadingGeneSummary = true;
+    //@@@PDC-1123 call ui wrapper API
 	  setTimeout(() => {
 		  this.geneProteinSummaryService.getGeneDetails(this.gene_id).subscribe((data: any) =>{
-			this.geneSummaryData = data.geneSpectralCount;
+			this.geneSummaryData = data.uiGeneSpectralCount;
 			this.loadingGeneSummary = false;
 		  });
 	  }, 1000);

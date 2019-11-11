@@ -34,9 +34,9 @@ export type Disease = {
 	project_submitter_id: string;
 	cases_count: number;
 }
-
+//@@@PDC-1123 add ui wrappers public APIs
 export type QueryDiseases = {
-	diseasesAvailable: Disease[];
+	uiDiseasesAvailable: Disease[];
 }
 
 export type Study = {
@@ -65,9 +65,9 @@ export type Program = {
     program_manager: string;
     projects: Project[];
 }
-
+//@@@PDC-1123 add ui wrappers public APIs
 export type QueryPrograms = {
-	allPrograms: Program[];
+	uiAllPrograms: Program[];
 }
 
 export type Case = {
@@ -328,7 +328,7 @@ export type ProtocolData = {
 	chromatography_dimensions_count: string;
 	one_d_chromatography_type: string;
 	two_d_chromatography_type: string;
-	fractions_anatyzed_count: string;
+	fractions_analyzed_count: string;
 	column_type: string;
 	amount_on_column: string;
 	amount_on_column_uom: string;
@@ -731,4 +731,9 @@ export type ptmDataPaginated = {
 	total: number;
 	uiPtm: ptmData[];
 	pagination: Pagination;
+}
+
+export type HumanbodyImageData = {
+	primary_site: string;
+	cases_count: number;
 }

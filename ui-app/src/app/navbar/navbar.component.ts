@@ -43,6 +43,7 @@ import { environment } from '../../environments/environment';
 //@@@PDC-880 - allow open case details overlay window using URL (with auxiliary path)
 //@@@PDC-966 - finish forgot password feature
 //@@@PDC-995: Case view creates two pop-ups
+//@@@PDC-1153: Direct linking to case summary has broken
 export class NavbarComponent implements OnInit {
   background = '';
   searchFormControl = new FormControl();
@@ -88,6 +89,7 @@ export class NavbarComponent implements OnInit {
     return this.sanitizer.bypassSecurityTrustUrl(this.submission_portal_docs_url);
   }
    //Callback function that is called when the user clicks "search" icon to open the window with the search term summary
+  //@@@PDC-1082 Add validation on search text user put in search bar.
   openSearchTermSummary(test:any){
 	  console.log(this.selectedSearchTerm);
 	  this.searchButtonFlag = true;
@@ -97,19 +99,19 @@ export class NavbarComponent implements OnInit {
 			  //Display value looks like this: GN: <gene name> (<gene description>)
 			  //We need to extract only the gene name, that is why another split is needed
 			  let gene_term = term[1].split(' (');
-			  this.showGeneProteinSummary(gene_term[0]);
+			  this.showGeneProteinSummary(gene_term[0].replace(/[^a-zA-Z0-9-]/g, ''));
 			  this.searchButtonFlag = false;
 		  }
 		  if (term[0] === 'PT'){
-			  this.showGeneProteinSummary(term[1]);
+			  this.showGeneProteinSummary(term[1].replace(/[^a-zA-Z0-9-]/g, ''));
 			  this.searchButtonFlag = false;
 		  }
 		  if (term[0] === 'CA') {
-			  this.showCaseSummary(term[1]);
+			  this.showCaseSummary(term[1].replace(/[^a-zA-Z0-9-]/g, ''));
 			  this.searchButtonFlag = true;
 		  }
 		  if (term[0] === 'ST'){
-			  this.showStudySummary(term[1]);
+			  this.showStudySummary(term[1].replace(/[^a-zA-Z0-9-]/g, ''));
 			  this.searchButtonFlag = true;
 		  }
 	  }
@@ -341,13 +343,13 @@ export class NavbarComponent implements OnInit {
 					}
 					//Open case summary overlay window from url when auxiliary path is provided
 					//@@@PDC-995: Case view creates two pop-ups
-					//Case summary popup is already opened from Browse & Navbar components and 
-					//this code is not required as its opening a dupliate window. 
-					//Commenting this code for future reference.
-					/* if (event.snapshot.outlet == "caseSummary" && event.snapshot.params["case_id"] != "" ){
+					//@@@PDC-1153: Direct linking to case summary has broken
+					//event.snapshot.fragment is undefined if the case summary page is opened from search bar/by clicking from Case ID
+					//Execute the below code only if the case summary page is opened through direct linking.
+					if (event.snapshot.outlet == "caseSummary" && event.snapshot.params["case_id"] != "" && event.snapshot.fragment !== undefined){
 						var case_id = event.snapshot.params["case_id"];
 						this.showCaseSummary(case_id);
-					}*/
+					}
 					//Reset password option
 					if (event.snapshot.params["uuid"] != "" && event.snapshot.url.length > 0 && event.snapshot.url[0].path === "reset-password"){
 						console.log("User " + event.snapshot.params["uuid"] + " wants to reset password");
@@ -387,8 +389,10 @@ export class NavbarComponent implements OnInit {
   }
   
   //This function returns filled out options list which will populate search autcomplete dropdown list
+  //@@@PDC-1082 Add validation on search text user put in search bar.
   private _filter(value: string): string[] {
 	  //console.log(value);
+	  value = value.replace(/[^a-zA-Z0-9-]/g, '');
 	  const filterValue = value.toLowerCase();
 	  this.options = [];
 	  this.searchGeneTerms(value);

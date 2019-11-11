@@ -104,6 +104,8 @@ const defineUiModels = (db) => {
 	//@@@PDC-337 add program name 
 	//@@@PDC-462 add submitter ids
 	//@@@PDC-893 add aliquot, case and sample statuses
+	//@@@PDC-1127 add pool and taxon
+	//@@@PDC-1156 add is_ref
 	/**
 	* ModelUICase is used in uiCase query.
 	*/
@@ -112,6 +114,7 @@ const defineUiModels = (db) => {
 		sample_id:  { type: Sequelize.STRING},
 		case_id:  { type: Sequelize.STRING},
 		aliquot_submitter_id: { type: Sequelize.STRING},
+		aliquot_is_ref: { type: Sequelize.STRING },
 		aliquot_status:  { type: Sequelize.STRING},
 		case_status:  { type: Sequelize.STRING},
 		sample_status:  { type: Sequelize.STRING},
@@ -122,6 +125,8 @@ const defineUiModels = (db) => {
 		disease_type:  { type: Sequelize.STRING},
 		primary_site:  { type: Sequelize.STRING},
 		sample_type:  { type: Sequelize.STRING},
+		pool:  { type: Sequelize.STRING},
+		taxon:  { type: Sequelize.STRING},
 	}, {
 		timestamps: false,
 		underscored: true,
@@ -135,6 +140,7 @@ const defineUiModels = (db) => {
 	//@@@PDC-759 add case summary fields
 	//@@@PDC-893 add case status			
 	//@@@PDC-1011 replace gdc_case_id with external_case_id
+	//@@@PDC-1234 add imaging_resource
 	/**
 	* ModelUIClinical is used in uiClinical query.
 	*/
@@ -145,6 +151,7 @@ const defineUiModels = (db) => {
 		disease_type:  { type: Sequelize.STRING},
 		primary_site:  { type: Sequelize.STRING},
 		external_case_id: { type: Sequelize.STRING},
+		imaging_resource: { type: Sequelize.STRING},
 		program_name:  { type: Sequelize.STRING},
 		project_name:  { type: Sequelize.STRING},
 		ethnicity: { type: Sequelize.STRING},
@@ -208,6 +215,7 @@ const defineUiModels = (db) => {
 	
 	//@@@PDC-220 UI experiment type case count API
 	//@@@PDC-265 API for UI analytical_fraction case count 
+	//@@@PDC-1220 add uiPrimarySiteCaseCount	
 	/**
 	* ModelUIExperiment is used in uiExperimentBar query.
 	*/
@@ -215,6 +223,7 @@ const defineUiModels = (db) => {
 		experiment_type: { type: Sequelize.STRING},
 		disease_type:  { type: Sequelize.STRING},
 		analytical_fraction: { type: Sequelize.STRING},
+		primary_site: { type: Sequelize.STRING},
 		cases_count:  { type: Sequelize.INTEGER},
 	}, {
 		timestamps: false,

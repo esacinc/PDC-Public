@@ -62,6 +62,8 @@ const pdcuiBrowsePageChart = new Map();
 pdcuiBrowsePageChart.set('AnalyticalFraction','PDCUI:BrowsePage:Chart:AnalyticalFraction:');
 pdcuiBrowsePageChart.set('ExperimentBar','PDCUI:BrowsePage:Chart:ExperimentBar:');
 pdcuiBrowsePageChart.set('ExperimentPie','PDCUI:BrowsePage:Chart:ExperimentPie:');
+//@@@PDC-1220 add human body image
+pdcuiBrowsePageChart.set('HumanBody','PDCUI:BrowsePage:Chart:HumanBody:');
 
 const pdcuiSummaryPageGeneSummary = new Map();
 pdcuiSummaryPageGeneSummary.set('AliquotSpectralCount','PDCUI:SummaryPage:GeneSummaryPaginatedData:AliquotSpectralCount:');

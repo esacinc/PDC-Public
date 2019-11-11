@@ -184,6 +184,7 @@ export class BrowseByFileComponent implements OnInit {
   //@@@PDC-918: Add button to allow download of full file manifest
   changeHeaderCheckbox($event) {
     let checkboxVal = this.selectedHeaderCheckbox;
+    this.selectedFiles = this.currentPageSelectedFile = [];
     switch (checkboxVal) {
       case 'Select all pages': 
             this.fileExportCompleteManifest();
@@ -768,6 +769,7 @@ export class BrowseByFileComponent implements OnInit {
 
     var casePerFileInfo;
     //getControlledFilesDetails API accepts upto 135 control file IDs per request. Else it throws URI Too Long error
+	//@@@PDC-1123 call ui wrapper API
     if (controlledFilesIds.length > 130) {
         var chunkSize = 130;
         for (var i=0,len=controlledFilesIds.length; i<len; i+=chunkSize) {
@@ -776,14 +778,14 @@ export class BrowseByFileComponent implements OnInit {
             let tempDetails = await this.browseByFileService.getControlledFilesDetails(
                 tempArray.join(";")
             );
-            let tempCaseRecs = _.values(tempDetails["data"]["casePerFile"]);
+            let tempCaseRecs = _.values(tempDetails["data"]["uiCasePerFile"]);
             casePerFileInfo = _.concat(tempCaseRecs, casePerFileInfo);
         }
     } else {
         let filesDetails = await this.browseByFileService.getControlledFilesDetails(
             controlledFilesIds.join(";")
         );
-        casePerFileInfo = filesDetails["data"]["casePerFile"];
+        casePerFileInfo = filesDetails["data"]["uiCasePerFile"];
     }
 
     const filesMap = new Map();

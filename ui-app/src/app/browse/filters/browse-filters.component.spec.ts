@@ -18,8 +18,9 @@ class MockBrowseFiltersService {
   }
 
   getStudyUUID2NameMapping(): Observable<any> {
+    //@@@PDC-1123 call ui wrapper API
     return of({
-      programsProjectsStudies: [
+      uiProgramsProjectsStudies: [
         {
           program_id: "10251935-5540-11e8-b664-00a098d917f8",
           program_submitter_id: "CPTAC",

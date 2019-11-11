@@ -60,6 +60,7 @@ describe("BrowseByClinicalService", () => {
               {
                 case_submitter_id: "CA25730263-1",
                 external_case_id: null,
+                imaging_resource: null,
                 ethnicity: "Not Received",
                 gender: "Female",
                 race: "not reported",
@@ -79,6 +80,7 @@ describe("BrowseByClinicalService", () => {
               {
                 case_submitter_id: "CA25730263-2",
                 external_case_id: null,
+                imaging_resource: null,
                 ethnicity: "Not Received",
                 gender: "Female",
                 race: "not reported",

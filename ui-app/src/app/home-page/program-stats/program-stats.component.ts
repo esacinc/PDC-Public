@@ -27,13 +27,14 @@ export class ProgramStatsComponent implements OnInit {
   // @@@PDC-210
   getAllProgramsData() {
     this.frontPageService.getPortalStats().subscribe((data: any) => {
-      this.programsCounter = data.pdcDataStats[0].program;
-      this.projectsCounter = data.pdcDataStats[0].project;
-      this.filesCounter = data.pdcDataStats[0].data_file;
-      this.dataSize = data.pdcDataStats[0].data_size;
-      this.spectraCounter = data.pdcDataStats[0].spectra;
-      this.peptideCounter = data.pdcDataStats[0].peptide;
-      this.proteinCounter = data.pdcDataStats[0].protein;
+    //@@@PDC-1123 call ui wrapper API
+      this.programsCounter = data.uiPdcDataStats[0].program;
+      this.projectsCounter = data.uiPdcDataStats[0].project;
+      this.filesCounter = data.uiPdcDataStats[0].data_file;
+      this.dataSize = data.uiPdcDataStats[0].data_size;
+      this.spectraCounter = data.uiPdcDataStats[0].spectra;
+      this.peptideCounter = data.uiPdcDataStats[0].peptide;
+      this.proteinCounter = data.uiPdcDataStats[0].protein;
     });
 
   }

@@ -44,7 +44,11 @@
             <button *ngIf="breadcrumbs.length > 1 && i < breadcrumbs.length-1" class="btn btn-primary breadCrumbButtons" disabled="true"> AND </button> &nbsp;
           </span>
       </div>
-      <div class="" style="padding-left:10px; padding-right:15px; ">  
+      <div class="browsePageExpansionPanel" style="padding-left:10px; padding-right:15px; ">  
+        <mat-expansion-panel [expanded]="true">
+            <mat-expansion-panel-header>
+                <mat-panel-title>Charts</mat-panel-title>
+              </mat-expansion-panel-header>
            <mat-card class="browse-page card" style="padding-left:0px; padding-top:0px!important;">
               <div class="row">
                 <div class="col-md-4" style="padding-top:0px; padding-right: 20px">
@@ -67,10 +71,11 @@
                 </div>
               </div>
             </mat-card>
+          </mat-expansion-panel>
       </div>
       <div style="margin-left: 10px;margin-top: 10px;" *ngIf="controlFileDownloadSpinner == true"><i class="fa fa-spinner fa-spin" style="font-size:24px"></i>&nbsp;&nbsp;&nbsp;File Download in progress. Please wait... </div>
           <!-- <mat-card class="mat-card" style="padding-top: 3px; padding-left:8px; padding-right:12px; overflow-x: hidden;"> -->
-        <mat-tab-group [selectedIndex]="selectedTab" (selectedTabChange)="selectedTabChange($event)" style="padding-left: 10px; padding-right: 10px; overflow-x:hidden; display:table">
+        <mat-tab-group [selectedIndex]="selectedTab" (selectedTabChange)="selectedTabChange($event)" style="padding-left: 10px; padding-right: 10px; padding-top: 10px; overflow-x:hidden; display:table">
 		    <mat-tab label="{{studyTotalRecords > 1 ? 'Studies ('+studyTotalRecords + ')' : 'Study ('+studyTotalRecords + ')'  }}">
               <div style="padding-left:0px; margin-left: 15px; margin-right: 10px">
 					      <browse-by-study (isTableLoading)="handleTabLoading($event)" [handleTableLoading]="handleTableLoading" [enableDownloadAllManifests]="enableDownloadAllManifests" [newFilterValue]="newFilterValue" (studyTotalRecordChanged)="totalRecordChanged($event)" (selectedTabChangeForCaseCount)="changeTabForCaseCount($event)" (selectedTabChangeForFileType)="changeTabForFileType($event)" (downloadWholeManifestFlag)="downloadWholeManifest($event)" [downloadAllManifests]="downloadAllManifests">Starting browse by study...</browse-by-study>

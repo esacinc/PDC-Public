@@ -80,3 +80,11 @@
   margin-bottom: 10px;
   padding: 3px;
 }
+
+/deep/ .mat-expansion-indicator {
+  margin-left: 1%;
+}
+
+/deep/ #browsePageExpansionPanel .mat-expansion-panel-header {
+  height: 36px !important;
+}

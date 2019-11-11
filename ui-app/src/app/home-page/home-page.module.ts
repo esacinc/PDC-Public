@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { CheckboxModule } from 'primeng/checkbox';
 import { TableModule } from 'primeng/table';
 import { ProgramStatsComponent } from './program-stats/program-stats.component';
+import { HumanBodyChartComponent } from './front-page/human-body-chart/human-body-chart.component';
 import { MatToolbarModule, MatCardModule, MatGridListModule, MatListModule, MatIconModule, MatTooltipModule } from '@angular/material';
 @NgModule({
   providers: [
@@ -25,6 +26,6 @@ import { MatToolbarModule, MatCardModule, MatGridListModule, MatListModule, MatI
     MatIconModule,
     MatTooltipModule
   ],
-  declarations: [FrontPageComponent, ProgramStatsComponent]
+  declarations: [FrontPageComponent, ProgramStatsComponent, HumanBodyChartComponent]
 })
 export class HomePageModule { }

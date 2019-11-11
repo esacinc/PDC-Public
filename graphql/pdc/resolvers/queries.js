@@ -15,7 +15,45 @@ export const resolvers = {
 	//@@@PDC-312 restructure resolver code 
 	//@@@PDC-952 remove hard-coded schema name
     //@@@PDC-1011 replace gdc_case_id with external_case_id
+    //@@@PDC-1073 use db.getSequelize instead of db when get fn or col
+	//@@@PDC-1123 add ui wrappers public APIs
 	Query: {
+		uiFileMetadata(_, args, context) {
+			return resolvers.Query.fileMetadata(_, args, context);
+		},			
+		uiCaseSummary(_, args, context) {
+			return resolvers.Query.case(_, args, context);
+		},			
+		uiCasePerFile(_, args, context) {
+			return resolvers.Query.casePerFile(_, args, context);
+		},			
+		uiAllPrograms(_, args, context) {
+			return resolvers.Query.allPrograms(_, args, context);
+		},			
+		uiFilesCountPerStudy(_, args, context) {
+			return resolvers.Query.filesCountPerStudy(_, args, context);
+		},			
+		uiGeneSpectralCount(_, args, context) {
+			return resolvers.Query.geneSpectralCount(_, args, context);
+		},			
+		uiProtein(_, args, context) {
+			return resolvers.Query.protein(_, args, context);
+		},			
+		uiDiseasesAvailable(_, args, context) {
+			return resolvers.Query.diseasesAvailable(_, args, context);
+		},			
+		uiTissueSitesAvailable(_, args, context) {
+			return resolvers.Query.tissueSitesAvailable(_, args, context);
+		},			
+		uiPdcDataStats(_, args, context) {
+			return resolvers.Query.pdcDataStats(_, args, context);
+		},			
+		uiWorkflowMetadata(_, args, context) {
+			return resolvers.Query.workflowMetadata(_, args, context);
+		},			
+		uiProgramsProjectsStudies(_, args, context) {
+			return resolvers.Query.programsProjectsStudies(_, args, context);
+		},			
 		//@@@PDC-768 clinical metadata API
 		clinicalMetadata(_, args, context) {
 			var cmQuery = "SELECT a.aliquot_submitter_id, d.primary_diagnosis, d.tumor_stage, d.tumor_grade, d.morphology "+
@@ -60,7 +98,7 @@ export const resolvers = {
 				}
 				else {
 					return db.getModelByName('Diagnosis').findAll({
-					attributes: ['project_submitter_id', 'tissue_or_organ_of_origin', [db.fn('COUNT', db.col('case_id')), 'cases_count']],
+					attributes: ['project_submitter_id', 'tissue_or_organ_of_origin', [db.getSequelize().fn('COUNT', db.getSequelize().col('case_id')), 'cases_count']],
 					group: ['project_submitter_id', 'tissue_or_organ_of_origin'],
 					where: args
 					});					
@@ -68,7 +106,7 @@ export const resolvers = {
 			}
 			else if (typeof args.tissue_or_organ_of_origin != 'undefined') {
 				return db.getModelByName('Diagnosis').findAll({
-				attributes: ['project_submitter_id', 'tissue_or_organ_of_origin', [db.fn('COUNT', db.col('case_id')), 'cases_count']],
+				attributes: ['project_submitter_id', 'tissue_or_organ_of_origin', [db.getSequelize().fn('COUNT', db.getSequelize().col('case_id')), 'cases_count']],
 				group: ['project_submitter_id', 'tissue_or_organ_of_origin'],
 				where: {
 					tissue_or_organ_of_origin: args.tissue_or_organ_of_origin,
@@ -80,7 +118,7 @@ export const resolvers = {
 			}
 			else {
 				return db.getModelByName('Diagnosis').findAll({
-				attributes: ['project_submitter_id', 'tissue_or_organ_of_origin', [db.fn('COUNT', db.col('case_id')), 'cases_count']],
+				attributes: ['project_submitter_id', 'tissue_or_organ_of_origin', [db.getSequelize().fn('COUNT', db.getSequelize().col('case_id')), 'cases_count']],
 				group: ['project_submitter_id', 'tissue_or_organ_of_origin'],
 				where: {
 					project_submitter_id: {
@@ -203,7 +241,7 @@ export const resolvers = {
 						  include: [{
 								model: db.getModelByName('ModelCase'),
 								required: true,
-								attributes: ['disease_type', [db.fn('COUNT', db.col('cases.case_id')), 'count']]
+								attributes: ['disease_type', [db.getSequelize().fn('COUNT', db.getSequelize().col('cases.case_id')), 'count']]
 							}
 							]
 					  });
@@ -221,7 +259,7 @@ export const resolvers = {
 						  include: [{
 								model: db.getModelByName('ModelCase'),
 								required: true,
-								attributes: ['disease_type', [db.fn('COUNT', db.col('cases.case_id')), 'count']]
+								attributes: ['disease_type', [db.getSequelize().fn('COUNT', db.getSequelize().col('cases.case_id')), 'count']]
 							}
 							]
 					  });				
@@ -285,7 +323,6 @@ export const resolvers = {
 
 			return db.getSequelize().query(fileQuery, { model: db.getModelByName('ModelCaseFile') });
 		},
-		
 		/**
 		* allCases gets all cases
 		*
@@ -766,13 +803,14 @@ export const resolvers = {
 		*/
 		async uiProtocol (_, args, context) {
 			//@@@PDC-652 new protocol structure
+			//@@@PDC-1154 column name correction: fractions_analyzed_count
 			var protoQuery = "SELECT distinct bin_to_uuid(prot.protocol_id) as protocol_id, "+
 			"prot.protocol_submitter_id, prot.experiment_type, protocol_name, "+ "protocol_date, document_name, quantitation_strategy, "+
 			"label_free_quantitation, labeled_quantitation,  isobaric_labeling_reagent, "+ 
 			"reporter_ion_ms_level, starting_amount, starting_amount_uom, "+ "digestion_reagent, alkylation_reagent, enrichment_strategy, enrichment, "+ 
 			"chromatography_dimensions_count, 1d_chromatography_type as one_d_chromatography_type, "+ 
 			"2d_chromatography_type as two_d_chromatography_type, "+ 
-			"fractions_anatyzed_count, column_type, amount_on_column, "+
+			"fractions_analyzed_count, column_type, amount_on_column, "+
 			"amount_on_column_uom, column_length, column_length_uom, "+
 			"column_inner_diameter, column_inner_diameter_uom, particle_size, "+
 			"particle_size_uom, particle_type, gradient_length, "+
@@ -1018,12 +1056,15 @@ export const resolvers = {
 			//var uiClinicalCountQuery = "select count(distinct c.case_id, dem.ethnicity, "+
 			//"dem.gender, dem.race, dia.morphology, dia.primary_diagnosis, dia.site_of_resection_or_biopsy, "+
 			//"dia.tissue_or_organ_of_origin, dia.tumor_grade, dia.tumor_stage) as total";
-			var uiClinicalCountQuery = "select count(distinct c.case_id) as total";
+			//@@@PDC-1227 handle multi diagnoses per case
+			var uiClinicalCountQuery = "select count(distinct dia.diagnosis_id) as total";
 			//@@@PDC-462 add submitter ids
 			//@@@PDC-759 add case summary fields
 			//@@@PDC-893 add case status
-			var uiClinicalBaseQuery = "select distinct bin_to_uuid(c.case_id) as case_id, "+
-			"c.case_submitter_id, c.external_case_id, c.status, c.disease_type, "+
+			//@@@PDC-1234 add imaging_resource
+			var uiClinicalBaseQuery = "select distinct dia.diagnosis_id, bin_to_uuid(c.case_id) as case_id, "+
+			"c.case_submitter_id, c.external_case_id, c.imaging_resource, "+
+			"c.status, c.disease_type, "+
 			" c.primary_site, dem.ethnicity, prog.name as program_name, proj.name as project_name, "+
 			"dem.gender, dem.race, dia.morphology, dia.primary_diagnosis, dia.site_of_resection_or_biopsy, "+
 			"dia.tissue_or_organ_of_origin, dia.tumor_grade, dia.tumor_stage";
@@ -1183,6 +1224,7 @@ export const resolvers = {
 
 			var uiGeneStudyFilterQuery1 = " sc.study_id IN (uuid_to_bin('" + listStudy.join("'),uuid_to_bin('") + "')) ";
 
+
 			var uiGeneBaseQuery = `
 				SELECT ge.gene_name, ge.gene_id, ge.chromosome, ge.locus, sc.num_study, ge.proteins FROM gene AS ge, 
 				(select sc.gene_id as gene_id, count(distinct sc.study_id) as num_study from spectral_count sc where ${uiGeneStudyFilterQuery1} group by gene_id) AS sc 	
@@ -1194,6 +1236,8 @@ export const resolvers = {
 				geneNameSub = args.gene_name.split(";");
 				cacheFilterName.name += "geneNameSub:("+ geneNameSub.join(",") + ")";
 				uiGeneStudyFilterQuery += " and ge.gene_name IN ('" + geneNameSub.join("','") + "') ";
+				//@@@PDC-1001 gene search not working
+				uiGeneBaseQuery += " and ge.gene_name IN ('" + geneNameSub.join("','") + "') ";
 			}
 
 			cacheFilterName['dataFilterName'] = cacheFilterName.name;
@@ -1450,6 +1494,37 @@ export const resolvers = {
 			tscQuery += " group by d.tissue_or_organ_of_origin";
 			return db.getSequelize().query(tscQuery, { model: db.getModelByName('Diagnosis') });			
 		},
+		//@@@PDC-1220 add uiPrimarySiteCaseCount
+		async uiPrimarySiteCaseCount (_, args, context) {
+			var pscQuery = "select primary_site, count(case_id) as cases_count "+
+			" from `case`  group by primary_site";
+			/*var pscQuery = "select primary_site, count(*) as cases_count "+" from (SELECT distinct bin_to_uuid(al.aliquot_id) as aliquot_id, "+
+			" bin_to_uuid(sam.sample_id) as sample_id, al.aliquot_submitter_id,"+ 
+			" al.status as aliquot_status, sam.sample_submitter_id, "+
+			" c.status as case_status, sam.status as sample_status, "+
+			" bin_to_uuid(c.case_id) as case_id, c.case_submitter_id, "+
+			" proj.name as project_name, sam.sample_type, c.disease_type, "+
+			" c.primary_site, prog.name as program_name "+
+			"from study s, `case` c, sample sam, aliquot al,"+
+			" aliquot_run_metadata alm, project proj, program prog,"+
+			" demographic dem, diagnosis dia, study_file sf, file f "+
+			" where alm.study_id=s.study_id and "+
+			" al.aliquot_id= alm.aliquot_id and al.sample_id=sam.sample_id and sam.case_id=c.case_id"+
+			" and c.case_id = dem.case_id and c.case_id = dia.case_id and s.study_id = sf.study_id and sf.file_id = f.file_id"+
+			" and proj.project_id = s.project_id and proj.program_id = prog.program_id and "+
+			" s.project_submitter_id IN ('" + context.value.join("','") + "'))as mytable group by primary_site ";*/
+			var cacheFilterName = {name:''};
+
+			const res = await RedisCacheClient.redisCacheGetAsync(CacheName.getBrowsePageChartCacheKey('HumanBody'));
+			if(res === null){
+				var result = await  db.getSequelize().query(pscQuery, { model: db.getModelByName('ModelUIExperiment') });
+				RedisCacheClient.redisCacheSetExAsync(CacheName.getBrowsePageChartCacheKey('HumanBody'), JSON.stringify(result));
+				return result;
+			}else{
+				return JSON.parse(res);
+			}
+		},
+
 		//@@@PDC-311 case-level file counts
 		//@@@PDC-650 implement elasticache for API
 		/**
@@ -1495,7 +1570,7 @@ export const resolvers = {
 		*/
 		async uiDataCategoryFileCount (_, args, context) {
 			//@@@PDC-759 add data_category to file count group
-			var efcQuery = "SELECT f.file_type, f.data_category, count(f.file_id) as files_count "+
+			var efcQuery = "SELECT f.file_type, f.data_category, count(distinct f.file_id) as files_count, s.submitter_id_name "+
 			" FROM study s, `case` c, sample sam, aliquot al, "+
 			" aliquot_run_metadata alm, file f, study_file sf "+
 			" WHERE alm.study_id = s.study_id and al.aliquot_id = alm.aliquot_id  and "+
@@ -1508,7 +1583,7 @@ export const resolvers = {
 				cacheFilterName.name +="case_submitter_id:("+ csIds.join(",") + ");";		
 			}
 			
-			efcQuery += " group by f.file_type, f.data_category ";
+			efcQuery += " group by f.file_type, f.data_category, s.submitter_id_name ";
 
 			const res = await RedisCacheClient.redisCacheGetAsync(CacheName.getSummaryPageCaseSummary('DataCategoryFileCount')+cacheFilterName['name']);
 			if(res === null){
@@ -2449,6 +2524,7 @@ export const resolvers = {
 		},
 		//@@@PDC-898 new public APIs--protocolPerStudy
 		protocolPerStudy (_, args, context) {
+			//@@@PDC-1154 column name correction: fractions_analyzed_count
 			var protoQuery = "SELECT distinct bin_to_uuid(prot.protocol_id) as protocol_id, "+
 			"prot.protocol_submitter_id, prot.experiment_type, protocol_name, "+
 			"bin_to_uuid(s.study_id) as study_id, s.study_submitter_id, "+
@@ -2458,7 +2534,7 @@ export const resolvers = {
 			"reporter_ion_ms_level, starting_amount, starting_amount_uom, "+ "digestion_reagent, alkylation_reagent, enrichment_strategy, enrichment, "+ 
 			"chromatography_dimensions_count, 1d_chromatography_type as one_d_chromatography_type, "+ 
 			"2d_chromatography_type as two_d_chromatography_type, "+ 
-			"fractions_anatyzed_count, column_type, amount_on_column, "+
+			"fractions_analyzed_count, column_type, amount_on_column, "+
 			"amount_on_column_uom, column_length, column_length_uom, "+
 			"column_inner_diameter, column_inner_diameter_uom, particle_size, "+
 			"particle_size_uom, particle_type, gradient_length, "+
@@ -2512,13 +2588,17 @@ export const resolvers = {
 			return db.getSequelize().query(clinicalQuery, { model: db.getModelByName('ModelUIClinical') });
 		},
 		//@@@PDC-898 new public APIs--biospecimenPerStudy
+		//@@@PDC-1156 add is_ref
 		biospecimenPerStudy(_, args, context) {
+			//@@@PDC-1127 add pool and taxon
 			var biospecimenQuery = "SELECT distinct bin_to_uuid(al.aliquot_id) as aliquot_id, "+
-			" bin_to_uuid(sam.sample_id) as sample_id, al.aliquot_submitter_id,"+ 
+			" bin_to_uuid(sam.sample_id) as sample_id, al.aliquot_submitter_id, al.aliquot_is_ref, "+ 
 			" al.status as aliquot_status, sam.sample_submitter_id, "+
 			" c.status as case_status, sam.status as sample_status, "+
 			" bin_to_uuid(c.case_id) as case_id, c.case_submitter_id, "+
-			" proj.name as project_name, sam.sample_type, c.disease_type, c.primary_site from study s, `case` c, sample sam, aliquot al,"+
+			" proj.name as project_name, sam.sample_type, c.disease_type, c.primary_site, "+
+			" al.pool, c.taxon "+
+			" from study s, `case` c, sample sam, aliquot al,"+
 			" aliquot_run_metadata alm, project proj "+
 			" where alm.study_id=s.study_id and "+
 			" al.aliquot_id= alm.aliquot_id and al.sample_id=sam.sample_id and sam.case_id=c.case_id"+
@@ -2545,19 +2625,22 @@ export const resolvers = {
 			return db.getSequelize().query(biospecimenQuery, { model: db.getModelByName('ModelUICase') });
 		},
 		//@@@PDC-898 new public APIs--studyExperimentalDesign
+		//@@@PDC-1120 StudyRunMetadata table change
+		//@@@PDC-1156 add is_ref
 		studyExperimentalDesign(_, args, context) {
-			var experimentalQuery = "SELECT distinct bin_to_uuid(study_run_metadata_id) as study_run_metadata_id, "+
-			" bin_to_uuid(s.study_id) as study_id, study_run_metadata_submitter_id,"+ 
-			" s.study_submitter_id,"+
-			" analyte, s.acquisition_type, s.experiment_type,"+
-			" folder_name as plex_dataset_name, experiment_number,"+
-			" fraction as number_of_fractions, label_free,"+
+			var experimentalQuery = "SELECT distinct bin_to_uuid(srm.study_run_metadata_id) as study_run_metadata_id, "+
+			" bin_to_uuid(s.study_id) as study_id, srm.study_run_metadata_submitter_id,"+ 
+			" s.study_submitter_id, al.aliquot_is_ref,"+
+			" srm.analyte, s.acquisition_type, s.experiment_type,"+
+			" srm.folder_name as plex_dataset_name, srm.experiment_number,"+
+			" srm.fraction as number_of_fractions, label_free,"+
 			" itraq_114, itraq_115, itraq_116, itraq_117,"+
-			" tmt10_126, tmt10_127n, tmt10_127c, tmt10_128n, tmt10_128c,"+
-			" tmt10_129n, tmt10_129c, tmt10_130n, tmt10_130c, tmt10_131"+
-			" from study_run_metadata srm, study s"+
-			" where srm.study_id=s.study_id and"+
-			" s.project_submitter_id IN ('" + context.value.join("','") + "')";
+			" itraq_118, itraq_119, itraq_120, itraq_121,"+
+			" tmt_126, tmt_127n, tmt_127c, tmt_128n, tmt_128c,"+
+			" tmt_129n, tmt_129c, tmt_130n, tmt_130c, tmt_131, tmt_131c"+
+			" from study_run_metadata srm, study s, aliquot_run_metadata arm, aliquot al"+
+			" where srm.study_id=s.study_id and s.study_id = arm.study_id and arm.aliquot_id = al.aliquot_id"+
+			" and s.project_submitter_id IN ('" + context.value.join("','") + "')";
 			if (typeof args.study_id != 'undefined' && args.study_id.length > 0) {
 				let studySub = args.study_id.split(";");
 				experimentalQuery += " and s.study_id IN (uuid_to_bin('" + studySub.join("'),uuid_to_bin('") + "'))";

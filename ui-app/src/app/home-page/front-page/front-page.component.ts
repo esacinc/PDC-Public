@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild  } from '@angular/core';
 //import {Http} from '@angular/http';
 import { Apollo } from 'apollo-angular';
 import { Observable } from 'rxjs';
@@ -8,12 +8,13 @@ import { Chart } from 'angular-highcharts';
 import { DomSanitizer } from '@angular/platform-browser';
 
 import { FrontPageService } from '../front-page.service'; // Apollo client queries to graphql server
+import { HumanBodyChartComponent } from './human-body-chart/human-body-chart.component';
 import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-front-page',
   templateUrl: './front-page.component.html',
-  styleUrls: ['../../../assets/css/global.css', './front-page.component.scss'],
+  styleUrls: ['../../../assets/css/global.css', './front-page.component.scss', './human-body-chart/human-body-chart.component.css'],
   providers: [ FrontPageService]
 })
 
@@ -24,6 +25,9 @@ import {environment} from '../../../environments/environment';
 //@@@PDC-638 - data missing in sunburst graph and change root node name
 //@@@PDC-778 - Sunburst center tooltip issue
 //@@@PDC-1035 - add PepQuery link to tools section
+//@@@PDC-1119: Make the disease types table on the home page clickable
+//@@@PDC-1184 - PDC review and testing processes presentation
+//@@@PDC-1214 - add human body image instead of sunburst chart
 export class FrontPageComponent implements OnInit {
 
   tissueSites: Observable<TissueSite[]>;
@@ -44,6 +48,7 @@ export class FrontPageComponent implements OnInit {
   pieChart: Chart;
   sunburstChart: Chart;
   colors: string[] = [];
+  //@ViewChild(HumanBodyChartComponent) humanBodyComp:HumanBodyChartComponent; 
   
   constructor(private apollo: Apollo, private sanitizer: DomSanitizer,
 				private frontPageService: FrontPageService) { //, private http: Http) { 
@@ -51,8 +56,9 @@ export class FrontPageComponent implements OnInit {
 	this.casesChart = this.createSunburstChart();
 	this.getTissueSitesData();
 	this.getDiseasesData();
-	this.getSunburstChart();
+	//this.getSunburstChart();
 	this.readNewsItems();
+	//this.humanBodyComp.createHumanBody();
   }
   getSubmissionPortalDocsURL() {
     return this.sanitizer.bypassSecurityTrustUrl(this.submission_portal_docs_url);
@@ -122,8 +128,8 @@ export class FrontPageComponent implements OnInit {
       credits: {
         enabled: false
       },
-	  colors: ['#FFFFFF', '#FF9F31', '#91F7AB',  '#65A5C8', '#FFD03C', '#5DAEAE', '#F9EB36',  '#71E2E8', '#E07292', '#72E0C0', '#B0ADFF'],
-	  //white, orange, bright green,  blue, gold, teal, yellow, aqua, pig-pink,  green-blue, lavender
+	  colors: ['#FFFFFF', '#FF9F31', '#91F7AB',  '#65A5C8', '#FFD03C', '#5DAEAE', '#606060',  '#71E2E8', '#E07292', '#72E0C0', '#B0ADFF'],
+	  //white, orange, bright green,  blue, gold, teal, gray, aqua, pig-pink,  green-blue, lavender
 	  plotOptions: {
 		series: {
 			//allowDrillToNode: true,
@@ -143,7 +149,7 @@ export class FrontPageComponent implements OnInit {
 				  verticalAlign: 'top',
                 }
             },
-            colors: ['#FF9F31', '#FFD03C', '#407185', '#F9EB36', '#65A5C8', '#71E2E8',  '#72E0C0', '#91F7AB'],
+            colors: ['#FF9F31', '#FFD03C', '#407185', '#606060', '#65A5C8', '#71E2E8',  '#72E0C0', '#91F7AB'],
         },
 		sunburst: {
 			borderWidth: 6,
@@ -355,6 +361,10 @@ export class FrontPageComponent implements OnInit {
 		  }
 	  }
 	  return -1;
+  }
+
+  public encodePDCURI(url:string): string{
+	return url.replace('/','_slash');
   }
 
   ngOnInit() {

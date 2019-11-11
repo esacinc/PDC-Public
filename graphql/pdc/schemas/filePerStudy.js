@@ -1,5 +1,6 @@
 //@@@PDC-471 filePerStudy api enhancement
 //@@@PDC-898 new public APIs--filesPerStudy
+//@@@PDC-1122 add signed url
 const FilePerStudy = `
 type FilePerStudy {
 	study_id: String
@@ -14,6 +15,7 @@ type FilePerStudy {
 	md5sum: String
 	file_size: String
 	file_format: String
+	signedUrl: SignedUrl
 }`
 ;
 

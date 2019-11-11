@@ -9,7 +9,7 @@ import { map } from 'rxjs/operators';
 import gql from 'graphql-tag';
 import "rxjs/add/operator/map";
 import { TissueSite, QueryTissueSites, QueryDiseases, Disease, Program, 
-		QueryPrograms, QueryPortalStats, PortalStats, QueryAllCasesData, SunburstData, QuerySunburstData } from '../types';
+		QueryPrograms, QueryPortalStats, PortalStats, QueryAllCasesData, SunburstData, QuerySunburstData, HumanbodyImageData } from '../types';
 		
 const NEWS_FILE_NAME = 'assets/data-folder/news.json';
 
@@ -54,10 +54,11 @@ getNewsItems() : Observable<any> {
 	
 // @@@PDC-210
 getPortalStats() {
+    //@@@PDC-1123 call ui wrapper API
 	return this.apollo.watchQuery<QueryPortalStats>({
 		query: gql`
 	 query allStats{
-		pdcDataStats{
+		uiPdcDataStats{
     program,
     study,
     spectra,
@@ -74,10 +75,11 @@ getPortalStats() {
 }
 	
 	getDiseases() {
+    //@@@PDC-1123 call ui wrapper API
 		return this.apollo.watchQuery<QueryDiseases>({
 		   query: gql`
 			query allDiseases{
-			  diseasesAvailable {
+			  uiDiseasesAvailable {
 			  disease_type
 			  tissue_or_organ_of_origin
 			  project_submitter_id
@@ -87,16 +89,17 @@ getPortalStats() {
 		  })
 		  .valueChanges
 		  .pipe(
-			map(result => result.data.diseasesAvailable)
+			map(result => result.data.uiDiseasesAvailable)
 		  ); 
 		
 	}
 	
 	getAllPrograms(){
+		//@@@PDC-1123 call ui wrapper API
 		return this.apollo.watchQuery<QueryPrograms>({
 			query: gql`
 				query Programs{
-					 allPrograms {
+					 uiAllPrograms {
 						program_submitter_id
 						name
 						sponsor
@@ -111,7 +114,7 @@ getPortalStats() {
 		})
 		.valueChanges
 		.pipe(
-        map(result => result.data.allPrograms)
+        map(result => result.data.uiAllPrograms)
       ); 
 	}
 
@@ -132,5 +135,21 @@ getPortalStats() {
 		.pipe(
         map(result => result.data)
       ); 
+	}
+	
+	getDataForHumanBody(){
+		return this.apollo.watchQuery<HumanbodyImageData>({
+			query: gql` 
+				query HumanBodyPrimarySiteData {
+					uiPrimarySiteCaseCount{
+					primary_site
+					cases_count
+				}
+			} `
+		})
+		.valueChanges
+		.pipe(
+				map(result => result.data)
+		); 
 	}
 }

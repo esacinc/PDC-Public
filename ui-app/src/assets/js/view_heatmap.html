@@ -34,11 +34,35 @@
     GET[decodeURIComponent(param[0])] = decodeURIComponent(param[1] || "");
   }
   baseUrl = 'pdc/assets/data-folder/S039-2/';
+  //@@@PDC-1078 show color-coded annotations
   var options = {
       el: $('#vis'),
       dataset: {
         file: GET['fname'],
-         }
+        },
+		columns: [{
+				field: "id",
+				display: ["color"]
+			}, {
+				field: "aliquot_submitter_id",
+				display: ["text"]
+			}, {
+				field: "aliquot_alias",
+				display: ["color"]
+			}, {
+				field: "morphology",
+				display: ["color"]
+			}, {
+				field: "primary_diagnosis",
+				display: ["color"]
+			}, {
+				field: "tumor_grade",
+				display: ["color"]
+			}, {
+				field: "tumor_stage",
+				display: ["color"]
+			}
+		]      
       };
     new morpheus.HeatMap(options);
    // document.body.style.cursor = "default";

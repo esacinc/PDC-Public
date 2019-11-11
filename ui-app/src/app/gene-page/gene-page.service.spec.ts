@@ -23,20 +23,21 @@ describe("GenePageService", () => {
     }
   ));
 
+    //@@@PDC-1123 call ui wrapper API
   it("test getProteinDetails", inject(
     [GenePageService],
     (service: GenePageService) => {
       service.getProteinDetails("M0R009").subscribe(data => {
         expect(data).toBeDefined();
-        expect(data["protein"].spectral_counts.length).toBe(2);
-        expect(data["protein"].gene_name).toBe("A1BG");
+        expect(data["uiProtein"].spectral_counts.length).toBe(2);
+        expect(data["uiProtein"].gene_name).toBe("A1BG");
       });
 
       const op = controller.expectOne(service.proteinDetailsQuery);
 
       op.flush({
         data: {
-          protein: {
+          uiProtein: {
             gene_name: "A1BG",
             NCBI_gene_id: 1,
             authority: "HGNC:5",
@@ -70,20 +71,21 @@ describe("GenePageService", () => {
     }
   ));
 
+    //@@@PDC-1123 call ui wrapper API
   it("test getGeneDetails", inject(
     [GenePageService],
     (service: GenePageService) => {
       service.getGeneDetails("A1BG").subscribe(data => {
         expect(data).toBeDefined();
-        expect(data["geneSpectralCount"].spectral_counts.length).toBe(3);
-        expect(data["geneSpectralCount"].authority).toBe("HGNC:5");
+        expect(data["uiGeneSpectralCount"].spectral_counts.length).toBe(3);
+        expect(data["uiGeneSpectralCount"].authority).toBe("HGNC:5");
       });
 
       const op = controller.expectOne(service.geneDetailsQuery);
 
       op.flush({
         data: {
-          geneSpectralCount: {
+          uiGeneSpectralCount: {
             gene_name: "A1BG",
             NCBI_gene_id: 1,
             authority: "HGNC:5",

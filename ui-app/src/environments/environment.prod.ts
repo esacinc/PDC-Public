@@ -11,7 +11,7 @@ export const environment = {
   server_url_workflow_local: 'http://localhost:3010/api',
   graphql_server_url: '/graphql',
   PDC_CLUSTER_NAME: 'PDC-CDAP',
-  BUILD_TAG: '0.5.11',
+  BUILD_TAG: '0.6.2.1',
   idle_session_timeout_seconds: 1800,
   GA_TRACKING_ID: 'UA-124894982-1',
   gdc_case_id_url: 'https://portal.gdc.cancer.gov/cases/',
@@ -29,4 +29,6 @@ export const environment = {
   kidsFirst_url: 'https://portal.kidsfirstdrc.org/participant/',
   pepquery_url: 'http://pepquery.esacinc.com:3838/pepquery/',
   // workspace_url:'/workspace/pages/v2/index.html'
+  // workspace_url:'/workspace/pages/dashboard.html#/projects/all'
+
 };

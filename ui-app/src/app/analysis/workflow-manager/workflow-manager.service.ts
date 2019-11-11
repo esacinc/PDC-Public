@@ -21,9 +21,10 @@ export class WorkflowManagerFileService {
     query_result: any;
     cluster_status = 'Available';
     available_workflows: any[];
+    //@@@PDC-1123 call ui wrapper API
     fileMedatdataQuery = gql`
         query FileMetadata($file_names: String!){
-					getFileMetadata(file_name: $file_names) {
+					uiFileMetadata(file_name: $file_names) {
                         file_name
                         file_location
                         sample_id

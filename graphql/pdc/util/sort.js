@@ -18,12 +18,15 @@ const getAPI = function (query) {
 		let s = r.split('{');
 		let t = s[1].split('(');
 		let u = t[0].trim();
-		if (u.toLowerCase().indexOf("ui") < 0 ||
-		u.toLowerCase().indexOf("search") < 0 ||
-		u.indexOf("tissueSitesAvailable") < 0 ||
-		u.indexOf("diseasesAvailable") < 0 ) {
-			//console.log("Non ui API ");
+		//@@@PDC-1123 add wrapper apis for ui
+		if (u.indexOf("ui") < 0 &&
+		u.indexOf("UI") < 0 &&
+		u.indexOf("Search") < 0 ) {
+			console.log("Non ui API "+ u);
 			api = "/graphqlAPI/"+t[0].trim();
+		}
+		else {
+			console.log("UI API "+ u +" "+api);
 		}
 	//console.log("API: "+ api);
 	}

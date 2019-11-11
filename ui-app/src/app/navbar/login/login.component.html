@@ -38,12 +38,14 @@
         <div class="user-login-container">
           <form [formGroup]="loginForm" (ngSubmit)="emailLogin()" class="form" name="pdcLoginForm" novalidate>
             <div class="form-group">
+              <label for="email"><span style="display:none">Enter your email</span></label>
               <input type="text" class="form-control" id="email" name="email" formControlName="email"
                 placeholder='Email'>
               <mat-error *ngIf="email.invalid && !isValidFormSubmitted">{{systemErrorMessage}}</mat-error>
             </div>
             <div class="form-group">
-              <input type="password" class="form-control" id="password" name="password" formControlName="userPass"
+              <label for="password"><span style="display:none">Enter your Password</span></label>
+                <input type="password" class="form-control" id="password" name="password" formControlName="userPass"
                 placeholder='Password'>
               <!--<mat-error *ngIf="first_name.invalid&&isValidFormSubmitted!=null">First name is required</mat-error>-->
             </div>

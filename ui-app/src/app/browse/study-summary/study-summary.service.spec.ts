@@ -182,7 +182,8 @@ describe("StudySummaryService", () => {
     }
   ));
 
-  it("test getWorkflowMetadata", inject(
+	//@@@PDC-1123 call ui wrapper API
+	it("test getWorkflowMetadata", inject(
     [StudySummaryService],
     (service: StudySummaryService) => {
       service
@@ -191,13 +192,13 @@ describe("StudySummaryService", () => {
             "Prospective_Breast_BI_Phosphoproteome"
         })
         .subscribe(data => {
-          expect(data["workflowMetadata"]).toBeDefined();
-          expect(data["workflowMetadata"].length).toBe(1);
+          expect(data["uiWorkflowMetadata"]).toBeDefined();
+          expect(data["uiWorkflowMetadata"].length).toBe(1);
           expect(
-            data["workflowMetadata"][0].workflow_metadata_submitter_id
+            data["uiWorkflowMetadata"][0].workflow_metadata_submitter_id
           ).toBe("Prospective_Breast_BI_Phosphoproteome");
-          expect(data["workflowMetadata"][0].study_submitter_id).toBe("S039-2");
-          expect(data["workflowMetadata"][0]).toEqual({
+          expect(data["uiWorkflowMetadata"][0].study_submitter_id).toBe("S039-2");
+          expect(data["uiWorkflowMetadata"][0]).toEqual({
             workflow_metadata_submitter_id:
               "Prospective_Breast_BI_Phosphoproteome",
             study_submitter_id: "S039-2",
@@ -237,7 +238,7 @@ describe("StudySummaryService", () => {
 
       op.flush({
         data: {
-          workflowMetadata: [
+          uiWorkflowMetadata: [
             {
               workflow_metadata_submitter_id:
                 "Prospective_Breast_BI_Phosphoproteome",
@@ -371,21 +372,22 @@ describe("StudySummaryService", () => {
     }
   ));
 
+    //@@@PDC-1123 call ui wrapper API
   it("test getFilesCounts", inject(
     [StudySummaryService],
     (service: StudySummaryService) => {
       service.getFilesCounts("S015-2").subscribe(data => {
-        expect(data["filesCountPerStudy"]).toBeDefined();
-        expect(data["filesCountPerStudy"].length).toBe(2);
-        expect(data["filesCountPerStudy"][0].file_type).toBe("MZML");
-        expect(data["filesCountPerStudy"][1].file_type).toBe("PROTOCOL");
+        expect(data["uiFilesCountPerStudy"]).toBeDefined();
+        expect(data["uiFilesCountPerStudy"].length).toBe(2);
+        expect(data["uiFilesCountPerStudy"][0].file_type).toBe("MZML");
+        expect(data["uiFilesCountPerStudy"][1].file_type).toBe("PROTOCOL");
       });
 
       const op = controller.expectOne(service.filesCountPerStudyQuery);
 
       op.flush({
         data: {
-          filesCountPerStudy: [
+          uiFilesCountPerStudy: [
             {
               study_submitter_id: "S038-3",
               file_type: "MZML",

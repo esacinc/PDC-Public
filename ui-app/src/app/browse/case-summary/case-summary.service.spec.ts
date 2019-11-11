@@ -93,12 +93,13 @@ describe("CaseSummaryService", () => {
     }
   ));
 
+  //@@@PDC-1123 add ui wrappers public APIs
   it("test getDetailedCaseSummaryData", inject(
     [CaseSummaryService],
     (service: CaseSummaryService) => {
       service.getDetailedCaseSummaryData("TCGA-61-1911").subscribe(data => {
         expect(data).toBeDefined();
-        expect(data["case"].case_id).toBe(
+        expect(data["uiCaseSummary"].case_id).toBe(
           "0067a0e0-63d8-11e8-bcf1-0a2705229b82"
         );
       });
@@ -109,7 +110,7 @@ describe("CaseSummaryService", () => {
 
       op.flush({
         data: {
-          case: {
+          uiCaseSummary: {
             case_id: "0067a0e0-63d8-11e8-bcf1-0a2705229b82",
             case_submitter_id: "TCGA-61-1911",
             project_submitter_id: "CPTAC-TCGA",
@@ -241,7 +242,7 @@ describe("CaseSummaryService", () => {
                 column: 7
               }
             ],
-            path: ["case", "samples", 0, "aliquots"]
+            path: ["uiCaseSummary", "samples", 0, "aliquots"]
           }
         ]
       });
@@ -307,32 +308,38 @@ describe("CaseSummaryService", () => {
             {
               file_type: "MZML",
               data_category: 'Raw Mass Spectra',
-              files_count: 1904
+              files_count: 1904,
+              submitter_id_name: "TCGA_Ovarian_JHU_Glycoproteome"
             },
             {
               file_type: "PROTOCOL",
               data_category: "Processed Mass Spectra",
-              files_count: 24
+              files_count: 24,
+              submitter_id_name: "TCGA_Ovarian_JHU_Glycoproteome",
             },
             {
               file_type: "PROT_ASSEM",
               data_category: "Protein Assembly",
-              files_count: 10
+              files_count: 10,
+              submitter_id_name: "TCGA_Ovarian_JHU_Glycoproteome",
             },
             {
               file_type: "PSM-MZID",
               data_category: "Processed Mass Spectra",
-              files_count: 1904
+              files_count: 1904,
+              submitter_id_name: "TCGA_Ovarian_JHU_Glycoproteome",
             },
             {
               file_type: "PSM-TSV",
               data_category: "Protein Assembly",
-              files_count: 1904
+              files_count: 1904,
+              submitter_id_name: "TCGA_Ovarian_JHU_Glycoproteome",
             },
             {
               file_type: "RAW",
               data_category: "Raw Mass Spectra",
-              files_count: 1904
+              files_count: 1904,
+              submitter_id_name: "TCGA_Ovarian_JHU_Glycoproteome",
             }
           ]
         }

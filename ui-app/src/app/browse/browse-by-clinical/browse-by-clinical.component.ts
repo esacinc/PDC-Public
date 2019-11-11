@@ -32,6 +32,7 @@ import { ngxCsv } from "ngx-csv/ngx-csv";
 //@@@PDC-937: Add a button to allow download all manifests with a single click
 //@@@PDC-1012: Update UI for GDC Case ID becoming External Case ID
 //@@@PDC-1063: Implement select all, select page, select none for all tabs
+//@@@PDC-1235: Add imaging_reference to the external reference column for clinical data
 export class BrowseByClinicalComponent implements OnInit {
 
 	filteredClinicalData: AllClinicalData[]; //Filtered list of clinical data
@@ -118,13 +119,17 @@ export class BrowseByClinicalComponent implements OnInit {
 
   //@@@PDC-1012: Update UI for GDC Case ID becoming External Case ID
   //Get Image icon for the external Case ID
-  getIcon(externalCaseID: string) {
-	if (externalCaseID) {
-		let externalCaseIDSplit = externalCaseID.split(':');
-		let imageUrl = this.externalCaseMap.find(x => (x.id).toUpperCase() == externalCaseIDSplit[0].toUpperCase()).imageUrl;
-		if (imageUrl) return imageUrl; else return '';
-	} else {
-		return '';
+  getIcon(externalCaseID: string, dataSource:string) {
+	if (dataSource == "genomic") {
+		if (externalCaseID) {
+			let externalCaseIDSplit = externalCaseID.split(':');
+			let imageUrl = this.externalCaseMap.find(x => (x.id).toUpperCase() == externalCaseIDSplit[0].toUpperCase()).imageUrl;
+			if (imageUrl) return imageUrl; else return '';
+		} else {
+			return '';
+		}
+	} else if (dataSource == "tcia") {
+		return this.iconFolder + "Tcia.png";
 	}
   }
 
@@ -403,6 +408,7 @@ isDownloadDisabled(){
 	//@@@PDC-1063: Implement select all, select page, select none for all tabs
 	changeHeaderCheckbox($event) {
 		let checkboxVal = this.selectedHeaderCheckbox;
+		this.selectedClinicalData = this.currentPageSelectedClinical = [];
 		switch (checkboxVal) {
 			case 'Select all pages': 
 				this.downloadCompleteManifest(true);

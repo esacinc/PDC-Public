@@ -42,9 +42,10 @@ export class WorkflowManagerComponent implements OnInit {
   experiment_types_list: string;
   file_type_list: string;
 
+    //@@@PDC-1123 call ui wrapper API
   fileMedatdataQuery = gql`
         query FileMetadata($file_names: String!){
-					getFileMetadata(file_name: $file_names) {
+					uiFileMetadata(file_name: $file_names) {
                         file_name
                         file_location
                         sample_id
@@ -81,7 +82,8 @@ export class WorkflowManagerComponent implements OnInit {
     console.log(file_names);
     this.data_loading = true;
     this.workflowManagerFileService.getMetadataForFiles(file_names).subscribe((data: any) => {
-      this.workflow_params = data.getFileMetadata;
+    //@@@PDC-1123 call ui wrapper API
+      this.workflow_params = data.uiFileMetadata;
       
       this.file_metadata_list = this.buildMetadataTree(data);
       this.file_metadata = <TreeNode[]>this.file_metadata_list;
@@ -141,7 +143,8 @@ export class WorkflowManagerComponent implements OnInit {
     const analytic_fractions: string[] = [];
 
     console.log('Query Results:', queryResults);
-    queryResults.getFileMetadata.map(aFile => {
+    //@@@PDC-1123 call ui wrapper API
+    queryResults.uiFileMetadata.map(aFile => {
         if (! fileMap.has(aFile.file_name)) {
             const rootNode = {label: aFile.file_name,
                             data: aFile.file_name,

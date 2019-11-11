@@ -383,6 +383,7 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
 	//@@@PDC-1063: Implement select all, select page, select none for all tabs
 	changeHeaderCheckbox($event) {
 		let checkboxVal = this.selectedHeaderCheckbox;
+		this.selectedCases =  this.currentPageSelectedCase =  [];
 		switch (checkboxVal) {
 			case 'Select all pages': 
 				this.downloadCompleteManifest(true);

@@ -30,9 +30,10 @@ constructor(private apollo: Apollo) {
         this.options = new RequestOptions({ headers: this.headers });
 	}
 
+    //@@@PDC-1123 call ui wrapper API
 	proteinDetailsQuery = gql`
 				query ProteinQuery($protein_name: String!){
-					protein(protein: $protein_name){
+					uiProtein(protein: $protein_name){
 					  gene_name
 					  NCBI_gene_id
 					  authority
@@ -66,9 +67,10 @@ constructor(private apollo: Apollo) {
 	}
 
 
+    //@@@PDC-1123 call ui wrapper API
 	geneDetailsQuery = gql`
 				query ProteinQuery($gene_name: String!){
-					geneSpectralCount(gene_name: $gene_name){
+					uiGeneSpectralCount(gene_name: $gene_name){
 					  gene_name
 					  NCBI_gene_id
 					  authority

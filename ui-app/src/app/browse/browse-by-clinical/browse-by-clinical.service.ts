@@ -40,6 +40,7 @@ constructor(private apollo: Apollo) {
 						uiClinical{
 							case_submitter_id
 							external_case_id
+							imaging_resource
 							ethnicity
 							gender
 							race

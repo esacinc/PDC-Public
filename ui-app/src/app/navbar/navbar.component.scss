@@ -79,4 +79,84 @@ div.cdk-overlay-connected-position-bounding-box {
 .mat-menu-item-highlighted, .mat-menu-item.cdk-keyboard-focused, .mat-menu-item.cdk-program-focused, .mat-menu-item:hover, .mat-menu-item:focus{
 	border: none;
 }	
+
+#searchTermLabel {
+  position: absolute;
+}
+
+//@@@PDC-1163: Add label to search bar explaining what you can search by
+@media only screen and (max-width: 1064px) {
+  #searchTermLabel {
+    right: 29.5%;
+  }
+}
+
+@media only screen and (min-width: 1066px) and (max-width: 1364px) {
+  #searchTermLabel {
+    right: 35.7%;
+  }
+}
+
+@media only screen and (min-width: 1365px) {
+  #searchTermLabel {
+    right: 37.2%;
+  }
+}
+
+@media only screen and (min-width: 1367px) and (max-width: 1441px) {
+  #searchTermLabel {
+    right: 38.3%;
+  }
+}
+
+@media only screen and (min-width: 1442px) and (max-width: 1602px) {
+  #searchTermLabel {
+    right: 40.5%;
+  }
+}
+
+@media only screen and (min-width: 1601px) and (max-width: 1680px) {
+  #searchTermLabel {
+    right: 41.6%;
+  }
+}
+
+
+@media only screen and (min-width: 1681px) and (max-width: 1750px) {
+  #searchTermLabel {
+    right: 42.2%;
+  }
+}
+
+
+@media only screen and (min-width: 1749px) and (max-width: 1820px) {
+  #searchTermLabel {
+    right: 42.5%;
+  }
+}
+
+@media only screen and (min-width: 1819px) and (max-width: 1849px) {
+  #searchTermLabel {
+    right: 43.1%;
+  }
+}
+
+
+@media only screen and (min-width: 1850px) and (max-width: 1890px) {
+  #searchTermLabel {
+    right: 43.5%;
+  }
+}
+
+@media only screen and (min-width: 1889px) and (max-width: 1919px) {
+  #searchTermLabel {
+    right: 43.8%;
+  }
+}
+
+@media only screen and (min-width: 1920px) {
+  #searchTermLabel {
+    right: 43.8%;
+  }
+}
 	

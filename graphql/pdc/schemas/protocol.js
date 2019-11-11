@@ -1,4 +1,5 @@
 //@@@PDC-652 new protocol structure
+//@@@PDC-1154 column name correction: fractions_analyzed_count
 const Protocol = `
 type Protocol {
 	protocol_id: String
@@ -26,7 +27,7 @@ type Protocol {
 	chromatography_dimensions_count: String
 	one_d_chromatography_type: String
 	two_d_chromatography_type: String
-	fractions_anatyzed_count: String
+	fractions_analyzed_count: String
 	column_type: String
 	amount_on_column: String
 	amount_on_column_uom: String

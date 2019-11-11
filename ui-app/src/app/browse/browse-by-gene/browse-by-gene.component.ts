@@ -418,6 +418,7 @@ isDownloadDisabled(){
 	//@@@PDC-1063: Implement select all, select page, select none for all tabs
 	changeHeaderCheckbox($event) {
 		let checkboxVal = this.selectedHeaderCheckbox;
+		this.selectedGenesData =  this.currentPageSelectedGene = [];
 		switch (checkboxVal) {
 			case 'Select all pages': 
 				this.downloadCompleteManifest(true);

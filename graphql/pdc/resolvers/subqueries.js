@@ -3,7 +3,10 @@ import { GraphQLScalarType } from 'graphql';
 import { Kind } from 'graphql/language';
 import Sequelize from 'sequelize';
 import {filters, filtersView} from '../util/filters'
+import {getSignedUrl} from '../util/getSignedUrl'
 import {RedisCacheClient, CacheName} from '../util/cacheClient';
+//import AWS from 'aws-sdk';
+//import SignedUrl from '../schemas/signedUrl'; 
 
 const Op = Sequelize.Op;
 //@@@PDC-952 remove hard-coded schema name
@@ -216,7 +219,8 @@ export const resolvers = {
 	//@@@PDC-191 experimental metadata API
 	ExperimentalMetadata: {
 		study_run_metadata(obj, args, context) {
-			return db.getModelByName('ModelStudyRunMetadata').findAll({attributes: ['study_run_metadata_submitter_id', 'instrument', 'fraction'],
+			//@@@PDC-1120 StudyRunMetadata table change
+			return db.getModelByName('ModelStudyRunMetadata').findAll({attributes: ['study_run_metadata_submitter_id', 'fraction'],
 			where: {study_submitter_id: context.arguments.study_submitter_id}
 			});
 		}
@@ -600,6 +604,12 @@ export const resolvers = {
 		pagination(obj, args, context) {
 			console.log("Paginated total: "+JSON.stringify(context.total));
 			return context.total;
+		}
+	},
+	//@@@PDC-1122 add signed url
+	FilePerStudy: {
+		signedUrl(obj, args, context) {
+			return getSignedUrl(obj.file_location);
 		}
 	},
 	Pagination: {

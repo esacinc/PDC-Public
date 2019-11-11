@@ -197,10 +197,11 @@ constructor(private apollo: Apollo) {
 	}
 		
 	getStudyUUID2NameMapping(){
+		//@@@PDC-1123 call ui wrapper API
 		return this.apollo.watchQuery<QueryPrograms>({
 			query: gql`
 				query StudyNameUUIDMapping {
-					programsProjectsStudies {
+					uiProgramsProjectsStudies {
 					  program_id
 					  program_submitter_id
 					  name
@@ -232,15 +233,4 @@ constructor(private apollo: Apollo) {
       ); 
 	}
 	
-    private extractData(res: Response){
-	    console.log('extract data');
-	    console.log(res);
-	    let body = res.json();
-	    return body || {};
-    }
-  
-    private handleError(error: any): Promise<any> {
-	    console.error('An error occured', error);
-	    return Promise.reject(error.message || error);
-    }
 }
