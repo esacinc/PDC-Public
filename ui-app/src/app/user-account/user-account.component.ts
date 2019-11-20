@@ -14,12 +14,14 @@ import { environment } from '../../environments/environment';
 
 //@@@PDC-701 
 //This component is responsible for updating or canceling user account
+//@@@PDC-1197: PDC Users need to be able to change their password
 export class UserAccountComponent implements OnInit {
 
   selectedResearcherType:string = ""; //This variable will hold researcher type selected by user
   otherResearcherType:string = ""; //If the user selects "other" researcher type, this variable will hold additional text for other
   isValidFormSubmitted = null;
   formInvalidMessage:string = '';
+  systemErrorMessage = "";
   
   // This structure is needed for defining field validatoin rules
   registrationForm = new FormGroup({
@@ -145,5 +147,23 @@ export class UserAccountComponent implements OnInit {
   
   ngOnInit() {
   }
+
+//@@@PDC-1197: PDC Users need to be able to change their password
+//@@@PDC-928 implement forgot password
+public resetPassword(){
+	//console.log(this.registrationForm.get('email').value);
+	this.userService.userForgotPassword(this.registrationForm.get('email').value).subscribe(emailSent => {
+		if (emailSent){
+			this.systemErrorMessage = "An email with instructions to reset password was sent.";
+			alert("Check your email for further instrutions");
+			console.log("An email with instructions to reset password was sent");
+			this.router.navigate(['pdc']);
+		} else {
+			this.systemErrorMessage = "User does not exist.";
+			alert("User with such email does not exist.");
+			console.log("User with such email " + this.registrationForm.get('email').value + " does not exist");
+		}
+	});
+}
 
 }

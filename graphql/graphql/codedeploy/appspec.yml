@@ -1,0 +1,13 @@
+version: 0.0
+os: linux
+files:
+  - source: /graphql
+    destination: /home/ec2-user/PDC_Build/graphql
+
+hooks:
+  BeforeInstall:
+    - location: /graphql/codedeploy/cleanupScript.sh
+      timeout: 300
+  ApplicationStart:
+    - location: /graphql/codedeploy/startupServer.sh
+      timeout: 300      

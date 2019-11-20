@@ -29,13 +29,15 @@
 	</span>
 	</mat-toolbar-row>
 </mat-toolbar>
-<mat-toolbar style="min-height: 0px;">
-	<mat-toolbar-row class="toolbar-row-button" style="height: 21px;">
-		<span style="position: absolute;" id="searchTermLabel">
-			<label for="search-term" style="vertical-align: text-bottom;line-height: initial;font-size: 12px;font-weight:bolder">Search by Gene or Case ID</label>
-		</span>	
-	</mat-toolbar-row>
-</mat-toolbar>
+<div *ngIf='navDisplayFlag'>
+	<mat-toolbar style="min-height: 0px;">
+		<mat-toolbar-row class="toolbar-row-button" style="height: 21px;">
+			<span style="position: absolute;" id="searchTermLabel">
+				<label for="search-term" style="vertical-align: text-bottom;line-height: initial;font-size: 12px;font-weight:bolder">Search by Gene or Case ID</label>
+			</span>	
+		</mat-toolbar-row>
+	</mat-toolbar>
+</div>
 <div *ngIf='navDisplayFlag'>
   <mat-toolbar class="toolbar-row">
 	<mat-toolbar-row >

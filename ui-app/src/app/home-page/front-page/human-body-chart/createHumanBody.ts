@@ -35,13 +35,7 @@ const createHumanBody: TCreateHumanBody = ({
   numberofOrgansFromAPI
 } = {}) => {
   // Similar to a React target element
-  console.log("Selector: " + selector);
   console.log(data);
-  console.log(numberofOrgansFromAPI);
-  console.log("Height: " + height + " Width: " + width);
-  console.log(selectedHumanBodyOrgans);
-  console.log(primarySiteKey);
-  console.log(mouseOverHandler);
   const root = document.querySelector(selector);
 
   // if (!root) {
@@ -365,8 +359,6 @@ if (selectedHumanBodyOrgans == "Not-Reported" && organSelector == selectedHumanB
     .attr('height', 22)
     .attr('fill', (d, i) => { 
         d['color'] = colorCodes[d[primarySiteKey]]; 
-		console.log(primarySiteKey); 
-		console.log(d); 
 		return d['color']; 
     })
     .attr('class', d => `bar-${toClassName(d[primarySiteKey])}`)
@@ -551,11 +543,21 @@ if (selectedHumanBodyOrgans == "Not-Reported" && organSelector == selectedHumanB
   });
 
   const svgs = document.querySelectorAll('#human-body-highlights svg');
-  console.log(svgs);
-   svgs.forEach.call(svgs, svgPart => {
+  svgs.forEach.call(svgs, svgPart => {
     svgPart.addEventListener('click', function () {
-		console.log(this);
-      clickHandler({ _key: this.id });
+	  //clickHandler({ _key: this.id }); //this.id will return incorrect primary site in case of primary site with non alphanumeric characters
+	  //PDC-1231
+	  //In order to filter by primary site have to use the correct primary site name which might include spaces and commas
+	  // svg id is not allowed to use commas and spaces, therefore, need to move to corresponding bar in the bar chart
+	  // and get the apropriate primary site name from the bar data.
+		d3.select(`.bar-${svgPart.id}`)
+        .transition()
+        .attr('fill', d => {
+			console.log(d[primarySiteKey]);
+			clickHandler({ _key: d[primarySiteKey] }); //calling to clickHandler function with the correct primary site name
+			d['color'] = colorCodes[d[primarySiteKey]]; 
+			return d['color'];
+		});
       //Have human body map stay highlighted after selection
       //Change so all bars still show in body map graph when a bar is selected
       //Do not highlight previously selected organs,bar graph,labels

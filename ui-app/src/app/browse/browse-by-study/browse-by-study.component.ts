@@ -39,6 +39,7 @@ import { ngxCsv } from "ngx-csv/ngx-csv";
 //@@@PDC-799: Redirecting to the NIH login page for the file authorization loses PDC state
 //@@@PDC-937: Add a button to allow download all manifests with a single click
 //@@@PDC-1063: Implement select all, select page, select none for all tabs
+//@@@PDC-1252: Add data category as a filter for the "file counts" section of the Study table
 export class BrowseByStudyComponent implements OnInit, OnChanges {
 
   filteredStudiesData: AllStudiesData[]; //Filtered list of Studies
@@ -515,11 +516,12 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
   //@@@PDC 613: As a user of PDC I want to be able to click on the counts in the Study tab table to see the data
   // Send relevant data such as study name, file type to parent. 
   changeTabForCaseCount(study_name: any) {
-  	this.selectedTabChangeForCaseCount.emit({tabVal:1,studyName:study_name}); 
+  	this.selectedTabChangeForCaseCount.emit({tabVal:2,studyName:study_name}); 
   }
 
-  changeTabForFileType(study_name: any, fileType: string) {
-	this.selectedTabChangeForFileType.emit({tabVal:3,studyName:study_name,fileType:fileType});
+	//@@@PDC-1252: Add data category as a filter for the "file counts" section of the Study table
+  changeTabForFileType(study_name: any, fileType: string, dataCategory: string) {
+		this.selectedTabChangeForFileType.emit({tabVal:3,studyName:study_name,fileType:fileType,dataCategory:dataCategory});
   }
 
 	//@@@PDC-795 Change manifest download file name include timestamp 

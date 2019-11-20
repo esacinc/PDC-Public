@@ -1457,7 +1457,8 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
       }
       if (
         res.hasOwnProperty("studyNameForFileType") &&
-        res.hasOwnProperty("fileDetailsforFileType")
+        res.hasOwnProperty("fileDetailsforFileType") &&
+        res.hasOwnProperty("fileDetailsforDataCategory")
       ) {
         this.selectedStudyFilter = new Array(res.studyNameForFileType);
         this.filterDataByStudy(event);
@@ -1465,6 +1466,11 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
           this.selectedFileType = new Array(res.fileDetailsforFileType);
           this.filterDataByFileType(event);
         }, 1000);
+        setTimeout(() => {
+          //@@@PDC-1252: Add data category as a filter for the "file counts" section of the Study table
+          this.selectedDataCategory = new Array(res.fileDetailsforDataCategory);
+          this.filterDataByDataCategory(event);
+        }, 2000);
       }
     });
   }

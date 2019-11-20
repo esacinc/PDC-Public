@@ -670,7 +670,7 @@ getCasesByExperimentalStrategy(){
 
 	changeTabForFileType(valuesForFileType) {	
 		this.selectedTab = valuesForFileType.tabVal;
-		this.browseService.notifyChangeTabEvents({studyNameForFileType: valuesForFileType.studyName, fileDetailsforFileType: valuesForFileType.fileType});
+		this.browseService.notifyChangeTabEvents({studyNameForFileType: valuesForFileType.studyName, fileDetailsforFileType: valuesForFileType.fileType, fileDetailsforDataCategory: valuesForFileType.dataCategory});
 	}
 
 	ngOnInit() {

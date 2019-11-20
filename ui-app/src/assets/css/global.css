@@ -5,6 +5,11 @@
  */
 /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
 
+/* PDC-1149 fix for Bootstrap grid issue with Safari */
+.row:before, .row:after {
+	display: none !important;
+}
+
 .filters-wrapper{
 	font-family: Helvetica Neue,Helvetica,Arial,sans-serif !important;
 	font-size: 0.75em!important;
