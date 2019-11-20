@@ -4878,7 +4878,7 @@ PDC-265
 		}
 	}
 }
-//PDC-884, 898
+//PDC-884, 898, 1257
 {
 	fileMetadata(file_id: "10ffa258-14c2-4c74-861e-91ed02fb4cf6") {
 		file_name
@@ -4889,7 +4889,7 @@ PDC-265
 		analyte 
 		instrument
 		folder_name
-		fraction
+		fraction_number
 		experiment_type
 		aliquots {
 			aliquot_id 

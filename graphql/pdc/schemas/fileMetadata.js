@@ -1,5 +1,6 @@
 //@@@PDC-332 get file metadata
 //@@@PDC-898 new public APIs--fileMetadata
+//@@@PDC-1257 replace fraction with fraction_number
 const FileMetadata = `
 type FileMetadata {
 	file_id: String
@@ -15,7 +16,7 @@ type FileMetadata {
 	analyte: String 
 	instrument: String
 	plex_or_dataset_name: String
-	fraction: String
+	fraction_number: String
 	experiment_type: String
 	study_run_metadata_submitter_id: String 
 	study_run_metadata_id: String 

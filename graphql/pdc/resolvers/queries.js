@@ -1452,22 +1452,15 @@ export const resolvers = {
 			//@@@PDC-243 get correct `case` count
 			//@@@PDC-616 Add acquisition type to the general filters
 			//@@@PDC-581 Add clinical filters
-			var uiExpQuery = "SELECT  disease_type, count(distinct case_submitter_id) as cases_count "+
-			" FROM (SELECT  distinct s.experiment_type, c.case_submitter_id, "+
-			" s.analytical_fraction, dem.ethnicity, dem.race, dem.gender, "+
-			" dia.morphology, dia.primary_diagnosis, dia.site_of_resection_or_biopsy,"+
-			" dia.tissue_or_organ_of_origin, dia.tumor_grade, dia.tumor_stage,"+
-			" sam.sample_type,"+
-			" s.submitter_id_name, c.primary_site, c.disease_type, proj.project_submitter_id, prog.program_submitter_id, "+
-			" prog.name as program_name, proj.name as project_name, s.acquisition_type "+
+			//@@@PDC-1243 fix case count per primary site
+			var uiExpQuery = "SELECT  disease_type, count(distinct dia.diagnosis_id) as cases_count "+
 			" FROM study s, `case` c, sample sam, aliquot al, "+
 			" aliquot_run_metadata alm,  demographic dem, diagnosis dia, "+
 			" project proj, program prog WHERE alm.study_id = s.study_id and al.aliquot_id "+
 			" = alm.aliquot_id  and al.sample_id=sam.sample_id and sam.case_id=c.case_id and "+
 			" c.case_id = dem.case_id and c.case_id = dia.case_id and "+
 			" proj.project_id = s.project_id and proj.program_id = prog.program_id "+
-			" order by c.case_submitter_id) t WHERE "+
-			" project_submitter_id IN ('" + context.value.join("','") + "')";
+			" and proj.project_submitter_id IN ('" + context.value.join("','") + "')";
 			var cacheFilterName = {name:''};
 			uiExpQuery += filtersView(args, cacheFilterName);
 			uiExpQuery += " group by disease_type";
@@ -1495,9 +1488,11 @@ export const resolvers = {
 			return db.getSequelize().query(tscQuery, { model: db.getModelByName('Diagnosis') });			
 		},
 		//@@@PDC-1220 add uiPrimarySiteCaseCount
+		//@@@PDC-1243 fix case count per primary site
 		async uiPrimarySiteCaseCount (_, args, context) {
-			var pscQuery = "select primary_site, count(case_id) as cases_count "+
-			" from `case`  group by primary_site";
+			var pscQuery = "select primary_site, count(dia.case_id) as cases_count"+
+			" from `case` c,  pdc.diagnosis dia"+
+            " where c.case_id = dia.case_id group by primary_site";
 			/*var pscQuery = "select primary_site, count(*) as cases_count "+" from (SELECT distinct bin_to_uuid(al.aliquot_id) as aliquot_id, "+
 			" bin_to_uuid(sam.sample_id) as sample_id, al.aliquot_submitter_id,"+ 
 			" al.status as aliquot_status, sam.sample_submitter_id, "+
@@ -2138,6 +2133,7 @@ export const resolvers = {
 			}
 		},
 		//@@@PDC-332 get file metadata--add more fields
+		//@@@PDC-1257 replace fraction with fraction_number
 		/**
 		* fileMetadata gets file metadata
 		*
@@ -2149,7 +2145,7 @@ export const resolvers = {
 			var gasQuery = "select distinct f.file_name, f.file_location,"+
 			" f.md5sum, f.file_size, f.original_file_name as file_submitter_id, f.data_category, f.file_type ,f.file_format, "+ 
 			" srm.analyte, p.instrument_model as instrument, srm.folder_name as plex_or_dataset_name,"+
-			" srm.fraction, srm.experiment_type,"+ 
+			" f.fraction_number, srm.experiment_type,"+ 
 			" srm.study_run_metadata_submitter_id,"+
 			" bin_to_uuid(srm.study_run_metadata_id) as study_run_metadata_id"+ 
 			" from file f"+ 
@@ -2525,6 +2521,7 @@ export const resolvers = {
 		//@@@PDC-898 new public APIs--protocolPerStudy
 		protocolPerStudy (_, args, context) {
 			//@@@PDC-1154 column name correction: fractions_analyzed_count
+			//@@@PDC-1251 remove duplicates
 			var protoQuery = "SELECT distinct bin_to_uuid(prot.protocol_id) as protocol_id, "+
 			"prot.protocol_submitter_id, prot.experiment_type, protocol_name, "+
 			"bin_to_uuid(s.study_id) as study_id, s.study_submitter_id, "+
@@ -2543,7 +2540,8 @@ export const resolvers = {
 			"dda_topn, normalized_collision_energy, acquistion_type, "+ 
 			"dia_multiplexing, dia_ims, auxiliary_data, prot.cud_label "+
 			" from study s, program prog, project proj, protocol prot "+
-			" where prot.study_id = s.study_id and proj.program_id = prog.program_id and s.project_submitter_id IN ('" + context.value.join("','") + "')";
+			" where prot.study_id = s.study_id and s.project_id = proj.project_id "+ 
+			" and proj.program_id = prog.program_id and s.project_submitter_id IN ('" + context.value.join("','") + "')";
 			if (typeof args.study_id != 'undefined' && args.study_id.length > 0) {
 				let studySub = args.study_id.split(";");
 				protoQuery += " and s.study_id IN (uuid_to_bin('" + studySub.join("'),uuid_to_bin('") + "'))";

@@ -399,6 +399,7 @@ const defineCustomModels = (db) => {
 	  ModelQuantitativeData.removeAttribute('id');
 	  
 	  //@@@PDC-332 API for file metadata--add more fields
+	  //@@@PDC-1257 replace fraction with fraction_number	  
 	  /**
 	  * ModelFileMetadata is a utility and used in 
 	  *   getFileMetadata query.
@@ -419,7 +420,7 @@ const defineCustomModels = (db) => {
 		  analyte: { type: Sequelize.STRING }, 
 		  instrument: { type: Sequelize.STRING },
 		  plex_or_dataset_name: { type: Sequelize.STRING },
-		  fraction: { type: Sequelize.STRING },
+		  fraction_number: { type: Sequelize.STRING },
 		  experiment_type: { type: Sequelize.STRING },
 		  study_run_metadata_id: { type: Sequelize.STRING }, 
 		  study_run_metadata_submitter_id: { type: Sequelize.STRING },
