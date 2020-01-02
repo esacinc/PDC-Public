@@ -134,5 +134,16 @@
 
 /* @@@PDC-1160: Add cases and aliquots to the study summary page */
 :host /deep/ .ui-table th {
-    word-wrap: break-word;
+    word-wrap: break-word !important;
+}
+
+//@@@PDC-1219: Add a new experimental design tab on the study summary page
+:host /deep/ .ui-table tr td .colValue div {
+	font-weight: bold;
+	font-style: italic;
+	color: #3A8BB7;
+}
+
+.help-icon {
+	font-size: 20px !important;
 }

@@ -10,11 +10,14 @@ import { Apollo } from 'apollo-angular';
 import { HttpClient } from '@angular/common/http';
 import {MAT_DIALOG_DATA, MatDialogRef, MatDialogConfig, MatDialog} from '@angular/material';
 import { StudySummaryService } from './study-summary.service';
-import { AllStudiesData, Filter, WorkflowMetadata, ProtocolData, PublicationData, FilesCountsPerStudyData } from '../../types';
+import { AllStudiesData, Filter, WorkflowMetadata, ProtocolData, PublicationData, FilesCountsPerStudyData, StudyExperimentalDesign, BiospecimenPerStudy } from '../../types';
 import { StudySummaryOverlayService } from './study-summary-overlay-window/study-summary-overlay-window.service';
 import { AllClinicalData, AllCasesData } from '../../types';
 import { CheckboxModule } from 'primeng/checkbox';
 import { CaseSummaryComponent } from '../case-summary/case-summary.component';
+import * as _ from 'lodash';
+import { ngxCsv } from "ngx-csv/ngx-csv";
+
 
 //const fileExists = require('file-exists');
 
@@ -44,6 +47,7 @@ enum FileTypes {
 //@@@PDC-758: Study summary overlay window opened through search is missing data
 //@@@PDC-843: Add embargo date and data use statement to CPTAC studies
 //@@@PDC-1160: Add cases and aliquots to the study summary page
+//@@@PDC-1219: Add a new experimental design tab on the study summary page
 export class StudySummaryComponent implements OnInit {
 
   study_id: string;
@@ -61,10 +65,11 @@ export class StudySummaryComponent implements OnInit {
   responseStatus: any;
 	protocol_help_url = environment.dictionary_base_url + 'dictionaryitem.html?eName=Protocol';
 	workflow_help_url = environment.dictionary_base_url + 'dictionaryitem.html?eName=Workflow Metadata';
-	description_help_url = environment.dictionary_base_url + 'dictionaryitem.html?eName=Description';
+	description_help_url = environment.dictionary_base_url + 'dictionaryitem.html?eName=Study#study_description';
 	dua_help_url = environment.dictionary_base_url + 'dictionaryitem.html?eName=DUA';
 	aliquot_help_url = environment.dictionary_base_url + 'dictionaryitem.html?eName=Aliquot';
 	clinical_help_url = environment.dictionary_base_url + 'dictionaryitem.html?eName=Case';
+	experimentalDesign_help_url = environment.dictionary_base_url + 'dictionaryitem.html?eName=Study Run Metadata';
 	duaAvailable:boolean = true;
 	filteredClinicalData: AllClinicalData[]; //Filtered list of clinical data
 	//@@@PDC-1160: Add cases and aliquots to the study summary page
@@ -83,6 +88,16 @@ export class StudySummaryComponent implements OnInit {
 	offsetBiospecimen: number;
 	totalRecordsBiospecimens: number;
 	biospecimenCols:any[];
+	//@@@PDC-1219: Add a new experimental design tab on the study summary page
+	studyExperimentalDesign:StudyExperimentalDesign[] = [];
+	biospecimenPerStudy:BiospecimenPerStudy[] = [];
+	studyExperimentDesignTableCols:any[];
+	studyExperimentDesignMap;
+	studyExperimentDesignTableCommonCols:any[];
+	selectedExperimentalStudies: StudyExperimentalDesign[] = [];
+	studyExperimentDesignTableExtraCols:any[];
+	studyExperimentDesignTableHeaderCol = "";
+	static urlBase;
 
   constructor(private route: ActivatedRoute, private router: Router, private apollo: Apollo, private http: HttpClient,
 				private studySummaryService: StudySummaryService,
@@ -154,8 +169,32 @@ export class StudySummaryComponent implements OnInit {
 		'url': this.kidsFirstURL,
 		'imageUrl': this.iconFolder + "KidsFirst.png",
 	}];
+	this.studyExperimentDesignMap = [{
+		'id': "LABEL FREE",
+		'cols': "label_free"
+	}, {
+		'id': "ITRAQ4",
+		'cols': "itraq_114,itraq_115,itraq_116,itraq_117"
+	},
+	{		
+		'id': "ITRAQ8",
+		'cols': "itraq_113,itraq_114,itraq_115,itraq_116,itraq_117,itraq_118,itraq_119,itraq_121"
+	}, {
+		'id': "TMT10",
+		'cols': "tmt_126,tmt_127n,tmt_127c,tmt_128n,tmt_128c,tmt_129n,tmt_129c,tmt_130c,tmt_130n,tmt_131"
+	}, {
+		'id': "TMT11",
+		'cols': "tmt_126,tmt_127n,tmt_127c,tmt_128n,tmt_128c,tmt_129n,tmt_129c,tmt_130c,tmt_130n,tmt_131,tmt_131c"
+	}];
 	this.getAllClinicalData();
 	this.getAllCasesData();
+	//@@@PDC-1219: Add a new experimental design tab on the study summary page
+	this.getStudyExperimentalDesign();
+	StudySummaryComponent.urlBase = environment.dictionary_base_url;
+	}
+
+	get staticUrlBase() {
+		return StudySummaryComponent.urlBase;
 	}
 	
 	//If the current date is with in the embargo date, display the DUA with a 'accept' button
@@ -269,7 +308,7 @@ readManifest() {
 			for (let i = 0; i < this.fileCountsRaw.length; i++) {
 				this.totalFilesCount += this.fileCountsRaw[i].files_count;
 			}
-			//console.log(this.fileCountsRaw);
+			console.log(this.fileCountsRaw);
 			this.loading = false;
 		  });
 	  }, 1000);
@@ -404,6 +443,16 @@ close(navigateToHeatmap: boolean, study_name: string = '') {
 		{field: 'primary_site', header: 'Primary Site' },
 		{field: 'disease_type', header: 'Disease Type'}
 	  ];
+	  this.studyExperimentDesignTableCommonCols = [
+		// {field: 'study_run_metadata_id', header: 'Study Run Metadata ID'},
+		{field: 'study_run_metadata_submitter_id', header: 'Study Run Metadata Submitter ID'},
+/* 		{field: 'experiment_number', header: 'Experiment Number'},
+		{field: 'experiment_type', header: 'Experiment Type'}, */
+		{field: 'plex_dataset_name', header: 'Plex Dataset Name'},
+		// {field: 'acquisition_type', header: 'Acquisition Type'},
+		{field: 'number_of_fractions', header: 'Number of Fractions'}
+		// {field: 'analyte', header: 'Analyte'}
+	  ];
   }
 
 
@@ -440,6 +489,157 @@ displayTextforExternalID(externalCaseID: string) {
 	  let url = this.externalCaseMap.find(x => (x.id).toUpperCase() == externalCaseIDSplit[0].toUpperCase()).url;
 	  if (url) return ''; else return externalCaseID;
   }
+}
+
+//@@@PDC-1219: Add a new experimental design tab on the study summary page
+replaceAll(str,replaceWhat,replaceTo){
+	replaceWhat = replaceWhat.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+	var re = new RegExp(replaceWhat, 'g');
+	return str.replace(re,replaceTo);
+}
+
+//@@@PDC-1219: Add a new experimental design tab on the study summary page
+/* Small helper function to determine whether the download button should be disabled or not */
+isDownloadDisabled(){
+	if (this.selectedExperimentalStudies) {
+		if (this.selectedExperimentalStudies.length > 0) {
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
+	else {
+		return true;
+	}
+}
+
+//@@@PDC-1219: Add a new experimental design tab on the study summary page
+studyTableExportCSV(dt) {
+	let headerCols = [];
+	let colValues = [];
+	for (var i=0; i< this.studyExperimentDesignTableCols.length; i++) {
+		headerCols.push(this.studyExperimentDesignTableCols[i]['header']);
+		colValues.push(this.studyExperimentDesignTableCols[i]['field']);
+	}
+	let exportValues =  _.cloneDeep(this.studyExperimentalDesign);
+	for (let exportVal of exportValues) {
+		var changedVal = "";
+		for (let colValue of colValues) {
+			//changedVal = exportVal[colValue].replace(/<[^>]*>/g, '');
+			changedVal = exportVal[colValue].replace('<div>', '\r\n');
+			changedVal = changedVal.replace('</div>', '');
+			exportVal[colValue] = changedVal;
+		}
+	}
+ 	let csvOptions = {
+		headers: headerCols
+	};
+	let exportFileObject = JSON.parse(JSON.stringify(exportValues, colValues));			
+	new ngxCsv(exportFileObject, this.getCsvFileName(), csvOptions);	 
+}
+
+private getCsvFileName(): string {
+	let csvFileName = "PDC_study_experimental_";
+	const currentDate: Date = new Date();
+	let month: string = "" + (currentDate.getMonth() + 1);
+	csvFileName += this.convertDateString(month);
+	let date: string = "" + currentDate.getDate();
+	csvFileName += this.convertDateString(date);
+	csvFileName += "" + currentDate.getFullYear();
+	let hour: string = "" + currentDate.getHours();
+	csvFileName += "_" + this.convertDateString(hour);
+	let minute: string = "" + currentDate.getMinutes();
+	csvFileName += this.convertDateString(minute);
+	let second: string = "" + currentDate.getSeconds();
+	csvFileName += this.convertDateString(second);
+	return csvFileName;
+}
+
+private convertDateString(value: string): string {
+	if (value.length === 1) {
+	return "0" + value;
+	} else {
+	return value;
+	}
+}
+
+//@@@PDC-1219: Add a new experimental design tab on the study summary page
+getStudyExperimentalDesign() {
+	this.loading = true;
+	var aliquotSubmitterID = '';
+	var experimentType = '';
+	setTimeout(() => {
+		//'aliquot_is_ref = Yes' denotes if a aliquot is the reference. Fetch the aliquot submitter ID from biospecimenPerStudy table 
+		//for which 'aliquot_is_ref = Yes'.
+		//Use this as a reference and map it with the data in studyExperimentDesignMap API and extract the denominator for the "Ratio" column.
+		this.studySummaryService.getBiospecimenPerStudy(this.study_id).subscribe((data: any) =>{
+			this.biospecimenPerStudy = data.biospecimenPerStudy;
+			for(let biospecimen of data.biospecimenPerStudy){
+				if (biospecimen["aliquot_is_ref"] == "yes") {	  
+					aliquotSubmitterID = biospecimen["aliquot_submitter_id"];
+				}
+			}
+			setTimeout(() => {
+				this.studySummaryService.getStudyExperimentalDesign(this.study_id).subscribe((data: any) =>{
+					this.studyExperimentalDesign = data.studyExperimentalDesign;
+					let localSelectedExpStudies = [];
+					let colValues = [];
+					for(let study of this.studyExperimentalDesign) {
+						//if the export column column does not value, set it to empty
+						for (var i=0;i<colValues.length;i++) {
+						  if (!study[colValues[i]]) {
+								study[colValues[i]] = '';
+							}
+						}
+						localSelectedExpStudies.push(study);
+					}
+					this.selectedExperimentalStudies = localSelectedExpStudies;
+					//console.log(this.studyExperimentalDesign);
+ 					for(let studyExpData of data.studyExperimentalDesign){
+						experimentType = studyExpData["experiment_type"];
+					}
+					let colsExpType = this.studyExperimentDesignMap.find(x => (x.id).toUpperCase() == experimentType.toUpperCase()).cols; 
+					let colsSpecificToExpTypeArr = colsExpType.split(",");	
+					this.studyExperimentDesignTableHeaderCol = "Reagent Label to Biospecimen Mapping";
+					if (colsSpecificToExpTypeArr.includes("label_free")) {
+						this.studyExperimentDesignTableHeaderCol = "Biospecimen Mapping";
+					}
+					var colsSpecificToExpType = [];					  
+					for (let col of colsSpecificToExpTypeArr) {
+						let newCols = {};
+						let colval = _.assign(newCols, {'field': col}, {'header': col});
+						colsSpecificToExpType.push(colval);
+					}
+					for (let studyExpData of data.studyExperimentalDesign) {
+						var colValSpecificToExpType = "";
+						for (let col of colsSpecificToExpTypeArr) {
+							let colsSpecificVal = "";
+							colsSpecificVal = studyExpData[col];
+							//Access the biospecimen whose aliquot submitter ID is the same and 
+							//compose the column value with the case submitter ID and sample Type
+							for(let biospecimen of this.biospecimenPerStudy){
+								if (colsSpecificVal == biospecimen["aliquot_submitter_id"]) {
+									let caseSubmitterID = biospecimen["case_submitter_id"];
+									let sampleType = biospecimen["sample_type"];
+									colValSpecificToExpType = caseSubmitterID + "<div>" + sampleType + "</div>";
+								}
+							}
+							if (colValSpecificToExpType != '') {
+								studyExpData[col] = colValSpecificToExpType;
+							}
+						}
+						if (colValSpecificToExpType != '') {
+							this.studyExperimentalDesign = data.studyExperimentalDesign;
+						}
+					}
+					this.studyExperimentDesignTableExtraCols = colsSpecificToExpType;
+					this.studyExperimentDesignTableCols = _.concat(this.studyExperimentDesignTableCommonCols, colsSpecificToExpType);
+				});
+			}, 1000);
+		});
+		}, 1000);
+		this.loading = false;
 }
 
 }

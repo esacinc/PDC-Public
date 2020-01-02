@@ -5,7 +5,7 @@
     <div class="row" style="padding-bottom: 20px">
       <div class="col-md-6 ml-0 front-page" id="tissueSites">
           <mat-card class="front-page card card-body" style="background-image: radial-gradient(at center center, rgb(97, 162, 198) 0%, rgb(58, 139, 184) 48%, rgb(46, 111, 147) 100%);">
-            <mat-card-title class="front-page cases-card-header">PRIMARY SITES</mat-card-title>
+            <mat-card-title class="front-page cases-card-header">Cases by Primary Site</mat-card-title>
             <!--<mat-card-title class="front-page card-header">TISSUE SITES</mat-card-title>-->
               <!--<div [chart]="tissuesChart"></div>-->
 			  
@@ -17,7 +17,7 @@
       <div class="col-md-6 front-page" id="diseaseTypes">
 		<div class="row">
           <mat-card class="front-page card card-body disease-type-card-body">
-            <mat-card-title matTooltip="Number of Cases for a disease type" class="front-page cases-card-header">DISEASE TYPES</mat-card-title>
+            <mat-card-title matTooltip="Number of Cases for a disease type" class="front-page cases-card-header">Cases by Disease Type</mat-card-title>
             <mat-list class="list-group disease-type-card-list">
              <div class="disease-type-card-list" id="disease-type-card-list" *ngFor="let disease of diseasesTotalCounts">
               <div class="row">
@@ -37,17 +37,17 @@
 				  <mat-card-header class="bottom-row-card-header">RECENT RELEASES</mat-card-header>
 				  <mat-card-content id="recentReleasesContent">
 					<mat-list >
-						<mat-list-item class="bottom-card-list-item" style = "margin-top: 1.5%">
-						  <mat-icon mat-done-icon>done</mat-icon> &nbsp; &nbsp; <div>Pediatric Brain Tumor Atlas - CBTTC program Pediatric/AYA brain tumor dataset released, November 2019</div>
+						<mat-list-item class="bottom-card-list-item"   id="top-release-item">
+							<mat-icon mat-done-icon>done</mat-icon> &nbsp; &nbsp;<div>CPTAC program Glioblastoma (GBM) dataset released, December 2019</div>
+						</mat-list-item>						
+						<mat-list-item class="bottom-card-list-item"  id="release-item">
+							<mat-icon mat-done-icon>done</mat-icon> &nbsp; &nbsp;<div>International Cancer Proteogenomic Consortium - Proteogenomic Characterization of HBV-Related Hepatocellular Carcinoma data released, December 2019.</div>
 						</mat-list-item>
-						<mat-list-item class="bottom-card-list-item" style = "margin-top: 2.5%">
-						  <mat-icon mat-done-icon>done</mat-icon> &nbsp; &nbsp; <div>CPTAC3 program Lung Adenocarcinoma (LUAD) dataset released, September 2019</div>
+						<mat-list-item class="bottom-card-list-item"  id="release-item">
+							<mat-icon mat-done-icon>done</mat-icon> &nbsp; &nbsp; <div>Pediatric Brain Tumor Atlas - CBTTC program Pediatric/AYA brain tumor dataset released, November 2019</div>
 						</mat-list-item>
-						<mat-list-item class="bottom-card-list-item" style = "margin-top: 2.5%">
-							<mat-icon mat-done-icon>done</mat-icon> &nbsp; &nbsp;<div>CRDC cloud resources piloted integration with Proteomic data commons for multiomic data analysis, August 2019</div>
-						</mat-list-item>
-						<mat-list-item class="bottom-card-list-item" style = "margin-top: 2.5%">
-							<mat-icon mat-done-icon>done</mat-icon> &nbsp; &nbsp;<div>MVP 0.5 Removed the requirement to register and login to the PDC Data Browser, June 2019</div>
+						<mat-list-item class="bottom-card-list-item"  id="bottom-release-item">
+							<mat-icon mat-done-icon>done</mat-icon> &nbsp; &nbsp; <div>CPTAC3 program Lung Adenocarcinoma (LUAD) dataset released, September 2019</div>
 						</mat-list-item>
 					</mat-list>
 					</mat-card-content>
@@ -58,7 +58,7 @@
 				  <mat-card-header class="bottom-row-card-header">NEWS</mat-card-header>
 				  <mat-card-content id="newsSectionContent">
 					<mat-list>
-						<mat-list-item *ngFor="let aNews of newsItems" class="bottom-card-list-item" style="margin-bottom: 15px; padding-top: 10px!important">
+						<mat-list-item *ngFor="let aNews of newsItems" id="news-item" class="bottom-card-list-item" style=" padding-top: 10px!important">
 							<mat-icon mat-open_in_browser-icon>open_in_browser</mat-icon>&nbsp;&nbsp;<a target="_" href="{{aNews.link}}">{{aNews.label}}</a>
 						</mat-list-item>
 					</mat-list>

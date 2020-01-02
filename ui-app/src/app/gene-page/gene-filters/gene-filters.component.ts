@@ -108,6 +108,7 @@ export class GeneFiltersComponent implements OnInit, OnChanges {
 
   //array to keep all possible stduies
   allStudyArray: string[] = [];
+  allStudyNameArray: string[] = [];
 
   constructor( private route:ActivatedRoute, private geneFiltersService: GeneFiltersService, private genePageService: GenePageService) {
     GeneFiltersComponent.urlBase = environment.dictionary_base_url;
@@ -179,7 +180,8 @@ export class GeneFiltersComponent implements OnInit, OnChanges {
 	let processedGeneNames = this.selectedGeneNames.toUpperCase().replace(/\s/g, ';');
 	console.log(processedGeneNames);
 	this.geneFiltersService.getStudyByGeneName(processedGeneNames).subscribe((data: any) => {
-		let studyList = [];
+    let studyList = [];
+    let studyNameList = [];
 		//initialize all filter lists
 		this.allFilterCategoryMapData = new Map();
 		this.projectsFilter = [];
@@ -199,10 +201,11 @@ export class GeneFiltersComponent implements OnInit, OnChanges {
 		
 		console.log(data.uiGeneStudySpectralCount);
 		for(const item of data.uiGeneStudySpectralCount){
-			studyList.push(item.study_submitter_id); //study id in format SXXXX-X
+      studyList.push(item.study_submitter_id); //study id in format SXXXX-X
+      studyNameList.push(item.submitter_id_name);
 		}
 		this.allStudyArray = studyList;
-		
+		this.allStudyNameArray =  studyNameList;
 		for (let i = 0; i < this.allFilterCategory.length; i++) {
 		  let filterCategoryName = this.allFilterCategory[i];
 		  let filterList: Filter[] = this.findFilterListByName(filterCategoryName);
@@ -264,10 +267,26 @@ export class GeneFiltersComponent implements OnInit, OnChanges {
   /* Update filters counters when filter selection is changed */
   /*if only one filter category has been selected, all filter 
 	counts in that category shouldn't update*/
-  updateFiltersCounters() {
+  updateFiltersCounters(studySelected: boolean = false) {
+    let newFilterSelected = {
+      "study_name":[],
+      "project_name": [],
+      "primary_site": [],
+      "program_name": [],
+      "disease_type": [],
+      "analytical_fraction": [],
+      "experiment_type": [],
+      "acquisition_type": [],
+      "submitter_id_name": [],
+      "sample_type": [],
+      "ethnicity": [],
+      "race": [],
+      "gender": [],
+      "tumor_grade": []
+    };
     //track how many filter category selected, handle one category selected special case
-	let numOfFilterCategorySelected = 0;
-    let intersectedStudyArray: string[]	= this.allStudyArray;
+    let numOfFilterCategorySelected = 0;
+    let intersectedStudyArray: string[] = this.allStudyArray;
     //track filter category name if only one category selected
     let selectedFilterCategoryName = null;
     /**loop all selected filters and do the below operation
@@ -288,6 +307,7 @@ export class GeneFiltersComponent implements OnInit, OnChanges {
               filterCategoryName + ":" + selectedFilterName
             )
           );
+          newFilterSelected[filterCategoryName].push(selectedFilterName);
         }
         //intersect all unionStudyInSameCategory which is the result of union all selected filters in each category
         intersectedStudyArray = _.intersection(
@@ -324,19 +344,69 @@ export class GeneFiltersComponent implements OnInit, OnChanges {
           selectedFilterCategoryName + ":" + individualFilter.filterName
         ).length;
       }
+      let studyList: Filter[] = [];
+      for (let studyFilter of this.allStudyFilter) {
+        if (studyFilter.filterCount > 0) {
+          studyList.push(studyFilter);
+        }
+      }
+      if (!studySelected) {
+        this.studyFilter = studyList;
+      } 
+    } else {
+      if(newFilterSelected.submitter_id_name.length >0){
+        newFilterSelected.study_name = newFilterSelected.submitter_id_name;
+      }else{
+        newFilterSelected.study_name =  this.allStudyNameArray;
+      }
+      let filterSelected = {};
+      for(let fieldName in newFilterSelected){
+        filterSelected[fieldName] = newFilterSelected[fieldName].join(";");
+      }
+      this.geneFiltersService
+      .getFilteredFiltersDataQuery(filterSelected)
+      .subscribe((data: any) => {
+        for (let i = 0; i < this.allFilterCategory.length; i++) {
+          let filterCategoryName = this.allFilterCategory[i];
+          let selectedFilter: Filter[] = this.findFilterListByName(
+            filterCategoryName
+          );
+          let filterListData: FilterElement[] = data.uiFilters[
+            filterCategoryName
+          ];
+          let filterListDataMap = new Map();
+          for (let filterData of filterListData) {
+            filterListDataMap.set(
+              filterData.filterName,
+              filterData.filterValue.length
+            );
+          }
+          for (let selectedFilterData of selectedFilter) {
+            if (filterListDataMap.has(selectedFilterData.filterName)) {
+              selectedFilterData.filterCount = filterListDataMap.get(
+                selectedFilterData.filterName
+              );
+            } else {
+              selectedFilterData.filterCount = 0;
+            }
+          }
+          let studyList: Filter[] = [];
+          for (let studyFilter of this.allStudyFilter) {
+            if (studyFilter.filterCount > 0) {
+              studyList.push(studyFilter);
+            }
+          }
+          if (!studySelected) {
+            this.studyFilter = studyList;
+          }
+        }
+      });
     }
 
     //remove study in study filter category if study is not able to be selected
-    let studyList: Filter[] = [];
-    for (let studyFilter of this.allStudyFilter) {
-      if (studyFilter.filterCount > 0) {
-        studyList.push(studyFilter);
-      }
-    }
-    this.studyFilter = studyList;
     console.log(this.projectsFilter);
-	//console.log(this.allCategoryFilterData);
-	//console.log(this.allStudyArray);
+    //console.log(this.allCategoryFilterData);
+    //console.log(this.allStudyArray);
   }
 
   private findSelectedFilterByName(filterName: string): string[] {
@@ -504,7 +574,7 @@ export class GeneFiltersComponent implements OnInit, OnChanges {
   filterDataByStudy(e) {
     var newFilterValue = "study_name:" + this.selectedStudyFilter.join(";");
     this.selectedFilters.emit(newFilterValue);
-    this.updateFiltersCounters();
+    this.updateFiltersCounters(true);
   }
 
   //Clear projects filter selections callback button

@@ -23,7 +23,6 @@ const getSignedUrl = function (location) {
 		Key: myKey,
 		Expires: signedUrlExpireSeconds
 	})
-	//console.log(url);
 	return new fileSignedUrl(url);
 }
 

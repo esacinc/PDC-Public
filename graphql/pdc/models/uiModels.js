@@ -141,6 +141,7 @@ const defineUiModels = (db) => {
 	//@@@PDC-893 add case status			
 	//@@@PDC-1011 replace gdc_case_id with external_case_id
 	//@@@PDC-1234 add imaging_resource
+	//@@@PDC-1237 add age_at_diagnosis et al
 	/**
 	* ModelUIClinical is used in uiClinical query.
 	*/
@@ -163,6 +164,9 @@ const defineUiModels = (db) => {
 		tissue_or_organ_of_origin: { type: Sequelize.STRING},
 		tumor_grade: { type: Sequelize.STRING},
 		tumor_stage: { type: Sequelize.STRING},
+   	    age_at_diagnosis: { type: Sequelize.STRING },
+		days_to_recurrence: { type: Sequelize.STRING },
+		classification_of_tumor: { type: Sequelize.STRING },
 	}, {
 		timestamps: false,
 		underscored: true,
@@ -213,6 +217,17 @@ const defineUiModels = (db) => {
 	});
 	ModelUIFile.removeAttribute('id');
 	
+	//@@@PDC-1291 Redesign Browse Page data tabs
+	const ModelUIGeneName = db.getSequelize().define('dummy', {
+		gene_name:  { type: Sequelize.STRING},
+	}, {
+		timestamps: false,
+		underscored: true,
+		freezeTableName: true,
+		tableName: 'dummy'	
+	});
+	ModelUIGeneName.removeAttribute('id');
+
 	//@@@PDC-220 UI experiment type case count API
 	//@@@PDC-265 API for UI analytical_fraction case count 
 	//@@@PDC-1220 add uiPrimarySiteCaseCount	
@@ -351,6 +366,108 @@ const defineUiModels = (db) => {
 	});
 	ModelUIPtm.removeAttribute('id');
 
+	const ModelFilterStudy = db.getSequelize().define('dummy', {
+		study_submitter_id:  { type: Sequelize.STRING},
+	}, {
+		timestamps: false,
+		underscored: true,
+		freezeTableName: true,
+		tableName: 'dummy'	
+	});
+	ModelFilterStudy.removeAttribute('id');
+
+	const ModelFilterProgProj = db.getSequelize().define('dummy', {
+		study_submitter_id: { type: Sequelize.STRING},
+		submitter_id_name: { type: Sequelize.STRING},
+		acquisition_type: { type: Sequelize.STRING},
+		analytical_fraction:  { type: Sequelize.STRING},
+		experiment_type:  { type: Sequelize.STRING},
+		program_name:  { type: Sequelize.STRING},
+		project_name:  { type: Sequelize.STRING}
+	}, {
+		timestamps: false,
+		underscored: true,
+		freezeTableName: true,
+		tableName: 'dummy'	
+	});
+	ModelFilterProgProj.removeAttribute('id');
+
+	const ModelFilterFile = db.getSequelize().define('dummy', {
+		study_submitter_id: { type: Sequelize.STRING},
+		submitter_id_name: { type: Sequelize.STRING},
+		acquisition_type: { type: Sequelize.STRING},
+		analytical_fraction:  { type: Sequelize.STRING},
+		experiment_type:  { type: Sequelize.STRING},
+		data_category:  { type: Sequelize.STRING},
+		file_type: { type: Sequelize.STRING},
+		downloadable: { type: Sequelize.STRING },
+		access: { type: Sequelize.STRING}
+	}, {
+		timestamps: false,
+		underscored: true,
+		freezeTableName: true,
+		tableName: 'dummy'	
+	});
+	ModelFilterFile.removeAttribute('id');
+
+	const ModelFilterAlSamCaDemDia = db.getSequelize().define('dummy', {
+		study_submitter_id: { type: Sequelize.STRING},
+		submitter_id_name: { type: Sequelize.STRING},
+		acquisition_type: { type: Sequelize.STRING},
+		analytical_fraction:  { type: Sequelize.STRING},
+		experiment_type:  { type: Sequelize.STRING},
+		biospecimen_status: { type: Sequelize.STRING},
+		sample_type:  { type: Sequelize.STRING},
+		disease_type:  { type: Sequelize.STRING},
+		primary_site:  { type: Sequelize.STRING},
+		case_status: { type: Sequelize.STRING},
+		ethnicity:  { type: Sequelize.STRING},
+		race:  { type: Sequelize.STRING},
+		gender:  { type: Sequelize.STRING},
+		morphology:  { type: Sequelize.STRING},
+		primary_diagnosis:  { type: Sequelize.STRING},
+		site_of_resection_or_biopsy:  { type: Sequelize.STRING},
+		tissue_or_organ_of_origin:  { type: Sequelize.STRING},
+		tumor_grade:  { type: Sequelize.STRING},
+		tumor_stage:  { type: Sequelize.STRING}
+	}, {
+		timestamps: false,
+		underscored: true,
+		freezeTableName: true,
+		tableName: 'dummy'	
+	});
+	ModelFilterAlSamCaDemDia.removeAttribute('id');
+
+	const ModelFilterProgProjAlSamCaDemDia = db.getSequelize().define('dummy', {
+		study_submitter_id: { type: Sequelize.STRING},
+		submitter_id_name: { type: Sequelize.STRING},
+		acquisition_type: { type: Sequelize.STRING},
+		analytical_fraction:  { type: Sequelize.STRING},
+		experiment_type:  { type: Sequelize.STRING},
+		program_name:  { type: Sequelize.STRING},
+		project_name:  { type: Sequelize.STRING},
+		biospecimen_status: { type: Sequelize.STRING},
+		sample_type:  { type: Sequelize.STRING},
+		disease_type:  { type: Sequelize.STRING},
+		primary_site:  { type: Sequelize.STRING},
+		case_status: { type: Sequelize.STRING},
+		ethnicity:  { type: Sequelize.STRING},
+		race:  { type: Sequelize.STRING},
+		gender:  { type: Sequelize.STRING},
+		morphology:  { type: Sequelize.STRING},
+		primary_diagnosis:  { type: Sequelize.STRING},
+		site_of_resection_or_biopsy:  { type: Sequelize.STRING},
+		tissue_or_organ_of_origin:  { type: Sequelize.STRING},
+		tumor_grade:  { type: Sequelize.STRING},
+		tumor_stage:  { type: Sequelize.STRING}		
+	}, {
+		timestamps: false,
+		underscored: true,
+		freezeTableName: true,
+		tableName: 'dummy'	
+	});
+	ModelFilterProgProjAlSamCaDemDia.removeAttribute('id');
+
 	db['ModelUIStudy'] = ModelUIStudy;
 	db['ModelUIFilter'] = ModelUIFilter;
 	db['ModelUICount'] = ModelUICount;	
@@ -358,16 +475,19 @@ const defineUiModels = (db) => {
 	db['ModelUIClinical'] = ModelUIClinical;
 	db['ModelUIFile'] = ModelUIFile;	
 	db['ModelUIGene'] = ModelUIGene;
+	db['ModelUIGeneName'] = ModelUIGeneName;
 	db['ModelUIExperiment'] = ModelUIExperiment;
 	db['ModelPagination'] = ModelPagination;		
 	db['ModelUIPublication'] = ModelUIPublication;	
 	db['ModelUIFileCount'] = ModelUIFileCount;
 	db['ModelUIGeneStudySpectralCount'] = ModelUIGeneStudySpectralCount;
 	db['ModelUISunburst'] = ModelUISunburst;	
-	db['ModelUIPtm'] = ModelUIPtm;					
+	db['ModelUIPtm'] = ModelUIPtm;		
+	db['ModelFilterStudy'] = ModelFilterStudy;		
+	db['ModelFilterProgProj'] = ModelFilterProgProj;
+	db['ModelFilterFile'] = ModelFilterFile;
+	db['ModelFilterAlSamCaDemDia'] = ModelFilterAlSamCaDemDia;
+	db['ModelFilterProgProjAlSamCaDemDia'] = ModelFilterProgProjAlSamCaDemDia;
 };
-
-
-
 
 export { defineUiModels };

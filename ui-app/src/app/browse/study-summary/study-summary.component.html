@@ -150,6 +150,58 @@
 				</table>
 			</div>
 		</mat-tab>
+		<mat-tab label="Experimental Design">
+			<span><ng-template mat-tab-label>
+				Experimental Design<a href={{experimentalDesign_help_url}} target="_">
+					<mat-icon matTooltip="View Study Run Metadata" class="help-icon">help</mat-icon></a>
+				  </ng-template>
+			</span>
+			<div *ngIf="loading">
+				<mat-spinner></mat-spinner>
+			</div>
+			<div *ngIf="studyExperimentalDesign.length > 0 && !loading" class="row" style="margin-left:0px !important">
+					<h3 style="font-family: 'Lato'; font-size:14px;float:left">{{studyExperimentalDesign.length > 1 ? 'Total records: ' + this.studyExperimentalDesign.length : 'Total record: ' + this.studyExperimentalDesign.length }}</h3>
+			</div>
+			<div *ngIf="studyExperimentalDesign" class="row" style="margin-left:0px !important">
+				<p-table #dt class="table-striped ui-datatable-odd" [value]="studyExperimentalDesign" [lazy]="true"
+				[loading]="loading" [resizableColumns]="true" columnResizeMode="expand" [responsive]="true" 
+				id="studyExperimentalDesignTable" [scrollable]="true" scrollHeight="350px" [(selection)]="selectedExperimentalStudies">
+				<ng-template pTemplate="caption">
+					<div class="ui-helper-clearfix">
+						<button matTooltip="Please use CPTAC Data Portal for downloading the files" id="downloadStudyExpDesignManifest" mat-raised-button mat-primary label="Download Selection" 
+						(click)="studyTableExportCSV(dt)" style="font-family:'Lato';float:right;margin-right: 1%;" [disabled]="isDownloadDisabled()" aria-label="Download Data">Export</button>
+					</div>
+				</ng-template>
+				<ng-template style="font-size: 12px; background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%);" pTemplate="header" let-columns>
+						<tr style="font-size: 12px;">
+							<th rowspan=3 *ngFor="let col of studyExperimentDesignTableCommonCols" class="ui-datatable-tableheader" pResizableColumn style="word-wrap: break-word; white-space: normal;">
+								<a href="{{staticUrlBase}}dictionaryitem.html?eName=Study Run Metadata" target="_blank" style="color:white">{{col.header}}</a>
+							</th>
+						</tr>
+						<tr *ngIf="studyExperimentDesignTableExtraCols" style="font-size: 12px;">
+							<th rowspan=1 [attr.colspan]="studyExperimentDesignTableExtraCols.length" class="ui-datatable-tableheader" pResizableColumn style="word-wrap: break-word; white-space: normal;text-align: center;">
+								<a href="{{staticUrlBase}}dictionaryitem.html?eName=Study Run Metadata" target="_blank" style="color:white">
+									{{studyExperimentDesignTableHeaderCol}}
+								</a>
+							</th>
+						</tr>
+						<tr *ngIf="studyExperimentDesignTableExtraCols" style="font-size: 12px;">
+							<th rowspan=2 *ngFor="let column of studyExperimentDesignTableExtraCols" class="ui-datatable-tableheader" pResizableColumn style="word-wrap: break-word; white-space: normal;">
+								<a href="{{staticUrlBase}}dictionaryitem.html?eName=Study Run Metadata" target="_blank" style="color:white">{{column.header}}</a>
+							</th>
+						</tr>
+					</ng-template>
+					<ng-template pTemplate="body" let-studyExperimentalDesign let-columns="studyExperimentDesignTableCols">
+						<tr style="font-size: 11px;">
+							<td *ngFor="let col of studyExperimentDesignTableCols" style="word-wrap: break-word; white-space: normal;">
+								<span class="colValue" [innerHtml] = "studyExperimentalDesign[col.field]"></span>
+							</td>
+						</tr>
+					</ng-template>
+				</p-table>
+			</div>
+			<br>
+		</mat-tab>
 		<mat-tab label="Clinical">
 				<span><ng-template mat-tab-label>
 						Clinical<a href={{clinical_help_url}} target="_">
@@ -169,8 +221,19 @@
 					<ng-template style="font-size: 12px; background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%);" pTemplate="header">
 						<tr style="font-size: 12px;">
 							<!-- @@@PDC-262 link headers to data dictionary -->                
-							<th class="ui-datatable-tableheader" style="width:14%;" [pSortableColumn]="clinicalCols[0].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Case" target="_blank" style="color:white">Cases Submitter ID</a><p-sortIcon [field]="clinicalCols[0].field" ariaLabel="Sort Case submitter ID in ascending/descending order"></p-sortIcon></th>
-							<th class="ui-datatable-tableheader" style="width:13%" [pSortableColumn]="clinicalCols[1].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Case#gdc_case_id" target="_blank" style="color:white">External Data Resource</a><p-sortIcon [field]="clinicalCols[1].field" ariaLabel="Sort External Case ID in ascending/descending order"></p-sortIcon></th>
+							<th class="ui-datatable-tableheader" style="width:14%;" [pSortableColumn]="clinicalCols[0].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Case" target="_blank" style="color:white">Cases Submitter ID</a><p-sortIcon [field]="clinicalCols[0].field" ariaLabel="Sort Case submitter ID in ascending/descending order"></p-sortIcon></th>							
+							<th class="ui-datatable-tableheader" style="width:13%" [pSortableColumn]="clinicalCols[1].field" pResizableColumn>
+								<div class="ui-datatable-tableheader-flex-container">
+									<div>
+										<a href="{{staticUrlBase}}dictionaryitem.html?eName=Case#gdc_case_id" target="_blank" style="color:white">
+											Genomic and Imaging<br> Data Resource
+										</a>
+									</div>
+									<div class="ui-datatable-tableheader-flex-sorticon">
+										<p-sortIcon [field]="clinicalCols[1].field" ariaLabel="Sort External Case ID in ascending/descending order"></p-sortIcon>
+									</div>
+								</div>								
+							</th>
 							<th class="ui-datatable-tableheader" style="width:8%" [pSortableColumn]="clinicalCols[2].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Demographic#ethnicity" target="_blank" style="color:white">Ethnicity</a><p-sortIcon [field]="clinicalCols[2].field" ariaLabel="Sort Ethinicity column in ascending/descending order"></p-sortIcon></th>
 							<th class="ui-datatable-tableheader" style="width:6%" [pSortableColumn]="clinicalCols[3].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Demographic#gender" target="_blank" style="color:white">Gender</a><p-sortIcon [field]="clinicalCols[3].field" ariaLabel="Sort Gender column in ascending/descending order"></p-sortIcon></th>
 							<th class="ui-datatable-tableheader" style="width:6%" [pSortableColumn]="clinicalCols[4].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Demographic#race" target="_blank" style="color:white">Race</a><p-sortIcon [field]="clinicalCols[4].field" ariaLabel="Sort Race column in ascending/descending order"></p-sortIcon></th>
@@ -359,7 +422,7 @@
 			</div>
 		</mat-tab>
 		<mat-tab><ng-template mat-tab-label>
-				DUA<a href={{dua_help_url}} target="_"><mat-icon matTooltip="Data Use Agreement" class="help-icon">help</mat-icon></a>
+				DUA<mat-icon matTooltip="Data Use Agreement" class="help-icon">help</mat-icon>
 			  </ng-template>
 			<div *ngIf="duaAvailable" style = "max-height:220px;overflow-y: auto;display: block!important;font-size: 12px; width: 100%;"><h3>Data Use Agreement</h3><p>CPTAC requests that data users abide by the same principles that were previously established in the Fort Lauderdale and Amsterdam meetings. The recommendations from the Fort Lauderdale meeting (2003) on best practices and principles for <a href="https://www.genome.gov/pages/research/wellcomereport0303.pdf" class="ext" target="_blank" rel="noopener noreferrer">sharing large-scale genomic data<span class="ext" aria-label="(link is external)"></span></a> address the roles and responsibilities of data producers, data users and funders of community resource projects. The aim of the recommendations is to establish and maintain an appropriate balance between the interests that data users have in rapid access to data and the needs that data producers have to publish and receive recognition for their work. The conclusion of the attendees at the Fort Lauderdale meeting was that a “responsible use” approach for secondary data users would be sufficient to ensure that the efforts of data producers will be recognized. “Responsible use” was defined as allowing data producers to have the opportunity to publish the initial global analyses of the data within a reasonable period of time prior to secondary analyses.</p>
 				<p>In 2008, the NCI’s OCCPR organized a workshop to discuss how and when proteomics data should be released. The result was the <a href="https://www.ncbi.nlm.nih.gov/pubmed/19344107" target="_blank">Amsterdam Principles</a> that established guidelines for the timing of data release, comprehensiveness of a dataset, data format, deposition to repositories, quality metrics, and responsibility for proteomic data release. Participants agreed that mass spectrometry output data files should be available to support the claims of proteomics publications. In 2010, NCI’s OCCPR convened a follow-on workshop to address quality metrics for proteomics with an emphasis on mass spectrometry. As a sign of solidarity for these principles, four peer-reviewed journals simultaneously published the <a href="https://www.ncbi.nlm.nih.gov/pubmed/22069307" target="_blank">corollary to Amsterdam Principles</a>.</p>
@@ -404,6 +467,25 @@
 			</mat-card>
 		</div>
 		<div class="col-md-6">
+		<!--@@@PDC-1313 use heatmap thumbnail-->			
+		<div>
+			<mat-card>
+				<mat-card-content>
+				<div *ngIf="!heatmapAvailable">
+					No heatmap for this study
+				</div>
+				<div *ngIf="heatmapAvailable">
+				<tr style="font-size: 14px;border: 0px">
+				<td style="width:10%;border: 0px"><button mat-raised-button mat-primary (click)="close(true,studySummaryData.submitter_id_name)" id="viewHeatMapFromStudySummary"><img src="./assets/css/images/heatmap_thumb.png"></button>
+				</td>
+				<td style="width:5%"> </td>
+				<td style="width:85%;align-content:center;border: 0px">  Explore protein quantitation from PDC Common <br>Data Analysis pipeline (CDAP) through heatmaps</td>
+				</tr>
+				</div>
+				</mat-card-content>
+			</mat-card>	
+		    </div>			
+			<div>
 			<mat-card>
 				<mat-card-header class="study-summary" >
 					<mat-card-title  class="study-summary" >PUBLICATIONS</mat-card-title>
@@ -421,9 +503,8 @@
 						</ng-template>
 					</p-table>
 				</mat-card-content>
-			</mat-card>
-			<br>
-			<button mat-raised-button mat-primary [disabled] = "!heatmapAvailable" (click)="close(true,studySummaryData.submitter_id_name)" id="viewHeatMapFromStudySummary">View Heatmaps</button>
+			</mat-card>	
+			</div>
 		</div>
   </div>
 </mat-dialog-content>

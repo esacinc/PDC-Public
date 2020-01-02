@@ -5,6 +5,8 @@ import AWS from "aws-sdk";
 import { defineSequelizeModels } from '../models/sequelizeModels';
 import { defineCustomModels } from '../models/customModels';
 import { defineUiModels } from '../models/uiModels';
+//@@@PDC-1215 use winston logger
+import { logger } from './logger';
 
 //@@@PDC-411 get DB connect info from env variables
 let db = {};
@@ -30,7 +32,8 @@ if (typeof process.env.PDC_DB_GQ_PWD != "undefined") {
     {
       host: process.env.PDC_DB_GQ_HOST,
       dialect: process.env.PDC_DB_GQ_DIALECT,
-      port: process.env.PDC_DB_GQ_PORT
+      port: process.env.PDC_DB_GQ_PORT,
+	  logging: (msg) => logger.info(msg)
     }
   );
 
@@ -65,6 +68,7 @@ if (typeof process.env.PDC_DB_GQ_PWD != "undefined") {
     } else {
       // Decrypts secret using the associated KMS CMK.
       // Depending on whether the secret is a string or binary, one of these fields will be populated.
+	//@@@PDC-1215 use winston logger
       sequelize = new Sequelize(
         process.env.PDC_DB_PDCAPI,
         process.env.PDC_DB_PDCAPI_USER,
@@ -72,19 +76,20 @@ if (typeof process.env.PDC_DB_GQ_PWD != "undefined") {
         {
           host: process.env.PDC_DB_PDCAPI_HOST,
           dialect: process.env.PDC_DB_PDCAPI_DIALECT,
-          port: process.env.PDC_DB_PDCAPI_PORT
+          port: process.env.PDC_DB_PDCAPI_PORT,
+		  logging: (msg) => logger.info(msg)
         }
       );
 
       sequelize.authenticate().catch(err => {
-        console.error("Unable to connect to the database:", err);
+        logger.error("Unable to connect to the database:", err);
       });
 
       defineSequelizeModels(db);
       defineCustomModels(db);
       defineUiModels(db);
       
-      console.log('retrieved password from aws secrets manager');
+      logger.info('retrieved password from aws secrets manager');
     }
   });
 }

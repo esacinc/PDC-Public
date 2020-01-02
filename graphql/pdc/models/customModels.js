@@ -10,10 +10,12 @@ import _ from 'lodash';
 //@@@PDC-962 defnie db models after db is initialized asynchronously 
 const defineCustomModels = (db) => {
 
+	//@@@PDC-1241 fix for latest version of Sequelize
 	const ModelCase = db.getSequelize().define('case', {
 		case_id: { type: Sequelize.STRING,
 					  primaryKey: true   },
 		project_submitter_id: { type: Sequelize.INTEGER },
+		project_id: { type: Sequelize.STRING },
 		disease_type: { type: Sequelize.STRING },
 		count: { type: Sequelize.INTEGER },
 	  }, {
@@ -41,12 +43,14 @@ const defineCustomModels = (db) => {
 	  * used in diseaseTypesPerProject query.
 	  */
 	  //@@@PDC-474 programs-projects-studies API
+	  //@@@PDC-1241 fix for latest version of Sequelize
 	  const ModelStudy = db.getSequelize().define('study', {
 		study_id: { type: Sequelize.STRING,
 					  primaryKey: true   },
 		study_submitter_id: { type: Sequelize.STRING },
 		submitter_id_name: { type: Sequelize.STRING },
 		project_submitter_id: { type: Sequelize.STRING },
+		project_id: { type: Sequelize.STRING },
 		acquisition_type: { type: Sequelize.STRING },
 		experiment_type: { type: Sequelize.STRING },
 		analytical_fraction: { type: Sequelize.STRING },
@@ -552,6 +556,7 @@ const defineCustomModels = (db) => {
 	  //@@@PDC-898 new public APIs--studyExperimentalDesign
 	  //@@@PDC-1120 StudyRunMetadata table change
 	  //@@@PDC-1156 add is_ref
+	  //@@@PDC-1316 remove itraq_120
 	  const ModelStudyExperimentalDesign = db.getSequelize().define('dummy', {
 		  study_run_metadata_id: { type: Sequelize.STRING,
 					  primaryKey: true },
@@ -566,13 +571,13 @@ const defineCustomModels = (db) => {
 		  experiment_type:  { type: Sequelize.STRING},
 		  number_of_fractions:  { type: Sequelize.STRING},
 		  label_free:  { type: Sequelize.STRING},
+		  itraq_113:  { type: Sequelize.STRING},
 		  itraq_114:  { type: Sequelize.STRING},
 		  itraq_115:  { type: Sequelize.STRING},
 		  itraq_116:  { type: Sequelize.STRING},
 		  itraq_117:  { type: Sequelize.STRING},
 		  itraq_118:  { type: Sequelize.STRING},
 		  itraq_119:  { type: Sequelize.STRING},
-		  itraq_120:  { type: Sequelize.STRING},
 		  itraq_121:  { type: Sequelize.STRING},
 		  tmt_126:  { type: Sequelize.STRING},
 		  tmt_127n:  { type: Sequelize.STRING},

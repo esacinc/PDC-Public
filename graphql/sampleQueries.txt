@@ -4888,7 +4888,6 @@ PDC-265
 		file_submitter_id 
 		analyte 
 		instrument
-		folder_name
 		fraction_number
 		experiment_type
 		aliquots {
@@ -4987,7 +4986,7 @@ PDC-265
 		taxon
 	}
 }
-//PDC-1120
+//PDC-1120, 1316
 {
 	studyExperimentalDesign (study_id: "dbe94609-1fb3-11e9-b7f8-0a80fada099c"){
 		study_run_metadata_id,
@@ -5002,13 +5001,13 @@ PDC-265
 		experiment_number,
 		number_of_fractions,
 		label_free,
+		itraq_113,
 		itraq_114,
 		itraq_115,
 		itraq_116,
 		itraq_117,
 		itraq_118,
 		itraq_119,
-		itraq_120,
 		itraq_121,
 		tmt_126,
 		tmt_127n,
@@ -5055,7 +5054,7 @@ PDC-265
 		}
 	}
 }
-//PDC-948,1234
+//PDC-948,1234, 1237
 {
 	getPaginatedUIClinical(biospecimen_status: "Disqualified" offset: 0 limit: 10) {
 		total
@@ -5078,6 +5077,9 @@ PDC-265
 			tissue_or_organ_of_origin
 			tumor_grade
 			tumor_stage
+			age_at_diagnosis
+			classification_of_tumor
+			days_to_recurrence
 		}
 		pagination {
 			count

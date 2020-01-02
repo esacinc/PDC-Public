@@ -189,6 +189,72 @@ class MockStudySummaryService {
     });
   }
 
+  //@@@PDC-1219: Add a new experimental design tab on the study summary page
+  getStudyExperimentalDesign(): Observable<any> {
+    return of({
+      studyExperimentalDesign: [
+        {
+          study_run_metadata_id: "0127c578-2075-11e9-b7f8-0a80fada099c",
+          study_run_metadata_submitter_id: "S044-1-13",
+          study_id: "dbe94609-1fb3-11e9-b7f8-0a80fada099c",
+          study_submitter_id: "S044-1",
+          analyte: "null",
+          acquisition_type: "DDA",
+          experiment_type: "TMT10",
+          plex_dataset_name: "10CPTAC_CCRCC_Proteome_JHU_20180119",
+          experiment_number: "null",
+          number_of_fractions: "25",
+          label_free: "null",
+          itraq_113: "null",
+          itraq_114: "null",
+          itraq_115: "null",
+          itraq_116: "null",
+          itraq_117: "null",
+          itraq_118: "null",
+          itraq_119: "null",
+          itraq_121: "null",
+          tmt_126: "CPT0001180009",
+          tmt_127n: "CPT0082010001",
+          tmt_127c: "CPT0015910003",
+          tmt_128n: "CPT0086870003",
+          tmt_128c: "CPT0063330001",
+          tmt_129n: "CPT0001190001",
+          tmt_129c: "CPT0063320003",
+          tmt_130n: "CPT0081990003",
+          tmt_130c: "CPT0086890003",
+          tmt_131: "Pooled Sample",
+          tmt_131c: "null"
+        }
+      ]
+    });
+  }
+
+  //@@@PDC-1219: Add a new experimental design tab on the study summary page
+  getBiospecimenPerStudy(): Observable<any> {
+    return of({
+      biospecimenPerStudy: [
+        {
+          aliquot_id: "5225d754-d0b0-11e9-9a07-0a80fada099c",
+          sample_id: "9a3ef50b-d0a6-11e9-9a07-0a80fada099c",
+          case_id: "f1ed9eb2-cf1e-11e9-9a07-0a80fada099c",
+          aliquot_submitter_id: "CPT0000920017",
+          sample_submitter_id: "C3L-00094-03",
+          case_submitter_id: "C3L-00094",
+          aliquot_is_ref: "no",
+          aliquot_status: "Qualified",
+          case_status: "Qualified",
+          sample_status: "Qualified",
+          project_name: "CPTAC3 Discovery",
+          sample_type: "Primary Tumor",
+          disease_type: "Lung Adenocarcinoma",
+          primary_site: "Bronchus and lung",
+          pool: "No",
+          taxon: "Homo sapiens"
+        }
+      ]
+    });
+  }
+
   getPublicationsData(): Observable<any> {
     return of({
       uiPublication: [

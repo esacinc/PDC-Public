@@ -169,9 +169,9 @@ export class LoginComponent implements OnInit {
             this.dialogRef.close("user register with email");
 			break;
 		  case 7:
-			this.systemErrorMessage = "User is blocked due to too many unsuccessful logins";
-			console.log("User was blocked due to too many unsuccessful logins");
-			alert("User " + username + " is blocked due to too many unsuccessful logins");
+			this.systemErrorMessage = "User is blocked due to too many unsuccessful logins. Please contact website administrator by email pdc-admin@esacinc.com to unlock the account.";
+			console.log("User was blocked due to too many unsuccessful logins.");
+			alert("User " + username + " is blocked due to too many unsuccessful logins. Please contact website administrator by email pdc-admin@esacinc.com to unlock the account.");
 			break;
         }
       });  

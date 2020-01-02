@@ -70,14 +70,16 @@
 					</tr>
 				</ng-template>
 			</p-table>
+		</div><br>
+		<div class="row" style="width: 100%; height:100%" >
+			<app-oncoprint style="width:100%" [gene_id]="geneSummaryData?.gene_name" [newFilterValue]="newFilterValue"></app-oncoprint>
 		</div>
-		<br>
 		<div class="row" style="width: 100%;">
 			<p-table class="table-striped ui-datatable-odd" id="geneSummaryDataTable" [value]="studySpectralCountsList" [lazy]="true" [paginator]="studyTotalRecords > studyLimit" [(first)]="studyOffset"
 					[rows]="10" [pageLinks]="5" [totalRecords]="studyTotalRecords"
 					[loading]="loading" [resizableColumns]="true" responsive="true" (onLazyLoad)="loadNewPageStudySpectralCounts($event)">
 				<ng-template pTemplate="caption">
-					<div style="float:left">Studies in Which a Gene Product Was Detected</div>
+					<div style="float:left">Studies in Which the Gene Product Was Detected</div>
 					<div class="ui-helper-clearfix">
 						<div style="float:right">Total Studies: {{studyTotalRecords}}</div>
 					</div>
@@ -113,7 +115,7 @@
 					[rows]="10" [pageLinks]="5" [totalRecords]="aliquotTotalRecords"
 					[loading]="loadingAliquotRecords" [resizableColumns]="true" responsive="true" (onLazyLoad)="loadNewPageAliquotSpectralCounts($event)">
 				<ng-template pTemplate="caption">
-					<div style="float:left">Biospecimens/Samples in Which a Gene Product Was Detected</div>
+					<div style="float:left">Biospecimens/Samples in Which the Gene Product Was Detected</div>
 					<div class="ui-helper-clearfix">
 						<div style="float:right">Total Biospecimens: {{aliquotTotalRecords}}</div>
 					</div>

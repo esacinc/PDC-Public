@@ -1,6 +1,7 @@
 //@@@PDC-898 new public API--StudyExperimentalDesign
 //@@@PDC-1120 StudyRunMetadata table change
 //@@@PDC-1156 add is_ref
+//@@@PDC-1316 remove itraq_120
 const StudyExperimentalDesign = `
 type StudyExperimentalDesign {
 	study_run_metadata_id: String
@@ -15,13 +16,13 @@ type StudyExperimentalDesign {
 	number_of_fractions: String
 	analyte: String
 	label_free: String
+	itraq_113: String
 	itraq_114: String
 	itraq_115: String
 	itraq_116: String
 	itraq_117: String
 	itraq_118: String
 	itraq_119: String
-	itraq_120: String
 	itraq_121: String
 	tmt_126: String
 	tmt_127n: String

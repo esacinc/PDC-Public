@@ -221,7 +221,7 @@ export class GenePageComponent implements OnInit, OnChanges {
 			this.lodingPTMData = false;
 		}); 
   }
-  
+
   onFilterSelected(filterValue: string) {
 		this.newFilterValue = filterValue;
 		console.log(this.newFilterValue);

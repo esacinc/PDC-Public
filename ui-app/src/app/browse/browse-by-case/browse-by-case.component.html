@@ -1,10 +1,10 @@
-	<div class="row" style="font-family:'Lato';">  
-		<div style="width: 100%">
+	<div class="row" style="font-family:'Lato'; font-size: 12px;">  
+		<div style="width: 100%; height:30px">
 				<div *ngIf="totalRecords > 0 && !loading" >
-					<h3 style="font-family: 'Lato'; font-size:14px;float:left" >{{totalRecords > 1 ? 'Total aliquots: ' + totalRecords : 'Total aliquot: ' + totalRecords }}</h3>
+					<h3 style="font-family: 'Lato'; font-size:14px;float:left;margin-top:10px!important" >{{totalRecords > 1 ? 'Total aliquots: ' + totalRecords : 'Total aliquot: ' + totalRecords }}</h3>
 				</div>
-				<div style="float: right; padding: 2%">
-					<button matTooltip="Please use CPTAC Data Portal for downloading the files" id="downloadWholeManifest" mat-raised-button mat-primary label="Download Selection" (click)="downloadAllManifest()" style="font-family:'Lato';float:right;font-weight:bold;" [disabled]="iscompleteManifestDisabled()" aria-label="Download all Manifests">Download All Manifests</button>
+				<div style="float: right; padding: 10px">
+					<button matTooltip="Please use CPTAC Data Portal for downloading the files" id="downloadWholeManifest" mat-raised-button mat-primary label="Download Selection" (click)="downloadAllManifest()" style="font-family:'Lato';float:right;font-weight:bold;" [disabled]="iscompleteManifestDisabled()" aria-label="Download all Manifests">Export All Manifests</button>
 				</div>
 		</div>
 
@@ -16,12 +16,12 @@
 		<ng-template pTemplate="caption">
 			<div class="ui-helper-clearfix">
 				<div id="selectedCasesCount" *ngIf="!isDownloadDisabled()" style="float:left">Cases selected for download: {{selectedCases.length}}</div>
-				<button matTooltip="Please use CPTAC Data Portal for downloading the files" id="downloadBio" mat-raised-button mat-primary  label="Download Selection" (click)="biospecimenTableExportCSV(dt)" [disabled]="isDownloadDisabled()" style="font-family:'Lato';float:right" aria-label="Download Biospecimen Manifest">Download Biospecimen Manifest</button>
+				<button matTooltip="Please use CPTAC Data Portal for downloading the files" id="downloadBio" mat-raised-button mat-primary  label="Download Selection" (click)="biospecimenTableExportCSV(dt)" [disabled]="isDownloadDisabled()" style="font-family:'Lato';float:right" aria-label="Download Biospecimen Manifest">Export Biospecimen Manifest</button>
 			</div>
 		</ng-template>
         <ng-template style="font-size: 12px; background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%);" pTemplate="header" let-columns>
             <tr style="font-size: 12px;">
-				<th class="ui-datatable-tableheader" style="width:6%;overflow: unset;">
+				<th class="ui-datatable-tableheader" style="width:3%;overflow: unset;">
 				<label><p-checkbox  id="caseDataChk" [(ngModel)]="headercheckbox" binary="true" (onChange)="onTableHeaderCheckboxToggle()" ></p-checkbox >
 					<mat-select id="dataForManifestExport" class="card-body card-list" [(ngModel)]="selectedHeaderCheckbox"
 					(selectionChange)="changeHeaderCheckbox($event)">
@@ -36,7 +36,7 @@
                 <th class="ui-datatable-tableheader" style="width:18%;word-break: break-all;" [pSortableColumn]="cols[0].field"><a href="{{staticUrlBase}}dictionaryitem.html?eName=Aliquot" target="_blank" style="color:white">Aliquot</a><p-sortIcon [field]="cols[0].field" ariaLabel="Sort Aliquot column in ascending/descending order"></p-sortIcon></th>
 			    <th class="ui-datatable-tableheader" style="width:18%" [pSortableColumn]="cols[1].field"><a href="{{staticUrlBase}}dictionaryitem.html?eName=Sample" target="_blank" style="color:white">Sample</a><p-sortIcon [field]="cols[1].field" ariaLabel="Sort Sample column in ascending/descending order"></p-sortIcon></th>
 			    <th class="ui-datatable-tableheader" style="width:18%" [pSortableColumn]="cols[2].field"><a href="{{staticUrlBase}}dictionaryitem.html?eName=Case" target="_blank" style="color:white">Case</a><p-sortIcon [field]="cols[2].field" ariaLabel="Sort Case column in ascending/descending order"></p-sortIcon></th>
-			    <th class="ui-datatable-tableheader" style="width:15%" [pSortableColumn]="cols[3].field"><a href="{{staticUrlBase}}dictionaryitem.html?eName=Project" target="_blank" style="color:white">Project</a><p-sortIcon [field]="cols[3].field" ariaLabel="Sort Project column in ascending/descending order"></p-sortIcon></th>
+			    <th class="ui-datatable-tableheader" style="width:18%" [pSortableColumn]="cols[3].field"><a href="{{staticUrlBase}}dictionaryitem.html?eName=Project" target="_blank" style="color:white">Project</a><p-sortIcon [field]="cols[3].field" ariaLabel="Sort Project column in ascending/descending order"></p-sortIcon></th>
 				<th class="ui-datatable-tableheader" style="width:10%" [pSortableColumn]="cols[4].field">
 					<div class="ui-datatable-tableheader-flex-container">
 						<div>
@@ -77,12 +77,12 @@
         </ng-template>
         <ng-template pTemplate="body" let-caseData let-columns="columns">
             <tr style="font-size: 11px;" [pSelectableRow]="caseData" >
-				<td style="width:6%;word-wrap: break-word; white-space: normal;"><p-tableCheckbox id="caseData{{caseData.aliquot_submitter_id}}" [value]="caseData" class="browsePageCheckboxes"></p-tableCheckbox></td>
+				<td style="width:3%;word-wrap: break-word; white-space: normal;"><p-tableCheckbox id="caseData{{caseData.aliquot_submitter_id}}" [value]="caseData" class="browsePageCheckboxes"></p-tableCheckbox></td>
 				<!-- @@@PDC-462 show submitter ids -->                
                 <td style="width:18%; white-space: normal;">{{caseData.aliquot_submitter_id }}&nbsp;&nbsp;<span style='color:red' *ngIf="caseData.aliquot_status == 'Disqualified'">{{caseData.aliquot_status}}</span></td>
                 <td style="width:18%;word-wrap: break-word; white-space: normal;">{{caseData.sample_submitter_id}}&nbsp;&nbsp;<span style='color:red' *ngIf="caseData.sample_status == 'Disqualified'">{{caseData.sample_status}}</span></td>
                 <td style="width:18%;word-wrap: break-word; white-space: normal;"><a href="javascript:void(0);" (click)="showCaseSummary(caseData.case_submitter_id)">{{caseData.case_submitter_id}}</a>&nbsp;&nbsp;<span style='color:red' *ngIf="caseData.case_status == 'Disqualified'">{{caseData.case_status}}</span></td>
-                <td style="width:15%;word-wrap: break-word; white-space: normal;">{{caseData.project_name}}</td>
+                <td style="width:18%;word-wrap: break-word; white-space: normal;">{{caseData.project_name}}</td>
 				<td style="width:10%;word-wrap: break-word; white-space: normal;">{{caseData.sample_type}}</td>
 				<td style="width:10%;word-wrap: break-word; white-space: normal;">{{caseData.primary_site}}</td>
 				<td style="width:15%;word-wrap: break-word; white-space: normal;">{{caseData.disease_type}}</td>

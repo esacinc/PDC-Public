@@ -14,6 +14,8 @@ class MockDialog {
     return { afterClosed: () => of("closed") };
   }
 }
+
+//@@@PDC-1305 add age_at_diagnosis et al 	
 class MockBrowseByClinicalService {
   getFilteredClinicalDataPaginated(): Observable<any> {
     return of({
@@ -32,8 +34,11 @@ class MockBrowseByClinicalService {
             site_of_resection_or_biopsy: "not reported",
             tissue_or_organ_of_origin: "Colon",
             tumor_grade: "not reported",
-            tumor_stage: "Stage IIIB"
-          }
+            tumor_stage: "Stage IIIB",
+			age_at_diagnosis: "16790",
+			classification_of_tumor: "Progressive",
+			days_to_recurrence: "343"          
+		  }
         ],
         pagination: {
           count: 10,

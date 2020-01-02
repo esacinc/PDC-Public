@@ -52,6 +52,7 @@ describe("BrowseByClinicalService", () => {
       expect(op.operation.variables.sort_value).toEqual("gender asc");
       expect(op.operation.variables.exp_type_filter).toEqual("iTRAQ4;TMT10");
 
+	  //@@@PDC-1305 add age_at_diagnosis et al 	
       op.flush({
         data: {
           getPaginatedUIClinical: {
@@ -70,6 +71,9 @@ describe("BrowseByClinicalService", () => {
                 tissue_or_organ_of_origin: "kidney",
                 tumor_grade: "G2",
                 tumor_stage: "pT3a",
+				age_at_diagnosis: "16790",
+				classification_of_tumor: "Progressive",
+				days_to_recurrence: "343",          
                 case_id: "b7a788a4-f3a7-11e8-a44b-0a9c39d33490",
                 disease_type: "Clear Cell Renal Cell Carcinoma",
                 primary_site: "Kidney",

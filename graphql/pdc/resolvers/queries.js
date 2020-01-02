@@ -7,6 +7,18 @@ import {sort} from '../util/sort';
 import {CacheName, RedisCacheClient} from '../util/cacheClient';
 import {uiFilterProcess} from '../util/uiFilterProcess';
 import {fetchDataMatrix} from '../util/fetchDataMatrix';
+//@@@PDC-1215 use winston logger
+import { logger } from '../util/logger';
+import  {
+	queryList,
+	applyStudyFilter,
+	applyProgProjFilter,
+	applyFileFilter,
+	applyAlSamCaDemDiaFilter,
+	addStudyInQuery,
+	studyIntersection,
+	uiFilterSubqueryProcess
+  } from '../util/browsePageFilters';
 
 const Op = Sequelize.Op;
 
@@ -17,6 +29,7 @@ export const resolvers = {
     //@@@PDC-1011 replace gdc_case_id with external_case_id
     //@@@PDC-1073 use db.getSequelize instead of db when get fn or col
 	//@@@PDC-1123 add ui wrappers public APIs
+	//@@@PDC-1302 upgrade to Sequelize 5
 	Query: {
 		uiFileMetadata(_, args, context) {
 			return resolvers.Query.fileMetadata(_, args, context);
@@ -70,7 +83,6 @@ export const resolvers = {
 			"p.instrument_model as instrument from study s, protocol p "+
 			"where s.study_id = p.study_id and s.study_submitter_id = '"+ args.study_submitter_id +"'";
 			var result = await db.getSequelize().query(studyQuery, { model: db.getModelByName('ModelExperimentalMetadata') });
-			console.log ("meta: "+JSON.stringify(result));
 			return result;
 			//return db.getSequelize().query(studyQuery, { model: ModelExperimentalMetadata });
 		},
@@ -168,7 +180,6 @@ export const resolvers = {
 				diseaseQuery += " and Diag.project_submitter_id IN ('" + context.value.join("','") + "')";
 			}
 			diseaseQuery += " GROUP BY Diag.project_submitter_id,  Diag.tissue_or_organ_of_origin, Esac.disease_type";
-		
 			return db.getSequelize().query(diseaseQuery, { model: db.getModelByName('Diagnosis') });
 		},
 		//@@@PDC-607 Add uiSunburstChart API
@@ -281,7 +292,7 @@ export const resolvers = {
 			}
 			const res = await RedisCacheClient.redisCacheGetAsync(CacheName.getSummaryPageCaseSummary('Case')+cacheFilterName['name']);
 			if(res === null){
-				var result = await db.getModelByName('Case').find({
+				var result = await db.getModelByName('Case').findOne({
 					attributes: [['bin_to_uuid(case_id)', 'case_id'],
 						'case_submitter_id',
 						'project_submitter_id',
@@ -354,7 +365,7 @@ export const resolvers = {
 			//@@@PDC-782 avoid null in subquery
 			context['arguments']= args
 			//@@@PDC-899 get program id as uuid
-			return db.getModelByName('Program').find({ attributes: [['bin_to_uuid(program_id)', 'program_id'],
+			return db.getModelByName('Program').findOne({ attributes: [['bin_to_uuid(program_id)', 'program_id'],
 						'program_submitter_id',
 						'name',
 						'sponsor',
@@ -401,7 +412,7 @@ export const resolvers = {
 			}
 			const res = await RedisCacheClient.redisCacheGetAsync(CacheName.getSummaryPageGeneSummary('GeneSpectralCount')+cacheFilterName['name']);
 			if(res === null){
-				var result = await db.getModelByName('Gene').find({ where: args,     include: [{
+				var result = await db.getModelByName('Gene').findOne({ where: args,     include: [{
 					model: db.getModelByName('Spectral'),
 					attributes: ['project_submitter_id', 'study_submitter_id', ['dataset_alias', 'plex'], 'spectral_count', 'distinct_peptide', 'unshared_peptide' ],
 					where: {
@@ -429,7 +440,7 @@ export const resolvers = {
 		* @return {Gene}
 		*/
 		aliquotSpectralCount(_, args, context) {
-			 return db.getModelByName('Gene').find({ where: {gene_name: args.gene_name},     
+			 return db.getModelByName('Gene').findOne({ where: {gene_name: args.gene_name},     
 			 include: [{
 				  model: db.getModelByName('Spectral'),
 				  attributes: ['project_submitter_id', 'study_submitter_id', ['dataset_alias', 'plex'], 'spectral_count', 'distinct_peptide', 'unshared_peptide' ],
@@ -451,7 +462,7 @@ export const resolvers = {
 		* @return {Gene}
 		*/
 		protein(_, args, context) {
-			 return db.getModelByName('Gene').find({ where: {
+			 return db.getModelByName('Gene').findOne({ where: {
 				proteins: {
 				  [Op.like]: '%'+args.protein+'%'
 			  }},     
@@ -664,17 +675,16 @@ export const resolvers = {
 			comboQuery += filters(args);
 			
 			var result = await db.getSequelize().query(comboQuery, { model: db.getModelByName('ModelUIStudy') });
-				console.log("Result: "+JSON.stringify(result));
-				
-				return result;
+			return result;
 			
 		},
-		//@@@PDC-533 UI filters
-		//@@@PDC-566 Add sample_type and acquisition_type filters
-		//@@@PDC-774 add downloadable
-		//@@@PDC-894 add status filters
+		//@@@PDC-1216 redesign filter api
+		//The filter query was divided into 2 queries. Query1 joining study, aliquot, aliquot_run_metadata, 
+		//case, sample, demographic, diagnosis tables. Query2 joining study, study_file, file tables.
+		//Step 1: Apply filters on Query1 and Query2 to get study array and do intersection on these two arraies
+		//Step 2: Apply filters and intersected study array on Query1 and Query2 to get all filters fields
+		//Step 3: merge all filters fields together from Query1 and Query2 results
 		/**
-		* uiFilters gets filter UI browsing page
 		*
 		* @param {string}   [program_name]
 		* @param {string}   [project_name]
@@ -700,41 +710,52 @@ export const resolvers = {
 		* @return {UIFilter}
 		*/
 		async uiFilters (_, args, context) {
-			var comboQuery = "SELECT s.study_submitter_id, s.submitter_id_name, s.acquisition_type,"+
-			" prog.name as program_name, proj.name as "+
-			" project_name, c.disease_type, c.primary_site, "+
-			" c.status as case_status, al.status as biospecimen_status,"+
-			" s.analytical_fraction, s.experiment_type,"+
-			" dem.ethnicity, dem.race, dem.gender, dia.morphology,"+
-			" dia.primary_diagnosis, dia.site_of_resection_or_biopsy,"+
-			" dia.tissue_or_organ_of_origin, dia.tumor_grade, dia.tumor_stage,"+
-			" f.data_category, f.file_type, f.downloadable, f.access, sam.sample_type "+
-			" FROM study s, `case` c, sample sam, aliquot al, aliquot_run_metadata alm,"+
-			" demographic dem, diagnosis dia, study_file sf, file f,"+
-			" project proj, program prog WHERE alm.study_id = s.study_id and al.aliquot_id = alm.aliquot_id "+
-			" and al.sample_id=sam.sample_id and sam.case_id=c.case_id and proj.project_id = s.project_id "+
-			"and c.case_id = dem.case_id and c.case_id = dia.case_id and s.study_id = sf.study_id and sf.file_id = f.file_id "+
-			" and proj.program_id = prog.program_id and s.project_submitter_id IN ('" + context.value.join("','") + "')";
-			
-			var cacheFilterName = {name:''};
+			//apply global project submitter id filter
+			let projectSubmitterIdValue = context.value.join("','")
+			let projectSubmitterIdCondition = ` and s.project_submitter_id IN ('${projectSubmitterIdValue}')`;
 
-			comboQuery += filters(args, cacheFilterName);
+			//Step1 get base queries
+			let fileStudyQuery = queryList.file_study + projectSubmitterIdCondition;
+			let progProjAlSamCaDemDiaStudyQuery = queryList.prog_proj_al_sam_ca_dem_dia_study + projectSubmitterIdCondition;
+
+			//Step1 apply filters on queries
+			let studyFilter = applyStudyFilter(args);
+			let projProjFilter = applyProgProjFilter(args);
+			let fileFilter = applyFileFilter(args);
+			let alSamCaDemDiaFilter = applyAlSamCaDemDiaFilter(args);
+			fileStudyQuery += studyFilter;
+			progProjAlSamCaDemDiaStudyQuery += studyFilter;
+			fileStudyQuery += fileFilter;
+			progProjAlSamCaDemDiaStudyQuery += projProjFilter;
+			progProjAlSamCaDemDiaStudyQuery += alSamCaDemDiaFilter;
+
+			//Step1 get study_submitter_id on Query1 and Query2
+			let fileStudyResult = await db.getSequelize().query(fileStudyQuery, { model: db.getModelByName('ModelFilterStudy') });
+			let progProjAlSamCaDemDiaStudyResult = await db.getSequelize().query(progProjAlSamCaDemDiaStudyQuery, { model: db.getModelByName('ModelFilterStudy') });
+
+			//Step1 do intersection on Query1 and Query2 to get intersected study array.
+			let intersectedStudy = studyIntersection(fileStudyResult, progProjAlSamCaDemDiaStudyResult);
+
+			//Step2 get base queries
+			let fileFilterQuery = queryList.file_filter + projectSubmitterIdCondition;
+			let progProjAlSamCaDemDiaFilterQuery = queryList.prog_proj_al_sam_ca_dem_dia_filter + projectSubmitterIdCondition;
+
+			//Step2 apply filters on queries
+			fileFilterQuery += studyFilter;
+			progProjAlSamCaDemDiaFilterQuery += studyFilter;
+			fileFilterQuery += fileFilter;
+			progProjAlSamCaDemDiaFilterQuery += projProjFilter;
+			progProjAlSamCaDemDiaFilterQuery += alSamCaDemDiaFilter;
+
+			//Step2 get Query1 and Query2 results
+			let fileFilterResult = await db.getSequelize().query(fileFilterQuery, { model: db.getModelByName('ModelFilterFile') });
+			let progProjAlSamCaDemDiaFilterResult = await db.getSequelize().query(progProjAlSamCaDemDiaFilterQuery, { model: db.getModelByName('ModelFilterProgProjAlSamCaDemDia') });
+
+			let fileFinalFilter = uiFilterSubqueryProcess('file', fileFilterResult, intersectedStudy);
+			let progProjAlSamCaDemDiaFinalFilter = uiFilterSubqueryProcess('progProjAlSamCaDemDia', progProjAlSamCaDemDiaFilterResult, intersectedStudy);
 			
-			comboQuery += " group by s.submitter_id_name, s.acquisition_type,"+
-			" c.primary_site, dem.ethnicity, c.status, al.status,"+
-			" dem.race, dem.gender, dia.morphology, dia.primary_diagnosis,"+
-			" dia.site_of_resection_or_biopsy, dia.tissue_or_organ_of_origin,"+
-			" dia.tumor_grade, dia.tumor_stage, f.data_category, f.file_type, f.downloadable, f.access, sam.sample_type ";
-			
-			const res = await RedisCacheClient.redisCacheGetAsync(CacheName.getBrowsePageFilterCacheKey()+cacheFilterName.name);
-			if(res === null){
-				var result = await db.getSequelize().query(comboQuery, { model: db.getModelByName('ModelUIFilter') });
-				var filterResult = uiFilterProcess(result);
-				RedisCacheClient.redisCacheSetExAsync(CacheName.getBrowsePageFilterCacheKey()+cacheFilterName.name, JSON.stringify(filterResult));
-				return filterResult;
-			}else{
-				return JSON.parse(res);
-			}
+			//Step3
+			return Object.assign(fileFinalFilter, progProjAlSamCaDemDiaFinalFilter);
 		},
 		//@@@PDC-198 API for UI case page
 		/**
@@ -866,8 +887,14 @@ export const resolvers = {
 		},
 		//@@@PDC-329 Pagination for UI study summary page
 		//@@@PDC-497 Make table column headers sortable on the browse page tabs
+		//@@@PDC-1291 Redesign Browse Page data tabs
 		async getPaginatedUIStudy (_, args, context) {
+			//apply global project submitter id filter
+			let projectSubmitterIdValue = context.value.join("','")
+			let projectSubmitterIdCondition = ` and s.project_submitter_id IN ('${projectSubmitterIdValue}')`;
+
 			context['arguments'] = args;
+			let cacheFilterName = {name:''};
 
 			//@@@PDC-671 Add gene name as parameter for data tab api
 			if (typeof args.gene_name != 'undefined' && args.gene_name.length > 0) {
@@ -883,50 +910,38 @@ export const resolvers = {
 					args.study_submitter_id = listStudy.join(";");
 				}
 			}
-			//@@@PDC-379 collapse study records with different disease_type and primary_site
-			//@@@PDC-629 disease type and primary site sync-up
-			var uiComboCountQuery = "select count(distinct s.study_id) as total ";
-			//@@@PDC-657 add study_description
-			//@@@PDC-857 add embargo date
-			var uiComboBaseQuery = "SELECT s.study_submitter_id, s.submitter_id_name, s.study_description,"+
-			" prog.name as program_name, proj.name as project_name,"+
-			" c.disease_type, c.primary_site, s.analytical_fraction, s.embargo_date,"+
-			" s.experiment_type FROM study s, `case` c, sample sam,"+
-			" aliquot al, aliquot_run_metadata alm, project proj,"+
-			" program prog WHERE alm.study_id = s.study_id and "+
-			" al.aliquot_id = alm.aliquot_id  and al.sample_id=sam.sample_id"+
-			" and sam.case_id=c.case_id and proj.project_id = s.project_id"+
-			" and proj.program_id = prog.program_id and s.study_id in "+
-			" (select s.study_id ";
-			//@@@PDC-533 additional UI filters			
-			var uiComboCaseAliquotQuery = "SELECT count(distinct c.case_id) as cases_count, "+ 
-			" count(distinct al.aliquot_id) as aliquots_count ";
-			
-			var uiHeadWrapQuery = 
-			`select study_submitter_id,	submitter_id_name, study_description, program_name, project_name, GROUP_CONCAT(distinct disease_type SEPARATOR ';') as disease_type,
-				GROUP_CONCAT(distinct primary_site SEPARATOR ';') as primary_site, analytical_fraction, experiment_type, embargo_date FROM	(`;
 
-			var uiTailWrapQuery = 
-			`) AS studytable GROUP BY submitter_id_name`;
+			let groupByStudy = " GROUP BY submitter_id_name ";
 
-			var uiComboQuery = " FROM study s, `case` c, sample sam, aliquot al, aliquot_run_metadata alm,"+
-			" demographic dem, diagnosis dia, study_file sf, file f,"+
-			" project proj, program prog WHERE alm.study_id = s.study_id and al.aliquot_id = alm.aliquot_id "+
-			" and al.sample_id=sam.sample_id and sam.case_id=c.case_id and proj.project_id = s.project_id"+
-			" and c.case_id = dem.case_id and c.case_id = dia.case_id and"+
-			" s.study_id = sf.study_id and sf.file_id = f.file_id"+
-			" and proj.program_id = prog.program_id and s.project_submitter_id IN ('" + context.value.join("','") + "')";
-			
-			var cacheFilterName = {name:''};
+			//Step1 get base queries
+			let studyCountQuery=queryList.study_tab_count + projectSubmitterIdCondition;
+			let studyDataQuery=queryList.study_tab_data + projectSubmitterIdCondition;
+			let fileStudyQuery = queryList.file_study + projectSubmitterIdCondition;
 
-			uiComboQuery += filters(args, cacheFilterName);
+			//Step1 apply filters on queries
+			let studyFilter = applyStudyFilter(args, cacheFilterName);
+			let projProjFilter = applyProgProjFilter(args, cacheFilterName);
+			let fileFilter = applyFileFilter(args, cacheFilterName);
+			let alSamCaDemDiaFilter = applyAlSamCaDemDiaFilter(args, cacheFilterName);
+			studyCountQuery += studyFilter;
+			studyDataQuery += studyFilter;
+			fileStudyQuery += studyFilter;
+			studyCountQuery += projProjFilter;
+			studyDataQuery += projProjFilter;
+			studyCountQuery += alSamCaDemDiaFilter;
+			studyDataQuery += alSamCaDemDiaFilter;
+			fileStudyQuery += fileFilter;
+
+			//get study from file study subquery
+			let studyResult = await db.getSequelize().query(fileStudyQuery, { model: db.getModelByName('ModelFilterStudy') });
+			let studyResultCondition = addStudyInQuery(studyResult);
+			//apply study where condition in study query
+			studyCountQuery += studyResultCondition;
+			studyDataQuery += studyResultCondition;
 
 			cacheFilterName['dataFilterName'] = cacheFilterName.name;
 
-			var uiComboGroupQuery = ") group by s.submitter_id_name, c.disease_type";
-			
 			var uiSortQuery = sort(args, cacheFilterName);
-			//var uiComboGroupQuery = " group by s.submitter_id_name";
 
 			var myOffset = 0;
 			var myLimit = 100;
@@ -939,14 +954,13 @@ export const resolvers = {
 				cacheFilterName['dataFilterName'] += 'limit:'+args.limit+';';
 			}
 			var uiComboLimitQuery = " LIMIT "+ myOffset+ ", "+ myLimit;
-			context['query'] =uiHeadWrapQuery+uiComboBaseQuery+uiComboQuery+uiComboGroupQuery+uiTailWrapQuery+uiSortQuery+uiComboLimitQuery;
-			context['caCountQuery'] = uiComboCaseAliquotQuery+uiComboQuery;
+			context['query'] =studyDataQuery+groupByStudy+uiSortQuery+uiComboLimitQuery;
+			//context['caCountQuery'] = uiComboCaseAliquotQuery+uiComboQuery;
 			context['dataCacheName'] = CacheName.getBrowsePagePaginatedDataTabCacheKey('StudyData')+cacheFilterName['dataFilterName'];
-
 			if (myOffset == 0 && paginated) {
 				const res = await RedisCacheClient.redisCacheGetAsync(CacheName.getBrowsePagePaginatedDataTabCacheKey('StudyTotalCount')+cacheFilterName.name);
 				if(res === null){
-					var rawData = await db.getSequelize().query(uiComboCountQuery+uiComboQuery, { model: db.getModelByName('ModelPagination') });
+					var rawData = await db.getSequelize().query(studyCountQuery, { model: db.getModelByName('ModelPagination') });
 					var totalCount = rawData[0].total;
 					RedisCacheClient.redisCacheSetExAsync(CacheName.getBrowsePagePaginatedDataTabCacheKey('StudyTotalCount')+cacheFilterName.name, totalCount);
 					return [{total: totalCount}];
@@ -959,10 +973,13 @@ export const resolvers = {
 				return myJson;
 			}
 		},
-		//@@@PDC-136 pagination
-		//@@@PDC-497 Make table column headers sortable on the browse page tabs
+		//@@@PDC-1291 Redesign Browse Page data tabs
 		async getPaginatedUIFile(_, args, context) {
+			//apply global project submitter id filter
+			let projectSubmitterIdValue = context.value.join("','")
+			let projectSubmitterIdCondition = ` and s.project_submitter_id IN ('${projectSubmitterIdValue}')`;
 			context['arguments'] = args;
+			var cacheFilterName = {name:''};
 
 			//@@@PDC-671 Add gene name as parameter for data tab api
 			if (typeof args.gene_name != 'undefined' && args.gene_name.length > 0) {
@@ -979,31 +996,37 @@ export const resolvers = {
 				}
 			}
 
-			//@@@PDC-667 count on single fields rather than composites
-			//var uiFileCountQuery = "select count(distinct s.submitter_id_name, f.file_name, "+
-			//" sf.study_run_metadata_submitter_id ,proj.name, f.file_type, f.file_size) as total";
-			var uiFileCountQuery = "select count(distinct f.file_id) as total";
-			//@@@PDC-827 Add md5sum  and StudyId
-			var uiFileBaseQuery = "select distinct bin_to_uuid(f.file_id) as file_id, bin_to_uuid(s.study_id) as study_id, s.submitter_id_name, f.file_name, "+
-			" sf.study_run_metadata_submitter_id ,proj.name as project_name, f.data_category, f.file_type, f.downloadable, f.md5sum, f.access, CAST(f.file_size AS UNSIGNED) as file_size ";
-			//@@@PDC-533 additional UI filters			
-			var uiFileQuery =" FROM study s, `case` c, demographic dem, diagnosis dia,"+
-			" sample sam, aliquot al, aliquot_run_metadata alm, "+
-			" project proj, program prog, study_file sf, file f where alm.study_id=s.study_id "+
-			" and al.aliquot_id= alm.aliquot_id and al.sample_id=sam.sample_id and sam.case_id=c.case_id and "+
-			" proj.project_id = s.project_id and proj.program_id = prog.program_id and "+" c.case_id = dem.case_id and c.case_id = dia.case_id and sf.study_id = s.study_id "+
-			" and sf.file_id = f.file_id and s.project_submitter_id IN ('" + context.value.join("','") + "')";
-			var cacheFilterName = {name:''};
+			//Step1 get base queries
+			let fileCountQuery=queryList.file_tab_count + projectSubmitterIdCondition;
+			let fileDataQuery=queryList.file_tab_data + projectSubmitterIdCondition;
+			let alSamCaDemDiaStudyQuery = queryList.al_sam_ca_dem_dia_study + projectSubmitterIdCondition;
 
-			uiFileQuery += filters(args,cacheFilterName);
+			//Step1 apply filters on queries
+			let studyFilter = applyStudyFilter(args, cacheFilterName);
+			let projProjFilter = applyProgProjFilter(args, cacheFilterName);
+			let fileFilter = applyFileFilter(args, cacheFilterName);
+			let alSamCaDemDiaFilter = applyAlSamCaDemDiaFilter(args, cacheFilterName);
+			fileCountQuery += studyFilter;
+			fileDataQuery += studyFilter;
+			alSamCaDemDiaStudyQuery += studyFilter;
+			fileCountQuery += projProjFilter;
+			fileDataQuery += projProjFilter;
+			fileCountQuery += fileFilter;
+			fileDataQuery += fileFilter;
+			alSamCaDemDiaStudyQuery += alSamCaDemDiaFilter;
+
+			//get study from aliquot sample case demographic diagnosis subquery
+			let studyResult = await db.getSequelize().query(alSamCaDemDiaStudyQuery, { model: db.getModelByName('ModelFilterStudy') });
+			let studyResultCondition = addStudyInQuery(studyResult);
+			fileCountQuery += studyResultCondition;
+			fileDataQuery += studyResultCondition;
 			
 			cacheFilterName['dataFilterName'] = cacheFilterName.name;
+			let uiSortQuery = sort(args, cacheFilterName);
 
-			var uiSortQuery = sort(args, cacheFilterName);
-
-			var myOffset = 0;
-			var myLimit = 100;
-			var paginated = false;
+			let myOffset = 0;
+			let myLimit = 100;
+			let paginated = false;
 			if (typeof args.offset != 'undefined' && typeof args.limit != 'undefined') {
 				myOffset = args.offset;
 				myLimit = args.limit;
@@ -1011,13 +1034,15 @@ export const resolvers = {
 				cacheFilterName['dataFilterName'] += 'offet:'+args.offset+';';
 				cacheFilterName['dataFilterName'] += 'limit:'+args.limit+';';
 			}
-			var uiFileLimitQuery = " LIMIT "+ myOffset+ ", "+ myLimit;
-			context['query'] = uiFileBaseQuery+uiFileQuery+uiSortQuery+uiFileLimitQuery;
+			let uiFileLimitQuery = " LIMIT "+ myOffset+ ", "+ myLimit;
+
+			context['query'] = fileDataQuery+uiSortQuery+uiFileLimitQuery;
 			context['dataCacheName'] = CacheName.getBrowsePagePaginatedDataTabCacheKey('FileData')+cacheFilterName['dataFilterName'];
+			
 			if (myOffset == 0 && paginated) {
 				const res = await RedisCacheClient.redisCacheGetAsync(CacheName.getBrowsePagePaginatedDataTabCacheKey('FileTotalCount')+cacheFilterName.name);
 				if(res === null){
-					var rawData = await db.getSequelize().query(uiFileCountQuery+uiFileQuery, { model: db.getModelByName('ModelPagination') });
+					var rawData = await db.getSequelize().query(fileCountQuery, { model: db.getModelByName('ModelPagination') });
 					var totalCount = rawData[0].total;
 					RedisCacheClient.redisCacheSetExAsync(CacheName.getBrowsePagePaginatedDataTabCacheKey('FileTotalCount')+cacheFilterName.name, totalCount);
 					return [{total: totalCount}];
@@ -1030,13 +1055,14 @@ export const resolvers = {
 				return myJson;
 			}
 		},
-		//@@@PDC-255 API for UI clinical tab 	
-		//@@@PDC-497 Make table column headers sortable on the browse page tabs	
-		//@@@PDC-532 count query returns zero if gdc_case_id column is null .
-		//remove gdc_case_id column in count query because we already take case_id (primary key) 
-		//from case table in query. The count won't change with/without gdc_case_id.
+		//@@@PDC-1291 Redesign Browse Page data tabs
 		async getPaginatedUIClinical(_, args, context) {
+			//apply global project submitter id filter
+			let projectSubmitterIdValue = context.value.join("','")
+			let projectSubmitterIdCondition = ` and s.project_submitter_id IN ('${projectSubmitterIdValue}')`;
+
 			context['arguments'] = args;
+			let cacheFilterName = {name:''};
 
 			//@@@PDC-671 Add gene name as parameter for data tab api
 			if (typeof args.gene_name != 'undefined' && args.gene_name.length > 0) {
@@ -1052,42 +1078,39 @@ export const resolvers = {
 					args.study_submitter_id = listStudy.join(";");
 				}
 			}
-			//@@@PDC-667 count on single fields rather than composites
-			//var uiClinicalCountQuery = "select count(distinct c.case_id, dem.ethnicity, "+
-			//"dem.gender, dem.race, dia.morphology, dia.primary_diagnosis, dia.site_of_resection_or_biopsy, "+
-			//"dia.tissue_or_organ_of_origin, dia.tumor_grade, dia.tumor_stage) as total";
-			//@@@PDC-1227 handle multi diagnoses per case
-			var uiClinicalCountQuery = "select count(distinct dia.diagnosis_id) as total";
-			//@@@PDC-462 add submitter ids
-			//@@@PDC-759 add case summary fields
-			//@@@PDC-893 add case status
-			//@@@PDC-1234 add imaging_resource
-			var uiClinicalBaseQuery = "select distinct dia.diagnosis_id, bin_to_uuid(c.case_id) as case_id, "+
-			"c.case_submitter_id, c.external_case_id, c.imaging_resource, "+
-			"c.status, c.disease_type, "+
-			" c.primary_site, dem.ethnicity, prog.name as program_name, proj.name as project_name, "+
-			"dem.gender, dem.race, dia.morphology, dia.primary_diagnosis, dia.site_of_resection_or_biopsy, "+
-			"dia.tissue_or_organ_of_origin, dia.tumor_grade, dia.tumor_stage";
-			//@@@PDC-533 additional UI filters			
-			var uiClinicalQuery =" FROM study s, `case` c, demographic dem,"+
-			" diagnosis dia, study_file sf, file f,"+
-			" sample sam, aliquot al, aliquot_run_metadata alm, "+
-			" project proj, program prog where alm.study_id=s.study_id "+
-			" and al.aliquot_id= alm.aliquot_id and al.sample_id=sam.sample_id and sam.case_id=c.case_id and "+
-			" proj.project_id = s.project_id and proj.program_id = prog.program_id and "+" c.case_id = dem.case_id and c.case_id=dia.case_id and s.study_id = sf.study_id"+
-			" and sf.file_id = f.file_id and s.project_submitter_id IN ('" + context.value.join("','") + "')";
-			
-			var cacheFilterName = {name:''};
 
-			uiClinicalQuery += filters(args, cacheFilterName);
+			//Step1 get base queries
+			let clinicalCountQuery=queryList.clinical_tab_count + projectSubmitterIdCondition;
+			let clinicalDataQuery=queryList.clinical_tab_data + projectSubmitterIdCondition;
+			let fileStudyQuery = queryList.file_study + projectSubmitterIdCondition;
+			
+			//Step1 apply filters on queries
+			let studyFilter = applyStudyFilter(args, cacheFilterName);
+			let projProjFilter = applyProgProjFilter(args, cacheFilterName);
+			let fileFilter = applyFileFilter(args, cacheFilterName);
+			let alSamCaDemDiaFilter = applyAlSamCaDemDiaFilter(args, cacheFilterName);
+			clinicalCountQuery += studyFilter;
+			clinicalDataQuery += studyFilter;
+			fileStudyQuery += studyFilter;
+			clinicalCountQuery += projProjFilter;
+			clinicalDataQuery += projProjFilter;
+			clinicalCountQuery += alSamCaDemDiaFilter;
+			clinicalDataQuery += alSamCaDemDiaFilter;
+			fileStudyQuery += fileFilter;
+
+			//get study from file study subquery
+			let studyResult = await db.getSequelize().query(fileStudyQuery, { model: db.getModelByName('ModelFilterStudy') });
+			let studyResultCondition = addStudyInQuery(studyResult);
+			clinicalCountQuery += studyResultCondition;
+			clinicalDataQuery += studyResultCondition;
 
 			cacheFilterName['dataFilterName'] = cacheFilterName.name;
 
-			var uiSortQuery = sort(args, cacheFilterName);
+			let uiSortQuery = sort(args, cacheFilterName);
 
-			var myOffset = 0;
-			var myLimit = 100;
-			var paginated = false;
+			let myOffset = 0;
+			let myLimit = 100;
+			let paginated = false;
 			if (typeof args.offset != 'undefined' && typeof args.limit != 'undefined') {
 				myOffset = args.offset;
 				myLimit = args.limit;
@@ -1095,13 +1118,14 @@ export const resolvers = {
 				cacheFilterName['dataFilterName'] += 'offet:'+args.offset+';';
 				cacheFilterName['dataFilterName'] += 'limit:'+args.limit+';';
 			}
-			var uiClinicalLimitQuery = " LIMIT "+ myOffset+ ", "+ myLimit;
-			context['query'] = uiClinicalBaseQuery+uiClinicalQuery+uiSortQuery+uiClinicalLimitQuery;
+			let uiClinicalLimitQuery = " LIMIT "+ myOffset+ ", "+ myLimit;
+			context['query'] = clinicalDataQuery+uiSortQuery+uiClinicalLimitQuery;
 			context['dataCacheName'] = CacheName.getBrowsePagePaginatedDataTabCacheKey('ClinicalData')+cacheFilterName['dataFilterName'];
+			
 			if (myOffset == 0 && paginated) {
 				const res = await RedisCacheClient.redisCacheGetAsync(CacheName.getBrowsePagePaginatedDataTabCacheKey('ClinicalTotalCount')+cacheFilterName.name);
 				if(res === null){
-					var rawData = await db.getSequelize().query(uiClinicalCountQuery+uiClinicalQuery, { model: db.getModelByName('ModelPagination') });
+					var rawData = await db.getSequelize().query(clinicalCountQuery, { model: db.getModelByName('ModelPagination') });
 					var totalCount = rawData[0].total;
 					RedisCacheClient.redisCacheSetExAsync(CacheName.getBrowsePagePaginatedDataTabCacheKey('ClinicalTotalCount')+cacheFilterName.name, totalCount);
 					return [{total: totalCount}];
@@ -1114,11 +1138,13 @@ export const resolvers = {
 				return myJson;
 			}
 		},
-		//@@@PDC-136 pagination
-		//@@@PDC-497 Make table column headers sortable on the browse page tabs
+		//@@@PDC-1291 Redesign Browse Page data tabs
 		async getPaginatedUICase (_, args, context) {
-			//@@@PDC-136 pagination
+			//apply global project submitter id filter
+			let projectSubmitterIdValue = context.value.join("','")
+			let projectSubmitterIdCondition = ` and s.project_submitter_id IN ('${projectSubmitterIdValue}')`;
 			context['arguments'] = args;
+			var cacheFilterName = {name:''};
 
 			//@@@PDC-671 Add gene name as parameter for data tab api
 			if (typeof args.gene_name != 'undefined' && args.gene_name.length > 0) {
@@ -1134,42 +1160,39 @@ export const resolvers = {
 					args.study_submitter_id = listStudy.join(";");
 				}
 			}
-			//@@@PDC-667 count on single fields rather than composites
-			//var uiCaseCountQuery = "select count(distinct al.aliquot_id, sam.sample_id, c.case_id, "+
-			//"proj.name, sam.sample_type, c.disease_type, c.primary_site) as total ";
-			var uiCaseCountQuery = "select count(distinct al.aliquot_id) as total ";
-		    //@@@PDC-203 correct query for UI cases page
-			//@@@PDC-313 add case_submitter_id
-			//@@@PDC-337 add program name 
-			//@@@PDC-462 add submitter ids
-			//@@@PDC-893 add aliquot status
-			var uiCaseBaseQuery = "SELECT distinct bin_to_uuid(al.aliquot_id) as aliquot_id, "+
-			" bin_to_uuid(sam.sample_id) as sample_id, al.aliquot_submitter_id,"+ 
-			" al.status as aliquot_status, sam.sample_submitter_id, "+
-			" c.status as case_status, sam.status as sample_status, "+
-			" bin_to_uuid(c.case_id) as case_id, c.case_submitter_id, "+
-			" proj.name as project_name, sam.sample_type, c.disease_type, c.primary_site, prog.name as program_name ";
-			//@@@PDC-533 additional UI filters			
-			var uiCaseQuery = "from study s, `case` c, sample sam, aliquot al,"+
-			" aliquot_run_metadata alm, project proj, program prog,"+
-			" demographic dem, diagnosis dia, study_file sf, file f "+
-			" where alm.study_id=s.study_id and "+
-			" al.aliquot_id= alm.aliquot_id and al.sample_id=sam.sample_id and sam.case_id=c.case_id"+
-			" and c.case_id = dem.case_id and c.case_id = dia.case_id and s.study_id = sf.study_id and sf.file_id = f.file_id"+
-			" and proj.project_id = s.project_id and proj.program_id = prog.program_id and "+
-			" s.project_submitter_id IN ('" + context.value.join("','") + "')";
-			
-			var cacheFilterName = {name:''};
 
-			uiCaseQuery += filters(args, cacheFilterName);
+			//Step1 get base queries
+			let caseCountQuery=queryList.case_tab_count + projectSubmitterIdCondition;
+			let caseDataQuery=queryList.case_tab_data + projectSubmitterIdCondition;
+			let fileStudyQuery = queryList.file_study + projectSubmitterIdCondition;
+			
+			//Step1 apply filters on queries
+			let studyFilter = applyStudyFilter(args, cacheFilterName);
+			let projProjFilter = applyProgProjFilter(args, cacheFilterName);
+			let fileFilter = applyFileFilter(args, cacheFilterName);
+			let alSamCaDemDiaFilter = applyAlSamCaDemDiaFilter(args, cacheFilterName);
+			caseCountQuery += studyFilter;
+			caseDataQuery += studyFilter;
+			fileStudyQuery += studyFilter;
+			caseCountQuery += projProjFilter;
+			caseDataQuery += projProjFilter;
+			caseCountQuery += alSamCaDemDiaFilter;
+			caseDataQuery += alSamCaDemDiaFilter;
+			fileStudyQuery += fileFilter;
+			
+			//get study from file study subquery
+			let studyResult = await db.getSequelize().query(fileStudyQuery, { model: db.getModelByName('ModelFilterStudy') });
+			let studyResultCondition = addStudyInQuery(studyResult);
+			caseCountQuery += studyResultCondition;
+			caseDataQuery += studyResultCondition;
 
 			cacheFilterName['dataFilterName'] = cacheFilterName.name;
 
-			var uiSortQuery = sort(args, cacheFilterName);
+			let uiSortQuery = sort(args, cacheFilterName);
 
-			var myOffset = 0;
-			var myLimit = 100;
-			var paginated = false;
+			let myOffset = 0;
+			let myLimit = 100;
+			let paginated = false;
 			if (typeof args.offset != 'undefined' && typeof args.limit != 'undefined') {
 				myOffset = args.offset;
 				myLimit = args.limit;
@@ -1177,13 +1200,13 @@ export const resolvers = {
 				cacheFilterName['dataFilterName'] += 'offet:'+args.offset+';';
 				cacheFilterName['dataFilterName'] += 'limit:'+args.limit+';';
 			}
-			var uiCaseLimitQuery = " LIMIT "+ myOffset+ ", "+ myLimit;
-			context['query'] = uiCaseBaseQuery+uiCaseQuery+uiSortQuery+uiCaseLimitQuery;
+			let uiCaseLimitQuery = " LIMIT "+ myOffset+ ", "+ myLimit;
+			context['query'] = caseDataQuery+uiSortQuery+uiCaseLimitQuery;
 			context['dataCacheName'] = CacheName.getBrowsePagePaginatedDataTabCacheKey('CaseData')+cacheFilterName['dataFilterName'];
 			if (myOffset == 0 && paginated) {
 				const res = await RedisCacheClient.redisCacheGetAsync(CacheName.getBrowsePagePaginatedDataTabCacheKey('CaseTotalCount')+cacheFilterName.name);
 				if(res === null){
-					var rawData = await db.getSequelize().query(uiCaseCountQuery+uiCaseQuery, { model: db.getModelByName('ModelPagination') });
+					var rawData = await db.getSequelize().query(caseCountQuery, { model: db.getModelByName('ModelPagination') });
 					var totalCount = rawData[0].total;
 					RedisCacheClient.redisCacheSetExAsync(CacheName.getBrowsePagePaginatedDataTabCacheKey('CaseTotalCount')+cacheFilterName.name, totalCount);
 					return [{total: totalCount}];
@@ -1197,47 +1220,63 @@ export const resolvers = {
 			}
 		},
 		//@@@PDC-579 gene tabe pagination
+		//@@@PDC-1291 Redesign Browse Page data tabs
 		async getPaginatedUIGene(_, args, context) {
+			let projectSubmitterIdValue = context.value.join("','")
+			let projectSubmitterIdCondition = ` and s.project_submitter_id IN ('${projectSubmitterIdValue}')`;
 			context['arguments'] = args;
-
 			var cacheFilterName = {name:''};
 
-			var uiFilterStudyQuery = "SELECT DISTINCT bin_to_uuid(s.study_id) as study_id FROM " +
-				"study s, `case` c, sample sam, aliquot al, aliquot_run_metadata alm,	" +
-				"project proj, program prog, demographic dem, diagnosis dia, " +
-				"study_file sf, file f WHERE alm.study_id=s.study_id and " +
-				" al.aliquot_id= alm.aliquot_id and al.sample_id=sam.sample_id and sam.case_id=c.case_id" +
-				" and c.case_id = dem.case_id and c.case_id = dia.case_id and s.study_id = sf.study_id and sf.file_id = f.file_id" +
-				" and proj.project_id = s.project_id and proj.program_id = prog.program_id " +
-				" and s.project_submitter_id IN ('" + context.value.join("','") + "')";
-			uiFilterStudyQuery = uiFilterStudyQuery + filters(args, cacheFilterName);
-			var rawData = await db.getSequelize().query(uiFilterStudyQuery, { raw: true });
+			//Step1 get base queries
+			let fileDataQuery=queryList.file_study + projectSubmitterIdCondition;
+			let progProjAlSamCaDemDiaStudyQuery = queryList.prog_proj_al_sam_ca_dem_dia_study + projectSubmitterIdCondition;
+			
+			//Step1 apply filters on queries
+			let studyFilter = applyStudyFilter(args, cacheFilterName);
+			let projProjFilter = applyProgProjFilter(args, cacheFilterName);
+			let fileFilter = applyFileFilter(args, cacheFilterName);
+			let alSamCaDemDiaFilter = applyAlSamCaDemDiaFilter(args, cacheFilterName);			
+			fileDataQuery += studyFilter;
+			progProjAlSamCaDemDiaStudyQuery += studyFilter;
+			fileDataQuery += fileFilter;
+			progProjAlSamCaDemDiaStudyQuery += projProjFilter;
+			progProjAlSamCaDemDiaStudyQuery += alSamCaDemDiaFilter;
 
-			var listStudy = [];
-			rawData[0].forEach((row) =>listStudy.push(row['study_id']));
+			//get study from file study subquery and program project aliquot sample case demographic diagnosis
+			let studyResult1 = await db.getSequelize().query(fileDataQuery, { model: db.getModelByName('ModelFilterStudy') });
+			let studyResult2 = await db.getSequelize().query(progProjAlSamCaDemDiaStudyQuery, { model: db.getModelByName('ModelFilterStudy') });
 
-			var uiGeneCountQuery = "SELECT count(distinct ge.gene_name) as total FROM " +
-				"gene AS ge, spectral_count AS sc, study as s "+
-				"WHERE s.study_id = sc.study_id and ge.gene_id = sc.gene_id ";
+			let studyArray = studyIntersection(studyResult1, studyResult2);
+			
+			let filterValue = studyArray.join("','");
+			let studyQueryCondition = ` and s.study_submitter_id IN ('${filterValue}') `;  			
 
-			var uiGeneStudyFilterQuery = " and s.study_id IN (uuid_to_bin('" + listStudy.join("'),uuid_to_bin('") + "'))";
-
-			var uiGeneStudyFilterQuery1 = " sc.study_id IN (uuid_to_bin('" + listStudy.join("'),uuid_to_bin('") + "')) ";
-
-
-			var uiGeneBaseQuery = `
-				SELECT ge.gene_name, ge.gene_id, ge.chromosome, ge.locus, sc.num_study, ge.proteins FROM gene AS ge, 
-				(select sc.gene_id as gene_id, count(distinct sc.study_id) as num_study from spectral_count sc where ${uiGeneStudyFilterQuery1} group by gene_id) AS sc 	
-				WHERE ge.gene_id = sc.gene_id 		
+			//var uiGeneStudyFilterQuery = " and s.study_id IN (uuid_to_bin('" + listStudy.join("'),uuid_to_bin('") + "'))";
+			//var uiGeneStudyFilterQuery1 = " sc.study_id IN (uuid_to_bin('" + listStudy.join("'),uuid_to_bin('") + "')) ";
+			let geneDataQuery = `
+				SELECT distinct
+					ge.gene_name,
+					ge.gene_id,
+					COUNT(DISTINCT sc.study_id) AS num_study,
+					chromosome,
+					locus,
+					proteins
+				FROM
+					pdc.gene AS ge,
+					pdc.spectral_count AS sc,
+					pdc.study AS s
+				WHERE
+					s.study_id = sc.study_id
+						AND ge.gene_id = sc.gene_id
+						${studyQueryCondition}
 			`;
-
+			
+			//proteins
 			let geneNameSub;
 			if (typeof args.gene_name != 'undefined' && args.gene_name.length > 0) {
 				geneNameSub = args.gene_name.split(";");
 				cacheFilterName.name += "geneNameSub:("+ geneNameSub.join(",") + ")";
-				uiGeneStudyFilterQuery += " and ge.gene_name IN ('" + geneNameSub.join("','") + "') ";
-				//@@@PDC-1001 gene search not working
-				uiGeneBaseQuery += " and ge.gene_name IN ('" + geneNameSub.join("','") + "') ";
+				geneDataQuery += " and ge.gene_name IN ('" + geneNameSub.join("','") + "') ";
 			}
 
 			cacheFilterName['dataFilterName'] = cacheFilterName.name;
@@ -1248,6 +1287,7 @@ export const resolvers = {
 				uiSortQuery = " order by ge.gene_name ";
 			}
 
+			let uiGroupbyQuery = " group by ge.gene_id ";
 			var myOffset = 0;
 			var myLimit = 1000;
 			var paginated = false;
@@ -1259,17 +1299,50 @@ export const resolvers = {
 				cacheFilterName['dataFilterName'] += 'limit:'+args.limit+';';
 			}
 			var uiCaseLimitQuery = " LIMIT " + myOffset + ", " + myLimit;
-			context['query'] = uiGeneBaseQuery + uiSortQuery + uiCaseLimitQuery;
+			context['query'] = geneDataQuery + uiGroupbyQuery + uiSortQuery + uiCaseLimitQuery;
 			context['dataCacheName'] = CacheName.getBrowsePagePaginatedDataTabCacheKey('GeneData')+cacheFilterName['dataFilterName'];
-			if (typeof args.geneNameSub != 'undefined' && args.geneNameSub.length > 0){
-				console.log(args.geneNameSub);
-				return [{ total: args.gene_name.length }];
+			if (typeof geneNameSub != 'undefined' && geneNameSub.length > 0){
+				return [{ total: geneNameSub.length }];
 			}
 			else if(myOffset == 0 && paginated) {
+				//gene count query is slow, so cache genes mapping to each study
 				const res = await RedisCacheClient.redisCacheGetAsync(CacheName.getBrowsePagePaginatedDataTabCacheKey('GeneTotalCount')+cacheFilterName.name);
 				if(res === null){
-					var rawData = await db.getSequelize().query(uiGeneCountQuery+uiGeneStudyFilterQuery, { model: db.getModelByName('ModelPagination') });
-					var totalCount = rawData[0].total;
+					//console.time('gene_cache_study');
+					//get gene count
+					let studyMap =new Map(); 
+					let finalSet = new Set();
+					for(let studyName of studyArray){
+						let studyCacheName = CacheName.getBrowsePagePaginatedDataTabCacheKey('GeneStudy')+studyName
+						const studyGeneListRes = await RedisCacheClient.redisCacheGetAsync(studyCacheName);
+						let studyGeneArray = [];
+						if(studyGeneListRes == null){
+							let studyQuery = `
+							SELECT 
+								distinct ge.gene_name
+							FROM
+								gene AS ge,
+								spectral_count AS sc,
+								study AS s
+							WHERE
+								s.study_id = sc.study_id
+									AND ge.gene_id = sc.gene_id
+									AND s.study_submitter_id = '${studyName}'
+							`;
+							
+							let studyResult = await db.getSequelize().query(studyQuery, { model: db.getModelByName('ModelUIGeneName') });
+							studyResult.forEach(element => {studyGeneArray.push(element.dataValues.gene_name);
+							finalSet.add(element.dataValues.gene_name);} );
+							RedisCacheClient.redisCacheSetExAsync(studyCacheName, JSON.stringify(studyGeneArray));
+						}else{
+							studyGeneArray = JSON.parse(studyGeneListRes);
+							studyGeneArray.forEach(element => finalSet.add(element));
+						}
+						//studyMap.set(studyName, studyArray);
+					}
+					var totalCount = finalSet.size;
+					//console.log('total gene count: '+finalSet.size);
+					//console.timeEnd('gene_cache_study');
 					RedisCacheClient.redisCacheSetExAsync(CacheName.getBrowsePagePaginatedDataTabCacheKey('GeneTotalCount')+cacheFilterName.name, totalCount);
 					return [{total: totalCount}];
 				}else{
@@ -2434,7 +2507,7 @@ export const resolvers = {
 			"' and s.analytical_fraction IN ('Phosphoproteome', 'Glycoproteome')";
 			var ptmStudy = await db.getSequelize().query(checkPtmQuery, { model: db.getModelByName('ModelStudy') });
 			if (typeof ptmStudy == 'undefined' || ptmStudy == 0 ) {
-				console.log("PTM Not Found: "+JSON.stringify(ptmStudy) );
+				logger.info("PTM Not Found: "+JSON.stringify(ptmStudy) );
 				context['error'] = "This is not a post translational modification study";
 				var noRecord = [{total: 0}];
 				return noRecord;					
@@ -2625,15 +2698,17 @@ export const resolvers = {
 		//@@@PDC-898 new public APIs--studyExperimentalDesign
 		//@@@PDC-1120 StudyRunMetadata table change
 		//@@@PDC-1156 add is_ref
+		//@@@PDC-1316 remove itraq_120
 		studyExperimentalDesign(_, args, context) {
 			var experimentalQuery = "SELECT distinct bin_to_uuid(srm.study_run_metadata_id) as study_run_metadata_id, "+
 			" bin_to_uuid(s.study_id) as study_id, srm.study_run_metadata_submitter_id,"+ 
-			" s.study_submitter_id, al.aliquot_is_ref,"+
+			//" s.study_submitter_id, al.aliquot_is_ref,"+
+			" s.study_submitter_id, "+
 			" srm.analyte, s.acquisition_type, s.experiment_type,"+
 			" srm.folder_name as plex_dataset_name, srm.experiment_number,"+
-			" srm.fraction as number_of_fractions, label_free,"+
+			" srm.fraction as number_of_fractions, label_free, itraq_113,"+
 			" itraq_114, itraq_115, itraq_116, itraq_117,"+
-			" itraq_118, itraq_119, itraq_120, itraq_121,"+
+			" itraq_118, itraq_119, itraq_121,"+
 			" tmt_126, tmt_127n, tmt_127c, tmt_128n, tmt_128c,"+
 			" tmt_129n, tmt_129c, tmt_130n, tmt_130c, tmt_131, tmt_131c"+
 			" from study_run_metadata srm, study s, aliquot_run_metadata arm, aliquot al"+

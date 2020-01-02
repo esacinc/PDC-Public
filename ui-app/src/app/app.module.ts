@@ -64,6 +64,7 @@ import { UserAccountComponent } from './user-account/user-account.component';
 import { FaqComponent } from './navbar/faq/faq.component';
 import { RegistrationComponent } from './navbar/registration/registration.component';
 import { ResetPasswordComponent } from './navbar/reset-password/reset-password.component';
+import { SubmitDataFAQComponent } from './navbar/submit-data/submit-data.component';
 
 export function getAuthServiceConfigs() {
 
@@ -103,7 +104,8 @@ export function getAuthServiceConfigs() {
 	UserAccountComponent,
 	FaqComponent,
 	RegistrationComponent,
-	ResetPasswordComponent
+	ResetPasswordComponent,
+	SubmitDataFAQComponent
   ],
   imports: [
 	AngularFontAwesomeModule,

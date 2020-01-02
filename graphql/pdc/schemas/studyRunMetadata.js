@@ -1,5 +1,6 @@
 //@@@PDC-191 experimental metadata API
 //@@@PDC-1120 StudyRunMetadata table change
+//@@@PDC-1316 remove itraq_120
 const StudyRunMetadata = `
 type StudyRunMetadata {
 	study_run_metadata_id: String
@@ -13,13 +14,13 @@ type StudyRunMetadata {
 	alias: String
 	replicate_number: String
 	label_free: String
+	itraq_113: String
 	itraq_114: String
 	itraq_115: String
 	itraq_116: String
 	itraq_117: String
 	itraq_118: String
 	itraq_119: String
-	itraq_120: String
 	itraq_121: String
 	tmt_126: String
 	tmt_127n: String

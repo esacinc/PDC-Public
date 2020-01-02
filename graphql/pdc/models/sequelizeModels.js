@@ -250,7 +250,7 @@ const defineSequelizeModels = (db) => {
 		gene_id: { 	type: Sequelize.STRING,
 			primaryKey: true  },
 		gene_name: { 	type: Sequelize.STRING  },
-		NCBI_gene_id: { type: Sequelize.INTEGER },
+		ncbi_gene_id: { type: Sequelize.INTEGER },
 		authority: { type: Sequelize.STRING },
 		description: { type: Sequelize.STRING },
 		organism: { type: Sequelize.STRING },

@@ -10,13 +10,14 @@ import gql from 'graphql-tag';
 
 import { TissueSite, QueryTissueSites, QueryDiseases, Disease, Program, QueryPrograms, Project, 
 		QueryCases, Case, DiseaseType, DiseaseTypeQuery, AllStudiesData, QueryAllStudiesData, WorkflowMetadata, ProtocolData,
-		PublicationData, QueryPublicationData, FilesCountsPerStudyData, QueryAllClinicalDataPaginated, QueryAllCasesDataPaginated } from '../../types';
+		PublicationData, QueryPublicationData, FilesCountsPerStudyData, QueryAllClinicalDataPaginated, QueryAllCasesDataPaginated, QueryStudyExperimentalDesign, QueryBiospecimenPerStudy } from '../../types';
 
 /*This is a service class used for the API queries */
 
 //@@@PDC-674 - UI changes to accomodate new protocol structure
 //@@@PDC-758: Study summary overlay window opened through search is missing data
 //@@@PDC-1160: Add cases and aliquots to the study summary page
+//@@@PDC-1219: Add a new experimental design tab on the study summary page
 @Injectable()
 export class StudySummaryService {
 
@@ -306,6 +307,7 @@ constructor(private apollo: Apollo) {
 	}
 
 	//@@@PDC-1160: Add cases and aliquots to the study summary page
+	//@@@PDC-1305 add age_at_diagnosis et al 	
 	filteredCinicalDataPaginatedQuery = gql`
 	query FilteredClinicalDataPaginated($offset_value: Int, $limit_value: Int, $sort_value: String, $program_name_filter: String!, $project_name_filter: String!, $study_name_filter: String!, $disease_filter: String!, $filterValue: String!, $analytical_frac_filter: String!, $exp_type_filter: String!, $ethnicity_filter: String!, $race_filter: String!, $gender_filter: String!, $tumor_grade_filter: String!, $sample_type_filter: String!, $acquisition_type_filter: String!, $data_category_filter: String!, $file_type_filter: String!, $access_filter: String!, $downloadable_filter: String!, $case_status_filter: String!, $biospecimen_status_filter: String!){
 		getPaginatedUIClinical(offset: $offset_value, limit: $limit_value, sort: $sort_value, program_name: $program_name_filter , project_name: $project_name_filter, 
@@ -325,6 +327,9 @@ constructor(private apollo: Apollo) {
 				tissue_or_organ_of_origin
 				tumor_grade
 				tumor_stage
+				age_at_diagnosis
+				classification_of_tumor
+				days_to_recurrence				
 				case_id
 				disease_type
 				primary_site
@@ -462,4 +467,91 @@ constructor(private apollo: Apollo) {
 		map(result => { console.log(result.data); return result.data;})
 		); 
 	}
+
+	//@@@PDC-1219: Add a new experimental design tab on the study summary page
+	studyExperimentalDesignQuery = gql`
+	query StudyExperimentalDesign($study_submitter_id_value: String) {
+		studyExperimentalDesign(study_submitter_id: $study_submitter_id_value) {
+			study_id 
+			study_submitter_id    
+			study_run_metadata_id
+			study_run_metadata_submitter_id
+			experiment_number
+			experiment_type
+			plex_dataset_name
+			acquisition_type
+			number_of_fractions
+			analyte
+			label_free
+			itraq_113
+			itraq_114
+			itraq_115
+			itraq_116
+			itraq_117
+			itraq_118
+			itraq_119
+			itraq_121
+			tmt_126
+			tmt_127n
+			tmt_127c
+			tmt_128n
+			tmt_128c
+			tmt_129n
+			tmt_129c
+			tmt_130c
+			tmt_130n
+			tmt_131
+			tmt_131c
+		}
+	}`;
+
+	getStudyExperimentalDesign(study_submitter_id:any){
+		return this.apollo.watchQuery<QueryStudyExperimentalDesign>({
+		query: this.studyExperimentalDesignQuery,
+		variables: {
+			study_submitter_id_value: study_submitter_id
+		}
+		})
+		.valueChanges
+		.pipe(
+		map(result => { console.log(result.data); return result.data;})
+		); 
+	}
+
+	biospecimenPerStudyQuery = gql`
+	query BiospecimenPerStudy($study_submitter_id_value: String) {
+		biospecimenPerStudy(study_submitter_id: $study_submitter_id_value) {
+			aliquot_id 
+			sample_id
+			case_id
+			aliquot_submitter_id 
+			sample_submitter_id
+			case_submitter_id
+			aliquot_is_ref
+			aliquot_status
+			case_status
+			sample_status
+			project_name
+			sample_type
+			disease_type
+			primary_site
+			pool
+			taxon
+		}
+	}`;
+
+	getBiospecimenPerStudy(study_submitter_id:any){
+		return this.apollo.watchQuery<QueryBiospecimenPerStudy>({
+		query: this.biospecimenPerStudyQuery,
+		variables: {
+			study_submitter_id_value: study_submitter_id
+		}
+		})
+		.valueChanges
+		.pipe(
+		map(result => {console.log(result.data); return result.data;
+		})
+		); 
+	}
+	
 }

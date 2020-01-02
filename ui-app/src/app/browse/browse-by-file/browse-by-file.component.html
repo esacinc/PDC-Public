@@ -1,10 +1,10 @@
-	<div class="row" style="font-family:'Lato';">
-	<div style="width: 100%">
+	<div class="row" style="font-family:'Lato'; font-size: 12px;">
+	<div style="width: 100%; height:30px">
 			<div *ngIf="totalRecords > 0 && !loading" >
-					<h3 style="font-family: 'Lato'; font-size:14px;float:left">{{totalRecords > 1 ? 'Total files: ' + totalRecords : 'Total file: ' + totalRecords }}</h3>
+					<h3 style="font-family: 'Lato'; font-size:14px;float:left;margin-top:10px!important">{{totalRecords > 1 ? 'Total files: ' + totalRecords : 'Total file: ' + totalRecords }}</h3>
 			</div>
-			<div style="float: right; padding: 2%">
-					<button matTooltip="Please use CPTAC Data Portal for downloading the files" id="downloadWholeManifest" mat-raised-button mat-primary label="Download Selection" (click)="downloadAllManifest()" style="font-family:'Lato';float:right;font-weight:bold;" [disabled]="iscompleteManifestDisabled()" aria-label="Download all Manifests">Download All Manifests</button>
+			<div style="float: right; padding: 10px">
+					<button matTooltip="Please use CPTAC Data Portal for downloading the files" id="downloadWholeManifest" mat-raised-button mat-primary label="Download Selection" (click)="downloadAllManifest()" style="font-family:'Lato';float:right;font-weight:bold;" [disabled]="iscompleteManifestDisabled()" aria-label="Download all Manifests">Export All Manifests</button>
 			</div>
 	</div>
 
@@ -20,12 +20,12 @@
 					  <button mat-menu-item>Other</button>
 					</mat-menu>
 				<div id="selectedFilesDataCount" *ngIf="!isDownloadDisabled()" style="float:left">Files data selected for download: {{selectedFiles.length}}</div>				
-				<button matTooltip="Please use CPTAC Data Portal for downloading the files" id="downloadFileManifest" mat-raised-button mat-primary label="Download Selection" (click)="fileTableExportCSV()" [disabled]="isDownloadDisabled()" style="font-family:'Lato';float:right" aria-label="Download File Manifest">Download File Manifest</button>
+				<button matTooltip="Please use CPTAC Data Portal for downloading the files" id="downloadFileManifest" mat-raised-button mat-primary label="Download Selection" (click)="fileTableExportCSV()" [disabled]="isDownloadDisabled()" style="font-family:'Lato';float:right" aria-label="Download File Manifest">Export File Manifest</button>
 			</div>
 		</ng-template>
 				<ng-template pTemplate="header">
 					<tr style="font-size: 12px;">
-						<th class="ui-datatable-tableheader" style="width:7%;overflow: unset;">
+						<th class="ui-datatable-tableheader" style="width:4%;overflow: unset;">
 							<label><p-checkbox  id="fileDataChk" [(ngModel)]="headercheckbox" binary="true" (onChange)="onTableHeaderCheckboxToggle()"></p-checkbox >
 							<mat-select id="dataForManifestExport" class="card-body card-list" [(ngModel)]="selectedHeaderCheckbox"
 							(selectionChange)="changeHeaderCheckbox($event)">
@@ -45,7 +45,7 @@
 								Name</a>
 							<p-sortIcon [field]="cols[1].field" ariaLabel="Sort File name column in ascending/descending order"></p-sortIcon>
 						</th>
-						<th class="ui-datatable-tableheader" style="width:7%" [pSortableColumn]="cols[2].field">
+						<th class="ui-datatable-tableheader" style="width:10%" [pSortableColumn]="cols[2].field">
 							<div class="ui-datatable-tableheader-flex-container">
 								<div>
 									<a href="{{staticUrlBase}}dictionaryitem.html?eName=Study%20Run%20Metadata" target="_blank"
@@ -95,7 +95,7 @@
 				</ng-template>
 				<ng-template pTemplate="body" let-fileData let-rowIndex="rowIndex">
 					<tr style="font-size: 11px;" [pSelectableRow]="fileData">
-						<td style="width:3%;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">
+						<td style="width:4%;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">
 							<p-tableCheckbox id="fileData-{{rowIndex}}-{{fileData.submitter_id_name}}" [value]="fileData" class="browsePageCheckboxes"></p-tableCheckbox>
 						</td>
 						<td style="width:13%;word-wrap: break-word; white-space: normal;">{{fileData.submitter_id_name }}</td>
@@ -105,9 +105,9 @@
 						<td style="width:9%;word-wrap: break-word; white-space: normal;">{{fileData.data_category}}</td>
 						<td style="width:9%;word-wrap: break-word; white-space: normal;">{{fileData.file_type}}</td>
 						<td style="width:9%;word-wrap: break-word; white-space: normal;">{{fileData.access}}</td>
-						<td style="width:10%;word-wrap: break-word; white-space: normal;">{{fileData.file_size / 1000000 | number:'.3'}}
+						<td style="width:10%;word-wrap: break-word; white-space: normal;">{{fileData.file_size / 1048576 | number:'.3'}}
 						</td>
-						<td style="width:9%;word-wrap: break-word; white-space: normal;">{{fileData.downloadable}}</td>
+						<td style="width:9%;word-wrap: break-word; white-space: normal;"><span *ngIf="fileData.downloadable == 'No'">{{fileData.downloadable}}</span><span *ngIf="fileData.downloadable == 'Yes'"><button matTooltip="Please use CPTAC Data Portal for downloading the files" mat-raised-button mat-primary label="Download Selection" (click)="downloadFile(fileData)" style="font-family:'Lato';background-color: black;color: white;" aria-label="Download">Download&nbsp;&nbsp;&nbsp;<i class="fas fa-download"></i></button></span></td>
 					</tr>
 				</ng-template>
 		<p-paginator rows="10" totalRecords="120"></p-paginator> 

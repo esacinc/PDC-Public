@@ -18,13 +18,14 @@
     "graphql": "^0.11.7",
     "graphql-tools": "^2.13.0",
     "lodash": "^4.17.15",
-    "mongoose": "^4.13.2",
+    "mongoose": "^5.7.5",
     "mysql": "^2.15.0",
     "mysql2": "^1.5.2",
     "node-fetch": "^1.7.3",
     "redis": "^2.8.0",
-    "sequelize": "^4.44.3",
-    "universal-analytics": "^0.4.20"
+    "sequelize": "^5.21.3",
+    "universal-analytics": "^0.4.20",
+    "winston": "^3.2.1"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

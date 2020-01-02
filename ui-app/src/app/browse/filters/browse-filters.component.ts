@@ -81,6 +81,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
   geneSearchResults;
   selectedGeneNames: string = "";
   selectedGeneStudyList: string[] = [];
+  selectedGeneStudyNamesList: string[] = [];
   genesNamesInputField: Subject<string> = new Subject();
   loadingGeneSymbolValidation: boolean = false; //loading flag for validating gene names
   validatingGeneNamesCounter: number = 0;
@@ -654,7 +655,8 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
 
   /* Update filters counters when filter selection is changed */
   /*if only one filter category has been selected, all filter 
-	counts in that category shouldn't update*/
+  counts in that category shouldn't update*/
+  //@@@PDC-1216 redesign filter api
   updateFiltersCounters(geneNameStudyArray: string[] = [], geneNames = "", studyNamesList: any[] = [], studySelected: boolean = false) {
   // reset array of selected filters and localstorage
    localStorage.removeItem("selectedFiltersForBrowse");
@@ -780,6 +782,88 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
           selectedFilterCategoryName + ":" + individualFilter.filterName
         ).length;
       }
+    }else{
+      let noStudyAvailable = false;
+      let submitterIdNameList = this.newFilterSelected['submitter_id_name'];
+      if(this.selectedGeneNames != '' && Array.isArray(submitterIdNameList) &&  submitterIdNameList.length> 0){
+        if(this.newFilterSelected['study_name'] == ''){
+          this.newFilterSelected['study_name'] = _.intersection(this.selectedGeneStudyNamesList, submitterIdNameList).join(";");
+        }else{
+          this.newFilterSelected['study_name'] = this.newFilterSelected['study_name']+ ";"+ _.intersection(this.selectedGeneStudyNamesList, submitterIdNameList).join(";");
+        }
+        if(_.intersection(this.selectedGeneStudyNamesList, submitterIdNameList).length == 0){
+          noStudyAvailable = true;
+        }
+      }else if(this.selectedGeneNames != ''){
+        if(this.newFilterSelected['study_name'] == ''){
+          this.newFilterSelected['study_name'] = this.selectedGeneStudyNamesList.join(";");
+        }else{
+          this.newFilterSelected['study_name'] = this.newFilterSelected['study_name']+ ";"+ this.selectedGeneStudyNamesList.join(";");
+        }
+      }else if(Array.isArray(submitterIdNameList) &&  submitterIdNameList.length> 0){
+        if(this.newFilterSelected['study_name'] == ''){
+          this.newFilterSelected['study_name'] = submitterIdNameList.join(";");
+        }else{
+          this.newFilterSelected['study_name'] = this.newFilterSelected['study_name']+ ";"+ submitterIdNameList.join(";");
+        }
+      }
+
+      for(let filterName of this.allFilterCategory){
+        if(Array.isArray(this.newFilterSelected[filterName])){
+          this.newFilterSelected[filterName] = this.newFilterSelected[filterName].join(";");
+        }
+      }
+      if(noStudyAvailable){
+        for (let i = 0; i < this.allFilterCategory.length; i++) {
+          let filterCategoryName = this.allFilterCategory[i];
+          let selectedFilter: Filter[] = this.findFilterListByName(
+            filterCategoryName
+          );
+          for (let selectedFilterData of selectedFilter) {
+            selectedFilterData.filterCount = 0;
+          }
+        }
+      }else{
+        this.browseFiltersService
+        .getFilteredFiltersDataQuery(this.newFilterSelected)
+        .subscribe((data: any) => {
+          for (let i = 0; i < this.allFilterCategory.length; i++) {
+            let filterCategoryName = this.allFilterCategory[i];
+            let selectedFilter: Filter[] = this.findFilterListByName(
+              filterCategoryName
+            );
+            let filterListData: FilterElement[] = data.uiFilters[
+              filterCategoryName
+            ];
+            let filterListDataMap = new Map();
+            for (let filterData of filterListData) {
+              filterListDataMap.set(
+                filterData.filterName,
+                filterData.filterValue.length
+              );
+            }
+            for (let selectedFilterData of selectedFilter) {
+              if (filterListDataMap.has(selectedFilterData.filterName)) {
+                selectedFilterData.filterCount = filterListDataMap.get(
+                  selectedFilterData.filterName
+                );
+              } else {
+                selectedFilterData.filterCount = 0;
+              }
+            }
+            let studyList: Filter[] = [];
+            for (let studyFilter of this.allStudyFilter) {
+              if (studyFilter.filterCount > 0) {
+                studyList.push(studyFilter);
+              }
+            }
+            if (!studySelected) {
+              this.studyFilter = studyList;
+            }
+          }
+        });
+      }
+      
     }
 
     //remove study in study filter category if study is not able to be selected
@@ -793,7 +877,6 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
     if(!studySelected){
       this.studyFilter = studyList;
     }
-    console.log(this.projectsFilter);
   }
 
   private findSelectedFilterByName(filterName: string): string[] {
@@ -1135,7 +1218,8 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
 				studyList.push(item.study_submitter_id); //study id in format SXXXX-X
 				studyNamesList.push(item.submitter_id_name); //study name
 			}
-			this.selectedGeneStudyList = studyList;
+      this.selectedGeneStudyList = studyList;
+      this.selectedGeneStudyNamesList = studyNamesList;
 			this.updateFiltersCounters(studyList, this.selectedGeneNames, studyNamesList);
 			//All data tabs except for Genes tab will be filtered by studies that include the selected genes
 			var newFilterValue = "gene_study_name:" + studyNamesList.join(";");
@@ -1278,6 +1362,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
     this.selectedDownloadableRadiobuttonVal = "";
     this.selectedGeneNames = "";
     this.selectedGeneStudyList = [];
+    this.selectedGeneStudyNamesList = [];
     this.studyNameForGenesTab = [];
     this.allStudyIDsForGenes = [];
     this.selectedBiospecimenStatus = [];
@@ -1339,6 +1424,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
     this.selectedFilters.emit(newFilterValue);
     this.selectedGeneNames = "";
     this.selectedGeneStudyList = [];
+    this.selectedGeneStudyNamesList = [];
     this.studyNameForGenesTab = [];
     this.allStudyIDsForGenes = [];
     this.updateFiltersCounters();

@@ -40,7 +40,7 @@
                 (onChange)="filterDataByProject($event)">
               </p-checkbox> &nbsp; &nbsp;
             <div [ngStyle]="getStyleForCheckbox(project.filterName, selectedProjects)">
-              {{project.filterName}} <!--({{project.filterCount}} {{project.filterCount > 1 ? 'Studies' : 'Study'}})-->
+              {{project.filterName}} ({{project.filterCount}} {{project.filterCount > 1 ? 'Studies' : 'Study'}})
             </div>
             </mat-list-item></label>
           </div>
@@ -66,7 +66,7 @@
                               (onChange)="filterDataByPrimarySite($event)">
                           </p-checkbox> &nbsp; &nbsp;
                           <div [ngStyle]="getStyleForCheckbox(prim_site.filterName, selectedPrimarySites)">
-                              {{prim_site.filterName}} <!-- ({{prim_site.filterCount}} {{prim_site.filterCount > 1 ? 'Studies' : 'Study'}}) -->
+                              {{prim_site.filterName}} ({{prim_site.filterCount}} {{prim_site.filterCount > 1 ? 'Studies' : 'Study'}})
                           </div>
                     </mat-list-item></label>
                   </div>
@@ -91,7 +91,7 @@
                               (onChange)="filterDataByProgram($event)">
                           </p-checkbox> &nbsp; &nbsp;
                             <div [ngStyle]="getStyleForCheckbox(program.filterName, selectedPrograms)">
-                              {{program.filterName}} <!-- ({{program.filterCount}} {{program.filterCount > 1 ? 'Studies' : 'Study'}}) -->
+                              {{program.filterName}} ({{program.filterCount}} {{program.filterCount > 1 ? 'Studies' : 'Study'}})
                             </div>
                     </mat-list-item></label>
                   </div>
@@ -117,7 +117,7 @@
                               (onChange)="filterDataByDiseaseType($event)">
                           </p-checkbox> &nbsp; &nbsp;
                             <div [ngStyle]="getStyleForCheckbox(disease.filterName, selectedDiseases)">
-                              {{disease.filterName}} <!-- ({{disease.filterCount}} {{disease.filterCount > 1 ? 'Studies' : 'Study'}}) -->
+                              {{disease.filterName}} ({{disease.filterCount}} {{disease.filterCount > 1 ? 'Studies' : 'Study'}})
                             </div>
                     </mat-list-item></label>
                   </div>
@@ -144,7 +144,7 @@
                                 (onChange)="filterDataByAnalyticalFraction($event)">
                             </p-checkbox> &nbsp; &nbsp;
                               <div [ngStyle]="getStyleForCheckbox(an_frac.filterName, selectedAnFracs)">
-                                {{an_frac.filterName}} <!-- ({{an_frac.filterCount}} {{an_frac.filterCount > 1 ? 'Studies' : 'Study'}}) -->
+                                {{an_frac.filterName}} ({{an_frac.filterCount}} {{an_frac.filterCount > 1 ? 'Studies' : 'Study'}})
                               </div>
                       </mat-list-item></label>
                   </div>
@@ -170,7 +170,7 @@
                             (onChange)="filterDataByExperimentalStrategy($event)">
                         </p-checkbox> &nbsp; &nbsp;
                         <div [ngStyle]="getStyleForCheckbox(exp_start.filterName, selectedExpStarts)">
-                          {{exp_start.filterName}} <!-- ({{exp_start.filterCount}} {{exp_start.filterCount > 1 ? 'Studies' : 'Study'}}) -->
+                          {{exp_start.filterName}} ({{exp_start.filterCount}} {{exp_start.filterCount > 1 ? 'Studies' : 'Study'}})
                         </div>
                       </mat-list-item></label>
                     </div>
@@ -197,7 +197,7 @@
                   [disabled]="acq_start.filterCount == 0" (onChange)="filterDataByAcquisition($event)">
                 </p-checkbox> &nbsp; &nbsp;
                 <div [ngStyle]="getStyleForCheckbox(acq_start.filterName, selectedAcquisitions)">
-                  {{acq_start.filterName}} <!-- ({{acq_start.filterCount}} {{acq_start.filterCount > 1 ? 'Studies' : 'Study'}}) -->
+                  {{acq_start.filterName}} ({{acq_start.filterCount}} {{acq_start.filterCount > 1 ? 'Studies' : 'Study'}})
                 </div>
               </mat-list-item></label>
             </div>
@@ -248,7 +248,7 @@
                               (onChange)="filterDataBySampleType($event)">
                           </p-checkbox> &nbsp; &nbsp;
                           <div>
-                            {{sampleType.filterName}} <!-- ({{sampleType.filterCount}} {{sampleType.filterCount > 1 ? 'Studies' : 'Study'}}) -->
+                            {{sampleType.filterName}} ({{sampleType.filterCount}} {{sampleType.filterCount > 1 ? 'Studies' : 'Study'}})
                           </div>
                         </mat-list-item></label>
                       </div>
@@ -275,7 +275,7 @@
                       [(ngModel)]="selectedBiospecimenStatus" [disabled]="biospecimenStatus.filterCount == 0" (onChange)="filterDataByBiospecimenStatus($event)">
                     </p-checkbox> &nbsp; &nbsp;
                     <div [ngStyle]="getStyleForCheckbox(biospecimenStatus.filterName, selectedBiospecimenStatus)">
-                      {{biospecimenStatus.filterName}} <!-- ({{biospecimenStatus.filterCount}} {{biospecimenStatus.filterCount > 1 ? 'Studies' : 'Study'}}) -->
+                      {{biospecimenStatus.filterName}} ({{biospecimenStatus.filterCount}} {{biospecimenStatus.filterCount > 1 ? 'Studies' : 'Study'}})
                     </div>
                   </mat-list-item></label>
                 </div>
@@ -311,7 +311,7 @@
 						(onChange)="filterDataByEthnicity($event)">
 					</p-checkbox> &nbsp; &nbsp;
 					<div [ngStyle]="getStyleForCheckbox(ethnicity.filterName, selectedEthnicity)">
-						{{ethnicity.filterName}} <!-- ({{ethnicity.filterCount}} {{ethnicity.filterCount > 1 ? 'Studies' : 'Study'}}) -->
+						{{ethnicity.filterName}} ({{ethnicity.filterCount}} {{ethnicity.filterCount > 1 ? 'Studies' : 'Study'}})
 					</div>
 				  </mat-list-item></label>
 				</div>
@@ -336,7 +336,7 @@
 						(onChange)="filterDataByRace($event)">
 					</p-checkbox> &nbsp; &nbsp;
 					<div [ngStyle]="getStyleForCheckbox(race.filterName, selectedRace)">
-						{{race.filterName}} <!-- ({{race.filterCount}} {{race.filterCount > 1 ? 'Studies' : 'Study'}}) -->
+						{{race.filterName}} ({{race.filterCount}} {{race.filterCount > 1 ? 'Studies' : 'Study'}})
 					</div>
 				  </mat-list-item></label>
 				</div>
@@ -361,7 +361,7 @@
 						(onChange)="filterDataByGender($event)">
 					</p-checkbox> &nbsp; &nbsp;
 					<div [ngStyle]="getStyleForCheckbox(gender.filterName, selectedGender)">
-						{{gender.filterName}} <!-- ({{gender.filterCount}} {{gender.filterCount > 1 ? 'Studies' : 'Study'}}) -->
+						{{gender.filterName}} ({{gender.filterCount}} {{gender.filterCount > 1 ? 'Studies' : 'Study'}})
 					</div>
 				  </mat-list-item></label>
 				</div>
@@ -386,7 +386,7 @@
 						(onChange)="filterDataByTumorGrade($event)">
 					</p-checkbox> &nbsp; &nbsp;
 					<div [ngStyle]="getStyleForCheckbox(tumorGrade.filterName, selectedTumorGrade)">
-						{{tumorGrade.filterName}} <!-- ({{tumorGrade.filterCount}} {{tumorGrade.filterCount > 1 ? 'Studies' : 'Study'}}) -->
+						{{tumorGrade.filterName}} ({{tumorGrade.filterCount}} {{tumorGrade.filterCount > 1 ? 'Studies' : 'Study'}})
 					</div>
 				  </mat-list-item></label>
 				</div>
@@ -413,7 +413,7 @@
                     [(ngModel)]="selectedCaseStatus" [disabled]="caseStatus.filterCount == 0" (onChange)="filterDataByCaseStatus($event)">
                   </p-checkbox> &nbsp; &nbsp;
                   <div [ngStyle]="getStyleForCheckbox(caseStatus.filterName, selectedCaseStatus)">
-                    {{caseStatus.filterName}} <!-- ({{caseStatus.filterCount}} {{caseStatus.filterCount > 1 ? 'Studies' : 'Study'}}) -->
+                    {{caseStatus.filterName}} ({{caseStatus.filterCount}} {{caseStatus.filterCount > 1 ? 'Studies' : 'Study'}})
                   </div>
                 </mat-list-item></label>
               </div>
@@ -473,7 +473,7 @@
                   (onChange)="filterDataByDataCategory($event)">
                 </p-checkbox> &nbsp; &nbsp;
                 <div [ngStyle]="getStyleForCheckbox(dataCategory.filterName, selectedDataCategory)">
-                  {{dataCategory.filterName}} <!-- ({{dataCategory.filterCount}} {{dataCategory.filterCount > 1 ? 'Studies' : 'Study'}}) -->
+                  {{dataCategory.filterName}} ({{dataCategory.filterCount}} {{dataCategory.filterCount > 1 ? 'Studies' : 'Study'}})
                 </div>
               </mat-list-item></label>
             </div>
@@ -500,7 +500,7 @@
                   [(ngModel)]="selectedFileType" [disabled]="fileType.filterCount == 0 || fileTypeFilterDisabled(fileType.filterName)" (onChange)="filterDataByFileType($event)">
                 </p-checkbox> &nbsp; &nbsp;
                 <div [ngStyle]="getStyleForCheckbox(fileType.filterName, selectedFileType)">
-                  {{fileType.filterName}} <!-- ({{fileType.filterCount}} {{fileType.filterCount > 1 ? 'Studies' : 'Study'}}) -->
+                  {{fileType.filterName}} ({{fileType.filterCount}} {{fileType.filterCount > 1 ? 'Studies' : 'Study'}})
                 </div>
               </mat-list-item></label>
             </div>
@@ -527,7 +527,7 @@
                   [(ngModel)]="selectedAccess" [disabled]="access.filterCount == 0" (onChange)="filterDataByAccess($event)">
                 </p-checkbox> &nbsp; &nbsp;
                 <div [ngStyle]="getStyleForCheckbox(access.filterName, selectedAccess)">
-                  {{access.filterName}} <!-- ({{access.filterCount}} {{access.filterCount > 1 ? 'Studies' : 'Study'}}) -->
+                  {{access.filterName}} ({{access.filterCount}} {{access.filterCount > 1 ? 'Studies' : 'Study'}})
                 </div>
               </mat-list-item></label>
             </div>

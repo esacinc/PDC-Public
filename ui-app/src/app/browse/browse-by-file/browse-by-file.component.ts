@@ -48,6 +48,7 @@ import * as _ from 'lodash';
 //@@@PDC 829: Update study count in the redirected fence page which retaining filters
 //@@@PDC-937: Add a button to allow download all manifests with a single click
 //@@@PDC-918: Add button to allow download of full file manifest
+//@@@PDC-1303: Add a download column and button for downloading individual files to the file tab
 export class BrowseByFileComponent implements OnInit {
   filteredFilesData: AllFilesData[]; //Filtered list of cases
   loading: boolean = false; //Flag indicates that the data is still being loaded from server
@@ -97,7 +98,9 @@ export class BrowseByFileComponent implements OnInit {
   @Input() otherTabsLoaded;
   @Input() enableDownloadAllManifests:any;
   // Determines if there are any selected filters in the browse component
-	filtersSelected:any;
+  filtersSelected:any;
+  //@@@PDC-1303: Add a download column and button for downloading individual files to the file tab
+  individualFileData: AllFilesData[] = [];
 
   constructor(
     private apollo: Apollo,
@@ -543,17 +546,72 @@ export class BrowseByFileComponent implements OnInit {
     }, 10); 
   }
 
+  //@@@PDC-1303: Add a download column and button for downloading individual files to the file tab
+  async downloadFile(fileData) {
+    this.individualFileData = [];
+    this.individualFileData.push(fileData);
+    //this.fileTableExportCSV(false, true);
+    let controlledFileFlag: boolean = false;
+
+    for (let file of this.individualFileData) {
+      if (file["access"].toLowerCase() === "controlled" && file.downloadable.toLowerCase() === "yes") {
+        controlledFileFlag = true;
+      }
+    }
+    //If the file is controlled, execute the file export in the normal format
+    if (controlledFileFlag) {
+      this.fileTableExportCSV(false, true);
+    } else {
+      var downloadLink = "";
+      for (let file of this.individualFileData) {
+        if (file.downloadable.toLowerCase() === 'yes') {
+          let urlResponse = await this.browseByFileService.getOpenFileSignedUrl(file.file_name);
+          if (!urlResponse.error) {
+            downloadLink = urlResponse.data;
+          } else {
+            this.displayMessageForNotDownloadable();
+          }
+        } else{
+          this.displayMessageForNotDownloadable();
+        }  
+      }
+      if (downloadLink) {
+        //If the download file link is available, open the download link and start file download.
+        window.open(downloadLink, "_self");
+      }
+    }
+  }
+
+  //@@@PDC-1303: Add a download column and button for downloading individual files to the file tab
+  //Opens a dialog window with the message that the file is not downloadable.
+  async displayMessageForNotDownloadable() {
+    this.dialog.open(MessageDialogComponent, {
+      width: "300px",
+      disableClose: true,
+      autoFocus: false,
+      hasBackdrop: true,
+      data: { message: "This file is not available for download." }
+    });
+  }
+
 
   //@@@PDC-729 Integrate PDC with Fence and IndexD
   //@@@PDC-784 Improve download controlled files feature
   //@@@PDC-801 For files that are marked downloadable call API to get signed URL and include in manifest
   //@@@PDC-869 if controlled file is not downloadable, it will not ask user to login eRA and authorize 
-  async fileTableExportCSV(iscompleteFileDownload:boolean = false) {
+  async fileTableExportCSV(iscompleteFileDownload:boolean = false, individualFileDownload:boolean = false) {
     let dataForExport;
     if (iscompleteFileDownload) {
         dataForExport = this.completeFileManifest;
     } else {
-        dataForExport =  this.selectedFiles;
+        if (individualFileDownload) {
+          //@@@PDC-1303: Add a download column and button for downloading individual files to the file tab
+          dataForExport = this.individualFileData;
+          //Set a flag in local storage
+          localStorage.setItem("controlFilesIndividualFileDownload","true");
+        } else {
+          dataForExport =  this.selectedFiles;
+        }
     }
     let confirmationMessage: string = "";
     let eRALogIn: string = "loginNotRequired";
@@ -607,7 +665,13 @@ export class BrowseByFileComponent implements OnInit {
       }
 
       if (exp > Date.now() / 1000) {
-        this.exportControlledCSV(null, access_token);
+        if (individualFileDownload) {
+          //@@@PDC-1303: Add a download column and button for downloading individual files to the file tab
+          //Set a flag if this is for individual file download.
+          this.exportControlledCSV(null, access_token, false, true);
+        } else {
+          this.exportControlledCSV(null, access_token);
+        }
       } else {
         localStorage.removeItem("fence_access_token");
         const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
@@ -682,6 +746,7 @@ export class BrowseByFileComponent implements OnInit {
           file['file_download_link'] = this.notDownloadable;
         }
       }
+
       this.displayLoading(iscompleteFileDownload, "file1", false);
       new ngxCsv(exportFileObject, this.getCsvFileName(), csvOptions);
     }
@@ -694,7 +759,7 @@ export class BrowseByFileComponent implements OnInit {
   //@@@PDC-729 Integrate PDC with Fence and IndexD
   //@@@PDC-784 Improve download controlled files feature
   //@@@PDC-801 For files that are marked downloadable call API to get signed URL and include in manifest
-  private async exportControlledCSV(authorizationCode: string, existAccessToken: string, fenceRequest:boolean = false) {
+  private async exportControlledCSV(authorizationCode: string, existAccessToken: string, fenceRequest:boolean = false, individualFileDownload:boolean = false) {
     if (fenceRequest) {
         this.displayLoading(true, "fenceRequestcontrolFiles", true);
     } else {
@@ -797,7 +862,7 @@ export class BrowseByFileComponent implements OnInit {
     });
 
     let unauthorizedStudy = new Set<string>();
-
+    var downloadLink = "";
     for (let exportFile of exportFileObject) {
       if (exportFile.study_run_metadata_submitter_id === null) {
         exportFile.study_run_metadata_submitter_id = "";
@@ -819,12 +884,27 @@ export class BrowseByFileComponent implements OnInit {
         if(exportFile.downloadable.toLowerCase() === 'yes'){
           let urlResponse = await this.browseByFileService.getOpenFileSignedUrl(exportFile.file_name);
           if(!urlResponse.error){
-            exportFile['file_download_link'] = urlResponse.data;
+            if (individualFileDownload) {
+              //@@@PDC-1303: Add a download column and button for downloading individual files to the file tab
+              //If its an individual file download, assign the download link to a variable.
+              downloadLink = urlResponse.data;
+            } else {
+              exportFile['file_download_link'] = urlResponse.data;
+            }
           }else{
-            exportFile['file_download_link'] = this.notDownloadable;
+            if (individualFileDownload) {
+              //If its an individual file download, display the confirmantion message that the download link is not available.
+              this.displayMessageForNotDownloadable();
+            } else {
+              exportFile['file_download_link'] = this.notDownloadable;
+            }
           }
         }else{
-          exportFile['file_download_link'] = this.notDownloadable;
+          if (individualFileDownload) {
+            this.displayMessageForNotDownloadable();
+          } else {
+            exportFile['file_download_link'] = this.notDownloadable;
+          }
         }
       }
       delete exportFile.downloadable;
@@ -839,7 +919,13 @@ export class BrowseByFileComponent implements OnInit {
         message = `You do not have access to the controlled access data you requested. Request access via Authorized Access at dbGaP for the study ${studyList}`;
       }
     }
-
+    if (individualFileDownload) {
+      //If its an individual file download, open the download link and start file download.
+      // do not download the file manifest
+      if (downloadLink) {
+        window.open(downloadLink, "_self");
+      }
+    } else {
     let csvOptions = {
       headers: [
         "Study",
@@ -858,12 +944,13 @@ export class BrowseByFileComponent implements OnInit {
       ]
     };
     const csvFileName = this.getCsvFileName();
-    if (fenceRequest) {
-        this.displayLoading(true, "fenceRequestcontrolFiles", false);
-    } else {
-        this.displayLoading(true, "controlFiles", false);
-    }
     new ngxCsv(exportFileObject, csvFileName, csvOptions);
+  }
+  if (fenceRequest) {
+    this.displayLoading(true, "fenceRequestcontrolFiles", false);
+  } else {
+      this.displayLoading(true, "controlFiles", false);
+  }
     localStorage.removeItem("controlledFileTableExportCsv");
     this.dialog.open(MessageDialogComponent, {
       width: "300px",
@@ -928,12 +1015,24 @@ export class BrowseByFileComponent implements OnInit {
       console.log(queryParams);
       if (queryParams.code) {
         this.fenceRequest =  true;
+        var controlFilesIndividualFileDownload = false;
+        //@@@PDC-1303: Add a download column and button for downloading individual files to the file tab
+        if (localStorage.getItem("controlFilesIndividualFileDownload")) {
+          controlFilesIndividualFileDownload = true;
+        }
         setTimeout(() => {
-          if (localStorage.getItem("controlledFileTableExportCsv")) {
+          if (localStorage.getItem("controlledFileTableExportCsv") && !controlFilesIndividualFileDownload) {
+            // Do not select the files if its an individual file download.
             this.selectedFiles = JSON.parse(localStorage.getItem("controlledFileTableExportCsv"));
           }
         }, 1000);
-        this.exportControlledCSV(queryParams.code, null, true);
+        if (controlFilesIndividualFileDownload) {
+          //@@@PDC-1303: Add a download column and button for downloading individual files to the file tab
+          localStorage.removeItem("controlFilesIndividualFileDownload");
+          this.exportControlledCSV(queryParams.code, null, true, true);         
+        } else {
+          this.exportControlledCSV(queryParams.code, null, true);
+        }
       }
     });
     //@@@PDC-918: Add button to allow download of full file manifest

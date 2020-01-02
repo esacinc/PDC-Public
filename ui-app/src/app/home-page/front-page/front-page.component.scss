@@ -172,3 +172,39 @@ $header-height: 10.8rem;
 .frontPage_diseasetype {
   color: #FFFFFF;
 }
+
+@media only screen and (min-width: 100px) and (max-width: 1550px) {
+  #top-release-item {
+    margin-top: 0rem;
+  }
+
+  #release-item {
+    margin-top: 2.5em;
+  }
+
+  #bottom-release-item {
+    margin-top: 2rem;
+  }
+
+  #news-item {
+    margin-bottom: 3rem;
+  }
+}
+
+@media only screen and (min-width: 1551px) and (max-width: 1920px) {
+  #top-release-item {
+    margin-top: 0rem;
+  }
+
+  #release-item {
+    margin-top: 2rem;
+  }
+
+  #bottom-release-item {
+    margin-top: 1rem;
+  }
+
+  #news-item {
+    margin-bottom: 15px;
+  }
+}

@@ -3,6 +3,7 @@
 //@@@PDC-893 add case status
 //@@@PDC-1011 replace gdc_case_id with external_case_id
 //@@@PDC-1234 add imaging_resource
+//@@@PDC-1237 add age_at_diagnosis et al
 const UIClinical = `
 type UIClinical {
 	case_id: String
@@ -23,6 +24,9 @@ type UIClinical {
 	tissue_or_organ_of_origin: String
 	tumor_grade: String
 	tumor_stage: String
+	age_at_diagnosis:  String
+	classification_of_tumor:  String
+	days_to_recurrence:  String
 }`
 ;
 

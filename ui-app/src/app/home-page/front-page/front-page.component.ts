@@ -28,6 +28,7 @@ import {environment} from '../../../environments/environment';
 //@@@PDC-1119: Make the disease types table on the home page clickable
 //@@@PDC-1184 - PDC review and testing processes presentation
 //@@@PDC-1214 - add human body image instead of sunburst chart
+//@@@PDC-1301 Move 'Other' disease type to bottom on home page
 export class FrontPageComponent implements OnInit {
 
   tissueSites: Observable<TissueSite[]>;
@@ -261,10 +262,21 @@ export class FrontPageComponent implements OnInit {
 			  }
 		  }
 			console.log(this.diseasesData);
-			this.diseasesTotalCounts.sort((disease1:Disease,disease2:Disease) => (disease1.disease_type > disease2.disease_type) ? 1 : ((disease1.disease_type < disease2.disease_type) ? -1 : 0)); 
+			this.diseasesTotalCounts.sort(this.compareDiseases); 
 	  });  
   }
   
+  //PDC-1301 Move 'Other' disease type to bottom on home page
+  //Helper function compares diseases for alphabethical sort 
+  // and moves 'Other' disease to the bottom of the list
+  compareDiseases(disease1, disease2){
+	var return_val = 0;
+	if (disease1.disease_type > disease2.disease_type) return_val = 1;
+	if (disease1.disease_type < disease2.disease_type) return_val = -1;
+	if (disease1.disease_type == 'Other') return_val = 1;
+	if (disease2.disease_type == 'Other') return_val = -1;
+	return return_val;
+  }
   
   //PDC-621 - Populate sunburst chart with data from new uiSunburst API
   //PDC-638 - data missing in sunburst graph and change root node name

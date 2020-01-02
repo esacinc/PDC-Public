@@ -5,8 +5,8 @@ import Sequelize from 'sequelize';
 import {filters, filtersView} from '../util/filters'
 import {getSignedUrl} from '../util/getSignedUrl'
 import {RedisCacheClient, CacheName} from '../util/cacheClient';
-//import AWS from 'aws-sdk';
-//import SignedUrl from '../schemas/signedUrl'; 
+//@@@PDC-1215 use winston logger
+import { logger } from '../util/logger';
 
 const Op = Sequelize.Op;
 //@@@PDC-952 remove hard-coded schema name
@@ -189,7 +189,6 @@ export const resolvers = {
 	},
 	Sample: {
 		aliquots(obj, args, context) {
-			//console.log("Sample obj: "+JSON.stringify(obj.sample_submitter_id));			
 			return db.getModelByName('Aliquot').findAll({ attributes: [['bin_to_uuid(aliquot_id)', 'aliquot_id'],'aliquot_submitter_id', 'analyte_type', 'aliquot_quantity', 'aliquot_volume', 'amount', 'concentration'],
 			where: {
 				sample_submitter_id: obj.sample_submitter_id
@@ -383,22 +382,11 @@ export const resolvers = {
 		},
 		//@@@PDC-329 Pagination for UI study summary page
 		//@@@PDC-788 remove hard-coded file types
+		//@@@PDC-1291 Redesign Browse Page data tabs
 		async uiStudies(obj, args, context) {
 			const res = await RedisCacheClient.redisCacheGetAsync(context.dataCacheName);
 			if(res === null){
 				var myCombo = await db.getSequelize().query(context.query, { model: db.getModelByName('ModelUIStudy') });
-				var counts = null;
-				//@@@PDC-533 additional UI filters
-				var caCounts = null, caCountQuery = null;
-				var study = '';
-				for (var i = 0; i < myCombo.length; i++) {
-					caCountQuery = context.caCountQuery+" and s.submitter_id_name = '"+
-					//@@@PDC-629 disease type and primary site sync-up
-					myCombo[i].submitter_id_name + "'";
-					caCounts = await db.getSequelize().query(caCountQuery, { model: db.getModelByName('ModelUICount') });
-					myCombo[i].cases_count = caCounts[0].cases_count;
-					myCombo[i].aliquots_count = caCounts[0].aliquots_count;
-				}				
 				RedisCacheClient.redisCacheSetExAsync(context.dataCacheName, JSON.stringify(myCombo));
 				return myCombo;
 			}else{
@@ -527,13 +515,11 @@ export const resolvers = {
 				}
 				var geneRow = null;
 				genes = await db.getSequelize().query(geneQuery, { model: db.getModelByName('ModelMatrix') });
-				console.log("Got genes: "+genes.length);
 				//@@@PDC-740 dealing with duplicate gene in one aliquot
 				var currentGene = 'xxxx';
 				var geneCount = 0;
 				for (var j = 0; j < genes.length; j++){
 					if (genes[j].gene_name === currentGene){
-						//console.log("find dup: "+genes[j].gene_name);
 						continue;						
 					}
 					currentGene = genes[j].gene_name;
@@ -548,7 +534,7 @@ export const resolvers = {
 					}
 				}
 			}
-			console.log("Ready to return matrix");
+			logger.info("Ready to return matrix");
 			return matrix;
 		},
 		//@@@PDC-678 ptm data matrix API
@@ -585,7 +571,6 @@ export const resolvers = {
 				" order by pq.gene_name";
 				var geneRow = null;
 				genes = await db.getSequelize().query(geneQuery, { model: db.getModelByName('ModelMatrix') });
-				console.log("Got genes: "+genes.length);
 				for (var j = 0; j < genes.length; j++){
 					if (i == 0) {
 						geneRow = new Array();
@@ -598,11 +583,11 @@ export const resolvers = {
 					}
 				}
 			}
-			console.log("Ready to return ptm matrix");
+			logger.info("Ready to return ptm matrix");
 			return matrix;
 		},
 		pagination(obj, args, context) {
-			console.log("Paginated total: "+JSON.stringify(context.total));
+			logger.info("Paginated total: "+JSON.stringify(context.total));
 			return context.total;
 		}
 	},

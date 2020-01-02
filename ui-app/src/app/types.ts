@@ -737,3 +737,64 @@ export type HumanbodyImageData = {
 	primary_site: string;
 	cases_count: number;
 }
+
+//@@@PDC-1219 - Add a new experimental design tab on the study summary page
+export type QueryStudyExperimentalDesign = {
+	studyExperimentalDesignData: StudyExperimentalDesign[];
+}
+
+export type StudyExperimentalDesign = {
+	study_id: string;
+	study_submitter_id: string;
+	study_run_metadata_id: string;
+	study_run_metadata_submitter_id: string;
+	experiment_number: string;
+	experiment_type: string;
+	plex_dataset_name: string;
+	acquisition_type: string;
+	number_of_fractions: string;
+	analyte: string;
+    label_free:string;
+    itraq_114: string;
+    itraq_115: string;
+    itraq_116: string;
+    itraq_117: string;
+    itraq_118: string;
+    itraq_119: string;
+    itraq_120: string;
+    itraq_121: string;
+    tmt_126: string;
+    tmt_127n: string;
+    tmt_127c: string;
+    tmt_128n: string;
+    tmt_128c: string;
+    tmt_129n: string;
+    tmt_129c: string;
+    tmt_130c: string;
+    tmt_130n: string;
+    tmt_131: string;
+    tmt_131c: string;
+}
+
+export type QueryBiospecimenPerStudy = {
+	biospecimenPerStudyData: BiospecimenPerStudy [];
+}
+
+export type BiospecimenPerStudy = {
+	aliquot_id: string;
+	sample_id: string;
+	case_id: string;
+	aliquot_submitter_id: string;
+	sample_submitter_id: string;
+	case_submitter_id: string;
+	aliquot_is_ref: string;
+	aliquot_status: string;
+	case_status: string;
+	sample_status: string;
+	project_name: string;
+	sample_type: string;
+	disease_type: string;
+	primary_site: string;
+	pool: string;
+	taxon: string;
+}

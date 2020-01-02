@@ -50,7 +50,12 @@
 				<a mat-button (click)="trackPage('/jbrowse')" href='/jbrowse/' id="analysisOption" target="_" >Peptide Genome mapping</a><br/>
 				<a mat-button (click)="trackPage('/pepquery')" href='http://pepquery.esacinc.com:3838/pepquery' id="analysisOption" target="_" >Pepquery</a>
 			</mat-menu>
-			<a mat-button class="custom-navbar-menu-item" id="submitNavbar" (click)="submitData()">SUBMIT DATA</a>
+			<!-- <a mat-button class="custom-navbar-menu-item" id="submitNavbar" (click)="submitData()">SUBMIT DATA</a> -->
+			<a mat-button class="custom-navbar-menu-item" id="submitDataNavBar" [matMenuTriggerFor]="submitDataBtn">SUBMIT DATA</a>
+			<mat-menu [overlapTrigger]="false" yPosition="below" #submitDataBtn="matMenu">
+				<a mat-button (click)="submitData()" id="submitNavbar">Login to Workspace</a>	
+				<a mat-menu-item  class="custom-menu-item"  id="submitDataMenu" target="_blank"  href='/pdc/submit-data'>How to Submit Data</a>
+			</mat-menu>
 			<!-- <a mat-button class="custom-navbar-menu-item" id="newsNavbar" routerLink='news'>NEWS</a> -->
 			<a mat-button class="custom-navbar-menu-item" id="aboutNavbar" routerLink='about'>ABOUT</a>
 			<a mat-button class="custom-navbar-menu-item" id="helpNavbar" [matMenuTriggerFor]="help">HELP</a>
@@ -60,6 +65,7 @@
 				<a mat-menu-item class="custom-menu-item" href={{apidocumentation_url}} target="_blank" id="APIDocs">API Documentation</a>
 				<a mat-menu-item class="custom-menu-item" id="faq" routerLink='faq'>FAQ</a>
 				<a mat-menu-item class="custom-menu-item" id="feedbackSubmenu" [matMenuTriggerFor]="feedback">Feedback</a>
+				<a mat-menu-item class="custom-menu-item" id="submitDataSubmenu" href="/pdc/submit-data" target="_blank">How to Submit Data</a>
 			</mat-menu>
 			
 			<mat-menu [overlapTrigger]="false" yPosition="below" #feedback="matMenu">

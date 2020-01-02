@@ -1,12 +1,12 @@
 <title>Welcome</title>
-<div class="container-fluid">
+<div [ngClass]="idProvider==='NIH' ? 'nihLoginModal': 'PDCLoginModal'" class="container-fluid">
 	<div class="row">
-		<div class="col-md-5" style="text-align:center;">
+		<div class="col-md-5" style="text-align:center;" *ngIf="idProvider!='NIH'">
 			<img src="./assets/css/images/WelcomePageImage.png" style="width:75%;margin-top: 300px;" alt="Welcome Page Image"/>
 		</div>
 		<div class="col-md-7">
-			<h2 style="color:#245672; text-align: center;">Join NCI Proteomic Data Portal!</h2>
-			<p style="color:#245672;"> Tell us about yourself</p>
+			<h2 style="color:#245672; text-align: center;" *ngIf="idProvider!='NIH'">Join NCI Proteomic Data Portal!</h2>
+			<p [ngClass]="idProvider==='NIH' ? 'nihLabel1': 'PDCLabel1'" style="color:#245672;"> Tell us about yourself</p>
 			<p> Please provide information about yourself to help us personalize your experience.</p>
 			<h4 *ngIf="formInvalidMessage!=''"><br><span style="color:red">{{formInvalidMessage}}</span><br></h4>
 			<form [formGroup]="registrationForm" (ngSubmit)="submitRegistration()" class="form" style="padding:10px" name="pdcRegistrationForm" novalidate>
@@ -80,7 +80,7 @@
 				<!--PDC-1070 - privacy policy window became an overlay window, so no need to open a new tab -->
 				<div class="form-group">By registering with the NCI Proteomic Data Portal you agree to our <a href="javascript:void(0)" (click)="viewPrivacyPolicy()" style="text-decoration: underline;">Privacy Policy.</a></div>
 				<button id="pdcRegister" mat-raised-button>Submit</button>&nbsp; &nbsp;
-				<button id="pdcCancelRegistration" mat-raised-button (click)="onCancelClick()">Cancel</button>
+				<button id="pdcCancelRegistration" mat-raised-button (click)="onCancelClick()"><span *ngIf="idProvider!='NIH'">Cancel</span><span *ngIf="idProvider==='NIH'">Later</span></button>
 			</form>
 		</div>
 	</div>

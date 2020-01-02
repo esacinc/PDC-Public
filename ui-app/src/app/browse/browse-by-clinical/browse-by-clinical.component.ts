@@ -426,6 +426,7 @@ isDownloadDisabled(){
   ngOnInit() {
 	  //Have to define this structure for Primeng CSV export to work properly
 	  //@@@PDC-462 show submitter id
+	  //@@@PDC-1305 add age_at_diagnosis et al	  
 	  this.cols = [
 		{field: 'case_submitter_id', header: 'Cases Submitter ID'},
 		{field: 'external_case_id', header: 'External Case ID'},
@@ -437,7 +438,10 @@ isDownloadDisabled(){
 		{field: 'site_of_resection_or_biopsy', header: 'Site of Resection or Biopsy'},
 		{field: 'tissue_or_organ_of_origin', header: 'Tissue or Organ of Origin'},
 		{field: 'tumor_grade', header: 'Tumor Grade'},
-		{field: 'tumor_stage', header: 'Tumor Stage'}
+		{field: 'tumor_stage', header: 'Tumor Stage'},
+		{field: 'age_at_diagnosis', header: 'Age at Diagnosis'},
+		{field: 'classification_of_tumor', header: 'Classification of Tumor'},
+		{field: 'days_to_recurrence', header: 'Days to Recurrence'}
 	  ];
 	  //@@@PDC-799: Redirecting to the NIH login page for the file authorization loses PDC state
 	  this.activatedRoute.queryParams.subscribe(queryParams => {

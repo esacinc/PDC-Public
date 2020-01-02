@@ -1,10 +1,10 @@
 <div class="row browse-study" style="font-family:'Lato';">	
-	<div style="width: 100%">
+	<div style="width: 100%; height: 30px">
 		<div *ngIf="totalRecords > 0 && !loading" class="ui-helper-clearfix" style="float: left">
-			<h3 style="font-family: 'Lato'; font-size:14px;float:left">{{totalRecords > 1 ? 'Total studies: ' + totalRecords : 'Total study: ' + totalRecords }}</h3>
+			<h3 style="font-family: 'Lato'; font-size:14px;float:left; margin-top:10px!important">{{totalRecords > 1 ? 'Total studies: ' + totalRecords : 'Total study: ' + totalRecords }}</h3>
 		</div>
-		<div style="float: right; padding: 2%">
-			<button matTooltip="Please use CPTAC Data Portal for downloading the files" id="downloadWholeManifest" mat-raised-button mat-primary label="Download Selection" (click)="downloadAllManifest()" style="font-family:'Lato';float:right;font-weight:bold;" [disabled]="iscompleteManifestDisabled()" aria-label="Download all Manifests">Download All Manifests</button>
+		<div style="float: right; padding: 10px">
+			<button matTooltip="Please use CPTAC Data Portal for downloading the files" id="downloadWholeManifest" mat-raised-button mat-primary label="Download Selection" (click)="downloadAllManifest()" style="font-family:'Lato';float:right;font-weight:bold;" [disabled]="iscompleteManifestDisabled()" aria-label="Download all Manifests">Export All Manifests</button>
 		</div> 
 	</div>
 	
@@ -16,12 +16,12 @@
 	    <ng-template pTemplate="caption">
 			<div class="ui-helper-clearfix">
 				<div id="selectedStudiesCount" *ngIf="!isDownloadDisabled()" style="float:left">Studies selected for download: {{selectedStudies.length}}</div>
-				<button matTooltip="Please use CPTAC Data Portal for downloading the files" id="downloadStudyManifest" mat-raised-button mat-primary label="Download Selection" (click)="studyTableExportCSV(dt)" style="font-family:'Lato';float:right" [disabled]="isDownloadDisabled()" aria-label="Download Study Manifest">Download Study Manifest</button>
+				<button matTooltip="Please use CPTAC Data Portal for downloading the files" id="downloadStudyManifest" mat-raised-button mat-primary label="Download Selection" (click)="studyTableExportCSV(dt)" style="font-family:'Lato';float:right" [disabled]="isDownloadDisabled()" aria-label="Download Study Manifest">Export Study Manifest</button>
 			</div>
 		</ng-template>
         <ng-template pTemplate="header" let-columns>
             <tr>
-				<th rowspan=3 class="ui-datatable-tableheader" style="width:6%; align-content: center !important; overflow: unset;" pResizableColumn alt="Check All checkboxes in the table">
+				<th rowspan=3 class="ui-datatable-tableheader" style="width:3%; align-content: center !important; overflow: unset;" pResizableColumn alt="Check All checkboxes in the table">
 					<label><p-checkbox  id="studyDataChk" [(ngModel)]="headercheckbox" binary="true" (onChange)="onTableHeaderCheckboxToggle()" ></p-checkbox >
 					<mat-select id="dataForManifestExport" class="card-body card-list" [(ngModel)]="selectedHeaderCheckbox"
 					(selectionChange)="changeHeaderCheckbox($event)">
@@ -32,7 +32,7 @@
 					<span style="display:none;">Select All</span></label>
 				</th>
 				<!-- @@@PDC-262 link headers to data dictionary -->                
-				<th rowspan=3 class="ui-datatable-tableheader" style="width:12%;" [pSortableColumn]="cols[0].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Study" target="_blank" style="color:white">Study</a><p-sortIcon [field]="cols[0].field" ariaLabel="Sort Study in ascending/descending order"></p-sortIcon></th>
+				<th rowspan=3 class="ui-datatable-tableheader" style="width:15%;" [pSortableColumn]="cols[0].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Study" target="_blank" style="color:white">Study</a><p-sortIcon [field]="cols[0].field" ariaLabel="Sort Study in ascending/descending order"></p-sortIcon></th>
 				<th rowspan=3 class="ui-datatable-tableheader" style="width:7%" [pSortableColumn]="cols[1].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Project" target="_blank" style="color:white">Project</a><p-sortIcon [field]="cols[1].field" ariaLabel="Sort Project in ascending/descending order"></p-sortIcon></th>
 				<th rowspan=3 class="ui-datatable-tableheader" style="width:9%" [pSortableColumn]="cols[2].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Program" target="_blank" style="color:white">Program</a><p-sortIcon [field]="cols[2].field" ariaLabel="Sort Program in ascending/descending order"></p-sortIcon></th>
 				<th rowspan=3 class="ui-datatable-tableheader" style="width:10%" [pSortableColumn]="cols[3].field" pResizableColumn>
@@ -98,8 +98,8 @@
         </ng-template>
         <ng-template pTemplate="body" let-studyData>
             <tr style="font-size: 11px;"[pSelectableRow]="studyData">
-			  <td style="width:6%; align-content: center !important"><p-tableCheckbox id="studyData{{studyData.submitter_id_name}}" [value]="studyData" class="browsePageCheckboxes"></p-tableCheckbox></td>
-              <td style="width:12%;word-wrap: break-word; white-space: normal;"><a href="javascript:void(0);" (click)="showStudySummary(studyData.study_submitter_id)">{{studyData.submitter_id_name}}</a></td>
+			  <td style="width:3%; align-content: center !important"><p-tableCheckbox id="studyData{{studyData.submitter_id_name}}" [value]="studyData" class="browsePageCheckboxes"></p-tableCheckbox></td>
+              <td style="width:15%;word-wrap: break-word; white-space: normal;"><a href="javascript:void(0);" (click)="showStudySummary(studyData.study_submitter_id)">{{studyData.submitter_id_name}}</a></td>
               <td style="width:7%;word-wrap: break-word; white-space: normal;">{{studyData.project_name}}</td>
               <td style="width:9%;word-wrap: break-word; white-space: normal;">{{studyData.program_name}}</td>
               <td style="width:10%;word-wrap: break-word; white-space: normal;">{{studyData.disease_type}}</td>

@@ -86,5 +86,9 @@
 }
 
 /deep/ #browsePageExpansionPanel .mat-expansion-panel-header {
-  height: 36px !important;
+  //height: 36px !important;
+}
+
+/deep/ .mat-expansion-panel-header {
+	height:25px!important;
 }

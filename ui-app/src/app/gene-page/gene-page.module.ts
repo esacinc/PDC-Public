@@ -12,6 +12,7 @@ import { PaginatorModule } from 'primeng/paginator';
 import { DropdownModule} from 'primeng/dropdown';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { DialogModule }  from 'primeng/dialog';
+import { OncoprintComponent } from './oncoprintjs/oncoprint.component';
 
 import {MatCardModule, MatExpansionModule, MatToolbarModule, MatCheckboxModule, MatListModule, 
   MatTabsModule, MatButtonModule, MatSidenavModule, MatTooltipModule, MatSelectModule, MatDialogModule, 
@@ -33,7 +34,7 @@ import { AngularFontAwesomeModule } from 'angular-font-awesome';
     MatSidenavModule, MatButtonModule, MatTooltipModule, DropdownModule, OverlayPanelModule, DialogModule, MatSelectModule, 
 	MatDialogModule, MatProgressSpinnerModule, ReactiveFormsModule, MatMenuModule, MatIconModule
   ],
-  declarations: [ GeneFiltersComponent, GenePageComponent],
+  declarations: [ GeneFiltersComponent, GenePageComponent, OncoprintComponent],
   providers: [ GenePageService, GeneFiltersService]
 })
 

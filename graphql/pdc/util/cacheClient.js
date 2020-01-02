@@ -1,11 +1,14 @@
 import redis from 'redis';
 import {promisify} from 'util';
+//@@@PDC-1215 use winston logger
+import { logger } from './logger';
+
 
 //@@@PDC-650 implement elasticache for API
 let cacheClient;
 let cacheClientConnected = false;
 let cacheEnabled = true;
-let cacheFlush = false;
+let cacheFlush = true;
 
 if (typeof process.env.PDC_ELASTICACHE_ENABLE !== 'undefined'){
   cacheEnabled = (process.env.PDC_ELASTICACHE_ENABLE === 'true');
@@ -21,14 +24,14 @@ if (typeof process.env.PDC_ELASTICACHE_HOST !== 'undefined'){
 }
 
 cacheClient.on("error", (err) => {
-  console.log("Error " + err);
+  logger.error("Error " + err);
 });
 
 cacheClient.on('connect', () => {
   cacheClientConnected = true;
-  console.log('Connected to Redis    ...');
+  logger.info('Connected to Redis    ...');
   if(cacheFlush){
-    cacheClient.flushall( () => console.log('Redis cache flushed'));
+    cacheClient.flushall( () => logger.info('Redis cache flushed'));
   }
 });
 
@@ -54,6 +57,7 @@ pdcuiBrowsePagePaginatedDataTab.set('FileData', 'PDCUI:BrowsePage:PaginatedDataT
 pdcuiBrowsePagePaginatedDataTab.set('ClinicalData', 'PDCUI:BrowsePage:PaginatedDataTab:ClinicalData:');
 pdcuiBrowsePagePaginatedDataTab.set('CaseData', 'PDCUI:BrowsePage:PaginatedDataTab:CaseData:');
 pdcuiBrowsePagePaginatedDataTab.set('GeneData', 'PDCUI:BrowsePage:PaginatedDataTab:GeneData:');
+pdcuiBrowsePagePaginatedDataTab.set('GeneStudy', 'PDCUI:BrowsePage:PaginatedDataTab:GeneStudy:');
 
 const pdcuiBrowsePageFilter = new Map();
 pdcuiBrowsePageFilter.set('Filter','PDCUI:BrowsePage:Filter');
