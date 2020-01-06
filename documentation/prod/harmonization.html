@@ -1,0 +1,173 @@
+<!doctype html>
+<!--[if IE 7 ]>
+<html class="no-js ie ie7 lte7 lte8 lte9" lang="en-US">
+   <![endif]-->
+   <!--[if IE 8 ]>
+   <html class="no-js ie ie8 lte8 lte9" lang="en-US">
+      <![endif]-->
+      <!--[if IE 9 ]>
+      <html class="no-js ie ie9 lte9>" lang="en-US">
+         <![endif]-->
+         <!--[if (gt IE 9)|!(IE)]><!-->
+         <html class="no-js" lang="en-US">
+            <!--<![endif]-->
+            <head data-live-domain="jqueryui.com">
+               <meta charset="utf-8">
+               <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+               <link rel="stylesheet" href="styles/main.css">
+            <script async src="https://www.googletagmanager.com/gtag/js?id=UA-124894982-1"></script>
+            <script src="js/jquery-3.3.1.min.js" ></script>
+            <script src="js/hotjar-accessibility.js" type="script/javascript"></script>
+			   <script>
+				window.dataLayer = window.dataLayer || [];
+				function gtag(){dataLayer.push(arguments);}
+				gtag('js', new Date());
+            gtag('config', 'UA-124894982-1');
+            //@@@PDC-839: Add HotJar tracking to all UI pages
+            //Hotjar Tracking Code for PDC - PROD
+            (function(h,o,t,j,a,r){
+                  h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+                  h._hjSettings={hjid:1320198,hjsv:6};
+                  a=o.getElementsByTagName('head')[0];
+                  r=o.createElement('script');r.async=1;
+                  r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+                  a.appendChild(r);
+               })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+			   </script>			   
+               <style type="text/css">
+                 .pageText{
+                   margin-top:-10px;
+                 }
+                 .pageText a{
+                   text-decoration: underline;
+                 }
+
+                 .textSection{
+                   padding: 8px 0 5px 0;
+                   line-height: 24px;
+                 }
+                 </style>
+               </div>
+               <title>Data Harmonization</title>
+            </head>
+            <body>
+               <div class="pageContent">
+                  <div class="headerDiv">
+                     <div class="logoHolder">
+                        <img src="images/logo_PDC.png" alt="PDC Logo"/>
+                     </div>
+                     <div class="topNavHolder">
+                        <!--<div class="searchBox">
+                           <div class="searchInput"><input type="text"/></div>
+                           <div class="searchIcon"><img src="images/searchIcon.png"/></div>
+                           </div>
+                           <div class="topNav">
+                           <div class="topNavLinkHolder">Sign Up</div>
+                           <div class="topNavLinkHolder">Login</div>
+                           </div>-->
+                     </div>
+                  </div>
+                  <div class="contentBG">
+                  </div>
+                  <div class="contentArea">
+                     <div class="pageTitleArea">
+                        <div class='pageTitle'>Data Harmonization</div>
+                     </div>
+                     <div class="pageText">
+                        <div class="textSection">
+                           The goal of PDC data harmonization process is to transform proteomic data from disparate sources and workflows into derived forms by common data analysis methods and tools. The harmonization process is therefore useful for removing data analysis variables, enabling comparisons across datasets.
+                           <p>
+                              Harmonization starts with assigning standard identifiers, data integrity checks, adherence to standards (community-accepted vocabulary and nomenclature for clinical attributes, peptides, proteins, protein sequence variants, and modifications) and PDC data model.
+                           </p>
+                        </div>
+                        <div class="textSection">
+                           <h3>Proteomic Data Harmonization</h3>
+                           The PDC uses submitted raw mass spectrometry data files to produce derived analysis results which can be used to study identification of proteins and post-translational modifications (PTMs).  All processing is done through Common Data Analysis Pipelines (CDAP).  Whenever possible, quantitative results are also extracted from the raw data, enabling downstream analyses of differential expression between samples at the protein- or PTM site-level.   A version of the CDAP will soon be available within the workspace for users to run on their own data files.
+                        </div>
+                        <div class="textSection">
+                           <h4>Common Data Types</h4>
+                           One goal of the PDC is to harmonize a diversity of proteomics data types.  All current data types are mass spectrometry data acquired using data dependent acquisition (DDA), but pipelines are under construction for the analysis of data acquired using data independent acquisition (DIA) or SWATHTM.  DDA deposited in the PDC so far includes label-free, iTRAQ4 and TMT10.  The CDAP is capable of processing data from unenriched, phospho-, and glyco-enriched peptide samples.
+                        </div>
+                        <div class="textSection">
+                           <h4>Common Data Analysis Pipeline for DDA</h4>
+                           PDC uses the CDAP developed at NIST and Georgetown University and in use at  the CPTAC Data Coordinating Center
+                           (described <a href="https://cptac-data-portal.georgetown.edu/cptac/aboutData/show?scope=dataLevels" target="_blank">here</a> and published <a href="https://www.ncbi.nlm.nih.gov/pubmed/26860878" target="_blank">here</a>)
+                           as a starting point for DDA datasets. The pipeline is implemented in the Galaxy Framework that runs on Amazon Cloud. Software programs and parameters are also detailed in <a href="CDAP_ProteinReports_description_20180914.pdf" target="_blank">this</a> document.  In general, the pipeline proceeds in the following order:
+                           <ul>
+                              <li>
+                                 Spectral conversion to standard formats from proprietary.  This step also extracts peak area values for any reporter ion intensities, if an isobaric labeling strategy has been used (current tool: ReAdW4Mascot2.exe from NIST)
+                              </li>
+                              <li>
+                                 Sequence database search (current tool: <a href="https://omics.pnl.gov/software/ms-gf" target="_blank">MSGF+</a> from PNNL)
+                              </li>
+                              <li>
+                                 MS1 data processing used for label-free quantitation (current tool: ProMS from NIST)
+                              </li>
+                              <li>
+                                 Phosphosite localization (i.e., scoring) if the sample has been enriched (current tool: <a href="http://ms.imp.ac.at/index.php?action=phosphors" target="_blank">PhosphoRS</a> from the Mechtler Lab)
+                              </li>
+                              <li>
+                                 Generalized parsimony and “roll-up” of any quantitative information to the gene level (from the spectrum and peptide-levels).  This step also includes normalization and calculation of individual aliquot values to log2ratio values for iTRAQ4 and TMT10 studies. (current tool: PSMLab from the <a href="http://edwardslab.bmcb.georgetown.edu/" target="_blank">Edwards Lab</a> at Georgetown)
+                              </li>
+                           </ul>
+						   <div>
+								<img src="images/PDC-CDAP-DDA.png" alt="PDC CDAP DDA Image"/>
+						   </div>
+                           The results of the pipeline for a multiplexed labeling study is a matrix in which rows are genes and columns are aliquots (samples).  Values in the cells represent protein (gene) expression for that sample relative to a common reference (typically a pooled sample).
+                      </div>
+                      <div class="textSection">
+                           <h4>Common Data Analysis Pipeline for DIA</h4>
+                           Our current pipeline for analysis of data independent acquisition is based on work in the <a href="https://proteome.gs.washington.edu/software.html" target="_blank">MacCoss Lab</a>.  If available, sample or pool-specific data are used to build a spectral library.  The peptides in the library are then scored assigned match scores for each DIA data file.
+                           <ul>
+                              <li>
+                                 Spectral conversion to standard formats from proprietary (current tool: <a href="http://proteowizard.sourceforge.net/tools.shtml" target="_blank">msconvert</a>)
+                              </li>
+                              <li>
+                                 If library building data files were also provided, those files are then searched using either a DDA or a DIA search engine, depending on the input data type.  For DDA,  <a href="http://crux.ms/">Crux</a> is used.  For DIA data, <a href="https://www.ncbi.nlm.nih.gov/pubmed/28783153">PECAN</a> is used.
+                              </li>
+                              <li>
+                                 Following database searching of the library data, a library is generated from the search results after post search processing with <a href="https://www.ncbi.nlm.nih.gov/pubmed/27572102" target="_blank">Percolator</a>
+                              </li>
+                              <li>
+                                 The spectral library is then used to search each data file (current tool: <a href="https://www.biorxiv.org/content/early/2018/03/07/277822" target="_blank">EncyclopeDIA</a>)
+                              </li>
+                              <li>
+                                 The output can be written directly to reports and viewed in <a href="https://skyline.ms/project/home/software/Skyline/begin.view" target="_blank">Skyline</a>
+                              </li>
+                           </ul>
+						   <div>
+								<img src="images/PDC-CDAP-DIA.png" alt="PDC CDAP DIA Image"/>
+						   </div>
+                        </div>
+                        <div class="textSection">
+                           <h4>Availability of Results</h4>
+                           Following analysis by either CDAP, the results are available as Protein Assembly reports on the PDC Data Portal along with original and processed RAW data and metadata according to approved release schedules.  For the MVP only the RAW data will be available from the users private workspace, the results from the harmonization will be available in later iterations of our development cycle.
+                        </div>
+                     </div>
+                  </div>
+                  </div>
+                  <!--Footer-->
+                  <div class="footer">
+                     <div class="footerLinks">
+                        <a target="_" href="https://www.cancer.gov/policies" class="footerLink">Policies</a>
+                        <span class="footerLinkSep">|</span>
+                        <a target="_" href="https://www.cancer.gov/policies/accessibility" class="footerLink">Accessibility</a>
+                        <span class="footerLinkSep">|</span>
+                        <a target="_" href="/pdc" class="footerLink">Site home</a>
+                        <span class="footerLinkSep">|</span>
+                        <a target="_" href="https://www.cancer.gov/policies/foia" class="footerLink">FOIA</a>
+                     </div>
+                     <div class="footerLinks">
+                        <a target="_" href="https://www.hhs.gov/" class="footerLink">U.S. Department of Health and Human Services</a>
+						<span class="footerLinkSep">|</span>
+						<a target="_" href="https://www.nih.gov/" class="footerLink">National Institute of Health</a>
+						<span class="footerLinkSep">|</span>
+						<a target="_" href="https://www.cancer.gov/" class="footerLink">National Cancer Institute</a>
+						<span class="footerLinkSep">|</span>
+						<a target="_" href="https://www.usa.gov/" class="footerLink">USA.gov</a>
+                     </div>
+                     <div class="footerLinks">NIH… Turning Discovery Into Health &reg;</div>
+                  </div>
+
+            </body>
+         </html>

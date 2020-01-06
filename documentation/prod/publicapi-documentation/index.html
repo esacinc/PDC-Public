@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Public API Documentation</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+    <!--style type="text/css"></style-->
+
+    <link href="css/index.css" rel="stylesheet"/>
+    <link href="../styles/main.css" rel="stylesheet" >
+    <link href='css/standalone.css' rel='stylesheet'/>
+    <link href='css/api-explorer.css' rel='stylesheet' type='text/css'/>
+    <link href='css/screen.css' media='screen' rel='stylesheet' type='text/css'/>
+    <link rel="icon" type="image/png" href="../images/favicon-144x144.png">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-124894982-1"></script>
+    <script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+		gtag('config', 'UA-124894982-1');
+    </script>
+    <script src='lib/jquery-1.8.0.min.js' type='text/javascript'></script>
+    <script src='lib/jquery.slideto.min.js' type='text/javascript'></script>
+    <script src='lib/jquery.wiggle.min.js' type='text/javascript'></script>
+    <script src='lib/jquery.ba-bbq.min.js' type='text/javascript'></script>
+    <script src='lib/handlebars-2.0.0.js' type='text/javascript'></script>
+    <script src='lib/underscore-min.js' type='text/javascript'></script>
+    <script src='lib/backbone-min.js' type='text/javascript'></script>
+    <script src='swagger-ui.js' type='text/javascript'></script>
+    <script src='lib/jsoneditor.js' type='text/javascript'></script>
+    <script src='lib/highlight.7.3.pack.js' type='text/javascript'></script>
+    <script src='lib/marked.js' type='text/javascript'></script>
+    <script src='lib/swagger-oauth.js' type='text/javascript'></script>
+    <script src='lib/bootstrap.min.js' type='text/javascript'></script>
+    <script src='spec.js' type="text/javascript"></script>
+    <script src="../js/hotjar-accessibility.js" type="script/javascript"></script>
+
+    <script type="text/javascript">
+        jQuery.browser = jQuery.browser || {};
+        (function () {
+            jQuery.browser.msie = jQuery.browser.msie || false;
+            jQuery.browser.version = jQuery.browser.version || 0;
+            if (navigator.userAgent.match(/MSIE ([0-9]+)\./)) {
+                jQuery.browser.msie = true;
+                jQuery.browser.version = RegExp.$1;
+            }
+        })();
+    </script>
+
+    <script type="text/javascript">
+        $(function () {
+            var url = window.location.search.match(/url=([^&]+)/);
+            if (url && url.length > 1) {
+                url = decodeURIComponent(url[1]);
+            } else {
+                url = window.location.toString().replace(/\/*#?.*/, '/swagger.json');
+            }
+            // @@PDC 565: PDC API Documentation. Generate Swagger UI
+            // spec.js should be updated to add new API details as spec is passed below to render the documententation. swagger.json is only for reference.
+            window.swaggerUi = new SwaggerUi({
+                url: url,
+                spec: spec,
+                dom_id: "swagger-ui-container",
+                supportedSubmitMethods: ['get', 'post', 'put', 'delete', 'patch'],
+                onComplete: function (swaggerApi, swaggerUi) {
+                    if (typeof initOAuth == "function") {
+
+                        initOAuth({
+                            clientId: "ffe7748a-3a3f-4860-a02a-42ab08e4fde2",
+                            realm: "realm",
+                            appName: "Swagger"
+                        });
+
+                    }
+
+                    $('pre code').each(function (i, e) {
+                        hljs.highlightBlock(e)
+                    });
+
+                    if (swaggerUi.options.url) {
+                        $('#input_baseUrl').val(swaggerUi.options.url);
+                    }
+                    if (swaggerUi.options.apiKey) {
+                        $('#input_apiKey').val(swaggerUi.options.apiKey);
+                    }
+
+                    $("[data-toggle='tooltip']").tooltip();
+
+                    addApiKeyAuthorization();
+                },
+                onFailure: function (data) {
+                    log("Unable to Load SwaggerUI");
+                },
+                docExpansion: "none",
+                sorter: "alpha"
+            });
+            // Add API Key authorization if applicable. Reserved for future use.
+            function addApiKeyAuthorization() {
+                var key = encodeURIComponent($('#input_apiKey')[0].value);
+                if (key && key.trim() != "") {
+                    var apiKeyAuth = new SwaggerClient.ApiKeyAuthorization("Authorization", "Bearer " + key, "header");
+                    window.swaggerUi.api.clientAuthorizations.add("key", apiKeyAuth);
+                    log("added key " + key);
+                }
+            }
+
+            $('#input_apiKey').change(addApiKeyAuthorization);
+            // if you have an apiKey you would like to pre-populate on the page for demonstration purposes...
+            /*
+             var apiKey = "myApiKeyXXXX123456789";
+             $('#input_apiKey').val(apiKey);
+             */
+
+            window.swaggerUi.load();
+            $(".token-generator").remove();
+            function log() {
+                if ('console' in window) {
+                    console.log.apply(console, arguments);
+                }
+            }
+        });
+
+    //@@@PDC-839: Add HotJar tracking to all UI pages
+    //Hotjar Tracking Code for PDC - PROD
+    (function(h,o,t,j,a,r){
+          h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+          h._hjSettings={hjid:1320198,hjsv:6};
+          a=o.getElementsByTagName('head')[0];
+          r=o.createElement('script');r.async=1;
+          r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+          a.appendChild(r);
+      })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+      $(window).on('load', function(){ 
+          //Hotjar buttons with no title with class name of format: _hj-f5b2a1eb-9b07_btn_primary _hj-f5b2a1eb-9b07_rounded_corners
+          //Add aria-label attribute to Hotjar empty buttons
+          $('button[class^="_hj"][class$="_rounded_corners"]').attr("aria-label", "Hotjar Feedback button");
+          $('input[class^="_hj"][class$="_input_field"],textarea[class^="_hj"][class$="_input_field"]').attr('title', 'Hotjar Input button');
+      });
+    </script>
+
+    <script type="text/javascript">
+
+        $(function () {          
+            $(window).scroll(function () {
+             // for "Top" button functionality.
+             scrollFunction();
+             // implementing sticky navigation for left navigation  
+             var sticky = $(".sticky-nav");
+
+                i(sticky);
+                r(sticky);
+
+                function n() {
+                    return window.matchMedia("(min-width: 992px)").matches
+                }
+
+                function e() {
+                    n() ? sticky.parents(".sticky-nav-placeholder").removeAttr("style") : sticky.parents(".sticky-nav-placeholder").css("min-height", sticky.outerHeight())
+                }
+
+                function i(n) {
+                    n.hasClass("fixed") || (navOffset = n.offset().top);
+                    e();
+                    $(window).scrollTop() > navOffset ? $(".modal.in").length || n.addClass("fixed") : n.removeClass("fixed")
+                }
+
+                function r(e) {
+                    function i() {
+                        var i = $(window).scrollTop(), r = e.parents(".sticky-nav");
+                        return r.hasClass("fixed") && !n() && (i = i + r.outerHeight() + 40), i
+                    }
+
+                    function r(e) {
+                        var t = o.next("[data-endpoint]"), n = o.prev("[data-endpoint]");
+                        return "next" === e ? t.length ? t : o.parent().next().find("[data-endpoint]").first() : "prev" === e ? n.length ? n : o.parent().prev().find("[data-endpoint]").last() : []
+                    }
+
+                    var nav = e.find("[data-navigator]");
+                    if (nav.find("[data-endpoint][data-selected]").length) {
+                        var o = nav.find("[data-endpoint][data-selected]"),
+                            a = $("#" + o.attr("data-endpoint")),
+                            s = a.offset().top,
+                            l = (s + a.outerHeight(), r("next")),
+                            u = r("prev");
+                        if (l.length) {
+                            {
+                                var d = $("#" + l.attr("data-endpoint")), f = d.offset().top;
+                                f + d.outerHeight()
+                            }
+                            i() >= f && c(l)
+                        }
+                        if (u.length) {
+                            var p = $("#" + u.attr("data-endpoint")),
+                            g = u.offset().top;
+                            v = (g + p.outerHeight(), 100);
+                            i() < s - v && c(u)
+                        }
+                    }
+                }
+
+                function s() {
+                    var e = $(".sticky-nav [data-navigator]"),
+                        n = e.find("[data-endpoint]").first();
+                    n.attr("data-selected", "");
+                    u.find("[data-selected-value]").html(n.text())
+                }
+
+                function c(e) {
+                    {
+                        var n = $(".sticky-nav [data-navigator]");
+                        $("#" + e.attr("data-endpoint"))
+                    }
+                    n.find("[data-resource]").removeClass("active");
+                    n.find("[data-selected]").removeAttr("data-selected");
+                    e.closest("[data-resource]").addClass("active");
+                    e.attr("data-selected", "");
+                    sticky.find("[data-selected-value]").html(e.text())
+                }
+
+                function scrollFunction() {
+                    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                        document.getElementById("topScrollBtn").style.display = "block";
+                    } else {
+                        document.getElementById("topScrollBtn").style.display = "none";
+                    }
+                }
+
+                function elementScrolled(elem)
+                {
+                    var docViewTop = $(window).scrollTop();
+                    var docViewBottom = docViewTop + $(window).height();
+                    var elemTop = $(elem).offset().top;
+                    return ((elemTop <= docViewBottom) && (elemTop >= docViewTop));
+                }
+                
+                // This is where we use the function to detect if ".footer" is scrolled into view, and when it is add the class ".animated" to the <p> child element
+                if(elementScrolled('.footer')) {
+                    $(".sticky-nav").removeClass("fixed");  
+                }
+
+            });
+
+        });
+    </script>
+
+    <script type="text/javascript">
+        $(function () {
+            $("[data-toggle='tooltip']").tooltip();
+        });
+        // When the user clicks on the button, scroll to the top of the document
+        function scrollToTop() {
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+        }
+    </script>
+</head>
+<body class="page-docs" style="zoom: 1;">
+    <div class="pageContent">
+        <div class="headerDiv">
+            <div class="logoHolder">
+                <img src="../images/logo_PDC.png" alt="PDC Logo"/>
+            </div>
+            <div class="topNavHolder">
+            </div>
+        </div>
+        <div class="contentBG"></div>
+        <!--Content gets appended here-->
+        <div class="contentArea">
+            <div class="pageTitleArea">
+                    <div class='pageTitle'>Public API Documentation</div>
+                    <div class="pageDesc">
+                        The goal of the Proteomic Data Commons (PDC) project is to build a research resource for proteomics data that is interoperable, and leverages the investments made in other similar efforts for genomics and imaging data. The power of the individual datasets is enhanced by the addition of other supporting information and analysis using genomics, imaging and clinical data. The goal of the PDC, as one of the nodes in the CRDC ecosystem, is to demonstrate this value in an integrative resource, crossing multiple domains and enabling translational research for precision medicine.</div>
+                    <div class="pageViewSwap"></div>
+            </div>
+            <div>
+                <button onclick="scrollToTop()" id="topScrollBtn" title="Go to top">Top</button>
+                <section class="content" id="contentDiv">
+                    <div id="api2-explorer">
+                        <div class="swagger-section page-docs" style="zoom: 1">
+                            <div class="main-section">
+                                <div id="swagger-ui-container" class="swagger-ui-wrap">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section> 
+            </div> 
+        </div>
+		<!--Footer-->
+        <div class="footer">
+            <div class="footerLinks">
+                <span class="footerLinkInfo"><a href="https://www.cancer.gov/policies" target="_blank">Policies</a></span>
+                <span class="footerLinkSep">|</span>
+                <span class="footerLinkInfo"><a href="https://www.cancer.gov/policies/accessibility" target="_blank">Accessibility</a></span>
+                <span class="footerLinkSep">|</span>
+                <span class="footerLinkInfo"><a href="https://www.cancer.gov/policies" target="_blank">Viewing Files</a></span>
+                <span class="footerLinkSep">|</span>
+                <span class="footerLinkInfo"><a href="https://www.cancer.gov/policies/foia" target="_blank">FOIA</a></span>
+            </div>
+            <div class="footerLinks">
+                <span class="footerLinkInfo"><a href="https://www.hhs.gov/" target="_blank">U.S. Department of Health and Human Services</a></span>
+                <span class="footerLinkSep">|</span>
+                <span class="footerLinkInfo"><a href="https://www.nih.gov/" target="_blank">National Institute of Health</a></span>
+                <span class="footerLinkSep">|</span>
+                <span class="footerLinkInfo"><a href="https://www.cancer.gov/" target="_blank">National Cancer Institute</a></span>
+                <span class="footerLinkSep">|</span>
+                <span class="footerLinkInfo"><a href="https://www.usa.gov/" target="_blank">USA.gov</a></span>
+            </div>
+            <div class="footerLinks">NIH.. Turning Discovery Into Health &reg;</div>
+        </div>
+    </div>
+</body>   
+</html>
+

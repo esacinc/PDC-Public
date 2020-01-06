@@ -1,0 +1,209 @@
+title: Demographic
+type: object
+category: Clinical
+description: "Data for the characterization of the patient by means of segmenting the population (e.g., characterization by age, sex, or race)."
+links: 
+ - 
+   name: Case
+  label: "Demographic references the Case it is derived from."
+  required: True
+uniqueKeys: 
+ - 
+   - 
+   demographic_id
+  - 
+   demographic_submitter_id
+properties: 
+ demographic_id: 
+  type: string
+  key: yes
+ demographic_submitter_id: 
+  type: string
+  key: yes
+ case_id: 
+  type: string
+  key: yes
+ case_submitter_id: 
+  type: string
+  key: yes
+ project_id: 
+  type: string
+  key: yes
+ project_submitter_id: 
+  type: string
+  key: yes
+ ethnicity: 
+  type: string
+  description: "Sample identifier associated with the sample at the genomic data commons"
+  required: True
+  cde_id: 2192217
+  term_url: "https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2192217&version=2.0"
+  source: caDSR
+  enum: 
+   - 
+   "hispanic or latino"
+   - 
+   "not hispanic or latino"
+   - 
+   Unknown
+   - 
+   "not reported"
+   - 
+   "not allowed to collect"
+   - 
+   unknown
+ gender: 
+  type: string
+  description: "Project identifier associated with the sample at the genomic data commons"
+  required: True
+  cde_id: 2200604
+  term_url: "https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2200604&version=3.0"
+  source: caDSR
+  enum: 
+   - 
+   female
+   - 
+   male
+   - 
+   unknown
+   - 
+   unspecified
+   - 
+   "not reported"
+ race: 
+  type: string
+  description: "Text term to describe the source of a biospecimen used for a laboratory test."
+  required: True
+  cde_id: 2192199
+  term_url: "https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2192199&version=1.0"
+  source: caDSR
+  enum: 
+   - 
+   white
+   - 
+   "american indian or alaska native"
+   - 
+   "black or african american"
+   - 
+   asian
+   - 
+   "native hawaiian or other pacific islander"
+   - 
+   other
+   - 
+   Unknown
+   - 
+   "not reported"
+   - 
+   "not allowed to collect"
+   - 
+   unknown
+ age_at_index: 
+  type: string
+  description: "Text term that represents a description of the kind of tissue collected with respect to disease status or proximity to tumor tissue."
+  required: False
+  cde_id: 6028530
+  term_url: "https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6028530&version=1.0"
+  source: caDSR
+  enum: 
+   - 
+   integer
+   - 
+   null
+ cause_of_death: 
+  type: string
+  description: "Text term that represents the name of the primary disease site of the submitted tumor sample."
+  required: False
+  cde_id: 2554674
+  term_url: "https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2554674&version=3.0"
+  source: caDSR
+  enum: 
+   - 
+   "Cancer Related"
+   - 
+   "Cardiovascular Disorder, NOS"
+   - 
+   "End-stage Renal Disease"
+   - 
+   Infection
+   - 
+   "Not Cancer Related"
+   - 
+   "Renal Disorder, NOS"
+   - 
+   "Spinal Muscular Atrophy"
+   - 
+   "Surgical Complications"
+   - 
+   Toxicity
+   - 
+   "Not Reported"
+   - 
+   Unknown
+ days_to_birth: 
+  type: string
+  description: "For tumors in paired organs, designates the side on which the specimen was obtained."
+  required: False
+  cde_id: 6154723
+  term_url: "https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6154723&version=1.0"
+  source: caDSR
+ days_to_death: 
+  type: number
+  description: "HCMI catalog reference number for cancer model."
+  required: False
+  cde_id: 6154724
+  term_url: "https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6154724&version=1.0"
+  source: caDSR
+ premature_at_birth: 
+  type: string
+  description: "Text term that represents the cellular composition of the sample."
+  required: False
+  cde_id: 6010765
+  term_url: "https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6010765&version=1.0"
+  source: caDSR
+  enum: 
+   - 
+   Yes
+   - 
+   No
+   - 
+   Unknown
+   - 
+   "Not Reported"
+ vital_status: 
+  type: number
+  description: "Numeric value that represents the current weight of the sample, measured in milligrams."
+  required: False
+  cde_id: 5
+  term_url: "https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5&version=5.0"
+  source: caDSR
+  enum: 
+   - 
+   Alive
+   - 
+   Dead
+   - 
+   Unknown
+   - 
+   "Not Reported"
+ weeks_gestation_at_birth: 
+  type: number
+  description: "Time interval from the date of biospecimen collection to the date of initial pathologic diagnosis, represented as a calculated number of days."
+  required: False
+  cde_id: 2737369
+  term_url: "https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2737369&version=1.0"
+  source: caDSR
+ year_of_birth: 
+  type: number
+  description: "The number of days from the date the patient was diagnosed to the date of the procedure that produced the sample."
+  required: False
+  cde_id: 2896954
+  term_url: "https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2896954&version=1.0"
+  source: caDSR
+ year_of_death: 
+  type: string
+  description: "The histologic description of tissue or cells confirmed by a pathology review of frozen or formalin fixed slide(s) completed after the diagnostic pathology review of the tumor sample used to extract analyte(s)."
+  required: False
+  cde_id: 2897030
+  term_url: "https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2897030&version=1.0"
+  source: caDSR

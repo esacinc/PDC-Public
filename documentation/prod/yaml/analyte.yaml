@@ -1,0 +1,154 @@
+title: Analyte
+type: object
+category: Biospecimen
+description: "A liquid bulk product produced according to specified lab protocols, from a sample or analyte, intended for further analysis."
+links: 
+ - 
+   name: Sample
+  label: "Analyte references the Sample it is derived from."
+  required: true
+ - 
+   name: Portion
+  label: "Analyte references the Portion it is derived from."
+  required: true
+uniqueKeys: 
+ - 
+   - 
+   aliquot_id
+  - 
+   aliquot_submitter_id
+properties: 
+ analyte_id: 
+  type: string
+  key: yes
+ analyte_submitter_id: 
+  type: string
+  key: yes
+ sample_id: 
+  type: string
+  key: yes
+ sample_submitter_id: 
+  type: string
+  key: yes
+ portion_id: 
+  type: string
+  key: yes
+ portion_submitter_id: 
+  type: string
+  key: yes
+ project_id: 
+  type: string
+  key: yes
+ project_submitter_id: 
+  type: string
+  key: yes
+ analyte_type: 
+  type: string
+  description: "Text term that represents the kind of molecular specimen analyte."
+  required: True
+  cde_id: 2513915
+  term_url: "https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2513915&version=2.0"
+  source: caDSR
+  enum: 
+   - 
+   DNA
+   - 
+   "EBV Immortalized Normal"
+   - 
+   "FFPE DNA"
+   - 
+   "FFPE RNA"
+   - 
+   "GenomePlex (Rubicon) Amplified DNA"
+   - 
+   "Repli-G (Qiagen) DNA"
+   - 
+   "Repli-G Pooled (Qiagen) DNA"
+   - 
+   "Repli-G X (Qiagen) DNA"
+   - 
+   RNA
+   - 
+   "Total RNA"
+ a260_a280_ratio: 
+  type: number
+  description: "Numeric value that represents the sample ratio of nucleic acid absorbance at 260 nm and 280 nm, used to determine a measure of DNA purity."
+  required: False
+  cde_id: 5432595
+  term_url: "https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432595&version=1.0"
+  source: caDSR
+ amount: 
+  type: number
+  description: "Weight in grams or volume in mL"
+  required: False
+ analyte_quantity: 
+  type: number
+  description: "The quantity in micrograms (ug) of the analyte(s) derived from the analyte(s) shipped for sequencing and characterization."
+  required: False
+ analyte_type_id: 
+  type: string
+  description: "A single letter code used to identify a type of molecular analyte."
+  required: False
+  cde_id: 5432508
+  term_url: "https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432508&version=1.0"
+  source: caDSR
+  enum: 
+   - 
+   D
+   - 
+   E
+   - 
+   G
+   - 
+   H
+   - 
+   R
+   - 
+   S
+   - 
+   T
+   - 
+   W
+   - 
+   X
+   - 
+   true
+ analyte_volume: 
+  type: number
+  description: "The volume in microliters (ml) of the aliquot(s) derived from the analyte(s) shipped for sequencing and characterization."
+  required: False
+ concentration: 
+  type: number
+  description: "Numeric value that represents the concentration of an analyte or aliquot extracted from the sample or sample portion, measured in milligrams per milliliter."
+  required: False
+  cde_id: 5432594
+  term_url: "https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432594&version=1.0"
+  source: caDSR
+ normal_tumor_genotype_snp_match: 
+  type: string
+  description: "Text term that represents whether or not the genotype of the normal tumor matches or if the data is not available."
+  required: False
+  cde_id: 5432594
+  term_url: "https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432594&version=1.0"
+  source: caDSR
+ ribosomal_rna_28s_16s_ratio: 
+  type: number
+  description: "The 28S/18S ribosomal RNA band ratio used to assess the quality of total RNA."
+  required: False
+  cde_id: 5432594
+  term_url: "https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432594&version=1.0"
+  source: caDSR
+ spectrophotometer_method: 
+  type: number
+  description: "Name of the method used to determine the concentration of purified nucleic acid within a solution."
+  required: False
+  cde_id: 3008378
+  term_url: "https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3008378&version=1.0"
+  source: caDSR
+ well_number: 
+  type: string
+  description: "Numeric value that represents the the well location within a plate for the analyte or aliquot from the sample."
+  required: False
+  cde_id: 5432613
+  term_url: "https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432613&version=1.0"
+  source: caDSR

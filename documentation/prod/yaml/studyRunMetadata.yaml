@@ -1,0 +1,70 @@
+title: "Study Run Metadata"
+type: object
+category: Metadata
+description: "General experimental metadata describing study design."
+uniqueKeys: 
+ - 
+   - 
+   study_run_metadata_id
+  - 
+   study_run_metadata_submitter_id
+links: 
+ - 
+   name: Study
+  label: "Study Run Metadata references the Study that used the experimental design."
+  required: True
+ - 
+   name: Protocol
+  label: "Study Run Metadata references the Protocol used in the Study."
+  required: True
+properties: 
+ study_run_metadata_id: 
+  type: string
+  key: yes
+ study_run_metadata_submitter_id: 
+  type: string
+  key: yes
+ study_id: 
+  type: string
+  key: yes
+ study_submitter_id: 
+  type: string
+  key: yes
+ protocol_id: 
+  type: string
+  key: yes
+ protocol_submitter_id: 
+  type: string
+  key: yes
+ experiment_number: 
+  type: string
+  description: "Number associated with a specific run of the experiment"
+  required: False
+ experiment_type: 
+  type: string
+  description: "General strategy used for differential analysis"
+  required: False
+ analyte: 
+  type: string
+  description: "Type of peptide or protein enrichment"
+  required: False
+ fraction: 
+  type: string
+  description: "Number of fractions in the experimental run"
+  required: False
+ date: 
+  type: string
+  description: "Date of the data acquired from the mass spectrometry instrument"
+  required: False
+ operator: 
+  type: string
+  description: "Mass Spectrometry instrument operator"
+  required: False
+ replicate_number: 
+  type: string
+  description: "Replicate number, if applicable"
+  required: False
+ condition: 
+  type: string
+  description: "Biological condition (ex: disease state) of the cases(patients) from which the aliquots derived."
+  required: False

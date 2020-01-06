@@ -1,0 +1,48 @@
+title: Gene
+type: object
+category: Biological
+description: "A functional unit of heredity which occupies a specific position on a particular chromosome and serves as the template for a product that contributes to a phenotype or a biological function."
+uniqueKeys: 
+ - 
+   - 
+   gene_id
+properties: 
+ gene_id: 
+  type: string
+  key: yes
+ gene_name: 
+  type: string
+  description: "NCBI Gene name"
+  required: True
+ ncbi_gene_id: 
+  type: string
+  description: "NCBI Gene Identifier"
+  required: True
+ authority: 
+  type: string
+  description: "HGNC Identifier"
+  required: True
+ description: 
+  type: string
+  description: "NCBI Gene description"
+  required: True
+ orgranism: 
+  type: string
+  description: "NCBI Gene organism"
+  required: True
+ chromosome: 
+  type: string
+  description: "NCBI Gene chromosome"
+  required: True
+ locus: 
+  type: string
+  description: "NCBI Gene cytoband"
+  required: True
+ proteins: 
+  type: string
+  description: "Semi-colon separated list of protein accessions associated with the gene"
+  required: True
+ assays: 
+  type: string
+  description: "CPTAC Assay accessions for the peptides associated with the gene"
+  required: False

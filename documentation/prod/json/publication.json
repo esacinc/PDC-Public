@@ -1,0 +1,27 @@
+{
+   "title": "Publication",
+   "type": "object",
+   "category": "Processed",
+   "description": "Published scientific research article describing a study.",
+   "uniqueKeys": [
+     [
+       "publication_id"
+     ]
+   ],
+   "properties": {
+     "publication_id": {
+       "type": "string",
+       "key": "yes"
+     },
+     "pubmed_id": {
+       "type": "string",
+       "description": "Identifier of the article in Pubmed system",
+       "required": "False"
+     },
+     "title": {
+       "type": "string",
+       "description": "Title of the research article",
+       "required": "False"
+     }
+   }
+ }

@@ -1,0 +1,76 @@
+{
+  "title": "Study",
+  "type": "object",
+  "category": "Administrative",
+  "description": "A detailed examination, analysis, or critical inspection of a subject designed to discover facts about it.",
+  "uniqueKeys": [
+    [
+      "study_id",
+      "study_submitter_id"
+    ]
+  ],
+  "links": [
+    {
+      "name": "Project",
+      "label": "Study references the Project it is part of.",
+      "required": true
+    }
+  ],
+  "properties": {
+    "study_id": {
+      "type": "string",
+      "key": "yes"
+    },
+    "study_submitter_id": {
+      "type": "string",
+      "key": "yes"
+    },
+    "study_shortname": {
+      "type": "string",
+      "key": "yes"
+    },
+    "project_id": {
+      "type": "string",
+      "key": "yes"
+    },
+    "project_submitter_id": {
+      "type": "string",
+      "key": "yes"
+    },
+    "submitter_id_name": {
+      "type": "string",
+      "description": "Name of the study as described by the data submitter",
+      "required": "false"
+    },
+    "analytical_fraction": {
+      "type": "string",
+      "description": "Type of peptide or protein enrichment",
+      "required": "false"
+    },
+    "experiment_type": {
+      "type": "string",
+      "description": "General strategy used for differential analysis",
+      "required": "false"
+    },
+    "study_description": {
+     "type": "string",
+     "description": "Describes the objective of the study, data collection, or compilation, etc. ",
+     "required": "True"
+   },
+   "embargo_date": {
+     "type": "Date",
+     "description": "Specifies the embargo date, i.e., the release of information with the condition that it cannot be published or disseminated before a certain date.",
+     "required": "False"
+   },
+   "acquisition_type": {
+     "type": "Data dependent acquisition (DDA), Data independent acquisition (DIA).",
+     "description": "The modes of acquisition used in the LC-MS/MS experiments: data dependent acquisition (DDA), data independent acquisition (DIA).",
+     "required": "True"
+   },
+   "study_short_name": {
+     "type": "Sting",
+     "description": "A short name for the study",
+     "required": "False"
+   }
+  }
+}

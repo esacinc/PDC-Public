@@ -1,0 +1,71 @@
+title: Aliquot
+type: object
+category: Biospecimen
+description: "Pertaining to a portion of the whole; any one of two or more samples of something, of the same volume or weight."
+links: 
+ - 
+   name: Sample
+  label: "Aliquot references the Sample it is derived from."
+  required: True
+uniqueKeys: 
+ - 
+   - 
+   aliquot_id
+  - 
+   aliquot_submitter_id
+properties: 
+ aliquot_id: 
+  type: string
+  key: yes
+ aliquot_submitter_id: 
+  type: string
+  key: yes
+ sample_id: 
+  type: string
+  key: yes
+ sample_submitter_id: 
+  type: string
+  key: yes
+ project_id: 
+  type: string
+  key: yes
+ project_submitter_id: 
+  type: string
+  key: yes
+ analyte_type: 
+  type: string
+  description: "Text term that represents the kind of molecular specimen analyte."
+  required: False
+  cde_id: 2513915
+  term_url: "https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2513915&version=2.0"
+  source: caDSR
+ aliquot_quantity: 
+  type: number
+  description: "The quantity in micrograms (ug) of the aliquot(s) derived from the analyte(s) shipped for sequencing and characterization."
+  required: False
+ aliquot_volume: 
+  type: number
+  description: "The volume in microliters (ml) of the aliquot(s) derived from the analyte(s) shipped for sequencing and characterization."
+  required: False
+ amount: 
+  type: number
+  description: "Weight in grams or volume in mL"
+  required: False
+ analyte_type_id: 
+  type: string
+  description: "A single letter code used to identify a type of molecular analyte."
+  required: False
+  cde_id: 5432508
+  term_url: "https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432508&version=1.0"
+  source: caDSR
+ concentration: 
+  type: number
+  description: "Numeric value that represents the concentration of an analyte or aliquot extracted from the sample or sample portion, measured in milligrams per milliliter."
+  required: False
+  cde_id: 5432594
+  term_url: "https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432594&version=1.0"
+  source: caDSR
+ pool: 
+  type: binary
+  description: "Any biospecimen entity where multiple cases, samples or aliquots are combined to produce a reference. Sample pooling is commonly used for determining relative protein abundances in labeling experiments."
+  required: False

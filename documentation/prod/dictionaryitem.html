@@ -1,0 +1,104 @@
+<!doctype html>
+<!--[if IE 7 ]>		 <html class="no-js ie ie7 lte7 lte8 lte9" lang="en-US"> <![endif]-->
+<!--[if IE 8 ]>		 <html class="no-js ie ie8 lte8 lte9" lang="en-US"> <![endif]-->
+<!--[if IE 9 ]>		 <html class="no-js ie ie9 lte9>" lang="en-US"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js" lang="en-US"> <!--<![endif]-->
+<head data-live-domain="jqueryui.com">
+	<meta charset="utf-8">
+	<!--<link rel="stylesheet" href="styles/jquery-ui.css">-->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<link rel="stylesheet" href="styles/main.css">
+   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-124894982-1"></script>
+   <script>
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'UA-124894982-1');
+   </script>	
+	<script src="js/jquery-3.3.1.min.js"></script>
+	<script src="js/utilitiesUpdated.js"></script>
+	<script src="js/hotjar-accessibility.js" type="script/javascript"></script>
+	<script type="text/javascript">
+    //this function gets triggered when the page loads
+    $(document).ready(function(){
+	  loadDictionaryforDictItem();
+      var eName = getQueryItem('eName');
+      //fetch the JSON file
+      //load Weekly Digest table data
+      loadDictionaryItem(eName);
+	});
+    //@@@PDC-839: Add HotJar tracking to all UI pages
+    //Hotjar Tracking Code for PDC - PROD
+    (function(h,o,t,j,a,r){
+          h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+          h._hjSettings={hjid:1320198,hjsv:6};
+          a=o.getElementsByTagName('head')[0];
+          r=o.createElement('script');r.async=1;
+          r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+          a.appendChild(r);
+	  })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+	  $(window).on('load', function(){ 
+		//Hotjar buttons with no title with class name of format: _hj-f5b2a1eb-9b07_btn_primary _hj-f5b2a1eb-9b07_rounded_corners
+		//Add aria-label attribute to Hotjar empty buttons
+		$('button[class^="_hj"][class$="_rounded_corners"]').attr("aria-label", "Hotjar Feedback button");
+		$('input[class^="_hj"][class$="_input_field"],textarea[class^="_hj"][class$="_input_field"]').attr('title', 'Hotjar Input button');
+      });
+  </script>
+  <title>NCI-PDC:Dictionary</title>
+</head>
+<body>
+  <div class="pageContent">
+		<div class="headerDiv">
+			<div class="logoHolder">
+				<img src="images/logo_PDC.png" alt="PDC Logo"/>
+			</div>
+			<div class="topNavHolder">
+				<!--<div class="searchBox">
+					<div class="searchInput"><input type="text"/></div>
+					<div class="searchIcon"><img src="images/searchIcon.png"/></div>
+				</div>
+				<div class="topNav">
+					<div class="topNavLinkHolder">Sign Up</div>
+					<div class="topNavLinkHolder">Login</div>
+				</div>-->
+			</div>
+		</div>
+		<div class="contentBG">
+		</div>
+
+		<!--Content gets appended here-->
+		<div class="contentArea">
+			<div class="pageTitleArea">
+				<div class="pageBackNav"></div>
+				<div class='pageTitle'></div>
+				<div class="pageDesc"></div>
+			</div>
+			<div class="dictionaryTable"></div>
+		</div>
+
+		<!--Footer-->
+		<div class="footer">
+			<div class="footerLinks">
+				<span class="footerLink">Policies</span>
+				<span class="footerLinkSep">|</span>
+				<span class="footerLink">Accessibility</span>
+				<span class="footerLinkSep">|</span>
+				<span class="footerLink">Viewing Files</span>
+				<span class="footerLinkSep">|</span>
+				<span class="footerLink">FOIA</span>
+			</div>
+			<div class="footerLinks">
+				<span class="footerLink">U.S. Department of Health and Human Services</span>
+				<span class="footerLinkSep">.</span>
+				<span class="footerLink">National Institute of Health</span>
+				<span class="footerLinkSep">|</span>
+				<span class="footerLink">National Cancer Institute</span>
+				<span class="footerLinkSep">|</span>
+				<span class="footerLink">USA.gov</span>
+			</div>
+			<div class="footerLinks">NIH… Turning Discovery Into Health &reg;</div>
+
+		</div>
+	</div>
+</body>
+</html>

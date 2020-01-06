@@ -1,0 +1,67 @@
+title: Portion
+type: object
+category: Biospecimen
+description: "A physical sub-part of any sample."
+links: 
+ - 
+   name: Sample
+  label: "Portion references the Sample it is derived from."
+  required: True
+uniqueKeys: 
+ - 
+   - 
+   portion_id
+  - 
+   portion_submitter_id
+properties: 
+ portion_id: 
+  type: string
+  key: yes
+ portion_submitter_id: 
+  type: string
+  key: yes
+ sample_id: 
+  type: string
+  key: yes
+ sample_submitter_id: 
+  type: string
+  key: yes
+ project_id: 
+  type: string
+  key: yes
+ project_submitter_id: 
+  type: string
+  key: yes
+ creation_datetime: 
+  type: Date
+  description: "The datetime of portion creation encoded as seconds from epoch."
+  required: False
+  cde_id: 5432592
+  term_url: "https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432592&version=1.0"
+  source: caDSR
+ is_ffpe: 
+  type: string
+  description: "Indicator to signify whether or not the tissue sample was fixed in formalin and embedded in paraffin (FFPE)."
+  required: False
+  cde_id: 4170557
+  term_url: "https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=4170557&version=1.0"
+  source: caDSR
+  enum: 
+   - 
+   true
+   - 
+   false
+ portion_number: 
+  type: number
+  description: "Numeric value that represents the sequential number assigned to a portion of the sample."
+  required: False
+  cde_id: 5432711
+  term_url: "https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432711&version=1.0"
+  source: caDSR
+ weight: 
+  type: number
+  description: "Numeric value that represents the sample portion weight, measured in milligrams."
+  required: False
+  cde_id: 651
+  term_url: "https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=651&version=4.0"
+  source: caDSR

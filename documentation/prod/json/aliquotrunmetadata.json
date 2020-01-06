@@ -1,0 +1,126 @@
+{
+   "title": "Aliquot Run Metadata",
+   "type": "object",
+   "category": "Metadata",
+   "description": "Experimental metadata describing how an aliquot was processed within a study.",
+   "uniqueKeys": [
+     [
+       "aliquot_run_metadata_id"
+     ]
+   ],
+   "links": [
+     {
+       "name": "Study Run Metadata",
+       "label": "Aliquot Run Metadata references the experimental run of the study.",
+       "required": "True"
+     },
+     {
+       "name": "Aliquot",
+       "label": "Aliquot Run Metadata references the Aliquots used in an experimental run of the study.",
+       "required": "True"
+     },
+     {
+       "name": "Study",
+       "label": "Aliquot Run Metadata references the Study under which the experiment was conducted.",
+       "required": "True"
+     }
+   ],
+   "properties": {
+     "aliquot_run_metadata_id": {
+       "type": "string",
+       "key": "yes"
+     },
+     "study_run_metadata_id": {
+       "type": "string",
+       "key": "yes"
+     },
+     "study_run_metadata_submitter_id": {
+       "type": "string",
+       "key": "yes"
+     },
+     "aliquot_id": {
+       "type": "string",
+       "key": "yes"
+     },
+     "aliquot_submitter_id": {
+       "type": "string",
+       "key": "yes"
+     },
+     "protocol_id": {
+       "type": "string",
+       "key": "yes"
+     },
+     "protocol_submitter_id": {
+       "type": "string",
+       "key": "yes"
+     },
+     "study_id": {
+       "type": "string",
+       "key": "yes"
+     },
+     "study_submitter_id": {
+       "type": "string",
+       "key": "yes"
+     },
+     "experiment_type": {
+       "type": "string",
+       "description": "General strategy used for differential analysis",
+       "required": "False"
+     },
+     "label": {
+       "type": "string",
+       "description": "Reagent used for isobaric labeling or label-free",
+       "required": "False"
+     },
+     "experiment_number": {
+       "type": "string",
+       "description": "Number associated with a specific run of the experiment",
+       "required": "False"
+     },
+     "acquisition_file_name": {
+       "type": "string",
+       "description": "Representative file name for one of the raw data file from the run",
+       "required": "False"
+     },
+     "fraction": {
+       "type": "string",
+       "description": "Number of fractions in the experimental run",
+       "required": "False"
+     },
+     "instrument": {
+       "type": "string",
+       "description": "Make and model of the mass spectrometry instrument",
+       "required": "False"
+     },
+     "operator": {
+       "type": "string",
+       "description": "Mass Spectrometry instrument operator",
+       "required": "False"
+     },
+     "replicate_number": {
+       "type": "string",
+       "description": "Replicate number, if applicable",
+       "required": "False"
+     },
+     "date": {
+       "type": "string",
+       "description": "Date of the data acquired from the mass spectrometry instrument",
+       "required": "False"
+     },
+     "condition": {
+       "type": "string",
+       "description": "Biological condition (ex: disease state) of the cases(patients) from which the aliquots derived.",
+       "required": "False"
+     },
+     "protocol": {
+       "type": "string",
+       "description": "Name of the protocol used to run the experiment",
+       "required": "False"
+     },
+     "analyte": {
+       "type": "string",
+       "description": "Type of peptide or protein enrichment",
+       "required": "False"
+     }
+   }
+ }

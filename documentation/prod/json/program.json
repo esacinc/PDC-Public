@@ -1,0 +1,52 @@
+{
+   "title": "Program",
+   "type": "object",
+   "category": "Administrative",
+   "description": "A broad framework of goals to be achieved.",
+   "uniqueKeys": [
+     [
+       "program_id",
+       "program_submitter_id"
+     ]
+   ],
+   "properties": {
+     "program_id": {
+       "type": "string",
+       "key": "yes"
+     },
+     "program_submitter_id": {
+       "type": "string",
+       "key": "yes"
+     },
+     "program_shortname": {
+       "type": "string",
+       "description": "Short name for the program",
+       "required": "true"
+     },
+     "name": {
+       "type": "string",
+       "description": "Name of the program",
+       "required": "true"
+     },
+     "sponsor": {
+       "type": "string",
+       "description": "Funding agency",
+       "required": "false"
+     },
+     "start_date": {
+       "type": "Date",
+       "description": "Start date of the program",
+       "required": "true"
+     },
+     "end_date": {
+       "type": "Date",
+       "description": "End date of the program",
+       "required": "false"
+     },
+     "program_manager": {
+       "type": "string",
+       "description": "Name of the program manager from the sponsoring agency",
+       "required": "true"
+     }
+   }
+ }

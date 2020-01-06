@@ -1,0 +1,474 @@
+title: Case
+type: object
+category: Administrative
+description: "The collection of all data related to a specific subject in the context of a specific project.\n"
+links: 
+ - 
+   name: Project
+  label: "Case references the Project it belongs to."
+  required: True
+uniqueKeys: 
+ - 
+   - 
+   project_id
+  - 
+   submitter_id
+properties: 
+ case_id: 
+  type: string
+  key: yes
+ case_submitter_id: 
+  type: string
+  key: yes
+ project_id: 
+  type: string
+  key: yes
+ project_submitter_id: 
+  type: string
+  key: yes
+ external_case_id: 
+  type: string
+  required: false
+ taxon: 
+  type: string
+  required: false
+ pool: 
+  type: string
+  description: "Any biospecimen entity where multiple cases, samples or aliquots are combined to produce a reference. Sample pooling is commonly used for determining relative protein abundances in labeling experiments."
+  required: false
+ status: 
+  type: string
+  required: false
+ days_to_lost_to_followup: 
+  description: "The number of days between the date used for index and to the date the patient was lost to follow-up."
+  type: integer
+  cde_id: 6154721
+  term_url: "https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6154721&version=1.0"
+ disease_type: 
+  description: "The text term used to describe the type of malignant disease, as categorized by the World Health Organization's (WHO) International Classification of Diseases for Oncology (ICD-O)."
+  type: string
+  cde_id: 6161017
+  term_url: "https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6161017&version=1.0"
+  enum: 
+   - 
+   "Acinar Cell Neoplasms"
+   - 
+   "Adenomas and Adenocarcinomas"
+   - 
+   "Adnexal and Skin Appendage Neoplasms"
+   - 
+   "Basal Cell Neoplasms"
+   - 
+   "Blood Vessel Tumors"
+   - 
+   "Chronic Myeloproliferative Disorders"
+   - 
+   "Complex Epithelial Neoplasms"
+   - 
+   "Complex Mixed and Stromal Neoplasms"
+   - 
+   "Cystic, Mucinous and Serous Neoplasms"
+   - 
+   "Ductal and Lobular Neoplasms"
+   - 
+   "Epithelial Neoplasms, NOS"
+   - 
+   "Fibroepithelial Neoplasms"
+   - 
+   "Fibromatous Neoplasms"
+   - 
+   "Germ Cell Neoplasms"
+   - 
+   "Giant Cell Tumors"
+   - 
+   Gliomas
+   - 
+   "Granular Cell Tumors and Alveolar Soft Part Sarcomas"
+   - 
+   "Hodgkin Lymphoma"
+   - 
+   "Immunoproliferative Diseases"
+   - 
+   "Leukemias, NOS"
+   - 
+   "Lipomatous Neoplasms"
+   - 
+   "Lymphatic Vessel Tumors"
+   - 
+   "Lymphoid Leukemias"
+   - 
+   "Malignant Lymphomas, NOS or Diffuse"
+   - 
+   "Mast Cell Tumors"
+   - 
+   "Mature B-Cell Lymphomas"
+   - 
+   "Mature T- and NK-Cell Lymphomas"
+   - 
+   Meningiomas
+   - 
+   Mesonephromas
+   - 
+   "Mesothelial Neoplasms"
+   - 
+   "Miscellaneous Bone Tumors"
+   - 
+   "Miscellaneous Tumors"
+   - 
+   "Mucoepidermoid Neoplasms"
+   - 
+   "Myelodysplastic Syndromes"
+   - 
+   "Myeloid Leukemias"
+   - 
+   "Myomatous Neoplasms"
+   - 
+   "Myxomatous Neoplasms"
+   - 
+   "Neoplasms, NOS"
+   - 
+   "Neoplasms of Histiocytes and Accessory Lymphoid Cells"
+   - 
+   "Nerve Sheath Tumors"
+   - 
+   "Neuroepitheliomatous Neoplasms"
+   - 
+   "Nevi and Melanomas"
+   - 
+   "Odontogenic Tumors"
+   - 
+   "Osseous and Chondromatous Neoplasms"
+   - 
+   "Other Hematologic Disorders"
+   - 
+   "Other Leukemias"
+   - 
+   "Paragangliomas and Glomus Tumors"
+   - 
+   "Plasma Cell Tumors"
+   - 
+   "Precursor Cell Lymphoblastic Lymphoma"
+   - 
+   "Soft Tissue Tumors and Sarcomas, NOS"
+   - 
+   "Specialized Gonadal Neoplasms"
+   - 
+   "Squamous Cell Neoplasms"
+   - 
+   "Synovial-like Neoplasms"
+   - 
+   "Thymic Epithelial Neoplasms"
+   - 
+   "Transitional Cell Papillomas and Carcinomas"
+   - 
+   "Trophoblastic neoplasms"
+   - 
+   Unknown
+   - 
+   "Not Reported"
+   - 
+   "Not Applicable"
+   - 
+   "Acute Lymphoblastic Leukemia"
+   - 
+   "Acute Myeloid Leukemia"
+   - 
+   "Adrenocortical Carcinoma"
+   - 
+   "Bladder Urothelial Carcinoma"
+   - 
+   "Brain Lower Grade Glioma"
+   - 
+   "Breast Invasive Carcinoma"
+   - 
+   "Burkitt Lymphoma"
+   - 
+   "Cervical Squamous Cell Carcinoma and Endocervical Adenocarcinoma"
+   - 
+   Cholangiocarcinoma
+   - 
+   "Chronic Lymphocytic Leukemia"
+   - 
+   "Clear Cell Sarcoma of the Kidney"
+   - 
+   "Colon Adenocarcinoma"
+   - 
+   "Esophageal Carcinoma"
+   - 
+   "Glioblastoma Multiforme"
+   - 
+   "Head and Neck Squamous Cell Carcinoma"
+   - 
+   "High-Risk Wilms Tumor"
+   - 
+   "HIV+ Tumor Molecular Characterization Project - Cervical Cancer"
+   - 
+   "HIV+ Tumor Molecular Characterization Project - Lung Cancer"
+   - 
+   "Kidney Chromophobe"
+   - 
+   "Kidney Renal Clear Cell Carcinoma"
+   - 
+   "Kidney Renal Papillary Cell Carcinoma"
+   - 
+   "Liver Hepatocellular Carcinoma"
+   - 
+   "Lung Adenocarcinoma"
+   - 
+   "Lung Squamous Cell Carcinoma"
+   - 
+   "Lymphoid Neoplasm Diffuse Large B-cell Lymphoma"
+   - 
+   Mesothelioma
+   - 
+   "Multiple Myeloma"
+   - 
+   Neuroblastoma
+   - 
+   Osteosarcoma
+   - 
+   "Ovarian Serous Cystadenocarcinoma"
+   - 
+   "Pancreatic Adenocarcinoma"
+   - 
+   "Pheochromocytoma and Paraganglioma"
+   - 
+   "Prostate Adenocarcinoma"
+   - 
+   "Rectum Adenocarcinoma"
+   - 
+   "Rhabdoid Tumor"
+   - 
+   Sarcoma
+   - 
+   "Skin Cutaneous Melanoma"
+   - 
+   "Stomach Adenocarcinoma"
+   - 
+   "Testicular Germ Cell Tumors"
+   - 
+   Thymoma
+   - 
+   "Thyroid Carcinoma"
+   - 
+   "Uterine Carcinosarcoma"
+   - 
+   "Uterine Corpus Endometrial Carcinoma"
+   - 
+   "Uveal Melanoma"
+ index_date: 
+  description: "The text term used to describe the reference or anchor date used when for date obfuscation, where a single date is obscured by creating one or more date ranges in relation to this date."
+  type: string
+  cde_id: 6154722
+  term_url: "https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6154722&version=1."
+  enum: 
+   - 
+   Diagnosis
+   - 
+   "First Patient Visit"
+   - 
+   "First Treatment"
+   - 
+   "Initial Genomic Sequencing"
+   - 
+   "Sample Procurement"
+   - 
+   "Study Enrollment"
+ lost_to_followup: 
+  description: "The yes/no/unknown indicator used to describe whether a patient was unable to be contacted or seen for follow-up information."
+  type: string
+  cde_id: 6161018
+  term_url: "https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6161018&version=1.0"
+  enum: 
+   - 
+   Yes
+   - 
+   No
+   - 
+   Unknown
+ primary_site: 
+  description: "The text term used to describe the general location of the malignant disease, as categorized by the World Health Organization's (WHO) International Classification of Diseases for Oncology (ICD-O)."
+  type: string
+  cde_id: 6161019
+  term_url: "https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6161019&version=1.0"
+  enum: 
+   - 
+   "Accessory sinuses"
+   - 
+   "Adrenal gland"
+   - 
+   "Anus and anal canal"
+   - 
+   "Base of tongue"
+   - 
+   Bladder
+   - 
+   "Bones, joints and articular cartilage of limbs"
+   - 
+   "Bones, joints and articular cartilage of other and unspecified sites"
+   - 
+   Brain
+   - 
+   Breast
+   - 
+   "Bronchus and lung"
+   - 
+   "Cervix uteri"
+   - 
+   Colon
+   - 
+   "Connective, subcutaneous and other soft tissues"
+   - 
+   "Corpus uteri"
+   - 
+   Esophagus
+   - 
+   "Eye and adnexa"
+   - 
+   "Floor of mouth"
+   - 
+   Gallbladder
+   - 
+   Gum
+   - 
+   "Heart, mediastinum, and pleura"
+   - 
+   "Hematopoietic and reticuloendothelial systems"
+   - 
+   Hypopharynx
+   - 
+   Kidney
+   - 
+   Larynx
+   - 
+   Lip
+   - 
+   "Liver and intrahepatic bile ducts"
+   - 
+   "Lymph nodes"
+   - 
+   Meninges
+   - 
+   "Nasal cavity and middle ear"
+   - 
+   Nasopharynx
+   - 
+   Oropharynx
+   - 
+   "Other and ill-defined digestive organs"
+   - 
+   "Other and ill-defined sites"
+   - 
+   "Other and ill-defined sites in lip, oral cavity and pharynx"
+   - 
+   "Other and ill-defined sites within respiratory system and intrathoracic organs"
+   - 
+   "Other and unspecified female genital organs"
+   - 
+   "Other and unspecified major salivary glands"
+   - 
+   "Other and unspecified male genital organs"
+   - 
+   "Other and unspecified parts of biliary tract"
+   - 
+   "Other and unspecified parts of mouth"
+   - 
+   "Other and unspecified parts of tongue"
+   - 
+   "Other and unspecified urinary organs"
+   - 
+   "Other endocrine glands and related structures"
+   - 
+   Ovary
+   - 
+   Palate
+   - 
+   Pancreas
+   - 
+   "Parotid gland"
+   - 
+   Penis
+   - 
+   "Peripheral nerves and autonomic nervous system"
+   - 
+   Placenta
+   - 
+   "Prostate gland"
+   - 
+   "Pyriform sinus"
+   - 
+   "Rectosigmoid junction"
+   - 
+   Rectum
+   - 
+   "Renal pelvis"
+   - 
+   "Retroperitoneum and peritoneum"
+   - 
+   Skin
+   - 
+   "Small intestine"
+   - 
+   "Spinal cord, cranial nerves, and other parts of central nervous system"
+   - 
+   Stomach
+   - 
+   Testis
+   - 
+   Thymus
+   - 
+   "Thyroid gland"
+   - 
+   Tonsil
+   - 
+   Trachea
+   - 
+   Ureter
+   - 
+   "Uterus, NOS"
+   - 
+   Vagina
+   - 
+   Vulva
+   - 
+   Unknown
+   - 
+   "Not Reported"
+   - 
+   "Adrenal Gland"
+   - 
+   "Bile Duct"
+   - 
+   Blood
+   - 
+   Bone
+   - 
+   "Bone Marrow"
+   - 
+   Cervix
+   - 
+   Colorectal
+   - 
+   Eye
+   - 
+   "Head and Neck"
+   - 
+   Liver
+   - 
+   Lung
+   - 
+   "Lymph Nodes"
+   - 
+   "Nervous System"
+   - 
+   "Not Applicable"
+   - 
+   Pleura
+   - 
+   Prostate
+   - 
+   "Soft Tissue"
+   - 
+   Thyroid
+   - 
+   Uterus

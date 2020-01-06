@@ -1,0 +1,124 @@
+title: "Workflow Metadata"
+type: object
+category: Metadata
+description: "Tools, versions and parameters used in data analysis pipeline/workflow for analyzing study data."
+uniqueKeys: 
+ - 
+   - 
+   workflow_metadata_id
+  - 
+   workflow_metadata_submitter_id
+links: 
+ - 
+   name: Study
+  label: "Workflow Metadata references the pipeline used to analyze the Study."
+  required: True
+properties: 
+ workflow_metadata_id: 
+  type: string
+  key: yes
+ workflow_metadata_submitter_id: 
+  type: string
+  key: yes
+ protocol_id: 
+  type: string
+  key: yes
+ protocol_submitter_id: 
+  type: string
+  key: yes
+ study_id: 
+  type: string
+  key: yes
+ study_submitter_id: 
+  type: string
+  key: yes
+ cptac_study_id: 
+  type: string
+ submitter_id_name: 
+  type: string
+ study_submitter_name: 
+  type: string
+ analytical_fraction: 
+  type: string
+  description: "Type of peptide or protein enrichment"
+  required: False
+ experiment_type: 
+  type: string
+  description: "General strategy used for differential analysis"
+  required: False
+ instrument: 
+  type: string
+  description: "Make and model of the mass spectrometry instrument"
+  required: False
+ refseq_database_version: 
+  type: string
+  description: "Name and version of the NCBI Refseq database used in the data analysis pipeline"
+  required: False
+ uniport_database_version: 
+  type: string
+  description: "Name and version of the Uniprot Refseq database used in the data analysis pipeline"
+  required: False
+ hgnc_version: 
+  type: string
+  description: "Name and version of HGNC database of human gene names used in the data analysis pipeline"
+  required: False
+ raw_data_processing: 
+  type: string
+  description: "Name and version of the tool used to process the proprietary raw data"
+  required: False
+ raw_data_conversion: 
+  type: string
+  description: "Name and version of the tool used to convert the proprietary data into open format"
+  required: False
+ sequence_database_search: 
+  type: string
+  description: "Name and version of the tool used in peptide identification by scoring MS/MS spectra against peptides derived from a protein sequence database"
+  required: False
+ search_database_parameters: 
+  type: string
+  description: "Parameters used in the peptide identification database search"
+  required: False
+ phosphosite_localization: 
+  type: string
+  description: "Name and version of the tool used for phosphosite localization"
+  required: False
+ ms1_data_analysis: 
+  type: string
+  description: "Name and version of the tool used for MS1 data analysis"
+  required: False
+ psm_report_generation: 
+  type: string
+  description: "Name and version of the tool used to peptide spectral match report generation"
+  required: False
+ cptac_dcc_mzidentml: 
+  type: string
+  description: "Name and version of the tool used to generate mzIdentML from the peptide spectral match report"
+  required: False
+ mzidentml_refseq: 
+  type: string
+  description: "Name and version of the NCBI Refseq database used in mzIdentML"
+  required: False
+ mzidentml_uniprot: 
+  type: string
+  description: "Name and version of the Uniprot Refseq database used in mzIdentiML"
+  required: False
+ gene_to_prot: 
+  type: string
+  description: "Name and version of the tool used to map gene to protein in the data analysis pipeline"
+  required: False
+ cptac_galaxy_workflows: 
+  type: string
+  description: "Name and version of the workflow of data analysis pipeline"
+  required: False
+ cptac_galaxy_tools: 
+  type: string
+  description: "Name and version of the custom scripts used in the data analysis pipeline"
+  required: False
+ cdap_reports: 
+  type: string
+  description: "Name and version of the tool used to generate protein summary reports"
+  required: False
+ cptac_dcc_tools: 
+  type: string
+  description: "Name and version of the custom scripts used in the data analysis pipeline"
+  required: False
