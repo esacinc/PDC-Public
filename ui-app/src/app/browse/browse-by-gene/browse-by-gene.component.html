@@ -21,7 +21,7 @@
 		</ng-template>
         <ng-template style="font-size: 12px; background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%);" pTemplate="header">
             <tr style="font-size: 12px;">
-				<th class="ui-datatable-tableheader" style="width:3%;overflow: unset;" pResizableColumn>
+				<th class="ui-datatable-tableheader" style="width:5%;overflow: unset;" pResizableColumn>
 					<label><p-checkbox  id="geneDataChk" [(ngModel)]="headercheckbox" binary="true" (onChange)="onTableHeaderCheckboxToggle()" ></p-checkbox >
 					<mat-select id="dataForManifestExport" class="card-body card-list" [(ngModel)]="selectedHeaderCheckbox"
 					(selectionChange)="changeHeaderCheckbox($event)">
@@ -41,7 +41,7 @@
         </ng-template>
         <ng-template pTemplate="body" let-geneData>
             <tr style="font-size: 11px;" [pSelectableRow]="geneData" >
-				<td style="width:3%;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"><p-tableCheckbox id="geneData{{geneData.gene_name}}" [value]="geneData" class="browsePageCheckboxes"></p-tableCheckbox></td>              
+				<td style="width:5%;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"><p-tableCheckbox id="geneData{{geneData.gene_name}}" [value]="geneData" class="browsePageCheckboxes"></p-tableCheckbox></td>              
                 <td style="width:6%;word-wrap: break-word; white-space: normal;"><a href="javascript:void(0);" (click)="showGeneSummary(geneData.gene_name)">{{geneData.gene_name }}</a></td>
                 <td style="width:12%;word-wrap: break-word; white-space: normal;">{{geneData.chromosome}}</td>
                 <td style="width:10%;word-wrap: break-word; white-space: normal;">{{geneData.locus}}</td>

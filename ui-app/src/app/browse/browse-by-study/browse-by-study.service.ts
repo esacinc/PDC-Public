@@ -93,6 +93,7 @@ constructor(private apollo: Apollo) {
 	//@@@PDC-497 Make table column headers sortable on the browse page tabs
 	//@@@PDC-567 add sample_type filter
 	//@@@PDC-616 Add acquisition type to the general filters
+	//@@@PDC-1358 add study_id (uuid) to study summary page
 	filteredStudiesDataPaginatedQuery = gql`
 			query FilteredStudiesDataPaginated($offset_value: Int, $limit_value: Int, $sort_value: String, $program_name_filter: String!, $project_name_filter: String!, $study_name_filter: String!, $disease_filter: String!, $filterValue: String!, $analytical_frac_filter: String!, $exp_type_filter: String!, $ethnicity_filter: String!, $race_filter: String!, $gender_filter: String!, $tumor_grade_filter: String!, $sample_type_filter: String!, $acquisition_type_filter: String!, $data_category_filter: String!, $file_type_filter: String!, $access_filter: String!, $downloadable_filter: String!, $biospecimen_status_filter: String!, $case_status_filter: String!){
 					getPaginatedUIStudy(offset: $offset_value, limit: $limit_value, sort: $sort_value, program_name: $program_name_filter , project_name: $project_name_filter, 
@@ -101,6 +102,7 @@ constructor(private apollo: Apollo) {
 										sample_type: $sample_type_filter, acquisition_type: $acquisition_type_filter, data_category: $data_category_filter, file_type: $file_type_filter, access: $access_filter, downloadable: $downloadable_filter, biospecimen_status: $biospecimen_status_filter, case_status: $case_status_filter) {
 					total
 					uiStudies {
+						study_id
 						submitter_id_name
 						study_description
 						study_submitter_id

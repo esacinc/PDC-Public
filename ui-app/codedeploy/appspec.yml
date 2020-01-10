@@ -5,7 +5,7 @@ files:
   - source: /ui-app/dist
     destination: /home/ec2-user/PDC_Build/pdc/dist
   - source: /documentation/dev
-    destination: /home/ec2-user/PDC_Build/pdc/publicapi-documentation
+    destination: /home/ec2-user/PDC_Build/pdc/documentation/dev
 
 hooks:
   BeforeInstall:

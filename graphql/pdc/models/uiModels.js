@@ -14,7 +14,9 @@ import _ from 'lodash';
 //@@@PDC-962 defnie db models after db is initialized asynchronously 
 const defineUiModels = (db) => {
 
+	//@@@PDC-1358 add study_id (uuid) to study summary page
 	const ModelUIStudy = db.getSequelize().define('dummy', {
+		study_id: { type: Sequelize.STRING},
 		study_submitter_id: { type: Sequelize.STRING},
 		submitter_id_name: { type: Sequelize.STRING},
 		study_description: { type: Sequelize.STRING},

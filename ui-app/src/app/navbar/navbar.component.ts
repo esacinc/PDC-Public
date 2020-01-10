@@ -197,6 +197,7 @@ export class NavbarComponent implements OnInit {
 	dialogConfig.height = '95%';
 	
 	let study_data: AllStudiesData = {
+		study_id: '',
 		study_submitter_id: study_id,
 		submitter_id_name: study_submitter_id_name,
 		study_description: '',

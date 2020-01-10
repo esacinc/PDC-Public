@@ -17,6 +17,131 @@ class MockBrowseFiltersService {
     });
   }
 
+  getFilteredFiltersDataQuery({}): Observable<any> {
+    return of({
+      uiFilters: {
+        project_name: [
+          {
+            filterName: "CPTAC3 Discovery",
+            filterValue: ["S044-2", "S044-1"]
+          },
+          {
+            filterName: "Quantitative digital maps of tissue biopsies",
+            filterValue: ["S044-2"]
+          }
+        ],
+        primary_site: [
+          {
+            filterName: "Kidney",
+            filterValue: ["S044-2", "S044-1"]
+          }
+        ],
+        program_name: [
+          {
+            filterName: "Aebersold Lab",
+            filterValue: ["S016-1"]
+          }
+        ],
+        disease_type: [
+          {
+            filterName: "Clear Cell Renal Cell Carcinoma",
+            filterValue: ["S044-2", "S044-1"]
+          }
+        ],
+        analytical_fraction: [
+          {
+            filterName: "Glycoproteome",
+            filterValue: ["S016-1"]
+          }
+        ],
+        experiment_type: [
+          {
+            filterName: "iTRAQ4",
+            filterValue: ["S016-1"]
+          }
+        ],
+        acquisition_type: [
+          {
+            filterName: "DIA",
+            filterValue: ["S016-1"]
+          }
+        ],
+        biospecimen_status: [
+          {
+            filterName: "Disqualified",
+            filterValue: ["S044-2"]
+          }
+        ],
+        case_status: [
+          {
+            filterName: "Qualified",
+            filterValue: ["S044-2"]
+          }
+        ],
+        submitter_id_name: [
+          {
+            filterName: "CPTAC CCRCC Discovery Study - Phosphoproteme",
+            filterValue: ["S044-2"]
+          }
+        ],
+        sample_type: [
+          {
+            filterName: "Tumor",
+            filterValue: ["S044-2"]
+          }
+        ],
+        ethnicity: [
+          {
+            filterName: "Unknown",
+            filterValue: ["S044-2"]
+          }
+        ],
+        race: [
+          {
+            filterName: "Not Received",
+            filterValue: ["S044-2", "S044-1"]
+          }
+        ],
+        gender: [
+          {
+            filterName: "Male",
+            filterValue: ["S044-2", "S044-1"]
+          }
+        ],
+        tumor_grade: [
+          {
+            filterName: "Unknown",
+            filterValue: ["S044-2", "S044-1"]
+          }
+        ],
+        data_category: [
+          {
+            filterName: "Quality Metrics",
+            filterValue: ["S044-2", "S044-1"]
+          }
+        ],
+        file_type: [
+          {
+            filterName: "Web",
+            filterValue: ["S044-2", "S044-1"]
+          }
+        ],
+        downloadable: [
+          {
+            filterName: "Yes",
+            filterValue: ["S044-2", "S044-1"]
+          }
+        ],
+        access: [
+          {
+            filterName: "Controlled",
+            filterValue: ["S044-2"]
+          }
+        ]
+      }
+    });
+  }
+
   getStudyUUID2NameMapping(): Observable<any> {
     //@@@PDC-1123 call ui wrapper API
     return of({

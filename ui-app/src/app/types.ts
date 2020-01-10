@@ -105,8 +105,9 @@ export interface AnalyticFractionCount  {
 	count: number;
 }
 
-//export type AllCasesData = {
+//@@@PDC-1358 add study_id (uuid) to study summary page
 export type AllStudiesData = {
+	study_id: string;
 	study_submitter_id: string;
 	submitter_id_name: string;
 	program_name: string;

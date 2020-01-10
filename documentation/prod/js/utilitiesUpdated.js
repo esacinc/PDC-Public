@@ -2,6 +2,7 @@
 //The PDC Data Dictionary is currently generated from the JSON Files which Deepak had created (utilities.js). 
 // Generate PDC Data Dictionary from the newly generated JSON Files which are compliant with the GDC YAML files from this file.
 // The newly generated JSON Files are available in the PDC Git in: dictionary/JSON folder.
+//@@PDC 1362: Create an automated script to merge GDC Data Dictionary with PDC DD
 var dictionaryURL = 'json/dictionary.json';
 var dictionaryItemURL = 'json/';
 var dictionaryEntities = undefined;
@@ -167,6 +168,7 @@ function loadDictionaryItem(itemID){
                       id:itemID
                     };
     itemID = itemID.replace(/\s/g, '');
+    itemID = itemID.replace('-', '');
     var dictItemURL = dictionaryItemURL + itemID.toLowerCase() +'.json';    
     loadJSON(dictItemURL, postData, paintDictionaryItem);
 }
@@ -202,7 +204,11 @@ function paintDictionaryItem(data){
     dStr += "</tr>";
     dStr += "<tr>";
     dStr += "<td class='itemCollCol1'>Category</td>";
-    dStr += "<td class='itemCollCol2'>" + curEntityData.category + "</td>";
+    var currentCategory = '';
+    if (curEntityData.category) {
+        currentCategory = capitalizeFirstLetter(curEntityData.category);
+    }
+    dStr += "<td class='itemCollCol2'>" + currentCategory + "</td>";
     dStr += "</tr>";
     dStr += "<tr>";
     dStr += "<td class='itemCollCol1'>Description</td>";
@@ -230,8 +236,17 @@ function paintDictionaryItem(data){
     if (uniqueKeyDetails && uniqueKeyDetails.length > 0) {
         dStr += "<ul>";
         var keyDetails = uniqueKeyDetails[0];
-        for (var i = 0; i < keyDetails.length; i++) {
-            dStr += "<li>" + keyDetails[i] + "</li>";
+        if (keyDetails instanceof Array) {
+            for (var i = 0; i < keyDetails.length; i++) {
+                dStr += "<li>" + keyDetails[i] + "</li>";
+            }
+        } else {
+            //@@PDC 1362: Create an automated script to merge GDC Data Dictionary with PDC DD
+            // The "Links" item structure is different for the newly added 
+            // Clinical entities like 'Family History', 'Exposure' ,etc.
+            for (var i = 0; i < uniqueKeyDetails.length; i++) {
+                dStr += "<li>" + uniqueKeyDetails[i] + "</li>";
+            } 
         }
         dStr += "</ul>"
     }
@@ -317,31 +332,50 @@ function paintDictionaryItem(data){
         dStr +=">" + dictItemDesc + "</td>";
         //Column 3
         dStr += "<td class='propCollCol3'";
-        if(dictItemProperties[dictItem].enum){
-    
-          dStr += ">";
+        if (dictItemProperties[dictItem].oneOf) {
+            dStr += ">";
           //console.log(dictItemProperties[dictItem].enum);
           dStr += "<ul>";
-          dStr += "<li>Enumeration</li>";
+          dStr += "<li>One of:</li>";
           dStr += "<ul>";
-          var moreDivOn = false;
-          var enumVals = dictItemProperties[dictItem].enum;
-          for(var x = 0; x < enumVals.length;x++){
-            if(x == 6){
-              dStr += "<div style='display:none'>";
-              moreDivOn = true;
-            }
-            dStr += "<li>" + enumVals[x]  + "</li>";
-          }
-          if(moreDivOn){
-            dStr += "</div>";
-            dStr += "<div class='showMoreOrLess'>Show more items...</div>";
-          }      
+          var oneOfVals = dictItemProperties[dictItem].oneOf;
+          for (var x = 0; x < oneOfVals.length;x++){
+            dStr += "<li>" + oneOfVals[x].type  + "</li>";
+          }  
           dStr += "</ul>";
-          dStr += "</ul>";
+          dStr += "</ul>";        
         } else {
-          dStr += " style='text-indent:25px'>";
-          dStr += dictItemProperties[dictItem].type;
+            if (dictItemProperties[dictItem].enum){   
+                dStr += ">";
+                //console.log(dictItemProperties[dictItem].enum);
+                dStr += "<ul>";
+                dStr += "<li>Enumeration</li>";
+                dStr += "<ul>";
+                var moreDivOn = false;
+                var enumVals = dictItemProperties[dictItem].enum;
+                for(var x = 0; x < enumVals.length;x++){
+                    if(x == 6){
+                    dStr += "<div style='display:none'>";
+                    moreDivOn = true;
+                    }
+                    dStr += "<li>" + enumVals[x]  + "</li>";
+                }
+                if(moreDivOn){
+                    dStr += "</div>";
+                    dStr += "<div class='showMoreOrLess'>Show more items...</div>";
+                }      
+                dStr += "</ul>";
+                dStr += "</ul>";
+                } else {
+                dStr += " style='text-indent:25px'>";
+                //@@PDC 1362: Create an automated script to merge GDC Data Dictionary with PDC DD
+                if (dictItemProperties[dictItem].type) {
+                    dStr += dictItemProperties[dictItem].type;
+                } else {
+                    //If the dict item does not have a type property, display blank
+                    dStr += '';
+                }
+            }
         }
         dStr += "</td>"
         //Column 4 
@@ -349,6 +383,10 @@ function paintDictionaryItem(data){
         if (dictItemProperties[dictItem].required) {
             var requiredStr = capitalizeFirstLetter(dictItemProperties[dictItem].required);
             dStr += requiredStr;
+        } else {
+            //@@PDC 1362: Create an automated script to merge GDC Data Dictionary with PDC DD
+            //If there's no property called "Required", set the field value to False
+            dStr += "False";
         }
         dStr += "</td>";
         //Column 5 

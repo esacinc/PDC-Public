@@ -62,6 +62,7 @@ export const resolvers = {
 	},
 	//@@@PDC-180 Case API for UI case summary
 	//@@@PDC-650 implement elasticache for API
+	//@@@PDC-1371 use uuid instead of submitter_id
 	Case: {
 		async demographics(obj, args, context) {
 			var cacheFilterName = { name: '' };
@@ -81,7 +82,8 @@ export const resolvers = {
 						'year_of_death'
 					],
 					where: {
-						case_submitter_id: obj.case_submitter_id
+						case_id: Sequelize.fn('uuid_to_bin', obj.case_id )
+						//case_submitter_id: obj.case_submitter_id
 					}
 				});
 				RedisCacheClient.redisCacheSetExAsync(CacheName.getSummaryPageCaseSummary('CaseDemographic') + cacheFilterName['name'], JSON.stringify(result));
@@ -159,7 +161,8 @@ export const resolvers = {
 						'year_of_diagnosis'
 					],
 					where: {
-						case_submitter_id: obj.case_submitter_id
+						case_id: Sequelize.fn('uuid_to_bin', obj.case_id )
+						//case_submitter_id: obj.case_submitter_id
 					}
 				});
 				RedisCacheClient.redisCacheSetExAsync(CacheName.getSummaryPageCaseSummary('CaseDiagnose')+cacheFilterName['name'], JSON.stringify(result));
@@ -176,8 +179,8 @@ export const resolvers = {
 				var result = await db.getModelByName('Sample').findAll({
 					attributes: [['bin_to_uuid(sample_id)', 'sample_id'], 'sample_submitter_id', 'sample_type', 'sample_type_id', 'gdc_sample_id', 'gdc_project_id', 'biospecimen_anatomic_site', 'composition', 'current_weight', 'days_to_collection', 'days_to_sample_procurement', 'diagnosis_pathologically_confirmed', 'freezing_method', 'initial_weight', 'intermediate_dimension', 'is_ffpe', 'longest_dimension', 'method_of_sample_procurement', 'oct_embedded', 'pathology_report_uuid', 'preservation_method', 'shortest_dimension', 'time_between_clamping_and_freezing', 'time_between_excision_and_freezing', 'tissue_type', 'tumor_code', 'tumor_code_id', 'tumor_descriptor'],
 					where: {
-						//case_submitter_id: context.arguments.case_submitter_id
-						case_submitter_id: obj.case_submitter_id
+						case_id: Sequelize.fn('uuid_to_bin', obj.case_id )
+						//case_submitter_id: obj.case_submitter_id
 					}
 				});
 				RedisCacheClient.redisCacheSetExAsync(CacheName.getSummaryPageCaseSummary('CaseSample') + cacheFilterName['name'], JSON.stringify(result));
@@ -191,7 +194,8 @@ export const resolvers = {
 		aliquots(obj, args, context) {
 			return db.getModelByName('Aliquot').findAll({ attributes: [['bin_to_uuid(aliquot_id)', 'aliquot_id'],'aliquot_submitter_id', 'analyte_type', 'aliquot_quantity', 'aliquot_volume', 'amount', 'concentration'],
 			where: {
-				sample_submitter_id: obj.sample_submitter_id
+				sample_id: Sequelize.fn('uuid_to_bin', obj.sample_id )
+				//sample_submitter_id: obj.sample_submitter_id
 			}
 			});
 		}		

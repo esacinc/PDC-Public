@@ -1,15 +1,15 @@
 <div id="oncoprintDiv">
 	<div style="margin-left: 10px;margin-top: 10px;" *ngIf="loading"><i class="fa fa-spinner fa-spin" style="font-size:24px"></i>&nbsp;&nbsp;&nbsp;Loading visualization. Please wait... </div>
-	<p-table id="aliquotsVisualizationByStudy" [value]="dataByStudy" [scrollable]="true" scrollHeight="50vh"[virtualScroll]="true" [rows]="15" 
+	<p-table id="aliquotsVisualizationByStudy" [value]="dataByStudy" [scrollable]="true" scrollHeight="200px" [virtualScroll]="true" [rows]="10" 
 			[totalRecords]="dataByStudy.length" responsive="true" styleClass="borderless" [columns]="cols" [frozenColumns]="frozenStudyColumn" frozenWidth="300px"> 
 		<ng-template pTemplate="frozencolgroup" let-columns>
 			<colgroup>
-				<col style="width:20%;word-wrap: break-word; white-space: normal; border:none; border-style:none;">
+				<col style="word-wrap: break-word; white-space: normal; border:none; border-style:none;" [style.width]>
 			</colgroup>
 		</ng-template>
 		<ng-template pTemplate="colgroup" let-columns>
 			<colgroup>
-				<col style="width:80%;word-wrap: break-word; white-space: normal; border:none; border-style:none;">
+				<col style="word-wrap: break-word; white-space: normal; border:none; border-style:none;">
 			</colgroup>
 		</ng-template>
 		<ng-template style="font-size: 12px; background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%);" pTemplate="header" let-columns>
@@ -26,11 +26,11 @@
 				  <span *ngIf="col.field=='aliquotData'" >
 					<svg [style.overflow]="scroll" [style.width.px]="vizWidth" [style.height.px]="32"> 
 						<g *ngFor="let mut of dataByStudy[aliquotData] | keyvalue" attr.transform="translate({{calculateXPos(mut.key)}}, 0)">
-							<rect x="0" y="0" width="5" height="32" fill="rgb(209,209,209)" fill-opacity="1" matTooltip="{{tooltipText2(aliquotData, mut.key)}}" matTooltipClass="tooltipStyle"></rect>
-							<rect *ngIf="mut.value.exists1" width="4" height="8" x="0" y="0" stroke="rgb(255,0,0)" stroke-opacity="1" stroke-width="0.3" fill="rgb(255,0,0)" [attr.fill-opacity]="opacityValueByLog2Ratio(aliquotData, mut.key)"></rect>
-							<rect *ngIf="mut.value.exists4" width="4" height="8" x="0" y="7" stroke="rgb(0,0,255)" stroke-opacity="1" stroke-width="0.3" fill="rgb(0,0,255)" [attr.fill-opacity]="opacityValueByPrecursorArea(aliquotData, mut.key)"></rect>
-							<rect *ngIf="mut.value.exists5" width="4" height="8" x="0" y="15" stroke="rgb(3,84,122)" stroke-opacity="1" stroke-width="0.3" fill="rgb(3,84,122)" [attr.fill-opacity]="opacityValueByUnsharedPrecursorArea(aliquotData, mut.key)"></rect>
-							<rect *ngIf="mut.value.exists6" width="4" height="8" x="0" y="23" stroke="rgb(122,3,84)" stroke-opacity="1" stroke-width="0.3" fill="rgb(122,3,84)" [attr.fill-opacity]="opacityValueByUnsharedLog2Ratio(aliquotData, mut.key)"></rect>
+							<rect class="aliquot" x="0" y="0" width="5" height="32" fill="rgb(209,209,209)" fill-opacity="1" matTooltip="{{tooltipText2(aliquotData, mut.key)}}" matTooltipClass="tooltipStyle"></rect>
+							<rect *ngIf="mut.value.exists1" width="4" height="8" x="0" y="0" stroke="rgb(255,0,0)" stroke-opacity="1" stroke-width="0.3" fill="rgb(255,0,0)" [attr.fill-opacity]="opacityValueByLog2Ratio(aliquotData, mut.key)" matTooltip="{{tooltipText2(aliquotData, mut.key)}}" matTooltipClass="tooltipStyle"></rect>
+							<rect *ngIf="mut.value.exists4" width="4" height="8" x="0" y="7" stroke="rgb(0,0,255)" stroke-opacity="1" stroke-width="0.3" fill="rgb(0,0,255)" [attr.fill-opacity]="opacityValueByPrecursorArea(aliquotData, mut.key)" matTooltip="{{tooltipText2(aliquotData, mut.key)}}" matTooltipClass="tooltipStyle"></rect>
+							<rect *ngIf="mut.value.exists5" width="4" height="8" x="0" y="15" stroke="rgb(3,84,122)" stroke-opacity="1" stroke-width="0.3" fill="rgb(3,84,122)" [attr.fill-opacity]="opacityValueByUnsharedPrecursorArea(aliquotData, mut.key)" matTooltip="{{tooltipText2(aliquotData, mut.key)}}" matTooltipClass="tooltipStyle"></rect>
+							<rect *ngIf="mut.value.exists6" width="4" height="8" x="0" y="23" stroke="rgb(122,3,84)" stroke-opacity="1" stroke-width="0.3" fill="rgb(122,3,84)" [attr.fill-opacity]="opacityValueByUnsharedLog2Ratio(aliquotData, mut.key)" matTooltip="{{tooltipText2(aliquotData, mut.key)}}" matTooltipClass="tooltipStyle"></rect>
 							
 						</g>
 					</svg>

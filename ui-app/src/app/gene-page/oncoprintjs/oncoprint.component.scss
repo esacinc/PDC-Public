@@ -4,3 +4,13 @@
   color:black !important;
   font-size: 1.2rem !important;
 }
+
+::ng-deep .ui-table-scrollable-body {
+	max-height: 300px!important;
+	min-height: 60px!important;
+}
+
+.aliquot:hover {
+	stroke: black;
+	stroke-width: 1;
+}

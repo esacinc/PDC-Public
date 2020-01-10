@@ -392,9 +392,10 @@ WHERE
         AND c.case_id = dem.case_id
         AND c.case_id = dia.case_id
 `;
-
+//@@@PDC-1358 add study_id (uuid) to study summary page
 const study_tab_data=`
 SELECT 
+	BIN_TO_UUID(s.study_id) AS study_id,
     s.study_submitter_id,
     s.submitter_id_name,
     s.study_description,

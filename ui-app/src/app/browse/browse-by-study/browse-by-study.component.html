@@ -21,7 +21,7 @@
 		</ng-template>
         <ng-template pTemplate="header" let-columns>
             <tr>
-				<th rowspan=3 class="ui-datatable-tableheader" style="width:3%; align-content: center !important; overflow: unset;" pResizableColumn alt="Check All checkboxes in the table">
+				<th rowspan=3 class="ui-datatable-tableheader" style="width:5%; align-content: center !important; overflow: unset;" pResizableColumn alt="Check All checkboxes in the table">
 					<label><p-checkbox  id="studyDataChk" [(ngModel)]="headercheckbox" binary="true" (onChange)="onTableHeaderCheckboxToggle()" ></p-checkbox >
 					<mat-select id="dataForManifestExport" class="card-body card-list" [(ngModel)]="selectedHeaderCheckbox"
 					(selectionChange)="changeHeaderCheckbox($event)">
@@ -98,7 +98,7 @@
         </ng-template>
         <ng-template pTemplate="body" let-studyData>
             <tr style="font-size: 11px;"[pSelectableRow]="studyData">
-			  <td style="width:3%; align-content: center !important"><p-tableCheckbox id="studyData{{studyData.submitter_id_name}}" [value]="studyData" class="browsePageCheckboxes"></p-tableCheckbox></td>
+			  <td style="width:5%; align-content: center !important"><p-tableCheckbox id="studyData{{studyData.submitter_id_name}}" [value]="studyData" class="browsePageCheckboxes"></p-tableCheckbox></td>
               <td style="width:15%;word-wrap: break-word; white-space: normal;"><a href="javascript:void(0);" (click)="showStudySummary(studyData.study_submitter_id)">{{studyData.submitter_id_name}}</a></td>
               <td style="width:7%;word-wrap: break-word; white-space: normal;">{{studyData.project_name}}</td>
               <td style="width:9%;word-wrap: break-word; white-space: normal;">{{studyData.program_name}}</td>

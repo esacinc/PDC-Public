@@ -113,11 +113,13 @@ constructor(private apollo: Apollo) {
 
 	//@@@PDC-758: Study summary overlay window opened through search is missing data
 	//Query to fetch study summary details from a new API.
+	//@@@PDC-1358  add study uuid	
 	filteredStudyDataQuery = gql`
 		query paginatedUIStudyQuery($study_name_filter: String!){
 			getPaginatedUIStudy(study_name: $study_name_filter) {
 				total
 				uiStudies {
+					study_id
 					submitter_id_name
 					study_description
 					program_name

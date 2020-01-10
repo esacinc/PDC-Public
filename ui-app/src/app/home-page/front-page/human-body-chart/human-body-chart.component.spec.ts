@@ -1,3 +1,5 @@
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { RouterTestingModule } from '@angular/router/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HumanBodyChartComponent } from './human-body-chart.component';
 
@@ -7,7 +9,9 @@ describe('HumanBodyChartComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HumanBodyChartComponent ]
+      declarations: [ HumanBodyChartComponent ],
+      imports: [RouterTestingModule],
+      schemas: [NO_ERRORS_SCHEMA]
     })
     .compileComponents();
   }));

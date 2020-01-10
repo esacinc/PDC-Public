@@ -1,6 +1,6 @@
 <mat-toolbar style="margin-bottom: 5px;" >
 	<mat-toolbar-row class="toolbar-row-button">
-	<a routerLink="/pdc/" title="Home" rel="home" id="logo">
+	<a routerLink='' title="Home" rel="home" id="logo">
 		<img src="assets/css/images/logo_PDC.png" width="340" height="55" alt="NCI Proteomics Data Commons" class="banner-logo" />
 	</a>
 	<span class="navbar-toolbar-spacer">
@@ -43,7 +43,7 @@
 	<mat-toolbar-row >
 			<span class="navbar-toolbar-spacer"></span>
 		<nav mat-tab-nav-bar class="custom-navbar-menu">
-			<a mat-button class="custom-navbar-menu-item" id="homeNavbar" routerLink='pdc'>HOME</a>
+			<a mat-button class="custom-navbar-menu-item" id="homeNavbar" routerLink=''>HOME</a>
 			<a mat-button class="custom-navbar-menu-item" id="browseNavbar" routerLink='browse'>BROWSE</a>
 			<a mat-button class="custom-navbar-menu-item" id="analysisNavbar" [matMenuTriggerFor]="analysis">ANALYSIS</a>
 			<mat-menu [overlapTrigger]="false" yPosition="below" style="min-width:1%; padding-right: 0px" #analysis="matMenu">

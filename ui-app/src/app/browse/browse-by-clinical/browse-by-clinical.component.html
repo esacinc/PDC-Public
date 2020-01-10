@@ -21,7 +21,7 @@
 		</ng-template>
         <ng-template style="font-size: 12px; background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%);" pTemplate="header">
             <tr style="font-size: 12px;">
-				<th class="ui-datatable-tableheader" style="width:3%;overflow: unset;">
+				<th class="ui-datatable-tableheader" style="width:5%;overflow: unset;">
 					<label><p-checkbox  id="clinicalDataChk" [(ngModel)]="headercheckbox" binary="true" (onChange)="onTableHeaderCheckboxToggle()" ></p-checkbox >
 					<mat-select id="dataForManifestExport" class="card-body card-list" [(ngModel)]="selectedHeaderCheckbox"
 					(selectionChange)="changeHeaderCheckbox($event)">
@@ -118,7 +118,7 @@
         </ng-template>
         <ng-template pTemplate="body" let-clinicalData>
             <tr style="font-size: 11px;" [pSelectableRow]="clinicalData" >
-				<td style="width:3%;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"><p-tableCheckbox id="clinicalData{{clinicalData.case_submitter_id}}" [value]="clinicalData" class="browsePageCheckboxes"></p-tableCheckbox></td>
+				<td style="width:5%;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"><p-tableCheckbox id="clinicalData{{clinicalData.case_submitter_id}}" [value]="clinicalData" class="browsePageCheckboxes"></p-tableCheckbox></td>
 				<!-- @@@PDC-462 show submitter id -->                
                 <td style="width:10%;word-wrap: break-word; white-space: normal;"><a href="javascript:void(0);" (click)="showCaseSummary(clinicalData.case_submitter_id)">{{clinicalData.case_submitter_id }}</a>&nbsp;&nbsp;<span style='color:red' *ngIf="clinicalData.status == 'Disqualified'">{{clinicalData.status}}</span></td>
 				<td style="width:10%;word-wrap: break-word; white-space: normal;text-align: center"><a [href]="fetchUrl(clinicalData.external_case_id)" title="Go to genomic resource" target="_blank"><img [src]="getIcon(clinicalData.external_case_id, 'genomic')" alt=""><span style="display:none">Click on the External Reference Image</span>{{displayTextforExternalID(clinicalData.external_case_id)}}</a>

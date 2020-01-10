@@ -7,6 +7,7 @@ import {sort} from '../util/sort';
 import {CacheName, RedisCacheClient} from '../util/cacheClient';
 import {uiFilterProcess} from '../util/uiFilterProcess';
 import {fetchDataMatrix} from '../util/fetchDataMatrix';
+import {getAliquotId} from '../util/getAliquotId';
 //@@@PDC-1215 use winston logger
 import { logger } from '../util/logger';
 import  {
@@ -287,30 +288,58 @@ export const resolvers = {
 		async case(_, args, context) {
 			//@@@PDC-180 Case API for UI case summary
 			var cacheFilterName = {name:''};
+			//@@@PDC-1371 use uuid instead of submitter_id
+			if (typeof args.case_id != 'undefined') {
+				cacheFilterName.name +="case_id:("+ args.case_id + ");";
+			}
 			if (typeof args.case_submitter_id != 'undefined') {
 				cacheFilterName.name +="case_submitter_id:("+ args.case_submitter_id + ");";
 			}
 			const res = await RedisCacheClient.redisCacheGetAsync(CacheName.getSummaryPageCaseSummary('Case')+cacheFilterName['name']);
 			if(res === null){
-				var result = await db.getModelByName('Case').findOne({
-					attributes: [['bin_to_uuid(case_id)', 'case_id'],
-						'case_submitter_id',
-						'project_submitter_id',
-						'external_case_id',
-						'tissue_source_site_code',
-						'days_to_lost_to_followup',
-						'disease_type',
-						'index_date',
-						'lost_to_followup',
-						'primary_site',
-					],
-					where: {
-						case_submitter_id: args.case_submitter_id,
-						project_submitter_id: {
-							[Op.in]: context.value
+				var result = null;
+				if (typeof args.case_id != 'undefined'){
+					result = await db.getModelByName('Case').findOne({
+						attributes: [['bin_to_uuid(case_id)', 'case_id'],
+							'case_submitter_id',
+							'project_submitter_id',
+							'external_case_id',
+							'tissue_source_site_code',
+							'days_to_lost_to_followup',
+							'disease_type',
+							'index_date',
+							'lost_to_followup',
+							'primary_site',
+						],
+						where: {
+							case_id: Sequelize.fn('uuid_to_bin', args.case_id ),
+							project_submitter_id: {
+								[Op.in]: context.value
+							}
 						}
-					}
-				});
+					});					
+				}
+				else {
+					result = await db.getModelByName('Case').findOne({
+						attributes: [['bin_to_uuid(case_id)', 'case_id'],
+							'case_submitter_id',
+							'project_submitter_id',
+							'external_case_id',
+							'tissue_source_site_code',
+							'days_to_lost_to_followup',
+							'disease_type',
+							'index_date',
+							'lost_to_followup',
+							'primary_site',
+						],
+						where: {
+							case_submitter_id: args.case_submitter_id,
+							project_submitter_id: {
+								[Op.in]: context.value
+							}
+						}
+					});						
+				}
 				RedisCacheClient.redisCacheSetExAsync(CacheName.getSummaryPageCaseSummary('Case')+cacheFilterName['name'], JSON.stringify(result));
 				return result;
 			}else{
@@ -600,7 +629,8 @@ export const resolvers = {
 		},
 		//@@@PDC-218 Portal Statistics API
 		pdcDataStats(_, args, context) {
-			let dataStatsQuery = "SELECT * from pdc_data_statistics ";
+			//@@@PDC-1389 get latest statistics
+			let dataStatsQuery = "SELECT * from pdc_data_statistics order by updated desc";
 			return db.getSequelize().query(dataStatsQuery, { model: db.getModelByName('ModelPDCDataStatistics') });
 		},
 		//@@@PDC-165 workflow metadata APIs
@@ -1616,6 +1646,12 @@ export const resolvers = {
 				efcQuery += " and c.case_submitter_id IN ('" + csIds.join("','") + "')"; 	
 				cacheFilterName.name +="case_submitter_id:("+ csIds.join(",") + ");";		
 			}
+			//@@@PDC-1371 add case_id parameter to case-related APIs 
+			if (typeof args.case_id != 'undefined') {
+				let uuIds = args.case_id.split(';');
+				efcQuery +=" and c.case_id IN (uuid_to_bin('" + uuIds.join("'),uuid_to_bin('") + "'))";	
+				cacheFilterName.name +="case_id:("+ uuIds.join(",") + ");";		
+			}
 			//@@@PDC-810 correct number of studies on the Case summary page
 			efcQuery += " group by s.acquisition_type, s.experiment_type, s.submitter_id_name";
 			const res = await RedisCacheClient.redisCacheGetAsync(CacheName.getSummaryPageCaseSummary('ExperimentFileCount')+cacheFilterName['name']);
@@ -1650,7 +1686,12 @@ export const resolvers = {
 				efcQuery += " and c.case_submitter_id IN ('" + csIds.join("','") + "')"; 				
 				cacheFilterName.name +="case_submitter_id:("+ csIds.join(",") + ");";		
 			}
-			
+			//@@@PDC-1371 add case_id parameter to case-related APIs 
+			if (typeof args.case_id != 'undefined') {
+				let uuIds = args.case_id.split(';');
+				efcQuery +=" and c.case_id IN (uuid_to_bin('" + uuIds.join("'),uuid_to_bin('") + "'))";	
+				cacheFilterName.name +="case_id:("+ uuIds.join(",") + ");";		
+			}			
 			efcQuery += " group by f.file_type, f.data_category, s.submitter_id_name ";
 
 			const res = await RedisCacheClient.redisCacheGetAsync(CacheName.getSummaryPageCaseSummary('DataCategoryFileCount')+cacheFilterName['name']);
@@ -2699,10 +2740,10 @@ export const resolvers = {
 		//@@@PDC-1120 StudyRunMetadata table change
 		//@@@PDC-1156 add is_ref
 		//@@@PDC-1316 remove itraq_120
-		studyExperimentalDesign(_, args, context) {
+	    //@@@PDC-1383 convert labels to aliquot_id 
+		async studyExperimentalDesign(_, args, context) {
 			var experimentalQuery = "SELECT distinct bin_to_uuid(srm.study_run_metadata_id) as study_run_metadata_id, "+
 			" bin_to_uuid(s.study_id) as study_id, srm.study_run_metadata_submitter_id,"+ 
-			//" s.study_submitter_id, al.aliquot_is_ref,"+
 			" s.study_submitter_id, "+
 			" srm.analyte, s.acquisition_type, s.experiment_type,"+
 			" srm.folder_name as plex_dataset_name, srm.experiment_number,"+
@@ -2711,8 +2752,8 @@ export const resolvers = {
 			" itraq_118, itraq_119, itraq_121,"+
 			" tmt_126, tmt_127n, tmt_127c, tmt_128n, tmt_128c,"+
 			" tmt_129n, tmt_129c, tmt_130n, tmt_130c, tmt_131, tmt_131c"+
-			" from study_run_metadata srm, study s, aliquot_run_metadata arm, aliquot al"+
-			" where srm.study_id=s.study_id and s.study_id = arm.study_id and arm.aliquot_id = al.aliquot_id"+
+			" from study_run_metadata srm, study s "+
+			" where srm.study_id=s.study_id "+
 			" and s.project_submitter_id IN ('" + context.value.join("','") + "')";
 			if (typeof args.study_id != 'undefined' && args.study_id.length > 0) {
 				let studySub = args.study_id.split(";");
@@ -2722,7 +2763,76 @@ export const resolvers = {
 				let studySub = args.study_submitter_id.split(";");
 				experimentalQuery += " and s.study_submitter_id IN ('" + studySub.join("','") + "')";
 			}
-			return db.getSequelize().query(experimentalQuery, { model: db.getModelByName('ModelStudyExperimentalDesign') });
+			var studyExperimentalDesigns = await db.getSequelize().query(experimentalQuery, { model: db.getModelByName('ModelStudyExperimentalDesign') });
+			if (typeof args.label_aliquot_id != 'undefined' && args.label_aliquot_id == 'true') {
+				var aliquotIdQuery = "select distinct bin_to_uuid(al.aliquot_id) as label "+
+				"from aliquot al where al.aliquot_submitter_id = '";
+				var aliquotId = null;
+				for (var i = 0; i < studyExperimentalDesigns.length; i++) {
+					if (studyExperimentalDesigns[i].label_free != null && studyExperimentalDesigns[i].label_free.length > 0 ) {
+						studyExperimentalDesigns[i].label_free = getAliquotId(studyExperimentalDesigns[i].label_free, 'label_free');
+					}
+					if (studyExperimentalDesigns[i].itraq_113 != null && studyExperimentalDesigns[i].itraq_113.length > 0) {
+						studyExperimentalDesigns[i].itraq_113 = getAliquotId(studyExperimentalDesigns[i].itraq_113, 'itraq_113');
+					}
+					if (studyExperimentalDesigns[i].itraq_114 != null && studyExperimentalDesigns[i].itraq_114.length > 0) {
+						studyExperimentalDesigns[i].itraq_114 = getAliquotId(studyExperimentalDesigns[i].itraq_114, 'itraq_114');
+					}
+					if (studyExperimentalDesigns[i].itraq_115 != null && studyExperimentalDesigns[i].itraq_115.length > 0) {
+						studyExperimentalDesigns[i].itraq_115 = getAliquotId(studyExperimentalDesigns[i].itraq_115, 'itraq_115');
+					}
+					if (studyExperimentalDesigns[i].itraq_116 != null && studyExperimentalDesigns[i].itraq_116.length > 0) {
+						studyExperimentalDesigns[i].itraq_116 = getAliquotId(studyExperimentalDesigns[i].itraq_116, 'itraq_116');
+					}
+					if (studyExperimentalDesigns[i].itraq_117 != null && studyExperimentalDesigns[i].itraq_117.length > 0) {
+						studyExperimentalDesigns[i].itraq_117 = getAliquotId(studyExperimentalDesigns[i].itraq_117, 'itraq_117');
+					}
+					if (studyExperimentalDesigns[i].itraq_118 != null && studyExperimentalDesigns[i].itraq_118.length > 0) {
+						studyExperimentalDesigns[i].itraq_118 = getAliquotId(studyExperimentalDesigns[i].itraq_118, 'itraq_118');
+					}
+					if (studyExperimentalDesigns[i].itraq_119 != null && studyExperimentalDesigns[i].itraq_119.length > 0) {
+						studyExperimentalDesigns[i].itraq_119 = getAliquotId(studyExperimentalDesigns[i].itraq_119, 'itraq_119');
+					}
+					if (studyExperimentalDesigns[i].itraq_121 != null && studyExperimentalDesigns[i].itraq_121.length > 0) {
+						studyExperimentalDesigns[i].itraq_121 = getAliquotId(studyExperimentalDesigns[i].itraq_121, 'itraq_121');
+					}
+					if (studyExperimentalDesigns[i].tmt_126 != null && studyExperimentalDesigns[i].tmt_126.length > 0) {
+						studyExperimentalDesigns[i].tmt_126 = getAliquotId(studyExperimentalDesigns[i].tmt_126, 'tmt_126');
+					}
+					if (studyExperimentalDesigns[i].tmt_127n != null && studyExperimentalDesigns[i].tmt_127n.length > 0) {
+						studyExperimentalDesigns[i].tmt_127n = getAliquotId(studyExperimentalDesigns[i].tmt_127n, 'tmt_127n');
+					}
+					if (studyExperimentalDesigns[i].tmt_127c != null && studyExperimentalDesigns[i].tmt_127c.length > 0) {
+						studyExperimentalDesigns[i].tmt_127c = getAliquotId(studyExperimentalDesigns[i].tmt_127c, 'tmt_127c');
+					}
+					if (studyExperimentalDesigns[i].tmt_128n != null && studyExperimentalDesigns[i].tmt_128n.length > 0) {
+						studyExperimentalDesigns[i].tmt_128n = getAliquotId(studyExperimentalDesigns[i].tmt_128n, 'tmt_128n');
+					}
+					if (studyExperimentalDesigns[i].tmt_128c != null && studyExperimentalDesigns[i].tmt_128c.length > 0) {
+						studyExperimentalDesigns[i].tmt_128c = getAliquotId(studyExperimentalDesigns[i].tmt_128c, 'tmt_128c');
+					}
+					if (studyExperimentalDesigns[i].tmt_129n != null && studyExperimentalDesigns[i].tmt_129n.length > 0) {
+						studyExperimentalDesigns[i].tmt_129n = getAliquotId(studyExperimentalDesigns[i].tmt_129n, 'tmt_129n');
+					}
+					if (studyExperimentalDesigns[i].tmt_129c != null && studyExperimentalDesigns[i].tmt_129c.length > 0) {
+						studyExperimentalDesigns[i].tmt_129c = getAliquotId(studyExperimentalDesigns[i].tmt_129c, 'tmt_129c');
+					}
+					if (studyExperimentalDesigns[i].tmt_130n != null && studyExperimentalDesigns[i].tmt_130n.length > 0) {
+						studyExperimentalDesigns[i].tmt_130n = getAliquotId(studyExperimentalDesigns[i].tmt_130n, 'tmt_130n');
+					}
+					if (studyExperimentalDesigns[i].tmt_130c != null && studyExperimentalDesigns[i].tmt_130c.length > 0) {
+						studyExperimentalDesigns[i].tmt_130c = getAliquotId(studyExperimentalDesigns[i].tmt_130c, 'tmt_130c');
+					}
+					if (studyExperimentalDesigns[i].tmt_131 != null && studyExperimentalDesigns[i].tmt_131.length > 0) {
+						studyExperimentalDesigns[i].tmt_131 = getAliquotId(studyExperimentalDesigns[i].tmt_131, 'tmt_131');
+					}
+					if (studyExperimentalDesigns[i].tmt_131c != null && studyExperimentalDesigns[i].tmt_131c.length > 0) {
+						studyExperimentalDesigns[i].tmt_131c = getAliquotId(studyExperimentalDesigns[i].tmt_131c, 'tmt_131c');
+					}
+				}				
+			}
+			return studyExperimentalDesigns
+
 		},
 		//@@@PDC-964 async api for data matrix
 		async quantDataMatrix(obj, args, context) {

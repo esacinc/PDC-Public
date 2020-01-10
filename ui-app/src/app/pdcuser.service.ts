@@ -175,8 +175,8 @@ export class PDCUserService {
   // parameter: email
   // return value: number
   //@@@PDC-419 handle system error		
-  public async checkPDCUserByEmail(email: string, userPass:string = ''): Promise<number> {
-    const url = environment.private_api_url + email;
+  public async checkPDCUserByEmail(email: string, user_id_type: string = 'PDC', userPass:string = ''): Promise<number> {
+    const url = environment.private_api_url + email + '/' + user_id_type;
     console.log("PDC API: " + url);
     let response: LoginUserResponse;
 
@@ -233,7 +233,7 @@ export class PDCUserService {
 				   result = 5;
 			   }
 		  }
-		  		   console.log(this.getUID());
+		  console.log(this.getUID());
         } else {
           //if the user record is not found 1 is returned
           result = 1;
@@ -408,7 +408,8 @@ export class PDCUserService {
   public userForgotPassword(email: string): Observable<boolean>{
 	const url = environment.private_api_url + "forgot-password/";
 	const user_data = {
-		'email': email
+		'email': email,
+		'user_id_type': "PDC",
 	};
 	this.getJWTTokenFromPDCAPI();
 	const registerObservable = new Observable<boolean>((observer) => {
@@ -436,6 +437,7 @@ export class PDCUserService {
     const user_data = {
 	    'email': email,
 		'user_type': usertype,
+		'user_id_type': id_provider,
 		'name': username,
 		'organization': organization,
     };

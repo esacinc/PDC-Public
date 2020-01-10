@@ -21,7 +21,7 @@
 		</ng-template>
         <ng-template style="font-size: 12px; background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%);" pTemplate="header" let-columns>
             <tr style="font-size: 12px;">
-				<th class="ui-datatable-tableheader" style="width:3%;overflow: unset;">
+				<th class="ui-datatable-tableheader" style="width:5%;overflow: unset;">
 				<label><p-checkbox  id="caseDataChk" [(ngModel)]="headercheckbox" binary="true" (onChange)="onTableHeaderCheckboxToggle()" ></p-checkbox >
 					<mat-select id="dataForManifestExport" class="card-body card-list" [(ngModel)]="selectedHeaderCheckbox"
 					(selectionChange)="changeHeaderCheckbox($event)">
@@ -77,7 +77,7 @@
         </ng-template>
         <ng-template pTemplate="body" let-caseData let-columns="columns">
             <tr style="font-size: 11px;" [pSelectableRow]="caseData" >
-				<td style="width:3%;word-wrap: break-word; white-space: normal;"><p-tableCheckbox id="caseData{{caseData.aliquot_submitter_id}}" [value]="caseData" class="browsePageCheckboxes"></p-tableCheckbox></td>
+				<td style="width:5%;word-wrap: break-word; white-space: normal;"><p-tableCheckbox id="caseData{{caseData.aliquot_submitter_id}}" [value]="caseData" class="browsePageCheckboxes"></p-tableCheckbox></td>
 				<!-- @@@PDC-462 show submitter ids -->                
                 <td style="width:18%; white-space: normal;">{{caseData.aliquot_submitter_id }}&nbsp;&nbsp;<span style='color:red' *ngIf="caseData.aliquot_status == 'Disqualified'">{{caseData.aliquot_status}}</span></td>
                 <td style="width:18%;word-wrap: break-word; white-space: normal;">{{caseData.sample_submitter_id}}&nbsp;&nbsp;<span style='color:red' *ngIf="caseData.sample_status == 'Disqualified'">{{caseData.sample_status}}</span></td>

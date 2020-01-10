@@ -132,16 +132,34 @@ const filters = function (args, cache = {name:''}) {
 		uiFileQuery += " and prog.program_submitter_id IN ('" + programSub.join("','") + "')";
 		cache.name += "program_submitter_id:("+ programSub.join(",") + ");";
 	}
+	//@@@PDC-1371 add uuid parameter to case-related APIs
+	if (typeof args.program_id != 'undefined' && args.program_id.length > 0) {
+		let programSub = args.program_id.split(";");
+		uiFileQuery += " and prog.program_id IN (uuid_to_bin('" + programSub.join("'),uuid_to_bin('") + "'))";
+		cache.name += "program_id:("+ programSub.join(",") + ");";
+	}
 	if (typeof args.project_submitter_id != 'undefined' && args.project_submitter_id.length > 0) {
 		let projectSub = args.project_submitter_id.split(";");
 		uiFileQuery += " and proj.project_submitter_id IN ('" + projectSub.join("','") + "')";
 		cache.name += "project_submitter_id:("+ projectSub.join(",") + ");";
+	}
+	//@@@PDC-1371 add uuid parameter to case-related APIs
+	if (typeof args.project_id != 'undefined' && args.project_id.length > 0) {
+		let projectSub = args.project_id.split(";");
+		uiFileQuery += " and proj.project_id IN (uuid_to_bin('" + projectSub.join("'),uuid_to_bin('") + "'))";
+		cache.name += "project_id:("+ projectSub.join(",") + ");";
 	}
 	//@@@PDC-475 caseDiagnosesPerStudy API
 	if (typeof args.study_id != 'undefined' && args.study_id.length > 0) {
 		let studySub = args.study_id.split(";");
 		uiFileQuery += " and s.study_id IN (uuid_to_bin('" + studySub.join("'),uuid_to_bin('") + "'))";
 		cache.name += "study_id:("+ studySub.join(",") + ");";
+	}
+	//@@@PDC-1371 add uuid parameter to case-related APIs
+	if (typeof args.case_id != 'undefined' && args.case_id.length > 0) {
+		let caseSub = args.case_id.split(";");
+		uiFileQuery += " and c.case_id IN (uuid_to_bin('" + caseSub.join("'),uuid_to_bin('") + "'))";
+		cache.name += "case_id:("+ caseSub.join(",") + ");";
 	}
 	//@@@PDC-566 Add sample_type and acquisition filters
 	if (typeof args.sample_type != 'undefined' && args.sample_type.length > 0) {

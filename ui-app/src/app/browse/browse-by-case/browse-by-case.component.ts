@@ -254,7 +254,7 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
 	}
 	
 	//@@@PDC-937: Add a button to allow download all manifests with a single click
-	downloadCompleteManifest(buttonClick = true) {
+	downloadCompleteManifest(buttonClick = false) {
 		setTimeout(() => {
 			if (!buttonClick) {
 				this.isTableLoading.emit({isTableLoading:"case:true"});

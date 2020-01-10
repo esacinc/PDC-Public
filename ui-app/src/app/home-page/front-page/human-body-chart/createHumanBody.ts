@@ -12,6 +12,7 @@ const toClassName = key => key.split(' ').join('-').split(',').join('');
 const halfPixel = 0.5;
 
 //@@@PDC-1214 - Replace the sunburst chart with the human body image with drill down
+//@@@PDC-1333: Mouse tooltip remains after moving off bar in human body image
 type TCreateHumanBody = (c: HumanBody) => void;
 // Look for image map from GDC for the human graphic to allow filtering
 // This file is reused From @oncojs/sapien package used in GDC portal.
@@ -228,12 +229,16 @@ const createHumanBody: TCreateHumanBody = ({
  .on('mouseout', (d, i) => { // needs `this`
  const organSelector = toClassName(d[primarySiteKey]);
  const organ = document.getElementById(organSelector);
+ //@@@PDC-1333: Mouse tooltip remains after moving off bar in human body image
+ var primaryKey = d[primarySiteKey];
+ primaryKey = primaryKey.replace(',', '');
+ primaryKey = primaryKey.replace(/ /g,"-");
  //Change so all bars still show in body map graph when a bar is selected
- if ((organ && selectedHumanBodyOrgans != organ.id) || (organSelector == "Not-Reported") || (selectedHumanBodyOrgans == "Not-Reported" && organSelector == selectedHumanBodyOrgans)) {
+ if ((organ && selectedHumanBodyOrgans != organ.id) || (organSelector == "Other") || (selectedHumanBodyOrgans == "Other" && organSelector == selectedHumanBodyOrgans)) {
   if (organ) {
     organ.style.opacity = '0';
   }
-  d3.select(`.bar-${d[primarySiteKey]}`)
+  d3.select(`.bar-${primaryKey}`)
   .transition()
   .attr('fill', f => f['color'])
   .attr('stroke', f => {return '';});
@@ -245,8 +250,8 @@ const createHumanBody: TCreateHumanBody = ({
 //special case if the selected bar element is "Organ"
 console.log(organSelector);
 console.log(selectedHumanBodyOrgans);
-if (selectedHumanBodyOrgans == "Not-Reported" && organSelector == selectedHumanBodyOrgans) {
-  d3.select(`.bar-Not-Reported`)
+if (selectedHumanBodyOrgans == "Other" && organSelector == selectedHumanBodyOrgans) {
+  d3.select(`.bar-Other`)
   .attr('cursor', 'pointer')
   .transition()
   .attr('fill', f => {
@@ -261,10 +266,12 @@ if (selectedHumanBodyOrgans == "Not-Reported" && organSelector == selectedHumanB
   .attr('stroke-width', f => {
     return '2px';
   }); 
-  d3.select(`.primary-site-label-Not-Reported`)
+  //@@@PDC-1333: Mouse tooltip remains after moving off bar in human body image
+  d3.select(`.primary-site-label-Other`)
   .transition()
   .attr('fill', '#66FF66');
 }
+tooltip.style('opacity', 0);
 })
 .on('click', (d,i) => {
   clickHandler({ _key: d[primarySiteKey] });
@@ -289,13 +296,13 @@ if (selectedHumanBodyOrgans == "Not-Reported" && organSelector == selectedHumanB
     .attr('fill', 'white');
   });
   //Deselect 'Other' part along with other organs.
-  d3.select(`.bar-Not-Reported`)
+  d3.select(`.bar-Other`)
   .transition()
   .attr('fill', d => {
     d['color'] = colorCodes[d[primarySiteKey]]; return d['color'];
   })
   .attr('stroke', f => {return '';});
-  d3.select(`.primary-site-label-Not-Reported`)
+  d3.select(`.primary-site-label-Other`)
   .transition()
   .attr('fill', 'white');
    const organSelector = toClassName(d[primarySiteKey]);
@@ -459,13 +466,13 @@ if (selectedHumanBodyOrgans == "Not-Reported" && organSelector == selectedHumanB
       
     });
     //Deselect 'Other' part along with other organs.
-    d3.select(`.bar-Not-Reported`)
+    d3.select(`.bar-Other`)
     .transition()
     .attr('fill', d => {
       d['color'] = colorCodes[d[primarySiteKey]]; return d['color'];
     })
     .attr('stroke', f => {return '';});
-    d3.select(`.primary-site-label-Not-Reported`)
+    d3.select(`.primary-site-label-Other`)
     .transition()
     .attr('fill', 'white');
     //Highlight selected organs,bar graph,labels
@@ -498,7 +505,7 @@ if (selectedHumanBodyOrgans == "Not-Reported" && organSelector == selectedHumanB
     const organ = document.getElementById(organSelector);
     //Have human body map stay highlighted after selection
     //Change so all bars still show in body map graph when a bar is selected
-    if ((organ && selectedHumanBodyOrgans != organ.id) || (organSelector == "Not-Reported") || (selectedHumanBodyOrgans == "Not-Reported" && organSelector == selectedHumanBodyOrgans)) {
+    if ((organ && selectedHumanBodyOrgans != organ.id) || (organSelector == "Other") || (selectedHumanBodyOrgans == "Other" && organSelector == selectedHumanBodyOrgans)) {
       if (organ) {
         organ.style.opacity = '0';
       }
@@ -512,7 +519,7 @@ if (selectedHumanBodyOrgans == "Not-Reported" && organSelector == selectedHumanB
     }
     //Change so all bars still show in body map graph when a bar is selected
     //special case if the selected bar element is "Organ"
-    if (selectedHumanBodyOrgans == "Not-Reported" && organSelector == selectedHumanBodyOrgans) {
+    if (selectedHumanBodyOrgans == "Other" && organSelector == selectedHumanBodyOrgans) {
       d3.select(this)
       .attr('cursor', 'pointer')
       .transition()
@@ -529,7 +536,7 @@ if (selectedHumanBodyOrgans == "Not-Reported" && organSelector == selectedHumanB
         return '2px';
       }); 
     }
-    if ((organ && selectedHumanBodyOrgans != organ.id) || (organSelector == "Not-Reported" && organSelector != selectedHumanBodyOrgans)) {
+    if ((organ && selectedHumanBodyOrgans != organ.id) || (organSelector == "Other" && organSelector != selectedHumanBodyOrgans)) {
       d3.select(`.primary-site-label-${toClassName(d[primarySiteKey])}`)
       .transition()
       .attr('fill', 'white');
@@ -576,13 +583,13 @@ if (selectedHumanBodyOrgans == "Not-Reported" && organSelector == selectedHumanB
         .attr('fill', 'white');
       });
       //Deselect 'Other' part along with other organs.
-      d3.select(`.bar-Not-Reported`)
+      d3.select(`.bar-Other`)
       .transition()
       .attr('fill', d => {
         d['color'] = colorCodes[d[primarySiteKey]]; return d['color'];
       })
       .attr('stroke', f => {return '';});
-      d3.select(`.primary-site-label-Not-Reported`)
+      d3.select(`.primary-site-label-Other`)
       .transition()
       .attr('fill', 'white');     
       //Highlight selected organs,bar graph,labels
@@ -634,8 +641,8 @@ if (selectedHumanBodyOrgans == "Not-Reported" && organSelector == selectedHumanB
                   ${d['_count'].toLocaleString()} ${tooltipLabelPostfix}
                 </div>
               `)
-              .style('left', `${event.clientX - offsetLeft - 800}px`)
-              .style('top', `${event.clientY - offsetTop - 150}px`)
+              .style('left', `${event.clientX - offsetLeft + 30}px`)
+              .style('top', `${event.clientY - offsetTop + 30 }px`)
               .style('transform', 'translateX(-50%)')
               .style('z-index', '99999');
           }

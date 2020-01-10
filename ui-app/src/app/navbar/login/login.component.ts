@@ -68,7 +68,7 @@ export class LoginComponent implements OnInit {
 
     this.socialAuthService.signIn(socialPlatformProvider).then(userData => {
       // Now that they are logged in check to see if they are already setup in Chorus
-      this.userService.checkPDCUserByEmail(userData.email).then(exists => {
+      this.userService.checkPDCUserByEmail(userData.email, "Google").then(exists => {
         switch (exists) {
           //user exists
           case 0:
@@ -120,7 +120,7 @@ export class LoginComponent implements OnInit {
 		  return;
 	  }
 	this.isValidFormSubmitted = true;
-	this.userService.checkPDCUserByEmail(username, userPass).then(exists => {
+	this.userService.checkPDCUserByEmail(username, "PDC", userPass).then(exists => {
 		console.log(exists);
         switch (exists) {
           //user exists

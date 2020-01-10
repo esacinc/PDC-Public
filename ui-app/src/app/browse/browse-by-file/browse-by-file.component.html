@@ -25,7 +25,7 @@
 		</ng-template>
 				<ng-template pTemplate="header">
 					<tr style="font-size: 12px;">
-						<th class="ui-datatable-tableheader" style="width:4%;overflow: unset;">
+						<th class="ui-datatable-tableheader" style="width:5%;overflow: unset;">
 							<label><p-checkbox  id="fileDataChk" [(ngModel)]="headercheckbox" binary="true" (onChange)="onTableHeaderCheckboxToggle()"></p-checkbox >
 							<mat-select id="dataForManifestExport" class="card-body card-list" [(ngModel)]="selectedHeaderCheckbox"
 							(selectionChange)="changeHeaderCheckbox($event)">
@@ -95,7 +95,7 @@
 				</ng-template>
 				<ng-template pTemplate="body" let-fileData let-rowIndex="rowIndex">
 					<tr style="font-size: 11px;" [pSelectableRow]="fileData">
-						<td style="width:4%;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">
+						<td style="width:5%;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">
 							<p-tableCheckbox id="fileData-{{rowIndex}}-{{fileData.submitter_id_name}}" [value]="fileData" class="browsePageCheckboxes"></p-tableCheckbox>
 						</td>
 						<td style="width:13%;word-wrap: break-word; white-space: normal;">{{fileData.submitter_id_name }}</td>
