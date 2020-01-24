@@ -18,11 +18,6 @@
        "name": "Aliquot",
        "label": "Aliquot Run Metadata references the Aliquots used in an experimental run of the study.",
        "required": "True"
-     },
-     {
-       "name": "Study",
-       "label": "Aliquot Run Metadata references the Study under which the experiment was conducted.",
-       "required": "True"
      }
    ],
    "properties": {

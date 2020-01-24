@@ -1418,7 +1418,7 @@ body {
     border-radius: 3px
 }
 
-#api2-explorer .modal .modal-content {
+#api2-explorer .modal .modal-content-documentation {
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, .1);
     border: 0
 }
@@ -1449,7 +1449,8 @@ body {
 
 #api2-explorer .modal .modal-dialog .modal-body {
     padding: 20px;
-    max-height: none
+    /* @@@PDC-1407: Issues in API Documentation */
+    max-height: 560px;
 }
 
 @media (min-width: 992px) {

@@ -10,6 +10,7 @@ import { logger } from '../util/logger';
 
 const Op = Sequelize.Op;
 //@@@PDC-952 remove hard-coded schema name
+//@@@PDC-1340 remove authorization code
 export const resolvers = {
 	//Definition of the type of Date
 	Date: new GraphQLScalarType({
@@ -29,34 +30,59 @@ export const resolvers = {
 		},
 	}),
     //@@@PDC-474 programs-projects-studies API
+    //@@@PDC-1430 link program/project/study using uuid
 	Program: {
 		projects(obj, args, context) {
-			var comboQuery = "SELECT distinct bin_to_uuid(proj.project_id) as project_id, proj.project_submitter_id, proj.name "+
-			" FROM study s, `case` c, sample sam, aliquot_run_metadata alm, "+
-			" aliquot al, project proj, program prog, protocol ptc "+
-			" WHERE alm.study_id = s.study_id and al.aliquot_id = alm.aliquot_id "+
-			" and al.sample_id=sam.sample_id and sam.case_id=c.case_id "+
-			" and proj.project_id = s.project_id and ptc.study_id = s.study_id "+
-			" and proj.program_id = prog.program_id and prog.program_submitter_id = '"+
-			obj.program_submitter_id +
-			"' and s.project_submitter_id IN ('" + context.value.join("','") + "')";
-			comboQuery += filters(context.arguments);
+			var comboQuery = "";
+			if (context.noFilter != null) {
+				comboQuery = "SELECT distinct bin_to_uuid(proj.project_id) as project_id, proj.project_submitter_id, proj.name "+
+				" FROM project proj "+
+				" WHERE proj.program_id = uuid_to_bin('"+
+				obj.program_id +
+				"') ";
+			}
+			else {
+				comboQuery = "SELECT distinct bin_to_uuid(proj.project_id) as project_id, proj.project_submitter_id, proj.name "+
+				" FROM study s, `case` c, sample sam, aliquot_run_metadata alm, "+
+				" aliquot al, project proj, program prog, protocol ptc "+
+				" WHERE alm.study_id = s.study_id and al.aliquot_id = alm.aliquot_id "+
+				" and al.sample_id=sam.sample_id and sam.case_id=c.case_id "+
+				" and proj.project_id = s.project_id and ptc.study_id = s.study_id "+
+				" and proj.program_id = prog.program_id and prog.program_id = uuid_to_bin('"+
+				obj.program_id +
+				"') ";
+				//"and s.project_submitter_id IN ('" + context.value.join("','") + "')";
+				comboQuery += filters(context.arguments);				
+			}
 			return db.getSequelize().query(comboQuery, { model: db.getModelByName('Project') });			
 		}
 	},
+    //@@@PDC-1430 link program/project/study using uuid
 	Project: {
 		studies(obj, args, context) {
-			var comboQuery = "SELECT distinct bin_to_uuid(s.study_id) as study_id, s.study_submitter_id, s.submitter_id_name, "+
-			" s.analytical_fraction, s.experiment_type, s.acquisition_type "+
-			" FROM study s, `case` c, sample sam, aliquot_run_metadata alm, "+
-			" aliquot al, project proj, program prog, protocol ptc "+
-			" WHERE alm.study_id = s.study_id and al.aliquot_id = alm.aliquot_id "+
-			" and al.sample_id=sam.sample_id and sam.case_id=c.case_id "+
-			" and proj.project_id = s.project_id and ptc.study_id = s.study_id "+
-			" and proj.program_id = prog.program_id and s.project_submitter_id = '"+
-			obj.project_submitter_id +
-			"' and s.project_submitter_id IN ('" + context.value.join("','") + "')";
-			comboQuery += filters(context.arguments);
+			var comboQuery = "";
+			if (context.noFilter != null) {
+				comboQuery = "SELECT distinct bin_to_uuid(s.study_id) as study_id, s.study_submitter_id, s.submitter_id_name, "+
+				" s.analytical_fraction, s.experiment_type, s.acquisition_type "+
+				" FROM study s "+
+				" WHERE s.project_id = uuid_to_bin('"+
+				obj.project_id +
+				"') ";
+			}
+			else {
+				comboQuery = "SELECT distinct bin_to_uuid(s.study_id) as study_id, s.study_submitter_id, s.submitter_id_name, "+
+				" s.analytical_fraction, s.experiment_type, s.acquisition_type "+
+				" FROM study s, `case` c, sample sam, aliquot_run_metadata alm, "+
+				" aliquot al, project proj, program prog, protocol ptc "+
+				" WHERE alm.study_id = s.study_id and al.aliquot_id = alm.aliquot_id "+
+				" and al.sample_id=sam.sample_id and sam.case_id=c.case_id "+
+				" and proj.project_id = s.project_id and ptc.study_id = s.study_id "+
+				" and proj.program_id = prog.program_id and s.project_id = uuid_to_bin('"+
+				obj.project_id +
+				"') ";
+				//"and s.project_submitter_id IN ('" + context.value.join("','") + "')";
+				comboQuery += filters(context.arguments);
+			}
 			return db.getSequelize().query(comboQuery, { model: db.getModelByName('ModelStudy') });			
 		}
 	},
@@ -269,8 +295,8 @@ export const resolvers = {
 			var fileQuery = "SELECT f.data_category, f.file_type, count(f.file_id) as files_count "+
 			"FROM file f, study s, study_file sf "+
 			"WHERE f.file_id = sf.file_id and s.study_id = sf.study_id "+
-			"and s.study_submitter_id = '"+ obj.study_submitter_id +
-			"' group by f.data_category, f.file_type order by f.data_category";
+			"and s.study_id = uuid_to_bin('"+ obj.study_submitter_id +
+			"') group by f.data_category, f.file_type order by f.data_category";
 			var getIt = await db.getSequelize().query(fileQuery, { model: db.getModelByName('ModelFile') });
 			return getIt;				
 		}

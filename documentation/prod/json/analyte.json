@@ -17,8 +17,8 @@
    ],
    "uniqueKeys": [
      [
-       "aliquot_id",
-       "aliquot_submitter_id"
+       "analyte_id",
+       "analyte_submitter_id"
      ]
    ],
    "properties": {

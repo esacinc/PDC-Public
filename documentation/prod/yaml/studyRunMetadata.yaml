@@ -1,70 +1,155 @@
-title: "Study Run Metadata"
-type: object
 category: Metadata
-description: "General experimental metadata describing study design."
-uniqueKeys: 
- - 
-   - 
-   study_run_metadata_id
-  - 
-   study_run_metadata_submitter_id
-links: 
- - 
-   name: Study
-  label: "Study Run Metadata references the Study that used the experimental design."
-  required: True
- - 
-   name: Protocol
-  label: "Study Run Metadata references the Protocol used in the Study."
-  required: True
-properties: 
- study_run_metadata_id: 
-  type: string
-  key: yes
- study_run_metadata_submitter_id: 
-  type: string
-  key: yes
- study_id: 
-  type: string
-  key: yes
- study_submitter_id: 
-  type: string
-  key: yes
- protocol_id: 
-  type: string
-  key: yes
- protocol_submitter_id: 
-  type: string
-  key: yes
- experiment_number: 
-  type: string
-  description: "Number associated with a specific run of the experiment"
-  required: False
- experiment_type: 
-  type: string
-  description: "General strategy used for differential analysis"
-  required: False
- analyte: 
-  type: string
-  description: "Type of peptide or protein enrichment"
-  required: False
- fraction: 
-  type: string
-  description: "Number of fractions in the experimental run"
-  required: False
- date: 
-  type: string
-  description: "Date of the data acquired from the mass spectrometry instrument"
-  required: False
- operator: 
-  type: string
-  description: "Mass Spectrometry instrument operator"
-  required: False
- replicate_number: 
-  type: string
-  description: "Replicate number, if applicable"
-  required: False
- condition: 
-  type: string
-  description: "Biological condition (ex: disease state) of the cases(patients) from which the aliquots derived."
-  required: False
+description: General experimental metadata describing study design.
+links:
+-   label: Study Run Metadata references the Study that used the experimental design.
+    name: Study
+    required: 'True'
+properties:
+    alias:
+        description: A plex or dataset name used by the submitters
+        required: 'False'
+        type: string
+    analyte:
+        description: Type of peptide or protein enrichment
+        required: 'False'
+        type: string
+    condition:
+        description: 'Biological condition (ex: disease state) of the cases(patients)
+            from which the aliquots derived.'
+        required: 'False'
+        type: string
+    date:
+        description: Date of the data acquired from the mass spectrometry instrument
+        required: 'False'
+        type: string
+    experiment_number:
+        description: Number associated with a specific run of the experiment
+        required: 'False'
+        type: integer
+    experiment_type:
+        description: General strategy used for differential analysis
+        required: 'False'
+        type: string
+    folder_name:
+        key: 'yes'
+        type: string
+    fraction:
+        description: Number of fractions in the experimental run
+        required: 'False'
+        type: string
+    itraq_113:
+        description: The sample tagged with this isobaric label reagent
+        required: 'True'
+        type: string
+    itraq_114:
+        description: The sample tagged with this isobaric label reagent
+        required: 'True'
+        type: string
+    itraq_115:
+        description: The sample tagged with this isobaric label reagent
+        required: 'True'
+        type: string
+    itraq_116:
+        description: The sample tagged with this isobaric label reagent
+        required: 'True'
+        type: string
+    itraq_117:
+        description: The sample tagged with this isobaric label reagent
+        required: 'True'
+        type: string
+    itraq_118:
+        description: The sample tagged with this isobaric label reagent
+        required: 'True'
+        type: string
+    itraq_119:
+        description: The sample tagged with this isobaric label reagent
+        required: 'True'
+        type: string
+    itraq_121:
+        description: The sample tagged with this isobaric label reagent
+        required: 'True'
+        type: string
+    label_free:
+        description: The sample tagged with this isobaric label reagent
+        required: 'True'
+        type: string
+    operator:
+        description: Mass Spectrometry instrument operator
+        required: 'False'
+        type: string
+    plex_or_folder_name:
+        description: Name used to group the files generated in single experimental
+            run
+        required: 'False'
+        type: string
+    protocol_id:
+        key: 'yes'
+        type: string
+    protocol_submitter_id:
+        key: 'yes'
+        type: string
+    replicate_number:
+        description: Replicate number, if applicable
+        required: 'False'
+        type: string
+    study_id:
+        key: 'yes'
+        type: string
+    study_run_metadata_id:
+        key: 'yes'
+        type: string
+    study_run_metadata_submitter_id:
+        key: 'yes'
+        type: string
+    study_submitter_id:
+        key: 'yes'
+        type: string
+    tmt_126:
+        description: The sample tagged with this isobaric label reagent
+        required: 'True'
+        type: string
+    tmt_127c:
+        description: The sample tagged with this isobaric label reagent
+        required: 'True'
+        type: string
+    tmt_127n:
+        description: The sample tagged with this isobaric label reagent
+        required: 'True'
+        type: string
+    tmt_128c:
+        description: The sample tagged with this isobaric label reagent
+        required: 'True'
+        type: string
+    tmt_128n:
+        description: The sample tagged with this isobaric label reagent
+        required: 'True'
+        type: string
+    tmt_129c:
+        description: The sample tagged with this isobaric label reagent
+        required: 'True'
+        type: string
+    tmt_129n:
+        description: The sample tagged with this isobaric label reagent
+        required: 'True'
+        type: string
+    tmt_130c:
+        description: The sample tagged with this isobaric label reagent
+        required: 'True'
+        type: string
+    tmt_130n:
+        description: The sample tagged with this isobaric label reagent
+        required: 'True'
+        type: string
+    tmt_131:
+        description: The sample tagged with this isobaric label reagent
+        required: 'True'
+        type: string
+    tmt_131c:
+        description: The sample tagged with this isobaric label reagent
+        required: 'True'
+        type: string
+title: Study Run Metadata
+type: object
+uniqueKeys:
+-   - study_run_metadata_id
+    - study_run_metadata_submitter_id

@@ -1,32 +1,34 @@
+category: Administrative
+description: Any specifically defined piece of work that is undertaken or attempted
+    to meet a single requirement.
+links:
+-   label: Project references the Program it is part of.
+    name: Program
+    required: 'True'
+properties:
+    name:
+        description: Display name for the project
+        required: 'false'
+        type: string
+    program_id:
+        key: 'yes'
+        type: string
+    program_submitter_id:
+        key: 'yes'
+        type: string
+    programs:
+        description: 'Indicates that the project is logically part of the indicated
+            project.
+
+            '
+    project_id:
+        key: 'yes'
+        type: string
+    project_submitter_id:
+        key: 'yes'
+        type: string
 title: Project
 type: object
-category: Administrative
-description: "Any specifically defined piece of work that is undertaken or attempted to meet a single requirement. (NCIt - C47885)"
-uniqueKeys: 
- - 
-   - 
-   project_id
-  - 
-   project_submitter_id
-links: 
- - 
-   name: Program
-  label: "Project references the Program it is part of."
-  required: True
-properties: 
- project_id: 
-  type: string
-  key: yes
- project_submitter_id: 
-  type: string
-  key: yes
- program_id: 
-  type: string
-  key: yes
- program_submitter_id: 
-  type: string
-  key: yes
- name: 
-  type: string
-  description: "Display name for the project"
-  required: false
+uniqueKeys:
+-   - project_id
+    - project_submitter_id

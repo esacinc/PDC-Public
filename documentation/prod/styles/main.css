@@ -368,9 +368,23 @@ a.footerLink {
 }
 
 .privacyPolicyContent {
-	padding: 15px; 
+	font-size: 14px;
 	max-height: 360px; 
 	overflow-y: auto; 
 	display: block!important; 
 	font-family: 'Lato'
+}
+
+/*@@@PDC-1363: Update the entity.yaml in PDC Workspace with the new changes made to PDC DD */
+.modal-doc {
+  display: none; /* Hidden by default */
+  z-index: 9999 !important; /* Sit on top */
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgba(0,0,0,0.4);
+  left: 0;
+  top: 0;
+  position: fixed;
+  color: black;
 }

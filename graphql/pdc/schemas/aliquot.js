@@ -1,9 +1,11 @@
 //@@@PDC-898 new public APIs--fileMetadata
+//@@@PDC-1376 add sample and aliquot APIs to search by uuid/submitter_id
 const Aliquot =`
 type Aliquot {
 	aliquot_id: String
 	aliquot_submitter_id: String
-	label: String
+	status: String
+	aliquot_is_ref: String
 	sample_id: String
 	sample_submitter_id: String
 	case_id: String

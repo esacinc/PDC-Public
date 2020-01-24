@@ -108,6 +108,7 @@ const defineUiModels = (db) => {
 	//@@@PDC-893 add aliquot, case and sample statuses
 	//@@@PDC-1127 add pool and taxon
 	//@@@PDC-1156 add is_ref
+	//@@@PDC-1396 add external_case_id
 	/**
 	* ModelUICase is used in uiCase query.
 	*/
@@ -122,6 +123,7 @@ const defineUiModels = (db) => {
 		sample_status:  { type: Sequelize.STRING},
 		sample_submitter_id:  { type: Sequelize.STRING},
 		case_submitter_id:  { type: Sequelize.STRING},
+		external_case_id:  { type: Sequelize.STRING},
 		program_name:  { type: Sequelize.STRING},
 		project_name:  { type: Sequelize.STRING},
 		disease_type:  { type: Sequelize.STRING},

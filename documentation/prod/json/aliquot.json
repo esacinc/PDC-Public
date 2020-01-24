@@ -8,6 +8,11 @@
       "name": "Sample",
       "label": "Aliquot references the Sample it is derived from.",
       "required": "True"
+    },
+    {
+      "name": "Analyte",
+      "label": "Aliquot references the Analyte it is derived from.",
+      "required": "True"
     }
   ],
   "uniqueKeys": [

@@ -39,7 +39,7 @@ export class OncoprintComponent implements OnInit, OnChanges {
 	frozenStudyColumn = [{ field: 'study', header: 'Study' }];
 	cols = [{field:'aliquotData', header: 'Aliquots' }];
 	isScrollable:boolean = true;
-  
+
   constructor(private genePageService: GenePageService ) {
 	  console.log("Gene name: " + this.gene_id);
 	  this.positiveMut = '<rect x="0" y="0" width="' + this.trackWidth + 
@@ -135,6 +135,30 @@ export class OncoprintComponent implements OnInit, OnChanges {
 				this.dataByStudy[study].sort(this.compareAliquotData);
 				if ( (this.dataByStudy[study].length - 1) * 6  > this.vizWidth) this.vizWidth = (this.dataByStudy[study].length - 1) * 6;
 			}
+
+			//@@@PDC-1350 calculate opacity value once instead caculating values at rendering time. 
+			//So property binding in aliquotData ngtemplate to these fields instead of binding to these functions to avoid function call during Tooltip triggering.
+			for (let i = 0; i < this.dataByStudy.length; i++) {
+				let studyName = this.dataByStudy[i];
+				let mutList = this.dataByStudy[studyName];
+				for(let j = 0; j<mutList.length; j++){
+					let mut = mutList[j];
+					if(mut.exists1){
+						mut["exists1Value"] = this.opacityValueByLog2Ratio(studyName, j);
+					}
+					if(mut.exists4){
+						mut["exists4Value"] = this.opacityValueByPrecursorArea(studyName, j);
+					}
+					if(mut.exists5){
+						mut["exists5Value"] = this.opacityValueByUnsharedPrecursorArea(studyName, j);
+					}
+					if(mut.exists6){
+						mut["exists6Value"] = this.opacityValueByUnsharedLog2Ratio(studyName, j);
+					}
+					mut["tooltipText"] = this.tooltipText2(studyName, j);
+				}
+			}
+
 			if (this.dataByStudy.length <=10 )this.isScrollable = false;
 			this.loading = false;
 		  },
@@ -215,6 +239,7 @@ export class OncoprintComponent implements OnInit, OnChanges {
   }
   
   opacityValueByLog2Ratio(study: string, idx:any){
+
 	  var lastIdx = this.dataByStudy[study].length - 1;
 	  
 	  var minValue = parseFloat(this.dataByStudy[study][lastIdx].log2_ratio);

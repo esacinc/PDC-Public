@@ -1,1371 +1,834 @@
+category: Biospecimen
+description: Any material sample taken from a biological entity for testing, diagnostic,
+    propagation, treatment or research purposes, including a sample obtained from
+    a living organism or taken from the biological object after halting of all its
+    life functions. Biospecimen can contain one or more components including but not
+    limited to cellular molecules, cells, tissues, organs, body fluids, embryos, and
+    body excretory products.
+links:
+-   label: Sample references the Case it is derived from.
+    name: Case
+    required: 'True'
+properties:
+    biospecimen_anatomic_site:
+        cde_id: 4742851
+        description: Text term that represents the name of the primary disease site
+            of the submitted tumor sample.
+        enum:
+        - Abdomen
+        - Abdominal Wall
+        - Acetabulum
+        - Adenoid
+        - Adipose
+        - Adrenal
+        - Alveolar Ridge
+        - Amniotic Fluid
+        - Ampulla Of Vater
+        - Anal Sphincter
+        - Ankle
+        - Anorectum
+        - Antecubital Fossa
+        - Antrum
+        - Anus
+        - Aorta
+        - Aortic Body
+        - Appendix
+        - Aqueous Fluid
+        - Arm
+        - Artery
+        - Ascending Colon
+        - Ascending Colon Hepatic Flexure
+        - Auditory Canal
+        - Autonomic Nervous System
+        - Axilla
+        - Back
+        - Bile Duct
+        - Bladder
+        - Blood
+        - Blood Vessel
+        - Bone
+        - Bone Marrow
+        - Bowel
+        - Brain
+        - Brain Stem
+        - Breast
+        - Broad Ligament
+        - Bronchiole
+        - Bronchus
+        - Brow
+        - Buccal Cavity
+        - Buccal Mucosa
+        - Buttock
+        - Calf
+        - Capillary
+        - Cardia
+        - Carina
+        - Carotid Artery
+        - Carotid Body
+        - Cartilage
+        - Cecum
+        - Cell-Line
+        - Central Nervous System
+        - Cerebellum
+        - Cerebral Cortex
+        - Cerebrospinal Fluid
+        - Cerebrum
+        - Cervical Spine
+        - Cervix
+        - Chest
+        - Chest Wall
+        - Chin
+        - Clavicle
+        - Clitoris
+        - Colon
+        - Colon - Mucosa Only
+        - Common Duct
+        - Conjunctiva
+        - Connective Tissue
+        - Dermal
+        - Descending Colon
+        - Diaphragm
+        - Duodenum
+        - Ear
+        - Ear Canal
+        - Ear, Pinna (External)
+        - Effusion
+        - Elbow
+        - Endocrine Gland
+        - Epididymis
+        - Epidural Space
+        - Esophageal; Distal
+        - Esophageal; Mid
+        - Esophageal; Proximal
+        - Esophagogastric Junction
+        - Esophagus
+        - Esophagus - Mucosa Only
+        - Eye
+        - Fallopian Tube
+        - Femoral Artery
+        - Femoral Vein
+        - Femur
+        - Fibroblasts
+        - Fibula
+        - Finger
+        - Floor Of Mouth
+        - Fluid
+        - Foot
+        - Forearm
+        - Forehead
+        - Foreskin
+        - Frontal Cortex
+        - Frontal Lobe
+        - Fundus Of Stomach
+        - Gallbladder
+        - Ganglia
+        - Gastroesophageal Junction
+        - Gastrointestinal Tract
+        - Groin
+        - Gum
+        - Hand
+        - Hard Palate
+        - Head & Neck
+        - Head - Face Or Neck, Nos
+        - Heart
+        - Hepatic
+        - Hepatic Duct
+        - Hepatic Flexure
+        - Hepatic Vein
+        - Hip
+        - Hippocampus
+        - Humerus
+        - Hypopharynx
+        - Ileum
+        - Ilium
+        - Index Finger
+        - Ischium
+        - Islet Cells
+        - Jaw
+        - Jejunum
+        - Joint
+        - Kidney
+        - Knee
+        - Lacrimal Gland
+        - Large Bowel
+        - Laryngopharynx
+        - Larynx
+        - Leg
+        - Leptomeninges
+        - Ligament
+        - Lip
+        - Liver
+        - Lumbar Spine
+        - Lung
+        - Lymph Node
+        - Lymph Node(s) Axilla
+        - Lymph Node(s) Cervical
+        - Lymph Node(s) Distant
+        - Lymph Node(s) Epitrochlear
+        - Lymph Node(s) Femoral
+        - Lymph Node(s) Hilar
+        - Lymph Node(s) Iliac-Common
+        - Lymph Node(s) Iliac-External
+        - Lymph Node(s) Inguinal
+        - Lymph Node(s) Internal Mammary
+        - Lymph Node(s) Mammary
+        - Lymph Node(s) Mesenteric
+        - Lymph Node(s) Occipital
+        - Lymph Node(s) Paraaortic
+        - Lymph Node(s) Parotid
+        - Lymph Node(s) Pelvic
+        - Lymph Node(s) Popliteal
+        - Lymph Node(s) Regional
+        - Lymph Node(s) Retroperitoneal
+        - Lymph Node(s) Scalene
+        - Lymph Node(s) Splenic
+        - Lymph Node(s) Subclavicular
+        - Lymph Node(s) Submandibular
+        - Lymph Node(s) Supraclavicular
+        - Lymph Nodes(s) Mediastinal
+        - Mandible
+        - Maxilla
+        - Mediastinal Soft Tissue
+        - Mediastinum
+        - Mesentery
+        - Mesothelium
+        - Middle Finger
+        - Mitochondria
+        - Muscle
+        - Nails
+        - Nasal Cavity
+        - Nasal Soft Tissue
+        - Nasopharynx
+        - Neck
+        - Nerve
+        - Nerve(s) Cranial
+        - Occipital Cortex
+        - Ocular Orbits
+        - Omentum
+        - Oral Cavity
+        - Oral Cavity - Mucosa Only
+        - Oropharynx
+        - Other
+        - Ovary
+        - Palate
+        - Pancreas
+        - Paraspinal Ganglion
+        - Parathyroid
+        - Parotid Gland
+        - Patella
+        - Pelvis
+        - Penis
+        - Pericardium
+        - Periorbital Soft Tissue
+        - Peritoneal Cavity
+        - Peritoneum
+        - Pharynx
+        - Pineal
+        - Pineal Gland
+        - Pituitary Gland
+        - Placenta
+        - Pleura
+        - Popliteal Fossa
+        - Prostate
+        - Pylorus
+        - Rectosigmoid Junction
+        - Rectum
+        - Retina
+        - Retro-Orbital Region
+        - Retroperitoneum
+        - Rib
+        - Ring Finger
+        - Round Ligament
+        - Sacrum
+        - Salivary Gland
+        - Scalp
+        - Scapula
+        - Sciatic Nerve
+        - Scrotum
+        - Seminal Vesicle
+        - Shoulder
+        - Sigmoid Colon
+        - Sinus
+        - Sinus(es), Maxillary
+        - Skeletal Muscle
+        - Skin
+        - Skull
+        - Small Bowel
+        - Small Bowel - Mucosa Only
+        - Small Finger
+        - Soft Tissue
+        - Spinal Column
+        - Spinal Cord
+        - Spleen
+        - Splenic Flexure
+        - Sternum
+        - Stomach
+        - Stomach - Mucosa Only
+        - Subcutaneous Tissue
+        - Synovium
+        - Temporal Cortex
+        - Tendon
+        - Testis
+        - Thigh
+        - Thoracic Spine
+        - Thorax
+        - Throat
+        - Thumb
+        - Thymus
+        - Thyroid
+        - Tibia
+        - Tongue
+        - Tonsil
+        - Tonsil (Pharyngeal)
+        - Trachea / Major Bronchi
+        - Transverse Colon
+        - Trunk
+        - Umbilical Cord
+        - Ureter
+        - Urethra
+        - Urinary Tract
+        - Uterus
+        - Uvula
+        - Vagina
+        - Vas Deferens
+        - Vein
+        - Venous
+        - Vertebra
+        - Vulva
+        - White Blood Cells
+        - Wrist
+        - Unknown
+        - Not Reported
+        - Not Allowed To Collect
+        required: 'False'
+        source: caDSR
+        term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=4742851&version=1.0
+        type: string
+    biospecimen_laterality:
+        cde_id: 2007875
+        description: For tumors in paired organs, designates the side on which the
+            specimen was obtained.
+        enum:
+        - Bilateral
+        - Left
+        - Right
+        - Unknown
+        - Not Reported
+        required: 'False'
+        source: caDSR
+        term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2007875&version=1.0
+        type: string
+    case_id:
+        key: 'yes'
+        type: string
+    case_submitter_id:
+        key: 'yes'
+        type: string
+    catalog_reference:
+        description: HCMI catalog reference number for cancer model.
+        required: 'False'
+        type: string
+    composition:
+        cde_id: 5432591
+        description: Text term that represents the cellular composition of the sample.
+        enum:
+        - 2D Classical Conditionally Reprogrammed Cells
+        - 2D Modified Conditionally Reprogrammed Cells
+        - 3D Organoid
+        - 3D Air-Liquid Interface Organoid
+        - 3D Neurosphere
+        - Adherent Cell Line
+        - Buccal Cells
+        - Buffy Coat
+        - Bone Marrow Components
+        - Bone Marrow Components NOS
+        - Control Analyte
+        - Cell
+        - Derived Cell Line
+        - EBV Immortalized
+        - Fibroblasts from Bone Marrow Normal
+        - Granulocytes
+        - Human Original Cells
+        - Liquid Suspension Cell Line
+        - Lymphocytes
+        - Mononuclear Cells from Bone Marrow Normal
+        - Peripheral Blood Components NOS
+        - Pleural Effusion
+        - Plasma
+        - Peripheral Whole Blood
+        - Serum
+        - Saliva
+        - Sputum
+        - Solid Tissue
+        - Sorted Cells
+        - Whole Bone Marrow
+        - Unknown
+        - Not Reported
+        - Not Allowed To Collect
+        required: 'True'
+        source: caDSR
+        term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432591&version=1.0
+        type: string
+    current_weight:
+        cde_id: 5432606
+        description: Numeric value that represents the current weight of the sample,
+            measured in milligrams.
+        required: 'False'
+        source: caDSR
+        term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432606&version=1.0
+        type: number
+    days_to_collection:
+        cde_id: 3008340
+        description: Time interval from the date of biospecimen collection to the
+            date of initial pathologic diagnosis, represented as a calculated number
+            of days.
+        required: 'False'
+        source: caDSR
+        term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3008340&version=1.0
+        type: integer
+    days_to_sample_procurement:
+        description: The number of days from the date the patient was diagnosed to
+            the date of the procedure that produced the sample.
+        required: 'False'
+        type: integer
+    diagnosis_pathologically_confirmed:
+        description: The histologic description of tissue or cells confirmed by a
+            pathology review of frozen or formalin fixed slide(s) completed after
+            the diagnostic pathology review of the tumor sample used to extract analyte(s).
+        enum:
+        - 'Yes'
+        - 'No'
+        - Unknown
+        - Not Reported
+        - Not Allowed To Collect
+        required: 'False'
+        type: string
+    distance_normal_to_tumor:
+        cde_id: 3088708
+        description: Text term to signify the distance between the tumor tissue and
+            the normal control tissue that was procured for matching normal DNA.
+        enum:
+        - Adjacent (< or = 2cm)
+        - Distal (>2cm)
+        - Unknown
+        - Not Reported
+        required: 'False'
+        source: caDSR
+        term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3088708&version=1.0
+        type: string
+    distributor_reference:
+        cde_id: 3088708
+        description: Distributor reference number for cancer model.
+        required: 'False'
+        source: caDSR
+        term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3088708&version=1.0
+        type: string
+    freezing_method:
+        cde_id: 5432607
+        description: Text term that represents the method used for freezing the sample.
+        required: 'False'
+        source: caDSR
+        term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432607&version=1.0
+        type: string
+    gdc_project_id:
+        description: Project identifier associated with the sample at the genomic
+            data commons
+        required: 'False'
+        type: string
+    gdc_sample_id:
+        description: Sample identifier associated with the sample at the genomic data
+            commons
+        required: 'False'
+        type: string
+    growth_rate:
+        description: Rate at which the model grows, measured as hours to time to split.
+        required: 'False'
+        type: integer
+    initial_weight:
+        cde_id: 5432605
+        description: Numeric value that represents the initial weight of the sample,
+            measured in milligrams.
+        required: 'False'
+        source: caDSR
+        term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432605&version=1.0
+        type: number
+    intermediate_dimension:
+        description: Intermediate dimension of the sample, in millimeters.
+        required: 'False'
+        type: number
+    is_ffpe:
+        cde_id: 4170557
+        description: Indicator to signify whether or not the tissue sample was fixed
+            in formalin and embedded in paraffin (FFPE).
+        enum:
+        - 'true'
+        - 'false'
+        required: 'False'
+        source: caDSR
+        term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=4170557&version=1.0
+        type: string
+    longest_dimension:
+        cde_id: 5432602
+        description: Numeric value that represents the longest dimension of the sample,
+            measured in millimeters.
+        required: 'False'
+        source: caDSR
+        term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432602&version=1.0
+        type: number
+    method_of_sample_procurement:
+        description: The method used to procure the sample used to extract analyte(s).
+        enum:
+        - Abdomino-perineal Resection of Rectum
+        - Anterior Resection of Rectum
+        - Ascites Drainage
+        - Aspirate
+        - Autopsy
+        - Biopsy
+        - Blood Draw
+        - Bone Marrow Aspirate
+        - Core Biopsy
+        - Cystectomy
+        - Endo Rectal Tumor Resection
+        - Endoscopic Biopsy
+        - Endoscopic Mucosal Resection (EMR)
+        - Enucleation
+        - Excisional Biopsy
+        - Fine Needle Aspiration
+        - Full Hysterectomy
+        - Gross Total Resection
+        - Hand Assisted Laparoscopic Radical Nephrectomy
+        - Hysterectomy NOS
+        - Incisional Biopsy
+        - Indeterminant
+        - Laparoscopic Biopsy
+        - Laparoscopic Partial Nephrectomy
+        - Laparoscopic Radical Nephrectomy
+        - Laparoscopic Radical Prostatectomy with Robotics
+        - Laparoscopic Radical Prostatectomy without Robotics
+        - Left Hemicolectomy
+        - Liquid Biopsy
+        - Lobectomy
+        - Local Resection (Exoresection; wall resection)
+        - Lumpectomy
+        - Lymphadenectomy
+        - Metastasectomy
+        - Modified Radical Mastectomy
+        - Needle Biopsy
+        - Omentectomy
+        - Oophorectomy
+        - Open Craniotomy
+        - Open Partial Nephrectomy
+        - Open Radical Nephrectomy
+        - Open Radical Prostatectomy
+        - Orchiectomy
+        - Other
+        - Other Surgical Resection
+        - Pan-Procto Colectomy
+        - Pancreatectomy
+        - Paracentesis
+        - Partial Hepatectomy
+        - Peritoneal Lavage
+        - Pneumonectomy
+        - Punch Biopsy
+        - Radical Hysterectomy
+        - Right Hemicolectomy
+        - Salpingectomy
+        - Salpingo-oophorectomy
+        - Sigmoid Colectomy
+        - Simple Hysterectomy
+        - Simple Mastectomy
+        - Subtotal Resection
+        - Supracervical Hysterectomy
+        - Surgical Resection
+        - Thoracentesis
+        - Thoracoscopic Biopsy
+        - Total Colectomy
+        - Total Hepatectomy
+        - Total Mastectomy
+        - Transplant
+        - Transurethral resection (TURBT)
+        - Transverse Colectomy
+        - Tumor Debulking
+        - Tumor Resection
+        - Wedge Resection
+        - Whipple Procedure
+        - Unknown
+        - Not Reported
+        - Not Allowed To Collect
+        required: 'False'
+        type: number
+    oct_embedded:
+        cde_id: 5432538
+        description: Indicator of whether or not the sample was embedded in Optimal
+            Cutting Temperature (OCT) compound.
+        required: 'False'
+        source: caDSR
+        term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432538&version=1.0
+        type: string
+    passage_count:
+        description: Number of passages (splits) between the original tissue and this
+            model.
+        required: 'False'
+        type: integer
+    pathology_report_uuid:
+        description: UUID of the related pathology report.
+        required: 'False'
+        type: string
+    pool:
+        description: Any biospecimen entity where multiple cases, samples or aliquots
+            are combined to produce a reference. Sample pooling is commonly used for
+            determining relative protein abundances in labeling experiments.
+        required: 'True'
+        type: string
+    preservation_method:
+        cde_id: 5432521
+        description: Text term that represents the method used to preserve the sample.
+        enum:
+        - Cryopreserved
+        - FFPE
+        - Fresh
+        - OCT
+        - Snap Frozen
+        - Frozen
+        - Unknown
+        - Not Reported
+        - Not Allowed To Collect
+        required: 'False'
+        source: caDSR
+        term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432521&version=1.0
+        type: number
+    project_id:
+        key: 'yes'
+        type: string
+    project_submitter_id:
+        key: 'yes'
+        type: string
+    sample_id:
+        key: 'yes'
+        type: string
+    sample_is_ref:
+        description: A biospecimen entity which is used as a reference sample for
+            determining relative protein abundances in labeling experiments.
+        required: 'false'
+        type: string
+    sample_submitter_id:
+        key: 'yes'
+        type: string
+    sample_type:
+        cde_id: 3111302
+        description: Text term to describe the source of a biospecimen used for a
+            laboratory test.
+        enum:
+        - Additional Metastatic
+        - Additional - New Primary
+        - Benign Neoplasms
+        - Blood Derived Cancer - Bone Marrow
+        - Blood Derived Cancer - Bone Marrow, Post-treatment
+        - Blood Derived Cancer - Peripheral Blood
+        - Blood Derived Cancer - Peripheral Blood, Post-treatment
+        - Blood Derived Liquid Biopsy
+        - Blood Derived Normal
+        - Bone Marrow Normal
+        - Buccal Cell Normal
+        - Cell Line Derived Xenograft Tissue
+        - Cell Lines
+        - Control Analyte
+        - DNA
+        - EBV Immortalized Normal
+        - Expanded Next Generation Cancer Model
+        - FFPE Recurrent
+        - FFPE Scrolls
+        - Fibroblasts from Bone Marrow Normal
+        - GenomePlex (Rubicon) Amplified DNA
+        - Granulocytes
+        - Human Tumor Original Cells
+        - In Situ Neoplasms
+        - Lymphoid Normal
+        - Metastatic
+        - Mononuclear Cells from Bone Marrow Normal
+        - Neoplasms of Uncertain and Unknown Behavior
+        - Next Generation Cancer Model
+        - Primary Blood Derived Cancer - Peripheral Blood
+        - Recurrent Blood Derived Cancer - Peripheral Blood
+        - Pleural Effusion
+        - Primary Blood Derived Cancer - Bone Marrow
+        - Primary Tumor
+        - Primary Xenograft Tissue
+        - Post neo-adjuvant therapy
+        - Recurrent Blood Derived Cancer - Bone Marrow
+        - Recurrent Tumor
+        - Repli-G (Qiagen) DNA
+        - Repli-G X (Qiagen) DNA
+        - RNA
+        - Slides
+        - Solid Tissue Normal
+        - Total RNA
+        - Tumor Adjacent Normal - Post Neo-adjuvant Therapy
+        - Tumor
+        - Xenograft Tissue
+        - Unknown
+        - Not Reported
+        - Not Allowed To Collect
+        required: 'True'
+        source: caDSR
+        term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3111302&version=2.0
+        type: string
+    sample_type_id:
+        description: The accompanying sample type id for the sample type.
+        enum:
+        - '01'
+        - '02'
+        - '03'
+        - '04'
+        - '05'
+        - '06'
+        - '07'
+        - 08
+        - 09
+        - '10'
+        - '11'
+        - '12'
+        - '13'
+        - '14'
+        - '15'
+        - '16'
+        - '17'
+        - '18'
+        - '20'
+        - '30'
+        - '31'
+        - '32'
+        - '40'
+        - '41'
+        - '42'
+        - '50'
+        - '60'
+        - '61'
+        - '85'
+        - '86'
+        - '99'
+        required: 'False'
+        type: string
+    shortest_dimension:
+        cde_id: 5432603
+        description: Numeric value that represents the shortest dimension of the sample,
+            measured in millimeters.
+        required: 'False'
+        source: caDSR
+        term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432603&version=1.0
+        type: number
+    time_between_clamping_and_freezing:
+        cde_id: 5432611
+        description: Numeric representation of the elapsed time between the surgical
+            clamping of blood supply and freezing of the sample, measured in minutes.
+        required: 'False'
+        source: caDSR
+        term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432611&version=1.0
+        type: number
+    time_between_excision_and_freezing:
+        cde_id: 5432612
+        description: Numeric representation of the elapsed time between the excision
+            and freezing of the sample, measured in minutes.
+        required: 'False'
+        source: caDSR
+        term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432612&version=1.0
+        type: string
+    tissue_type:
+        cde_id: 5432687
+        description: Text term that represents a description of the kind of tissue
+            collected with respect to disease status or proximity to tumor tissue.
+        enum:
+        - Tumor
+        - Normal
+        - Abnormal
+        - Peritumoral
+        - Unknown
+        - Not Reported
+        - Not Allowed To Collect
+        required: 'True'
+        source: caDSR
+        term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432687&version=1.0
+        type: string
+    tumor_code:
+        description: Diagnostic tumor code of the tissue sample source.
+        enum:
+        - Non cancerous tissue
+        - Diffuse Large B-Cell Lymphoma (DLBCL)
+        - Lung Cancer (all types)
+        - Cervical Cancer (all types)
+        - Anal Cancer (all types)
+        - Acute Leukemia of Ambiguous Lineage (ALAL)
+        - Acute lymphoblastic leukemia (ALL)
+        - Acute myeloid leukemia (AML)
+        - Induction Failure AML (AML-IF)
+        - Neuroblastoma (NBL)
+        - Osteosarcoma (OS)
+        - Ewing sarcoma
+        - Wilms tumor (WT)
+        - Clear cell sarcoma of the kidney (CCSK)
+        - Rhabdoid tumor (kidney) (RT)
+        - CNS, ependymoma
+        - CNS, glioblastoma (GBM)
+        - CNS, rhabdoid tumor
+        - CNS, low grade glioma (LGG)
+        - CNS, medulloblastoma
+        - CNS, other
+        - NHL, anaplastic large cell lymphoma
+        - NHL, Burkitt lymphoma (BL)
+        - Rhabdomyosarcoma
+        - Soft tissue sarcoma, non-rhabdomyosarcoma
+        required: 'False'
+        type: string
+    tumor_code_id:
+        description: BCR-defined id code for the tumor sample.
+        enum:
+        - '00'
+        - '01'
+        - '02'
+        - '03'
+        - '04'
+        - '10'
+        - '15'
+        - '20'
+        - '21'
+        - '30'
+        - '40'
+        - '41'
+        - '50'
+        - '51'
+        - '52'
+        - '60'
+        - '61'
+        - '62'
+        - '63'
+        - '64'
+        - '65'
+        - '70'
+        - '71'
+        - '80'
+        - '81'
+        required: 'False'
+        type: number
+    tumor_descriptor:
+        cde_id: 3288124
+        description: Text that describes the kind of disease present in the tumor
+            specimen as related to a specific timepoint.
+        enum:
+        - Metastatic
+        - Not Applicable
+        - Primary
+        - Recurrence
+        - Xenograft
+        - NOS
+        - Unknown
+        - Not Reported
+        - Not Allowed To Collect
+        required: 'False'
+        source: caDSR
+        term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3288124&version=1.0
+        type: number
 title: Sample
 type: object
-category: Biospecimen
-description: "Any material sample taken from a biological entity for testing, diagnostic, propagation, treatment or research purposes, including a sample obtained from a living organism or taken from the biological object after halting of all its life functions. Biospecimen can contain one or more components including but not limited to cellular molecules, cells, tissues, organs, body fluids, embryos, and body excretory products."
-links: 
- - 
-   name: Case
-  label: "Sample references the Case it is derived from."
-  required: True
-uniqueKeys: 
- - 
-   - 
-   sample_id
-  - 
-   sample_submitter_id
-properties: 
- sample_id: 
-  type: string
-  key: yes
- sample_submitter_id: 
-  type: string
-  key: yes
- case_id: 
-  type: string
-  key: yes
- case_submitter_id: 
-  type: string
-  key: yes
- project_id: 
-  type: string
-  key: yes
- project_submitter_id: 
-  type: string
-  key: yes
- gdc_sample_id: 
-  type: string
-  description: "Sample identifier associated with the sample at the genomic data commons"
-  required: False
- gdc_project_id: 
-  type: string
-  description: "Project identifier associated with the sample at the genomic data commons"
-  required: False
- sample_type: 
-  type: string
-  description: "Text term to describe the source of a biospecimen used for a laboratory test."
-  required: True
-  cde_id: 3111302
-  term_url: "https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3111302&version=2.0"
-  source: caDSR
-  enum: 
-   - 
-   "Additional Metastatic"
-   - 
-   "Additional - New Primary"
-   - 
-   "Benign Neoplasms"
-   - 
-   "Blood Derived Cancer - Bone Marrow"
-   - 
-   "Blood Derived Cancer - Bone Marrow, Post-treatment"
-   - 
-   "Blood Derived Cancer - Peripheral Blood"
-   - 
-   "Blood Derived Cancer - Peripheral Blood, Post-treatment"
-   - 
-   "Blood Derived Liquid Biopsy"
-   - 
-   "Blood Derived Normal"
-   - 
-   "Bone Marrow Normal"
-   - 
-   "Buccal Cell Normal"
-   - 
-   "Cell Line Derived Xenograft Tissue"
-   - 
-   "Cell Lines"
-   - 
-   "Control Analyte"
-   - 
-   DNA
-   - 
-   "EBV Immortalized Normal"
-   - 
-   "Expanded Next Generation Cancer Model"
-   - 
-   "FFPE Recurrent"
-   - 
-   "FFPE Scrolls"
-   - 
-   "Fibroblasts from Bone Marrow Normal"
-   - 
-   "GenomePlex (Rubicon) Amplified DNA"
-   - 
-   Granulocytes
-   - 
-   "Human Tumor Original Cells"
-   - 
-   "In Situ Neoplasms"
-   - 
-   "Lymphoid Normal"
-   - 
-   Metastatic
-   - 
-   "Mononuclear Cells from Bone Marrow Normal"
-   - 
-   "Neoplasms of Uncertain and Unknown Behavior"
-   - 
-   "Next Generation Cancer Model"
-   - 
-   "Primary Blood Derived Cancer - Peripheral Blood"
-   - 
-   "Recurrent Blood Derived Cancer - Peripheral Blood"
-   - 
-   "Pleural Effusion"
-   - 
-   "Primary Blood Derived Cancer - Bone Marrow"
-   - 
-   "Primary Tumor"
-   - 
-   "Primary Xenograft Tissue"
-   - 
-   "Post neo-adjuvant therapy"
-   - 
-   "Recurrent Blood Derived Cancer - Bone Marrow"
-   - 
-   "Recurrent Tumor"
-   - 
-   "Repli-G (Qiagen) DNA"
-   - 
-   "Repli-G X (Qiagen) DNA"
-   - 
-   RNA
-   - 
-   Slides
-   - 
-   "Solid Tissue Normal"
-   - 
-   "Total RNA"
-   - 
-   "Tumor Adjacent Normal - Post Neo-adjuvant Therapy"
-   - 
-   Tumor
-   - 
-   "Xenograft Tissue"
-   - 
-   Unknown
-   - 
-   "Not Reported"
-   - 
-   "Not Allowed To Collect"
- tissue_type: 
-  type: string
-  description: "Text term that represents a description of the kind of tissue collected with respect to disease status or proximity to tumor tissue."
-  required: True
-  cde_id: 5432687
-  term_url: "https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432687&version=1.0"
-  source: caDSR
-  enum: 
-   - 
-   Tumor
-   - 
-   Normal
-   - 
-   Abnormal
-   - 
-   Peritumoral
-   - 
-   Unknown
-   - 
-   "Not Reported"
-   - 
-   "Not Allowed To Collect"
- biospecimen_anatomic_site: 
-  type: string
-  description: "Text term that represents the name of the primary disease site of the submitted tumor sample."
-  required: True
-  cde_id: 4742851
-  term_url: "https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=4742851&version=1.0"
-  source: caDSR
-  enum: 
-   - 
-   Abdomen
-   - 
-   "Abdominal Wall"
-   - 
-   Acetabulum
-   - 
-   Adenoid
-   - 
-   Adipose
-   - 
-   Adrenal
-   - 
-   "Alveolar Ridge"
-   - 
-   "Amniotic Fluid"
-   - 
-   "Ampulla Of Vater"
-   - 
-   "Anal Sphincter"
-   - 
-   Ankle
-   - 
-   Anorectum
-   - 
-   "Antecubital Fossa"
-   - 
-   Antrum
-   - 
-   Anus
-   - 
-   Aorta
-   - 
-   "Aortic Body"
-   - 
-   Appendix
-   - 
-   "Aqueous Fluid"
-   - 
-   Arm
-   - 
-   Artery
-   - 
-   "Ascending Colon"
-   - 
-   "Ascending Colon Hepatic Flexure"
-   - 
-   "Auditory Canal"
-   - 
-   "Autonomic Nervous System"
-   - 
-   Axilla
-   - 
-   Back
-   - 
-   "Bile Duct"
-   - 
-   Bladder
-   - 
-   Blood
-   - 
-   "Blood Vessel"
-   - 
-   Bone
-   - 
-   "Bone Marrow"
-   - 
-   Bowel
-   - 
-   Brain
-   - 
-   "Brain Stem"
-   - 
-   Breast
-   - 
-   "Broad Ligament"
-   - 
-   Bronchiole
-   - 
-   Bronchus
-   - 
-   Brow
-   - 
-   "Buccal Cavity"
-   - 
-   "Buccal Mucosa"
-   - 
-   Buttock
-   - 
-   Calf
-   - 
-   Capillary
-   - 
-   Cardia
-   - 
-   Carina
-   - 
-   "Carotid Artery"
-   - 
-   "Carotid Body"
-   - 
-   Cartilage
-   - 
-   Cecum
-   - 
-   "Cell-Line"
-   - 
-   "Central Nervous System"
-   - 
-   Cerebellum
-   - 
-   "Cerebral Cortex"
-   - 
-   "Cerebrospinal Fluid"
-   - 
-   Cerebrum
-   - 
-   "Cervical Spine"
-   - 
-   Cervix
-   - 
-   Chest
-   - 
-   "Chest Wall"
-   - 
-   Chin
-   - 
-   Clavicle
-   - 
-   Clitoris
-   - 
-   Colon
-   - 
-   "Colon - Mucosa Only"
-   - 
-   "Common Duct"
-   - 
-   Conjunctiva
-   - 
-   "Connective Tissue"
-   - 
-   Dermal
-   - 
-   "Descending Colon"
-   - 
-   Diaphragm
-   - 
-   Duodenum
-   - 
-   Ear
-   - 
-   "Ear Canal"
-   - 
-   "Ear, Pinna (External)"
-   - 
-   Effusion
-   - 
-   Elbow
-   - 
-   "Endocrine Gland"
-   - 
-   Epididymis
-   - 
-   "Epidural Space"
-   - 
-   "Esophageal; Distal"
-   - 
-   "Esophageal; Mid"
-   - 
-   "Esophageal; Proximal"
-   - 
-   "Esophagogastric Junction"
-   - 
-   Esophagus
-   - 
-   "Esophagus - Mucosa Only"
-   - 
-   Eye
-   - 
-   "Fallopian Tube"
-   - 
-   "Femoral Artery"
-   - 
-   "Femoral Vein"
-   - 
-   Femur
-   - 
-   Fibroblasts
-   - 
-   Fibula
-   - 
-   Finger
-   - 
-   "Floor Of Mouth"
-   - 
-   Fluid
-   - 
-   Foot
-   - 
-   Forearm
-   - 
-   Forehead
-   - 
-   Foreskin
-   - 
-   "Frontal Cortex"
-   - 
-   "Frontal Lobe"
-   - 
-   "Fundus Of Stomach"
-   - 
-   Gallbladder
-   - 
-   Ganglia
-   - 
-   "Gastroesophageal Junction"
-   - 
-   "Gastrointestinal Tract"
-   - 
-   Groin
-   - 
-   Gum
-   - 
-   Hand
-   - 
-   "Hard Palate"
-   - 
-   "Head & Neck"
-   - 
-   "Head - Face Or Neck, Nos"
-   - 
-   Heart
-   - 
-   Hepatic
-   - 
-   "Hepatic Duct"
-   - 
-   "Hepatic Flexure"
-   - 
-   "Hepatic Vein"
-   - 
-   Hip
-   - 
-   Hippocampus
-   - 
-   Humerus
-   - 
-   Hypopharynx
-   - 
-   Ileum
-   - 
-   Ilium
-   - 
-   "Index Finger"
-   - 
-   Ischium
-   - 
-   "Islet Cells"
-   - 
-   Jaw
-   - 
-   Jejunum
-   - 
-   Joint
-   - 
-   Kidney
-   - 
-   Knee
-   - 
-   "Lacrimal Gland"
-   - 
-   "Large Bowel"
-   - 
-   Laryngopharynx
-   - 
-   Larynx
-   - 
-   Leg
-   - 
-   Leptomeninges
-   - 
-   Ligament
-   - 
-   Lip
-   - 
-   Liver
-   - 
-   "Lumbar Spine"
-   - 
-   Lung
-   - 
-   "Lymph Node"
-   - 
-   "Lymph Node(s) Axilla"
-   - 
-   "Lymph Node(s) Cervical"
-   - 
-   "Lymph Node(s) Distant"
-   - 
-   "Lymph Node(s) Epitrochlear"
-   - 
-   "Lymph Node(s) Femoral"
-   - 
-   "Lymph Node(s) Hilar"
-   - 
-   "Lymph Node(s) Iliac-Common"
-   - 
-   "Lymph Node(s) Iliac-External"
-   - 
-   "Lymph Node(s) Inguinal"
-   - 
-   "Lymph Node(s) Internal Mammary"
-   - 
-   "Lymph Node(s) Mammary"
-   - 
-   "Lymph Node(s) Mesenteric"
-   - 
-   "Lymph Node(s) Occipital"
-   - 
-   "Lymph Node(s) Paraaortic"
-   - 
-   "Lymph Node(s) Parotid"
-   - 
-   "Lymph Node(s) Pelvic"
-   - 
-   "Lymph Node(s) Popliteal"
-   - 
-   "Lymph Node(s) Regional"
-   - 
-   "Lymph Node(s) Retroperitoneal"
-   - 
-   "Lymph Node(s) Scalene"
-   - 
-   "Lymph Node(s) Splenic"
-   - 
-   "Lymph Node(s) Subclavicular"
-   - 
-   "Lymph Node(s) Submandibular"
-   - 
-   "Lymph Node(s) Supraclavicular"
-   - 
-   "Lymph Nodes(s) Mediastinal"
-   - 
-   Mandible
-   - 
-   Maxilla
-   - 
-   "Mediastinal Soft Tissue"
-   - 
-   Mediastinum
-   - 
-   Mesentery
-   - 
-   Mesothelium
-   - 
-   "Middle Finger"
-   - 
-   Mitochondria
-   - 
-   Muscle
-   - 
-   Nails
-   - 
-   "Nasal Cavity"
-   - 
-   "Nasal Soft Tissue"
-   - 
-   Nasopharynx
-   - 
-   Neck
-   - 
-   Nerve
-   - 
-   "Nerve(s) Cranial"
-   - 
-   "Occipital Cortex"
-   - 
-   "Ocular Orbits"
-   - 
-   Omentum
-   - 
-   "Oral Cavity"
-   - 
-   "Oral Cavity - Mucosa Only"
-   - 
-   Oropharynx
-   - 
-   Other
-   - 
-   Ovary
-   - 
-   Palate
-   - 
-   Pancreas
-   - 
-   "Paraspinal Ganglion"
-   - 
-   Parathyroid
-   - 
-   "Parotid Gland"
-   - 
-   Patella
-   - 
-   Pelvis
-   - 
-   Penis
-   - 
-   Pericardium
-   - 
-   "Periorbital Soft Tissue"
-   - 
-   "Peritoneal Cavity"
-   - 
-   Peritoneum
-   - 
-   Pharynx
-   - 
-   Pineal
-   - 
-   "Pineal Gland"
-   - 
-   "Pituitary Gland"
-   - 
-   Placenta
-   - 
-   Pleura
-   - 
-   "Popliteal Fossa"
-   - 
-   Prostate
-   - 
-   Pylorus
-   - 
-   "Rectosigmoid Junction"
-   - 
-   Rectum
-   - 
-   Retina
-   - 
-   "Retro-Orbital Region"
-   - 
-   Retroperitoneum
-   - 
-   Rib
-   - 
-   "Ring Finger"
-   - 
-   "Round Ligament"
-   - 
-   Sacrum
-   - 
-   "Salivary Gland"
-   - 
-   Scalp
-   - 
-   Scapula
-   - 
-   "Sciatic Nerve"
-   - 
-   Scrotum
-   - 
-   "Seminal Vesicle"
-   - 
-   Shoulder
-   - 
-   "Sigmoid Colon"
-   - 
-   Sinus
-   - 
-   "Sinus(es), Maxillary"
-   - 
-   "Skeletal Muscle"
-   - 
-   Skin
-   - 
-   Skull
-   - 
-   "Small Bowel"
-   - 
-   "Small Bowel - Mucosa Only"
-   - 
-   "Small Finger"
-   - 
-   "Soft Tissue"
-   - 
-   "Spinal Column"
-   - 
-   "Spinal Cord"
-   - 
-   Spleen
-   - 
-   "Splenic Flexure"
-   - 
-   Sternum
-   - 
-   Stomach
-   - 
-   "Stomach - Mucosa Only"
-   - 
-   "Subcutaneous Tissue"
-   - 
-   Synovium
-   - 
-   "Temporal Cortex"
-   - 
-   Tendon
-   - 
-   Testis
-   - 
-   Thigh
-   - 
-   "Thoracic Spine"
-   - 
-   Thorax
-   - 
-   Throat
-   - 
-   Thumb
-   - 
-   Thymus
-   - 
-   Thyroid
-   - 
-   Tibia
-   - 
-   Tongue
-   - 
-   Tonsil
-   - 
-   "Tonsil (Pharyngeal)"
-   - 
-   "Trachea / Major Bronchi"
-   - 
-   "Transverse Colon"
-   - 
-   Trunk
-   - 
-   "Umbilical Cord"
-   - 
-   Ureter
-   - 
-   Urethra
-   - 
-   "Urinary Tract"
-   - 
-   Uterus
-   - 
-   Uvula
-   - 
-   Vagina
-   - 
-   "Vas Deferens"
-   - 
-   Vein
-   - 
-   Venous
-   - 
-   Vertebra
-   - 
-   Vulva
-   - 
-   "White Blood Cells"
-   - 
-   Wrist
-   - 
-   Unknown
-   - 
-   "Not Reported"
-   - 
-   "Not Allowed To Collect"
- biospecimen_laterality: 
-  type: string
-  description: "For tumors in paired organs, designates the side on which the specimen was obtained."
-  required: True
-  cde_id: 2007875
-  term_url: "https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2007875&version=1.0"
-  source: caDSR
-  enum: 
-   - 
-   Bilateral
-   - 
-   Left
-   - 
-   Right
-   - 
-   Unknown
-   - 
-   "Not Reported"
- catalog_reference: 
-  type: number
-  description: "HCMI catalog reference number for cancer model."
-  required: False
- composition: 
-  type: string
-  description: "Text term that represents the cellular composition of the sample."
-  required: True
-  cde_id: 5432591
-  term_url: "https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432591&version=1.0"
-  source: caDSR
-  enum: 
-   - 
-   "2D Classical Conditionally Reprogrammed Cells"
-   - 
-   "2D Modified Conditionally Reprogrammed Cells"
-   - 
-   "3D Organoid"
-   - 
-   "3D Air-Liquid Interface Organoid"
-   - 
-   "3D Neurosphere"
-   - 
-   "Adherent Cell Line"
-   - 
-   "Buccal Cells"
-   - 
-   "Buffy Coat"
-   - 
-   "Bone Marrow Components"
-   - 
-   "Bone Marrow Components NOS"
-   - 
-   "Control Analyte"
-   - 
-   Cell
-   - 
-   "Derived Cell Line"
-   - 
-   "EBV Immortalized"
-   - 
-   "Fibroblasts from Bone Marrow Normal"
-   - 
-   Granulocytes
-   - 
-   "Human Original Cells"
-   - 
-   "Liquid Suspension Cell Line"
-   - 
-   Lymphocytes
-   - 
-   "Mononuclear Cells from Bone Marrow Normal"
-   - 
-   "Peripheral Blood Components NOS"
-   - 
-   "Pleural Effusion"
-   - 
-   Plasma
-   - 
-   "Peripheral Whole Blood"
-   - 
-   Serum
-   - 
-   Saliva
-   - 
-   Sputum
-   - 
-   "Solid Tissue"
-   - 
-   "Sorted Cells"
-   - 
-   "Whole Bone Marrow"
-   - 
-   Unknown
-   - 
-   "Not Reported"
-   - 
-   "Not Allowed To Collect"
- current_weight: 
-  type: number
-  description: "Numeric value that represents the current weight of the sample, measured in milligrams."
-  required: False
-  cde_id: 5432606
-  term_url: "https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432606&version=1.0"
-  source: caDSR
- days_to_collection: 
-  type: number
-  description: "Time interval from the date of biospecimen collection to the date of initial pathologic diagnosis, represented as a calculated number of days."
-  required: False
-  cde_id: 3008340
-  term_url: "https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3008340&version=1.0"
-  source: caDSR
- days_to_sample_procurement: 
-  type: number
-  description: "The number of days from the date the patient was diagnosed to the date of the procedure that produced the sample."
-  required: False
- diagnosis_pathologically_confirmed: 
-  type: string
-  description: "The histologic description of tissue or cells confirmed by a pathology review of frozen or formalin fixed slide(s) completed after the diagnostic pathology review of the tumor sample used to extract analyte(s)."
-  required: False
-  enum: 
-   - 
-   Yes
-   - 
-   No
-   - 
-   Unknown
-   - 
-   "Not Reported"
-   - 
-   "Not Allowed To Collect"
- distance_normal_to_tumor: 
-  type: string
-  description: "Text term to signify the distance between the tumor tissue and the normal control tissue that was procured for matching normal DNA."
-  required: False
-  cde_id: 3088708
-  term_url: "https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3088708&version=1.0"
-  source: caDSR
-  enum: 
-   - 
-   "Adjacent (< or = 2cm)"
-   - 
-   "Distal (>2cm)"
-   - 
-   Unknown
-   - 
-   "Not Reported"
- distributor_reference: 
-  type: number
-  description: "Distributor reference number for cancer model."
-  required: False
-  cde_id: 3088708
-  term_url: "https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3088708&version=1.0"
-  source: caDSR
- freezing_method: 
-  type: number
-  description: "Text term that represents the method used for freezing the sample."
-  required: False
-  cde_id: 5432607
-  term_url: "https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432607&version=1.0"
-  source: caDSR
- growth_rate: 
-  type: string
-  description: "Rate at which the model grows, measured as hours to time to split."
-  required: False
- initial_weight: 
-  type: number
-  description: "Numeric value that represents the initial weight of the sample, measured in milligrams."
-  required: False
-  cde_id: 5432605
-  term_url: "https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432605&version=1.0"
-  source: caDSR
- intermediate_dimension: 
-  type: number
-  description: "Intermediate dimension of the sample, in millimeters."
-  required: False
- is_ffpe: 
-  type: string
-  description: "Indicator to signify whether or not the tissue sample was fixed in formalin and embedded in paraffin (FFPE)."
-  required: False
-  cde_id: 4170557
-  term_url: "https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=4170557&version=1.0"
-  source: caDSR
-  enum: 
-   - 
-   true
-   - 
-   false
- longest_dimension: 
-  type: number
-  description: "Numeric value that represents the longest dimension of the sample, measured in millimeters."
-  required: False
-  cde_id: 5432602
-  term_url: "https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432602&version=1.0"
-  source: caDSR
- method_of_sample_procurement: 
-  type: number
-  description: "The method used to procure the sample used to extract analyte(s)."
-  required: False
-  enum: 
-   - 
-   "Abdomino-perineal Resection of Rectum"
-   - 
-   "Anterior Resection of Rectum"
-   - 
-   "Ascites Drainage"
-   - 
-   Aspirate
-   - 
-   Autopsy
-   - 
-   Biopsy
-   - 
-   "Blood Draw"
-   - 
-   "Bone Marrow Aspirate"
-   - 
-   "Core Biopsy"
-   - 
-   Cystectomy
-   - 
-   "Endo Rectal Tumor Resection"
-   - 
-   "Endoscopic Biopsy"
-   - 
-   "Endoscopic Mucosal Resection (EMR)"
-   - 
-   Enucleation
-   - 
-   "Excisional Biopsy"
-   - 
-   "Fine Needle Aspiration"
-   - 
-   "Full Hysterectomy"
-   - 
-   "Gross Total Resection"
-   - 
-   "Hand Assisted Laparoscopic Radical Nephrectomy"
-   - 
-   "Hysterectomy NOS"
-   - 
-   "Incisional Biopsy"
-   - 
-   Indeterminant
-   - 
-   "Laparoscopic Biopsy"
-   - 
-   "Laparoscopic Partial Nephrectomy"
-   - 
-   "Laparoscopic Radical Nephrectomy"
-   - 
-   "Laparoscopic Radical Prostatectomy with Robotics"
-   - 
-   "Laparoscopic Radical Prostatectomy without Robotics"
-   - 
-   "Left Hemicolectomy"
-   - 
-   "Liquid Biopsy"
-   - 
-   Lobectomy
-   - 
-   "Local Resection (Exoresection; wall resection)"
-   - 
-   Lumpectomy
-   - 
-   Lymphadenectomy
-   - 
-   Metastasectomy
-   - 
-   "Modified Radical Mastectomy"
-   - 
-   "Needle Biopsy"
-   - 
-   Omentectomy
-   - 
-   Oophorectomy
-   - 
-   "Open Craniotomy"
-   - 
-   "Open Partial Nephrectomy"
-   - 
-   "Open Radical Nephrectomy"
-   - 
-   "Open Radical Prostatectomy"
-   - 
-   Orchiectomy
-   - 
-   Other
-   - 
-   "Other Surgical Resection"
-   - 
-   "Pan-Procto Colectomy"
-   - 
-   Pancreatectomy
-   - 
-   Paracentesis
-   - 
-   "Partial Hepatectomy"
-   - 
-   "Peritoneal Lavage"
-   - 
-   Pneumonectomy
-   - 
-   "Punch Biopsy"
-   - 
-   "Radical Hysterectomy"
-   - 
-   "Right Hemicolectomy"
-   - 
-   Salpingectomy
-   - 
-   "Salpingo-oophorectomy"
-   - 
-   "Sigmoid Colectomy"
-   - 
-   "Simple Hysterectomy"
-   - 
-   "Simple Mastectomy"
-   - 
-   "Subtotal Resection"
-   - 
-   "Supracervical Hysterectomy"
-   - 
-   "Surgical Resection"
-   - 
-   Thoracentesis
-   - 
-   "Thoracoscopic Biopsy"
-   - 
-   "Total Colectomy"
-   - 
-   "Total Hepatectomy"
-   - 
-   "Total Mastectomy"
-   - 
-   Transplant
-   - 
-   "Transurethral resection (TURBT)"
-   - 
-   "Transverse Colectomy"
-   - 
-   "Tumor Debulking"
-   - 
-   "Tumor Resection"
-   - 
-   "Wedge Resection"
-   - 
-   "Whipple Procedure"
-   - 
-   Unknown
-   - 
-   "Not Reported"
-   - 
-   "Not Allowed To Collect"
- oct_embedded: 
-  type: string
-  description: "Indicator of whether or not the sample was embedded in Optimal Cutting Temperature (OCT) compound."
-  required: False
-  cde_id: 5432538
-  term_url: "https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432538&version=1.0"
-  source: caDSR
- passage_count: 
-  type: string
-  description: "Number of passages (splits) between the original tissue and this model."
-  required: False
- pathology_report_uuid: 
-  type: number
-  description: "UUID of the related pathology report."
-  required: False
- preservation_method: 
-  type: number
-  description: "Text term that represents the method used to preserve the sample."
-  required: False
-  cde_id: 5432521
-  term_url: "https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432521&version=1.0"
-  source: caDSR
-  enum: 
-   - 
-   Cryopreserved
-   - 
-   FFPE
-   - 
-   Fresh
-   - 
-   OCT
-   - 
-   "Snap Frozen"
-   - 
-   Frozen
-   - 
-   Unknown
-   - 
-   "Not Reported"
-   - 
-   "Not Allowed To Collect"
- sample_type_id: 
-  type: string
-  description: "The accompanying sample type id for the sample type."
-  required: False
-  enum: 
-   - 
-   01
-   - 
-   02
-   - 
-   03
-   - 
-   04
-   - 
-   05
-   - 
-   06
-   - 
-   07
-   - 
-   08
-   - 
-   09
-   - 
-   10
-   - 
-   11
-   - 
-   12
-   - 
-   13
-   - 
-   14
-   - 
-   15
-   - 
-   16
-   - 
-   17
-   - 
-   18
-   - 
-   20
-   - 
-   30
-   - 
-   31
-   - 
-   32
-   - 
-   40
-   - 
-   41
-   - 
-   42
-   - 
-   50
-   - 
-   60
-   - 
-   61
-   - 
-   85
-   - 
-   86
-   - 
-   99
- shortest_dimension: 
-  type: number
-  description: "Numeric value that represents the shortest dimension of the sample, measured in millimeters."
-  required: False
-  cde_id: 5432603
-  term_url: "https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432603&version=1.0"
-  source: caDSR
- time_between_clamping_and_freezing: 
-  type: number
-  description: "Numeric representation of the elapsed time between the surgical clamping of blood supply and freezing of the sample, measured in minutes."
-  required: False
-  cde_id: 5432611
-  term_url: "https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432611&version=1.0"
-  source: caDSR
- time_between_excision_and_freezing: 
-  type: string
-  description: "Numeric representation of the elapsed time between the excision and freezing of the sample, measured in minutes."
-  required: False
-  cde_id: 5432612
-  term_url: "https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432612&version=1.0"
-  source: caDSR
- tumor_code: 
-  type: string
-  description: "Diagnostic tumor code of the tissue sample source."
-  required: False
-  enum: 
-   - 
-   "Non cancerous tissue"
-   - 
-   "Diffuse Large B-Cell Lymphoma (DLBCL)"
-   - 
-   "Lung Cancer (all types)"
-   - 
-   "Cervical Cancer (all types)"
-   - 
-   "Anal Cancer (all types)"
-   - 
-   "Acute Leukemia of Ambiguous Lineage (ALAL)"
-   - 
-   "Acute lymphoblastic leukemia (ALL)"
-   - 
-   "Acute myeloid leukemia (AML)"
-   - 
-   "Induction Failure AML (AML-IF)"
-   - 
-   "Neuroblastoma (NBL)"
-   - 
-   "Osteosarcoma (OS)"
-   - 
-   "Ewing sarcoma"
-   - 
-   "Wilms tumor (WT)"
-   - 
-   "Clear cell sarcoma of the kidney (CCSK)"
-   - 
-   "Rhabdoid tumor (kidney) (RT)"
-   - 
-   "CNS, ependymoma"
-   - 
-   "CNS, glioblastoma (GBM)"
-   - 
-   "CNS, rhabdoid tumor"
-   - 
-   "CNS, low grade glioma (LGG)"
-   - 
-   "CNS, medulloblastoma"
-   - 
-   "CNS, other"
-   - 
-   "NHL, anaplastic large cell lymphoma"
-   - 
-   "NHL, Burkitt lymphoma (BL)"
-   - 
-   Rhabdomyosarcoma
-   - 
-   "Soft tissue sarcoma, non-rhabdomyosarcoma"
- tumor_code_id: 
-  type: number
-  description: "BCR-defined id code for the tumor sample."
-  required: False
-  enum: 
-   - 
-   00
-   - 
-   01
-   - 
-   02
-   - 
-   03
-   - 
-   04
-   - 
-   10
-   - 
-   15
-   - 
-   20
-   - 
-   21
-   - 
-   30
-   - 
-   40
-   - 
-   41
-   - 
-   50
-   - 
-   51
-   - 
-   52
-   - 
-   60
-   - 
-   61
-   - 
-   62
-   - 
-   63
-   - 
-   64
-   - 
-   65
-   - 
-   70
-   - 
-   71
-   - 
-   80
-   - 
-   81
- tumor_descriptor: 
-  type: number
-  description: "Text that describes the kind of disease present in the tumor specimen as related to a specific timepoint."
-  required: False
-  cde_id: 3288124
-  term_url: "https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3288124&version=1.0"
-  source: caDSR
-  enum: 
-   - 
-   Metastatic
-   - 
-   "Not Applicable"
-   - 
-   Primary
-   - 
-   Recurrence
-   - 
-   Xenograft
-   - 
-   NOS
-   - 
-   Unknown
-   - 
-   "Not Reported"
-   - 
-   "Not Allowed To Collect"
- pool: 
-  type: string
-  description: "Any biospecimen entity where multiple cases, samples or aliquots are combined to produce a reference. Sample pooling is commonly used for determining relative protein abundances in labeling experiments."
-  required: True
+uniqueKeys:
+-   - sample_id
+    - sample_submitter_id

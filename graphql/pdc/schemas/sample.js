@@ -1,4 +1,5 @@
 //@@@PDC-1093 change data type of is_ffpe from int to string
+//@@@PDC-1376 add sample and aliquot APIs to search by uuid/submitter_id
 const Sample = `
 type Sample {
 	sample_id: String
@@ -7,6 +8,8 @@ type Sample {
 	sample_submitter_id: String
 	sample_type: String
 	sample_type_id: String
+	sample_is_ref: String
+	status: String
 	biospecimen_anatomic_site: String
 	composition: String
 	current_weight: Float

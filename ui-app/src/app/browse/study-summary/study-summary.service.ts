@@ -18,6 +18,7 @@ import { TissueSite, QueryTissueSites, QueryDiseases, Disease, Program, QueryPro
 //@@@PDC-758: Study summary overlay window opened through search is missing data
 //@@@PDC-1160: Add cases and aliquots to the study summary page
 //@@@PDC-1219: Add a new experimental design tab on the study summary page
+//@@@PDC-1355: Use uuid as API search parameter
 @Injectable()
 export class StudySummaryService {
 
@@ -152,7 +153,7 @@ constructor(private apollo: Apollo) {
 	//@@@PDC-1123 call ui wrapper API
 	workflowMetadataQuery = gql`
 					query WorkflowMetadataQery($study_id: String!){
-						uiWorkflowMetadata(study_submitter_id: $study_id) {
+						uiWorkflowMetadata(study_id: $study_id) {
 						  workflow_metadata_submitter_id
 						  study_submitter_id
 						  protocol_submitter_id
@@ -199,7 +200,7 @@ constructor(private apollo: Apollo) {
 	//PDC-674 - UI changes to accomodate new protocol structure
 	protocolQuery = gql` 
 		query ProtocolQuery($study_id: String!){
-		  uiProtocol (study_submitter_id: $study_id ){
+		  uiProtocol (study_id: $study_id ){
 			protocol_id
 			protocol_submitter_id
 			program_id
@@ -265,7 +266,7 @@ constructor(private apollo: Apollo) {
 	
 	publicationsQuery = gql`
 						query PublicationsQuery($study_id: String!){
-							uiPublication (study_submitter_id: $study_id ){
+							uiPublication (study_id: $study_id ){
 								publication_id
 								pubmed_id
 								title
@@ -288,7 +289,7 @@ constructor(private apollo: Apollo) {
     //@@@PDC-1123 call ui wrapper API
 	filesCountPerStudyQuery = gql`
 						query FilesCountsQuery($study_id: String!){
-							uiFilesCountPerStudy (study_submitter_id: $study_id ){
+							uiFilesCountPerStudy (study_id: $study_id ){
 								study_submitter_id
 								file_type
 								files_count
@@ -472,8 +473,8 @@ constructor(private apollo: Apollo) {
 
 	//@@@PDC-1219: Add a new experimental design tab on the study summary page
 	studyExperimentalDesignQuery = gql`
-	query StudyExperimentalDesign($study_submitter_id_value: String) {
-		studyExperimentalDesign(study_submitter_id: $study_submitter_id_value) {
+	query StudyExperimentalDesign($study_id_value: String) {
+		studyExperimentalDesign(study_id: $study_id_value) {
 			study_id 
 			study_submitter_id    
 			study_run_metadata_id
@@ -507,11 +508,11 @@ constructor(private apollo: Apollo) {
 		}
 	}`;
 
-	getStudyExperimentalDesign(study_submitter_id:any){
+	getStudyExperimentalDesign(study_id:any){
 		return this.apollo.watchQuery<QueryStudyExperimentalDesign>({
 		query: this.studyExperimentalDesignQuery,
 		variables: {
-			study_submitter_id_value: study_submitter_id
+			study_id_value: study_id
 		}
 		})
 		.valueChanges
@@ -521,8 +522,8 @@ constructor(private apollo: Apollo) {
 	}
 
 	biospecimenPerStudyQuery = gql`
-	query BiospecimenPerStudy($study_submitter_id_value: String) {
-		biospecimenPerStudy(study_submitter_id: $study_submitter_id_value) {
+	query BiospecimenPerStudy($study_id_value: String) {
+		biospecimenPerStudy(study_id: $study_id_value) {
 			aliquot_id 
 			sample_id
 			case_id
@@ -542,11 +543,11 @@ constructor(private apollo: Apollo) {
 		}
 	}`;
 
-	getBiospecimenPerStudy(study_submitter_id:any){
+	getBiospecimenPerStudy(study_id:any){
 		return this.apollo.watchQuery<QueryBiospecimenPerStudy>({
 		query: this.biospecimenPerStudyQuery,
 		variables: {
-			study_submitter_id_value: study_submitter_id
+			study_id_value: study_id
 		}
 		})
 		.valueChanges

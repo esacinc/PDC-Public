@@ -184,7 +184,7 @@
               <!-- @@@PDC-320 -->
               <span class="float-button-right"></span>
               <button mat-icon-button mat-primary class="browse-filter-title" id="experimentTypes" *ngIf="selectedAcquisitions.length > 0"
-                label="Undo" (click)="clearSelectionsAcquisitions()" matTooltip="Clear experiment types selection">
+                label="Undo" (click)="clearSelectionsAcquisitions()" matTooltip="Clear acquisition types selection">
                 <fa name="undo"></fa>
               </button>
             </mat-panel-title>
@@ -218,7 +218,7 @@
                     <a href="{{staticUrlBase}}dictionaryitem.html?eName=Study" target="_blank" class="browse-filter-title">Study</a>
                   </span>
                   <span class="float-button-right"></span>
-                  <button mat-icon-button mat-primary class="browse-filter-title" id="clearStudyFilterSelections" *ngIf="selectedStudyFilter.length > 0" label="Undo" (click)="clearSelectionsStudyID()" matTooltip="Clear data categories selection"><fa name="undo"></fa></button>
+                  <button mat-icon-button mat-primary class="browse-filter-title" id="clearStudyFilterSelections" *ngIf="selectedStudyFilter.length > 0" label="Undo" (click)="clearSelectionsStudyID()" matTooltip="Clear studies selection"><fa name="undo"></fa></button>
                   </mat-panel-title>
                 </mat-expansion-panel-header>
 				<mat-select placeholder="Select one or more studies" class="card-body card-list" [(ngModel)]="selectedStudyFilter"  (selectionChange)="filterDataByStudy($event)" multiple>
@@ -234,7 +234,7 @@
                     <a href="{{staticUrlBase}}dictionaryitem.html?eName=Sample#sample_type" target="_blank" class="browse-filter-title">Sample Type</a>
                   </span>
                   <span class="float-button-right"></span>
-                  <button mat-icon-button mat-primary class="browse-filter-title" id="clearDataCategorySelections" *ngIf="selectedSampleType.length > 0" label="Undo" (click)="clearSelectionsSampleType()" matTooltip="Clear data categories selection"><fa name="undo"></fa></button>
+                  <button mat-icon-button mat-primary class="browse-filter-title" id="clearDataCategorySelections" *ngIf="selectedSampleType.length > 0" label="Undo" (click)="clearSelectionsSampleType()" matTooltip="Clear sample types selection"><fa name="undo"></fa></button>
                   </mat-panel-title>
                 </mat-expansion-panel-header>
                 <mat-list class="card-body card-list" id="dataCategoryList">
@@ -269,7 +269,7 @@
 			  <mat-panel-title>
 			  <a href="{{staticUrlBase}}dictionaryitem.html?eName=Demographic#ethnicity" target="_blank" class="browse-filter-title">Ethnicity</a>
 			  <span class="float-button-right"></span>
-			  <button mat-icon-button mat-primary class="browse-filter-title" id="clearEthnicitySelections" *ngIf="selectedEthnicity.length > 0"  label="Undo" (click)="clearSelectionsEthnicity()" matTooltip="Clear ethnicity selection"><fa name="undo"></fa></button>
+			  <button mat-icon-button mat-primary class="browse-filter-title" id="clearEthnicitySelections" *ngIf="selectedEthnicity.length > 0"  label="Undo" (click)="clearSelectionsEthnicity()" matTooltip="Clear ethnicities selection"><fa name="undo"></fa></button>
 			  <!-- @@@PDC-320 -->
 			  </mat-panel-title>
 			</mat-expansion-panel-header>
@@ -294,7 +294,7 @@
 			  <mat-panel-title>
 			  <a href="{{staticUrlBase}}dictionaryitem.html?eName=Demographic#race" target="_blank" class="browse-filter-title">Race</a>
 			  <span class="float-button-right"></span>
-			  <button mat-icon-button mat-primary class="browse-filter-title" id="clearRaceSelections" *ngIf="selectedRace.length > 0"  label="Undo" (click)="clearSelectionsRace()" matTooltip="Clear race selection"><fa name="undo"></fa></button>
+			  <button mat-icon-button mat-primary class="browse-filter-title" id="clearRaceSelections" *ngIf="selectedRace.length > 0"  label="Undo" (click)="clearSelectionsRace()" matTooltip="Clear races selection"><fa name="undo"></fa></button>
 			  <!-- @@@PDC-320 -->
 			  </mat-panel-title>
 			</mat-expansion-panel-header>
@@ -319,7 +319,7 @@
 			  <mat-panel-title>
 			  <a href="{{staticUrlBase}}dictionaryitem.html?eName=Demographic#gender" target="_blank" class="browse-filter-title">Gender</a>
 			  <span class="float-button-right"></span>
-			  <button mat-icon-button mat-primary class="browse-filter-title" id="clearGenderSelections" *ngIf="selectedGender.length > 0"  label="Undo" (click)="clearSelectionsGender()" matTooltip="Clear gender selection"><fa name="undo"></fa></button>
+			  <button mat-icon-button mat-primary class="browse-filter-title" id="clearGenderSelections" *ngIf="selectedGender.length > 0"  label="Undo" (click)="clearSelectionsGender()" matTooltip="Clear genders selection"><fa name="undo"></fa></button>
 			  <!-- @@@PDC-320 -->
 			  </mat-panel-title>
 			</mat-expansion-panel-header>
@@ -344,7 +344,7 @@
 			  <mat-panel-title>
 			  <a href="{{staticUrlBase}}dictionaryitem.html?eName=Diagnosis#tumor_grade" target="_blank" class="browse-filter-title">Tumor Grade</a>
 			  <span class="float-button-right"></span>
-			  <button mat-icon-button mat-primary class="browse-filter-title" id="clearProjectGradeSelections" *ngIf="selectedTumorGrade.length > 0"  label="Undo" (click)="clearSelectionsTumorGrade()" matTooltip="Clear tumor grade selection"><fa name="undo"></fa></button>
+			  <button mat-icon-button mat-primary class="browse-filter-title" id="clearProjectGradeSelections" *ngIf="selectedTumorGrade.length > 0"  label="Undo" (click)="clearSelectionsTumorGrade()" matTooltip="Clear tumor grades selection"><fa name="undo"></fa></button>
 			  <!-- @@@PDC-320 -->
 			  </mat-panel-title>
 			</mat-expansion-panel-header>

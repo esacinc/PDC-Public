@@ -767,9 +767,20 @@ PDC-1122
 	primary_site
 	}
 }
-//PDC-372
+//PDC-372, 1371
 {
 	uiCase (case_submitter_id: "TCGA-E2-A10A") {
+	aliquot_id 	
+	sample_id
+	case_id
+	project_name
+	sample_type
+	disease_type
+	primary_site
+	}
+}
+{
+	uiCase (case_id: "00dc49de-1fba-11e9-b7f8-0a80fada099c") {
 	aliquot_id 	
 	sample_id
 	case_id
@@ -5106,7 +5117,7 @@ PDC-265
 		tumor_stage
 	}
 }
-//PDC-1127
+//PDC-1127, 1396
 {
 	biospecimenPerStudy (study_id: "dbe94609-1fb3-11e9-b7f8-0a80fada099c"){
 		aliquot_id 
@@ -5115,6 +5126,7 @@ PDC-265
 		aliquot_submitter_id 
 		sample_submitter_id
 		case_submitter_id
+		external_case_id
 		aliquot_is_ref
 		aliquot_status
 		case_status
@@ -5299,6 +5311,99 @@ PDC-1220
 	uiPrimarySiteCaseCount{
 	primary_site
 	cases_count	
+	}
+}
+PDC-1376
+{
+	sample(sample_submitter_id: "TCGA-AG-A00Y-01A") {
+			sample_id
+			gdc_sample_id
+			gdc_project_id
+			sample_submitter_id
+			sample_type
+			biospecimen_anatomic_site
+			composition
+			current_weight
+			days_to_collection
+			days_to_sample_procurement
+			diagnosis_pathologically_confirmed
+			freezing_method
+			initial_weight 
+			intermediate_dimension
+			is_ffpe
+			longest_dimension
+			method_of_sample_procurement
+			oct_embedded
+			pathology_report_uuid
+			preservation_method
+			sample_type_id
+			shortest_dimension
+			time_between_clamping_and_freezing
+			time_between_excision_and_freezing
+			tissue_type
+			tumor_code
+			tumor_code_id
+			tumor_descriptor
+	}
+}
+{
+	sample(sample_id: "0024718b-6420-11e8-bcf1-0a2705229b82") {
+			sample_id
+			gdc_sample_id
+			gdc_project_id
+			sample_submitter_id
+			sample_is_ref
+			status
+			sample_type
+			biospecimen_anatomic_site
+			composition
+			current_weight
+			days_to_collection
+			days_to_sample_procurement
+			diagnosis_pathologically_confirmed
+			freezing_method
+			initial_weight 
+			intermediate_dimension
+			is_ffpe
+			longest_dimension
+			method_of_sample_procurement
+			oct_embedded
+			pathology_report_uuid
+			preservation_method
+			sample_type_id
+			shortest_dimension
+			time_between_clamping_and_freezing
+			time_between_excision_and_freezing
+			tissue_type
+			tumor_code
+			tumor_code_id
+			tumor_descriptor
+	}
+}
+{
+	aliquot(aliquot_submitter_id: "3bbf4310-6a83-4d3b-8772-a5dbb6_D2"){
+		aliquot_id
+		aliquot_submitter_id
+		aliquot_is_ref
+		status
+		aliquot_quantity
+		aliquot_volume
+		amount
+		analyte_type
+		concentration
+	}
+}
+{
+	aliquot(aliquot_id: "007c1f1e-6424-11e8-bcf1-0a2705229b82"){
+		aliquot_id
+		aliquot_submitter_id
+		aliquot_is_ref
+		status
+		aliquot_quantity
+		aliquot_volume
+		amount
+		analyte_type
+		concentration
 	}
 }
 

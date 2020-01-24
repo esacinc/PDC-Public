@@ -5,8 +5,8 @@
     "description": "The formal plan of an experiment or research activity, including the objective, rationale, design, materials and methods for the conduct of the study; intervention description, and method of data analysis.",
     "links": [
       {
-        "name": "Program",
-        "label": "Protocol references the Program it is part of.",
+        "name": "Study",
+        "label": "Protocol references the Study it is part of.",
         "required": "True"
       }
     ],

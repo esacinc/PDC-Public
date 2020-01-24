@@ -35,6 +35,9 @@
 //@@@PDC-1220 add uiPrimarySiteCaseCount
 //@@@PDC-1383 convert labels to aliquot_id 
 //@@@PDC-1371 add case_id parameter to case-related APIs 
+//@@@PDC-1376 add sample and aliquot APIs to search by uuid/submitter_id 
+//@@@PDC-1355 add uuid parameter to ui APIs
+//@@@PDC-1430 add uuid parameter to program API
 
 import { makeExecutableSchema, addMockFunctionsToSchema } from 'graphql-tools';
 import { resolvers as queryResolvers } from './resolvers/queries';
@@ -95,6 +98,8 @@ type Query {
   clinicalPerStudy(study_id: String, study_submitter_id: String): [Clinical]
   protocolPerStudy(study_id: String, study_submitter_id: String): [Protocol]
   study(study_id: String, study_submitter_id: String): [Study]
+  sample(sample_id: String, sample_submitter_id: String): [Sample]
+  aliquot(aliquot_id: String, aliquot_submitter_id: String): [Aliquot]
   clinicalMetadata(study_submitter_id: String): [ClinicalMetadata]	
   getPaginatedUIGeneStudySpectralCountFiltered(program_name: String, project_name: String, study_name: String, disease_type: String, primary_site: String, analytical_fraction: String, experiment_type: String, ethnicity: String, race: String, gender: String, morphology: String, primary_diagnosis: String,  site_of_resection_or_biopsy: String, tissue_or_organ_of_origin: String, tumor_grade: String, tumor_stage: String, sample_type: String, acquisition_type: String, gene_name: String!, sort: String, offset: Int, limit: Int): Paginated
   getPaginatedUIGeneAliquotSpectralCountFiltered(program_name: String, project_name: String, study_name: String, disease_type: String, primary_site: String, analytical_fraction: String, experiment_type: String, ethnicity: String, race: String, gender: String, morphology: String, primary_diagnosis: String,  site_of_resection_or_biopsy: String, tissue_or_organ_of_origin: String, tumor_grade: String, tumor_stage: String, sample_type: String, acquisition_type: String, gene_name: String!, sort: String, offset: Int, limit: Int): Paginated
@@ -125,7 +130,7 @@ type Query {
   casePerFile(file_id: String!): [CasePerFile] 
   uiCasePerFile(file_id: String!): [CasePerFile] 
   allCases: [PublicCase]
-  program(program_submitter_id: String!): Program
+  program(program_submitter_id: String, program_id: String): Program
   allPrograms: [Program]
   uiAllPrograms: [Program]
   geneSpectralCount(gene_name: String!): Gene
@@ -140,15 +145,15 @@ type Query {
   allExperimentTypes(experiment_type: String, tissue_or_organ_of_origin: String, disease_type: String): [Experiment]
   diseaseTypesPerProject(project_submitter_id: String): [Study]
   projectsPerExperimentType(experiment_type: String): [ExperimentProjects] 
-  filesCountPerStudy(study_submitter_id: String, file_type: String): [File]
-  uiFilesCountPerStudy(study_submitter_id: String, file_type: String): [File]
+  filesCountPerStudy(study_submitter_id: String, study_id: String, file_type: String): [File]
+  uiFilesCountPerStudy(study_submitter_id: String, study_id: String, file_type: String): [File]
   filesPerStudy(study_id: String,study_submitter_id: String, file_type: String, file_name: String, data_category: String, file_format: String ): [FilePerStudy]
   projectsPerInstrument(instrument: String): [Protocol] 
-  uiProtocol(study_submitter_id: String): [Protocol] 
+  uiProtocol(study_id: String, study_submitter_id: String): [Protocol] 
   pdcDataStats: [PdcDataStats]
   uiPdcDataStats: [PdcDataStats]
-  workflowMetadata(workflow_metadata_submitter_id: String, study_submitter_id: String): [WorkflowMetadata]
-  uiWorkflowMetadata(workflow_metadata_submitter_id: String, study_submitter_id: String): [WorkflowMetadata]
+  workflowMetadata(workflow_metadata_submitter_id: String, study_submitter_id: String, study_id: String): [WorkflowMetadata]
+  uiWorkflowMetadata(workflow_metadata_submitter_id: String, study_submitter_id: String, study_id: String): [WorkflowMetadata]
   uiStudy(program_name: String, project_name: String, study_name: String, disease_type: String, primary_site: String, analytical_fraction: String, experiment_type: String, study_submitter_id: String, ethnicity: String, race: String, gender: String, morphology: String, primary_diagnosis: String,  site_of_resection_or_biopsy: String, tissue_or_organ_of_origin: String, tumor_grade: String, tumor_stage: String, data_category: String, downloadable: String, sample_type: String, acquisition_type: String): [UIStudy]
   uiCase(program_name: String, project_name: String, study_name: String, disease_type: String, primary_site: String, analytical_fraction: String, experiment_type: String, case_submitter_id: String, case_id: String): [UICase]
   uiFile(program_name: String, project_name: String, study_name: String, disease_type: String, primary_site: String, analytical_fraction: String, experiment_type: String): [UIFile]
@@ -157,7 +162,7 @@ type Query {
   uiAnalyticalFractionsCount(program_name: String, project_name: String, study_name: String, disease_type: String, primary_site: String, analytical_fraction: String, experiment_type: String, ethnicity: String, race: String, gender: String, morphology: String, primary_diagnosis: String, site_of_resection_or_biopsy: String, tissue_or_organ_of_origin: String, tumor_grade: String, tumor_stage: String, sample_type: String, acquisition_type: String): [UIExperimentType]
   uiExperimentBar(program_name: String, project_name: String, study_name: String, disease_type: String, primary_site: String, analytical_fraction: String, experiment_type: String, ethnicity: String, race: String, gender: String, morphology: String, primary_diagnosis: String, site_of_resection_or_biopsy: String, tissue_or_organ_of_origin: String, tumor_grade: String, tumor_stage: String, sample_type: String, acquisition_type: String): [UIExperimentType]
   uiExperimentPie(program_name: String, project_name: String, study_name: String, disease_type: String, primary_site: String, analytical_fraction: String, experiment_type: String, ethnicity: String, race: String, gender: String, morphology: String, primary_diagnosis: String, site_of_resection_or_biopsy: String, tissue_or_organ_of_origin: String, tumor_grade: String, tumor_stage: String, sample_type: String, acquisition_type: String): [UIExperimentType]
-  uiPublication(study_submitter_id: String): [Publication]
+  uiPublication(study_submitter_id: String, study_id: String): [Publication]
   uiExperimentFileCount(case_submitter_id: String, case_id: String): [UIFileCount]
   uiDataCategoryFileCount(case_submitter_id: String, case_id: String): [UIFileCount]
   uiGeneStudySpectralCount(gene_name: String!): [UIGeneStudySpectralCount]

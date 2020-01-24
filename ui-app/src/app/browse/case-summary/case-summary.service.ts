@@ -25,9 +25,10 @@ constructor(private apollo: Apollo) {
         this.options = new RequestOptions({ headers: this.headers });
 	}
 
+	//@@@PDC-1355: Use uuid as API search parameter
 	caseSummaryData = gql`
-		query CaseSummaryDataQuery($case_submitter_id: String!){
-			uiCase (case_submitter_id: $case_submitter_id) {
+		query CaseSummaryDataQuery($case_id: String!){
+			uiCase (case_id: $case_id) {
 				aliquot_id 	
 				sample_id
 				case_id
@@ -39,12 +40,12 @@ constructor(private apollo: Apollo) {
 			}
 		}`;
 
-	getCaseSummaryData(case_sub_id:any){
-		console.log(case_sub_id);
+	getCaseSummaryData(case_id_value:any){
+		console.log(case_id_value);
 		return this.apollo.watchQuery<AllCasesData>({
 			query: this.caseSummaryData,
 			variables: {
-				case_submitter_id: case_sub_id
+				case_id: case_id_value
 			}
 		})
 		.valueChanges
@@ -55,8 +56,8 @@ constructor(private apollo: Apollo) {
 		
     //@@@PDC-1123 call ui wrapper API
 	caseDataDetailedQuery = gql`
-				query FilteredStudiesData($case_submitter_id: String!){
-					  uiCaseSummary(case_submitter_id: $case_submitter_id) {
+				query FilteredStudiesData($case_id: String!){
+					  uiCaseSummary(case_id: $case_id) {
 						  case_id
 						  case_submitter_id
 						  project_submitter_id
@@ -181,12 +182,12 @@ constructor(private apollo: Apollo) {
 							}
 						}
 					}`;
-	getDetailedCaseSummaryData(case_sub_id:any){
-		console.log(case_sub_id);
+	getDetailedCaseSummaryData(case_id_value:any){
+		console.log(case_id_value);
 		return this.apollo.watchQuery<CaseData>({
 			query: this.caseDataDetailedQuery,
 			variables: {
-				case_submitter_id: case_sub_id
+				case_id: case_id_value
 			}
 		})
 		.valueChanges
@@ -196,8 +197,8 @@ constructor(private apollo: Apollo) {
 	}
 	
 	exprimentFileByCaseCountQuery = gql`
-				query ExperimentFileByCaseCountQuery($case_submitter_id_filter: String!){
-				  uiExperimentFileCount(case_submitter_id: $case_submitter_id_filter) {
+				query ExperimentFileByCaseCountQuery($case_id_filter: String){
+				  uiExperimentFileCount(case_id: $case_id_filter) {
 					acquisition_type
 					submitter_id_name
 					experiment_type
@@ -209,7 +210,7 @@ constructor(private apollo: Apollo) {
 		return this.apollo.watchQuery<ExperimentFileByCaseCount>({
 			query: this.exprimentFileByCaseCountQuery,
 			variables: {
-				case_submitter_id_filter: filters
+				case_id_filter: filters
 			}
 		})
 		.valueChanges
@@ -219,8 +220,8 @@ constructor(private apollo: Apollo) {
 	}
 	
 	dataCategoryFileByCaseCountQuery = gql`
-				query DataCategoryFileByCaseCountQuery($case_submitter_id_filter: String!){
-				  uiDataCategoryFileCount (case_submitter_id: $case_submitter_id_filter) {
+				query DataCategoryFileByCaseCountQuery($case_id_filter: String){
+				  uiDataCategoryFileCount (case_id: $case_id_filter) {
 					file_type
 					submitter_id_name
 					data_category
@@ -232,7 +233,7 @@ constructor(private apollo: Apollo) {
 		return this.apollo.watchQuery<DataCategoryFileByCaseCount>({
 			query: this.dataCategoryFileByCaseCountQuery,
 			variables: {
-				case_submitter_id_filter: filters
+				case_id_filter: filters
 			}
 		})
 		.valueChanges

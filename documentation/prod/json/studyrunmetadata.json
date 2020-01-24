@@ -14,11 +14,6 @@
       "name": "Study",
       "label": "Study Run Metadata references the Study that used the experimental design.",
       "required": "True"
-    },
-    {
-      "name": "Protocol",
-      "label": "Study Run Metadata references the Protocol used in the Study.",
-      "required": "True"
     }
   ],
   "properties": {

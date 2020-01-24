@@ -1,20 +1,22 @@
+category: Processed
+description: Published scientific research article describing a study.
+links:
+-   label: Publication refers to the Study it is derived from.
+    name: Study
+    required: 'True'
+properties:
+    publication_id:
+        key: 'yes'
+        type: string
+    pubmed_id:
+        description: Identifier of the article in Pubmed system
+        required: 'False'
+        type: string
+    title:
+        description: Title of the research article
+        required: 'False'
+        type: string
 title: Publication
 type: object
-category: Processed
-description: "Published scientific research article describing a study."
-uniqueKeys: 
- - 
-   - 
-   publication_id
-properties: 
- publication_id: 
-  type: string
-  key: yes
- pubmed_id: 
-  type: string
-  description: "Identifier of the article in Pubmed system"
-  required: False
- title: 
-  type: string
-  description: "Title of the research article"
-  required: False
+uniqueKeys:
+-   - publication_id

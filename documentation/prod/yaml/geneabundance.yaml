@@ -1,0 +1,53 @@
+category: Processed
+description: Derived results intended to approximate protein abundance for a given
+    gene product. Units of measurement include peptide-spectrum-matches (spectral
+    counts), precursor or reporter ion abundance.
+links:
+-   label: Gene Abundance references measurements for a Gene.
+    name: Gene
+    required: 'True'
+-   label: Gene Abundance references the Study it is derived from.
+    name: Study
+    required: 'True'
+-   label: Gene Abundance references an experimental run of the Study it is derived
+        from.
+    name: Study Run Metadata
+    required: 'True'
+properties:
+    gene_abundance_id:
+        key: 'yes'
+        type: string
+    gene_id:
+        description: Gene Identifier
+        required: 'True'
+        type: string
+    gene_name:
+        description: NCBI Gene name
+        required: 'True'
+        type: string
+    log2_ratio:
+        description: Average log-ratio of sample reporter-ion to common reference
+            of peptide ions associated with the gene in acquisitions from a specific
+            biological sample.
+        required: 'False'
+        type: Double
+    precursor_area:
+        description: Total precursor area of peptide ions associated with the gene
+            in acquisitions from a specific biological sample.
+        required: 'False'
+        type: Double
+    unshared_log2_ratio:
+        description: Average log-ratio of sample reporter-ion to common reference
+            of peptide ions of unshared peptides only associated with the gene in
+            acquisitions from a specific biological sample.
+        required: 'False'
+        type: Double
+    unshared_precursor_area:
+        description: Total precursor area of peptide ions of unshared peptides only
+            associated with the gene in acquisitions from a specific biological sample.
+        required: 'False'
+        type: Double
+title: Gene Abundance
+type: object
+uniqueKeys:
+-   - spectral_count_id

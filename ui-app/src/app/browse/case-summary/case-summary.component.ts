@@ -23,10 +23,12 @@ import { StudySummaryComponent } from '../study-summary/study-summary.component'
 //@@@PDC-PDC-357 - Search UI
 //@@@PDC-374 - adding url to overlay windows
 //@@@PDC-1042: Enable links to studies and files from case summary page
+//@@@PDC-1355: Use uuid as API search parameter
 export class CaseSummaryComponent implements OnInit {
   experimentFileCount: ExperimentFileByCaseCount[];
   dataCategoryFileCount: DataCategoryFileByCaseCount[];
   case_submitter_id: string;
+  case_id: string;
   caseDetailedSummaryData: CaseData; //Querry for a detailed summary
   caseSummaryData: AllCasesData; //Data passed from browse cases tab
   samples: SampleData[];
@@ -46,6 +48,7 @@ export class CaseSummaryComponent implements OnInit {
     
 	console.log(caseData);
 	this.case_submitter_id = caseData.summaryData.case_submitter_id;
+	this.case_id = caseData.summaryData.case_id;
 	this.caseSummaryData = caseData.summaryData;
 	if (this.caseSummaryData.case_id === ""){
 		this.getCaseGeneralSummaryData();
@@ -77,7 +80,7 @@ export class CaseSummaryComponent implements OnInit {
 
   getCaseGeneralSummaryData(){
 	this.loading = true;
-	this.caseSummaryService.getCaseSummaryData(this.case_submitter_id).subscribe((data: any) =>{
+	this.caseSummaryService.getCaseSummaryData(this.case_id).subscribe((data: any) =>{
 		//console.log(data.uiCase);
 		this.caseSummaryData = data.uiCase[0];
 		this.loading = false;
@@ -138,7 +141,7 @@ export class CaseSummaryComponent implements OnInit {
   
   getExperimentFileCount(){
 	this.loading = true;
-	this.caseSummaryService.getExprimentFileByCaseCountData(this.case_submitter_id).subscribe((data: any) =>{
+	this.caseSummaryService.getExprimentFileByCaseCountData(this.case_id).subscribe((data: any) =>{
 		this.experimentFileCount = data.uiExperimentFileCount;
 		this.loading = false;
 	});
@@ -147,7 +150,7 @@ export class CaseSummaryComponent implements OnInit {
   
   getDataCategoryFilesCounts(){
 	this.loading = true;
-	this.caseSummaryService.getDataCategoryFileByCaseCountData(this.case_submitter_id).subscribe((data: any) =>{
+	this.caseSummaryService.getDataCategoryFileByCaseCountData(this.case_id).subscribe((data: any) =>{
 		let fileCountsRaw = data.uiDataCategoryFileCount;
 		this.dataCategoryFileCount = this.mergeDataCategoryFiles(data.uiDataCategoryFileCount);
 		this.loading = false;
@@ -176,7 +179,7 @@ export class CaseSummaryComponent implements OnInit {
   
   getCaseSummaryData(){
 	this.loading = true;
-	this.caseSummaryService.getDetailedCaseSummaryData(this.case_submitter_id).subscribe((data: any) =>{
+	this.caseSummaryService.getDetailedCaseSummaryData(this.case_id).subscribe((data: any) =>{
 		//@@@PDC-1123 add ui wrappers public APIs
 		this.caseDetailedSummaryData = data.uiCaseSummary;
 		this.samples = data.uiCaseSummary.samples;

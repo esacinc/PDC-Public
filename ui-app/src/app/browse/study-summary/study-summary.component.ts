@@ -48,6 +48,7 @@ enum FileTypes {
 //@@@PDC-843: Add embargo date and data use statement to CPTAC studies
 //@@@PDC-1160: Add cases and aliquots to the study summary page
 //@@@PDC-1219: Add a new experimental design tab on the study summary page
+//@@@PDC-1355: Use uuid as API search parameter
 export class StudySummaryComponent implements OnInit {
 
   study_id: string;
@@ -107,7 +108,8 @@ export class StudySummaryComponent implements OnInit {
 	//console.log(studyData);
 	//@@@PDC-612 display all data categories
 	this.fileTypesCounts = {RAW: 0, txt_psm: 0, txt: 0, pdf: 0, mzML: 0, doc: 0, mzIdentML: 0}; 
-	this.study_id = studyData.summaryData.study_submitter_id;
+	this.study_id = studyData.summaryData.study_id;
+	//console.log("UUID: "+this.study_id);
 	this.study_submitter_id_name = studyData.summaryData.submitter_id_name;
 	this.studySummaryData = studyData.summaryData;
 	//If I got here via search then most of the fields are empty and I need to query study summary data
@@ -232,7 +234,7 @@ export class StudySummaryComponent implements OnInit {
   }
 
   getManifestFile() {
-		const manifest_file = 'assets/data-folder/' + this.study_id + '/manifest.json';
+		const manifest_file = 'assets/data-folder/' + this.studySummaryData.study_submitter_id + '/manifest.json';
 		console.log('Getting manifest file from: ' + manifest_file);
 		return this.http.get(manifest_file);
   }

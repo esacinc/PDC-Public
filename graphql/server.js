@@ -17,8 +17,8 @@ const cors = require('cors');
 
 const graphQLServer = express();
 
-var projects = [];
-var email = 'lei.ma@esacinc.com';
+//var projects = [];
+//var email = 'lei.ma@esacinc.com';
 //var email = '';
 
 // verifyFailed sends http response with status code of 401
@@ -71,8 +71,21 @@ var authenticate = function(req, res, next) {
 	}
 };
 
+var track = function(req, res, next) {
+	//@@@PDC-814 Track API usage through Google Analytics
+	//console.log("sending pageview..."+ req.query.query);	
+	//@@@PDC-930 not tracking for calls from UI
+	var api = getAPI(req.query.query);
+	if (api !== 'noTrack') {
+		req.visitor.pageview().send();
+		logger.info("pageview sent: "+api);		
+	}
+	return next();
+}
+
 //@@@PDC-140 authorization
-var authorize = async function(req, res, next) {
+//@@@PDC-1340 remove authorization code
+/*var authorize = async function(req, res, next) {
 	//@@@PDC-814 Track API usage through Google Analytics
 	//console.log("sending pageview..."+ req.query.query);	
 	//@@@PDC-930 not tracking for calls from UI
@@ -83,6 +96,7 @@ var authorize = async function(req, res, next) {
 	}
 	
 	//console.log('Email: '+ email);
+	//@@@PDC-1340 remove authorization code
 	const userRole = await db.getModelByName('ModelUserRole').findAll({
 		where: {
 			login_username: email,
@@ -112,7 +126,7 @@ var authorize = async function(req, res, next) {
 	
 	logger.info('Projects allowed: '+ JSON.stringify(projects));
 	return next();
-}
+}*/
 
 graphQLServer.use(cors());
 
@@ -120,12 +134,12 @@ graphQLServer.use(cors());
 graphQLServer.use(ua.middleware(process.env.GA_TRACKING_ID, {cookieName: '_ga'}));
 
 //graphQLServer.use('/graphql', authenticate, authorize, bodyParser.json(), graphqlExpress(req => {
-graphQLServer.use('/graphql', authorize, bodyParser.json(), graphqlExpress(req => {
+graphQLServer.use('/graphql', track, bodyParser.json(), graphqlExpress(req => {
     return {
       schema: schema,
-      context: {
+      /*context: {
         value: projects
-      }
+      }*/
     };
   })
 );

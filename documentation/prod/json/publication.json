@@ -3,6 +3,13 @@
    "type": "object",
    "category": "Processed",
    "description": "Published scientific research article describing a study.",
+   "links": [
+    {
+      "name": "Study",
+      "label": "Publication refers to the Study it is derived from.",
+      "required": "True"
+    }
+   ],
    "uniqueKeys": [
      [
        "publication_id"

@@ -5821,7 +5821,8 @@ button.close {
     width: auto;
     margin: 10px;
 }
-.modal-content {
+/* @@@PDC-1407: Issues in API Documentation */
+.modal-content-documentation {
     position: relative;
     background-color: #fff;
     -webkit-background-clip: padding-box;
@@ -5847,6 +5848,8 @@ button.close {
     opacity: 0;
 }
 .modal-backdrop.in {
+    /* @@@PDC-1407: Issues in API Documentation */
+    display: none !important;
     filter: alpha(opacity=50);
     opacity: .5;
 }
@@ -5893,7 +5896,8 @@ button.close {
         width: 600px;
         margin: 30px auto;
     }
-    .modal-content {
+    /* @@@PDC-1407: Issues in API Documentation */
+    .modal-content-documentation {
         -webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, .5);
         box-shadow: 0 5px 15px rgba(0, 0, 0, .5);
     }
@@ -17064,7 +17068,7 @@ footer.site-footer .colophon li {
     transition: 0.4s;
     overflow: hidden;
 }
-.modal .modal-dialog .modal-content {
+.modal .modal-dialog .modal-content-documentation {
     box-shadow: 0 5px 12px rgba(15,27,39,0.4);
 }
 .modal .modal-dialog .modal-header {

@@ -88,7 +88,7 @@ export class ResetPasswordComponent implements OnInit {
     console.log(this.resetPasswordForm);
 	this.user_pass.valueChanges.subscribe(value => {
 			if (this.resetPasswordForm.value.user_pass.length < 8 && this.resetPasswordForm.value.user_pass.length > 2){
-				this.passwordInvalidMessage = "You chose invalid password, please try again";
+				this.passwordInvalidMessage = "The password does not meet the password policy requirements. Check the minimum password length and required symbols.";
 			}
 			this.resetPasswordForm.updateValueAndValidity();
 		});

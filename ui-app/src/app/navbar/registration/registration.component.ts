@@ -227,7 +227,7 @@ export class RegistrationComponent implements OnInit {
     if (this.idProvider === "PDC") {
 		this.user_pass.valueChanges.subscribe(value => {
 			if (this.registrationForm.value.user_pass.length < 8 && this.registrationForm.value.user_pass.length > 2){
-				this.passwordInvalidMessage = "You chose invalid password, please try again";
+				this.passwordInvalidMessage = "The password does not meet the password policy requirements. Check the minimum password length and required symbols.";
 			}
 			// validators = [Validators.required, Validators.minLength(8), Validators.pattern('(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#\$%\^&\*]).+')];
 			this.registrationForm.updateValueAndValidity();

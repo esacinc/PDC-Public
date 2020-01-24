@@ -31,6 +31,7 @@ export const resolvers = {
     //@@@PDC-1073 use db.getSequelize instead of db when get fn or col
 	//@@@PDC-1123 add ui wrappers public APIs
 	//@@@PDC-1302 upgrade to Sequelize 5
+	//@@@PDC-1340 remove authorization code
 	Query: {
 		uiFileMetadata(_, args, context) {
 			return resolvers.Query.fileMetadata(_, args, context);
@@ -100,7 +101,7 @@ export const resolvers = {
 		*/
 		tissueSitesAvailable (_, args, context) { 
 			if (typeof args.project_submitter_id != 'undefined') {
-				var projectAllowed = false;
+				/*var projectAllowed = false;
 				for (var i = 0; i < context.value.length; i++) {
 					if (context.value[i] === args.project_submitter_id){
 						projectAllowed = true;
@@ -109,35 +110,35 @@ export const resolvers = {
 				if (!projectAllowed) {
 					return null;
 				}
-				else {
-					return db.getModelByName('Diagnosis').findAll({
-					attributes: ['project_submitter_id', 'tissue_or_organ_of_origin', [db.getSequelize().fn('COUNT', db.getSequelize().col('case_id')), 'cases_count']],
-					group: ['project_submitter_id', 'tissue_or_organ_of_origin'],
-					where: args
-					});					
-				}
+				else {*/
+				return db.getModelByName('Diagnosis').findAll({
+				attributes: ['project_submitter_id', 'tissue_or_organ_of_origin', [db.getSequelize().fn('COUNT', db.getSequelize().col('case_id')), 'cases_count']],
+				group: ['project_submitter_id', 'tissue_or_organ_of_origin'],
+				where: args
+				});					
+				//}
 			}
 			else if (typeof args.tissue_or_organ_of_origin != 'undefined') {
 				return db.getModelByName('Diagnosis').findAll({
 				attributes: ['project_submitter_id', 'tissue_or_organ_of_origin', [db.getSequelize().fn('COUNT', db.getSequelize().col('case_id')), 'cases_count']],
 				group: ['project_submitter_id', 'tissue_or_organ_of_origin'],
 				where: {
-					tissue_or_organ_of_origin: args.tissue_or_organ_of_origin,
-					project_submitter_id: {
+					tissue_or_organ_of_origin: args.tissue_or_organ_of_origin
+					/*project_submitter_id: {
 						[Op.in]: context.value
-					}
+					}*/
 				}
 				});				
 			}
 			else {
 				return db.getModelByName('Diagnosis').findAll({
 				attributes: ['project_submitter_id', 'tissue_or_organ_of_origin', [db.getSequelize().fn('COUNT', db.getSequelize().col('case_id')), 'cases_count']],
-				group: ['project_submitter_id', 'tissue_or_organ_of_origin'],
-				where: {
+				group: ['project_submitter_id', 'tissue_or_organ_of_origin']
+				/*where: {
 					project_submitter_id: {
 						[Op.in]: context.value
 					}
-				}
+				}*/
 				});				
 				
 			}			
@@ -156,7 +157,7 @@ export const resolvers = {
 		* @return {Diagnosis}
 		*/
 		diseasesAvailable(_, args, context) {
-			if (typeof args.project_submitter_id != 'undefined') {
+			/*if (typeof args.project_submitter_id != 'undefined') {
 				var projectAllowed = false;
 				for (var i = 0; i < context.value.length; i++) {
 					if (context.value[i] === args.project_submitter_id){
@@ -166,7 +167,7 @@ export const resolvers = {
 				if (!projectAllowed) {
 					return null;
 				}
-			}
+			}*/
 			var diseaseQuery = 'SELECT Diag.project_submitter_id,  Diag.tissue_or_organ_of_origin, Esac.disease_type, count(Diag.case_id) as cases_count FROM diagnosis as Diag, `case` as Esac WHERE Diag.case_id = Esac.case_id';
 			if (typeof args.tissue_or_organ_of_origin != 'undefined'){
 				diseaseQuery += " and Diag.tissue_or_organ_of_origin = '"+args.tissue_or_organ_of_origin+"' ";				
@@ -177,9 +178,9 @@ export const resolvers = {
 			if (typeof args.project_submitter_id != 'undefined') {
 				diseaseQuery += " and Diag.project_submitter_id = '"+args.project_submitter_id+"' ";								
 			}
-			else {
+			/*else {
 				diseaseQuery += " and Diag.project_submitter_id IN ('" + context.value.join("','") + "')";
-			}
+			}*/
 			diseaseQuery += " GROUP BY Diag.project_submitter_id,  Diag.tissue_or_organ_of_origin, Esac.disease_type";
 			return db.getSequelize().query(diseaseQuery, { model: db.getModelByName('Diagnosis') });
 		},
@@ -221,7 +222,7 @@ export const resolvers = {
 			if (typeof args.tissue_or_organ_of_origin != 'undefined') {
 				experimentQuery += " and Diag.tissue_or_organ_of_origin = '"+args.tissue_or_organ_of_origin+"'";
 			}
-			experimentQuery += " and Diag.project_submitter_id IN ('" + context.value.join("','") + "')";
+			//experimentQuery += " and Diag.project_submitter_id IN ('" + context.value.join("','") + "')";
 			
 			return db.getSequelize().query(experimentQuery, { model: db.getModelByName('ModelExperiments') });
 		},
@@ -263,11 +264,11 @@ export const resolvers = {
 					  return db.getModelByName('ModelStudy').findAll({
 						  order: [['project_submitter_id', 'DESC']],
 						  group: ['project_id', 'experiment_type', 'analytical_fraction', 'cases.disease_type'],
-						  where: {
+						  /*where: {
 								project_submitter_id: {
 									[Op.in]: context.value
 								}
-						  },
+						  },*/
 						  include: [{
 								model: db.getModelByName('ModelCase'),
 								required: true,
@@ -312,10 +313,10 @@ export const resolvers = {
 							'primary_site',
 						],
 						where: {
-							case_id: Sequelize.fn('uuid_to_bin', args.case_id ),
-							project_submitter_id: {
+							case_id: Sequelize.fn('uuid_to_bin', args.case_id )
+							/*project_submitter_id: {
 								[Op.in]: context.value
-							}
+							}*/
 						}
 					});					
 				}
@@ -333,10 +334,10 @@ export const resolvers = {
 							'primary_site',
 						],
 						where: {
-							case_submitter_id: args.case_submitter_id,
-							project_submitter_id: {
+							case_submitter_id: args.case_submitter_id
+							/*project_submitter_id: {
 								[Op.in]: context.value
-							}
+							}*/
 						}
 					});						
 				}
@@ -375,12 +376,12 @@ export const resolvers = {
 						'project_submitter_id',
 						'disease_type',
 						'primary_site'
-					],
-					where: {
+					]
+					/*where: {
 						project_submitter_id: {
 							[Op.in]: context.value
-					}
-				}
+						}
+					}*/
 			});
 		},
 		/**
@@ -393,17 +394,38 @@ export const resolvers = {
 		program(_, args, context) {
 			//@@@PDC-782 avoid null in subquery
 			context['arguments']= args
+			//@@@PDC-1430 add uuid parameter to program API
+			context['noFilter']= "Yes";
 			//@@@PDC-899 get program id as uuid
-			return db.getModelByName('Program').findOne({ attributes: [['bin_to_uuid(program_id)', 'program_id'],
-						'program_submitter_id',
-						'name',
-						'sponsor',
-						'start_date',
-						'end_date',
-						'program_manager'
-					],
-					where: args
-				});
+			if (typeof args.program_id != 'undefined'){
+				return db.getModelByName('Program').findOne({ attributes: [['bin_to_uuid(program_id)', 'program_id'],
+							'program_submitter_id',
+							'name',
+							'sponsor',
+							'start_date',
+							'end_date',
+							'program_manager'
+						],
+						where: {
+							program_id: Sequelize.fn('uuid_to_bin', args.program_id )
+						}
+					});
+			}
+			else {
+				return db.getModelByName('Program').findOne({ attributes: [['bin_to_uuid(program_id)', 'program_id'],
+							'program_submitter_id',
+							'name',
+							'sponsor',
+							'start_date',
+							'end_date',
+							'program_manager'
+						],
+						where: {
+							program_submitter_id: args.program_submitter_id
+						}
+					});				
+			}
+
 		},
 		/**
 		* allPrograms gets all programs
@@ -412,7 +434,9 @@ export const resolvers = {
 		*/
 		allPrograms(_, args, context) {
 			//@@@PDC-782 avoid null in subquery
-			context['arguments']= args
+			context['arguments']= args;
+			//@@@PDC-1430 add uuid parameter to program API
+			context['noFilter']= "Yes";
 			//@@@PDC-899 get program id as uuid
 		    return db.getModelByName('Program').findAll({ attributes: [['bin_to_uuid(program_id)', 'program_id'],
 						'program_submitter_id',
@@ -445,10 +469,10 @@ export const resolvers = {
 					model: db.getModelByName('Spectral'),
 					attributes: ['project_submitter_id', 'study_submitter_id', ['dataset_alias', 'plex'], 'spectral_count', 'distinct_peptide', 'unshared_peptide' ],
 					where: {
-					  plex_name: 'All',  
-					  project_submitter_id: {
+					  plex_name: 'All' 
+					  /*project_submitter_id: {
 						  [Op.in]: context.value
-						  }
+						  }*/
 					},
 					required: true
 				  }]  
@@ -474,10 +498,10 @@ export const resolvers = {
 				  model: db.getModelByName('Spectral'),
 				  attributes: ['project_submitter_id', 'study_submitter_id', ['dataset_alias', 'plex'], 'spectral_count', 'distinct_peptide', 'unshared_peptide' ],
 				  where: {
-					dataset_alias: {[Op.like]: '%'+args.dataset_alias+'%'},  
-					project_submitter_id: {
+					dataset_alias: {[Op.like]: '%'+args.dataset_alias+'%'} 
+					/*project_submitter_id: {
 						[Op.in]: context.value
-					}
+					}*/
 				  },
 				  required: true
 				}]  
@@ -498,11 +522,11 @@ export const resolvers = {
 			  include: [{
 				  model: db.getModelByName('Spectral'),
 				  attributes: ['project_submitter_id', 'study_submitter_id', ['dataset_alias', 'plex'], 'spectral_count', 'distinct_peptide', 'unshared_peptide' ],
-				  where: {
+				  /*where: {
 					project_submitter_id: {
 						[Op.in]: context.value
 						}
-				  },
+				  },*/
 				  required: true
 				}]  
 				});
@@ -521,7 +545,7 @@ export const resolvers = {
 			if (typeof args.experiment_type != 'undefined') {
 				experimentQuery += " and Study.experiment_type = '"+args.experiment_type+"'";
 			}
-			experimentQuery += " and Study.project_submitter_id IN ('" + context.value.join("','") + "')";
+			//experimentQuery += " and Study.project_submitter_id IN ('" + context.value.join("','") + "')";
 			
 			return db.getSequelize().query(experimentQuery, { model: db.getModelByName('ModelExperimentProjects') });
 		},
@@ -546,11 +570,16 @@ export const resolvers = {
 				fileQuery += " and study.study_submitter_id = '"+args.study_submitter_id+"'";
 				cacheFilterName.name +="study_submitter_id:("+ args.study_submitter_id + ");";		
 			}
+			//@@@PDC-1355 add uuid parameter to ui APIs 
+			if (typeof args.study_id != 'undefined') {
+				fileQuery += " and study.study_id = uuid_to_bin('"+args.study_id+"')";
+				cacheFilterName.name +="study_id:("+ args.study_id + ");";		
+			}
 			if (typeof args.file_type != 'undefined') {
 				fileQuery += " and file.file_type = '"+args.file_type+"'";
 				cacheFilterName.name +="file_type:("+ args.file_type + ");";		
 			}
-			fileQuery += " and study.project_submitter_id IN ('" + context.value.join("','") + "')";
+			//fileQuery += " and study.project_submitter_id IN ('" + context.value.join("','") + "')";
 			fileQuery += " GROUP BY sf.study_id, file.file_type, data_category";
 			
 			const res = await RedisCacheClient.redisCacheGetAsync(CacheName.getSummaryPageStudySummary('FileCountPerStudy')+cacheFilterName['name']);
@@ -599,7 +628,7 @@ export const resolvers = {
 			if (typeof args.data_category != 'undefined') {
 				fileQuery += " and f.data_category = '"+args.data_category+"'";
 			}
-			fileQuery += " and s.project_submitter_id IN ('" + context.value.join("','") + "')";
+			//fileQuery += " and s.project_submitter_id IN ('" + context.value.join("','") + "')";
 			fileQuery += " LIMIT 0, 5000";
 			
 			return db.getSequelize().query(fileQuery, { model: db.getModelByName('ModelStudyFile') });
@@ -623,7 +652,7 @@ export const resolvers = {
 			else {
 				protoQuery += " and proto.instrument_model != ''";
 			}
-			protoQuery += " and study.project_submitter_id IN ('" + context.value.join("','") + "')";
+			//protoQuery += " and study.project_submitter_id IN ('" + context.value.join("','") + "')";
 			
 			return db.getSequelize().query(protoQuery, { model: db.getModelByName('ModelProtocol') });
 		},
@@ -653,7 +682,12 @@ export const resolvers = {
 				metadataQuery += " and metadata.study_submitter_id = '"+args.study_submitter_id+"'";
 				cacheFilterName.name +="study_submitter_id:("+ args.study_submitter_id + ");";		
 			}
-			metadataQuery += " and study.project_submitter_id IN ('" + context.value.join("','") + "')";
+			//@@@PDC-1355 add uuid parameter to ui APIs 
+			if (typeof args.study_id != 'undefined') {
+				metadataQuery += " and metadata.study_id = uuid_to_bin('"+args.study_id+"')";
+				cacheFilterName.name +="study_id:("+ args.study_id + ");";		
+			}
+			//metadataQuery += " and study.project_submitter_id IN ('" + context.value.join("','") + "')";
 
 			const res = await RedisCacheClient.redisCacheGetAsync(CacheName.getSummaryPageStudySummary('WorkflowMetadata')+cacheFilterName['name']);
 			if(res === null){
@@ -700,8 +734,8 @@ export const resolvers = {
 			" project proj, program prog WHERE alm.study_id = s.study_id and al.aliquot_id = alm.aliquot_id "+
 			" and al.sample_id=sam.sample_id and sam.case_id=c.case_id and proj.project_id = s.project_id"+
 			" and c.case_id = dem.case_id and c.case_id = dia.case_id and"+
-			" s.study_id = sf.study_id and sf.file_id = f.file_id"+
-			" and proj.program_id = prog.program_id and s.project_submitter_id IN ('" + context.value.join("','") + "')";
+			" s.study_id = sf.study_id and sf.file_id = f.file_id ";
+			//" and proj.program_id = prog.program_id and s.project_submitter_id IN ('" + context.value.join("','") + "')";
 			comboQuery += filters(args);
 			
 			var result = await db.getSequelize().query(comboQuery, { model: db.getModelByName('ModelUIStudy') });
@@ -741,12 +775,12 @@ export const resolvers = {
 		*/
 		async uiFilters (_, args, context) {
 			//apply global project submitter id filter
-			let projectSubmitterIdValue = context.value.join("','")
-			let projectSubmitterIdCondition = ` and s.project_submitter_id IN ('${projectSubmitterIdValue}')`;
+			//let projectSubmitterIdValue = context.value.join("','")
+			//let projectSubmitterIdCondition = ` and s.project_submitter_id IN ('${projectSubmitterIdValue}')`;
 
 			//Step1 get base queries
-			let fileStudyQuery = queryList.file_study + projectSubmitterIdCondition;
-			let progProjAlSamCaDemDiaStudyQuery = queryList.prog_proj_al_sam_ca_dem_dia_study + projectSubmitterIdCondition;
+			let fileStudyQuery = queryList.file_study;
+			let progProjAlSamCaDemDiaStudyQuery = queryList.prog_proj_al_sam_ca_dem_dia_study;
 
 			//Step1 apply filters on queries
 			let studyFilter = applyStudyFilter(args);
@@ -767,8 +801,8 @@ export const resolvers = {
 			let intersectedStudy = studyIntersection(fileStudyResult, progProjAlSamCaDemDiaStudyResult);
 
 			//Step2 get base queries
-			let fileFilterQuery = queryList.file_filter + projectSubmitterIdCondition;
-			let progProjAlSamCaDemDiaFilterQuery = queryList.prog_proj_al_sam_ca_dem_dia_filter + projectSubmitterIdCondition;
+			let fileFilterQuery = queryList.file_filter;
+			let progProjAlSamCaDemDiaFilterQuery = queryList.prog_proj_al_sam_ca_dem_dia_filter;
 
 			//Step2 apply filters on queries
 			fileFilterQuery += studyFilter;
@@ -810,8 +844,8 @@ export const resolvers = {
 			" from study s, `case` c, sample sam, aliquot al, aliquot_run_metadata alm, "+
 			" project proj, program prog  where alm.study_id=s.study_id and "+
 			" al.aliquot_id= alm.aliquot_id and al.sample_id=sam.sample_id and sam.case_id=c.case_id "+
-			" and proj.project_id = s.project_id and proj.program_id = prog.program_id and "+
-			" s.project_submitter_id IN ('" + context.value.join("','") + "')";
+			" and proj.project_id = s.project_id and proj.program_id = prog.program_id ";
+			//" s.project_submitter_id IN ('" + context.value.join("','") + "')";
 			uiCaseQuery += filters(args);
 			//temporarily limit records to 500
 			uiCaseQuery += " LIMIT 0, 500";
@@ -837,7 +871,8 @@ export const resolvers = {
 			" from study s, `case` c, sample sam, aliquot al, aliquot_run_metadata alm, "+
 			" project proj, program prog, study_file sf, file f where alm.study_id=s.study_id "+
 			" and al.aliquot_id= alm.aliquot_id and al.sample_id=sam.sample_id and sam.case_id=c.case_id and "+
-			" proj.project_id = s.project_id and proj.program_id = prog.program_id and sf.study_id = s.study_id "+" and sf.file_id = f.file_id and s.project_submitter_id IN ('" + context.value.join("','") + "')";
+			" proj.project_id = s.project_id and proj.program_id = prog.program_id and sf.study_id = s.study_id "+" and sf.file_id = f.file_id ";
+			//" and s.project_submitter_id IN ('" + context.value.join("','") + "')";
 			uiFileQuery += filters(args);
 			//temporarily limit records to 250
 			uiFileQuery += " LIMIT 0, 500";
@@ -870,8 +905,14 @@ export const resolvers = {
 			"dda_topn, normalized_collision_energy, acquistion_type, "+ 
 			"dia_multiplexing, dia_ims, auxiliary_data, prot.cud_label "+
 			" from study s, project proj, protocol prot "+
-			" where prot.study_id = s.study_id and s.project_submitter_id IN ('" + context.value.join("','") + "')";
+			" where prot.study_id = s.study_id ";
+			//" and s.project_submitter_id IN ('" + context.value.join("','") + "')";
 			var cacheFilterName = {name:''};
+			//@@@PDC-1355 add uuid parameter to ui APIs 
+			if (typeof args.study_id != 'undefined') {
+				protoQuery += " and s.study_id = uuid_to_bin('"+args.study_id+"')";
+				cacheFilterName.name +="study_id:("+ args.study_id + ");";		
+			}
 			if (typeof args.study_submitter_id != 'undefined' && args.study_submitter_id.length > 0) {
 				let study = args.study_submitter_id.split(";");
 				protoQuery += " and s.study_submitter_id IN ('" + study.join("','") + "')";
@@ -898,13 +939,18 @@ export const resolvers = {
 		async uiPublication (_, args, context) {
 			var pubQuery = "SELECT bin_to_uuid(pub.publication_id) as publication_id, pub.pubmed_id, pub.title"+
 			" from publication pub, study_publication sp, study s "+
-			" where pub.publication_id = sp.publication_id and s.study_id = sp.study_id "+
-			" and s.project_submitter_id IN ('" + context.value.join("','") + "')";
+			" where pub.publication_id = sp.publication_id and s.study_id = sp.study_id ";
+			//" and s.project_submitter_id IN ('" + context.value.join("','") + "')";
 			var cacheFilterName = {name:''};
 			if (typeof args.study_submitter_id != 'undefined' && args.study_submitter_id.length > 0) {
 				let study = args.study_submitter_id.split(";");
 				pubQuery += " and sp.study_submitter_id IN ('" + study.join("','") + "')";
 				cacheFilterName.name +="study_submitter_id:("+ study.join("','") + ");";		
+			}
+			//@@@PDC-1355 add uuid parameter to ui APIs 
+			if (typeof args.study_id != 'undefined') {
+				pubQuery += " and sp.study_id = uuid_to_bin('"+args.study_id+"')";
+				cacheFilterName.name +="study_id:("+ args.study_id + ");";		
 			}
 			const res = await RedisCacheClient.redisCacheGetAsync(CacheName.getSummaryPageStudySummary('Publication')+cacheFilterName['name']);
 			if(res === null){
@@ -920,8 +966,8 @@ export const resolvers = {
 		//@@@PDC-1291 Redesign Browse Page data tabs
 		async getPaginatedUIStudy (_, args, context) {
 			//apply global project submitter id filter
-			let projectSubmitterIdValue = context.value.join("','")
-			let projectSubmitterIdCondition = ` and s.project_submitter_id IN ('${projectSubmitterIdValue}')`;
+			//let projectSubmitterIdValue = context.value.join("','")
+			//let projectSubmitterIdCondition = ` and s.project_submitter_id IN ('${projectSubmitterIdValue}')`;
 
 			context['arguments'] = args;
 			let cacheFilterName = {name:''};
@@ -944,9 +990,9 @@ export const resolvers = {
 			let groupByStudy = " GROUP BY submitter_id_name ";
 
 			//Step1 get base queries
-			let studyCountQuery=queryList.study_tab_count + projectSubmitterIdCondition;
-			let studyDataQuery=queryList.study_tab_data + projectSubmitterIdCondition;
-			let fileStudyQuery = queryList.file_study + projectSubmitterIdCondition;
+			let studyCountQuery=queryList.study_tab_count;
+			let studyDataQuery=queryList.study_tab_data;
+			let fileStudyQuery = queryList.file_study;
 
 			//Step1 apply filters on queries
 			let studyFilter = applyStudyFilter(args, cacheFilterName);
@@ -1006,8 +1052,8 @@ export const resolvers = {
 		//@@@PDC-1291 Redesign Browse Page data tabs
 		async getPaginatedUIFile(_, args, context) {
 			//apply global project submitter id filter
-			let projectSubmitterIdValue = context.value.join("','")
-			let projectSubmitterIdCondition = ` and s.project_submitter_id IN ('${projectSubmitterIdValue}')`;
+			//let projectSubmitterIdValue = context.value.join("','")
+			//let projectSubmitterIdCondition = ` and s.project_submitter_id IN ('${projectSubmitterIdValue}')`;
 			context['arguments'] = args;
 			var cacheFilterName = {name:''};
 
@@ -1027,9 +1073,9 @@ export const resolvers = {
 			}
 
 			//Step1 get base queries
-			let fileCountQuery=queryList.file_tab_count + projectSubmitterIdCondition;
-			let fileDataQuery=queryList.file_tab_data + projectSubmitterIdCondition;
-			let alSamCaDemDiaStudyQuery = queryList.al_sam_ca_dem_dia_study + projectSubmitterIdCondition;
+			let fileCountQuery=queryList.file_tab_count;
+			let fileDataQuery=queryList.file_tab_data;
+			let alSamCaDemDiaStudyQuery = queryList.al_sam_ca_dem_dia_study;
 
 			//Step1 apply filters on queries
 			let studyFilter = applyStudyFilter(args, cacheFilterName);
@@ -1088,8 +1134,8 @@ export const resolvers = {
 		//@@@PDC-1291 Redesign Browse Page data tabs
 		async getPaginatedUIClinical(_, args, context) {
 			//apply global project submitter id filter
-			let projectSubmitterIdValue = context.value.join("','")
-			let projectSubmitterIdCondition = ` and s.project_submitter_id IN ('${projectSubmitterIdValue}')`;
+			//let projectSubmitterIdValue = context.value.join("','")
+			//let projectSubmitterIdCondition = ` and s.project_submitter_id IN ('${projectSubmitterIdValue}')`;
 
 			context['arguments'] = args;
 			let cacheFilterName = {name:''};
@@ -1110,9 +1156,9 @@ export const resolvers = {
 			}
 
 			//Step1 get base queries
-			let clinicalCountQuery=queryList.clinical_tab_count + projectSubmitterIdCondition;
-			let clinicalDataQuery=queryList.clinical_tab_data + projectSubmitterIdCondition;
-			let fileStudyQuery = queryList.file_study + projectSubmitterIdCondition;
+			let clinicalCountQuery=queryList.clinical_tab_count;
+			let clinicalDataQuery=queryList.clinical_tab_data;
+			let fileStudyQuery = queryList.file_study;
 			
 			//Step1 apply filters on queries
 			let studyFilter = applyStudyFilter(args, cacheFilterName);
@@ -1171,8 +1217,8 @@ export const resolvers = {
 		//@@@PDC-1291 Redesign Browse Page data tabs
 		async getPaginatedUICase (_, args, context) {
 			//apply global project submitter id filter
-			let projectSubmitterIdValue = context.value.join("','")
-			let projectSubmitterIdCondition = ` and s.project_submitter_id IN ('${projectSubmitterIdValue}')`;
+			//let projectSubmitterIdValue = context.value.join("','")
+			//let projectSubmitterIdCondition = ` and s.project_submitter_id IN ('${projectSubmitterIdValue}')`;
 			context['arguments'] = args;
 			var cacheFilterName = {name:''};
 
@@ -1192,9 +1238,12 @@ export const resolvers = {
 			}
 
 			//Step1 get base queries
-			let caseCountQuery=queryList.case_tab_count + projectSubmitterIdCondition;
-			let caseDataQuery=queryList.case_tab_data + projectSubmitterIdCondition;
-			let fileStudyQuery = queryList.file_study + projectSubmitterIdCondition;
+			//let caseCountQuery=queryList.case_tab_count + projectSubmitterIdCondition;
+			//let caseDataQuery=queryList.case_tab_data + projectSubmitterIdCondition;
+			//let fileStudyQuery = queryList.file_study + projectSubmitterIdCondition;
+			let caseCountQuery=queryList.case_tab_count;
+			let caseDataQuery=queryList.case_tab_data;
+			let fileStudyQuery = queryList.file_study;
 			
 			//Step1 apply filters on queries
 			let studyFilter = applyStudyFilter(args, cacheFilterName);
@@ -1252,14 +1301,16 @@ export const resolvers = {
 		//@@@PDC-579 gene tabe pagination
 		//@@@PDC-1291 Redesign Browse Page data tabs
 		async getPaginatedUIGene(_, args, context) {
-			let projectSubmitterIdValue = context.value.join("','")
-			let projectSubmitterIdCondition = ` and s.project_submitter_id IN ('${projectSubmitterIdValue}')`;
+			//let projectSubmitterIdValue = context.value.join("','")
+			//let projectSubmitterIdCondition = ` and s.project_submitter_id IN ('${projectSubmitterIdValue}')`;
 			context['arguments'] = args;
 			var cacheFilterName = {name:''};
 
 			//Step1 get base queries
-			let fileDataQuery=queryList.file_study + projectSubmitterIdCondition;
-			let progProjAlSamCaDemDiaStudyQuery = queryList.prog_proj_al_sam_ca_dem_dia_study + projectSubmitterIdCondition;
+			//let fileDataQuery=queryList.file_study + projectSubmitterIdCondition;
+			//let progProjAlSamCaDemDiaStudyQuery = queryList.prog_proj_al_sam_ca_dem_dia_study + projectSubmitterIdCondition;
+			let fileDataQuery=queryList.file_study;
+			let progProjAlSamCaDemDiaStudyQuery = queryList.prog_proj_al_sam_ca_dem_dia_study;
 			
 			//Step1 apply filters on queries
 			let studyFilter = applyStudyFilter(args, cacheFilterName);
@@ -1401,7 +1452,7 @@ export const resolvers = {
 			if (typeof args.file_name != 'undefined') {
 				fileQuery += " and file.file_name = '"+args.file_name+"'";
 			}
-			fileQuery += " and study.project_submitter_id IN ('" + context.value.join("','") + "')";
+			//fileQuery += " and study.project_submitter_id IN ('" + context.value.join("','") + "')";
 			
 			var myOffset = 0;
 			var myLimit = 100;
@@ -1425,8 +1476,8 @@ export const resolvers = {
 		getPaginatedCases(_, args, context) {
 			//@@@PDC-136 pagination
 			context['arguments'] = args;
-			var caseCountQuery = "SELECT count(*) as total FROM `case` c "+
-			"WHERE c.project_submitter_id IN ('" + context.value.join("','") + "')";
+			var caseCountQuery = "SELECT count(*) as total FROM `case` c ";
+			//"WHERE c.project_submitter_id IN ('" + context.value.join("','") + "')";
 
 			var myOffset = 0;
 			var myLimit = 100;
@@ -1476,8 +1527,8 @@ export const resolvers = {
 			" = alm.aliquot_id  and al.sample_id=sam.sample_id and sam.case_id=c.case_id and "+
 			" c.case_id = dem.case_id and c.case_id = dia.case_id and "+
 			" proj.project_id = s.project_id and proj.program_id = prog.program_id "+
-			" order by c.case_submitter_id) t WHERE "+
-			" project_submitter_id IN ('" + context.value.join("','") + "')";
+			" order by c.case_submitter_id) t WHERE project_submitter_id is not null ";
+			//" project_submitter_id IN ('" + context.value.join("','") + "')";
 			var cacheFilterName = {name:''};
 			uiExpQuery += filtersView(args, cacheFilterName);
 			uiExpQuery += " group by experiment_type";
@@ -1522,8 +1573,8 @@ export const resolvers = {
 			" = alm.aliquot_id  and al.sample_id=sam.sample_id and sam.case_id=c.case_id and "+
 			" c.case_id = dem.case_id and c.case_id = dia.case_id and "+
 			" proj.project_id = s.project_id and proj.program_id = prog.program_id "+
-			" order by c.case_submitter_id) t WHERE "+
-			" project_submitter_id IN ('" + context.value.join("','") + "')";
+			" order by c.case_submitter_id) t WHERE project_submitter_id is not null ";
+			//" project_submitter_id IN ('" + context.value.join("','") + "')";
 			var cacheFilterName = {name:''};
 			uiExpQuery += filtersView(args, cacheFilterName);
 			uiExpQuery += " group by analytical_fraction";
@@ -1562,8 +1613,8 @@ export const resolvers = {
 			" project proj, program prog WHERE alm.study_id = s.study_id and al.aliquot_id "+
 			" = alm.aliquot_id  and al.sample_id=sam.sample_id and sam.case_id=c.case_id and "+
 			" c.case_id = dem.case_id and c.case_id = dia.case_id and "+
-			" proj.project_id = s.project_id and proj.program_id = prog.program_id "+
-			" and proj.project_submitter_id IN ('" + context.value.join("','") + "')";
+			" proj.project_id = s.project_id and proj.program_id = prog.program_id ";
+			//" and proj.project_submitter_id IN ('" + context.value.join("','") + "')";
 			var cacheFilterName = {name:''};
 			uiExpQuery += filtersView(args, cacheFilterName);
 			uiExpQuery += " group by disease_type";
@@ -1585,8 +1636,8 @@ export const resolvers = {
 		*/
 		uiTissueSiteCaseCount (_, args, context) {
 			var tscQuery = "SELECT d.tissue_or_organ_of_origin, count(d.case_id)" + 
-			" as cases_count " +
-			" FROM diagnosis d where d.project_submitter_id in ('" + context.value.join("','") + "')";
+			" as cases_count FROM diagnosis d ";
+			//"where d.project_submitter_id in ('" + context.value.join("','") + "')";
 			tscQuery += " group by d.tissue_or_organ_of_origin";
 			return db.getSequelize().query(tscQuery, { model: db.getModelByName('Diagnosis') });			
 		},
@@ -2064,8 +2115,8 @@ export const resolvers = {
 			var gssBaseQuery = "SELECT sc.study_submitter_id, sc.plex_name as aliquot_id, sc.gene_name, "+
 			" sc.dataset_alias as plex, sc.spectral_count, sc.distinct_peptide, "+
 			" sc.unshared_peptide";
-			var gssQuery = " FROM spectral_count sc WHERE " +
-			"sc.project_submitter_id IN ('" + context.value.join("','") + "')";
+			var gssQuery = " FROM spectral_count sc WHERE sc.spectral_count_id is not null ";
+			//"sc.project_submitter_id IN ('" + context.value.join("','") + "')";
 			if (typeof args.study_submitter_id != 'undefined') {
 				let study_submitter_ids = args.study_submitter_id.split(';'); 
 				gssQuery += " and sc.study_submitter_id IN ('" + study_submitter_ids.join("','") + "')";			
@@ -2113,8 +2164,8 @@ export const resolvers = {
 			}
 			var searchCountQuery = "SELECT count(c.case_submitter_id) as total ";
 			var searchBaseQuery = "SELECT c.case_submitter_id as name, 'case' as record_type ";
-			var searchQuery = " FROM `case` c WHERE c.case_submitter_id like '%"+nameToSearch+"%'"+
-			" AND c.project_submitter_id IN ('" + context.value.join("','") + "')";
+			var searchQuery = " FROM `case` c WHERE c.case_submitter_id like '%"+nameToSearch+"%'";
+			//" AND c.project_submitter_id IN ('" + context.value.join("','") + "')";
 			var myOffset = 0;
 			var myLimit = 100;
 			var paginated = false;
@@ -2226,8 +2277,8 @@ export const resolvers = {
 			var searchCountQuery = "SELECT count(s.study_shortname) as total ";
 			//@@@PDC-372 add submitter_id_name for study type
 			var searchBaseQuery = "SELECT s.study_shortname as name, s.submitter_id_name, 'study' as record_type ";
-			var searchQuery = " FROM study s WHERE s.study_shortname like '%"+nameToSearch+"%'"+
-			" AND s.project_submitter_id IN ('" + context.value.join("','") + "')";
+			var searchQuery = " FROM study s WHERE s.study_shortname like '%"+nameToSearch+"%'";
+			//" AND s.project_submitter_id IN ('" + context.value.join("','") + "')";
 			var myOffset = 0;
 			var myLimit = 100;
 			var paginated = false;
@@ -2326,7 +2377,8 @@ export const resolvers = {
 			"ga.unshared_log2_ratio, ga.unshared_precursor_area, ga.precursor_area, "+
 			"ga.cud_label "+
 			"from study s, gene_abundance ga "+
-			"where s.study_id = ga.study_id and s.project_submitter_id IN ('" + context.value.join("','") + "')";
+			"where s.study_id = ga.study_id ";
+			//"and s.project_submitter_id IN ('" + context.value.join("','") + "')";
 			if (typeof args.study_submitter_id != 'undefined') {
 				let study_submitter_ids = args.study_submitter_id.split(';'); 
 				quantQuery += " and s.study_submitter_id IN ('" + study_submitter_ids.join("','") + "')"; 				
@@ -2351,7 +2403,8 @@ export const resolvers = {
 			" WHERE alm.study_id = s.study_id and al.aliquot_id = alm.aliquot_id "+
 			" and al.sample_id=sam.sample_id and sam.case_id=c.case_id "+
 			" and proj.project_id = s.project_id and ptc.study_id = s.study_id "+
-			" and proj.program_id = prog.program_id and s.project_submitter_id IN ('" + context.value.join("','") + "')";
+			" and proj.program_id = prog.program_id ";
+			//" and s.project_submitter_id IN ('" + context.value.join("','") + "')";
 			comboQuery += filters(args);
 			return db.getSequelize().query(comboQuery, { model: db.getModelByName('Program') });			
 		},
@@ -2366,8 +2419,8 @@ export const resolvers = {
 			" aliquot al, project proj, program prog "+
 			" WHERE alm.study_id = s.study_id and al.aliquot_id = alm.aliquot_id "+
 			" and al.sample_id=sam.sample_id and sam.case_id=c.case_id "+
-			" and proj.project_id = s.project_id "+
-			" and proj.program_id = prog.program_id and s.project_submitter_id IN ('" + context.value.join("','") + "')";
+			" and proj.project_id = s.project_id ";
+			//" and proj.program_id = prog.program_id and s.project_submitter_id IN ('" + context.value.join("','") + "')";
 			uiCaseQuery += filters(args);
 
 			var myOffset = 0;
@@ -2396,8 +2449,8 @@ export const resolvers = {
 			var uiCaseQuery = "FROM study s, `case` c, sample sam, aliquot_run_metadata alm, "+
 			" aliquot al "+
 			" WHERE alm.study_id = s.study_id and al.aliquot_id = alm.aliquot_id "+
-			" and al.sample_id=sam.sample_id and sam.case_id=c.case_id "+
-			" and s.project_submitter_id IN ('" + context.value.join("','") + "')";
+			" and al.sample_id=sam.sample_id and sam.case_id=c.case_id ";
+			//" and s.project_submitter_id IN ('" + context.value.join("','") + "')";
 			uiCaseQuery += filters(args);
 
 			var myOffset = 0;
@@ -2426,8 +2479,8 @@ export const resolvers = {
 			var uiCaseQuery = "FROM study s, `case` c, sample sam, aliquot_run_metadata alm, "+
 			" aliquot al "+
 			" WHERE alm.study_id = s.study_id and al.aliquot_id = alm.aliquot_id "+
-			" and al.sample_id=sam.sample_id and sam.case_id=c.case_id "+
-			" and s.project_submitter_id IN ('" + context.value.join("','") + "')";
+			" and al.sample_id=sam.sample_id and sam.case_id=c.case_id ";
+			//" and s.project_submitter_id IN ('" + context.value.join("','") + "')";
 			uiCaseQuery += filters(args);
 
 			var myOffset = 0;
@@ -2504,8 +2557,8 @@ export const resolvers = {
 			var uiPtmCountQuery = "select count(distinct pq.ptm_type, pq.site, pq.peptide) as total ";
 			var uiPtmBaseQuery = "SELECT distinct pq.ptm_type, pq.site, pq.peptide ";
 			var uiPtmQuery = "FROM ptm_abundance pq"+
-			" WHERE pq.gene_name = '"+ args.gene_name +
-			"' and pq.project_submitter_id IN ('" + context.value.join("','") + "')";
+			" WHERE pq.gene_name = '"+ args.gene_name +"' ";
+			//"and pq.project_submitter_id IN ('" + context.value.join("','") + "')";
 
 			var cacheFilterName = {name:''};
 			cacheFilterName.name +="gene_name: ("+args.gene_name+");";
@@ -2606,8 +2659,8 @@ export const resolvers = {
 			" and al.sample_id=sam.sample_id and sam.case_id=c.case_id and proj.project_id = s.project_id"+
 			" and c.case_id = dem.case_id and c.case_id = dia.case_id and"+
 			" s.study_id = sf.study_id and sf.file_id = f.file_id"+
-			" and proj.program_id = prog.program_id and "+
-			" s.project_submitter_id IN ('" + context.value.join("','") + "')";
+			" and proj.program_id = prog.program_id ";
+			//" and s.project_submitter_id IN ('" + context.value.join("','") + "')";
 			
 			if (typeof args.study_id != 'undefined' && args.study_id.length > 0) {
 				let studySub = args.study_id.split(";");
@@ -2632,6 +2685,43 @@ export const resolvers = {
 			}
 			return studies;
 		},
+		//@@@PDC-1376 add sample and aliquot APIs to search by uuid/submitter_id 
+		sample(_, args, context) {
+			var sampleQuery = "select bin_to_uuid(sample_id) as sample_id, status, sample_is_ref, "+
+			"sample_submitter_id, sample_type, sample_type_id, gdc_sample_id, gdc_project_id, "+
+			"biospecimen_anatomic_site, composition, current_weight, days_to_collection, "+
+			"days_to_sample_procurement, diagnosis_pathologically_confirmed, freezing_method, "+
+			"initial_weight, intermediate_dimension, is_ffpe, longest_dimension, "+
+			"method_of_sample_procurement, oct_embedded, pathology_report_uuid, preservation_method, "+
+			"time_between_clamping_and_freezing, time_between_excision_and_freezing, "+
+			"shortest_dimension, tissue_type, tumor_code, tumor_code_id, tumor_descriptor "+
+			"from sample ";
+			if (typeof args.sample_id != 'undefined'){
+				let uuIds = args.sample_id.split(';');
+				sampleQuery += "where sample_id in (uuid_to_bin('" + uuIds.join("'),uuid_to_bin('") + "'))";	
+			}
+			else if (typeof args.sample_submitter_id != 'undefined'){
+				let subIds = args.sample_submitter_id.split(';');
+				sampleQuery += "where sample_submitter_id in ('" + subIds.join("','") + "')";	
+			}
+			return db.getSequelize().query(sampleQuery, { model: db.getModelByName('Sample') });
+			
+		},
+		//@@@PDC-1376 add sample and aliquot APIs to search by uuid/submitter_id 
+		aliquot(_, args, context) {
+			var aliquotQuery = "select bin_to_uuid(aliquot_id) as aliquot_id, aliquot_submitter_id, "+
+			"analyte_type, aliquot_quantity, aliquot_volume, amount, concentration, status, "+
+			"aliquot_is_ref from aliquot ";
+			if (typeof args.aliquot_id != 'undefined'){
+				let uuIds = args.aliquot_id.split(';');
+				aliquotQuery += "where aliquot_id in (uuid_to_bin('" + uuIds.join("'),uuid_to_bin('") + "'))";	
+			}
+			else if (typeof args.aliquot_submitter_id != 'undefined'){
+				let subIds = args.aliquot_submitter_id.split(';');
+				aliquotQuery += "where aliquot_submitter_id in ('" + subIds.join("','") + "')";	
+			}
+			return db.getSequelize().query(aliquotQuery, { model: db.getModelByName('Aliquot') });
+		},
 		//@@@PDC-898 new public APIs--protocolPerStudy
 		protocolPerStudy (_, args, context) {
 			//@@@PDC-1154 column name correction: fractions_analyzed_count
@@ -2655,7 +2745,8 @@ export const resolvers = {
 			"dia_multiplexing, dia_ims, auxiliary_data, prot.cud_label "+
 			" from study s, program prog, project proj, protocol prot "+
 			" where prot.study_id = s.study_id and s.project_id = proj.project_id "+ 
-			" and proj.program_id = prog.program_id and s.project_submitter_id IN ('" + context.value.join("','") + "')";
+			" and proj.program_id = prog.program_id ";
+			//" and s.project_submitter_id IN ('" + context.value.join("','") + "')";
 			if (typeof args.study_id != 'undefined' && args.study_id.length > 0) {
 				let studySub = args.study_id.split(";");
 				protoQuery += " and s.study_id IN (uuid_to_bin('" + studySub.join("'),uuid_to_bin('") + "'))";
@@ -2677,8 +2768,8 @@ export const resolvers = {
 			" sample sam, aliquot al, aliquot_run_metadata alm "+
 			" where alm.study_id=s.study_id and al.aliquot_id= alm.aliquot_id"+
 			" and al.sample_id=sam.sample_id and sam.case_id=c.case_id and "+
-			" c.case_id = dem.case_id and c.case_id=dia.case_id and"+
-			" s.project_submitter_id IN ('" + context.value.join("','") + "')";
+			" c.case_id = dem.case_id and c.case_id=dia.case_id ";
+			//" and s.project_submitter_id IN ('" + context.value.join("','") + "')";
 			if (typeof args.study_id != 'undefined' && args.study_id.length > 0) {
 				let studySub = args.study_id.split(";");
 				clinicalQuery += " and s.study_id IN (uuid_to_bin('" + studySub.join("'),uuid_to_bin('") + "'))";
@@ -2701,21 +2792,22 @@ export const resolvers = {
 		},
 		//@@@PDC-898 new public APIs--biospecimenPerStudy
 		//@@@PDC-1156 add is_ref
+		//@@@PDC-1396 add external_case_id
 		biospecimenPerStudy(_, args, context) {
 			//@@@PDC-1127 add pool and taxon
 			var biospecimenQuery = "SELECT distinct bin_to_uuid(al.aliquot_id) as aliquot_id, "+
 			" bin_to_uuid(sam.sample_id) as sample_id, al.aliquot_submitter_id, al.aliquot_is_ref, "+ 
 			" al.status as aliquot_status, sam.sample_submitter_id, "+
 			" c.status as case_status, sam.status as sample_status, "+
-			" bin_to_uuid(c.case_id) as case_id, c.case_submitter_id, "+
+			" bin_to_uuid(c.case_id) as case_id, c.case_submitter_id, c.external_case_id, "+
 			" proj.name as project_name, sam.sample_type, c.disease_type, c.primary_site, "+
 			" al.pool, c.taxon "+
 			" from study s, `case` c, sample sam, aliquot al,"+
 			" aliquot_run_metadata alm, project proj "+
 			" where alm.study_id=s.study_id and "+
 			" al.aliquot_id= alm.aliquot_id and al.sample_id=sam.sample_id and sam.case_id=c.case_id"+
-			" and proj.project_id = s.project_id and "+
-			" s.project_submitter_id IN ('" + context.value.join("','") + "')";
+			" and proj.project_id = s.project_id ";
+			//" and s.project_submitter_id IN ('" + context.value.join("','") + "')";
 			if (typeof args.study_id != 'undefined' && args.study_id.length > 0) {
 				let studySub = args.study_id.split(";");
 				biospecimenQuery += " and s.study_id IN (uuid_to_bin('" + studySub.join("'),uuid_to_bin('") + "'))";
@@ -2753,8 +2845,8 @@ export const resolvers = {
 			" tmt_126, tmt_127n, tmt_127c, tmt_128n, tmt_128c,"+
 			" tmt_129n, tmt_129c, tmt_130n, tmt_130c, tmt_131, tmt_131c"+
 			" from study_run_metadata srm, study s "+
-			" where srm.study_id=s.study_id "+
-			" and s.project_submitter_id IN ('" + context.value.join("','") + "')";
+			" where srm.study_id=s.study_id ";
+			//" and s.project_submitter_id IN ('" + context.value.join("','") + "')";
 			if (typeof args.study_id != 'undefined' && args.study_id.length > 0) {
 				let studySub = args.study_id.split(";");
 				experimentalQuery += " and s.study_id IN (uuid_to_bin('" + studySub.join("'),uuid_to_bin('") + "'))";

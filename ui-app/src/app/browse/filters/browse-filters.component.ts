@@ -758,6 +758,9 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
     /**find final intersectedStudyArray across all selected fitler from above and each filter intersects
      * with intersectedStudyArray to find the updated count for each filter  */
     for (let filterCategoryName of this.allFilterCategory) {
+      if (numOfFilterCategorySelected === 1 && !geneFilterSelected && filterCategoryName == selectedFilterCategoryName) {
+        continue;
+      }
       for (let individualFilter of this.findFilterListByName(filterCategoryName)) {
         let individualFilterName = individualFilter.filterName;
         let fullSetFilterValue: string[] = this.allFilterCategoryMapData.get(
@@ -770,101 +773,94 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
       }
     }
 
-    //handle special case only one category selected
-    if (numOfFilterCategorySelected === 1 && !geneFilterSelected) {
-      let filterIndex: number = this.allFilterCategory.indexOf(
-        selectedFilterCategoryName
-      );
-      for (let individualFilter of this.findFilterListByName(
-        selectedFilterCategoryName
-      )) {
-        individualFilter.filterCount = this.allFilterCategoryMapData.get(
-          selectedFilterCategoryName + ":" + individualFilter.filterName
-        ).length;
+
+    let noStudyAvailable = false;
+    let submitterIdNameList = this.newFilterSelected['submitter_id_name'];
+    if(this.selectedGeneNames != '' && Array.isArray(submitterIdNameList) &&  submitterIdNameList.length> 0){
+      if(this.newFilterSelected['study_name'] == ''){
+        this.newFilterSelected['study_name'] = _.intersection(this.selectedGeneStudyNamesList, submitterIdNameList).join(";");
+      }else{
+        this.newFilterSelected['study_name'] = this.newFilterSelected['study_name']+ ";"+ _.intersection(this.selectedGeneStudyNamesList, submitterIdNameList).join(";");
+      }
+      if(_.intersection(this.selectedGeneStudyNamesList, submitterIdNameList).length == 0){
+        noStudyAvailable = true;
+      }
+    }else if(this.selectedGeneNames != ''){
+      if(this.newFilterSelected['study_name'] == ''){
+        this.newFilterSelected['study_name'] = this.selectedGeneStudyNamesList.join(";");
+      }else{
+        this.newFilterSelected['study_name'] = this.newFilterSelected['study_name']+ ";"+ this.selectedGeneStudyNamesList.join(";");
+      }
+    }else if(Array.isArray(submitterIdNameList) &&  submitterIdNameList.length> 0){
+      if(this.newFilterSelected['study_name'] == ''){
+        this.newFilterSelected['study_name'] = submitterIdNameList.join(";");
+      }else{
+        this.newFilterSelected['study_name'] = this.newFilterSelected['study_name']+ ";"+ submitterIdNameList.join(";");
+      }
+    }
+
+    for(let filterName of this.allFilterCategory){
+      if(Array.isArray(this.newFilterSelected[filterName])){
+        this.newFilterSelected[filterName] = this.newFilterSelected[filterName].join(";");
+      }
+    }
+    if(noStudyAvailable){
+      for (let i = 0; i < this.allFilterCategory.length; i++) {
+        let filterCategoryName = this.allFilterCategory[i];
+        let selectedFilter: Filter[] = this.findFilterListByName(
+          filterCategoryName
+        );
+        for (let selectedFilterData of selectedFilter) {
+          selectedFilterData.filterCount = 0;
+        }
       }
     }else{
-      let noStudyAvailable = false;
-      let submitterIdNameList = this.newFilterSelected['submitter_id_name'];
-      if(this.selectedGeneNames != '' && Array.isArray(submitterIdNameList) &&  submitterIdNameList.length> 0){
-        if(this.newFilterSelected['study_name'] == ''){
-          this.newFilterSelected['study_name'] = _.intersection(this.selectedGeneStudyNamesList, submitterIdNameList).join(";");
-        }else{
-          this.newFilterSelected['study_name'] = this.newFilterSelected['study_name']+ ";"+ _.intersection(this.selectedGeneStudyNamesList, submitterIdNameList).join(";");
-        }
-        if(_.intersection(this.selectedGeneStudyNamesList, submitterIdNameList).length == 0){
-          noStudyAvailable = true;
-        }
-      }else if(this.selectedGeneNames != ''){
-        if(this.newFilterSelected['study_name'] == ''){
-          this.newFilterSelected['study_name'] = this.selectedGeneStudyNamesList.join(";");
-        }else{
-          this.newFilterSelected['study_name'] = this.newFilterSelected['study_name']+ ";"+ this.selectedGeneStudyNamesList.join(";");
-        }
-      }else if(Array.isArray(submitterIdNameList) &&  submitterIdNameList.length> 0){
-        if(this.newFilterSelected['study_name'] == ''){
-          this.newFilterSelected['study_name'] = submitterIdNameList.join(";");
-        }else{
-          this.newFilterSelected['study_name'] = this.newFilterSelected['study_name']+ ";"+ submitterIdNameList.join(";");
-        }
-      }
-
-      for(let filterName of this.allFilterCategory){
-        if(Array.isArray(this.newFilterSelected[filterName])){
-          this.newFilterSelected[filterName] = this.newFilterSelected[filterName].join(";");
-        }
-      }
-      if(noStudyAvailable){
+      this.browseFiltersService
+      .getFilteredFiltersDataQuery(this.newFilterSelected)
+      .subscribe((data: any) => {
         for (let i = 0; i < this.allFilterCategory.length; i++) {
           let filterCategoryName = this.allFilterCategory[i];
+
+          if (numOfFilterCategorySelected === 1 && !geneFilterSelected && filterCategoryName == selectedFilterCategoryName) {
+            continue;
+          }
+
           let selectedFilter: Filter[] = this.findFilterListByName(
             filterCategoryName
           );
+          let filterListData: FilterElement[] = data.uiFilters[
+            filterCategoryName
+          ];
+          let filterListDataMap = new Map();
+          for (let filterData of filterListData) {
+            filterListDataMap.set(
+              filterData.filterName,
+              filterData.filterValue.length
+            );
+          }
           for (let selectedFilterData of selectedFilter) {
-            selectedFilterData.filterCount = 0;
+            if (filterListDataMap.has(selectedFilterData.filterName)) {
+              selectedFilterData.filterCount = filterListDataMap.get(
+                selectedFilterData.filterName
+              );
+            } else {
+              selectedFilterData.filterCount = 0;
+            }
+          }
+          let studyList: Filter[] = [];
+          for (let studyFilter of this.allStudyFilter) {
+            if (studyFilter.filterCount > 0) {
+              studyList.push(studyFilter);
+            }
+          }
+          if (!studySelected) {
+            this.studyFilter = studyList;
           }
         }
-      }else{
-        this.browseFiltersService
-        .getFilteredFiltersDataQuery(this.newFilterSelected)
-        .subscribe((data: any) => {
-          for (let i = 0; i < this.allFilterCategory.length; i++) {
-            let filterCategoryName = this.allFilterCategory[i];
-            let selectedFilter: Filter[] = this.findFilterListByName(
-              filterCategoryName
-            );
-            let filterListData: FilterElement[] = data.uiFilters[
-              filterCategoryName
-            ];
-            let filterListDataMap = new Map();
-            for (let filterData of filterListData) {
-              filterListDataMap.set(
-                filterData.filterName,
-                filterData.filterValue.length
-              );
-            }
-            for (let selectedFilterData of selectedFilter) {
-              if (filterListDataMap.has(selectedFilterData.filterName)) {
-                selectedFilterData.filterCount = filterListDataMap.get(
-                  selectedFilterData.filterName
-                );
-              } else {
-                selectedFilterData.filterCount = 0;
-              }
-            }
-            let studyList: Filter[] = [];
-            for (let studyFilter of this.allStudyFilter) {
-              if (studyFilter.filterCount > 0) {
-                studyList.push(studyFilter);
-              }
-            }
-            if (!studySelected) {
-              this.studyFilter = studyList;
-            }
-          }
-        });
-      }
-      
+      });
     }
+
+
 
     //remove study in study filter category if study is not able to be selected
     let studyList: Filter[] = [];

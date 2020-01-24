@@ -1,48 +1,49 @@
+category: Biological
+description: A functional unit of heredity which occupies a specific position on a
+    particular chromosome and serves as the template for a product that contributes
+    to a phenotype or a biological function.
+properties:
+    assays:
+        description: CPTAC Assay accessions for the peptides associated with the gene
+        required: 'False'
+        type: string
+    authority:
+        description: HGNC Identifier
+        required: 'True'
+        type: string
+    chromosome:
+        description: NCBI Gene chromosome
+        required: 'True'
+        type: string
+    description:
+        description: NCBI Gene description
+        required: 'True'
+        type: string
+    gene_id:
+        key: 'yes'
+        type: string
+    gene_name:
+        description: NCBI Gene name
+        required: 'True'
+        type: string
+    locus:
+        description: NCBI Gene cytoband
+        required: 'True'
+        type: string
+    ncbi_gene_id:
+        description: NCBI Gene Identifier
+        required: 'True'
+        type: integer
+    organism:
+        description: NCBI Gene organism
+        required: 'True'
+        type: string
+    proteins:
+        description: Semi-colon separated list of protein accessions associated with
+            the gene
+        required: 'True'
+        type: string
 title: Gene
 type: object
-category: Biological
-description: "A functional unit of heredity which occupies a specific position on a particular chromosome and serves as the template for a product that contributes to a phenotype or a biological function."
-uniqueKeys: 
- - 
-   - 
-   gene_id
-properties: 
- gene_id: 
-  type: string
-  key: yes
- gene_name: 
-  type: string
-  description: "NCBI Gene name"
-  required: True
- ncbi_gene_id: 
-  type: string
-  description: "NCBI Gene Identifier"
-  required: True
- authority: 
-  type: string
-  description: "HGNC Identifier"
-  required: True
- description: 
-  type: string
-  description: "NCBI Gene description"
-  required: True
- orgranism: 
-  type: string
-  description: "NCBI Gene organism"
-  required: True
- chromosome: 
-  type: string
-  description: "NCBI Gene chromosome"
-  required: True
- locus: 
-  type: string
-  description: "NCBI Gene cytoband"
-  required: True
- proteins: 
-  type: string
-  description: "Semi-colon separated list of protein accessions associated with the gene"
-  required: True
- assays: 
-  type: string
-  description: "CPTAC Assay accessions for the peptides associated with the gene"
-  required: False
+uniqueKeys:
+-   - gene_id
