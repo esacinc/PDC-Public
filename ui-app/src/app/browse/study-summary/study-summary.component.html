@@ -7,12 +7,13 @@
 <h2 mat-dialog-title style="color:#245672" >STUDY SUMMARY: {{studySummaryData.submitter_id_name}}</h2>
 
 <mat-dialog-content style='max-height: 80vh; '>
-		<div class="row" style="width: 100%;vertical-align: middle">
+<div class="row" style="width: 100%;vertical-align: middle">
 	<div class="col-md-2" style="align-items: center;">
 		<mat-card style="background:#21b5f0;font-family: 'Lato';font-weight: 400;color:#ffffff;text-align: center;">
 			<mat-card-content>
 				<span style="font-size: 20px;">
-					{{studySummaryData.cases_count}}
+				<!--@@@PDC-1427  sync up case/aliquot counts-->
+					{{totalRecordsClinical}}
 				</span><br>
 				Cases
 			</mat-card-content>
@@ -20,7 +21,8 @@
 		<mat-card style="background:#078abf;font-family: 'Lato';font-weight: 400;color:#ffffff;text-align: center;">
 			<mat-card-content>
 				<span style="font-size: 20px;">
-					{{studySummaryData.aliquots_count}}
+				<!--@@@PDC-1427  sync up case/aliquot counts-->
+					{{totalRecordsBiospecimens}}
 				</span><br>
 				Aliquots
 			</mat-card-content>
@@ -41,7 +43,7 @@
 						<td class="summary-card-value-right-cell">{{studySummaryData.embargo_date | date :  "MMMM d, y"}}</td>
 					</tr>
 					<tr><td class="summary-card-name-left-cell">Source Study ID</td>
-						<td class="summary-card-value-left-cell">{{studySummaryData.study_submitter_id}}</td>
+						<td class="summary-card-value-left-cell">{{studySubmitterId}}</td>
 						<td class="summary-card-name-right-cell">Analyitical Fraction</td>
 						<td class="summary-card-value-right-cell">{{studySummaryData.analytical_fraction}}</td>
 					</tr>
@@ -170,7 +172,7 @@
 			<div *ngIf="studyExperimentalDesign" class="row" style="margin-left:0px !important">
 				<p-table #dt class="table-striped ui-datatable-odd" [value]="studyExperimentalDesign" [lazy]="true"
 				[loading]="loading" [resizableColumns]="true" columnResizeMode="expand" [responsive]="true" 
-				id="studyExperimentalDesignTable" [scrollable]="true" scrollHeight="350px" [(selection)]="selectedExperimentalStudies">
+				id="studyExperimentalDesignTable" [(selection)]="selectedExperimentalStudies">
 				<ng-template pTemplate="caption">
 					<div class="ui-helper-clearfix">
 						<button matTooltip="Please use CPTAC Data Portal for downloading the files" id="downloadStudyExpDesignManifest" mat-raised-button mat-primary label="Download Selection" 
@@ -183,7 +185,7 @@
 								<a href="{{staticUrlBase}}dictionaryitem.html?eName=Study Run Metadata" target="_blank" style="color:white">{{col.header}}</a>
 							</th>
 						</tr>
-						<tr *ngIf="studyExperimentDesignTableExtraCols" style="font-size: 12px;">
+						<tr *ngIf="studyExperimentDesignTableExtraCols && studyExperimentDesignTableExtraCols.length > 0" style="font-size: 12px;">
 							<th rowspan=1 [attr.colspan]="studyExperimentDesignTableExtraCols.length" class="ui-datatable-tableheader" pResizableColumn style="word-wrap: break-word; white-space: normal;text-align: center;">
 								<a href="{{staticUrlBase}}dictionaryitem.html?eName=Study Run Metadata" target="_blank" style="color:white">
 									{{studyExperimentDesignTableHeaderCol}}
@@ -197,7 +199,7 @@
 						</tr>
 					</ng-template>
 					<ng-template pTemplate="body" let-studyExperimentalDesign let-columns="studyExperimentDesignTableCols">
-						<tr style="font-size: 11px;">
+						<tr *ngIf="studyExperimentDesignTableCols" style="font-size: 11px;">
 							<td *ngFor="let col of studyExperimentDesignTableCols" style="word-wrap: break-word; white-space: normal;">
 								<span class="colValue" [innerHtml] = "studyExperimentalDesign[col.field]"></span>
 							</td>
@@ -220,13 +222,13 @@
 						<h3 style="font-family: 'Lato'; font-size:14px;float:left">{{totalRecordsClinical > 1 ? 'Total records: ' + totalRecordsClinical : 'Total record: ' + totalRecordsClinical }}</h3>
 				</div>
 				<div *ngIf="filteredClinicalData" class="row" style="margin-left:0px !important">
-				  <p-table class="table-striped ui-datatable-odd" #dt [columns]="clinicalCols" [value]="filteredClinicalData" [lazy]="true" [totalRecords]="totalRecordsClinical"
+				  <p-table class="table-striped ui-datatable-odd" #dt [columns]="clinicalCols" [value]="filteredClinicalData" [totalRecords]="totalRecordsClinical"
 							[loading]="loading" [resizableColumns]="true" columnResizeMode="expand" responsive="true" 
-							dataKey="case_submitter_id" id="clinicalDataTable" [scrollable]="true" scrollHeight="350px">
-					<ng-template style="font-size: 12px; background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%);" pTemplate="header">
+							dataKey="case_submitter_id" id="clinicalDataTable">
+					<ng-template style="font-size: 12px; background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%);" pTemplate="header" let-columns>
 						<tr style="font-size: 12px;">
 							<!-- @@@PDC-262 link headers to data dictionary -->                
-							<th class="ui-datatable-tableheader" style="width:14%;" [pSortableColumn]="clinicalCols[0].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Case" target="_blank" style="color:white">Cases Submitter ID</a><p-sortIcon [field]="clinicalCols[0].field" ariaLabel="Sort Case submitter ID in ascending/descending order"></p-sortIcon></th>							
+							<th class="ui-datatable-tableheader" style="width:14%;word-break: break-all;" [pSortableColumn]="clinicalCols[0].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Case" target="_blank" style="color:white">Cases Submitter ID</a><p-sortIcon [field]="clinicalCols[0].field" ariaLabel="Sort Case submitter ID in ascending/descending order"></p-sortIcon></th>							
 							<th class="ui-datatable-tableheader" style="width:13%" [pSortableColumn]="clinicalCols[1].field" pResizableColumn>
 								<div class="ui-datatable-tableheader-flex-container">
 									<div>
@@ -244,7 +246,7 @@
 							<th class="ui-datatable-tableheader" style="width:6%" [pSortableColumn]="clinicalCols[4].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Demographic#race" target="_blank" style="color:white">Race</a><p-sortIcon [field]="clinicalCols[4].field" ariaLabel="Sort Race column in ascending/descending order"></p-sortIcon></th>
 							<th class="ui-datatable-tableheader" style="width:8%" [pSortableColumn]="clinicalCols[5].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Diagnosis#morphology" target="_blank" style="color:white">Morphology</a><p-sortIcon [field]="clinicalCols[5].field" ariaLabel="Sort Morphology column in ascending/descending order"></p-sortIcon></th>
 							<th class="ui-datatable-tableheader" style="width:10%" [pSortableColumn]="clinicalCols[6].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Diagnosis#primary_diagnosis" target="_blank" style="color:white">Primary Diagnosis</a><p-sortIcon [field]="clinicalCols[6].field" ariaLabel="Sort Primary Diagnosis column in ascending/descending order"></p-sortIcon></th>
-							<th class="ui-datatable-tableheader" style="width:8%" [pSortableColumn]="clinicalCols[7].field">
+							<th class="ui-datatable-tableheader" style="width:8%" [pSortableColumn]="clinicalCols[7].field" pResizableColumn>
 								<div class="ui-datatable-tableheader-flex-container">
 									<div>
 										<a href="{{staticUrlBase}}dictionaryitem.html?eName=Diagnosis#site_of_resection_or_biopsy" target="_blank" style="color:white">
@@ -256,7 +258,7 @@
 									</div>
 								</div>
 							</th>
-							<th class="ui-datatable-tableheader" style="width:8%" [pSortableColumn]="clinicalCols[8].field">
+							<th class="ui-datatable-tableheader" style="width:8%" [pSortableColumn]="clinicalCols[8].field" pResizableColumn>
 								<div class="ui-datatable-tableheader-flex-container">
 									<div>
 										<a href="{{staticUrlBase}}dictionaryitem.html?eName=Diagnosis#tissue_or_organ_of_origin" target="_blank" style="color:white">
@@ -268,11 +270,11 @@
 									</div>
 								</div>
 							</th>
-							<th class="ui-datatable-tableheader" style="width:8%" [pSortableColumn]="clinicalCols[9].field"><a href="{{staticUrlBase}}dictionaryitem.html?eName=Diagnosis#tumor_grade" target="_blank" style="color:white">Tumor Grade</a><p-sortIcon [field]="clinicalCols[9].field" ariaLabel="Sort Tumor Grade column in ascending/descending order"></p-sortIcon></th>
-							<th class="ui-datatable-tableheader" style="width:8%" [pSortableColumn]="clinicalCols[10].field"><a href="{{staticUrlBase}}dictionaryitem.html?eName=Diagnosis#tumor_stage" target="_blank" style="color:white">Tumor Stage</a><p-sortIcon [field]="clinicalCols[10].field" ariaLabel="Sort Tumor Stage column in ascending/descending order"></p-sortIcon></th>
+							<th class="ui-datatable-tableheader" style="width:8%" [pSortableColumn]="clinicalCols[9].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Diagnosis#tumor_grade" target="_blank" style="color:white">Tumor Grade</a><p-sortIcon [field]="clinicalCols[9].field" ariaLabel="Sort Tumor Grade column in ascending/descending order"></p-sortIcon></th>
+							<th class="ui-datatable-tableheader" style="width:8%" [pSortableColumn]="clinicalCols[10].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Diagnosis#tumor_stage" target="_blank" style="color:white">Tumor Stage</a><p-sortIcon [field]="clinicalCols[10].field" ariaLabel="Sort Tumor Stage column in ascending/descending order"></p-sortIcon></th>
 						</tr>
 					</ng-template>
-					<ng-template pTemplate="body" let-clinicalData>
+					<ng-template pTemplate="body" let-clinicalData let-columns="columns">
 						<tr style="font-size: 11px;" [pSelectableRow]="clinicalData" >
 							<!-- @@@PDC-462 show submitter id -->                
 							<td style="width:14%;word-wrap: break-word; white-space: normal;"><a href="javascript:void(0);" (click)="showCaseSummary(clinicalData.case_submitter_id, 'clinical')">{{clinicalData.case_submitter_id }}</a>&nbsp;&nbsp;<span style='color:red' *ngIf="clinicalData.status == 'Disqualified'">{{clinicalData.status}}</span></td>
@@ -307,15 +309,15 @@
 				<div *ngIf="filteredCasesData" class="row" style="margin-left:0px !important">
 					<p-table class="table-striped ui-datatable-odd" #dt [columns]="biospecimenCols"  [value]="filteredCasesData" [totalRecords]="totalRecordsBiospecimens"
 								[loading]="loading" [resizableColumns]="true" columnResizeMode="expand" responsive="true" 
-								dataKey="aliquot_submitter_id" id="biospecimensDataTable" [scrollable]="true" scrollHeight="350px">
+								dataKey="aliquot_submitter_id" id="biospecimensDataTable">
 						<ng-template style="font-size: 12px; background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%);" pTemplate="header" let-columns>
 							<tr style="font-size: 12px;">
 								<!-- @@@PDC-262 link headers to data dictionary -->                
-								<th class="ui-datatable-tableheader" style="width:18%;word-break: break-all;" [pSortableColumn]="biospecimenCols[0].field"><a href="{{staticUrlBase}}dictionaryitem.html?eName=Aliquot" target="_blank" style="color:white">Aliquot</a><p-sortIcon [field]="biospecimenCols[0].field" ariaLabel="Sort Aliquot column in ascending/descending order"></p-sortIcon></th>
-								<th class="ui-datatable-tableheader" style="width:18%" [pSortableColumn]="biospecimenCols[1].field"><a href="{{staticUrlBase}}dictionaryitem.html?eName=Sample" target="_blank" style="color:white">Sample</a><p-sortIcon [field]="biospecimenCols[1].field" ariaLabel="Sort Sample column in ascending/descending order"></p-sortIcon></th>
-								<th class="ui-datatable-tableheader" style="width:18%" [pSortableColumn]="biospecimenCols[2].field"><a href="{{staticUrlBase}}dictionaryitem.html?eName=Case" target="_blank" style="color:white">Case</a><p-sortIcon [field]="biospecimenCols[2].field" ariaLabel="Sort Case column in ascending/descending order"></p-sortIcon></th>
-								<th class="ui-datatable-tableheader" style="width:15%" [pSortableColumn]="biospecimenCols[3].field"><a href="{{staticUrlBase}}dictionaryitem.html?eName=Project" target="_blank" style="color:white">Project</a><p-sortIcon [field]="biospecimenCols[3].field" ariaLabel="Sort Project column in ascending/descending order"></p-sortIcon></th>
-								<th class="ui-datatable-tableheader" style="width:10%" [pSortableColumn]="biospecimenCols[4].field">
+								<th class="ui-datatable-tableheader" style="width:18%;word-break: break-all;" [pSortableColumn]="biospecimenCols[0].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Aliquot" target="_blank" style="color:white">Aliquot</a><p-sortIcon [field]="biospecimenCols[0].field" ariaLabel="Sort Aliquot column in ascending/descending order"></p-sortIcon></th>
+								<th class="ui-datatable-tableheader" style="width:18%" [pSortableColumn]="biospecimenCols[1].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Sample" target="_blank" style="color:white">Sample</a><p-sortIcon [field]="biospecimenCols[1].field" ariaLabel="Sort Sample column in ascending/descending order"></p-sortIcon></th>
+								<th class="ui-datatable-tableheader" style="width:18%" [pSortableColumn]="biospecimenCols[2].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Case" target="_blank" style="color:white">Case</a><p-sortIcon [field]="biospecimenCols[2].field" ariaLabel="Sort Case column in ascending/descending order"></p-sortIcon></th>
+								<th class="ui-datatable-tableheader" style="width:15%" [pSortableColumn]="biospecimenCols[3].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Project" target="_blank" style="color:white">Project</a><p-sortIcon [field]="biospecimenCols[3].field" ariaLabel="Sort Project column in ascending/descending order"></p-sortIcon></th>
+								<th class="ui-datatable-tableheader" style="width:10%" [pSortableColumn]="biospecimenCols[4].field" pResizableColumn>
 									<div class="ui-datatable-tableheader-flex-container">
 										<div>
 											<a href="{{staticUrlBase}}dictionaryitem.html?eName=Sample#sample_type" target="_blank" style="color:white">
@@ -327,7 +329,7 @@
 										</div>
 									</div>
 								</th>
-								<th class="ui-datatable-tableheader" style="width:10%; white-space: pre; word-break: break-all;" [pSortableColumn]="biospecimenCols[5].field">
+								<th class="ui-datatable-tableheader" style="width:10%; white-space: pre; word-break: break-all;" [pSortableColumn]="biospecimenCols[5].field" pResizableColumn>
 									<div class="ui-datatable-tableheader-flex-container">
 										<div>
 											<a href="{{staticUrlBase}}dictionaryitem.html?eName=Case#primary_site" target="_blank" style="color:white">
@@ -339,7 +341,7 @@
 										</div>
 									</div>
 								</th>
-								<th class="ui-datatable-tableheader" style="width:9%" [pSortableColumn]="biospecimenCols[6].field">
+								<th class="ui-datatable-tableheader" style="width:9%" [pSortableColumn]="biospecimenCols[6].field" pResizableColumn>
 									<div class="ui-datatable-tableheader-flex-container">
 										<div>
 											<a href="{{staticUrlBase}}dictionaryitem.html?eName=Case#disease_type" target="_blank" style="color:white">
@@ -450,48 +452,50 @@
 		</mat-tab>
 	</mat-tab-group>
   </div>
-  <div class="row" style="width: 100%; padding-top: 20px;">
+  <div class="row" style="width: 100%; padding-top: 20px;padding-bottom:5px">
 		<div class="col-md-6">
 			<mat-card class="data-categories-table">
 				<mat-card-content>
 				<table class="table table-striped" style="width:100%" id="dataCategoryStudyTable">
 					<thead>
 						<tr style="font-size: 12px;background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%);">
-							<th class="ui-datatable-tableheader" style="width:40%;">Data Category</th>
-							<th class="ui-datatable-tableheader" style="width:30%">Files (n={{totalFilesCount}})</th>
+							<th class="ui-datatable-tableheader" style="width:80%;">Data Category</th>
+							<th class="ui-datatable-tableheader" style="width:20%">Files (n={{totalFilesCount}})</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr style="font-size: 12px;" *ngFor="let categoryDetails of fileCountsRaw">
-							<td style="width:40%;word-wrap: break-word;white-space: normal;">{{categoryDetails.data_category}} ({{categoryDetails.file_type}})</td>
-							<td style="width:30%;word-wrap: break-word;white-space: normal;"><a target="_blank" href= "/pdc/browse/filters/study_name:{{studySummaryData.submitter_id_name}}&data_category:{{categoryDetails.data_category}}&file_type:{{categoryDetails.file_type}}&selectedTab:3">{{categoryDetails.files_count}}</a></td>
+							<td style="width:80%;word-wrap: break-word;white-space: normal;">{{categoryDetails.data_category}} ({{categoryDetails.file_type}})</td>
+							<td style="width:20%;word-wrap: break-word;white-space: normal;"><a target="_blank" href= "/pdc/browse/filters/study_name:{{studySummaryData.submitter_id_name}}&data_category:{{categoryDetails.data_category}}&file_type:{{categoryDetails.file_type}}&selectedTab:3">{{categoryDetails.files_count}}</a></td>
 						</tr>
 					</tbody>
 				  </table>
 				</mat-card-content>
 			</mat-card>
 		</div>
-		<div class="col-md-6">
+		<div class="col-md-6" style="padding-bottom:5px">
 		<!--@@@PDC-1313 use heatmap thumbnail-->			
-		<div>
-			<mat-card>
+		 <div style="padding-bottom:3px">
+			<mat-card style="padding:10px">
 				<mat-card-content>
 				<div *ngIf="!heatmapAvailable">
 					No heatmap for this study
 				</div>
 				<div *ngIf="heatmapAvailable">
 				<tr style="font-size: 14px;border: 0px">
-				<td style="width:10%;border: 0px"><button mat-raised-button mat-primary (click)="close(true,studySummaryData.submitter_id_name)" id="viewHeatMapFromStudySummary"><img src="./assets/css/images/heatmap_thumb.png"></button>
+				<td style="width:10%;border: 0px">
+					<button mat-raised-button mat-primary (click)="close(true,studySummaryData.submitter_id_name)" id="viewHeatMapFromStudySummary" style="padding-top: 5px; padding-left: 1px; padding-right: 1px;">
+						<img src="./assets/css/images/heatmap_thumb.png">
+					</button>
 				</td>
 				<td style="width:5%"> </td>
-				<td style="width:85%;align-content:center;border: 0px">  Explore protein quantitation from PDC Common <br>Data Analysis pipeline (CDAP) through heatmaps</td>
+				<td style="width:85%;align-content:center;border: 0px;word-wrap: break-word !important; white-space: normal;">  Explore protein quantitation from PDC Common <br>Data Analysis pipeline (CDAP) through heatmaps</td>
 				</tr>
 				</div>
 				</mat-card-content>
 			</mat-card>	
-		    </div>			
-			<div>
-			<mat-card>
+		</div><div style="padding-bottom:3px">  
+			<mat-card style="padding:10px">
 				<mat-card-header class="study-summary" >
 					<mat-card-title  class="study-summary" >PUBLICATIONS</mat-card-title>
 				</mat-card-header>
@@ -509,7 +513,7 @@
 					</p-table>
 				</mat-card-content>
 			</mat-card>	
-			</div>
+		 </div>
 		</div>
   </div>
 </mat-dialog-content>

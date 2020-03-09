@@ -1,11 +1,8 @@
 <title>Welcome</title>
 <div class="container-fluid">
-	<div class="row">
-		<div class="col-md-5" style="text-align:center;">
-			<img src="./assets/css/images/WelcomePageImage.png" style="width:75%;" />
-		</div>
-		<div class="col-md-7">
-			<h2 style="color:#245672; text-align: center;">Change your account details</h2>
+  <h2 style="color:#245672; text-align: center;margin:0">PDC User Account</h2>
+	<mat-tab-group>
+		<mat-tab style="color:#245672;" label="Edit user account details">
 			<h4><span *ngIf="systemErrorMessage != ''" style="color:red">{{ systemErrorMessage }}</span></h4><br />
 			<h4 *ngIf="formInvalidMessage!=''"><br><span style="color:red">{{formInvalidMessage}}</span><br></h4>
 			<form [formGroup]="registrationForm" (ngSubmit)="submitUpdate()" class="form" style="padding:10px" name="pdcRegistrationForm" novalidate>
@@ -59,18 +56,29 @@
 						<mat-error *ngIf="searchType.invalid&&isValidFormSubmitted!=null">Choice is required</mat-error>
 					</mat-radio-group>
 				</div>
-				<button id="pdcUpdateUserData" mat-raised-button>Update User Data</button>
-				<button id="pdcCancelUpdate" mat-raised-button routerLink='/pdc'>Cancel</button>
+				<span style="display: flex;  justify-content: center;">
+					<button id="pdcUpdateUserData" mat-raised-button style="line-height:36px!important" >Submit</button>
+					<button type="button" id="pdcCancelUpdate" mat-raised-button style="margin-left:20px;line-height:36px!important" (click)="onCancelClick()" >Cancel</button>
+				</span>
 			</form>
 <!-- 			<div style="margin-left: 10px;margin-top: 10px;">
 				<a href="javascript:void(0)" (click)="forgotPassword()">Change your password</a>
 			</div> -->
-			<span style="float: left; margin-bottom: 15px; margin-left: 10px; margin-top: 20px;">
-				<button id="resetPasswordBtn" mat-raised-button (click)="resetPassword()"><b>Change your password</b></button>
-			</span>
-			<span style="float: left; margin-bottom: 15px; margin-left: 10px; margin-top: 20px;">
-				<button id="pdcCancelAccount" mat-raised-button (click)="cancelUserAccount()"><b>Cancel Account</b></button>
-			</span>
-		</div>
-	</div>
+		</mat-tab>
+		<mat-tab label="Manage user account">
+			<div class="manage-user-account-tab">
+				<mat-list>
+					<mat-list-item *ngIf="isUserTypePDC()">
+						<button id="resetPasswordBtn" mat-raised-button (click)="resetPassword()"><b>Change Password</b></button>
+					</mat-list-item>
+					<mat-list-item>
+						<button id="pdcCancelAccount" mat-raised-button (click)="cancelUserAccount()"><b>Deactivate Account</b></button>
+					</mat-list-item>
+				</mat-list>
+				<span style="display: flex;  justify-content: center; margin-bottom: 20px;margin-top: 10px;">
+						<button id="pdcCancelUpdate" mat-raised-button style="line-height:36px!important" (click)="onCancelClick()" >Cancel</button>
+				</span>	
+			</div>
+		</mat-tab>
+	</mat-tab-group>
 </div>

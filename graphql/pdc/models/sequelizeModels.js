@@ -61,6 +61,7 @@ const defineSequelizeModels = (db) => {
 	  * case queries.
 	  */
 	  //@@@PDC-1093 change data type of is_ffpe from int to string
+	  //@@@PDC-1467 add case_submitter_id
 	  const SampleModel = db.getSequelize().define('sample', {
 		  sample_id: { type: Sequelize.STRING,
 					  primaryKey: true   },
@@ -68,6 +69,7 @@ const defineSequelizeModels = (db) => {
 		  gdc_sample_id: { type: Sequelize.STRING },
 		  gdc_project_id: { type: Sequelize.STRING },
 		  sample_submitter_id: { type: Sequelize.STRING },
+		  case_submitter_id: { type: Sequelize.STRING },
 		  sample_type: { type: Sequelize.STRING },
 		  sample_type_id: { type: Sequelize.STRING },
 		  sample_is_ref: { type: Sequelize.STRING },

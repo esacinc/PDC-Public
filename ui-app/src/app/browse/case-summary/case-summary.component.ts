@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { ActivatedRoute, Router } from "@angular/router";
 import { Apollo } from 'apollo-angular';
+import { Location } from '@angular/common';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import gql from 'graphql-tag';
@@ -24,6 +25,7 @@ import { StudySummaryComponent } from '../study-summary/study-summary.component'
 //@@@PDC-374 - adding url to overlay windows
 //@@@PDC-1042: Enable links to studies and files from case summary page
 //@@@PDC-1355: Use uuid as API search parameter
+//@@@PDC-1609: URL structure for permanent links to PDC 
 export class CaseSummaryComponent implements OnInit {
   experimentFileCount: ExperimentFileByCaseCount[];
   dataCategoryFileCount: DataCategoryFileByCaseCount[];
@@ -41,6 +43,7 @@ export class CaseSummaryComponent implements OnInit {
 	filteredStudiesData: AllStudiesData[]; //Filtered list of Studies
   
   constructor(private activatedRoute: ActivatedRoute, private router: Router, private apollo: Apollo,
+				private loc:Location,
 				private caseSummaryService: CaseSummaryService,
 				private dialogRef: MatDialogRef<CaseSummaryComponent>,
 				@Inject(MAT_DIALOG_DATA) public caseData: any,
@@ -54,6 +57,7 @@ export class CaseSummaryComponent implements OnInit {
 		this.getCaseGeneralSummaryData();
 	}
 	//console.log(this.caseSummaryData);
+	this.loc.replaceState("/case/" + this.caseSummaryData.case_id);
 	this.fileTypesCounts = {RAW: 0, 'PSM-TSV': 0, 'PSM-MZID': 0, PROT_ASSEM: 0, MZML: 0, PROTOCOL: 0}; 
 	this.aliquots = [];
 	this.diagnoses = [];
@@ -80,7 +84,7 @@ export class CaseSummaryComponent implements OnInit {
 
   getCaseGeneralSummaryData(){
 	this.loading = true;
-	this.caseSummaryService.getCaseSummaryData(this.case_id).subscribe((data: any) =>{
+	this.caseSummaryService.getCaseSummaryData(this.case_id, this.case_submitter_id).subscribe((data: any) =>{
 		//console.log(data.uiCase);
 		this.caseSummaryData = data.uiCase[0];
 		this.loading = false;
@@ -104,11 +108,15 @@ export class CaseSummaryComponent implements OnInit {
 				dialogConfig.data = {
 					summaryData: this.filteredStudiesData[0],
 				};
-				this.router.navigate([{outlets: {studySummary: ['study-summary', studyName]}}]);
+				//create an alias for study summary overlay window URL in the form [base url]/study/study uuid
+				this.loc.replaceState("/study/" + this.filteredStudiesData[0].study_id);
+				this.router.navigate([{outlets: {studySummary: ['study-summary', studyName]}}], { skipLocationChange: true });
 				const dialogRef = this.dialog.open(StudySummaryComponent, dialogConfig);	
-				dialogRef.afterClosed().subscribe(
-						val => console.log("Dialog output:", val)
-				);
+				dialogRef.afterClosed().subscribe((val:any) => {
+					console.log("Dialog output:", val);
+					//Generate alias URL to hide auxiliary URL details when the previous overlay window was closed and the focus returned to this one
+					this.loc.replaceState("/case/" + this.caseSummaryData.case_id);
+				});
 			});	
 		}, 1000);
 	}
@@ -232,6 +240,7 @@ export class CaseSummaryComponent implements OnInit {
  
   close() {
 		this.router.navigate([{outlets: {'caseSummary': null}}]);
+		this.loc.replaceState(this.router.url);
         this.dialogRef.close();
   }
 	

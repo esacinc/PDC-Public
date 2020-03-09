@@ -474,11 +474,22 @@ getCasesByExperimentalStrategy(){
 		}
 	}
 
+	//@@@PDC-1418: Unable to clear breadcrumbs when the user clicks on breadcrumbs other than "Clear"
+	randomNumber(min, max) {
+		return Math.random() * (max - min) + min;
+	}
+
 	//@@@PDC-277: Add a filter crumb bar at the top that explains the filter criteria selected
 	//@@@PDC-994: Breadcrumbs in Browse page are displayed even after clearing filter selections
 	deleteBreadcrumb(event, filterToBeDeleted = []) {
 		if (event != '') {
 			this.filtersChangedInBreadcrumbBar = event.value + ":";
+			//@@@PDC-1418: Unable to clear breadcrumbs when the user clicks on breadcrumbs other than "Clear"
+			//ngOnChanges in browse filters component is not detecting a change 
+			//if the value sent from this file is the same
+			//Adding a random number to the variable changes the value each time its sent to another component.
+			let randomNum = this.randomNumber(1, 10);
+			this.filtersChangedInBreadcrumbBar = this.filtersChangedInBreadcrumbBar + "-" + randomNum;
 		} else if (filterToBeDeleted.length > 0) {
 			for (var i=0; i < filterToBeDeleted.length; i++) {
 				// Delete the required filter from breadcrumbs
@@ -504,6 +515,12 @@ getCasesByExperimentalStrategy(){
 		var modifiedfilterval = labelVal[0] + ":" + remainingFilter;
 		modifiedfilterval = this.replaceAll(modifiedfilterval, ";", "|");
 		this.filtersChangedInBreadcrumbBar = modifiedfilterval;
+		//@@@PDC-1418: Unable to clear breadcrumbs when the user clicks on breadcrumbs other than "Clear"
+		//ngOnChanges in browse filters component is not detecting a change 
+	    //if the value sent from this file is the same
+		//Adding a random number to the variable changes the value each time its sent to another component.
+		let randomNum = this.randomNumber(1, 10);
+		this.filtersChangedInBreadcrumbBar = this.filtersChangedInBreadcrumbBar + "-" + randomNum;
 	}
 
 	//@@@PDC-277: Add a filter crumb bar at the top that explains the filter criteria selected

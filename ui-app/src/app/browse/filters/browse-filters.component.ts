@@ -529,8 +529,10 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
       case "sample_type":
         if (setValuesForFence) {
           this.selectedSampleType.push(filterVal);
+        } else if (clearValuesforbreadcrumb) {
+          this.clearSelectionsSampleType();
         } else {
-        this.selectedSampleType  = filterVal.split('|');
+          this.selectedSampleType  = filterVal.split('|');
         }
         break;
       case "ethnicity":
@@ -1030,7 +1032,10 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
         if (filterChangedInBreadcrumbBar == "Clear all selections") {
             this.clearAllSelections();
         } else {
-          var filter_value = filterChangedInBreadcrumbBar.split(":");
+          //@@@PDC-1418: Unable to clear breadcrumbs when the user clicks on breadcrumbs other than "Clear"
+          let filterValWithrandowmNum =  filterChangedInBreadcrumbBar.split("-");
+          let filterValWithoutrandomNum = filterValWithrandowmNum[0];
+          var filter_value = filterValWithoutrandomNum.split(":");
           if (filter_value[1] != "") {
             if (filter_value[0] == "gene_name") {
               //special case for gene_name filter

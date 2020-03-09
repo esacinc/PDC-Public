@@ -63,19 +63,19 @@
 				<!-- PDC-824 Allow email/password registration -->
 				<div class="form-group" *ngIf="idProvider==='PDC'">
 					<label for="password">Password:</label>
-					<input type="password" class="form-control" id="password" required formControlName="user_pass" name="password">
+					<input type="password" class="form-control" id="password1" required formControlName="user_pass" name="password1">
 					<span style="font-size: 9px; color: gray"> 
 					<ul style="padding-inline-start:20px!important; padding-top:2px;">Password requirements:
 					<li>Minimum password length: 8 characters</li>
 					<li>At least one uppercase letter</li>
 					<li>At least one lowercase letter</li>
 					<li>At least one number</li>
-					<li>At least one non-alphanumeric character from this list: !@#$%^&*</li></ul>
+					<li>At least one non-alphanumeric character (excluding brackets)</li></ul>
 					</span>
 					<mat-error *ngIf="user_pass.invalid && passwordInvalidMessage != ''">{{passwordInvalidMessage}}<br></mat-error>
 					<label for="password_confirm">Confirm password:</label>
-					<input type="password" class="form-control" id="password_confirm" required formControlName="user_pass" name="password">
-					<mat-error *ngIf="user_pass.invalid&&isValidFormSubmitted!=null&&password_confirm!=password">Password does not match</mat-error>
+					<input type="password" class="form-control" id="password2" required formControlName="confirm_password" name="password2">
+					<mat-error *ngIf="confirm_password.invalid && passwordInvalidMessage != ''">Passwords do not match</mat-error>
 				</div>
 				<!--PDC-1070 - privacy policy window became an overlay window, so no need to open a new tab -->
 				<div class="form-group">By registering with the NCI Proteomic Data Portal you agree to our <a href="javascript:void(0)" (click)="viewPrivacyPolicy()" style="text-decoration: underline;">Privacy Policy.</a></div>

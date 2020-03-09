@@ -70,13 +70,13 @@ if (typeof process.env.PDC_DB_GQ_PWD != "undefined") {
       // Depending on whether the secret is a string or binary, one of these fields will be populated.
 	//@@@PDC-1215 use winston logger
       sequelize = new Sequelize(
-        process.env.PDC_DB_PDCAPI,
-        process.env.PDC_DB_PDCAPI_USER,
+        process.env.PDC_DB_GQ,
+        process.env.PDC_DB_GQ_USER,
         JSON.parse(data.SecretString)[secretName],
         {
-          host: process.env.PDC_DB_PDCAPI_HOST,
-          dialect: process.env.PDC_DB_PDCAPI_DIALECT,
-          port: process.env.PDC_DB_PDCAPI_PORT,
+          host: process.env.PDC_DB_GQ_HOST,
+          dialect: process.env.PDC_DB_GQ_DIALECT,
+          port: process.env.PDC_DB_GQ_PORT,
 		  logging: (msg) => logger.info(msg)
         }
       );

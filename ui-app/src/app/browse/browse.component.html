@@ -1,5 +1,5 @@
-<div style="padding-left: 5px; overflow-x:hidden">
-    <mat-sidenav-container style="min-height: 1100px; padding-left:5px!important">
+<div style="padding-left: 5px; overflow-x: scroll;min-width:1200px">
+    <mat-sidenav-container style="min-height: 1100px;padding-left:5px!important">
       <!-- @@@PDC-320 slightly changed the width of sidebar filters to make reset button always appear aligned to filter name -->
       <mat-sidenav #sidenav style=" margin-top: 3px; width:330px; padding-left:15px!important" mode="side" opened [(opened)]="opened" class="sideBarNavigation">
         
@@ -22,7 +22,7 @@
 
     </mat-sidenav>
     
-    <mat-sidenav-content style="margin-top: 3px; overflow: hidden; ">
+    <mat-sidenav-content style="margin-top: 3px; overflow-x: scroll; ">
       <button *ngIf="opened"  mat-icon-button style="padding-right:0px!important; padding-top: 0px"
         matTooltip="Hide filters" (click)="sidenav.toggle()" id="hideFiltersOptionTop"><fa name="angle-double-left"></fa></button>
      <button mat-icon-button matTooltip="Show filters"
@@ -51,19 +51,19 @@
               </mat-expansion-panel-header>
            <mat-card class="browse-page card" style="padding-left:0px; padding-top:0px!important;">
               <div class="row">
-                <div class="col-md-4" style="padding-top:0px; padding-right: 20px">
+                <div class="col-md-4 col-sm-4 col-xs-4" style="padding-top:0px; padding-right: 20px">
                     <mat-card class="browse-page card-header mat-elevation-z0" style="padding-bottom:0px!important; margin-bottom:0px; padding-top: 0px">
                       <mat-card-title class="card-header">ANALYTICAL FRACTIONS</mat-card-title>
                       <div style="padding-bottom:0px!important; margin-bottom:0px; padding-top: 0px" id="analyticalFractionChart" [chart]="analyticalFractionsChart"></div>
                     </mat-card>
                 </div>
-                <div class="col-md-4" style="padding-top:0px">
+                <div class="col-md-4 col-sm-4 col-xs-4" style="padding-top:0px">
                 <mat-card class="browse-page card-header mat-elevation-z0" style="padding-top:0px">
                   <mat-card-title class="browse-page card-header">DISEASE TYPES</mat-card-title>
                   <div id="diseaseTypeChart" [chart]="diseaseTypesChart"></div>
                 </mat-card>
                 </div>
-                <div class="col-md-4" style="padding-top:0px; padding-right: 20px">
+                <div class="col-md-4 col-sm-4 col-xs-4" style="padding-top:0px; padding-right: 20px">
                 <mat-card class="browse-page card-header mat-elevation-z0" style="padding-top: 0px">
                   <mat-card-title class="card-header">EXPERIMENT TYPES</mat-card-title>
                   <div id="expCntChart" [chart]="expCountChart"></div>

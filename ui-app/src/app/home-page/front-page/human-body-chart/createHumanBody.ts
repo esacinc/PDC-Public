@@ -84,7 +84,8 @@ const createHumanBody: TCreateHumanBody = ({
         data.splice(i, 1);
       }
     }
-    if (dataofOther != '') data.push(dataofOther);
+	//@@@PDC-1590 remove Other label from human body image
+    //if (dataofOther != '') data.push(dataofOther);
   }
  
 
@@ -148,6 +149,15 @@ const createHumanBody: TCreateHumanBody = ({
         .text(d => (tickInterval * i).toLocaleString());
     }
   }
+
+  //@@@PDC-1417: For the human body chart, add label to the X-axis
+  xAxisLabels.append("text")
+    .attr("x", barStartOffset + 51)
+    .attr("y", plotHeight + 13 + 40)
+    .attr('fill', 'white')
+    .attr('font-size', '14px')
+    .style('text-anchor', 'middle')
+    .text("Number of Cases");
 
    // Primary Site Labels
    svg

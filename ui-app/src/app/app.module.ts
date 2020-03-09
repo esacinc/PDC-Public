@@ -14,7 +14,8 @@ import { HttpClientModule} from '@angular/common/http';
 import { APP_BASE_HREF } from '@angular/common';
 import { MatButtonModule, MatToolbarModule, MatGridListModule, MatFormFieldModule,
 	MatIconModule, MatTabsModule, MatInputModule, MatMenuModule, MatTooltipModule, 
-	MatCardModule, MatAutocompleteModule, MatRadioModule, MatProgressSpinnerModule, MatCheckboxModule  } from '@angular/material';
+	MatCardModule, MatAutocompleteModule, MatRadioModule, MatProgressSpinnerModule, 
+	MatCheckboxModule, MatListModule  } from '@angular/material';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { FormsModule } from '@angular/forms';
 import {
@@ -141,7 +142,8 @@ export function getAuthServiceConfigs() {
 	DataSubmissionModule,
 	OverlayModule,
 	GenePageModule,
-	MatCheckboxModule
+	MatCheckboxModule,
+	MatListModule
   ],
   providers: [ChorusauthService, FrontPageService, SearchService, PDCUserService, OverlayWindowService, StudySummaryOverlayService, AuthGuardService,
     {

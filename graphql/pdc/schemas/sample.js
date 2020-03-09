@@ -1,11 +1,13 @@
 //@@@PDC-1093 change data type of is_ffpe from int to string
 //@@@PDC-1376 add sample and aliquot APIs to search by uuid/submitter_id
+//@@@PDC-1467 add case_submitter_id
 const Sample = `
 type Sample {
 	sample_id: String
 	gdc_sample_id: String
 	gdc_project_id: String
 	sample_submitter_id: String
+	case_submitter_id: String
 	sample_type: String
 	sample_type_id: String
 	sample_is_ref: String

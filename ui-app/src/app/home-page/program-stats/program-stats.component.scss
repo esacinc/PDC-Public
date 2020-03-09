@@ -162,3 +162,44 @@ div.stats .label-row {
     margin: 0 0 1px;
     vertical-align: bottom;
 }
+
+@media (max-width: 900px){
+    .stats-icon { display: none; } 
+}
+
+//@@@PDC-1635: Collapse "Program Stats" section for smaller layouts.
+@media only screen and (min-width: 768px) and (max-width: 1200px) {
+    .statcolSecondRowItem {
+        margin-right: 20% !important;
+    }
+}
+
+.firstStatCol, .statcolSecondRow {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+@media (min-width: 768px) {
+    .statCol, .statcolSecondRowItem {
+        margin-right: 15%;
+    }
+
+    .statcolRow, .statcolSecondRow {
+        padding-top: unset;
+    }
+}
+
+@media (max-width: 767px) {
+    .statcolRow {
+        padding-top: 10%;
+    }
+
+    .statcolSecondRow {
+        padding-top: 5%;
+        padding-bottom: 2%;
+    }
+
+    .toolbar-narrow {
+        height: 80px;
+    }
+}

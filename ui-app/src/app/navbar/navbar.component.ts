@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog, MatDialogConfig, MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
-import { NavigationEnd, ActivationEnd, Router, ActivatedRoute, ParamMap } from "@angular/router";
+import { NavigationEnd, ActivationEnd, Router, ActivatedRoute, ParamMap, ActivationStart } from "@angular/router";
 import { DEFAULT_INTERRUPTSOURCES, Idle } from '@ng-idle/core';
 import { Apollo } from 'apollo-angular';
 import { Observable, Subscription } from 'rxjs';
@@ -15,10 +15,12 @@ import { ChorusauthService } from '../chorusauth.service';
 import { GeneProteinSummaryComponent } from '../gene-protein-summary/gene-protein-summary.component';
 import { PDCUserService } from '../pdcuser.service';
 import { AllCasesData, AllStudiesData } from '../types';
+import { MessageDialogComponent } from "./../dialog/message-dialog/message-dialog.component";
 import { LabSelectionComponent } from './lab-selection/lab-selection.component';
 import { LoginComponent } from './login/login.component';
 import { RegistrationComponent} from './registration/registration.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { UserAccountComponent } from '../user-account/user-account.component';
 import { SearchService } from './search.service';
 import { environment } from '../../environments/environment';
 
@@ -44,6 +46,10 @@ import { environment } from '../../environments/environment';
 //@@@PDC-966 - finish forgot password feature
 //@@@PDC-995: Case view creates two pop-ups
 //@@@PDC-1153: Direct linking to case summary has broken
+//@@@PDC-1469 make user account page to be an overlay window
+//@@@PDC-1406: review and update messages that user can get during registration/login/account update 
+//@@@PDC-1487: resolve issues found with user registration/login
+//@@@PDC-1609: URL structure for permanent links to PDC 
 export class NavbarComponent implements OnInit {
   background = '';
   searchFormControl = new FormControl();
@@ -64,6 +70,7 @@ export class NavbarComponent implements OnInit {
   apidocumentation_url = environment.dictionary_base_url + 'apidocumentation.html';
   submission_portal_docs_url = environment.submission_portal_docs_url;
   userEmailConfirmed = false;
+  //caseUUID = '';
 
   private subscription: Subscription;
 
@@ -91,7 +98,7 @@ export class NavbarComponent implements OnInit {
    //Callback function that is called when the user clicks "search" icon to open the window with the search term summary
   //@@@PDC-1082 Add validation on search text user put in search bar.
   openSearchTermSummary(test:any){
-	  console.log(this.selectedSearchTerm);
+	  //console.log(this.selectedSearchTerm);
 	  this.searchButtonFlag = true;
 	  if (this.selectedSearchTerm.name) {
 		  let term = this.selectedSearchTerm.name.split(': ');
@@ -107,12 +114,20 @@ export class NavbarComponent implements OnInit {
 			  this.searchButtonFlag = false;
 		  }
 		  if (term[0] === 'CA') {
-			  this.showCaseSummary(term[1].replace(/[^a-zA-Z0-9-]/g, ''));
-			  this.searchButtonFlag = true;
+			  this.showCaseSummary(term[1], term[0]);
+			  this.searchButtonFlag = false;
 		  }
 		  if (term[0] === 'ST'){
-			  this.showStudySummary(term[1].replace(/[^a-zA-Z0-9-]/g, ''));
-			  this.searchButtonFlag = true;
+			  this.showStudySummary(term[1]);
+			  this.searchButtonFlag = false;
+		  }
+		  if (term[0] === 'AL'){
+			this.showCaseSummary(term[1], term[0]);
+			this.searchButtonFlag = false;
+		  }
+		  if (term[0] === 'SA'){
+			this.showCaseSummary(term[1], term[0]);
+			this.searchButtonFlag = false;
 		  }
 	  }
   }
@@ -135,42 +150,108 @@ export class NavbarComponent implements OnInit {
 	this.router.navigate([{outlets: {geneSummary: ['gene-summary', gene_name]}}]);
 	const dialogRef = this.dialog.open(GeneProteinSummaryComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(
-        val => console.log('Dialog output:', val)
+        val => {
+			console.log('Dialog output:', val);
+			//@@@PDC-1441: Add ability to search by case, study, aliquot, sample UUIDs on UI search box
+			//Reset the search box to empty
+			this.selectedSearchTerm = [{name: '', value: ''}];
+		}
     );
 
   }
   
-  showCaseSummary(case_id: string){
-	  console.log("Open Case summary for case id: " + case_id);
-	  const dialogConfig = new MatDialogConfig();
-	
-      dialogConfig.disableClose = true;
-      dialogConfig.autoFocus = false;
-	  dialogConfig.hasBackdrop = true;
-	  //dialogConfig.minWidth = '1000px';
-	  dialogConfig.width = '80%';
-	  dialogConfig.height = '95%'
-	  
-	  //@@@PDC-462 show submitter ids
-	  let case_data: AllCasesData = {
-		aliquot_submitter_id: '',
-		sample_submitter_id: '',
-		case_id: '',
-		case_submitter_id: case_id,
-		project_name: '',
-		program_name: '',
-		sample_type: '',
-		disease_type: '',
-		primary_site: ''
+  showCaseSummary(case_id: string, entityType = "", case_uuid = ""){
+	var caseSubmitterID = "";
+	var caseUUID = "";
+	//console.log(case_id);
+	  if (entityType == "CA") {
+		
+		let requiredCaseID = case_id.split("{");
+		caseSubmitterID = requiredCaseID[1];
+		caseUUID = requiredCaseID[0];
+		
+	  } else {
+		//For Sample/Aliquot
+		//var caseUUID = "";
+		var requiredCaseID = [];
+		if (entityType == "AL") {
+			requiredCaseID = case_id.split("}");
+		} else {
+			requiredCaseID = case_id.split("{");
+		}
+		caseSubmitterID = requiredCaseID[1];
+		//this.openCaseSummaryDialog(caseSubmitterID, caseUUID);
+	  }
+	  //this function was called with auxiliary URL and NOT with search
+	  if (entityType === ""){
+		  if (case_id != ""){  caseSubmitterID = case_id; } else { caseSubmitterID = "";}
+		  if (case_uuid != "") { caseUUID = case_uuid; } else { caseUUID = "";}
+	  }
+	  this.openCaseSummaryDialog(caseSubmitterID, caseUUID);
+  }
+
+  openCaseSummaryDialog(caseSubmitterID, caseUUID) {
+	console.log("Open Case summary for case id: " + caseSubmitterID + ", " + caseUUID + ".");
+	const dialogConfig = new MatDialogConfig();	
+	dialogConfig.disableClose = true;
+	dialogConfig.autoFocus = false;
+	dialogConfig.hasBackdrop = true;
+	//dialogConfig.minWidth = '1000px';
+	dialogConfig.width = '80%';
+	dialogConfig.height = '95%'
+	//@@@PDC-462 show submitter ids
+	let case_data: AllCasesData = {
+		  aliquot_submitter_id: '',
+		  sample_submitter_id: '',
+		  case_id: caseUUID,
+		  case_submitter_id: caseSubmitterID,
+		  project_name: '',
+		  program_name: '',
+		  sample_type: '',
+		  disease_type: '',
+		  primary_site: ''
+	}
+	//@@@PDC-1441: Add ability to search by case, study, aliquot, sample UUIDs on UI search box
+	//Fetch all required properties for a Case
+	this.searchService.getCaseSummaryData(caseUUID, caseSubmitterID).subscribe((data: any) => {
+	  if (data.uiCase) {
+		  let caseData = data.uiCase[0];
+		  if (caseData) {
+			  if (caseUUID == "") {
+			  	case_data.case_id = caseData.case_id;
+			  }
+			  case_data.aliquot_submitter_id = caseData.aliquot_submitter_id;
+			  case_data.sample_submitter_id = caseData.sample_submitter_id;
+			  case_data.project_name = caseData.project_name;
+			  case_data.program_name = caseData.program_name;
+			  case_data.sample_type = caseData.sample_type;
+			  case_data.disease_type = caseData.disease_type;
+			  case_data.primary_site = caseData.primary_site;
+		  }
 	  }
 	  dialogConfig.data = {
-          summaryData: case_data,
+		  summaryData: case_data,
 	  }
-	  this.router.navigate([{outlets: {caseSummary: ['case-summary', case_id]}}]);
+	  var currentUrl = this.loc.path();
+	  //this.loc.replaceState("/case/" + case_data.case_id);
+	  //PDC-1609 check if case summary window is accessed directly via url or via search
+	  if (currentUrl.indexOf("/case/") > -1) {
+		  //if case summary is accessed via direct url, we want the background page to be browse.
+		  this.router.navigate([{outlets: {primary: ['browse'], caseSummary: ['case-summary', caseSubmitterID]}}], { skipLocationChange: true });
+	  }  else {
+		  //In any other case we want the background page to remain where the user was before
+		  this.router.navigate([{outlets: {caseSummary: ['case-summary', caseSubmitterID]}}], { skipLocationChange: true });
+	  }
 	  const dialogRef = this.dialog.open(CaseSummaryComponent, dialogConfig);
-      dialogRef.afterClosed().subscribe(
-        val => console.log('Dialog output:', val)
-      );
+	  dialogRef.afterClosed().subscribe(
+		  val => {
+			  console.log('Dialog output:', val);
+			  //@@@PDC-1441: Add ability to search by case, study, aliquot, sample UUIDs on UI search box
+			  //Reset the search box to empty
+			  this.selectedSearchTerm = [{name: '', value: ''}];
+		  }
+	  );
+	});
   }
   
   private findStudySubmitterIdName(name: string):string{
@@ -183,22 +264,35 @@ export class NavbarComponent implements OnInit {
 	  return '';
   }
   
-  showStudySummary(study_name: string){
-	//console.log("Study name: " + study_name);
-	let study_submitter_id_name = this.findStudySubmitterIdName(study_name);
-	let study = study_name.split(' ');
-	let study_id = study[study.length - 1];
+  showStudySummary(study_name: string, studyUUID = ""){
+	//@@@PDC-1441: Add ability to search by case, study, aliquot, sample UUIDs on UI search box
+	let study_uuid = "";
+	let study_submitter_id = "";
+	let study_submitter_id_name = "";
+	//Fetch Study Submitter ID for the study
+	console.log("Study_name: " + study_name  + ", studyUUID: " + studyUUID);
+	if (study_name.indexOf("{") > -1) {
+		let requiredStudyName = study_name.split("{");
+		study_uuid = requiredStudyName[0];
+		let studyNameSubmitterID = requiredStudyName[1].split("}");
+		study_name = studyNameSubmitterID[0];
+		study_submitter_id_name = this.findStudySubmitterIdName(study_name);
+	    study_submitter_id = studyNameSubmitterID[1];
+	} else {
+		study_submitter_id_name = study_name;
+		study_uuid = studyUUID;
+	}
 	const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = false;
+	dialogConfig.disableClose = true;
+	dialogConfig.autoFocus = false;
 	dialogConfig.hasBackdrop = true;
 	//dialogConfig.minWidth = '1000px';
 	dialogConfig.width = '80%';
 	dialogConfig.height = '95%';
 	
 	let study_data: AllStudiesData = {
-		study_id: '',
-		study_submitter_id: study_id,
+		study_id: study_uuid,
+		study_submitter_id: study_submitter_id,
 		submitter_id_name: study_submitter_id_name,
 		study_description: '',
 		embargo_date: '',
@@ -211,15 +305,31 @@ export class NavbarComponent implements OnInit {
 		cases_count: 0,
 		aliquots_count: 0,
 		filesCount: []
-    };
+	};
+	console.log(study_data);
 	dialogConfig.data = {
-          summaryData: study_data,
-	  }
-	this.router.navigate([{outlets: {studySummary: ['study-summary', study_submitter_id_name]}}]);
+		summaryData: study_data,
+	}
+	var currentUrl = this.loc.path();
+	//this.loc.replaceState("/study/" + study_data.study_id);
+	 //PDC-1609 check if study summary window is accessed directly via url or via search
+	if (currentUrl.indexOf("/study/") > -1) {
+		//if study summary is accessed via direct url, we want the background page to be browse.
+		this.router.navigate([{outlets: {primary: ['browse'], studySummary: ['study-summary', study_submitter_id_name]}}], { skipLocationChange: true });
+	} else {
+		 //In any other case we want the background page to remain where the user was before
+		this.router.navigate([{outlets: {studySummary: ['study-summary', study_submitter_id_name]}}], { skipLocationChange: true });
+	}
 	const dialogRef = this.dialog.open(StudySummaryComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe(
-        val => console.log('Dialog output:', val)
-    );
+	dialogRef.afterClosed().subscribe(
+		val => {
+			console.log('Dialog output:', val);
+			//@@@PDC-1441: Add ability to search by case, study, aliquot, sample UUIDs on UI search box
+			//Reset the search box to empty
+			this.selectedSearchTerm = [{name: '', value: ''}];
+		}
+	);
+
   }
   
   searchGeneTerms(search_term:string){
@@ -272,26 +382,145 @@ export class NavbarComponent implements OnInit {
   
   searchCaseTerms(search_term:string){
 	this.loading = true;
-	this.searchService.getCaseSearchResults(search_term).subscribe((data: any) =>{
-		this.caseSearchResults = data.caseSearch.searchCases;
-		for (let returnValue of this.caseSearchResults){
-			let display_name = 'CA: ' + returnValue.name;
-			this.options.push({name: display_name, value: returnValue.name });
+	this.searchCaseTermsForCaseSubmitterID(search_term);
+	//If the search term can't be found, search for Case UUID, Sample ID, Aliquot IDs
+	if (this.options.length == 0) {
+		//@@@PDC-1441: Add ability to search by case, study, aliquot, sample UUIDs on UI search box
+		//Search for Case UUI
+		this.searchService.getCaseUUIDResults(search_term).subscribe((data: any) =>{
+			if (data.case && data.case.case_submitter_id) {
+				search_term = data.case.case_submitter_id;
+				this.searchCaseTermsForCaseSubmitterID(search_term);
+			} else {
+				//Search for sample ID/sample submitter ID
+				this.searchService.getSampleUUIDResults(search_term).subscribe((sampleData: any) =>{
+					this.searchForSampleData(sampleData);
+					if (this.options.length == 0) {
+						this.searchService.getSampleSubmitterIDResults(search_term).subscribe((sampleSubmitterData: any) => {
+							this.searchForSampleData(sampleSubmitterData);
+							if (this.options.length == 0) {
+								//Search for aliquot ID/aliquot submitter ID
+								this.searchService.getAliquotUUIDResults(search_term).subscribe((aliquotData: any) =>{
+									this.searchForAliquotData(search_term, aliquotData);
+									if (this.options.length == 0) {
+										this.searchService.getAliquotSearchResults(search_term).subscribe((aliquotSearchResults: any) =>{
+											var aliquotSearchResultSet = aliquotSearchResults.aliquotSearch.searchAliquots;
+											for (let returnValue of aliquotSearchResultSet) {
+												let aliquotSubmitterID = returnValue.aliquot_submitter_id;
+												this.searchService.getAliquotSubmitterIDResults(aliquotSubmitterID).subscribe((aliquotSubmitterData: any) =>{
+													this.searchForAliquotData(aliquotSubmitterID, aliquotSubmitterData);
+												});
+											}
+										});
+									}
+								});
+							}
+						});
+					}
+				});
+			}
+		});
+	}
+  }
+
+  searchForSampleData(sampleData) {
+	if (sampleData.sample && sampleData.sample[0]) {
+		let caseSubmitterIDForSample = "";
+		let sampleUUID = "";
+		let sampleSubmitterID = "";
+		if (sampleData.sample[0].case_submitter_id) {
+			caseSubmitterIDForSample = sampleData.sample[0].case_submitter_id;
 		}
+		if (sampleData.sample[0].sample_id) {
+			sampleUUID = sampleData.sample[0].sample_id;
+		}
+		if (sampleData.sample[0].sample_submitter_id) {
+			sampleSubmitterID = sampleData.sample[0].sample_submitter_id;
+		}	
+		var display_name = 'SA: ';
+		if (sampleUUID != "") {
+			display_name = display_name + sampleUUID;
+		}
+		display_name = display_name.concat("{" + caseSubmitterIDForSample);
+		this.options.push({name: display_name, value: display_name });
+	}
+  }
+
+  //@@@PDC-1441: Add ability to search by case, study, aliquot, sample UUIDs on UI search box
+  searchForAliquotData(search_term, aliquotData) {
+	if (aliquotData.aliquot && aliquotData.aliquot[0] && aliquotData.aliquot[0].case_submitter_id) {
+		let caseSubmitterIDForAliquot = "";
+		let aliquotUUID = "";
+		let aliquotSubmitterID = "";
+		search_term = aliquotData.aliquot[0].case_submitter_id;
+		if (aliquotData.aliquot[0].case_submitter_id) {
+			caseSubmitterIDForAliquot = aliquotData.aliquot[0].case_submitter_id;
+		}
+		if (aliquotData.aliquot[0].aliquot_id) {
+			aliquotUUID = aliquotData.aliquot[0].aliquot_id;
+		}
+		if (aliquotData.aliquot[0].aliquot_submitter_id) {
+			aliquotSubmitterID = aliquotData.aliquot[0].aliquot_submitter_id;
+		}	
+		var display_name = 'AL: ';
+		if (aliquotUUID != "") {
+			display_name = display_name + aliquotUUID;
+		}
+		display_name = display_name.concat("{" + aliquotSubmitterID);
+		display_name = display_name.concat("}" + caseSubmitterIDForAliquot);
+		this.options.push({name: display_name, value: display_name });
+		//this.searchCaseTermsForCaseSubmitterID(search_term);
+	}
+  }
+
+  //@@@PDC-1441: Add ability to search by case, study, aliquot, sample UUIDs on UI search box
+  searchCaseTermsForCaseSubmitterID(search_term) {
+	this.searchService.getCaseSearchResults(search_term).subscribe((data: any) =>{
+			this.caseSearchResults = data.caseSearch.searchCases;
+			for (let returnValue of this.caseSearchResults){
+				var case_uuid = returnValue.case_id;
+				var display_name = 'CA: ';
+				if (case_uuid != "") {
+					display_name = display_name + case_uuid;
+				}
+				display_name = display_name.concat("{" + returnValue.name);
+				this.options.push({name: display_name, value: returnValue.name });
+			}
 		this.loading = false;  
-	});  
+	}); 
+  }
+
+  //@@@PDC-1441: Add ability to search by case, study, aliquot, sample UUIDs on UI search box
+  splitStudySubmitterIDFromString(searchString) {
+	let spaceIndex = searchString.lastIndexOf(" ");
+	let study = searchString.substring(spaceIndex);
+	let search_study_submitter_id = study.replace(/\s/g, "");
+	return search_study_submitter_id;
   }
   
   searchStudyTerms(search_term:string){
 	this.loading = true;
-	this.searchService.getStudySearchResults(search_term).subscribe((data: any) =>{
-		this.studySearchResults = data.studySearch.studies;
-		for (let returnValue of this.studySearchResults){
-			let display_name = 'ST: ' + returnValue.name;
-			this.options.push({name: display_name, value: returnValue.name });
+	//@@@PDC-1441: Add ability to search by case, study, aliquot, sample UUIDs on UI search box
+	//Search by Study UUID
+	this.searchService.getStudybyUUIDResults(search_term).subscribe((data: any) =>{
+		if (data.study && data.study[0] && data.study[0].study_submitter_id) {
+			search_term = data.study[0].study_submitter_id;
 		}
-		this.loading = false;  
-	});  
+		this.searchService.getStudySearchResults(search_term).subscribe((data: any) =>{
+			this.studySearchResults = data.studySearch.studies;
+			for (let returnValue of this.studySearchResults){
+				var study_uuid = returnValue.study_id;
+				var display_name = 'ST: ';
+				if (study_uuid != "") {
+					display_name = display_name + study_uuid;
+				}
+				display_name = display_name.concat("{" + returnValue.name);
+				display_name = display_name.concat("}" + returnValue.study_submitter_id);
+				this.options.push({name: display_name, value: returnValue.name });
+			}
+			this.loading = false;  
+		});
+	});
   }
   
   ngOnInit() {
@@ -326,37 +555,86 @@ export class NavbarComponent implements OnInit {
 			}
 			//If the user clicked confirmation link for their email registration catch it here
 			if (event instanceof ActivationEnd) {
-				if(event.snapshot.params){
-					console.log(event.snapshot.params);
+				if(event.snapshot.params && event.snapshot.url.length > 0){
 					if (event.snapshot.params["email"] != "" && !this.userEmailConfirmed){
 						var userEmail = event.snapshot.params["email"];
 						if (userEmail && userEmail != "") {
 							this.userService.confirmUserEmail(userEmail).subscribe( data =>{
-								console.log(data);
-								alert("User confirmed their email successfully and is logged in");
-								this.userEmailConfirmed = true;
+								//console.log(data);
+								var message = "";
+								if (data == 0) {
+									message =  "User " + userEmail + " confirmed their email successfully and is logged in";
+									this.userEmailConfirmed = true;
+								} else {
+									message = "Could not confirm user email " +  userEmail + ". User record was not found, or blocked, or already confirmed. For further assistance contact site administrators by email pdc-admin@esacinc.com.";
+									
+								}
 								var currentUrl = this.loc.path();
+								//Generate new url that does not contain email-confirmed parameters
+								var newUrl = currentUrl.split("email-confirmed");
+								this.loc.replaceState(newUrl[0]);
+								this.dialog.open(MessageDialogComponent, {
+										width: "430px",
+										height: "150px",
+										disableClose: true,
+										autoFocus: false,
+										hasBackdrop: true,
+										data: { message: message}
+								});
+								var currentUrl = this.loc.path();
+								//console.log(currentUrl);
 								//Generate new url that does not contain filter parameters
 								var newUrl = currentUrl.split("filters");
 								this.loc.replaceState(newUrl[0]);
 							});	
 						}
 					}
-					//Open case summary overlay window from url when auxiliary path is provided
-					//@@@PDC-995: Case view creates two pop-ups
-					//@@@PDC-1153: Direct linking to case summary has broken
-					//event.snapshot.fragment is undefined if the case summary page is opened from search bar/by clicking from Case ID
-					//Execute the below code only if the case summary page is opened through direct linking.
-					if (event.snapshot.outlet == "caseSummary" && event.snapshot.params["case_id"] != "" && event.snapshot.fragment !== undefined){
-						var case_id = event.snapshot.params["case_id"];
-						this.showCaseSummary(case_id);
-					}
 					//Reset password option
 					if (event.snapshot.params["uuid"] != "" && event.snapshot.url.length > 0 && event.snapshot.url[0].path === "reset-password"){
 						console.log("User " + event.snapshot.params["uuid"] + " wants to reset password");
 						this.openResetPassword(event.snapshot.params["uuid"]);
 					}
+					//Open case summary overlay window from url when auxiliary path is provided
+					//@@@PDC-995: Case view creates two pop-ups
+					//@@@PDC-1153: Direct linking to case summary has broken
+					//event.snapshot.fragment is undefined if the case summary page is opened from search bar/by clicking from Case ID
+					//Execute the below code only if the case summary page is opened through direct linking.
+					/*if (event.snapshot.outlet == "caseSummary" && event.snapshot.params["case_id"] != "" && event.snapshot.fragment !== undefined){
+						var case_id = event.snapshot.params["case_id"];
+						this.showCaseSummary(case_id);
+					}
+					if (event.snapshot.outlet == "studySummary" && event.snapshot.params["study_id"] != ""){
+						var study_id = event.snapshot.params["study_id"];
+						this.showStudySummary(study_id);
+					}
+					if (event.snapshot.outlet == "geneSummary" && event.snapshot.params["gene_id"] != ""){
+						var gene_id = event.snapshot.params["gene_id"];
+						this.showGeneProteinSummary(gene_id);
+					}*/
 				}			
+			}
+			//PDC-1609 detect permanent URL links to study and case 
+			if (event instanceof ActivationStart) {
+				if(event.snapshot.params && event.snapshot.url.length > 0){
+					//If case_uuid parameter is defined - this is a direct link URL for case summary
+					if (event.snapshot.outlet == "primary" && "case_uuid" in event.snapshot.params && event.snapshot.params["case_uuid"] != ""){
+						var case_uuid = event.snapshot.params["case_uuid"];
+						console.log("case_uuid: " + case_uuid);
+						this.searchService.getCaseUUIDResults(case_uuid).subscribe((data: any) =>{
+							var case_id = data.case.case_submitter_id;
+							this.showCaseSummary(case_id,"", case_uuid);
+						});
+					}
+					//If study_uuid parameter is defined - this is a direct link URL for study summary
+					if (event.snapshot.outlet == "primary" && "study_uuid" in event.snapshot.params && event.snapshot.params["study_uuid"] != ""){
+						var study_uuid = event.snapshot.params["study_uuid"];
+						this.searchService.getStudySubmitterID(study_uuid).subscribe((data: any) => {
+							var study_submitter_id_name = data.study[0].study_name;
+							console.log("study_submitter_id_name: " + study_submitter_id_name + ", study_uuid: " + study_uuid);
+							this.showStudySummary(study_submitter_id_name, study_uuid);
+						});
+					}
+				}
 			}
 		});
 	  
@@ -366,7 +644,7 @@ export class NavbarComponent implements OnInit {
 		debounceTime(200))
 		.pipe(
 			startWith(''),
-			map(value => value.length > 2 ? this._filter(value) : [])	
+			map(value => value.length > 1 ? this._filter(value) : [])	
 		);
 	  
 		//@@@PDC-408 - implement session timeout after 30 mins idle
@@ -393,7 +671,8 @@ export class NavbarComponent implements OnInit {
   //@@@PDC-1082 Add validation on search text user put in search bar.
   private _filter(value: string): string[] {
 	  //console.log(value);
-	  value = value.replace(/[^a-zA-Z0-9-]/g, '');
+	  //Remove white spaces from the search string
+	  value = value.replace(/\s/g, "");
 	  const filterValue = value.toLowerCase();
 	  this.options = [];
 	  this.searchGeneTerms(value);
@@ -448,6 +727,17 @@ export class NavbarComponent implements OnInit {
 			//this.dialog.open(RegistrationComponent, dialogConfig);
 		  }
 		});
+	}
+	
+	//PDC-1469 make user account page to be an overlay window
+	private openUserAccountPage() {
+		// Open the dialog with user account management component
+		const dialogConfig = new MatDialogConfig();
+		dialogConfig.width = "38%";
+		//dialogConfig.height = "60%";
+		dialogConfig.minWidth = 720;
+		dialogConfig.minHeight = 190;
+		const dialogRef = this.dialog.open(UserAccountComponent, dialogConfig);
 	}
 
 	public submitData() {

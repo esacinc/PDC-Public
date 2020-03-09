@@ -51,7 +51,7 @@ properties:
         required: 'True'
         type: string
     file_size:
-        description: Size of the file in megabytes
+        description: Size of the file in bytes
         required: 'True'
         type: string
     file_type:

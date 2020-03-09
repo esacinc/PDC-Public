@@ -1,4 +1,4 @@
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MatDialogConfig, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
@@ -7,6 +7,8 @@ import { Md5 } from "ts-md5/dist/md5";
 import { ChorusauthService } from "../../chorusauth.service";
 import { PDCUserService } from "../../pdcuser.service";
 import { environment } from "../../../environments/environment";
+import { ConfirmationDialogComponent } from "./../../dialog/confirmation-dialog/confirmation-dialog.component";
+import { MessageDialogComponent } from "./../../dialog/message-dialog/message-dialog.component";
 import { OverlayWindowService } from "../../overlay-window/overlay-window.service";
 
 @Component({
@@ -16,6 +18,8 @@ import { OverlayWindowService } from "../../overlay-window/overlay-window.servic
 })
 // @@@PDC-881 registration dialog
 //@@@PDC-885: registration form for google users did not validate properly
+//@@@PDC-1406: review and update messages that user can get during registration/login/account update 
+//@@@PDC-1487: resolve issues found with user registration/login
 export class RegistrationComponent implements OnInit {
   selectedResearcherType: string = ""; //This variable will hold researcher type selected by user
   otherResearcherType: string = ""; //If the user selects "other" researcher type, this variable will hold additional text for other
@@ -34,7 +38,8 @@ export class RegistrationComponent implements OnInit {
     private router: Router,
     private userService: PDCUserService,
     private overlayWindow: OverlayWindowService,
-    private dialogRef: MatDialogRef<RegistrationComponent>
+	private dialogRef: MatDialogRef<RegistrationComponent>,
+    private dialog: MatDialog,
   ) {
     let firstName = "";
     let lastName = "";
@@ -57,7 +62,8 @@ export class RegistrationComponent implements OnInit {
 			email: new FormControl('', [Validators.required, Validators.email]),
 			organization: new FormControl('', Validators.required),
 			searchType: new FormControl('', Validators.required),
-			user_pass: new FormControl('', [Validators.required, Validators.minLength(8), Validators.pattern('(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#\$%\^&\*]).+')]),
+			user_pass: new FormControl('', [Validators.required, Validators.minLength(8), Validators.pattern(/(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#\$%\^&\*\_\-\+\=\?\,\:\;\<\>\/\~\\]).+/)]),
+			confirm_password: new FormControl('', Validators.required),
 		});
 		this.registrationForm.setValue({
 			first_name: firstName,
@@ -65,7 +71,8 @@ export class RegistrationComponent implements OnInit {
 			email: this.userService.getEmail(),
 			organization: '',
 			searchType: '',
-			user_pass: ''
+			user_pass: '',
+			confirm_password: '',
 		});
 	  //In any other case the form should not include password field.
 	} else {
@@ -109,19 +116,24 @@ export class RegistrationComponent implements OnInit {
   get user_pass() {
     return this.registrationForm.get("user_pass");
   }
+  
+  get confirm_password() {
+    return this.registrationForm.get("confirm_password");
+  }
 
   //Callback function for form submission, checks whether the form is valid and creates new user
   //@@@PDC-784 Improve download controlled files feature
-  submitRegistration() {
+  //this function makes two asynchronous calls that need to happen one after another
+  async submitRegistration() {
     this.formInvalidMessage = "";
     if (this.registrationForm.invalid) {
       this.isValidFormSubmitted = false;
       this.formInvalidMessage = "Some required fields are missing.";
-      console.log(this.registrationForm);
+      //console.log(this.registrationForm);
       return;
     }
     this.isValidFormSubmitted = true;
-    console.log(this.registrationForm.value);
+    //console.log(this.registrationForm.value);
     let researcherType = this.selectedResearcherType;
     //Save what the user wrote in text field for "other" researcher type option
     if (this.otherResearcherType != "" && this.selectedResearcherType == "other") {
@@ -159,11 +171,9 @@ export class RegistrationComponent implements OnInit {
             //'' route url will be welcome page to login. 'pdc' route url will be home page
             if (localStorage.getItem("controlledFileExportFlag") === "true") {
               localStorage.removeItem("controlledFileExportFlag");
-              document.location.href = environment.dcf_fence_login_url;
+              document.location.href = environment.dcf_fence_login_url.replace("%dcf_client_id%",environment.dcf_client_id);
               this.router.navigate(["browse"]);
-            } else {
-              this.router.navigate(["pdc"]);
-            }
+            } 
           } else {
             console.log("Registration failed!");
           }
@@ -173,10 +183,67 @@ export class RegistrationComponent implements OnInit {
     else {
       console.log("Creating user with email " + this.registrationForm.value.email);
       let secure_pass:string = '';
+	  let continueRegistration = true;
 	  if (this.idProvider === "PDC") {
 		secure_pass = Md5.hashAsciiStr(this.registrationForm.get('user_pass').value) as string;
+		this.userService.checkPDCUserByEmail(this.registrationForm.get("email").value, "PDC", this.registrationForm.get('user_pass').value).then(exists => {
+			var message = "";
+			switch (exists) {
+				case 0:
+					message = "User with this email and password already exists, you are now logged in.";
+					continueRegistration = false;
+					//this.dialogRef.close('user registered');
+					break;
+				case 1:
+					console.log("User with this email does not exist continue to registration.");
+					continueRegistration = true;
+					//this.dialogRef.close('user registered');
+					break;
+				case 3:
+					message = "User with this email has already registered but have not confirmed their email yet. Please confirm your email by clicking confirmation link in the email you should have received when registered.";
+					continueRegistration = false;
+					//this.dialogRef.close('user registered');
+					break;
+				case 4:
+					message = "User with this email already exists, do you want to reset password?";
+					continueRegistration = false;
+					//this.dialogRef.close('user registered');
+					break;
+				case 5:
+					message = "User with this email disabled their account. If you want to enable your account again, please contact site administrators by email pdc-admin@esacinc.com.";
+					continueRegistration = false;
+					//this.dialogRef.close('user registered');
+					break;
+				case 7:
+					message = "User with this email tried to login more than 6 times with wrong password and was blocked. To unblock your account please contact site administrators by email pdc-admin@esacinc.com.";
+					continueRegistration = false;
+					//this.dialogRef.close('user registered');
+					break;
+				default:
+					message = "An error occured";
+					continueRegistration = false;
+					//this.dialogRef.close('user registered');
+					break;
+			}
+			console.log(message);
+			if (message != "") {
+				this.dialog.open(MessageDialogComponent, {
+					width: "500px",
+					height: "180px",
+					disableClose: true,
+					autoFocus: false,
+					hasBackdrop: true,
+					data: { message: message }
+				});
+			}
+			this.dialogRef.close('user registered');
+			return;
+		});	
 	  }
-      this.userService
+	  //wait for the previous call to check whether the user with such email exists to finish and return response
+	  await new Promise(resolve => setTimeout(resolve, 500));
+	  if (continueRegistration) {
+        this.userService
         .createPDCUserByEmail(
           this.registrationForm.value.first_name,
           this.registrationForm.value.last_name,
@@ -194,20 +261,26 @@ export class RegistrationComponent implements OnInit {
               this.userService.getUserIDType() === "PDC" &&
               this.userService.getIsRegistered() === 0
             ) {
-              alert("Thank you for registering with PDC. You will receive a message to confirm your registration at the email address provided. Once confirmed, you should be able to login with your email id password.");
-              console.log(
+				//alert("Thank you for registering with PDC. You will receive a message to confirm your registration at the email address provided. Once confirmed, you should be able to login with your email id password.");
+				console.log(
                 "Thank you for registering with PDC. You will receive a message to confirm your registration at the email address provided. Once confirmed, you should be able to login with your email id password."
-              );
-              this.router.navigate(["pdc"]);
-            } else {
-              //'' route url will be welcome page to login. 'pdc' route url will be home page
-              this.router.navigate(["pdc"]);
-            }
+				);
+				let message = "Thank you for registering with PDC. You will receive a message to confirm your registration at the email address provided. Once confirmed, you should be able to login with your email and password.";
+				this.dialog.open(MessageDialogComponent, {
+					width: "400px",
+					height: "200px",
+					disableClose: true,
+					autoFocus: false,
+					hasBackdrop: true,
+					data: { message: message }
+				});
+            } 
           } else {
             //Something went wrong with the registration
             console.log("Registration failed!");
           }
         });
+	  }
     }
   }
 
@@ -223,11 +296,22 @@ export class RegistrationComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.registrationForm);
+    //console.log(this.registrationForm);
     if (this.idProvider === "PDC") {
 		this.user_pass.valueChanges.subscribe(value => {
 			if (this.registrationForm.value.user_pass.length < 8 && this.registrationForm.value.user_pass.length > 2){
 				this.passwordInvalidMessage = "The password does not meet the password policy requirements. Check the minimum password length and required symbols.";
+			}
+			// validators = [Validators.required, Validators.minLength(8), Validators.pattern('(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#\$%\^&\*]).+')];
+			this.registrationForm.updateValueAndValidity();
+		});
+		this.confirm_password.valueChanges.subscribe(value => {
+			if ( (this.confirm_password.value.length > 0) && (this.confirm_password.value != this.registrationForm.get('user_pass').value) ){
+				this.passwordInvalidMessage = "Passwords do not match!";
+				this.registrationForm.get('confirm_password').setErrors({isError: true});
+			} else {
+				this.passwordInvalidMessage =  "";
+				this.registrationForm.get('confirm_password').setErrors(null);
 			}
 			// validators = [Validators.required, Validators.minLength(8), Validators.pattern('(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#\$%\^&\*]).+')];
 			this.registrationForm.updateValueAndValidity();

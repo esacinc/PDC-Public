@@ -208,3 +208,23 @@ $header-height: 10.8rem;
     margin-bottom: 15px;
   }
 }
+
+//@@@PDC-1474: Make recent releases area a bit larger to handle responsiveness
+@media only screen and (min-width: 768px) and (max-width: 1279px) {
+  #recentReleases, #news-item {
+    overflow-y: scroll;
+  }
+
+  #top-release-item, .bottom-card-list-item {
+    font-size: 11px !important;
+  }
+
+  .bottom-card-list-item {
+    height: unset !important;
+    margin-top: 1em;
+  }
+
+  #news-item {
+    padding-top: 0px !important;
+  }
+}

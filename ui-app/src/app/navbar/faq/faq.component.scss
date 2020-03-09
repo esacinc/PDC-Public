@@ -22,3 +22,42 @@ $header-height: 10.8rem;
     color: #555555;
 	font-family: 'Lato';
 }
+
+//@@@PDC-1628: Update the FAQ page on the data portal
+table {
+    border: 1px solid black;
+}
+
+td, th {
+    border: 1px solid black;
+    text-align: left;
+    padding: 8px;
+}
+
+.faqs {
+    font-size: 16px !important;
+}
+
+.displayGreen {
+    color: green;
+}
+
+.displayOrange {
+    color: orange;
+}
+
+.displayRed {
+    color:red;
+}
+
+.displayGrey {
+    color: grey;
+}
+
+sup {
+    top: -0.3em !important;
+}
+
+.fa-circle {
+    font-size: 6px;
+}

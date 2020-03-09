@@ -448,7 +448,7 @@ export const resolvers = {
 			return db.getSequelize().query(context.query, { model: db.getModelByName('Case') });			
 		},
 		searchCases(obj, args, context) {
-			return db.getSequelize().query(context.query, {model: db.getModelByName('ModelSearchRecord')});
+			return db.getSequelize().query(context.query, {model: db.getModelByName('ModelSearchCaseRecord')});
 		},
 		genes(obj, args, context) {
 			return db.getSequelize().query(context.query, {model: db.getModelByName('ModelSearchRecord')});
@@ -457,8 +457,11 @@ export const resolvers = {
 		genesWithProtein(obj, args, context) {
 			return db.getSequelize().query(context.query, {model: db.getModelByName('ModelSearchRecord')});
 		},
+		searchAliquots(obj, args, context) {
+			return db.getSequelize().query(context.query, {model: db.getModelByName('ModelSearchAliquotRecord')});
+		},
 		studies(obj, args, context) {
-			return db.getSequelize().query(context.query, {model: db.getModelByName('ModelSearchRecord')});
+			return db.getSequelize().query(context.query, {model: db.getModelByName('ModelSearchStudyRecord')});
 		},
 		//@@@PDC-486 data matrix API
 		//@@@PDC-562 quant data matrix API

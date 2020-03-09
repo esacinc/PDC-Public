@@ -5,7 +5,6 @@ import {
 } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-
 import { environment } from '../../../environments/environment';
 import { AllCasesData } from '../../types';
 import { CaseSummaryComponent } from '../case-summary/case-summary.component';
@@ -36,6 +35,7 @@ import { ngxCsv } from "ngx-csv/ngx-csv";
 //@@@PDC-799: Redirecting to the NIH login page for the file authorization loses PDC state
 //@@@PDC-937: Add a button to allow download all manifests with a single click
 //@@@PDC-1063: Implement select all, select page, select none for all tabs
+//@@@PDC-1609: URL structure for permanent links to PDC 
 export class BrowseByCaseComponent implements OnInit, OnChanges {
 
   filteredCasesData: AllCasesData[]; //Filtered list of cases
@@ -109,7 +109,7 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
     dialogConfig.data = {
         summaryData: this.filteredCasesData[case_index],
     };
-	this.router.navigate([{outlets: {caseSummary: ['case-summary', case_id]}}]);
+	this.router.navigate([{outlets: {caseSummary: ['case-summary', case_id]}}], { skipLocationChange: true });
 	const dialogRef = this.dialog.open(CaseSummaryComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(
         val => console.log("Dialog output:", val)
@@ -429,16 +429,17 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
 			}
 		}
 
-			//@@@PDC-848 Fix headercheckbox issue for data tables on browse page
+	//@@@PDC-848 Fix headercheckbox issue for data tables on browse page
+	//@@@PDC-1431 fix biospecimens table row selection issue
 	onTableHeaderCheckboxToggle() {
     console.log(this.headercheckbox);
     let emptyArray = [];
     let localSelectedCases = emptyArray.concat(this.selectedCases);
     if(this.headercheckbox){
       for(let item of this.filteredCasesData){
-        if(this.currentPageSelectedCase.indexOf(item.sample_submitter_id) === -1){
+        if(this.currentPageSelectedCase.indexOf(item.aliquot_submitter_id) === -1){
           localSelectedCases.push(item);
-          this.currentPageSelectedCase.push(item.sample_submitter_id);
+          this.currentPageSelectedCase.push(item.aliquot_submitter_id);
         } 
       }
       this.selectedCases = localSelectedCases;
@@ -448,18 +449,20 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
       this.pageHeaderCheckBoxTrack = [];
     }
   }
-
-	//@@@PDC-848 Fix headercheckbox issue for data tables on browse page
+  
+  //@@@PDC-848 Fix headercheckbox issue for data tables on browse page
+  //@@@PDC-1431 fix biospecimens table row selection issue	
   onRowSelected(event:any){
-    this.currentPageSelectedCase.push(event.data.sample_submitter_id);
+    this.currentPageSelectedCase.push(event.data.aliquot_submitter_id);
     if(this.currentPageSelectedCase.length === this.pageSize){
       this.headercheckbox = true;
     }
   }
 
 	//@@@PDC-848 Fix headercheckbox issue for data tables on browse page
+  //@@@PDC-1431 fix biospecimens table row selection issue	
   onRowUnselected(event){
-    let index = this.currentPageSelectedCase.indexOf(event.data.sample_submitter_id);
+    let index = this.currentPageSelectedCase.indexOf(event.data.aliquot_submitter_id);
     if(index >-1){
       this.currentPageSelectedCase.splice(index,1);
     }
@@ -479,12 +482,13 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
   }
 
   //@@@PDC-848 Fix headercheckbox issue for data tables on browse page
+  //@@@PDC-1431 fix biospecimens table row selection issue
   private trackCurrentPageSelectedCase(filteredFilesData: AllCasesData[]){
     let fileIdList = [];
     this.currentPageSelectedCase = [];
-    filteredFilesData.forEach((item) => fileIdList.push(item.sample_submitter_id));
-    this.selectedCases.forEach(item => {if(fileIdList.indexOf(item.sample_submitter_id) !== -1){
-      this.currentPageSelectedCase.push(item.sample_submitter_id);
+    filteredFilesData.forEach((item) => fileIdList.push(item.aliquot_submitter_id));
+    this.selectedCases.forEach(item => {if(fileIdList.indexOf(item.aliquot_submitter_id) !== -1){
+      this.currentPageSelectedCase.push(item.aliquot_submitter_id);
     }});
   }
 }

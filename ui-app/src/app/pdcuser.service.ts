@@ -11,6 +11,8 @@ import { environment } from '../environments/environment';
 //@@@PDC-885 - fix registration bugs
 //@@@PDC-919 - Lock user account after 6 unsuccessful login attempts
 //@@@PDC-966 - implement reset password part of forgot password feature
+//@@@PDC-1406: review and update messages that user can get during registration/login/account update 
+//@@@PDC-1487: resolve issues found with user registration/login
 
 //Service that uses pdcapi to manage users - create and check if the user is registered
 @Injectable()
@@ -140,7 +142,7 @@ export class PDCUserService {
 			if (response.data.length > 0){
 				//if the user record is found
 				this.userData = response.data[0];
-				console.log(this.userData);
+				//console.log(this.userData);
 				if (this.userData.registered == 1) {
 				  //if user's registered flag is set to 1, such user already exists, 
 				  //thus loggedIn is set to true and 0 is returned
@@ -193,7 +195,7 @@ export class PDCUserService {
         if (response.data.length > 0) {
           //if the user record is found 0 is returned
           this.userData = response.data[0];
-          console.log(this.userData);
+          //console.log(this.userData);
 		  this.setLoginAttempt(this.userData.registered);
 		  if (this.userData.user_id_type === "PDC") {
 			  if (this.userData.registered > 0) {
@@ -218,10 +220,14 @@ export class PDCUserService {
 			  else if (this.userData.registered === 0){
 				  //User registered through email/password and have not confirmed email yet.
 				  result = 3;
-			  } else {
+			  } else if (this.userData.registered === -1){
 				  console.log("Registered: " + this.userData.registered);
 				  //User tried to login more than 6 times with wrong password and was blocked 
 				  result = 7;
+			  } 
+			  else {
+				  //user canceled their account
+				   result = 5;
 			  }
 		  } else {
 			   if (this.userData.registered === 1) {
@@ -234,6 +240,7 @@ export class PDCUserService {
 			   }
 		  }
 		  console.log(this.getUID());
+		  console.log(response);
         } else {
           //if the user record is not found 1 is returned
           result = 1;
@@ -261,7 +268,7 @@ export class PDCUserService {
 	const registerObservable = new Observable<number>((observer) => {
 		setTimeout(() => {
 		  this.http.put(url, user_data, {headers: new HttpHeaders({'authorization':'bearer '+localStorage.getItem('jwtToken')})}).subscribe(data => {
-				console.log(data);
+				//console.log(data);
 				observer.next((data as any).attempts);
 				observer.complete();
 			},
@@ -285,7 +292,7 @@ export class PDCUserService {
     };
 	setTimeout(() => {
 		this.http.put(url, user_data, {headers: new HttpHeaders({'authorization':'bearer '+localStorage.getItem('jwtToken')})}).subscribe(data => {
-				console.log(data);
+				//console.log(data);
 				this.userData.registered = 1;	
 				this.setLoginAttempt(this.userData.registered);
 			},
@@ -328,7 +335,7 @@ export class PDCUserService {
 	const registerObservable = new Observable<boolean>((observer) => {
     setTimeout(() => {
       this.http.put(url, user_data, {headers: new HttpHeaders({'authorization':'bearer '+localStorage.getItem('jwtToken')})}).subscribe(data => {
-        console.log(data);
+        //console.log(data);
         // Now since the user is created lets update it
         this.setLoginUsername(email);
         this.setIsLoggedIn(true);
@@ -434,6 +441,7 @@ export class PDCUserService {
 	const url = environment.private_api_url + "update/" + this.getLoginUsername();
 	console.log(url);
 	const username = firstname + ' ' + lastname;
+	console.log("Username: " + username);
     const user_data = {
 	    'email': email,
 		'user_type': usertype,
@@ -448,6 +456,7 @@ export class PDCUserService {
         console.log(data);
         // Now since the user is created lets update it
         this.setLoginUsername(email);
+		this.setName(username);
         this.setIsLoggedIn(true);
         this.setUserInformationInLocalStorage();
         observer.next(true);
@@ -470,9 +479,10 @@ export class PDCUserService {
 	
     const user_data = {
 		'email': email,
-		'user_type': usertype,
+		'user_type': usertype,	
+		'user_id_type': id_provider,
 		'name': username,
-		'organization': organization,
+		'organization': organization 
     };
 	this.getJWTTokenFromPDCAPI();
 	const registerObservable = new Observable<boolean>((observer) => {
@@ -507,7 +517,7 @@ export class PDCUserService {
 	const registerObservable = new Observable<boolean>((observer) => {
     setTimeout(() => {
       this.http.put(url, user_data, {headers: new HttpHeaders({'authorization':'bearer '+localStorage.getItem('jwtToken')})}).subscribe(data => {
-			console.log(data);
+			//console.log(data);
 			observer.next(true);
 			observer.complete();
         },
@@ -538,8 +548,9 @@ export class PDCUserService {
 			if (response.data.length > 0){
 				//if the user record is found
 				this.userData = response.data[0];
-				console.log(this.userData);
+				//console.log(this.userData);
 				if (this.userData.registered == 1) {
+					 console.log("UserData registered = 1");
 				  //if user's registered flag is set to 1, such user already exists, 
 				  //thus loggedIn is set to true and 0 is returned
 				  this.setIsLoggedIn(true);
@@ -547,11 +558,13 @@ export class PDCUserService {
 				  observer.next(0);
 				} else {
 				  //if user's registered flag is not set 1 is returned
+				  console.log("An error occured while confirming user email");
 				  observer.next(1);
 				}
 			} else {
 			  //if user record not found 1 is returned
-			  observer.next(1);
+			  console.log("Could not confirm email since record was not found or user is blocked, or user is already confirmed");
+			  observer.next(3);
 			}
 			observer.complete();
         },

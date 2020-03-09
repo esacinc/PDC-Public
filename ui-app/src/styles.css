@@ -55,6 +55,14 @@ margin: 0 0 0 auto;
 	}
 }
 
+@media only screen and (max-width: 1279px) {
+    #human-body-root {
+        overflow-x: scroll;
+        padding-left: 0% !important;
+        padding-right: 0% !important;
+    }
+}
+
 @media only screen and (min-width: 1601px) {
 	#human-body-root {
 		padding-left: 7%;

@@ -25,4 +25,10 @@ export class FaqComponent implements OnInit {
     this.overlayWindow.open('PrivacyPolicyOverlayWindowComponent');
   }
 
+  //@@@PDC-1628: Update the FAQ page on the data portal
+  //Scroll to a particular section of the page.
+  scrollToElement($element): void {
+    $element.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+  }
+
 }

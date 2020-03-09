@@ -14,7 +14,7 @@
 			</mat-card-header>
 			<mat-card-content style="overflow-y: auto; word-wrap: break-word; white-space: normal;font-size: 12px;">
 				<table id="caseSummaryCard">
-					<tr><td class="summary-card-name-left-cell">Case UUID</td><td class="summary-card-value-left-cell">{{caseSummaryData.case_id}}</td>
+					<tr><td class="summary-card-name-left-cell">Case UUID</td><td class="summary-card-value-left-cell">{{case_id}}</td>
 						<td class="summary-card-name-right-cell">Disease Type</td><td class="summary-card-value-right-cell">{{caseSummaryData.disease_type}}</td>
 					</tr>
 					<tr><td class="summary-card-name-left-cell">Source Case ID</td><td class="summary-card-value-left-cell">{{case_submitter_id}}</td>
@@ -68,7 +68,7 @@
 						</tr>
 						<tr><td class="summary-card-name-left-cell">Diagnosis Submitter ID</td>
 							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.diagnosis_submitter_id)">{{diagnosis.diagnosis_submitter_id}}</td>
-							<td class="summary-card-name-right-cell">Days to Best Overall Rresponse</td>
+							<td class="summary-card-name-right-cell">Days to Best Overall Response</td>
 							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.days_to_best_overall_response)">{{diagnosis.days_to_best_overall_response}}</td>
 						</tr>
 						<tr><td class="summary-card-name-left-cell">Classification of Tumor</td>
@@ -138,7 +138,7 @@
 						</tr>
 						<tr><td class="summary-card-name-left-cell">AJCC clinical n</td>
 							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.ajcc_clinical_n)">{{diagnosis.ajcc_clinical_n}}</td>
-							<td class="summary-card-name-right-cell">Method_ of Diagnosis</td>
+							<td class="summary-card-name-right-cell">Method of Diagnosis</td>
 							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.method_of_diagnosis)">{{diagnosis.method_of_diagnosis}}</td>
 						</tr>
 						<tr><td class="summary-card-name-left-cell">AJCC clinical Stage</td>
@@ -173,7 +173,7 @@
 						</tr>
 						<tr><td class="summary-card-name-left-cell">Ann Arbor b Symptoms</td>
 							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.ann_arbor_b_symptoms)">{{diagnosis.ann_arbor_b_symptoms}}</td>
-							<td class="summary-card-name-right-cell">Progression Free Survival Svent</td>
+							<td class="summary-card-name-right-cell">Progression Free Survival Event</td>
 							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.progression_free_survival_event)">{{diagnosis.progression_free_survival_event}}</td>
 						</tr>
 						<tr><td class="summary-card-name-left-cell">Ann Arbor Clinical Stage</td>
@@ -300,6 +300,7 @@
 					<div *ngFor="let sample of samples">
 						<!--<tr style="padding-top: 10px"><td class="tab-table-field-name">GDC Sample ID</td><td class="tab-table-field-value">{{sample.gdc_sample_id}}</td></tr>-->
 						<tr><td class="tab-table-field-name">Sample Submitter ID</td><td class="tab-table-field-value">{{sample.sample_submitter_id}}</td></tr>
+						<tr><td class="tab-table-field-name">Sample UUID</td><td class="tab-table-field-value">{{sample.sample_id}}</td></tr>
 						<!--<tr><td class="tab-table-field-name">GDC Project ID</td><td class="tab-table-field-value">{{sample.gdc_project_id}}</td></tr>-->
 						<tr><td class="tab-table-field-name">Sample Type</td><td class="tab-table-field-value">{{sample.sample_type}}</td></tr>
 						<tr><td class="tab-table-field-name">Biospecimen Anatomic Site</td><td class="tab-table-field-value">{{sample.biospecimen_anatomic_site}}</td></tr>
@@ -336,6 +337,7 @@
 				<table style="width:100%;font-size: 12px;padding-top: 10px" id="aliquotSummTable">
 					<div *ngFor="let aliquot of aliquots">
 						<tr style="padding-top: 10px"><td class="tab-table-field-name">Aliquot Submitter ID</td><td class="tab-table-field-value">{{aliquot.aliquot_submitter_id}}</td></tr>
+						<tr><td class="tab-table-field-name">Aliquot UUID</td><td class="tab-table-field-value" >{{aliquot.aliquot_id}}</td></tr>
 						<tr><td class="tab-table-field-name">Aliquot Quantity</td><td class="tab-table-field-value" >{{aliquot.aliquot_quantity}}</td></tr>
 						<tr><td class="tab-table-field-name">Aliquot Volume</td><td class="tab-table-field-value">{{aliquot.aliquot_volume}}</td></tr>
 						<tr><td class="tab-table-field-name">Amount</td><td class="tab-table-field-value">{{aliquot.amount}}</td></tr>

@@ -22,6 +22,7 @@ import { BrowseByFileService } from "./browse-by-file.service";
 import * as jwt_decode from "jwt-decode";
 import { HttpErrorResponse } from "@angular/common/http";
 import * as _ from 'lodash';
+//import wget from 'node-wget';
 
 @Component({
   selector: "browse-by-file",
@@ -49,6 +50,7 @@ import * as _ from 'lodash';
 //@@@PDC-937: Add a button to allow download all manifests with a single click
 //@@@PDC-918: Add button to allow download of full file manifest
 //@@@PDC-1303: Add a download column and button for downloading individual files to the file tab
+//@@@PDC-1416 add unit to file size in file manifest
 export class BrowseByFileComponent implements OnInit {
   filteredFilesData: AllFilesData[]; //Filtered list of cases
   loading: boolean = false; //Flag indicates that the data is still being loaded from server
@@ -690,7 +692,7 @@ export class BrowseByFileComponent implements OnInit {
                   this.userService.logout();
                   document.location.href = window.location.origin + "/pdc/sp/authnih";
               } else if(result === "loginNotRequired"){
-                  document.location.href = environment.dcf_fence_login_url;
+                  document.location.href = environment.dcf_fence_login_url.replace("%dcf_client_id%",environment.dcf_client_id);
               }
             }
           }
@@ -708,7 +710,7 @@ export class BrowseByFileComponent implements OnInit {
           "Data Category",
           "File Type",
           "Access",
-          "File Size",
+          "File Size (in bytes)",
           "File ID",
           "Md5sum",
           "Downloadable",
@@ -733,12 +735,13 @@ export class BrowseByFileComponent implements OnInit {
       let openFileSignUrlMap = {};
 
       exportFileObject.forEach(item => openFileSignUrlMap[item.file_id] = '');
-
+	  
       for(let file of exportFileObject){
         if(file.downloadable.toLowerCase() === 'yes'){
           let urlResponse = await this.browseByFileService.getOpenFileSignedUrl(file.file_name);
           if(!urlResponse.error){
             file['file_download_link'] = urlResponse.data;
+			//console.log("Signed url: "+urlResponse.data);
           }else{
             file['file_download_link'] = this.notDownloadable;
           }
@@ -746,10 +749,43 @@ export class BrowseByFileComponent implements OnInit {
           file['file_download_link'] = this.notDownloadable;
         }
       }
-
       this.displayLoading(iscompleteFileDownload, "file1", false);
       new ngxCsv(exportFileObject, this.getCsvFileName(), csvOptions);
     }
+  }
+  
+  //@@@PDC-1473 put signed url on clickboard for download manager
+  async setDownloadBatch() {
+	let dataForExport =  this.selectedFiles;
+	let urls: string = "";
+    for (let file of dataForExport) {
+          let urlResponse = await this.browseByFileService.getOpenFileSignedUrl(file["file_name"]);
+          if(!urlResponse.error){
+			//@@@PDC-1698 download using wget
+			/*wget({
+					url: urlResponse.data,
+					dest: '/pdcDownload/',     
+					timeout: 2000      
+				},
+				function (error, response, body) {
+					if (error) {
+						console.log('--- error:');
+						console.log(error);           
+					} else {
+						console.log('--- headers:');
+						console.log(response.headers); 
+						//console.log('--- body:');
+						//console.log(body);             
+					}
+				}
+			);*/			
+           urls += urlResponse.data;
+			urls += "\n";
+          }else{
+            console.log(urlResponse.error);
+          }
+	}
+	console.log(urls);
   }
 
   private getOpenFileSignedUrl(openFileSignUrlMap){
@@ -935,7 +971,7 @@ export class BrowseByFileComponent implements OnInit {
         "Data Category",
         "File Type",
         "Access",
-        "File Size",
+        "File Size (in bytes)",
         "File ID",
         "Md5sum",
         "Case ID",
@@ -1005,7 +1041,7 @@ export class BrowseByFileComponent implements OnInit {
       { field: "data_category", header: "Data Category" },
       { field: "file_type", header: "File Type" },
       { field: "access", header: "Access" },
-      { field: "file_size", header: "File Size" },
+      { field: "file_size", header: "File Size (in bytes)" },
       { field: "file_id", header: "File ID" },
       { field: "downloadable", header: "Downloadable" }
     ];

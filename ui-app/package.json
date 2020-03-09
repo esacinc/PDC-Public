@@ -50,7 +50,7 @@
     "highcharts": "^6.1.0",
     "jquery": "^3.3.1",
     "jscpd": "^0.6.22",
-	"jwt-decode": "^2.2.0",
+    "jwt-decode": "^2.2.0",
     "material-design-icons": "^3.0.1",
     "ngx-bootstrap": "^2.0.4",
     "ngx-csv": "^0.3.1",
@@ -61,7 +61,7 @@
     "rxjs": "^6.3.3",
     "rxjs-compat": "^6.3.3",
     "rxjs-tslint": "^0.1.5",
-	 "ts-md5": "^1.2.4",
+    "ts-md5": "^1.2.4",
     "zone.js": "^0.8.19"
   },
   "devDependencies": {
@@ -87,6 +87,7 @@
     "protractor": "^5.4.1",
     "ts-node": "~4.1.0",
     "tslint": "~5.9.1",
-    "typescript": "^2.9.2"
+    "typescript": "^2.9.2",
+    "replace": "^1.1.5"
   }
 }

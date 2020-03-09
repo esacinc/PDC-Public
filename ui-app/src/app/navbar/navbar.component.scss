@@ -84,79 +84,139 @@ div.cdk-overlay-connected-position-bounding-box {
   position: absolute;
 }
 
+#clearButton {
+  margin-top: -5px;
+}
+
+//@@@PDC-1474: Make recent releases area a bit larger to handle responsiveness
+@media only screen and (max-width: 768px) {
+  .toolbar-narrow {
+    width: 800px;
+  }
+
+  .navbar-narrow-screens {
+    display: unset;
+    padding-top: 10px;
+  }
+}
+
+@media only screen  and (min-width: 1200px) {
+  .search-bar-div, #searchBarLabel {
+    padding-left: 0px !important;
+  }
+
+  .search-icon-div {
+    padding-right: 0px !important;
+  }
+}
+
+//@@@PDC-1474: Make recent releases area a bit larger to handle responsiveness
+@media only screen and (min-width: 769px) and (max-width: 1000px) {
+  .toolbar-narrow {
+      width: 1000px;
+  }
+}
+
 //@@@PDC-1163: Add label to search bar explaining what you can search by
 @media only screen and (max-width: 1064px) {
-  #searchTermLabel {
+  .searchTermLabel {
     right: 29.5%;
+  }
+  .searchTermLabelNarrow {
+    right: 26.5%;
   }
 }
 
 @media only screen and (min-width: 1066px) and (max-width: 1364px) {
-  #searchTermLabel {
+  .searchTermLabel {
     right: 35.7%;
+  }
+  .searchTermLabelNarrow {
+    right: 32.7%;
   }
 }
 
 @media only screen and (min-width: 1365px) {
-  #searchTermLabel {
+  .searchTermLabel {
     right: 37.2%;
+  }
+  .searchTermLabelNarrow {
+    right: 34.2%;
   }
 }
 
 @media only screen and (min-width: 1367px) and (max-width: 1441px) {
-  #searchTermLabel {
+  .searchTermLabel {
     right: 38.3%;
+  }
+  .searchTermLabelNarrow {
+    right: 35.3%;
   }
 }
 
 @media only screen and (min-width: 1442px) and (max-width: 1602px) {
-  #searchTermLabel {
+  .searchTermLabel {
     right: 40.5%;
+  }
+  .searchTermLabelNarrow {
+    right: 37.5%;
   }
 }
 
 @media only screen and (min-width: 1601px) and (max-width: 1680px) {
-  #searchTermLabel {
+  .searchTermLabel {
     right: 41.6%;
+  }
+  .searchTermLabelNarrow {
+    right: 38.6%;
   }
 }
 
 
 @media only screen and (min-width: 1681px) and (max-width: 1750px) {
-  #searchTermLabel {
+  .searchTermLabel {
     right: 42.2%;
+  }
+  .searchTermLabelNarrow {
+    right: 39.2%;
   }
 }
 
 
 @media only screen and (min-width: 1749px) and (max-width: 1820px) {
-  #searchTermLabel {
+  .searchTermLabel {
     right: 42.5%;
+  }
+  .searchTermLabelNarrow {
+    right: 39.5%;
   }
 }
 
 @media only screen and (min-width: 1819px) and (max-width: 1849px) {
-  #searchTermLabel {
+  .searchTermLabel {
     right: 43.1%;
+  }
+  .searchTermLabelNarrow {
+    right: 40.1%;
   }
 }
 
 
 @media only screen and (min-width: 1850px) and (max-width: 1890px) {
-  #searchTermLabel {
+  .searchTermLabel {
     right: 43.5%;
   }
-}
-
-@media only screen and (min-width: 1889px) and (max-width: 1919px) {
-  #searchTermLabel {
-    right: 43.8%;
+  .searchTermLabelNarrow {
+    right: 40.5%;
   }
 }
 
-@media only screen and (min-width: 1920px) {
-  #searchTermLabel {
+@media only screen and (min-width: 1889px) {
+  .searchTermLabel {
     right: 43.8%;
+  }
+  .searchTermLabelNarrow {
+    right: 40.8%;
   }
 }
 	

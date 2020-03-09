@@ -457,6 +457,52 @@ const defineCustomModels = (db) => {
 		  tableName: 'dummy'	
 	  });
 	  ModelSearchRecord.removeAttribute('id');
+
+
+	 //@@@PDC-1441: Add ability to search by case, study, aliquot, sample UUIDs on UI search box
+	 const ModelSearchStudyRecord = db.getSequelize().define('dummy', {
+		record_type: { type: Sequelize.STRING },
+		name: { type: Sequelize.STRING },
+		submitter_id_name: { type: Sequelize.STRING },
+		study_id: {type: Sequelize.STRING},
+		study_submitter_id: {type: Sequelize.STRING},
+		description: { type: Sequelize.STRING },
+		proteins: { type: Sequelize.STRING },
+	}, {
+		timestamps: false,
+		underscored: true,
+		freezeTableName: true,
+		tableName: 'dummy'	
+	});
+	ModelSearchStudyRecord.removeAttribute('id');
+
+	//@@@PDC-1441: Add ability to search by case, study, aliquot, sample UUIDs on UI search box
+	const ModelSearchCaseRecord = db.getSequelize().define('dummy', {
+		record_type: { type: Sequelize.STRING },
+		name: { type: Sequelize.STRING },
+		submitter_id_name: { type: Sequelize.STRING },
+		case_id: {type: Sequelize.STRING},
+		description: { type: Sequelize.STRING },
+		proteins: { type: Sequelize.STRING },
+	}, {
+		timestamps: false,
+		underscored: true,
+		freezeTableName: true,
+		tableName: 'dummy'	
+	});
+	ModelSearchCaseRecord.removeAttribute('id');
+
+	//@@@PDC-1441: Add ability to search by case, study, aliquot, sample UUIDs on UI search box
+	const ModelSearchAliquotRecord = db.getSequelize().define('dummy', {
+		aliquot_id: { type: Sequelize.STRING },
+		aliquot_submitter_id: { type: Sequelize.STRING }
+	}, {
+		timestamps: false,
+		underscored: true,
+		freezeTableName: true,
+		tableName: 'dummy'	
+	});
+	ModelSearchAliquotRecord.removeAttribute('id');
 	  
 	  //@@@PDC-486 data matrix API
 	  //@@@PDC-562 quant data matrix API
@@ -613,6 +659,9 @@ const defineCustomModels = (db) => {
 	  db['ModelPDCDataStatistics'] = ModelPDCDataStatistics;
 	  db['ModelFileMetadata'] = ModelFileMetadata;
 	  db['ModelSearchRecord'] = ModelSearchRecord;
+	  db['ModelSearchStudyRecord'] = ModelSearchStudyRecord;
+	  db['ModelSearchCaseRecord'] = ModelSearchCaseRecord;
+	  db['ModelSearchAliquotRecord'] = ModelSearchAliquotRecord;
 	  db['ModelMatrix'] = ModelMatrix;
 	  db['ModelSpectralCount'] = ModelSpectralCount;
 	  db['ModelExperimentalMetadata'] = ModelExperimentalMetadata;

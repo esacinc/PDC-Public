@@ -49,6 +49,8 @@ const appRoutes: Routes = [
   { path: 'gene-summary/:gene_id', component: GeneProteinSummaryComponent, outlet: 'geneSummary'},
   { path: 'case-summary/:case_id', component: CaseSummaryComponent, outlet: 'caseSummary'},
   { path: 'study-summary/:study_id', component: StudySummaryComponent, outlet: 'studySummary'},
+  { path: 'case/:case_uuid', loadChildren: './lazybrowse.module#LazyBrowseModule'},
+  { path: 'study/:study_uuid', loadChildren: './lazybrowse.module#LazyBrowseModule'},
   /* { path: '', component: AppComponent,
     children: [ {path: 'browse', component: BrowseComponent}] }, */
   //*{ path: 'pdc', component: FrontPageComponent, canActivate: [AuthGuard] },

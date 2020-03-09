@@ -40,6 +40,7 @@ import { ngxCsv } from "ngx-csv/ngx-csv";
 //@@@PDC-937: Add a button to allow download all manifests with a single click
 //@@@PDC-1063: Implement select all, select page, select none for all tabs
 //@@@PDC-1252: Add data category as a filter for the "file counts" section of the Study table
+//@@@PDC-1609: URL structure for permanent links to PDC 
 export class BrowseByStudyComponent implements OnInit, OnChanges {
 
   filteredStudiesData: AllStudiesData[]; //Filtered list of Studies
@@ -117,7 +118,7 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
     dialogConfig.data = {
 		summaryData: this.filteredStudiesData[study_index],
     };
-	this.router.navigate([{outlets: {studySummary: ['study-summary', this.filteredStudiesData[study_index].submitter_id_name]}}]);
+	this.router.navigate([{outlets: {studySummary: ['study-summary', this.filteredStudiesData[study_index].submitter_id_name]}}], { skipLocationChange: true });
 	const dialogRef = this.dialog.open(StudySummaryComponent, dialogConfig);
 
 

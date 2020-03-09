@@ -1,11 +1,16 @@
 import { PDCUserService } from './../../pdcuser.service';
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogRef, MatDialogConfig, MAT_DIALOG_DATA } from '@angular/material';
 import { AuthService, GoogleLoginProvider } from 'angular-6-social-login';
 import { ChorusauthService } from '../../chorusauth.service';
 import { LabSelectionComponent } from '../lab-selection/lab-selection.component';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { environment } from '../../../environments/environment';
+import { RegistrationComponent} from '../registration/registration.component';
+import { ConfirmationDialogComponent } from "./../../dialog/confirmation-dialog/confirmation-dialog.component";
+import { MessageDialogComponent } from "./../../dialog/message-dialog/message-dialog.component";
 
 @Component({
   selector: "app-login",
@@ -16,6 +21,9 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 //@@@PDC-824 - Update login window and registration page to allow login with just email address and password
 //@@@PDC-919 - Lock user account after 6 unsuccessful login attempts
 //@@@PDC-928 - implement remember me and forgot password
+//@@@PDC-1406: review and update messages that user can get during registration/login/account update 
+//@@@PDC-1487: resolve issues found with user registration/login
+
 export class LoginComponent implements OnInit {
   username = "";
   userEmail = "";
@@ -36,7 +44,8 @@ export class LoginComponent implements OnInit {
     private dialogRef: MatDialogRef<LoginComponent>,
     private dialog: MatDialog,
     private userService: PDCUserService,
-    private router: Router
+    private router: Router,
+	private activeRoute: ActivatedRoute,
   ) {
 	  var savedUsername = localStorage.getItem('username');
 	  //If username was previously saved initialize email input field with it
@@ -46,7 +55,15 @@ export class LoginComponent implements OnInit {
 	  }
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+	  
+	this.activeRoute.queryParams.subscribe(queryParams => {
+		console.log(queryParams);
+		if (queryParams.uid){
+			this.eRAnihSignIn(queryParams.uid);
+		}				
+	});  
+  }
 
   get email(){
 	  return this.loginForm.get('email');
@@ -60,6 +77,46 @@ export class LoginComponent implements OnInit {
 	  return this.loginForm.get('rememberMeCheckbox');
   }
   
+  //NIH/eRA login
+  public eRAnihSignIn(uid: string){
+    this.systemErrorMessage='';
+	  this.userService.checkPDCUser(uid).subscribe(registered => {
+		  console.log("Registered: " + registered);
+		switch (registered) {
+			//user registered
+			case 0:
+				//'' route url will be welcome page to login. 'pdc' route url will be home page
+				if(localStorage.getItem('controlledFileExportFlag') === 'true'){
+					localStorage.removeItem('controlledFileExportFlag');
+					document.location.href = environment.dcf_fence_login_url.replace("%dcf_client_id%",environment.dcf_client_id);
+					this.router.navigate(['browse']);
+				}else{
+					this.router.navigate(['pdc']);
+				}
+				break;
+			//user not registered
+			case 1:
+				//@@@PDC-1182: New user login not going to registration page
+				this.router.navigate(['pdc']);
+  				if (this.userService.getEmail()) {
+					this.userService.setUserIDType("NIH");
+				} else {
+					this.userService.setUserIDType("eRA");
+				}
+				const dialogConfig = new MatDialogConfig();
+				dialogConfig.width = "55%";
+				dialogConfig.minWidth = 980;
+				dialogConfig.height = '80%';
+				this.dialog.open(RegistrationComponent, dialogConfig);
+				break;
+			//system error
+			case 2:
+				this.systemErrorMessage="System Error. Please contact your system admin";
+				console.log("System error!!!");
+				break;				
+		}
+		});	   
+  }
   
   // Authenticate the user with Google
   // @@@PDC-881 close login dialog and open registration dialog if user needs to register
@@ -69,6 +126,7 @@ export class LoginComponent implements OnInit {
     this.socialAuthService.signIn(socialPlatformProvider).then(userData => {
       // Now that they are logged in check to see if they are already setup in Chorus
       this.userService.checkPDCUserByEmail(userData.email, "Google").then(exists => {
+		  //console.log(userData);
         switch (exists) {
           //user exists
           case 0:
@@ -78,7 +136,7 @@ export class LoginComponent implements OnInit {
             break;
           //user does not exist
           case 1:
-            console.log(userData);
+            //console.log(userData);
             this.userService.setUserIDType("Google");
             this.userService.setLoginUsername(userData.email);
             this.userService.setEmail(userData.email);
@@ -92,13 +150,23 @@ export class LoginComponent implements OnInit {
             console.log("System error!!!");
             break;
 		  case 5:
-			this.systemErrorMessage = "User Cancelled their account";
-			this.userService.setLoginUsername(userData.name);
-            this.userService.setEmail(userData.email);
+			//this.systemErrorMessage = "User Cancelled their account";
+			this.systemErrorMessage = "User deactivated their account. To reactivate account please contact site administrators by email pdc-admin@esacinc.com.";
+			//this.userService.setLoginUsername(username);
+            //this.userService.setEmail(username);
             //this.router.navigate(["registration"]);
-            this.dialogRef.close("user register with email");
+			this.dialog.open(MessageDialogComponent, {
+				width: "400px",
+				height: "170px",
+				disableClose: true,
+				autoFocus: false,
+				hasBackdrop: true,
+				data: { message: this.systemErrorMessage}
+			});
+            this.dialogRef.close("User cancelled their account");
 			break;
         }
+		console.log("Error message: " + this.systemErrorMessage);
       });
     });
     
@@ -121,7 +189,7 @@ export class LoginComponent implements OnInit {
 	  }
 	this.isValidFormSubmitted = true;
 	this.userService.checkPDCUserByEmail(username, "PDC", userPass).then(exists => {
-		console.log(exists);
+		console.log("Exists: " + exists);
         switch (exists) {
           //user exists
           case 0:
@@ -147,31 +215,68 @@ export class LoginComponent implements OnInit {
             break;
 		  case 3:
 			this.systemErrorMessage = "User have not confirmed their email yet";
-			alert("User have not confirmed their email yet");
+			//alert("User have not confirmed their email yet");
 			console.log("User have not confirmed email yet");
+			this.dialog.open(MessageDialogComponent, {
+				width: "400px",
+				height: "140px",
+				disableClose: true,
+				autoFocus: false,
+				hasBackdrop: true,
+				data: { message: "User have not confirmed their email yet" }
+			});
+			console.log("An email with instructions to reset password was sent");
+			this.dialogRef.close('Change password button');
 			this.dialogRef.close("User have not confirmed email yet");
 			break;
 		  case 4:
 			this.systemErrorMessage = "Wrong password!";
 			var attempts = 6 - this.userService.getLoginAttempts();
+			let message = "";
 			if (attempts > 0 ){
-				alert("You entered wrong password. Your account will be blocked after " + attempts + " attempts");
+				//alert("You entered wrong password. Your account will be blocked after " + attempts + " attempts");
+				message = "You entered wrong password. Your account will be blocked after " + attempts + " attempts";
 			} else {
-				alert("You entered wrong password too many times. Your account will be blocked");
+				//alert("You entered wrong password too many times. Your account will be blocked");
+				message = "You entered wrong password too many times. Your account will be blocked";
 			}
+			this.dialog.open(MessageDialogComponent, {
+				width: "400px",
+				height: "140px",
+				disableClose: true,
+				autoFocus: false,
+				hasBackdrop: true,
+				data: { message: message}
+			});
 			console.log("Wrong password, " + attempts + " login attempts remaining");
 			break;
 		  case 5:
-			this.systemErrorMessage = "User Cancelled their account";
-			this.userService.setLoginUsername(username);
-            this.userService.setEmail(username);
+			this.systemErrorMessage = "User deactivated their account. To reactivate account please contact site administrators by email pdc-admin@esacinc.com.";
+			//this.userService.setLoginUsername(username);
+            //this.userService.setEmail(username);
             //this.router.navigate(["registration"]);
-            this.dialogRef.close("user register with email");
+			this.dialog.open(MessageDialogComponent, {
+				width: "400px",
+				height: "170px",
+				disableClose: true,
+				autoFocus: false,
+				hasBackdrop: true,
+				data: { message: this.systemErrorMessage}
+			});
+            this.dialogRef.close("User deactivated their account");
 			break;
 		  case 7:
-			this.systemErrorMessage = "User is blocked due to too many unsuccessful logins. Please contact website administrator by email pdc-admin@esacinc.com to unlock the account.";
+			this.systemErrorMessage = "User " + username + " is blocked due to too many unsuccessful logins. Please contact website administrator by email pdc-admin@esacinc.com to unlock the account.";
 			console.log("User was blocked due to too many unsuccessful logins.");
-			alert("User " + username + " is blocked due to too many unsuccessful logins. Please contact website administrator by email pdc-admin@esacinc.com to unlock the account.");
+			//alert("User " + username + " is blocked due to too many unsuccessful logins. Please contact website administrator by email pdc-admin@esacinc.com to unlock the account.");
+			this.dialog.open(MessageDialogComponent, {
+				width: "400px",
+				height: "170px",
+				disableClose: true,
+				autoFocus: false,
+				hasBackdrop: true,
+				data: { message: this.systemErrorMessage}
+			});
 			break;
         }
       });  
@@ -214,12 +319,28 @@ export class LoginComponent implements OnInit {
 		  this.userService.userForgotPassword(this.loginForm.controls['email'].value).subscribe(emailSent => {
 			if (emailSent){
 				this.systemErrorMessage = "An email with instructions to reset password was sent";
-				alert("Check your email for further instrutions");
+				//alert("Check your email for further instrutions");
 				console.log("An email with instructions to reset password was sent");
+				this.dialog.open(MessageDialogComponent, {
+				width: "400px",
+				height: "120px",
+				disableClose: true,
+				autoFocus: false,
+				hasBackdrop: true,
+				data: { message: this.systemErrorMessage}
+			});
 				this.dialogRef.close("An email with instructions to reset password was sent");
 			} else {
-				this.systemErrorMessage = "User does not exist";
-				alert("User with such email does not exist");
+				this.systemErrorMessage = "User with such email does not exist";
+				//alert("User with such email does not exist");
+				this.dialog.open(MessageDialogComponent, {
+				width: "400px",
+				height: "120px",
+				disableClose: true,
+				autoFocus: false,
+				hasBackdrop: true,
+				data: { message: this.systemErrorMessage}
+			});
 				console.log("User with such email " + this.loginForm.controls['email'].value + " does not exist");
 			}
 		  });

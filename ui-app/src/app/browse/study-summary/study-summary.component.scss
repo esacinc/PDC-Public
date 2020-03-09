@@ -147,3 +147,14 @@
 .help-icon {
 	font-size: 20px !important;
 }
+
+//@@@PDC-1420: Cannot sort the columns in "Clinical" table of the Study summary page
+:host /deep/ .ui-table table {
+	width: 100% !important;
+}
+
+//@@@PDC-1421: Unable to expand columns in the tables of Study Summary page
+#clinicalDataTable, #studyExperimentalDesignTable, #biospecimensDataTable {
+	height: 350px;
+    overflow-y: scroll;
+}

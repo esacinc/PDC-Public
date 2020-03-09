@@ -76,7 +76,7 @@ export class WelcomePageComponent implements OnInit {
 				//'' route url will be welcome page to login. 'pdc' route url will be home page
 				if(localStorage.getItem('controlledFileExportFlag') === 'true'){
 					localStorage.removeItem('controlledFileExportFlag');
-					document.location.href = environment.dcf_fence_login_url;
+					document.location.href = environment.dcf_fence_login_url.replace("%dcf_client_id%",environment.dcf_client_id);
 					this.router.navigate(['browse']);
 				}else{
 					this.router.navigate(['pdc']);

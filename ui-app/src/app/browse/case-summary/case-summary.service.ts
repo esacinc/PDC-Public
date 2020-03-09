@@ -27,8 +27,8 @@ constructor(private apollo: Apollo) {
 
 	//@@@PDC-1355: Use uuid as API search parameter
 	caseSummaryData = gql`
-		query CaseSummaryDataQuery($case_id: String!){
-			uiCase (case_id: $case_id) {
+		query CaseSummaryDataQuery($case_id: String!, $case_submitter_id: String!){
+			uiCase (case_id: $case_id, case_submitter_id: $case_submitter_id) {
 				aliquot_id 	
 				sample_id
 				case_id
@@ -40,12 +40,13 @@ constructor(private apollo: Apollo) {
 			}
 		}`;
 
-	getCaseSummaryData(case_id_value:any){
+	getCaseSummaryData(case_id_value:any, case_submitter_id:any){
 		console.log(case_id_value);
 		return this.apollo.watchQuery<AllCasesData>({
 			query: this.caseSummaryData,
 			variables: {
-				case_id: case_id_value
+				case_id: case_id_value,
+				case_submitter_id: case_submitter_id
 			}
 		})
 		.valueChanges
@@ -143,6 +144,7 @@ constructor(private apollo: Apollo) {
 								year_of_diagnosis
 							}    
 							samples{
+								sample_id
 								gdc_sample_id
 								gdc_project_id
 								sample_submitter_id
@@ -171,6 +173,7 @@ constructor(private apollo: Apollo) {
 								tumor_code_id
 								tumor_descriptor
 								aliquots{
+									aliquot_id
 									aliquot_submitter_id
 									aliquot_quantity
 									aliquot_volume
@@ -249,6 +252,7 @@ constructor(private apollo: Apollo) {
 			getPaginatedUIStudy(study_name: $study_name_filter) {
 			total
 			uiStudies {
+				study_id
 				submitter_id_name
 				study_description
 				study_submitter_id

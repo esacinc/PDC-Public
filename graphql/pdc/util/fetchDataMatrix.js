@@ -1,10 +1,13 @@
 import { ModelMatrix } from '../models/customModels';
-import { db } from './dbconnect';
+//@@@PDC-1437 db connect for public APIs
+import { pubDb } from './pubDbconnect';
+import { logger } from './logger';
+//import { db } from './dbconnect';
 import {RedisCacheClient} from '../util/cacheClient';
 
 //@@@PDC-964 async api for data matrix
 async function fetchDataMatrix(data_type, study_submitter_id, numOfAliquot, numOfGene) {
-	console.log("fetch data matrix for "+data_type + " "+study_submitter_id);
+	logger.info("fetch data matrix for "+data_type + " "+study_submitter_id);
 	var matrix = [];
 	var matrixCountQuery = '';
 	switch (data_type) {
@@ -43,7 +46,7 @@ async function fetchDataMatrix(data_type, study_submitter_id, numOfAliquot, numO
 	if (numOfAliquot > 0){
 		matrixCountQuery += " limit 0, "+numOfAliquot;
 	}
-	var aliquots = await db.getSequelize().query(matrixCountQuery, { model: db.getModelByName('ModelMatrix') });
+	var aliquots = await pubDb.getSequelize().query(matrixCountQuery, { model: pubDb.getModelByName('ModelMatrix') });
 	var row1 = ['Gene/Aliquot'];
 	matrix.push(row1);
 	var genes = null, geneQuery = null;
@@ -86,7 +89,7 @@ async function fetchDataMatrix(data_type, study_submitter_id, numOfAliquot, numO
 			geneQuery += " limit 0, "+numOfGene;
 		}
 		var geneRow = null;
-		genes = await db.getSequelize().query(geneQuery, { model: db.getModelByName('ModelMatrix') });
+		genes = await pubDb.getSequelize().query(geneQuery, { model: pubDb.getModelByName('ModelMatrix') });
 		var currentGene = 'xxxx';
 		var geneCount = 0;
 		for (var j = 0; j < genes.length; j++){

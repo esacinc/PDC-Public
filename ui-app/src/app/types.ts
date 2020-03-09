@@ -202,6 +202,7 @@ export type AllFilesData = {
 //@@@PDC-462 show submitter ids
 export type AllClinicalData = {
 	case_submitter_id: string;
+	case_id: string;
 	external_case_id: string;
 	ethnicity: string;
 	gender: string;
@@ -642,6 +643,34 @@ export type SearchResultsStudy = {
 	record_type: string; 
 	name: string; 
 	submitter_id_name: string;
+	study_id: string;
+}
+
+export type SearchCaseResults = {
+	record_type: string; 
+	name: string; 
+	case_id: string;
+}
+
+export type SearchResultsForAliquot = {
+	aliquot_id: string; 
+	aliquot_submitter_id: string; 
+}
+
+export type SearchbyStudyUUID = {
+	study_submitter_id: string; 
+}
+
+export type UUIDForStudy = {
+	study_submitter_id: string; 
+}
+
+export type SearchbyCaseUUID = {
+	case_submitter_id: string; 
+}
+
+export type UUIDForCase = {
+	case_id: string; 
 }
 
 //@@@PDC-440, PDC-438

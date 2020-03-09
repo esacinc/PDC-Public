@@ -1,6 +1,8 @@
 import { RegistrationPageComponent } from './../welcome-page/registration-page.component';
 import { AuthService } from 'angular-6-social-login';
 import { of } from 'rxjs';
+import { MatDialogRef } from "@angular/material/dialog";
+import { MAT_DIALOG_DATA } from "@angular/material";
 
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
@@ -16,6 +18,10 @@ class MockAuthService {
   signIn(providerId: string): Promise<any> {
     return Promise.resolve({ email: "xxx@esacinc.com", name: "xxxyyy" });
   }
+}
+
+class MockMatDialogRef {
+  close() {}
 }
 
 describe("UserAccountComponent", () => {
@@ -34,7 +40,12 @@ describe("UserAccountComponent", () => {
       providers: [
         ChorusauthService,
         PDCUserService,
-        { provide: AuthService, useClass: MockAuthService }
+        { provide: AuthService, useClass: MockAuthService },
+		{
+          provide: MAT_DIALOG_DATA,
+          useValue: { data: "id"}
+        },
+		{ provide: MatDialogRef, useClass: MockMatDialogRef },
       ]
     }).compileComponents();
   }));

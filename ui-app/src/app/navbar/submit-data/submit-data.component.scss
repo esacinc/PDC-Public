@@ -49,9 +49,18 @@ $header-height: 10.8rem;
 
   #submitDataArchitectureimg {
     float: right;
-    width:100%
+    width:90%
   }
 
   #architectureHeading {
     text-align: center;
+  }
+
+  //@@@PDC-1489: Alignment issues in Submit Data page
+  .leftDiv {
+    margin-left: 6%;
+  }
+
+  .subDivHeading {
+    font-size: 18px;
   }

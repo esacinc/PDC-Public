@@ -6,22 +6,45 @@
 <mat-card class="about-page card card-body">
         <mat-card-content>
         <div class="row">
-            <div class="col-md-6" style="margin-right: 7%">
-            <h4>How to submit data:</h4>
+            <h3 style="padding-left: 30%;font-weight: 1000;">PDC Workspace Data Submission Overview</h3>
+        </div>
+        <div class="row">
+            <div class="col-md-6" style="margin-right: 7%; margin-top: 1.5%">
+            <div class="leftDiv"><iframe width="560" height="315" src="https://www.youtube.com/embed/97uSIc31nLw" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div><br>
+            <div class="leftDiv">
+                <div style="font-weight: bolder">Quick Links:</div>
+                <div><a href="https://www.youtube.com/watch?v=97uSIc31nLw&t=0s" target="_blank">0:00</a>&nbsp;&nbsp;PDC Data Model and Dictionary</div>
+                <div><a href="https://www.youtube.com/watch?v=97uSIc31nLw&t=65s" target="_blank">1:05</a>&nbsp;&nbsp;Data Submission Overview</div>
+                <div><a href="https://www.youtube.com/watch?v=97uSIc31nLw&t=121s" target="_blank">2:01</a>&nbsp;&nbsp;Register your program with PDC </div>
+                <div><a href="https://www.youtube.com/watch?v=97uSIc31nLw&t=139s" target="_blank">2:19</a>&nbsp;&nbsp;Register with PDC as a data submitter </div>
+                <div><a href="https://www.youtube.com/watch?v=97uSIc31nLw&t=201s" target="_blank">3:21</a>&nbsp;&nbsp;Create instrument and upload raw files </div>
+                <div><a href="https://www.youtube.com/watch?v=97uSIc31nLw&t=305s" target="_blank">5:05</a>&nbsp;&nbsp;Create a project </div>
+                <div><a href="https://www.youtube.com/watch?v=97uSIc31nLw&t=335s" target="_blank">5:35</a>&nbsp;&nbsp;Create a protocol </div>
+                <div><a href="https://www.youtube.com/watch?v=97uSIc31nLw&t=483s" target="_blank">8:03</a> Create a study </div>
+                <div><a href="https://www.youtube.com/watch?v=97uSIc31nLw&t=683s" target="_blank">11:23</a> Biospecimen data submission overview</div>
+            </div>
+            <h3>How to submit data:</h3>
             <ol>
-                <li><b>Register your Program Name:</b><br><br><p>If you are a PI or program manager, please contact us at nci.pdc.help@esacinc.com to initiate the registration process. Once approved by the NCI, we will set up a program for you to which you may submit data. </p></li>
-                <li><b>Register with PDC</b><br><br><p>Go to <a href="https://pdc.esacinc.com" target="_blank">https://pdc.esacinc.com</a> and click login in the top right corner. You may use a Google or eRA commons account, or NIH email to register with PDC. If you do not have any of these, you may create an account by clicking ‘Click here to sign up’ and by following the instructions. You will receive an email; click the provided link to confirm your registration. </p><br><br>
+                <li><b><a href="javascript:void(0);" (click)="scrollToElement(Register_Program)">Register your Program Name</a></b></li>
+                <li><b><a href="javascript:void(0);" (click)="scrollToElement(Register_PDC)">Register with PDC</a></b></li>
+                <li><b><a href="javascript:void(0);" (click)="scrollToElement(Register_Workspace)">Register on the PDC workspace as a data submitter for a Program</a></b></li>
+                <li><b><a href="javascript:void(0);" (click)="scrollToElement(Login_Workspace)">Login to the PDC Workspace</a></b></li>
+                <li><b><a href="javascript:void(0);" (click)="scrollToElement(Submission_Process)">Submission process</a></b></li>
+            </ol>
+            <div>
+                <br><div #Register_Program><b><span class="subDivHeading">Register your Program Name:</span></b><br><br><p>If you are a PI or program manager, please contact us at nci.pdc.help@esacinc.com to initiate the registration process. Once approved by the NCI, we will set up a program for you to which you may submit data. </p></div>
+                <br><div #Register_PDC><b><span class="subDivHeading">Register with PDC:</span></b><br><br><p>Go to <a href="https://pdc.esacinc.com" target="_blank">https://pdc.esacinc.com</a> and click login in the top right corner. You may use a Google or eRA commons account, or NIH email to register with PDC. If you do not have any of these, you may create an account by clicking ‘Click here to sign up’ and by following the instructions. You will receive an email; click the provided link to confirm your registration. </p><br><br>
                     <div style="text-align:center"><img mat-card-image style="align-content: center" src="assets/W-Register.png" alt="Register with PDC"></div>
-                </li>   
-                <li><b>Register on the PDC workspace as a data submitter for a Program:</b><br><br>         
+                </div>   
+                <br><div #Register_Workspace><b><span class="subDivHeading">Register on the PDC workspace as a data submitter for a Program:</span></b><br><br>         
                     <p>Return to <a href="https://pdc.esacinc.com" target="_blank">https://pdc.esacinc.com</a> and click ‘SUBMIT DATA’. In the dialog box, start typing the program name and select the relevant program from the drop-down list. Click submit and you will receive an email confirmation for your request. You will receive another email once the request for membership to the program is approved. </p><br><br>
                     <div style="text-align:center"><img mat-card-image style="align-content: center" src="assets/W-Register-2.png" alt="Register with PDC"></div>
-                </li>
-                <li><b>Login to the PDC Workspace:</b><br><br> 
+                </div>
+                <br><div #Login_Workspace><b><span class="subDivHeading">Login to the PDC Workspace:</span></b><br><br> 
                     <p>Return to <a href="https://pdc.esacinc.com" target="_blank">https://pdc.esacinc.com</a>, click ‘SUBMIT DATA’, and login with your registered credentials. You will see a screen displaying something like this:</p><br><br>
                     <div style="text-align:center"><img mat-card-image style="align-content: center" src="assets/pdcLogin.png" alt="Login to PDC"></div>
-                </li>
-                <li><b>Submission process:</b><br><br> 
+                </div>
+                <br><div #Submission_Process><b><span class="subDivHeading">Submission process:</span></b><br><br> 
                     <p>Now you are ready to begin the submission process.</p>
                     <p>If you have not done so already, you should first request program membership or creation. Next, you can either create a project or an instrument. These steps have no prerequisites other than belonging to a program with mass spectrometers.  We recommend that you follow the steps in the order given in the Submission Overview at the top of this document. Registering an instrument will let you upload raw files from that instrument, after it has been approved by the PI. Once you have created a project and have uploaded raw data to the Workspace cloud, you should next create the Protocol used for your Study.</p>
                     <p>Finally, you can create Studies (experiments) and organize them into your created Projects. You can't create a study (experiment) without linking the study to a Project.</p>
@@ -51,11 +74,10 @@
                             <p><b>This completes the process of submission of a dataset for release through PDC data portal.  If you have any questions about this process, please contact the PDC by email for help (<a href="mailto:nci.pdc.help@esacinc.com" target="_blank">nci.pdc.help@esacinc.com</a>).</b></p>
                         <br></li>
                     </ol>
-                </li>
-            </ol>
+                </div>
+            </div>
         </div>
-        <div class="col-md-5" class="sticky-nav fixed-class">
-            <h4 id="architectureHeading">PDC Workspace Data Submission Overview</h4>
+        <div class="col-md-5" class="sticky-nav fixed-class" style="margin-top: 7%">
             <img id="submitDataArchitectureimg" mat-card-image src="assets/SubmitDataArchitecture.png" alt="PDC Workspace Architecture diagram">
         </div>
     </div>

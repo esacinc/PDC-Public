@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import gql from 'graphql-tag';
 
-import { SearchResults, QueryAllCasesData, SearchResultsStudy, SearchResultsGenesProteins, SearchResultsProteins  } from '../types'; 
+import { SearchResults, QueryAllCasesData, SearchResultsStudy, SearchResultsGenesProteins, SearchResultsProteins, SearchbyStudyUUID, UUIDForStudy, SearchbyCaseUUID, UUIDForCase, AllCasesData, SearchCaseResults, SearchResultsForAliquot  } from '../types'; 
 
 //@@@PDC-264 - added cases_count field to uiStudy query
 //@@@PDC-440 - add description field to gene/protein search results
@@ -30,12 +30,13 @@ constructor(private apollo: Apollo) {
 						searchCases {
 							record_type
 							name
+							case_id
 						}
 					}
 			}`;
 	
 	getCaseSearchResults(case_param:any){
-		return this.apollo.watchQuery<SearchResults>({
+		return this.apollo.watchQuery<SearchCaseResults>({
 			query: this.searchCaseQuery,
 			variables: {
 				case_name: case_param,
@@ -111,6 +112,8 @@ constructor(private apollo: Apollo) {
 							record_type
 							name
 							submitter_id_name
+							study_id
+							study_submitter_id
 						}
 					}
 			}`;
@@ -128,6 +131,223 @@ constructor(private apollo: Apollo) {
 				console.log(result.data);
 				return result.data;})
 		); 
+	}
+
+	searchAliquotsQuery = gql`
+	query AliquotSearchQuery($aliquot_submitter_id: String!){
+		aliquotSearch(name: $aliquot_submitter_id){
+			searchAliquots{
+				aliquot_id
+				aliquot_submitter_id
+			}
+		}
+	}`;
+
+	getAliquotSearchResults(aliquot_submitter_id:any){
+	return this.apollo.watchQuery<SearchResultsForAliquot>({
+		query: this.searchAliquotsQuery,
+		variables: {
+			aliquot_submitter_id: aliquot_submitter_id,
+		}
+	})
+	.valueChanges
+	.pipe(
+		map(result => {
+			console.log(result.data);
+			return result.data;})
+	); 
+	}
+
+	searchStudyUUIDQuery = gql`
+	query studyByUUIDQuery($study_id: String!){
+		study(study_id: $study_id){
+			study_submitter_id
+		}
+	}`;
+
+	getStudybyUUIDResults(study_id:any){
+		return this.apollo.watchQuery<SearchbyStudyUUID>({
+			query: this.searchStudyUUIDQuery,
+			variables: {
+				study_id: study_id,
+			}
+		})
+		.valueChanges
+		.pipe(
+			map(result => {
+				console.log(result.data);
+				return result.data;})
+		); 
+	}
+
+	//@@@PDC-1441: Add ability to search by case, study, aliquot, sample UUIDs on UI search box
+	fetchStudySubmitterIDQuery = gql`
+	query studyByUUIDQuery($study_id: String!){
+		study(study_id: $study_id){
+			study_submitter_id
+			study_name
+		}
+	}`;
+
+	getStudySubmitterID(study_id:any){
+		return this.apollo.watchQuery<UUIDForStudy>({
+			query: this.fetchStudySubmitterIDQuery,
+			variables: {
+				study_id: study_id,
+			}
+		})
+		.valueChanges
+		.pipe(
+			map(result => {
+				console.log(result.data);
+				return result.data;})
+		); 
+	}
+
+	searchCaseUUIDQuery = gql`
+	query caseByUUIDQuery($case_id: String!){
+		case(case_id: $case_id){
+			case_submitter_id
+		}
+	}`;
+
+	getCaseUUIDResults(case_id:any){
+		return this.apollo.watchQuery<SearchbyCaseUUID>({
+			query: this.searchCaseUUIDQuery,
+			variables: {
+				case_id: case_id,
+			}
+		})
+		.valueChanges
+		.pipe(
+			map(result => {
+				console.log(result.data);
+				return result.data;})
+		); 
+	}
+
+	caseSummaryData = gql`
+	query CaseSummaryDataQuery($case_id: String!, $case_submitter_id: String!){
+		uiCase (case_id: $case_id, case_submitter_id: $case_submitter_id) {
+			case_id
+			case_submitter_id
+			aliquot_id 	
+			sample_id
+			project_name
+			program_name
+			sample_type
+			disease_type
+			primary_site
+			aliquot_submitter_id
+			sample_submitter_id
+		}
+	}`;
+
+	getCaseSummaryData(case_id:any, case_submitter_id:any){
+		console.log(case_id + ", " + case_submitter_id);
+		return this.apollo.watchQuery<AllCasesData>({
+			query: this.caseSummaryData,
+			variables: {
+				case_id: case_id,
+				case_submitter_id: case_submitter_id
+			}
+		})
+		.valueChanges
+		.pipe(
+		map(result => { console.log(result.data); return result.data;})
+  		); 
+	}
+
+	searchSampleUUIDQuery = gql`
+	query SampleDataQuery($sample_id: String!){
+		sample (sample_id: $sample_id) {
+			case_submitter_id
+			sample_submitter_id
+			sample_id
+		}
+	}`;
+
+	getSampleUUIDResults(sample_id:any){
+		//console.log(case_submitter_id);
+		return this.apollo.watchQuery<AllCasesData>({
+			query: this.searchSampleUUIDQuery,
+			variables: {
+				sample_id: sample_id,
+			}
+		})
+		.valueChanges
+		.pipe(
+		map(result => { console.log(result.data); return result.data;})
+  		); 
+	}
+
+	searchSampleSubmitterIDQuery = gql`
+	query SampleDataQuery($sample_submitter_id: String!){
+		sample (sample_submitter_id: $sample_submitter_id) {
+			case_submitter_id
+			sample_submitter_id
+			sample_id
+		}
+	}`;
+
+	getSampleSubmitterIDResults(sample_submitter_id: any){
+		//console.log(case_submitter_id);
+		return this.apollo.watchQuery<AllCasesData>({
+			query: this.searchSampleSubmitterIDQuery,
+			variables: {
+				sample_submitter_id: sample_submitter_id
+			}
+		})
+		.valueChanges
+		.pipe(
+		map(result => { console.log(result.data); return result.data;})
+  		); 
+	}
+
+	searchAliquotUUIDQuery = gql`
+	query AliquotDataQuery($aliquot_id: String!){
+		aliquot (aliquot_id: $aliquot_id) {
+			case_submitter_id
+			aliquot_submitter_id
+			aliquot_id
+		}
+	}`;
+
+	getAliquotUUIDResults(aliquot_id:any){
+		//console.log(case_submitter_id);
+		return this.apollo.watchQuery<AllCasesData>({
+			query: this.searchAliquotUUIDQuery,
+			variables: {
+				aliquot_id: aliquot_id,
+			}
+		})
+		.valueChanges
+		.pipe(
+		map(result => { console.log(result.data); return result.data;})
+  		); 
+	}
+
+	searchAliquotSubmitterIDQuery = gql`
+	query AliquotDataQuery($aliquot_submitter_id: String!){
+		aliquot (aliquot_submitter_id: $aliquot_submitter_id) {
+			case_submitter_id
+			aliquot_submitter_id
+			aliquot_id
+		}
+	}`;
+
+	getAliquotSubmitterIDResults(aliquot_submitter_id:any){
+		//console.log(case_submitter_id);
+		return this.apollo.watchQuery<AllCasesData>({
+			query: this.searchAliquotSubmitterIDQuery,
+			variables: {
+				aliquot_submitter_id: aliquot_submitter_id,
+			}
+		})
+		.valueChanges
+		.pipe(
+		map(result => { console.log(result.data); return result.data;})
+  		); 
 	}
 	
 }

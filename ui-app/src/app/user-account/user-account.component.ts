@@ -2,9 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from "@angular/router";
 import { AuthService, GoogleLoginProvider } from 'angular-6-social-login';
+import { MatDialog, MatDialogConfig } from "@angular/material";
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Inject } from '@angular/core';
+import { ConfirmationDialogComponent } from "./../dialog/confirmation-dialog/confirmation-dialog.component";
+import { MessageDialogComponent } from "./../dialog/message-dialog/message-dialog.component";
 import { ChorusauthService } from '../chorusauth.service';
 import { PDCUserService } from '../pdcuser.service';
 import { environment } from '../../environments/environment';
+import { OverlayWindowService } from "../overlay-window/overlay-window.service";
 
 @Component({
   selector: 'user-account',
@@ -15,6 +21,13 @@ import { environment } from '../../environments/environment';
 //@@@PDC-701 
 //This component is responsible for updating or canceling user account
 //@@@PDC-1197: PDC Users need to be able to change their password
+//@@@PDC-1402 show change password option only to users of type PDC
+//@@@PDC-1403 add tab for user account management to hold "Change password" and "Cancel account" options
+//@@@PDC-1404 add confirmation step to account cancellation
+//@@@PDC-1469 make user account page to be an overlay window
+//@@@PDC-1446 only users of type PDC may change their user name and email
+//@@@PDC-1406: review and update messages that user can get during registration/login/account update 
+//@@@PDC-1487: resolve issues found with user registration/login
 export class UserAccountComponent implements OnInit {
 
   selectedResearcherType:string = ""; //This variable will hold researcher type selected by user
@@ -33,8 +46,10 @@ export class UserAccountComponent implements OnInit {
 		  user_pass: new FormControl('', [Validators.minLength(8), Validators.pattern('(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#\$%\^&\*]).+')]),
 	  });
   //, Validators.pattern('(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).+')
-  constructor(private chorusService: ChorusauthService, private socialAuthService: AuthService, 
-				private router: Router, private userService: PDCUserService) {
+  constructor(private chorusService: ChorusauthService, private socialAuthService: AuthService, private dialog: MatDialog,
+				private router: Router, private userService: PDCUserService,
+				private overlayWindow: OverlayWindowService, private dialogRef: MatDialogRef<UserAccountComponent>,
+				@Inject(MAT_DIALOG_DATA) data) {
 	  let firstName = "";
 	  let lastName = "";
 	  console.log(this.userService.getUserName());
@@ -70,6 +85,14 @@ export class UserAccountComponent implements OnInit {
 		  searchType: user_type,
 		  user_pass: ''
 	  });
+	  //PDC-1446 if user type is not PDC they are not allowed to change their name or email
+	  // therefore disable these fields in the form
+	  if (!this.isUserTypePDC()){
+		this.registrationForm.controls['first_name'].disable();
+		this.registrationForm.controls['last_name'].disable();
+	  }
+	  //Disable email update for all types of users
+	  this.registrationForm.controls['email'].disable();
   }
   
   get first_name(){
@@ -92,6 +115,10 @@ export class UserAccountComponent implements OnInit {
 	  return this.registrationForm.get('user_pass');
   }
   
+  //PDC-1402 Show change password option only to users of type PDC
+  isUserTypePDC():boolean{
+	  return this.userService.getUserIDType() == "PDC";
+  }
 	//Callback function for form submission, checks whether the form is valid and creates new user
   //@@@PDC-784 Improve download controlled files feature
   submitUpdate(){
@@ -123,7 +150,7 @@ export class UserAccountComponent implements OnInit {
 			this.userService.setEmail(this.registrationForm.get('email').value);
 			this.userService.setOrganization(this.registrationForm.get('organization').value);
 			this.userService.setUserType(researcherType);
-			this.router.navigate(['pdc']);
+			this.dialogRef.close('submit button');
 		} else {
 			//Something went wrong with the registration
 			console.log("Registration failed!");
@@ -131,16 +158,32 @@ export class UserAccountComponent implements OnInit {
 	  });
   }
   
+  //PDC-1404 add confirmation step to account cancellation
   cancelUserAccount(){
-	  this.userService.cancelUser(this.userService.getUserName(), this.userService.getEmail(), "Tester", 
-						this.userService.getUserIDType(),  this.userService.getOrganization()).subscribe( success => {
-		  if (success){
-			  console.log("User successfully canceled their account");
+	  let confirmationMessage = `
+			You are trying to deactivate your PDC user account. 
+			Do you want to continue?`;
+      let continueCancelAccount = "Yes";
+	  const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+          width: "350px",
+		  height: "140px",
+          data: { message: confirmationMessage, continueMessage: continueCancelAccount }
+        });
+		
+	  dialogRef.afterClosed().subscribe(result => {
+          if ( result === "Yes") {
+	  
+			  this.userService.cancelUser(this.userService.getUserName(), this.userService.getEmail(), this.userService.getUserType(), 
+								this.userService.getUserIDType(),  this.userService.getOrganization()).subscribe( success => {
+				  if (success){
+					  console.log("User successfully deactivated their account");
 
-			  this.router.navigate(['pdc']);	
-		  }
-		  else {
-			  console.log("Failed to cancel account");
+					  this.dialogRef.close('cancel account button');
+				  }
+				  else {
+					  console.log("Failed to cancel account");
+				  }
+			  });
 		  }
 	  });
   }
@@ -155,15 +198,35 @@ public resetPassword(){
 	this.userService.userForgotPassword(this.registrationForm.get('email').value).subscribe(emailSent => {
 		if (emailSent){
 			this.systemErrorMessage = "An email with instructions to reset password was sent.";
-			alert("Check your email for further instrutions");
+			//alert("Check your email for further instrutions");
+			this.dialog.open(MessageDialogComponent, {
+				width: "400px",
+				height: "120px",
+				disableClose: true,
+				autoFocus: false,
+				hasBackdrop: true,
+				data: { message: "Check your email for further instrutions" }
+			});
 			console.log("An email with instructions to reset password was sent");
-			this.router.navigate(['pdc']);
+			this.dialogRef.close('Change password button');
 		} else {
 			this.systemErrorMessage = "User does not exist.";
-			alert("User with such email does not exist.");
+			//alert("User with such email does not exist.");
+			this.dialog.open(MessageDialogComponent, {
+				width: "400px",
+				height: "120px",
+				disableClose: true,
+				autoFocus: false,
+				hasBackdrop: true,
+				data: { message: "PDC user account with such email does not exist." }
+			});
 			console.log("User with such email " + this.registrationForm.get('email').value + " does not exist");
 		}
 	});
 }
+
+onCancelClick(): void {
+    this.dialogRef.close('cancel button');
+  }
 
 }

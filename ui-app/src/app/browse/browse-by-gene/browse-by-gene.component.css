@@ -37,3 +37,19 @@
   :host /deep/ #dataForManifestExport .mat-select-value {
     display:none !important;
  }
+
+ /* @@@PDC-1419: Fix the tooltip position for "Export Full Manifest" feature on Browse Page */
+ :host /deep/ .ui-table-caption {
+    padding-left: 0px;
+    text-align: unset !important;
+ }
+
+ .wholeManifestDownload {
+    padding-top: 10px;
+    padding-bottom: 10px;
+ }
+
+ .manifestDownload {
+    padding-top: 5px;
+    padding-bottom: 5px;
+ }

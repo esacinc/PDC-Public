@@ -7,6 +7,7 @@ import { Component, OnInit, Inject, HostListener, Renderer2, ElementRef } from "
 })
 
 //@@@PDC-1284: Add the 'how to submit data' under HELP
+//@@@PDC-1489: Alignment issues in Submit Data page
 export class SubmitDataFAQComponent implements OnInit {
   constructor(private elRef:ElementRef, private _renderer: Renderer2) {}
   ngOnInit() {}
@@ -28,5 +29,11 @@ export class SubmitDataFAQComponent implements OnInit {
           this._renderer.addClass(matExpansionIndicator[i], 'fixed-class');
         } 
       }  
+  }
+
+  //@@@PDC-1489: Alignment issues in Submit Data page
+  //Scroll to a particular section of the page.
+  scrollToElement($element): void {
+    $element.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
   }
 }

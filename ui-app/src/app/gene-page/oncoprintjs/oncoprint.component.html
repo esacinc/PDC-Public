@@ -1,7 +1,7 @@
 <div id="oncoprintDiv">
 	<div style="margin-left: 10px;margin-top: 10px;" *ngIf="loading"><i class="fa fa-spinner fa-spin" style="font-size:24px"></i>&nbsp;&nbsp;&nbsp;Loading visualization. Please wait... </div>
-	<p-table id="aliquotsVisualizationByStudy" [value]="dataByStudy" [scrollable]="true" scrollHeight="200px" [virtualScroll]="true" [rows]="10" 
-			[totalRecords]="dataByStudy.length" responsive="true" styleClass="borderless" [columns]="cols" [frozenColumns]="frozenStudyColumn" frozenWidth="300px"> 
+	<p-table id="aliquotsVisualizationByStudy" [value]="dataByStudy" [scrollable]="true" scrollHeight="200px" [virtualRowHeight]="40" [virtualScroll]="true" [rows]="10"
+			[totalRecords]="dataByStudy.length" responsive="true" styleClass="borderless" [columns]="cols" [frozenColumns]="frozenStudyColumn" frozenWidth="300px">
 		<ng-template pTemplate="frozencolgroup" let-columns>
 			<colgroup>
 				<col style="word-wrap: break-word; white-space: normal; border:none; border-style:none;" [style.width]>

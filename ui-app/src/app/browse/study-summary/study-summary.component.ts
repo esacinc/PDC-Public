@@ -6,7 +6,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { formatDate } from '@angular/common';
 import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
 import { Apollo } from 'apollo-angular';
-
+import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import {MAT_DIALOG_DATA, MatDialogRef, MatDialogConfig, MatDialog} from '@angular/material';
 import { StudySummaryService } from './study-summary.service';
@@ -49,6 +49,7 @@ enum FileTypes {
 //@@@PDC-1160: Add cases and aliquots to the study summary page
 //@@@PDC-1219: Add a new experimental design tab on the study summary page
 //@@@PDC-1355: Use uuid as API search parameter
+//@@@PDC-1609: URL structure for permanent links to PDC 
 export class StudySummaryComponent implements OnInit {
 
   study_id: string;
@@ -99,23 +100,26 @@ export class StudySummaryComponent implements OnInit {
 	studyExperimentDesignTableExtraCols:any[];
 	studyExperimentDesignTableHeaderCol = "";
 	static urlBase;
+	studySubmitterId = "";
 
   constructor(private route: ActivatedRoute, private router: Router, private apollo: Apollo, private http: HttpClient,
-				private studySummaryService: StudySummaryService,
+				private studySummaryService: StudySummaryService, private loc:Location,
 				private dialogRef: MatDialogRef<StudySummaryComponent>,
 				@Inject(MAT_DIALOG_DATA) public studyData: any, private studySummaryOverlayWindow: StudySummaryOverlayService, private dialog: MatDialog,) {
     
-	//console.log(studyData);
+	console.log(studyData);
 	//@@@PDC-612 display all data categories
 	this.fileTypesCounts = {RAW: 0, txt_psm: 0, txt: 0, pdf: 0, mzML: 0, doc: 0, mzIdentML: 0}; 
 	this.study_id = studyData.summaryData.study_id;
-	//console.log("UUID: "+this.study_id);
+	console.log("UUID: "+this.study_id);
 	this.study_submitter_id_name = studyData.summaryData.submitter_id_name;
 	this.studySummaryData = studyData.summaryData;
+	this.studySubmitterId = studyData.summaryData.study_submitter_id;
 	//If I got here via search then most of the fields are empty and I need to query study summary data
 	if (studyData.summaryData.project_name == ""){
 		this.getStudySummaryData();
 	}
+	this.loc.replaceState("/study/" + this.study_id);
 	this.workflowData = {
 		workflow_metadata_submitter_id: '',
 		study_submitter_id: '',
@@ -187,6 +191,9 @@ export class StudySummaryComponent implements OnInit {
 	}, {
 		'id': "TMT11",
 		'cols': "tmt_126,tmt_127n,tmt_127c,tmt_128n,tmt_128c,tmt_129n,tmt_129c,tmt_130c,tmt_130n,tmt_131,tmt_131c"
+	}, {
+		'id': "N/A",
+		'cols': ""
 	}];
 	this.getAllClinicalData();
 	this.getAllCasesData();
@@ -274,7 +281,6 @@ readManifest() {
 	  this.loading = true;
 	  this.studySummaryService.getFilteredStudyData(this.study_submitter_id_name).subscribe((data: any) =>{
 			this.studySummaryData = data.getPaginatedUIStudy.uiStudies[0];
-			//console.log(this.studySummaryData);
 			this.loading = false;
 	   });
   }
@@ -374,11 +380,15 @@ showCaseSummary(case_id: string, module: string){
 			summaryData: this.filteredCasesData[case_index],
 		};
 	}
-	this.router.navigate([{outlets: {caseSummary: ['case-summary', case_id]}}]);
+	//create an alias for study summary overlay window URL in the form [base url]/study/study uuid
+	this.loc.replaceState("/case/" + this.filteredClinicalData[case_index].case_id);
+	this.router.navigate([{outlets: {caseSummary: ['case-summary', case_id]}}], { skipLocationChange: true });
 	const dialogRef = this.dialog.open(CaseSummaryComponent, dialogConfig);
-	dialogRef.afterClosed().subscribe(
-		val => console.log("Dialog output:", val)
-	);
+	dialogRef.afterClosed().subscribe((val:any) => {
+			console.log("Dialog output:", val);
+			//Generate alias URL to hide auxiliary URL details when the previous overlay window was closed and the focus returned to this one
+			this.loc.replaceState("/study/" + this.study_id);
+	});
 }
 
 //@@@PDC-1160: Add cases and aliquots to the study summary page
@@ -406,7 +416,9 @@ return -1;
 }
  
 close(navigateToHeatmap: boolean, study_name: string = '') {
-	this.router.navigate([{outlets: {'studySummary': null}}]);
+	this.router.navigate([{outlets: {'studySummary': null}}], { replaceUrl: true });
+	this.loc.replaceState(this.router.url);
+	console.log("CLOSE study_name: " + study_name);
 	if ( navigateToHeatmap ) {
 	// Route to the first heatmap
 		const navigationExtras: NavigationExtras = {
@@ -414,9 +426,8 @@ close(navigateToHeatmap: boolean, study_name: string = '') {
 						'StudyName': study_name,
 				}
 			};
-		  this.router.navigate(['/analysis/' + this.study_id], navigationExtras);
+		  this.router.navigate(['/analysis/' + this.studySummaryData.study_submitter_id], navigationExtras);
 	  }
-
 	this.dialogRef.close();
 }
 	
@@ -575,9 +586,9 @@ getStudyExperimentalDesign() {
 		//'aliquot_is_ref = Yes' denotes if a aliquot is the reference. Fetch the aliquot submitter ID from biospecimenPerStudy table 
 		//for which 'aliquot_is_ref = Yes'.
 		//Use this as a reference and map it with the data in studyExperimentDesignMap API and extract the denominator for the "Ratio" column.
-		this.studySummaryService.getBiospecimenPerStudy(this.study_id).subscribe((data: any) =>{
-			this.biospecimenPerStudy = data.biospecimenPerStudy;
-			for(let biospecimen of data.biospecimenPerStudy){
+		this.studySummaryService.getBiospecimenPerStudy(this.study_id).subscribe((biospecimenData: any) =>{
+			this.biospecimenPerStudy = biospecimenData.biospecimenPerStudy;
+			for(let biospecimen of biospecimenData.biospecimenPerStudy){
 				if (biospecimen["aliquot_is_ref"] == "yes") {	  
 					aliquotSubmitterID = biospecimen["aliquot_submitter_id"];
 				}
@@ -601,18 +612,23 @@ getStudyExperimentalDesign() {
  					for(let studyExpData of data.studyExperimentalDesign){
 						experimentType = studyExpData["experiment_type"];
 					}
+					var colsSpecificToExpType = [];	
 					let colsExpType = this.studyExperimentDesignMap.find(x => (x.id).toUpperCase() == experimentType.toUpperCase()).cols; 
 					let colsSpecificToExpTypeArr = colsExpType.split(",");	
-					this.studyExperimentDesignTableHeaderCol = "Reagent Label to Biospecimen Mapping";
-					if (colsSpecificToExpTypeArr.includes("label_free")) {
-						this.studyExperimentDesignTableHeaderCol = "Biospecimen Mapping";
-					}
-					var colsSpecificToExpType = [];					  
-					for (let col of colsSpecificToExpTypeArr) {
-						let newCols = {};
-						let colval = _.assign(newCols, {'field': col}, {'header': col});
-						colsSpecificToExpType.push(colval);
-					}
+					if (colsExpType != "") {
+						this.studyExperimentDesignTableHeaderCol = "Reagent Label to Biospecimen Mapping";
+						if (colsSpecificToExpTypeArr.includes("label_free")) {
+							this.studyExperimentDesignTableHeaderCol = "Biospecimen Mapping";
+						}				  
+						for (let col of colsSpecificToExpTypeArr) {
+							let newCols = {};
+							let colval = _.assign(newCols, {'field': col}, {'header': col});
+							colsSpecificToExpType.push(colval);
+						}
+					} else {
+						this.studyExperimentalDesign = data.studyExperimentalDesign;
+						colsSpecificToExpTypeArr = [];
+					}				
 					for (let studyExpData of data.studyExperimentalDesign) {
 						var colValSpecificToExpType = "";
 						for (let col of colsSpecificToExpTypeArr) {
@@ -636,7 +652,11 @@ getStudyExperimentalDesign() {
 						}
 					}
 					this.studyExperimentDesignTableExtraCols = colsSpecificToExpType;
-					this.studyExperimentDesignTableCols = _.concat(this.studyExperimentDesignTableCommonCols, colsSpecificToExpType);
+					if (colsSpecificToExpType.length > 0) {
+						this.studyExperimentDesignTableCols = _.concat(this.studyExperimentDesignTableCommonCols, colsSpecificToExpType);
+					} else {
+						this.studyExperimentDesignTableCols = this.studyExperimentDesignTableCommonCols;
+					}
 				});
 			}, 1000);
 		});

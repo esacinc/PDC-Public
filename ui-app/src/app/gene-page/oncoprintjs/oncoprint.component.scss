@@ -5,12 +5,18 @@
   font-size: 1.2rem !important;
 }
 
+.ui-table .ui-table-frozen-view .ui-table-tbody > tr > td,
+.ui-table .ui-table-unfrozen-view .ui-table-tbody > tr > td {
+    height: 24px !important;
+}
+
 ::ng-deep .ui-table-scrollable-body {
-	max-height: 300px!important;
-	min-height: 60px!important;
+	max-height: 350px!important;
+	min-height: 90px!important; 
 }
 
 .aliquot:hover {
 	stroke: black;
 	stroke-width: 1;
 }
+

@@ -33,6 +33,7 @@ import { ngxCsv } from "ngx-csv/ngx-csv";
 //@@@PDC-1012: Update UI for GDC Case ID becoming External Case ID
 //@@@PDC-1063: Implement select all, select page, select none for all tabs
 //@@@PDC-1235: Add imaging_reference to the external reference column for clinical data
+//@@@PDC-1609: URL structure for permanent links to PDC 
 export class BrowseByClinicalComponent implements OnInit {
 
 	filteredClinicalData: AllClinicalData[]; //Filtered list of clinical data
@@ -156,7 +157,7 @@ export class BrowseByClinicalComponent implements OnInit {
     dialogConfig.data = {
         summaryData: this.filteredClinicalData[case_index],
     };
-	this.router.navigate([{outlets: {caseSummary: ['case-summary', case_id]}}]);
+	this.router.navigate([{outlets: {caseSummary: ['case-summary', case_id]}}], { skipLocationChange: true });
 	const dialogRef = this.dialog.open(CaseSummaryComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(
         val => console.log("Dialog output:", val)
