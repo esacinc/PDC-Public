@@ -27,6 +27,9 @@ export class SubmitDataFAQComponent implements OnInit {
         for (var i = 0; i < matExpansionIndicator.length; i++) {
           this._renderer.removeClass(matExpansionIndicator[i], 'absolute-class');
           this._renderer.addClass(matExpansionIndicator[i], 'fixed-class');
+          //@@@PDC-1748: Make the Workflow image on the Submit Data page static
+          var topHeight = document.documentElement.scrollTop;
+          this._renderer.setStyle(matExpansionIndicator[i], 'top', topHeight + "px");
         } 
       }  
   }

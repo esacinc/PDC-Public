@@ -1,16 +1,16 @@
 { 
 "news": [ 
     {
-      "label": "18th Human Proteome Organization World Congress, September 15-19, 2019, Adelaide, Australia",
-      "link": "https://www.hupo2019.org"
-    },
-    {
-      "label": "68th ASMS Conference on Mass Spec and Allied Topic June 2-6, 2019 Georgia World Congress Center, Atlanta, GA",
+      "label": "68th American Society for Mass Spectrometry (ASMS) Conference on Mass Spectrometry and Allied Topics, May 31 - June 4, 2020, Houston, Texas, USA",
       "link": "https://www.asms.org/conferences/annual-conference/annual-conference-homepage"
     },
     {
-      "label": "CPTAC Releases UCEC, ccRCC Discovery Data and Other Study Datasets",
-      "link": "https://proteomics.cancer.gov/news_and_announcements/cptac-releases-ucec-ccrcc-discovery-data-and-other-study-datasets"
+      "label": "American Association of Cancer Research (AACR)  Annual meeting, April 24 - 29, 2020, San Diego, California, USA",
+      "link": "https://www.aacr.org/meeting/aacr-annual-meeting-2020/"
+    },
+    {
+      "label": "HUPO-PSI meeting 2020, March 23 - 26, 2020, San Diego, California, USA",
+      "link": "http://psidev.info/hupo-psi-meeting-2020"
     }
   ]
 }

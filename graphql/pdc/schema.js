@@ -39,6 +39,7 @@
 //@@@PDC-1355 add uuid parameter to ui APIs
 //@@@PDC-1430 add uuid parameter to program API
 //@@@PDC-1491 add dataMatrixFromFile API
+//@@@PDC-1772 allow study_id as a parameter and remove unused param from quantDataMatrix
 
 import { makeExecutableSchema, addMockFunctionsToSchema } from 'graphql-tools';
 import { resolvers as queryResolvers } from './resolvers/queries';
@@ -96,7 +97,7 @@ import SignedUrl from './schemas/signedUrl';
 
 const Query = `
 type Query {
-  quantDataMatrix(study_submitter_id: String!, data_type: String!, attempt: Int, numOfAliquot: Int, numOfGene: Int): [[String]]	
+  quantDataMatrix(study_id: String, study_submitter_id: String, data_type: String!): [[String]]	
   quantDataMatrixDb(study_submitter_id: String!, data_type: String!, attempt: Int!, numOfAliquot: Int, numOfGene: Int): [[String]]	
   studyExperimentalDesign(study_id: String, study_submitter_id: String, label_aliquot_id: String): [StudyExperimentalDesign]
   biospecimenPerStudy(study_id: String, study_submitter_id: String): [Biospecimen]

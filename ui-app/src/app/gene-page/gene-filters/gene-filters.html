@@ -20,13 +20,12 @@
             *ngIf="selectedProjects.length > 0 || selectedPrograms.length > 0 || selectedPrimarySites.length > 0 || selectedDiseases.length > 0 || selectedAnFracs.length > 0 || selectedExpStarts.length > 0 || selectedAcquisitions.length > 0" >
             <fa name="undo"></fa></button>
         </ng-template>
-        <mat-expansion-panel [expanded]="true" class="sidenavFiltersPanel">
+        <!-- <mat-expansion-panel [expanded]="true" class="sidenavFiltersPanel">
         <mat-expansion-panel-header [collapsedHeight]="'40px'" [expandedHeight]="'40px'">
           <mat-panel-title>
           <a href="{{staticUrlBase}}dictionaryitem.html?eName=Project" target="_blank" class="browse-filter-title">Project</a>
           <span class="float-button-right"></span>
           <button mat-icon-button mat-primary class="browse-filter-title" id="clearProjectSelections" *ngIf="selectedProjects.length > 0"  label="Undo" (click)="clearSelectionsProjects()" matTooltip="Clear projects selection"><fa name="undo"></fa></button>
-          <!-- @@@PDC-320 -->
           </mat-panel-title>
         </mat-expansion-panel-header>
           <mat-list class="card-body card-list"  style="padding-left:0px; padding-right:0px;" id="projectFiltersList">
@@ -44,7 +43,7 @@
             </mat-list-item></label>
           </div>
           </mat-list>
-        </mat-expansion-panel>
+        </mat-expansion-panel> -->
 
         <mat-expansion-panel [expanded]="true" class="sidenavFiltersPanel">
             <mat-expansion-panel-header [collapsedHeight]="'40px'" [expandedHeight]="'40px'">

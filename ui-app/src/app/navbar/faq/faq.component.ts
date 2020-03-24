@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
+import { NavigationEnd, Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { PDCUserService } from '../../pdcuser.service';
@@ -15,9 +15,19 @@ export class FaqComponent implements OnInit {
   isUserLoggedIn:boolean = false;	
   private subscription: Subscription;
 
-  constructor(private userService: PDCUserService, private router: Router,  private overlayWindow: OverlayWindowService) { }
+  constructor(private userService: PDCUserService, private route:ActivatedRoute,  private overlayWindow: OverlayWindowService) { }
 
   ngOnInit() {
+    //@@@PDC-1702: Add a button/help link to FAQ page multiple download section from Browse page
+    this.route.paramMap.subscribe(params => {
+      //Fetch the query params in order to scroll to that section.
+      //Eg: URL Type: pdc-dev.esacinc.com/faq/Multiple_Files
+      let scrollSection = params.get("id");
+      if (scrollSection !=null ||scrollSection != undefined) {
+        var x = document.getElementById(scrollSection);
+        x.scrollIntoView();
+      }
+    });
   }
 
   //@@@PDC 707: Add privacy notice to user registration page and in footer of all pages

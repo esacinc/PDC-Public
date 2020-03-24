@@ -1,5 +1,5 @@
 	<div class="row" style="font-family:'Lato'; font-size: 12px;">
-	<div class="container-fluid ui-helper-clearfix">
+	<div class="container-fluid ui-helper-clearfix button-container-fluid">
 		<div class="row">
 			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
@@ -22,7 +22,7 @@
 				[loading]="loading" [resizableColumns]="true" columnResizeMode="expand" [style]="{'width':'100%', 'min-width':'1000px'}"
 				(onRowUnselect) ="onRowUnselected($event)" (onRowSelect)="onRowSelected($event)" [(selection)]="selectedFiles" (onLazyLoad)="loadFiles($event)" id="fileDataTable" paginatorPosition="both">
 		<ng-template pTemplate="caption">
-			<div class="container-fluid ui-helper-clearfix">
+			<div class="container-fluid ui-helper-clearfix button-container-fluid">
 				<div class="row">
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 						<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
@@ -39,11 +39,24 @@
 						<!--<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
 						<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 manifestDownload">
 							<button matTooltip="Please use CPTAC Data Portal for downloading the files" id="downloadFileManifest" mat-raised-button mat-primary label="Download Selection" (click)="fileTableExportCSV()" [disabled]="isDownloadDisabled()" style="font-family:'Lato';" aria-label="Download File Manifest">Export File Manifest</button>
-						</div>
+						</div>						
 						<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 manifestDownload">
 							<button matTooltip="Please use local download manager to download the files" id="downloadFiles" mat-raised-button mat-primary label="Download Files" (click)="setDownloadBatch()" [disabled]="isDownloadDisabled()" style="font-family:'Lato';" aria-label="Download Files">Download Files</button>
 						</div>-->
 					</div>
+					<!-- PDC-1702: Add a button/help link to FAQ page multiple download section from Browse page-->
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align: right; padding-right: 0px;">
+							<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6"></div>
+							<!--<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
+							<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 faqLink">
+								<a href="/pdc/faq/Multiple_Files" target="_blank" style="font-size: 13px;">Download multiple files at once&nbsp;<mat-icon matTooltip="Download multiple files at once" class="help-icon" style="font-size: 14px !important;height: 0px !important;vertical-align: sub;">help</mat-icon></a>
+							</div>
+							<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>-->
+							<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+							<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 faqLink">
+								<a href="/pdc/faq/Multiple_Files" target="_blank" style="font-size: 13px;">Download multiple files at once&nbsp;<mat-icon matTooltip="Download multiple files at once" class="help-icon" style="font-size: 14px !important;height: 0px !important;vertical-align: sub;">help</mat-icon></a>
+							</div>
+						</div>
 				</div>
 			</div>
 		</ng-template>
@@ -86,10 +99,10 @@
 								href="{{staticUrlBase}}dictionaryitem.html?eName=Project" target="_blank" style="color:white">Project</a>
 							<p-sortIcon [field]="cols[3].field" ariaLabel="Sort Project column in ascending/descending order"></p-sortIcon>
 						</th>
-						<th rowspan=3 class="ui-datatable-tableheader" style="width:11%" [pSortableColumn]="cols[4].field">Data Category
+						<th rowspan=3 class="ui-datatable-tableheader" style="width:11%" [pSortableColumn]="cols[4].field"><a href="/pdc/faq/Files_Download" target="_blank" style="color:white">Data Category</a>
 							<p-sortIcon [field]="cols[4].field" ariaLabel="Sort Data Category column in ascending/descending order"></p-sortIcon>
 						</th>
-						<th rowspan=3 class="ui-datatable-tableheader" style="width:9%" [pSortableColumn]="cols[5].field">File Type
+						<th rowspan=3 class="ui-datatable-tableheader" style="width:9%" [pSortableColumn]="cols[5].field"><a href="/pdc/faq/Files_Download" target="_blank" style="color:white">File Type</a>
 							<p-sortIcon [field]="cols[5].field" ariaLabel="Sort File Type column in ascending/descending order"></p-sortIcon>
 						</th>
 						<th rowspan=3 class="ui-datatable-tableheader" style="width:6%" [pSortableColumn]="cols[6].field">Access

@@ -1,57 +1,46 @@
-<div style="margin-bottom: 5px;" class="container-fluid">
+<div class="container-fluid">
 	<div class="row">
 		<div class="col-lg-6 col-md-6 col-sm-6">
-			<a routerLink='' title="Home" rel="home" id="logo">
-				<img src="assets/css/images/logo_PDC.png" width="340" height="55" alt="NCI Proteomics Data Commons" class="banner-logo" />
+			<a href='{{homePageURL}}' title="Home" rel="home" id="logo">
+				<img src="assets/css/images/PDC-NIH-Logo.png" alt="NCI Proteomics Data Commons" class="banner-logo" />
 			</a>
 		</div>
 		<!-- @@@PDC-1474: Make recent releases area a bit larger to handle responsiveness -->
-		<div *ngIf='navDisplayFlag' class="col-lg-6 col-md-6 col-sm-12 col-xs-12" style="height:90px">
+				<div *ngIf='navDisplayFlag' class="col-lg-6 col-md-6 col-sm-12 col-xs-12" style="height:90px">
 		<!-- PDC-428 - search field style changes -->
 			<div style="height:50px">
-				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-					<div *ngIf='!userLoggedInFlag' class="col-lg-10 col-md-10 col-sm-10 col-xs-10"></div>
-					<div *ngIf='!userLoggedInFlag' class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-							<button *ngIf='!userLoggedInFlag' mat-button (click)="login()" style="font-size:small" title="Login" id="Login">Login&nbsp;<i class="fas fa-sign-in-alt"></i></button>
+				<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5"></div>
+				<div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+					<div *ngIf='!userLoggedInFlag' class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:right; padding-right: 0!important; padding-top: 10px;">
+							<button *ngIf='!userLoggedInFlag' mat-raised-button (click)="login()" style="font-size:small" title="Login" id="Login">Login</button>
 					</div>
-					<div *ngIf='userLoggedInFlag' class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:right">
+					<div *ngIf='userLoggedInFlag' class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:right; padding-right: 0!important;padding-top: 10px;">
 						<span *ngIf='userLoggedInFlag' style="font-size:small">&nbsp; Logged in as <a href="javascript:void(0);" (click)="openUserAccountPage()">{{userService.getUserName()}}</a> &nbsp; &nbsp;</span>
-						<button *ngIf='userLoggedInFlag' mat-button (click)="logoff()" style="font-size:small" title="Logout" id="logout">Logout&nbsp;<i class="fas fa-sign-out-alt"></i></button>
+						<button *ngIf='userLoggedInFlag' mat-raised-button (click)="logoff()" style="font-size:small" title="Logout" id="logout">Logout</button>
 					</div>
-				</div>
-				<br>
-				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-top: 1%;">
-					<div *ngIf="!selectedSearchTerm" class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
-					<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 search-icon-div">
-						<i class="fas fa-search" style="font-size: 2em; color: lightgrey;">&nbsp;</i>
-					</div>
-					<div class="col-lg-10 col-md-10 col-sm-9 col-xs-10 search-bar-div">
-						<span>
-							<input type="text" placeholder="e.g. BRCC3, 05BR003, kinase" id="search-term" title="Enter a Gene symbol or Case ID" 
-							matInput [formControl]="searchFormControl" [matAutocomplete]="auto" 
-							[(ngModel)]="selectedSearchTerm" (ngModelChange)="openSearchTermSummary(option)" style="background:rgb(250, 250, 250); border-radius: 2px; width:100%; float: right">
+				
+					<br><br>
+					<form>
+						<div class="search-icon-div">
+							<span class="search-icon"><i class="fas fa-search" style="font-size: 1.2em; color: lightgrey;">&nbsp;</i></span>
+						</div>
+						<input type="text" placeholder="e.g. BRCC3, 05BR003, kinase" id="search-term" title="Enter a Gene symbol or Case ID" 
+							matInput [formControl]="searchFormControl" [matAutocomplete]="auto" class="search-input"
+							[(ngModel)]="selectedSearchTerm" (ngModelChange)="openSearchTermSummary(option)" style="">
 							<mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFunc">
 								<mat-option *ngFor="let option of filteredOptions | async" [value]="option" style="height:55px; line-height:18px;" [innerHtml]="option.name | searchStyle: selectedSearchTerm"></mat-option>
 							</mat-autocomplete>
-						</span>
-					</div>
-					<div *ngIf="selectedSearchTerm" class="col-lg-1 col-md-1 col-sm-1 col-xs-1" style="padding-left: 0px;">
-						<button mat-button *ngIf="selectedSearchTerm" mat-icon-button aria-label="Clear" id="clearButton"  title="Clear" (click)="selectedSearchTerm=''">
-							<mat-icon>close</mat-icon>
+						<button aria-label="Clear" id="clearButton"  title="Clear" (click)="selectedSearchTerm=''" class="search-clear-button"><mat-icon style="font-size:0.9em;height:18px!important;width:18px!important;">close</mat-icon>
 						</button>
-					</div>
+					</form>
 				</div>
 				<!-- end of PDC-428 modifications -->
 			</div>
-			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-				<div *ngIf="!selectedSearchTerm" class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
-				<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
-				<div class="col-lg-10 col-md-10 col-sm-10 col-xs-10" id="searchBarLabel" style="height: 20px;">
-					<span style="vertical-align: text-bottom;line-height: initial;font-size: 12px;font-weight:bolder;">
-						Search by Gene or Case ID
-					</span>	
-				</div>
-				<div *ngIf="selectedSearchTerm" class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
+			<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5"></div>
+			<div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" id="searchBarLabel" style="height: 20px;">
+				<span style="vertical-align: text-bottom;line-height: initial;font-size: 0.8em;font-weight:bolder;">
+					Search by Gene or Case ID
+				</span>	
 			</div>
 		</div>
 	</div>
@@ -61,12 +50,13 @@
 	<mat-toolbar-row class="navbar-narrow-screens">
 			<span class="navbar-toolbar-spacer"></span>
 		<nav mat-tab-nav-bar class="custom-navbar-menu">
-			<a mat-button class="custom-navbar-menu-item" id="homeNavbar" routerLink=''>HOME</a>
+			<a mat-button class="custom-navbar-menu-item" id="homeNavbar" href='{{homePageURL}}'>HOME</a>
 			<a mat-button class="custom-navbar-menu-item" id="browseNavbar" routerLink='browse'>BROWSE</a>
 			<a mat-button class="custom-navbar-menu-item" id="analysisNavbar" [matMenuTriggerFor]="analysis">ANALYSIS</a>
 			<mat-menu [overlapTrigger]="false" yPosition="below" style="min-width:1%; padding-right: 0px" #analysis="matMenu">
 				<a mat-button (click)="trackPage('/jbrowse')" href='/jbrowse/' id="analysisOption" target="_" >Peptide Genome mapping</a><br/>
-				<a mat-button (click)="trackPage('/pepquery')" href='http://pepquery.esacinc.com/pepquery' id="analysisOption" target="_" >Pepquery</a>
+				<!-- @@@PDC-1711 add external link icon -->
+				<a mat-button (click)="trackPage('/pepquery')" href='http://pepquery.esacinc.com/pepquery' id="analysisOption" target="_" >Pepquery</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">Exit Disclaimer</span></a>
 			</mat-menu>
 			<!-- <a mat-button class="custom-navbar-menu-item" id="submitNavbar" (click)="submitData()">SUBMIT DATA</a> -->
 			<a mat-button class="custom-navbar-menu-item" id="submitDataNavBar" [matMenuTriggerFor]="submitDataBtn">SUBMIT DATA</a>
@@ -79,11 +69,12 @@
 			<a mat-button class="custom-navbar-menu-item" id="helpNavbar" [matMenuTriggerFor]="help">HELP</a>
 			<mat-menu yPosition="below" [overlapTrigger]="false" focusFirstItem="false" #help="matMenu">
 				<a mat-menu-item class="custom-menu-item" href={{dictionary_url}} target="_blank" id="dataDictionaryLink">Data Model and Dictionary</a>
-				<a mat-menu-item class="custom-menu-item" [href]=getSubmissionPortalDocsURL() target="_blank" id="submissionPortalDocs">Submission Portal Documentation</a>
 				<a mat-menu-item class="custom-menu-item" href={{apidocumentation_url}} target="_blank" id="APIDocs">API Documentation</a>
 				<a mat-menu-item class="custom-menu-item" id="faq" routerLink='faq'>Frequently Asked Questions</a>
+				<a mat-menu-item class="custom-menu-item" id="faqDataTypes" target="_blank" href='/pdc/faq/Files_Download'>Available Data Types and Files</a>
 				<a mat-menu-item class="custom-menu-item" id="feedbackSubmenu" [matMenuTriggerFor]="feedback">Feedback</a>
 				<a mat-menu-item class="custom-menu-item" id="submitDataSubmenu" href="/pdc/submit-data" target="_blank">How to Submit Data</a>
+				<a mat-menu-item class="custom-menu-item" href="https://list.nih.gov/cgi-bin/wa.exe?SUBED1=PDC-ANNOUNCE-L&A=1" target="_blank">Subscribe to PDC mailing list</a>
 			</mat-menu>
 			
 			<mat-menu [overlapTrigger]="false" yPosition="below" #feedback="matMenu">

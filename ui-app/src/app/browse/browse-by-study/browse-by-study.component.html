@@ -1,5 +1,5 @@
 <div class="row browse-study" style="font-family:'Lato';">	
-	<div class="container-fluid ui-helper-clearfix">
+	<div class="container-fluid ui-helper-clearfix button-container-fluid">
 		<div class="row">
 			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
@@ -22,7 +22,7 @@
 				(onRowUnselect) ="onRowUnselected($event)" (onRowSelect)="onRowSelected($event)" [(selection)]="selectedStudies" 
 				dataKey="submitter_id_name" (onLazyLoad)="loadNewPage($event)" id="studyDataTable" paginatorPosition="both">
 		<ng-template pTemplate="caption">
-			<div class="container-fluid ui-helper-clearfix">
+			<div class="container-fluid ui-helper-clearfix button-container-fluid">
 				<div class="row">
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 						<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
@@ -101,16 +101,16 @@
 				<th rowspan=3 class="ui-datatable-tableheader" style="width:4%;padding:0px" pResizableColumn>Cases #</th>
 			</tr>
 			<tr>
-				<th colspan=7 class="ui-datatable-tableheader-collapsed" style="text-align: center" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=File" target="_blank" style="color:white">Available files for data category</a></th>
+				<th colspan=7 class="ui-datatable-tableheader-collapsed" style="text-align: center" pResizableColumn><a href="/pdc/faq/Files_Download" target="_blank" style="color:white">Available files for data category</a></th>
 			</tr>
 			<tr>
-				<th rowspan=1 class="ui-datatable-tableheader-continue" style="width:3%" pResizableColumn>Raw</th>
-				<th rowspan=1 class="ui-datatable-tableheader-continue" style="width:4%" pResizableColumn>mzML</th>
-				<th rowspan=1 class="ui-datatable-tableheader-continue" style="width:8%;padding:0px" pResizableColumn>Metadata</th>
-				<th rowspan=1 class="ui-datatable-tableheader-continue" style="width:3%" pResizableColumn>PSM</th>
-				<th rowspan=2 class="ui-datatable-tableheader-continue" style="width:12%;padding:0px" pResizableColumn><div>Protein</div>Assembly</th>
-				<th rowspan=2 class="ui-datatable-tableheader-continue" style="width:12%;padding:0px" pResizableColumn><div>Protein</div>Databases</th>
-				<th rowspan=2 class="ui-datatable-tableheader-continue" style="width:10%" pResizableColumn><div>Quality</div>Metrics</th>
+				<th rowspan=1 class="ui-datatable-tableheader-continue" style="width:3%" pResizableColumn><a href="/pdc/faq/Files_Download" target="_blank" style="color:white">Raw</a></th>
+				<th rowspan=1 class="ui-datatable-tableheader-continue" style="width:4%" pResizableColumn><a href="/pdc/faq/Files_Download" target="_blank" style="color:white">mzML</a></th>
+				<th rowspan=1 class="ui-datatable-tableheader-continue" style="width:8%;padding:0px" pResizableColumn><a href="/pdc/faq/Files_Download" target="_blank" style="color:white">Metadata</a></th>
+				<th rowspan=1 class="ui-datatable-tableheader-continue" style="width:3%" pResizableColumn><a href="/pdc/faq/Files_Download" target="_blank" style="color:white">PSM</a></th>
+				<th rowspan=2 class="ui-datatable-tableheader-continue" style="width:12%;padding:0px" pResizableColumn><a href="/pdc/faq/Files_Download" target="_blank" style="color:white"><div>Protein</div>Assembly</a></th>
+				<th rowspan=2 class="ui-datatable-tableheader-continue" style="width:12%;padding:0px" pResizableColumn><a href="/pdc/faq/Files_Download" target="_blank" style="color:white"><div>Protein</div>Databases</a></th>
+				<th rowspan=2 class="ui-datatable-tableheader-continue" style="width:10%" pResizableColumn><a href="/pdc/faq/Files_Download" target="_blank" style="color:white"><div>Quality</div>Metrics</a></th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-studyData>
@@ -126,7 +126,8 @@
 			  <td style="width:4%;word-wrap: break-word; white-space: normal;"><a [class.disabled]="studyData.cases_count == 0" href="javascript:void(0)" (click)="changeTabForCaseCount(studyData.submitter_id_name)">{{studyData.cases_count}}</a></td>
 			  <td style="width:3%;word-wrap: break-word; white-space: normal;"><a [class.disabled]="!studyData.raw_count" href="javascript:void(0)" (click)="changeTabForFileType(studyData.submitter_id_name, 'Proprietary', 'Raw Mass Spectra')"><span *ngIf="studyData.raw_count">{{studyData.raw_count}}</span><span *ngIf="!studyData.raw_count">0</span></a></td>
 			  <td style="width:4%;word-wrap: break-word; white-space: normal;"><a [class.disabled]="!studyData.mzml_count" href="javascript:void(0)" (click)="changeTabForFileType(studyData.submitter_id_name, 'Open Standard', 'Processed Mass Spectra')"><span *ngIf="studyData.mzml_count">{{studyData.mzml_count}}</span><span *ngIf="!studyData.mzml_count">0</span></a></td>
-			  <td style="width:7%;word-wrap: break-word; white-space: normal;"><a [class.disabled]="!studyData.metadata_count" href="javascript:void(0)" (click)="changeTabForFileType(studyData.submitter_id_name, 'Document', 'Other Metadata')"><span *ngIf="studyData.metadata_count">{{studyData.metadata_count}}</span><span *ngIf="!studyData.metadata_count">0</span></a></td>
+			  <!-- @@@PDC-1703 get other metadata files -->
+			  <td style="width:7%;word-wrap: break-word; white-space: normal;"><a [class.disabled]="!studyData.metadata_count" href="javascript:void(0)" (click)="changeTabForFileType(studyData.submitter_id_name, '', 'Other Metadata')"><span *ngIf="studyData.metadata_count">{{studyData.metadata_count}}</span><span *ngIf="!studyData.metadata_count">0</span></a></td>
 			  <td style="width:3%;word-wrap: break-word; white-space: normal;"><a [class.disabled]="!studyData.psm_count" href="javascript:void(0)" (click)="changeTabForFileType(studyData.submitter_id_name, 'Open Standard', 'Peptide Spectral Matches')"><span *ngIf="studyData.psm_count">{{studyData.psm_count}}</span><span *ngIf="!studyData.psm_count">0</span></a></td>
 			  <td style="width:11%;word-wrap: break-word; white-space: normal;"><a [class.disabled]="!studyData.protein_assembly_count" href="javascript:void(0)" (click)="changeTabForFileType(studyData.submitter_id_name, 'Text', 'Protein Assembly')"><span *ngIf="studyData.protein_assembly_count">{{studyData.protein_assembly_count}}</span><span *ngIf="!studyData.protein_assembly_count">0</span></a></td>
 			  <td style="width:11%;word-wrap: break-word; white-space: normal;"><a [class.disabled]="!studyData.protein_databases_count" href="javascript:void(0)" (click)="changeTabForFileType(studyData.submitter_id_name, 'Text', 'Protein Databases')"><span *ngIf="studyData.protein_databases_count">{{studyData.protein_databases_count}}</span><span *ngIf="!studyData.protein_databases_count">0</span></a></td>

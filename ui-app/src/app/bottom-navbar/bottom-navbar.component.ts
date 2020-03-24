@@ -16,7 +16,7 @@ export class BottomNavbarComponent implements OnInit {
   isUserLoggedIn:boolean = false;	
   private subscription: Subscription;
   bottomNavDisplayFlag:boolean  = true;
-
+  homePageURL = "/";
   tag: string;
   
   //@@@PDC 707: Add privacy notice to user registration page and in footer of all pages
@@ -40,7 +40,11 @@ export class BottomNavbarComponent implements OnInit {
 					this.bottomNavDisplayFlag = true;
 				}
 			}
-		});
+    });
+    //@@@PDC-1716: Update the site url to just the domain name and drop any path
+    if (window.location.hostname == "localhost") {
+			this.homePageURL = "/pdc";
+		}
   }
 
   //@@@PDC 707: Add privacy notice to user registration page and in footer of all pages

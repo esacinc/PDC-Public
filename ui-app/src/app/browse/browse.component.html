@@ -18,20 +18,19 @@
           </browse-filters>
         </mat-card>
         <button mat-icon-button style="padding-right:0px!important; padding-top: 0px"
-      matTooltip="Hide filters" (click)="sidenav.toggle()"><fa name="angle-double-left"></fa></button>
+      matTooltip="Hide filters" (click)="sidenav.toggle()"><fa name="angle-double-left"></fa><span style="display: none">Hide filters</span></button>
 
     </mat-sidenav>
-    
-    <mat-sidenav-content style="margin-top: 3px; overflow-x: scroll; ">
+    <mat-sidenav-content style="margin-top: 3px; overflow-x: scroll; ">  <!--overflow: hidden; -->
       <button *ngIf="opened"  mat-icon-button style="padding-right:0px!important; padding-top: 0px"
-        matTooltip="Hide filters" (click)="sidenav.toggle()" id="hideFiltersOptionTop"><fa name="angle-double-left"></fa></button>
-     <button mat-icon-button matTooltip="Show filters"
-        *ngIf="!opened" (click)="sidenav.toggle()" id="showFilters"><fa name="angle-double-right"></fa>
+        matTooltip="Hide filters" (click)="sidenav.toggle()" id="hideFiltersOptionTop"><fa name="angle-double-left"></fa><span style="display: none">Hide filters</span></button>
+      <button mat-icon-button matTooltip="Show filters"
+        *ngIf="!opened" (click)="sidenav.toggle()" id="showFilters"><fa name="angle-double-right"></fa><span style="display: none">Show filters</span>
       </button>
       <span *ngIf="breadcrumbs.length == 0" style="font-size: 15px; font-weight : bold; margin-left: -10px !important;">
           Start searching by selecting a facet
       </span>
-      <div *ngIf="breadcrumbs.length > 0" style="padding-left:13px; padding-right:15px; ">
+      <div *ngIf="breadcrumbs.length > 0" style="padding-left:13px; padding-right:15px; padding-bottom:10px">
           <button *ngIf="breadcrumbs.length > 0" class="btn btn-primary breadCrumbButtons" (click)="clearAllSelections()"> CLEAR </button> &nbsp;
           <span *ngFor="let crumb of breadcrumbs; index as i">
             <button class="btn btn-primary breadCrumbButtons" style="background-color: black" (click)="deleteBreadcrumb(crumb)">{{crumb.value}}&nbsp;&nbsp;&nbsp;<i class="fa fa-close" style="font-size:10px"></i></button> &nbsp;
@@ -43,8 +42,13 @@
             <span *ngIf="crumb.separator === 'IN'">) </span>
             <button *ngIf="breadcrumbs.length > 1 && i < breadcrumbs.length-1" class="btn btn-primary breadCrumbButtons" disabled="true"> AND </button> &nbsp;
           </span>
+		  <br><button mat-raised-button label="Save query"  (click)="showBookmarkToggle()" >
+			{{ showBookmarkFlag == false ? 'Show Query URL' : 'Hide Query URL' }}</button>
+		  <div *ngIf="showBookmarkFlag"><a href={{bookmarkURL}}>{{bookmarkURL}}</a>
+				<button  mat-icon-button id="copyURLQuery2Clipboard" (click)="copyTextToClipboard(bookmarkURL)" matTooltip="Copy to Clipboard"><fa name="clipboard"></fa><span style="display: none">Copy to Clipboard</span></button>
+		  </div>
       </div>
-      <div class="browsePageExpansionPanel" style="padding-left:10px; padding-right:15px; ">  
+      <div class="browsePageExpansionPanel" style="padding-left:10px; padding-right:15px">  
         <mat-expansion-panel [expanded]="true">
             <mat-expansion-panel-header>
                 <mat-panel-title>Charts</mat-panel-title>

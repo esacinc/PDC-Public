@@ -33,7 +33,9 @@
 .ui-datatable-tableheader {
     background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%) !important;
     border:0px !important;
-    color: white !important;
+	color: white !important;
+	word-break: break-all !important;
+	white-space: normal;
 }
 
 .data-categories-table{
@@ -158,3 +160,4 @@
 	height: 350px;
     overflow-y: scroll;
 }
+

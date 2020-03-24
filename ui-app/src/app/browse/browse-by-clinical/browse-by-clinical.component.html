@@ -1,5 +1,5 @@
 	<div class="row" style="font-family:'Lato'; font-size: 12px;">
-		<div class="container-fluid ui-helper-clearfix">
+		<div class="container-fluid ui-helper-clearfix button-container-fluid">
 			<div class="row">
 				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 					<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
@@ -23,7 +23,7 @@
 				(onRowUnselect) ="onRowUnselected($event)" (onRowSelect)="onRowSelected($event)" [(selection)]="selectedClinicalData" 
 				dataKey="case_submitter_id" (onLazyLoad)="loadNewPage($event)" id="clinicalDataTable" paginatorPosition="both">
 		<ng-template pTemplate="caption">
-			<div class="container-fluid ui-helper-clearfix">
+			<div class="container-fluid ui-helper-clearfix button-container-fluid">
 				<div class="row">
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 						<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
@@ -69,7 +69,7 @@
 			    <th class="ui-datatable-tableheader" style="width:5%" [pSortableColumn]="cols[4].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Demographic#race" target="_blank" style="color:white">Race</a><p-sortIcon [field]="cols[4].field" ariaLabel="Sort Race column in ascending/descending order"></p-sortIcon></th>
 			    <th class="ui-datatable-tableheader" style="width:6%" [pSortableColumn]="cols[5].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Diagnosis#morphology" target="_blank" style="color:white">Morphology</a><p-sortIcon [field]="cols[5].field" ariaLabel="Sort Morphology column in ascending/descending order"></p-sortIcon></th>
 				<th class="ui-datatable-tableheader" style="width:10%" [pSortableColumn]="cols[6].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Diagnosis#primary_diagnosis" target="_blank" style="color:white">Primary Diagnosis</a><p-sortIcon [field]="cols[6].field" ariaLabel="Sort Primary Diagnosis column in ascending/descending order"></p-sortIcon></th>
-				<th class="ui-datatable-tableheader" style="width:8%" [pSortableColumn]="cols[7].field">
+				<th class="ui-datatable-tableheader" style="width:8%" [pSortableColumn]="cols[7].field" pResizableColumn>
 					<div class="ui-datatable-tableheader-flex-container">
 						<div>
 							<a href="{{staticUrlBase}}dictionaryitem.html?eName=Diagnosis#site_of_resection_or_biopsy" target="_blank" style="color:white">
@@ -81,7 +81,7 @@
 						</div>
 					</div>
 				</th>
-				<th class="ui-datatable-tableheader" style="width:8%" [pSortableColumn]="cols[8].field">
+				<th class="ui-datatable-tableheader" style="width:8%" [pSortableColumn]="cols[8].field" pResizableColumn>
 					<div class="ui-datatable-tableheader-flex-container">
 						<div>
 							<a href="{{staticUrlBase}}dictionaryitem.html?eName=Diagnosis#tissue_or_organ_of_origin" target="_blank" style="color:white">
@@ -93,10 +93,10 @@
 						</div>
 					</div>
 				</th>
-				<th class="ui-datatable-tableheader" style="width:6%" [pSortableColumn]="cols[9].field"><a href="{{staticUrlBase}}dictionaryitem.html?eName=Diagnosis#tumor_grade" target="_blank" style="color:white">Tumor Grade</a><p-sortIcon [field]="cols[9].field" ariaLabel="Sort Tumor Grade column in ascending/descending order"></p-sortIcon></th>
-				<th class="ui-datatable-tableheader" style="width:6%" [pSortableColumn]="cols[10].field"><a href="{{staticUrlBase}}dictionaryitem.html?eName=Diagnosis#tumor_stage" target="_blank" style="color:white">Tumor Stage</a><p-sortIcon [field]="cols[10].field" ariaLabel="Sort Tumor Stage column in ascending/descending order"></p-sortIcon></th>
+				<th class="ui-datatable-tableheader" style="width:6%" [pSortableColumn]="cols[9].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Diagnosis#tumor_grade" target="_blank" style="color:white">Tumor Grade</a><p-sortIcon [field]="cols[9].field" ariaLabel="Sort Tumor Grade column in ascending/descending order"></p-sortIcon></th>
+				<th class="ui-datatable-tableheader" style="width:6%" [pSortableColumn]="cols[10].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Diagnosis#tumor_stage" target="_blank" style="color:white">Tumor Stage</a><p-sortIcon [field]="cols[10].field" ariaLabel="Sort Tumor Stage column in ascending/descending order"></p-sortIcon></th>
 				<!-- @@@PDC-1305 add age_at_diagnosis et al -->				
-				<th class="ui-datatable-tableheader" style="width:6%" [pSortableColumn]="cols[11].field">
+				<th class="ui-datatable-tableheader" style="width:6%" [pSortableColumn]="cols[11].field" pResizableColumn>
 					<div class="ui-datatable-tableheader-flex-container">
 						<div>
 							<a href="{{staticUrlBase}}dictionaryitem.html?eName=Diagnosis#age_at_diagnosis" target="_blank" style="color:white">
@@ -108,7 +108,7 @@
 						</div>
 					</div>
 				</th>
-				<th class="ui-datatable-tableheader" style="width:8%" [pSortableColumn]="cols[12].field">
+				<th class="ui-datatable-tableheader" style="width:8%" [pSortableColumn]="cols[12].field" pResizableColumn>
 					<div class="ui-datatable-tableheader-flex-container">
 						<div>
 							<a href="{{staticUrlBase}}dictionaryitem.html?eName=Diagnosis#classification_of_tumor" target="_blank" style="color:white">
@@ -120,7 +120,7 @@
 						</div>
 					</div>
 				</th>
-				<th class="ui-datatable-tableheader" style="width:6%" [pSortableColumn]="cols[13].field">
+				<th class="ui-datatable-tableheader" style="width:6%" [pSortableColumn]="cols[13].field" pResizableColumn>
 					<div class="ui-datatable-tableheader-flex-container">
 						<div>
 							<a href="{{staticUrlBase}}dictionaryitem.html?eName=Diagnosis#days_to_recurrence" target="_blank" style="color:white">

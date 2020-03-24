@@ -17,7 +17,7 @@
                <link rel="stylesheet" href="styles/main.css">
             <script async src="https://www.googletagmanager.com/gtag/js?id=UA-124894982-1"></script>
             <script src="js/jquery-3.3.1.min.js" ></script>
-            <script src="js/hotjar-accessibility.js" type="script/javascript"></script>
+            <script src="js/hotjar-accessibility.js"></script>
 			   <script>
 				window.dataLayer = window.dataLayer || [];
 				function gtag(){dataLayer.push(arguments);}
@@ -49,12 +49,29 @@
                  </style>
                </div>
                <title>Data Harmonization</title>
+               <!-- @@@PDC-1689: Add additional analytics tag to PDC Data Browser -->
+              <!-- @@@PDC-1748: Change the analytics code -->
+              <script>
+                  var hostName = window.location.hostname;
+                  var head = document.getElementsByTagName('head')[0];
+                  var js = document.createElement("script");
+                  js.type = "text/javascript"; 
+                  js.async = true;
+                  //Dev and stage should use the stage code
+                  if (hostName == "pdc.esacinc.com" || hostName == "pdc.cancer.gov")
+                  {
+                    js.src = "//assets.adobedtm.com/6a4249cd0a2c/073fd0859f8f/launch-39d47c17b228.min.js";
+                  } else {
+                    js.src = "//assets.adobedtm.com/6a4249cd0a2c/073fd0859f8f/launch-3fc99dc39f0e-staging.min.js";
+                  }
+                  head.appendChild(js); 
+              </script>
             </head>
             <body>
                <div class="pageContent">
                   <div class="headerDiv">
                      <div class="logoHolder">
-                        <img src="images/logo_PDC.png" alt="PDC Logo"/>
+                        <img src="images/PDC-NIH-Logo.png" alt="PDC Logo"/>
                      </div>
                      <div class="topNavHolder">
                         <!--<div class="searchBox">
@@ -241,7 +258,7 @@
 			 }*/
 			 
 			 function privacyPolicyClick(){
-				  modal.style.display = "block";
+              modal.style.display = "block";
 				  return true;
 			 }
 
@@ -253,17 +270,19 @@
 		 </script>
                   <!--Footer-->
                   <div class="footer">
-                     <div class="footerLinks">
-                        <a class="footerLink" id="privacyPolicyWindowID" href="javascript:void(0)" onclick="privacyPolicyClick()" >Privacy Policy</a>
-                        <span class="footerLinkSep">|</span>
-                        <a target="_" href="/pdc" class="footerLink" >Site home</a>
-                        <span class="footerLinkSep">|</span>
-                        <a target="_" href="https://www.cancer.gov/policies" class="footerLink">Policies</a>
-                        <span class="footerLinkSep">|</span>
-                        <a target="_" href="https://www.cancer.gov/policies/accessibility" class="footerLink">Accessibility</a>
-                        <span class="footerLinkSep">|</span>
-                        <a target="_" href="https://www.cancer.gov/policies/foia" class="footerLink">FOIA</a>
-                     </div>
+					<div class="footerLinks">	 
+						<a target="_" href="/" class="footerLink" id="footerLinkSiteHome">Site home</a>
+						<span class="footerLinkSep">|</span>
+						<a class="footerLink" href="mailto:nci.pdc.help@esacinc.com?Subject=PDC Help" target="_top">Contact us</a>
+						<span class="footerLinkSep">|</span>
+						<a class="footerLink" id="privacyPolicyWindowID" href="javascript:void(0);" onclick="privacyPolicyClick()" >Privacy Policy</a>
+						<span class="footerLinkSep">|</span>
+						<a target="_" href="https://www.cancer.gov/policies" class="footerLink">Policies</a>
+						<span class="footerLinkSep">|</span>
+						<a target="_" href="https://www.cancer.gov/policies/accessibility" class="footerLink">Accessibility</a>
+						<span class="footerLinkSep">|</span>  
+						<a target="_" href="https://www.cancer.gov/policies/foia" class="footerLink">FOIA</a>	
+					</div>
                      <div class="footerLinks">
                         <a target="_" href="https://www.hhs.gov/" class="footerLink">U.S. Department of Health and Human Services</a>
                         <span class="footerLinkSep">|</span>

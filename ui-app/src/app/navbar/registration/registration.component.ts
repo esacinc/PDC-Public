@@ -20,6 +20,7 @@ import { OverlayWindowService } from "../../overlay-window/overlay-window.servic
 //@@@PDC-885: registration form for google users did not validate properly
 //@@@PDC-1406: review and update messages that user can get during registration/login/account update 
 //@@@PDC-1487: resolve issues found with user registration/login
+//@@@PDC-1661: user registration bugs fixes
 export class RegistrationComponent implements OnInit {
   selectedResearcherType: string = ""; //This variable will hold researcher type selected by user
   otherResearcherType: string = ""; //If the user selects "other" researcher type, this variable will hold additional text for other
@@ -167,6 +168,15 @@ export class RegistrationComponent implements OnInit {
           //User was successfully registered with PDC and now will be redirested to main dashboard
           if (isRegistered) {
             this.dialogRef.close('user registered');
+			let message = "Thank you for registering with PDC. You are now logged in to PDC.";
+			this.dialog.open(MessageDialogComponent, {
+					width: "400px",
+					height: "140px",
+					disableClose: true,
+					autoFocus: false,
+					hasBackdrop: true,
+					data: { message: message }
+				});
             this.userService.setEmail(this.registrationForm.get("email").value); //make sure the current logged in user email is set
             //'' route url will be welcome page to login. 'pdc' route url will be home page
             if (localStorage.getItem("controlledFileExportFlag") === "true") {
@@ -181,7 +191,7 @@ export class RegistrationComponent implements OnInit {
     }
     //If user does not have UID they signed in via google
     else {
-      console.log("Creating user with email " + this.registrationForm.value.email);
+      console.log("Creating user with email " + this.registrationForm.get("email").value);
       let secure_pass:string = '';
 	  let continueRegistration = true;
 	  if (this.idProvider === "PDC") {
@@ -257,24 +267,22 @@ export class RegistrationComponent implements OnInit {
           //User was successfully registered with PDC and now will redirect to main dashboard page
           if (isRegistered) {
             this.dialogRef.close('user registered');
-            if (
-              this.userService.getUserIDType() === "PDC" &&
-              this.userService.getIsRegistered() === 0
-            ) {
+			let message = "Thank you for registering with PDC. You are now logged in to PDC.";
+			let messageHeight = "140px";
+            if ( this.userService.getUserIDType() === "PDC" && this.userService.getIsRegistered() === 0 ) {
 				//alert("Thank you for registering with PDC. You will receive a message to confirm your registration at the email address provided. Once confirmed, you should be able to login with your email id password.");
-				console.log(
-                "Thank you for registering with PDC. You will receive a message to confirm your registration at the email address provided. Once confirmed, you should be able to login with your email id password."
-				);
-				let message = "Thank you for registering with PDC. You will receive a message to confirm your registration at the email address provided. Once confirmed, you should be able to login with your email and password.";
-				this.dialog.open(MessageDialogComponent, {
+				console.log("Thank you for registering with PDC. You will receive a message to confirm your registration at the email address provided. Once confirmed, you should be able to login with your email id password.");
+				message = "Thank you for registering with PDC. You will receive a message to confirm your registration at the email address provided. Once confirmed, you should be able to login with your email and password.";		
+				messageHeight = "200px";
+			}
+			this.dialog.open(MessageDialogComponent, {
 					width: "400px",
-					height: "200px",
+					height: messageHeight,
 					disableClose: true,
 					autoFocus: false,
 					hasBackdrop: true,
 					data: { message: message }
-				});
-            } 
+			});
           } else {
             //Something went wrong with the registration
             console.log("Registration failed!");

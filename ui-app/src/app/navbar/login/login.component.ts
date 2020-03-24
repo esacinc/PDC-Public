@@ -56,13 +56,6 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-	  
-	this.activeRoute.queryParams.subscribe(queryParams => {
-		console.log(queryParams);
-		if (queryParams.uid){
-			this.eRAnihSignIn(queryParams.uid);
-		}				
-	});  
   }
 
   get email(){

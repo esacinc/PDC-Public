@@ -23,6 +23,43 @@ margin: 0 auto 0 0;
 margin: 0 0 0 auto;
 }
 
+/* @@@PDC-1689: Add additional analytics tag to PDC Data Browser */
+/* .cdk-global-overlay-wrapper {
+    align-items: end !important;
+} */
+
+.cdk-global-scrollblock {
+    top: 0px !important;
+}
+
+div[class$="_feedback_selection_ignore"] {
+    display: none !important;
+}
+
+/* PDC-1660: Browse Page - Clinical Table - Unable to change column size for some columns */
+.ui-datatable-tableheader {
+    word-break: break-all !important;
+    white-space: normal !important;
+}
+
+ /* @@@PDC-1419: Fix the tooltip position for "Export Full Manifest" feature on Browse Page */
+.wholeManifestDownload {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-align: right;
+}
+
+.manifestDownload {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align: right;
+    padding-right: 0px !important;
+}
+
+.button-container-fluid {
+    padding-right: 0px !important;
+}
+
 /* @@@PDC-1214 - Replace the sunburst chart with the human body image with drill down */
 #human-body-highlights {
    /* position: relative;*/

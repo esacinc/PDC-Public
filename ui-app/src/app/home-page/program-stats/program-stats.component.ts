@@ -13,6 +13,7 @@ import {ViewEncapsulation} from '@angular/core';
 export class ProgramStatsComponent implements OnInit {
   programsCounter = 0;
   projectsCounter = 0;
+  studiesCounter = 0;
   filesCounter = 0;
   experimentsCounter = 0;
   spectraCounter = 0;
@@ -35,6 +36,7 @@ export class ProgramStatsComponent implements OnInit {
       this.spectraCounter = data.uiPdcDataStats[0].spectra;
       this.peptideCounter = data.uiPdcDataStats[0].peptide;
       this.proteinCounter = data.uiPdcDataStats[0].protein;
+      this.studiesCounter = data.uiPdcDataStats[0].study;
     });
 
   }

@@ -28,6 +28,7 @@ import { OverlayWindowService } from "../overlay-window/overlay-window.service";
 //@@@PDC-1446 only users of type PDC may change their user name and email
 //@@@PDC-1406: review and update messages that user can get during registration/login/account update 
 //@@@PDC-1487: resolve issues found with user registration/login
+//@@@PDC-1661: fixing user login/registration issues
 export class UserAccountComponent implements OnInit {
 
   selectedResearcherType:string = ""; //This variable will hold researcher type selected by user
@@ -126,11 +127,11 @@ export class UserAccountComponent implements OnInit {
 	  if (this.registrationForm.invalid){
 		  this.isValidFormSubmitted  = false;
 		  this.formInvalidMessage = "Some required fields are missing."
-		  console.log(this.registrationForm);
+		  //console.log(this.registrationForm);
 		  return;
 	  }
 	  this.isValidFormSubmitted  = true;
-	  console.log(this.registrationForm.value);
+	  //console.log(this.registrationForm.value);
 	  let researcherType = this.selectedResearcherType
 	  //Save what the user wrote in text field for "other" researcher type option
 	  if (this.otherResearcherType != "" && this.selectedResearcherType == "other"){
@@ -139,14 +140,14 @@ export class UserAccountComponent implements OnInit {
 	  console.log(researcherType);
 	  let id_provider = this.userService.getUserIDType();
 	  console.log(id_provider);
-	  console.log("Updating user data with email " + this.registrationForm.value.email);
-	  this.userService.updateUserData(this.registrationForm.value.first_name, this.registrationForm.value.last_name, 
+	  console.log("Updating user data with email " + this.registrationForm.get('email').value + " name: " + this.registrationForm.get('first_name').value + " " + this.registrationForm.get('last_name').value);
+	  this.userService.updateUserData(this.registrationForm.get('first_name').value, this.registrationForm.get('last_name').value, 
 												this.registrationForm.get('email').value, researcherType, id_provider, 
 												this.registrationForm.get('organization').value).subscribe(isUpdated => {
 		//User was successfully registered with PDC and now will redirect to main dashboard page											
 		if (isUpdated){
 			//'' route url will be welcome page to login. 'pdc' route url will be home page
-			this.userService.setName(this.registrationForm.value.first_name + " " + this.registrationForm.value.last_name);
+			this.userService.setName(this.registrationForm.get('first_name').value + " " + this.registrationForm.get('last_name').value);
 			this.userService.setEmail(this.registrationForm.get('email').value);
 			this.userService.setOrganization(this.registrationForm.get('organization').value);
 			this.userService.setUserType(researcherType);

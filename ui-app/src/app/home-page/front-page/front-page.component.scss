@@ -150,6 +150,9 @@ $header-height: 10.8rem;
   
   padding-right: 0px;
   padding-top:0px;
+
+  display: flex;
+  align-items:flex-start;
   
 }
 
@@ -227,4 +230,13 @@ $header-height: 10.8rem;
   #news-item {
     padding-top: 0px !important;
   }
+}
+
+.bottom-card-bullet-item {
+  display: flex;
+  align-items:flex-start;
+}
+
+.bottom-card-bullet-icon {
+  margin-right: 5px;
 }

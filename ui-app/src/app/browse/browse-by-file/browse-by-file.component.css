@@ -57,12 +57,9 @@
     text-align: unset !important;
  }
 
- .wholeManifestDownload {
-    padding-top: 10px;
-    padding-bottom: 10px;
- }
-
- .manifestDownload {
-    padding-top: 5px;
-    padding-bottom: 5px;
- }
+/*  @media only screen  and (max-width: 1317px) {
+    .faqLink {
+        width: 200px;
+        text-align: center;
+    }
+  } */

@@ -42,6 +42,8 @@ const appRoutes: Routes = [
   //*{ path: 'news', component: NewsComponent, canActivate: [AuthGuard] },
   { path: 'about', component: AboutComponent},
   { path: 'faq', component: FaqComponent },
+  //@@@PDC-1702: Add a button/help link to FAQ page multiple download section from Browse page
+  { path: 'faq/:id', component: FaqComponent },
   { path: 'analysis/:id', component: HeatmapViewerComponent},
   { path: '', loadChildren: './lazy.module#LazyModule'},
   { path: 'submit-data', component: SubmitDataFAQComponent},

@@ -3119,16 +3119,49 @@ export const resolvers = {
 
 		},
 		//@@@PDC-1491 add dataMatrixFromFile API
-		quantDataMatrix(obj, args, context) {
-			var matrixFile = 'matrixFiles/'+args.study_submitter_id+ '_'+args.data_type+'.json';
+		//@@@PDC-1772 allow study_id as a parameter
+		async quantDataMatrix(obj, args, context) {
+			var sid = null;
+			if (typeof args.study_id != 'undefined' && args.study_id.length > 0) {
+				sid = args.study_id;
+			}
+			if (typeof args.study_submitter_id != 'undefined' && args.study_submitter_id.length > 0 && sid == null) {
+				var studyQuery = "select bin_to_uuid(study_id) as study_id from study where study_submitter_id = '"+args.study_submitter_id+"'";
+				var study = await db.getSequelize().query(studyQuery, { raw: true });
+				sid = study[0][0].study_id;
+			}
+			if (sid == null) {
+				return [['Either study_id or study_submitter_id']['is needed']];
+			}
+			var matrixFile = 'matrixFiles/'+sid+ '_'+args.data_type+'.json';
 			let rawData = fs.readFileSync(matrixFile);
 			let matrix = JSON.parse(rawData);
 			return matrix;
 		},
 		//@@@PDC-964 async api for data matrix
+		//@@@PDC-1772 take quantDataMatrixDb offline
 		async quantDataMatrixDb(obj, args, context) {
+			var matrix = [];
+			var row1 = ['Data Matrix: '];
+			var row2 = ['Type: '];
+			var row3 = [args.data_type];
+			var row4 = ['Study: '];
+			var row5 = [args.study_submitter_id];
+			var row6 = ['Status: '];
+			var row7 = ['Not Available '];
+			var row8 = ['API is currently offline. Stay tuned!'];
+			matrix.push(row1);
+			matrix.push(row2);
+			matrix.push(row3);
+			matrix.push(row4);
+			matrix.push(row5);
+			matrix.push(row6);
+			matrix.push(row7);
+			matrix.push(row8);
+			return matrix;
+
 			//@@@PDC-1019 limit num of records returned
-			var numOfAliquot = 0, numOfGene = 0;
+			/*var numOfAliquot = 0, numOfGene = 0;
 			if (args.numOfAliquot != null && args.numOfAliquot > 0)
 				numOfAliquot =args.numOfAliquot;
 			if (args.numOfGene != null && args.numOfGene > 0)
@@ -3159,9 +3192,9 @@ export const resolvers = {
 				return matrix;
 			}else{
 				return JSON.parse(res);
-			}
+			}*/	
 			
-		}		
+		}	
 	}
 };
 

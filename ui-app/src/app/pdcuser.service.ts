@@ -13,6 +13,7 @@ import { environment } from '../environments/environment';
 //@@@PDC-966 - implement reset password part of forgot password feature
 //@@@PDC-1406: review and update messages that user can get during registration/login/account update 
 //@@@PDC-1487: resolve issues found with user registration/login
+//@@@PDC-1661: Fixing bugs found with user registration/login
 
 //Service that uses pdcapi to manage users - create and check if the user is registered
 @Injectable()
@@ -170,6 +171,45 @@ export class PDCUserService {
     });
 
     return existsObservable;
+  }
+  
+  //This function retrieves and sets user details by email and user type.
+  //PDC-1661 this function was needed for keeping user logged in while session has not expired yet 
+  //if user for example refreshed or opened a new window on browser
+  public async retrieveUserDataForLoggedInUser(email: string, user_id_type: string): Promise<number> {
+    const url = environment.private_api_url + email + '/' + user_id_type;
+    console.log("PDC API: " + url);
+    let response: LoginUserResponse;
+	let jwtTokenResponse;
+    let data;
+	let result = 0;
+    try {
+      jwtTokenResponse = await this.http.post(environment.pdcapi_jwt_url, null).toPromise();
+      try {
+        data = await this.http.get(url, { headers: new HttpHeaders({ 'authorization': 'bearer ' + jwtTokenResponse['token'] }) }).toPromise();
+        response = data as LoginUserResponse;
+        if (response.data.length > 0) {
+          //if the user record is found 0 is returned
+          this.userData = response.data[0];
+		  //if user is registered and logged in successfuly previously
+		  if (this.userData.registered == 1) {
+			  this.setIsLoggedIn(true);
+			  this.setUserInformationInLocalStorage();
+		  }
+		}  else {
+          //if the user record is not found 1 is returned
+          result = 1;
+        }
+      } catch (error) {
+        console.log(this.userData);
+        console.log(error);
+        //if there's a system error 2 is returned
+        result = 2;
+      }
+    } catch (error) {
+      console.log("Error in fetching token from PDCAPI");
+    }
+	return result;
   }
 
   // Checks to see if the user with this email exists already in our DB
@@ -593,7 +633,10 @@ export class PDCUserService {
     //@@@PDC 709: User remains logged in forever if their session does not time out before they close the browser
     //Trigger storage event for retaining session across multiple tabs
     localStorage.setItem('logout', 'true');
-    localStorage.removeItem('logout');
+    localStorage.removeItem('loginToken');
+	localStorage.removeItem('loginUser');
+	localStorage.removeItem('loginEmail');
+	localStorage.removeItem('loginUserIDType');
     sessionStorage.clear();
   }
 
@@ -603,6 +646,8 @@ export class PDCUserService {
     sessionStorage.setItem("loginToken", "true");
     sessionStorage.setItem("loginUser", this.getUserName());
     sessionStorage.setItem("loginEmail", this.getEmail());
+	//PDC-1634 save user id type for chorusService to access for user unique identification
+	sessionStorage.setItem("loginUserIDType", this.getUserIDType());
   }
   
 }

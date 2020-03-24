@@ -1,4 +1,33 @@
+.search-input{
+	text-indent: 25px;
+	border-radius: 30px!important;
+	background:rgb(250, 250, 250); 
+	width:100%; 
+	float: right;
+	font-size: 0.8em;
+	-webkit-appearance: none; 
+    -moz-appearance: none; 
+	border: 2px solid #eee;
+}
 
+.search-icon{
+  position: absolute;
+  top: 46px;
+  left: 22px;
+  font-size: 10px;
+}
+
+.search-clear-button {
+	position: absolute;
+	z-index:1;
+	right: 18px;
+	bottom: 2px;
+	padding:0;
+	height:18px;
+	width:18px;
+	border:0;
+	border-radius: 30px!important;
+}
 
 .navbar-toolbar-row{
   font-family: 'Lato';
@@ -101,7 +130,7 @@ div.cdk-overlay-connected-position-bounding-box {
 }
 
 @media only screen  and (min-width: 1200px) {
-  .search-bar-div, #searchBarLabel {
+  .search-bar-div {
     padding-left: 0px !important;
   }
 
@@ -218,5 +247,16 @@ div.cdk-overlay-connected-position-bounding-box {
   .searchTermLabelNarrow {
     right: 40.8%;
   }
+}
+
+//@@@PDC-1588: Replace PDC logo with official images from NCI
+.banner-logo {
+  padding: 5px 0px;
+}
+
+//@@@PDC-1726: Create a available data types in the HELP dropdown menu item
+a:active, a:focus {
+  outline: 0;
+  border: none;
 }
 	

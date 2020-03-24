@@ -44,9 +44,7 @@ a{
 
 
 .headerDiv {
-  height: 60px;
-  /*width: inherit;*/
-  padding: 20px 20px 0 20px;
+  height: 110px;
 }
 
 .contentBG{
@@ -58,11 +56,7 @@ a{
 
 .logoHolder{
   float:left;
-}
-
-.logoHolder img{
- width: 341px;
- height: 40px;
+  padding: 5px;
 }
 
 .topNavHolder{

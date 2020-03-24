@@ -20,9 +20,10 @@ import { AllFilesData } from "../../types";
 import { ConfirmationDialogComponent } from "./../../dialog/confirmation-dialog/confirmation-dialog.component";
 import { BrowseByFileService } from "./browse-by-file.service";
 import * as jwt_decode from "jwt-decode";
+import { HttpClient } from '@angular/common/http';
 import { HttpErrorResponse } from "@angular/common/http";
 import * as _ from 'lodash';
-//import wget from 'node-wget';
+import * as fileSaver from 'file-saver';
 
 @Component({
   selector: "browse-by-file",
@@ -106,6 +107,7 @@ export class BrowseByFileComponent implements OnInit {
 
   constructor(
     private apollo: Apollo,
+	private http: HttpClient,
     private browseByFileService: BrowseByFileService,
     private dialog: MatDialog,
     private activeRoute: ActivatedRoute,
@@ -759,33 +761,24 @@ export class BrowseByFileComponent implements OnInit {
 	let dataForExport =  this.selectedFiles;
 	let urls: string = "";
     for (let file of dataForExport) {
-          let urlResponse = await this.browseByFileService.getOpenFileSignedUrl(file["file_name"]);
-          if(!urlResponse.error){
-			//@@@PDC-1698 download using wget
-			/*wget({
-					url: urlResponse.data,
-					dest: '/pdcDownload/',     
-					timeout: 2000      
-				},
-				function (error, response, body) {
-					if (error) {
-						console.log('--- error:');
-						console.log(error);           
-					} else {
-						console.log('--- headers:');
-						console.log(response.headers); 
-						//console.log('--- body:');
-						//console.log(body);             
-					}
-				}
-			);*/			
-           urls += urlResponse.data;
-			urls += "\n";
-          }else{
-            console.log(urlResponse.error);
-          }
+        let urlResponse = await this.browseByFileService.getOpenFileSignedUrl(file["file_name"]);
+        if(!urlResponse.error){
+			console.log("S3 url: "+urlResponse.data);
+			//@@@PDC-1698 download with file save
+			this.getS3File(urlResponse.data).subscribe((data: any) => {
+				let blob:any = new Blob([data], { type: 'text/json; charset=utf-8' });
+				fileSaver.saveAs(blob, file["file_name"]);
+				//console.log("S3 file: "+data);
+			});
+			          
+		}else{
+			console.log("S3 error: "+urlResponse.error)
+        }
 	}
-	console.log(urls);
+  }
+  
+  getS3File(url){
+	return this.http.get(url, {responseType: 'blob'});
   }
 
   private getOpenFileSignedUrl(openFileSignUrlMap){

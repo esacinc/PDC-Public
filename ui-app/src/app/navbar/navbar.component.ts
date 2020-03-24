@@ -16,6 +16,7 @@ import { GeneProteinSummaryComponent } from '../gene-protein-summary/gene-protei
 import { PDCUserService } from '../pdcuser.service';
 import { AllCasesData, AllStudiesData } from '../types';
 import { MessageDialogComponent } from "./../dialog/message-dialog/message-dialog.component";
+import { ConfirmationDialogComponent } from "./../dialog/confirmation-dialog/confirmation-dialog.component";
 import { LabSelectionComponent } from './lab-selection/lab-selection.component';
 import { LoginComponent } from './login/login.component';
 import { RegistrationComponent} from './registration/registration.component';
@@ -50,6 +51,8 @@ import { environment } from '../../environments/environment';
 //@@@PDC-1406: review and update messages that user can get during registration/login/account update 
 //@@@PDC-1487: resolve issues found with user registration/login
 //@@@PDC-1609: URL structure for permanent links to PDC 
+//@@@PDC-1661: Fixing bugs found with user registration/login
+//@@@PDC-1795: NIH/eRA sign in option user's name is not shown after logging in
 export class NavbarComponent implements OnInit {
   background = '';
   searchFormControl = new FormControl();
@@ -70,6 +73,7 @@ export class NavbarComponent implements OnInit {
   apidocumentation_url = environment.dictionary_base_url + 'apidocumentation.html';
   submission_portal_docs_url = environment.submission_portal_docs_url;
   userEmailConfirmed = false;
+  homePageURL = "/";
   //caseUUID = '';
 
   private subscription: Subscription;
@@ -525,11 +529,81 @@ export class NavbarComponent implements OnInit {
   
   ngOnInit() {
 		if (sessionStorage.getItem("loginToken") == "true") {
-			this.userService.setIsLoggedIn(true);
+			//this.userService.setIsLoggedIn(true);
 			this.setInformationfromlocalStorage();
+			let loginUserIDType = sessionStorage.getItem('loginUserIDType');
+			this.userService.retrieveUserDataForLoggedInUser(this.loggedInEmail, loginUserIDType).then(returnValue => {
+				if (returnValue === 0){
+					console.log("The user was successfuly logged in. Session continues");
+				} else {
+					console.log("An error occured while retrieving user data:" + returnValue);
+				}
+			});
 			//@@@PDC-408 - implement session timeout after 30 mins idle
 			this.idle.watch();
 		}
+		//PDC-1795 Detect when a user loged in with NIH/eRA sign in option
+	    this.route.queryParams.subscribe(queryParams => {
+			console.log(queryParams);
+			if (queryParams.uid){
+					let user_uid = queryParams.uid;
+					this.userService.checkPDCUser(user_uid).subscribe((login: any) => {
+						var currentUrl = this.loc.path();
+					    //Generate new url that does not contain uid parameters
+					    var newUrl = currentUrl.split("?uid=");
+					    this.loc.replaceState(newUrl[0]);
+						console.log("User tried to login with NIH/eRA option returned:" + login);
+						switch (login) {
+							//user registered
+							case 0:
+								if(localStorage.getItem('controlledFileExportFlag') === 'true'){
+									localStorage.removeItem('controlledFileExportFlag');
+									document.location.href = environment.dcf_fence_login_url.replace("%dcf_client_id%",environment.dcf_client_id);
+									this.router.navigate(['browse']);
+								}
+								break;
+							//user not registered
+							case 1:
+								if (this.userService.getEmail()) {
+									this.userService.setUserIDType("NIH");
+								} else {
+									this.userService.setUserIDType("eRA");
+								}
+								//Open dialog suggesting new user to register
+								const dialogConfig = new MatDialogConfig();
+								let confirmationMessage = `User account with such credentials was not found. Would you like to register a new user?`;
+								let continueRegisterNewUser = "Yes";
+								const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+																	width: "350px",
+																	height: "140px",
+																	data: { message: confirmationMessage, continueMessage: continueRegisterNewUser }
+								});
+												
+								dialogRef.afterClosed().subscribe(result => {
+									if ( result === "Yes") {
+										//Open registration dialog
+										dialogConfig.width = "55%";
+										dialogConfig.minWidth = 980;
+										this.dialog.open(RegistrationComponent, dialogConfig);
+									}
+								});
+								break;
+							//system error
+							case 2:
+								this.dialog.open(MessageDialogComponent, {
+										width: "430px",
+										height: "150px",
+										disableClose: true,
+										autoFocus: false,
+										hasBackdrop: true,
+										data: { message: "System Error. Please contact your system administrator "}
+									});
+								console.log("System error!!!");
+								break;				
+						}
+					});
+			}
+	   });
 
 	  this.subscription = this.userService.isLoggedIn.subscribe(
 							isLoggedIn => {
@@ -613,8 +687,8 @@ export class NavbarComponent implements OnInit {
 					}*/
 				}			
 			}
-			//PDC-1609 detect permanent URL links to study and case 
 			if (event instanceof ActivationStart) {
+				//PDC-1609 detect permanent URL links to study and case 
 				if(event.snapshot.params && event.snapshot.url.length > 0){
 					//If case_uuid parameter is defined - this is a direct link URL for case summary
 					if (event.snapshot.outlet == "primary" && "case_uuid" in event.snapshot.params && event.snapshot.params["case_uuid"] != ""){
@@ -641,7 +715,7 @@ export class NavbarComponent implements OnInit {
 	  // Monitor changes to search field and populate dropdown autocomplete list 
 	  // as soon as the user entered at least 3 characters
 	  this.filteredOptions = this.searchFormControl.valueChanges.pipe(
-		debounceTime(200))
+		debounceTime(400))
 		.pipe(
 			startWith(''),
 			map(value => value.length > 1 ? this._filter(value) : [])	
@@ -660,6 +734,10 @@ export class NavbarComponent implements OnInit {
 		  this.userService.logout();
 		  //this.router.navigate(['welcome']);
 		});
+		//@@@PDC-1716: Update the site url to just the domain name and drop any path
+		if (window.location.hostname == "localhost") {
+			this.homePageURL = "/pdc";
+		}
 		
   }
 
@@ -704,9 +782,24 @@ export class NavbarComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       //console.log(result);
       if (result === "user register with email") {
-		dialogConfig.width = "55%";
-		dialogConfig.minWidth = 980;
-		this.dialog.open(RegistrationComponent, dialogConfig);
+		//Let user know that their email is not registered through PDC
+		let confirmationMessage = `
+							User with such email was not found. Would you like to register a new user?`;
+		let continueRegisterNewUser = "Yes";
+		const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+											width: "350px",
+											height: "140px",
+											data: { message: confirmationMessage, continueMessage: continueRegisterNewUser }
+		});
+						
+		dialogRef.afterClosed().subscribe(result => {
+			if ( result === "Yes") {
+				//Open registration dialog
+				dialogConfig.width = "55%";
+				dialogConfig.minWidth = 980;
+				this.dialog.open(RegistrationComponent, dialogConfig);
+			}
+		});
       }
     });
     //dialogRef.updatePosition({ top: '50px', left: '70%' });
@@ -764,9 +857,24 @@ export class NavbarComponent implements OnInit {
 				if (result === "login successfully") {
 					this.openChorus();
 				}else if(result === "user register with email") {
-					dialogConfig.width = "55%";
-					dialogConfig.minWidth = 980;
-					this.dialog.open(RegistrationComponent, dialogConfig);
+					//Let user know that their email is not registered through PDC
+					let confirmationMessage = `
+							User with such email was not found. Would you like to register a new user?`;
+					let continueRegisterNewUser = "Yes";
+					const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+						  width: "350px",
+						  height: "140px",
+						  data: { message: confirmationMessage, continueMessage: continueRegisterNewUser }
+						});
+						
+					dialogRef.afterClosed().subscribe(result => {
+						  if ( result === "Yes") {
+							//Open registration dialog
+							dialogConfig.width = "55%";
+							dialogConfig.minWidth = 980;
+							this.dialog.open(RegistrationComponent, dialogConfig);
+						  }
+					});
 				}
 			});
 		}
@@ -819,6 +927,9 @@ export class NavbarComponent implements OnInit {
 	if (sessionStorage.getItem('loginToken') === 'true') {
 		this.loggedInEmail = sessionStorage.getItem('loginEmail');
 		this.loggedInUser = sessionStorage.getItem('loginUser');
+		//this.userService.setEmail(this.loggedInEmail);
+		//this.userService.setName(this.loggedInUser);
+		this.userService.setUserIDType(sessionStorage.getItem('loginUserIDType'));
 	} 
   }
 

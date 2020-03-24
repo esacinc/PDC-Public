@@ -38,28 +38,32 @@
 				  <mat-card-content id="recentReleasesContent">
 					<mat-list >
 						<mat-list-item class="bottom-card-list-item"   id="top-release-item">
-							<mat-icon mat-done-icon>done</mat-icon> &nbsp; &nbsp;<div>CPTAC program Glioblastoma (GBM) dataset released, December 2019</div>
+							<div class="bottom-card-bullet-item"><div><i class="pi pi-circle-off bottom-card-bullet-icon"></i></div><div>PDC officially launched on cancer.gov domain, March 2020</div></div>
+						</mat-list-item>							
+						<mat-list-item class="bottom-card-list-item"   id="top-release-item">
+							<div class="bottom-card-bullet-item"><div><i class="pi pi-circle-off bottom-card-bullet-icon"></i></div><div>CPTAC program Glioblastoma (GBM) dataset released, December 2019</div></div>
 						</mat-list-item>						
 						<mat-list-item class="bottom-card-list-item"  id="release-item">
-							<mat-icon mat-done-icon>done</mat-icon> &nbsp; &nbsp;<div>International Cancer Proteogenomic Consortium - Proteogenomic Characterization of HBV-Related Hepatocellular Carcinoma data released, December 2019</div>
+							<div class="bottom-card-bullet-item"><div><i class="pi pi-circle-off bottom-card-bullet-icon"></i></div><div>International Cancer Proteogenomic Consortium - Proteogenomic Characterization of HBV-Related Hepatocellular Carcinoma data released, December 2019</div></div>
 						</mat-list-item>
 						<mat-list-item class="bottom-card-list-item"  id="release-item">
-							<mat-icon mat-done-icon>done</mat-icon> &nbsp; &nbsp; <div>Pediatric Brain Tumor Atlas - CBTTC program Pediatric/AYA brain tumor dataset released, November 2019</div>
-						</mat-list-item>
-						<mat-list-item class="bottom-card-list-item"  id="bottom-release-item">
-							<mat-icon mat-done-icon>done</mat-icon> &nbsp; &nbsp; <div>CPTAC3 program Lung Adenocarcinoma (LUAD) dataset released, September 2019</div>
+							<div class="bottom-card-bullet-item"><div><i class="pi pi-circle-off bottom-card-bullet-icon"></i></div><div>Pediatric Brain Tumor Atlas - CBTTC program Pediatric/AYA brain tumor dataset released, November 2019</div></div>
 						</mat-list-item>
 					</mat-list>
 					</mat-card-content>
 				</mat-card>
 			</div>
+			<!-- @@@PDC-1711 add external link icon -->
 			<div class="col-md-6" id="newsSection"  style="padding-left: 0!important;padding-right: 0!important;">
 				<mat-card class="bottom-card">
 				  <mat-card-header class="bottom-row-card-header">NEWS</mat-card-header>
 				  <mat-card-content id="newsSectionContent">
 					<mat-list>
+						<!--<mat-list-item *ngFor="let aNews of newsItems" id="news-item" class="bottom-card-list-item" style=" padding-top: 10px!important">
+							<div class="bottom-card-bullet-item"><div><i class="pi pi-circle-off bottom-card-bullet-icon"></i></div><div><a target="_" href="{{aNews.link}}">{{aNews.label}}</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_"><img src="./assets/css/image/extLink.png"></a></div></div>
+						</mat-list-item>-->
 						<mat-list-item *ngFor="let aNews of newsItems" id="news-item" class="bottom-card-list-item" style=" padding-top: 10px!important">
-							<mat-icon mat-open_in_browser-icon>open_in_browser</mat-icon>&nbsp;&nbsp;<a target="_" href="{{aNews.link}}">{{aNews.label}}</a>
+							<div class="bottom-card-bullet-item"><div><i class="pi pi-circle-off bottom-card-bullet-icon"></i></div><div><a target="_" href="{{aNews.link}}">{{aNews.label}}</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">Exit Disclaimer</span></a></div></div>
 						</mat-list-item>
 					</mat-list>
 					</mat-card-content>
@@ -73,10 +77,10 @@
 				  <mat-card-content id="toolAndPipelinesContent">
 					<mat-list>
 						<mat-list-item class="bottom-card-list-item">
-						  <mat-icon mat-dns-icon>dns</mat-icon>  &nbsp; &nbsp; <a href={{harmonization_url}} target="_blank">Common Data Analysis Pipeline (CDAP)</a>
+							<i class="pi pi-circle-off"></i>  &nbsp;&nbsp;&nbsp; <a href={{harmonization_url}} target="_blank">Common Data Analysis Pipeline (CDAP)</a>
 						</mat-list-item>
 						<mat-list-item class="bottom-card-list-item">
-						  <mat-icon mat-dns-icon>dns</mat-icon>  &nbsp; &nbsp; <a href={{pepquery_url}} target="_blank">PepQuery</a>
+							<i class="pi pi-circle-off"></i>&nbsp;&nbsp;&nbsp; <a href={{pepquery_url}} target="_blank">PepQuery</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">Exit Disclaimer</span></a>
 						</mat-list-item>
 					</mat-list>
 					</mat-card-content>
@@ -88,17 +92,20 @@
 				  <mat-card-content class="bottom-card" id="helpContent">
 					<mat-list>
 						<mat-list-item class="bottom-card-list-item">
-							<mat-icon mat-help-icon>help</mat-icon> &nbsp; &nbsp; <a href={{dictionary_url}} target="_blank">Data Model and Dictionary</a>
+							<i class="pi pi-circle-off"></i> &nbsp;&nbsp;&nbsp; <a href={{dictionary_url}} target="_blank">Data Model and Dictionary</a>
 						</mat-list-item>
 						<!-- <mat-list-item class="bottom-card">
 						  <mat-icon mat-help-icon>help</mat-icon> &nbsp; &nbsp; Portal Documentation
 						</mat-list-item> -->
 						<mat-list-item class="bottom-card-list-item">
-							<mat-icon mat-help-icon>help</mat-icon> &nbsp; &nbsp; <a [href]=getSubmissionPortalDocsURL() target="_blank">Submission Portal Documentation</a>
+							<i class="pi pi-circle-off"></i> &nbsp;&nbsp;&nbsp; <a [href]=getSubmissionPortalDocsURL() target="_blank">Submission Portal Documentation</a>
 						</mat-list-item>
 						 <mat-list-item class="bottom-card-list-item">
-						  <mat-icon mat-help-icon>help</mat-icon>  &nbsp; &nbsp; <a href = {{apidocumentation_url}} target="_blank">API Documentation</a>
+							<i class="pi pi-circle-off"></i>  &nbsp;&nbsp;&nbsp; <a href = {{apidocumentation_url}} target="_blank">API Documentation</a>
 						</mat-list-item>
+						<mat-list-item class="bottom-card-list-item">
+							<i class="pi pi-circle-off"></i>  &nbsp;&nbsp;&nbsp; <a href = 'https://list.nih.gov/cgi-bin/wa.exe?SUBED1=PDC-ANNOUNCE-L&A=1' target="_blank">Subscribe to PDC mailing list</a>
+						</mat-list-item>						
 					</mat-list>
 				  </mat-card-content>
 				</mat-card>

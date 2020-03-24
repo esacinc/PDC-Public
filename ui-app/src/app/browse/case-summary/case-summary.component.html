@@ -20,7 +20,7 @@
 					<tr><td class="summary-card-name-left-cell">Source Case ID</td><td class="summary-card-value-left-cell">{{case_submitter_id}}</td>
 						<td class="summary-card-name-right-cell">Program</td><td class="summary-card-value-right-cell">{{caseSummaryData.program_name}}</td>
 					</tr>
-					<tr><td class="summary-card-name-left-cell">Project</td><td class="summary-card-value-left-cell"><a target="_blank" href= "/pdc/browse/filters/project_name:{{caseSummaryData.project_name}}">{{caseSummaryData.project_name}}</a></td>
+					<tr><td class="summary-card-name-left-cell">Project</td><td class="summary-card-value-left-cell"><!--<a target="_blank" href= "/pdc/browse/filters/project_name:{{caseSummaryData.project_name}}">{{caseSummaryData.project_name}}</a>-->{{caseSummaryData.project_name}}</td>
 						<td class="summary-card-name-right-cell">Primary Site</td><td class="summary-card-value-right-cell">{{caseSummaryData.primary_site}}</td>
 					</tr>
 				</table>
@@ -143,7 +143,7 @@
 						</tr>
 						<tr><td class="summary-card-name-left-cell">AJCC clinical Stage</td>
 							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.ajcc_clinical_stage)">{{diagnosis.ajcc_clinical_stage}}</td>
-							<td class="summary-card-name-right-cell">New Eevent Anatomic Site</td>
+							<td class="summary-card-name-right-cell">New Event Anatomic Site</td>
 							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.new_event_anatomic_site)">{{diagnosis.new_event_anatomic_site}}</td>
 						</tr>
 						<tr><td class="summary-card-name-left-cell">AJCC clinical t</td>

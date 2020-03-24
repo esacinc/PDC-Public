@@ -42,6 +42,7 @@ import { BrowseFiltersService } from "./browse-filters.service";
 //@@@PDC-862: Display biospecimen qualification status on the UI
 //@@@PDC-1001: Gene search is very slow and occasionally fails
 //@@@PDC-1095: Improving file filter select combinations
+//@@@PDC-1668: multiple and trailing spaces in gene names filter bug
 export class BrowseFiltersComponent implements OnInit, OnChanges {
   allCategoryFilterData: FilterData; // Full list of all cases as returned by API
   allFilterCategoryMapData: Map<string, string[]> = new Map();
@@ -610,17 +611,17 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
         break;
       case 'gene_name':
         if (setValuesForFence) {
-          this.selectedGeneNames = filterVal;
+          this.selectedGeneNames = filterVal.trim();
           this._validate(this.selectedGeneNames);
         } else if (clearValuesforbreadcrumb) {
           this.clearAllGenesSelections();
         }
         break;  
-	    case "gene_names":
+	  case "gene_names":
 	    //gene names are expected to be delimited with spaces or new lines in the input field
 		//therefore replacing commas with spaces
 		//the data tables will not be filtered by gene names, the gene names will only be validated
-        this.selectedGeneNames = filterVal.replace(/\|/, ' ');
+        this.selectedGeneNames = filterVal.replace(/\|/, ' ').trim();
         this._validate(this.selectedGeneNames);
         break;
       case "biospecimen_status":
@@ -749,7 +750,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
     }
     if (this.selectedGeneNames != '') {
       this.newFilterSelected["gene_name"] = this.selectedGeneNames;
-      var geneNamesArray = this.selectedGeneNames.split(";");
+      var geneNamesArray = this.selectedGeneNames.trim().split(";");
       for (var i=0;i < geneNamesArray.length; i++) {
         this.selectedGeneStudyList.push(geneNamesArray[i]);
       }
@@ -1203,7 +1204,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
 		//emit new gene name to selectedFilters
 		this.loading = true;
 		//Have to replace spaces with semicolon since that is the expected list delimiter for the API
-		let processedGeneNames = this.selectedGeneNames.toUpperCase().replace(/\s/g, ';');
+		let processedGeneNames = this.selectedGeneNames.trim().toUpperCase().replace(/\s+|\n+/g, ';');
 		console.log(processedGeneNames);
 		//Genes data tab will be filtered directly by gene names
 		var newFilterValue = "gene_name:" + processedGeneNames;

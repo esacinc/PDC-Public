@@ -43,6 +43,7 @@
     "echarts": "^4.1.0",
     "express": "^4.16.3",
     "file-exists": "^5.0.1",
+    "file-saver": "^2.0.2",
     "font-awesome": "^4.7.0",
     "fs": "0.0.1-security",
     "graphql": "^0.13.2",

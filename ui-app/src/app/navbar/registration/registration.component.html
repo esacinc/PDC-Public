@@ -1,11 +1,6 @@
 <title>Welcome</title>
 <div [ngClass]="idProvider==='NIH' ? 'nihLoginModal': 'PDCLoginModal'" class="container-fluid">
-	<div class="row">
-		<div class="col-md-5" style="text-align:center;" *ngIf="idProvider!='NIH'">
-			<img src="./assets/css/images/WelcomePageImage.png" style="width:75%;margin-top: 300px;" alt="Welcome Page Image"/>
-		</div>
-		<div class="col-md-7">
-			<h2 style="color:#245672; text-align: center;" *ngIf="idProvider!='NIH'">Join NCI Proteomic Data Portal!</h2>
+	<h2 style="color:#245672; text-align: center;" *ngIf="idProvider!='NIH'">Join NCI Proteomic Data Portal!</h2>
 			<p [ngClass]="idProvider==='NIH' ? 'nihLabel1': 'PDCLabel1'" style="color:#245672;"> Tell us about yourself</p>
 			<p> Please provide information about yourself to help us personalize your experience.</p>
 			<h4 *ngIf="formInvalidMessage!=''"><br><span style="color:red">{{formInvalidMessage}}</span><br></h4>
@@ -82,6 +77,4 @@
 				<button id="pdcRegister" mat-raised-button>Submit</button>&nbsp; &nbsp;
 				<button id="pdcCancelRegistration" mat-raised-button (click)="onCancelClick()"><span *ngIf="idProvider!='NIH'">Cancel</span><span *ngIf="idProvider==='NIH'">Later</span></button>
 			</form>
-		</div>
-	</div>
 </div>

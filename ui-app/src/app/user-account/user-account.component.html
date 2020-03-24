@@ -3,8 +3,8 @@
   <h2 style="color:#245672; text-align: center;margin:0">PDC User Account</h2>
 	<mat-tab-group>
 		<mat-tab style="color:#245672;" label="Edit user account details">
-			<h4><span *ngIf="systemErrorMessage != ''" style="color:red">{{ systemErrorMessage }}</span></h4><br />
-			<h4 *ngIf="formInvalidMessage!=''"><br><span style="color:red">{{formInvalidMessage}}</span><br></h4>
+			<h4><span *ngIf="systemErrorMessage != ''" style="color:red">{{ systemErrorMessage }}</span><span style="display: none">Edit user account details</span></h4><br />
+			<h4 *ngIf="formInvalidMessage!=''"><br><span style="color:red">{{formInvalidMessage}}</span><span style="display: none">Edit user account details</span><br></h4>
 			<form [formGroup]="registrationForm" (ngSubmit)="submitUpdate()" class="form" style="padding:10px" name="pdcRegistrationForm" novalidate>
 				<div class="form-group">
 					<label for="first_name" style="display: inline-block;">My first name is:</label>
@@ -50,7 +50,7 @@
 						</mat-radio-button>
 						<div *ngIf="selectedResearcherType=='other'">
 							<div class="form-group">
-								<input type="text" class="form-control" id="other_researcher_type" [(ngModel)]="otherResearcherType" [ngModelOptions]="{standalone: true}">
+								<input type="text" title="Other researcher type" class="form-control" id="other_researcher_type" [(ngModel)]="otherResearcherType" [ngModelOptions]="{standalone: true}">
 							</div>
 						</div>
 						<mat-error *ngIf="searchType.invalid&&isValidFormSubmitted!=null">Choice is required</mat-error>

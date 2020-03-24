@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { Apollo, SelectPipe } from 'apollo-angular';
 import { Observable, Subject } from 'rxjs';
 import { map ,  switchMap } from 'rxjs/operators';
@@ -17,6 +17,8 @@ import { MatSidenav } from '@angular/material';
 
 import {TableTotalRecordCount} from '../types';
 
+declare var window: any;
+
 @Component({
 selector: 'browse',
 templateUrl: './browse.component.html',
@@ -28,6 +30,9 @@ styleUrls: ['../../assets/css/global.css', './browse.component.scss'],
 //@@@PDC-518 Rearrange and update text on the browse page tabs and download
 //@@@PDC-522 Change the file filters to a new filters tab
 //@@@PDC-277: Add a filter crumb bar at the top that explains the filter criteria selected
+//@@@PDC-1360 Ability to bookmark a query
+//@@@PDC-1445: Style query bookmark popup
+//@@@PDC-1782: filter url for bookmarking continues to hold gene names even after that filter is cleared
 export class BrowseComponent implements OnInit{ 
 	diseasesData: Observable<Disease[]>;
 	diseaseTypesChart: any;
@@ -61,16 +66,27 @@ export class BrowseComponent implements OnInit{
 	parentLoader = false;
 	controlFileDownloadSpinner = false;
 	enableDownloadAllManifests:any;
+	bookmarkURL: string = "";
+	baseUrl: string = "";
+	showBookmarkFlag = false;
 
 	@ViewChild('sidenav') myNav: MatSidenav;
 	constructor(private apollo: Apollo, private browseService: BrowseService, 
 		private route: ActivatedRoute,
-		private router: Router) {
+		private router: Router,
+		private loc: Location) {
 		this.newFilterSelected = { 'program_name' : '', 'project_name': '', 'study_name': '',
 		'disease_type':'', 'primary_site':'', 'analytical_fraction':'', 'experiment_type':'', 
 		'acquisition_type':'','ethnicity': '', 'race': '', 'gender': '', 'tumor_grade': '', 
-		'data_category':'', 'file_type':'', 'access':'', 'downloadable': '', 'biospecimen_status': '', 'case_status': ''};
+		'data_category':'', 'file_type':'', 'access':'', 'downloadable': '', 'biospecimen_status': '', 'case_status': '',
+		'gene_name': '', 'gene_study_name': ''};
 		this.analyticalFractionsCounts = [];
+		//PDC-1360 Add Bookmark URLs
+		const parsedUrl = new URL(window.location.href);
+		this.baseUrl = parsedUrl.origin + "/pdc";
+		console.log(this.baseUrl);
+		this.bookmarkURL = this.baseUrl + this.loc.path() + "/filters/";
+		
 		this.route.params.subscribe(params => this.browseStudy(params));
 	}
 	
@@ -101,6 +117,8 @@ export class BrowseComponent implements OnInit{
 			},
 			dataLabels: {
 					enabled: true,
+					allowOverlap: true,
+					padding: -2,
 					format: '<b>{point.name}</b>:<br> {point.percentage:.1f} %',
 					style: {
 						fontFamily:'Lato',
@@ -326,14 +344,42 @@ getCasesByExperimentalStrategy(){
 			let deleteFromBreadCrumbs = ['sample_type', 'study_name', 'biospecimen_status'];
 			//@@@PDC-994: Breadcrumbs in Browse page are displayed even after clearing filter selections
 			this.deleteBreadcrumb('', deleteFromBreadCrumbs);
+			this.newFilterSelected['sample_type'] = "";
+			this.newFilterSelected['study_name'] = "";
+			this.newFilterSelected['biospecimen_status'] = "";
 		} else if (filter_field[0] === "Clear all file filters selections"){
 			let deleteFromBreadCrumbs = ['data_category', 'study_name', 'file_type', 'access', 'downloadable'];
 			//@@@PDC-994: Breadcrumbs in Browse page are displayed even after clearing filter selections
 			this.deleteBreadcrumb('', deleteFromBreadCrumbs);
+			this.newFilterSelected['data_category'] = "";
+			this.newFilterSelected['study_name'] = "";
+			this.newFilterSelected['file_type'] = "";
+			this.newFilterSelected['access'] = "";
+			this.newFilterSelected['downloadable'] = "";
+		}else if (filter_field[0] === "Clear all genes filters selections"){
+			let deleteFromBreadCrumbs = ['study_name', 'gene_name', 'gene_study_name'];
+			this.deleteBreadcrumb('', deleteFromBreadCrumbs);
+			this.newFilterSelected['study_name'] = "";
+			this.newFilterSelected['gene_name'] = "";
+			this.newFilterSelected['gene_study_name'] = "";
 		} else {
 			if (filter_field[0] != "selectedTab") {
 				this.newFilterSelected[filter_field[0]] = filter_field[1];
 			}
+		}
+		//PDC-1360 Add Bookmark URLs	
+		console.log(this.router.url);
+		if (this.router.url.indexOf("filters") > -1) {
+			this.bookmarkURL = this.baseUrl + decodeURI(this.router.url);
+		} else {
+			this.bookmarkURL = this.baseUrl + this.loc.path() + "/filters/";
+			for (let filter_val in this.newFilterSelected){
+				if (this.newFilterSelected[filter_val] != ""){
+					this.bookmarkURL +=  filter_val + ":" + this.newFilterSelected[filter_val].replace(/;/g, "|") + "&";
+				}
+				//console.log(filter_val);
+			}
+			this.bookmarkURL = this.bookmarkURL.slice(0, -1);
 		}
 		//@@@PDC-277: Add a filter crumb bar at the top that explains the filter criteria selected
 		if (filter_field[0] != "selectedTab") {
@@ -688,6 +734,27 @@ getCasesByExperimentalStrategy(){
 	changeTabForFileType(valuesForFileType) {	
 		this.selectedTab = valuesForFileType.tabVal;
 		this.browseService.notifyChangeTabEvents({studyNameForFileType: valuesForFileType.studyName, fileDetailsforFileType: valuesForFileType.fileType, fileDetailsforDataCategory: valuesForFileType.dataCategory});
+	}
+	
+	
+	//Hide or show Query URL
+	showBookmarkToggle(){
+		this.showBookmarkFlag = !this.showBookmarkFlag;
+	}
+	
+	//Copy text query url to clipboard
+	copyTextToClipboard(val: string){
+		let selBox = document.createElement('textarea');
+		selBox.style.position = 'fixed';
+		selBox.style.left = '0';
+		selBox.style.top = '0';
+		selBox.style.opacity = '0';
+		selBox.value = val;
+		document.body.appendChild(selBox);
+		selBox.focus();
+		selBox.select();
+		document.execCommand('copy');
+		document.body.removeChild(selBox);
 	}
 
 	ngOnInit() {
