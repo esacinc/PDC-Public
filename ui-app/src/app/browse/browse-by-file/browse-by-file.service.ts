@@ -275,6 +275,15 @@ export class BrowseByFileService {
       .toPromise();
   }
 
+  recordControlledFileDownload(controlledFileDownloadInfo: any): Promise<any> {
+    const url = environment.private_api_url + "controlledfile/download";
+    let headers = new HttpHeaders().set("Authorization", "Bearer " + localStorage.getItem('jwtToken'));
+
+    return this.http.post(url, controlledFileDownloadInfo, {
+      headers: headers
+    }).toPromise();
+  }
+
   getControlledFilesDetails(fileIds: string): Promise<any> {
 	//@@@PDC-1123 call ui wrapper API    
 	return this.apollo

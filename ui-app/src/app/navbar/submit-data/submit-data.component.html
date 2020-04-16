@@ -1,15 +1,17 @@
-<mat-toolbar>
+<mat-toolbar style="min-width: 1000px;">
     <mat-toolbar-row style="background-image: linear-gradient(-133deg, #246A92 0%, #245571 100%)"></mat-toolbar-row>    
     <mat-toolbar-row style="background-image: linear-gradient(-133deg, #246A92 0%, #245571 100%)"></mat-toolbar-row>    
 </mat-toolbar>
-<div class="row" style="font:Lato; margin-top:-75px!important; margin-left:20px; margin-right: 20px; align-items: center;" >
+<div class="row" style="min-width: 1000px;font:Lato; margin-top:-75px!important; margin-left:20px; margin-right: 20px; align-items: center;" >
 <mat-card class="about-page card card-body">
         <mat-card-content>
         <div class="row">
-            <h3 style="padding-left: 30%;font-weight: 1000;">PDC Workspace Data Submission Overview</h3>
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <h3 style="text-align:center;font-weight: 1000;" class="submit-page-header">PDC Workspace Data Submission Overview</h3>
+            </div>
         </div>
         <div class="row">
-            <div class="col-md-6" style="margin-right: 7%; margin-top: 1.5%">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="margin-right: 7%; margin-top: 1.5%">
             <div class="leftDiv"><iframe width="560" height="315" src="https://www.youtube.com/embed/97uSIc31nLw" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div><br>
             <div class="leftDiv">
                 <div style="font-weight: bolder">Quick Links:</div>
@@ -49,7 +51,7 @@
                     <p>If you have not done so already, you should first request program membership or creation. Next, you can either create a project or an instrument. These steps have no prerequisites other than belonging to a program with mass spectrometers.  We recommend that you follow the steps in the order given in the Submission Overview at the top of this document. Registering an instrument will let you upload raw files from that instrument, after it has been approved by the PI. Once you have created a project and have uploaded raw data to the Workspace cloud, you should next create the Protocol used for your Study.</p>
                     <p>Finally, you can create Studies (experiments) and organize them into your created Projects. You can't create a study (experiment) without linking the study to a Project.</p>
                     <p>A Study is a group of instrument raw files that are acquired using a specific experimental Protocol.  Study metadata (e.g., TMT channel to sample mappings) and well-annotated study and experimental design (e.g., sample to file mappings) are also combined to create a Study.  A Study is typically analyzed through a single bioinformatics pipeline.</p>
-                    <p>The PDC Workspace accepts files with the “.raw”, “.d”; “.wiff”; “.wiff.scan”; “.wiff.mtd”; “.dat”; “.mis”. These files are produced directly on the mass spectrometer acquisition computer and are typically in proprietary formats.</p>
+                    <p>The PDC Workspace accepts files with the ".raw", ".d"; ".wiff"; ".wiff.scan"; ".wiff.mtd"; ".dat"; ".mis". These files are produced directly on the mass spectrometer acquisition computer and are typically in proprietary formats.</p>
                     <p>You must be an assigned instrument operator to upload data to an instrument.  If you are not, you must first be added as an Operator to the instrument.</p>
                     <ol>
                         <li><b>Create an instrument:</b><br><br><p>An instrument is an instance of the mass spectrometer from your lab. Go to create, click instrument, and enter the relevant information about the mass spectrometer from your lab. If you are a program member, you will receive an email once approved by PDC admin or the program lead (PI).</p><br><br>
@@ -69,15 +71,33 @@
                         <br></li>
                         <li><b>Create a Study:</b><br><br>
                             <p>Finally, a Study can be created, linking your files to a Protocol, Project, and Program.  In the PDC workspace, a study is a group of instrument raw files that are generated using a specific experimental protocol, with well annotated experimental design (sample to file mapping) that can be analyzed through a single bioinformatics pipeline.</p>
-                            <p>In order to create a study, you have already connected the raw files with the Protocol and added additional metadata data about the experimental design.  To create the Study, click Create->Study to launch the wizard.  In any wizard steps requiring you to enter data in tabular form, you may cut-and-paste from spreadsheets.</p><br><br>
-                            <div style="text-align:center"><img mat-card-image style="align-content: center" src="assets/createStudy.png" alt="Create a project"></div>
+                            <p>In order to create a study, you have already connected the raw files with the Protocol and added additional metadata data about the experimental design.  To create the Study, click Create->Study to launch the wizard.  In any wizard steps requiring you to enter data in tabular form, you may cut-and-paste from spreadsheets. If you are unable to complete your study at the moment, you can click 'Save as Draft'.</p><br><br>
+                            <div style="text-align:center"><img mat-card-image style="align-content: center" src="assets/createStudy-1.png" alt="Create a study"></div>
+                            <br><p>You can later locate your study draft by locating 'View Type' on the left navigation panel. Click "My" and under 'Data Type' click "Study drafts". Locate your study name and click the vertical dots in front of your study name for a menu to appear.</p>
+                            <br><div style="text-align:center"><img mat-card-image style="align-content: center" src="assets/createStudy-2.png" alt="Create a study"></div>
+                            <br><p>Click "Edit" and proceed with entering your study data.</p>
+                            <br><div style="text-align:center"><img mat-card-image style="align-content: center" src="assets/createStudy-3.png" alt="Create a study"></div>
+                        <br></li>
+                        <li><b>Upload Clinical & Biospecimen Metadata:</b><br><br>
+                            <p>In order to load the Clinical and Biospecimen data, save the Case Matrix, Case, Demographics, Diagnosis, Sample, and Aliquot worksheets from the submission template in a separate TSV file. Place all 6 TSV files in a new folder on your local computer. In the workspace click 'Upload' then under Metadata click 'Direct Upload'. </p>
+                            <br><div style="text-align:center"><img mat-card-image style="align-content: center" src="assets/uploadMetadata-1.png" alt="Upload Metadata"></div>
+                            <br><p>A popup wizard to upload the metadata will appear. Click 'Select a File Type' and select 'All Clinical & Biospecimen'. Next, click 'Select Program' to select the program the metadata belongs to and 'Select Project' to choose the project your metadata is associated to. An icon will appear in the wizard giving you the option to upload your files. You can either drag and drop your files or select the folder the files belong to. A notification will appear requesting you to confirm the upload of all files from that folder. Click "Upload" to confirm. </p>
+                            <br><div style="text-align:center"><img mat-card-image style="align-content: center" src="assets/uploadMetadata-2.png" alt="Upload Metadata"></div>
+                            <br><p>When all 6 TSV files are present, click "Upload" and you will have successfully uploaded your files.</p>
+                            <br><div style="text-align:center"><img mat-card-image style="align-content: center" src="assets/uploadMetadata-3.png" alt="Upload Metadata"></div>
+                            <br><p>The clinical and biospecimen data you uploaded can be viewed by locating the navigation panel on your left and under File Management section select "Metadata Files". Select the vertical dots in front of the metadata file name and select "Show Content".</p>
+                            <br><div style="text-align:center"><img mat-card-image style="align-content: center" src="assets/uploadMetadata-4.png" alt="Upload Metadata"></div>
+                            <br><p>To view all the metadata you have uploaded: Under View Type select ‘My’ and under Data Type select Case, Sample, Aliquot, Diagnosis, or Demographic. As seen below, by selecting View Type "My" and Data Type "Case" you would see the metadata you uploaded for Case. </p>
+                            <br><div style="text-align:center"><img mat-card-image style="align-content: center" src="assets/uploadMetadata-5.png" alt="Upload Metadata"></div>
+                            <br><p>If you need to make changes to your files at a later time, which will require you to reload. You first need to delete all your metadata files. Locate the navigation panel on your left and under File Management select "Metadata Files". Select the files to delete, and click the delete icon at the top.</p>
+                            <br><div style="text-align:center"><img mat-card-image style="align-content: center" src="assets/uploadMetadata-6.png" alt="Upload Metadata"></div>
                             <p><b>This completes the process of submission of a dataset for release through PDC data portal.  If you have any questions about this process, please contact the PDC by email for help (<a href="mailto:nci.pdc.help@esacinc.com" target="_blank">nci.pdc.help@esacinc.com</a>).</b></p>
                         <br></li>
                     </ol>
                 </div>
             </div>
         </div>
-        <div class="col-md-5" class="sticky-nav fixed-class" style="margin-top: 11%">
+        <div class="col-xl-5 col-lg-5 col-md-5 col-sm-5 col-xs-5 submitDataImg sticky-nav fixed-class" style="margin-top: 11%">
             <img id="submitDataArchitectureimg" mat-card-image src="assets/SubmitDataArchitecture.png" alt="PDC Workspace Architecture diagram">
         </div>
     </div>

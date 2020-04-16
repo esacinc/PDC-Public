@@ -196,9 +196,10 @@ WHERE
         AND c.case_id = dia.case_id
 `;
 
+//@@@PDC-1758 count file-study combo
 const file_tab_count = `
 SELECT 
-    COUNT(DISTINCT f.file_id) AS total
+    COUNT(DISTINCT f.file_id, s.study_id) AS total
 FROM
     study s,
     project proj,

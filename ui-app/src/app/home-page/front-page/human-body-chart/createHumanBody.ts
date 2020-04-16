@@ -642,7 +642,7 @@ tooltip.style('opacity', 0);
           if (mouseOverHandler) {
             mouseOverHandler(d);
           } else {
-            var tooltipLabelPostfix = d['_count']>1 ? 'studies': 'study';
+            var tooltipLabelPostfix = d['_count']>1 ? 'cases': 'case';
             tooltip
               .style('opacity', 1)
               .html(`

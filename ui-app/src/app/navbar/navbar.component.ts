@@ -74,6 +74,7 @@ export class NavbarComponent implements OnInit {
   submission_portal_docs_url = environment.submission_portal_docs_url;
   userEmailConfirmed = false;
   homePageURL = "/";
+  userRegisteredToWorkspaceFlag = false;
   //caseUUID = '';
 
   private subscription: Subscription;
@@ -613,6 +614,16 @@ export class NavbarComponent implements OnInit {
 									this.loggedInUser = this.userService.getUserName();
 									// @@PDC 552: this is for getting user information from local storage when page reloads.
 									this.setInformationfromlocalStorage();
+									//@@@PDC-1859: Edit the SUBMIT DATA workspace login link text
+									//Check if user is registered to Workspace
+									var loggedInEmail = this.userService.getEmail();
+									this.chorusService.checkUser(loggedInEmail).subscribe(exists => {
+										if (exists) {
+											this.userRegisteredToWorkspaceFlag = true;
+										} else {
+											this.userRegisteredToWorkspaceFlag = false;
+										}
+									});
 									//@@@PDC-408 - implement session timeout after 30 mins idle
 									this.idle.watch();
 								}

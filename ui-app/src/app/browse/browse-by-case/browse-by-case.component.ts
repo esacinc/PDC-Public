@@ -360,12 +360,16 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
   ngOnInit() {
 	  this.totalRecords = 500; //inital value
 	  //Have to define the following structure for Primeng CSV export to work properly
-	  //@@@PDC-462 show submitter ids
+		//@@@PDC-462 show submitter ids
+		//@@@PDC-1789: Add study_submitter_id and study_id to exported study manifests
 	  this.cols = [
-		{field: 'aliquot_submitter_id', header: 'Aliquot'},
-		{field: 'sample_submitter_id', header: 'Sample'},
-		{field: 'case_submitter_id', header: 'Case'},
-		{field: 'project_name', header: 'Project'},
+		{field: 'aliquot_id', header: 'Aliquot ID'},
+		{field: 'aliquot_submitter_id', header: 'Aliquot Submitter ID'},
+		{field: 'sample_id', header: 'Sample ID'},
+		{field: 'sample_submitter_id', header: 'Sample Submitter ID'},
+		{field: 'case_id', header: 'Case ID'},
+		{field: 'case_submitter_id', header: 'Case Submitter ID'},
+		{field: 'project_name', header: 'Project Name'},
 		{field: 'sample_type', header: 'Sample Type'},
 		{field: 'primary_site', header: 'Primary Site' },
 		{field: 'disease_type', header: 'Disease Type'}

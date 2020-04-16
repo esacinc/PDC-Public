@@ -344,6 +344,19 @@ export const resolvers = {
 			const res = await RedisCacheClient.redisCacheGetAsync(context.dataCacheName);
 			if(res === null){
 				var result =await db.getSequelize().query(context.query, { model: db.getModelByName('ModelUIGene') });
+				let geneNameArray = [];
+				result.forEach(element => geneNameArray.push(element.gene_name));
+				let geneNameFilterValue = geneNameArray.join("','");
+				let geneStudyCountQuery = context.geneStudyCountQuery;
+				geneStudyCountQuery = geneStudyCountQuery+`
+							AND ge.gene_name in ('${geneNameFilterValue}')
+					GROUP BY ge.gene_id
+				`;
+				let geneStudyCount = await db.getSequelize().query(geneStudyCountQuery, { model: db.getModelByName('ModelUIGeneName') });
+				let geneStudyCountMap = new Map();
+				geneStudyCount.forEach(element => geneStudyCountMap.set(element.gene_name, element.num_study));
+
+				result.forEach(element => element.num_study= geneStudyCountMap.get(element.gene_name));
 				RedisCacheClient.redisCacheSetExAsync(context.dataCacheName, JSON.stringify(result));
 				return result;
 			}else{

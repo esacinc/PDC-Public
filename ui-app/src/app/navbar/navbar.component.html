@@ -61,7 +61,15 @@
 			<!-- <a mat-button class="custom-navbar-menu-item" id="submitNavbar" (click)="submitData()">SUBMIT DATA</a> -->
 			<a mat-button class="custom-navbar-menu-item" id="submitDataNavBar" [matMenuTriggerFor]="submitDataBtn">SUBMIT DATA</a>
 			<mat-menu [overlapTrigger]="false" yPosition="below" #submitDataBtn="matMenu">
-				<a mat-button (click)="submitData()" id="submitNavbar">Login to Workspace</a>	
+				<span *ngIf='!userLoggedInFlag'><a mat-button (click)="submitData()" id="submitNavbar">Login to Workspace</a></span>
+				<span *ngIf='userLoggedInFlag'>
+					<span *ngIf='userRegisteredToWorkspaceFlag'>
+						<a mat-button (click)="submitData()" id="submitNavbar">Go to Workspace</a>
+					</span>
+					<span *ngIf='!userRegisteredToWorkspaceFlag'>
+						<a mat-button (click)="submitData()" id="submitNavbar">Register with Workspace</a>
+					</span>
+				</span>
 				<a mat-menu-item  class="custom-menu-item"  id="submitDataMenu" target="_blank"  href='/pdc/submit-data'>How to Submit Data</a>
 			</mat-menu>
 			<!-- <a mat-button class="custom-navbar-menu-item" id="newsNavbar" routerLink='news'>NEWS</a> -->
@@ -72,9 +80,10 @@
 				<a mat-menu-item class="custom-menu-item" href={{apidocumentation_url}} target="_blank" id="APIDocs">API Documentation</a>
 				<a mat-menu-item class="custom-menu-item" id="faq" routerLink='faq'>Frequently Asked Questions</a>
 				<a mat-menu-item class="custom-menu-item" id="faqDataTypes" target="_blank" href='/pdc/faq/Files_Download'>Available Data Types and Files</a>
-				<a mat-menu-item class="custom-menu-item" id="feedbackSubmenu" [matMenuTriggerFor]="feedback">Feedback</a>
 				<a mat-menu-item class="custom-menu-item" id="submitDataSubmenu" href="/pdc/submit-data" target="_blank">How to Submit Data</a>
 				<a mat-menu-item class="custom-menu-item" href="https://list.nih.gov/cgi-bin/wa.exe?SUBED1=PDC-ANNOUNCE-L&A=1" target="_blank">Subscribe to PDC mailing list</a>
+				<a mat-menu-item class="custom-menu-item" id="releaseNotesSubmenu" href="https://drive.google.com/file/d/1k_sPoPuhusZPRDJWkVecWEnyCqvQm8nA/view?ths=true" target="_blank">Release Notes</a>
+				<a mat-menu-item class="custom-menu-item" id="feedbackSubmenu" [matMenuTriggerFor]="feedback">Feedback</a>
 			</mat-menu>
 			
 			<mat-menu [overlapTrigger]="false" yPosition="below" #feedback="matMenu">

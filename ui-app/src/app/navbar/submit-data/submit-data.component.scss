@@ -64,3 +64,23 @@ $header-height: 10.8rem;
   .subDivHeading {
     font-size: 18px;
   }
+
+//@@@PDC-1779: Make the "How to Submit Data" page responsive
+@media only screen and (max-width: 1024px) {
+  .submitDataImg {
+    margin-top: 3% !important;
+  }
+}
+
+@media only screen and (min-width: 1024px) and (max-width: 1185px) {
+  .submitDataImg {
+    margin-top: 13% !important;
+  }
+}
+
+@media only screen and (max-width: 691px) {
+  .submit-page-header {
+    margin-left: 3%;
+    text-align: left !important;
+  }
+}

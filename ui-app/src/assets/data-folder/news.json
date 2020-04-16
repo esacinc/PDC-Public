@@ -1,16 +1,16 @@
-{ 
-"news": [ 
+{
+"news": [
     {
-      "label": "68th American Society for Mass Spectrometry (ASMS) Conference on Mass Spectrometry and Allied Topics, May 31 - June 4, 2020, Houston, Texas, USA",
-      "link": "https://www.asms.org/conferences/annual-conference/annual-conference-homepage"
+      "label": "Human Proteome Organization (HUPO) 2020 World Congress, Stockholm, Sweden on October 18 - 22, 2020",
+      "link": "https://hupo2020.org/"
     },
     {
-      "label": "American Association of Cancer Research (AACR)  Annual meeting, April 24 - 29, 2020, San Diego, California, USA",
+      "label": "\nAmerican Society for Mass Spectrometry (ASMS) 2020 reboot (COVID-19 update), June 1-12, 2020",
+      "link": "https://www.asms.org/conferences/asms-2020-reboot/program-for-asms-2020-reboot"
+    },
+    {
+      "label": "American Association of Cancer Research (AACR) Annual meeting, April 27-28 and June 22-24, 2020",
       "link": "https://www.aacr.org/meeting/aacr-annual-meeting-2020/"
-    },
-    {
-      "label": "HUPO-PSI meeting 2020, March 23 - 26, 2020, San Diego, California, USA",
-      "link": "http://psidev.info/hupo-psi-meeting-2020"
     }
   ]
 }

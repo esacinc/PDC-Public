@@ -103,7 +103,9 @@ constructor(private apollo: Apollo) {
 										sample_type: $sample_type_filter, acquisition_type: $acquisition_type_filter, data_category: $data_category_filter, file_type: $file_type_filter, access: $access_filter, downloadable: $downloadable_filter, biospecimen_status: $biospecimen_status_filter, case_status: $case_status_filter) {
 						total					
 						uiCases{
+							aliquot_id
 							aliquot_submitter_id 
+							sample_id
 							sample_submitter_id
 							case_id
 							case_submitter_id

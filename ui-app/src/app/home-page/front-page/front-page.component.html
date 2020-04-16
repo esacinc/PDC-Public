@@ -8,7 +8,7 @@
             <mat-card-title class="front-page cases-card-header">Cases by Primary Site</mat-card-title>
             <!--<mat-card-title class="front-page card-header">TISSUE SITES</mat-card-title>-->
               <!--<div [chart]="tissuesChart"></div>-->
-			  
+
 			  <!--<div [chart]="casesChart"></div>-->
 			  <!-- PDC-1214 - Replace the sunburst chart with the human body image with drill down -->
 			  <app-human-body-chart></app-human-body-chart>
@@ -37,17 +37,17 @@
 				  <mat-card-header class="bottom-row-card-header">RECENT RELEASES</mat-card-header>
 				  <mat-card-content id="recentReleasesContent">
 					<mat-list >
-						<mat-list-item class="bottom-card-list-item"   id="top-release-item">
+            <mat-list-item class="bottom-card-list-item" id="bottom-release-item">
+              <div class="bottom-card-bullet-item"><div><i class="pi pi-circle-off bottom-card-bullet-icon"></i></div><div>International Cancer Proteogenomic Consortium - Proteogenomics of Gastic Cancer data released, April 2020</div></div>
+            </mat-list-item>
+						<mat-list-item class="bottom-card-list-item" id="bottom-release-item">
 							<div class="bottom-card-bullet-item"><div><i class="pi pi-circle-off bottom-card-bullet-icon"></i></div><div>PDC officially launched on cancer.gov domain, March 2020</div></div>
-						</mat-list-item>							
-						<mat-list-item class="bottom-card-list-item"   id="top-release-item">
-							<div class="bottom-card-bullet-item"><div><i class="pi pi-circle-off bottom-card-bullet-icon"></i></div><div>CPTAC program Glioblastoma (GBM) dataset released, December 2019</div></div>
-						</mat-list-item>						
-						<mat-list-item class="bottom-card-list-item"  id="release-item">
-							<div class="bottom-card-bullet-item"><div><i class="pi pi-circle-off bottom-card-bullet-icon"></i></div><div>International Cancer Proteogenomic Consortium - Proteogenomic Characterization of HBV-Related Hepatocellular Carcinoma data released, December 2019</div></div>
 						</mat-list-item>
-						<mat-list-item class="bottom-card-list-item"  id="release-item">
-							<div class="bottom-card-bullet-item"><div><i class="pi pi-circle-off bottom-card-bullet-icon"></i></div><div>Pediatric Brain Tumor Atlas - CBTTC program Pediatric/AYA brain tumor dataset released, November 2019</div></div>
+						<mat-list-item class="bottom-card-list-item" id="bottom-release-item">
+							<div class="bottom-card-bullet-item"><div><i class="pi pi-circle-off bottom-card-bullet-icon"></i></div><div>CPTAC program Glioblastoma (GBM) dataset released, December 2019</div></div>
+						</mat-list-item>
+						<mat-list-item class="bottom-card-list-item" id="bottom-release-item">
+							<div class="bottom-card-bullet-item"><div><i class="pi pi-circle-off bottom-card-bullet-icon"></i></div><div>International Cancer Proteogenomic Consortium - Proteogenomic Characterization of HBV-Related Hepatocellular Carcinoma data released, December 2019</div></div>
 						</mat-list-item>
 					</mat-list>
 					</mat-card-content>
@@ -63,7 +63,9 @@
 							<div class="bottom-card-bullet-item"><div><i class="pi pi-circle-off bottom-card-bullet-icon"></i></div><div><a target="_" href="{{aNews.link}}">{{aNews.label}}</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_"><img src="./assets/css/image/extLink.png"></a></div></div>
 						</mat-list-item>-->
 						<mat-list-item *ngFor="let aNews of newsItems" id="news-item" class="bottom-card-list-item" style=" padding-top: 10px!important">
-							<div class="bottom-card-bullet-item"><div><i class="pi pi-circle-off bottom-card-bullet-icon"></i></div><div><a target="_" href="{{aNews.link}}">{{aNews.label}}</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">Exit Disclaimer</span></a></div></div>
+							<div class="bottom-card-bullet-item">
+                <div><i class="pi pi-circle-off bottom-card-bullet-icon"></i></div>
+                <div><a target="_" href="{{aNews.link}}">{{aNews.label}}</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">Exit Disclaimer</span></a></div></div>
 						</mat-list-item>
 					</mat-list>
 					</mat-card-content>
@@ -105,7 +107,7 @@
 						</mat-list-item>
 						<mat-list-item class="bottom-card-list-item">
 							<i class="pi pi-circle-off"></i>  &nbsp;&nbsp;&nbsp; <a href = 'https://list.nih.gov/cgi-bin/wa.exe?SUBED1=PDC-ANNOUNCE-L&A=1' target="_blank">Subscribe to PDC mailing list</a>
-						</mat-list-item>						
+						</mat-list-item>
 					</mat-list>
 				  </mat-card-content>
 				</mat-card>

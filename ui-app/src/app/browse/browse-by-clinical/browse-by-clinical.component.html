@@ -51,8 +51,8 @@
 					</label>
 				</th>
 				<!-- @@@PDC-262 link headers to data dictionary -->                
-                <th class="ui-datatable-tableheader" style="width:10%;" [pSortableColumn]="cols[0].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Case" target="_blank" style="color:white">Cases Submitter ID</a><p-sortIcon [field]="cols[0].field" ariaLabel="Sort Case submitter ID in ascending/descending order"></p-sortIcon></th>
-				<th class="ui-datatable-tableheader" style="width:10%" [pSortableColumn]="cols[1].field" pResizableColumn>
+                <th class="ui-datatable-tableheader" style="width:10%;" [pSortableColumn]="cols[1].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Case" target="_blank" style="color:white">Cases Submitter ID</a><p-sortIcon [field]="cols[1].field" ariaLabel="Sort Case submitter ID in ascending/descending order"></p-sortIcon></th>
+				<th class="ui-datatable-tableheader" style="width:10%" [pSortableColumn]="cols[2].field" pResizableColumn>
 					<div class="ui-datatable-tableheader-flex-container">
 						<div>
 							<a href="{{staticUrlBase}}dictionaryitem.html?eName=Case#gdc_case_id" target="_blank" style="color:white">
@@ -60,16 +60,16 @@
 							</a>
 						</div>
 						<div class="ui-datatable-tableheader-flex-sorticon">
-							<p-sortIcon [field]="cols[1].field" ariaLabel="Sort External Case ID in ascending/descending order"></p-sortIcon>
+							<p-sortIcon [field]="cols[2].field" ariaLabel="Sort External Case ID in ascending/descending order"></p-sortIcon>
 						</div>
 					</div>
 				</th>			
-				<th class="ui-datatable-tableheader" style="width:6%" [pSortableColumn]="cols[2].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Demographic#ethnicity" target="_blank" style="color:white">Ethnicity</a><p-sortIcon [field]="cols[2].field" ariaLabel="Sort Ethinicity column in ascending/descending order"></p-sortIcon></th>
-			    <th class="ui-datatable-tableheader" style="width:5%" [pSortableColumn]="cols[3].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Demographic#gender" target="_blank" style="color:white">Gender</a><p-sortIcon [field]="cols[3].field" ariaLabel="Sort Gender column in ascending/descending order"></p-sortIcon></th>
-			    <th class="ui-datatable-tableheader" style="width:5%" [pSortableColumn]="cols[4].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Demographic#race" target="_blank" style="color:white">Race</a><p-sortIcon [field]="cols[4].field" ariaLabel="Sort Race column in ascending/descending order"></p-sortIcon></th>
-			    <th class="ui-datatable-tableheader" style="width:6%" [pSortableColumn]="cols[5].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Diagnosis#morphology" target="_blank" style="color:white">Morphology</a><p-sortIcon [field]="cols[5].field" ariaLabel="Sort Morphology column in ascending/descending order"></p-sortIcon></th>
-				<th class="ui-datatable-tableheader" style="width:10%" [pSortableColumn]="cols[6].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Diagnosis#primary_diagnosis" target="_blank" style="color:white">Primary Diagnosis</a><p-sortIcon [field]="cols[6].field" ariaLabel="Sort Primary Diagnosis column in ascending/descending order"></p-sortIcon></th>
-				<th class="ui-datatable-tableheader" style="width:8%" [pSortableColumn]="cols[7].field" pResizableColumn>
+				<th class="ui-datatable-tableheader" style="width:6%" [pSortableColumn]="cols[3].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Demographic#ethnicity" target="_blank" style="color:white">Ethnicity</a><p-sortIcon [field]="cols[3].field" ariaLabel="Sort Ethinicity column in ascending/descending order"></p-sortIcon></th>
+			    <th class="ui-datatable-tableheader" style="width:5%" [pSortableColumn]="cols[4].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Demographic#gender" target="_blank" style="color:white">Gender</a><p-sortIcon [field]="cols[4].field" ariaLabel="Sort Gender column in ascending/descending order"></p-sortIcon></th>
+			    <th class="ui-datatable-tableheader" style="width:5%" [pSortableColumn]="cols[5].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Demographic#race" target="_blank" style="color:white">Race</a><p-sortIcon [field]="cols[5].field" ariaLabel="Sort Race column in ascending/descending order"></p-sortIcon></th>
+			    <th class="ui-datatable-tableheader" style="width:6%" [pSortableColumn]="cols[6].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Diagnosis#morphology" target="_blank" style="color:white">Morphology</a><p-sortIcon [field]="cols[6].field" ariaLabel="Sort Morphology column in ascending/descending order"></p-sortIcon></th>
+				<th class="ui-datatable-tableheader" style="width:10%" [pSortableColumn]="cols[7].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Diagnosis#primary_diagnosis" target="_blank" style="color:white">Primary Diagnosis</a><p-sortIcon [field]="cols[7].field" ariaLabel="Sort Primary Diagnosis column in ascending/descending order"></p-sortIcon></th>
+				<th class="ui-datatable-tableheader" style="width:8%" [pSortableColumn]="cols[8].field" pResizableColumn>
 					<div class="ui-datatable-tableheader-flex-container">
 						<div>
 							<a href="{{staticUrlBase}}dictionaryitem.html?eName=Diagnosis#site_of_resection_or_biopsy" target="_blank" style="color:white">
@@ -77,11 +77,11 @@
 							</a>
 						</div>
 						<div class="ui-datatable-tableheader-flex-sorticon">
-							<p-sortIcon [field]="cols[7].field" ariaLabel="Sort Site of Resection column in ascending/descending order"></p-sortIcon>
+							<p-sortIcon [field]="cols[8].field" ariaLabel="Sort Site of Resection column in ascending/descending order"></p-sortIcon>
 						</div>
 					</div>
 				</th>
-				<th class="ui-datatable-tableheader" style="width:8%" [pSortableColumn]="cols[8].field" pResizableColumn>
+				<th class="ui-datatable-tableheader" style="width:8%" [pSortableColumn]="cols[9].field" pResizableColumn>
 					<div class="ui-datatable-tableheader-flex-container">
 						<div>
 							<a href="{{staticUrlBase}}dictionaryitem.html?eName=Diagnosis#tissue_or_organ_of_origin" target="_blank" style="color:white">
@@ -89,14 +89,14 @@
 							</a>
 						</div>
 						<div class="ui-datatable-tableheader-flex-sorticon">
-							<p-sortIcon [field]="cols[8].field" ariaLabel="Sort Tissue column in ascending/descending order"></p-sortIcon>
+							<p-sortIcon [field]="cols[9].field" ariaLabel="Sort Tissue column in ascending/descending order"></p-sortIcon>
 						</div>
 					</div>
 				</th>
-				<th class="ui-datatable-tableheader" style="width:6%" [pSortableColumn]="cols[9].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Diagnosis#tumor_grade" target="_blank" style="color:white">Tumor Grade</a><p-sortIcon [field]="cols[9].field" ariaLabel="Sort Tumor Grade column in ascending/descending order"></p-sortIcon></th>
-				<th class="ui-datatable-tableheader" style="width:6%" [pSortableColumn]="cols[10].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Diagnosis#tumor_stage" target="_blank" style="color:white">Tumor Stage</a><p-sortIcon [field]="cols[10].field" ariaLabel="Sort Tumor Stage column in ascending/descending order"></p-sortIcon></th>
+				<th class="ui-datatable-tableheader" style="width:6%" [pSortableColumn]="cols[10].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Diagnosis#tumor_grade" target="_blank" style="color:white">Tumor Grade</a><p-sortIcon [field]="cols[10].field" ariaLabel="Sort Tumor Grade column in ascending/descending order"></p-sortIcon></th>
+				<th class="ui-datatable-tableheader" style="width:6%" [pSortableColumn]="cols[11].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Diagnosis#tumor_stage" target="_blank" style="color:white">Tumor Stage</a><p-sortIcon [field]="cols[11].field" ariaLabel="Sort Tumor Stage column in ascending/descending order"></p-sortIcon></th>
 				<!-- @@@PDC-1305 add age_at_diagnosis et al -->				
-				<th class="ui-datatable-tableheader" style="width:6%" [pSortableColumn]="cols[11].field" pResizableColumn>
+				<th class="ui-datatable-tableheader" style="width:6%" [pSortableColumn]="cols[12].field" pResizableColumn>
 					<div class="ui-datatable-tableheader-flex-container">
 						<div>
 							<a href="{{staticUrlBase}}dictionaryitem.html?eName=Diagnosis#age_at_diagnosis" target="_blank" style="color:white">
@@ -104,11 +104,11 @@
 							</a>
 						</div>
 						<div class="ui-datatable-tableheader-flex-sorticon">
-							<p-sortIcon [field]="cols[11].field" ariaLabel="Sort Age at Diagnosis column in ascending/descending order"></p-sortIcon>
+							<p-sortIcon [field]="cols[12].field" ariaLabel="Sort Age at Diagnosis column in ascending/descending order"></p-sortIcon>
 						</div>
 					</div>
 				</th>
-				<th class="ui-datatable-tableheader" style="width:8%" [pSortableColumn]="cols[12].field" pResizableColumn>
+				<th class="ui-datatable-tableheader" style="width:8%" [pSortableColumn]="cols[13].field" pResizableColumn>
 					<div class="ui-datatable-tableheader-flex-container">
 						<div>
 							<a href="{{staticUrlBase}}dictionaryitem.html?eName=Diagnosis#classification_of_tumor" target="_blank" style="color:white">
@@ -116,11 +116,11 @@
 							</a>
 						</div>
 						<div class="ui-datatable-tableheader-flex-sorticon">
-							<p-sortIcon [field]="cols[12].field" ariaLabel="Sort Classification of Tumor column in ascending/descending order"></p-sortIcon>
+							<p-sortIcon [field]="cols[13].field" ariaLabel="Sort Classification of Tumor column in ascending/descending order"></p-sortIcon>
 						</div>
 					</div>
 				</th>
-				<th class="ui-datatable-tableheader" style="width:6%" [pSortableColumn]="cols[13].field" pResizableColumn>
+				<th class="ui-datatable-tableheader" style="width:6%" [pSortableColumn]="cols[14].field" pResizableColumn>
 					<div class="ui-datatable-tableheader-flex-container">
 						<div>
 							<a href="{{staticUrlBase}}dictionaryitem.html?eName=Diagnosis#days_to_recurrence" target="_blank" style="color:white">
@@ -128,7 +128,7 @@
 							</a>
 						</div>
 						<div class="ui-datatable-tableheader-flex-sorticon">
-							<p-sortIcon [field]="cols[13].field" ariaLabel="Sort Days to Recurrence column in ascending/descending order"></p-sortIcon>
+							<p-sortIcon [field]="cols[14].field" ariaLabel="Sort Days to Recurrence column in ascending/descending order"></p-sortIcon>
 						</div>
 					</div>
 				</th>

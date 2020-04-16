@@ -41,6 +41,7 @@ import { ngxCsv } from "ngx-csv/ngx-csv";
 //@@@PDC-1063: Implement select all, select page, select none for all tabs
 //@@@PDC-1252: Add data category as a filter for the "file counts" section of the Study table
 //@@@PDC-1609: URL structure for permanent links to PDC 
+//@@@PDC-1851: Quality Metrics with TSV file format are not considered in files count
 export class BrowseByStudyComponent implements OnInit, OnChanges {
 
   filteredStudiesData: AllStudiesData[]; //Filtered list of Studies
@@ -166,6 +167,7 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 	}
 
   //@@@PDC-764: Update UI as per the changes in PDC-763
+  //@@@PDC-1851: Quality Metrics with TSV file format are not considered in files count
   //This function is used to set file counts.
   setFileCountsForDisplay(studyData=[]) {
 	if (studyData && studyData.length == 0) {
@@ -176,6 +178,7 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 			var typesOfProtocol = 0;
 			this.fileTypes = studyData[i].filesCount;
 			if (this.fileTypes) {
+				var typesOfQualityMetrics = 0;
 				for (let j = 0; j < this.fileTypes.length; j++) {
 					var currentFileType = this.fileTypes[j].file_type;
 					var currentDataCategory = this.fileTypes[j].data_category;
@@ -208,7 +211,13 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 							studyData[i]['protein_databases_count'] = currentFileCount;
 							break;
 						case 'Quality Metrics' : 
-							studyData[i]['quality_metrics_count'] = currentFileCount;
+							//There can be more than one file type for quality metrics: txt, csv, html
+							if (typesOfQualityMetrics > 0){
+								studyData[i]['quality_metrics_count'] += currentFileCount;
+							} else {
+								studyData[i]['quality_metrics_count'] = currentFileCount;
+							}
+							typesOfQualityMetrics++;
 							break;
 					}
 				} 
@@ -468,10 +477,13 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 		}
 	  });
 	  //Have to define this structure for Primeng CSV export to work properly (https://github.com/primefaces/primeng/issues/5114)
-	  this.cols = [
-		{field: 'submitter_id_name', header:'Study' },
-		{field: 'project_name', header: 'Project'},
-		{field: 'program_name', header: 'Program'},
+		//@@@PDC-1789: Add study_submitter_id and study_id to exported study manifests
+		this.cols = [
+		{field: 'study_id', header: 'Study ID'},
+		{field: 'study_submitter_id', header: 'Study Submitter ID'},
+		{field: 'submitter_id_name', header:'Study Name' },
+		{field: 'project_name', header: 'Project Name'},
+		{field: 'program_name', header: 'Program Name'},
 		{field: 'disease_type', header: 'Disease Type'},
 		{field: 'primary_site', header: 'Primary Site'},
 		{field: 'analytical_fraction', header: 'Analytical Fraction'},

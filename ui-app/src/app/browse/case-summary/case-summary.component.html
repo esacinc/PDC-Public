@@ -52,7 +52,11 @@
 				<table style="max-height:200px;overflow-y: auto;display: block!important;font-size: 12px; width: 100%; padding-top: 10px" id="caseSummaryDiagnosis">
 					<div *ngFor="let diagnosis of diagnoses">
 						<tr style="padding-top: 10px"><td class="summary-card-name-left-cell">Age at Diagnosis</td>
-							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.age_at_diagnosis)">{{diagnosis.age_at_diagnosis}} {{diagnosis.age_at_diagnosis > 1 ? 'days' : 'day'}}</td>
+							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.age_at_diagnosis)"><ng-container [ngSwitch]="true">
+																																<div *ngSwitchCase="diagnosis.age_at_diagnosis == 1">{{diagnosis.age_at_diagnosis}} day</div>
+																																<div *ngSwitchCase="diagnosis.age_at_diagnosis > 1">{{diagnosis.age_at_diagnosis}} days</div>
+																																<div *ngSwitchDefault>{{diagnosis.age_at_diagnosis}}</div>
+																															</ng-container></td>
 							<td class="summary-card-name-right-cell">Morphology</td>
 							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.morphology)">{{diagnosis.morphology}}</td>
 						</tr>
@@ -210,7 +214,11 @@
 					<div *ngFor="let diagnosis of diagnoses">
 						<tr style="padding-top: 10px">
 							<td class="summary-card-name-left-cell">Age at Diagnosis</td>
-							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.age_at_diagnosis)">{{diagnosis.age_at_diagnosis}} {{diagnosis.age_at_diagnosis > 1 ? 'days' : 'day'}}</td>
+							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.age_at_diagnosis)"><ng-container [ngSwitch]="true">
+																																<div *ngSwitchCase="diagnosis.age_at_diagnosis == 1">{{diagnosis.age_at_diagnosis}} day</div>
+																																<div *ngSwitchCase="diagnosis.age_at_diagnosis > 1">{{diagnosis.age_at_diagnosis}} days</div>
+																																<div *ngSwitchDefault>{{diagnosis.age_at_diagnosis}}</div>
+																															</ng-container></td>
 							<td class="summary-card-name-right-cell">Morphology</td>
 							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.morphology)">{{diagnosis.morphology}}</td>
 						</tr>

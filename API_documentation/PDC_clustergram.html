@@ -13101,7 +13101,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">requests</span>
@@ -13128,7 +13128,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">study_submitter_id</span> <span class="o">=</span> <span class="s1">&#39;CPTAC GBM Discovery Study - Proteome&#39;</span>
@@ -13150,7 +13150,7 @@ A table of data_types is available <a href="https://pdc-dev.esacinc.com/data-dic
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">data_type</span> <span class="o">=</span> <span class="s1">&#39;unshared_log2_ratio&#39;</span>  <span class="c1"># Retrieves CDAP iTRAQ or TMT data</span>
@@ -13171,7 +13171,7 @@ A table of data_types is available <a href="https://pdc-dev.esacinc.com/data-dic
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">exp_data_query</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
@@ -13197,7 +13197,7 @@ A table of data_types is available <a href="https://pdc-dev.esacinc.com/data-dic
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">metadata_query</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
@@ -13228,12 +13228,12 @@ A table of data_types is available <a href="https://pdc-dev.esacinc.com/data-dic
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">query_pdc</span><span class="p">(</span><span class="n">query</span><span class="p">):</span>
     <span class="c1"># PDC API url</span>
-    <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;https://pdc.esacinc.com/graphql&#39;</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;https://pdc.cancer.gov/graphql&#39;</span>
     
     <span class="c1"># Send the POST graphql query</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Sending query.&#39;</span><span class="p">)</span>
@@ -13263,7 +13263,7 @@ A table of data_types is available <a href="https://pdc-dev.esacinc.com/data-dic
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">decoded</span> <span class="o">=</span> <span class="n">query_pdc</span><span class="p">(</span><span class="n">exp_data_query</span><span class="p">)</span>
@@ -13304,7 +13304,7 @@ A table of data_types is available <a href="https://pdc-dev.esacinc.com/data-dic
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">matrix</span> <span class="o">=</span> <span class="n">decoded</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="s1">&#39;quantDataMatrix&#39;</span><span class="p">]</span>
@@ -13317,7 +13317,7 @@ A table of data_types is available <a href="https://pdc-dev.esacinc.com/data-dic
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="prompt input_prompt">In&nbsp;[22]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Aliquots are first row, gene names are first column</span>
@@ -13351,7 +13351,7 @@ A table of data_types is available <a href="https://pdc-dev.esacinc.com/data-dic
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>This tells us that the matrix contains data for 9,591 genes across 207 samples.</p>
+<p>The first number is the number of genes and the second number is the number of samples (i.e., aliquots) in the returned data set.</p>
 <p>Since the expression values are returned as strings, we need to convert those to floats and deal with missing data.</p>
 
 </div>
@@ -13359,7 +13359,7 @@ A table of data_types is available <a href="https://pdc-dev.esacinc.com/data-dic
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="prompt input_prompt">In&nbsp;[23]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">ga</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
@@ -13381,7 +13381,7 @@ A table of data_types is available <a href="https://pdc-dev.esacinc.com/data-dic
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="prompt input_prompt">In&nbsp;[24]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">mask_na</span> <span class="o">=</span> <span class="mf">0.000666</span>
@@ -13403,7 +13403,7 @@ A table of data_types is available <a href="https://pdc-dev.esacinc.com/data-dic
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="prompt input_prompt">In&nbsp;[25]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">decoded</span> <span class="o">=</span> <span class="n">query_pdc</span><span class="p">(</span><span class="n">metadata_query</span><span class="p">)</span>
@@ -13434,7 +13434,7 @@ A table of data_types is available <a href="https://pdc-dev.esacinc.com/data-dic
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="prompt input_prompt">In&nbsp;[27]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">matrix</span> <span class="o">=</span> <span class="n">decoded</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="s1">&#39;clinicalMetadata&#39;</span><span class="p">]</span>
@@ -13456,7 +13456,7 @@ A table of data_types is available <a href="https://pdc-dev.esacinc.com/data-dic
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="prompt input_prompt">In&nbsp;[28]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">get_colors</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">color</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">:</span>
@@ -13482,7 +13482,7 @@ A table of data_types is available <a href="https://pdc-dev.esacinc.com/data-dic
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="prompt input_prompt">In&nbsp;[30]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">stage_col_colors</span> <span class="o">=</span> <span class="n">get_colors</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span> <span class="s1">&#39;tumor_stage&#39;</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">)</span>
@@ -13504,7 +13504,7 @@ A table of data_types is available <a href="https://pdc-dev.esacinc.com/data-dic
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="prompt input_prompt">In&nbsp;[31]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">clustermap</span><span class="p">(</span><span class="n">ga</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;euclidean&#39;</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;complete&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;seismic&#39;</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="n">ga</span> <span class="o">==</span> <span class="n">mask_na</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span>
@@ -13550,7 +13550,7 @@ This can help compress the range, accounting for outliers.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="prompt input_prompt">In&nbsp;[32]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">zdf</span> <span class="o">=</span> <span class="n">ga</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">zscore</span><span class="p">,</span> <span class="n">ddof</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">ga</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
@@ -13572,7 +13572,7 @@ This can help compress the range, accounting for outliers.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="prompt input_prompt">In&nbsp;[33]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">clustermap</span><span class="p">(</span><span class="n">zdf</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;euclidean&#39;</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;complete&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;seismic&#39;</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="n">ga</span> <span class="o">==</span> <span class="n">mask_na</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span>

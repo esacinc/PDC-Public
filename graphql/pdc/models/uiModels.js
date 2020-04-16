@@ -281,6 +281,7 @@ const defineUiModels = (db) => {
 	//@@@PDC-1291 Redesign Browse Page data tabs
 	const ModelUIGeneName = db.getSequelize().define('dummy', {
 		gene_name:  { type: Sequelize.STRING},
+		num_study: {type: Sequelize.INTEGER}
 	}, {
 		timestamps: false,
 		underscored: true,

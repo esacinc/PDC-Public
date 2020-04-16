@@ -24,12 +24,13 @@ import { HttpClient } from '@angular/common/http';
 import { HttpErrorResponse } from "@angular/common/http";
 import * as _ from 'lodash';
 import * as fileSaver from 'file-saver';
+import { SizeUnitsPipe } from '../../sizeUnitsPipe.pipe';
 
 @Component({
   selector: "browse-by-file",
   templateUrl: "./browse-by-file.component.html",
   styleUrls: ["../../../assets/css/global.css", "./browse-by-file.component.css"],
-  providers: [BrowseByFileService]
+  providers: [BrowseByFileService, SizeUnitsPipe]
 })
 
 //@@@PDC-169 The user should be able to browse data by File
@@ -63,6 +64,7 @@ export class BrowseByFileComponent implements OnInit {
   totalRecords: number;
   offset: number;
   limit: number;
+  msgs: string = '';
   pageSize: number;
   cols: any[];
   fileTypes = ["MZML", "PSM-MZID", "PSM-TSV", "PROT_ASSEM", "PROTOCOL", "RAW"];
@@ -110,6 +112,7 @@ export class BrowseByFileComponent implements OnInit {
 	private http: HttpClient,
     private browseByFileService: BrowseByFileService,
     private dialog: MatDialog,
+	private sizeUnitsPipe: SizeUnitsPipe,
     private activeRoute: ActivatedRoute,
     private userService: PDCUserService
   ) {
@@ -646,16 +649,16 @@ export class BrowseByFileComponent implements OnInit {
       localStorage.setItem(
         "controlledFileTableExportCsv",
         JSON.stringify(dataForExport, [
-          "submitter_id_name",
-          "study_id",
+          "file_id",
           "file_name",
           "study_run_metadata_submitter_id",
+          "submitter_id_name",
+          "study_id",
           "project_name",
           "data_category",
           "file_type",
           "access",
           "file_size",
-          "file_id",
           "md5sum",
           "downloadable"
         ])
@@ -703,17 +706,19 @@ export class BrowseByFileComponent implements OnInit {
     } else {
       this.displayLoading(iscompleteFileDownload, "file1", true);
       //retrieve open file link 
+      //@@@PDC-1789: Add study_submitter_id and study_id to exported study manifests
       let csvOptions = {
         headers: [
-          "Study",
+          "File ID",
           "File Name",
           "Run Metadata ID",
-          "Project",
+          "Study Name",
+          "Study ID",
+          "Project Name",
           "Data Category",
           "File Type",
           "Access",
           "File Size (in bytes)",
-          "File ID",
           "Md5sum",
           "Downloadable",
           "File Download Link"
@@ -721,15 +726,16 @@ export class BrowseByFileComponent implements OnInit {
       };
 
       let exportFileObject: AllFilesData[] = JSON.parse(JSON.stringify(dataForExport, [
-        "submitter_id_name",
+        "file_id",
         "file_name",
         "study_run_metadata_submitter_id",
+        "submitter_id_name",
+        "study_id",
         "project_name",
         "data_category",
         "file_type",
         "access",
         "file_size",
-        "file_id",
         "md5sum",
         "downloadable"
       ]));
@@ -756,8 +762,44 @@ export class BrowseByFileComponent implements OnInit {
     }
   }
   
-  //@@@PDC-1473 put signed url on clickboard for download manager
-  async setDownloadBatch() {
+  //@@@PDC-1765 add download prompt
+  setDownloadBatch() {
+	let dataForExport =  this.selectedFiles;
+	let totalSize = 0;
+    for (let file of dataForExport) {
+		totalSize += parseInt(file.file_size);
+	}
+	console.log("Total file size to download: "+totalSize);
+	let confirmationMessage = 'You are about to download ' + this.sizeUnitsPipe.transform(totalSize) + ' of data. Do you wish to proceed?';
+	let denyMessage = 'Your download request ('+this.sizeUnitsPipe.transform(totalSize)+') exceeds the limit of 20 GB. Please reduce the volumn and try again.';
+	let nextMsg = 'Continue';
+	if (totalSize <= 21474836480) {
+	    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+          width: "450px",
+          data: { message: confirmationMessage, continueMessage: nextMsg }
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+          if (!result) {
+          } 
+		  else {
+			console.log("Let's download.");
+			this.downloadBatch();
+		  }
+		  });
+	}
+	else {
+        const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+          width: "450px",
+          data: { message: denyMessage, continueMessage: nextMsg }
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+		  });
+	}
+  }
+  
+  async downloadBatch() {
 	let dataForExport =  this.selectedFiles;
 	let urls: string = "";
     for (let file of dataForExport) {
@@ -776,7 +818,7 @@ export class BrowseByFileComponent implements OnInit {
         }
 	}
   }
-  
+
   getS3File(url){
 	return this.http.get(url, {responseType: 'blob'});
   }
@@ -937,7 +979,17 @@ export class BrowseByFileComponent implements OnInit {
         }
       }
       delete exportFile.downloadable;
-      delete exportFile['study_id'];
+      //@@@PDC-1789: Add study_submitter_id and study_id to exported study manifests
+      //Commenting this code as it might be required in the future
+      //delete exportFile['study_id'];
+      let loggedInEmail = sessionStorage.getItem('loginEmail');
+      let loggedInUser = sessionStorage.getItem('loginUser');
+      let controlledFileDownloadInfo = {
+        "fileName":exportFile["file_id"],
+        "userName":loggedInUser,
+        "emailAddress":loggedInEmail
+      };
+      await this.browseByFileService.recordControlledFileDownload(controlledFileDownloadInfo);
     }
 
     if(unauthorizedStudy.size >0){
@@ -955,17 +1007,19 @@ export class BrowseByFileComponent implements OnInit {
         window.open(downloadLink, "_self");
       }
     } else {
+    //@@@PDC-1789: Add study_submitter_id and study_id to exported study manifests
     let csvOptions = {
       headers: [
-        "Study",
+        "File ID",
         "File Name",
         "Run Metadata ID",
-        "Project",
+        "Study Name",
+        "Study ID",
+        "Project Name",
         "Data Category",
         "File Type",
         "Access",
         "File Size (in bytes)",
-        "File ID",
         "Md5sum",
         "Case ID",
         "Case Submitter ID",

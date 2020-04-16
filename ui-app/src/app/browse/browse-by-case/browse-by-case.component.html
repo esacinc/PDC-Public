@@ -51,11 +51,11 @@
 					</label>
 				</th>
 				<!-- @@@PDC-262 link headers to data dictionary -->                
-                <th class="ui-datatable-tableheader" style="width:18%;word-break: break-all;" [pSortableColumn]="cols[0].field"><a href="{{staticUrlBase}}dictionaryitem.html?eName=Aliquot" target="_blank" style="color:white">Aliquot</a><p-sortIcon [field]="cols[0].field" ariaLabel="Sort Aliquot column in ascending/descending order"></p-sortIcon></th>
-			    <th class="ui-datatable-tableheader" style="width:18%" [pSortableColumn]="cols[1].field"><a href="{{staticUrlBase}}dictionaryitem.html?eName=Sample" target="_blank" style="color:white">Sample</a><p-sortIcon [field]="cols[1].field" ariaLabel="Sort Sample column in ascending/descending order"></p-sortIcon></th>
-			    <th class="ui-datatable-tableheader" style="width:18%" [pSortableColumn]="cols[2].field"><a href="{{staticUrlBase}}dictionaryitem.html?eName=Case" target="_blank" style="color:white">Case</a><p-sortIcon [field]="cols[2].field" ariaLabel="Sort Case column in ascending/descending order"></p-sortIcon></th>
-			    <th class="ui-datatable-tableheader" style="width:18%" [pSortableColumn]="cols[3].field"><a href="{{staticUrlBase}}dictionaryitem.html?eName=Project" target="_blank" style="color:white">Project</a><p-sortIcon [field]="cols[3].field" ariaLabel="Sort Project column in ascending/descending order"></p-sortIcon></th>
-				<th class="ui-datatable-tableheader" style="width:10%" [pSortableColumn]="cols[4].field">
+                <th class="ui-datatable-tableheader" style="width:18%;word-break: break-all;" [pSortableColumn]="cols[1].field"><a href="{{staticUrlBase}}dictionaryitem.html?eName=Aliquot" target="_blank" style="color:white">Aliquot</a><p-sortIcon [field]="cols[1].field" ariaLabel="Sort Aliquot column in ascending/descending order"></p-sortIcon></th>
+			    <th class="ui-datatable-tableheader" style="width:18%" [pSortableColumn]="cols[3].field"><a href="{{staticUrlBase}}dictionaryitem.html?eName=Sample" target="_blank" style="color:white">Sample</a><p-sortIcon [field]="cols[3].field" ariaLabel="Sort Sample column in ascending/descending order"></p-sortIcon></th>
+			    <th class="ui-datatable-tableheader" style="width:18%" [pSortableColumn]="cols[5].field"><a href="{{staticUrlBase}}dictionaryitem.html?eName=Case" target="_blank" style="color:white">Case</a><p-sortIcon [field]="cols[5].field" ariaLabel="Sort Case column in ascending/descending order"></p-sortIcon></th>
+			    <th class="ui-datatable-tableheader" style="width:18%" [pSortableColumn]="cols[6].field"><a href="{{staticUrlBase}}dictionaryitem.html?eName=Project" target="_blank" style="color:white">Project</a><p-sortIcon [field]="cols[6].field" ariaLabel="Sort Project column in ascending/descending order"></p-sortIcon></th>
+				<th class="ui-datatable-tableheader" style="width:10%" [pSortableColumn]="cols[7].field">
 					<div class="ui-datatable-tableheader-flex-container">
 						<div>
 							<a href="{{staticUrlBase}}dictionaryitem.html?eName=Sample#sample_type" target="_blank" style="color:white">
@@ -63,11 +63,11 @@
 							</a>
 						</div>
 						<div>
-							<p-sortIcon [field]="cols[4].field" ariaLabel="Sort Sample Type column in ascending/descending order"></p-sortIcon>
+							<p-sortIcon [field]="cols[7].field" ariaLabel="Sort Sample Type column in ascending/descending order"></p-sortIcon>
 						</div>
 					</div>
 				</th>
-				<th class="ui-datatable-tableheader" style="width:10%; white-space: pre; word-break: break-all;" [pSortableColumn]="cols[5].field">
+				<th class="ui-datatable-tableheader" style="width:10%; white-space: pre; word-break: break-all;" [pSortableColumn]="cols[8].field">
 					<div class="ui-datatable-tableheader-flex-container">
 						<div>
 							<a href="{{staticUrlBase}}dictionaryitem.html?eName=Case#primary_site" target="_blank" style="color:white">
@@ -75,11 +75,11 @@
 							</a>
 						</div>
 						<div>
-							<p-sortIcon [field]="cols[5].field" ariaLabel="Sort Primary Site column in ascending/descending order"></p-sortIcon>
+							<p-sortIcon [field]="cols[8].field" ariaLabel="Sort Primary Site column in ascending/descending order"></p-sortIcon>
 						</div>
 					</div>
 				</th>
-				<th class="ui-datatable-tableheader" style="width:12%" [pSortableColumn]="cols[6].field">
+				<th class="ui-datatable-tableheader" style="width:12%" [pSortableColumn]="cols[9].field">
 					<div class="ui-datatable-tableheader-flex-container">
 						<div>
 							<a href="{{staticUrlBase}}dictionaryitem.html?eName=Case#disease_type" target="_blank" style="color:white">
@@ -87,7 +87,7 @@
 							</a>
 						</div>
 						<div>
-							<p-sortIcon [field]="cols[6].field" ariaLabel="Sort Disease Type column in ascending/descending order"></p-sortIcon>
+							<p-sortIcon [field]="cols[9].field" ariaLabel="Sort Disease Type column in ascending/descending order"></p-sortIcon>
 						</div>
 					</div>
 				</th>

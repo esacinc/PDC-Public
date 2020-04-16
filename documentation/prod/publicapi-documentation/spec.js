@@ -1203,59 +1203,74 @@ var spec = {
                    }
                  }
                },
-               '?query={ quantDataMatrix(study_submitter_id: "{study_submitter_id}" data_type: "{data_type}" attempt: {attempt} numOfAliquot: {numOfAliquot} numOfGene: {numOfGene}) }': {
-                 "get": {
-                           "tags": ["General"],
-                   "summary": "Returns quant data matrix",
-                   "description": "Returns quant data matrix for a study submitter ID.<br/>This API is asynchronous and requires multiple API requests to get the expected matrix. Please refer to this <b><u><a href='https://wiki.esacinc.com/display/PDC/How+to+use+Asynchronous+API%3A+quantDataMatrix' target='_blank'>wiki link</a></u></b> for tips on using this API. <br> For users who cannot access the wiki page, please follow the below instructions:<ul><li>The first call to the API should have the parameter <strong>attempt</strong> set to 0, i.e; <strong>attempt = 0</strong>.</li><li>After a few seconds, access the API again by incrementing the <strong>attempt</strong> number until the requested data matrix gets returned i.e; attempt = 1, attempt = 2 and so on.</li></ul><br>Each API request returns intermittent results which can be used to generate the complete data matrix. The API takes a long time to execute because of the huge volume of data.<br/><b>Fields:<ul><li>study_submitter_id:</b> Study Submitter ID, example: S046-1</li><li><b>date_type: </b>Data type, example: log2_ratio</li><li><b>attempt: </b>Number of attempt, example 0,1,2 in order</li><li><b>numOfAliquot: </b>Number of aliquots</li><li><b>numOfGene: </b>Number of genes</li></ul>",
-                   "operationId": "quantDataMatrix",
-                   "produces": [
-                     "application/json"
-                   ],
-                   "parameters": [{
-                           "name": "study_submitter_id",
-                           "in": "path",
-                           "description": "Study Submitter ID, example : S044-1",
-                           "required": true,
-                           "type": "string"
-                     }, {
-                           "name": "data_type",
-                           "in": "path",
-                           "description": "Data type, example: log2_ratio",
-                           "required": true,
-                           "type": "string"
-                     }, {
-                           "name": "attempt",
-                           "in": "path",
-                           "description": "Number of attempt, example : Increase the attempt each time to get the full matrix. 0, 1, 2, 3 etc",
-                           "required": true,
-                           "type": "integer"
-                     }, {
-                           "name": "numOfAliquot",
-                           "in": "path",
-                           "description": "Number of Aliquots, example: 2 (limit it to a lower number)",
-                           "required": true,
-                           "type": "integer"
-                     },
-                     {
-                        "name": "numOfGene",
-                        "in": "path",
-                        "description": "Number of Genes, example: 15 (limit it to a lower number)",
-                        "required": true,
-                        "type": "integer"
-                     }
-                   ],
-                   //"x-explorer-enabled": false,
-                   "responses": {
-                     "200": {
-                       "description": "successful operation",
-                       "schema": {
-                         "$ref": "#/definitions/quantDataMatrix"
+               '?query={ quantDataMatrix(study_submitter_id: "{study_submitter_id}" data_type: "{data_type}") }': {
+                  "get": {
+                            "tags": ["General"],
+                    "summary": "Returns quant data matrix for a Study Submitter ID",
+                    "description": "Returns quant data matrix for a Study Submitter ID.<br/>The API takes a long time to execute because of the huge volume of data.<br/><b>Fields:<ul><li>study_submitter_id:</b> Study Submitter ID, example: S046-1</li><li><b>date_type: </b>Data type, example: log2_ratio</li></ul>",
+                    "operationId": "quantDataMatrix",
+                    "produces": [
+                      "application/json"
+                    ],
+                    "parameters": [{
+                            "name": "study_submitter_id",
+                            "in": "path",
+                            "description": "Study Submitter ID, example : S044-1",
+                            "required": true,
+                            "type": "string"
+                      }, {
+                            "name": "data_type",
+                            "in": "path",
+                            "description": "Data type, example: log2_ratio",
+                            "required": true,
+                            "type": "string"
+                      }
+                    ],
+                    //"x-explorer-enabled": false,
+                    "responses": {
+                      "200": {
+                        "description": "successful operation",
+                        "schema": {
+                          "$ref": "#/definitions/quantDataMatrix"
+                        }
+                      }
+                    }
+                   }
+                  },
+                  '?query={ quantDataMatrix(study_id: "{study_id}"  data_type: "{data_type}") }': {
+                   "get": {
+                             "tags": ["General"],
+                     "summary": "Returns quant data matrix for Study ID",
+                     "description": "Returns quant data matrix for a Study ID.<br/>The API takes a long time to execute because of the huge volume of data.<br/><b>Fields:<ul><li>study_id:</b> Study ID, example: dbe94609-1fb3-11e9-b7f8-0a80fada099c</li><li><b>date_type: </b>Data type, example: log2_ratio</li></ul>",
+                     "operationId": "quantDataMatrix",
+                     "produces": [
+                       "application/json"
+                     ],
+                     "parameters": [{
+                          "name": "study_id",
+                          "in": "path",
+                          "description": "Study ID, example : dbe94609-1fb3-11e9-b7f8-0a80fada099c",
+                          "required": true,
+                          "type": "string"
+                       }, {
+                             "name": "data_type",
+                             "in": "path",
+                             "description": "Data type, example: log2_ratio",
+                             "required": true,
+                             "type": "string"
+                       }
+                     ],
+                     //"x-explorer-enabled": false,
+                     "responses": {
+                       "200": {
+                         "description": "successful operation",
+                         "schema": {
+                           "$ref": "#/definitions/quantDataMatrix"
+                         }
                        }
                      }
-                   }
-                 }
-               },
+                   }             
+                },
    },
    "definitions": {
          "Gene":{

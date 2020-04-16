@@ -37,6 +37,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowseModule} from './browse/browse.module';
 import { GenePageModule } from './gene-page/gene-page.module';
+import { SizeUnitsPipe } from './sizeUnitsPipe.pipe';
 import { GeneProteinSummaryComponent } from './gene-protein-summary/gene-protein-summary.component';
 import { HomePageModule } from './home-page/home-page.module';
 import { FrontPageService } from './home-page/front-page.service';
@@ -98,6 +99,7 @@ export function getAuthServiceConfigs() {
 	StudySummaryComponent,
 	OverlayWindowComponent,
 	ConfirmationDialogComponent,
+	SizeUnitsPipe,
 	MessageDialogComponent,
 	StudySummaryOverlayWindowComponent,
 	PrivacyPolicyOverlayWindowComponent,

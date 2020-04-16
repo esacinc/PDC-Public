@@ -1347,7 +1347,6 @@ export const resolvers = {
 				SELECT distinct
 					ge.gene_name,
 					ge.gene_id,
-					COUNT(DISTINCT sc.study_id) AS num_study,
 					chromosome,
 					locus,
 					proteins
@@ -1360,7 +1359,19 @@ export const resolvers = {
 						AND ge.gene_id = sc.gene_id
 						${studyQueryCondition}
 			`;
-			
+
+			let geneStudyCountQuery = `
+				SELECT ge.gene_name, COUNT(distinct sc.study_id) AS num_study
+				FROM
+					pdc.gene AS ge,
+					pdc.spectral_count AS sc,
+					pdc.study AS s
+				WHERE
+					s.study_id = sc.study_id
+						AND ge.gene_id = sc.gene_id
+						${studyQueryCondition}
+			`;
+
 			//proteins
 			let geneNameSub;
 			if (typeof args.gene_name != 'undefined' && args.gene_name.length > 0) {
@@ -1390,6 +1401,7 @@ export const resolvers = {
 			}
 			var uiCaseLimitQuery = " LIMIT " + myOffset + ", " + myLimit;
 			context['query'] = geneDataQuery + uiGroupbyQuery + uiSortQuery + uiCaseLimitQuery;
+			context['geneStudyCountQuery'] = geneStudyCountQuery;
 			context['dataCacheName'] = CacheName.getBrowsePagePaginatedDataTabCacheKey('GeneData')+cacheFilterName['dataFilterName'];
 			if (typeof geneNameSub != 'undefined' && geneNameSub.length > 0){
 				return [{ total: geneNameSub.length }];

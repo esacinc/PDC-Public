@@ -427,8 +427,10 @@ isDownloadDisabled(){
   ngOnInit() {
 	  //Have to define this structure for Primeng CSV export to work properly
 	  //@@@PDC-462 show submitter id
-	  //@@@PDC-1305 add age_at_diagnosis et al	  
+	  //@@@PDC-1305 add age_at_diagnosis et al
+	  //@@@PDC-1789: Add study_submitter_id and study_id to exported study manifests	  
 	  this.cols = [
+		{field: 'case_id', header: 'Case ID'},
 		{field: 'case_submitter_id', header: 'Cases Submitter ID'},
 		{field: 'external_case_id', header: 'External Case ID'},
 		{field: 'ethnicity', header: 'Ethnicity'},
