@@ -1,5 +1,6 @@
 //@@@PDC-652 new protocol structure
 //@@@PDC-1154 column name correction: fractions_analyzed_count
+//@@@PDC-1874 add pdc_study_id to study-related APIs
 const Protocol = `
 type Protocol {
 	protocol_id: String
@@ -7,6 +8,7 @@ type Protocol {
 	project_submitter_id: String
 	study_id: String
 	study_submitter_id: String
+	pdc_study_id: String
 	program_id: String
 	program_submitter_id: String
 	protocol_name: String

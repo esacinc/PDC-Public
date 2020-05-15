@@ -1,12 +1,15 @@
 //@@@PDC-474 programs-projects-studies API
 //@@@PDC-191 experimental metadata API
 //@@@PDC-898 new public APIs--study
+//@@@PDC-1874 add pdc_study_id to study-related APIs
 const Study = `
 type Study {
   study_id: String
   study_submitter_id: String
+  pdc_study_id: String
   submitter_id_name: String
   study_name: String
+  study_shortname: String
   program_name: String
   project_name: String
   program_id: String

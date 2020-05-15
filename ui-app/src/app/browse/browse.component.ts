@@ -535,7 +535,7 @@ getCasesByExperimentalStrategy(){
 			//if the value sent from this file is the same
 			//Adding a random number to the variable changes the value each time its sent to another component.
 			let randomNum = this.randomNumber(1, 10);
-			this.filtersChangedInBreadcrumbBar = this.filtersChangedInBreadcrumbBar + "-" + randomNum;
+			this.filtersChangedInBreadcrumbBar = this.filtersChangedInBreadcrumbBar + "~" + randomNum;
 		} else if (filterToBeDeleted.length > 0) {
 			for (var i=0; i < filterToBeDeleted.length; i++) {
 				// Delete the required filter from breadcrumbs
@@ -566,7 +566,7 @@ getCasesByExperimentalStrategy(){
 	    //if the value sent from this file is the same
 		//Adding a random number to the variable changes the value each time its sent to another component.
 		let randomNum = this.randomNumber(1, 10);
-		this.filtersChangedInBreadcrumbBar = this.filtersChangedInBreadcrumbBar + "-" + randomNum;
+		this.filtersChangedInBreadcrumbBar = this.filtersChangedInBreadcrumbBar + "~" + randomNum;
 	}
 
 	//@@@PDC-277: Add a filter crumb bar at the top that explains the filter criteria selected

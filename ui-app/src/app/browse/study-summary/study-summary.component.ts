@@ -10,7 +10,7 @@ import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import {MAT_DIALOG_DATA, MatDialogRef, MatDialogConfig, MatDialog} from '@angular/material';
 import { StudySummaryService } from './study-summary.service';
-import { AllStudiesData, Filter, WorkflowMetadata, ProtocolData, PublicationData, FilesCountsPerStudyData, StudyExperimentalDesign, BiospecimenPerStudy } from '../../types';
+import { AllStudiesData, Filter, WorkflowMetadata, ProtocolData, PublicationData, FilesCountsPerStudyData, StudyExperimentalDesign, BiospecimenPerStudy, EntityReferencePerStudy } from '../../types';
 import { StudySummaryOverlayService } from './study-summary-overlay-window/study-summary-overlay-window.service';
 import { AllClinicalData, AllCasesData } from '../../types';
 import { CheckboxModule } from 'primeng/checkbox';
@@ -50,6 +50,7 @@ enum FileTypes {
 //@@@PDC-1219: Add a new experimental design tab on the study summary page
 //@@@PDC-1355: Use uuid as API search parameter
 //@@@PDC-1609: URL structure for permanent links to PDC 
+//@@@PDC-1876: Allow deep linking to study summary page by PDC ID
 export class StudySummaryComponent implements OnInit {
 
   study_id: string;
@@ -101,6 +102,9 @@ export class StudySummaryComponent implements OnInit {
 	studyExperimentDesignTableHeaderCol = "";
 	static urlBase;
 	studySubmitterId = "";
+	entityReferenceExternalData:EntityReferencePerStudy[] = [];
+	entityReferenceInternalData:EntityReferencePerStudy[] = [];
+	pdcStudyID:string;
 
   constructor(private route: ActivatedRoute, private router: Router, private apollo: Apollo, private http: HttpClient,
 				private studySummaryService: StudySummaryService, private loc:Location,
@@ -111,15 +115,17 @@ export class StudySummaryComponent implements OnInit {
 	//@@@PDC-612 display all data categories
 	this.fileTypesCounts = {RAW: 0, txt_psm: 0, txt: 0, pdf: 0, mzML: 0, doc: 0, mzIdentML: 0}; 
 	this.study_id = studyData.summaryData.study_id;
-	console.log("UUID: "+this.study_id);
 	this.study_submitter_id_name = studyData.summaryData.submitter_id_name;
 	this.studySummaryData = studyData.summaryData;
 	this.studySubmitterId = studyData.summaryData.study_submitter_id;
+	//@@@PDC-1888: Standardize the IDs on the study summary and case summary pages
+	this.pdcStudyID = studyData.summaryData.pdc_study_id;
+	console.log("UUID: "+this.study_id + " PDC ID: " + this.pdcStudyID);
+	this.loc.replaceState("/study/" + this.pdcStudyID);
 	//If I got here via search then most of the fields are empty and I need to query study summary data
 	if (studyData.summaryData.project_name == ""){
 		this.getStudySummaryData();
 	}
-	this.loc.replaceState("/study/" + this.study_id);
 	this.workflowData = {
 		workflow_metadata_submitter_id: '',
 		study_submitter_id: '',
@@ -199,6 +205,8 @@ export class StudySummaryComponent implements OnInit {
 	this.getAllCasesData();
 	//@@@PDC-1219: Add a new experimental design tab on the study summary page
 	this.getStudyExperimentalDesign();
+	//@@@PDC-1883: Add external references to study summary page
+	this.getEntityReferenceExternalData();
 	StudySummaryComponent.urlBase = environment.dictionary_base_url;
 	}
 
@@ -281,6 +289,8 @@ readManifest() {
 	  this.loading = true;
 	  this.studySummaryService.getFilteredStudyData(this.study_submitter_id_name).subscribe((data: any) =>{
 			this.studySummaryData = data.getPaginatedUIStudy.uiStudies[0];
+			console.log(this.studySummaryData);
+			this.study_id = this.studySummaryData.study_id;
 			this.loading = false;
 	   });
   }
@@ -341,6 +351,40 @@ getAllClinicalData(){
 	}, 1000);
 }
 
+//@@@PDC-1883: Add external references to study summary page
+showStudySummary(entity_location) {
+	var entityLocExtracted = entity_location.split("study/");
+	var pdcStudyID = entityLocExtracted[1];
+	//Remove any special characters from the string
+	pdcStudyID = pdcStudyID.replace(/\s+/g, ' ').trim();
+	setTimeout(() => {
+	this.studySummaryService.getFilteredStudyData('', pdcStudyID).subscribe((data: any) =>{
+		var studyData = data.getPaginatedUIStudy.uiStudies[0];
+		if (studyData) {
+			const dialogConfig = new MatDialogConfig();
+			dialogConfig.disableClose = true;
+			dialogConfig.autoFocus = false;
+			dialogConfig.hasBackdrop = true;
+			dialogConfig.width = '80%';
+			dialogConfig.height = '95%';
+			dialogConfig.data = {
+				summaryData: studyData,
+			};
+
+			this.loc.replaceState("/study/" + pdcStudyID);
+			//No need to navigate to the new outlet, since we are already at the right location, only the study id is changing
+			//this.router.navigate([{outlets: {studySummary: ['study-summary', studyData.submitter_id_name]}}], { skipLocationChange: true });
+			const dialogRef = this.dialog.open(StudySummaryComponent, dialogConfig);	
+			dialogRef.afterClosed().subscribe((val:any) => {
+				console.log("Dialog output:", val);
+				//Generate alias URL to hide auxiliary URL details when the previous overlay window was closed and the focus returned to this one
+				this.loc.replaceState("/study/" + this.pdcStudyID);
+			});
+		}
+	 });
+	}, 1000);
+}
+
 //@@@PDC-1160: Add cases and aliquots to the study summary page
 /*API call to get all cases data */
 getAllCasesData() {
@@ -356,6 +400,24 @@ getAllCasesData() {
 					this.loading = false;
 				});
 		}, 1000);
+		});		  
+	}, 1000);
+}
+
+//@@@PDC-1883: Add external references to study summary page
+getEntityReferenceExternalData() {
+	this.loading = true;
+	setTimeout(() => {
+		this.studySummaryService.getEntityReferenceData("study", this.study_id, "external").subscribe((data: any) =>{
+			this.entityReferenceExternalData = data.pdcEntityReference;
+			this.loading = false;
+		});		  
+	}, 1000);
+	setTimeout(() => {
+		this.studySummaryService.getEntityReferenceData("study", this.study_id, "internal").subscribe((internalData: any) =>{
+			this.entityReferenceInternalData = internalData.pdcEntityReference;
+			console.log(this.entityReferenceInternalData);
+			this.loading = false;
 		});		  
 	}, 1000);
 }
@@ -387,7 +449,7 @@ showCaseSummary(case_id: string, module: string){
 	dialogRef.afterClosed().subscribe((val:any) => {
 			console.log("Dialog output:", val);
 			//Generate alias URL to hide auxiliary URL details when the previous overlay window was closed and the focus returned to this one
-			this.loc.replaceState("/study/" + this.study_id);
+			this.loc.replaceState("/study/" + this.pdcStudyID);
 	});
 }
 

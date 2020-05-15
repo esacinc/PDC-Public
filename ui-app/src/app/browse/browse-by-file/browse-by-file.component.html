@@ -32,17 +32,17 @@
 							</mat-menu>
 							<div id="selectedFilesDataCount" *ngIf="!isDownloadDisabled()" style="float:left;padding-top:5px;">Files data selected for download: {{selectedFiles.length}}</div>
 						</div>
-						<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+						<!--<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
 						<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 manifestDownload">
 							<button matTooltip="Please use CPTAC Data Portal for downloading the files" id="downloadFileManifest" mat-raised-button mat-primary label="Download Selection" (click)="fileTableExportCSV()" [disabled]="isDownloadDisabled()" style="font-family:'Lato';" aria-label="Download File Manifest">Export File Manifest</button>
-						</div>
-						<!--<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
+						</div>-->
+						<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
 						<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 manifestDownload">
 							<button matTooltip="Please use CPTAC Data Portal for downloading the files" id="downloadFileManifest" mat-raised-button mat-primary label="Download Selection" (click)="fileTableExportCSV()" [disabled]="isDownloadDisabled()" style="font-family:'Lato';" aria-label="Download File Manifest">Export File Manifest</button>
 						</div>						
 						<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 manifestDownload">
 							<button matTooltip="Please use local download manager to download the files" id="downloadFiles" mat-raised-button mat-primary label="Download Files" (click)="setDownloadBatch()" [disabled]="isDownloadDisabled()" style="font-family:'Lato';" aria-label="Download Files">Download Files</button>
-						</div>-->
+						</div>
 					</div>
 					<!-- PDC-1702: Add a button/help link to FAQ page multiple download section from Browse page-->
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align: right; padding-right: 0px;">

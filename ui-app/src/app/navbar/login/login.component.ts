@@ -23,6 +23,7 @@ import { MessageDialogComponent } from "./../../dialog/message-dialog/message-di
 //@@@PDC-928 - implement remember me and forgot password
 //@@@PDC-1406: review and update messages that user can get during registration/login/account update 
 //@@@PDC-1487: resolve issues found with user registration/login
+//@@@PDC-1855: Change dialog message for new users trying to register.
 
 export class LoginComponent implements OnInit {
   username = "";
@@ -135,7 +136,7 @@ export class LoginComponent implements OnInit {
             this.userService.setEmail(userData.email);
             this.userService.setName(userData.name);
             //this.router.navigate(["registration"]);
-            this.dialogRef.close("user register with email");
+            this.dialogRef.close("new user register");
             break;
           //system error
           case 2:
@@ -280,7 +281,7 @@ export class LoginComponent implements OnInit {
 	  this.userService.setEmail("");
 	  //console.log(this.dialogRef); 
 	  //this.router.navigate(["registration"]);
-	  this.dialogRef.close("user register with email");
+	  this.dialogRef.close("new user register");
   }
 
   // Sign the user out of Google

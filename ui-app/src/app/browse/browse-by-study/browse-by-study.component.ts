@@ -42,6 +42,7 @@ import { ngxCsv } from "ngx-csv/ngx-csv";
 //@@@PDC-1252: Add data category as a filter for the "file counts" section of the Study table
 //@@@PDC-1609: URL structure for permanent links to PDC 
 //@@@PDC-1851: Quality Metrics with TSV file format are not considered in files count
+//@@@PDC-1902: Peptide Spectral Matches with Text file format are not considered in files count 
 export class BrowseByStudyComponent implements OnInit, OnChanges {
 
   filteredStudiesData: AllStudiesData[]; //Filtered list of Studies
@@ -168,6 +169,7 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 
   //@@@PDC-764: Update UI as per the changes in PDC-763
   //@@@PDC-1851: Quality Metrics with TSV file format are not considered in files count
+  //@@@PDC-1902: Peptide Spectral Matches with Text file format are not considered in files count 
   //This function is used to set file counts.
   setFileCountsForDisplay(studyData=[]) {
 	if (studyData && studyData.length == 0) {
@@ -179,6 +181,7 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 			this.fileTypes = studyData[i].filesCount;
 			if (this.fileTypes) {
 				var typesOfQualityMetrics = 0;
+				var typesOfPSM = 0;
 				for (let j = 0; j < this.fileTypes.length; j++) {
 					var currentFileType = this.fileTypes[j].file_type;
 					var currentDataCategory = this.fileTypes[j].data_category;
@@ -200,8 +203,13 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 							}
 							break;
 						case 'Peptide Spectral Matches' : 
-							if (currentFileType == 'Open Standard') {
-								studyData[i]['psm_count'] = currentFileCount;
+							if (currentFileType == 'Open Standard' || currentFileType == 'Text') {
+								if (typesOfPSM == 0 ) {
+									studyData[i]['psm_count'] = currentFileCount;
+								} else {
+									studyData[i]['psm_count'] += currentFileCount;
+								}
+								typesOfPSM++;
 							}
 							break;
 						case 'Protein Assembly' : 
@@ -479,6 +487,8 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 	  //Have to define this structure for Primeng CSV export to work properly (https://github.com/primefaces/primeng/issues/5114)
 		//@@@PDC-1789: Add study_submitter_id and study_id to exported study manifests
 		this.cols = [
+		//@@@PDC-1930: Add the new PDC id on the study tab table and in all the manifests
+		{field: 'pdc_study_id', header: 'PDC Study ID'},
 		{field: 'study_id', header: 'Study ID'},
 		{field: 'study_submitter_id', header: 'Study Submitter ID'},
 		{field: 'submitter_id_name', header:'Study Name' },
@@ -493,7 +503,7 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 		{field: 'metadata_count', header: 'METADATA'},
 		{field: 'psm_count', header: 'PSM'},
 		{field: 'protein_assembly_count', header: 'PROT_ASSEM'},
-		{field: 'protein_databases_count', header: 'Protein Databases'},
+		//{field: 'protein_databases_count', header: 'Protein Databases'},
 		{field: 'quality_metrics_count', header: 'Quality Metrics'},
 		{field: 'cases_count', header: 'Cases #'}		
 		];

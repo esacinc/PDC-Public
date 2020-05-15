@@ -11,6 +11,7 @@ import { logger } from '../util/logger';
 const Op = Sequelize.Op;
 //@@@PDC-952 remove hard-coded schema name
 //@@@PDC-1340 remove authorization code
+//@@@PDC-1874 add pdc_study_id to all study-related APIs 
 export const resolvers = {
 	//Definition of the type of Date
 	Date: new GraphQLScalarType({
@@ -63,7 +64,7 @@ export const resolvers = {
 			var comboQuery = "";
 			if (context.noFilter != null) {
 				comboQuery = "SELECT distinct bin_to_uuid(s.study_id) as study_id, s.study_submitter_id, s.submitter_id_name, "+
-				" s.analytical_fraction, s.experiment_type, s.acquisition_type "+
+				" s.analytical_fraction, s.experiment_type, s.acquisition_type, s.pdc_study_id"+
 				" FROM study s "+
 				" WHERE s.project_id = uuid_to_bin('"+
 				obj.project_id +
@@ -71,7 +72,7 @@ export const resolvers = {
 			}
 			else {
 				comboQuery = "SELECT distinct bin_to_uuid(s.study_id) as study_id, s.study_submitter_id, s.submitter_id_name, "+
-				" s.analytical_fraction, s.experiment_type, s.acquisition_type "+
+				" s.analytical_fraction, s.experiment_type, s.acquisition_type, s.pdc_study_id"+
 				" FROM study s, `case` c, sample sam, aliquot_run_metadata alm, "+
 				" aliquot al, project proj, program prog, protocol ptc "+
 				" WHERE alm.study_id = s.study_id and al.aliquot_id = alm.aliquot_id "+
@@ -250,7 +251,7 @@ export const resolvers = {
 		study_run_metadata(obj, args, context) {
 			//@@@PDC-1120 StudyRunMetadata table change
 			return db.getModelByName('ModelStudyRunMetadata').findAll({attributes: ['study_run_metadata_submitter_id', 'fraction'],
-			where: {study_submitter_id: context.arguments.study_submitter_id}
+			where: {study_submitter_id: obj.study_submitter_id}
 			});
 		}
 	},
@@ -295,7 +296,7 @@ export const resolvers = {
 			var fileQuery = "SELECT f.data_category, f.file_type, count(f.file_id) as files_count "+
 			"FROM file f, study s, study_file sf "+
 			"WHERE f.file_id = sf.file_id and s.study_id = sf.study_id "+
-			"and s.study_id = uuid_to_bin('"+ obj.study_submitter_id +
+			"and s.study_id = uuid_to_bin('"+ obj.study_id +
 			"') group by f.data_category, f.file_type order by f.data_category";
 			var getIt = await db.getSequelize().query(fileQuery, { model: db.getModelByName('ModelFile') });
 			return getIt;				
@@ -349,8 +350,8 @@ export const resolvers = {
 				let geneNameFilterValue = geneNameArray.join("','");
 				let geneStudyCountQuery = context.geneStudyCountQuery;
 				geneStudyCountQuery = geneStudyCountQuery+`
-							AND ge.gene_name in ('${geneNameFilterValue}')
-					GROUP BY ge.gene_id
+							AND sc.gene_name in ('${geneNameFilterValue}')
+					GROUP BY sc.gene_name
 				`;
 				let geneStudyCount = await db.getSequelize().query(geneStudyCountQuery, { model: db.getModelByName('ModelUIGeneName') });
 				let geneStudyCountMap = new Map();
@@ -427,6 +428,7 @@ export const resolvers = {
 		//@@@PDC-788 remove hard-coded file types
 		//@@@PDC-1291 Redesign Browse Page data tabs
 		async uiStudies(obj, args, context) {
+			//console.log("studyQuery: "+context.query);
 			const res = await RedisCacheClient.redisCacheGetAsync(context.dataCacheName);
 			if(res === null){
 				var myCombo = await db.getSequelize().query(context.query, { model: db.getModelByName('ModelUIStudy') });

@@ -1,9 +1,11 @@
 import _ from "lodash";
 
+//@@@PDC-1874 add pdc_study_id to all study-related APIs 
 //query to get list of filter values mapping studies for program project study tables
 const prog_proj_filter = `
 SELECT DISTINCT
     s.study_submitter_id,
+    s.pdc_study_id,
     s.submitter_id_name,
     s.acquisition_type,
     s.analytical_fraction,
@@ -23,6 +25,7 @@ WHERE
 const al_sam_ca_dem_dia_filter = `
 SELECT DISTINCT
     s.study_submitter_id,
+    s.pdc_study_id,
     s.submitter_id_name,
     s.acquisition_type,
     s.analytical_fraction,
@@ -62,6 +65,7 @@ WHERE
 const file_filter = `
 SELECT DISTINCT
     s.study_submitter_id,
+    s.pdc_study_id,
     s.submitter_id_name,
     s.acquisition_type,
     s.analytical_fraction,
@@ -83,6 +87,7 @@ WHERE
 const prog_proj_al_sam_ca_dem_dia_filter = `
 SELECT DISTINCT
     s.study_submitter_id,
+    s.pdc_study_id,
     s.submitter_id_name,
     s.acquisition_type,
     s.analytical_fraction,
@@ -213,10 +218,12 @@ WHERE
         AND sf.file_id = f.file_id
 `;
 
+//@@@PDC-1960 add pdc_study_id to getPaginatedUIFile API
 const file_tab_data=`
 SELECT DISTINCT
     BIN_TO_UUID(f.file_id) AS file_id,
     BIN_TO_UUID(s.study_id) AS study_id,
+	s.pdc_study_id,
     s.submitter_id_name,
     f.file_name,
     sf.study_run_metadata_submitter_id,
@@ -398,6 +405,7 @@ const study_tab_data=`
 SELECT 
 	BIN_TO_UUID(s.study_id) AS study_id,
     s.study_submitter_id,
+    s.pdc_study_id,
     s.submitter_id_name,
     s.study_description,
     prog.name AS program_name,
@@ -439,6 +447,7 @@ const study_filter_columns = {
   experiment_type: "s.experiment_type",
   study_submitter_id: "s.study_submitter_id",
   study_id: "s.study_id",
+  pdc_study_id: "s.pdc_study_id",
   acquisition_type: "s.acquisition_type"
 };
 
@@ -548,6 +557,20 @@ function studyIntersection(filter1, filter2) {
   filter1.forEach(element => studyArray1.push(element.dataValues.study_submitter_id));
 
   filter2.forEach(element => studyArray2.push(element.dataValues.study_submitter_id));
+
+  //filter3.forEach(element => studyArray3.push(element.dataValues.study_submitter_id));
+
+  return _.intersection(studyArray1, studyArray2);
+}
+
+function studyIdIntersection(filter1, filter2) {
+  let studyArray1 = [];
+  let studyArray2 = [];
+  //let studyArray3 = [];
+
+  filter1.forEach(element => studyArray1.push(element.dataValues.study_id));
+
+  filter2.forEach(element => studyArray2.push(element.dataValues.study_id));
 
   //filter3.forEach(element => studyArray3.push(element.dataValues.study_submitter_id));
 
@@ -715,5 +738,6 @@ export {
   applyAlSamCaDemDiaFilter,
   addStudyInQuery,
   studyIntersection,
+  studyIdIntersection,
   uiFilterSubqueryProcess
 };

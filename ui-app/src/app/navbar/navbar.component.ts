@@ -53,6 +53,8 @@ import { environment } from '../../environments/environment';
 //@@@PDC-1609: URL structure for permanent links to PDC 
 //@@@PDC-1661: Fixing bugs found with user registration/login
 //@@@PDC-1795: NIH/eRA sign in option user's name is not shown after logging in
+//@@@PDC-1855: Change dialog message for new users trying to register.
+//@@@PDC-1876: Allow deep linking to study summary page by PDC ID
 export class NavbarComponent implements OnInit {
   background = '';
   searchFormControl = new FormControl();
@@ -60,8 +62,8 @@ export class NavbarComponent implements OnInit {
   filteredOptions: Observable<string[]>;
   geneSearchResults;
   proteinSearchResults;
-  studySearchResults;
-  caseSearchResults;
+  studySearchResults = [];
+  caseSearchResults = [];
   selectedSearchTerm:any;
   loading = false;
   userLoggedInFlag = false;
@@ -260,32 +262,36 @@ export class NavbarComponent implements OnInit {
   }
   
   private findStudySubmitterIdName(name: string):string{
-	  //console.log("Name: " + name);
 	  for (let study_search_res of this.studySearchResults){
-		  if (study_search_res.name === name) {
+		  if (study_search_res.name == name) {
 			  return study_search_res.submitter_id_name;
 		  }
 	  }
 	  return '';
   }
   
-  showStudySummary(study_name: string, studyUUID = ""){
+  showStudySummary(study_name: string, studyUUID = "", study_submitter_id_param = "", PDC_study_id = ""){
 	//@@@PDC-1441: Add ability to search by case, study, aliquot, sample UUIDs on UI search box
 	let study_uuid = "";
 	let study_submitter_id = "";
 	let study_submitter_id_name = "";
+	let pdc_study_id = "";
 	//Fetch Study Submitter ID for the study
-	console.log("Study_name: " + study_name  + ", studyUUID: " + studyUUID);
+	console.log("Study_name: " + study_name  + ", studyUUID: " + studyUUID + ", study_submitter_id_param: " + study_submitter_id_param);
 	if (study_name.indexOf("{") > -1) {
 		let requiredStudyName = study_name.split("{");
 		study_uuid = requiredStudyName[0];
 		let studyNameSubmitterID = requiredStudyName[1].split("}");
 		study_name = studyNameSubmitterID[0];
 		study_submitter_id_name = this.findStudySubmitterIdName(study_name);
-	    study_submitter_id = studyNameSubmitterID[1];
+		let sub_id_pdc_study_id = studyNameSubmitterID[1].split("~");
+		study_submitter_id = sub_id_pdc_study_id[0];
+		pdc_study_id = sub_id_pdc_study_id[1];
 	} else {
 		study_submitter_id_name = study_name;
 		study_uuid = studyUUID;
+		study_submitter_id = study_submitter_id_param;
+		pdc_study_id = PDC_study_id;
 	}
 	const dialogConfig = new MatDialogConfig();
 	dialogConfig.disableClose = true;
@@ -297,6 +303,7 @@ export class NavbarComponent implements OnInit {
 	
 	let study_data: AllStudiesData = {
 		study_id: study_uuid,
+		pdc_study_id: pdc_study_id,
 		study_submitter_id: study_submitter_id,
 		submitter_id_name: study_submitter_id_name,
 		study_description: '',
@@ -387,111 +394,112 @@ export class NavbarComponent implements OnInit {
   
   searchCaseTerms(search_term:string){
 	this.loading = true;
+	this.caseSearchResults = [];
 	this.searchCaseTermsForCaseSubmitterID(search_term);
 	//If the search term can't be found, search for Case UUID, Sample ID, Aliquot IDs
-	if (this.options.length == 0) {
-		//@@@PDC-1441: Add ability to search by case, study, aliquot, sample UUIDs on UI search box
-		//Search for Case UUI
-		this.searchService.getCaseUUIDResults(search_term).subscribe((data: any) =>{
-			if (data.case && data.case.case_submitter_id) {
-				search_term = data.case.case_submitter_id;
-				this.searchCaseTermsForCaseSubmitterID(search_term);
-			} else {
-				//Search for sample ID/sample submitter ID
-				this.searchService.getSampleUUIDResults(search_term).subscribe((sampleData: any) =>{
-					this.searchForSampleData(sampleData);
-					if (this.options.length == 0) {
-						this.searchService.getSampleSubmitterIDResults(search_term).subscribe((sampleSubmitterData: any) => {
-							this.searchForSampleData(sampleSubmitterData);
-							if (this.options.length == 0) {
-								//Search for aliquot ID/aliquot submitter ID
-								this.searchService.getAliquotUUIDResults(search_term).subscribe((aliquotData: any) =>{
-									this.searchForAliquotData(search_term, aliquotData);
-									if (this.options.length == 0) {
-										this.searchService.getAliquotSearchResults(search_term).subscribe((aliquotSearchResults: any) =>{
-											var aliquotSearchResultSet = aliquotSearchResults.aliquotSearch.searchAliquots;
-											for (let returnValue of aliquotSearchResultSet) {
-												let aliquotSubmitterID = returnValue.aliquot_submitter_id;
-												this.searchService.getAliquotSubmitterIDResults(aliquotSubmitterID).subscribe((aliquotSubmitterData: any) =>{
-													this.searchForAliquotData(aliquotSubmitterID, aliquotSubmitterData);
-												});
-											}
-										});
-									}
-								});
-							}
-						});
-					}
+	//@@@PDC-1441: Add ability to search by case, study, aliquot, sample UUIDs on UI search box
+	//Search for Case UUI
+	this.searchService.getCaseUUIDResults(search_term).subscribe((data: any) =>{
+		if (data.case && data.case.case_submitter_id) {
+			let search_case_submitter_id = data.case.case_submitter_id;
+			this.searchCaseTermsForCaseSubmitterID(search_case_submitter_id, search_term);
+		} 
+		//@@@PDC-1943: Refine search functionality to return more results
+		//Search for sample ID/sample submitter ID
+		this.searchService.getSampleUUIDResults(search_term).subscribe((sampleData: any) =>{
+			this.searchForSampleData(sampleData);
+			this.searchService.getSampleSubmitterIDResults(search_term).subscribe((sampleSubmitterData: any) => {
+				this.searchForSampleData(sampleSubmitterData);
+				//Search for aliquot ID/aliquot submitter ID
+				this.searchService.getAliquotUUIDResults(search_term).subscribe((aliquotData: any) =>{
+					this.searchForAliquotData(search_term, aliquotData);
+					this.searchService.getAliquotSearchResults(search_term).subscribe((aliquotSearchResults: any) =>{
+						var aliquotSearchResultSet = aliquotSearchResults.aliquotSearch.searchAliquots;
+						for (let returnValue of aliquotSearchResultSet) {
+							let aliquotID = returnValue.aliquot_id;
+							//@@@PDC-1943: Refine search functionality to return more results
+							this.searchService.getAliquotUUIDResults(aliquotID).subscribe((aliquotSubmitterData: any) =>{
+								this.searchForAliquotData(aliquotID, aliquotSubmitterData);
+							});
+						}
+					});
 				});
-			}
+			});
 		});
-	}
+	});
   }
 
   searchForSampleData(sampleData) {
-	if (sampleData.sample && sampleData.sample[0]) {
-		let caseSubmitterIDForSample = "";
-		let sampleUUID = "";
-		let sampleSubmitterID = "";
-		if (sampleData.sample[0].case_submitter_id) {
-			caseSubmitterIDForSample = sampleData.sample[0].case_submitter_id;
+	if (sampleData && sampleData.sample && sampleData.sample.length > 0) {
+		let sampleDataTemp= [];
+		sampleDataTemp = Object.assign(sampleDataTemp, sampleData.sample);
+		for (let returnValue of sampleDataTemp){
+			let caseSubmitterIDForSample = "";
+			let sampleUUID = "";
+			let sampleSubmitterID = "";
+			if (returnValue.case_submitter_id) {
+				caseSubmitterIDForSample = returnValue.case_submitter_id;
+			}
+			if (returnValue.sample_id) {
+				sampleUUID = returnValue.sample_id;
+			}
+			if (returnValue.sample_submitter_id) {
+				sampleSubmitterID = returnValue.sample_submitter_id;
+			}	
+			var display_name = 'SA: ';
+			if (sampleUUID != "") {
+				display_name = display_name + sampleUUID;
+			}
+			display_name = display_name.concat("{" + caseSubmitterIDForSample);
+			this.options.push({name: display_name, value: display_name });
 		}
-		if (sampleData.sample[0].sample_id) {
-			sampleUUID = sampleData.sample[0].sample_id;
-		}
-		if (sampleData.sample[0].sample_submitter_id) {
-			sampleSubmitterID = sampleData.sample[0].sample_submitter_id;
-		}	
-		var display_name = 'SA: ';
-		if (sampleUUID != "") {
-			display_name = display_name + sampleUUID;
-		}
-		display_name = display_name.concat("{" + caseSubmitterIDForSample);
-		this.options.push({name: display_name, value: display_name });
 	}
   }
 
   //@@@PDC-1441: Add ability to search by case, study, aliquot, sample UUIDs on UI search box
   searchForAliquotData(search_term, aliquotData) {
-	if (aliquotData.aliquot && aliquotData.aliquot[0] && aliquotData.aliquot[0].case_submitter_id) {
-		let caseSubmitterIDForAliquot = "";
-		let aliquotUUID = "";
-		let aliquotSubmitterID = "";
-		search_term = aliquotData.aliquot[0].case_submitter_id;
-		if (aliquotData.aliquot[0].case_submitter_id) {
-			caseSubmitterIDForAliquot = aliquotData.aliquot[0].case_submitter_id;
+	if (aliquotData && aliquotData.aliquot && aliquotData.aliquot.length > 0) {
+		let aliquotDataTemp= [];
+		aliquotDataTemp = Object.assign(aliquotDataTemp, aliquotData.aliquot);
+		for (let returnValue of aliquotDataTemp) {
+			let caseSubmitterIDForAliquot = "";
+			let aliquotUUID = "";
+			let aliquotSubmitterID = "";
+			search_term = returnValue.case_submitter_id;
+			if (returnValue.case_submitter_id) caseSubmitterIDForAliquot = returnValue.case_submitter_id;
+			if (returnValue.aliquot_id) aliquotUUID = returnValue.aliquot_id;
+			if (returnValue.aliquot_submitter_id) aliquotSubmitterID = returnValue.aliquot_submitter_id;
+			var display_name = 'AL: ';
+			if (aliquotUUID != "") {
+				display_name = display_name + aliquotUUID;
+			}
+			display_name = display_name.concat("{" + aliquotSubmitterID);
+			display_name = display_name.concat("}" + caseSubmitterIDForAliquot);
+			this.options.push({name: display_name, value: display_name });
 		}
-		if (aliquotData.aliquot[0].aliquot_id) {
-			aliquotUUID = aliquotData.aliquot[0].aliquot_id;
-		}
-		if (aliquotData.aliquot[0].aliquot_submitter_id) {
-			aliquotSubmitterID = aliquotData.aliquot[0].aliquot_submitter_id;
-		}	
-		var display_name = 'AL: ';
-		if (aliquotUUID != "") {
-			display_name = display_name + aliquotUUID;
-		}
-		display_name = display_name.concat("{" + aliquotSubmitterID);
-		display_name = display_name.concat("}" + caseSubmitterIDForAliquot);
-		this.options.push({name: display_name, value: display_name });
-		//this.searchCaseTermsForCaseSubmitterID(search_term);
 	}
   }
 
   //@@@PDC-1441: Add ability to search by case, study, aliquot, sample UUIDs on UI search box
-  searchCaseTermsForCaseSubmitterID(search_term) {
+  searchCaseTermsForCaseSubmitterID(search_term, checkForCaseID= "") {
 	this.searchService.getCaseSearchResults(search_term).subscribe((data: any) =>{
-			this.caseSearchResults = data.caseSearch.searchCases;
+		if (data && data.caseSearch && data.caseSearch.searchCases && data.caseSearch.searchCases.length > 0) {
+			this.caseSearchResults = Object.assign(this.caseSearchResults, data.caseSearch.searchCases);
 			for (let returnValue of this.caseSearchResults){
 				var case_uuid = returnValue.case_id;
-				var display_name = 'CA: ';
-				if (case_uuid != "") {
-					display_name = display_name + case_uuid;
+				//@@@PDC-1943: Refine search functionality to return more results
+				//Populate Options var for valid case submitter IDs and Case UUIDs
+				if ((checkForCaseID == "") || (checkForCaseID != "" && checkForCaseID == case_uuid)) {
+					var display_name = 'CA: ';
+					if (case_uuid != "") {
+						display_name = display_name + case_uuid;
+					}
+					display_name = display_name.concat("{" + returnValue.name);
+					this.options.push({name: display_name, value: returnValue.name });
 				}
-				display_name = display_name.concat("{" + returnValue.name);
-				this.options.push({name: display_name, value: returnValue.name });
 			}
 		this.loading = false;  
+		}
 	}); 
   }
 
@@ -503,29 +511,84 @@ export class NavbarComponent implements OnInit {
 	return search_study_submitter_id;
   }
   
-  searchStudyTerms(search_term:string){
+  searchStudyTerms(search_term:string) {
+	this.studySearchResults = [];
 	this.loading = true;
 	//@@@PDC-1441: Add ability to search by case, study, aliquot, sample UUIDs on UI search box
 	//Search by Study UUID
-	this.searchService.getStudybyUUIDResults(search_term).subscribe((data: any) =>{
-		if (data.study && data.study[0] && data.study[0].study_submitter_id) {
-			search_term = data.study[0].study_submitter_id;
+	//Search by study_shortname
+	this.searchForStudyData(search_term);
+	//Search by study_id
+	this.searchService.getStudybyUUIDResults(search_term, '').subscribe((data: any) =>{
+		if (data.study && data.study[0] && data.study[0].study_shortname) {
+			let data_study_shortname = data.study[0].study_shortname;
+			this.searchForStudyData(data_study_shortname);
 		}
-		this.searchService.getStudySearchResults(search_term).subscribe((data: any) =>{
-			this.studySearchResults = data.studySearch.studies;
-			for (let returnValue of this.studySearchResults){
-				var study_uuid = returnValue.study_id;
-				var display_name = 'ST: ';
-				if (study_uuid != "") {
-					display_name = display_name + study_uuid;
-				}
-				display_name = display_name.concat("{" + returnValue.name);
-				display_name = display_name.concat("}" + returnValue.study_submitter_id);
-				this.options.push({name: display_name, value: returnValue.name });
+		//Search by study_submitter_id
+		this.searchService.getStudybyUUIDResults('', search_term).subscribe((studySubmitterIDData: any) =>{
+			if (studySubmitterIDData.study && studySubmitterIDData.study[0] && studySubmitterIDData.study[0].study_shortname) {
+				let studySubmitterIDData_shortname = studySubmitterIDData.study[0].study_shortname;
+				this.searchForStudyData(studySubmitterIDData_shortname);
 			}
-			this.loading = false;  
+		});
+		//@@@PDC-1875: Update search to be able to search by new PDC ID
+		//Search by pdc_study_id
+		//@@@PDC-1937: Implement search by partial PDC ID
+		this.searchService.getStudySearchByPDCStudyId(search_term).subscribe((studyIDData: any) =>{
+			if (studyIDData.studySearchByPDCStudyId && studyIDData.studySearchByPDCStudyId.studies && studyIDData.studySearchByPDCStudyId.studies.length > 0) {
+				this.studySearchResults = Object.assign(this.studySearchResults, studyIDData.studySearchByPDCStudyId.studies);
+				this.populateDropDownOptions(this.studySearchResults);
+			} else {
+				//@@@PDC-1931: Enable search based on the external references
+				this.searchStudiesForExternalReferences(search_term);
+			}
 		});
 	});
+  }
+
+  //@@@PDC-1441: Add ability to search by case, study, aliquot, sample UUIDs on UI search box
+  //@@@PDC-1875: Update search to be able to search by new PDC ID
+  searchForStudyData(search_term) {
+	this.searchService.getStudySearchResults(search_term).subscribe((data: any) =>{
+		 if (data && data.studySearch && data.studySearch.studies && data.studySearch.studies.length > 0) {
+			this.studySearchResults = Object.assign(this.studySearchResults, data.studySearch.studies);
+			//this.studySearchResults = data.studySearch.studies;
+			this.populateDropDownOptions(this.studySearchResults);
+		}
+		this.loading = false;  
+	});
+  }
+
+  //@@@PDC-1931: Enable search based on the external references
+  searchStudiesForExternalReferences(search_term) {
+	this.searchService.getStudySearchByExternalRef(search_term).subscribe((data: any) =>{
+		 if (data && data.studySearchByExternalId && data.studySearchByExternalId.studies && data.studySearchByExternalId.studies.length > 0) {
+			this.studySearchResults = Object.assign(this.studySearchResults, data.studySearchByExternalId.studies);
+			this.populateDropDownOptions(this.studySearchResults);
+		}
+		this.loading = false;  
+	});
+  }
+
+  //@@@PDC-1937: Implement search by partial PDC ID
+  populateDropDownOptions(searchResults:any) {
+	for (let returnValue of searchResults){
+		var study_uuid = returnValue.study_id;
+		var display_name = 'ST: ';
+		if (study_uuid != "") {
+			display_name = display_name + study_uuid;
+		}
+		display_name = display_name.concat("{" + returnValue.name);
+		display_name = display_name.concat("}" + returnValue.study_submitter_id);
+		display_name = display_name.concat("~" + returnValue.pdc_study_id);
+		this.options.push({name: display_name, value: returnValue.name });
+	}
+	this.removeDuplicates();
+  }
+
+  removeDuplicates() {
+	    this.options= this.options.filter((value, index, array) => 
+	     !array.filter((v, i) => JSON.stringify(value) == JSON.stringify(v) && i < index).length);
   }
   
   ngOnInit() {
@@ -713,10 +776,19 @@ export class NavbarComponent implements OnInit {
 					//If study_uuid parameter is defined - this is a direct link URL for study summary
 					if (event.snapshot.outlet == "primary" && "study_uuid" in event.snapshot.params && event.snapshot.params["study_uuid"] != ""){
 						var study_uuid = event.snapshot.params["study_uuid"];
-						this.searchService.getStudySubmitterID(study_uuid).subscribe((data: any) => {
+						var pdc_study_id = study_uuid.toUpperCase(); //in case PDC ID is used, it needs to be case insensitive
+						//If study_uuid is in the format of "PDCxxxxx" than it is new PDC id
+						if (pdc_study_id.indexOf("PDC") == 0) {
+								study_uuid = "";
+						} else {
+							pdc_study_id = "";
+						}
+						this.searchService.getStudySubmitterID(study_uuid, pdc_study_id).subscribe((data: any) => {
 							var study_submitter_id_name = data.study[0].study_name;
+							var study_submitter_id = data.study[0].study_submitter_id;
+							var PDC_study_id = data.study[0].pdc_study_id;
 							console.log("study_submitter_id_name: " + study_submitter_id_name + ", study_uuid: " + study_uuid);
-							this.showStudySummary(study_submitter_id_name, study_uuid);
+							this.showStudySummary(study_submitter_id_name, study_uuid, study_submitter_id, PDC_study_id);
 						});
 					}
 				}
@@ -792,16 +864,19 @@ export class NavbarComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       //console.log(result);
-      if (result === "user register with email") {
+      if (result === "user register with email" || result === "new user register") {
 		//Let user know that their email is not registered through PDC
-		let confirmationMessage = `
-							User with such email was not found. Would you like to register a new user?`;
+		let confirmationMessage = `Would you like to register as a new user?`; 
+		if (result === "user register with email") {
+			confirmationMessage = `User with such email was not found. Would you like to register a new user?`;
+		}
 		let continueRegisterNewUser = "Yes";
 		const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
 											width: "350px",
 											height: "140px",
 											data: { message: confirmationMessage, continueMessage: continueRegisterNewUser }
 		});
+
 						
 		dialogRef.afterClosed().subscribe(result => {
 			if ( result === "Yes") {

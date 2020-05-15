@@ -269,9 +269,11 @@ Sample requests for testing
 	}
 }
 PDC-188
+1874
 {
 	filesCountPerStudy (file_type: "RAW"){
 	study_submitter_id
+	pdc_study_id
 	file_type
 	data_category 
 	files_count
@@ -280,12 +282,23 @@ PDC-188
 {
 	filesCountPerStudy (study_submitter_id: "S038-3" ){
 	study_submitter_id
+	pdc_study_id
 	file_type
 	data_category 
 	files_count
 	}
 }
-//PDC-471, 898
+{
+	filesCountPerStudy (pdc_study_id: "PDC000173" ){
+	study_submitter_id
+	pdc_study_id
+	file_type
+	data_category 
+	files_count
+	}
+}
+//PDC-471
+898
 {
 	filesPerStudy (study_id: "dbe94609-1fb3-11e9-b7f8-0a80fada099c") {
 		file_id,
@@ -311,6 +324,40 @@ PDC-1122
 		study_name
 		study_submitter_id
 		study_id
+		pdc_study_id
+		file_type
+		file_location
+		md5sum
+		file_size
+		data_category
+		file_format
+		signedUrl {
+			url
+		}
+	}
+}
+{
+	filesPerStudy (file_name: "FN18_N45T46_180min_10ug_C1_032313.psm;20180321_HF_ZHW_total_liver20_F14.raw;20180226_HF_ZHW_total_liver24_F26.mzid.gz") {
+		file_id,
+		file_submitter_id
+		file_name
+		file_type
+		file_location
+		signedUrl {
+			url
+		}
+	}
+}
+//PDC-1874
+{
+	filesPerStudy (pdc_study_id: "PDC000173") {
+		file_id,
+		file_submitter_id
+		file_name
+		study_name
+		study_submitter_id
+		study_id
+		pdc_study_id
 		file_type
 		file_location
 		md5sum
@@ -414,10 +461,44 @@ PDC-1122
 	}
 }
 //PDC-165
+1874
 {
 	workflowMetadata {
 		  workflow_metadata_submitter_id
 		  study_submitter_id
+		  pdc_study_id
+		  protocol_submitter_id
+		  cptac_study_id
+		  submitter_id_name
+		  study_submitter_name
+		  analytical_fraction
+		  experiment_type
+		  instrument
+		  refseq_database_version
+		  uniport_database_version
+		  hgnc_version
+		  raw_data_processing
+		  raw_data_conversion
+		  sequence_database_search
+		  search_database_parameters
+		  phosphosite_localization
+		  ms1_data_analysis
+		  psm_report_generation
+		  cptac_dcc_mzidentml
+		  mzidentml_refseq
+		  mzidentml_uniprot
+		  gene_to_prot
+		  cptac_galaxy_workflows
+		  cptac_galaxy_tools
+		  cdap_reports
+		  cptac_dcc_tools
+	}
+}
+{
+	workflowMetadata (pdc_study_id: "PDC000173") {
+		  workflow_metadata_submitter_id
+		  study_submitter_id
+		  pdc_study_id
 		  protocol_submitter_id
 		  cptac_study_id
 		  submitter_id_name
@@ -767,7 +848,8 @@ PDC-1122
 	primary_site
 	}
 }
-//PDC-372, 1371
+//PDC-372
+1371
 {
 	uiCase (case_submitter_id: "TCGA-E2-A10A") {
 	aliquot_id 	
@@ -983,6 +1065,13 @@ PDC-220
 	cases_count	
 	}
 }
+//PDC-1874
+{
+	uiExperimentBar(pdc_study_id: "PDC000174") {
+	experiment_type
+	cases_count	
+	}
+}
 {
 	uiExperimentBar(disease_type: "Ovarian Serous Cystadenocarcinoma;Colon Adenocarcinoma") {
 	experiment_type
@@ -1117,6 +1206,13 @@ PDC-220
 	cases_count	
 	}
 }
+//PDC-1874
+{
+	uiExperimentPie(pdc_study_id: "PDC000173") {
+	disease_type
+	cases_count	
+	}
+}
 {
 	uiExperimentPie(disease_type: "Ovarian Serous Cystadenocarcinoma;Colon Adenocarcinoma") {
 	disease_type
@@ -1163,11 +1259,14 @@ PDC-218
 	data_file
 	}
 }
-PDC-136, 774, 827 787
+PDC-136
+774
+827 787 1960
 {
 	getPaginatedUIFile(offset: 0 limit: 10) {
 	total
 	uiFiles {
+		pdc_study_id
 		submitter_id_name		
 		file_name
 		study_run_metadata_submitter_id
@@ -1250,11 +1349,34 @@ PDC-136, 774, 827 787
 	}
 	}
 }
+//PDC-1874
 {
 	getPaginatedFiles(offset: 0 limit: 10) {
 	total
 	files {
 		study_submitter_id
+		pdc_study_id
+		file_name
+		file_type
+		md5sum
+	}
+	pagination {
+		count
+		sort
+		from
+		page
+		total
+		pages
+		size
+	}
+	}
+}
+{
+	getPaginatedFiles(pdc_study_id: "PDC000173" offset: 0 limit: 10) {
+	total
+	files {
+		study_submitter_id
+		pdc_study_id
 		file_name
 		file_type
 		md5sum
@@ -1700,6 +1822,13 @@ PDC-265
 	cases_count	
 	}
 }
+//PDC-1874
+{
+	uiAnalyticalFractionsCount(pdc_study_id: "PDC000206") {
+	analytical_fraction
+	cases_count	
+	}
+}
 {
 	uiAnalyticalFractionsCount(disease_type: "Ovarian Serous Cystadenocarcinoma;Colon Adenocarcinoma") {
 	analytical_fraction
@@ -1827,13 +1956,119 @@ PDC-265
 		cud_label
 	}
 }
-//PDC-898 1154 protocol
+//PDC-1874
+{
+	uiProtocol (pdc_study_id: "PDC000206" ){
+		protocol_id
+		protocol_submitter_id
+		program_id
+		program_submitter_id
+		protocol_name
+		protocol_date
+		document_name
+		quantitation_strategy
+		experiment_type
+		label_free_quantitation
+		labeled_quantitation
+		isobaric_labeling_reagent
+		reporter_ion_ms_level
+		starting_amount
+		starting_amount_uom
+		digestion_reagent
+		alkylation_reagent
+		enrichment_strategy
+		enrichment
+		chromatography_dimensions_count
+		one_d_chromatography_type
+		two_d_chromatography_type
+		fractions_analyzed_count
+		column_type
+		amount_on_column
+		amount_on_column_uom
+		column_length
+		column_length_uom
+		column_inner_diameter
+		column_inner_diameter_uom
+		particle_size
+		particle_size_uom
+		particle_type
+		gradient_length
+		gradient_length_uom
+		instrument_make
+		instrument_model
+		dissociation_type
+		ms1_resolution
+		ms2_resolution
+		dda_topn
+		normalized_collision_energy
+		acquistion_type
+		dia_multiplexing
+		dia_ims
+		auxiliary_data
+		cud_label
+	}
+}
+//PDC-898 1154
+1874 protocol
 {
 	protocolPerStudy(study_submitter_id: "S015-2" ){
 		protocol_id
 		protocol_submitter_id
 		study_id
 		study_submitter_id
+		pdc_study_id
+		program_id
+		program_submitter_id
+		protocol_name
+		protocol_date
+		document_name
+		quantitation_strategy
+		experiment_type
+		label_free_quantitation
+		labeled_quantitation
+		isobaric_labeling_reagent
+		reporter_ion_ms_level
+		starting_amount
+		starting_amount_uom
+		digestion_reagent
+		alkylation_reagent
+		enrichment_strategy
+		enrichment
+		chromatography_dimensions_count
+		one_d_chromatography_type
+		two_d_chromatography_type
+		fractions_analyzed_count
+		column_type
+		amount_on_column
+		amount_on_column_uom
+		column_length
+		column_length_uom
+		column_inner_diameter
+		column_inner_diameter_uom
+		particle_size
+		particle_size_uom
+		particle_type
+		gradient_length
+		gradient_length_uom
+		instrument_make
+		instrument_model
+		dissociation_type
+		ms1_resolution
+		ms2_resolution
+		dda_topn
+		normalized_collision_energy
+		acquistion_type
+		dia_multiplexing
+		dia_ims
+	}
+}
+{
+	protocolPerStudy(pdc_study_id: "PDC000206" ){
+		protocol_id
+		protocol_submitter_id
+		study_id
+		study_submitter_id
+		pdc_study_id
 		program_id
 		program_submitter_id
 		protocol_name
@@ -1896,6 +2131,15 @@ PDC-265
 	}
 
 }
+//PDC-1874
+{
+	uiPublication (pdc_study_id: "PDC000173" ){
+		publication_id
+		pubmed_id
+		title
+	}
+
+}
 //PDC-297
 {
 	getPaginatedUIFile(file_type: "PSM;RAW" offset: 0 limit: 10) {
@@ -1933,7 +2177,8 @@ PDC-265
 
 	}
 }
-//PDC-180, 1371
+//PDC-180
+1371
 {
   case(case_id: "00dc49de-1fba-11e9-b7f8-0a80fada099c") {
     case_id
@@ -2186,7 +2431,9 @@ PDC-265
 		}
     }
 }
-//PDC-311, 337, 1371
+//PDC-311
+337
+1371
 {
 	uiExperimentFileCount (case_submitter_id: "TCGA-61-1911") {
 		acquisition_type
@@ -2203,7 +2450,8 @@ PDC-265
 		files_count
 	}
 }
-//PDC-759, 1371
+//PDC-759
+1371
 {
 	uiDataCategoryFileCount (case_submitter_id: "TCGA-61-1911") {
 		file_type
@@ -2574,13 +2822,41 @@ PDC-265
 		}
 	}
 }
-//PDC-372
+//PDC-372 1874
 {
 	studySearch(name: "TCGA"){
 		studies {
 			record_type
 			name
 			submitter_id_name
+			study_id
+			study_submitter_id
+			pdc_study_id
+		}
+	}
+}
+{
+	studySearchByPDCStudyId(pdc_study_id: "109"){
+		studies {
+			record_type
+			name
+			submitter_id_name
+			study_id
+			study_submitter_id
+			pdc_study_id
+		}
+	}
+}
+//PDC-1959
+{
+	studySearchByExternalId(reference_entity_alias: "ph001287"){
+		studies {
+			record_type
+			name
+			submitter_id_name
+			study_id
+			study_submitter_id
+			pdc_study_id
 		}
 	}
 }
@@ -3038,6 +3314,66 @@ PDC-265
 	}
 	}
 }
+//PDC-1874
+{
+	paginatedCasesSamplesAliquots(pdc_study_id: "PDC000173" offset: 0 limit: 10) {
+	total
+	casesSamplesAliquots {
+		case_submitter_id 
+		external_case_id 
+		tissue_source_site_code 
+		days_to_lost_to_followup
+		disease_type 
+		index_date 
+		lost_to_followup 
+		primary_site 
+		samples {
+			gdc_sample_id
+			gdc_project_id
+			sample_submitter_id
+			sample_type
+			biospecimen_anatomic_site
+			composition
+			current_weight
+			days_to_collection
+			days_to_sample_procurement
+			diagnosis_pathologically_confirmed
+			freezing_method
+			initial_weight 
+			intermediate_dimension
+			is_ffpe
+			longest_dimension
+			method_of_sample_procurement
+			oct_embedded
+			pathology_report_uuid
+			preservation_method
+			sample_type_id
+			shortest_dimension
+			time_between_clamping_and_freezing
+			time_between_excision_and_freezing
+			tissue_type
+			tumor_code
+			tumor_code_id
+			aliquots {
+				aliquot_submitter_id
+				aliquot_quantity
+				aliquot_volume
+				amount
+				analyte_type
+			}
+		}
+	}
+	pagination {
+		count
+		sort
+		from
+		page
+		total
+		pages
+		size
+	}
+	}
+}
 {
 	paginatedCasesSamplesAliquots(study_name: "TCGA_Colon_Cancer_Proteome" offset: 0 limit: 10) {
 	...
@@ -3047,6 +3383,87 @@ PDC-265
 //PDC-475
 {
   paginatedCaseDiagnosesPerStudy (study_id: "b93bb1e9-57b8-11e8-b07a-00a098d917f8" offset: 0 limit: 10) {
+	total
+    caseDiagnosesPerStudy {
+	  case_submitter_id
+	  disease_type
+	  primary_site    
+	 diagnoses{
+			  tissue_or_organ_of_origin
+			  age_at_diagnosis
+			  primary_diagnosis
+			  tumor_grade
+			  tumor_stage		      
+			diagnosis_submitter_id
+			classification_of_tumor
+			days_to_last_follow_up
+			days_to_last_known_disease_status
+			days_to_recurrence
+			last_known_disease_status
+			morphology
+			progression_or_recurrence
+			site_of_resection_or_biopsy
+			vital_status
+			days_to_birth
+			days_to_death
+			prior_malignancy
+			ajcc_clinical_m
+			ajcc_clinical_n
+			ajcc_clinical_stage
+			ajcc_clinical_t
+			ajcc_pathologic_m
+			ajcc_pathologic_n
+			ajcc_pathologic_stage
+			ajcc_pathologic_t
+			ann_arbor_b_symptoms
+			ann_arbor_clinical_stage
+			ann_arbor_extranodal_involvement
+			ann_arbor_pathologic_stage
+			best_overall_response
+			burkitt_lymphoma_clinical_variant
+			cause_of_death
+			circumferential_resection_margin
+			colon_polyps_history
+			days_to_best_overall_response
+			days_to_diagnosis
+			days_to_hiv_diagnosis
+			days_to_new_event
+			figo_stage
+			hiv_positive
+			hpv_positive_type
+			hpv_status
+			iss_stage
+			laterality
+			ldh_level_at_diagnosis
+			ldh_normal_range_upper
+			lymph_nodes_positive
+			lymphatic_invasion_present
+			method_of_diagnosis
+			new_event_anatomic_site
+			new_event_type
+			overall_survival
+			perineural_invasion_present
+			prior_treatment
+			progression_free_survival
+			progression_free_survival_event
+			residual_disease
+			vascular_invasion_present
+			year_of_diagnosis
+	 }    
+    }
+		pagination {
+		count
+		sort
+		from
+		page
+		total
+		pages
+		size
+	}
+	}
+}
+{
+  paginatedCaseDiagnosesPerStudy (pdc_study_id: "PDC000206" offset: 0 limit: 10) {
 	total
     caseDiagnosesPerStudy {
 	  case_submitter_id
@@ -3358,6 +3775,40 @@ PDC-265
 	}
 	}
 }
+//PDC-1874
+{
+  paginatedCaseDemographicsPerStudy (pdc_study_id: "PDC000173" offset: 0 limit: 10) {
+	total
+    caseDemographicsPerStudy {
+	  case_id
+	  case_submitter_id
+	  disease_type
+	  primary_site    
+	  demographics {
+			demographic_id
+			ethnicity
+			gender
+			demographic_submitter_id
+			race
+			cause_of_death
+			days_to_birth
+			days_to_death
+			vital_status
+			year_of_birth
+			year_of_death 
+	 }
+    }
+		pagination {
+		count
+		sort
+		from
+		page
+		total
+		pages
+		size
+	}
+	}
+}
 {
   paginatedCaseDemographicsPerStudy (study_name: "TCGA_Colon_Cancer_Proteome" offset: 0 limit: 10) {
 	total
@@ -3391,8 +3842,29 @@ PDC-265
 	}
 	}
 }
-//PDC-533, 566, 774, 894
-//Parameters: (program_name, project_name, study_name, disease_type, primary_site, analytical_fraction, experiment_type, study_submitter_id, ethnicity, race, gender, morphology, primary_diagnosis,  site_of_resection_or_biopsy, tissue_or_organ_of_origin, tumor_grade, tumor_stage, data_category, sample_type)
+//PDC-533
+566
+774
+894
+//Parameters: (program_name
+project_name
+study_name
+disease_type
+primary_site
+analytical_fraction
+experiment_type
+study_submitter_id
+ethnicity
+race
+gender
+morphology
+primary_diagnosis
+ site_of_resection_or_biopsy
+tissue_or_organ_of_origin
+tumor_grade
+tumor_stage
+data_category
+sample_type)
 {
   uiFilters {
     project_name {
@@ -4034,6 +4506,7 @@ PDC-265
 	}
 }
 //PDC-503
+1874
 {
 	quantitiveDataCPTAC2 {
 		gene_abundance_id
@@ -4059,12 +4532,38 @@ PDC-265
 	}
 }
 {
+	quantitiveDataCPTAC2 (pdc_study_id: "PDC000206"){
+		gene_abundance_id
+		gene_id
+		gene_name
+		study_id
+		study_submitter_id
+		pdc_study_id
+		study_run_metadata_id
+		study_run_metadata_submitter_id
+		aliquot_id
+		aliquot_submitter_id
+		aliquot_run_metadata_id
+		project_id
+		project_submitter_id
+		analytical_fraction
+		experiment_type
+		aliquot_alias
+		log2_ratio
+		unshared_log2_ratio
+		unshared_precursor_area
+		precursor_area
+		cud_label
+	}
+}
+{
 	quantitiveDataCPTAC2 (study_submitter_id: "S037-2"){
 		gene_abundance_id
 		gene_id
 		gene_name
 		study_id
 		study_submitter_id
+		pdc_study_id
 		study_run_metadata_id
 		study_run_metadata_submitter_id
 		aliquot_id
@@ -4229,8 +4728,32 @@ PDC-265
 	}
 }
 //PDC-485
+1874
 {
 	paginatedSpectralCountPerStudyAliquot(study_submitter_id: "S015-2" plex_name: "A2-A0D0-01A:BH-A0HK-01A:C8-A12T-01A:POOL" gene_name: "A2M" offset: 0 limit: 10) {		
+	total
+	spectralCounts {
+		  gene_name
+		  study_submitter_id
+		  aliquot_id
+		  plex
+		  spectral_count
+		  distinct_peptide
+		  unshared_peptide
+		}
+	pagination {
+		count
+		sort
+		from
+		page
+		total
+		pages
+		size
+	}
+	}
+}
+{
+	paginatedSpectralCountPerStudyAliquot(pdc_study_id: "PDC000206" gene_name: "A2M" offset: 0 limit: 10) {		
 	total
 	spectralCounts {
 		  gene_name
@@ -4524,10 +5047,19 @@ PDC-265
 	submitter_id_name
 	}
 }
+//PDC-1874
+{
+	uiStudy (pdc_study_id: "PDC000173") {
+	study_submitter_id
+    pdc_study_id
+	submitter_id_name
+	}
+}
 
 //PDC-579
 {
-  getPaginatedUIGene(offset: 0, limit: 10) {
+  getPaginatedUIGene(offset: 0
+limit: 10) {
     total
     uiGenes {
       gene_name
@@ -4549,7 +5081,9 @@ PDC-265
 }
 
 {
-  getPaginatedUIGene(gene_name: "A1BG", offset: 0, limit: 10) {
+  getPaginatedUIGene(gene_name: "A1BG"
+offset: 0
+limit: 10) {
     total
     uiGenes {
       gene_name
@@ -4785,10 +5319,33 @@ PDC-265
 	}
 }
 //PDC-191
+1874
 {
 	experimentalMetadata(study_submitter_id: "S015-1"){
+		pdc_study_id
 		experiment_type
-		analytical_fraction		
+		analytical_fraction			
+		instrument
+		study_run_metadata {
+			study_run_metadata_submitter_id
+			fraction
+			aliquot_run_metadata {
+				aliquot_submitter_id
+			}
+			files {
+				file_type
+				data_category
+				file_location
+			}
+		}
+	}
+}
+//PDC-1874
+{
+	experimentalMetadata(pdc_study_id: "PDC000173"){
+		pdc_study_id
+		experiment_type
+		analytical_fraction			
 		instrument
 		study_run_metadata {
 			study_run_metadata_submitter_id
@@ -4928,12 +5485,54 @@ PDC-265
 		tumor_stage
 	}
 }
-//PDC-788 794 857
+{
+	clinicalMetadata(pdc_study_id: "PDC000206") {
+		aliquot_submitter_id
+		morphology
+		primary_diagnosis
+		tumor_grade
+		tumor_stage
+	}
+}
+//PDC-788 794 857 1874
 {
 	getPaginatedUIStudy(offset: 0 limit: 10) {
 		total
 		uiStudies {
 			submitter_id_name
+			pdc_study_id
+			program_name
+			project_name
+			disease_type
+			primary_site
+			analytical_fraction
+			experiment_type
+			embargo_date
+			cases_count
+			aliquots_count
+			filesCount {
+				data_category
+				file_type
+				files_count
+			}
+		}
+		pagination {
+			count
+			sort
+			from
+			page
+			total
+			pages
+			size
+		}
+	}
+}
+{
+	getPaginatedUIStudy(pdc_study_id: "PDC000173" offset: 0 limit: 10) {
+		total
+		uiStudies {
+			submitter_id_name
+			pdc_study_id
 			program_name
 			project_name
 			disease_type
@@ -5030,7 +5629,9 @@ PDC-265
 		}
 	}
 }
-//PDC-884, 898, 1257
+//PDC-884
+898
+1257
 {
 	fileMetadata(file_id: "10ffa258-14c2-4c74-861e-91ed02fb4cf6") {
 		file_name
@@ -5054,11 +5655,13 @@ PDC-265
 	}
 }
 //898
+1874
 {
 	study 
 	{
 		study_id
 		study_submitter_id
+		pdc_study_id
 		program_id
 		project_id
 		study_name
@@ -5082,6 +5685,7 @@ PDC-265
 	{
 		study_id
 		study_submitter_id
+		pdc_study_id
 		program_id
 		project_id
 		study_name
@@ -5100,7 +5704,33 @@ PDC-265
 		}
 	}
 }
+{
+	study (pdc_study_id: "PDC000206") 
+	{
+		study_id
+		study_submitter_id
+		pdc_study_id
+		program_id
+		project_id
+		study_name
+		study_shortname
+		program_name
+		project_name
+		disease_type
+		primary_site
+		analytical_fraction
+		experiment_type
+		cases_count
+		aliquots_count
+		filesCount {
+			data_category
+			file_type
+			files_count
+		}
+	}
+}
 //PDC-1599
+1874
 {
 	clinicalPerStudy(study_submitter_id: "S015-1"){
 		case_id
@@ -5180,7 +5810,88 @@ PDC-265
 		year_of_diagnosis 
 	}
 }
-//PDC-1127, 1396
+{
+	clinicalPerStudy(pdc_study_id: "PDC000206"){
+		case_id
+		case_submitter_id
+		status
+		external_case_id
+		disease_type
+		primary_site
+		demographic_id
+		demographic_submitter_id   
+		ethnicity
+		gender
+		race
+		cause_of_death 
+		vital_status 
+		year_of_birth 
+		year_of_death
+		diagnosis_id
+		diagnosis_submitter_id 
+		age_at_diagnosis 
+		classification_of_tumor 
+		days_to_last_follow_up 
+		days_to_last_known_disease_status 
+		days_to_recurrence 
+		last_known_disease_status 
+		morphology 
+		primary_diagnosis 
+		progression_or_recurrence 
+		site_of_resection_or_biopsy 
+		tissue_or_organ_of_origin 
+		tumor_grade 
+		tumor_stage 
+		vital_status 
+		tumor_cell_content 
+		prior_malignancy 
+		ajcc_clinical_m 
+		ajcc_clinical_n 
+		ajcc_clinical_stage 
+		ajcc_clinical_t 
+		ajcc_pathologic_m 
+		ajcc_pathologic_n 
+		ajcc_pathologic_stage 
+		ajcc_pathologic_t 
+		ann_arbor_b_symptoms 
+		ann_arbor_clinical_stage 
+		ann_arbor_extranodal_involvement 
+		ann_arbor_pathologic_stage 
+		best_overall_response 
+		burkitt_lymphoma_clinical_variant 
+		cause_of_death 
+		circumferential_resection_margin 
+		colon_polyps_history 
+		days_to_best_overall_response 
+		days_to_diagnosis 
+		days_to_hiv_diagnosis 
+		days_to_new_event 
+		figo_stage 
+		hiv_positive 
+		hpv_positive_type 
+		hpv_status 
+		iss_stage 
+		laterality 
+		ldh_level_at_diagnosis 
+		ldh_normal_range_upper 
+		lymph_nodes_positive 
+		lymphatic_invasion_present 
+		method_of_diagnosis 
+		new_event_anatomic_site 
+		new_event_type 
+		overall_survival 
+		perineural_invasion_present 
+		prior_treatment 
+		progression_free_survival 
+		progression_free_survival_event 
+		residual_disease 
+		vascular_invasion_present 
+		year_of_diagnosis 
+	}
+}
+//PDC-1127
+1396
+1874
 {
 	biospecimenPerStudy (study_id: "dbe94609-1fb3-11e9-b7f8-0a80fada099c"){
 		aliquot_id 
@@ -5202,13 +5913,37 @@ PDC-265
 		taxon
 	}
 }
-//PDC-1120, 1316
+{
+	biospecimenPerStudy (pdc_study_id: "PDC000206"){
+		aliquot_id 
+		sample_id
+		case_id
+		aliquot_submitter_id 
+		sample_submitter_id
+		case_submitter_id
+		external_case_id
+		aliquot_is_ref
+		aliquot_status
+		case_status
+		sample_status
+		project_name
+		sample_type
+		disease_type
+		primary_site
+		pool
+		taxon
+	}
+}
+//PDC-1120
+1316
+1874
 {
 	studyExperimentalDesign (study_id: "dbe94609-1fb3-11e9-b7f8-0a80fada099c"){
 		study_run_metadata_id,
 		study_run_metadata_submitter_id,
 		study_id,
 		study_submitter_id,
+		pdc_study_id
 		aliquot_is_ref
 		analyte,
 		acquisition_type,
@@ -5270,7 +6005,8 @@ PDC-265
 		}
 	}
 }
-//PDC-948,1234, 1237
+//PDC-948,1234
+1237
 {
 	getPaginatedUIClinical(biospecimen_status: "Disqualified" offset: 0 limit: 10) {
 		total
@@ -5348,7 +6084,8 @@ PDC-265
 		primary_site
   }
 }
-//PDC-964, 1019
+//PDC-964
+1019
 {
 	quantDataMatrix(study_submitter_id: "S044-1" data_type: "log2_ratio" attempt: 0) 
 }
@@ -5471,6 +6208,38 @@ PDC-1467
 		amount
 		analyte_type
 		concentration
+	}
+}
+//PDC-1882
+{
+	pdcEntityReference(entity_type: "study", entity_id: "dbe94609-1fb3-11e9-b7f8-0a80fada099c",
+	reference_type: "external") 
+	{
+	reference_id
+	entity_type
+	entity_id
+	reference_type
+	reference_entity_type
+	reference_entity_alias
+	reference_resource_name
+	reference_resource_shortname
+	reference_entity_location
+	}
+}
+{
+	pdcEntityReference(entity_type: "study",
+	entity_id: "dbe94609-1fb3-11e9-b7f8-0a80fada099c",
+	reference_type: "internal")
+	{
+	reference_id
+	entity_type
+	entity_id
+	reference_type
+	reference_entity_type
+	reference_entity_alias
+	reference_resource_name
+	reference_resource_shortname
+	reference_entity_location
 	}
 }
 

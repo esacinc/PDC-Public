@@ -206,11 +206,11 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
   
   dataCategoryFileTypeMap = {
 	  "Other Metadata": ["Document", "Text"], "Peptide Spectral Matches": ["Open Standard", "Text"], "Processed Mass Spectra" : ["Open Standard"],
-	  "Protein Assembly": ["Text"], "Protein Databases": ["Text"], "Quality Metrics": ["Text", "Web"], "Raw Mass Spectra": ["Proprietary"]
+	  "Protein Assembly": ["Text"], "Protein Databases": ["Text"], "Quality Metrics": ["Text", "Web"], "Raw Mass Spectra": ["Proprietary"], "Spectral Library": ["Proprietary"]
   };
   
   fileTypeDataCategoryMap = {
-		"Document": ["Other Metadata"], "Open Standard": ["Peptide Spectral Matches", "Processed Mass Spectra"], "Proprietary": ["Raw Mass Spectra"],
+		"Document": ["Other Metadata"], "Open Standard": ["Peptide Spectral Matches", "Processed Mass Spectra"], "Proprietary": ["Raw Mass Spectra", "Spectral Library"],
 		"Text": ["Other Metadata", "Peptide Spectral Matches", "Protein Assembly", "Protein Databases", "Quality Metrics"], "Web": ["Quality Metrics"]
   };
 
@@ -1034,7 +1034,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
             this.clearAllSelections();
         } else {
           //@@@PDC-1418: Unable to clear breadcrumbs when the user clicks on breadcrumbs other than "Clear"
-          let filterValWithrandowmNum =  filterChangedInBreadcrumbBar.split("-");
+          let filterValWithrandowmNum =  filterChangedInBreadcrumbBar.split("~");
           let filterValWithoutrandomNum = filterValWithrandowmNum[0];
           var filter_value = filterValWithoutrandomNum.split(":");
           if (filter_value[1] != "") {
@@ -1045,7 +1045,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
               this.filterDataByGeneName();
             } else {
               this.setFilters(filter_value[0], filter_value[1]);
-              var modifiedfilterval = this.replaceAll(filterChangedInBreadcrumbBar, "|", ";");
+              var modifiedfilterval = this.replaceAll(filterValWithoutrandomNum, "|", ";");
               this.selectedFilters.emit(modifiedfilterval);
               this.updateFiltersCounters();
             }

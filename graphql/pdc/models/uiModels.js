@@ -12,12 +12,14 @@ import _ from 'lodash';
 */
 
 //@@@PDC-962 defnie db models after db is initialized asynchronously 
+//@@@PDC-1874 add pdc_study_id to all study-related APIs 
 const defineUiModels = (db) => {
 
 	//@@@PDC-1358 add study_id (uuid) to study summary page
 	const ModelUIStudy = db.getSequelize().define('dummy', {
 		study_id: { type: Sequelize.STRING},
 		study_submitter_id: { type: Sequelize.STRING},
+		pdc_study_id: { type: Sequelize.STRING },
 		submitter_id_name: { type: Sequelize.STRING},
 		study_description: { type: Sequelize.STRING},
 		program_name:  { type: Sequelize.STRING},
@@ -49,6 +51,7 @@ const defineUiModels = (db) => {
 	*/
 	const ModelUIFilter = db.getSequelize().define('dummy', {
 		study_submitter_id: { type: Sequelize.STRING},
+		pdc_study_id: { type: Sequelize.STRING },
 		submitter_id_name: { type: Sequelize.STRING},
 		program_name:  { type: Sequelize.STRING},
 		project_name:  { type: Sequelize.STRING},
@@ -245,6 +248,7 @@ const defineUiModels = (db) => {
 	const ModelUIFile = db.getSequelize().define('dummy', {
 		file_id: { type: Sequelize.STRING},
 		study_id: { type: Sequelize.STRING},
+		pdc_study_id: { type: Sequelize.STRING },
 		submitter_id_name: { type: Sequelize.STRING},
 		file_name:  { type: Sequelize.STRING},
 		study_run_metadata_submitter_id:  { type: Sequelize.STRING},
@@ -390,6 +394,7 @@ const defineUiModels = (db) => {
 	*/
 	const ModelUIGeneStudySpectralCount = db.getSequelize().define('dummy', {
 		study_submitter_id: { type: Sequelize.STRING },
+		pdc_study_id: { type: Sequelize.STRING },
 		submitter_id_name: { type: Sequelize.STRING },
 		experiment_type: { type: Sequelize.STRING },
 		aliquot_id: { type: Sequelize.STRING },
@@ -430,6 +435,8 @@ const defineUiModels = (db) => {
 
 	const ModelFilterStudy = db.getSequelize().define('dummy', {
 		study_submitter_id:  { type: Sequelize.STRING},
+		pdc_study_id: { type: Sequelize.STRING },
+		study_id: {type: Sequelize.STRING}
 	}, {
 		timestamps: false,
 		underscored: true,
@@ -440,6 +447,7 @@ const defineUiModels = (db) => {
 
 	const ModelFilterProgProj = db.getSequelize().define('dummy', {
 		study_submitter_id: { type: Sequelize.STRING},
+		pdc_study_id: { type: Sequelize.STRING },
 		submitter_id_name: { type: Sequelize.STRING},
 		acquisition_type: { type: Sequelize.STRING},
 		analytical_fraction:  { type: Sequelize.STRING},
@@ -456,6 +464,7 @@ const defineUiModels = (db) => {
 
 	const ModelFilterFile = db.getSequelize().define('dummy', {
 		study_submitter_id: { type: Sequelize.STRING},
+		pdc_study_id: { type: Sequelize.STRING },
 		submitter_id_name: { type: Sequelize.STRING},
 		acquisition_type: { type: Sequelize.STRING},
 		analytical_fraction:  { type: Sequelize.STRING},
@@ -474,6 +483,7 @@ const defineUiModels = (db) => {
 
 	const ModelFilterAlSamCaDemDia = db.getSequelize().define('dummy', {
 		study_submitter_id: { type: Sequelize.STRING},
+		pdc_study_id: { type: Sequelize.STRING },
 		submitter_id_name: { type: Sequelize.STRING},
 		acquisition_type: { type: Sequelize.STRING},
 		analytical_fraction:  { type: Sequelize.STRING},
@@ -502,6 +512,7 @@ const defineUiModels = (db) => {
 
 	const ModelFilterProgProjAlSamCaDemDia = db.getSequelize().define('dummy', {
 		study_submitter_id: { type: Sequelize.STRING},
+		pdc_study_id: { type: Sequelize.STRING },
 		submitter_id_name: { type: Sequelize.STRING},
 		acquisition_type: { type: Sequelize.STRING},
 		analytical_fraction:  { type: Sequelize.STRING},

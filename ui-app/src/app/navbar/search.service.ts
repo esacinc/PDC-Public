@@ -114,6 +114,7 @@ constructor(private apollo: Apollo) {
 							submitter_id_name
 							study_id
 							study_submitter_id
+							pdc_study_id
 						}
 					}
 			}`;
@@ -131,6 +132,68 @@ constructor(private apollo: Apollo) {
 				console.log(result.data);
 				return result.data;})
 		); 
+	}
+
+	//@@@PDC-1875: Update search to be able to search by new PDC ID
+	studySearchByPDCStudyIdQuery = gql`
+	query StudySearchByPDCStudyIdQuery($pdc_study_id: String!){
+		studySearchByPDCStudyId(pdc_study_id: $pdc_study_id){
+			studies {
+				record_type
+				name
+				submitter_id_name
+				study_id
+				study_submitter_id
+				pdc_study_id
+			}
+		}
+	}`;
+
+	//@@@PDC-1875: Update search to be able to search by new PDC ID
+	getStudySearchByPDCStudyId(pdc_study_id:any){
+	return this.apollo.watchQuery<SearchResultsStudy>({
+		query: this.studySearchByPDCStudyIdQuery,
+		variables: {
+			pdc_study_id: pdc_study_id,
+		}
+	})
+	.valueChanges
+	.pipe(
+		map(result => {
+			console.log(result.data);
+			return result.data;})
+	); 
+	}
+
+	//@@@PDC-1931: Enable search based on the external references
+	studySearchByExternalRefQuery = gql`
+	query StudySearchByExternalRefQuery($reference_entity_alias: String!){
+		studySearchByExternalId(reference_entity_alias: $reference_entity_alias){
+			studies {
+				record_type
+				name
+				submitter_id_name
+				study_id
+				study_submitter_id
+				pdc_study_id
+			}
+		}
+	}`;
+
+	//@@@PDC-1931: Enable search based on the external references
+	getStudySearchByExternalRef(reference_entity_alias:any){
+	return this.apollo.watchQuery<SearchResultsStudy>({
+		query: this.studySearchByExternalRefQuery,
+		variables: {
+			reference_entity_alias: reference_entity_alias,
+		}
+	})
+	.valueChanges
+	.pipe(
+		map(result => {
+			console.log(result.data);
+			return result.data;})
+	); 
 	}
 
 	searchAliquotsQuery = gql`
@@ -159,17 +222,19 @@ constructor(private apollo: Apollo) {
 	}
 
 	searchStudyUUIDQuery = gql`
-	query studyByUUIDQuery($study_id: String!){
-		study(study_id: $study_id){
+	query studyByUUIDQuery($study_id: String!, $study_submitter_id: String!){
+		study(study_id: $study_id, study_submitter_id: $study_submitter_id){
 			study_submitter_id
+			study_shortname
 		}
 	}`;
 
-	getStudybyUUIDResults(study_id:any){
+	getStudybyUUIDResults(study_id = '', study_submitter_id = ''){
 		return this.apollo.watchQuery<SearchbyStudyUUID>({
 			query: this.searchStudyUUIDQuery,
 			variables: {
 				study_id: study_id,
+				study_submitter_id: study_submitter_id
 			}
 		})
 		.valueChanges
@@ -181,19 +246,22 @@ constructor(private apollo: Apollo) {
 	}
 
 	//@@@PDC-1441: Add ability to search by case, study, aliquot, sample UUIDs on UI search box
+	//@@@PDC-1876: Allow deep linking to study summary page by PDC ID - add PDC ID
 	fetchStudySubmitterIDQuery = gql`
-	query studyByUUIDQuery($study_id: String!){
-		study(study_id: $study_id){
+	query studyByUUIDQuery($study_id: String!, $pdc_study_id: String! ){
+		study(study_id: $study_id, pdc_study_id: $pdc_study_id){
 			study_submitter_id
 			study_name
+			pdc_study_id
 		}
 	}`;
 
-	getStudySubmitterID(study_id:any){
+	getStudySubmitterID(study_id:any, pdc_study_id: any){
 		return this.apollo.watchQuery<UUIDForStudy>({
 			query: this.fetchStudySubmitterIDQuery,
 			variables: {
 				study_id: study_id,
+				pdc_study_id: pdc_study_id || ''
 			}
 		})
 		.valueChanges
@@ -208,6 +276,7 @@ constructor(private apollo: Apollo) {
 	query caseByUUIDQuery($case_id: String!){
 		case(case_id: $case_id){
 			case_submitter_id
+			case_id
 		}
 	}`;
 

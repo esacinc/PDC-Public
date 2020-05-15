@@ -1,9 +1,11 @@
 //@@@PDC-415 get aliquot label
 //@@@PDC-564 add gene abundance data
 //@@@PDC-669 gene_abundance table change
+//@@@PDC-1874 add pdc_study_id to study-related APIs
 const UIGeneStudySpectralCount = `
 type UIGeneStudySpectralCount {
 	study_submitter_id: String 
+	pdc_study_id: String
 	submitter_id_name: String 
 	experiment_type: String
 	aliquot_id: String 

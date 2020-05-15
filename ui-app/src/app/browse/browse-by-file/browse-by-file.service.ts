@@ -165,6 +165,7 @@ export class BrowseByFileService {
         uiFiles {
           submitter_id_name
           study_id
+          pdc_study_id
           file_name
           study_run_metadata_submitter_id
           project_name

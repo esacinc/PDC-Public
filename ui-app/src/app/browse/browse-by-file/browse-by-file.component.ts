@@ -653,6 +653,7 @@ export class BrowseByFileComponent implements OnInit {
           "file_name",
           "study_run_metadata_submitter_id",
           "submitter_id_name",
+          "pdc_study_id",
           "study_id",
           "project_name",
           "data_category",
@@ -713,6 +714,7 @@ export class BrowseByFileComponent implements OnInit {
           "File Name",
           "Run Metadata ID",
           "Study Name",
+          "PDC Study ID",
           "Study ID",
           "Project Name",
           "Data Category",
@@ -730,6 +732,7 @@ export class BrowseByFileComponent implements OnInit {
         "file_name",
         "study_run_metadata_submitter_id",
         "submitter_id_name",
+        "pdc_study_id",
         "study_id",
         "project_name",
         "data_category",
@@ -802,16 +805,21 @@ export class BrowseByFileComponent implements OnInit {
   async downloadBatch() {
 	let dataForExport =  this.selectedFiles;
 	let urls: string = "";
+	let nextMsg = 'Continue';
     for (let file of dataForExport) {
         let urlResponse = await this.browseByFileService.getOpenFileSignedUrl(file["file_name"]);
+		let confirmationMessage = 'Finished downloading: '+file["file_name"];
         if(!urlResponse.error){
 			console.log("S3 url: "+urlResponse.data);
 			//@@@PDC-1698 download with file save
-			this.getS3File(urlResponse.data).subscribe((data: any) => {
-				let blob:any = new Blob([data], { type: 'text/json; charset=utf-8' });
-				fileSaver.saveAs(blob, file["file_name"]);
+			//this.getS3File(urlResponse.data).subscribe((data: any) => {
+				//let blob:any = new Blob([data], { type: 'text/json; charset=utf-8' });
+				//fileSaver.saveAs(blob, file["file_name"]);
 				//console.log("S3 file: "+data);
-			});
+			//});
+			//@@@PDC-1925 use window.open for multiple download
+			this.winOpenS3File(urlResponse.data).alert(confirmationMessage);
+			this.sleep(2000);
 			          
 		}else{
 			console.log("S3 error: "+urlResponse.error)
@@ -821,6 +829,19 @@ export class BrowseByFileComponent implements OnInit {
 
   getS3File(url){
 	return this.http.get(url, {responseType: 'blob'});
+  }
+
+  //@@@PDC-1925 use window.open for multiple download
+  winOpenS3File(url){
+	return window.open(url, "_self");
+  }
+  
+  sleep(milliseconds) {
+	  const date = Date.now();
+	  let currentDate = null;
+	  do {
+		currentDate = Date.now();
+	  } while (currentDate - date < milliseconds);
   }
 
   private getOpenFileSignedUrl(openFileSignUrlMap){
@@ -1014,6 +1035,7 @@ export class BrowseByFileComponent implements OnInit {
         "File Name",
         "Run Metadata ID",
         "Study Name",
+        "PDC Study ID",
         "Study ID",
         "Project Name",
         "Data Category",

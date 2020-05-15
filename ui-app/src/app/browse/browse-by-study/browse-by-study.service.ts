@@ -103,6 +103,7 @@ constructor(private apollo: Apollo) {
 					total
 					uiStudies {
 						study_id
+						pdc_study_id
 						submitter_id_name
 						study_description
 						study_submitter_id

@@ -6,6 +6,8 @@ files:
     destination: /home/ec2-user/PDC_Build/pdc/dist
   - source: /documentation/dev
     destination: /home/ec2-user/PDC_Build/pdc/documentation/dev
+  - source: /API_documentation
+    destination: /home/ec2-user/PDC_Build/pdc/API_documentation
 
 hooks:
   BeforeInstall:

@@ -1,9 +1,11 @@
 //@@@PDC-774 add downloadable
 //@@@PDC-827 Add md5sum  and StudyId
+//@@@PDC-1960 add pdc_study_id to getPaginatedUIFile API
 const UIFile = `
 type UIFile {
 	file_id: String
 	study_id: String
+	pdc_study_id: String
 	submitter_id_name: String
 	file_name: String
 	study_run_metadata_submitter_id: String

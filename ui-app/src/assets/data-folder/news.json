@@ -1,16 +1,3 @@
-{
-"news": [
-    {
-      "label": "Human Proteome Organization (HUPO) 2020 World Congress, Stockholm, Sweden on October 18 - 22, 2020",
-      "link": "https://hupo2020.org/"
-    },
-    {
-      "label": "\nAmerican Society for Mass Spectrometry (ASMS) 2020 reboot (COVID-19 update), June 1-12, 2020",
-      "link": "https://www.asms.org/conferences/asms-2020-reboot/program-for-asms-2020-reboot"
-    },
-    {
-      "label": "American Association of Cancer Research (AACR) Annual meeting, April 27-28 and June 22-24, 2020",
-      "link": "https://www.aacr.org/meeting/aacr-annual-meeting-2020/"
-    }
-  ]
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:42a8fde0647fb6807c4912edd024073d8e39bad2dda5b8e79fd8c73a599058c6
+size 604

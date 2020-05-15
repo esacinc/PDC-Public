@@ -1,16 +1,3 @@
-{
-    "heatmaps": [
-     {
-         "menu-label": "Quantitation",
-         "children": [
-             {
-                 "menu-label": "Reporter ion intensity - Log2Ratio",
-                 "filename":"Pediatric Brain Cancer Pilot Study - Phosphoproteome-log2_ratio.gct",
-                 "col-header": "Aliquot",
-                 "row-header": "Gene",
-                 "tooltip": "Average, normalized log-ratio of reporter ion intensity to ion intensity from a pooled, common reference associated with the phospho site in acquisitions from a specific aliquot of a biological sample"
-             }
-        ]
-        }
-    ]
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:328d5118d48d76185348358718866d9778a15a4fa276292d28e2ab949cf936b7
+size 627

@@ -1,7 +1,9 @@
+//@@@PDC-1874 add pdc_study_id to study-related APIs
 const WorkflowMetadata = `
 type WorkflowMetadata {  
   workflow_metadata_submitter_id: String
   study_submitter_id: String
+  pdc_study_id: String
   protocol_submitter_id: String
   cptac_study_id: String
   submitter_id_name: String

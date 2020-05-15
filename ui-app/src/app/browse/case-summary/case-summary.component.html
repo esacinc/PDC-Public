@@ -14,10 +14,10 @@
 			</mat-card-header>
 			<mat-card-content style="overflow-y: auto; word-wrap: break-word; white-space: normal;font-size: 12px;">
 				<table id="caseSummaryCard">
-					<tr><td class="summary-card-name-left-cell">Case UUID</td><td class="summary-card-value-left-cell">{{case_id}}</td>
+					<tr><td class="summary-card-name-left-cell">Case</td><td class="summary-card-value-left-cell">{{case_submitter_id}}</td>
 						<td class="summary-card-name-right-cell">Disease Type</td><td class="summary-card-value-right-cell">{{caseSummaryData.disease_type}}</td>
 					</tr>
-					<tr><td class="summary-card-name-left-cell">Source Case ID</td><td class="summary-card-value-left-cell">{{case_submitter_id}}</td>
+					<tr><td class="summary-card-name-left-cell">Case ID</td><td class="summary-card-value-left-cell">{{case_id}}</td>
 						<td class="summary-card-name-right-cell">Program</td><td class="summary-card-value-right-cell">{{caseSummaryData.program_name}}</td>
 					</tr>
 					<tr><td class="summary-card-name-left-cell">Project</td><td class="summary-card-value-left-cell"><!--<a target="_blank" href= "/pdc/browse/filters/project_name:{{caseSummaryData.project_name}}">{{caseSummaryData.project_name}}</a>-->{{caseSummaryData.project_name}}</td>
@@ -325,7 +325,7 @@
 						<tr><td class="tab-table-field-name">Longest Dimension</td><td class="tab-table-field-value">{{sample.longest_dimension}}</td></tr>
 						<tr><td class="tab-table-field-name">Method of Sample Procurement</td><td class="tab-table-field-value">{{sample.method_of_sample_procurement}}</td></tr>
 						<tr><td class="tab-table-field-name">OCT Embedded</td><td class="tab-table-field-value">{{sample.oct_embedded}}</td></tr>
-						<tr><td class="tab-table-field-name">Pthology Report UUID</td><td class="tab-table-field-value">{{sample.pathology_report_uuid}}</td></tr>
+						<tr><td class="tab-table-field-name">Pathology Report UUID</td><td class="tab-table-field-value">{{sample.pathology_report_uuid}}</td></tr>
 						<tr><td class="tab-table-field-name">Preservation Method</td><td class="tab-table-field-value">{{sample.preservation_method}}</td></tr>
 						<tr><td class="tab-table-field-name">Sample Type ID</td><td class="tab-table-field-value">{{sample.sample_type_id}}</td></tr>
 						<tr><td class="tab-table-field-name">Shortest Dimension</td><td class="tab-table-field-value">{{sample.shortest_dimension}}</td></tr>

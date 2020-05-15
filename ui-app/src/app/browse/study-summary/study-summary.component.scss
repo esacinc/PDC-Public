@@ -38,7 +38,7 @@
 	white-space: normal;
 }
 
-.data-categories-table{
+.data-categories-table, .entity-reference-table {
 	padding: 0 !important;
 }
  
@@ -161,3 +161,7 @@
     overflow-y: scroll;
 }
 
+//@@@PDC-1883: Add external references to study summary page
+.entity-reference-table {
+	width: 100%;
+}

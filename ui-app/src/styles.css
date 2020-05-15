@@ -23,6 +23,12 @@ margin: 0 auto 0 0;
 margin: 0 0 0 auto;
 }
 
+/*PDC-1930: Add the new PDC id on the study tab table and in all the manifests*/
+#studyDataTable .ui-datatable-tableheader, #clinicalDataTable  .ui-datatable-tableheader, #fileDataTable .ui-datatable-tableheader,
+#genesDataTable .ui-datatable-tableheader{
+    word-break: unset !important;
+}
+
 /* @@@PDC-1689: Add additional analytics tag to PDC Data Browser */
 /* .cdk-global-overlay-wrapper {
     align-items: end !important;
@@ -236,6 +242,14 @@ div[class$="_feedback_selection_ignore"] {
     top: 146px;
     left: 149px;
     opacity: 0.2 !important;
+}
+
+#Head-and-Neck {
+	height: 125px;
+    width: 110px;
+    top: -15px;
+    left: 112px;
+    opacity: 0.35 !important;
 }
 
 #Brain {

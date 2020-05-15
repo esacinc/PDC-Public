@@ -10,7 +10,7 @@ import gql from 'graphql-tag';
 
 import { TissueSite, QueryTissueSites, QueryDiseases, Disease, Program, QueryPrograms, Project, 
 		QueryCases, Case, DiseaseType, DiseaseTypeQuery, AllStudiesData, QueryAllStudiesData, WorkflowMetadata, ProtocolData,
-		PublicationData, QueryPublicationData, FilesCountsPerStudyData, QueryAllClinicalDataPaginated, QueryAllCasesDataPaginated, QueryStudyExperimentalDesign, QueryBiospecimenPerStudy } from '../../types';
+		PublicationData, QueryPublicationData, FilesCountsPerStudyData, QueryAllClinicalDataPaginated, QueryAllCasesDataPaginated, QueryStudyExperimentalDesign, QueryBiospecimenPerStudy, EntityReferencePerStudy } from '../../types';
 
 /*This is a service class used for the API queries */
 
@@ -99,11 +99,13 @@ constructor(private apollo: Apollo) {
 
 	//@@@PDC-758: Study summary overlay window opened through search is missing data
 	//API call to fetch study summary details from a new API.
-	getFilteredStudyData(filters:any){
+	//@@@PDC-1883: Add external references to study summary page
+	getFilteredStudyData(study_name = '', pdc_study_id = ''){
 		return this.apollo.watchQuery<QueryAllStudiesData>({
 			query: this.filteredStudyDataQuery,
 			variables: {
-				study_name_filter: filters
+				study_name: study_name,
+				pdc_study_id: pdc_study_id
 			}
 		})
 		.valueChanges
@@ -111,16 +113,18 @@ constructor(private apollo: Apollo) {
         map(result => { console.log(result.data); return result.data;})
       ); 
 	}
-
+		
 	//@@@PDC-758: Study summary overlay window opened through search is missing data
 	//Query to fetch study summary details from a new API.
 	//@@@PDC-1358  add study uuid	
+	//@@@PDC-1883: Add external references to study summary page
 	filteredStudyDataQuery = gql`
-		query paginatedUIStudyQuery($study_name_filter: String!){
-			getPaginatedUIStudy(study_name: $study_name_filter) {
+		query paginatedUIStudyQuery($study_name: String!, $pdc_study_id: String!){
+			getPaginatedUIStudy(study_name: $study_name, pdc_study_id: $pdc_study_id) {
 				total
 				uiStudies {
 					study_id
+					pdc_study_id
 					submitter_id_name
 					study_description
 					program_name
@@ -554,6 +558,38 @@ constructor(private apollo: Apollo) {
 		.pipe(
 		map(result => {console.log(result.data); return result.data;
 		})
+		); 
+	}
+
+	//@@@PDC-1883: Add external references to study summary page
+	entityReferenceQuery = gql`
+	query EntityReferenceQueryData($entity_type_filter: String!, $entity_id_filter: String!, $reference_type_filter: String!){
+		pdcEntityReference(entity_type: $entity_type_filter , entity_id: $entity_id_filter, reference_type: $reference_type_filter) {
+			reference_id
+			entity_type
+			entity_id
+			reference_type
+			reference_entity_type
+			reference_entity_alias
+			reference_resource_name
+			reference_resource_shortname
+			reference_entity_location
+		}
+	}`;
+
+	//@@@PDC-1883: Add external references to study summary page
+	getEntityReferenceData(entity_type, entity_id, reference_type){
+		return this.apollo.watchQuery<EntityReferencePerStudy>({
+		query: this.entityReferenceQuery,
+		variables: {
+			entity_type_filter: entity_type,
+			entity_id_filter: entity_id,
+			reference_type_filter: reference_type
+		}
+		})
+		.valueChanges
+		.pipe(
+		map(result => { console.log(result.data); return result.data;})
 		); 
 	}
 	

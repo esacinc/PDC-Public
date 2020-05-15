@@ -2,12 +2,14 @@
 //@@@PDC-1120 StudyRunMetadata table change
 //@@@PDC-1156 add is_ref
 //@@@PDC-1316 remove itraq_120
+//@@@PDC-1874 add pdc_study_id to study-related APIs
 const StudyExperimentalDesign = `
 type StudyExperimentalDesign {
 	study_run_metadata_id: String
 	study_run_metadata_submitter_id: String
 	study_id: String
 	study_submitter_id: String
+	pdc_study_id: String
 	aliquot_is_ref: String
 	experiment_number: Int
 	experiment_type: String

@@ -646,6 +646,7 @@ properties:
         - Lymphoid Normal
         - Metastatic
         - Mononuclear Cells from Bone Marrow Normal
+        - Normal Adjacent Tissue
         - Neoplasms of Uncertain and Unknown Behavior
         - Next Generation Cancer Model
         - Primary Blood Derived Cancer - Peripheral Blood

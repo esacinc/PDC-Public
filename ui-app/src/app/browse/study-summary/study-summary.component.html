@@ -37,13 +37,13 @@
 				<table id="studySummaryCard">
 					<tbody style="width:99%; overflow-y:auto">
 					<!--@@@PDC-1358  add study uuid-->						
-					<tr><td class="summary-card-name-left-cell">Study UUID</td>
-						<td class="summary-card-value-left-cell">{{studySummaryData.study_id}}</td>
+					<tr><td class="summary-card-name-left-cell">PDC Study Identifier</td>
+						<td class="summary-card-value-left-cell">{{pdcStudyID}}</td>
 						<td class="summary-card-name-right-cell">Embargo Release Date</td>
 						<td class="summary-card-value-right-cell">{{studySummaryData.embargo_date | date :  "MMMM d, y"}}</td>
 					</tr>
-					<tr><td class="summary-card-name-left-cell">Source Study ID</td>
-						<td class="summary-card-value-left-cell">{{studySubmitterId}}</td>
+					<tr><td class="summary-card-name-left-cell">Study ID</td>
+						<td class="summary-card-value-left-cell">{{studySummaryData.study_id}}</td>
 						<td class="summary-card-name-right-cell">Analyitical Fraction</td>
 						<td class="summary-card-value-right-cell">{{studySummaryData.analytical_fraction}}</td>
 					</tr>
@@ -90,7 +90,7 @@
 						<td class="tab-table-field-value">{{protocol.protocol_name}}</td></tr>
 					<tr><td class="tab-table-field-name">Quantitation Strategy</td>
 						<td class="tab-table-field-value">{{protocol.quantitation_strategy}}</td></tr>	
-					<tr><td class="tab-table-field-name">Label Free Quantiataion</td>
+					<tr><td class="tab-table-field-name">Label Free Quantitation</td>
 						<td class="tab-table-field-value">{{protocol.label_free_quantiataion}}</td></tr>
 					<tr><td class="tab-table-field-name">Labeled Quantitation</td>
 						<td class="tab-table-field-value">{{protocol.labeled_quantitation}}</td></tr>
@@ -447,7 +447,18 @@
 				<p>If you have questions, contact <a href="mailto:cancer.proteomics@mail.nih.gov" class="mailto">cancer.proteomics@mail.nih.gov<span class="mailto" aria-label="(link sends e-mail)"></span></a>.</p>
 			</div>
 			<div *ngIf="!duaAvailable" style = "max-height:220px;overflow-y: auto;display: block!important;font-size: 12px; width: 100%;">
-				<br><p>No Data Use Agreement available.</p>
+				<br>
+				<p>PDC data submission and data use are governed by <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">Creative Commons CC-BY 0.4</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">Exit Disclaimer</span></a> licensing terms.</p>
+				<p>Under CC-BY terms, that user is free to,</p>
+				<p>&nbsp;&nbsp;&nbsp;&nbsp;Share — copy and redistribute the material in any medium or format</p>
+				<p>&nbsp;&nbsp;&nbsp;&nbsp;Adapt — remix, transform, and build upon the material for any purpose, even commercially.</p>
+				<P>The licensor cannot revoke these freedoms as long as you follow the license terms.</P>
+				<p>Under the following terms:</p>
+				<p>&nbsp;&nbsp;&nbsp;&nbsp;Attribution — You must give <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">appropriate credit</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">Exit Disclaimer</span></a>, provide a link to the license, and <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">indicate if changes were made</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">Exit Disclaimer</span></a>. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.</p>
+				<p>&nbsp;&nbsp;&nbsp;&nbsp;No additional restrictions — You may not apply legal terms or <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">technological measures</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">Exit Disclaimer</span></a> that legally restrict others from doing anything the license permits.</p>
+				<br/>
+				<p><span style="color:#333333;"><strong>Note: </strong></span></p>
+				<p>PDC may impose an embargo on certain datasets at the request of data submitters. In PDC, an <b>embargo</b> is the release of data on the PDC portal with the condition that users who access these datasets from the PDC portal cannot published or disseminated before a certain <b>date</b>. The embargo date is displayed on the study summary page of each dataset as applicable.</p>
 			</div>
 		</mat-tab>
 	</mat-tab-group>
@@ -472,6 +483,46 @@
 				  </table>
 				</mat-card-content>
 			</mat-card>
+			<div class="row" style="width: 100%; padding-top: 20px;padding-left: 30px">
+				<div *ngIf="entityReferenceExternalData.length > 0" class="row" style="width: 200%;">
+						<mat-card class="entity-reference-table">
+							<mat-card-content>
+							<table class="table table-striped" style="width:100%" id="entityReferenceExternalTable">
+								<thead>
+									<tr style="font-size: 12px;background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%);">
+										<th colspan="2" class="ui-datatable-tableheader" style="width:80%;">External References</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr style="font-size: 12px;" *ngFor="let entityReference of entityReferenceExternalData">
+										<td style="word-wrap: break-word;white-space: normal;width:80%">{{entityReference.reference_resource_name}}</td>
+										<td style="word-wrap: break-word;white-space: normal;"><a href="{{entityReference.reference_entity_location}}" target="_blank">{{entityReference.reference_entity_alias}}</a></td>
+									</tr>
+								</tbody>
+							</table>
+							</mat-card-content>
+						</mat-card>
+				</div>
+				<div *ngIf="entityReferenceInternalData.length > 0" class="row" style="padding-bottom:5px; width: 200%;">
+						<mat-card class="entity-reference-table">
+							<mat-card-content>
+							<table class="table table-striped" style="width:100%" id="entityReferenceInternalTable">
+								<thead>
+									<tr style="font-size: 12px;background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%);">
+										<th colspan="2" class="ui-datatable-tableheader" style="width:80%;">Related PDC studies</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr style="font-size: 12px;" *ngFor="let entityInternalReference of entityReferenceInternalData">
+										<td style="word-wrap: break-word;white-space: normal;width:80%">{{entityInternalReference.reference_resource_shortname}}</td>
+										<td style="word-wrap: break-word;white-space: normal;"><a href="javascript:void(0);" (click)="showStudySummary(entityInternalReference.reference_entity_location)">{{entityInternalReference.reference_entity_alias}}</a></td>
+									</tr>
+								</tbody>
+							</table>
+							</mat-card-content>
+						</mat-card>
+				</div>
+			</div>
 		</div>
 		<div class="col-md-6" style="padding-bottom:5px">
 		<!--@@@PDC-1313 use heatmap thumbnail-->			

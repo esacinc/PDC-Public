@@ -108,6 +108,7 @@ export interface AnalyticFractionCount  {
 //@@@PDC-1358 add study_id (uuid) to study summary page
 export type AllStudiesData = {
 	study_id: string;
+	pdc_study_id: string;
 	study_submitter_id: string;
 	submitter_id_name: string;
 	program_name: string;
@@ -188,6 +189,7 @@ export type AllFilesData = {
 	file_id: string;
 	submitter_id_name: string;
 	file_name: string;
+	pdc_study_id: string;
 	study_run_metadata_submitter_id: string;
 	project_name: string;
 	data_category: string;
@@ -644,6 +646,7 @@ export type SearchResultsStudy = {
 	name: string; 
 	submitter_id_name: string;
 	study_id: string;
+	pdc_study_id: string;
 }
 
 export type SearchCaseResults = {
@@ -828,3 +831,22 @@ export type BiospecimenPerStudy = {
 	pool: string;
 	taxon: string;
 }
+
+//@@@PDC-1883: Add external references to study summary page
+export type EntityReferencePerStudy = {
+	entityReferenceStudyData: EntityReference [];
+}
+
+//@@@PDC-1883: Add external references to study summary page
+export type EntityReference = {
+	reference_id: string;
+	entity_type: string;
+	entity_id: string;
+	reference_type: string;
+	reference_entity_type: string;
+	reference_entity_alias: string;
+	reference_resource_name: string;
+	reference_resource_shortname: string;
+	reference_entity_location: string;
+}
+

@@ -16,9 +16,9 @@ export class ProgramStatsComponent implements OnInit {
   studiesCounter = 0;
   filesCounter = 0;
   experimentsCounter = 0;
-  spectraCounter = 0;
+  spectraCounter;
   proteinCounter = 0;
-  peptideCounter = 0;
+  peptideCounter;
   dataSize = 0;
 
   constructor(private apollo: Apollo,
@@ -33,8 +33,8 @@ export class ProgramStatsComponent implements OnInit {
       this.projectsCounter = data.uiPdcDataStats[0].project;
       this.filesCounter = data.uiPdcDataStats[0].data_file;
       this.dataSize = data.uiPdcDataStats[0].data_size;
-      this.spectraCounter = data.uiPdcDataStats[0].spectra;
-      this.peptideCounter = data.uiPdcDataStats[0].peptide;
+      this.spectraCounter = this.round(data.uiPdcDataStats[0].spectra);
+      this.peptideCounter = this.round(data.uiPdcDataStats[0].peptide);
       this.proteinCounter = data.uiPdcDataStats[0].protein;
       this.studiesCounter = data.uiPdcDataStats[0].study;
     });
@@ -42,6 +42,15 @@ export class ProgramStatsComponent implements OnInit {
   }
   ngOnInit() {
     this.getAllProgramsData();
+  }
+
+  //@@@PDC-1986: Round the Program Statistics numbers to nearest Millions
+  round(num, locale='en') {
+    return Math.abs(Number(num)) >= 1.0e+9
+        ? Math.round(Math.abs(Number(num)) / 1.0e+9 ) + " B"
+        : Math.abs(Number(num)) >= 1.0e+6
+            ? Math.round(Math.abs(Number(num)) / 1.0e+6 ) + " M"
+                : Math.abs(Number(num)); 
   }
 
 }

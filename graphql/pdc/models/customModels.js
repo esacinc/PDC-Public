@@ -8,6 +8,7 @@ import _ from 'lodash';
 */
 
 //@@@PDC-962 defnie db models after db is initialized asynchronously 
+//@@@PDC-1874 add pdc_study_id to all study-related APIs 
 const defineCustomModels = (db) => {
 
 	//@@@PDC-1241 fix for latest version of Sequelize
@@ -48,6 +49,7 @@ const defineCustomModels = (db) => {
 		study_id: { type: Sequelize.STRING,
 					  primaryKey: true   },
 		study_submitter_id: { type: Sequelize.STRING },
+		pdc_study_id: { type: Sequelize.STRING },
 		submitter_id_name: { type: Sequelize.STRING },
 		project_submitter_id: { type: Sequelize.STRING },
 		project_id: { type: Sequelize.STRING },
@@ -101,6 +103,7 @@ const defineCustomModels = (db) => {
 	  
 	  const ModelExperimentalMetadata = db.getSequelize().define('dummy', {
 		study_submitter_id: { type: Sequelize.STRING },
+		pdc_study_id: { type: Sequelize.STRING },
 		experiment_type: { type: Sequelize.STRING },
 		analytical_fraction: { type: Sequelize.STRING },
 		instrument: { type: Sequelize.STRING },
@@ -198,6 +201,7 @@ const defineCustomModels = (db) => {
 		  downloadable: { type: Sequelize.STRING },
 		  md5sum: { type: Sequelize.STRING },
 		  study_submitter_id: { type: Sequelize.STRING },
+		  pdc_study_id: { type: Sequelize.STRING },
 		  files_count: { type: Sequelize.INTEGER },
 	  }, {
 		  timestamps: false,
@@ -226,6 +230,7 @@ const defineCustomModels = (db) => {
 		  study_id: { type: Sequelize.STRING },
 		  study_name: { type: Sequelize.STRING },
 		  study_submitter_id: { type: Sequelize.STRING },
+		  pdc_study_id: { type: Sequelize.STRING },
 		  file_size: { type: Sequelize.STRING },
 	  }, {
 		  timestamps: false,
@@ -250,6 +255,7 @@ const defineCustomModels = (db) => {
 		  protocol_submitter_id: { type: Sequelize.STRING },
 		  study_id: { type: Sequelize.STRING },
 		  study_submitter_id: { type: Sequelize.STRING },
+		  pdc_study_id: { type: Sequelize.STRING },
 		  program_id: { type: Sequelize.STRING },
 		  program_submitter_id: { type: Sequelize.STRING },
 		  protocol_name: { type: Sequelize.STRING },
@@ -327,6 +333,7 @@ const defineCustomModels = (db) => {
 	  const ModelWorkflowMetadata = db.getSequelize().define('workflow_metadata', {
 		workflow_metadata_submitter_id: { type: Sequelize.STRING},
 		study_submitter_id: { type: Sequelize.STRING },
+		pdc_study_id: { type: Sequelize.STRING },
 		protocol_submitter_id: { type: Sequelize.STRING },
 		cptac_study_id: { type: Sequelize.STRING },
 		submitter_id_name: { type: Sequelize.STRING },
@@ -372,6 +379,7 @@ const defineCustomModels = (db) => {
 			  gene_name: { type: Sequelize.STRING},
 			  study_id: { type: Sequelize.STRING},
 			  study_submitter_id: { type: Sequelize.STRING},
+			  pdc_study_id: { type: Sequelize.STRING },
 			  study_run_metadata_id: { type: Sequelize.STRING},
 			  study_run_metadata_submitter_id: { type: Sequelize.STRING},
 			  analytical_fraction:  { type: Sequelize.STRING},
@@ -466,6 +474,7 @@ const defineCustomModels = (db) => {
 		submitter_id_name: { type: Sequelize.STRING },
 		study_id: {type: Sequelize.STRING},
 		study_submitter_id: {type: Sequelize.STRING},
+		pdc_study_id: { type: Sequelize.STRING },
 		description: { type: Sequelize.STRING },
 		proteins: { type: Sequelize.STRING },
 	}, {
@@ -515,6 +524,7 @@ const defineCustomModels = (db) => {
 	  */
 	  const ModelMatrix = db.getSequelize().define('dummy', {
 		  study_submitter_id: { type: Sequelize.STRING },
+		  pdc_study_id: { type: Sequelize.STRING },
 		  plex_name: { type: Sequelize.STRING },
 		  gene_name: { type: Sequelize.STRING },
 		  spectral_count: { type: Sequelize.STRING },
@@ -543,6 +553,7 @@ const defineCustomModels = (db) => {
 	  //@@@PDC-485 spectral count per study and aliquot query
 	  const ModelSpectralCount = db.getSequelize().define('dummy', {
 		study_submitter_id: { type: Sequelize.STRING},
+		pdc_study_id: { type: Sequelize.STRING },
 		gene_name: { 	type: Sequelize.STRING},
 		aliquot_id: { type: Sequelize.STRING },
 		plex: { type: Sequelize.STRING },
@@ -577,8 +588,10 @@ const defineCustomModels = (db) => {
 		  study_id: { type: Sequelize.STRING,
 					  primaryKey: true   },
 		  study_submitter_id: { type: Sequelize.STRING },
+		  pdc_study_id: { type: Sequelize.STRING },
 		  submitter_id_name: { type: Sequelize.STRING },
 		  study_name:  { type: Sequelize.STRING},
+		  study_shortname:  { type: Sequelize.STRING},
 		  project_submitter_id: { type: Sequelize.STRING },
 		  acquisition_type: { type: Sequelize.STRING },
 		  program_name:  { type: Sequelize.STRING},
@@ -609,6 +622,7 @@ const defineCustomModels = (db) => {
 		  study_run_metadata_submitter_id: { type: Sequelize.STRING },
 		  study_id: { type: Sequelize.STRING },
 		  study_submitter_id: { type: Sequelize.STRING },
+		  pdc_study_id: { type: Sequelize.STRING },
 		  aliquot_is_ref: { type: Sequelize.STRING },
 		  acquisition_type: { type: Sequelize.STRING },
 		  analyte:  { type: Sequelize.STRING},
@@ -644,6 +658,26 @@ const defineCustomModels = (db) => {
 	  });
 	  ModelStudyPublic.removeAttribute('id');
 
+	  //@@@PDC-1882 pdcEntityReference api
+	  const ModelEntityReference = db.getSequelize().define('dummy', {
+		  reference_id: { type: Sequelize.STRING,
+					  primaryKey: true   },
+		  entity_type: { type: Sequelize.STRING },
+		  entity_id: { type: Sequelize.STRING },
+		  reference_type: { type: Sequelize.STRING },
+		  reference_entity_type:  { type: Sequelize.STRING},
+		  reference_entity_alias: { type: Sequelize.STRING },
+		  reference_resource_name: { type: Sequelize.STRING },
+		  reference_resource_shortname:  { type: Sequelize.STRING},
+		  reference_entity_location:  { type: Sequelize.STRING},
+	  }, {
+		  timestamps: false,
+		  underscored: true,
+		  freezeTableName: true,
+		  tableName: 'dummy'	
+	  });
+	  ModelEntityReference.removeAttribute('id');
+	  
 	  db['ModelCase'] = ModelCase;
 	  db['ModelCaseFile'] = ModelCaseFile;
 	  db['ModelStudy'] = ModelStudy;
@@ -670,6 +704,7 @@ const defineCustomModels = (db) => {
 	  db['ModelClinicalMetadata'] = ModelClinicalMetadata;
 	  db['ModelStudyPublic'] = ModelStudyPublic;
 	  db['ModelStudyExperimentalDesign'] = ModelStudyExperimentalDesign;  
+	  db['ModelEntityReference'] = ModelEntityReference;  
 };
 
 export { defineCustomModels };

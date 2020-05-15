@@ -31,18 +31,30 @@ export class SearchStylePipe implements PipeTransform {
 		let studyOrCaseValues = return_value.split("{");
 		if (studyOrCaseValues.length > 1) {
 			let submitterIDVal = "";
+			let pdc_study_id = "";
 			let submitterVal = studyOrCaseValues[1];
 			let nameSubmitterIDVal = submitterVal.split("}");
 			let labelUUIDVal = studyOrCaseValues[0].split(": ");
 			let labelForStudyCaseVal = labelUUIDVal[0];
 			let uuidVal = labelUUIDVal[1];
-
+			//@@@PDC 1875: Update search to be able to search by new PDC ID
+			//For study search, retrieve the PDC Study ID
+			if (labelForStudyCaseVal == "ST" && nameSubmitterIDVal.length > 1) {
+				let sub_id_pdc_study_id = nameSubmitterIDVal[1].split("~");
+				pdc_study_id = sub_id_pdc_study_id[1];
+			}
 
 			return_value = "<div><div><span><small>";
 			return_value =  return_value + labelForStudyCaseVal + ":&nbsp;</small></span>";
-			if (uuidVal != "") {
-				return_value =  return_value + "<small><i>" + uuidVal + "</i></small></div>";
-			} 
+			if (labelForStudyCaseVal == "ST") {
+				//@@@PDC 1875: Update search to be able to search by new PDC ID
+				//For study search, display the PDC Study ID followed by other data.
+				return_value =  return_value + "<small><i>" + pdc_study_id + "</i></small></div>";
+			} else {
+				if (uuidVal != "") {
+					return_value =  return_value + "<small><i>" + uuidVal + "</i></small></div>";
+				} 
+			}
 			if (nameSubmitterIDVal.length > 1) {
 				submitterVal = nameSubmitterIDVal[0];
 				submitterIDVal = nameSubmitterIDVal[1];
@@ -52,6 +64,10 @@ export class SearchStylePipe implements PipeTransform {
 				return_value =  return_value + "<div><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><small>" + submitterVal + "</small></div>";
 				if (labelForStudyCaseVal == "AL" || labelForStudyCaseVal == "SA") {
 					return_value =  return_value + "<div><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><small><i>Case: " + submitterIDVal + "</i></small></div></div>";
+				} else if (labelForStudyCaseVal == "ST") {
+					//@@@PDC 1875: Update search to be able to search by new PDC ID
+					//For study search, display the Study UUID in the end.
+					return_value =  return_value + "<div><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><small><i>" + uuidVal + "</i></small></div></div>";
 				} else {
 					return_value =  return_value + "<div><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><small><i>" + submitterIDVal + "</i></small></div></div>";
 				}

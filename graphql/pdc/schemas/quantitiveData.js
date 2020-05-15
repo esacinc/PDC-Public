@@ -1,5 +1,6 @@
 //@@@PDC-503 quantitiveDataCPTAC2 API
 //@@@PDC-669 gene_abundance table change
+//@@@PDC-1874 add pdc_study_id to study-related APIs
 const QuantitiveData =`
 type QuantitiveData {
 		gene_abundance_id: String
@@ -7,6 +8,7 @@ type QuantitiveData {
 		gene_name: String
 		study_id: String
 		study_submitter_id: String
+		pdc_study_id: String
 		study_run_metadata_id: String
 		study_run_metadata_submitter_id: String
 		analytical_fraction: String

@@ -52,6 +52,12 @@ const filters = function (args, cache = {name:''}) {
 		uiFileQuery += " and s.study_submitter_id IN ('" + studySub.join("','") + "')";
 		cache.name += "study_submitter_id:("+ studySub.join(",") + ");";
 	}
+	//@@@PDC-1874 add pdc_study_id to all study-related APIs 
+	if (typeof args.pdc_study_id != 'undefined' && args.pdc_study_id.length > 0) {
+		let studySub = args.pdc_study_id.split(";");
+		uiFileQuery += " and s.pdc_study_id IN ('" + studySub.join("','") + "')";
+		cache.name += " pdc_study_id:("+ studySub.join(",") + ");";
+	}
 	//@@@PDC-533 additional filters
 	if (typeof args.ethnicity != 'undefined' && args.ethnicity.length > 0) {
 		let ethniSub = args.ethnicity.split(";");

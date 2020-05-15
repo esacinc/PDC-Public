@@ -1,16 +1,3 @@
-{
-    "heatmaps": [
-     {
-         "menu-label": "Quantitation",
-         "children": [
-             {
-                 "menu-label": "Reporter ion intensity - Log2Ratio",
-                 "filename":"S039-2-log2_ratio.gct",
-                 "col-header": "Aliquot",
-                 "row-header": "Gene",
-                 "tooltip": "Average, normalized log-ratio of reporter ion intensity to ion intensity from a pooled, common reference associated with the phospho site in acquisitions from a specific aliquot of a biological sample"
-             }
-        ]
-        }
-    ]
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:e7b05b5db37a3e1505af59bcb5e392b1690ae69229bf7e0366e60bda2aa1d84c
+size 581

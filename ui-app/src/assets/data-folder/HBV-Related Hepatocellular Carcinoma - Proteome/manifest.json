@@ -1,23 +1,3 @@
-{
-    "heatmaps": [
-     {
-         "menu-label": "Quantitation",
-         "children": [
-             {
-                 "menu-label": "Reporter ion intensity - Log2Ratio",
-                 "filename":"HBV-Related Hepatocellular Carcinoma - Proteome-log2_ratio.gct",
-                 "col-header": "Aliquot",
-                 "row-header": "Gene",
-                 "tooltip": "Average, normalized log-ratio of reporter ion intensity to ion intensity from a pooled, common reference associated with the gene in acquisitions from a specific aliquot of a biological sample"
-             },
-             {
-                 "menu-label": "Reporter ion intensity - Log2Ratio - Unshared Peptides only",
-                 "filename":"HBV-Related Hepatocellular Carcinoma - Proteome-unshared_log2_ratio.gct",
-                 "col-header": "Aliquot",
-                 "row-header": "Gene",
-                 "tooltip": "Average, normalized log-ratio of reporter ion intensity to ion intensity from a pooled, common reference from unshared peptides associated with the gene in acquisitions from a specific aliquot of a biological sample"
-             }
-        ]
-        }
-    ]
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:0ddcabe8854b4098178c242d71bbbf2102b6fd6bb4eca97a1f0cb79dd545d7eb
+size 1169
