@@ -541,6 +541,18 @@ const defineUiModels = (db) => {
 	});
 	ModelFilterProgProjAlSamCaDemDia.removeAttribute('id');
 
+	//@@@PDC-2020 use major primary site
+	const ModelHumanBody = db.getSequelize().define('dummy', {
+		major_primary_site:  { type: Sequelize.STRING},
+		cases_count: { type: Sequelize.INTEGER},
+	}, {
+		timestamps: false,
+		underscored: true,
+		freezeTableName: true,
+		tableName: 'dummy'	
+	});
+	ModelHumanBody.removeAttribute('id');
+
 	db['ModelUIStudy'] = ModelUIStudy;
 	db['ModelUIFilter'] = ModelUIFilter;
 	db['ModelUICount'] = ModelUICount;	
@@ -561,6 +573,7 @@ const defineUiModels = (db) => {
 	db['ModelFilterFile'] = ModelFilterFile;
 	db['ModelFilterAlSamCaDemDia'] = ModelFilterAlSamCaDemDia;
 	db['ModelFilterProgProjAlSamCaDemDia'] = ModelFilterProgProjAlSamCaDemDia;
+	db['ModelHumanBody'] = ModelHumanBody;
 };
 
 export { defineUiModels };

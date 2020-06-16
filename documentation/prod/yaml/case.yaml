@@ -16,6 +16,9 @@ properties:
             determining relative protein abundances in labeling experiments.
         required: 'false'
         type: string
+        enum:
+        - 'Yes'
+        - 'No'
     case_submitter_id:
         key: 'yes'
         type: string
@@ -178,6 +181,9 @@ properties:
             determining relative protein abundances in labeling experiments.
         required: 'true'
         type: string
+        enum:
+        - 'Yes'
+        - 'No'
     primary_site:
         cde_id: 6161019
         description: The text term used to describe the general location of the malignant
@@ -332,14 +338,6 @@ properties:
         - Sus scrofa
         - Gasterosteus aculeatus (fish)
         required: 'false'
-        type: string
-    tissue_source_site_code:
-        cde_id: C103264
-        description: A clinical site that collects and provides patient samples and
-            clinical metadata for research use.
-        required: 'false'
-        source: NCIt
-        term_url: https://ncit.nci.nih.gov/ncitbrowser/pages/concept_details.jsf?dictionary=NCI%20Thesaurus&code=C103264
         type: string
 title: Case
 type: object

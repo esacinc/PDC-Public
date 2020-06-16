@@ -163,6 +163,10 @@ export class BrowseComponent implements OnInit{
 				text: yAxisLable,
 			}
 		},
+		//@@@PDC-1731: Browse page - Analytical Fractions - Spacing in between numbers for Case Count
+		tooltip: {
+			pointFormat: '<span style="color:{series.color}">●</span> Case count: <b>{point.y:.f}</b><br/>'
+		},
 		plotOptions: {
 			series: {
 				cursor: 'pointer',

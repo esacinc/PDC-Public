@@ -12,6 +12,11 @@ let client = new AWS.SecretsManager({
   region: region
 });
 let sequelize = null;
+//@@@PDC-2085 increase pool size
+let maxConnection = 30;
+if (typeof process.env.PDC_PUB_DB_GQ_MAX_CONN != "undefined") {
+	maxConnection = parseInt(process.env.PDC_PUB_DB_GQ_MAX_CONN);
+}
 
 const getSequelize = () => { return sequelize; }; 
 pubDb.getSequelize = getSequelize;
@@ -30,6 +35,11 @@ if (typeof process.env.PDC_PUB_DB_GQ_PWD != "undefined") {
       host: process.env.PDC_PUB_DB_GQ_HOST,
       dialect: process.env.PDC_PUB_DB_GQ_DIALECT,
       port: process.env.PDC_PUB_DB_GQ_PORT,
+	  pool: {
+			max: maxConnection,
+			min: 0,
+			idle: 10000
+	  },    
 	  logging: (msg) => logger.info(msg)
     }
   );
@@ -77,6 +87,11 @@ if (typeof process.env.PDC_PUB_DB_GQ_PWD != "undefined") {
           host: process.env.PDC_PUB_DB_GQ_HOST,
           dialect: process.env.PDC_PUB_DB_GQ_DIALECT,
           port: process.env.PDC_PUB_DB_GQ_PORT,
+		  pool: {
+				max: maxConnection,
+				min: 0,
+				idle: 10000
+		  },    
 		  logging: (msg) => logger.info(msg)
         }
       );

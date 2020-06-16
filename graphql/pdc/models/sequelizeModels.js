@@ -136,6 +136,7 @@ const defineSequelizeModels = (db) => {
 	  //@@@PDC-155 change count to cases_count
 	  //@@@PDC-156 get disease type instead of primary diagnosis
 	  //@@@PDC-1011 replace gdc_case_id with external_case_id
+	  //@@@PDC-2038 add ajcc_staging_system_edition
 	  /**
 	  * DiagnosisModel is mapped to the table of diagnosis and used in 
 	  * tissueSitesAvailable and  diseasesAvailable queries.
@@ -177,6 +178,7 @@ const defineSequelizeModels = (db) => {
 		  ajcc_pathologic_n: { type: Sequelize.STRING },
 		  ajcc_pathologic_stage: { type: Sequelize.STRING },
 		  ajcc_pathologic_t: { type: Sequelize.STRING },
+		  ajcc_staging_system_edition: { type: Sequelize.STRING },
 		  ann_arbor_b_symptoms: { type: Sequelize.STRING },
 		  ann_arbor_clinical_stage: { type: Sequelize.STRING },
 		  ann_arbor_extranodal_involvement: { type: Sequelize.STRING },

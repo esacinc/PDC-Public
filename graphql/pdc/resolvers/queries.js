@@ -1846,10 +1846,11 @@ export const resolvers = {
 		},
 		//@@@PDC-1220 add uiPrimarySiteCaseCount
 		//@@@PDC-1243 fix case count per primary site
+		//@@@PDC-2020 use major primary site
 		async uiPrimarySiteCaseCount (_, args, context) {
-			var pscQuery = "select primary_site, count(dia.case_id) as cases_count"+
+			var pscQuery = "select major_primary_site, count(dia.case_id) as cases_count"+
 			" from `case` c,  pdc.diagnosis dia"+
-            " where c.case_id = dia.case_id group by primary_site";
+            " where c.case_id = dia.case_id group by major_primary_site";
 			/*var pscQuery = "select primary_site, count(*) as cases_count "+" from (SELECT distinct bin_to_uuid(al.aliquot_id) as aliquot_id, "+
 			" bin_to_uuid(sam.sample_id) as sample_id, al.aliquot_submitter_id,"+ 
 			" al.status as aliquot_status, sam.sample_submitter_id, "+
@@ -1869,7 +1870,7 @@ export const resolvers = {
 
 			const res = await RedisCacheClient.redisCacheGetAsync(CacheName.getBrowsePageChartCacheKey('HumanBody'));
 			if(res === null){
-				var result = await  db.getSequelize().query(pscQuery, { model: db.getModelByName('ModelUIExperiment') });
+				var result = await  db.getSequelize().query(pscQuery, { model: db.getModelByName('ModelHumanBody') });
 				RedisCacheClient.redisCacheSetExAsync(CacheName.getBrowsePageChartCacheKey('HumanBody'), JSON.stringify(result));
 				return result;
 			}else{
@@ -2371,7 +2372,7 @@ export const resolvers = {
 			}
 			var searchCountQuery = "SELECT count(c.case_submitter_id) as total ";
 			var searchBaseQuery = "SELECT c.case_submitter_id as name, bin_to_uuid(c.case_id) as case_id, 'case' as record_type ";
-			var searchQuery = " FROM `case` c WHERE c.case_submitter_id like '%"+nameToSearch+"%'";
+			var searchQuery = " FROM `case` c WHERE c.case_submitter_id like '%"+nameToSearch+"%' order by c.case_submitter_id";
 			//" AND c.project_submitter_id IN ('" + context.value.join("','") + "')";
 			var myOffset = 0;
 			var myLimit = 100;
@@ -2484,7 +2485,7 @@ export const resolvers = {
 			var searchCountQuery = "SELECT count(s.study_shortname) as total ";
 			//@@@PDC-372 add submitter_id_name for study type
 			var searchBaseQuery = "SELECT s.study_shortname as name, s.submitter_id_name, s.pdc_study_id, bin_to_uuid(s.study_id) as study_id, s.study_submitter_id, 'study' as record_type ";
-			var searchQuery = " FROM study s WHERE s.study_shortname like '%"+nameToSearch+"%'";
+			var searchQuery = " FROM study s WHERE s.study_shortname like '%"+nameToSearch+"%' order by s.pdc_study_id";
 			//" AND s.project_submitter_id IN ('" + context.value.join("','") + "')";
 			var myOffset = 0;
 			var myLimit = 100;
@@ -2514,7 +2515,7 @@ export const resolvers = {
 			var searchCountQuery = "SELECT count(s.study_shortname) as total ";
 			//@@@PDC-372 add submitter_id_name for study type
 			var searchBaseQuery = "SELECT s.study_shortname as name, s.submitter_id_name, s.pdc_study_id, bin_to_uuid(s.study_id) as study_id, s.study_submitter_id, 'study' as record_type ";
-			var searchQuery = " FROM study s WHERE s.pdc_study_id like '%"+idToSearch+"%'";
+			var searchQuery = " FROM study s WHERE s.pdc_study_id like '%"+idToSearch+"%' order by s.pdc_study_id";
 			//" AND s.project_submitter_id IN ('" + context.value.join("','") + "')";
 			var myOffset = 0;
 			var myLimit = 100;
@@ -2544,7 +2545,7 @@ export const resolvers = {
 			var searchCountQuery = "SELECT count(s.study_shortname) as total ";
 			//@@@PDC-372 add submitter_id_name for study type
 			var searchBaseQuery = "SELECT s.study_shortname as name, s.submitter_id_name, s.pdc_study_id, bin_to_uuid(s.study_id) as study_id, s.study_submitter_id, 'study' as record_type ";
-			var searchQuery = " FROM study s, reference r WHERE s.study_id = r.entity_id and r.reference_entity_alias like '%"+idToSearch+"%'";
+			var searchQuery = " FROM study s, reference r WHERE s.study_id = r.entity_id and r.reference_entity_alias like '%"+idToSearch+"%' order by s.pdc_study_id";
 			//" AND s.project_submitter_id IN ('" + context.value.join("','") + "')";
 			var myOffset = 0;
 			var myLimit = 100;
@@ -2575,7 +2576,7 @@ export const resolvers = {
 			var searchCountQuery = "SELECT count(a.aliquot_submitter_id) as total ";
 			//@@@PDC-372 add submitter_id_name for study type
 			var searchBaseQuery = "SELECT bin_to_uuid(a.aliquot_id) as aliquot_id, a.aliquot_submitter_id";
-			var searchQuery = " FROM aliquot a WHERE a.aliquot_submitter_id like '%"+nameToSearch+"%'";
+			var searchQuery = " FROM aliquot a WHERE a.aliquot_submitter_id like '%"+nameToSearch+"%' order by a.aliquot_submitter_id";
 			//" AND s.project_submitter_id IN ('" + context.value.join("','") + "')";
 			var myOffset = 0;
 			var myLimit = 100;
@@ -3011,6 +3012,7 @@ export const resolvers = {
 				let subIds = args.sample_submitter_id.split(';');
 				sampleQuery += "where sample_submitter_id in ('" + subIds.join("','") + "')";	
 			}
+			sampleQuery += " order by case_submitter_id";
 			return db.getSequelize().query(sampleQuery, { model: db.getModelByName('Sample') });
 			
 		},
@@ -3031,6 +3033,7 @@ export const resolvers = {
 				let subIds = args.aliquot_submitter_id.split(';');
 				aliquotQuery += "and aliquot_submitter_id in ('" + subIds.join("','") + "')";	
 			}
+			aliquotQuery += " order by sam.case_submitter_id";
 			return db.getSequelize().query(aliquotQuery, { model: db.getModelByName('Aliquot') });
 		},
 		//@@@PDC-898 new public APIs--protocolPerStudy
@@ -3279,6 +3282,7 @@ export const resolvers = {
 		},
 		//@@@PDC-1491 add dataMatrixFromFile API
 		//@@@PDC-1772 allow study_id as a parameter
+		//@@@PDC-2016 add pdc_study_id to quantDataMatrix
 		async quantDataMatrix(obj, args, context) {
 			var sid = null;
 			if (typeof args.study_id != 'undefined' && args.study_id.length > 0) {
@@ -3289,8 +3293,13 @@ export const resolvers = {
 				var study = await db.getSequelize().query(studyQuery, { raw: true });
 				sid = study[0][0].study_id;
 			}
+			if (typeof args.pdc_study_id != 'undefined' && args.pdc_study_id.length > 0 && sid == null) {
+				var studyQuery = "select bin_to_uuid(study_id) as study_id from study where pdc_study_id = '"+args.pdc_study_id+"'";
+				var study = await db.getSequelize().query(studyQuery, { raw: true });
+				sid = study[0][0].study_id;
+			}
 			if (sid == null) {
-				return [['Either study_id or study_submitter_id']['is needed']];
+				return [['One of the following is needed: ']['study_id or study_submitter_id or pdc_study_id']];
 			}
 			var matrixFile = 'matrixFiles/'+sid+ '_'+args.data_type+'.json';
 			let rawData = fs.readFileSync(matrixFile);
@@ -3299,7 +3308,8 @@ export const resolvers = {
 		},
 		//@@@PDC-1882 pdcEntityReference api
 		pdcEntityReference(obj, args, context) {
-			var entityReferenceQuery = "SELECT bin_to_uuid(reference_id) as reference_id, entity_type, bin_to_uuid(entity_id) as entity_id, reference_type, reference_entity_type, reference_entity_alias, reference_resource_name, reference_resource_shortname, reference_entity_location FROM reference where reference_id is not null ";
+			//@@@PDC-2018 add submitter_id_name of study
+			var entityReferenceQuery = "SELECT bin_to_uuid(reference_id) as reference_id, entity_type, bin_to_uuid(entity_id) as entity_id, reference_type, reference_entity_type, reference_entity_alias, reference_resource_name, reference_resource_shortname, reference_entity_location, s.submitter_id_name FROM reference r left join study s on r.reference_entity_alias = s.pdc_study_id where r.reference_id is not null ";
 			if (typeof args.entity_id != 'undefined' && args.entity_id.length > 0) {
 				entityReferenceQuery += " and entity_id = uuid_to_bin('" + args.entity_id+ "')";
 			}

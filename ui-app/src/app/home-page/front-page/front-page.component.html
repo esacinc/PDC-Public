@@ -37,40 +37,40 @@
 				  <mat-card-header class="bottom-row-card-header">RECENT RELEASES</mat-card-header>
 				  <mat-card-content id="recentReleasesContent">
 					<mat-list >
-            <mat-list-item class="bottom-card-list-item" id="bottom-release-item">
-              <div class="bottom-card-bullet-item"><div><i class="pi pi-circle-off bottom-card-bullet-icon"></i></div><div>International Cancer Proteogenome Consortium - Academia Sinica Early Stage Non-smoking Lung Adenocarcinoma data released, May 2020</div></div>
+            <mat-list-item class="bottom-card-list-item" id="list-item">
+              <div class="bottom-card-bullet-item"><div><i class="pi pi-circle-off bottom-card-bullet-icon"></i></div>
+                <div>International Cancer Proteogenome Consortium - Academia Sinica Early Stage Non-smoking Lung Adenocarcinoma data released, May 2020
+                </div>
+              </div>
             </mat-list-item>
-            <mat-list-item class="bottom-card-list-item" id="bottom-release-item">
+            <mat-list-item class="bottom-card-list-item" id="list-item">
               <div class="bottom-card-bullet-item"><div><i class="pi pi-circle-off bottom-card-bullet-icon"></i></div><div>CPTAC program Head and Neck Squamous Cell Carcinoma (HNSCC) data released, May 2020</div></div>
             </mat-list-item>
-            <mat-list-item class="bottom-card-list-item" id="bottom-release-item">
+            <mat-list-item class="bottom-card-list-item" id="list-item">
               <div class="bottom-card-bullet-item"><div><i class="pi pi-circle-off bottom-card-bullet-icon"></i></div><div>International Cancer Proteogenome Consortium - Proteogenomics of Gastic Cancer data released, April 2020</div></div>
             </mat-list-item>
-						<mat-list-item class="bottom-card-list-item" id="bottom-release-item">
+						<mat-list-item class="bottom-card-list-item" id="list-item">
 							<div class="bottom-card-bullet-item"><div><i class="pi pi-circle-off bottom-card-bullet-icon"></i></div><div>PDC officially launched on cancer.gov domain, March 2020</div></div>
 						</mat-list-item>
 					</mat-list>
 					</mat-card-content>
 				</mat-card>
 			</div>
-			<!-- @@@PDC-1711 add external link icon -->
-			<div class="col-md-6" id="newsSection"  style="padding-left: 0!important;padding-right: 0!important;">
-				<mat-card class="bottom-card">
-				  <mat-card-header class="bottom-row-card-header">NEWS</mat-card-header>
-				  <mat-card-content id="newsSectionContent">
-					<mat-list>
-						<!--<mat-list-item *ngFor="let aNews of newsItems" id="news-item" class="bottom-card-list-item" style=" padding-top: 10px!important">
-							<div class="bottom-card-bullet-item"><div><i class="pi pi-circle-off bottom-card-bullet-icon"></i></div><div><a target="_" href="{{aNews.link}}">{{aNews.label}}</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_"><img src="./assets/css/image/extLink.png"></a></div></div>
-						</mat-list-item>-->
-						<mat-list-item *ngFor="let aNews of newsItems" id="news-item" class="bottom-card-list-item" style=" padding-top: 10px!important">
-							<div class="bottom-card-bullet-item">
-                <div><i class="pi pi-circle-off bottom-card-bullet-icon"></i></div>
-                <div><a target="_" href="{{aNews.link}}">{{aNews.label}}</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">Exit Disclaimer</span></a></div></div>
-						</mat-list-item>
-					</mat-list>
-					</mat-card-content>
-				</mat-card>
-			</div>
+      <!-- @@@PDC-1711 add external link icon -->
+      <div class="col-md-6" id="newsSection"  style="padding-left: 0!important;padding-right: 0!important;">
+        <mat-card class="bottom-card">
+          <mat-card-header class="bottom-row-card-header">NEWS</mat-card-header>
+          <mat-card-content id="newsSectionContent">
+            <mat-list>
+              <mat-list-item *ngFor="let aNews of newsItems" id="list-item" class="bottom-card-list-item">
+                <div class="bottom-card-bullet-item">
+                  <div><i class="pi pi-circle-off bottom-card-bullet-icon"></i></div>
+                  <div><a target="_" href="{{aNews.link}}">{{aNews.label}}</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">Exit Disclaimer</span></a></div></div>
+              </mat-list-item>
+            </mat-list>
+          </mat-card-content>
+        </mat-card>
+      </div>
 		</div>
 		<div class="row" style="padding-top:10px" >
 			<div class="col-md-6" id="tools-and-pipelines"  style="padding-left: 0!important;padding-right: 0!important;">
@@ -100,7 +100,7 @@
 						  <mat-icon mat-help-icon>help</mat-icon> &nbsp; &nbsp; Portal Documentation
 						</mat-list-item> -->
 						<mat-list-item class="bottom-card-list-item">
-							<i class="pi pi-circle-off"></i> &nbsp;&nbsp;&nbsp; <a [href]=getSubmissionPortalDocsURL() target="_blank">Submission Portal Documentation</a>
+							<i class="pi pi-circle-off"></i> &nbsp;&nbsp;&nbsp; <a href='https://pdc.cancer.gov/pdc/submit-data' target="_blank">Data Submission Documentation</a>
 						</mat-list-item>
 						 <mat-list-item class="bottom-card-list-item">
 							<i class="pi pi-circle-off"></i>  &nbsp;&nbsp;&nbsp; <a href = {{apidocumentation_url}} target="_blank">API Documentation</a>

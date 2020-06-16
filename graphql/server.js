@@ -130,6 +130,9 @@ var track = function(req, res, next) {
 
 graphQLServer.use(cors());
 
+//@@@PDC-1966 large payload
+graphQLServer.use(bodyParser.json({limit: '50MB'}));
+
 //@@@PDC-814 Track API usage through Google Analytics
 graphQLServer.use(ua.middleware(process.env.GA_TRACKING_ID, {cookieName: '_ga'}));
 

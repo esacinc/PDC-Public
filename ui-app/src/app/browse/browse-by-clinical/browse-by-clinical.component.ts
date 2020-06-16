@@ -89,6 +89,7 @@ export class BrowseByClinicalComponent implements OnInit {
 	this.getAllClinicalData();
 	this.sort = '';
 	BrowseByClinicalComponent.urlBase = environment.dictionary_base_url;
+	//@@@PDC-1987: Update clinical tab to use new external reference API
 	//@@@PDC-1012: Update UI for GDC Case ID becoming External Case ID
 	//Array of external file Details. This has to be updated each time a new type of external case iD is added.
 	this.externalCaseMap = [{
@@ -99,8 +100,15 @@ export class BrowseByClinicalComponent implements OnInit {
 								'id': "KidsFirst",
 								'url': this.kidsFirstURL,
 								'imageUrl': this.iconFolder + "KidsFirst.png",
+							}, {
+								'id': "TCIA",
+								'imageUrl': this.iconFolder + "Tcia.png",
+							}, {
+								'id': "CBTTC",
+								'url': this.kidsFirstURL,
+								'imageUrl': this.iconFolder + "KidsFirst.png",
 							}]
-  						  };
+	};
   
   get staticUrlBase() {
     return BrowseByClinicalComponent.urlBase;
@@ -109,38 +117,31 @@ export class BrowseByClinicalComponent implements OnInit {
   //@@@PDC-1012: Update UI for GDC Case ID becoming External Case ID
   //Return link URL for external case ID
   fetchUrl (externalCaseID: string) {
-	  if (externalCaseID) {
-		  let externalCaseIDSplit = externalCaseID.split(':');
-		  let url = this.externalCaseMap.find(x => (x.id).toUpperCase() == externalCaseIDSplit[0].toUpperCase()).url;
-		  if (url) return url + externalCaseIDSplit[1].replace(/\s/g, ""); else return '';
-	  } else {
-		return '';
-	  }
-  }
-
-  //@@@PDC-1012: Update UI for GDC Case ID becoming External Case ID
-  //Get Image icon for the external Case ID
-  getIcon(externalCaseID: string, dataSource:string) {
-	if (dataSource == "genomic") {
-		if (externalCaseID) {
-			let externalCaseIDSplit = externalCaseID.split(':');
-			let imageUrl = this.externalCaseMap.find(x => (x.id).toUpperCase() == externalCaseIDSplit[0].toUpperCase()).imageUrl;
-			if (imageUrl) return imageUrl; else return '';
-		} else {
-			return '';
-		}
-	} else if (dataSource == "tcia") {
-		return this.iconFolder + "Tcia.png";
-	}
-  }
-
-  //@@@PDC-1012: Update UI for GDC Case ID becoming External Case ID
-  displayTextforExternalID(externalCaseID: string) {
 	if (externalCaseID) {
 		let externalCaseIDSplit = externalCaseID.split(':');
 		let url = this.externalCaseMap.find(x => (x.id).toUpperCase() == externalCaseIDSplit[0].toUpperCase()).url;
-		if (url) return ''; else return externalCaseID;
+		if (url) return url + externalCaseIDSplit[1].replace(/\s/g, ""); else return '';
+	} else {
+	  return '';
 	}
+}
+
+  //@@@PDC-1987: Update clinical tab to use new external reference API
+  //@@@PDC-1012: Update UI for GDC Case ID becoming External Case ID
+  //Get Image icon for the external Case ID
+  getIcon(reference_resource_shortname: string) {
+	if (reference_resource_shortname) {
+		let imageUrl = this.externalCaseMap.find(x => (x.id).toUpperCase() == reference_resource_shortname.toUpperCase()).imageUrl;
+		if (imageUrl) return imageUrl; else return '';
+	} else {
+		return '';
+	}
+  }
+
+  //@@@PDC-1987: Update clinical tab to use new external reference API
+  //@@@PDC-1012: Update UI for GDC Case ID becoming External Case ID
+  displayTextforExternalID(externalCaseID: string, locationURL: string) {
+	if (locationURL) return ''; else return externalCaseID;
   }
 
   //@@@PDC-739 Add hyperlink to case id on clinical tab to case summary page

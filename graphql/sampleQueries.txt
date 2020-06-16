@@ -336,6 +336,7 @@ PDC-1122
 		}
 	}
 }
+//PDC-1966
 {
 	filesPerStudy (file_name: "FN18_N45T46_180min_10ug_C1_032313.psm;20180321_HF_ZHW_total_liver20_F14.raw;20180226_HF_ZHW_total_liver24_F26.mzid.gz") {
 		file_id,
@@ -343,6 +344,10 @@ PDC-1122
 		file_name
 		file_type
 		file_location
+		md5sum
+		file_size
+		data_category
+		file_format
 		signedUrl {
 			url
 		}
@@ -1452,7 +1457,7 @@ PDC-136
 	}
 	}
 }
-//PDC-255 462 759 893 1011
+//PDC-255 462 759 893 1011 2026
 {
 	getPaginatedUIClinical(offset: 0 limit: 10) {
 		total
@@ -1474,6 +1479,10 @@ PDC-136
 			tissue_or_organ_of_origin
 			tumor_grade
 			tumor_stage
+			externalReferences {
+				reference_resource_shortname
+				reference_entity_location
+			}
 		}
 		pagination {
 			count
@@ -2177,10 +2186,9 @@ PDC-265
 
 	}
 }
-//PDC-180
-1371
+//PDC-180, 1371, 2038
 {
-  case(case_id: "00dc49de-1fba-11e9-b7f8-0a80fada099c") {
+  case(case_id: "df4e907e-8f98-11ea-b1fd-0aad30af8a83") {
     case_id
 	  case_submitter_id
 	  project_submitter_id
@@ -2230,6 +2238,7 @@ PDC-265
 			ajcc_pathologic_n
 			ajcc_pathologic_stage
 			ajcc_pathologic_t
+			ajcc_staging_system_edition
 			ann_arbor_b_symptoms
 			ann_arbor_clinical_stage
 			ann_arbor_extranodal_involvement
@@ -6098,6 +6107,11 @@ limit: 10) {
 {
 	quantDataMatrix(study_submitter_id: "S044-1" data_type: "log2_ratio" attempt: 0 numOfAliquot: 2 numOfGene: 15) 
 }
+PDC-2016
+{
+	quantDataMatrix(pdc_study_id: "PDC000127" data_type: "log2_ratio") 
+}
+
 
 {
 	casePerFile(file_id: 'f2ffba75-5197-11e9-9a07-0a80fada099c') {
@@ -6106,11 +6120,12 @@ limit: 10) {
 	  case_submitter_id
 	}
 }
-PDC-1220
+PDC-1220, 2020
 {
 	uiPrimarySiteCaseCount{
-	primary_site
-	cases_count	
+	major_primary_site
+	cases_count
+	primary_sites
 	}
 }
 PDC-1376
@@ -6226,6 +6241,7 @@ PDC-1467
 	reference_entity_location
 	}
 }
+PDC-2002
 {
 	pdcEntityReference(entity_type: "study",
 	entity_id: "dbe94609-1fb3-11e9-b7f8-0a80fada099c",
@@ -6240,6 +6256,7 @@ PDC-1467
 	reference_resource_name
 	reference_resource_shortname
 	reference_entity_location
+	submitter_id_name
 	}
 }
 

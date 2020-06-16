@@ -343,6 +343,10 @@ constructor(private apollo: Apollo) {
 				program_name
 				project_name
 				status
+				externalReferences {
+					reference_resource_shortname
+					reference_entity_location
+				}
 			}
 			pagination {
 				count
@@ -574,6 +578,7 @@ constructor(private apollo: Apollo) {
 			reference_resource_name
 			reference_resource_shortname
 			reference_entity_location
+			submitter_id_name
 		}
 	}`;
 

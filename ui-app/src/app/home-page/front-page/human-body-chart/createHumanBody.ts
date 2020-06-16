@@ -13,6 +13,7 @@ const halfPixel = 0.5;
 
 //@@@PDC-1214 - Replace the sunburst chart with the human body image with drill down
 //@@@PDC-1333: Mouse tooltip remains after moving off bar in human body image
+//@@@PDC-2021: add major primary site feature
 type TCreateHumanBody = (c: HumanBody) => void;
 // Look for image map from GDC for the human graphic to allow filtering
 // This file is reused From @oncojs/sapien package used in GDC portal.
@@ -32,6 +33,7 @@ const createHumanBody: TCreateHumanBody = ({
   offsetTop = 0,
   primarySiteKey = '_key',
   caseCountKey = '_count',
+  primarySitesFilters = '_primary_sites_filters',
   selectedHumanBodyOrgans,
   numberofOrgansFromAPI
 } = {}) => {
@@ -55,8 +57,9 @@ const createHumanBody: TCreateHumanBody = ({
   const barWidth = width - barStartOffset;
   const maxCases = Math.max(...data.map(d => d[caseCountKey]));
   const numberOfVerticalAxis = Math.floor(maxCases / tickInterval) + 1;
-  //Number of organs returned by the API + 1 ("Other")
-  const numberofOrgans = numberofOrgansFromAPI + 1;
+  //Number of organs returned by the API + 1 ("Other") - currently hiding Other: PDC-1590
+  //const numberofOrgans = numberofOrgansFromAPI + 1;
+  const numberofOrgans = numberofOrgansFromAPI;
   var isorganSelected = false;
   var viewBoxHeight = height + 50;
   var viewBoxWidth = width + 150;
@@ -79,7 +82,7 @@ const createHumanBody: TCreateHumanBody = ({
     var dataofOther = '';
     for (let i = 0; i < data.length; i++) {
       if (data[i]._key == 'Not Reported') {
-        data[i]._key = "Other";
+        //data[i]._key = "Other";
         dataofOther = data[i];
         data.splice(i, 1);
       }
@@ -88,7 +91,6 @@ const createHumanBody: TCreateHumanBody = ({
     //if (dataofOther != '') data.push(dataofOther);
   }
  
-
   //Redraw filter charts on datasets and home pages upon filter selection
   //Display text if there is no data
   if (data.length == 0) {
@@ -284,8 +286,7 @@ if (selectedHumanBodyOrgans == "Other" && organSelector == selectedHumanBodyOrga
 tooltip.style('opacity', 0);
 })
 .on('click', (d,i) => {
-  clickHandler({ _key: d[primarySiteKey] });
-  console.log(primarySiteKey);
+  clickHandler({ _key: d[primarySitesFilters] });
   selectedHumanBodyOrgans = d[primarySiteKey];
   const svgs = document.querySelectorAll('#human-body-highlights svg');
   console.log(svgs);
@@ -402,9 +403,9 @@ tooltip.style('opacity', 0);
 	  return true;
     })
     .on('mouseover', function (d, i) { // needs `this`
+	console.log(d);
     const organSelector = toClassName(d[primarySiteKey]);
     const organ = document.getElementById(organSelector);
-	console.log(organ);
     if (organ) {
       organ.setAttribute( 'style', 'opacity: 1 !important');
     }
@@ -450,17 +451,14 @@ tooltip.style('opacity', 0);
     }
   })
   .on('click', function (d, i) {
-    clickHandler({ _key: d[primarySiteKey] });
+    clickHandler({ _key: d[primarySitesFilters] }); //Send filters rather than organ name
     selectedHumanBodyOrgans = d[primarySiteKey];
-	console.log(primarySiteKey);
 	console.log(selectedHumanBodyOrgans);
     const svgs = document.querySelectorAll('#human-body-highlights svg');
 	console.log(svgs);
     //Change so all bars still show in body map graph when a bar is selected
     //Do not highlight previously selected organs,bar graph,labels
     svgs.forEach.call(svgs, svgPart => {
-		console.log(svgPart.id);
-		console.log(this.id);
         if (svgPart.id != this.id) {
         svgPart.style.opacity = '0';
       }     
@@ -570,8 +568,8 @@ tooltip.style('opacity', 0);
 		d3.select(`.bar-${svgPart.id}`)
         .transition()
         .attr('fill', d => {
-			console.log(d[primarySiteKey]);
-			clickHandler({ _key: d[primarySiteKey] }); //calling to clickHandler function with the correct primary site name
+			console.log(d[primarySitesFilters]);
+			clickHandler({ _key: d[primarySitesFilters] }); //calling to clickHandler function with the correct primary site name
 			d['color'] = colorCodes[d[primarySiteKey]]; 
 			return d['color'];
 		});

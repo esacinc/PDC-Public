@@ -309,4 +309,40 @@ export class BrowseByFileService {
   getOpenFileSignedUrl(fileName: string): Promise<any> {
     return this.http.get(environment.openfile_signedurl_url + fileName).toPromise();
   }
+
+  //@@@PDC-1940: File manifest download is very slow
+  filesDataQuery = gql`
+    query FilesDataQuery(
+      $file_name: String!
+    ) {
+        filesPerStudy (file_name: $file_name) {
+          file_id
+          file_name
+          signedUrl {
+            url
+          }
+      }
+    }
+  `;
+
+  //@@@PDC-1940: File manifest download is very slow
+  getFilesData(fileNameStr: any) {
+     return this.apollo
+      .watchQuery<QueryAllFilesData>({
+        query: this.filesDataQuery,
+        variables: {
+          file_name: fileNameStr,
+        },
+        context: {
+          method: 'POST'
+        }
+      })
+      .valueChanges.pipe(
+        map(result => {
+          //console.log(result.data);
+          return result.data;
+        })
+      );
+  }
+
 }

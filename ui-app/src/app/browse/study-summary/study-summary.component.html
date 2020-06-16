@@ -36,7 +36,7 @@
 			<mat-card-content style="max-height:330px; overflow-y:auto; word-wrap:break-word; white-space:normal;">
 				<table id="studySummaryCard">
 					<tbody style="width:99%; overflow-y:auto">
-					<!--@@@PDC-1358  add study uuid-->						
+					<!--@@@PDC-1358  add study uuid-->
 					<tr><td class="summary-card-name-left-cell">PDC Study Identifier</td>
 						<td class="summary-card-value-left-cell">{{pdcStudyID}}</td>
 						<td class="summary-card-name-right-cell">Embargo Release Date</td>
@@ -89,7 +89,7 @@
 					<tr><td class="tab-table-field-name">Protocol Name</td>
 						<td class="tab-table-field-value">{{protocol.protocol_name}}</td></tr>
 					<tr><td class="tab-table-field-name">Quantitation Strategy</td>
-						<td class="tab-table-field-value">{{protocol.quantitation_strategy}}</td></tr>	
+						<td class="tab-table-field-value">{{protocol.quantitation_strategy}}</td></tr>
 					<tr><td class="tab-table-field-name">Label Free Quantitation</td>
 						<td class="tab-table-field-value">{{protocol.label_free_quantiataion}}</td></tr>
 					<tr><td class="tab-table-field-name">Labeled Quantitation</td>
@@ -99,7 +99,7 @@
 					<tr><td class="tab-table-field-name">Reporter Ion MS Level</td>
 						<td class="tab-table-field-value">{{protocol.reporter_ion_ms_level}}</td></tr>
 					<tr style="background-color: rgba(0,0,0,.05);">
-						<td style="text-align: center;" colspan="2"><b>Analytical Sample Preparation</b></td></tr>	
+						<td style="text-align: center;" colspan="2"><b>Analytical Sample Preparation</b></td></tr>
 					<tr><td class="tab-table-field-name">Digestion Reagent</td>
 						<td class="tab-table-field-value">{{protocol.digestion_reagent}}</td></tr>
 					<tr><td class="tab-table-field-name">Alkylation Reagent</td>
@@ -142,7 +142,7 @@
 						<td class="tab-table-field-value">{{protocol.dissociation_type}}</td></tr>
 					<tr><td class="tab-table-field-name">MS1 Resolution</td>
 						<td class="tab-table-field-value">{{protocol.ms1_resolution}}</td></tr>
-					<tr><td class="tab-table-field-name">MS2 Resulution</td>
+					<tr><td class="tab-table-field-name">MS2 Resolution</td>
 						<td class="tab-table-field-value">{{protocol.ms2_resolution}}</td></tr>
 					<tr><td class="tab-table-field-name">DDA TopN</td>
 						<td class="tab-table-field-value">{{protocol.dda_topn}}</td></tr>
@@ -171,11 +171,11 @@
 			</div>
 			<div *ngIf="studyExperimentalDesign" class="row" style="margin-left:0px !important">
 				<p-table #dt class="table-striped ui-datatable-odd" [value]="studyExperimentalDesign" [lazy]="true"
-				[loading]="loading" [resizableColumns]="true" columnResizeMode="expand" [responsive]="true" 
+				[loading]="loading" [resizableColumns]="true" columnResizeMode="expand" [responsive]="true"
 				id="studyExperimentalDesignTable" [(selection)]="selectedExperimentalStudies">
 				<ng-template pTemplate="caption">
 					<div class="ui-helper-clearfix">
-						<button matTooltip="Please use CPTAC Data Portal for downloading the files" id="downloadStudyExpDesignManifest" mat-raised-button mat-primary label="Download Selection" 
+						<button matTooltip="Please use CPTAC Data Portal for downloading the files" id="downloadStudyExpDesignManifest" mat-raised-button mat-primary label="Download Selection"
 						(click)="studyTableExportCSV(dt)" style="font-family:'Lato';float:right;margin-right: 1%;" [disabled]="isDownloadDisabled()" aria-label="Download Data">Export</button>
 					</div>
 				</ng-template>
@@ -223,12 +223,12 @@
 				</div>
 				<div *ngIf="filteredClinicalData" class="row" style="margin-left:0px !important">
 				  <p-table class="table-striped ui-datatable-odd" #dt [columns]="clinicalCols" [value]="filteredClinicalData" [totalRecords]="totalRecordsClinical"
-							[loading]="loading" [resizableColumns]="true" columnResizeMode="expand" responsive="true" 
+							[loading]="loading" [resizableColumns]="true" columnResizeMode="expand" responsive="true"
 							dataKey="case_submitter_id" id="clinicalDataTable">
 					<ng-template style="font-size: 12px; background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%);" pTemplate="header" let-columns>
 						<tr style="font-size: 12px;">
-							<!-- @@@PDC-262 link headers to data dictionary -->                
-							<th class="ui-datatable-tableheader" style="width:12%;word-break: break-all;" [pSortableColumn]="clinicalCols[0].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Case" target="_blank" style="color:white">Case Submitter ID</a><p-sortIcon [field]="clinicalCols[0].field" ariaLabel="Sort Case submitter ID in ascending/descending order"></p-sortIcon></th>							
+							<!-- @@@PDC-262 link headers to data dictionary -->
+							<th class="ui-datatable-tableheader" style="width:12%;word-break: break-all;" [pSortableColumn]="clinicalCols[0].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Case" target="_blank" style="color:white">Case Submitter ID</a><p-sortIcon [field]="clinicalCols[0].field" ariaLabel="Sort Case submitter ID in ascending/descending order"></p-sortIcon></th>
 							<th class="ui-datatable-tableheader" style="width:13%" [pSortableColumn]="clinicalCols[1].field" pResizableColumn>
 								<div class="ui-datatable-tableheader-flex-container">
 									<div>
@@ -239,7 +239,7 @@
 									<div class="ui-datatable-tableheader-flex-sorticon">
 										<p-sortIcon [field]="clinicalCols[1].field" ariaLabel="Sort External Case ID in ascending/descending order"></p-sortIcon>
 									</div>
-								</div>								
+								</div>
 							</th>
 							<th class="ui-datatable-tableheader" style="width:8%" [pSortableColumn]="clinicalCols[2].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Demographic#ethnicity" target="_blank" style="color:white">Ethnicity</a><p-sortIcon [field]="clinicalCols[2].field" ariaLabel="Sort Ethinicity column in ascending/descending order"></p-sortIcon></th>
 							<th class="ui-datatable-tableheader" style="width:6%" [pSortableColumn]="clinicalCols[3].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Demographic#gender" target="_blank" style="color:white">Gender</a><p-sortIcon [field]="clinicalCols[3].field" ariaLabel="Sort Gender column in ascending/descending order"></p-sortIcon></th>
@@ -276,9 +276,18 @@
 					</ng-template>
 					<ng-template pTemplate="body" let-clinicalData let-columns="columns">
 						<tr style="font-size: 11px;" [pSelectableRow]="clinicalData" >
-							<!-- @@@PDC-462 show submitter id -->                
+							<!-- @@@PDC-462 show submitter id -->
 							<td style="width:12%;word-wrap: break-word; white-space: normal;"><a href="javascript:void(0);" (click)="showCaseSummary(clinicalData.case_submitter_id, 'clinical')">{{clinicalData.case_submitter_id }}</a>&nbsp;&nbsp;<span style='color:red' *ngIf="clinicalData.status == 'Disqualified'">{{clinicalData.status}}</span></td>
-							<td style="width:13%;word-wrap: break-word; white-space: normal;text-align: center"><a [href]="fetchUrl(clinicalData.external_case_id)" target="_blank"><img [src]="getIcon(clinicalData.external_case_id)" alt=""><span style="display:none">Click on the External Case ID Image</span>{{displayTextforExternalID(clinicalData.external_case_id)}}</a></td>
+							<td style="width:13%;word-wrap: break-word; white-space: normal;text-align: center">
+								<!-- @@@PDC-1987: Update clinical tab to use new external reference API -->
+								<div *ngFor="let externalRef of clinicalData.externalReferences">
+									<a [href]="externalRef.reference_entity_location" title="{{ (externalRef.reference_resource_shortname | uppercase) == 'TCIA' ? 'Go to imaging resource' : 'Go to genomic resource'}}" target="_blank">
+										<img [src]="getIcon(externalRef.reference_resource_shortname)" alt="" [ngClass]="(externalRef.reference_resource_shortname | uppercase) == 'TCIA' ? 'imagingLbl': 'genomicLbl'">
+										<span style="display:none">Click on the External Reference Image</span>
+										{{displayTextforExternalID(clinicalData.external_case_id, externalRef.reference_entity_location)}}
+									</a>
+								</div>
+							</td>
 							<td style="width:8%;word-wrap: break-word; white-space: normal;">{{clinicalData.ethnicity}}</td>
 							<td style="width:6%;word-wrap: break-word; white-space: normal;">{{clinicalData.gender}}</td>
 							<td style="width:6%;word-wrap: break-word; white-space: normal;">{{clinicalData.race}}</td>
@@ -303,16 +312,16 @@
 				<div *ngIf="loading">
 					<mat-spinner></mat-spinner>
 				</div>
-				<div *ngIf="totalRecordsBiospecimens > 0 && !loading" class="row" style="margin-left:0px !important">							
+				<div *ngIf="totalRecordsBiospecimens > 0 && !loading" class="row" style="margin-left:0px !important">
 					<h3 style="font-family: 'Lato'; font-size:14px;float:left" >{{totalRecordsBiospecimens > 1 ? 'Total aliquots: ' + totalRecordsBiospecimens : 'Total aliquot: ' + totalRecordsBiospecimens }}</h3>
 				</div>
 				<div *ngIf="filteredCasesData" class="row" style="margin-left:0px !important">
 					<p-table class="table-striped ui-datatable-odd" #dt [columns]="biospecimenCols"  [value]="filteredCasesData" [totalRecords]="totalRecordsBiospecimens"
-								[loading]="loading" [resizableColumns]="true" columnResizeMode="expand" responsive="true" 
+								[loading]="loading" [resizableColumns]="true" columnResizeMode="expand" responsive="true"
 								dataKey="aliquot_submitter_id" id="biospecimensDataTable">
 						<ng-template style="font-size: 12px; background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%);" pTemplate="header" let-columns>
 							<tr style="font-size: 12px;">
-								<!-- @@@PDC-262 link headers to data dictionary -->                
+								<!-- @@@PDC-262 link headers to data dictionary -->
 								<th class="ui-datatable-tableheader" style="width:18%;word-break: break-all;" [pSortableColumn]="biospecimenCols[0].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Aliquot" target="_blank" style="color:white">Aliquot</a><p-sortIcon [field]="biospecimenCols[0].field" ariaLabel="Sort Aliquot column in ascending/descending order"></p-sortIcon></th>
 								<th class="ui-datatable-tableheader" style="width:18%" [pSortableColumn]="biospecimenCols[1].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Sample" target="_blank" style="color:white">Sample</a><p-sortIcon [field]="biospecimenCols[1].field" ariaLabel="Sort Sample column in ascending/descending order"></p-sortIcon></th>
 								<th class="ui-datatable-tableheader" style="width:18%" [pSortableColumn]="biospecimenCols[2].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Case" target="_blank" style="color:white">Case</a><p-sortIcon [field]="biospecimenCols[2].field" ariaLabel="Sort Case column in ascending/descending order"></p-sortIcon></th>
@@ -357,7 +366,7 @@
 						</ng-template>
 						<ng-template pTemplate="body" let-caseData let-columns="columns">
 							<tr style="font-size: 11px;" [pSelectableRow]="caseData" >
-								<!-- @@@PDC-462 show submitter ids -->                
+								<!-- @@@PDC-462 show submitter ids -->
 								<td style="width:18%; white-space: normal;">{{caseData.aliquot_submitter_id }}&nbsp;&nbsp;<span style='color:red' *ngIf="caseData.aliquot_status == 'Disqualified'">{{caseData.aliquot_status}}</span></td>
 								<td style="width:18%;word-wrap: break-word; white-space: normal;">{{caseData.sample_submitter_id}}&nbsp;&nbsp;<span style='color:red' *ngIf="caseData.sample_status == 'Disqualified'">{{caseData.sample_status}}</span></td>
 								<td style="width:18%;word-wrap: break-word; white-space: normal;"><a href="javascript:void(0);" (click)="showCaseSummary(caseData.case_submitter_id, 'biospecimen')">{{caseData.case_submitter_id}}</a>&nbsp;&nbsp;<span style='color:red' *ngIf="caseData.case_status == 'Disqualified'">{{caseData.case_status}}</span></td>
@@ -369,7 +378,7 @@
 						</ng-template>
 					</p-table>
 				  </div>
-				  <br>	
+				  <br>
 		</mat-tab>
 		<mat-tab label="WORKFLOW">
 			<span><ng-template mat-tab-label>
@@ -514,7 +523,7 @@
 								</thead>
 								<tbody>
 									<tr style="font-size: 12px;" *ngFor="let entityInternalReference of entityReferenceInternalData">
-										<td style="word-wrap: break-word;white-space: normal;width:80%">{{entityInternalReference.reference_resource_shortname}}</td>
+										<td style="word-wrap: break-word;white-space: normal;width:80%">{{entityInternalReference.submitter_id_name}}</td>
 										<td style="word-wrap: break-word;white-space: normal;"><a href="javascript:void(0);" (click)="showStudySummary(entityInternalReference.reference_entity_location)">{{entityInternalReference.reference_entity_alias}}</a></td>
 									</tr>
 								</tbody>
@@ -525,7 +534,7 @@
 			</div>
 		</div>
 		<div class="col-md-6" style="padding-bottom:5px">
-		<!--@@@PDC-1313 use heatmap thumbnail-->			
+		<!--@@@PDC-1313 use heatmap thumbnail-->
 		 <div style="padding-bottom:3px">
 			<mat-card style="padding:10px">
 				<mat-card-content>
@@ -544,8 +553,8 @@
 				</tr>
 				</div>
 				</mat-card-content>
-			</mat-card>	
-		</div><div style="padding-bottom:3px">  
+			</mat-card>
+		</div><div style="padding-bottom:3px">
 			<mat-card style="padding:10px">
 				<mat-card-header class="study-summary" >
 					<mat-card-title  class="study-summary" >PUBLICATIONS</mat-card-title>
@@ -563,7 +572,7 @@
 						</ng-template>
 					</p-table>
 				</mat-card-content>
-			</mat-card>	
+			</mat-card>
 		 </div>
 		</div>
   </div>

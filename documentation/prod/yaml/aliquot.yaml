@@ -17,6 +17,9 @@ properties:
             determining relative protein abundances in labeling experiments.
         required: 'false'
         type: string
+        enum:
+        - 'Yes'
+        - 'No'
     aliquot_quantity:
         description: The quantity in micrograms (ug) of the aliquot(s) derived from
             the analyte(s) shipped for sequencing and characterization.
@@ -62,7 +65,10 @@ properties:
             are combined to produce a reference. Sample pooling is commonly used for
             determining relative protein abundances in labeling experiments.
         required: 'False'
-        type: binary
+        type: string
+        enum:
+        - 'Yes'
+        - 'No'
     project_id:
         key: 'yes'
         type: string

@@ -191,6 +191,7 @@ describe("BrowseByStudyService", () => {
             total: 16,
             uiStudies: [
               {
+                pdc_study_id:"PDC000221",
                 study_id:'CPTAC CCRCC Discovery Study - Phosphoproteme',
                 submitter_id_name: "CPTAC UCEC Discovery Study - Phosphoproteme",
                 study_description:

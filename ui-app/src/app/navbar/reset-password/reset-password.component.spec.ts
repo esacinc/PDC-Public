@@ -1,4 +1,5 @@
-import { MatDialogRef,MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { of } from 'rxjs';
+import { MatDialogRef,MAT_DIALOG_DATA, MatDialog } from "@angular/material/dialog";
 import { OverlayWindowService } from "./../../overlay-window/overlay-window.service";
 import { PDCUserService } from "./../../pdcuser.service";
 import { AuthService } from "angular-6-social-login";
@@ -27,6 +28,12 @@ class MockPDCUserService {
     return "xxxyyyy@esacinc.com";
   }
 }
+class MockDialog {
+  open(): any {
+    return { afterClosed: () => of("closed") };
+  }
+}
+
 
 class MockOverlayWindowService {}
 
@@ -52,7 +59,8 @@ describe("ResetPasswordComponent", () => {
         {
           provide: MAT_DIALOG_DATA,
           useValue: {}
-        }
+        },
+        { provide: MatDialog, useClass: MockDialog },
       ]
     }).compileComponents();
   }));

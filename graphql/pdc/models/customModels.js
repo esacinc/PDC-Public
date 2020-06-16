@@ -659,6 +659,7 @@ const defineCustomModels = (db) => {
 	  ModelStudyPublic.removeAttribute('id');
 
 	  //@@@PDC-1882 pdcEntityReference api
+	  //@@@PDC-2018 add submitter_id_name of study
 	  const ModelEntityReference = db.getSequelize().define('dummy', {
 		  reference_id: { type: Sequelize.STRING,
 					  primaryKey: true   },
@@ -670,6 +671,7 @@ const defineCustomModels = (db) => {
 		  reference_resource_name: { type: Sequelize.STRING },
 		  reference_resource_shortname:  { type: Sequelize.STRING},
 		  reference_entity_location:  { type: Sequelize.STRING},
+		  submitter_id_name:  { type: Sequelize.STRING},
 	  }, {
 		  timestamps: false,
 		  underscored: true,

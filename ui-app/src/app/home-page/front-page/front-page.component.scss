@@ -70,7 +70,7 @@ $header-height: 10.8rem;
 .disease-type-card-body {
   background-image: linear-gradient(-180deg, #3A8BB8 5%, #1C5A7D 90%);
   color: #FFFFFF;
-  // height: 540px; 
+  // height: 540px;
 }
 .disease-type-card-list {
   background: rgba(255,255,255,0.08);
@@ -99,7 +99,7 @@ $header-height: 10.8rem;
   font-size: 14px;
   font-weight: 400;
   padding-top: 5px;
-  padding-left: 0px; 
+  padding-left: 0px;
   color: #FFFFFF;
 }
 
@@ -130,11 +130,11 @@ $header-height: 10.8rem;
   letter-spacing: 0;
   //line-height: 24px;
   padding-left: 0px;
-  
+
   padding-right: 0px;
   padding-top:0px;
   padding-bottom:5px;
-  
+
 }
 .bottom-card-list-item {
   box-shadow: none!important;
@@ -147,13 +147,13 @@ $header-height: 10.8rem;
   letter-spacing: 0;
   //line-height: 24px;
   padding-left: 0px;
-  
+
   padding-right: 0px;
   padding-top:0px;
 
   display: flex;
   align-items:flex-start;
-  
+
 }
 
 .bottom-row-card-header {
@@ -177,58 +177,20 @@ $header-height: 10.8rem;
 }
 
 @media only screen and (min-width: 100px) and (max-width: 1550px) {
-  #top-release-item {
-    margin-top: 0rem;
-  }
-
-  #release-item {
-    margin-top: 2.5em;
-  }
-
-  #bottom-release-item {
+  #list-item {
     margin-top: 2rem;
-  }
-
-  #news-item {
-    margin-bottom: 3rem;
-  }
-}
-
-@media only screen and (min-width: 1551px) and (max-width: 1920px) {
-  #top-release-item {
-    margin-top: 0rem;
-  }
-
-  #release-item {
-    margin-top: 2rem;
-  }
-
-  #bottom-release-item {
-    margin-top: 1rem;
-  }
-
-  #news-item {
-    margin-bottom: 15px;
   }
 }
 
 //@@@PDC-1474: Make recent releases area a bit larger to handle responsiveness
-@media only screen and (min-width: 768px) and (max-width: 1279px) {
-  #recentReleases, #news-item {
+@media only screen and (min-width: 768px) and (max-width: 5920px) {
+  #recentReleases, #newsSection {
     overflow-y: scroll;
-  }
-
-  #top-release-item, .bottom-card-list-item {
-    font-size: 11px !important;
   }
 
   .bottom-card-list-item {
     height: unset !important;
-    margin-top: 1em;
-  }
-
-  #news-item {
-    padding-top: 0px !important;
+    margin-top: 2rem;
   }
 }
 

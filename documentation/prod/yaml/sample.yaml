@@ -580,6 +580,9 @@ properties:
             determining relative protein abundances in labeling experiments.
         required: 'True'
         type: string
+        enum:
+        - 'Yes'
+        - 'No'
     preservation_method:
         cde_id: 5432521
         description: Text term that represents the method used to preserve the sample.
@@ -611,6 +614,9 @@ properties:
             determining relative protein abundances in labeling experiments.
         required: 'false'
         type: string
+        enum:
+        - 'Yes'
+        - 'No'
     sample_submitter_id:
         key: 'yes'
         type: string

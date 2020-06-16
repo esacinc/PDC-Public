@@ -1,3 +1,4 @@
+import { of } from 'rxjs';
 import { OverlayWindowService } from "./../../overlay-window/overlay-window.service";
 import { PDCUserService } from "./../../pdcuser.service";
 import { RouterTestingModule } from "@angular/router/testing";
@@ -6,9 +7,16 @@ import { ChorusauthService } from "./../../chorusauth.service";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material';
 
 import { RegistrationComponent } from "./registration.component";
 import { MatRadioModule, MatFormFieldModule } from "@angular/material";
+
+class MockDialog {
+  open(): any {
+    return { afterClosed: () => of("closed") };
+  }
+}
 
 class MockChorusauthService {}
 
@@ -52,7 +60,8 @@ describe("RegistrationComponent", () => {
         { provide: AuthService, useClass: MockAuthService },
         { provide: PDCUserService, useClass: MockPDCUserService },
         { provide: OverlayWindowService, useClass: MockOverlayWindowService },
-        { provide: MatDialogRef, useValue: {} }
+        { provide: MatDialogRef, useValue: {} },
+        { provide: MatDialog, useClass: MockDialog }
       ]
     }).compileComponents();
   }));

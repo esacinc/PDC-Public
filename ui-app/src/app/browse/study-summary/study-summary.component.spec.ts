@@ -26,6 +26,10 @@ class MockDialog {
 }
 
 class MockStudySummaryService {
+  getEntityReferenceData(entity_type, entity_id, reference_type): any{
+    return of({pdcEntityReference:{}});
+  }
+
   getFilteredStudyData(): Observable<any> {
     return of({
       getPaginatedUIStudy: {
@@ -36,6 +40,7 @@ class MockStudySummaryService {
             study_description:
               "<p>Kidney cancer is among the 10 most common cancers in both men and women and each year there are approximately 60,000 new cases with over 14,000 deaths (<a href='https://seer.cancer.gov/statfacts/html/kidrp.html' target='_blank'>NCI, Surveillance, Epidemiology and End Results – SEERs-- Program</a>). Several histological and molecular subtypes have been identified and clear cell renal cell carcinoma (CCRCC) is the most prevalent (<a href='https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5936048/' target='_blank'>Hsieh el al., 2017 Nat Rev Dis Primers</a>). To advance the proteogenomic understanding of CCRCC, the CPTAC program has investigated 110 tumors (CPTAC discovery cohort) and subjected these samples to global proteome and phosphoproteome analysis. An optimized workflow for mass spectrometry of tissues using isobaric tags (TMT (tandem mass tags)-10) was used (<a href='https://www.nature.com/articles/s41596-018-0006-9' target='_blank'>Mertins et al., Nature Protocols 2018</a>). Proteome and phosphoproteome data from the CCRCC tumors is available below along with peptide spectrum analyses (PSMs) and protein summary reports from the CPTAC common data analysis pipeline (CDAP).</p><p>Clinical data is provided. Additional attributes along with genotypes will be available as cohort characterization proceeds.</p><p>Genomic data will be available from the NCI Genomic Data Commons.</p>",
             study_submitter_id: "S044-2",
+			pdc_study_id: "PDC000128",
             program_name: "Clinical Proteomic Tumor Analysis Consortium",
             project_name: "CPTAC3 Discovery",
             disease_type: "Clear Cell Renal Cell Carcinoma;Other",
@@ -389,7 +394,8 @@ describe("StudySummaryComponent", () => {
               summaryData: {
                 case_submitter_id: "14CO003",
                 submitter_id_name: "",
-                project_name: ""
+                project_name: "",
+                pdc_study_id: "PDC000128"
               }
             }
           },
@@ -426,7 +432,7 @@ describe("StudySummaryComponent", () => {
 
   it("test readManifest", () => {
     let manifestRequest = httpMock.expectOne(
-      "assets/data-folder/undefined/manifest.json"
+      "assets/data-folder/PDC000128/manifest.json"
     );
     manifestRequest.flush({
       heatmaps: [

@@ -11,6 +11,7 @@ export interface HumanBody {
   offsetLeft?: number;
   offsetTop?: number;
   primarySiteKey?: string;
+  primarySitesFilters?: string;
   selector?: string;
   width?: number;
   tickInterval?: number;

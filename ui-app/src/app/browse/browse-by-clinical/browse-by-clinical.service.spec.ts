@@ -34,7 +34,7 @@ describe("BrowseByClinicalService", () => {
           expect(data["getPaginatedUIClinical"].uiClinical.length).toBe(2);
           expect(data["getPaginatedUIClinical"].total).toBe(369);
           expect(data["getPaginatedUIClinical"].uiClinical[0].case_submitter_id).toBe(
-            "CA25730263-1"
+            "TCGA-AO-A12B"
           );
           expect(data["getPaginatedUIClinical"].pagination).toEqual({
             count: 10,
@@ -59,51 +59,67 @@ describe("BrowseByClinicalService", () => {
             total: 369,
             uiClinical: [
               {
-                case_submitter_id: "CA25730263-1",
-                external_case_id: null,
-                imaging_resource: null,
-                ethnicity: "Not Received",
+                case_submitter_id: "TCGA-AO-A12B",
+                external_case_id: "GDC: f6ed684f-ee7a-496c-80d5-6eacd494d16a",
+                imaging_resource:
+                  "https://wiki.cancerimagingarchive.net/display/Public/TCGA-BRCA",
+                ethnicity: "Hispanic or Latino",
                 gender: "Female",
-                race: "not reported",
-                morphology: "",
-                primary_diagnosis: "Clear cell RCC",
-                site_of_resection_or_biopsy: "kidney",
-                tissue_or_organ_of_origin: "kidney",
-                tumor_grade: "G2",
-                tumor_stage: "pT3a",
-                age_at_diagnosis: "16790",
-                classification_of_tumor: "Progressive",
-                days_to_recurrence: "343",          
-                case_id: "b7a788a4-f3a7-11e8-a44b-0a9c39d33490",
-                disease_type: "Clear Cell Renal Cell Carcinoma",
-                primary_site: "Kidney",
-                program_name: "Aebersold Lab",
-                project_name: "Quantitative digital maps of tissue biopsies",
-                status: "Qualified"
+                race: "White",
+                morphology: "8500/3",
+                primary_diagnosis: "Infiltrating duct carcinoma, NOS",
+                site_of_resection_or_biopsy: "Breast, NOS",
+                tissue_or_organ_of_origin: "Breast, NOS",
+                tumor_grade: "Not Reported",
+                tumor_stage: "stage iia",
+                age_at_diagnosis: "23150",
+                classification_of_tumor: "Not Reported",
+                days_to_recurrence: "0",
+                case_id: "c3a38e6a-63d8-11e8-bcf1-0a2705229b82",
+                disease_type: "Breast Invasive Carcinoma",
+                primary_site: "Breast",
+                program_name: "Clinical Proteomic Tumor Analysis Consortium",
+                project_name: "CPTAC2 Retrospective",
+                status: "Qualified",
+                externalReferences: [
+                  {
+                    reference_resource_shortname: "GDC",
+                    reference_entity_location:
+                      "https://portal.gdc.cancer.gov/cases/f6ed684f-ee7a-496c-80d5-6eacd494d16a\r",
+                  },
+                ],
               },
               {
-                case_submitter_id: "CA25730263-2",
-                external_case_id: null,
-                imaging_resource: null,
-                ethnicity: "Not Received",
+                case_submitter_id: "C3L-01257",
+                external_case_id: "GDC: aeacd3ad-eb06-4ecb-b621-2f05236a0e6c",
+                imaging_resource:
+                  "https://wiki.cancerimagingarchive.net/display/Public/CPTAC-UCEC",
+                ethnicity: "Not Reported",
                 gender: "Female",
-                race: "not reported",
-                morphology: "",
-                primary_diagnosis: "Clear cell RCC",
-                site_of_resection_or_biopsy: "kidney",
-                tissue_or_organ_of_origin: "kidney",
-                tumor_grade: "G3",
-                tumor_stage: "pT4",
-                age_at_diagnosis: "16790",
-                classification_of_tumor: "Progressive",
-                days_to_recurrence: "343",                          
-                case_id: "b9458a58-f3a7-11e8-a44b-0a9c39d33490",
-                disease_type: "Clear Cell Renal Cell Carcinoma",
-                primary_site: "Kidney",
-                program_name: "Aebersold Lab",
-                project_name: "Quantitative digital maps of tissue biopsies",
-                status: "Qualified"
-              }
+                race: "White",
+                morphology: "8380/3",
+                primary_diagnosis: "Endometrioid adenocarcinoma, NOS",
+                site_of_resection_or_biopsy: "Corpus uteri",
+                tissue_or_organ_of_origin: "Corpus uteri",
+                tumor_grade: "G1",
+                tumor_stage: "Stage I",
+                age_at_diagnosis: "26274",
+                classification_of_tumor: "Not Reported",
+                days_to_recurrence: "0",
+                case_id: "6e7501ca-118a-11e9-afb9-0a9c39d33490",
+                disease_type: "Uterine Corpus Endometrial Carcinoma",
+                primary_site: "Uterus, NOS",
+                program_name: "Clinical Proteomic Tumor Analysis Consortium",
+                project_name: "CPTAC3-Discovery",
+                status: "Qualified",
+                externalReferences: [
+                  {
+                    reference_resource_shortname: "GDC",
+                    reference_entity_location:
+                      "https://portal.gdc.cancer.gov/cases/aeacd3ad-eb06-4ecb-b621-2f05236a0e6c\r",
+                  },
+                ],
+              },
             ],
             pagination: {
               count: 10,
@@ -112,10 +128,10 @@ describe("BrowseByClinicalService", () => {
               page: 1,
               total: 369,
               pages: 37,
-              size: 10
-            }
-          }
-        }
+              size: 10,
+            },
+          },
+        },
       });
 
       controller.verify();

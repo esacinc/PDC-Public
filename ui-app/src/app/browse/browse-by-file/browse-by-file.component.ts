@@ -744,24 +744,61 @@ export class BrowseByFileComponent implements OnInit {
       ]));
 
       let openFileSignUrlMap = {};
-
       exportFileObject.forEach(item => openFileSignUrlMap[item.file_id] = '');
-	  
-      for(let file of exportFileObject){
-        if(file.downloadable.toLowerCase() === 'yes'){
-          let urlResponse = await this.browseByFileService.getOpenFileSignedUrl(file.file_name);
-          if(!urlResponse.error){
-            file['file_download_link'] = urlResponse.data;
-			//console.log("Signed url: "+urlResponse.data);
-          }else{
-            file['file_download_link'] = this.notDownloadable;
+      const fileNameList = [];
+      exportFileObject.map(x => fileNameList.push(x.file_name));
+      //@@@PDC-1940: File manifest download is very slow
+      //getFilesData API accepts upto 1000 file names per request. Else it takes more time to execute and impacts the performance.
+      if (fileNameList.length > 1000) {
+        var chunkSize = 1000;
+        var count = 0;
+        var loop = 0;
+        for (var i = 0, len = fileNameList.length; i< len; i += chunkSize) {
+          let tempArray = fileNameList.slice(i, i+chunkSize);
+          let fileNameStr =  tempArray.join(";");
+          //Send 1000 files names per request
+          //@@@PDC-1940: File manifest download is very slow
+          this.browseByFileService.getFilesData(fileNameStr).subscribe((fileData: any) => {
+            this.setFileExportObject(fileData, exportFileObject);
+            count++;
+            //In the last iteration, download the file manifest
+            if (count == loop) {
+              this.displayLoading(iscompleteFileDownload, "file1", false);
+              new ngxCsv(exportFileObject, this.getCsvFileName(), csvOptions);
+            }
+          }); 
+          loop++;
+        }
+      } else {
+          //@@@PDC-1940: File manifest download is very slow
+          let fileNameStr = fileNameList.join(";")
+          this.browseByFileService.getFilesData(fileNameStr).subscribe((fileData: any) => {
+            this.setFileExportObject(fileData, exportFileObject);
+            this.displayLoading(iscompleteFileDownload, "file1", false);
+            new ngxCsv(exportFileObject, this.getCsvFileName(), csvOptions);
+          });
+      }
+    }
+  }
+
+  //@@@PDC-1940: File manifest download is very slow
+  setFileExportObject(fileData, exportFileObject) {
+    for (var fileItem of fileData.filesPerStudy) {
+      //Fetch the file object in 'exportFileObject' that has the same file id.
+      let fileObject = exportFileObject.filter(item => item.file_id === fileItem.file_id);
+      for (var fileObj of fileObject) {
+        if (fileObj) {
+          if (fileObj.downloadable.toLowerCase() === 'yes') {
+            if (fileItem.signedUrl) {
+              fileObj['file_download_link'] = fileItem.signedUrl.url;
+            } else {
+              fileObj['file_download_link'] = this.notDownloadable;
+            }
+          } else {
+            fileObj['file_download_link'] = this.notDownloadable;
           }
-        }else{
-          file['file_download_link'] = this.notDownloadable;
         }
       }
-      this.displayLoading(iscompleteFileDownload, "file1", false);
-      new ngxCsv(exportFileObject, this.getCsvFileName(), csvOptions);
     }
   }
   
@@ -974,6 +1011,9 @@ export class BrowseByFileComponent implements OnInit {
         exportFile["case_id"] = "";
         exportFile["case_submitter_id"] = "";
         if(exportFile.downloadable.toLowerCase() === 'yes'){
+          //@@@PDC-1940: File manifest download is very slow
+          //This code should be changed to use 'getFilesData' API which accepts upto 1000 file names per request. 
+          //Not changing now as we don't have sufficient data to test. 
           let urlResponse = await this.browseByFileService.getOpenFileSignedUrl(exportFile.file_name);
           if(!urlResponse.error){
             if (individualFileDownload) {

@@ -833,7 +833,9 @@ export class NavbarComponent implements OnInit {
   private _filter(value: string): string[] {
 	  //console.log(value);
 	  //Remove white spaces from the search string
-	  value = value.replace(/\s/g, "");
+	  //value = value.replace(/\s/g, "");
+	  //@@@PDC-2013: Search window should show listing/s in sequential order
+	  value = value.trim();
 	  const filterValue = value.toLowerCase();
 	  this.options = [];
 	  this.searchGeneTerms(value);

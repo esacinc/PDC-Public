@@ -417,6 +417,7 @@ export type DiagnosesData = {
     ajcc_pathologic_n: string;
     ajcc_pathologic_stage: string;
     ajcc_pathologic_t: string;
+	ajcc_staging_system_edition: string;
     ann_arbor_b_symptoms: string;
     ann_arbor_clinical_stage: string;
     ann_arbor_extranodal_involvement: string;
@@ -766,9 +767,11 @@ export type ptmDataPaginated = {
 	pagination: Pagination;
 }
 
+//@@@PDC-2021
 export type HumanbodyImageData = {
-	primary_site: string;
+	major_primary_site: string;
 	cases_count: number;
+	primarySites: string[];
 }
 
 //@@@PDC-1219 - Add a new experimental design tab on the study summary page

@@ -260,11 +260,11 @@ var spec = {
                    }
                  }
                },
-               "?query={filesCountPerStudy {study_submitter_id file_type files_count data_category}}": {
+               "?query={filesCountPerStudy {pdc_study_id study_submitter_id file_type files_count data_category}}": {
                  "get": {
                            "tags": ["Files"],
                    "summary": "Get file count per study",
-                   "description": "<strong>Returns all records with counts of files per study per file type.<br/><br/>Fields:<ul><li>study_submitter_id:</strong> ID of a study</li><li><b>file_type</li><li>files_count</li><li>data_category</li></b></ul>",
+                   "description": "<strong>Returns all records with counts of files per study per file type.<br/><br/>Fields:<ul><li>pdc_study_id</li><li>study_submitter_id:</strong> ID of a study</li><li><b>file_type</li><li>files_count</li><li>data_category</li></b></ul>",
                    "operationId": "filesCountPerStudy",
                    "produces": [
                      "application/json"
@@ -282,11 +282,11 @@ var spec = {
                    }
                  }
                    },
-                   "?query={filesPerStudy {study_id study_submitter_id study_name file_id file_name file_submitter_id file_type md5sum file_location file_size data_category file_format}}": {
+                   "?query={filesPerStudy {study_id pdc_study_id study_submitter_id study_name file_id file_name file_submitter_id file_type md5sum file_location file_size data_category file_format}}": {
                  "get": {
                            "tags": ["Files"],
                    "summary": "Get files per study",
-                   "description": "<b>Returns a list of files per study. </b><br>Takes a long time to execute because of the huge volume of data.<b><br><br>Fields:</b><ul><li>study_id</li><li>study_submitter_id</li><li>study_name</li><li>file_id</li><li>file_name</li><li>file_submitter_id</li><li>file_type</li><li>md5sum</li><li>file_location</li><li>file_size</li><li>file_format</li></ul>",
+                   "description": "<b>Returns a list of files per study. </b><br>Takes a long time to execute because of the huge volume of data.<b><br><br>Fields:</b><ul><li>study_id</li><li>pdc_study_id</li><li>study_submitter_id</li><li>study_name</li><li>file_id</li><li>file_name</li><li>file_submitter_id</li><li>file_type</li><li>md5sum</li><li>file_location</li><li>file_size</li><li>file_format</li></ul>",
                    "operationId": "filesPerStudy",
                    "produces": [
                      "application/json"
@@ -364,7 +364,7 @@ var spec = {
                    }
                  }
                },
-               '?query={ fileMetadata(file_id: "{file_id}") {file_name file_size md5sum file_location file_submitter_id fraction_number experiment_type data_category file_type file_format plex_or_dataset_name analyte instrument aliquots { aliquot_id aliquot_submitter_id label sample_id sample_submitter_id case_id case_submitter_id} } }': {
+               '?query={ fileMetadata(file_id: "{file_id}") {file_name file_size md5sum file_location file_submitter_id fraction_number experiment_type data_category file_type file_format plex_or_dataset_name analyte instrument aliquots { aliquot_id aliquot_submitter_id sample_id sample_submitter_id case_id case_submitter_id} } }': {
                  "get": {
                            "tags": ["Files"],
                    "summary": "Get file metadata",
@@ -430,7 +430,7 @@ var spec = {
                    }
                  }
                    },
-                   '?query={getPaginatedFiles(offset: {offset} limit: {limit}) {total files {study_submitter_id file_name file_type md5sum} pagination {count sort from page total pages size}}}': {
+                   '?query={getPaginatedFiles(offset: {offset} limit: {limit}) {total files {pdc_study_id study_submitter_id file_name file_type md5sum} pagination {count sort from page total pages size}}}': {
                  "get": {
                            "tags": ["Paginated Records"],
                    "summary": "Get paginated file records",
@@ -632,11 +632,11 @@ var spec = {
                    }
                  }
                },
-                  '?query={ studyExperimentalDesign (study_id: "{study_id}"){ study_run_metadata_id, study_run_metadata_submitter_id, study_id, study_submitter_id, analyte, acquisition_type, experiment_type, plex_dataset_name, experiment_number, number_of_fractions, label_free, itraq_113, itraq_114, itraq_115, itraq_116, itraq_117, itraq_118, itraq_119, itraq_121, tmt_126, tmt_127n, tmt_127c, tmt_128n, tmt_128c, tmt_129n, tmt_129c, tmt_130n, tmt_130c, tmt_131, tmt_131c } }': {
+                  '?query={ studyExperimentalDesign (study_id: "{study_id}"){ pdc_study_id, study_run_metadata_id, study_run_metadata_submitter_id, study_id, study_submitter_id, analyte, acquisition_type, experiment_type, plex_dataset_name, experiment_number, number_of_fractions, label_free, itraq_113, itraq_114, itraq_115, itraq_116, itraq_117, itraq_118, itraq_119, itraq_121, tmt_126, tmt_127n, tmt_127c, tmt_128n, tmt_128c, tmt_129n, tmt_129c, tmt_130n, tmt_130c, tmt_131, tmt_131c } }': {
                  "get": {
-                    "tags": ["General"],
+                    "tags": ["Study"],
                    "summary": "Gets experimental design for a Study",
-                   "description": "<b>Gets experimental design for a Study.<br/><br/>Fields:</b><ul><li>study_run_metadata_id</li><li>study_run_metadata_submitter_id</li><li>study_id</li><li>study_submitter_id</li><li>analyte</li><li>acquisition_type</li><li>experiment_type</li><li>plex_dataset_name</li><li>experiment_number</li><li>number_of_fractions</li><li>label_free</li><li>itraq_113</li><li>itraq_114</li><li>itraq_115</li><li>itraq_116</li><li>itraq_117</li><li>itraq_118</li><li>itraq_119</li><li>itraq_121</li><li>tmt_126</li><li>tmt_127n</li><li>tmt_127c</li><li>tmt_128n</li><li>tmt_128c</li><li>tmt_129n</li><li>tmt_129c</li><li>tmt_130n</li><li>tmt_130c</li><li>tmt_131</li><li>tmt_131c</li></ul>",
+                   "description": "<b>Gets experimental design for a Study.<br/><br/>Fields:</b><ul><li>pdc_study_id</li><li>study_run_metadata_id</li><li>study_run_metadata_submitter_id</li><li>study_id</li><li>study_submitter_id</li><li>analyte</li><li>acquisition_type</li><li>experiment_type</li><li>plex_dataset_name</li><li>experiment_number</li><li>number_of_fractions</li><li>label_free</li><li>itraq_113</li><li>itraq_114</li><li>itraq_115</li><li>itraq_116</li><li>itraq_117</li><li>itraq_118</li><li>itraq_119</li><li>itraq_121</li><li>tmt_126</li><li>tmt_127n</li><li>tmt_127c</li><li>tmt_128n</li><li>tmt_128c</li><li>tmt_129n</li><li>tmt_129c</li><li>tmt_130n</li><li>tmt_130c</li><li>tmt_131</li><li>tmt_131c</li></ul>",
                    "operationId": "studyExperimentalDesign",
                    "produces": [
                      "application/json"
@@ -719,11 +719,11 @@ var spec = {
                    }
                  }
                },
-               '?query={ protocolPerStudy(study_submitter_id: "{study_submitter_id}" ){ project_submitter_id protocol_id protocol_submitter_id study_id study_submitter_id program_id program_submitter_id protocol_name protocol_date document_name quantitation_strategy experiment_type label_free_quantitation labeled_quantitation isobaric_labeling_reagent reporter_ion_ms_level starting_amount starting_amount_uom digestion_reagent alkylation_reagent enrichment_strategy enrichment chromatography_dimensions_count one_d_chromatography_type two_d_chromatography_type fractions_anatyzed_count column_type amount_on_column amount_on_column_uom column_length column_length_uom column_inner_diameter column_inner_diameter_uom particle_size particle_size_uom particle_type gradient_length gradient_length_uom instrument_make instrument_model dissociation_type ms1_resolution ms2_resolution dda_topn normalized_collision_energy acquistion_type dia_multiplexing dia_ims } }': {
+               '?query={ protocolPerStudy(study_submitter_id: "{study_submitter_id}" ){ project_submitter_id protocol_id protocol_submitter_id study_id pdc_study_id study_submitter_id program_id program_submitter_id protocol_name protocol_date document_name quantitation_strategy experiment_type label_free_quantitation labeled_quantitation isobaric_labeling_reagent reporter_ion_ms_level starting_amount starting_amount_uom digestion_reagent alkylation_reagent enrichment_strategy enrichment chromatography_dimensions_count one_d_chromatography_type two_d_chromatography_type fractions_analyzed_count column_type amount_on_column amount_on_column_uom column_length column_length_uom column_inner_diameter column_inner_diameter_uom particle_size particle_size_uom particle_type gradient_length gradient_length_uom instrument_make instrument_model dissociation_type ms1_resolution ms2_resolution dda_topn normalized_collision_energy acquistion_type dia_multiplexing dia_ims } }': {
                  "get": {
                            "tags": ["General"],
                    "summary": "Gets all protocols per Study",
-                   "description": "<b>Gets all protocols per study.<br><br>Fields:</b><ul><li>project_submitter_id</li><li>protocol_id</li><li>protocol_submitter_id</li><li>study_id</li><li>study_submitter_id</li><li>program_id</li><li>program_submitter_id</li><li>protocol_name</li><li>protocol_date</li><li>document_name</li><li>quantitation_strategy</li><li>experiment_type</li><li>label_free_quantitation</li><li>labeled_quantitation</li><li>isobaric_labeling_reagent</li><li>reporter_ion_ms_level</li><li>starting_amount</li><li>starting_amount_uom</li><li>digestion_reagent</li><li>alkylation_reagent</li><li>enrichment_strategy</li><li>enrichment</li><li>chromatography_dimensions_count</li><li>one_d_chromatography_type</li><li>two_d_chromatography_type</li><li>fractions_anatyzed_count</li><li>column_type</li><li>amount_on_column</li><li>amount_on_column_uom</li><li>column_length</li><li>column_length_uom</li><li>column_inner_diameter</li><li>column_inner_diameter_uom</li><li>particle_size</li><li>particle_size_uom</li><li>particle_type</li><li>gradient_length</li><li>gradient_length_uom</li><li>instrument_make</li><li>instrument_model</li><li>dissociation_type</li><li>ms1_resolution</li><li>ms2_resolution</li><li>dda_topn</li><li>normalized_collision_energy</li><li>acquistion_type</li><li>dia_multiplexing</li><li>dia_ims</li></ul>",
+                   "description": "<b>Gets all protocols per study.<br><br>Fields:</b><ul><li>project_submitter_id</li><li>protocol_id</li><li>protocol_submitter_id</li><li>study_id</li><li>pdc_study_id</li><li>study_submitter_id</li><li>program_id</li><li>program_submitter_id</li><li>protocol_name</li><li>protocol_date</li><li>document_name</li><li>quantitation_strategy</li><li>experiment_type</li><li>label_free_quantitation</li><li>labeled_quantitation</li><li>isobaric_labeling_reagent</li><li>reporter_ion_ms_level</li><li>starting_amount</li><li>starting_amount_uom</li><li>digestion_reagent</li><li>alkylation_reagent</li><li>enrichment_strategy</li><li>enrichment</li><li>chromatography_dimensions_count</li><li>one_d_chromatography_type</li><li>two_d_chromatography_type</li><li>fractions_analyzed_count</li><li>column_type</li><li>amount_on_column</li><li>amount_on_column_uom</li><li>column_length</li><li>column_length_uom</li><li>column_inner_diameter</li><li>column_inner_diameter_uom</li><li>particle_size</li><li>particle_size_uom</li><li>particle_type</li><li>gradient_length</li><li>gradient_length_uom</li><li>instrument_make</li><li>instrument_model</li><li>dissociation_type</li><li>ms1_resolution</li><li>ms2_resolution</li><li>dda_topn</li><li>normalized_collision_energy</li><li>acquistion_type</li><li>dia_multiplexing</li><li>dia_ims</li></ul>",
                    "operationId": "protocolPerStudy",
                    "produces": [
                      "application/json"
@@ -748,11 +748,11 @@ var spec = {
                    }
                  }
                },
-              '?query={ study (study_id: "{study_id}") { study_id study_submitter_id program_id project_id study_name program_name project_name disease_type primary_site analytical_fraction experiment_type cases_count aliquots_count filesCount { data_category file_type files_count } } }': {
+              '?query={ study (study_id: "{study_id}") { study_id pdc_study_id study_submitter_id program_id project_id study_name program_name project_name disease_type primary_site analytical_fraction experiment_type cases_count aliquots_count filesCount { data_category file_type files_count } } }': {
                  "get": {
-                           "tags": ["Study"],
+                   "tags": ["Study"],
                    "summary": "Gets Study details",
-                   "description": "<b>Gets Study details.<br><br>Fields:</b><ul><li>study_id</li><li>study_submitter_id</li><li>program_id</li><li>project_id</li><li>study_name</li><li>program_name</li><li>project_name</li><li>disease_type</li><li>primary_site</li><li>analytical_fraction</li><li>experiment_type</li><li>cases_count</li><li>aliquots_count</li><li>filesCount</li></ul>",
+                   "description": "<b>Gets Study details.<br><br>Fields:</b><ul><li>study_id</li><li>pdc_study_id</li><li>study_submitter_id</li><li>program_id</li><li>project_id</li><li>study_name</li><li>program_name</li><li>project_name</li><li>disease_type</li><li>primary_site</li><li>analytical_fraction</li><li>experiment_type</li><li>cases_count</li><li>aliquots_count</li><li>filesCount</li></ul>",
                    "operationId": "study",
                    "produces": [
                      "application/json"
@@ -777,11 +777,11 @@ var spec = {
                    }
                  }
                },
-              '?query={ filesPerStudy (study_id: "{study_id}") {study_id study_submitter_id study_name file_id file_name file_submitter_id file_type md5sum file_location file_size data_category file_format} }': {
+              '?query={ filesPerStudy (study_id: "{study_id}") {study_id pdc_study_id study_submitter_id study_name file_id file_name file_submitter_id file_type md5sum file_location file_size data_category file_format} }': {
                  "get": {
                            "tags": ["Files"],
                    "summary": "Get files per Study ID",
-                   "description": "<b>Returns a list of files per study. </b><br>Takes a long time to execute because of the huge volume of data.<b><br><br>Fields:</b><ul><li>study_id</li><li>study_submitter_id</li><li>study_name</li><li>file_id</li><li>file_name</li><li>file_submitter_id</li><li>file_type</li><li>md5sum</li><li>file_location</li><li>file_size</li><li>data_category</li><li>file_format</li></ul>",
+                   "description": "<b>Returns a list of files per study. </b><br>Takes a long time to execute because of the huge volume of data.<b><br><br>Fields:</b><ul><li>study_id</li><li>pdc_study_id</li><li>study_submitter_id</li><li>study_name</li><li>file_id</li><li>file_name</li><li>file_submitter_id</li><li>file_type</li><li>md5sum</li><li>file_location</li><li>file_size</li><li>data_category</li><li>file_format</li></ul>",
                    "operationId": "filesPerStudy",
                    "produces": [
                      "application/json"
@@ -836,11 +836,11 @@ var spec = {
                    }
                  }
                },
-               "?query={programsProjectsStudies {program_id program_submitter_id name sponsor start_date end_date program_manager projects {project_id project_submitter_id name studies { study_id study_submitter_id submitter_id_name study_name program_name project_name program_id project_id project_submitter_id disease_type primary_site analytical_fraction experiment_type acquisition_type cases_count aliquots_count} }}}": {
+               "?query={programsProjectsStudies {program_id program_submitter_id name sponsor start_date end_date program_manager projects {project_id project_submitter_id name studies { pdc_study_id study_id study_submitter_id submitter_id_name study_name program_name project_name program_id project_id project_submitter_id disease_type primary_site analytical_fraction experiment_type acquisition_type cases_count aliquots_count} }}}": {
                  "get": {
                            "tags": ["Program"],
                    "summary": "Get all programs/projects/studies",
-                   "description": "<b>Returns a hierarchy of programs/projects/studies for an optional filter value.<br><br>Fields:</b><ul><li>program_id</li><li>program_submitter_id</li><li>name</li><li>sponsor</li><li>start_date</li><li>end_date</li><li>program_manager</li><li>projects {project_id project_submitter_id name}</li><li> studies {study_id study_submitter_id submitter_id_name study_name program_name project_name program_id project_id project_submitter_id disease_type primary_site analytical_fraction experiment_type acquisition_type cases_count aliquots_count}</li></ul>",
+                   "description": "<b>Returns a hierarchy of programs/projects/studies for an optional filter value.<br><br>Fields:</b><ul><li>program_id</li><li>program_submitter_id</li><li>name</li><li>sponsor</li><li>start_date</li><li>end_date</li><li>program_manager</li><li>projects {project_id project_submitter_id name}</li><li> studies {pdc_study_id study_id study_submitter_id submitter_id_name study_name program_name project_name program_id project_id project_submitter_id disease_type primary_site analytical_fraction experiment_type acquisition_type cases_count aliquots_count}</li></ul>",
                    "operationId": "program",
                    "produces": [
                      "application/json"
@@ -880,11 +880,11 @@ var spec = {
                    }
                  }
                },
-               '?query={projectsPerInstrument (instrument: "{instrument}") {project_submitter_id protocol_id protocol_submitter_id study_id study_submitter_id program_id program_submitter_id protocol_name protocol_date document_name quantitation_strategy experiment_type label_free_quantitation labeled_quantitation isobaric_labeling_reagent reporter_ion_ms_level starting_amount starting_amount_uom digestion_reagent alkylation_reagent enrichment_strategy enrichment chromatography_dimensions_count one_d_chromatography_type two_d_chromatography_type fractions_anatyzed_count column_type amount_on_column amount_on_column_uom column_length column_length_uom column_inner_diameter column_inner_diameter_uom particle_size particle_size_uom particle_type gradient_length gradient_length_uom instrument_make instrument_model dissociation_type ms1_resolution ms2_resolution dda_topn normalized_collision_energy acquistion_type dia_multiplexing dia_ims}}': {
+               '?query={projectsPerInstrument (instrument: "{instrument}") {project_submitter_id protocol_id protocol_submitter_id study_id pdc_study_id study_submitter_id program_id program_submitter_id protocol_name protocol_date document_name quantitation_strategy experiment_type label_free_quantitation labeled_quantitation isobaric_labeling_reagent reporter_ion_ms_level starting_amount starting_amount_uom digestion_reagent alkylation_reagent enrichment_strategy enrichment chromatography_dimensions_count one_d_chromatography_type two_d_chromatography_type fractions_analyzed_count column_type amount_on_column amount_on_column_uom column_length column_length_uom column_inner_diameter column_inner_diameter_uom particle_size particle_size_uom particle_type gradient_length gradient_length_uom instrument_make instrument_model dissociation_type ms1_resolution ms2_resolution dda_topn normalized_collision_energy acquistion_type dia_multiplexing dia_ims}}': {
                  "get": {
                            "tags": ["Project"],
                    "summary": "Get projects per instrument",
-                   "description": "<b>Returns a list of projects per mass spectrometry instrument, example: Lumos.<br><br>Fields:</b><ul><li>project_submitter_id</li><li>protocol_id</li><li>protocol_submitter_id</li><li>study_id</li><li>study_submitter_id</li><li>program_id</li><li>program_submitter_id</li><li>protocol_name</li><li>protocol_date</li><li>document_name</li><li>quantitation_strategy</li><li>experiment_type</li><li>label_free_quantitation</li><li>labeled_quantitation</li><li>isobaric_labeling_reagent</li><li>reporter_ion_ms_level</li><li>starting_amount</li><li>starting_amount_uom</li><li>digestion_reagent</li><li>alkylation_reagent</li><li>enrichment_strategy</li><li>enrichment</li><li>chromatography_dimensions_count</li><li>one_d_chromatography_type</li><li>two_d_chromatography_type</li><li>fractions_anatyzed_count</li><li>column_type</li><li>amount_on_column</li><li>amount_on_column_uom</li><li>column_length</li><li>column_length_uom</li><li>column_inner_diameter</li><li>column_inner_diameter_uom</li><li>particle_size</li><li>particle_size_uom</li><li>particle_type</li><li>gradient_length</li><li>gradient_length_uom</li><li>instrument_make</li><li>instrument_model</li><li>dissociation_type</li><li>ms1_resolution</li><li>ms2_resolution</li><li>dda_topn</li><li>normalized_collision_energy</li><li>acquistion_type</li><li>dia_multiplexing</li><li>dia_ims</li></ul>",
+                   "description": "<b>Returns a list of projects per mass spectrometry instrument, example: Lumos.<br><br>Fields:</b><ul><li>project_submitter_id</li><li>protocol_id</li><li>protocol_submitter_id</li><li>study_id</li><li>pdc_study_id</li><li>study_submitter_id</li><li>program_id</li><li>program_submitter_id</li><li>protocol_name</li><li>protocol_date</li><li>document_name</li><li>quantitation_strategy</li><li>experiment_type</li><li>label_free_quantitation</li><li>labeled_quantitation</li><li>isobaric_labeling_reagent</li><li>reporter_ion_ms_level</li><li>starting_amount</li><li>starting_amount_uom</li><li>digestion_reagent</li><li>alkylation_reagent</li><li>enrichment_strategy</li><li>enrichment</li><li>chromatography_dimensions_count</li><li>one_d_chromatography_type</li><li>two_d_chromatography_type</li><li>fractions_analyzed_count</li><li>column_type</li><li>amount_on_column</li><li>amount_on_column_uom</li><li>column_length</li><li>column_length_uom</li><li>column_inner_diameter</li><li>column_inner_diameter_uom</li><li>particle_size</li><li>particle_size_uom</li><li>particle_type</li><li>gradient_length</li><li>gradient_length_uom</li><li>instrument_make</li><li>instrument_model</li><li>dissociation_type</li><li>ms1_resolution</li><li>ms2_resolution</li><li>dda_topn</li><li>normalized_collision_energy</li><li>acquistion_type</li><li>dia_multiplexing</li><li>dia_ims</li></ul>",
                    "operationId": "projectsPerInstrument",
                    "produces": [
                      "application/json"
@@ -940,11 +940,11 @@ var spec = {
                    }
                  }
                    },
-                   "?query={quantitiveDataCPTAC2 { gene_abundance_id gene_id gene_name study_id study_submitter_id study_run_metadata_id aliquot_id project_id project_submitter_id analytical_fraction experiment_type aliquot_alias precursor_area cud_label }}": {
+                   "?query={quantitiveDataCPTAC2 { gene_abundance_id gene_id gene_name study_id pdc_study_id study_submitter_id study_run_metadata_id aliquot_id project_id project_submitter_id analytical_fraction experiment_type aliquot_alias precursor_area cud_label }}": {
                  "get": {
                            "tags": ["General"],
                    "summary": "Get quantitive data per study and/or experiment_type",
-                   "description": "<b>Returns quantitive data per study and/or experiment_type</b><br>Takes a long time to execute because of the huge volume of data.<br><br><b>Fields:</b><ul><li>gene_abundance_id</li><li>gene_id</li><li>gene_name</li><li>study_id</li><li>study_submitter_id</li><li>study_run_metadata_id</li><li>aliquot_id</li><li>project_id</li><li>project_submitter_id</li><li>analytical_fraction</li><li>experiment_type</li><li>aliquot_alias</li><li>precursor_area</li><li>cud_label</li></ul>",
+                   "description": "<b>Returns quantitive data per study and/or experiment_type</b><br>Takes a long time to execute because of the huge volume of data.<br><br><b>Fields:</b><ul><li>gene_abundance_id</li><li>gene_id</li><li>gene_name</li><li>study_id</li><li>pdc_study_id</li><li>study_submitter_id</li><li>study_run_metadata_id</li><li>aliquot_id</li><li>project_id</li><li>project_submitter_id</li><li>analytical_fraction</li><li>experiment_type</li><li>aliquot_alias</li><li>precursor_area</li><li>cud_label</li></ul>",
                    "operationId": "quantitiveDataCPTAC2",
                    "produces": [
                      "application/json"
@@ -962,9 +962,9 @@ var spec = {
                    }
                  }
                },
-               '?query={studySearch(name: "{name}"){ studies { record_type name submitter_id_name } }}': {
+               '?query={studySearch(name: "{name}"){ studies { record_type name submitter_id_name pdc_study_id} }}': {
                  "get": {
-                           "tags": ["General"],
+                   "tags": ["Study"],
                    "summary": "Find studies by partial study_shortname",
                    "description": "<b>Returns a list of search records<br><br>Fields:</b><ul><li>studies</li></ul>",
                    "operationId": "studySearch",
@@ -992,6 +992,108 @@ var spec = {
                    }
                  }
                },
+               '?query={studySearchByPDCStudyId(pdc_study_id:"{pdc_study_id}"){studies{record_type name submitter_id_name study_id study_submitter_id pdc_study_id}}}': {
+                  "get": {
+                    "tags": ["Study"],
+                    "summary": "Find studies by PDC Study ID",
+                    "description": "<b>Returns details of a study<br><br>Fields:</b><ul><li>studies</li></ul>",
+                    "operationId": "studySearchByPDCStudyId",
+                    "produces": [
+                      "application/json"
+                    ],
+                    "parameters": [{
+                        "name": "pdc_study_id",
+                        "in": "path",
+                        "description": "PDC Study ID to search studies with, example: PDC000173",
+                        "required": true,
+                        "type": "string"
+                      }
+                    ],
+                    "responses": {
+                      "200": {
+                        "description": "successful operation",
+                        "schema": {
+                          "$ref": "#/definitions/studySearchByPDCStudyId"
+                        }
+                      },
+                      "401": {
+                        "description": "Unauthorized"
+                      }
+                    }
+                  }
+                },
+                '?query={ pdcEntityReference(entity_type:"{entity_type}", entity_id: "{entity_id}", reference_type: "{reference_type}") { reference_id entity_type entity_id reference_type reference_entity_type reference_entity_alias reference_resource_name reference_resource_shortname reference_entity_location } }': {
+                  "get": {
+                    "tags": ["General"],
+                    "summary": "Find Entity References for a Study/Case",
+                    "description": "<b>Returns details of a study<br><br>Fields:</b><ul><li>pdcEntityReference</li></ul>",
+                    "operationId": "pdcEntityReference",
+                    "produces": [
+                      "application/json"
+                    ],
+                    "parameters": [{
+                        "name": "entity_type",
+                        "in": "path",
+                        "description": "Entity type, example: study/case",
+                        "required": true,
+                        "type": "string"
+                      }, {
+                        "name": "entity_id",
+                        "in": "path",
+                        "description": "Entity ID: Study/Case ID, example: dbe94609-1fb3-11e9-b7f8-0a80fada099c",
+                        "required": true,
+                        "type": "string"
+                      }, {
+                        "name": "reference_type",
+                        "in": "path",
+                        "description": "Reference type, example: external/internal",
+                        "required": true,
+                        "type": "string"
+                      }                        
+                    ],
+                    "responses": {
+                      "200": {
+                        "description": "successful operation",
+                        "schema": {
+                          "$ref": "#/definitions/pdcEntityReference"
+                        }
+                      },
+                      "401": {
+                        "description": "Unauthorized"
+                      }
+                    }
+                  }
+                },
+                '?query={studySearchByExternalId(reference_entity_alias:"{reference_entity_alias}"){studies{record_type name submitter_id_name study_id study_submitter_id pdc_study_id}}}': {
+                  "get": {
+                    "tags": ["Study"],
+                    "summary": "Find studies by External ID",
+                    "description": "<b>Returns details of a study<br><br>Fields:</b><ul><li>studies</li></ul>",
+                    "operationId": "studySearchByExternalId",
+                    "produces": [
+                      "application/json"
+                    ],
+                    "parameters": [{
+                        "name": "pdc_study_id",
+                        "in": "path",
+                        "description": "External ID to search studies with, example: ph001287",
+                        "required": true,
+                        "type": "string"
+                      }
+                    ],
+                    "responses": {
+                      "200": {
+                        "description": "successful operation",
+                        "schema": {
+                          "$ref": "#/definitions/studySearchByExternalId"
+                        }
+                      },
+                      "401": {
+                        "description": "Unauthorized"
+                      }
+                    }
+                  }
+                },
                '?query={paginatedCaseDiagnosesPerStudy (study_name: "{study_name}" offset: {offset} limit: {limit}) { total caseDiagnosesPerStudy { case_id case_submitter_id disease_type primary_site diagnoses{ diagnosis_id tissue_or_organ_of_origin age_at_diagnosis primary_diagnosis tumor_grade tumor_stage diagnosis_submitter_id classification_of_tumor days_to_last_follow_up days_to_last_known_disease_status days_to_recurrence last_known_disease_status morphology progression_or_recurrence site_of_resection_or_biopsy vital_status days_to_birth days_to_death prior_malignancy ajcc_clinical_m ajcc_clinical_n ajcc_clinical_stage ajcc_clinical_t ajcc_pathologic_m ajcc_pathologic_n ajcc_pathologic_stage ajcc_pathologic_t ann_arbor_b_symptoms ann_arbor_clinical_stage ann_arbor_extranodal_involvement ann_arbor_pathologic_stage best_overall_response burkitt_lymphoma_clinical_variant cause_of_death circumferential_resection_margin colon_polyps_history days_to_best_overall_response days_to_diagnosis days_to_hiv_diagnosis days_to_new_event figo_stage hiv_positive hpv_positive_type hpv_status iss_stage laterality ldh_level_at_diagnosis ldh_normal_range_upper lymph_nodes_positive lymphatic_invasion_present method_of_diagnosis new_event_anatomic_site new_event_type overall_survival perineural_invasion_present prior_treatment progression_free_survival progression_free_survival_event residual_disease vascular_invasion_present year_of_diagnosis } } pagination { count sort from page total pages size } }} ': {
                  "get": {
                      "tags": ["Paginated Records"],
@@ -1056,11 +1158,11 @@ var spec = {
                    }
                  }
                },
-               "?query={workflowMetadata { workflow_metadata_submitter_id study_submitter_id protocol_submitter_id cptac_study_id submitter_id_name study_submitter_name analytical_fraction experiment_type instrument refseq_database_version uniport_database_version hgnc_version raw_data_processing raw_data_conversion sequence_database_search search_database_parameters phosphosite_localization ms1_data_analysis psm_report_generation cptac_dcc_mzidentml mzidentml_refseq mzidentml_uniprot gene_to_prot cptac_galaxy_workflows cptac_galaxy_tools cdap_reports cptac_dcc_tools }}": {
+               "?query={workflowMetadata { workflow_metadata_submitter_id pdc_study_id study_submitter_id protocol_submitter_id cptac_study_id submitter_id_name study_submitter_name analytical_fraction experiment_type instrument refseq_database_version uniport_database_version hgnc_version raw_data_processing raw_data_conversion sequence_database_search search_database_parameters phosphosite_localization ms1_data_analysis psm_report_generation cptac_dcc_mzidentml mzidentml_refseq mzidentml_uniprot gene_to_prot cptac_galaxy_workflows cptac_galaxy_tools cdap_reports cptac_dcc_tools }}": {
                  "get": {
                            "tags": ["General"],
                    "summary": "Get workflow metadata",
-                   "description": "<b>Returns a list of workflow metadata<br><br>Fields:</b><ul><li>workflow_metadata_submitter_id</li><li>study_submitter_id</li><li>protocol_submitter_id</li><li>cptac_study_id</li><li>submitter_id_name</li><li>study_submitter_name</li><li>analytical_fraction</li><li>experiment_type</li><li>instrument</li><li>refseq_database_version</li><li>uniport_database_version</li><li>hgnc_version</li><li>raw_data_processing</li><li>raw_data_conversion</li><li>sequence_database_search</li><li>search_database_parameters</li><li>phosphosite_localization</li><li>ms1_data_analysis</li><li>psm_report_generation</li><li>cptac_dcc_mzidentml</li><li>mzidentml_refseq</li><li>mzidentml_uniprot</li><li>gene_to_prot</li><li>cptac_galaxy_workflows</li><li>cptac_galaxy_tools</li><li>cdap_reports</li><li>cptac_dcc_tools</li></ul>",
+                   "description": "<b>Returns a list of workflow metadata<br><br>Fields:</b><ul><li>workflow_metadata_submitter_id</li><li>pdc_study_id</li><li>study_submitter_id</li><li>protocol_submitter_id</li><li>cptac_study_id</li><li>submitter_id_name</li><li>study_submitter_name</li><li>analytical_fraction</li><li>experiment_type</li><li>instrument</li><li>refseq_database_version</li><li>uniport_database_version</li><li>hgnc_version</li><li>raw_data_processing</li><li>raw_data_conversion</li><li>sequence_database_search</li><li>search_database_parameters</li><li>phosphosite_localization</li><li>ms1_data_analysis</li><li>psm_report_generation</li><li>cptac_dcc_mzidentml</li><li>mzidentml_refseq</li><li>mzidentml_uniprot</li><li>gene_to_prot</li><li>cptac_galaxy_workflows</li><li>cptac_galaxy_tools</li><li>cdap_reports</li><li>cptac_dcc_tools</li></ul>",
                    "operationId": "workflowMetadata",
                    "produces": [
                      "application/json"
@@ -1204,20 +1306,54 @@ var spec = {
                  }
                },
                '?query={ quantDataMatrix(study_submitter_id: "{study_submitter_id}" data_type: "{data_type}") }': {
+                 "get": {
+                           "tags": ["General"],
+                   "summary": "Returns quant data matrix for a Study Submitter ID",
+                   "description": "Returns quant data matrix for a Study Submitter ID.<br/>The API takes a long time to execute because of the huge volume of data.<br/><b>Fields:<ul><li>study_submitter_id:</b> Study Submitter ID, example: S046-1</li><li><b>date_type: </b>Data type, example: log2_ratio</li></ul>",
+                   "operationId": "quantDataMatrix",
+                   "produces": [
+                     "application/json"
+                   ],
+                   "parameters": [{
+                           "name": "study_submitter_id",
+                           "in": "path",
+                           "description": "Study Submitter ID, example : S044-1",
+                           "required": true,
+                           "type": "string"
+                     }, {
+                           "name": "data_type",
+                           "in": "path",
+                           "description": "Data type, example: log2_ratio",
+                           "required": true,
+                           "type": "string"
+                     }
+                   ],
+                   //"x-explorer-enabled": false,
+                   "responses": {
+                     "200": {
+                       "description": "successful operation",
+                       "schema": {
+                         "$ref": "#/definitions/quantDataMatrix"
+                       }
+                     }
+                   }
+                  }
+                 },
+                 '?query={ quantDataMatrix(study_id: "{study_id}"  data_type: "{data_type}") }': {
                   "get": {
                             "tags": ["General"],
-                    "summary": "Returns quant data matrix for a Study Submitter ID",
-                    "description": "Returns quant data matrix for a Study Submitter ID.<br/>The API takes a long time to execute because of the huge volume of data.<br/><b>Fields:<ul><li>study_submitter_id:</b> Study Submitter ID, example: S046-1</li><li><b>date_type: </b>Data type, example: log2_ratio</li></ul>",
+                    "summary": "Returns quant data matrix for Study ID",
+                    "description": "Returns quant data matrix for a Study ID.<br/>The API takes a long time to execute because of the huge volume of data.<br/><b>Fields:<ul><li>study_id:</b> Study ID, example: dbe94609-1fb3-11e9-b7f8-0a80fada099c</li><li><b>date_type: </b>Data type, example: log2_ratio</li></ul>",
                     "operationId": "quantDataMatrix",
                     "produces": [
                       "application/json"
                     ],
                     "parameters": [{
-                            "name": "study_submitter_id",
-                            "in": "path",
-                            "description": "Study Submitter ID, example : S044-1",
-                            "required": true,
-                            "type": "string"
+                         "name": "study_id",
+                         "in": "path",
+                         "description": "Study ID, example : dbe94609-1fb3-11e9-b7f8-0a80fada099c",
+                         "required": true,
+                         "type": "string"
                       }, {
                             "name": "data_type",
                             "in": "path",
@@ -1235,42 +1371,8 @@ var spec = {
                         }
                       }
                     }
-                   }
-                  },
-                  '?query={ quantDataMatrix(study_id: "{study_id}"  data_type: "{data_type}") }': {
-                   "get": {
-                             "tags": ["General"],
-                     "summary": "Returns quant data matrix for Study ID",
-                     "description": "Returns quant data matrix for a Study ID.<br/>The API takes a long time to execute because of the huge volume of data.<br/><b>Fields:<ul><li>study_id:</b> Study ID, example: dbe94609-1fb3-11e9-b7f8-0a80fada099c</li><li><b>date_type: </b>Data type, example: log2_ratio</li></ul>",
-                     "operationId": "quantDataMatrix",
-                     "produces": [
-                       "application/json"
-                     ],
-                     "parameters": [{
-                          "name": "study_id",
-                          "in": "path",
-                          "description": "Study ID, example : dbe94609-1fb3-11e9-b7f8-0a80fada099c",
-                          "required": true,
-                          "type": "string"
-                       }, {
-                             "name": "data_type",
-                             "in": "path",
-                             "description": "Data type, example: log2_ratio",
-                             "required": true,
-                             "type": "string"
-                       }
-                     ],
-                     //"x-explorer-enabled": false,
-                     "responses": {
-                       "200": {
-                         "description": "successful operation",
-                         "schema": {
-                           "$ref": "#/definitions/quantDataMatrix"
-                         }
-                       }
-                     }
-                   }             
-                },
+                  }             
+               },
    },
    "definitions": {
          "Gene":{
@@ -2228,12 +2330,92 @@ var spec = {
                 "submitter_id_name":{
                    "type":"string",
                    "example":"TCGA_Breast_Cancer_Proteome"
-                }
+                },
+                "pdc_study_id":{
+                  "type":"string",
+                  "example":"PDC000173"
+               }
              },
              "xml":{
                 "name":"SearchRecord"
              }
           },
+          "studySearchByPDCStudyIdDetails":{
+            "type":"object",
+            "properties":{
+               "record_type":{
+                  "type":"string",
+                  "example":"study"
+               },
+               "name":{
+                  "type":"string",
+                  "example":"TCGA BRCA Proteome S015-1"
+               },
+               "submitter_id_name":{
+                  "type":"string",
+                  "example":"TCGA Breast Cancer Proteome"
+               },
+               "study_id":{
+                  "type":"string",
+                  "example":"b8da9eeb-57b8-11e8-b07a-00a098d917f8"
+               },
+               "study_submitter_id":{
+                 "type":"string",
+                 "example":"S015-1"
+              },
+               "pdc_study_id":{
+                 "type":"string",
+                 "example":"PDC000173"
+              }
+            },
+            "xml":{
+               "name":"studySearchByPDCStudyIdDetails"
+            }
+         },
+         "pdcEntityReferenceDetails":{
+            "type":"object",
+            "properties":{
+               "reference_id":{
+                  "type":"string",
+                  "example":"25b2ff66-88bc-11ea-bc9a-0a16d369a41f"
+               },
+               "entity_type":{
+                  "type":"string",
+                  "example":"study"
+               },
+               "entity_id":{
+                  "type":"string",
+                  "example":"dbe94609-1fb3-11e9-b7f8-0a80fada099c"
+               },
+               "reference_type":{
+                  "type":"string",
+                  "example":"external"
+               },
+               "reference_entity_type":{
+                 "type":"string",
+                 "example":"study"
+              },
+               "reference_entity_alias":{
+                 "type":"string",
+                 "example":"S044"
+              },
+              "reference_resource_name":{
+               "type":"string",
+               "example":"Clinical Proteomic Tumor Analysis Consortium"
+               },
+               "reference_resource_shortname":{
+                  "type":"string",
+                  "example":"CPTAC"
+               },
+               "reference_entity_location":{
+               "type":"string",
+               "example":"https://cptac-data-portal.georgetown.edu/cptac/s/S044\r"
+            }
+            },
+            "xml":{
+               "name":"pdcEntityReferenceDetails"
+            }
+         },
           "File":{
              "type":"object",
              "required":[
@@ -2432,6 +2614,10 @@ var spec = {
                    "type":"string",
                    "example":"b8da9eeb-57b8-11e8-b07a-00a098d917f8"
                 },
+                "pdc_study_id":{
+                  "type":"string",
+                  "example":"PDC000180"
+               },                
                 "study_submitter_id":{
                    "type":"string",
                    "example":"S015-1"
@@ -2483,6 +2669,10 @@ var spec = {
                 "workflow_metadata_submitter_id":{
                    "type":"string",
                    "example":"TCGA_Breast_Cancer_Proteome"
+                },
+                "pdc_study_id":{
+                  "type":"string",
+                  "example":"PDC000173"
                 },
                 "study_submitter_id":{
                    "type":"string",
@@ -3104,21 +3294,25 @@ var spec = {
           "filesForPaginatedRecords":{
              "type":"object",
              "properties":{
+               "pdc_study_id":{
+                  "type":"string",
+                  "example":"PDC000206"
+                },
                 "study_submitter_id":{
                    "type":"string",
-                   "example":"ST25730263"
+                   "example":"CPTAC GBM Discovery Study - CompRef Phosphoproteome"
                 },
                 "file_name":{
                    "type":"string",
-                   "example":"GUOT_L130410_001C_SW"
+                   "example":"02CPTAC_CompRef_GBM_P_PNNL_20190306_B2S5_f10.mzML.gz"
                 },
                 "file_type":{
                    "type":"string",
-                   "example":"Proprietary"
+                   "example":"Open Standard"
                 },
                 "md5sum":{
                    "type":"string",
-                   "example":"8b0d7785cc4cd2a6c01c41bdc5ccff4f"
+                   "example":"058ab22afbf1fb18563f8e499ad3ad8d"
                 }
              },
              "xml":{
@@ -3331,10 +3525,6 @@ var spec = {
                    "type":"string",
                    "example":"AL25730263-1"
                 },
-                "label":{
-                   "type":"string",
-                   "example":"Label Free"
-                },
                 "sample_id":{
                    "type":"string",
                    "example":"af11921c-f3b3-11e8-a44b-0a9c39d33490"
@@ -3467,51 +3657,55 @@ var spec = {
              "properties":{
                 "study_id":{
                    "type":"string",
-                   "example":"ad18f195-f3c0-11e8-a44b-0a9c39d33490"
+                   "example":"0ea91a54-1798-11ea-9bfa-0a42f3c845fe"
+                },
+                "pdc_study_id":{
+                  "type":"string",
+                  "example":"PDC000206"
                 },
                 "study_submitter_id":{
                    "type":"string",
-                   "example":"ST25730263"
+                   "example":"CPTAC GBM Discovery Study - CompRef Phosphoproteome"
                 },
                 "study_name":{
                    "type":"string",
-                   "example":"PCT_SWATH_Kidney"
+                   "example":"CPTAC GBM Discovery Study - CompRef Phosphoproteome"
                 },
                 "file_id":{
                    "type":"string",
-                   "example":"00897698-f7eb-11e8-aaae-520068b8b101"
+                   "example":"057a5b76-a582-4a3b-87d7-4897750d18c3"
                 },
                 "file_name":{
                    "type":"string",
-                   "example":"GUOT_L130410_001C_SW"
+                   "example":"02CPTAC_CompRef_GBM_P_PNNL_20190306_B2S5_f10.mzML.gz"
                 },
                 "file_submitter_id":{
                    "type":"string",
-                   "example":"GUOT_L130410_001C_SW"
+                   "example":"02CPTAC_CompRef_GBM_P_PNNL_20190306_B2S5_f10.mzML.gz"
                 },
                 "file_type":{
                    "type":"string",
-                   "example":"Proprietary"
+                   "example":"Open Standard"
                 },
                 "md5sum":{
                    "type":"string",
-                   "example":"8b0d7785cc4cd2a6c01c41bdc5ccff4f"
+                   "example":"058ab22afbf1fb18563f8e499ad3ad8d"
                 },
                 "file_location":{
                    "type":"string",
-                   "example":"raw-files/11/21/guot_L130410_001c_SW.wiff.zip"
+                   "example":"studies/206/mzml/02CPTAC_CompRef_GBM_P_PNNL_20190306_B2S5_f10.mzML.gz"
                 },
                 "file_size":{
                    "type":"string",
-                   "example":"1648474250"
+                   "example":"145180612"
                 },
                 "data_category":{
                    "type":"string",
-                   "example":"Raw Mass Spectra"
+                   "example":"Processed Mass Spectra"
                 },
                 "file_format":{
                    "type":"string",
-                   "example":"vendor-specific"
+                   "example":"mzML"
                 }
              },
              "xml":{
@@ -3553,21 +3747,25 @@ var spec = {
           "filesCountPerStudyDesc":{
              "type":"object",
              "properties":{
+               "pdc_study_id":{
+                  "type":"string",
+                  "example":"PDC000206"
+                },
                 "study_submitter_id":{
                    "type":"string",
-                   "example":"ST25730263"
+                   "example":"CPTAC GBM Discovery Study - CompRef Phosphoproteome"
                 },
                 "file_type":{
                    "type":"number",
-                   "example":"Proprietary"
+                   "example":"Document"
                 },
                 "files_count":{
                    "type":"number",
-                   "example":36
+                   "example":11
                 },
                 "data_category":{
                    "type":"string",
-                   "example":"Raw Mass Spectra"
+                   "example":"Other Metadata"
                 }
              },
              "xml":{
@@ -3888,6 +4086,112 @@ var spec = {
                 "name":"studySearchDesc"
              }
           },
+          "studySearchByPDCStudyId":{
+            "type":"object",
+            "required":[
+   
+            ],
+            "properties":{
+               "data":{
+                  "type":"string",
+                  "$ref":"#/definitions/studySearchByPDCStudyIdDef"
+               }
+            },
+            "xml":{
+               "name":"studySearch"
+            }
+         },
+         "studySearchByPDCStudyIdDef":{
+            "type":"object",
+            "required":[
+   
+            ],
+            "properties":{
+               "studySearchByPDCStudyId":{
+                  "type":"string",
+                  "$ref":"#/definitions/studySearchByPDCStudyIdDesc"
+               }
+            },
+            "xml":{
+               "name":"studySearchByPDCStudyIdDef"
+            }
+         },
+         "studySearchByPDCStudyIdDesc":{
+            "type":"object",
+            "required":[
+   
+            ],
+            "properties":{
+               "studies":{
+                  "type":"array",
+                  "items":{
+                     "$ref":"#/definitions/studySearchByPDCStudyIdDetails"
+                  }
+               }
+            },
+            "xml":{
+               "name":"studySearchByPDCStudyIdDesc"
+            }
+         },
+         "pdcEntityReference":{
+            "type":"object",
+            "required":[
+   
+            ],
+            "properties":{
+               "data":{
+                  "type":"string",
+                  "$ref":"#/definitions/pdcEntityReferenceDef"
+               }
+            },
+            "xml":{
+               "name":"pdcEntityReference"
+            }
+         },
+         "pdcEntityReferenceDef":{
+            "type":"object",
+            "required":[  
+            ],
+            "properties":{
+               "pdcEntityReference":{
+                  "type":"array",
+                  "items":{
+                     "$ref":"#/definitions/pdcEntityReferenceDetails"
+                  }
+               }
+            },
+            "xml":{
+               "name":"pdcEntityReferenceDef"
+            }
+         },
+         "studySearchByExternalId":{
+            "type":"object",
+            "required":[  
+            ],
+            "properties":{
+               "data":{
+                  "type":"string",
+                  "$ref":"#/definitions/studySearchByExternalIdDef"
+               }
+            },
+            "xml":{
+               "name":"studySearchByExternalId"
+            }
+         },
+         "studySearchByExternalIdDef":{
+            "type":"object",
+            "required":[
+            ],
+            "properties":{
+               "studySearchByExternalId":{
+                  "type":"string",
+                  "$ref":"#/definitions/studySearchByPDCStudyIdDesc"
+               }
+            },
+            "xml":{
+               "name":"studySearchByPDCStudyIdDef"
+            }
+         },
           "clinicalPerStudy":{
              "type":"object",
              "properties":{
@@ -4006,6 +4310,10 @@ var spec = {
                 "study_id":{
                    "type":"string",
                    "example":"dbe94609-1fb3-11e9-b7f8-0a80fada099c"
+                },
+                "pdc_study_id":{
+                  "type":"string",
+                  "example":"PDC000127"
                 },
                 "study_submitter_id":{
                    "type":"string",
@@ -4225,6 +4533,10 @@ var spec = {
                    "type":"string",
                    "example":"b93bb1e9-57b8-11e8-b07a-00a098d917f8"
                 },
+                "pdc_study_id":{
+                  "type":"string",
+                  "example":"PDC000174"
+               },
                 "study_submitter_id":{
                    "type":"string",
                    "example":"S015-2"
@@ -4309,7 +4621,7 @@ var spec = {
                    "type":"string",
                    "example":"RPLC"
                 },
-                "fractions_anatyzed_count":{
+                "fractions_analyzed_count":{
                    "type":"string",
                    "example":"13"
                 },
@@ -4435,6 +4747,10 @@ var spec = {
           "studyExperimentalDesignDesc":{
              "type":"object",
              "properties":{
+               "pdc_study_id":{
+                  "type":"string",
+                  "example":"PDC000127"
+               },
                 "study_run_metadata_id":{
                    "type":"string",
                    "example":"0127c578-2075-11e9-b7f8-0a80fada099c"
@@ -5055,6 +5371,10 @@ var spec = {
     
              ],
              "properties":{
+               "pdc_study_id":{
+                  "type":"string",
+                  "example":"PDC000125"
+               },
                 "study_id":{
                    "type":"string",
                    "example":"c935c587-0cd1-11e9-a064-0a9c39d33490"

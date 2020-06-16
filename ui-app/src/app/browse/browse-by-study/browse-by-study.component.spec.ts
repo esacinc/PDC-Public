@@ -102,42 +102,43 @@ describe("BrowseByStudyComponent", () => {
   });
 
   it("show study summary test", () => {
-    component.filteredStudiesData = [
+    this.filteredStudiesData = [
       {
         study_id:'CPTAC CCRCC Discovery Study - CompRef Proteome',
-        submitter_id_name: "CPTAC CCRCC Discovery Study - Phosphoproteme",
+        pdc_study_id: 'PDC000221',
+        submitter_id_name: "CPTAC UCEC Discovery Study - Phosphoproteme",
+        study_submitter_id: "S043-2",
         study_description:
-          "<p>Kidney cancer is among the 10 most common cancers in both men and women and each year there are approximately 60,000 new cases with over 14,000 deaths (<a href='https://seer.cancer.gov/statfacts/html/kidrp.html' target='_blank'>NCI, Surveillance, Epidemiology and End Results – SEERs-- Program</a>). Several histological and molecular subtypes have been identified and clear cell renal cell carcinoma (CCRCC) is the most prevalent (<a href='https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5936048/' target='_blank'>Hsieh el al., 2017 Nat Rev Dis Primers</a>). To advance the proteogenomic understanding of CCRCC, the CPTAC program has investigated 110 tumors (CPTAC discovery cohort) and subjected these samples to global proteome and phosphoproteome analysis. An optimized workflow for mass spectrometry of tissues using isobaric tags (TMT (tandem mass tags)-10) was used (<a href='https://www.nature.com/articles/s41596-018-0006-9' target='_blank'>Mertins et al., Nature Protocols 2018</a>). Proteome and phosphoproteome data from the CCRCC tumors is available below along with peptide spectrum analyses (PSMs) and protein summary reports from the CPTAC common data analysis pipeline (CDAP).</p><p>Clinical data is provided. Additional attributes along with genotypes will be available as cohort characterization proceeds.</p><p>Genomic data will be available from the NCI Genomic Data Commons.</p>",
-        study_submitter_id: "S044-2",
+          "<p>Endometrial cancer is the most common cancer of the female reproductive organs. It is estimated that over 63,000 new cases of uterine body or corpus cancer will be diagnosed in 2018, and more than 11,000 women will die from this disease (<a href='https://seer.cancer.gov/statfacts/html/corp.html' target='_blank'>NCI, Surveillance, Epidemiology and End Results – SEERs-- Program</a>). Tumors from 100 patients with uterine corpus endometrial carcinoma (UCEC) were subjected to global proteome and phosphoproteome analysis following the CPTAC-optimized workflow for mass spectrometry analysis of tissues using the 10-plexed isobaric tandem mass tags (TMT-10) (<a href='https://www.nature.com/articles/s41596-018-0006-9' target='_blank'>Mertins et al., Nature Protocols 2018</a>). Proteome and phosphoproteome data from the CPTAC cohort are available along with peptide spectrum matches (PSMs) and protein summary reports from the CPTAC common data analysis pipeline (CDAP).</p><p>Clinical data is provided below. Additional clinical attributes and genotypes will be available as cohort characterization proceeds.</p><p>Genomic data will be available from the NCI Genomic Data Commons.</p>",
         program_name: "Clinical Proteomic Tumor Analysis Consortium",
         project_name: "CPTAC3 Discovery",
-        disease_type: "Clear Cell Renal Cell Carcinoma;Other",
-        primary_site: "Kidney;N/A",
+        disease_type: "Uterine Corpus Endometrial Carcinoma;Other",
+        primary_site: "Uterus, NOS;N/A",
         analytical_fraction: "Phosphoproteome",
         experiment_type: "TMT10",
         embargo_date: "2019-06-01",
-        cases_count: 126,
-        aliquots_count: 218,
+        cases_count: 115,
+        aliquots_count: 146,
         filesCount: [
           {
             data_category: "Other Metadata",
             file_type: "Document",
-            files_count: 7
+            files_count: 10
           },
           {
             data_category: "Peptide Spectral Matches",
             file_type: "Open Standard",
-            files_count: 338
+            files_count: 240
           },
           {
             data_category: "Peptide Spectral Matches",
             file_type: "Text",
-            files_count: 338
+            files_count: 240
           },
           {
             data_category: "Processed Mass Spectra",
             file_type: "Open Standard",
-            files_count: 338
+            files_count: 240
           },
           {
             data_category: "Protein Assembly",
@@ -152,7 +153,63 @@ describe("BrowseByStudyComponent", () => {
           {
             data_category: "Raw Mass Spectra",
             file_type: "Proprietary",
-            files_count: 338
+            files_count: 240
+          }
+        ]
+      }
+    ];
+    component.filteredStudiesData = [
+      {
+        study_id:'CPTAC CCRCC Discovery Study - CompRef Proteome',
+        pdc_study_id: 'PDC000221',
+        submitter_id_name: "CPTAC UCEC Discovery Study - Phosphoproteme",
+        study_submitter_id: "S043-2",
+        study_description:
+          "<p>Endometrial cancer is the most common cancer of the female reproductive organs. It is estimated that over 63,000 new cases of uterine body or corpus cancer will be diagnosed in 2018, and more than 11,000 women will die from this disease (<a href='https://seer.cancer.gov/statfacts/html/corp.html' target='_blank'>NCI, Surveillance, Epidemiology and End Results – SEERs-- Program</a>). Tumors from 100 patients with uterine corpus endometrial carcinoma (UCEC) were subjected to global proteome and phosphoproteome analysis following the CPTAC-optimized workflow for mass spectrometry analysis of tissues using the 10-plexed isobaric tandem mass tags (TMT-10) (<a href='https://www.nature.com/articles/s41596-018-0006-9' target='_blank'>Mertins et al., Nature Protocols 2018</a>). Proteome and phosphoproteome data from the CPTAC cohort are available along with peptide spectrum matches (PSMs) and protein summary reports from the CPTAC common data analysis pipeline (CDAP).</p><p>Clinical data is provided below. Additional clinical attributes and genotypes will be available as cohort characterization proceeds.</p><p>Genomic data will be available from the NCI Genomic Data Commons.</p>",
+        program_name: "Clinical Proteomic Tumor Analysis Consortium",
+        project_name: "CPTAC3 Discovery",
+        disease_type: "Uterine Corpus Endometrial Carcinoma;Other",
+        primary_site: "Uterus, NOS;N/A",
+        analytical_fraction: "Phosphoproteome",
+        experiment_type: "TMT10",
+        embargo_date: "2019-06-01",
+        cases_count: 115,
+        aliquots_count: 146,
+        filesCount: [
+          {
+            data_category: "Other Metadata",
+            file_type: "Document",
+            files_count: 10
+          },
+          {
+            data_category: "Peptide Spectral Matches",
+            file_type: "Open Standard",
+            files_count: 240
+          },
+          {
+            data_category: "Peptide Spectral Matches",
+            file_type: "Text",
+            files_count: 240
+          },
+          {
+            data_category: "Processed Mass Spectra",
+            file_type: "Open Standard",
+            files_count: 240
+          },
+          {
+            data_category: "Protein Assembly",
+            file_type: "Text",
+            files_count: 13
+          },
+          {
+            data_category: "Quality Metrics",
+            file_type: "Web",
+            files_count: 2
+          },
+          {
+            data_category: "Raw Mass Spectra",
+            file_type: "Proprietary",
+            files_count: 240
           }
         ]
       }
@@ -160,14 +217,15 @@ describe("BrowseByStudyComponent", () => {
     let router = TestBed.get(Router);
     spyOn(router, "navigate");
     let spy = spyOn(MockDialog.prototype, "open").and.callThrough();
-    component.showStudySummary("S044-2");
+    component.showStudySummary("S043-2");
     expect(router.navigate).toHaveBeenCalled();
     expect(spy).toHaveBeenCalled();
   });
-
+ 
   it("test find study by id", () => {
     let studyData: AllStudiesData = {
       study_id:'CPTAC CCRCC Discovery Study - CompRef Proteome',
+      pdc_study_id: '',
       submitter_id_name: "CPTAC UCEC Discovery Study - Phosphoproteme",
       study_description:
         "<p>Endometrial cancer is the most common cancer of the female reproductive organs. It is estimated that over 63,000 new cases of uterine body or corpus cancer will be diagnosed in 2018, and more than 11,000 women will die from this disease (<a href='https://seer.cancer.gov/statfacts/html/corp.html' target='_blank'>NCI, Surveillance, Epidemiology and End Results – SEERs-- Program</a>). Tumors from 100 patients with uterine corpus endometrial carcinoma (UCEC) were subjected to global proteome and phosphoproteome analysis following the CPTAC-optimized workflow for mass spectrometry analysis of tissues using the 10-plexed isobaric tandem mass tags (TMT-10) (<a href='https://www.nature.com/articles/s41596-018-0006-9' target='_blank'>Mertins et al., Nature Protocols 2018</a>). Proteome and phosphoproteome data from the CPTAC cohort are available along with peptide spectrum matches (PSMs) and protein summary reports from the CPTAC common data analysis pipeline (CDAP).</p><p>Clinical data is provided below. Additional clinical attributes and genotypes will be available as cohort characterization proceeds.</p><p>Genomic data will be available from the NCI Genomic Data Commons.</p>",

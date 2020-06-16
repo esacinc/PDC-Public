@@ -1,27 +1,39 @@
-import { RegistrationPageComponent } from './../welcome-page/registration-page.component';
-import { AuthService } from 'angular-6-social-login';
-import { of } from 'rxjs';
+import { OverlayWindowService } from './../overlay-window/overlay-window.service';
+import { RegistrationPageComponent } from "./../welcome-page/registration-page.component";
+import { AuthService } from "angular-6-social-login";
+import { of } from "rxjs";
 import { MatDialogRef } from "@angular/material/dialog";
 import { MAT_DIALOG_DATA } from "@angular/material";
 
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { Router } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { NO_ERRORS_SCHEMA } from "@angular/core";
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { Router } from "@angular/router";
+import { RouterTestingModule } from "@angular/router/testing";
 
-import { ChorusauthService } from '../chorusauth.service';
-import { PDCUserService } from '../pdcuser.service';
-import { UserAccountComponent } from './user-account.component';
+import { ChorusauthService } from "../chorusauth.service";
+import { PDCUserService } from "../pdcuser.service";
+import { UserAccountComponent } from "./user-account.component";
+import { MatDialog } from '@angular/material';
+
 
 class MockAuthService {
   signIn(providerId: string): Promise<any> {
     return Promise.resolve({ email: "xxx@esacinc.com", name: "xxxyyy" });
   }
 }
-
+class MockDialog {
+  open(): any {
+    return { afterClosed: () => of("closed") };
+  }
+}
 class MockMatDialogRef {
   close() {}
+}
+
+class MockService {
+
+
 }
 
 describe("UserAccountComponent", () => {
@@ -41,12 +53,14 @@ describe("UserAccountComponent", () => {
         ChorusauthService,
         PDCUserService,
         { provide: AuthService, useClass: MockAuthService },
-		{
-          provide: MAT_DIALOG_DATA,
-          useValue: { data: "id"}
+        {
+          provide: MAT_DIALOG_DATA, 
+          useValue: { data: "id" },
         },
-		{ provide: MatDialogRef, useClass: MockMatDialogRef },
-      ]
+        { provide: MatDialogRef, useClass: MockMatDialogRef },
+        { provide: MatDialog, useClass: MockDialog },
+        { provide: OverlayWindowService, useClass: MockService }
+      ],
     }).compileComponents();
   }));
 
@@ -80,7 +94,7 @@ describe("UserAccountComponent", () => {
       email: email,
       organization: "other",
       searchType: "other",
-      user_pass: ""
+      user_pass: "",
     });
     component.otherResearcherType = "other";
     component.selectedResearcherType = "other";
@@ -108,7 +122,7 @@ describe("UserAccountComponent", () => {
       email: email,
       organization: "other",
       searchType: "other",
-      user_pass: ""
+      user_pass: "",
     });
     component.otherResearcherType = "other";
     component.selectedResearcherType = "other";
@@ -136,7 +150,7 @@ describe("UserAccountComponent", () => {
       email: email,
       organization: "other",
       searchType: "other",
-      user_pass: ""
+      user_pass: "",
     });
     component.otherResearcherType = "other";
     component.selectedResearcherType = "other";
@@ -166,7 +180,7 @@ describe("UserAccountComponent", () => {
       email: email,
       organization: "other",
       searchType: "other",
-      user_pass: ""
+      user_pass: "",
     });
     component.otherResearcherType = "other";
     component.selectedResearcherType = "other";

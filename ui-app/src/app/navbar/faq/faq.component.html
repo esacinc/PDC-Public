@@ -19,6 +19,7 @@
                 <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Details_Study)">Where do I get more details about a study?</a></b></li>
                 <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Gene_Information)">How can I find gene/s of my interest?</a></b></li>
                 <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Protein_Quantitaion)">How do I explore protein quantitation data for a study through heatmaps?</a></b></li>
+                <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Search_PDC)">What can I search on PDC?</a></b></li>
                 <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Search_Sequence)">Can I search for a particular peptide sequence within the datasets in PDC?</a></b></li>
                 <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Files_Download)">What type of files are available for download from PDC?</a></b></li>
                 <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Cite_PDC)">How do I cite the PDC?</a></b></li>
@@ -59,7 +60,9 @@
         </p>
 
         <div #Download_Data class="faq-question">How do I download data? </div>
-        <p class="faq-response">Once you identify the files of your interest, move to 'FIles' tab on the browse page. Click on the download button to download individual files. Also see <a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Multiple_Files)">'How do I download multiple files at once?'.</a></p>
+        <p class="faq-response">Individual files can be downloaded by clicking the 'Download' button in the File table.
+            <br>To download multiple files, identify and select the files of your interest by clicking the check box. You may select multiple files at once by clicking the checkbox in the header row of the table. After the files are selected, click on the 'Download Files' button. Currently there is a limit on the number and volume of files that can be downloaded through this approach.
+            <br>If you want to download multiple files programmatically, see <a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Multiple_Files)">'How do I download multiple files at once?'.</a></p>
 
         <div #Multiple_Files class="faq-question" id="Multiple_Files">How do I download multiple files at once?</div>
         <p class="faq-response">Once you identify the files of your interest, move to 'Files' tab and select one or all files and then click <strong><i>'Export File Manifest'</i></strong>.
@@ -154,12 +157,22 @@
            <br>More ways to explore the heatmap can be found here accessed here - <a href="https://software.broadinstitute.org/morpheus/tutorial.html" target="_blank">Morpheus - Tutorial</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">External Link</span></a>
         </p>
 
+        <div #Search_PDC class="faq-question">What can I search on PDC?</div>
+        <p class="faq-response">
+          PDC can be searched for the following:
+          <br>    - Biospecimens such as case, sample or aliquot using their original identifiers or PDC ids
+          <br>    - Studies using their PDC id (e.g. PDC000220) or partial name (e.g. CPTAC, HNSCC)
+          <br>    - Genes using their Gene symbol (e.g. BRCC3) or partial description (e.g. Kinase)
+          <br>It is also possible to search for related data from external resources using the external identifiers. For example, you may search for a dbGaP study using its identifier (e.g., phs000892) to identify all related PDC studies.
+        </p>
+
+
         <div #Search_Sequence class="faq-question">Can I search for a particular peptide sequence within the datasets in PDC?</div>
         <p class="faq-response">Peptides can be searched through PepQuery, a peptide-centric approach that focuses on only novel DNA or protein sequences of interest.
-                <br>From the menu bar, go to Analysis -> PepQuery. Enter the peptide in the search box and select the dataset to search against. More details about PepQuery can be found here - <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6396417/" target="_blank">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6396417/</a>.</p>
+          <br>From the menu bar, go to Analysis -> PepQuery. Enter the peptide in the search box and select the dataset to search against. More details about PepQuery can be found here - <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6396417/" target="_blank">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6396417/</a>.</p>
 
         <div #Files_Download class="faq-question" id="Files_Download">What type of files are available for download from PDC? What are the outputs of PDC Common Data Analysis pipeline? What do they mean?</div>
-        <div class="faq-response">
+          <div class="faq-response">
                 PDC distributes several types of files, those submitted by original data submitters and those generated through the PDC common data analysis pipeline.<br><br>
                 <table class="faqTable">
                         <tr><td colspan="2"><strong>Mass Spectrometry Data Formats</strong></td></tr>
@@ -219,7 +232,7 @@
         <div #Cite_PDC class="faq-question">How do I cite the PDC?</div>
         <p class="faq-response">
                 To cite the resource, cite PDC url - <a href="https://pdc.cancer.gov" target="_blank">https://pdc.cancer.gov</a>
-            <br>PDC uses Universal Unique Identifiers (UUID) for representing all of the data. To cite individual study, either cite the UUID of the study or an URL to the study.
+            <br>A PDC study can be cited with its PDC study identifier or url to the study. Ex: PDC000220 or <a href="https://pdc.cancer.gov/pdc/study/PDC000220" target="_blank">https://pdc.cancer.gov/pdc/study/PDC000220</a>
         </p>
 
         <div #Policies_PDC class="faq-question">What are the data use and licensing policies of the PDC?</div>

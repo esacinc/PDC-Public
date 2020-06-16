@@ -142,8 +142,9 @@ getPortalStats() {
 			query: gql` 
 				query HumanBodyPrimarySiteData {
 					uiPrimarySiteCaseCount{
-					primary_site
-					cases_count
+					major_primary_site
+					cases_count 
+					primarySites 
 				}
 			} `
 		})

@@ -43,3 +43,14 @@
     padding-left: 0px;
     text-align: unset !important;
  }
+
+ /* @@@PDC-1987: Update clinical tab to use new external reference API */
+ .imagingLbl {
+    height: 20px;
+    margin-top: 6%;
+    background-color: gray;
+ }
+
+ .genomicLbl {
+     margin-top: 5%;
+ }

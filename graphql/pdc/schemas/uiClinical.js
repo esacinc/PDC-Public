@@ -4,6 +4,7 @@
 //@@@PDC-1011 replace gdc_case_id with external_case_id
 //@@@PDC-1234 add imaging_resource
 //@@@PDC-1237 add age_at_diagnosis et al
+//@@@PDC-2026 add external reference
 const UIClinical = `
 type UIClinical {
 	case_id: String
@@ -27,6 +28,7 @@ type UIClinical {
 	age_at_diagnosis:  String
 	classification_of_tumor:  String
 	days_to_recurrence:  String
+	externalReferences: [EntityReference]
 }`
 ;
 

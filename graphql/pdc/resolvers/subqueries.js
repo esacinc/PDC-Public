@@ -119,6 +119,7 @@ export const resolvers = {
 				return JSON.parse(res);
 			}
 		},
+		//@@@PDC-2038 add ajcc_staging_system_edition
 		async diagnoses(obj, args, context) {
 			var cacheFilterName = {name:''};
 			cacheFilterName.name +="case_submitter_id:("+ obj.case_submitter_id + ");";
@@ -152,6 +153,7 @@ export const resolvers = {
 						'ajcc_pathologic_n',
 						'ajcc_pathologic_stage',
 						'ajcc_pathologic_t',
+						'ajcc_staging_system_edition',
 						'ann_arbor_b_symptoms',
 						'ann_arbor_clinical_stage',
 						'ann_arbor_extranodal_involvement',
@@ -271,6 +273,20 @@ export const resolvers = {
 
 		}
 	},
+	//@@@PDC-2026 add case external reference
+	UIClinical: {
+		async externalReferences(obj, args, context) {
+			var refCacheName = context.dataCacheName + ':'+obj.case_id;
+			const res = await RedisCacheClient.redisCacheGetAsync(refCacheName);
+			if (res === null) {
+				var refQuery = "SELECT reference_resource_shortname, reference_entity_location FROM reference r where entity_type = 'case' and reference_type = 'external' and entity_id = uuid_to_bin('"+ obj.case_id + "')";
+				var getIt = await db.getSequelize().query(refQuery, { model: db.getModelByName('ModelEntityReference') });
+				RedisCacheClient.redisCacheSetExAsync(refCacheName, JSON.stringify(getIt));
+				return getIt;				
+			}
+			return JSON.parse(res);
+		}
+	},	
 	//@@@PDC-788 remove hard-coded file types
 	UIStudy: {
 		async filesCount(obj, args, context) {
@@ -644,6 +660,17 @@ export const resolvers = {
 		signedUrl(obj, args, context) {
 			return getSignedUrl(obj.file_location);
 		}
+	},
+	//@@@PDC-2020 use major primary site
+	UIHumanBody: {
+		async primarySites(obj, args, context) {
+			var getPSQuery = 'select distinct primary_site from `case` c where ';
+			getPSQuery += " major_primary_site = '" + obj.major_primary_site + "'";
+			var pss = await db.getSequelize().query(getPSQuery, { raw: true });
+			var listPss = [];
+			pss[0].forEach((row) =>listPss.push(row['primary_site']));
+			return listPss;
+		}		
 	},
 	Pagination: {
 		size(obj, args, context) {

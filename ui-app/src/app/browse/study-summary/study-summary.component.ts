@@ -170,7 +170,8 @@ export class StudySummaryComponent implements OnInit {
 	this.newFilterSelected = {"program_name" : "", "project_name": "", "study_name": "", "submitter_id_name": "", "disease_type":"", "primary_site":"", "analytical_fraction":"", "experiment_type":"",
 		"ethnicity": "", "race": "", "gender": "", "tumor_grade": "", "sample_type": "", "acquisition_type": "", "data_category": "", "file_type": "", "access": "", "downloadable": "", "studyName_genes_tab":"", "case_status": "", "biospecimen_status": ""};	
 	this.sort = '';
-		//@@@PDC-1012: Update UI for GDC Case ID becoming External Case ID
+	//@@@PDC-1987: Update clinical tab to use new external reference API
+	//@@@PDC-1012: Update UI for GDC Case ID becoming External Case ID
 	//Array of external file Details. This has to be updated each time a new type of external case iD is added.
 	this.externalCaseMap = [{
 		'id': "GDC",
@@ -178,6 +179,13 @@ export class StudySummaryComponent implements OnInit {
 		'imageUrl': this.iconFolder + "GDC.png",
 	}, {
 		'id': "KidsFirst",
+		'url': this.kidsFirstURL,
+		'imageUrl': this.iconFolder + "KidsFirst.png",
+	}, {
+		'id': "TCIA",
+		'imageUrl': this.iconFolder + "Tcia.png",
+	}, {
+		'id': "CBTTC",
 		'url': this.kidsFirstURL,
 		'imageUrl': this.iconFolder + "KidsFirst.png",
 	}];
@@ -249,11 +257,14 @@ export class StudySummaryComponent implements OnInit {
   }
 
   getManifestFile() {
-		const manifest_file = 'assets/data-folder/' + this.studySummaryData.study_submitter_id + '/manifest.json';
+		//const manifest_file = 'assets/data-folder/' + this.studySummaryData.study_submitter_id + '/manifest.json';
+		//@@@PDC-2106 use pdc_study_id in heatmap folder
+		const manifest_file = 'assets/data-folder/' + this.pdcStudyID + '/manifest.json';
 		console.log('Getting manifest file from: ' + manifest_file);
 		return this.http.get(manifest_file);
   }
-readManifest() {
+  
+  readManifest() {
 	this.mapData = [];
 	this.getManifestFile()
     .subscribe((data: any) => {
@@ -270,7 +281,7 @@ readManifest() {
 	}, error => { this.heatmapAvailable = false; console.log('Error Status:', error.status); });
   }
   isHeatmapAvailable() {
-	const manifest_file = 'assets/data-folder/' + this.study_id + '/manifest.json';
+	const manifest_file = 'assets/data-folder/' + this.pdcStudyID + '/manifest.json';
 	this.http.head(manifest_file).pipe(
 	catchError((error) => observableOf({foo: 'bar'})))
 	.subscribe((status) => console.log('status', status))
@@ -488,7 +499,9 @@ close(navigateToHeatmap: boolean, study_name: string = '') {
 						'StudyName': study_name,
 				}
 			};
-		  this.router.navigate(['/analysis/' + this.studySummaryData.study_submitter_id], navigationExtras);
+		  //this.router.navigate(['/analysis/' + this.studySubmitterId], navigationExtras);
+		  //@@@PDC-2106 use pdc_study_id in heatmap folder
+		  this.router.navigate(['/analysis/' + this.pdcStudyID], navigationExtras);
 	  }
 	this.dialogRef.close();
 }
@@ -543,27 +556,24 @@ close(navigateToHeatmap: boolean, study_name: string = '') {
 	}
 }
 
+//@@@PDC-1987: Update clinical tab to use new external reference API
 //@@@PDC-1160: Add cases and aliquots to the study summary page
 //@@@PDC-1012: Update UI for GDC Case ID becoming External Case ID
 //Get Image icon for the external Case ID
-getIcon(externalCaseID: string) {
-  if (externalCaseID) {
-	  let externalCaseIDSplit = externalCaseID.split(':');
-	  let imageUrl = this.externalCaseMap.find(x => (x.id).toUpperCase() == externalCaseIDSplit[0].toUpperCase()).imageUrl;
-	  if (imageUrl) return imageUrl; else return '';
-  } else {
-	  return '';
+getIcon(reference_resource_shortname: string) {
+	if (reference_resource_shortname) {
+		let imageUrl = this.externalCaseMap.find(x => (x.id).toUpperCase() == reference_resource_shortname.toUpperCase()).imageUrl;
+		if (imageUrl) return imageUrl; else return '';
+	} else {
+		return '';
+	}
   }
-}
 
+//@@@PDC-1987: Update clinical tab to use new external reference API
 //@@@PDC-1160: Add cases and aliquots to the study summary page
 //@@@PDC-1012: Update UI for GDC Case ID becoming External Case ID
-displayTextforExternalID(externalCaseID: string) {
-  if (externalCaseID) {
-	  let externalCaseIDSplit = externalCaseID.split(':');
-	  let url = this.externalCaseMap.find(x => (x.id).toUpperCase() == externalCaseIDSplit[0].toUpperCase()).url;
-	  if (url) return ''; else return externalCaseID;
-  }
+displayTextforExternalID(externalCaseID: string, locationURL: string) {
+	if (locationURL) return ''; else return externalCaseID;
 }
 
 //@@@PDC-1219: Add a new experimental design tab on the study summary page

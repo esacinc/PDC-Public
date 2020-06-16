@@ -18,13 +18,13 @@
 						<span *ngIf='userLoggedInFlag' style="font-size:small">&nbsp; Logged in as <a href="javascript:void(0);" (click)="openUserAccountPage()">{{userService.getUserName()}}</a> &nbsp; &nbsp;</span>
 						<button *ngIf='userLoggedInFlag' mat-raised-button (click)="logoff()" style="font-size:small" title="Logout" id="logout">Logout</button>
 					</div>
-				
+
 					<br><br>
 					<form>
 						<div class="search-icon-div">
 							<span class="search-icon"><i class="fas fa-search" style="font-size: 1.2em; color: lightgrey;">&nbsp;</i></span>
 						</div>
-						<input type="text" placeholder="e.g. BRCC3, 05BR003, kinase" id="search-term" title="Enter a Gene symbol or Case ID" 
+						<input type="text" placeholder="e.g. BRCC3, 05BR003, kinase, PDC000123, phs000892" id="search-term" title="Enter a Gene symbol or Case ID"
 							matInput [formControl]="searchFormControl" [matAutocomplete]="auto" class="search-input"
 							[(ngModel)]="selectedSearchTerm" (ngModelChange)="openSearchTermSummary(option)" style="">
 							<mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFunc">
@@ -37,11 +37,7 @@
 				<!-- end of PDC-428 modifications -->
 			</div>
 			<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5"></div>
-			<div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" id="searchBarLabel" style="height: 20px;">
-				<span style="vertical-align: text-bottom;line-height: initial;font-size: 0.8em;font-weight:bolder;">
-					Search by Gene or Case ID
-				</span>	
-			</div>
+			<div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" id="searchBarLabel" style="height: 20px;"></div>
 		</div>
 	</div>
 </div>
@@ -85,10 +81,10 @@
 				<a mat-menu-item class="custom-menu-item" id="releaseNotesSubmenu" href="https://drive.google.com/file/d/1k_sPoPuhusZPRDJWkVecWEnyCqvQm8nA/view?ths=true" target="_blank">Release Notes</a>
 				<a mat-menu-item class="custom-menu-item" id="feedbackSubmenu" [matMenuTriggerFor]="feedback">Feedback</a>
 			</mat-menu>
-			
+
 			<mat-menu [overlapTrigger]="false" yPosition="below" #feedback="matMenu">
 				<a mat-button href='mailto:nci.pdc.help@esacinc.com?Subject=PDC Help' id="emailNavbar" target="_" >Email</a>
-				<a mat-button href='https://groups.google.com/a/esacinc.com/forum/#!forum/pdc-mvp-feedback' id="discussionNavbar" target="_" >Discussion Forum</a>	
+				<a mat-button href='https://groups.google.com/a/esacinc.com/forum/#!forum/pdc-mvp-feedback' id="discussionNavbar" target="_" >Discussion Forum</a>
 			</mat-menu>
 		</nav>
 	</mat-toolbar-row>

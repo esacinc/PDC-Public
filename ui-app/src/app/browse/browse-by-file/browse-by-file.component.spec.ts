@@ -1,14 +1,16 @@
-import { PDCUserService } from './../../pdcuser.service';
-import { Apollo } from 'apollo-angular';
-import { Observable, of } from 'rxjs';
-
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialog, MatMenuModule } from '@angular/material';
 import { RouterTestingModule } from '@angular/router/testing';
-
+import { Apollo } from 'apollo-angular';
+import { Observable, of } from 'rxjs';
+import { PDCUserService } from './../../pdcuser.service';
+import { SizeUnitsPipe } from './../../sizeUnitsPipe.pipe';
 import { BrowseByFileComponent } from './browse-by-file.component';
 import { BrowseByFileService } from './browse-by-file.service';
+
+
 
 class MockDialog {
   open(): any {
@@ -44,6 +46,12 @@ class MockBrowseByFileService {
   }
 }
 
+class MockSizeUnitsPipe {
+  transform(): string {
+    return '';
+  }
+}
+
 class MockPDCUserService {
 
 }
@@ -56,9 +64,9 @@ describe("BrowseByFileComponent", () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [BrowseByFileComponent],
-      imports: [RouterTestingModule,MatMenuModule],
+      imports: [RouterTestingModule, MatMenuModule, HttpClientTestingModule],
       schemas: [NO_ERRORS_SCHEMA],
-      providers:[]
+      providers: []
     });
 
     TestBed.overrideComponent(BrowseByFileComponent, {
@@ -68,6 +76,10 @@ describe("BrowseByFileComponent", () => {
           {
             provide: BrowseByFileService,
             useClass: MockBrowseByFileService
+          },
+          {
+            provide: SizeUnitsPipe,
+            useClass: MockSizeUnitsPipe
           },
           { provide: MatDialog, useClass: MockDialog },
           { provide: PDCUserService, useClass: MockPDCUserService }

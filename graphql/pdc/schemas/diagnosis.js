@@ -1,4 +1,5 @@
 //@@@PDC-1011 replace gdc_case_id with external_case_id
+//@@@PDC-2038 add ajcc_staging_system_edition
 const Diagnosis = `
 type Diagnosis {
 	diagnosis_id:  String
@@ -33,6 +34,7 @@ type Diagnosis {
 	ajcc_pathologic_n:  String
 	ajcc_pathologic_stage:  String
 	ajcc_pathologic_t:  String
+	ajcc_staging_system_edition: String
 	ann_arbor_b_symptoms:  String
 	ann_arbor_clinical_stage:  String
 	ann_arbor_extranodal_involvement:  String

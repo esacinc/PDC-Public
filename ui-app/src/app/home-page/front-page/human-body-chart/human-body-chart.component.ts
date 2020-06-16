@@ -12,6 +12,7 @@ import { HumanbodyImageData } from '../../../types';
   providers: [ FrontPageService ]
 })
 //@@@PDC-1214 - Replace the sunburst chart with the human body image with drill down
+//@@@PDC-2021 - add major primary site feature
 export class HumanBodyChartComponent implements OnInit {
   dataSetsForHumanBody: HumanbodyImageData[];
   humanBodyAPIData:any;
@@ -39,11 +40,11 @@ export class HumanBodyChartComponent implements OnInit {
 		console.log(data);
 		this.dataSetsForHumanBody = data.uiPrimarySiteCaseCount;
         this.numberofOrgans = this.dataSetsForHumanBody.length;
-        console.log(this.dataSetsForHumanBody);
-        const humanBodyImgData = data.uiPrimarySiteCaseCount
-        .map(({ primary_site, cases_count }) => ({
-			_key: primary_site,
-			_count: cases_count
+        const humanBodyImgData = this.dataSetsForHumanBody
+        .map(({ major_primary_site, cases_count, primarySites}) => ({
+			_key: major_primary_site,
+			_count: cases_count,
+			_primary_sites_filters: primarySites.join('|')	
         }))
         .sort((a, b) => (a._key > b._key ? 1 : -1));
       // Body map on study list doesn't show x-axis when genomic/imaging checkboxes checked
@@ -75,11 +76,12 @@ export class HumanBodyChartComponent implements OnInit {
         numberofOrgansFromAPI: that.numberofOrgans,
         clickHandler: function(selectedOrgan: any) {
           //that.selectedFilters.emit(selectedOrgan['_key']);
-          let key = selectedOrgan['_key'];
+          let key = selectedOrgan['_key']; 
           if(selectedOrgan['_key'] == 'Other'){
             key = 'Not Reported';
           }
 		  var url = "/browse/filters/primary_site:" + key;
+		  console.log("URL: " + url);
 		  that.router.navigateByUrl(url);
         }
       }); 

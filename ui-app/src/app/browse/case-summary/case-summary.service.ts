@@ -108,6 +108,7 @@ constructor(private apollo: Apollo) {
 								ajcc_pathologic_n
 								ajcc_pathologic_stage
 								ajcc_pathologic_t
+								ajcc_staging_system_edition
 								ann_arbor_b_symptoms
 								ann_arbor_clinical_stage
 								ann_arbor_extranodal_involvement

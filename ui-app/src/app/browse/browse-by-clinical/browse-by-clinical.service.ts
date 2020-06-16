@@ -60,6 +60,10 @@ constructor(private apollo: Apollo) {
 							program_name
 							project_name
 							status
+							externalReferences {
+								reference_resource_shortname
+								reference_entity_location
+							}
 						}
 						pagination {
 							count
