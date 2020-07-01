@@ -166,6 +166,7 @@ properties:
     enrichment_strategy:
         description: Type of peptide or protein enrichment
         enum:
+        - Acetylome
         - Proteome
         - Phosphoproteome
         - Glycoproteome
