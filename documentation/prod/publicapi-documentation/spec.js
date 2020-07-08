@@ -122,8 +122,8 @@ var spec = {
                '?query={aliquotSpectralCount(gene_name: "{gene_name}" dataset_alias: "{dataset_alias}"){gene_id gene_name NCBI_gene_id authority description organism chromosome locus proteins assays spectral_counts { project_submitter_id plex spectral_count distinct_peptide unshared_peptide gene_name study_submitter_id pdc_study_id aliquot_id}}}': {
                  "get": {
                            "tags": ["Gene"],
-                   "summary": "Get spectral counts of available projects for an aliquot",
-                   "description": "<b>Returns spectral counts of available projects for an aliquot<br><br>Fields:</b><ul><li>gene_id</li><li>gene_name</li><li>NCBI_gene_id</li><li>authority</li><li>description</li><li>organism</li><li>chromosome</li><li>locus</li><li>proteins</li><li>assays</li><li>spectral_counts</li></ul>",
+                   "summary": "Returns the binary form of gene_id",
+                   "description": "<b>Returns the binary form of gene_id<br><br>Fields:</b><ul><li>gene_id</li><li>gene_name</li><li>NCBI_gene_id</li><li>authority</li><li>description</li><li>organism</li><li>chromosome</li><li>locus</li><li>proteins</li><li>assays</li><li>spectral_counts</li></ul>",
                    "operationId": "aliquotSpectralCount",
                    "produces": [
                      "application/json"
@@ -337,8 +337,8 @@ var spec = {
                    '?query={geneSpectralCount (gene_name: "{gene_name}"){gene_id gene_name NCBI_gene_id authority description organism chromosome locus proteins assays spectral_counts { project_submitter_id plex spectral_count distinct_peptide unshared_peptide gene_name study_submitter_id aliquot_id} }}': {
                  "get": {
                            "tags": ["Gene"],
-                   "summary": "Get spectral counts of available projects for a Gene",
-                   "description": "<b>Returns spectral counts of available projects for a gene<br><br>Fields:</b><ul><li>gene_name</li><li>NCBI_gene_id</li><li>authority</li><li>description</li><li>organism</li><li>chromosome</li><li>locus</li><li>proteins</li><li>assays</li><li>spectral_counts</li></ul>",
+                   "summary": "Returns the binary form of gene_id",
+                   "description": "<b>Returns the binary form of gene_id<br><br>Fields:</b><ul><li>gene_name</li><li>NCBI_gene_id</li><li>authority</li><li>description</li><li>organism</li><li>chromosome</li><li>locus</li><li>proteins</li><li>assays</li><li>spectral_counts</li></ul>",
                    "operationId": "geneSpectralCount",
                    "produces": [
                      "application/json"
@@ -396,7 +396,7 @@ var spec = {
                    },
                    '?query={getPaginatedCases(offset: {offset} limit: {limit}) {total cases {case_submitter_id project_submitter_id disease_type} pagination {count sort from page total pages size}}}': {
                  "get": {
-                           "tags": ["Paginated Records"],
+                           "tags": ["Case"],
                    "summary": "Get paginated case records",
                    "description": "<b>Returns a list of cases and a pagination record<br/><br/>Fields:</b><ul><li>cases</li></ul>",
                    "operationId": "getPaginatedCases",
@@ -432,7 +432,7 @@ var spec = {
                    },
                    '?query={getPaginatedFiles(offset: {offset} limit: {limit}) {total files {pdc_study_id study_submitter_id file_name file_type md5sum} pagination {count sort from page total pages size}}}': {
                  "get": {
-                           "tags": ["Paginated Records"],
+                           "tags": ["Files"],
                    "summary": "Get paginated file records",
                    "description": "<b>Returns a list of files and a pagination record<br/><br/>Fields:</b><ul><li>files</li></ul>",
                    "operationId": "getPaginatedFiles",
@@ -468,7 +468,7 @@ var spec = {
                },
                '?query={paginatedCaseDemographicsPerStudy (study_submitter_id: "{study_submitter_id}" offset: {offset} limit: {limit}) { total caseDemographicsPerStudy { case_id case_submitter_id disease_type primary_site demographics { demographic_id ethnicity gender demographic_submitter_id race cause_of_death days_to_birth days_to_death vital_status year_of_birth year_of_death } } pagination { count sort from page total pages size } }}': {
                  "get": {
-                           "tags": ["Paginated Records"],
+                           "tags": ["Case"],
                    "summary": "Get Cases/Demographics",
                    "description": "<b>Returns cases/demographics per study</b><br>Takes a long time to execute because of the huge volume of data.<br><br><b>Fields:</b><ul><li>case</li><li>demographics</li></ul>",
                    "operationId": "paginatedCaseDemographicsPerStudy",
@@ -510,7 +510,7 @@ var spec = {
                },
                '?query={paginatedCaseDemographicsPerStudy (pdc_study_id: "{pdc_study_id}" offset: {offset} limit: {limit}) { total caseDemographicsPerStudy { case_id case_submitter_id disease_type primary_site demographics { demographic_id ethnicity gender demographic_submitter_id race cause_of_death days_to_birth days_to_death vital_status year_of_birth year_of_death } } pagination { count sort from page total pages size } }}': {
                   "get": {
-                            "tags": ["Paginated Records"],
+                            "tags": ["Case"],
                     "summary": "Get Cases/Demographics for PDC Study ID",
                     "description": "<b>Returns cases/demographics per study</b><br>Takes a long time to execute because of the huge volume of data.<br><br><b>Fields:</b><ul><li>case</li><li>demographics</li></ul>",
                     "operationId": "paginatedCaseDemographicsPerStudy",
@@ -550,57 +550,9 @@ var spec = {
                     }
                   }
                 },
-               '?query={paginatedDataMatrix(study_submitter_id: "{study_submitter_id}" data_type: "{data_type}"  offset: {offset}  limit: {limit})   {   total   dataMatrix   pagination   {   count   sort   from   page   total   pages   size   }   }}': {
-                 "get": {
-                           "tags": ["Paginated Records"],
-                   "summary": "Get data matrix of spectral counts or quantitative data",
-                   "description": "<b>Returns data matrix of spectral counts or quantitative data.</b>Takes a long time to execute because of the huge volume of data.<br>Please refer to this table for possible parameter values:<table id='paginatedDataMatrixSwaggerTable'><tr> <th>study_type</th> <th>label_type</th> <th>study extension (e.g., S015-1)</th> <th>available_data_types</th> </tr><tr> <td>proteome</td> <td>label-free</td> <td>-1</td> <td>spectral_count, precursor_area, precursor_area_unshared</td></tr> <tr> <td>proteome</td> <td>iTRAQ/TMT</td> <td>-1</td> <td>log2_ratio, unshared_log2_ratio</td> </tr><tr> <td>phospho</td> <td>iTRAQ/TMT</td> <td>2</td> <td>log_ratio</td></tr></table><br><br><b>Fields:</b><ul><li>dataMatrix</li></ul>",
-                   "operationId": "paginatedDataMatrix",
-                   "produces": [
-                     "application/json"
-                   ],
-                   "parameters": [{
-                       "name": "study_submitter_id",
-                       "in": "path",
-                       "description": "Submitter id of study, example: S015-2",
-                       "required": true,
-                       "type": "string"
-                     }, {
-                       "name": "data_type",
-                       "in": "path",
-                       "description": "Type of data in matrix, example: Please refer to the above table for a possible data type.",
-                       "required": true,
-                       "type": "string"
-                     }, {
-                       "name": "offset",
-                       "in": "path",
-                       "description": "Offset of records, example: 0",
-                       "required": true,
-                       "type": "integer"
-                     }, {
-                       "name": "limit",
-                       "in": "path",
-                       "description": "Limit of records, example: 10",
-                       "required": true,
-                       "type": "integer"
-                     }        
-                     ],
-                   "responses": {
-                     "200": {
-                       "description": "successful operation",
-                       "schema": {
-                         "$ref": "#/definitions/paginatedDataMatrix"
-                       }
-                     },
-                     "401": {
-                       "description": "Unauthorized"
-                     }
-                   }
-                 }
-               },
                '?query={paginatedSpectralCountPerStudyAliquot(study_submitter_id: "{study_submitter_id}" plex_name: "{plex_name}" gene_name: "{gene_name}" offset: {offset} limit: {limit}) { total spectralCounts { gene_name study_submitter_id pdc_study_id aliquot_id plex spectral_count distinct_peptide unshared_peptide } pagination { count sort from page total pages size } }}': {
                  "get": {
-                           "tags": ["Paginated Records"],
+                           "tags": ["Quantitative"],
                    "summary": "Get spectral counts per study/aliquot/gene",
                    "description": "<b>Returns spectral counts per study/aliquot/gene<br><br>Fields:</b><ul><li>spectralCounts</li></ul>",
                    "operationId": "paginatedSpectralCountPerStudyAliquot",
@@ -654,7 +606,7 @@ var spec = {
                    },
                    '?query={paginatedSpectralCountPerStudyAliquot(pdc_study_id: "{pdc_study_id}" gene_name: "{gene_name}" offset: {offset} limit: {limit}) { total spectralCounts { gene_name study_submitter_id pdc_study_id aliquot_id plex spectral_count distinct_peptide unshared_peptide } pagination { count sort from page total pages size } }}': {
                      "get": {
-                               "tags": ["Paginated Records"],
+                               "tags": ["Quantitative"],
                        "summary": "Get spectral counts per study/aliquot/gene for a PDC Study ID",
                        "description": "<b>Returns spectral counts per study/aliquot/gene<br><br>Fields:</b><ul><li>spectralCounts</li></ul>",
                        "operationId": "paginatedSpectralCountPerStudyAliquot",
@@ -724,7 +676,7 @@ var spec = {
                },
                   '?query={ studyExperimentalDesign (study_id: "{study_id}"){ pdc_study_id, study_run_metadata_id, study_run_metadata_submitter_id, study_id, study_submitter_id, analyte, acquisition_type, experiment_type, plex_dataset_name, experiment_number, number_of_fractions, label_free, itraq_113, itraq_114, itraq_115, itraq_116, itraq_117, itraq_118, itraq_119, itraq_121, tmt_126, tmt_127n, tmt_127c, tmt_128n, tmt_128c, tmt_129n, tmt_129c, tmt_130n, tmt_130c, tmt_131, tmt_131c } }': {
                  "get": {
-                    "tags": ["Study"],
+                    "tags": ["Experimental"],
                    "summary": "Gets experimental design for a Study",
                    "description": "<b>Gets experimental design for a Study.<br/><br/>Fields:</b><ul><li>pdc_study_id</li><li>study_run_metadata_id</li><li>study_run_metadata_submitter_id</li><li>study_id</li><li>study_submitter_id</li><li>analyte</li><li>acquisition_type</li><li>experiment_type</li><li>plex_dataset_name</li><li>experiment_number</li><li>number_of_fractions</li><li>label_free</li><li>itraq_113</li><li>itraq_114</li><li>itraq_115</li><li>itraq_116</li><li>itraq_117</li><li>itraq_118</li><li>itraq_119</li><li>itraq_121</li><li>tmt_126</li><li>tmt_127n</li><li>tmt_127c</li><li>tmt_128n</li><li>tmt_128c</li><li>tmt_129n</li><li>tmt_129c</li><li>tmt_130n</li><li>tmt_130c</li><li>tmt_131</li><li>tmt_131c</li></ul>",
                    "operationId": "studyExperimentalDesign",
@@ -753,7 +705,7 @@ var spec = {
                },
                '?query={ studyExperimentalDesign (pdc_study_id: "{pdc_study_id}"){ pdc_study_id, study_run_metadata_id, study_run_metadata_submitter_id, study_id, study_submitter_id, analyte, acquisition_type, experiment_type, plex_dataset_name, experiment_number, number_of_fractions, label_free, itraq_113, itraq_114, itraq_115, itraq_116, itraq_117, itraq_118, itraq_119, itraq_121, tmt_126, tmt_127n, tmt_127c, tmt_128n, tmt_128c, tmt_129n, tmt_129c, tmt_130n, tmt_130c, tmt_131, tmt_131c } }': {
                   "get": {
-                     "tags": ["Study"],
+                     "tags": ["Experimental"],
                     "summary": "Gets experimental design for a PDC Study ID",
                     "description": "<b>Gets experimental design for a Study.<br/><br/>Fields:</b><ul><li>pdc_study_id</li><li>study_run_metadata_id</li><li>study_run_metadata_submitter_id</li><li>study_id</li><li>study_submitter_id</li><li>analyte</li><li>acquisition_type</li><li>experiment_type</li><li>plex_dataset_name</li><li>experiment_number</li><li>number_of_fractions</li><li>label_free</li><li>itraq_113</li><li>itraq_114</li><li>itraq_115</li><li>itraq_116</li><li>itraq_117</li><li>itraq_118</li><li>itraq_119</li><li>itraq_121</li><li>tmt_126</li><li>tmt_127n</li><li>tmt_127c</li><li>tmt_128n</li><li>tmt_128c</li><li>tmt_129n</li><li>tmt_129c</li><li>tmt_130n</li><li>tmt_130c</li><li>tmt_131</li><li>tmt_131c</li></ul>",
                     "operationId": "studyExperimentalDesign",
@@ -840,10 +792,10 @@ var spec = {
                 },
                '?query={ clinicalPerStudy(study_submitter_id: "{study_submitter_id}"){ case_id case_submitter_id status external_case_id ethnicity gender race morphology primary_diagnosis site_of_resection_or_biopsy tissue_or_organ_of_origin tumor_grade tumor_stage } }': {
                  "get": {
-                           "tags": ["General"],
+                           "tags": ["Clinical"],
                    "summary": "Returns clinical details per study",
                    "description": "<b>Returns clinical details per study.<br><br>Fields:</b><ul><li>case_id</li><li>case_submitter_id</li><li>status</li><li>external_case_id</li><li>ethnicity</li><li>gender</li><li>race</li><li>morphology</li><li>primary_diagnosis</li><li>site_of_resection_or_biopsy</li><li>tissue_or_organ_of_origin</li><li>tumor_grade</li><li>tumor_stage</li></ul>",
-                   "operationId": "clinicalperStudy",
+                   "operationId": "clinicalPerStudy",
                    "produces": [
                      "application/json"
                    ],
@@ -869,10 +821,10 @@ var spec = {
                },
                '?query={ clinicalPerStudy(pdc_study_id: "{pdc_study_id}"){ case_id case_submitter_id status external_case_id ethnicity gender race morphology primary_diagnosis site_of_resection_or_biopsy tissue_or_organ_of_origin tumor_grade tumor_stage } }': {
                   "get": {
-                            "tags": ["General"],
+                            "tags": ["Clinical"],
                     "summary": "Returns clinical details for PDC Study ID",
                     "description": "<b>Returns clinical details per study.<br><br>Fields:</b><ul><li>case_id</li><li>case_submitter_id</li><li>status</li><li>external_case_id</li><li>ethnicity</li><li>gender</li><li>race</li><li>morphology</li><li>primary_diagnosis</li><li>site_of_resection_or_biopsy</li><li>tissue_or_organ_of_origin</li><li>tumor_grade</li><li>tumor_stage</li></ul>",
-                    "operationId": "clinicalperStudy",
+                    "operationId": "clinicalPerStudy",
                     "produces": [
                       "application/json"
                     ],
@@ -1105,7 +1057,7 @@ var spec = {
                            "tags": ["Program"],
                    "summary": "Get all programs/projects/studies",
                    "description": "<b>Returns a hierarchy of programs/projects/studies for an optional filter value.<br><br>Fields:</b><ul><li>program_id</li><li>program_submitter_id</li><li>name</li><li>sponsor</li><li>start_date</li><li>end_date</li><li>program_manager</li><li>projects {project_id project_submitter_id name}</li><li> studies {pdc_study_id study_id study_submitter_id submitter_id_name study_name program_name project_name program_id project_id project_submitter_id disease_type primary_site analytical_fraction experiment_type acquisition_type cases_count aliquots_count}</li></ul>",
-                   "operationId": "program",
+                   "operationId": "programsProjectsStudies",
                    "produces": [
                      "application/json"
                    ],
@@ -1176,7 +1128,7 @@ var spec = {
                },
                '?query={protein(protein: "{protein}"){gene_name NCBI_gene_id authority description organism chromosome locus proteins assays spectral_counts {project_submitter_id plex spectral_count distinct_peptide unshared_peptide}}}': {
                  "get": {
-                           "tags": ["Protein"],
+                           "tags": ["Quantitative"],
                    "summary": "Get spectral counts and plex in available projects for a protein",
                    "description": "<b>Returns spectral counts of available projects for gene to which the protein ID (Uniprot or Refseq) mapped<br><br>Fields:</b><ul><li>gene_name</li><li>NCBI_gene_id</li><li>authority</li><li>description</li><li>organism</li><li>chromosome</li><li>locus</li><li>proteins</li><li>assays</li><li>spectralCounts</li></ul>",
                    "operationId": "protein",
@@ -1204,58 +1156,6 @@ var spec = {
                    }
                  }
                    },
-                   "?query={quantitiveDataCPTAC2 { gene_abundance_id gene_id gene_name study_id pdc_study_id study_submitter_id study_run_metadata_id aliquot_id project_id project_submitter_id analytical_fraction experiment_type aliquot_alias precursor_area cud_label }}": {
-                 "get": {
-                           "tags": ["General"],
-                   "summary": "Get quantitive data per study and/or experiment_type",
-                   "description": "<b>Returns quantitive data per study and/or experiment_type</b><br>Takes a long time to execute because of the huge volume of data.<br><br><b>Fields:</b><ul><li>gene_abundance_id</li><li>gene_id</li><li>gene_name</li><li>study_id</li><li>pdc_study_id</li><li>study_submitter_id</li><li>study_run_metadata_id</li><li>aliquot_id</li><li>project_id</li><li>project_submitter_id</li><li>analytical_fraction</li><li>experiment_type</li><li>aliquot_alias</li><li>precursor_area</li><li>cud_label</li></ul>",
-                   "operationId": "quantitiveDataCPTAC2",
-                   "produces": [
-                     "application/json"
-                   ],
-                   "responses": {
-                     "200": {
-                       "description": "successful operation",
-                       "schema": {
-                         "$ref": "#/definitions/quantitiveDataCPTAC2"
-                       }
-                     },
-                     "401": {
-                       "description": "Unauthorized"
-                     }
-                   }
-                 }
-               },
-               '?query={quantitiveDataCPTAC2(pdc_study_id: "{pdc_study_id}") { gene_abundance_id gene_id gene_name study_id pdc_study_id study_submitter_id study_run_metadata_id aliquot_id project_id project_submitter_id analytical_fraction experiment_type aliquot_alias precursor_area cud_label }}': {
-                  "get": {
-                            "tags": ["General"],
-                    "summary": "Get quantitive CPTAC data for PDC Study ID",
-                    "description": "<b>Returns quantitive data per study and/or experiment_type</b><br>Takes a long time to execute because of the huge volume of data.<br><br><b>Fields:</b><ul><li>gene_abundance_id</li><li>gene_id</li><li>gene_name</li><li>study_id</li><li>pdc_study_id</li><li>study_submitter_id</li><li>study_run_metadata_id</li><li>aliquot_id</li><li>project_id</li><li>project_submitter_id</li><li>analytical_fraction</li><li>experiment_type</li><li>aliquot_alias</li><li>precursor_area</li><li>cud_label</li></ul>",
-                    "operationId": "quantitiveDataCPTAC2",
-                    "produces": [
-                      "application/json"
-                    ],
-                    "parameters": [{
-                     "name": "pdc_study_id",
-                     "in": "path",
-                     "description": "PDC Study ID, example: PDC000174",
-                     "required": true,
-                     "type": "string"
-                   }
-                 ],
-                    "responses": {
-                      "200": {
-                        "description": "successful operation",
-                        "schema": {
-                          "$ref": "#/definitions/quantitiveDataCPTAC2"
-                        }
-                      },
-                      "401": {
-                        "description": "Unauthorized"
-                      }
-                    }
-                  }
-                },
                '?query={studySearch(name: "{name}"){ studies { record_type name submitter_id_name pdc_study_id} }}': {
                  "get": {
                    "tags": ["Study"],
@@ -1390,7 +1290,7 @@ var spec = {
                 },
                '?query={paginatedCaseDiagnosesPerStudy (study_name: "{study_name}" offset: {offset} limit: {limit}) { total caseDiagnosesPerStudy { case_id case_submitter_id disease_type primary_site diagnoses{ diagnosis_id tissue_or_organ_of_origin age_at_diagnosis primary_diagnosis tumor_grade tumor_stage diagnosis_submitter_id classification_of_tumor days_to_last_follow_up days_to_last_known_disease_status days_to_recurrence last_known_disease_status morphology progression_or_recurrence site_of_resection_or_biopsy vital_status days_to_birth days_to_death prior_malignancy ajcc_clinical_m ajcc_clinical_n ajcc_clinical_stage ajcc_clinical_t ajcc_pathologic_m ajcc_pathologic_n ajcc_pathologic_stage ajcc_pathologic_t ann_arbor_b_symptoms ann_arbor_clinical_stage ann_arbor_extranodal_involvement ann_arbor_pathologic_stage best_overall_response burkitt_lymphoma_clinical_variant cause_of_death circumferential_resection_margin colon_polyps_history days_to_best_overall_response days_to_diagnosis days_to_hiv_diagnosis days_to_new_event figo_stage hiv_positive hpv_positive_type hpv_status iss_stage laterality ldh_level_at_diagnosis ldh_normal_range_upper lymph_nodes_positive lymphatic_invasion_present method_of_diagnosis new_event_anatomic_site new_event_type overall_survival perineural_invasion_present prior_treatment progression_free_survival progression_free_survival_event residual_disease vascular_invasion_present year_of_diagnosis } } pagination { count sort from page total pages size } }} ': {
                  "get": {
-                     "tags": ["Paginated Records"],
+                     "tags": ["Case"],
                      "summary": "Get Cases/Diagnoses",
                      "description": "<b>Returns cases/diagnoses per study<br><br>Fields:</b><ul><li>case</li><li>diagnoses</li></ul>",
                      "operationId": "paginatedCaseDiagnosesPerStudy",
@@ -1432,7 +1332,7 @@ var spec = {
              },
              '?query={paginatedCaseDiagnosesPerStudy (pdc_study_id: "{pdc_study_id}" offset: {offset} limit: {limit}) { total caseDiagnosesPerStudy { case_id case_submitter_id disease_type primary_site diagnoses{ diagnosis_id tissue_or_organ_of_origin age_at_diagnosis primary_diagnosis tumor_grade tumor_stage diagnosis_submitter_id classification_of_tumor days_to_last_follow_up days_to_last_known_disease_status days_to_recurrence last_known_disease_status morphology progression_or_recurrence site_of_resection_or_biopsy vital_status days_to_birth days_to_death prior_malignancy ajcc_clinical_m ajcc_clinical_n ajcc_clinical_stage ajcc_clinical_t ajcc_pathologic_m ajcc_pathologic_n ajcc_pathologic_stage ajcc_pathologic_t ann_arbor_b_symptoms ann_arbor_clinical_stage ann_arbor_extranodal_involvement ann_arbor_pathologic_stage best_overall_response burkitt_lymphoma_clinical_variant cause_of_death circumferential_resection_margin colon_polyps_history days_to_best_overall_response days_to_diagnosis days_to_hiv_diagnosis days_to_new_event figo_stage hiv_positive hpv_positive_type hpv_status iss_stage laterality ldh_level_at_diagnosis ldh_normal_range_upper lymph_nodes_positive lymphatic_invasion_present method_of_diagnosis new_event_anatomic_site new_event_type overall_survival perineural_invasion_present prior_treatment progression_free_survival progression_free_survival_event residual_disease vascular_invasion_present year_of_diagnosis } } pagination { count sort from page total pages size } }} ': {
                "get": {
-                   "tags": ["Paginated Records"],
+                   "tags": ["Case"],
                    "summary": "Get Cases/Diagnoses for PDC Study ID",
                    "description": "<b>Returns cases/diagnoses for PDC Study ID<br><br>Fields:</b><ul><li>case</li><li>diagnoses</li></ul>",
                    "operationId": "paginatedCaseDiagnosesPerStudy",
@@ -1496,7 +1396,7 @@ var spec = {
                },
                "?query={workflowMetadata { workflow_metadata_submitter_id pdc_study_id study_submitter_id protocol_submitter_id cptac_study_id submitter_id_name study_submitter_name analytical_fraction experiment_type instrument refseq_database_version uniport_database_version hgnc_version raw_data_processing raw_data_conversion sequence_database_search search_database_parameters phosphosite_localization ms1_data_analysis psm_report_generation cptac_dcc_mzidentml mzidentml_refseq mzidentml_uniprot gene_to_prot cptac_galaxy_workflows cptac_galaxy_tools cdap_reports cptac_dcc_tools }}": {
                  "get": {
-                           "tags": ["General"],
+                           "tags": ["Workflow"],
                    "summary": "Get workflow metadata",
                    "description": "<b>Returns a list of workflow metadata<br><br>Fields:</b><ul><li>workflow_metadata_submitter_id</li><li>pdc_study_id</li><li>study_submitter_id</li><li>protocol_submitter_id</li><li>cptac_study_id</li><li>submitter_id_name</li><li>study_submitter_name</li><li>analytical_fraction</li><li>experiment_type</li><li>instrument</li><li>refseq_database_version</li><li>uniport_database_version</li><li>hgnc_version</li><li>raw_data_processing</li><li>raw_data_conversion</li><li>sequence_database_search</li><li>search_database_parameters</li><li>phosphosite_localization</li><li>ms1_data_analysis</li><li>psm_report_generation</li><li>cptac_dcc_mzidentml</li><li>mzidentml_refseq</li><li>mzidentml_uniprot</li><li>gene_to_prot</li><li>cptac_galaxy_workflows</li><li>cptac_galaxy_tools</li><li>cdap_reports</li><li>cptac_dcc_tools</li></ul>",
                    "operationId": "workflowMetadata",
@@ -1518,7 +1418,7 @@ var spec = {
                    },
                    '?query={workflowMetadata(pdc_study_id: "{pdc_study_id}") { workflow_metadata_submitter_id pdc_study_id study_submitter_id protocol_submitter_id cptac_study_id submitter_id_name study_submitter_name analytical_fraction experiment_type instrument refseq_database_version uniport_database_version hgnc_version raw_data_processing raw_data_conversion sequence_database_search search_database_parameters phosphosite_localization ms1_data_analysis psm_report_generation cptac_dcc_mzidentml mzidentml_refseq mzidentml_uniprot gene_to_prot cptac_galaxy_workflows cptac_galaxy_tools cdap_reports cptac_dcc_tools }}': {
                      "get": {
-                               "tags": ["General"],
+                               "tags": ["Workflow"],
                        "summary": "Get workflow metadata for a PDC Study ID",
                        "description": "<b>Returns a list of workflow metadata<br><br>Fields:</b><ul><li>workflow_metadata_submitter_id</li><li>pdc_study_id</li><li>study_submitter_id</li><li>protocol_submitter_id</li><li>cptac_study_id</li><li>submitter_id_name</li><li>study_submitter_name</li><li>analytical_fraction</li><li>experiment_type</li><li>instrument</li><li>refseq_database_version</li><li>uniport_database_version</li><li>hgnc_version</li><li>raw_data_processing</li><li>raw_data_conversion</li><li>sequence_database_search</li><li>search_database_parameters</li><li>phosphosite_localization</li><li>ms1_data_analysis</li><li>psm_report_generation</li><li>cptac_dcc_mzidentml</li><li>mzidentml_refseq</li><li>mzidentml_uniprot</li><li>gene_to_prot</li><li>cptac_galaxy_workflows</li><li>cptac_galaxy_tools</li><li>cdap_reports</li><li>cptac_dcc_tools</li></ul>",
                        "operationId": "workflowMetadata",
@@ -1548,10 +1448,10 @@ var spec = {
                        },
                    '?query={ clinicalMetadata(study_submitter_id: "{study_submitter_id}") { aliquot_submitter_id morphology primary_diagnosis tumor_grade tumor_stage } }': {
                  "get": {
-                           "tags": ["General"],
+                           "tags": ["Clinical"],
                    "summary": "Find clinical metadata for a study",
                    "description": "<b>Returns clinical metadata for a study<br><br>Fields:</b><ul><li>aliquot_submitter_id</li><li>morphology</li><li>primary_diagnosis</li><li>tumor_grade</li><li>tumor_stage</li></ul>",
-                   "operationId": "program",
+                   "operationId": "clinicalMetadata",
                    "produces": [
                      "application/json"
                    ],
@@ -1578,10 +1478,10 @@ var spec = {
                    },
                    '?query={ clinicalMetadata(pdc_study_id: "{pdc_study_id}") { aliquot_submitter_id morphology primary_diagnosis tumor_grade tumor_stage } }': {
                      "get": {
-                               "tags": ["General"],
+                               "tags": ["Clinical"],
                        "summary": "Find clinical metadata for PDC Study ID",
                        "description": "<b>Returns clinical metadata for a study<br><br>Fields:</b><ul><li>aliquot_submitter_id</li><li>morphology</li><li>primary_diagnosis</li><li>tumor_grade</li><li>tumor_stage</li></ul>",
-                       "operationId": "program",
+                       "operationId": "clinicalMetadata",
                        "produces": [
                          "application/json"
                        ],
@@ -1608,10 +1508,10 @@ var spec = {
                        },
                    '?query={ experimentalMetadata(study_submitter_id: "{study_submitter_id}"){ experiment_type analytical_fraction instrument study_run_metadata { study_run_metadata_submitter_id fraction aliquot_run_metadata { aliquot_submitter_id } files { file_type data_category file_location } } } }': {
                  "get": {
-                           "tags": ["General"],
+                           "tags": ["Experimental"],
                    "summary": "Find experimental metadata for a study",
                    "description": "<b>Returns experimental metadata for a study<br><br>Fields:</b><ul><li>experiment_type</li><li>analytical_fraction</li><li>instrument</li><li>study_run_metadata</li><li>files</li></ul>",
-                   "operationId": "program",
+                   "operationId": "experimentalMetadata",
                    "produces": [
                      "application/json"
                    ],
@@ -1638,10 +1538,10 @@ var spec = {
                    },
                    '?query={ experimentalMetadata(pdc_study_id: "{pdc_study_id}"){ experiment_type analytical_fraction instrument study_run_metadata { study_run_metadata_submitter_id fraction aliquot_run_metadata { aliquot_submitter_id } files { file_type data_category file_location } } } }': {
                      "get": {
-                               "tags": ["General"],
+                               "tags": ["Experimental"],
                        "summary": "Find experimental metadata for PDC Study ID",
                        "description": "<b>Returns experimental metadata for a study<br><br>Fields:</b><ul><li>experiment_type</li><li>analytical_fraction</li><li>instrument</li><li>study_run_metadata</li><li>files</li></ul>",
-                       "operationId": "program",
+                       "operationId": "experimentalMetadata",
                        "produces": [
                          "application/json"
                        ],
@@ -1668,10 +1568,10 @@ var spec = {
                        },
                    '?query={ paginatedCasesSamplesAliquots(offset:{offset} limit: {limit}) { total casesSamplesAliquots { case_id case_submitter_id external_case_id tissue_source_site_code days_to_lost_to_followup disease_type index_date lost_to_followup primary_site samples { sample_id sample_submitter_id sample_type sample_type_id gdc_sample_id gdc_project_id biospecimen_anatomic_site composition current_weight days_to_collection days_to_sample_procurement diagnosis_pathologically_confirmed freezing_method initial_weight intermediate_dimension is_ffpe longest_dimension method_of_sample_procurement oct_embedded pathology_report_uuid preservation_method sample_type_id shortest_dimension time_between_clamping_and_freezing time_between_excision_and_freezing tissue_type tumor_code tumor_code_id tumor_descriptor aliquots { aliquot_id aliquot_submitter_id aliquot_quantity aliquot_volume amount analyte_type } } } pagination { count sort from page total pages size } } }': {
                  "get": {
-                           "tags": ["Paginated Records"],
+                           "tags": ["Case"],
                    "summary": "Get paginated case records",
                    "description": "<b>Returns a list of cases, samples amd aliquot records<br/><br/>Fields:</b><ul><li>cases</li><li>samples</li></ul>",
-                   "operationId": "getPaginatedCases",
+                   "operationId": "paginatedCasesSamplesAliquots",
                    "produces": [
                      "application/json"
                    ],
@@ -1704,7 +1604,7 @@ var spec = {
                    },
                    '?query={ paginatedCasesSamplesAliquots(pdc_study_id:"{pdc_study_id}" offset:{offset} limit: {limit}) { total casesSamplesAliquots { case_id case_submitter_id external_case_id tissue_source_site_code days_to_lost_to_followup disease_type index_date lost_to_followup primary_site samples { sample_id sample_submitter_id sample_type sample_type_id gdc_sample_id gdc_project_id biospecimen_anatomic_site composition current_weight days_to_collection days_to_sample_procurement diagnosis_pathologically_confirmed freezing_method initial_weight intermediate_dimension is_ffpe longest_dimension method_of_sample_procurement oct_embedded pathology_report_uuid preservation_method sample_type_id shortest_dimension time_between_clamping_and_freezing time_between_excision_and_freezing tissue_type tumor_code tumor_code_id tumor_descriptor aliquots { aliquot_id aliquot_submitter_id aliquot_quantity aliquot_volume amount analyte_type } } } pagination { count sort from page total pages size } } }': {
                      "get": {
-                               "tags": ["Paginated Records"],
+                               "tags": ["Case"],
                        "summary": "Get paginated case records for PDC Study ID",
                        "description": "<b>Returns a list of cases, samples amd aliquot records<br/><br/>Fields:</b><ul><li>cases</li><li>samples</li></ul>",
                        "operationId": "paginatedCasesSamplesAliquots",
@@ -1750,7 +1650,7 @@ var spec = {
                            "tags": ["Files"],
                    "summary": "Get cases for a file",
                    "description": "<strong>Returns all cases for a file.<br/><br/>Fields:<ul><li>file_id:</strong> ID of a File</li><li><b>case_id</li><li>case_submitter_id</b></li></ul>",
-                   "operationId": "filesCountPerStudy",
+                   "operationId": "casePerFile",
                    "produces": [
                      "application/json"
                    ],
@@ -1776,7 +1676,7 @@ var spec = {
                },
                '?query={ quantDataMatrix(study_submitter_id: "{study_submitter_id}" data_type: "{data_type}") }': {
                  "get": {
-                           "tags": ["General"],
+                           "tags": ["Quantitative"],
                    "summary": "Returns quant data matrix for a Study Submitter ID",
                    "description": "Returns quant data matrix for a Study Submitter ID.<br/>The API takes a long time to execute because of the huge volume of data.<br/><b>Fields:<ul><li>study_submitter_id:</b> Study Submitter ID, example: S046-1</li><li><b>date_type: </b>Data type, example: log2_ratio</li></ul>",
                    "operationId": "quantDataMatrix",
@@ -1810,7 +1710,7 @@ var spec = {
                  },
                  '?query={ quantDataMatrix(pdc_study_id: "{pdc_study_id}" data_type: "{data_type}") }': {
                   "get": {
-                            "tags": ["General"],
+                            "tags": ["Quantitative"],
                     "summary": "Returns quant data matrix for a PDC Study ID",
                     "description": "Returns quant data matrix for a Study Submitter ID.<br/>The API takes a long time to execute because of the huge volume of data.<br/><b>Fields:<ul><li>pdc_study_id:</b> PDC Study ID, example: PDC000127</li><li><b>date_type: </b>Data type, example: log2_ratio</li></ul>",
                     "operationId": "quantDataMatrix",
@@ -1844,7 +1744,7 @@ var spec = {
                   },
                  '?query={ quantDataMatrix(study_id: "{study_id}"  data_type: "{data_type}") }': {
                   "get": {
-                            "tags": ["General"],
+                            "tags": ["Quantitative"],
                     "summary": "Returns quant data matrix for Study ID",
                     "description": "Returns quant data matrix for a Study ID.<br/>The API takes a long time to execute because of the huge volume of data.<br/><b>Fields:<ul><li>study_id:</b> Study ID, example: dbe94609-1fb3-11e9-b7f8-0a80fada099c</li><li><b>date_type: </b>Data type, example: log2_ratio</li></ul>",
                     "operationId": "quantDataMatrix",

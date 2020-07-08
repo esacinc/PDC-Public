@@ -86,6 +86,8 @@ pdcuiSummaryPageStudySummary.set('WorkflowMetadata','PDCUI:SummaryPage:StudySumm
 pdcuiSummaryPageStudySummary.set('Protocol','PDCUI:SummaryPage:StudySummary:Protocol:');
 pdcuiSummaryPageStudySummary.set('Publication','PDCUI:SummaryPage:StudySummary:Publication:');
 pdcuiSummaryPageStudySummary.set('FileCountPerStudy','PDCUI:SummaryPage:StudySummary:FileCountPerStudy:');
+//@@@PDC-2167 group files by data source
+pdcuiSummaryPageStudySummary.set('StudyFilesCountBySource','PDCUI:SummaryPage:StudySummary:StudyFilesCountBySource:');
 
 const pdcuiSummaryPageCaseSummary = new Map();
 pdcuiSummaryPageCaseSummary.set('Case','PDCUI:SummaryPage:CaseSummary:Case:');

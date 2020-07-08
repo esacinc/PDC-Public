@@ -101,8 +101,15 @@
 	text-decoration: none!important;
 }
 
+//PDC-2135 - keep help menu width 100% always
 div.cdk-overlay-connected-position-bounding-box {
-	width: 100%;
+	width: 100% !important;
+}
+
+//PDC-2135 - keep help menu width 100% always
+::ng-deep .cdk-overlay-connected-position-bounding-box {
+	width: 100% !important;
+	height: 100% !important;
 }
 
 .mat-menu-item-highlighted, .mat-menu-item.cdk-keyboard-focused, .mat-menu-item.cdk-program-focused, .mat-menu-item:hover, .mat-menu-item:focus{
@@ -143,6 +150,11 @@ div.cdk-overlay-connected-position-bounding-box {
 @media only screen and (min-width: 769px) and (max-width: 1000px) {
   .toolbar-narrow {
       width: 1000px;
+  }
+}
+@media only screen and (min-width: 1001px) and (max-width: 1889px) {
+	.toolbar-narrow {
+      width: 100%;
   }
 }
 

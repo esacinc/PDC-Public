@@ -676,13 +676,13 @@ this["Handlebars"]["templates"]["sidebar_header"] = Handlebars.template({"compil
 },"useData":true});
 this["Handlebars"]["templates"]["sidebar_item"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
   var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
-  return escapeExpression(((helper = (helper = helpers.summary || (depth0 != null ? depth0.summary : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"summary","hash":{},"data":data}) : helper)))
+  return escapeExpression(((helper = (helper = helpers.nickname || (depth0 != null ? depth0.nickname : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"nickname","hash":{},"data":data}) : helper)))
     + "\n";
 },"useData":true});
 this["Handlebars"]["templates"]["signature"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
 //@@@PDC-1423: Issues in API Documentation
 //Delete the "Response Schema" which is currently schema.
- /*  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "    <h4 class=\"schema-title collapsed\" data-control data-toggle=\"collapse\"\n        data-target=\"#schema-"
+/*   var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "    <h4 class=\"schema-title collapsed\" data-control data-toggle=\"collapse\"\n        data-target=\"#schema-"
     + escapeExpression(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"id","hash":{},"data":data}) : helper)))
     + "\">"
     + escapeExpression(((helper = (helper = helpers.type || (depth0 != null ? depth0.type : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"type","hash":{},"data":data}) : helper)))
@@ -22578,7 +22578,13 @@ SwaggerUi.Views.SidebarItemView = Backbone.View.extend({
   },
 
   render: function () {
-    $(this.el).html(Handlebars.templates.sidebar_item(this.model));
+    //@@@PDC-2179: Add search feature in Swagger API Documentation
+    var apiMethodSummary = Handlebars.templates.sidebar_item(this.model);
+    let indexOfSummary = apiMethodSummary.indexOf('_');
+    if (indexOfSummary != -1) {
+      apiMethodSummary =  apiMethodSummary.substring(0, indexOfSummary);
+    }
+    $(this.el).html(apiMethodSummary);
     return this;
   }
 

@@ -7,6 +7,7 @@ describe("HeatmapViewerComponent", () => {
   let router: any;
   let activeRouter: any;
   let service: any;
+  let loc: any;
 
   beforeEach(() => {
     activeRouter = jasmine.createSpyObj([""]);
@@ -14,7 +15,9 @@ describe("HeatmapViewerComponent", () => {
     service = jasmine.createSpy("analysisService");
     activeRouter.queryParams = of({ StudyName: "name1" });
     activeRouter.snapshot = {paramMap:{get:(id)=> id}};
-    component = new HeatmapViewerComponent({}, service, activeRouter, router);
+    loc = jasmine.createSpyObj([""]);
+    loc.replaceState = function(value:string) {};
+    component = new HeatmapViewerComponent({}, service, loc, activeRouter, router);
   });
 
   it("should create", () => {

@@ -6259,4 +6259,18 @@ PDC-2002
 	submitter_id_name
 	}
 }
+PDC-2167
+{
+	uiStudyFilesCountBySource(study_id: "dbe94609-1fb3-11e9-b7f8-0a80fada099c")
+	{
+		study_submitter_id
+		pdc_study_id
+		data_source
+		fileCounts {
+			file_type
+			data_category
+			files_count
+		}
+	}
+}
 

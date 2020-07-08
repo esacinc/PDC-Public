@@ -552,6 +552,19 @@ const defineUiModels = (db) => {
 		tableName: 'dummy'	
 	});
 	ModelHumanBody.removeAttribute('id');
+	
+	//@@@PDC-2167 group files by data source
+	const ModelStudyFileSource = db.getSequelize().define('dummy', {
+		study_submitter_id:  { type: Sequelize.STRING},
+		pdc_study_id:  { type: Sequelize.STRING},
+		data_source:  { type: Sequelize.STRING},
+	}, {
+		timestamps: false,
+		underscored: true,
+		freezeTableName: true,
+		tableName: 'dummy'	
+	});
+	ModelStudyFileSource.removeAttribute('id');
 
 	db['ModelUIStudy'] = ModelUIStudy;
 	db['ModelUIFilter'] = ModelUIFilter;
@@ -574,6 +587,7 @@ const defineUiModels = (db) => {
 	db['ModelFilterAlSamCaDemDia'] = ModelFilterAlSamCaDemDia;
 	db['ModelFilterProgProjAlSamCaDemDia'] = ModelFilterProgProjAlSamCaDemDia;
 	db['ModelHumanBody'] = ModelHumanBody;
+	db['ModelStudyFileSource'] = ModelStudyFileSource;
 };
 
 export { defineUiModels };

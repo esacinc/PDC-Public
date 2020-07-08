@@ -45,6 +45,7 @@
 //@@@PDC-1959 search by external id
 //@@@PDC-2016 add pdc_study_id to quantDataMatrix
 //@@@PDC-2020 use major primary site for human body image
+//@@@PDC-2167 group files by data source
 
 import { makeExecutableSchema, addMockFunctionsToSchema } from 'graphql-tools';
 import { resolvers as queryResolvers } from './resolvers/queries';
@@ -100,6 +101,7 @@ import Biospecimen from './schemas/biospecimen';
 import StudyExperimentalDesign from './schemas/studyExperimentalDesign';
 import SignedUrl from './schemas/signedUrl';
 import EntityReference from './schemas/entityReference';
+import StudyFileSource from './schemas/studyFileSource';
 
 
 const Query = `
@@ -161,6 +163,7 @@ type Query {
   projectsPerExperimentType(experiment_type: String): [ExperimentProjects] 
   filesCountPerStudy(study_submitter_id: String, study_id: String, pdc_study_id: String, file_type: String): [File]
   uiFilesCountPerStudy(study_submitter_id: String, study_id: String, pdc_study_id: String, file_type: String): [File]
+  uiStudyFilesCountBySource(study_id: String!): [StudyFileSource]
   filesPerStudy(study_id: String, pdc_study_id: String,study_submitter_id: String, file_type: String, file_name: String, data_category: String, file_format: String ): [FilePerStudy]
   projectsPerInstrument(instrument: String): [Protocol] 
   uiProtocol(study_id: String, pdc_study_id: String, study_submitter_id: String): [Protocol] 
@@ -195,6 +198,6 @@ type Query {
 
 
 const resolvers = _.merge(queryResolvers, subResolvers);
-const schema = makeExecutableSchema({ typeDefs: [Query, FileMetadata, Study, Date, Paginated, Biospecimen, Case, CasePerFile, PublicCase, Clinical, Program, Gene, Diagnosis, Experiment, ExperimentProjects, File, FilePerStudy, PdcDataStats, Protocol, QuantitiveData, WorkflowMetadata, UIHumanBody, UIStudy, UIFilter, UIFile, UICase, UIClinical, UIGene, UIGeneStudySpectralCount, UIExperimentType, UIFileCount, UISunburst, UIPtm, Publication, SearchRecord, SearchStudyRecord, SearchCaseRecord, SearchAliquotRecord, Pagination, StudyRunMetadata, StudyExperimentalDesign, Project, Demographic, Sample, Aliquot, AliquotRunMetadata, SpectralCount, ExperimentalMetadata, ClinicalMetadata, SignedUrl, EntityReference], resolvers });
+const schema = makeExecutableSchema({ typeDefs: [Query, FileMetadata, Study, Date, Paginated, Biospecimen, Case, CasePerFile, PublicCase, Clinical, Program, Gene, Diagnosis, Experiment, ExperimentProjects, File, FilePerStudy, StudyFileSource, PdcDataStats, Protocol, QuantitiveData, WorkflowMetadata, UIHumanBody, UIStudy, UIFilter, UIFile, UICase, UIClinical, UIGene, UIGeneStudySpectralCount, UIExperimentType, UIFileCount, UISunburst, UIPtm, Publication, SearchRecord, SearchStudyRecord, SearchCaseRecord, SearchAliquotRecord, Pagination, StudyRunMetadata, StudyExperimentalDesign, Project, Demographic, Sample, Aliquot, AliquotRunMetadata, SpectralCount, ExperimentalMetadata, ClinicalMetadata, SignedUrl, EntityReference], resolvers });
 
 export default schema;

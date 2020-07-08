@@ -17444,3 +17444,8 @@ table#paginatedDataMatrixSwaggerTable, table#paginatedDataMatrixSwaggerTable th,
 table#paginatedDataMatrixSwaggerTable tr:nth-child(even) {
     background-color: #f2f2f2;
 }
+
+/*PDC-2179: Add search feature in Swagger API Documentation*/
+.swaggerContentArea {
+    min-height: 1000px !important;
+}

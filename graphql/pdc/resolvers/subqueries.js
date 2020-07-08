@@ -661,6 +661,25 @@ export const resolvers = {
 			return getSignedUrl(obj.file_location);
 		}
 	},
+	//@@@PDC-2167 group files by data source
+	StudyFileSource: {
+		async fileCounts(obj, args, context) {
+			var fileQuery = "SELECT f.file_type, f.data_category, COUNT(f.file_id) AS files_count FROM file f, study s, study_file sf WHERE f.file_id = sf.file_id and s.study_id = sf.study_id "+
+			"and s.pdc_study_id = '"+obj.pdc_study_id+"' and f.data_source = '"+
+			obj.data_source+ "' group by file_type, data_category";
+			var cacheFilterName = {name:''};
+			cacheFilterName.name +="pdc_study_id:("+ obj.pdc_study_id + 
+			"):data_category:("+ obj.data_source +");";
+			const res = await RedisCacheClient.redisCacheGetAsync(CacheName.getSummaryPageStudySummary('StudyFilesCountBySource')+cacheFilterName['name']);
+			if(res === null){
+				var result = await db.getSequelize().query(fileQuery, { model: db.getModelByName('ModelFile') });
+				RedisCacheClient.redisCacheSetExAsync(CacheName.getSummaryPageStudySummary('StudyFilesCountBySource')+cacheFilterName['name'], JSON.stringify(result));
+				return result;
+			}else{
+				return JSON.parse(res);
+			}
+		}
+	},
 	//@@@PDC-2020 use major primary site
 	UIHumanBody: {
 		async primarySites(obj, args, context) {

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChildren, HostListener, QueryList} from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MatDialog, MatDialogConfig, MatIconRegistry } from '@angular/material';
+import { MatDialog, MatDialogConfig, MatIconRegistry, MatMenuTrigger } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { NavigationEnd, ActivationEnd, Router, ActivatedRoute, ParamMap, ActivationStart } from "@angular/router";
 import { DEFAULT_INTERRUPTSOURCES, Idle } from '@ng-idle/core';
@@ -55,6 +55,7 @@ import { environment } from '../../environments/environment';
 //@@@PDC-1795: NIH/eRA sign in option user's name is not shown after logging in
 //@@@PDC-1855: Change dialog message for new users trying to register.
 //@@@PDC-1876: Allow deep linking to study summary page by PDC ID
+//@@@PDC-2135: drop down menu is not stable and moves down the page when a user scroll the page down
 export class NavbarComponent implements OnInit {
   background = '';
   searchFormControl = new FormControl();
@@ -80,6 +81,9 @@ export class NavbarComponent implements OnInit {
   //caseUUID = '';
 
   private subscription: Subscription;
+  
+  @ViewChildren(MatMenuTrigger) trigger: QueryList<MatMenuTrigger>; //added to close menu drop downs when user scrolls down the background page
+  
 
   constructor(iconRegistry: MatIconRegistry, private sanitizer: DomSanitizer, 
     private http: HttpClient,
@@ -98,6 +102,14 @@ export class NavbarComponent implements OnInit {
 			this.sanitizer.bypassSecurityTrustResourceUrl('assets/css/images/baseline-search-24px.svg'));
 		this.selectedSearchTerm = [{name: '', value: ''}];
   }
+  
+  //PDC-2135: this function will close any open menu drop downs when user scrolls down the background page
+  @HostListener('window:scroll', [])
+  scrollHandler() {
+     for (let index = 0; index < this.trigger.toArray().length; index++) {
+		this.trigger.toArray()[index].closeMenu();
+	 }
+ }
 
   getSubmissionPortalDocsURL() {
     return this.sanitizer.bypassSecurityTrustUrl(this.submission_portal_docs_url);

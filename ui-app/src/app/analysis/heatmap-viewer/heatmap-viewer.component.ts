@@ -1,9 +1,10 @@
 import { Inject, Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { Router, ActivatedRoute, ParamMap} from '@angular/router';
 import { DOCUMENT } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { MatList } from '@angular/material';
+import { Location } from '@angular/common';
 
 import { switchMap } from 'rxjs/operators';
 import * as d3 from 'd3';
@@ -41,15 +42,18 @@ export class HeatmapViewerComponent implements OnInit {
   selectedColName = '';
   selectedRowName = '';
   constructor( @Inject(DOCUMENT) private document: any, private analysisService: AnalysisService,
-              private route: ActivatedRoute, private router: Router) {
+              private loc:Location, private route: ActivatedRoute, private router: Router) {
 	//@@@PDC-374 - assign auxiliary urls to overlay windows 	
 	// There is an unresolved issue: Parentheses remains in URL when child auxiliary route outlet path is set to null
 	// https://github.com/angular/angular/issues/24656, therefore need this line of code to avoid still having auxiliary url
-	this.router.navigate([{outlets: {'studySummary': null}}], { queryParamsHandling: "merge" });
+	this.router.navigate([{outlets: {'studySummary': null}}], { queryParamsHandling: "merge", skipLocationChange: true });
     this.vis_element_refs = [];
     this.route.queryParams.subscribe(params => {
       this.study_name = params['StudyName'];
-  });
+	});
+	this.analysis_id = this.route.snapshot.paramMap.get('id');
+	//@@@PDC-2126 - fix having to click on Back button twice to navigate back to Browse page
+    this.loc.replaceState("/analysis/" + this.analysis_id + "?StudyName=" + this.study_name);
   }
 
   onSelect(file_location: string, row_name: string, col_name: string, title: string) {

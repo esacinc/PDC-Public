@@ -15,6 +15,7 @@
     <link href='css/api-explorer.css' rel='stylesheet' type='text/css'/>
     <link href='css/screen.css' media='screen' rel='stylesheet' type='text/css'/>
     <link rel="icon" type="image/png" href="../images/favicon-144x144.png">
+    <link href='css/search.css' media='screen' rel='stylesheet' type='text/css'/>
 
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-124894982-1"></script>
     <script>
@@ -38,6 +39,7 @@
     <script src='lib/bootstrap.min.js' type='text/javascript'></script>
     <script src='spec.js' type="text/javascript"></script>
     <script src="../js/hotjar-accessibility.js" type="script/javascript"></script>
+    <script src='lib/jquery.sieve.js' type='text/javascript'></script>
 
     <script type="text/javascript">
         jQuery.browser = jQuery.browser || {};
@@ -87,6 +89,18 @@
                     if (swaggerUi.options.apiKey) {
                         $('#input_apiKey').val(swaggerUi.options.apiKey);
                     }
+
+                    /* @@@PDC-2179: Add search feature in Swagger API Documentation */
+                    var searchTemplate = "<div class='filter'><fieldset class='search'><input type='text' placeholder='Search for API methods... '><button type='submit'><i class='icon-search'></i></button></fieldset></div>";
+
+                    $("#swagger-ui-container").find(">div>ul").sieve({
+                    itemSelector: "li",
+                    searchTemplate: searchTemplate
+                    });
+
+                    $(".filter input").on("keypress", function() {
+                        $("#resources > li > ul.endpoints").show();
+                    });
 
                     $("[data-toggle='tooltip']").tooltip();
 
@@ -285,7 +299,7 @@
         </div>
         <div class="contentBG"></div>
         <!--Content gets appended here-->
-        <div class="contentArea">
+        <div class="contentArea swaggerContentArea">
             <div class="pageTitleArea">
                     <div class='pageTitle'>Public API Documentation</div>
                     <div class="pageDesc">

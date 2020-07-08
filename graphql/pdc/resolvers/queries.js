@@ -619,6 +619,34 @@ export const resolvers = {
 				return JSON.parse(res);
 			}
 		},
+		//@@@PDC-2167 group files by data source
+		async uiStudyFilesCountBySource (_, args, context) {
+			var fileQuery = "SELECT distinct s.study_submitter_id, s.pdc_study_id, f.data_source "+
+			"FROM file f, study s, study_file AS sf WHERE f.file_id = sf.file_id and s.study_id = sf.study_id "+
+			"and f.data_source is not null";
+			var cacheFilterName = {name:''};
+			if (typeof args.study_submitter_id != 'undefined') {
+				fileQuery += " and s.study_submitter_id = '"+args.study_submitter_id+"'";
+				cacheFilterName.name +="study_submitter_id:("+ args.study_submitter_id + ");";		
+			}
+			if (typeof args.pdc_study_id != 'undefined') {
+				fileQuery += " and s.pdc_study_id = '"+args.pdc_study_id+"'";
+				cacheFilterName.name +="pdc_study_id:("+ args.pdc_study_id + ");";		
+			}
+			if (typeof args.study_id != 'undefined') {
+				fileQuery += " and s.study_id = uuid_to_bin('"+args.study_id+"')";
+				cacheFilterName.name +="study_id:("+ args.study_id + ");";		
+			}
+			
+			const res = await RedisCacheClient.redisCacheGetAsync(CacheName.getSummaryPageStudySummary('StudyFilesCountBySource')+cacheFilterName['name']);
+			if(res === null){
+				var result = await db.getSequelize().query(fileQuery, { model: db.getModelByName('ModelStudyFileSource') });
+				RedisCacheClient.redisCacheSetExAsync(CacheName.getSummaryPageStudySummary('StudyFilesCountBySource')+cacheFilterName['name'], JSON.stringify(result));
+				return result;
+			}else{
+				return JSON.parse(res);
+			}
+		},
 		//@@@PDC-162 file manifest
 		//@@@PDC-188 study and file many-to-many
 		//@@@PDC-471 filePerStudy api enhancement
