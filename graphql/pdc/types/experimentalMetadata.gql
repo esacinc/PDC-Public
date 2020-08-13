@@ -1,0 +1,8 @@
+type ExperimentalMetadata {
+  study_submitter_id: String
+  pdc_study_id: String
+  experiment_type: String
+  analytical_fraction: String
+  instrument: String
+  study_run_metadata: [StudyRunMetadata]
+}

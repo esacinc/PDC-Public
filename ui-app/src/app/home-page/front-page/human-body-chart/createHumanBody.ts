@@ -58,8 +58,8 @@ const createHumanBody: TCreateHumanBody = ({
   const maxCases = Math.max(...data.map(d => d[caseCountKey]));
   const numberOfVerticalAxis = Math.floor(maxCases / tickInterval) + 1;
   //Number of organs returned by the API + 1 ("Other") - currently hiding Other: PDC-1590
-  //const numberofOrgans = numberofOrgansFromAPI + 1;
-  const numberofOrgans = numberofOrgansFromAPI;
+  const numberofOrgans = numberofOrgansFromAPI + 1;
+  //const numberofOrgans = numberofOrgansFromAPI;
   var isorganSelected = false;
   var viewBoxHeight = height + 50;
   var viewBoxWidth = width + 150;
@@ -78,7 +78,7 @@ const createHumanBody: TCreateHumanBody = ({
     .append('g');
 
   // Move 'Not Reported' to bottom of bar graph with human body map
-  if (data.length > 0) {
+  /*if (data.length > 0) {
     var dataofOther = '';
     for (let i = 0; i < data.length; i++) {
       if (data[i]._key == 'Not Reported') {
@@ -89,7 +89,7 @@ const createHumanBody: TCreateHumanBody = ({
     }
 	//@@@PDC-1590 remove Other label from human body image
     //if (dataofOther != '') data.push(dataofOther);
-  }
+  }*/
  
   //Redraw filter charts on datasets and home pages upon filter selection
   //Display text if there is no data

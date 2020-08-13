@@ -3210,20 +3210,22 @@ export const resolvers = {
 		//@@@PDC-1120 StudyRunMetadata table change
 		//@@@PDC-1156 add is_ref
 		//@@@PDC-1316 remove itraq_120
-	    //@@@PDC-1383 convert labels to aliquot_id 
+		//@@@PDC-1383 convert labels to aliquot_id 
+		//@@@PDC-2237 sort data by plex_dataset_name
+		//@@@PDC-2336 get fraction count from protocol table
 		async studyExperimentalDesign(_, args, context) {
 			var experimentalQuery = "SELECT distinct bin_to_uuid(srm.study_run_metadata_id) as study_run_metadata_id, "+
 			" bin_to_uuid(s.study_id) as study_id, srm.study_run_metadata_submitter_id,"+ 
 			" s.study_submitter_id, s.pdc_study_id, "+
 			" srm.analyte, s.acquisition_type, s.experiment_type,"+
 			" srm.folder_name as plex_dataset_name, srm.experiment_number,"+
-			" srm.fraction as number_of_fractions, label_free, itraq_113,"+
+			" p.fractions_analyzed_count as number_of_fractions, label_free, itraq_113,"+
 			" itraq_114, itraq_115, itraq_116, itraq_117,"+
 			" itraq_118, itraq_119, itraq_121,"+
 			" tmt_126, tmt_127n, tmt_127c, tmt_128n, tmt_128c,"+
 			" tmt_129n, tmt_129c, tmt_130n, tmt_130c, tmt_131, tmt_131c"+
-			" from study_run_metadata srm, study s "+
-			" where srm.study_id=s.study_id ";
+			" from study_run_metadata srm, study s, protocol p "+
+			" where srm.study_id=s.study_id and p.study_id = s.study_id ";
 			//" and s.project_submitter_id IN ('" + context.value.join("','") + "')";
 			if (typeof args.study_id != 'undefined' && args.study_id.length > 0) {
 				let studySub = args.study_id.split(";");
@@ -3237,6 +3239,7 @@ export const resolvers = {
 				let studySub = args.pdc_study_id.split(";");
 				experimentalQuery += " and s.pdc_study_id IN ('" + studySub.join("','") + "')";
 			}
+			experimentalQuery += " order by srm.folder_name asc ";
 			var studyExperimentalDesigns = await db.getSequelize().query(experimentalQuery, { model: db.getModelByName('ModelStudyExperimentalDesign') });
 			if (typeof args.label_aliquot_id != 'undefined' && args.label_aliquot_id == 'true') {
 				var aliquotIdQuery = "select distinct bin_to_uuid(al.aliquot_id) as label "+

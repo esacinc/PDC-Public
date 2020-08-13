@@ -1,0 +1,5 @@
+type UIPtm {
+	ptm_type: String
+	site: String 
+	peptide: String
+}

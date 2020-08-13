@@ -1,6 +1,5 @@
 //@@@PDC-1122 add signed url
 import AWS from 'aws-sdk';
-import SignedUrl from '../schemas/signedUrl'; 
 
 class fileSignedUrl {
   constructor(url) {

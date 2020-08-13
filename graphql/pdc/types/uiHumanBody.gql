@@ -1,0 +1,5 @@
+type UIHumanBody {
+	major_primary_site: String
+	cases_count: Int
+	primarySites: [String]
+}

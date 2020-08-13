@@ -1,0 +1,7 @@
+type ClinicalMetadata {
+	aliquot_submitter_id:  String
+	morphology:  String
+	primary_diagnosis:  String
+	tumor_grade:  String
+	tumor_stage:  String
+}

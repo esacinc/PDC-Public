@@ -501,9 +501,18 @@ close(navigateToHeatmap: boolean, study_name: string = '') {
 			};
 		  //this.router.navigate(['/analysis/' + this.studySubmitterId], navigationExtras);
 		  //@@@PDC-2106 use pdc_study_id in heatmap folder
-		  this.router.navigate(['/analysis/' + this.pdcStudyID], navigationExtras);
+		  //this.router.navigate(['/analysis/' + this.pdcStudyID], navigationExtras);
+		  this.router.navigate([]).then( result => { var url= "/pdc/analysis/" + this.pdcStudyID + "?StudyName=" + study_name; 
+																	   window.open(url, '_blank'); });
 	  }
 	this.dialogRef.close();
+}
+
+//@@@PDC-2234 - open PDC HeatMap in a separate tab to avoid issues with "back" button
+//Will not close study summary upon opening a HeatMap in a separate tab
+openHeatMap(study_name: string){
+	this.router.navigate([]).then( result => { var url= "/pdc/analysis/" + this.pdcStudyID + "?StudyName=" + study_name; 
+																	   window.open(url, '_blank'); });
 }
 	
   ngOnInit() {	  

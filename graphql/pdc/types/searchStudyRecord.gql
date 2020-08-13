@@ -1,0 +1,10 @@
+type SearchStudyRecord {
+	record_type: String
+	name: String
+    submitter_id_name: String
+	study_id: String
+	study_submitter_id: String
+	pdc_study_id: String
+	description: String
+	proteins: String
+}

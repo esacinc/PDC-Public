@@ -776,7 +776,6 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
       }
     }
 
-
     let noStudyAvailable = false;
     let submitterIdNameList = this.newFilterSelected['submitter_id_name'];
     if(this.selectedGeneNames != '' && Array.isArray(submitterIdNameList) &&  submitterIdNameList.length> 0){
@@ -823,10 +822,24 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
       .subscribe((data: any) => {
         for (let i = 0; i < this.allFilterCategory.length; i++) {
           let filterCategoryName = this.allFilterCategory[i];
-
+          //@@@PDC-2113: Browse - Clinical - Pick filters & then reverse - Study count does not match
+          //This piece of code stops further processing and does not update filter's study count for the first filter (when filters are deselected in reverse).
+		  //Commeting out of the next three lines of code causes issue with filters - when no more than 1 filter option can be chosen in the same filter section. 
           if (numOfFilterCategorySelected === 1 && !geneFilterSelected && filterCategoryName == selectedFilterCategoryName) {
+          //@@@PDC-2283 fix the issue filters are deselected in reverse.
+            let allFilterData = this.allCategoryFilterData[filterCategoryName];
+            let selectedFilter: Filter[] = this.findFilterListByName(
+              filterCategoryName
+            );
+            for(let filterData of allFilterData){
+              for(let filterElement of selectedFilter){
+                if(filterData['filterName'] == filterElement.filterName){
+                  filterElement.filterCount = filterData['filterValue'].length;
+                }
+              }
+            }
             continue;
-          }
+          } 
 
           let selectedFilter: Filter[] = this.findFilterListByName(
             filterCategoryName
@@ -862,9 +875,6 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
         }
       });
     }
-
-
-
     //remove study in study filter category if study is not able to be selected
     let studyList: Filter[] = [];
     for (let studyFilter of this.allStudyFilter) {

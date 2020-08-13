@@ -16,11 +16,10 @@ properties:
     program_submitter_id:
         key: 'yes'
         type: string
-    programs:
+    program:
         description: 'Indicates that the project is logically part of the indicated
-            project.
-
-            '
+            program.'
+        type: string
     project_id:
         key: 'yes'
         type: string

@@ -52,7 +52,7 @@
 						<td class="summary-card-name-right-cell">Disease Types</td>
 						<td class="summary-card-value-right-cell">{{studySummaryData.disease_type}}</td>
 					</tr>
-					<tr><td class="summary-card-name-left-cell">Experimental Startegy</td>
+					<tr><td class="summary-card-name-left-cell">Experimental Strategy</td>
 							<td class="summary-card-value-left-cell">{{studySummaryData.experiment_type}}</td>
 							<td class="summary-card-name-right-cell">Project ID</td>
 							<td class="summary-card-value-right-cell">{{studySummaryData.project_name}}</td>
@@ -544,7 +544,7 @@
 				<div *ngIf="heatmapAvailable">
 				<tr style="font-size: 14px;border: 0px">
 				<td style="width:10%;border: 0px">
-					<button mat-raised-button mat-primary (click)="close(true,studySummaryData.submitter_id_name)" id="viewHeatMapFromStudySummary" style="padding-top: 5px; padding-left: 1px; padding-right: 1px;">
+					<button mat-raised-button mat-primary (click)="openHeatMap(studySummaryData.submitter_id_name)" id="viewHeatMapFromStudySummary" style="padding-top: 5px; padding-left: 1px; padding-right: 1px;">
 						<img src="./assets/css/images/heatmap_thumb.png">
 					</button>
 				</td>

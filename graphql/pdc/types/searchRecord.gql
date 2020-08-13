@@ -1,0 +1,7 @@
+type SearchRecord {
+	record_type: String
+	name: String
+	submitter_id_name: String
+	description: String
+	proteins: String
+}

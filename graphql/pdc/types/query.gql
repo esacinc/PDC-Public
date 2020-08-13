@@ -1,0 +1,89 @@
+type Query {
+  pdcEntityReference(entity_type: String, entity_id: String, reference_type: String): [EntityReference]
+  quantDataMatrix(study_id: String, study_submitter_id: String, pdc_study_id: String, data_type: String!): [[String]]	
+  quantDataMatrixDb(study_submitter_id: String!, data_type: String!, attempt: Int!, numOfAliquot: Int, numOfGene: Int): [[String]]	
+  studyExperimentalDesign(study_id: String, pdc_study_id: String, study_submitter_id: String, label_aliquot_id: String): [StudyExperimentalDesign]
+  biospecimenPerStudy(study_id: String, pdc_study_id: String, study_submitter_id: String): [Biospecimen]
+  clinicalPerStudy(study_id: String, pdc_study_id: String, study_submitter_id: String): [Clinical]
+  protocolPerStudy(study_id: String, pdc_study_id: String, study_submitter_id: String): [Protocol]
+  study(study_id: String, pdc_study_id: String, study_submitter_id: String): [Study]
+  sample(sample_id: String, sample_submitter_id: String): [Sample]
+  aliquot(aliquot_id: String, aliquot_submitter_id: String): [Aliquot]
+  clinicalMetadata(study_submitter_id: String,  pdc_study_id: String): [ClinicalMetadata]	
+  getPaginatedUIGeneStudySpectralCountFiltered(program_name: String, project_name: String, study_name: String, disease_type: String, primary_site: String, analytical_fraction: String, experiment_type: String, ethnicity: String, race: String, gender: String, morphology: String, primary_diagnosis: String,  site_of_resection_or_biopsy: String, tissue_or_organ_of_origin: String, tumor_grade: String, tumor_stage: String, sample_type: String, acquisition_type: String, gene_name: String!, sort: String, offset: Int, limit: Int): Paginated
+  getPaginatedUIGeneAliquotSpectralCountFiltered(program_name: String, project_name: String, study_name: String, disease_type: String, primary_site: String, analytical_fraction: String, experiment_type: String, ethnicity: String, race: String, gender: String, morphology: String, primary_diagnosis: String,  site_of_resection_or_biopsy: String, tissue_or_organ_of_origin: String, tumor_grade: String, tumor_stage: String, sample_type: String, acquisition_type: String, gene_name: String!, sort: String, offset: Int, limit: Int): Paginated
+  experimentalMetadata(study_submitter_id: String, pdc_study_id: String,): [ExperimentalMetadata]
+  getPaginatedUIPtm(gene_name: String!, offset: Int, limit: Int): Paginated
+  paginatedPtmDataMatrix(study_submitter_id: String,  pdc_study_id: String, offset: Int, limit: Int): Paginated	
+  uiSunburstChart: [UISunburst]
+  paginatedSpectralCountPerStudyAliquot(study_submitter_id: String,  pdc_study_id: String, plex_name: String, gene_name: String, offset: Int, limit: Int): Paginated	
+  paginatedDataMatrix(study_submitter_id: String!, data_type: String!, offset: Int, limit: Int): Paginated	
+  quantitiveDataCPTAC2 (study_submitter_id: String,  pdc_study_id: String, experiment_type: String): [QuantitiveData]	
+  uiFilters(file_type: String, access: String, biospecimen_status: String, case_status: String, program_name: String, project_name: String, study_name: String, disease_type: String, primary_site: String, analytical_fraction: String, experiment_type: String, study_submitter_id: String,  pdc_study_id: String, ethnicity: String, race: String, gender: String, morphology: String, primary_diagnosis: String,  site_of_resection_or_biopsy: String, tissue_or_organ_of_origin: String, tumor_grade: String, tumor_stage: String, data_category: String, downloadable: String, sample_type: String, acquisition_type: String): UIFilter	
+  paginatedCaseDiagnosesPerStudy(study_id: String, pdc_study_id: String, study_name: String,study_submitter_id: String, offset: Int, limit: Int): Paginated	
+  paginatedCaseDemographicsPerStudy(study_id: String, pdc_study_id: String, study_name: String,study_submitter_id: String, offset: Int, limit: Int): Paginated	
+  programsProjectsStudies(disease_type: String, instrument_model: String, analytical_fraction: String, experiment_type: String): [Program]
+  uiProgramsProjectsStudies(disease_type: String, instrument_model: String, analytical_fraction: String, experiment_type: String): [Program]
+  paginatedCasesSamplesAliquots(program_name: String, project_name: String, study_name: String, program_submitter_id: String, project_submitter_id: String, study_submitter_id: String,  pdc_study_id: String, offset: Int, limit: Int): Paginated
+  fileMetadata(file_id: String, file_name: String, file_submitter_id: String, data_category: String, file_type: String, file_format: String, offset: Int, limit: Int): [FileMetadata]
+  uiFileMetadata(file_id: String, file_name: String, file_submitter_id: String, data_category: String, file_type: String, file_format: String, offset: Int, limit: Int): [FileMetadata]
+  getPaginatedUIStudy(program_name: String, project_name: String, study_name: String, disease_type: String, primary_site: String, analytical_fraction: String, experiment_type: String, study_submitter_id: String,  pdc_study_id: String, ethnicity: String, race: String, gender: String, morphology: String, primary_diagnosis: String,  site_of_resection_or_biopsy: String, tissue_or_organ_of_origin: String, tumor_grade: String, tumor_stage: String, data_category: String, file_type: String, downloadable: String, access: String, sample_type: String, acquisition_type: String, gene_name: String, biospecimen_status: String, case_status: String, sort: String, offset: Int, limit: Int): Paginated
+  getPaginatedUIClinical(program_name: String, project_name: String, study_name: String, disease_type: String, primary_site: String, analytical_fraction: String, experiment_type: String, ethnicity: String, race: String, gender: String, morphology: String, primary_diagnosis: String,  site_of_resection_or_biopsy: String, tissue_or_organ_of_origin: String, tumor_grade: String, tumor_stage: String, data_category: String, file_type: String, downloadable: String, access: String, sample_type: String, acquisition_type: String, gene_name: String, case_status: String, biospecimen_status: String, sort: String, offset: Int, limit: Int): Paginated
+  getPaginatedUIFile(program_name: String, project_name: String, study_name: String, disease_type: String, primary_site: String, analytical_fraction: String, experiment_type: String, ethnicity: String, race: String, gender: String, morphology: String, primary_diagnosis: String, site_of_resection_or_biopsy: String, tissue_or_organ_of_origin: String, tumor_grade: String, tumor_stage: String, data_category: String, file_type: String, downloadable: String, access: String, sample_type: String, acquisition_type: String, gene_name: String, biospecimen_status: String, case_status: String, sort: String, offset: Int, limit: Int): Paginated
+  getPaginatedUICase(program_name: String, project_name: String, study_name: String, disease_type: String, primary_site: String, analytical_fraction: String, experiment_type: String, ethnicity: String, race: String, gender: String, morphology: String, primary_diagnosis: String,  site_of_resection_or_biopsy: String, tissue_or_organ_of_origin: String, tumor_grade: String, tumor_stage: String, data_category: String, file_type: String, downloadable: String, access: String, sample_type: String, acquisition_type: String, gene_name: String, biospecimen_status: String, case_status: String, sort: String, offset: Int, limit: Int): Paginated
+  getPaginatedUIGene(gene_name: String, program_name: String, project_name: String, study_name: String, disease_type: String, primary_site: String, analytical_fraction: String, experiment_type: String, ethnicity: String, race: String, gender: String, morphology: String, primary_diagnosis: String,  site_of_resection_or_biopsy: String, tissue_or_organ_of_origin: String, tumor_grade: String, tumor_stage: String, data_category: String, file_type: String, downloadable: String, access: String, sample_type: String, acquisition_type: String, gene_name: String, biospecimen_status: String, case_status: String, sort: String, offset: Int, limit: Int): Paginated
+  getPaginatedFiles(study_submitter_id: String,  pdc_study_id: String, file_type: String, file_name: String, offset: Int, limit: Int): Paginated
+  getPaginatedCases(offset: Int, limit: Int): Paginated
+  case(case_submitter_id: String, case_id: String): Case
+  uiCaseSummary(case_submitter_id: String, case_id: String): Case
+  casePerFile(file_id: String!): [CasePerFile] 
+  uiCasePerFile(file_id: String!): [CasePerFile] 
+  allCases: [PublicCase]
+  program(program_submitter_id: String, program_id: String): Program
+  allPrograms: [Program]
+  uiAllPrograms: [Program]
+  geneSpectralCount(gene_name: String!): Gene
+  uiGeneSpectralCount(gene_name: String!): Gene
+  aliquotSpectralCount(gene_name: String!, dataset_alias: String!): Gene
+  protein(protein: String!): Gene
+  uiProtein(protein: String!): Gene
+  tissueSitesAvailable(tissue_or_organ_of_origin: String, project_submitter_id: String ): [Diagnosis]
+  uiTissueSitesAvailable(tissue_or_organ_of_origin: String, project_submitter_id: String ): [Diagnosis]
+  diseasesAvailable(disease_type: String, tissue_or_organ_of_origin: String, project_submitter_id: String): [Diagnosis]
+  uiDiseasesAvailable(disease_type: String, tissue_or_organ_of_origin: String, project_submitter_id: String): [Diagnosis]
+  allExperimentTypes(experiment_type: String, tissue_or_organ_of_origin: String, disease_type: String): [Experiment]
+  diseaseTypesPerProject(project_submitter_id: String): [Study]
+  projectsPerExperimentType(experiment_type: String): [ExperimentProjects] 
+  filesCountPerStudy(study_submitter_id: String, study_id: String, pdc_study_id: String, file_type: String): [File]
+  uiFilesCountPerStudy(study_submitter_id: String, study_id: String, pdc_study_id: String, file_type: String): [File]
+  uiStudyFilesCountBySource(study_id: String!): [StudyFileSource]
+  filesPerStudy(study_id: String, pdc_study_id: String,study_submitter_id: String, file_type: String, file_name: String, data_category: String, file_format: String ): [FilePerStudy]
+  projectsPerInstrument(instrument: String): [Protocol] 
+  uiProtocol(study_id: String, pdc_study_id: String, study_submitter_id: String): [Protocol] 
+  pdcDataStats: [PdcDataStats]
+  uiPdcDataStats: [PdcDataStats]
+  workflowMetadata(workflow_metadata_submitter_id: String, study_submitter_id: String,  pdc_study_id: String, study_id: String): [WorkflowMetadata]
+  uiWorkflowMetadata(workflow_metadata_submitter_id: String, study_submitter_id: String,  pdc_study_id: String, study_id: String): [WorkflowMetadata]
+  uiStudy(program_name: String, project_name: String, study_name: String, disease_type: String, primary_site: String, analytical_fraction: String, experiment_type: String, study_submitter_id: String,  pdc_study_id: String, ethnicity: String, race: String, gender: String, morphology: String, primary_diagnosis: String,  site_of_resection_or_biopsy: String, tissue_or_organ_of_origin: String, tumor_grade: String, tumor_stage: String, data_category: String, downloadable: String, sample_type: String, acquisition_type: String): [UIStudy]
+  uiCase(program_name: String, project_name: String, study_name: String, disease_type: String, primary_site: String, analytical_fraction: String, experiment_type: String, case_submitter_id: String, case_id: String): [UICase]
+  uiFile(program_name: String, project_name: String, study_name: String, disease_type: String, primary_site: String, analytical_fraction: String, experiment_type: String): [UIFile]
+  uiTissueSiteCaseCount: [Diagnosis]
+  uiPrimarySiteCaseCount: [UIHumanBody]
+  uiAnalyticalFractionsCount(program_name: String, project_name: String, study_name: String, disease_type: String, primary_site: String, analytical_fraction: String, experiment_type: String, study_submitter_id: String,  pdc_study_id: String, ethnicity: String, race: String, gender: String, morphology: String, primary_diagnosis: String, site_of_resection_or_biopsy: String, tissue_or_organ_of_origin: String, tumor_grade: String, tumor_stage: String, data_category: String, file_type: String, downloadable: String, access: String, sample_type: String, acquisition_type: String, gene_name: String, biospecimen_status: String, case_status: String): [UIExperimentType]
+  uiExperimentBar(program_name: String, project_name: String, study_name: String, disease_type: String, primary_site: String, analytical_fraction: String, experiment_type: String, study_submitter_id: String,  pdc_study_id: String, ethnicity: String, race: String, gender: String, morphology: String, primary_diagnosis: String, site_of_resection_or_biopsy: String, tissue_or_organ_of_origin: String, tumor_grade: String, tumor_stage: String, data_category: String, file_type: String, downloadable: String, access: String, sample_type: String, acquisition_type: String, gene_name: String, biospecimen_status: String, case_status: String): [UIExperimentType]
+  uiExperimentPie(program_name: String, project_name: String, study_name: String, disease_type: String, primary_site: String, analytical_fraction: String, experiment_type: String, study_submitter_id: String,  pdc_study_id: String, ethnicity: String, race: String, gender: String, morphology: String, primary_diagnosis: String, site_of_resection_or_biopsy: String, tissue_or_organ_of_origin: String, tumor_grade: String, tumor_stage: String, data_category: String, file_type: String, downloadable: String, access: String, sample_type: String, acquisition_type: String, gene_name: String, biospecimen_status: String, case_status: String): [UIExperimentType]
+  uiPublication(study_submitter_id: String,  pdc_study_id: String, study_id: String): [Publication]
+  uiExperimentFileCount(case_submitter_id: String, case_id: String): [UIFileCount]
+  uiDataCategoryFileCount(case_submitter_id: String, case_id: String): [UIFileCount]
+  uiGeneStudySpectralCount(gene_name: String!): [UIGeneStudySpectralCount]
+  uiGeneAliquotSpectralCount(gene_name: String!): [UIGeneStudySpectralCount]
+  getPaginatedUIGeneStudySpectralCount(gene_name: String!, offset: Int, limit: Int): Paginated
+  getPaginatedUIGeneAliquotSpectralCount(gene_name: String!, offset: Int, limit: Int): Paginated
+  caseSearch(name: String! offset: Int, limit: Int): Paginated
+  geneSearch(name: String! offset: Int, limit: Int): Paginated
+  studySearch(name: String! offset: Int, limit: Int): Paginated
+  studySearchByPDCStudyId(pdc_study_id: String! offset: Int, limit: Int): Paginated
+  studySearchByExternalId(reference_entity_alias: String! offset: Int, limit: Int): Paginated
+  aliquotSearch(name: String! offset: Int, limit: Int): Paginated
+  proteinSearch(name: String! offset: Int, limit: Int): Paginated
+}

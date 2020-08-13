@@ -1,0 +1,7 @@
+type UIGene {
+	gene_name: String 
+	chromosome: String 
+	locus: String
+    num_study: Int
+    proteins: String
+}

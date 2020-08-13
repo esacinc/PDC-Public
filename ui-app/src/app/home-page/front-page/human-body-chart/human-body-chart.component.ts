@@ -13,6 +13,7 @@ import { HumanbodyImageData } from '../../../types';
 })
 //@@@PDC-1214 - Replace the sunburst chart with the human body image with drill down
 //@@@PDC-2021 - add major primary site feature
+//@@@PDC-2278 - handling "Other", "Not Reported", null records for bar chart next to human body figure
 export class HumanBodyChartComponent implements OnInit {
   dataSetsForHumanBody: HumanbodyImageData[];
   humanBodyAPIData:any;
@@ -39,14 +40,27 @@ export class HumanBodyChartComponent implements OnInit {
     this.frontPageService.getDataForHumanBody().subscribe((data: any) =>{
 		console.log(data);
 		this.dataSetsForHumanBody = data.uiPrimarySiteCaseCount;
-        this.numberofOrgans = this.dataSetsForHumanBody.length;
+        //this.numberofOrgans = this.dataSetsForHumanBody.length;
         const humanBodyImgData = this.dataSetsForHumanBody
         .map(({ major_primary_site, cases_count, primarySites}) => ({
-			_key: major_primary_site,
+			_key: major_primary_site || "Other",
 			_count: cases_count,
 			_primary_sites_filters: primarySites.join('|')	
         }))
         .sort((a, b) => (a._key > b._key ? 1 : -1));
+		//PDC-2278 No "Other", "Not Reported" or null bars should appear on the bar chart next to human body figure
+		//Therefore we remove these from the data
+	    var otherIndex = humanBodyImgData.findIndex(x => x._key === "Other");
+	    if (otherIndex > -1) {
+		  humanBodyImgData.splice(otherIndex, 1);
+	    }
+	    otherIndex = humanBodyImgData.findIndex(x => x._key === "Not Reported");
+		if (otherIndex > -1) {
+		  humanBodyImgData.splice(otherIndex, 1);
+	    }
+		//Calculate number of organs/bars in the bar chart based on data post processing -  
+		//after removing null, not reported, other records
+		this.numberofOrgans = humanBodyImgData.length;
       // Body map on study list doesn't show x-axis when genomic/imaging checkboxes checked
       // Set the default tick interval as 50. Calculate the median only for data with counts < 50.
       this.tickInterval = 100;

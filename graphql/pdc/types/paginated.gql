@@ -1,0 +1,25 @@
+type Paginated {
+	total: Int
+	uiStudies: [UIStudy]
+    uiFiles: [UIFile]
+	uiCases: [UICase]
+	uiClinical: [UIClinical]
+	uiGenes: [UIGene]
+	uiGeneStudySpectralCounts: [UIGeneStudySpectralCount]
+	uiGeneAliquotSpectralCounts:[UIGeneStudySpectralCount]
+	uiPtm: [UIPtm]
+	files: [File]
+	cases: [Case]
+	caseDiagnosesPerStudy: [Case]
+	caseDemographicsPerStudy: [Case]
+	casesSamplesAliquots: [Case]
+	genes: [SearchRecord]
+	genesWithProtein: [SearchRecord]
+	studies: [SearchStudyRecord]
+	searchCases: [SearchCaseRecord]
+	searchAliquots: [SearchAliquotRecord]
+	spectralCounts: [Spectral_count]
+	dataMatrix: [[String]]
+	ptmDataMatrix: [[String]]
+	pagination: Pagination
+}
