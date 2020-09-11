@@ -2,8 +2,9 @@
 <app-program-stats></app-program-stats>
 <div style="background-color: #fafafa;">
   <div class="container-fluid pr-10">
-    <div class="row" style="padding-bottom: 20px">
-      <div class="col-md-6 ml-0 front-page" id="tissueSites">
+    <div class="row">
+	  <div class="container front-page-figures-row" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxFlexFill fxLayoutAlign="space-around stretch" >
+		<div class="front-page" fxFlexFill id="tissueSites" style="width:100%; padding-left:15px!important; padding-right:15px!important; " >
           <mat-card class="front-page card card-body" style="background-image: radial-gradient(at center center, rgb(97, 162, 198) 0%, rgb(58, 139, 184) 48%, rgb(46, 111, 147) 100%);">
             <mat-card-title class="front-page cases-card-header">Cases by Primary Site</mat-card-title>
             <!--<mat-card-title class="front-page card-header">TISSUE SITES</mat-card-title>-->
@@ -13,9 +14,8 @@
 			  <!-- PDC-1214 - Replace the sunburst chart with the human body image with drill down -->
 			  <app-human-body-chart></app-human-body-chart>
           </mat-card>
-      </div>
-      <div class="col-md-6 front-page" id="diseaseTypes">
-		<div class="row">
+		</div>
+		<div class="front-page" fxFlexFill id="diseaseTypes" style="width:100%; padding-left:0!important; padding-right:15px!important;">
           <mat-card class="front-page card card-body disease-type-card-body">
             <mat-card-title matTooltip="Number of Cases for a disease type" class="front-page cases-card-header">Cases by Disease Type</mat-card-title>
             <mat-list class="list-group disease-type-card-list">
@@ -31,54 +31,54 @@
 			</mat-list>
           </mat-card>
 		</div>
-		<div class="row" style="padding-top:10px">
-			<div class="col-md-6" id="recentReleases"  style="padding-left: 0!important;padding-right: 0!important;">
-				<mat-card class="bottom-card">
-				  <mat-card-header class="bottom-row-card-header">RECENT RELEASES</mat-card-header>
-				  <mat-card-content id="recentReleasesContent">
+	  </div>
+	</div>
+	<div class="row" style="padding-top:10px; padding-bottom: 20px">
+		<div class="col-md-3 ml-0" id="recentReleases"  style="padding-left: 15px!important;padding-right: 0!important;">
+			<mat-card class="bottom-card">
+				<mat-card-header class="bottom-row-card-header">RECENT RELEASES</mat-card-header>
+				<mat-card-content id="recentReleasesContent">
 					<mat-list >
+						<mat-list-item class="bottom-card-list-item" id="list-item">
+						  <div class="bottom-card-bullet-item"><div><i class="pi pi-circle-off bottom-card-bullet-icon"></i></div>
+							<div>CPTAC program Lung Squamous Cell Carcinoma (LSCC) data released, Sept 2020</div>
+						  </div>
+						</mat-list-item>
             <mat-list-item class="bottom-card-list-item" id="list-item">
               <div class="bottom-card-bullet-item"><div><i class="pi pi-circle-off bottom-card-bullet-icon"></i></div>
                 <div>Georgetown University Lung Adenocarcinoma (LUAD) data released, Aug 2020</div>
               </div>
             </mat-list-item>
-            <mat-list-item class="bottom-card-list-item" id="list-item">
-              <div class="bottom-card-bullet-item"><div><i class="pi pi-circle-off bottom-card-bullet-icon"></i></div>
-                <div>CPTAC program Endometrial Carcinoma (UCEC) Acetylome data released, Aug 2020</div>
-              </div>
-            </mat-list-item>
-            <mat-list-item class="bottom-card-list-item" id="list-item">
-              <div class="bottom-card-bullet-item"><div><i class="pi pi-circle-off bottom-card-bullet-icon"></i></div>
-                <div>CPTAC program Lung Adenocarcinoma (LUAD) Acetylome data released, July 2020</div>
-              </div>
-            </mat-list-item>
-            <mat-list-item class="bottom-card-list-item" id="list-item">
-              <div class="bottom-card-bullet-item"><div><i class="pi pi-circle-off bottom-card-bullet-icon"></i></div>
-                <div>International Cancer Proteogenome Consortium - Academia Sinica Early Stage Non-smoking Lung Adenocarcinoma data released, May 2020</div>
-              </div>
-            </mat-list-item>
+						<mat-list-item class="bottom-card-list-item" id="list-item">
+						  <div class="bottom-card-bullet-item"><div><i class="pi pi-circle-off bottom-card-bullet-icon"></i></div>
+							<div>CPTAC program Endometrial Carcinoma (UCEC) Acetylome data released, Aug 2020</div>
+						  </div>
+						</mat-list-item>
+						<mat-list-item class="bottom-card-list-item" id="list-item">
+						  <div class="bottom-card-bullet-item"><div><i class="pi pi-circle-off bottom-card-bullet-icon"></i></div>
+							<div>CPTAC program Lung Adenocarcinoma (LUAD) Acetylome data released, July 2020</div>
+						  </div>
+						</mat-list-item>
 					</mat-list>
 					</mat-card-content>
 				</mat-card>
-			</div>
-      <!-- @@@PDC-1711 add external link icon -->
-      <div class="col-md-6" id="newsSection"  style="padding-left: 0!important;padding-right: 0!important;">
-        <mat-card class="bottom-card">
-          <mat-card-header class="bottom-row-card-header">NEWS</mat-card-header>
-          <mat-card-content id="newsSectionContent">
-            <mat-list>
-              <mat-list-item *ngFor="let aNews of newsItems" id="list-item" class="bottom-card-list-item">
-                <div class="bottom-card-bullet-item">
-                  <div><i class="pi pi-circle-off bottom-card-bullet-icon"></i></div>
-                  <div><a target="_" href="{{aNews.link}}">{{aNews.label}}</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">Exit Disclaimer</span></a></div></div>
-              </mat-list-item>
-            </mat-list>
-          </mat-card-content>
-        </mat-card>
-      </div>
 		</div>
-		<div class="row" style="padding-top:10px" >
-			<div class="col-md-6" id="tools-and-pipelines"  style="padding-left: 0!important;padding-right: 0!important;">
+      <!-- @@@PDC-1711 add external link icon -->
+    <div class="col-md-3" id="newsSection"  style="padding-left: 0!important;padding-right: 0!important;">
+			<mat-card class="bottom-card">
+			  <mat-card-header class="bottom-row-card-header">NEWS</mat-card-header>
+			  <mat-card-content id="newsSectionContent">
+				<mat-list>
+				  <mat-list-item *ngFor="let aNews of newsItems" id="list-item" class="bottom-card-list-item">
+					<div class="bottom-card-bullet-item">
+					  <div><i class="pi pi-circle-off bottom-card-bullet-icon"></i></div>
+					  <div><a target="_" href="{{aNews.link}}">{{aNews.label}}</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">Exit Disclaimer</span></a></div></div>
+				  </mat-list-item>
+				</mat-list>
+			  </mat-card-content>
+			</mat-card>
+    </div>
+		<div class="col-md-3" id="tools-and-pipelines"  style="padding-left: 0!important;padding-right: 0!important;">
 				<mat-card class="bottom-card">
 				  <mat-card-header class="bottom-row-card-header">TOOLS & PIPELINES</mat-card-header>
 				  <mat-card-content id="toolAndPipelinesContent">
@@ -92,11 +92,11 @@
 					</mat-list>
 					</mat-card-content>
 				</mat-card>
-			</div>
-			<div class="col-md-6" id="helpSection"  style="padding-left: 0!important;padding-right: 0!important;">
-				<mat-card  class="bottom-card">
-				  <mat-card-header class="bottom-row-card-header">HELP</mat-card-header>
-				  <mat-card-content class="bottom-card" id="helpContent">
+		</div>
+		<div class="col-md-3" id="helpSection"  style="padding-left: 0!important;padding-right: 15px!important;">
+			<mat-card  class="bottom-card">
+				<mat-card-header class="bottom-row-card-header">HELP</mat-card-header>
+				<mat-card-content class="bottom-card" id="helpContent">
 					<mat-list>
 						<mat-list-item class="bottom-card-list-item">
 							<i class="pi pi-circle-off"></i> &nbsp;&nbsp;&nbsp; <a href={{dictionary_url}} target="_blank">Data Model and Dictionary</a>
@@ -114,12 +114,10 @@
 							<i class="pi pi-circle-off"></i>  &nbsp;&nbsp;&nbsp; <a href = 'https://list.nih.gov/cgi-bin/wa.exe?SUBED1=PDC-ANNOUNCE-L&A=1' target="_blank">Subscribe to PDC mailing list</a>
 						</mat-list-item>
 					</mat-list>
-				  </mat-card-content>
-				</mat-card>
-			</div>
+				</mat-card-content>
+			</mat-card>
 		</div>
-      </div>
-    </div>
+	</div>
 <!--
     <div class="row bottom-card-row" style="padding-left:0px; width: 100%; margin-left: 0em;">
 		<div class="col-md-3" id="recentReleases">

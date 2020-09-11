@@ -1363,7 +1363,7 @@ pre code {
   padding-left: 15px;
   padding-right: 15px;
 }
-@media (min-width: 768px) {
+/*@media (min-width: 768px) {
   .container {
     width: 750px;
   }
@@ -1377,7 +1377,7 @@ pre code {
   .container {
     width: 1170px;
   }
-}
+}*/
 .container-fluid {
   margin-right: auto;
   margin-left: auto;

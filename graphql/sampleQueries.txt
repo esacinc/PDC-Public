@@ -1306,7 +1306,7 @@ PDC-136
 	}
 	}
 }
-//PDC-313 337 462 893
+//PDC-313 337 462 893 2396
 {
 	getPaginatedUICase(offset: 0 limit: 10) {
 	total
@@ -1315,10 +1315,40 @@ PDC-136
 		sample_id
 		case_id
 		aliquot_submitter_id
+		aliquot_is_ref
 		aliquot_status
+		aliquot_quantity
+		aliquot_volume
+		amount
+		analyte_type
+		concentration
 		case_status
 		sample_status
 		sample_submitter_id
+		sample_is_ref
+		biospecimen_anatomic_site
+		composition
+		current_weight
+		days_to_collection
+		days_to_sample_procurement
+		diagnosis_pathologically_confirmed
+		freezing_method
+		initial_weight 
+		intermediate_dimension
+		is_ffpe
+		longest_dimension
+		method_of_sample_procurement
+		oct_embedded
+		pathology_report_uuid
+		preservation_method
+		sample_type_id
+		shortest_dimension
+		time_between_clamping_and_freezing
+		time_between_excision_and_freezing
+		tissue_type
+		tumor_code
+		tumor_code_id
+		tumor_descriptor
 		case_submitter_id
 		program_name
 		project_name
@@ -1457,7 +1487,7 @@ PDC-136
 	}
 	}
 }
-//PDC-255 462 759 893 1011 2026
+//PDC-255 462 759 893 1011 2026 2395
 {
 	getPaginatedUIClinical(offset: 0 limit: 10) {
 		total
@@ -1473,12 +1503,68 @@ PDC-136
 			ethnicity
 			gender
 			race
+			cause_of_death
+			days_to_birth
+			days_to_death
+			vital_status
+			year_of_birth
+			year_of_death 
 			morphology
 			primary_diagnosis
 			site_of_resection_or_biopsy
 			tissue_or_organ_of_origin
 			tumor_grade
 			tumor_stage
+			age_at_diagnosis
+			classification_of_tumor
+			days_to_last_follow_up
+			days_to_last_known_disease_status
+			days_to_recurrence
+			last_known_disease_status
+			progression_or_recurrence
+			prior_malignancy
+			ajcc_clinical_m
+			ajcc_clinical_n
+			ajcc_clinical_stage
+			ajcc_clinical_t
+			ajcc_pathologic_m
+			ajcc_pathologic_n
+			ajcc_pathologic_stage
+			ajcc_pathologic_t
+			ajcc_staging_system_edition
+			ann_arbor_b_symptoms
+			ann_arbor_clinical_stage
+			ann_arbor_extranodal_involvement
+			ann_arbor_pathologic_stage
+			best_overall_response
+			burkitt_lymphoma_clinical_variant
+			circumferential_resection_margin
+			colon_polyps_history
+			days_to_best_overall_response
+			days_to_diagnosis
+			days_to_hiv_diagnosis
+			days_to_new_event
+			figo_stage
+			hiv_positive
+			hpv_positive_type
+			hpv_status
+			iss_stage
+			laterality
+			ldh_level_at_diagnosis
+			ldh_normal_range_upper
+			lymph_nodes_positive
+			lymphatic_invasion_present
+			method_of_diagnosis
+			new_event_anatomic_site
+			new_event_type
+			overall_survival
+			perineural_invasion_present
+			prior_treatment
+			progression_free_survival
+			progression_free_survival_event
+			residual_disease
+			vascular_invasion_present
+			year_of_diagnosis
 			externalReferences {
 				reference_resource_shortname
 				reference_entity_location
@@ -2186,7 +2272,7 @@ PDC-265
 
 	}
 }
-//PDC-180, 1371, 2038
+//PDC-180, 1371, 2038, 2417
 {
   case(case_id: "df4e907e-8f98-11ea-b1fd-0aad30af8a83") {
     case_id
@@ -2226,9 +2312,6 @@ PDC-265
 			morphology
 			progression_or_recurrence
 			site_of_resection_or_biopsy
-			vital_status
-			days_to_birth
-			days_to_death
 			prior_malignancy
 			ajcc_clinical_m
 			ajcc_clinical_n
@@ -2245,7 +2328,6 @@ PDC-265
 			ann_arbor_pathologic_stage
 			best_overall_response
 			burkitt_lymphoma_clinical_variant
-			cause_of_death
 			circumferential_resection_margin
 			colon_polyps_history
 			days_to_best_overall_response
@@ -2353,9 +2435,6 @@ PDC-265
 			morphology
 			progression_or_recurrence
 			site_of_resection_or_biopsy
-			vital_status
-			days_to_birth
-			days_to_death
 			prior_malignancy
 			ajcc_clinical_m
 			ajcc_clinical_n
@@ -2371,7 +2450,6 @@ PDC-265
 			ann_arbor_pathologic_stage
 			best_overall_response
 			burkitt_lymphoma_clinical_variant
-			cause_of_death
 			circumferential_resection_margin
 			colon_polyps_history
 			days_to_best_overall_response
@@ -3121,6 +3199,9 @@ PDC-265
 				aliquot_volume
 				amount
 				analyte_type
+				aliquot_run_metadata{
+					aliquot_run_metadata_id
+				}				
 			}
 		}
 	}
@@ -3180,6 +3261,9 @@ PDC-265
 				aliquot_volume
 				amount
 				analyte_type
+				aliquot_run_metadata{
+					aliquot_run_metadata_id
+				}				
 			}
 		}
 	}
@@ -3245,6 +3329,9 @@ PDC-265
 				aliquot_volume
 				amount
 				analyte_type
+				aliquot_run_metadata{
+					aliquot_run_metadata_id
+				}
 			}
 		}
 	}
@@ -3309,6 +3396,9 @@ PDC-265
 				aliquot_volume
 				amount
 				analyte_type
+				aliquot_run_metadata{
+					aliquot_run_metadata_id
+				}				
 			}
 		}
 	}
@@ -3369,6 +3459,9 @@ PDC-265
 				aliquot_volume
 				amount
 				analyte_type
+				aliquot_run_metadata{
+					aliquot_run_metadata_id
+				}				
 			}
 		}
 	}
@@ -3389,7 +3482,7 @@ PDC-265
 	}
 }
 
-//PDC-475
+//PDC-475, 2417
 {
   paginatedCaseDiagnosesPerStudy (study_id: "b93bb1e9-57b8-11e8-b07a-00a098d917f8" offset: 0 limit: 10) {
 	total
@@ -3412,9 +3505,6 @@ PDC-265
 			morphology
 			progression_or_recurrence
 			site_of_resection_or_biopsy
-			vital_status
-			days_to_birth
-			days_to_death
 			prior_malignancy
 			ajcc_clinical_m
 			ajcc_clinical_n
@@ -3430,7 +3520,6 @@ PDC-265
 			ann_arbor_pathologic_stage
 			best_overall_response
 			burkitt_lymphoma_clinical_variant
-			cause_of_death
 			circumferential_resection_margin
 			colon_polyps_history
 			days_to_best_overall_response
@@ -3493,9 +3582,6 @@ PDC-265
 			morphology
 			progression_or_recurrence
 			site_of_resection_or_biopsy
-			vital_status
-			days_to_birth
-			days_to_death
 			prior_malignancy
 			ajcc_clinical_m
 			ajcc_clinical_n
@@ -3511,7 +3597,6 @@ PDC-265
 			ann_arbor_pathologic_stage
 			best_overall_response
 			burkitt_lymphoma_clinical_variant
-			cause_of_death
 			circumferential_resection_margin
 			colon_polyps_history
 			days_to_best_overall_response
@@ -3574,9 +3659,6 @@ PDC-265
 			morphology
 			progression_or_recurrence
 			site_of_resection_or_biopsy
-			vital_status
-			days_to_birth
-			days_to_death
 			prior_malignancy
 			ajcc_clinical_m
 			ajcc_clinical_n
@@ -3592,7 +3674,6 @@ PDC-265
 			ann_arbor_pathologic_stage
 			best_overall_response
 			burkitt_lymphoma_clinical_variant
-			cause_of_death
 			circumferential_resection_margin
 			colon_polyps_history
 			days_to_best_overall_response
@@ -3657,9 +3738,6 @@ PDC-265
 			morphology
 			progression_or_recurrence
 			site_of_resection_or_biopsy
-			vital_status
-			days_to_birth
-			days_to_death
 			prior_malignancy
 			ajcc_clinical_m
 			ajcc_clinical_n
@@ -3675,7 +3753,6 @@ PDC-265
 			ann_arbor_pathologic_stage
 			best_overall_response
 			burkitt_lymphoma_clinical_variant
-			cause_of_death
 			circumferential_resection_margin
 			colon_polyps_history
 			days_to_best_overall_response
@@ -5340,6 +5417,7 @@ limit: 10) {
 			fraction
 			aliquot_run_metadata {
 				aliquot_submitter_id
+				aliquot_run_metadata_id
 			}
 			files {
 				file_type
@@ -5361,6 +5439,7 @@ limit: 10) {
 			fraction
 			aliquot_run_metadata {
 				aliquot_submitter_id
+				aliquot_run_metadata_id
 			}
 			files {
 				file_type
@@ -5503,7 +5582,7 @@ limit: 10) {
 		tumor_stage
 	}
 }
-//PDC-788 794 857 1874
+//PDC-788 794 857 1874 2377
 {
 	getPaginatedUIStudy(offset: 0 limit: 10) {
 		total
@@ -5520,6 +5599,11 @@ limit: 10) {
 			cases_count
 			aliquots_count
 			filesCount {
+				data_category
+				file_type
+				files_count
+			}
+			supplementaryFilesCount {
 				data_category
 				file_type
 				files_count
@@ -5552,6 +5636,11 @@ limit: 10) {
 			cases_count
 			aliquots_count
 			filesCount {
+				data_category
+				file_type
+				files_count
+			}
+			supplementaryFilesCount {
 				data_category
 				file_type
 				files_count
@@ -5738,7 +5827,7 @@ limit: 10) {
 		}
 	}
 }
-//PDC-1599
+//PDC-1599, 2417
 1874
 {
 	clinicalPerStudy(study_submitter_id: "S015-1"){
@@ -5754,7 +5843,8 @@ limit: 10) {
 		gender
 		race
 		cause_of_death 
-		vital_status 
+		days_to_birth
+		days_to_death
 		year_of_birth 
 		year_of_death
 		diagnosis_id
@@ -5789,7 +5879,6 @@ limit: 10) {
 		ann_arbor_pathologic_stage 
 		best_overall_response 
 		burkitt_lymphoma_clinical_variant 
-		cause_of_death 
 		circumferential_resection_margin 
 		colon_polyps_history 
 		days_to_best_overall_response 
@@ -5833,7 +5922,8 @@ limit: 10) {
 		gender
 		race
 		cause_of_death 
-		vital_status 
+		days_to_birth
+		days_to_death
 		year_of_birth 
 		year_of_death
 		diagnosis_id
@@ -5868,7 +5958,6 @@ limit: 10) {
 		ann_arbor_pathologic_stage 
 		best_overall_response 
 		burkitt_lymphoma_clinical_variant 
-		cause_of_death 
 		circumferential_resection_margin 
 		colon_polyps_history 
 		days_to_best_overall_response 

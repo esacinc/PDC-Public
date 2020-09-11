@@ -21,20 +21,23 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6028530&version=1.0
-        type: string
+        type: Enumeration
     age_is_obfuscated:
         description: 'The age of the patient has been modified for compliance reasons.
             The actual age differs from what is reported. Other date intervals for
             this patient may also be modified.
 
             '
-        type: boolean
+        required: 'False'
+        type: Boolean
     case_id:
         key: 'yes'
-        type: string
+        required: 'False'
+        type: String
     case_submitter_id:
         key: 'yes'
-        type: string
+        required: 'True'
+        type: String
     cause_of_death:
         cde_id: 2554674
         description: Text term to identify the cause of death for a patient.
@@ -53,7 +56,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2554674&version=3.0
-        type: string
+        type: Enumeration
     cause_of_death_source:
         description: 'The text term used to describe the source used to determine
             the patient''s cause of death.
@@ -66,6 +69,8 @@ properties:
         - Social Security Death Index
         - Unknown
         - Not Reported
+        required: 'False'
+        type: Enumeration
     days_to_birth:
         cde_id: 6154723
         description: Number of days between the date used for index and the date from
@@ -74,7 +79,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6154723&version=1.0
-        type: integer
+        type: Integer
     days_to_death:
         cde_id: 6154724
         description: Number of days between the date used for index and the date from
@@ -82,13 +87,15 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6154724&version=1.0
-        type: integer
+        type: Integer
     demographic_id:
         key: 'yes'
-        type: string
+        required: 'False'
+        type: String
     demographic_submitter_id:
         key: 'yes'
-        type: string
+        required: 'False'
+        type: String
     ethnicity:
         cde_id: 2192217
         description: An individual's self-described social and cultural grouping,
@@ -102,10 +109,10 @@ properties:
         - not allowed to collect
         - unknown
         - Unknown
-        required: 'True'
+        required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2192217&version=2.0
-        type: string
+        type: Enumeration
     gender:
         cde_id: 2200604
         description: 'Text designations that identify gender. Gender is described
@@ -122,15 +129,16 @@ properties:
         required: 'True'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2200604&version=3.0
-        type: string
+        type: Enumeration
     occupation_duration_years:
         cde_id: 2435424
         description: 'The number of years a patient worked in a specific occupation.
 
             '
+        required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2435424&version=1.0
-        type: integer
+        type: Integer
     premature_at_birth:
         cde_id: 6010765
         description: The yes/no/unknown indicator used to describe whether the patient
@@ -143,13 +151,15 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6010765&version=1.0
-        type: string
+        type: Enumeration
     project_id:
         key: 'yes'
-        type: string
+        required: 'False'
+        type: String
     project_submitter_id:
         key: 'yes'
-        type: string
+        required: 'False'
+        type: String
     race:
         cde_id: 2192199
         description: An arbitrary classification of a taxonomic group that is a division
@@ -170,10 +180,10 @@ properties:
         - not allowed to collect
         - unknown
         - Unknown
-        required: 'True'
+        required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2192199&version=1.0
-        type: string
+        type: Enumeration
     vital_status:
         cde_id: 5
         description: The survival state of the person registered on the protocol.
@@ -185,7 +195,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5&version=5.0
-        type: number
+        type: Enumeration
     weeks_gestation_at_birth:
         cde_id: 2737369
         description: Numeric value used to describe the number of weeks starting from
@@ -194,7 +204,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2737369&version=1.0
-        type: number
+        type: Integer
     year_of_birth:
         cde_id: 2896954
         description: Numeric value to represent the calendar year in which an individual
@@ -202,16 +212,17 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2896954&version=1.0
-        type: integer
+        type: Integer
     year_of_death:
         cde_id: 2897030
         description: Numeric value to represent the year of the death of an individual.
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2897030&version=1.0
-        type: integer
+        type: Integer
 title: Demographic
 type: object
 uniqueKeys:
 -   - demographic_id
     - demographic_submitter_id
+    - study_id

@@ -1,7 +1,7 @@
 category: Metadata
-description: The formal plan of an experiment or research activity, including the
+description: 'The formal plan of an experiment or research activity, including the
     objective, rationale, design, materials and methods for the conduct of the study;
-    intervention description, and method of data analysis.
+    intervention description, and method of data analysis. '
 links:
 -   label: Protocol references the Study it is part of.
     name: Study
@@ -17,27 +17,21 @@ properties:
         - bRPLC (pH 10)
         - SCX
         required: 'True'
-        type: number
+        type: Enumeration
     2d_chromatography_type:
         description: Type of chromatography for the second dimension. This will generally
             be RPLC.
         enum:
         - RPLC
-        - bRPLC
-        - bRPLC (pH 7.5)
-        - bRPLC (pH 10)
-        - SCX
         required: 'True'
-        type: string
+        type: Enumeration
     acquisition_type:
         description: Mass spectrometry acquisition method
         enum:
         - DDA
         - DIA
-        - SRM
-        - PRM
         required: 'True'
-        type: string
+        type: Enumeration
     alkylation_reagent:
         description: Reagent used for cysteine alkylation
         enum:
@@ -45,39 +39,38 @@ properties:
         - 2-chloroacetamide (TCEP)
         - tris(2-carboxyethyl)phosphine
         required: 'True'
-        type: number
+        type: Enumeration
     amount_on_column:
         description: Approximate mass with units
         required: 'False'
-        type: number
+        type: Number
     amount_on_column_uom:
-        description: "Unit of Measure of amount_on_column, \xC2\xB5g"
+        description: Unit of Measure of amount_on_column
         required: 'False'
-        type: string
+        type: String
     chromatography_dimensions_count:
         description: Number of discrete chromatographic dimensions used
         enum:
-        - '1'
-        - '2'
-        - '3'
+        - 1
+        - 2
         required: 'True'
-        type: number
+        type: Enumeration
     column_inner_diameter:
         description: Approximate diameter with units
         required: 'False'
-        type: integer
+        type: cm
     column_inner_diameter_uom:
         description: "Unit of Measure of column_inner_diameter, \xC2\xB5m"
         required: 'False'
-        type: string
+        type: String
     column_length:
         description: Approximate length with units
         required: 'False'
-        type: integer
+        type: Integer
     column_length_uom:
         description: Unit of Measure of column_length, cm
         required: 'False'
-        type: string
+        type: String
     column_type:
         description: Type of column used
         enum:
@@ -85,31 +78,29 @@ properties:
         - New Objective
         - PicoFrit SELF/P
         required: 'False'
-        type: number
+        type: Enumeration
     dda_topn:
         description: Number of precursors sampled per cycle
         required: 'False'
-        type: string
+        type: String
     dia_ims:
         description: Numeric value that represents the current weight of the sample,
             measured in milligrams.
         enum:
         - 'Yes'
         - 'No'
-        - N/A
         required: 'False'
-        type: number
+        type: Enumeration
     dia_multiplexing:
         cde_id: MS:1000501,MS:1000500
         description: Uses overlapping windows (MSX)
         enum:
         - 'Yes'
         - 'No'
-        - N/A
         required: 'True'
         source: PSI MS
         term_url: http://purl.obolibrary.org/obo/MS_1000501
-        type: string
+        type: Enumeration
     digestion_reagent:
         cde_id: MS:1001045
         description: Enzyme or reagent used for digestion. Multiple enzymes can be
@@ -133,10 +124,12 @@ properties:
         - Unspecific cleavage
         - V8-DE
         - V8-E
+        - Lys-C
+        - Trypsin
         required: 'True'
         source: PSI MS
         term_url: http://purl.obolibrary.org/obo/MS_1001045
-        type: number
+        type: Enumeration
     dissociation_type:
         cde_id: MS:1000044
         description: Gas phase dissociation type
@@ -148,21 +141,16 @@ properties:
         required: 'True'
         source: PSI MS
         term_url: http://purl.obolibrary.org/obo/MS_1000044
-        type: string
+        type: Enumeration
     document_name:
         description: Name of protocol document
-        required: 'True'
-        type: string
+        required: 'False'
+        type: String
     enrichment:
-        description: Protocol or reagent used for enrichment
-        enum:
-        - Hydrazide Beads (Glycopeptides)
-        - Fe3+ NTA-Agarose (Qiagen)
-        - Phosphopeptide enrichment with immobilized metal affinity chromatography
-            (NiNTA beads stripped with EDTA and loaded with FeCl3; Qiagen)
-        - N/A
+        description: 'Protocol or reagent used for enrichment, for example: Fe3+ NTA-Agarose
+            (Qiagen). User can select existing enrichments or add their own.'
         required: 'True'
-        type: string
+        type: String
     enrichment_strategy:
         description: Type of peptide or protein enrichment
         enum:
@@ -170,30 +158,32 @@ properties:
         - Proteome
         - Phosphoproteome
         - Glycoproteome
+        - Ubiquitylome
+        - Metabolome
+        - Lipidome
         required: 'True'
-        type: number
+        type: Enumeration
     experiment_type:
         description: Type of labeling reagent used. Indicate number of channels.
         enum:
         - Label Free
-        - iTRAQ4
-        - TMT10
-        - TMT11
-        required: 'True'
-        type: string
+        - iTRAQ
+        - TMT
+        required: 'False'
+        type: Enumeration
     fractions_analyzed_count:
         description: Final number of fractions analyzed by mass spectrometry. For
             Thermo instruments, this will equal the number of data files.
-        required: 'True'
-        type: integer
+        required: 'False'
+        type: Integer
     gradient_length:
         description: Time with units
         required: 'False'
-        type: integer
+        type: Integer
     gradient_length_uom:
         description: Unit of Measure of gradient_length, minutes
         required: 'False'
-        type: string
+        type: String
     instrument_make:
         description: Manufacturer of instrument
         enum:
@@ -209,7 +199,7 @@ properties:
         - Varian
         - Waters
         required: 'True'
-        type: string
+        type: Enumeration
     instrument_model:
         cde_id: depends on make
         description: Model of instrument
@@ -442,22 +432,80 @@ properties:
         - Xevo TQ MS
         - Xevo TQ-S
         - Xevo TQD
-        required: 'False'
+        - 220 GC/MS Ion Trap System
+        - 240 GC/MS Ion Trap System
+        - 6200 Series Accurate-Mass Time-of-Flight (TOF) LC/MS
+        - 6400 Series Triple Quadrupole LC/MS
+        - 7000 Triple Quadrupole GC/MS System
+        - 7200 GC/Q-TOF
+        - EVOQ Elite
+        - EVOQ Qube
+        - maXis 4G
+        - maXis impact
+        - microOTOF focus II
+        - microOTOF-Q II
+        - solariX
+        - Pipeline
+        - MALDI 4800
+        - FTMS
+        - LTQ Velos Pro
+        - LTQ-FT
+        - LTQ-OT
+        - Orbitrap Elite
+        - Orbitrap Velos
+        - TSQ Quantum
+        - Acquity SQD
+        - API-US
+        - Bio-Q
+        - EMD 1000
+        - LCT
+        - LCT Premier
+        - LCT Premier XE
+        - MALDI L
+        - MALDI LR
+        - MALDI micro MX
+        - MALDI R
+        - MALDI Synapt G2 HDMS
+        - MALDI Synapt G2 MS
+        - Micro
+        - Platform
+        - Platform II
+        - Platform LCZ
+        - PLC
+        - Premier
+        - Quattro
+        - Quattro II
+        - Quattro LC
+        - Quattro Premier
+        - Quattro Premier XE
+        - Quattro Ultima Pt
+        - TofSpec
+        - TofSpec 2E
+        - TofSpec E
+        - TofSpec SE
+        - Xevo QTof
+        - ZMD
+        - ZQ
+        - Orbitrap Lumos
+        - Thermo Orbitrap Q Exactive HF-X
+        - Thermo Orbitrap Fusion Lumos
+        required: 'True'
         term_url: http://purl.obolibrary.org/obo/MS_1001045
-        type: string
+        type: Enumeration
     isobaric_labeling_reagent:
         description: Reagent set used for isobaric labeling
         enum:
-        - iTRAQ
-        - TMT
+        - iTRAQ4
+        - iTRAQ8
+        - TMT10
+        - TMT11
         - '180'
         - AQUA
         - ICAT
         - ICPL
         - SILAC
-        - N/A
         required: 'True'
-        type: string
+        type: Enumeration
     label_free_quantitation:
         cde_id: MS:1001834
         description: Type of label free data analysis strategy proposed for this data
@@ -470,7 +518,7 @@ properties:
         required: 'True'
         source: PSI MS
         term_url: http://www.ontobee.org/ontology/MS?iri=http://purl.obolibrary.org/obo/MS_1001834
-        type: string
+        type: Enumeration
     labeled_quantitation:
         cde_id: MS:1002009
         description: Type of labeling used
@@ -485,63 +533,63 @@ properties:
         - iTRAQ
         - iTRAQH
         - TMT
-        required: 'True'
+        required: 'False'
         source: PSI MS
         term_url: http://www.ontobee.org/ontology/MS?iri=http://purl.obolibrary.org/obo/MS_1002009
-        type: string
+        type: Enumeration
     ms1_resolution:
         cde_id: MS:1000011
         description: MS1 resolution, typically at 400 m/z
         required: 'False'
         source: PSI MS
         term_url: http://purl.obolibrary.org/obo/MS_1000011
-        type: integer
+        type: Integer
     ms2_resolution:
         cde_id: MS:1000011
         description: MS2 resolution, typically at 400 m/z
         required: 'False'
         source: PSI MS
         term_url: http://purl.obolibrary.org/obo/MS_1000011
-        type: integer
+        type: Integer
     normalized_collision_energy:
         cde_id: MS:1000138
         description: Normalized collisions energy (%)
         required: 'False'
         source: PSI MS
         term_url: http://purl.obolibrary.org/obo/MS_1000138
-        type: string
+        type: Integer
     particle_size:
         description: Approximate size with units
         required: 'False'
-        type: number
+        type: Number
     particle_size_uom:
-        description: "Unit of Measure of particle_size, \xC2\xB5m"
+        description: Unit of Measure of particle_size
         required: 'False'
-        type: string
+        type: String
     particle_type:
         description: Manufacturer or brand name of particle if applicable
         required: 'False'
-        type: string
+        type: String
     program_id:
         key: 'yes'
-        type: string
+        type: String
     program_submitter_id:
         key: 'yes'
-        type: string
+        type: String
     protocol_date:
         description: Date protocol was created or updated
         required: 'False'
-        type: date
+        type: Date
     protocol_id:
         key: 'yes'
-        type: string
+        type: String
     protocol_name:
         description: External analytical sample protocol name
-        required: 'True'
-        type: string
+        required: 'False'
+        type: String
     protocol_submitter_id:
         key: 'yes'
-        type: string
+        type: String
     quantitation_strategy:
         cde_id: MS:1001833
         description: General strategy used for differential analysis
@@ -555,30 +603,39 @@ properties:
         - SILAC quantitation analysis
         - Spectral counting analysis
         - SRM quantitation analysis
+        - MS2-based label-free quantitation
         required: 'True'
         source: PSI MS
         term_url: http://www.ontobee.org/ontology/MS?iri=http://purl.obolibrary.org/obo/MS_1001833
-        type: string
+        type: Enumeration
     reporter_ion_ms_level:
         description: MS level at which fragmentation spectra should be analyzed for
             reporter ions
         enum:
         - MS2
         - MS3
-        - N/A
         required: 'True'
-        type: string
+        type: Enumeration
+    serial_number:
+        description: A serial number is a unique identifier, usually assigned by the
+            manufacturer, to uniquely identify the instrument. This is especially
+            useful if you are uploading raw data to PDC from multiple instruments
+            in your lab. The serial number is usually located on the back side of
+            the instrument. If a serial number is not available, you may also assign
+            an alphanumeric tag that uniquely identifies the instrument.
+        required: 'True'
+        type: String
     starting_amount:
         description: Mass with units
         required: 'False'
-        type: number
+        type: Number
     starting_amount_uom:
         description: Unit of Measure of starting_amount
         enum:
-        - "\xC2\xB5g"
+        - "\xB5g"
         - mg
         required: 'False'
-        type: string
+        type: Enumeration
 title: Protocol
 type: object
 uniqueKeys:

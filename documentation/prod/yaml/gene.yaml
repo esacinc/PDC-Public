@@ -6,43 +6,44 @@ properties:
     assays:
         description: CPTAC Assay accessions for the peptides associated with the gene
         required: 'False'
-        type: string
+        type: String
     authority:
         description: HGNC Identifier
         required: 'True'
-        type: string
+        type: String
     chromosome:
         description: NCBI Gene chromosome
         required: 'True'
-        type: string
+        type: String
     description:
         description: NCBI Gene description
         required: 'True'
-        type: string
+        type: String
     gene_id:
         key: 'yes'
-        type: string
+        required: 'False'
+        type: String
     gene_name:
         description: NCBI Gene name
         required: 'True'
-        type: string
+        type: String
     locus:
         description: NCBI Gene cytoband
         required: 'True'
-        type: string
+        type: String
     ncbi_gene_id:
         description: NCBI Gene Identifier
         required: 'True'
-        type: integer
+        type: Integer
     organism:
         description: NCBI Gene organism
         required: 'True'
-        type: string
+        type: String
     proteins:
         description: Semi-colon separated list of protein accessions associated with
             the gene
         required: 'True'
-        type: string
+        type: String
 title: Gene
 type: object
 uniqueKeys:

@@ -11,46 +11,69 @@ links:
 properties:
     aliquot_id:
         key: 'yes'
-        type: string
+        required: 'False'
+        type: String
     aliquot_is_ref:
         description: A biospecimen entity which is used as a reference sample for
             determining relative protein abundances in labeling experiments.
-        required: 'false'
-        type: string
         enum:
         - 'Yes'
         - 'No'
+        required: 'False'
+        type: Enumeration
     aliquot_quantity:
         description: The quantity in micrograms (ug) of the aliquot(s) derived from
             the analyte(s) shipped for sequencing and characterization.
         required: 'False'
-        type: number
+        type: Double
     aliquot_submitter_id:
         key: 'yes'
-        type: string
+        required: 'True'
+        type: String
     aliquot_volume:
         description: The volume in microliters (ml) of the aliquot(s) derived from
             the analyte(s) shipped for sequencing and characterization.
         required: 'False'
-        type: number
+        type: Double
     amount:
         description: Weight in grams or volume in mL
         required: 'False'
-        type: number
+        type: Double
     analyte_type:
         cde_id: 2513915
         description: Text term that represents the kind of molecular specimen analyte.
+        enum:
+        - DNA
+        - EBV Immortalized Normal
+        - FFPE DNA
+        - FFPE RNA
+        - GenomePlex (Rubicon) Amplified DNA
+        - Repli-G (Qiagen) DNA
+        - Repli-G Pooled (Qiagen) DNA
+        - Repli-G X (Qiagen) DNA
+        - RNA
+        - Protein
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2513915&version=2.0
-        type: string
+        type: Enumeration
     analyte_type_id:
         cde_id: 5432508
         description: A single letter code used to identify a type of molecular analyte.
+        enum:
+        - D
+        - E
+        - G
+        - H
+        - R
+        - S
+        - T
+        - W
+        - X
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432508&version=1.0
-        type: string
+        type: Enumeration
     concentration:
         cde_id: 5432594
         description: Numeric value that represents the concentration of an analyte
@@ -59,28 +82,32 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432594&version=1.0
-        type: number
+        type: Double
     pool:
         description: Any biospecimen entity where multiple cases, samples or aliquots
             are combined to produce a reference. Sample pooling is commonly used for
             determining relative protein abundances in labeling experiments.
-        required: 'False'
-        type: string
         enum:
         - 'Yes'
         - 'No'
+        required: 'False'
+        type: Enumeration
     project_id:
         key: 'yes'
-        type: string
+        required: 'False'
+        type: String
     project_submitter_id:
         key: 'yes'
-        type: string
+        required: 'False'
+        type: String
     sample_id:
         key: 'yes'
-        type: string
+        required: 'False'
+        type: String
     sample_submitter_id:
         key: 'yes'
-        type: string
+        required: 'False'
+        type: String
     status:
         description: Specifies if the aliquot is qualified or disqualified for any
             reason. Usually the data releated to such aliquots are not used in the
@@ -88,10 +115,11 @@ properties:
         enum:
         - Qualified
         - Disqualified
-        required: 'True'
-        type: binary
+        required: 'False'
+        type: Enumeration
 title: Aliquot
 type: object
 uniqueKeys:
 -   - aliquot_id
     - aliquot_submitter_id
+    - study_id

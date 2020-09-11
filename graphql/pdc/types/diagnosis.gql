@@ -19,9 +19,6 @@ type Diagnosis {
 	tissue_or_organ_of_origin:  String
 	tumor_grade:  String
 	tumor_stage:  String
-	vital_status:  String
-	days_to_birth:  String
-	days_to_death:  String
 	prior_malignancy:  String
 	ajcc_clinical_m:  String
 	ajcc_clinical_n:  String
@@ -38,7 +35,6 @@ type Diagnosis {
 	ann_arbor_pathologic_stage:  String
 	best_overall_response:  String
 	burkitt_lymphoma_clinical_variant:  String
-	cause_of_death:  String
 	circumferential_resection_margin:  String
 	colon_polyps_history:  String
 	days_to_best_overall_response:  String

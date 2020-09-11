@@ -4,89 +4,98 @@ description: Experimental metadata describing how an aliquot was processed withi
 links:
 -   label: Aliquot Run Metadata references the experimental run of the study.
     name: Study Run Metadata
-    required: 'True'
+    required: true
 -   label: Aliquot Run Metadata references the Aliquots used in an experimental run
         of the study.
     name: Aliquot
-    required: 'True'
+    required: true
 properties:
     acquisition_file_name:
         description: Representative file name for one of the raw data file from the
             run
         required: 'False'
-        type: string
+        type: String
     aliquot_id:
         key: 'yes'
-        type: string
+        required: 'False'
+        type: String
     aliquot_run_metadata_id:
         key: 'yes'
-        type: string
+        required: 'False'
+        type: String
     aliquot_submitter_id:
         key: 'yes'
-        type: string
+        required: 'False'
+        type: String
     analyte:
         description: Type of peptide or protein enrichment
         required: 'False'
-        type: string
+        type: String
     condition:
         description: 'Biological condition (ex: disease state) of the cases(patients)
             from which the aliquots derived.'
         required: 'False'
-        type: string
+        type: String
     date:
         description: Date of the data acquired from the mass spectrometry instrument
         required: 'False'
-        type: string
+        type: String
     experiment_number:
         description: Number associated with a specific run of the experiment
         required: 'False'
-        type: string
+        type: String
     experiment_type:
         description: General strategy used for differential analysis
         required: 'False'
-        type: string
+        type: String
     fraction:
         description: Number of fractions in the experimental run
         required: 'False'
-        type: string
+        type: String
     instrument:
         description: Make and model of the mass spectrometry instrument
         required: 'False'
-        type: string
+        type: String
     label:
         description: Reagent used for isobaric labeling or label-free
         required: 'False'
-        type: string
+        type: String
     operator:
         description: Mass Spectrometry instrument operator
         required: 'False'
-        type: string
+        type: String
     protocol:
         description: Name of the protocol used to run the experiment
         required: 'False'
-        type: string
+        type: String
     protocol_id:
         key: 'yes'
-        type: string
+        required: 'False'
+        type: String
     protocol_submitter_id:
         key: 'yes'
-        type: string
+        required: 'False'
+        type: String
     replicate_number:
         description: Replicate number, if applicable
         required: 'False'
-        type: string
+        type: String
     study_id:
         key: 'yes'
-        type: string
+        required: 'False'
+        type: String
     study_run_metadata_id:
         key: 'yes'
-        type: string
+        required: 'False'
+        type: String
     study_run_metadata_submitter_id:
         key: 'yes'
-        type: string
+        required: 'False'
+        type: String
     study_submitter_id:
         key: 'yes'
-        type: string
+        required: 'False'
+        type: String
 title: Aliquot Run Metadata
 type: object
 uniqueKeys:

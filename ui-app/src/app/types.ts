@@ -106,6 +106,7 @@ export interface AnalyticFractionCount  {
 }
 
 //@@@PDC-1358 add study_id (uuid) to study summary page
+//@@@PDC-2378 add supplimentary data to study summary
 export type AllStudiesData = {
 	study_id: string;
 	pdc_study_id: string;
@@ -122,6 +123,8 @@ export type AllStudiesData = {
 	study_description: string;
 	embargo_date: string;
 	filesCount: FileCountsForStudyPage[];
+	supplementaryFilesCount: FileCountsForStudyPage[];
+	nonSupplementaryFilesCount: FileCountsForStudyPage[];
 }
 
 export type FileCountsForStudyPage = {
@@ -202,6 +205,7 @@ export type AllFilesData = {
 }
 //@@@PDC-232
 //@@@PDC-462 show submitter ids
+//@@@PDC-2397 Update clinical manifest generation to include additional attributes
 export type AllClinicalData = {
 	case_submitter_id: string;
 	case_id: string;
@@ -215,6 +219,73 @@ export type AllClinicalData = {
 	tissue_or_organ_of_origin: string;
 	tumor_grade: string;
 	tumor_stage: string;
+	status: string;
+	disease_type: string;
+	primary_site: string;
+	program_name: string;
+	project_name: string;
+	cause_of_death: string;
+	days_to_birth: string;
+	days_to_death: string;
+	vital_status: string;
+	year_of_birth: string;
+	year_of_death: string;
+	age_at_diagnosis: string;
+	classification_of_tumor: string;
+	days_to_last_follow_up: string;
+	days_to_last_known_disease_status: string;
+	days_to_recurrence: string;
+	last_known_disease_status: string;
+	progression_or_recurrence: string;
+	prior_malignancy: string;
+	ajcc_clinical_m: string;
+	ajcc_clinical_n: string;
+	ajcc_clinical_stage: string;
+	ajcc_clinical_t: string;
+	ajcc_pathologic_m: string;
+	ajcc_pathologic_n: string;
+	ajcc_pathologic_stage: string;
+	ajcc_pathologic_t: string;
+	ajcc_staging_system_edition: string;
+	ann_arbor_b_symptoms: string;
+	ann_arbor_clinical_stage: string;
+	ann_arbor_extranodal_involvement: string;
+	ann_arbor_pathologic_stage: string;
+	best_overall_response: string;
+	burkitt_lymphoma_clinical_variant: string;
+	circumferential_resection_margin: string;
+	colon_polyps_history: string;
+	days_to_best_overall_response: string;
+	days_to_diagnosis: string;
+	days_to_hiv_diagnosis: string;
+	days_to_new_event: string;
+	figo_stage: string;
+	hiv_positive: string;
+	hpv_positive_type: string;
+	hpv_status: string;
+	iss_stage: string;
+	laterality: string;
+	ldh_level_at_diagnosis: string;
+	ldh_normal_range_upper: string;
+	lymph_nodes_positive: string;
+	lymphatic_invasion_present: string;
+	method_of_diagnosis: string;
+	new_event_anatomic_site: string;
+	new_event_type: string;
+	overall_survival: string;
+	perineural_invasion_present: string;
+	prior_treatment: string;
+	progression_free_survival: string;
+	progression_free_survival_event: string;
+	residual_disease: string;
+	vascular_invasion_present: string;
+	year_of_diagnosis: string;
+	externalReferences: ExternalReferences[];
+}
+
+export type ExternalReferences = {
+	reference_resource_shortname: string;
+	reference_entity_location: string;
 }
 
 //@@@PDC-614 add gene data tab to browse page
@@ -252,9 +323,57 @@ export type Pagination = {
 	size: number;
 }
 
+//@@@PDC-2399 Update biospecimen manifest generation to include new attributes
+export type AllUICasesData = {
+	aliquot_submitter_id: string;
+	sample_submitter_id: string;
+	case_id: string;
+	case_submitter_id: string;
+	project_name: string;
+	program_name: string;
+	sample_type: string;
+	disease_type: string;
+	primary_site: string;
+	aliquot_id: string;
+	sample_id: string;
+	aliquot_is_ref: string;
+	aliquot_status: string;
+	aliquot_quantity: string;
+	aliquot_volume: string;
+	amount: string;
+	analyte_type: string;
+	concentration: string;
+	case_status: string;
+	sample_status: string;
+	sample_is_ref: string;
+	biospecimen_anatomic_site: string;
+	composition: string;
+	current_weight: string;
+	days_to_collection: string;
+	days_to_sample_procurement: string;
+	diagnosis_pathologically_confirmed: string;
+	freezing_method: string;
+	initial_weight: string;
+	intermediate_dimension: string;
+	is_ffpe: string;
+	longest_dimension: string;
+	method_of_sample_procurement: string;
+	oct_embedded: string;
+	pathology_report_uuid: string;
+	preservation_method: string;
+	sample_type_id: string;
+	shortest_dimension: string;
+	time_between_clamping_and_freezing: string;
+	time_between_excision_and_freezing: string;
+	tissue_type: string;
+	tumor_code: string;
+	tumor_code_id: string;
+	tumor_descriptor: string;
+}
+
 export type QueryAllCasesDataPaginated = {
 	total: number;
-	allCasesData: AllCasesData[];
+	allCasesData: AllUICasesData[];
 	pagination: Pagination;
 }
 
@@ -390,6 +509,7 @@ export type DemographicsData = {
     year_of_death: string;
 }
 
+//@@@PDC-2535 Update UI with the changes to Diagnosis table columns
 export type DiagnosesData = {
 	tissue_or_organ_of_origin: string;
     age_at_diagnosis: string;
@@ -405,9 +525,6 @@ export type DiagnosesData = {
     morphology: string;
     progression_or_recurrence: string;
     site_of_resection_or_biopsy: string;
-    vital_status: string;
-    days_to_birth: string;
-    days_to_death: string;
     prior_malignancy: string;
     ajcc_clinical_m: string;
     ajcc_clinical_n: string;
@@ -424,7 +541,6 @@ export type DiagnosesData = {
     ann_arbor_pathologic_stage: string;
     best_overall_response: string;
     burkitt_lymphoma_clinical_variant: string;
-    cause_of_death: string;
     circumferential_resection_margin: string;
     colon_polyps_history: string;
     days_to_best_overall_response: string;

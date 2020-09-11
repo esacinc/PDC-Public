@@ -3,33 +3,35 @@ description: A broad framework of goals to be achieved.
 properties:
     end_date:
         description: End date of the program
-        required: 'false'
+        required: 'False'
         type: Date
     name:
         description: Name of the program
-        required: 'true'
-        type: string
+        required: 'True'
+        type: String
     program_id:
         key: 'yes'
-        type: string
+        required: 'False'
+        type: String
     program_manager:
         description: Name of the program manager from the sponsoring agency
-        required: 'true'
-        type: string
+        required: 'True'
+        type: String
     program_shortname:
         description: Short name for the program
-        required: 'true'
-        type: string
+        required: 'True'
+        type: String
     program_submitter_id:
         key: 'yes'
-        type: string
+        required: 'False'
+        type: String
     sponsor:
         description: Funding agency
-        required: 'false'
-        type: string
+        required: 'False'
+        type: String
     start_date:
         description: Start date of the program
-        required: 'true'
+        required: 'True'
         type: Date
 title: Program
 type: object

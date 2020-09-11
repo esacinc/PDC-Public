@@ -27,7 +27,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6154725&version=1.0
-        type: integer
+        type: Integer
     days_to_treatment_start:
         cde_id: 6154726
         description: 'Number of days between the date used for index and the date
@@ -39,7 +39,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6154726&version=1.0
-        type: integer
+        type: Integer
     initial_disease_status:
         description: 'The text term used to describe the status of the patient''s
             malignancy when the treatment began.
@@ -54,6 +54,7 @@ properties:
         - Not Reported
         required: 'False'
         source: caBIG
+        type: Enumeration
     regimen_or_line_of_therapy:
         cde_id: 6161024
         description: 'The text term used to describe the regimen or line of therapy.
@@ -62,7 +63,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6161024&version=1.0
-        type: string
+        type: String
     therapeutic_agents:
         cde_id: 2975232
         description: 'Text identification of the individual agent(s) used as part
@@ -72,7 +73,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2975232&version=1.0
-        type: string
+        type: String
     treatment_anatomic_site:
         cde_id: 5615611
         description: 'The anatomic site or field targeted by a treatment regimen or
@@ -384,6 +385,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5615611&version=1.0
+        type: Enumeration
     treatment_effect:
         cde_id: 6514354
         description: 'The text term used to describe the pathologic effect a treatment(s)
@@ -399,6 +401,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6514354&version=1.0
+        type: Enumeration
     treatment_intent_type:
         cde_id: 2793511
         description: 'Text term to identify the reason for the administration of a
@@ -417,6 +420,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2793511&version=1.0
+        type: Enumeration
     treatment_or_therapy:
         cde_id: 4231463
         description: 'A yes/no/unknown/not applicable indicator related to the administration
@@ -431,6 +435,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=4231463&version=1.0
+        type: Enumeration
     treatment_outcome:
         cde_id: 5102383
         description: 'Text term that describes the patient''s final outcome after
@@ -454,6 +459,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5102383&version=1.0
+        type: Enumeration
     treatment_type:
         cde_id: 5102381
         deprecated_enum:

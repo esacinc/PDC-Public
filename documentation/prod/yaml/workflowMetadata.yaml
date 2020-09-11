@@ -9,127 +9,136 @@ properties:
     analytical_fraction:
         description: Type of peptide or protein enrichment
         required: 'False'
-        type: string
+        type: String
     cdap_reports:
         description: Name and version of the tool used to generate protein summary
             reports
         required: 'False'
-        type: string
+        type: String
     cptac_dcc_mzidentml:
         description: Name and version of the tool used to generate mzIdentML from
             the peptide spectral match report
         required: 'False'
-        type: string
+        type: String
     cptac_dcc_tools:
         description: Name and version of the custom scripts used in the data analysis
             pipeline
         required: 'False'
-        type: string
+        type: String
     cptac_galaxy_tools:
         description: Name and version of the custom scripts used in the data analysis
             pipeline
         required: 'False'
-        type: string
+        type: String
     cptac_galaxy_workflows:
         description: Name and version of the workflow of data analysis pipeline
         required: 'False'
-        type: string
+        type: String
     cptac_study_id:
         key: 'yes'
-        type: string
+        required: 'False'
+        type: String
     experiment_type:
         description: General strategy used for differential analysis
         required: 'False'
-        type: string
+        type: String
     gene_to_prot:
         description: Name and version of the tool used to map gene to protein in the
             data analysis pipeline
         required: 'False'
-        type: string
+        type: String
     hgnc_version:
         description: Name and version of HGNC database of human gene names used in
             the data analysis pipeline
         required: 'False'
-        type: string
+        type: String
     instrument:
         description: Make and model of the mass spectrometry instrument
         required: 'False'
-        type: string
+        type: String
     ms1_data_analysis:
         description: Name and version of the tool used for MS1 data analysis
         required: 'False'
-        type: string
+        type: String
     mzidentml_refseq:
         description: Name and version of the NCBI Refseq database used in mzIdentML
         required: 'False'
-        type: string
+        type: String
     mzidentml_uniprot:
         description: Name and version of the Uniprot Refseq database used in mzIdentiML
         required: 'False'
-        type: string
+        type: String
     phosphosite_localization:
         description: Name and version of the tool used for phosphosite localization
         required: 'False'
-        type: string
+        type: String
     protocol_id:
         key: 'yes'
-        type: string
+        required: 'False'
+        type: String
     protocol_submitter_id:
         key: 'yes'
-        type: string
+        required: 'False'
+        type: String
     psm_report_generation:
         description: Name and version of the tool used to peptide spectral match report
             generation
         required: 'False'
-        type: string
+        type: String
     raw_data_conversion:
         description: Name and version of the tool used to convert the proprietary
             data into open format
         required: 'False'
-        type: string
+        type: String
     raw_data_processing:
         description: Name and version of the tool used to process the proprietary
             raw data
         required: 'False'
-        type: string
+        type: String
     refseq_database_version:
         description: Name and version of the NCBI Refseq database used in the data
             analysis pipeline
         required: 'False'
-        type: string
+        type: String
     search_database_parameters:
         description: Parameters used in the peptide identification database search
         required: 'False'
-        type: string
+        type: String
     sequence_database_search:
         description: Name and version of the tool used in peptide identification by
             scoring MS/MS spectra against peptides derived from a protein sequence
             database
         required: 'False'
-        type: string
+        type: String
     study_id:
         key: 'yes'
-        type: string
+        required: 'False'
+        type: String
     study_submitter_id:
         key: 'yes'
-        type: string
+        required: 'False'
+        type: String
     study_submitter_name:
         key: 'yes'
-        type: string
+        required: 'False'
+        type: String
     submitter_id_name:
         key: 'yes'
-        type: string
+        required: 'False'
+        type: String
     uniport_database_version:
         description: Name and version of the Uniprot Refseq database used in the data
             analysis pipeline
         required: 'False'
-        type: string
+        type: String
     workflow_metadata_id:
         key: 'yes'
-        type: string
+        required: 'False'
+        type: String
     workflow_metadata_submitter_id:
         key: 'yes'
-        type: string
+        required: 'False'
+        type: String
 title: Workflow Metadata
 type: object
 uniqueKeys:

@@ -10,26 +10,27 @@ links:
 properties:
     case_id:
         key: 'yes'
-        type: string
+        required: 'False'
+        type: String
     case_is_ref:
         description: A biospecimen entity which is used as a reference sample for
             determining relative protein abundances in labeling experiments.
-        required: 'false'
-        type: string
         enum:
         - 'Yes'
         - 'No'
+        required: 'False'
+        type: Enumeration
     case_submitter_id:
         key: 'yes'
-        type: string
+        required: 'True'
+        type: String
     days_to_lost_to_followup:
         cde_id: 6154721
         description: The number of days between the date used for index and to the
             date the patient was lost to follow-up.
-        required: 'false'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6154721&version=1.0
-        type: integer
+        type: String
     disease_type:
         cde_id: 6161017
         description: The text term used to describe the type of malignant disease,
@@ -139,14 +140,22 @@ properties:
         - Uterine Carcinosarcoma
         - Uterine Corpus Endometrial Carcinoma
         - Uveal Melanoma
-        required: 'false'
+        - Clear Cell Renal Cell Carcinoma
+        - Early Onset Gastric Cancer
+        - Glioblastoma
+        - Other
+        - Hepatocellular Carcinoma
+        - Chromophobe Renal Cell Carcinoma
+        - Papillary Renal Cell Carcinoma
+        - Pediatric/AYA Brain Tumors
+        required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6161017&version=1.0
-        type: string
+        type: Enumeration
     external_case_id:
         description: Identifier from other resources for this case
-        required: 'false'
-        type: string
+        required: 'False'
+        type: String
     index_date:
         cde_id: 6154722
         description: The text term used to describe the reference or anchor date used
@@ -159,10 +168,10 @@ properties:
         - Initial Genomic Sequencing
         - Sample Procurement
         - Study Enrollment
-        required: 'false'
+        required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6154722&version=1.
-        type: string
+        type: Enumeration
     lost_to_followup:
         cde_id: 6161018
         description: The yes/no/unknown indicator used to describe whether a patient
@@ -171,19 +180,18 @@ properties:
         - 'Yes'
         - 'No'
         - Unknown
-        required: 'false'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6161018&version=1.0
-        type: string
+        type: Enumeration
     pool:
         description: Any biospecimen entity where multiple cases, samples or aliquots
             are combined to produce a reference. Sample pooling is commonly used for
             determining relative protein abundances in labeling experiments.
-        required: 'true'
-        type: string
         enum:
         - 'Yes'
         - 'No'
+        required: 'False'
+        type: Enumeration
     primary_site:
         cde_id: 6161019
         description: The text term used to describe the general location of the malignant
@@ -281,24 +289,26 @@ properties:
         - Soft Tissue
         - Thyroid
         - Uterus
-        required: 'false'
+        required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6161019&version=1.0
-        type: string
+        type: Enumeration
     project_id:
         key: 'yes'
-        type: string
+        required: 'False'
+        type: String
     project_submitter_id:
         key: 'yes'
-        type: string
+        required: 'False'
+        type: String
     status:
         description: Specifies if the case is qualified or disqualified for any reason.
             Usually the data releated to such cases may be not used in the data analysis.
         enum:
         - Qualified
         - Disqualified
-        required: 'true'
-        type: string
+        required: 'False'
+        type: Enumeration
     taxon:
         description: A taxonomic group, such as a species.
         enum:
@@ -337,10 +347,14 @@ properties:
         - Drosophila melanogaster
         - Sus scrofa
         - Gasterosteus aculeatus (fish)
-        required: 'false'
-        type: string
+        - Homo sapiens
+        - Mus musculus
+        - Not Reported
+        required: 'False'
+        type: Enumeration
 title: Case
 type: object
 uniqueKeys:
 -   - case_id
     - case_submitter_id
+    - study_id

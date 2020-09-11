@@ -510,6 +510,13 @@ describe("BrowseFiltersComponent", () => {
         filterName: "iTRAQ4",
         filterCount: 1
       }
+	];
+	
+	let acquisitionTypeFilter = [
+	  {
+		filterName: "DDA",
+        filterCount: 1
+	  }
     ];
 
     component.projectsFilter = projectsFilter;
@@ -518,6 +525,7 @@ describe("BrowseFiltersComponent", () => {
     component.diseaseTypesFilter = diseaseTypesFilter;
     component.analyticalFractionsFilter = analyticalFractionsFilter;
     component.experimentalStrategiesFilter = experimentalStrategiesFilter;
+	component.acquisitionFilter = acquisitionTypeFilter;
 
     component.updateFiltersCounters();
 
@@ -539,6 +547,10 @@ describe("BrowseFiltersComponent", () => {
       1,
       "experimental strategy filter count"
     );
+	expect(component.acquisitionFilter[0].filterCount).toBe(
+      0,
+	  "acquisition type filter count"
+	);
   });
 
   it("test filterDataByProject", () => {
@@ -563,6 +575,10 @@ describe("BrowseFiltersComponent", () => {
 
   it("test filterDataByExperimentalStrategy", () => {
     component.filterDataByExperimentalStrategy(true);
+  });
+  
+  it("test filterDataByAcquisition", () => {
+	  component.filterDataByAcquisition(true);
   });
 
   it("test getStyleForCheckbox", () => {
@@ -640,6 +656,36 @@ describe("BrowseFiltersComponent", () => {
     component.selectedDataCategory.push("");
     component.clearSelectionsDataCategory();
     expect(component.selectedDataCategory.length).toBe(0);
+  });
+  
+  it("test clearSelectionsEthnicity", () => {
+    component.selectedEthnicity.push("");
+	component.clearSelectionsEthnicity();
+	expect(component.selectedEthnicity.length).toBe(0);
+  });
+  
+  it("test clearSelectionsRace", () => {
+    component.selectedRace.push("");
+	component.clearSelectionsRace();
+	expect(component.selectedRace.length).toBe(0);
+  });
+  
+  it("test clearSelectionsGender", () => {
+    component.selectedGender.push("");
+	component.clearSelectionsGender();
+	expect(component.selectedGender.length).toBe(0);
+  });
+  
+  it("test clearSelectionsTumorGrade", () => {
+    component.selectedTumorGrade.push("");
+	component.clearSelectionsTumorGrade();
+	expect(component.selectedTumorGrade.length).toBe(0);
+  });
+  
+  it("test clearSelectionsSampleType", () => {
+    component.selectedSampleType.push("");
+	component.clearSelectionsSampleType();
+	expect(component.selectedSampleType.length).toBe(0);
   });
 
   it("test clearAllSelections", () => {

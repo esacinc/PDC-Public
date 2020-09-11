@@ -107,7 +107,8 @@ export class FrontPageComponent implements OnInit {
         }
       },
       series: [{
-		  name: 'Case count',
+			name: 'Case count',
+			type: 'pie',
 		  data: []
 	  }]
     });

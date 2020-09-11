@@ -11,7 +11,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432592&version=1.0
-        type: number
+        type: Integer
     is_ffpe:
         cde_id: 4170557
         description: Indicator to signify whether or not the tissue sample was fixed
@@ -22,10 +22,11 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=4170557&version=1.0
-        type: string
+        type: Enumeration
     portion_id:
         key: 'yes'
-        type: string
+        required: 'False'
+        type: String
     portion_number:
         cde_id: 5432711
         description: Numeric value that represents the sequential number assigned
@@ -33,22 +34,27 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432711&version=1.0
-        type: number
+        type: Integer
     portion_submitter_id:
         key: 'yes'
-        type: string
+        required: 'False'
+        type: String
     project_id:
         key: 'yes'
-        type: string
+        required: 'False'
+        type: String
     project_submitter_id:
         key: 'yes'
-        type: string
+        required: 'False'
+        type: String
     sample_id:
         key: 'yes'
-        type: string
+        required: 'False'
+        type: String
     sample_submitter_id:
         key: 'yes'
-        type: string
+        required: 'False'
+        type: String
     weight:
         cde_id: 651
         description: Numeric value that represents the sample portion weight, measured
@@ -56,7 +62,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=651&version=4.0
-        type: number
+        type: Integer
 title: Portion
 type: object
 uniqueKeys:

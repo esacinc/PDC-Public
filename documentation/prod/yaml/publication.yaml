@@ -7,15 +7,16 @@ links:
 properties:
     publication_id:
         key: 'yes'
-        type: string
+        required: 'False'
+        type: String
     pubmed_id:
         description: Identifier of the article in Pubmed system
         required: 'False'
-        type: string
+        type: String
     title:
         description: Title of the research article
         required: 'False'
-        type: string
+        type: String
 title: Publication
 type: object
 uniqueKeys:

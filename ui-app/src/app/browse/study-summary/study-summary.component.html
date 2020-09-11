@@ -44,7 +44,7 @@
 					</tr>
 					<tr><td class="summary-card-name-left-cell">Study ID</td>
 						<td class="summary-card-value-left-cell">{{studySummaryData.study_id}}</td>
-						<td class="summary-card-name-right-cell">Analyitical Fraction</td>
+						<td class="summary-card-name-right-cell">Analytical Fraction</td>
 						<td class="summary-card-value-right-cell">{{studySummaryData.analytical_fraction}}</td>
 					</tr>
 					<tr><td class="summary-card-name-left-cell">Study Name</td>
@@ -477,6 +477,8 @@
 			<mat-card class="data-categories-table">
 				<mat-card-content>
 				<table class="table table-striped" style="width:100%" id="dataCategoryStudyTable">
+					<caption style="caption-side:top;background:#078abf;color:white!important; padding:0!important;text-align: center;" ><b>Common Data Analysis Pipeline (PDC Harmonization) data</b> 
+								<a href={{files_download_faq_help_url}} target="_"><mat-icon matTooltip="Types of files available for download from PDC" class="help-icon" style="color:#e5e5e5!important">help</mat-icon></a></caption>
 					<thead>
 						<tr style="font-size: 12px;background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%);">
 							<th class="ui-datatable-tableheader" style="width:80%;">Data Category</th>
@@ -534,6 +536,29 @@
 			</div>
 		</div>
 		<div class="col-md-6" style="padding-bottom:5px">
+		  <div style="padding-bottom:3px">
+			<mat-card class="data-categories-table">
+				<mat-card-content>
+				<table class="table table-striped" style="width:100%" id="dataCategoryStudyTable">
+					<caption style="caption-side:top;background:#078abf;color:white!important; padding:0!important;text-align: center;" ><b>Supplementary data</b>
+						<a href={{files_download_faq_help_url}} target="_"><mat-icon matTooltip="Types of files available for download from PDC" class="help-icon" style="color:#e5e5e5!important">help</mat-icon></a>
+					</caption>
+					<thead>
+						<tr style="font-size: 12px;background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%);">
+							<th class="ui-datatable-tableheader" style="width:80%;">Data Category</th>
+							<th class="ui-datatable-tableheader" style="width:20%">Files (n={{totalSuppFilesCount}})</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr style="font-size: 12px;" *ngFor="let categoryDetails of suppFileCountsRaw">
+							<td style="width:80%;word-wrap: break-word;white-space: normal;">{{categoryDetails.data_category}} ({{categoryDetails.file_type}})</td>
+							<td style="width:20%;word-wrap: break-word;white-space: normal;"><a target="_blank" href= "/pdc/browse/filters/study_name:{{studySummaryData.submitter_id_name}}&data_category:{{categoryDetails.data_category}}&file_type:{{categoryDetails.file_type}}&selectedTab:3">{{categoryDetails.files_count}}</a></td>
+						</tr>
+					</tbody>
+				  </table>
+				</mat-card-content>
+			</mat-card>
+		  </div>
 		<!--@@@PDC-1313 use heatmap thumbnail-->
 		 <div style="padding-bottom:3px">
 			<mat-card style="padding:10px">

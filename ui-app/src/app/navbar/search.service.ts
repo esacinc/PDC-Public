@@ -253,6 +253,7 @@ constructor(private apollo: Apollo) {
 			study_submitter_id
 			study_name
 			pdc_study_id
+			study_id
 		}
 	}`;
 

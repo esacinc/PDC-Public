@@ -10,7 +10,9 @@ type Clinical {
 	ethnicity: String
 	gender: String
 	race: String
-	vital_status: String 
+	vital_status: String
+	days_to_birth: String
+	days_to_death: String
 	year_of_birth: String 
 	year_of_death: String
 	diagnosis_id: String

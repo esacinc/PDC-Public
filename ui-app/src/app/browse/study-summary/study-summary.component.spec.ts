@@ -4,13 +4,14 @@ import { StudySummaryService } from "./study-summary.service";
 import { MAT_DIALOG_DATA } from "@angular/material";
 import { MatDialogRef } from "@angular/material/dialog";
 import { Apollo } from "apollo-angular";
+import { Router } from '@angular/router';
 import { RouterTestingModule } from "@angular/router/testing";
 import {
   HttpClientTestingModule,
   HttpTestingController
 } from "@angular/common/http/testing";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { async, ComponentFixture, TestBed, fakeAsync } from "@angular/core/testing";
 
 import { StudySummaryComponent } from "./study-summary.component";
 import { MatDialog } from '@angular/material/dialog';
@@ -86,7 +87,46 @@ class MockStudySummaryService {
                 file_type: "Proprietary",
                 files_count: 338
               }
-            ]
+            ],
+            supplementaryFilesCount: [
+            {
+              data_category: "Other Metadata",
+              file_type: "Document",
+              files_count: 6
+            },
+            {
+              data_category: "Peptide Spectral Matches",
+              file_type: "Open Standard",
+              files_count: 299
+            },
+            {
+              data_category: "Peptide Spectral Matches",
+              file_type: "Text",
+              files_count: 299
+            },
+            {
+              data_category: "Protein Assembly",
+              file_type: "Text",
+              files_count: 6
+            }
+          ],
+          nonSupplementaryFilesCount: [
+            {
+              data_category: "Processed Mass Spectra",
+              file_type: "Open Standard",
+              files_count: 299
+            },
+            {
+              data_category: "Quality Metrics",
+              file_type: "Web",
+              files_count: 1
+            },
+            {
+              data_category: "Raw Mass Spectra",
+              file_type: "Proprietary",
+              files_count: 299
+            }
+          ]
           }
         ]
       }
@@ -367,6 +407,8 @@ describe("StudySummaryComponent", () => {
   let component: StudySummaryComponent;
   let fixture: ComponentFixture<StudySummaryComponent>;
   let httpMock: HttpTestingController;
+  let router: Router;
+
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -399,7 +441,8 @@ describe("StudySummaryComponent", () => {
               }
             }
           },
-          { provide: MatDialog, useClass: MockDialog }
+          { provide: MatDialog, useClass: MockDialog },
+		  { provide: Router }
         ]
       }
     });
@@ -409,6 +452,7 @@ describe("StudySummaryComponent", () => {
       component = fixture.componentInstance;
       httpMock = TestBed.get(HttpTestingController);
       fixture.detectChanges();
+	  router = TestBed.get(Router);
     });
   }));
 
@@ -426,8 +470,8 @@ describe("StudySummaryComponent", () => {
     expect(component.publications[1].publication_id).toBe(
       "44e2e50c-89c7-11e8-bcf1-0a2705229b82"
     );
-    expect(component.fileCountsRaw.length).toBe(2);
-    expect(component.totalFilesCount).toBe(74);
+    //expect(component.fileCountsRaw.length).toBe(2);
+    expect(component.totalFilesCount).toBe(599);
   });
 
   it("test readManifest", () => {
@@ -445,5 +489,27 @@ describe("StudySummaryComponent", () => {
       ]
     });
     component.readManifest();
+  });
+  //@@@PDC-2234 - open PDC HeatMap in a separate tab
+  it("test navigate to HeatMap", fakeAsync(() => {
+	  let windowOpenSpy = spyOn(window, 'open');
+	  component.pdcStudyID = "PDC000128";
+//	  component.openHeatMap("Prospective Ovarian PNNL Proteome Qeplus");
+//	  expect(windowOpenSpy).toHaveBeenCalledWith(['/pdc/analysis/PDC000118?StudyName=Prospective Ovarian PNNL Proteome Qeplus']);
+  }));
+  
+  it("test isDownloadDisabled", () => {
+	  component.isDownloadDisabled();
+	  expect(component).toBeTruthy();
+  });
+  
+  it("test displayTextforExternalID", () => {
+	  var result = component.displayTextforExternalID("","https://cptac-data-portal.georgetown.edu/study-summary/S038");
+	  expect(result).toBe('');
+  });
+  
+  it("test getIcon", () => {
+	  var result = component.getIcon(null);
+	  expect(result).toBe('');
   });
 });

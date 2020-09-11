@@ -43,6 +43,7 @@ import { ngxCsv } from "ngx-csv/ngx-csv";
 //@@@PDC-1609: URL structure for permanent links to PDC 
 //@@@PDC-1851: Quality Metrics with TSV file format are not considered in files count
 //@@@PDC-1902: Peptide Spectral Matches with Text file format are not considered in files count 
+//@@@PDC-2460: Add new data category/file type: Alternate Processing Pipeline/Archive
 export class BrowseByStudyComponent implements OnInit, OnChanges {
 
   filteredStudiesData: AllStudiesData[]; //Filtered list of Studies
@@ -227,6 +228,15 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 							}
 							typesOfQualityMetrics++;
 							break;
+						case 'Alternate Processing Pipeline':
+							typesOfProtocol++;
+							if (typesOfProtocol > 1) {
+								studyData[i]['metadata_count'] += currentFileCount;
+							} else {
+								studyData[i]['metadata_count'] = currentFileCount;
+							}
+							break;
+							
 					}
 				} 
 			}

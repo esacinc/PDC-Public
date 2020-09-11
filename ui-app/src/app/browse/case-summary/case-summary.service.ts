@@ -56,6 +56,7 @@ constructor(private apollo: Apollo) {
 	}
 		
     //@@@PDC-1123 call ui wrapper API
+	//@@@PDC-2535 Update UI with the changes to Diagnosis table columns
 	caseDataDetailedQuery = gql`
 				query FilteredStudiesData($case_id: String!){
 					  uiCaseSummary(case_id: $case_id) {
@@ -96,9 +97,6 @@ constructor(private apollo: Apollo) {
 								morphology
 								progression_or_recurrence
 								site_of_resection_or_biopsy
-								vital_status
-								days_to_birth
-								days_to_death
 								prior_malignancy
 								ajcc_clinical_m
 								ajcc_clinical_n
@@ -115,7 +113,6 @@ constructor(private apollo: Apollo) {
 								ann_arbor_pathologic_stage
 								best_overall_response
 								burkitt_lymphoma_clinical_variant
-								cause_of_death
 								circumferential_resection_margin
 								colon_polyps_history
 								days_to_best_overall_response

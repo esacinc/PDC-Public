@@ -825,6 +825,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3125302&version=1.1
+        type: Enumeration
     barretts_esophagus_goblet_cells_present:
         cde_id: 3440216
         description: 'The yes/no/unknown indicator used to describe whether goblet
@@ -840,6 +841,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3440216&version=1.0
+        type: Enumeration
     bmi:
         cde_id: 2006410
         description: 'A calculated numerical quantity that represents an individual''s
@@ -849,7 +851,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2006410&version=3.0
-        type: number
+        type: Integer
     cause_of_response:
         cde_id: 6161025
         description: 'The text term used to describe the suspected cause or reason
@@ -859,7 +861,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6161025&version=1.0
-        type: string
+        type: String
     comorbidity:
         cde_id: 2970715
         description: 'The text term used to describe a comorbidity disease, which
@@ -1013,6 +1015,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2970715&version=1.0
+        type: Enumeration
     comorbidity_method_of_diagnosis:
         cde_id: 6142386
         description: 'The text term used to describe the method used to diagnose the
@@ -1028,6 +1031,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6142386&version=1.0
+        type: Enumeration
     days_to_adverse_event:
         cde_id: 6154728
         description: 'Number of days between the date used for index and the date
@@ -1039,7 +1043,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6154728&version=1.0
-        type: integer
+        type: Integer
     days_to_comorbidity:
         cde_id: 6154729
         description: 'Number of days between the date used for index and the date
@@ -1051,7 +1055,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6154729&version=1.0
-        type: integer
+        type: Integer
     days_to_follow_up:
         cde_id: 6154727
         description: 'Number of days between the date used for index and the date
@@ -1063,7 +1067,7 @@ properties:
         required: 'True'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6154727&version=1.0
-        type: integer
+        type: Integer
     days_to_progression:
         cde_id: 6154730
         description: 'Number of days between the date used for index and the date
@@ -1075,7 +1079,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6154730&version=1.0
-        type: integer
+        type: Integer
     days_to_progression_free:
         description: 'Number of days between the date used for index and the date
             the patient''s disease was formally confirmed as progression-free.
@@ -1085,7 +1089,7 @@ properties:
         minimum: -32872
         required: 'False'
         source: caDSR
-        type: integer
+        type: Integer
     days_to_recurrence:
         cde_id: 6154731
         description: 'Number of days between the date used for index and the date
@@ -1097,7 +1101,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6154731&version=1.0
-        type: integer
+        type: Integer
     diabetes_treatment_type:
         cde_id: 3587247
         description: 'Text term used to describe the types of treatment used to manage
@@ -1119,6 +1123,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3587247&version=1.0
+        type: Enumeration
     disease_response:
         cde_id: 5750671
         description: 'Code assigned to describe the patient''s response or outcome
@@ -1162,6 +1167,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5750671&version=1.0
+        type: Enumeration
     dlco_ref_predictive_percent:
         cde_id: 2180255
         description: 'The value, as a percentage of predicted lung volume, measuring
@@ -1171,7 +1177,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2180255&version=1.0
-        type: number
+        type: Integer
     ecog_performance_status:
         cde_id: 88
         description: 'The ECOG functional performance status of the patient/participant.
@@ -1189,6 +1195,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=88&version=5.1
+        type: Enumeration
     fev1_fvc_post_bronch_percent:
         cde_id: 3302956
         description: 'Percentage value to represent result of Forced Expiratory Volume
@@ -1198,7 +1205,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3302956&version=1.0
-        type: number
+        type: Integer
     fev1_fvc_pre_bronch_percent:
         cde_id: 3302955
         description: 'Percentage value to represent result of Forced Expiratory Volume
@@ -1208,7 +1215,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3302955&version=1.0
-        type: number
+        type: Integer
     fev1_ref_post_bronch_percent:
         cde_id: 3302948
         description: 'The percentage comparison to a normal value reference range
@@ -1219,7 +1226,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3302948&version=1.0
-        type: number
+        type: Integer
     fev1_ref_pre_bronch_percent:
         cde_id: 3302947
         description: 'The percentage comparison to a normal value reference range
@@ -1230,7 +1237,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3302947&version=1.0
-        type: number
+        type: Integer
     height:
         cde_id: 649
         description: 'The height of the patient in centimeters.
@@ -1239,7 +1246,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=649&version=4.1
-        type: number
+        type: Integer
     hepatitis_sustained_virological_response:
         cde_id: 6423783
         description: 'The yes/no/unknown indicator used to describe whether the patient
@@ -1255,6 +1262,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6423783&version=1.0
+        type: Enumeration
     hpv_positive_type:
         cde_id: 2922649
         description: 'Text classification to represent the strain or type of human
@@ -1288,6 +1296,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2922649&version=1.0
+        type: Enumeration
     karnofsky_performance_status:
         cde_id: 2003853
         description: 'Text term used to describe the classification used of the functional
@@ -1311,6 +1320,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2003853&version=4.2
+        type: Enumeration
     menopause_status:
         cde_id: 2434914
         description: 'Text term used to describe the patient''s menopause status.
@@ -1325,6 +1335,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2434914&version=1.1
+        type: Enumeration
     pancreatitis_onset_year:
         cde_id: 3457763
         description: 'Numeric value to represent the year that the patient was diagnosed
@@ -1334,7 +1345,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3457763&version=1.0
-        type: integer
+        type: Integer
     progression_or_recurrence:
         cde_id: 3121376
         description: 'Yes/No/Unknown indicator to identify whether a patient has had
@@ -1349,6 +1360,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3121376&version=1.0
+        type: Enumeration
     progression_or_recurrence_anatomic_site:
         cde_id: 6161026
         description: 'The text term used to describe the anatomic site of the progressive
@@ -1691,6 +1703,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6161026&version=1.0
+        type: Enumeration
     progression_or_recurrence_type:
         cde_id: 6142385
         description: 'The text term used to describe the type of progressive or recurrent
@@ -1707,6 +1720,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6142385&version=1.0
+        type: Enumeration
     reflux_treatment_type:
         cde_id: 3440206
         description: 'Text term used to describe the types of treatment used to manage
@@ -1726,6 +1740,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3440206&version=1.0
+        type: Enumeration
     risk_factor:
         cde_id: 6142389
         description: 'The text term used to describe a risk factor the patient had
@@ -1829,6 +1844,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6142389&version=1.0
+        type: Enumeration
     risk_factor_treatment:
         cde_id: 6514356
         description: 'The yes/no/unknown indicator used to describe whether the patient
@@ -1844,6 +1860,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6514356&version=1.0
+        type: Enumeration
     viral_hepatitis_serologies:
         cde_id: 4395982
         description: 'Text term that describes the kind of serological laboratory
@@ -1864,6 +1881,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=4395982&version=1.0
+        type: Enumeration
     weight:
         cde_id: 651
         description: 'The weight of the patient measured in kilograms.
@@ -1872,7 +1890,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=651&version=4.0
-        type: number
+        type: Integer
 required:
 - submitter_id
 - days_to_follow_up

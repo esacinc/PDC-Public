@@ -13,7 +13,7 @@ div.stats span {
     border: 1px solid gray;
 }
 
-$header-height: 10.8rem;
+$header-height: 5.8rem;
 
 .front-page .header {
   display: flex;
@@ -28,11 +28,12 @@ $header-height: 10.8rem;
     font-size: 12px;
   }
 }
-.front-page .card {
+.front-page, .front-page .card {
     padding: 0;
     margin-left: 2px;
     margin: -$header-height auto 0;
-    width: 100%;
+    width: 100%!important;
+	display:inline-flex;
 }
 .front-page .card-header {
   font-family: 'Lato';
@@ -60,6 +61,14 @@ $header-height: 10.8rem;
 }
 .container {
   margin-right: 0;
+}
+div.container.front-page-figures-row{
+	display: flex; 
+	align-items: stretch;
+	max-width:100%!important; 
+	margin:0!important; 
+	width:100%!important; 
+	padding:0!important;
 }
 .cases-card-header {
   background-image: linear-gradient(-180deg, #3A8BB8 5%, #3A8BB8 90%);

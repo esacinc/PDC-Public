@@ -211,6 +211,50 @@ describe("BrowseByStudyComponent", () => {
             file_type: "Proprietary",
             files_count: 240
           }
+        ],
+        supplementaryFilesCount: [
+            {
+              data_category: "Other Metadata",
+              file_type: "Document",
+              files_count: 7
+            },
+            {
+              data_category: "Peptide Spectral Matches",
+              file_type: "Open Standard",
+              files_count: 500
+            },
+            {
+              data_category: "Peptide Spectral Matches",
+              file_type: "Text",
+              files_count: 500
+            },
+            {
+              data_category: "Protein Assembly",
+              file_type: "Text",
+              files_count: 6
+            }
+        ],
+        nonSupplementaryFilesCount: [
+            {
+              data_category: "Processed Mass Spectra",
+              file_type: "Open Standard",
+              files_count: 500
+            },
+            {
+              data_category: "Quality Metrics",
+              file_type: "Text",
+              files_count: 1
+            },
+            {
+              data_category: "Quality Metrics",
+              file_type: "Web",
+              files_count: 1
+            },
+            {
+              data_category: "Raw Mass Spectra",
+              file_type: "Proprietary",
+              files_count: 500
+            }
         ]
       }
     ];
@@ -275,6 +319,50 @@ describe("BrowseByStudyComponent", () => {
           file_type: "Proprietary",
           files_count: 240
         }
+      ],
+      supplementaryFilesCount: [
+            {
+              data_category: "Other Metadata",
+              file_type: "Document",
+              files_count: 7
+            },
+            {
+              data_category: "Peptide Spectral Matches",
+              file_type: "Open Standard",
+              files_count: 500
+            },
+            {
+              data_category: "Peptide Spectral Matches",
+              file_type: "Text",
+              files_count: 500
+            },
+            {
+              data_category: "Protein Assembly",
+              file_type: "Text",
+              files_count: 6
+            }
+      ],
+      nonSupplementaryFilesCount: [
+            {
+              data_category: "Processed Mass Spectra",
+              file_type: "Open Standard",
+              files_count: 500
+            },
+            {
+              data_category: "Quality Metrics",
+              file_type: "Text",
+              files_count: 1
+            },
+            {
+              data_category: "Quality Metrics",
+              file_type: "Web",
+              files_count: 1
+            },
+            {
+              data_category: "Raw Mass Spectra",
+              file_type: "Proprietary",
+              files_count: 500
+            }
       ]
     };
 

@@ -328,7 +328,9 @@ export class NavbarComponent implements OnInit {
 		experiment_type: '',
 		cases_count: 0,
 		aliquots_count: 0,
-		filesCount: []
+		filesCount: [],
+		supplementaryFilesCount: [],
+		nonSupplementaryFilesCount: []
 	};
 	console.log(study_data);
 	dialogConfig.data = {
@@ -704,7 +706,6 @@ export class NavbarComponent implements OnInit {
 								}
 							}
 		);
-		
 		this.router.events.subscribe(event =>{
 			if (event instanceof NavigationEnd) {
 				if(event.url === '/welcome' || event.url === '/registration' || event.url === '/user-account' || event.url === '/email-confirmed' || event.url === '/submit-data'){
@@ -799,6 +800,10 @@ export class NavbarComponent implements OnInit {
 							var study_submitter_id_name = data.study[0].study_name;
 							var study_submitter_id = data.study[0].study_submitter_id;
 							var PDC_study_id = data.study[0].pdc_study_id;
+							//@@@PDC-2541: HELP - FAQ - Link for PDC000220 opens a long series of Ext references
+							if (study_uuid == "") {
+								study_uuid = data.study[0].study_id;
+							}
 							console.log("study_submitter_id_name: " + study_submitter_id_name + ", study_uuid: " + study_uuid);
 							this.showStudySummary(study_submitter_id_name, study_uuid, study_submitter_id, PDC_study_id);
 						});

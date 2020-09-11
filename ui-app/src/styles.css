@@ -80,8 +80,8 @@ div[class$="_feedback_selection_ignore"] {
 #human-body-root {
 		position: relative;
 		min-height: 515px;
-		padding-top: 110px; 
-		padding-bottom: 160px; 
+		padding-top: 10px; 
+		padding-bottom: 40px;
 }
 #human-body-root .chart {
 		margin-top: 35px;

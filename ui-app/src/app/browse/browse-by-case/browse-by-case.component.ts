@@ -6,7 +6,7 @@ import {
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { environment } from '../../../environments/environment';
-import { AllCasesData } from '../../types';
+import { AllCasesData, AllUICasesData } from '../../types';
 import { CaseSummaryComponent } from '../case-summary/case-summary.component';
 import { BrowseByCaseService } from './browse-by-case.service';
 import { ngxCsv } from "ngx-csv/ngx-csv";
@@ -36,9 +36,10 @@ import { ngxCsv } from "ngx-csv/ngx-csv";
 //@@@PDC-937: Add a button to allow download all manifests with a single click
 //@@@PDC-1063: Implement select all, select page, select none for all tabs
 //@@@PDC-1609: URL structure for permanent links to PDC 
+//@@@PDC-2399: Update biospecimen manifest generation to include new attributes
 export class BrowseByCaseComponent implements OnInit, OnChanges {
 
-  filteredCasesData: AllCasesData[]; //Filtered list of cases
+  filteredCasesData: AllUICasesData[]; //Filtered list of cases
   loading: boolean = false; //Flag indicates that the data is still being loaded from server
   filterChangedFlag: boolean = true; //Flag indicates that filter selection was changed
   @Input() newFilterValue: any;
@@ -48,7 +49,7 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
   offset: number;
   limit: number;
   pageSize: number;
-  selectedCases: AllCasesData[] = [];
+  selectedCases: AllUICasesData[] = [];
   cols: any[];
   static urlBase;
   sort: string;
@@ -278,7 +279,7 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
 						let csvOptions = {
 							headers: headerCols
 						};
-						let exportFileObject = JSON.parse(JSON.stringify(localSelectedCases, colValues));					
+						let exportFileObject = JSON.parse(JSON.stringify(localSelectedCases, colValues));	
 						new ngxCsv(exportFileObject, this.getCsvFileName(), csvOptions);
 						this.isTableLoading.emit({isTableLoading:"case:false"});
 				  }
@@ -372,7 +373,41 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
 		{field: 'project_name', header: 'Project Name'},
 		{field: 'sample_type', header: 'Sample Type'},
 		{field: 'primary_site', header: 'Primary Site' },
-		{field: 'disease_type', header: 'Disease Type'}
+		{field: 'disease_type', header: 'Disease Type'},
+		{field: 'aliquot_is_ref', header: 'Aliquot Is Ref'},
+		{field: 'aliquot_status', header: 'Aliquot Status'},
+		{field: 'aliquot_quantity', header: 'Aliquot Quantity'},
+		{field: 'aliquot_volume', header: 'Aliquot Volume'},
+		{field: 'amount', header: 'Amount'},
+		{field: 'analyte_type', header: 'Analyte Type'},
+		{field: 'concentration', header: 'Concentration'},
+		{field: 'case_status', header: 'Case Status'},
+		{field: 'sample_status', header: 'Sample Status'},
+		{field: 'sample_is_ref', header: 'Sample Is Ref'},
+		{field: 'biospecimen_anatomic_site', header: 'Biospecimen Anatomic Site'},
+		{field: 'composition', header: 'Composition'},
+		{field: 'current_weight', header: 'Current Weight'},
+		{field: 'days_to_collection', header: 'Days To Collection'},
+		{field: 'days_to_sample_procurement', header: 'Days To Sample Procurement'},
+		{field: 'diagnosis_pathologically_confirmed', header: 'Diagnosis Pathologically Confirmed'},
+		{field: 'freezing_method', header: 'Freexing Method'},
+		{field: 'initial_weight', header: 'Initial Weight'},
+		{field: 'intermediate_dimension', header: 'Intermediate Dimension'},
+		{field: 'is_ffpe', header: 'Is FFPE'},
+		{field: 'longest_dimension', header: 'Longest Dimension'},
+		{field: 'method_of_sample_procurement', header: 'Method Of Sample Procurement'},
+		{field: 'oct_embedded', header: 'Oct Embedded'},
+		{field: 'pathology_report_uuid', header: 'Pathilogy Report UUID'},
+		{field: 'preservation_method', header: 'Preservation Method'},
+		{field: 'sample_type_id', header: 'Sample Type id'},
+		{field: 'shortest_dimension', header: 'Shortest Dimension'},
+		{field: 'time_between_clamping_and_freezing', header: 'Time Between Clamping And Freezing'},
+		{field: 'time_between_excision_and_freezing', header: 'Time Between Excision and Freezing'},
+		{field: 'tissue_type', header: 'Tissue Type'},
+		{field: 'tumor_code', header: 'Tumor Code'},
+		{field: 'tumor_code_id', header: 'Tumor Code ID'},
+		{field: 'tumor_descriptor', header: 'Tumor Descriptor'},
+		{field: 'program_name', header: 'Program Name'}
 	  ];
 	  //@@@PDC-799: Redirecting to the NIH login page for the file authorization loses PDC state
 	  this.activatedRoute.queryParams.subscribe(queryParams => {

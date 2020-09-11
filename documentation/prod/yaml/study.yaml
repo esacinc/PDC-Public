@@ -10,11 +10,11 @@ properties:
         description: 'The modes of acquisition used in the LC-MS/MS experiments: data
             dependent acquisition (DDA), data independent acquisition (DIA).'
         required: 'True'
-        type: Data dependent acquisition (DDA), Data independent acquisition (DIA).
+        type: String
     analytical_fraction:
         description: Type of peptide or protein enrichment
-        required: 'false'
-        type: string
+        required: 'False'
+        type: String
     embargo_date:
         description: Specifies the embargo date, i.e., the release of information
             with the condition that it cannot be published or disseminated before
@@ -23,36 +23,41 @@ properties:
         type: Date
     experiment_type:
         description: General strategy used for differential analysis
-        required: 'false'
-        type: string
+        required: 'False'
+        type: String
     project_id:
         key: 'yes'
-        type: string
+        required: 'False'
+        type: String
     project_submitter_id:
         key: 'yes'
-        type: string
+        required: 'False'
+        type: String
     study_description:
         description: 'Describes the objective of the study, data collection, or compilation,
             etc. '
         required: 'True'
-        type: string
+        type: String
     study_id:
         key: 'yes'
-        type: string
+        required: 'False'
+        type: String
     study_short_name:
         description: A short name for the study
         required: 'False'
-        type: Sting
+        type: String
     study_shortname:
         key: 'yes'
-        type: string
+        required: 'False'
+        type: String
     study_submitter_id:
         key: 'yes'
-        type: string
+        required: 'False'
+        type: String
     submitter_id_name:
         description: Name of the study as described by the data submitter
-        required: 'false'
-        type: string
+        required: 'False'
+        type: String
 title: Study
 type: object
 uniqueKeys:

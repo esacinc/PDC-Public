@@ -14,4 +14,6 @@ type UIStudy {
 	cases_count: Int
 	aliquots_count: Int
 	filesCount: [File]
+	supplementaryFilesCount: [File]
+	nonSupplementaryFilesCount: [File]
 }

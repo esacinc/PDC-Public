@@ -134,6 +134,7 @@ export class BrowseComponent implements OnInit{
 		},
 		series: [{
 			name: 'Case count',
+			type: 'pie',
 			data: []
 			}]
 		});
@@ -182,6 +183,7 @@ export class BrowseComponent implements OnInit{
 		},
 		series: [{
 			name: 'Case count',
+			type: 'bar',
 			data: []
 			}]
 		});

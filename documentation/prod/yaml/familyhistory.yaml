@@ -23,7 +23,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5300571&version=1.0
-        type: number
+        type: Integer
     relationship_gender:
         cde_id: 6161021
         description: 'The text term used to describe the gender of the patient''s
@@ -39,6 +39,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6161021&version=1.0
+        type: Enumeration
     relationship_primary_diagnosis:
         cde_id: 6161022
         description: 'The text term used to describe the malignant diagnosis of the
@@ -100,6 +101,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6161022&version=1.0
+        type: Enumeration
     relationship_type:
         cde_id: 2690165
         description: 'The subgroup that describes the state of connectedness between
@@ -226,6 +228,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2690165&version=2.0
+        type: Enumeration
     relative_with_cancer_history:
         cde_id: 6161023
         description: 'The yes/no/unknown indicator used to describe whether any of
@@ -240,13 +243,14 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6161023&version=1.0
+        type: Enumeration
     relatives_with_cancer_history_count:
         description: 'The number of relatives the patient has with a known history
             of cancer.
 
             '
         required: 'False'
-        type: integer
+        type: Integer
 required:
 - submitter_id
 title: Family History

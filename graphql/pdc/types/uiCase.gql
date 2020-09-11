@@ -5,9 +5,39 @@ type UICase {
 	case_submitter_id: String	
 	aliquot_submitter_id: String 
 	case_status: String
+	aliquot_is_ref: String
 	aliquot_status: String
+	aliquot_quantity: String
+	aliquot_volume: String
+	amount: String
+	analyte_type: String
+	concentration: String
 	sample_status: String
 	sample_submitter_id: String
+	sample_is_ref: String
+	biospecimen_anatomic_site: String
+	composition: String
+	current_weight: String
+	days_to_collection: String
+	days_to_sample_procurement: String
+	diagnosis_pathologically_confirmed: String
+	freezing_method: String
+	initial_weight: String 
+	intermediate_dimension: String
+	is_ffpe: String
+	longest_dimension: String
+	method_of_sample_procurement: String
+	oct_embedded: String
+	pathology_report_uuid: String
+	preservation_method: String
+	sample_type_id: String
+	shortest_dimension: String
+	time_between_clamping_and_freezing: String
+	time_between_excision_and_freezing: String
+	tissue_type: String
+	tumor_code: String
+	tumor_code_id: String
+	tumor_descriptor: String
 	program_name: String
 	project_name: String
 	sample_type: String

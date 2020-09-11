@@ -12,10 +12,10 @@ properties:
         cde_id: 3225640
         description: Age at the time of diagnosis expressed in number of days since
             birth.
-        required: 'True'
+        required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3225640&version=2.0
-        type: integer
+        type: Integer
     ajcc_clinical_m:
         cde_id: 3440331
         description: Extent of the distant metastasis for the cancer based on evidence
@@ -34,7 +34,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3440331&version=2.0
-        type: string
+        type: Enumeration
     ajcc_clinical_n:
         cde_id: 3440330
         description: Extent of the regional lymph node involvement for the cancer
@@ -71,7 +71,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3440330&version=2.0
-        type: string
+        type: Enumeration
     ajcc_clinical_stage:
         cde_id: 3440332
         description: Stage group determined from clinical information on the tumor
@@ -118,7 +118,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3440332&version=2.0
-        type: number
+        type: Enumeration
     ajcc_clinical_t:
         cde_id: 3440328
         description: Extent of the primary cancer based on evidence obtained from
@@ -164,7 +164,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3440328&version=2.0
-        type: number
+        type: Enumeration
     ajcc_pathologic_m:
         cde_id: 3045439
         description: Code to represent the defined absence or presence of distant
@@ -186,7 +186,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3045439&version=2.0
-        type: string
+        type: Enumeration
     ajcc_pathologic_n:
         cde_id: 3203106
         description: The codes that represent the stage of cancer based on the nodes
@@ -223,7 +223,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3203106&version=2.0
-        type: number
+        type: Enumeration
     ajcc_pathologic_stage:
         cde_id: 3203222
         description: The extent of a cancer, especially whether the disease has spread
@@ -266,7 +266,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3203222&version=2.0
-        type: number
+        type: Enumeration
     ajcc_pathologic_t:
         cde_id: 3045435
         description: Code of pathological T (primary tumor) to define the size or
@@ -313,7 +313,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3045435&version=2.0
-        type: string
+        type: Enumeration
     ajcc_staging_system_edition:
         cde_id: 2722309
         description: The text term used to describe the version or edition of the
@@ -335,7 +335,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2722309&version=2.0
-        type: string
+        type: Enumeration
     anaplasia_present:
         cde_id: 6059599
         description: Yes/no/unknown/not reported indicator used to describe whether
@@ -348,7 +348,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6059599&version=2.0
-        type: string
+        type: Enumeration
     anaplasia_present_type:
         cde_id: 4925534
         description: The text term used to describe the morphologic findings indicating
@@ -367,7 +367,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=4925534&version=2.0
-        type: number
+        type: Enumeration
     ann_arbor_b_symptoms:
         cde_id: 2902402
         description: Text term to signify whether lymphoma B-symptoms are present
@@ -381,7 +381,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2902402&version=2.0
-        type: number
+        type: Enumeration
     ann_arbor_clinical_stage:
         cde_id: 5615604
         description: The text term used to describe the clinical classification of
@@ -396,7 +396,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5615604&version=2.0
-        type: string
+        type: Enumeration
     ann_arbor_extranodal_involvement:
         cde_id: 3364582
         description: Indicator that identifies whether a patient with malignant lymphoma
@@ -410,7 +410,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3364582&version=2.0
-        type: number
+        type: Enumeration
     ann_arbor_pathologic_stage:
         cde_id: 5615605
         description: The text term used to describe the pathologic classification
@@ -425,7 +425,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5615605&version=2.0
-        type: number
+        type: Enumeration
     best_overall_response:
         cde_id: 2003324
         description: The best improvement achieved throughout the entire course of
@@ -460,16 +460,17 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2003324&version=2.0
-        type: string
+        type: Enumeration
     breslow_thickness:
         cde_id: 64809
         description: 'The number that describes the distance, in millimeters, between
             the upper layer of the epidermis and the deepest point of tumor penetration.
 
             '
+        required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=64809&version=3.0
-        type: number
+        type: Integer
     burkitt_lymphoma_clinical_variant:
         cde_id: 3770421
         description: Burkitt's lymphoma categorization based on clinical features
@@ -486,17 +487,19 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=37704216&version=2.0
-        type: string
+        type: Enumeration
     case_id:
         key: 'yes'
-        type: string
+        required: 'False'
+        type: String
     case_submitter_id:
         key: 'yes'
-        type: string
+        required: 'True'
+        type: String
     cause_of_death:
         description: Text term to identify the cause of death for a patient.
         required: 'False'
-        type: string
+        type: String
     child_pugh_classification:
         cde_id: 2931791
         description: The text term used to describe the classification used in the
@@ -518,7 +521,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2931791&version=2.0
-        type: number
+        type: Enumeration
     circumferential_resection_margin:
         cde_id: 6161030
         description: Numeric value used to describe the non-peritonealised bare area
@@ -527,7 +530,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6161030&version=2.0
-        type: number
+        type: Integer
     classification_of_tumor:
         cde_id: 3288124
         description: Text that describes the kind of disease present in the tumor
@@ -543,7 +546,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3288124&version=2.0
-        type: string
+        type: Enumeration
     cog_liver_stage:
         cde_id: 6013618
         description: The text term used to describe the staging classification of
@@ -560,7 +563,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6013618&version=2.0
-        type: string
+        type: Enumeration
     cog_neuroblastoma_risk_group:
         cde_id: 4616452
         description: Text term that represents the categorization of patients on the
@@ -575,7 +578,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=4616452&version=2.0
-        type: string
+        type: Enumeration
     cog_renal_stage:
         cde_id: 6013641
         description: The text term used to describe the staging classification of
@@ -590,7 +593,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6013641&version=2.0
-        type: string
+        type: Enumeration
     cog_rhabdomyosarcoma_risk_group:
         cde_id: 6133604
         description: Text term used to describe the classification of rhabdomyosarcoma,
@@ -604,13 +607,13 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6133604&version=2.0
-        type: string
+        type: Enumeration
     colon_polyps_history:
         description: Yes/No indicator to describe if the subject had a previous history
             of colon polyps as noted in the history/physical or previous endoscopic
             report (s).
         required: 'False'
-        type: string
+        type: String
     days_to_best_overall_response:
         cde_id: 6154732
         description: Number of days between the date used for index and the date of
@@ -618,17 +621,17 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6154732&version=2.0
-        type: integer
+        type: Integer
     days_to_birth:
         description: Time interval from a person's date of birth to the date of initial
             pathologic diagnosis, represented as a calculated negative number of days.
         required: 'False'
-        type: string
+        type: String
     days_to_death:
         description: Time interval from a person's date of death to the date of initial
             pathologic diagnosis, represented as a calculated number of days.
         required: 'False'
-        type: string
+        type: String
     days_to_diagnosis:
         cde_id: 6154733
         description: Number of days between the date used for index and the date the
@@ -636,13 +639,13 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6154733&version=2.0
-        type: integer
+        type: Integer
     days_to_hiv_diagnosis:
         description: Time interval from the date of the initial pathologic diagnosis
             to the date of human immunodeficiency diagnosis, represented as a calculated
             number of days.
         required: 'False'
-        type: string
+        type: String
     days_to_last_follow_up:
         cde_id: 3008273
         description: Time interval from the date of last follow up to the date of
@@ -652,10 +655,10 @@ properties:
             minimum: -32872
             type: number
         -   type: 'null'
-        required: 'True'
+        required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3008273&version=2.0
-        type: number
+        type: Integer
     days_to_last_known_disease_status:
         cde_id: 3008273
         description: Time interval from the date of last follow up to the date of
@@ -665,16 +668,16 @@ properties:
             minimum: -32872
             type: number
         -   type: 'null'
-        required: 'True'
+        required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3008273&version=2.0
-        type: number
+        type: Integer
     days_to_new_event:
         description: Time interval from the date of new tumor event including progression,
             recurrence and new primary malignancies to the date of initial pathologic
             diagnosis, represented as a calculated number of days.
         required: 'False'
-        type: string
+        type: String
     days_to_recurrence:
         cde_id: 6154731
         description: Number of days between the date used for index and the date the
@@ -684,16 +687,18 @@ properties:
             minimum: -32872
             type: number
         -   type: 'null'
-        required: 'True'
+        required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6154731&version=2.0
-        type: number
+        type: Integer
     diagnosis_id:
         key: 'yes'
-        type: string
+        required: 'False'
+        type: String
     diagnosis_submitter_id:
         key: 'yes'
-        type: string
+        required: 'False'
+        type: String
     enneking_msts_grade:
         cde_id: 6003955
         description: The text term used to describe the surgical grade of the musculoskeletal
@@ -707,7 +712,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6003955&version=2.0
-        type: string
+        type: Enumeration
     enneking_msts_metastasis:
         cde_id: 6003958
         description: Text term and code that represents the metastatic stage of the
@@ -721,7 +726,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6003958&version=2.0
-        type: string
+        type: Enumeration
     enneking_msts_stage:
         cde_id: 6060045
         description: Text term used to describe the stage of the musculoskeletal sarcoma,
@@ -738,7 +743,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6060045&version=2.0
-        type: string
+        type: Enumeration
     enneking_msts_tumor_site:
         cde_id: 6003957
         description: Text term and code that represents the tumor site of the musculoskeletal
@@ -752,7 +757,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6003957&version=2.0
-        type: number
+        type: Enumeration
     esophageal_columnar_dysplasia_degree:
         cde_id: 3440917
         description: Text term to describe the amount of dysplasia found within the
@@ -767,7 +772,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3440917&version=2.0
-        type: string
+        type: Enumeration
     esophageal_columnar_metaplasia_present:
         cde_id: 3440218
         description: The yes/no/unknown indicator used to describe whether esophageal
@@ -780,10 +785,9 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3440218&version=2.0
-        type: string
+        type: Enumeration
     external_case_id:
         key: 'yes'
-        type: string
     figo_stage:
         cde_id: 3225684
         description: The extent of a cervical or endometrial cancer within the body,
@@ -821,7 +825,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3225684&version=2.0
-        type: string
+        type: Enumeration
     first_symptom_prior_to_diagnosis:
         cde_id: 6133605
         description: Text term used to describe the patient's first symptom experienced
@@ -838,7 +842,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6133605&version=2.0
-        type: string
+        type: Enumeration
     gastric_esophageal_junction_involvement:
         cde_id: 6059632
         description: The yes/no/unknown/not reported indicator used to describe whether
@@ -851,7 +855,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6059632&version=2.0
-        type: string
+        type: Enumeration
     gleason_grade_group:
         cde_id: 5918370
         description: 'The text term used to describe the overall grouping of grades
@@ -867,8 +871,10 @@ properties:
         - Group 3
         - Group 4
         - Group 5
+        required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5918370&version=1.0
+        type: Enumeration
     goblet_cells_columnar_mucosa_present:
         cde_id: 3440219
         description: The yes/no/unknown indicator used to describe whether goblet
@@ -881,7 +887,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3440219&version=2.0
-        type: string
+        type: Enumeration
     gross_tumor_weight:
         cde_id: 6133606
         description: TextNumeric value used to describe the gross pathologic tumor
@@ -889,21 +895,21 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6133606&version=2.0
-        type: number
+        type: Integer
     hiv_positive:
         description: Text term to signify whether a physician has diagnosed HIV infection
             in a patient.
         required: 'False'
-        type: string
+        type: String
     hpv_positive_type:
         description: Text classification to represent the strain or type of human
             papillomavirus identified in an individual.
         required: 'False'
-        type: string
+        type: String
     hpv_status:
         description: The findings of the oncogenic HPV.
         required: 'False'
-        type: string
+        type: String
     icd_10_code:
         cde_id: 3226287
         description: Alphanumeric value used to describe the disease code from the
@@ -911,7 +917,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3226287&version=2.0
-        type: string
+        type: String
     igcccg_stage:
         description: 'The text term used to describe the International Germ Cell Cancer
             Collaborative Group (IGCCCG), a grouping used to further classify metastatic
@@ -924,6 +930,8 @@ properties:
         - Poor Prognosis
         - Unknown
         - Not Reported
+        required: 'False'
+        type: Enumeration
     inpc_grade:
         cde_id: 6133602
         description: Text term used to describe the classification of neuroblastic
@@ -938,7 +946,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6133602&version=2.0
-        type: string
+        type: Enumeration
     inpc_histologic_group:
         cde_id: 4616372
         description: The text term used to describe the classification of neuroblastomas
@@ -954,7 +962,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=4616372&version=2.0
-        type: string
+        type: Enumeration
     inrg_stage:
         cde_id: 5777238
         description: The text term used to describe the staging classification of
@@ -970,7 +978,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5777238&version=2.0
-        type: string
+        type: Enumeration
     inss_stage:
         cde_id: 6133603
         description: Text term used to describe the staging classification of neuroblastic
@@ -987,7 +995,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6133603&version=2.0
-        type: number
+        type: Enumeration
     international_prognostic_index:
         cde_id: 2500234
         description: 'The text term used to describe the International Prognostic
@@ -1000,8 +1008,10 @@ properties:
         - Low-Intermediate Risk
         - High-Intermediate Risk
         - High Risk
+        required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2500234&version=1.0
+        type: Enumeration
     irs_group:
         cde_id: 6141658
         description: Text term used to describe the classification of rhabdomyosarcoma
@@ -1023,7 +1033,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6141658&version=2.0
-        type: string
+        type: Enumeration
     irs_stage:
         cde_id: 5162089
         description: The text term used to describe the classification of rhabdomyosarcoma
@@ -1038,7 +1048,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5162089&version=2.0
-        type: string
+        type: Enumeration
     ishak_fibrosis_score:
         cde_id: 3182621
         description: The text term used to describe the classification of the histopathologic
@@ -1054,7 +1064,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3182621&version=2.0
-        type: string
+        type: Enumeration
     iss_stage:
         cde_id: 2465385
         description: The multiple myeloma disease stage at diagnosis.
@@ -1067,7 +1077,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2465385&version=2.0
-        type: number
+        type: Enumeration
     largest_extrapelvic_peritoneal_focus:
         cde_id: 6690680
         description: 'The text term used to describe the diameter of the largest focus
@@ -1080,8 +1090,10 @@ properties:
         - Microscopic
         - Unknown
         - Not Reported
+        required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6690680&version=1.0
+        type: Enumeration
     last_known_disease_status:
         cde_id: 5424231
         description: Text term that describes the last known state or condition of
@@ -1095,10 +1107,10 @@ properties:
         - With tumor
         - not reported
         - Not Allowed To Collect
-        required: 'True'
+        required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5424231&version=2.0
-        type: string
+        type: Enumeration
     laterality:
         cde_id: 827
         description: For tumors in paired organs, designates the side on which the
@@ -1114,7 +1126,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=827&version=2.0
-        type: string
+        type: Enumeration
     ldh_level_at_diagnosis:
         cde_id: 2798766
         description: The 2 decimal place numeric laboratory value measured, assigned
@@ -1122,7 +1134,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2798766&version=2.0
-        type: string
+        type: String
     ldh_normal_range_upper:
         cde_id: 89
         description: The top value of the range of statistical characteristics that
@@ -1131,7 +1143,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=89&version=2.0
-        type: string
+        type: String
     lymph_nodes_positive:
         cde_id: 89
         description: The number of lymph nodes involved with disease as determined
@@ -1139,7 +1151,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=89&version=2.0
-        type: integer
+        type: Integer
     lymph_nodes_tested:
         cde_id: 3
         description: The number of lymph nodes tested to determine whether lymph nodes
@@ -1147,7 +1159,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3&version=2.0
-        type: integer
+        type: Integer
     lymphatic_invasion_present:
         cde_id: 64171
         description: A yes/no indicator to ask if small or thin-walled vessel invasion
@@ -1160,7 +1172,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=64171&version=2.0
-        type: string
+        type: Enumeration
     masaoka_stage:
         cde_id: 3952848
         description: 'The text term used to describe the Masaoka staging system, a
@@ -1175,8 +1187,10 @@ properties:
         - Stage III
         - Stage IVa
         - Stage IVb
+        required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3952848&version=1.0
+        type: Enumeration
     medulloblastoma_molecular_classification:
         cde_id: 6002209
         description: The text term used to describe the classification of medulloblastoma
@@ -1191,7 +1205,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6002209&version=2.0
-        type: string
+        type: Enumeration
     metastasis_at_diagnosis:
         cde_id: 6133614
         description: The text term used to describe the extent of metastatic disease
@@ -1206,7 +1220,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6133614&version=2.0
-        type: string
+        type: Enumeration
     metastasis_at_diagnosis_site:
         cde_id: 3029815
         description: Text term to identify an anatomic site in which metastatic disease
@@ -1247,7 +1261,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3029815&version=2.0
-        type: string
+        type: Enumeration
     method_of_diagnosis:
         cde_id: 6161031
         description: Text term used to describe the method used to confirm the patients
@@ -1283,7 +1297,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6161031&version=2.0
-        type: string
+        type: Enumeration
     micropapillary_features:
         cde_id: 6068784
         description: The yes/no/unknown indicator used to describe whether micropapillary
@@ -1296,7 +1310,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6068784&version=2.0
-        type: number
+        type: Enumeration
     mitosis_karyorrhexis_index:
         cde_id: 4616412
         description: Text term that represents the component of the International
@@ -1311,7 +1325,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=4616412&version=2.0
-        type: string
+        type: Enumeration
     mitotic_count:
         description: 'The number of mitoses identified under the microscope in tumors.
             The method of counting varies, according to the specific tumor examined.
@@ -1319,7 +1333,8 @@ properties:
             per high power field (40X) or 10 high power fields.
 
             '
-        type: integer
+        required: 'False'
+        type: Integer
     morphology:
         cde_id: 3226275
         description: The third edition of the International Classification of Diseases
@@ -2458,19 +2473,19 @@ properties:
         - 9992/3
         - Unknown
         - Not Reported
-        required: 'True'
+        required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3226275&version=2.0
-        type: string
+        type: Enumeration
     new_event_anatomic_site:
         description: Text term to specify the anatomic location of the return of tumor
             after treatment.
         required: 'False'
-        type: string
+        type: String
     new_event_type:
         description: Text term to identify a new tumor event.
         required: 'False'
-        type: string
+        type: String
     non_nodal_regional_disease:
         description: 'The text term used to describe whether the patient had non-nodal
             regional disease.
@@ -2482,7 +2497,9 @@ properties:
         - Present
         - Unknown
         - Not Reported
+        required: 'False'
         source: caDSR
+        type: Enumeration
     non_nodal_tumor_deposits:
         cde_id: 3107051
         description: 'The yes/no/unknown indicator used to describe the presence of
@@ -2495,8 +2512,10 @@ properties:
         - 'No'
         - Unknown
         - Not Reported
+        required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3107051&version=1.0
+        type: Enumeration
     ovarian_specimen_status:
         cde_id: 6690671
         description: 'The text term used to describe the physical condition of the
@@ -2509,8 +2528,10 @@ properties:
         - Ovarian Capsule Fragmented
         - Unknown
         - Not Reported
+        required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6690671&version=1.0
+        type: Enumeration
     ovarian_surface_involvement:
         cde_id: 6690674
         description: 'The text term that describes whether the surface tissue (outer
@@ -2523,20 +2544,23 @@ properties:
         - Indeterminate
         - Unknown
         - Not Reported
+        required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6690674&version=1.0
+        type: Enumeration
     overall_survival:
         description: Number of days between the date used for index and the patient's
             date of death or the date the patient was last known to be alive.
         required: 'False'
-        type: string
+        type: String
     percent_tumor_invasion:
         description: 'The percentage of tumor cells spread locally in a malignant
             neoplasm through infiltration or destruction of adjacent tissue.
 
             '
+        required: 'False'
         source: caDSR
-        type: number
+        type: Integer
     perineural_invasion_present:
         cde_id: 64181
         description: A yes/no indicator to ask if perineural invasion or infiltration
@@ -2549,7 +2573,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=64181&version=2.0
-        type: string
+        type: Enumeration
     peripancreatic_lymph_nodes_positive:
         cde_id: 5983082
         description: Enumerated numeric value or range of values used to describe
@@ -2563,7 +2587,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5983082&version=2.0
-        type: string
+        type: Enumeration
     peripancreatic_lymph_nodes_tested:
         cde_id: 6050944
         description: The total number of peripancreatic lymph nodes tested for the
@@ -2571,7 +2595,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6050944&version=2.0
-        type: number
+        type: Integer
     peritoneal_fluid_cytological_status:
         cde_id: 6690681
         description: 'The text term used to describe the malignant status of the peritoneal
@@ -2585,8 +2609,10 @@ properties:
         - Unsatisfactory
         - Unknown
         - Not Reported
+        required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6690681&version=1.0
+        type: Enumeration
     primary_diagnosis:
         cde_id: 6161032
         description: Text term used to describe the patient's histologic diagnosis,
@@ -5235,7 +5261,7 @@ properties:
         required: 'True'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6161032&version=2.0
-        type: string
+        type: Enumeration
     primary_gleason_grade:
         cde_id: 5936800
         description: 'The text term used to describe the primary Gleason score, which
@@ -5252,8 +5278,10 @@ properties:
         - Pattern 3
         - Pattern 4
         - Pattern 5
+        required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5936800&version=1.0
+        type: Enumeration
     prior_malignancy:
         cde_id: 3382736
         description: The yes/no/unknown indicator used to describe the patient's history
@@ -5267,7 +5295,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3382736&version=2.0
-        type: string
+        type: Enumeration
     prior_treatment:
         cde_id: 4231463
         description: A yes/no/unknown/not applicable indicator related to the administration
@@ -5281,16 +5309,16 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=4231463&version=2.0
-        type: string
+        type: Enumeration
     progression_free_survival:
         description: Number of days between the date used for index and the first
             date the patient is known to be free of disease progression.
         required: 'False'
-        type: string
+        type: String
     progression_free_survival_event:
         description: The event used to define the patient''s disease progression.
         required: 'False'
-        type: string
+        type: String
     progression_or_recurrence:
         cde_id: 3121376
         description: Yes/No/Unknown indicator to identify whether a patient has had
@@ -5301,16 +5329,18 @@ properties:
         - unknown
         - not reported
         - Not Allowed To Collect
-        required: 'True'
+        required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3121376&version=2.0
-        type: string
+        type: Enumeration
     project_id:
         key: 'yes'
-        type: string
+        required: 'False'
+        type: String
     project_submitter_id:
         key: 'yes'
-        type: string
+        required: 'False'
+        type: String
     residual_disease:
         cde_id: 2608702
         description: Text terms to describe the status of a tissue margin following
@@ -5325,7 +5355,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2608702&version=2.0
-        type: string
+        type: Enumeration
     secondary_gleason_grade:
         cde_id: 5936802
         description: 'The text term used to describe the secondary Gleason score,
@@ -5343,8 +5373,10 @@ properties:
         - Pattern 3
         - Pattern 4
         - Pattern 5
+        required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5936802&version=1.0
+        type: Enumeration
     site_of_resection_or_biopsy:
         cde_id: 6161034
         description: The text term used to describe the anatomic site of origin, of
@@ -5683,10 +5715,10 @@ properties:
         - Overlapping lesion of biliary tract
         - Unknown
         - Not Reported
-        required: 'False'
+        required: 'True'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6161034&version=2.0
-        type: string
+        type: Enumeration
     supratentorial_localization:
         cde_id: 3133891
         description: Text term to specify the location of the supratentorial tumor.
@@ -5700,7 +5732,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3133891&version=2.0
-        type: string
+        type: Enumeration
     synchronous_malignancy:
         cde_id: 6142390
         description: A yes/no/unknown indicator used to describe whether the patient
@@ -5716,7 +5748,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6142390&version=2.0
-        type: string
+        type: Enumeration
     tissue_or_organ_of_origin:
         cde_id: 6161035
         description: The text term used to describe the anatomic site of origin, of
@@ -6058,7 +6090,11 @@ properties:
         required: 'True'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6161035&version=2.0
-        type: string
+        type: Enumeration
+    tumor_cell_content:
+        description: Tumor Cell Content
+        required: 'False'
+        type: String
     tumor_confined_to_organ_of_origin:
         cde_id: 4925494
         description: The yes/no/unknown indicator used to describe whether the tumor
@@ -6073,7 +6109,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=4925494&version=2.0
-        type: string
+        type: Enumeration
     tumor_focality:
         cde_id: 3174022
         description: The text term used to describe whether the patient's disease
@@ -6086,7 +6122,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3174022&version=2.0
-        type: number
+        type: Enumeration
     tumor_grade:
         cde_id: 2785839
         description: Numeric value to express the degree of abnormality of cancer
@@ -6106,7 +6142,7 @@ properties:
         required: 'True'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2785839&version=2.0
-        type: string
+        type: Enumeration
     tumor_largest_dimension_diameter:
         cde_id: 64215
         description: Numeric value used to describe the maximum diameter or dimension
@@ -6114,7 +6150,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=64215&version=2.0
-        type: number
+        type: Integer
     tumor_regression_grade:
         cde_id: 6471217
         description: A numeric value used to measure therapeutic response of the primary
@@ -6130,7 +6166,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6471217&version=2.0
-        type: string
+        type: Enumeration
     tumor_stage:
         cde_id: C16899
         description: The extent of a cancer in the body. Staging is usually based
@@ -6142,7 +6178,7 @@ properties:
         required: 'True'
         source: NCIt
         term_url: https://ncit.nci.nih.gov/ncitbrowser/pages/concept_details.jsf?dictionary=NCI%20Thesaurus&code=C16899
-        type: string
+        type: String
     vascular_invasion_present:
         cde_id: 64358
         description: The yes/no indicator to ask if large vessel or venous invasion
@@ -6156,7 +6192,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=64358&version=2.0
-        type: string
+        type: Enumeration
     vascular_invasion_type:
         cde_id: 3168001
         description: Text term that represents the type of vascular tumor invasion.
@@ -6171,7 +6207,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3168001&version=2.0
-        type: number
+        type: Enumeration
     vital_status:
         cde_id: 5
         description: The survival state of the person registered on the protocol.
@@ -6186,7 +6222,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5&version=2.0
-        type: string
+        type: Enumeration
     weiss_assessment_score:
         cde_id: 3648744
         description: 'The text term used to describe the overall Weiss assessment
@@ -6210,8 +6246,10 @@ properties:
         - '7'
         - '8'
         - '9'
+        required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3648744&version=1.0
+        type: Enumeration
     wilms_tumor_histologic_subtype:
         cde_id: 4358735
         description: The text term used to describe the classification of Wilms tumors
@@ -6224,7 +6262,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=4358735&version=2.0
-        type: string
+        type: Enumeration
     year_of_diagnosis:
         cde_id: 2896960
         description: Numeric value to represent the year of an individual's initial
@@ -6232,9 +6270,10 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2896960&version=2.0
-        type: integer
+        type: Integer
 title: Diagnosis
 type: object
 uniqueKeys:
 -   - diagnosis_id
     - diagnosis_submitter_id
+    - study_id

@@ -3105,6 +3105,7 @@ export const resolvers = {
 		},
 		//@@@PDC-898 new public APIs--clinicalPerStudy
 		//@@@PDC-1599 add all demographic and diagnosis data
+		//@@@PDC-2417 Remove unused fields from Diagnosis
 		clinicalPerStudy(_, args, context) {
 			var clinicalQuery = "select distinct bin_to_uuid(c.case_id) as case_id, "+
 			"c.case_submitter_id, c.external_case_id, c.status, c.disease_type, "+
@@ -3118,14 +3119,14 @@ export const resolvers = {
 			"dia.classification_of_tumor, dia.days_to_last_follow_up, "+
 			"dia.days_to_last_known_disease_status, dia.days_to_recurrence,  "+
 			"dia.last_known_disease_status, dia.progression_or_recurrence, "+
-			"dia.vital_status, dia.tumor_cell_content, dia.days_to_birth, "+
-			"dia.days_to_death, dia.prior_malignancy, dia.ajcc_clinical_m, "+
+			"dia.tumor_cell_content, "+
+			"dia.prior_malignancy, dia.ajcc_clinical_m, "+
 			"dia.ajcc_clinical_n, dia.ajcc_clinical_stage, dia. ajcc_clinical_t, "+
 			"dia.ajcc_pathologic_m, dia.ajcc_pathologic_n, dia.ajcc_pathologic_stage, "+
 			"dia.ajcc_pathologic_t, dia.ann_arbor_b_symptoms, dia.ann_arbor_clinical_stage, "+
 			"dia.ann_arbor_extranodal_involvement, dia.ann_arbor_pathologic_stage, "+
 			"dia.best_overall_response, dia.burkitt_lymphoma_clinical_variant, "+
-			"dia.cause_of_death, dia.circumferential_resection_margin, dia.colon_polyps_history, "+
+			"dia.circumferential_resection_margin, dia.colon_polyps_history, "+
 			"dia.days_to_best_overall_response, dia.days_to_diagnosis, dia.days_to_hiv_diagnosis, "+
 			"dia.days_to_new_event, dia.figo_stage, dia.hiv_positive, dia.hpv_positive_type, "+
 			"dia.hpv_status, dia.iss_stage, dia.laterality, dia.ldh_level_at_diagnosis, "+
@@ -3213,6 +3214,7 @@ export const resolvers = {
 		//@@@PDC-1383 convert labels to aliquot_id 
 		//@@@PDC-2237 sort data by plex_dataset_name
 		//@@@PDC-2336 get fraction count from protocol table
+		//@@@PDC-2391 order by Study Run Metadata Submitter ID
 		async studyExperimentalDesign(_, args, context) {
 			var experimentalQuery = "SELECT distinct bin_to_uuid(srm.study_run_metadata_id) as study_run_metadata_id, "+
 			" bin_to_uuid(s.study_id) as study_id, srm.study_run_metadata_submitter_id,"+ 
@@ -3239,7 +3241,7 @@ export const resolvers = {
 				let studySub = args.pdc_study_id.split(";");
 				experimentalQuery += " and s.pdc_study_id IN ('" + studySub.join("','") + "')";
 			}
-			experimentalQuery += " order by srm.folder_name asc ";
+			experimentalQuery += " order by srm.study_run_metadata_submitter_id, srm.folder_name asc ";
 			var studyExperimentalDesigns = await db.getSequelize().query(experimentalQuery, { model: db.getModelByName('ModelStudyExperimentalDesign') });
 			if (typeof args.label_aliquot_id != 'undefined' && args.label_aliquot_id == 'true') {
 				var aliquotIdQuery = "select distinct bin_to_uuid(al.aliquot_id) as label "+

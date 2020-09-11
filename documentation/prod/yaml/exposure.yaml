@@ -30,7 +30,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3114013&version=1.0
-        type: number
+        type: Integer
     alcohol_drinks_per_day:
         cde_id: 3124961
         description: 'Numeric value used to describe the average number of alcoholic
@@ -40,7 +40,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3124961&version=1.0
-        type: number
+        type: Integer
     alcohol_history:
         cde_id: 2201918
         deprecated_enum:
@@ -61,6 +61,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2201918&version=1.0
+        type: Enumeration
     alcohol_intensity:
         cde_id: 3457767
         description: 'Category to describe the patient''s current level of alcohol
@@ -78,6 +79,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3457767&version=1.0
+        type: Enumeration
     asbestos_exposure:
         cde_id: 1253
         description: 'The yes/no/unknown indicator used to describe whether the patient
@@ -92,6 +94,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=1253&version=3.0
+        type: Enumeration
     bmi:
         cde_id: 2006410
         description: 'A calculated numerical quantity that represents an individual''s
@@ -101,7 +104,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2006410&version=3.0
-        type: number
+        type: Integer
     cigarettes_per_day:
         cde_id: 2001716
         description: 'The average number of cigarettes smoked per day.
@@ -110,7 +113,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2001716&version=4.0
-        type: number
+        type: Integer
     coal_dust_exposure:
         description: 'The yes/no/unknown indicator used to describe whether a patient
             was exposed to fine powder derived by the crushing of coal.
@@ -122,6 +125,7 @@ properties:
         - Unknown
         required: 'False'
         source: caDSR
+        type: Enumeration
     environmental_tobacco_smoke_exposure:
         description: 'The yes/no/unknown indicator used to describe whether a patient
             was exposed to smoke that is emitted from burning tobacco, including cigarettes,
@@ -134,6 +138,7 @@ properties:
         - Unknown
         required: 'False'
         source: caDSR
+        type: Enumeration
     height:
         cde_id: 649
         description: 'The height of the patient in centimeters.
@@ -142,7 +147,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=649&version=4.1
-        type: number
+        type: Integer
     pack_years_smoked:
         cde_id: 2955385
         description: 'Numeric computed value to represent lifetime tobacco exposure
@@ -153,7 +158,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2955385&version=1.0
-        type: number
+        type: Integer
     radon_exposure:
         cde_id: 2816352
         description: 'The yes/no/unknown indicator used to describe whether the patient
@@ -168,6 +173,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2816352&version=1.0
+        type: Enumeration
     respirable_crystalline_silica_exposure:
         description: 'The yes/no/unknown indicator used to describe whether a patient
             was exposured to respirable crystalline silica, a widespread, naturally
@@ -181,6 +187,7 @@ properties:
         - Unknown
         required: 'False'
         source: caDSR
+        type: Enumeration
     smoking_frequency:
         description: 'The text term used to generally decribe how often the patient
             smokes.
@@ -192,6 +199,7 @@ properties:
         - Unknown
         required: 'False'
         source: caDSR
+        type: Enumeration
     time_between_waking_and_first_smoke:
         cde_id: 3279220
         description: 'The text term used to describe the approximate amount of time
@@ -208,6 +216,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3279220&version=1.0
+        type: Enumeration
     tobacco_smoking_onset_year:
         cde_id: 2228604
         description: 'The year in which the participant began smoking.
@@ -216,7 +225,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2228604&version=1.0
-        type: integer
+        type: Integer
     tobacco_smoking_quit_year:
         cde_id: 2228610
         description: 'The year in which the participant quit smoking.
@@ -225,7 +234,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2228610&version=1.0
-        type: integer
+        type: Integer
     tobacco_smoking_status:
         cde_id: 2181650
         deprecated_enum:
@@ -247,6 +256,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2181650&version=1.0
+        type: Enumeration
     type_of_smoke_exposure:
         description: 'The text term used to describe the patient''s specific type
             of smoke exposure.
@@ -304,6 +314,7 @@ properties:
         - Work-related smoke, soldering/welding
         required: 'False'
         source: caDSR
+        type: Enumeration
     type_of_tobacco_used:
         description: 'The text term used to describe the specific type of tobacco
             used by the patient.
@@ -318,6 +329,7 @@ properties:
         - Smokeless Tobacco
         required: 'False'
         source: caDSR
+        type: Enumeration
     weight:
         cde_id: 651
         description: 'The weight of the patient measured in kilograms.
@@ -326,7 +338,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=651&version=4.0
-        type: number
+        type: Integer
     years_smoked:
         cde_id: 3137957
         description: 'Numeric value (or unknown) to represent the number of years
@@ -336,7 +348,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3137957&version=1.0
-        type: number
+        type: Integer
 required:
 - submitter_id
 title: Exposure

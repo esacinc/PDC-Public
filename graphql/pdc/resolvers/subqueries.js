@@ -120,6 +120,7 @@ export const resolvers = {
 			}
 		},
 		//@@@PDC-2038 add ajcc_staging_system_edition
+		//@@@PDC-2417 Remove unused fields from Diagnosis
 		async diagnoses(obj, args, context) {
 			var cacheFilterName = {name:''};
 			cacheFilterName.name +="case_submitter_id:("+ obj.case_submitter_id + ");";
@@ -141,9 +142,6 @@ export const resolvers = {
 						'tissue_or_organ_of_origin',
 						'tumor_grade',
 						'tumor_stage',
-						'vital_status',
-						'days_to_birth',
-						'days_to_death',
 						'prior_malignancy',
 						'ajcc_clinical_m',
 						'ajcc_clinical_n',
@@ -160,7 +158,6 @@ export const resolvers = {
 						'ann_arbor_pathologic_stage',
 						'best_overall_response',
 						'burkitt_lymphoma_clinical_variant',
-						'cause_of_death',
 						'circumferential_resection_margin',
 						'colon_polyps_history',
 						'days_to_best_overall_response',
@@ -229,6 +226,16 @@ export const resolvers = {
 			});
 		}		
 	},
+	//@@@PDC-2366 Add aliquot_run_metadata_id to aliquot_run_metadata API entity
+	Aliquot:{
+		aliquot_run_metadata(obj, args, context) {
+			// db.getModelByName('ModelAliquotRunMetadata').findAll({attributes: ['aliquot_submitter_id', ['bin_to_uuid(aliquot_run_metadata_id)','aliquot_run_metadata_id']],
+			// where: {aliquot_submitter_id: obj.aliquot_submitter_id}
+			// });	
+			let aliquotQuery = "select aliquot_submitter_id , bin_to_uuid(aliquot_run_metadata_id) as aliquot_run_metadata_id FROM aliquot_run_metadata where bin_to_uuid(aliquot_id) = '"+ obj.aliquot_id +"'";
+			return db.getSequelize().query(aliquotQuery, { model: db.getModelByName('ModelAliquotRunMetadata') }); 		
+		}
+	},
 	FileMetadata: {
 		aliquots(obj, args, context) {
 			//@@@PDC-490 display label for all aliquot_ids in aliquot_run_metadata
@@ -257,11 +264,14 @@ export const resolvers = {
 			});
 		}
 	},
+	//@@@PDC-2366 Add aliquot_run_metadata_id to aliquot_run_metadata API entity
 	StudyRunMetadata: {
 		aliquot_run_metadata(obj, args, context) {
-			return db.getModelByName('ModelAliquotRunMetadata').findAll({attributes: ['aliquot_submitter_id'],
-			where: {study_run_metadata_submitter_id: obj.study_run_metadata_submitter_id}
-			});
+			let aliquotQuery = "select aliquot_submitter_id , bin_to_uuid(aliquot_run_metadata_id) as aliquot_run_metadata_id FROM aliquot_run_metadata where study_run_metadata_submitter_id = '"+ obj.study_run_metadata_submitter_id +"'";
+			return db.getSequelize().query(aliquotQuery, { model: db.getModelByName('ModelAliquotRunMetadata') }); 
+			// db.getModelByName('ModelAliquotRunMetadata').findAll({attributes: ['aliquot_submitter_id'],
+			// 	where: {study_run_metadata_submitter_id: obj.study_run_metadata_submitter_id}
+			// });
 		},
 		//@@@PDC-774 add downloadable
 		files(obj, args, context) {
@@ -288,6 +298,7 @@ export const resolvers = {
 		}
 	},	
 	//@@@PDC-788 remove hard-coded file types
+	//@@@PDC-2377 add supplementary file counts
 	UIStudy: {
 		async filesCount(obj, args, context) {
 			var fileCacheName = context.dataCacheName + ':'+obj.study_submitter_id;
@@ -301,6 +312,38 @@ export const resolvers = {
 				"' group by f.data_category, f.file_type order by f.data_category";
 				var getIt = await db.getSequelize().query(fileQuery, { model: db.getModelByName('ModelFile') });
 				RedisCacheClient.redisCacheSetExAsync(fileCacheName, JSON.stringify(getIt));
+				return getIt;				
+			}
+			return JSON.parse(res);
+		},
+		async supplementaryFilesCount(obj, args, context) {
+			var suppFileCacheName = context.dataCacheName + ':supp:'+obj.study_submitter_id;
+			const res = await RedisCacheClient.redisCacheGetAsync(suppFileCacheName);
+			if (res === null) {
+				var fileQuery = "SELECT f.data_category, f.file_type, count(f.file_id) as files_count "+
+				"FROM file f, study s, study_file sf "+
+				"WHERE f.file_id = sf.file_id and s.study_id = sf.study_id "+
+				"and f.data_source = 'Submitter' and f.data_category <> 'Raw Mass Spectra' "+
+				"and s.study_submitter_id = '"+ obj.study_submitter_id +
+				"' group by f.data_category, f.file_type order by f.data_category";
+				var getIt = await db.getSequelize().query(fileQuery, { model: db.getModelByName('ModelFile') });
+				RedisCacheClient.redisCacheSetExAsync(suppFileCacheName, JSON.stringify(getIt));
+				return getIt;				
+			}
+			return JSON.parse(res);
+		},
+		async nonSupplementaryFilesCount(obj, args, context) {
+			var nonSuppFileCacheName = context.dataCacheName + ':nonSupp:'+obj.study_submitter_id;
+			const res = await RedisCacheClient.redisCacheGetAsync(nonSuppFileCacheName);
+			if (res === null) {
+				var fileQuery = "SELECT f.data_category, f.file_type, count(f.file_id) as files_count "+
+				"FROM file f, study s, study_file sf "+
+				"WHERE f.file_id = sf.file_id and s.study_id = sf.study_id "+
+				"and (f.data_source = 'CDAP' or (f.data_source = 'Submitter' and f.data_category = 'Raw Mass Spectra')) "+
+				"and s.study_submitter_id = '"+ obj.study_submitter_id +
+				"' group by f.data_category, f.file_type order by f.data_category";
+				var getIt = await db.getSequelize().query(fileQuery, { model: db.getModelByName('ModelFile') });
+				RedisCacheClient.redisCacheSetExAsync(nonSuppFileCacheName, JSON.stringify(getIt));
 				return getIt;				
 			}
 			return JSON.parse(res);

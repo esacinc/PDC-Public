@@ -8,146 +8,153 @@ properties:
     alias:
         description: A plex or dataset name used by the submitters
         required: 'False'
-        type: string
+        type: String
     analyte:
         description: Type of peptide or protein enrichment
         required: 'False'
-        type: string
+        type: String
     condition:
         description: 'Biological condition (ex: disease state) of the cases(patients)
             from which the aliquots derived.'
         required: 'False'
-        type: string
+        type: String
     date:
         description: Date of the data acquired from the mass spectrometry instrument
         required: 'False'
-        type: string
+        type: String
     experiment_number:
         description: Number associated with a specific run of the experiment
         required: 'False'
-        type: integer
+        type: Integer
     experiment_type:
         description: General strategy used for differential analysis
-        required: 'False'
-        type: string
+        required: 'True'
+        type: String
     folder_name:
         key: 'yes'
-        type: string
+        required: 'False'
+        type: String
     fraction:
         description: Number of fractions in the experimental run
         required: 'False'
-        type: string
+        type: String
     itraq_113:
         description: The sample tagged with this isobaric label reagent
         required: 'True'
-        type: string
+        type: String
     itraq_114:
         description: The sample tagged with this isobaric label reagent
         required: 'True'
-        type: string
+        type: String
     itraq_115:
         description: The sample tagged with this isobaric label reagent
         required: 'True'
-        type: string
+        type: String
     itraq_116:
         description: The sample tagged with this isobaric label reagent
         required: 'True'
-        type: string
+        type: String
     itraq_117:
         description: The sample tagged with this isobaric label reagent
         required: 'True'
-        type: string
+        type: String
     itraq_118:
         description: The sample tagged with this isobaric label reagent
         required: 'True'
-        type: string
+        type: String
     itraq_119:
         description: The sample tagged with this isobaric label reagent
         required: 'True'
-        type: string
+        type: String
     itraq_121:
         description: The sample tagged with this isobaric label reagent
         required: 'True'
-        type: string
+        type: String
     label_free:
         description: The sample tagged with this isobaric label reagent
         required: 'True'
-        type: string
+        type: String
     operator:
         description: Mass Spectrometry instrument operator
         required: 'False'
-        type: string
+        type: String
     plex_or_folder_name:
         description: Name used to group the files generated in single experimental
             run
         required: 'False'
-        type: string
+        type: String
     protocol_id:
         key: 'yes'
-        type: string
+        required: 'False'
+        type: String
     protocol_submitter_id:
         key: 'yes'
-        type: string
+        required: 'False'
+        type: String
     replicate_number:
         description: Replicate number, if applicable
         required: 'False'
-        type: string
+        type: String
     study_id:
         key: 'yes'
-        type: string
+        required: 'False'
+        type: String
     study_run_metadata_id:
         key: 'yes'
-        type: string
+        required: 'False'
+        type: String
     study_run_metadata_submitter_id:
         key: 'yes'
-        type: string
+        required: 'False'
+        type: String
     study_submitter_id:
         key: 'yes'
-        type: string
+        required: 'False'
+        type: String
     tmt_126:
         description: The sample tagged with this isobaric label reagent
         required: 'True'
-        type: string
+        type: String
     tmt_127c:
         description: The sample tagged with this isobaric label reagent
         required: 'True'
-        type: string
+        type: String
     tmt_127n:
         description: The sample tagged with this isobaric label reagent
         required: 'True'
-        type: string
+        type: String
     tmt_128c:
         description: The sample tagged with this isobaric label reagent
         required: 'True'
-        type: string
+        type: String
     tmt_128n:
         description: The sample tagged with this isobaric label reagent
         required: 'True'
-        type: string
+        type: String
     tmt_129c:
         description: The sample tagged with this isobaric label reagent
         required: 'True'
-        type: string
+        type: String
     tmt_129n:
         description: The sample tagged with this isobaric label reagent
         required: 'True'
-        type: string
+        type: String
     tmt_130c:
         description: The sample tagged with this isobaric label reagent
         required: 'True'
-        type: string
+        type: String
     tmt_130n:
         description: The sample tagged with this isobaric label reagent
         required: 'True'
-        type: string
+        type: String
     tmt_131:
         description: The sample tagged with this isobaric label reagent
         required: 'True'
-        type: string
+        type: String
     tmt_131c:
         description: The sample tagged with this isobaric label reagent
         required: 'True'
-        type: string
+        type: String
 title: Study Run Metadata
 type: object
 uniqueKeys:

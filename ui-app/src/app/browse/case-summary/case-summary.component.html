@@ -115,98 +115,88 @@
 							<td class="summary-card-name-right-cell">ISS Stage</td>
 							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.iss_stage)">{{diagnosis.iss_stage}}</td>
 						</tr>
-						<tr><td class="summary-card-name-left-cell">Vital Status</td>
-							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.vital_status)">{{diagnosis.vital_status}}</td>
+						<tr><td class="summary-card-name-left-cell">Prior Malignancy</td>
+							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.prior_malignancy)">{{diagnosis.prior_malignancy}}</td>
 							<td class="summary-card-name-right-cell">Laterality</td>
 							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.laterality)">{{diagnosis.laterality}}</td>
 						</tr>
-						<tr><td class="summary-card-name-left-cell">Days to Birth</td>
-							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.days_to_birth)">{{diagnosis.days_to_birth}}</td>
+						<tr><td class="summary-card-name-left-cell">AJCC Clinical m</td>
+							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.ajcc_clinical_m)">{{diagnosis.ajcc_clinical_m}}</td>
 							<td class="summary-card-name-right-cell">LDH Level at Diagnosis</td>
 							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.ldh_level_at_diagnosis)">{{diagnosis.ldh_level_at_diagnosis}}</td>
 						</tr>
-						<tr><td class="summary-card-name-left-cell">Days to Death</td>
-							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.days_to_death)">{{diagnosis.days_to_death}}</td>
+						<tr><td class="summary-card-name-left-cell">AJCC clinical n</td>
+							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.ajcc_clinical_n)">{{diagnosis.ajcc_clinical_n}}</td>
 							<td class="summary-card-name-right-cell">LDH Normal Range Upper</td>
 							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.ldh_normal_range_upper)">{{diagnosis.ldh_normal_range_upper}}</td>
 						</tr>
-						<tr><td class="summary-card-name-left-cell">Prior Malignancy</td>
-							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.prior_malignancy)">{{diagnosis.prior_malignancy}}</td>
+						<tr><td class="summary-card-name-left-cell">AJCC clinical Stage</td>
+							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.ajcc_clinical_stage)">{{diagnosis.ajcc_clinical_stage}}</td>
 							<td class="summary-card-name-right-cell">Lymph Nodes Positive</td>
 							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.lymph_nodes_positive)">{{diagnosis.lymph_nodes_positive}}</td>
 						</tr>
-						<tr><td class="summary-card-name-left-cell">AJCC Clinical m</td>
-							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.ajcc_clinical_m)">{{diagnosis.ajcc_clinical_m}}</td>
+						<tr><td class="summary-card-name-left-cell">AJCC clinical t</td>
+							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.ajcc_clinical_t)">{{diagnosis.ajcc_clinical_t}}</td>
 							<td class="summary-card-name-right-cell">Lymphatic Invasion Present</td>
 							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.lymphatic_invasion_present)">{{diagnosis.lymphatic_invasion_present}}</td>
 						</tr>
-						<tr><td class="summary-card-name-left-cell">AJCC clinical n</td>
-							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.ajcc_clinical_n)">{{diagnosis.ajcc_clinical_n}}</td>
+						<tr><td class="summary-card-name-left-cell">AJCC pathologic m</td>
+							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.ajcc_pathologic_m)">{{diagnosis.ajcc_pathologic_m}}</td>
 							<td class="summary-card-name-right-cell">Method of Diagnosis</td>
 							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.method_of_diagnosis)">{{diagnosis.method_of_diagnosis}}</td>
 						</tr>
-						<tr><td class="summary-card-name-left-cell">AJCC clinical Stage</td>
-							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.ajcc_clinical_stage)">{{diagnosis.ajcc_clinical_stage}}</td>
+						<tr><td class="summary-card-name-left-cell">AJCC pathologic n</td>
+							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.ajcc_pathologic_n)">{{diagnosis.ajcc_pathologic_n}}</td>
 							<td class="summary-card-name-right-cell">New Event Anatomic Site</td>
 							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.new_event_anatomic_site)">{{diagnosis.new_event_anatomic_site}}</td>
 						</tr>
-						<tr><td class="summary-card-name-left-cell">AJCC clinical t</td>
-							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.ajcc_clinical_t)">{{diagnosis.ajcc_clinical_t}}</td>
+						<tr><td class="summary-card-name-left-cell">AJCC pathologic Stage</td>
+							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.ajcc_pathologic_stage)">{{diagnosis.ajcc_pathologic_stage}}</td>
 							<td class="summary-card-name-right-cell">New Event Type</td>
 							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.new_event_type)">{{diagnosis.new_event_type}}</td>
 						</tr>
-						<tr><td class="summary-card-name-left-cell">AJCC pathologic m</td>
-							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.ajcc_pathologic_m)">{{diagnosis.ajcc_pathologic_m}}</td>
+						<tr><td class="summary-card-name-left-cell">AJCC pathologic t</td>
+							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.ajcc_pathologic_t)">{{diagnosis.ajcc_pathologic_t}}</td>
 							<td class="summary-card-name-right-cell">Overall Survival</td>
 							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.overall_survival)">{{diagnosis.overall_survival}}</td>
 						</tr>
-						<tr><td class="summary-card-name-left-cell">AJCC pathologic n</td>
-							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.ajcc_pathologic_n)">{{diagnosis.ajcc_pathologic_n}}</td>
+						<tr><td class="summary-card-name-left-cell">AJCC staging system edition</td>
+							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.ajcc_staging_system_edition)">{{diagnosis.ajcc_staging_system_edition}}</td>
 							<td class="summary-card-name-right-cell">Perineural Invasion Present</td>
 							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.perineural_invasion_present)">{{diagnosis.perineural_invasion_present}}</td>
 						</tr>
-						<tr><td class="summary-card-name-left-cell">AJCC pathologic Stage</td>
-							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.ajcc_pathologic_stage)">{{diagnosis.ajcc_pathologic_stage}}</td>
+						<tr><td class="summary-card-name-left-cell">Ann Arbor b Symptoms</td>
+							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.ann_arbor_b_symptoms)">{{diagnosis.ann_arbor_b_symptoms}}</td>
 							<td class="summary-card-name-right-cell">Prior Treatment</td>
 							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.prior_treatment)">{{diagnosis.prior_treatment}}</td>
 						</tr>
-						<tr><td class="summary-card-name-left-cell">AJCC pathologic t</td>
-							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.ajcc_pathologic_t)">{{diagnosis.ajcc_pathologic_t}}</td>
+						<tr><td class="summary-card-name-left-cell">Ann Arbor Clinical Stage</td>
+							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.ann_arbor_clinical_stage)">{{diagnosis.ann_arbor_clinical_stage}}</td>
 							<td class="summary-card-name-right-cell">Progression Free Survival</td>
 							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.progression_free_survival)">{{diagnosis.progression_free_survival}}</td>
 						</tr>
-						<tr><td class="summary-card-name-left-cell">AJCC staging system edition</td>
-							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.ajcc_staging_system_edition)">{{diagnosis.ajcc_staging_system_edition}}</td>
+						<tr><td class="summary-card-name-left-cell">Ann Arbor Extranodal Involvement</td>
+							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.ann_arbor_extranodal_involvement)">{{diagnosis.ann_arbor_extranodal_involvement}}</td>
 							<td class="summary-card-name-right-cell">Progression Free Survival Event</td>
 							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.progression_free_survival_event)">{{diagnosis.progression_free_survival_event}}</td>
 						</tr>
-						<tr><td class="summary-card-name-left-cell">Ann Arbor b Symptoms</td>
-							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.ann_arbor_b_symptoms)">{{diagnosis.ann_arbor_b_symptoms}}</td>
+						<tr><td class="summary-card-name-left-cell">Ann Arbor Pathologic Stage</td>
+							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.ann_arbor_pathologic_stage)">{{diagnosis.ann_arbor_pathologic_stage}}</td>
 							<td class="summary-card-name-right-cell">Residual Disease</td>
 							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.residual_disease)">{{diagnosis.residual_disease}}</td>
 						</tr>
-						<tr><td class="summary-card-name-left-cell">Ann Arbor Clinical Stage</td>
-							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.ann_arbor_clinical_stage)">{{diagnosis.ann_arbor_clinical_stage}}</td>
+						<tr><td class="summary-card-name-left-cell">Best Overall Response</td>
+							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.best_overall_response)">{{diagnosis.best_overall_response}}</td>
 							<td class="summary-card-name-right-cell">Vascular Invasion Present</td>
 							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.vascular_invasion_present)">{{diagnosis.vascular_invasion_present}}</td>
 						</tr>
-						<tr><td class="summary-card-name-left-cell">Ann Arbor Extranodal Involvement</td>
-							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.ann_arbor_extranodal_involvement)">{{diagnosis.ann_arbor_extranodal_involvement}}</td>
+						<tr><td class="summary-card-name-left-cell">Burkitt Lymphoma Clinical Variant</td>
+							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.burkitt_lymphoma_clinical_variant)">{{diagnosis.burkitt_lymphoma_clinical_variant}}</td>
 							<td class="summary-card-name-right-cell">Year of Diagnosis</td>
 							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.year_of_diagnosis)">{{diagnosis.year_of_diagnosis}}</td>
 						</tr>
-						<tr><td class="summary-card-name-left-cell">Ann Arbor Pathologic Stage</td>
-							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.ann_arbor_pathologic_stage)">{{diagnosis.ann_arbor_pathologic_stage}}</td>
-							<td class="summary-card-name-right-cell">Burkitt Lymphoma Clinical Variant</td>
-							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.burkitt_lymphoma_clinical_variant)">{{diagnosis.burkitt_lymphoma_clinical_variant}}</td>
-						</tr>
-						<tr><td class="summary-card-name-left-cell">Best Overall Response</td>
-							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.best_overall_response)">{{diagnosis.best_overall_response}}</td>
-							<td class="summary-card-name-right-cell">Circumferential Resection Margin</td>
-							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.circumferential_resection_margin)">{{diagnosis.circumferential_resection_margin}}</td>
-						</tr>
-						<tr><td class="summary-card-name-left-cell">Cause of Death</td>
-							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.cause_of_death)">{{diagnosis.cause_of_death}}</td>
+						<tr><td class="summary-card-name-left-cell">Circumferential Resection Margin</td>
+							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.circumferential_resection_margin)">{{diagnosis.circumferential_resection_margin}}</td>
 							<td class="summary-card-name-right-cell"></td>
 							<td class="summary-card-value-right-cell"></td>
 						</tr>

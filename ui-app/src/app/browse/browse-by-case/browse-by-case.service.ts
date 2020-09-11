@@ -94,6 +94,7 @@ constructor(private apollo: Apollo) {
 	//@@@PDC-497 Make table column headers sortable on the browse page tabs
 	//@@@PDC-567 Add sample_type filter
 	//@@@PDC-616 Add acquisition type to the general filters
+	//@@@PDC-2399: Update biospecimen manifest generation to include new attributes
 	filteredCasesPaginatedQuery = gql`
 				query FilteredCasesDataPaginated($offset_value: Int, $limit_value: Int, $sort_value: String, $program_name_filter: String!, $project_name_filter: String!, $study_name_filter: String!, $disease_filter: String!, $filterValue: String!, $analytical_frac_filter: String!, $exp_type_filter: String!,  $ethnicity_filter: String!, $race_filter: String!, $gender_filter: String!, $tumor_grade_filter: String!, $sample_type_filter: String!, $acquisition_type_filter: String!, $data_category_filter: String!, $file_type_filter: String!, $access_filter: String!, $downloadable_filter: String!, $biospecimen_status_filter: String!, $case_status_filter: String!){
 					getPaginatedUICase(offset: $offset_value, limit: $limit_value, sort: $sort_value, program_name: $program_name_filter , 
@@ -104,19 +105,49 @@ constructor(private apollo: Apollo) {
 						total					
 						uiCases{
 							aliquot_id
-							aliquot_submitter_id 
 							sample_id
-							sample_submitter_id
 							case_id
-							case_submitter_id
-							project_name
-							program_name
-							sample_type
-							disease_type
-							primary_site
+							aliquot_submitter_id
+							aliquot_is_ref
 							aliquot_status
+							aliquot_quantity
+							aliquot_volume
+							amount
+							analyte_type
+							concentration
 							case_status
 							sample_status
+							sample_submitter_id
+							sample_is_ref
+							biospecimen_anatomic_site
+							composition
+							current_weight
+							days_to_collection
+							days_to_sample_procurement
+							diagnosis_pathologically_confirmed
+							freezing_method
+							initial_weight
+							intermediate_dimension
+							is_ffpe
+							longest_dimension
+							method_of_sample_procurement
+							oct_embedded
+							pathology_report_uuid
+							preservation_method
+							sample_type_id
+							shortest_dimension
+							time_between_clamping_and_freezing
+							time_between_excision_and_freezing
+							tissue_type
+							tumor_code
+							tumor_code_id
+							tumor_descriptor
+							case_submitter_id
+							program_name
+							project_name
+							sample_type
+							disease_type
+							primary_site 	
 						}
 						pagination {
 							count

@@ -16,22 +16,24 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432595&version=1.0
-        type: number
+        type: Integer
     amount:
         description: Weight in grams or volume in mL
         required: 'False'
-        type: number
+        type: Integer
     analyte_id:
         key: 'yes'
-        type: string
+        required: 'False'
+        type: String
     analyte_quantity:
         description: The quantity in micrograms (ug) of the analyte(s) derived from
             the analyte(s) shipped for sequencing and characterization.
         required: 'False'
-        type: number
+        type: Integer
     analyte_submitter_id:
         key: 'yes'
-        type: string
+        required: 'False'
+        type: String
     analyte_type:
         cde_id: 2513915
         description: Text term that represents the kind of molecular specimen analyte.
@@ -49,7 +51,7 @@ properties:
         required: 'True'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2513915&version=2.0
-        type: string
+        type: Enumeration
     analyte_type_id:
         cde_id: 5432508
         description: A single letter code used to identify a type of molecular analyte.
@@ -66,12 +68,12 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432508&version=1.0
-        type: string
+        type: Enumeration
     analyte_volume:
         description: The volume in microliters (ml) of the aliquot(s) derived from
             the analyte(s) shipped for sequencing and characterization.
         required: 'False'
-        type: number
+        type: Integer
     concentration:
         cde_id: 5432594
         description: Numeric value that represents the concentration of an analyte
@@ -80,7 +82,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432594&version=1.0
-        type: number
+        type: Integer
     normal_tumor_genotype_snp_match:
         cde_id: 4588156
         description: Text term that represents whether or not the genotype of the
@@ -94,30 +96,36 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=4588156&version=1.0
-        type: string
+        type: Enumeration
     portion_id:
         key: 'yes'
-        type: string
+        required: 'False'
+        type: String
     portion_submitter_id:
         key: 'yes'
-        type: string
+        required: 'False'
+        type: String
     project_id:
         key: 'yes'
-        type: string
+        required: 'False'
+        type: String
     project_submitter_id:
         key: 'yes'
-        type: string
+        required: 'False'
+        type: String
     ribosomal_rna_28s_16s_ratio:
         description: The 28S/18S ribosomal RNA band ratio used to assess the quality
             of total RNA.
         required: 'False'
-        type: number
+        type: Integer
     sample_id:
         key: 'yes'
-        type: string
+        required: 'False'
+        type: String
     sample_submitter_id:
         key: 'yes'
-        type: string
+        required: 'False'
+        type: String
     spectrophotometer_method:
         cde_id: 3008378
         description: Name of the method used to determine the concentration of purified
@@ -125,7 +133,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3008378&version=1.0
-        type: string
+        type: String
     well_number:
         cde_id: 5432613
         description: Numeric value that represents the the well location within a
@@ -133,7 +141,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432613&version=1.0
-        type: string
+        type: String
 title: Analyte
 type: object
 uniqueKeys:

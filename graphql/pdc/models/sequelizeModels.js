@@ -137,6 +137,7 @@ const defineSequelizeModels = (db) => {
 	  //@@@PDC-156 get disease type instead of primary diagnosis
 	  //@@@PDC-1011 replace gdc_case_id with external_case_id
 	  //@@@PDC-2038 add ajcc_staging_system_edition
+	  //@@@PDC-2417 Remove unused fields from Diagnosis
 	  /**
 	  * DiagnosisModel is mapped to the table of diagnosis and used in 
 	  * tissueSitesAvailable and  diseasesAvailable queries.
@@ -166,9 +167,6 @@ const defineSequelizeModels = (db) => {
 		  progression_or_recurrence: { type: Sequelize.STRING },
 		  site_of_resection_or_biopsy: { type: Sequelize.STRING },
 		  tissue_or_organ_of_origin: { type: Sequelize.STRING },
-		  vital_status: { type: Sequelize.STRING },
-		  days_to_birth: { type: Sequelize.STRING },
-		  days_to_death: { type: Sequelize.STRING },
 		  prior_malignancy: { type: Sequelize.STRING },
 		  ajcc_clinical_m: { type: Sequelize.STRING },
 		  ajcc_clinical_n: { type: Sequelize.STRING },
@@ -185,7 +183,6 @@ const defineSequelizeModels = (db) => {
 		  ann_arbor_pathologic_stage: { type: Sequelize.STRING },
 		  best_overall_response: { type: Sequelize.STRING },
 		  burkitt_lymphoma_clinical_variant: { type: Sequelize.STRING },
-		  cause_of_death: { type: Sequelize.STRING },
 		  circumferential_resection_margin: { type: Sequelize.STRING },
 		  colon_polyps_history: { type: Sequelize.STRING },
 		  days_to_best_overall_response: { type: Sequelize.STRING },

@@ -303,7 +303,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=4742851&version=1.0
-        type: string
+        type: Enumeration
     biospecimen_laterality:
         cde_id: 2007875
         description: For tumors in paired organs, designates the side on which the
@@ -317,17 +317,19 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2007875&version=1.0
-        type: string
+        type: Enumeration
     case_id:
         key: 'yes'
-        type: string
+        required: 'False'
+        type: String
     case_submitter_id:
         key: 'yes'
-        type: string
+        required: 'False'
+        type: String
     catalog_reference:
         description: HCMI catalog reference number for cancer model.
         required: 'False'
-        type: string
+        type: String
     composition:
         cde_id: 5432591
         description: Text term that represents the cellular composition of the sample.
@@ -365,10 +367,10 @@ properties:
         - Unknown
         - Not Reported
         - Not Allowed To Collect
-        required: 'True'
+        required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432591&version=1.0
-        type: string
+        type: Enumeration
     current_weight:
         cde_id: 5432606
         description: Numeric value that represents the current weight of the sample,
@@ -376,7 +378,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432606&version=1.0
-        type: number
+        type: Double
     days_to_collection:
         cde_id: 3008340
         description: Time interval from the date of biospecimen collection to the
@@ -385,12 +387,12 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3008340&version=1.0
-        type: integer
+        type: Integer
     days_to_sample_procurement:
         description: The number of days from the date the patient was diagnosed to
             the date of the procedure that produced the sample.
         required: 'False'
-        type: integer
+        type: Integer
     diagnosis_pathologically_confirmed:
         description: The histologic description of tissue or cells confirmed by a
             pathology review of frozen or formalin fixed slide(s) completed after
@@ -402,7 +404,7 @@ properties:
         - Not Reported
         - Not Allowed To Collect
         required: 'False'
-        type: string
+        type: Enumeration
     distance_normal_to_tumor:
         cde_id: 3088708
         description: Text term to signify the distance between the tumor tissue and
@@ -415,35 +417,35 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3088708&version=1.0
-        type: string
+        type: Enumeration
     distributor_reference:
         cde_id: 3088708
         description: Distributor reference number for cancer model.
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3088708&version=1.0
-        type: string
+        type: String
     freezing_method:
         cde_id: 5432607
         description: Text term that represents the method used for freezing the sample.
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432607&version=1.0
-        type: string
+        type: String
     gdc_project_id:
         description: Project identifier associated with the sample at the genomic
             data commons
         required: 'False'
-        type: string
+        type: String
     gdc_sample_id:
         description: Sample identifier associated with the sample at the genomic data
             commons
         required: 'False'
-        type: string
+        type: String
     growth_rate:
         description: Rate at which the model grows, measured as hours to time to split.
         required: 'False'
-        type: integer
+        type: Integer
     initial_weight:
         cde_id: 5432605
         description: Numeric value that represents the initial weight of the sample,
@@ -451,11 +453,11 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432605&version=1.0
-        type: number
+        type: Double
     intermediate_dimension:
         description: Intermediate dimension of the sample, in millimeters.
         required: 'False'
-        type: number
+        type: Integer
     is_ffpe:
         cde_id: 4170557
         description: Indicator to signify whether or not the tissue sample was fixed
@@ -466,7 +468,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=4170557&version=1.0
-        type: string
+        type: Enumeration
     longest_dimension:
         cde_id: 5432602
         description: Numeric value that represents the longest dimension of the sample,
@@ -474,7 +476,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432602&version=1.0
-        type: number
+        type: Integer
     method_of_sample_procurement:
         description: The method used to procure the sample used to extract analyte(s).
         enum:
@@ -556,7 +558,7 @@ properties:
         - Not Reported
         - Not Allowed To Collect
         required: 'False'
-        type: number
+        type: Enumeration
     oct_embedded:
         cde_id: 5432538
         description: Indicator of whether or not the sample was embedded in Optimal
@@ -564,25 +566,25 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432538&version=1.0
-        type: string
+        type: String
     passage_count:
         description: Number of passages (splits) between the original tissue and this
             model.
         required: 'False'
-        type: integer
+        type: Integer
     pathology_report_uuid:
         description: UUID of the related pathology report.
         required: 'False'
-        type: string
+        type: String
     pool:
         description: Any biospecimen entity where multiple cases, samples or aliquots
             are combined to produce a reference. Sample pooling is commonly used for
             determining relative protein abundances in labeling experiments.
-        required: 'True'
-        type: string
         enum:
         - 'Yes'
         - 'No'
+        required: 'False'
+        type: Enumeration
     preservation_method:
         cde_id: 5432521
         description: Text term that represents the method used to preserve the sample.
@@ -599,27 +601,31 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432521&version=1.0
-        type: number
+        type: Enumeration
     project_id:
         key: 'yes'
-        type: string
+        required: 'False'
+        type: String
     project_submitter_id:
         key: 'yes'
-        type: string
+        required: 'False'
+        type: String
     sample_id:
         key: 'yes'
-        type: string
+        required: 'False'
+        type: String
     sample_is_ref:
         description: A biospecimen entity which is used as a reference sample for
             determining relative protein abundances in labeling experiments.
-        required: 'false'
-        type: string
         enum:
         - 'Yes'
         - 'No'
+        required: 'False'
+        type: Enumeration
     sample_submitter_id:
         key: 'yes'
-        type: string
+        required: 'True'
+        type: String
     sample_type:
         cde_id: 3111302
         description: Text term to describe the source of a biospecimen used for a
@@ -679,7 +685,7 @@ properties:
         required: 'True'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3111302&version=2.0
-        type: string
+        type: Enumeration
     sample_type_id:
         description: The accompanying sample type id for the sample type.
         enum:
@@ -715,7 +721,7 @@ properties:
         - '86'
         - '99'
         required: 'False'
-        type: string
+        type: Enumeration
     shortest_dimension:
         cde_id: 5432603
         description: Numeric value that represents the shortest dimension of the sample,
@@ -723,7 +729,12 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432603&version=1.0
-        type: number
+        type: Integer
+    status:
+        description: Specifies if the sample is qualified or disqualified for any
+            reason.
+        required: 'False'
+        type: String
     time_between_clamping_and_freezing:
         cde_id: 5432611
         description: Numeric representation of the elapsed time between the surgical
@@ -731,7 +742,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432611&version=1.0
-        type: number
+        type: Integer
     time_between_excision_and_freezing:
         cde_id: 5432612
         description: Numeric representation of the elapsed time between the excision
@@ -739,7 +750,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432612&version=1.0
-        type: string
+        type: String
     tissue_type:
         cde_id: 5432687
         description: Text term that represents a description of the kind of tissue
@@ -752,10 +763,10 @@ properties:
         - Unknown
         - Not Reported
         - Not Allowed To Collect
-        required: 'True'
+        required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432687&version=1.0
-        type: string
+        type: Enumeration
     tumor_code:
         description: Diagnostic tumor code of the tissue sample source.
         enum:
@@ -785,7 +796,7 @@ properties:
         - Rhabdomyosarcoma
         - Soft tissue sarcoma, non-rhabdomyosarcoma
         required: 'False'
-        type: string
+        type: Enumeration
     tumor_code_id:
         description: BCR-defined id code for the tumor sample.
         enum:
@@ -815,7 +826,7 @@ properties:
         - '80'
         - '81'
         required: 'False'
-        type: number
+        type: Enumeration
     tumor_descriptor:
         cde_id: 3288124
         description: Text that describes the kind of disease present in the tumor
@@ -833,9 +844,10 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3288124&version=1.0
-        type: number
+        type: Enumeration
 title: Sample
 type: object
 uniqueKeys:
 -   - sample_id
     - sample_submitter_id
+    - study_id

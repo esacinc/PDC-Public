@@ -10,7 +10,8 @@ import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import {MAT_DIALOG_DATA, MatDialogRef, MatDialogConfig, MatDialog} from '@angular/material';
 import { StudySummaryService } from './study-summary.service';
-import { AllStudiesData, Filter, WorkflowMetadata, ProtocolData, PublicationData, FilesCountsPerStudyData, StudyExperimentalDesign, BiospecimenPerStudy, EntityReferencePerStudy } from '../../types';
+import { AllStudiesData, Filter, WorkflowMetadata, ProtocolData, PublicationData, 
+		StudyExperimentalDesign, BiospecimenPerStudy, EntityReferencePerStudy, FileCountsForStudyPage } from '../../types';
 import { StudySummaryOverlayService } from './study-summary-overlay-window/study-summary-overlay-window.service';
 import { AllClinicalData, AllCasesData } from '../../types';
 import { CheckboxModule } from 'primeng/checkbox';
@@ -51,6 +52,7 @@ enum FileTypes {
 //@@@PDC-1355: Use uuid as API search parameter
 //@@@PDC-1609: URL structure for permanent links to PDC 
 //@@@PDC-1876: Allow deep linking to study summary page by PDC ID
+//@@@PDC-2378: Add supplementary data to the study summary screen
 export class StudySummaryComponent implements OnInit {
 
   study_id: string;
@@ -59,9 +61,11 @@ export class StudySummaryComponent implements OnInit {
   workflowData: WorkflowMetadata;
   protocol: ProtocolData;
   publications: PublicationData[] = [];
-  fileCountsRaw: FilesCountsPerStudyData[];
-  fileTypesCounts: any; 
+  fileCountsRaw: FileCountsForStudyPage[];
+  suppFileCountsRaw: FileCountsForStudyPage[]; //supplementary data files data
+  fileTypesCounts: any;
   totalFilesCount: number = 0;
+  totalSuppFilesCount: number = 0; //supplementary data files counts
   loading: boolean = false;
   heatmapAvailable = false;
   mapData: any[];
@@ -73,6 +77,7 @@ export class StudySummaryComponent implements OnInit {
 	aliquot_help_url = environment.dictionary_base_url + 'dictionaryitem.html?eName=Aliquot';
 	clinical_help_url = environment.dictionary_base_url + 'dictionaryitem.html?eName=Case';
 	experimentalDesign_help_url = environment.dictionary_base_url + 'dictionaryitem.html?eName=Study Run Metadata';
+	files_download_faq_help_url = "/pdc/faq#Files_Download";
 	duaAvailable:boolean = true;
 	filteredClinicalData: AllClinicalData[]; //Filtered list of clinical data
 	//@@@PDC-1160: Add cases and aliquots to the study summary page
@@ -114,6 +119,9 @@ export class StudySummaryComponent implements OnInit {
 	console.log(studyData);
 	//@@@PDC-612 display all data categories
 	this.fileTypesCounts = {RAW: 0, txt_psm: 0, txt: 0, pdf: 0, mzML: 0, doc: 0, mzIdentML: 0}; 
+	this.suppFileCountsRaw = studyData.summaryData.supplementaryFilesCount;
+	this.fileCountsRaw = studyData.summaryData.nonSupplementaryFilesCount;
+	this.getFilesCountsPerStudy();
 	this.study_id = studyData.summaryData.study_id;
 	this.study_submitter_id_name = studyData.summaryData.submitter_id_name;
 	this.studySummaryData = studyData.summaryData;
@@ -158,7 +166,7 @@ export class StudySummaryComponent implements OnInit {
 	this.getWorkflowDataSummary();
 	this.getProtocol();
 	this.getPublications();
-	this.getFilesCountsPerStudy();
+	//this.getFilesCountsPerStudy();
 	//@@@PDC-843: Add embargo date and data use statement to CPTAC studies
 	this.setDUAWindowForStudySummary();
 	//@@@PDC-1160: Add cases and aliquots to the study summary page
@@ -302,6 +310,9 @@ export class StudySummaryComponent implements OnInit {
 			this.studySummaryData = data.getPaginatedUIStudy.uiStudies[0];
 			console.log(this.studySummaryData);
 			this.study_id = this.studySummaryData.study_id;
+			this.suppFileCountsRaw = this.studySummaryData.supplementaryFilesCount;
+			this.fileCountsRaw = this.studySummaryData.nonSupplementaryFilesCount;
+			this.getFilesCountsPerStudy();
 			this.loading = false;
 	   });
   }
@@ -328,8 +339,22 @@ export class StudySummaryComponent implements OnInit {
 	  }, 1000);
   }
 
+  //PDC-2378 - This function will calculate total files counts for
+  // raw and supplementary data files
   getFilesCountsPerStudy(){
-	  this.loading = true;
+	this.totalFilesCount = 0;
+	if (this.fileCountsRaw != undefined) {
+		for (let i = 0; i < this.fileCountsRaw.length; i++) {
+			this.totalFilesCount += this.fileCountsRaw[i].files_count;
+		}
+	}
+	this.totalSuppFilesCount = 0;
+	if (this.suppFileCountsRaw != undefined) {
+		for (let i = 0; i < this.suppFileCountsRaw.length; i++) {
+			this.totalSuppFilesCount += this.suppFileCountsRaw[i].files_count;
+		}
+	}
+	/*  this.loading = true;
     //@@@PDC-1123 call ui wrapper API
 	  setTimeout(() => {
 		  this.studySummaryService.getFilesCounts(this.study_id).subscribe((data: any) => {
@@ -340,7 +365,7 @@ export class StudySummaryComponent implements OnInit {
 			console.log(this.fileCountsRaw);
 			this.loading = false;
 		  });
-	  }, 1000);
+	  }, 1000);*/
   }
 
 //@@@PDC-1160: Add cases and aliquots to the study summary page

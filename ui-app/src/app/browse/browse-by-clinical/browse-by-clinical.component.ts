@@ -34,6 +34,7 @@ import { ngxCsv } from "ngx-csv/ngx-csv";
 //@@@PDC-1063: Implement select all, select page, select none for all tabs
 //@@@PDC-1235: Add imaging_reference to the external reference column for clinical data
 //@@@PDC-1609: URL structure for permanent links to PDC 
+//@@@PDC-2397 Update clinical manifest generation to include additional attributes
 export class BrowseByClinicalComponent implements OnInit {
 
 	filteredClinicalData: AllClinicalData[]; //Filtered list of clinical data
@@ -429,7 +430,8 @@ isDownloadDisabled(){
 	  //Have to define this structure for Primeng CSV export to work properly
 	  //@@@PDC-462 show submitter id
 	  //@@@PDC-1305 add age_at_diagnosis et al
-	  //@@@PDC-1789: Add study_submitter_id and study_id to exported study manifests	  
+	  //@@@PDC-1789: Add study_submitter_id and study_id to exported study manifests
+	  //@@@PDC-2397 Update clinical manifest generation to include additional attributes	  
 	  this.cols = [
 		{field: 'case_id', header: 'Case ID'},
 		{field: 'case_submitter_id', header: 'Cases Submitter ID'},
@@ -445,7 +447,65 @@ isDownloadDisabled(){
 		{field: 'tumor_stage', header: 'Tumor Stage'},
 		{field: 'age_at_diagnosis', header: 'Age at Diagnosis'},
 		{field: 'classification_of_tumor', header: 'Classification of Tumor'},
-		{field: 'days_to_recurrence', header: 'Days to Recurrence'}
+		{field: 'days_to_recurrence', header: 'Days to Recurrence'},
+		{field: 'disease_type', header: 'Disease Type'},
+		{field: 'primary_site', header: 'Primary Site'},
+		{field: 'program_name', header: 'Program Name'},
+		{field: 'project_name', header: 'Project Name'},
+		{field: 'status', header: 'Status'},
+		{field: 'cause_of_death', header: 'Cause of Death'},
+		{field: 'days_to_birth', header: 'Days to Birth'},
+		{field: 'days_to_death', header: 'Days to Death'},
+		{field: 'vital_status', header: 'Vital Status'},
+		{field: 'year_of_birth', header: 'Year of Birth'},
+		{field: 'year_of_death', header: 'Year of Death'},
+		{field: 'days_to_last_follow_up', header: 'Days to Last Follow Up'},
+		{field: 'days_to_last_known_disease_status', header: 'Days to Last Known Disease Status'},
+		{field: 'last_known_disease_status', header: 'Last Known Disease Status'},
+		{field: 'progression_or_recurrence', header: 'Progession or Recurrence'},
+		{field: 'prior_malignancy', header: 'Prior Malignancy'},
+		{field: 'ajcc_clinical_m', header: 'AJCC Clinical M'},
+		{field: 'ajcc_clinical_n', header: 'AJCC Clinical N'},
+		{field: 'ajcc_clinical_stage', header: 'AJCC Clinical Stage'},
+		{field: 'ajcc_clinical_t', header: 'AJCC Clinical T'},
+		{field: 'ajcc_pathologic_m', header: 'AJCC Pathologic M'},
+		{field: 'ajcc_pathologic_n', header: 'AJCC Pathologic N'},
+		{field: 'ajcc_pathologic_stage', header: 'AJCC Pathologic Stage'},
+		{field: 'ajcc_pathologic_t', header: 'AJCC Pathologic T'},
+		{field: 'ajcc_staging_system_edition', header: 'AJCC Staging System Edition'},
+		{field: 'ann_arbor_b_symptoms', header: 'Ann Arbor B Symptoms'},
+		{field: 'ann_arbor_clinical_stage', header: 'Ann Arbor Clinical Stage'},
+		{field: 'ann_arbor_extranodal_involvement', header: 'Ann Arbor Extranodal Involvement'},
+		{field: 'ann_arbor_pathologic_stage', header: 'Ann Arbor Pathologic Stage'},
+		{field: 'best_overall_response', header: 'Best Overall Response'},
+		{field: 'burkitt_lymphoma_clinical_variant', header: 'Burkitt Lymphoma Clinical Variant'},
+		{field: 'circumferential_resection_margin', header: 'Circumferential Resection Margin'},
+		{field: 'colon_polyps_history', header: 'Colon Polups History'},
+		{field: 'days_to_best_overall_response', header: 'Days to Best Overall'},
+		{field: 'days_to_diagnosis', header: 'Days to Diagnosis'},
+		{field: 'days_to_hiv_diagnosis', header: 'Days to HIV Diagnosis'},
+		{field: 'days_to_new_event', header: 'Days to New Event'},
+		{field: 'figo_stage', header: 'Figo Stage'},
+		{field: 'hiv_positive', header: 'HIV Positive'},
+		{field: 'hpv_positive_type', header: 'HPV Positive Type'},
+		{field: 'hpv_status', header: 'HPV Status'},
+		{field: 'iss_stage', header: 'ISS Stage'},
+		{field: 'laterality', header: 'Laterality'},
+		{field: 'ldh_level_at_diagnosis', header: 'LDH Level at Diagnosis'},
+		{field: 'ldh_normal_range_upper', header: 'LDH Normal Range Upper'},
+		{field: 'lymph_nodes_positive', header: 'Lymph Nodes Positive'},
+		{field: 'lymphatic_invasion_present', header: 'Lymphatic Invasion Present'},
+		{field: 'method_of_diagnosis', header: 'Method of Diagnosis'},
+		{field: 'new_event_anatomic_site', header: 'New Event Anatomic Site'},
+		{field: 'new_event_type', header: 'New Event Type'},
+		{field: 'overall_survival', header: 'Overall Survival'},
+		{field: 'perineural_invasion_present', header: 'Perineural Invasion Present'},
+		{field: 'prior_treatment', header: 'Prior Treatment'},
+		{field: 'progression_free_survival', header: 'Progression Free Survival'},
+		{field: 'progression_free_survival_event', header: 'Progression Free Survival Event'},
+		{field: 'residual_disease', header: 'Residual Disease'},
+		{field: 'vascular_invasion_present', header: 'Vascular Invasion Present'},
+		{field: 'year_of_diagnosis', header: 'Year of Diagnosis'}
 	  ];
 	  //@@@PDC-799: Redirecting to the NIH login page for the file authorization loses PDC state
 	  this.activatedRoute.queryParams.subscribe(queryParams => {

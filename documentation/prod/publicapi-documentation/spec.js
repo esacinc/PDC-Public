@@ -713,7 +713,7 @@ var spec = {
                       "application/json"
                     ],
                     "parameters": [{
-                        "name": "study_id",
+                        "name": "pdc_study_id",
                         "in": "path",
                         "description": "PDC Study ID of study, example: PDC000127",
                         "required": true,
@@ -1506,7 +1506,7 @@ var spec = {
                        }
                      }
                        },
-                   '?query={ experimentalMetadata(study_submitter_id: "{study_submitter_id}"){ experiment_type analytical_fraction instrument study_run_metadata { study_run_metadata_submitter_id fraction aliquot_run_metadata { aliquot_submitter_id } files { file_type data_category file_location } } } }': {
+                   '?query={ experimentalMetadata(study_submitter_id: "{study_submitter_id}"){ experiment_type analytical_fraction instrument study_run_metadata { study_run_metadata_submitter_id fraction aliquot_run_metadata { aliquot_submitter_id aliquot_run_metadata_id } files { file_type data_category file_location } } } }': {
                  "get": {
                            "tags": ["Experimental"],
                    "summary": "Find experimental metadata for a study",
@@ -1518,7 +1518,7 @@ var spec = {
                    "parameters": [{
                        "name": "study_submitter_id",
                        "in": "path",
-                       "description": "Study submitter iD, example: S015-1",
+                       "description": "Study submitter ID, example: S015-1",
                        "required": "true",
                        "type": "string"
                      }
@@ -1536,7 +1536,7 @@ var spec = {
                    }
                  }
                    },
-                   '?query={ experimentalMetadata(pdc_study_id: "{pdc_study_id}"){ experiment_type analytical_fraction instrument study_run_metadata { study_run_metadata_submitter_id fraction aliquot_run_metadata { aliquot_submitter_id } files { file_type data_category file_location } } } }': {
+                   '?query={ experimentalMetadata(pdc_study_id: "{pdc_study_id}"){ experiment_type analytical_fraction instrument study_run_metadata { study_run_metadata_submitter_id fraction aliquot_run_metadata { aliquot_submitter_id aliquot_run_metadata_id } files { file_type data_category file_location } } } }': {
                      "get": {
                                "tags": ["Experimental"],
                        "summary": "Find experimental metadata for PDC Study ID",
@@ -1548,7 +1548,7 @@ var spec = {
                        "parameters": [{
                            "name": "pdc_study_id",
                            "in": "path",
-                           "description": "PDC Study ID, example: PDC000173",
+                           "description": "PDC Study ID, example: PDC000180",
                            "required": "true",
                            "type": "string"
                          }
@@ -1566,7 +1566,7 @@ var spec = {
                        }
                      }
                        },
-                   '?query={ paginatedCasesSamplesAliquots(offset:{offset} limit: {limit}) { total casesSamplesAliquots { case_id case_submitter_id external_case_id tissue_source_site_code days_to_lost_to_followup disease_type index_date lost_to_followup primary_site samples { sample_id sample_submitter_id sample_type sample_type_id gdc_sample_id gdc_project_id biospecimen_anatomic_site composition current_weight days_to_collection days_to_sample_procurement diagnosis_pathologically_confirmed freezing_method initial_weight intermediate_dimension is_ffpe longest_dimension method_of_sample_procurement oct_embedded pathology_report_uuid preservation_method sample_type_id shortest_dimension time_between_clamping_and_freezing time_between_excision_and_freezing tissue_type tumor_code tumor_code_id tumor_descriptor aliquots { aliquot_id aliquot_submitter_id aliquot_quantity aliquot_volume amount analyte_type } } } pagination { count sort from page total pages size } } }': {
+                   '?query={ paginatedCasesSamplesAliquots(offset:{offset} limit: {limit}) { total casesSamplesAliquots { case_id case_submitter_id external_case_id tissue_source_site_code days_to_lost_to_followup disease_type index_date lost_to_followup primary_site samples { sample_id sample_submitter_id sample_type sample_type_id gdc_sample_id gdc_project_id biospecimen_anatomic_site composition current_weight days_to_collection days_to_sample_procurement diagnosis_pathologically_confirmed freezing_method initial_weight intermediate_dimension is_ffpe longest_dimension method_of_sample_procurement oct_embedded pathology_report_uuid preservation_method sample_type_id shortest_dimension time_between_clamping_and_freezing time_between_excision_and_freezing tissue_type tumor_code tumor_code_id tumor_descriptor aliquots { aliquot_id aliquot_submitter_id aliquot_quantity aliquot_volume amount analyte_type aliquot_run_metadata { aliquot_run_metadata_id } } } } pagination { count sort from page total pages size } } }': {
                  "get": {
                            "tags": ["Case"],
                    "summary": "Get paginated case records",
@@ -1602,7 +1602,7 @@ var spec = {
                    }
                  }
                    },
-                   '?query={ paginatedCasesSamplesAliquots(pdc_study_id:"{pdc_study_id}" offset:{offset} limit: {limit}) { total casesSamplesAliquots { case_id case_submitter_id external_case_id tissue_source_site_code days_to_lost_to_followup disease_type index_date lost_to_followup primary_site samples { sample_id sample_submitter_id sample_type sample_type_id gdc_sample_id gdc_project_id biospecimen_anatomic_site composition current_weight days_to_collection days_to_sample_procurement diagnosis_pathologically_confirmed freezing_method initial_weight intermediate_dimension is_ffpe longest_dimension method_of_sample_procurement oct_embedded pathology_report_uuid preservation_method sample_type_id shortest_dimension time_between_clamping_and_freezing time_between_excision_and_freezing tissue_type tumor_code tumor_code_id tumor_descriptor aliquots { aliquot_id aliquot_submitter_id aliquot_quantity aliquot_volume amount analyte_type } } } pagination { count sort from page total pages size } } }': {
+                   '?query={ paginatedCasesSamplesAliquots(pdc_study_id:"{pdc_study_id}" offset:{offset} limit: {limit}) { total casesSamplesAliquots { case_id case_submitter_id external_case_id tissue_source_site_code days_to_lost_to_followup disease_type index_date lost_to_followup primary_site samples { sample_id sample_submitter_id sample_type sample_type_id gdc_sample_id gdc_project_id biospecimen_anatomic_site composition current_weight days_to_collection days_to_sample_procurement diagnosis_pathologically_confirmed freezing_method initial_weight intermediate_dimension is_ffpe longest_dimension method_of_sample_procurement oct_embedded pathology_report_uuid preservation_method sample_type_id shortest_dimension time_between_clamping_and_freezing time_between_excision_and_freezing tissue_type tumor_code tumor_code_id tumor_descriptor aliquots { aliquot_id aliquot_submitter_id aliquot_quantity aliquot_volume amount analyte_type aliquot_run_metadata { aliquot_run_metadata_id } } } } pagination { count sort from page total pages size } } }': {
                      "get": {
                                "tags": ["Case"],
                        "summary": "Get paginated case records for PDC Study ID",
@@ -2448,11 +2448,26 @@ var spec = {
                 "analyte_type":{
                    "type":"string",
                    "example":"Protein"
-                }
+                },
+                "aliquot_run_metadata":{
+                  "type":"array",
+                  "items":{
+                     "$ref":"#/definitions/aliquotRunMetaDataForPaginated"
+                  }
+               }               
              },
              "xml":{
                 "name":"Aliquot"
              }
+          },
+          "aliquotRunMetaDataForPaginated": {
+            "type":"object",
+            "properties":{
+               "aliquot_run_metadata_id":{
+                  "type":"string",
+                  "example":"1661cee5-5731-11e8-b664-00a098d917f8"
+               },
+            }
           },
           "Study_run_metadata":{
              "type":"object",
@@ -2487,8 +2502,12 @@ var spec = {
              "properties":{
                 "aliquot_submitter_id":{
                    "type":"string",
-                   "description":"TCGA-E2-A150-01A-12-A21W-30"
-                }
+                   "example":"TCGA-AO-A12B-01A-41-A21V-30"
+                },
+                "aliquot_run_metadata_id":{
+                  "type":"string",
+                  "example":"2384aae1-5732-11e8-b664-00a098d917f8"
+               }
              },
              "xml":{
                 "name":"Aliquot_run_metadata"
@@ -2499,15 +2518,15 @@ var spec = {
              "properties":{
                 "file_type":{
                    "type":"string",
-                   "description":"Proprietary"
+                   "example":"Proprietary"
                 },
                 "data_category":{
                    "type":"string",
-                   "description":"Raw Mass Spectra"
+                   "example":"Raw Mass Spectra"
                 },
                 "file_location":{
                    "type":"string",
-                   "description":"raw-files/10/30/TCGA_A2-A0YG_E2-A150_BH-A18N_117C_P_BI_20130920_H-PM_f07.raw"
+                   "example":"raw-files/10/30/TCGA_A2-A0YG_E2-A150_BH-A18N_117C_P_BI_20130920_H-PM_f07.raw"
                 }
              },
              "xml":{
@@ -5235,11 +5254,11 @@ var spec = {
                },
                 "study_run_metadata_id":{
                    "type":"string",
-                   "example":"0127c578-2075-11e9-b7f8-0a80fada099c"
+                   "example":"de9ebff4-2074-11e9-b7f8-0a80fada099c"
                 },
                 "study_run_metadata_submitter_id":{
                    "type":"string",
-                   "example":"S044-1-13"
+                   "example":"S044-1-1"
                 },
                 "study_id":{
                    "type":"string",
@@ -5251,7 +5270,7 @@ var spec = {
                 },
                 "analyte":{
                    "type":"string",
-                   "example":"null"
+                   "example":"Proteome"
                 },
                 "acquisition_type":{
                    "type":"string",
@@ -5263,11 +5282,11 @@ var spec = {
                 },
                 "plex_dataset_name":{
                    "type":"string",
-                   "example":"10CPTAC_CCRCC_Proteome_JHU_20180119"
+                   "example":"01CPTAC_CCRCC_Proteome_JHU_20171007"
                 },
                 "experiment_number":{
                    "type":"string",
-                   "example":"null"
+                   "example":"1"
                 },
                 "number_of_fractions":{
                    "type":"string",
@@ -5311,39 +5330,39 @@ var spec = {
                },
                 "tmt_126":{
                    "type":"string",
-                   "example":"CPT0001180009"
+                   "example":"CPT0079430001"
                 },
                 "tmt_127n":{
                    "type":"string",
-                   "example":"CPT0082010001"
+                   "example":"CPT0023360001"
                 },
                 "tmt_127c":{
                    "type":"string",
-                   "example":"CPT0015910003"
+                   "example":"CPT0023350003"
                 },
                 "tmt_128n":{
                    "type":"string",
-                   "example":"CPT0086870003"
+                   "example":"CPT0079410003"
                 },
                 "tmt_128c":{
                    "type":"string",
-                   "example":"CPT0063330001"
+                   "example":"CPT0087040003"
                 },
                 "tmt_129n":{
                    "type":"string",
-                   "example":"CPT0001190001"
+                   "example":"CPT0077310003"
                 },
                 "tmt_129c":{
                    "type":"string",
-                   "example":"CPT0063320003"
+                   "example":"CPT0077320001"
                 },
                 "tmt_130n":{
                    "type":"string",
-                   "example":"CPT0081990003"
+                   "example":"CPT0087050003"
                 },
                 "tmt_130c":{
                    "type":"string",
-                   "example":"CPT0086890003"
+                   "example":"CPT0002270011"
                 },
                 "tmt_131":{
                    "type":"string",

@@ -7,7 +7,7 @@ import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { AllCasesData } from '../../types';
+import { AllCasesData, AllUICasesData } from '../../types';
 import { CaseSummaryComponent } from '../case-summary/case-summary.component';
 import { BrowseByCaseComponent } from './browse-by-case.component';
 import { BrowseByCaseService } from './browse-by-case.service';
@@ -111,16 +111,51 @@ describe("BrowseByCaseComponent", () => {
   });
 
   it("test find case id", () => {
-    let casesData: AllCasesData = {
-      aliquot_submitter_id: "",
-      sample_submitter_id: "",
-      case_id: "",
-      case_submitter_id: "cae72878",
-      project_name: "",
-      program_name: "",
-      sample_type: "",
-      disease_type: "",
-      primary_site: ""
+    let casesData: AllUICasesData = {
+		aliquot_submitter_id: "",
+		sample_submitter_id: "",
+		case_id: "",
+		case_submitter_id: "cae72878",
+		project_name: "",
+		program_name: "",
+		sample_type: "",
+		disease_type: "",
+		primary_site: "",
+		aliquot_id: "",
+		sample_id: "",
+		aliquot_is_ref: "",
+		aliquot_status: "",
+		aliquot_quantity: "",
+		aliquot_volume: "",
+		amount: "",
+		analyte_type: "",
+		concentration: "",
+		case_status: "",
+		sample_status: "",
+		sample_is_ref: "",
+		biospecimen_anatomic_site: "",
+		composition: "",
+		current_weight: "",
+		days_to_collection: "",
+		days_to_sample_procurement: "",
+		diagnosis_pathologically_confirmed: "",
+		freezing_method: "",
+		initial_weight: "",
+		intermediate_dimension: "",
+		is_ffpe: "",
+		longest_dimension: "",
+		method_of_sample_procurement: "",
+		oct_embedded: "",
+		pathology_report_uuid: "",
+		preservation_method: "",
+		sample_type_id: "",
+		shortest_dimension: "",
+		time_between_clamping_and_freezing: "",
+		time_between_excision_and_freezing: "",
+		tissue_type: "",
+		tumor_code: "",
+		tumor_code_id: "",
+		tumor_descriptor: "",
     };
 
     let filteredCasesData = [casesData];

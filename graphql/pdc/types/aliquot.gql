@@ -12,7 +12,7 @@ type Aliquot {
 	amount: Float
 	analyte_type: String
 	concentration: Float
-	aliquot_run_metadata: AliquotRunMetadata
+	aliquot_run_metadata: [AliquotRunMetadata]
 	sample: Sample
 	project: Project
 }

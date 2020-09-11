@@ -31,6 +31,7 @@ constructor(private apollo: Apollo) {
 	//@@@PDC-567 add sample_type filter
 	//@@@PDC-616 Add acquisition type to the general filters
 	//@@@PDC-1305 add age_at_diagnosis et al 	
+	//@@@PDC-2397 Update clinical manifest generation to include additional attributes
 	filteredCinicalDataPaginatedQuery = gql`
 				query FilteredClinicalDataPaginated($offset_value: Int, $limit_value: Int, $sort_value: String, $program_name_filter: String!, $project_name_filter: String!, $study_name_filter: String!, $disease_filter: String!, $filterValue: String!, $analytical_frac_filter: String!, $exp_type_filter: String!, $ethnicity_filter: String!, $race_filter: String!, $gender_filter: String!, $tumor_grade_filter: String!, $sample_type_filter: String!, $acquisition_type_filter: String!, $data_category_filter: String!, $file_type_filter: String!, $access_filter: String!, $downloadable_filter: String!, $case_status_filter: String!, $biospecimen_status_filter: String!){
 					getPaginatedUIClinical(offset: $offset_value, limit: $limit_value, sort: $sort_value, program_name: $program_name_filter , project_name: $project_name_filter, 
@@ -60,10 +61,63 @@ constructor(private apollo: Apollo) {
 							program_name
 							project_name
 							status
+							cause_of_death
+							days_to_birth
+							days_to_death
+							vital_status
+							year_of_birth
+							year_of_death
+							days_to_last_follow_up
+							days_to_last_known_disease_status
+							last_known_disease_status
+							progression_or_recurrence
+							prior_malignancy
+							ajcc_clinical_m
+							ajcc_clinical_n
+							ajcc_clinical_stage
+							ajcc_clinical_t
+							ajcc_pathologic_m
+							ajcc_pathologic_n
+							ajcc_pathologic_stage
+							ajcc_pathologic_t
+							ajcc_staging_system_edition
+							ann_arbor_b_symptoms
+							ann_arbor_clinical_stage
+							ann_arbor_extranodal_involvement
+							ann_arbor_pathologic_stage
+							best_overall_response
+							burkitt_lymphoma_clinical_variant
+							circumferential_resection_margin
+							colon_polyps_history
+							days_to_best_overall_response
+							days_to_diagnosis
+							days_to_hiv_diagnosis
+							days_to_new_event
+							figo_stage
+							hiv_positive
+							hpv_positive_type
+							hpv_status
+							iss_stage
+							laterality
+							ldh_level_at_diagnosis
+							ldh_normal_range_upper
+							lymph_nodes_positive
+							lymphatic_invasion_present
+							method_of_diagnosis
+							new_event_anatomic_site
+							new_event_type
+							overall_survival
+							perineural_invasion_present
+							prior_treatment
+							progression_free_survival
+							progression_free_survival_event
+							residual_disease
+							vascular_invasion_present
+							year_of_diagnosis
 							externalReferences {
 								reference_resource_shortname
 								reference_entity_location
-							}
+							} 
 						}
 						pagination {
 							count

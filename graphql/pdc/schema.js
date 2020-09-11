@@ -11,11 +11,17 @@ const resolvers = _.merge(queryResolvers, subResolvers);
 const TYPEDEFS = gql`${glob.sync("./pdc/types/*.gql")
   .map(filename => fs.readFileSync(filename, 'utf8'))
   .reduce((typeDefs, typeDef) => `${typeDefs}\n${typeDef}`, '# My Awesome SDL')}`
+//@@@PDC-2485 point to dev graghql playground
+let currentEnd = "https://pdc-dev.esacinc.com/graphql"
+if (typeof process.env.PDC_GQ_PLAYGROUND != "undefined") {
+	currentEnd = process.env.PDC_GQ_PLAYGROUND;
+}
+
 const SERVER = new ApolloServer({
   typeDefs: TYPEDEFS,
   resolvers: resolvers,
   playground: {
-    endpoint: `http://localhost:3000/graphql`,
+    endpoint: currentEnd,
     settings: {
       'editor.theme': 'light'
     }

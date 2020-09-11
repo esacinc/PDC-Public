@@ -43,6 +43,7 @@ import { BrowseFiltersService } from "./browse-filters.service";
 //@@@PDC-1001: Gene search is very slow and occasionally fails
 //@@@PDC-1095: Improving file filter select combinations
 //@@@PDC-1668: multiple and trailing spaces in gene names filter bug
+//@@@PDC-2460: Add new data category/file type: Alternate Processing Pipeline/Archive
 export class BrowseFiltersComponent implements OnInit, OnChanges {
   allCategoryFilterData: FilterData; // Full list of all cases as returned by API
   allFilterCategoryMapData: Map<string, string[]> = new Map();
@@ -205,13 +206,15 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
   ];
   
   dataCategoryFileTypeMap = {
-	  "Other Metadata": ["Document", "Text"], "Peptide Spectral Matches": ["Open Standard", "Text"], "Processed Mass Spectra" : ["Open Standard"],
-	  "Protein Assembly": ["Text"], "Protein Databases": ["Text"], "Quality Metrics": ["Text", "Web"], "Raw Mass Spectra": ["Proprietary"], "Spectral Library": ["Proprietary"]
+	  "Other Metadata": ["Document", "Text", "Archive"], "Peptide Spectral Matches": ["Open Standard", "Text"], "Processed Mass Spectra" : ["Open Standard"],
+	  "Protein Assembly": ["Text"], "Protein Databases": ["Text"], "Quality Metrics": ["Text", "Web"], "Raw Mass Spectra": ["Proprietary"], 
+	  "Spectral Library": ["Proprietary"], "Alternate Processing Pipeline": ["Archive"]
   };
   
   fileTypeDataCategoryMap = {
 		"Document": ["Other Metadata"], "Open Standard": ["Peptide Spectral Matches", "Processed Mass Spectra"], "Proprietary": ["Raw Mass Spectra", "Spectral Library"],
-		"Text": ["Other Metadata", "Peptide Spectral Matches", "Protein Assembly", "Protein Databases", "Quality Metrics"], "Web": ["Quality Metrics"]
+		"Text": ["Other Metadata", "Peptide Spectral Matches", "Protein Assembly", "Protein Databases", "Quality Metrics"], "Web": ["Quality Metrics"],
+		"Archive": ["Alternate Processing Pipeline", "Other Metadata"]
   };
 
   //array to keep all possible stduies
@@ -336,6 +339,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
     this.downloadableFilter.sort(this.compare);
     this.biospecimenStatusFilter.sort(this.compare);
     this.caseStatusFilter.sort(this.compare);
+	
   
   //After the filters were populated if there are any filter values set in URL need to emit these filter values and update filters
 	//URL values for filters should be set in the following format:
@@ -1141,6 +1145,11 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
   }
 
   filterDataByDataCategory(e) {
+	//In case where user clicked on metadata files counter on study table
+	if (this.selectedDataCategory.length > 0 && this.selectedDataCategory[0].indexOf(";") > -1) {
+		var temp = this.selectedDataCategory[0].split(';');
+		this.selectedDataCategory = temp;
+	}
     var newFilterValue = "data_category:" + this.selectedDataCategory.join(";");
     this.selectedFilters.emit(newFilterValue);
     this.updateFiltersCounters();
@@ -1187,7 +1196,6 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
 			  result = true;
 		  }
 	  }
-	  //console.log("Return " + result + " for " + filterName);
 	  return result;
   }
   
@@ -1567,6 +1575,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
         setTimeout(() => {
           //@@@PDC-1252: Add data category as a filter for the "file counts" section of the Study table
           this.selectedDataCategory = new Array(res.fileDetailsforDataCategory);
+		  console.log(this.selectedDataCategory);
           this.filterDataByDataCategory(event);
         }, 2000);
       }
