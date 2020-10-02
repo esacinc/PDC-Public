@@ -40,6 +40,17 @@
     align-items: center;
  }
 
+.future_embargo_date {
+	color: #de350b;
+	font-weight: 800;
+}
+::ng-deep .custom-tooltip {
+	word-wrap: break-word;
+	white-space: pre-line;
+	font-size: 11px;
+	width:80%;
+}
+
  /* @@@PDC-551: Need smaller font for paginator pages on Browse page tables to fit 3 digit numbers */
  :host /deep/ .ui-paginator .ui-paginator-pages .ui-paginator-page{ 
     min-width: 2.5em !important; 

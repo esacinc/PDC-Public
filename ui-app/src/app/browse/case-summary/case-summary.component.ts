@@ -9,7 +9,7 @@ import "rxjs/add/operator/map";
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import { CaseSummaryService } from "./case-summary.service";
 import { Filter, FilesCountsPerStudyData, CaseData, AllCasesData, ExperimentFileByCaseCount, DataCategoryFileByCaseCount,
-			SampleData, AliquotData, DiagnosesData, AllStudiesData} from '../../types';
+			SampleData, AliquotData, DiagnosesData, DemographicsData, AllStudiesData} from '../../types';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { StudySummaryComponent } from '../study-summary/study-summary.component';
 
@@ -26,6 +26,7 @@ import { StudySummaryComponent } from '../study-summary/study-summary.component'
 //@@@PDC-1042: Enable links to studies and files from case summary page
 //@@@PDC-1355: Use uuid as API search parameter
 //@@@PDC-1609: URL structure for permanent links to PDC 
+//@@@PDC-2605: Show properties on Demography tab in Case Summary 
 export class CaseSummaryComponent implements OnInit {
   experimentFileCount: ExperimentFileByCaseCount[];
   dataCategoryFileCount: DataCategoryFileByCaseCount[];
@@ -36,6 +37,7 @@ export class CaseSummaryComponent implements OnInit {
   samples: SampleData[];
   aliquots: AliquotData[];
   diagnoses: DiagnosesData[];
+  demographics: DemographicsData[];
   fileTypesCounts: any; 
   totalFilesCount: number = 0;
   loading: boolean = false;
@@ -189,12 +191,15 @@ export class CaseSummaryComponent implements OnInit {
 	this.loading = true;
 	this.caseSummaryService.getDetailedCaseSummaryData(this.case_id).subscribe((data: any) =>{
 		//@@@PDC-1123 add ui wrappers public APIs
-		this.caseDetailedSummaryData = data.uiCaseSummary;
-		this.samples = data.uiCaseSummary.samples;
+		//console.log("Case from Array: "+JSON.stringify(data.uiCaseSummary[0]));
+		//@@@PDC-2335 uiCaseSummary returns an array instead of a single obj
+		this.caseDetailedSummaryData = data.uiCaseSummary[0];
+		this.samples = data.uiCaseSummary[0].samples;
 		for (let sample of this.samples){
 			this.aliquots = this.aliquots.concat(sample.aliquots);
 		}
-		this.diagnoses = this.removeNullValues(data.uiCaseSummary.diagnoses);
+		this.diagnoses = this.removeNullValues(data.uiCaseSummary[0].diagnoses);
+		this.demographics = this.removeNullValues(data.uiCaseSummary[0].demographics);
 		this.loading = false;
 	});
   }

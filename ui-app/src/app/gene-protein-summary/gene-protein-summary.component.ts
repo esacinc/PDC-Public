@@ -29,6 +29,7 @@ import { Filter, GeneProteinData, GeneStudySpectralCountData, GeneAliquotSpectra
 //@@@PDC-670 - loading gene summary aliquot counts takes too long
 //@@@PDC-716 - add PTM data
 //@@@PDC-772 - remove study and aliquot counts table, add button to gene full page
+//@@@PDC-2450 gene/protein summary missing NCBI gene id
 export class GeneProteinSummaryComponent implements OnInit {
 
   gene_id: string;
@@ -78,7 +79,7 @@ export class GeneProteinSummaryComponent implements OnInit {
 	//Initializing gene summary data structure
 	this.geneSummaryData = {
 		gene_name: "",
-		NCBI_gene_id: "",
+		ncbi_gene_id: "",
 		authority: "",
 		description: "",
 		organism: "",

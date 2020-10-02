@@ -5,6 +5,7 @@ type Study {
   submitter_id_name: String
   study_name: String
   study_shortname: String
+  embargo_date: Date
   program_name: String
   project_name: String
   program_id: String
@@ -18,6 +19,7 @@ type Study {
   project: Project
   cases_count: Int
   aliquots_count: Int
+  contacts: [Contact]
   filesCount: [File]
   diagnoses: [Diagnosis]
   cases: [Case]

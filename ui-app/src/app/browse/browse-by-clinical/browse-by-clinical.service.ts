@@ -32,6 +32,7 @@ constructor(private apollo: Apollo) {
 	//@@@PDC-616 Add acquisition type to the general filters
 	//@@@PDC-1305 add age_at_diagnosis et al 	
 	//@@@PDC-2397 Update clinical manifest generation to include additional attributes
+	//@@@PDC-2335 remove imaging_resource
 	filteredCinicalDataPaginatedQuery = gql`
 				query FilteredClinicalDataPaginated($offset_value: Int, $limit_value: Int, $sort_value: String, $program_name_filter: String!, $project_name_filter: String!, $study_name_filter: String!, $disease_filter: String!, $filterValue: String!, $analytical_frac_filter: String!, $exp_type_filter: String!, $ethnicity_filter: String!, $race_filter: String!, $gender_filter: String!, $tumor_grade_filter: String!, $sample_type_filter: String!, $acquisition_type_filter: String!, $data_category_filter: String!, $file_type_filter: String!, $access_filter: String!, $downloadable_filter: String!, $case_status_filter: String!, $biospecimen_status_filter: String!){
 					getPaginatedUIClinical(offset: $offset_value, limit: $limit_value, sort: $sort_value, program_name: $program_name_filter , project_name: $project_name_filter, 
@@ -42,7 +43,6 @@ constructor(private apollo: Apollo) {
 						uiClinical{
 							case_submitter_id
 							external_case_id
-							imaging_resource
 							ethnicity
 							gender
 							race

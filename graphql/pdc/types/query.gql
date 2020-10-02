@@ -34,18 +34,18 @@ type Query {
   getPaginatedUIGene(gene_name: String, program_name: String, project_name: String, study_name: String, disease_type: String, primary_site: String, analytical_fraction: String, experiment_type: String, ethnicity: String, race: String, gender: String, morphology: String, primary_diagnosis: String,  site_of_resection_or_biopsy: String, tissue_or_organ_of_origin: String, tumor_grade: String, tumor_stage: String, data_category: String, file_type: String, downloadable: String, access: String, sample_type: String, acquisition_type: String, gene_name: String, biospecimen_status: String, case_status: String, sort: String, offset: Int, limit: Int): Paginated
   getPaginatedFiles(study_submitter_id: String,  pdc_study_id: String, file_type: String, file_name: String, offset: Int, limit: Int): Paginated
   getPaginatedCases(offset: Int, limit: Int): Paginated
-  case(case_submitter_id: String, case_id: String): Case
-  uiCaseSummary(case_submitter_id: String, case_id: String): Case
+  case(case_submitter_id: String, case_id: String): [Case]
+  uiCaseSummary(case_submitter_id: String, case_id: String): [Case]
   casePerFile(file_id: String!): [CasePerFile] 
   uiCasePerFile(file_id: String!): [CasePerFile] 
   allCases: [PublicCase]
   program(program_submitter_id: String, program_id: String): Program
   allPrograms: [Program]
   uiAllPrograms: [Program]
-  geneSpectralCount(gene_name: String!): Gene
-  uiGeneSpectralCount(gene_name: String!): Gene
-  aliquotSpectralCount(gene_name: String!, dataset_alias: String!): Gene
-  protein(protein: String!): Gene
+  geneSpectralCount(gene_name: String!): [Gene]
+  uiGeneSpectralCount(gene_name: String!): GeneSp
+  aliquotSpectralCount(gene_name: String!, dataset_alias: String!): [Gene]
+  protein(protein: String!): [Gene]
   uiProtein(protein: String!): Gene
   tissueSitesAvailable(tissue_or_organ_of_origin: String, project_submitter_id: String ): [Diagnosis]
   uiTissueSitesAvailable(tissue_or_organ_of_origin: String, project_submitter_id: String ): [Diagnosis]

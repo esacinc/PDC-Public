@@ -24,6 +24,7 @@ import { Filter, GeneProteinData, GeneStudySpectralCountData, GeneAliquotSpectra
 })
 
 //@@@PDC-770 Add a gene page with filters
+//@@@PDC-2450 gene/protein summary missing NCBI gene id
 export class GenePageComponent implements OnInit, OnChanges {
 
   gene_id: string;
@@ -33,7 +34,7 @@ export class GenePageComponent implements OnInit, OnChanges {
   lodingPTMData: boolean = false;
   geneSummaryData: GeneProteinData = {
 		gene_name: "",
-		NCBI_gene_id: "",
+		ncbi_gene_id: "",
 		authority: "",
 		description: "",
 		organism: "",
@@ -84,7 +85,7 @@ export class GenePageComponent implements OnInit, OnChanges {
 	//Initializing gene summary data structure
 	this.geneSummaryData = {
 		gene_name: "",
-		NCBI_gene_id: "",
+		ncbi_gene_id: "",
 		authority: "",
 		description: "",
 		organism: "",

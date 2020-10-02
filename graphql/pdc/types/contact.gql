@@ -1,0 +1,7 @@
+type Contact {
+	contact_id: String
+	name: String
+	institution: String
+	email: String
+	url: String
+}

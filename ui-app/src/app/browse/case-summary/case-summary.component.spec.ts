@@ -34,23 +34,108 @@ class MockCaseSummaryService {
   //@@@PDC-1123 add ui wrappers public APIs
   getDetailedCaseSummaryData(): Observable<any> {
     return of({
-      uiCaseSummary: {
+      uiCaseSummary: [{
+		case_id: "cae72878-63d6-11e8-bcf1-0a2705229b82",
+		case_submitter_id: "14CO003",
+		days_to_lost_to_followup: 0,
+		disease_type: "Colon Adenocarcinoma",
+		external_case_id: "e965a8fa-a257-4fd7-8bbb-a0f134c0c7d3",
+		index_date: null,
+		lost_to_followup: "",
+		primary_site: "Colon",
+		project_submitter_id: "CPTAC-2",
+		tissue_source_site_code: "",
+		demographics: [
+			{
+				cause_of_death: "Not Reported",
+				days_to_birth: null,
+				days_to_death: null,
+				demographic_submitter_id: "14CO003-DM",
+				ethnicity: "Not Hispanic or Latino",
+				gender: "Female",
+				race: "White",
+				vital_status: "Not Reported",
+				year_of_birth: null,
+				year_of_death: null
+			}
+		],
+		diagnoses: [
+			{
+				age_at_diagnosis: "0",
+				ajcc_clinical_m: "Not Reported",
+				ajcc_clinical_n: "Not Reported",
+				ajcc_clinical_stage: "Not Reported",
+				ajcc_clinical_t: "Not Reported",
+				ajcc_pathologic_m: "Not Reported",
+				ajcc_pathologic_n: "Not Reported",
+				ajcc_pathologic_stage: "Not Reported",
+				ajcc_pathologic_t: "Not Reported",
+				ajcc_staging_system_edition: null,
+				ann_arbor_b_symptoms: "Not Reported",
+				ann_arbor_clinical_stage: "Not Reported",
+				ann_arbor_extranodal_involvement: "Not Reported",
+				ann_arbor_pathologic_stage: "Not Reported",
+				best_overall_response: null,
+				burkitt_lymphoma_clinical_variant: "Not Reported",
+				circumferential_resection_margin: null,
+				classification_of_tumor: "Not Reported",
+				colon_polyps_history: null,
+				days_to_best_overall_response: null,
+				days_to_diagnosis: null,
+				days_to_hiv_diagnosis: null,
+				days_to_last_follow_up: "0",
+				days_to_last_known_disease_status: "0",
+				days_to_new_event: null,
+				days_to_recurrence: "0",
+				diagnosis_submitter_id: "14CO003-DX",
+				figo_stage: "Not Reported",
+				hiv_positive: null,
+				hpv_positive_type: null,
+				hpv_status: null,
+				iss_stage: "Not Reported",
+				last_known_disease_status: "Not Reported",
+				laterality: "Not Reported",
+				ldh_level_at_diagnosis: null,
+				ldh_normal_range_upper: null,
+				lymph_nodes_positive: null,
+				lymphatic_invasion_present: "Not Reported",
+				method_of_diagnosis: "Not Reported",
+				morphology: "Not Reported",
+				new_event_anatomic_site: null,
+				new_event_type: null,
+				overall_survival: null,
+				perineural_invasion_present: "Not Reported",
+				primary_diagnosis: "Colon Adenocarcinoma",
+				prior_malignancy: "no",
+				prior_treatment: "Not Reported",
+				progression_free_survival: null,
+				progression_free_survival_event: null,
+				progression_or_recurrence: "Not Reported",
+				residual_disease: "Not Reported",
+				site_of_resection_or_biopsy: "Not Reported",
+				tissue_or_organ_of_origin: "Colon",
+				tumor_grade: "Not Reported",
+				tumor_stage: "Stage IIIB",
+				vascular_invasion_present: "Not Reported",
+				year_of_diagnosis: null
+			}
+		],
         samples: [
           {
             aliquots: [
               {
+				aliquot_id: "e2811543-6425-11e8-bcf1-0a2705229b82",
                 aliquot_submitter_id: "fd4edc52-09ef-4b01-be7c-f23f05_D2",
-                aliquot_quantity: "",
-                aliquot_volume: "",
-                amount: "",
-                analyte_type: "",
-                concentration: ""
+                aliquot_quantity: null,
+                aliquot_volume: null,
+                amount: null,
+                analyte_type: "Protein",
+                concentration: null
               }
             ]
           }
-        ],
-        diagnoses: [{ dia1: null, dia2: "2" }]
-      }
+        ]
+      }]
     });
   }
 

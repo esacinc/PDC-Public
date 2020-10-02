@@ -539,6 +539,34 @@ openHeatMap(study_name: string){
 	this.router.navigate([]).then( result => { var url= "/pdc/analysis/" + this.pdcStudyID + "?StudyName=" + study_name; 
 																	   window.open(url, '_blank'); });
 }
+
+	//@@@PDC-2598 conditional styling of Embargo date
+	//If the date is in the future the value should be bold and in italics
+	getStyleClass(embargo_date: string){
+		if (this.isDateLater(embargo_date) )
+			return 'future_embargo_date';
+		else {
+			return '';
+		}
+	}
+	//Show tooltip if the embargo dat is in the future
+	getTooltip(embargo_date:string){
+		if (this.isDateLater(embargo_date) ){
+			return "Data for this study is under an EMBARGO for publication and/or citation";
+		} else {
+			return "";
+		}
+	}
+	//Help function that returns true if parameter date is in the future, otherwise false
+	private isDateLater(embargo_date: string):boolean{
+		var now = new Date;
+		var target = new Date(embargo_date);
+		if (target > now )
+			return true;
+		else {
+			return false;
+		}
+	}
 	
   ngOnInit() {	  
 	  this.readManifest();

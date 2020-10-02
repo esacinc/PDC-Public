@@ -62,9 +62,10 @@
 	}
   }
 }
-//PDC-164
+//PDC-164, 2614
 {
 	geneSpectralCount(gene_name: "A1BG"){
+	  gene_id
 	  gene_name
 	  NCBI_gene_id
 	  authority
@@ -77,6 +78,7 @@
 	  spectral_counts {
 		  project_submitter_id
 		  study_submitter_id
+		  pdc_study_id
 		  plex
 		  spectral_count
 		  distinct_peptide
@@ -84,8 +86,10 @@
 	  }
 	}
 }
+//PDC-2638
 {
 	aliquotSpectralCount(gene_name: "A1BG" dataset_alias: "A2-A0D0-01A"){
+	  gene_id
 	  gene_name
 	  NCBI_gene_id
 	  authority
@@ -96,6 +100,8 @@
 	  proteins
 	  assays
 	  spectral_counts {
+		  study_submitter_id
+		  pdc_study_id
 		  project_submitter_id
 		  plex
 		  spectral_count
@@ -5582,7 +5588,7 @@ limit: 10) {
 		tumor_stage
 	}
 }
-//PDC-788 794 857 1874 2377
+//PDC-788 794 857 1874 2377 2435
 {
 	getPaginatedUIStudy(offset: 0 limit: 10) {
 		total
@@ -5607,6 +5613,12 @@ limit: 10) {
 				data_category
 				file_type
 				files_count
+			}
+			contacts {
+				name
+				institution
+				email
+				url
 			}
 		}
 		pagination {
@@ -5802,12 +5814,14 @@ limit: 10) {
 		}
 	}
 }
+//PDC-2615 2435
 {
 	study (pdc_study_id: "PDC000206") 
 	{
 		study_id
 		study_submitter_id
 		pdc_study_id
+		embargo_date
 		program_id
 		project_id
 		study_name
@@ -5820,6 +5834,12 @@ limit: 10) {
 		experiment_type
 		cases_count
 		aliquots_count
+		contacts {
+			name
+			institution
+			email
+			url
+		}
 		filesCount {
 			data_category
 			file_type

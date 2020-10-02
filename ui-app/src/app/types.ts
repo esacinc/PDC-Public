@@ -700,9 +700,10 @@ export type SpectralCounts = {
 	unshared_peptide: string;
 }
 
+//@@@PDC-2450 gene/protein summary missing NCBI gene id
 export type GeneProteinData = {
 	gene_name: string;
-	NCBI_gene_id: string;
+	ncbi_gene_id: string;
 	authority: string;
 	description: string;
 	organism: string;

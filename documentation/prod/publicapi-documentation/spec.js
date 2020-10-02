@@ -97,7 +97,7 @@ var spec = {
                }
              }
                },
-               "?query={allPrograms  {program_id  program_submitter_id  name  sponsor  start_date  end_date  program_manager  projects  {project_id  project_submitter_id  name  studies  {study_id  submitter_id_name  study_submitter_id  analytical_fraction  experiment_type  acquisition_type}  cases{  case_id  case_submitter_id  project_submitter_id  external_case_id  tissue_source_site_code  days_to_lost_to_followup  disease_type  index_date  lost_to_followup  primary_site  count  demographics{  demographic_id  ethnicity  gender  demographic_submitter_id  race  cause_of_death  days_to_birth  days_to_death  vital_status  year_of_birth  year_of_death  }  samples  {  sample_id  sample_submitter_id  sample_type  sample_type_id  gdc_sample_id  gdc_project_id  biospecimen_anatomic_site  composition  current_weight  days_to_collection  days_to_sample_procurement  diagnosis_pathologically_confirmed  freezing_method  initial_weight  intermediate_dimension  is_ffpe  longest_dimension  method_of_sample_procurement  oct_embedded  pathology_report_uuid  preservation_method  sample_type_id  shortest_dimension  time_between_clamping_and_freezing  time_between_excision_and_freezing  tissue_type  tumor_code  tumor_code_id  tumor_descriptor  aliquots  {  aliquot_id  aliquot_submitter_id  aliquot_quantity  aliquot_volume  amount  analyte_type  }  }  project  {project_id  project_submitter_id  name  studies  {study_id  submitter_id_name  study_submitter_id  analytical_fraction  experiment_type  acquisition_type  }}  diagnoses{  diagnosis_id  tissue_or_organ_of_origin  age_at_diagnosis  primary_diagnosis  tumor_grade  tumor_stage  diagnosis_submitter_id  classification_of_tumor  days_to_last_follow_up  days_to_last_known_disease_status  days_to_recurrence  last_known_disease_status  morphology  progression_or_recurrence  site_of_resection_or_biopsy  vital_status  days_to_birth  days_to_death  prior_malignancy  ajcc_clinical_m  ajcc_clinical_n  ajcc_clinical_stage  ajcc_clinical_t  ajcc_pathologic_m  ajcc_pathologic_n  ajcc_pathologic_stage  ajcc_pathologic_t  ann_arbor_b_symptoms  ann_arbor_clinical_stage  ann_arbor_extranodal_involvement  ann_arbor_pathologic_stage  best_overall_response  burkitt_lymphoma_clinical_variant  cause_of_death  circumferential_resection_margin  colon_polyps_history  days_to_best_overall_response  days_to_diagnosis  days_to_hiv_diagnosis  days_to_new_event  figo_stage  hiv_positive  hpv_positive_type  hpv_status  iss_stage  laterality  ldh_level_at_diagnosis  ldh_normal_range_upper  lymph_nodes_positive  lymphatic_invasion_present  method_of_diagnosis  new_event_anatomic_site  new_event_type  overall_survival  perineural_invasion_present  prior_treatment  progression_free_survival  progression_free_survival_event  residual_disease  vascular_invasion_present  year_of_diagnosis  }}  }  }}": {
+               "?query={allPrograms  {program_id  program_submitter_id  name  sponsor  start_date  end_date  program_manager  projects  {project_id  project_submitter_id  name  studies  {study_id  submitter_id_name  study_submitter_id  analytical_fraction  experiment_type  acquisition_type}  cases{  case_id  case_submitter_id  project_submitter_id  external_case_id  tissue_source_site_code  days_to_lost_to_followup  disease_type  index_date  lost_to_followup  primary_site  count  demographics{  demographic_id  ethnicity  gender  demographic_submitter_id  race  cause_of_death  days_to_birth  days_to_death  vital_status  year_of_birth  year_of_death  }  samples  {  sample_id  sample_submitter_id  sample_type  sample_type_id  gdc_sample_id  gdc_project_id  biospecimen_anatomic_site  composition  current_weight  days_to_collection  days_to_sample_procurement  diagnosis_pathologically_confirmed  freezing_method  initial_weight  intermediate_dimension  is_ffpe  longest_dimension  method_of_sample_procurement  oct_embedded  pathology_report_uuid  preservation_method  sample_type_id  shortest_dimension  time_between_clamping_and_freezing  time_between_excision_and_freezing  tissue_type  tumor_code  tumor_code_id  tumor_descriptor  aliquots  {  aliquot_id  aliquot_submitter_id  aliquot_quantity  aliquot_volume  amount  analyte_type  }  }  project  {project_id  project_submitter_id  name  studies  {study_id  submitter_id_name  study_submitter_id  analytical_fraction  experiment_type  acquisition_type  }}  diagnoses{  diagnosis_id  tissue_or_organ_of_origin  age_at_diagnosis  primary_diagnosis  tumor_grade  tumor_stage  diagnosis_submitter_id  classification_of_tumor  days_to_last_follow_up  days_to_last_known_disease_status  days_to_recurrence  last_known_disease_status  morphology  progression_or_recurrence  site_of_resection_or_biopsy prior_malignancy  ajcc_clinical_m  ajcc_clinical_n  ajcc_clinical_stage  ajcc_clinical_t  ajcc_pathologic_m  ajcc_pathologic_n  ajcc_pathologic_stage  ajcc_pathologic_t  ann_arbor_b_symptoms  ann_arbor_clinical_stage  ann_arbor_extranodal_involvement  ann_arbor_pathologic_stage  best_overall_response  burkitt_lymphoma_clinical_variant circumferential_resection_margin  colon_polyps_history  days_to_best_overall_response  days_to_diagnosis  days_to_hiv_diagnosis  days_to_new_event  figo_stage  hiv_positive  hpv_positive_type  hpv_status  iss_stage  laterality  ldh_level_at_diagnosis  ldh_normal_range_upper  lymph_nodes_positive  lymphatic_invasion_present  method_of_diagnosis  new_event_anatomic_site  new_event_type  overall_survival  perineural_invasion_present  prior_treatment  progression_free_survival  progression_free_survival_event  residual_disease  vascular_invasion_present  year_of_diagnosis  }}  }  }}": {
              "get": {
                        "tags": ["Program"],
                "summary": "Gets all programs",
@@ -156,7 +156,7 @@ var spec = {
                    }
                  }
                },
-               '?query={case (case_submitter_id: "{case_submitter_id}") { case_id case_submitter_id project_submitter_id external_case_id tissue_source_site_code days_to_lost_to_followup disease_type index_date lost_to_followup primary_site count demographics{ demographic_id ethnicity gender demographic_submitter_id race cause_of_death days_to_birth days_to_death vital_status year_of_birth year_of_death } samples { sample_id sample_submitter_id sample_type sample_type_id gdc_sample_id gdc_project_id biospecimen_anatomic_site composition current_weight days_to_collection days_to_sample_procurement diagnosis_pathologically_confirmed freezing_method initial_weight intermediate_dimension is_ffpe longest_dimension method_of_sample_procurement oct_embedded pathology_report_uuid preservation_method sample_type_id shortest_dimension time_between_clamping_and_freezing time_between_excision_and_freezing tissue_type tumor_code tumor_code_id tumor_descriptor aliquots { aliquot_id aliquot_submitter_id aliquot_quantity aliquot_volume amount analyte_type } } project {project_id project_submitter_id name studies {study_id pdc_study_id submitter_id_name study_submitter_id analytical_fraction experiment_type acquisition_type }} diagnoses{ diagnosis_id tissue_or_organ_of_origin age_at_diagnosis primary_diagnosis tumor_grade tumor_stage diagnosis_submitter_id classification_of_tumor days_to_last_follow_up days_to_last_known_disease_status days_to_recurrence last_known_disease_status morphology progression_or_recurrence site_of_resection_or_biopsy vital_status days_to_birth days_to_death prior_malignancy ajcc_clinical_m ajcc_clinical_n ajcc_clinical_stage ajcc_clinical_t ajcc_pathologic_m ajcc_pathologic_n ajcc_pathologic_stage ajcc_pathologic_t ann_arbor_b_symptoms ann_arbor_clinical_stage ann_arbor_extranodal_involvement ann_arbor_pathologic_stage best_overall_response burkitt_lymphoma_clinical_variant cause_of_death circumferential_resection_margin colon_polyps_history days_to_best_overall_response days_to_diagnosis days_to_hiv_diagnosis days_to_new_event figo_stage hiv_positive hpv_positive_type hpv_status iss_stage laterality ldh_level_at_diagnosis ldh_normal_range_upper lymph_nodes_positive lymphatic_invasion_present method_of_diagnosis new_event_anatomic_site new_event_type overall_survival perineural_invasion_present prior_treatment progression_free_survival progression_free_survival_event residual_disease vascular_invasion_present year_of_diagnosis } }}': {
+               '?query={case (case_submitter_id: "{case_submitter_id}") { case_id case_submitter_id project_submitter_id external_case_id tissue_source_site_code days_to_lost_to_followup disease_type index_date lost_to_followup primary_site count demographics{ demographic_id ethnicity gender demographic_submitter_id race cause_of_death days_to_birth days_to_death vital_status year_of_birth year_of_death } samples { sample_id sample_submitter_id sample_type sample_type_id gdc_sample_id gdc_project_id biospecimen_anatomic_site composition current_weight days_to_collection days_to_sample_procurement diagnosis_pathologically_confirmed freezing_method initial_weight intermediate_dimension is_ffpe longest_dimension method_of_sample_procurement oct_embedded pathology_report_uuid preservation_method sample_type_id shortest_dimension time_between_clamping_and_freezing time_between_excision_and_freezing tissue_type tumor_code tumor_code_id tumor_descriptor aliquots { aliquot_id aliquot_submitter_id aliquot_quantity aliquot_volume amount analyte_type } } project {project_id project_submitter_id name studies {study_id pdc_study_id submitter_id_name study_submitter_id analytical_fraction experiment_type acquisition_type }} diagnoses{ diagnosis_id tissue_or_organ_of_origin age_at_diagnosis primary_diagnosis tumor_grade tumor_stage diagnosis_submitter_id classification_of_tumor days_to_last_follow_up days_to_last_known_disease_status days_to_recurrence last_known_disease_status morphology progression_or_recurrence site_of_resection_or_biopsy prior_malignancy ajcc_clinical_m ajcc_clinical_n ajcc_clinical_stage ajcc_clinical_t ajcc_pathologic_m ajcc_pathologic_n ajcc_pathologic_stage ajcc_pathologic_t ann_arbor_b_symptoms ann_arbor_clinical_stage ann_arbor_extranodal_involvement ann_arbor_pathologic_stage best_overall_response burkitt_lymphoma_clinical_variant circumferential_resection_margin colon_polyps_history days_to_best_overall_response days_to_diagnosis days_to_hiv_diagnosis days_to_new_event figo_stage hiv_positive hpv_positive_type hpv_status iss_stage laterality ldh_level_at_diagnosis ldh_normal_range_upper lymph_nodes_positive lymphatic_invasion_present method_of_diagnosis new_event_anatomic_site new_event_type overall_survival perineural_invasion_present prior_treatment progression_free_survival progression_free_survival_event residual_disease vascular_invasion_present year_of_diagnosis } }}': {
                  "get": {
                            "tags": ["Case"],
                    "summary": "Find case by ID",
@@ -216,7 +216,7 @@ var spec = {
                    }
                  }
                },
-               "?query={diseasesAvailable {disease_type project_submitter_id cases_count diagnosis_id tissue_or_organ_of_origin age_at_diagnosis primary_diagnosis tumor_grade tumor_stage diagnosis_submitter_id classification_of_tumor days_to_last_follow_up days_to_last_known_disease_status days_to_recurrence last_known_disease_status morphology progression_or_recurrence site_of_resection_or_biopsy vital_status days_to_birth days_to_death prior_malignancy ajcc_clinical_m ajcc_clinical_n ajcc_clinical_stage ajcc_clinical_t ajcc_pathologic_m ajcc_pathologic_n ajcc_pathologic_stage ajcc_pathologic_t ann_arbor_b_symptoms ann_arbor_clinical_stage ann_arbor_extranodal_involvement ann_arbor_pathologic_stage best_overall_response burkitt_lymphoma_clinical_variant cause_of_death circumferential_resection_margin colon_polyps_history days_to_best_overall_response days_to_diagnosis days_to_hiv_diagnosis days_to_new_event figo_stage hiv_positive hpv_positive_type hpv_status iss_stage laterality ldh_level_at_diagnosis ldh_normal_range_upper lymph_nodes_positive lymphatic_invasion_present method_of_diagnosis new_event_anatomic_site new_event_type overall_survival perineural_invasion_present prior_treatment progression_free_survival progression_free_survival_event residual_disease vascular_invasion_present year_of_diagnosis}}": {
+               "?query={diseasesAvailable {disease_type project_submitter_id cases_count diagnosis_id tissue_or_organ_of_origin age_at_diagnosis primary_diagnosis tumor_grade tumor_stage diagnosis_submitter_id classification_of_tumor days_to_last_follow_up days_to_last_known_disease_status days_to_recurrence last_known_disease_status morphology progression_or_recurrence site_of_resection_or_biopsy prior_malignancy ajcc_clinical_m ajcc_clinical_n ajcc_clinical_stage ajcc_clinical_t ajcc_pathologic_m ajcc_pathologic_n ajcc_pathologic_stage ajcc_pathologic_t ann_arbor_b_symptoms ann_arbor_clinical_stage ann_arbor_extranodal_involvement ann_arbor_pathologic_stage best_overall_response burkitt_lymphoma_clinical_variant circumferential_resection_margin colon_polyps_history days_to_best_overall_response days_to_diagnosis days_to_hiv_diagnosis days_to_new_event figo_stage hiv_positive hpv_positive_type hpv_status iss_stage laterality ldh_level_at_diagnosis ldh_normal_range_upper lymph_nodes_positive lymphatic_invasion_present method_of_diagnosis new_event_anatomic_site new_event_type overall_survival perineural_invasion_present prior_treatment progression_free_survival progression_free_survival_event residual_disease vascular_invasion_present year_of_diagnosis}}": {
                  "get": {
                            "tags": ["Disease"],
                    "summary": "Get available info of diseases",
@@ -906,7 +906,7 @@ var spec = {
                    }
                  }
                },
-              '?query={ study (study_id: "{study_id}") { study_id pdc_study_id study_submitter_id program_id project_id study_name program_name project_name disease_type primary_site analytical_fraction experiment_type cases_count aliquots_count filesCount { data_category file_type files_count } } }': {
+              '?query={ study (study_id: "{study_id}") { study_id pdc_study_id study_submitter_id program_id project_id study_name program_name project_name disease_type primary_site analytical_fraction experiment_type embargo_date cases_count aliquots_count filesCount { data_category file_type files_count } } }': {
                  "get": {
                    "tags": ["Study"],
                    "summary": "Gets Study details",
@@ -935,7 +935,7 @@ var spec = {
                    }
                  }
                },
-               '?query={ study (pdc_study_id: "{pdc_study_id}") { study_id pdc_study_id study_submitter_id program_id project_id study_name program_name project_name disease_type primary_site analytical_fraction experiment_type cases_count aliquots_count filesCount { data_category file_type files_count } } }': {
+               '?query={ study (pdc_study_id: "{pdc_study_id}") { study_id pdc_study_id study_submitter_id program_id project_id study_name program_name project_name disease_type primary_site analytical_fraction experiment_type embargo_date cases_count aliquots_count filesCount { data_category file_type files_count } } }': {
                   "get": {
                     "tags": ["Study"],
                     "summary": "Gets Study details for PDC Study ID",
@@ -945,7 +945,7 @@ var spec = {
                       "application/json"
                     ],
                     "parameters": [{
-                        "name": "study_id",
+                        "name": "pdc_study_id",
                         "in": "path",
                         "description": "PDC Study ID, example: PDC000127",
                         "required": true,
@@ -1022,7 +1022,7 @@ var spec = {
                     }
                   }
                 },
-               '?query={program(program_submitter_id:  "{program_submitter_id}")  {program_id  program_submitter_id  name  sponsor  start_date  end_date  program_manager  projects  {project_id  project_submitter_id  name  studies  {study_id  submitter_id_name  study_submitter_id  analytical_fraction  experiment_type  acquisition_type}  cases{  case_id  case_submitter_id  project_submitter_id  external_case_id  tissue_source_site_code  days_to_lost_to_followup  disease_type  index_date  lost_to_followup  primary_site  count  demographics{  demographic_id  ethnicity  gender  demographic_submitter_id  race  cause_of_death  days_to_birth  days_to_death  vital_status  year_of_birth  year_of_death  }  samples  {  sample_id  sample_submitter_id  sample_type  sample_type_id  gdc_sample_id  gdc_project_id  biospecimen_anatomic_site  composition  current_weight  days_to_collection  days_to_sample_procurement  diagnosis_pathologically_confirmed  freezing_method  initial_weight  intermediate_dimension  is_ffpe  longest_dimension  method_of_sample_procurement  oct_embedded  pathology_report_uuid  preservation_method  sample_type_id  shortest_dimension  time_between_clamping_and_freezing  time_between_excision_and_freezing  tissue_type  tumor_code  tumor_code_id  tumor_descriptor  aliquots  {  aliquot_id  aliquot_submitter_id  aliquot_quantity  aliquot_volume  amount  analyte_type  }  }  project  {project_id  project_submitter_id  name  studies  {study_id  submitter_id_name  study_submitter_id  analytical_fraction  experiment_type  acquisition_type  }}  diagnoses{  diagnosis_id  tissue_or_organ_of_origin  age_at_diagnosis  primary_diagnosis  tumor_grade  tumor_stage  diagnosis_submitter_id  classification_of_tumor  days_to_last_follow_up  days_to_last_known_disease_status  days_to_recurrence  last_known_disease_status  morphology  progression_or_recurrence  site_of_resection_or_biopsy  vital_status  days_to_birth  days_to_death  prior_malignancy  ajcc_clinical_m  ajcc_clinical_n  ajcc_clinical_stage  ajcc_clinical_t  ajcc_pathologic_m  ajcc_pathologic_n  ajcc_pathologic_stage  ajcc_pathologic_t  ann_arbor_b_symptoms  ann_arbor_clinical_stage  ann_arbor_extranodal_involvement  ann_arbor_pathologic_stage  best_overall_response  burkitt_lymphoma_clinical_variant  cause_of_death  circumferential_resection_margin  colon_polyps_history  days_to_best_overall_response  days_to_diagnosis  days_to_hiv_diagnosis  days_to_new_event  figo_stage  hiv_positive  hpv_positive_type  hpv_status  iss_stage  laterality  ldh_level_at_diagnosis  ldh_normal_range_upper  lymph_nodes_positive  lymphatic_invasion_present  method_of_diagnosis  new_event_anatomic_site  new_event_type  overall_survival  perineural_invasion_present  prior_treatment  progression_free_survival  progression_free_survival_event  residual_disease  vascular_invasion_present  year_of_diagnosis  }}  }  }}': {
+               '?query={program(program_submitter_id:  "{program_submitter_id}")  {program_id  program_submitter_id  name  sponsor  start_date  end_date  program_manager  projects  {project_id  project_submitter_id  name  studies  {study_id  submitter_id_name  study_submitter_id  analytical_fraction  experiment_type  acquisition_type}  cases{  case_id  case_submitter_id  project_submitter_id  external_case_id  tissue_source_site_code  days_to_lost_to_followup  disease_type  index_date  lost_to_followup  primary_site  count  demographics{  demographic_id  ethnicity  gender  demographic_submitter_id  race  cause_of_death  days_to_birth  days_to_death  vital_status  year_of_birth  year_of_death  }  samples  {  sample_id  sample_submitter_id  sample_type  sample_type_id  gdc_sample_id  gdc_project_id  biospecimen_anatomic_site  composition  current_weight  days_to_collection  days_to_sample_procurement  diagnosis_pathologically_confirmed  freezing_method  initial_weight  intermediate_dimension  is_ffpe  longest_dimension  method_of_sample_procurement  oct_embedded  pathology_report_uuid  preservation_method  sample_type_id  shortest_dimension  time_between_clamping_and_freezing  time_between_excision_and_freezing  tissue_type  tumor_code  tumor_code_id  tumor_descriptor  aliquots  {  aliquot_id  aliquot_submitter_id  aliquot_quantity  aliquot_volume  amount  analyte_type  }  }  project  {project_id  project_submitter_id  name  studies  {study_id  submitter_id_name  study_submitter_id  analytical_fraction  experiment_type  acquisition_type  }}  diagnoses{  diagnosis_id  tissue_or_organ_of_origin  age_at_diagnosis  primary_diagnosis  tumor_grade  tumor_stage  diagnosis_submitter_id  classification_of_tumor  days_to_last_follow_up  days_to_last_known_disease_status  days_to_recurrence  last_known_disease_status  morphology  progression_or_recurrence  site_of_resection_or_biopsy prior_malignancy  ajcc_clinical_m  ajcc_clinical_n  ajcc_clinical_stage  ajcc_clinical_t  ajcc_pathologic_m  ajcc_pathologic_n  ajcc_pathologic_stage  ajcc_pathologic_t  ann_arbor_b_symptoms  ann_arbor_clinical_stage  ann_arbor_extranodal_involvement  ann_arbor_pathologic_stage  best_overall_response  burkitt_lymphoma_clinical_variant circumferential_resection_margin  colon_polyps_history  days_to_best_overall_response  days_to_diagnosis  days_to_hiv_diagnosis  days_to_new_event  figo_stage  hiv_positive  hpv_positive_type  hpv_status  iss_stage  laterality  ldh_level_at_diagnosis  ldh_normal_range_upper  lymph_nodes_positive  lymphatic_invasion_present  method_of_diagnosis  new_event_anatomic_site  new_event_type  overall_survival  perineural_invasion_present  prior_treatment  progression_free_survival  progression_free_survival_event  residual_disease  vascular_invasion_present  year_of_diagnosis  }}  }  }}': {
                  "get": {
                            "tags": ["Program"],
                    "summary": "Find program by ID",
@@ -1034,7 +1034,7 @@ var spec = {
                    "parameters": [{
                        "name": "program_submitter_id",
                        "in": "path",
-                       "description": "ID of program to return, example: CPTAC",
+                       "description": "ID of program to return, example: Georgetown Proteomics Research Program",
                        "required": true,
                        "type": "string"
                      }
@@ -1268,9 +1268,9 @@ var spec = {
                       "application/json"
                     ],
                     "parameters": [{
-                        "name": "pdc_study_id",
+                        "name": "reference_entity_alias",
                         "in": "path",
-                        "description": "External ID to search studies with, example: ph001287",
+                        "description": "External ID to search studies with, example: CPTAC-CCRCC",
                         "required": true,
                         "type": "string"
                       }
@@ -1288,7 +1288,7 @@ var spec = {
                     }
                   }
                 },
-               '?query={paginatedCaseDiagnosesPerStudy (study_name: "{study_name}" offset: {offset} limit: {limit}) { total caseDiagnosesPerStudy { case_id case_submitter_id disease_type primary_site diagnoses{ diagnosis_id tissue_or_organ_of_origin age_at_diagnosis primary_diagnosis tumor_grade tumor_stage diagnosis_submitter_id classification_of_tumor days_to_last_follow_up days_to_last_known_disease_status days_to_recurrence last_known_disease_status morphology progression_or_recurrence site_of_resection_or_biopsy vital_status days_to_birth days_to_death prior_malignancy ajcc_clinical_m ajcc_clinical_n ajcc_clinical_stage ajcc_clinical_t ajcc_pathologic_m ajcc_pathologic_n ajcc_pathologic_stage ajcc_pathologic_t ann_arbor_b_symptoms ann_arbor_clinical_stage ann_arbor_extranodal_involvement ann_arbor_pathologic_stage best_overall_response burkitt_lymphoma_clinical_variant cause_of_death circumferential_resection_margin colon_polyps_history days_to_best_overall_response days_to_diagnosis days_to_hiv_diagnosis days_to_new_event figo_stage hiv_positive hpv_positive_type hpv_status iss_stage laterality ldh_level_at_diagnosis ldh_normal_range_upper lymph_nodes_positive lymphatic_invasion_present method_of_diagnosis new_event_anatomic_site new_event_type overall_survival perineural_invasion_present prior_treatment progression_free_survival progression_free_survival_event residual_disease vascular_invasion_present year_of_diagnosis } } pagination { count sort from page total pages size } }} ': {
+               '?query={paginatedCaseDiagnosesPerStudy (study_name: "{study_name}" offset: {offset} limit: {limit}) { total caseDiagnosesPerStudy { case_id case_submitter_id disease_type primary_site diagnoses{ diagnosis_id tissue_or_organ_of_origin age_at_diagnosis primary_diagnosis tumor_grade tumor_stage diagnosis_submitter_id classification_of_tumor days_to_last_follow_up days_to_last_known_disease_status days_to_recurrence last_known_disease_status morphology progression_or_recurrence site_of_resection_or_biopsy prior_malignancy ajcc_clinical_m ajcc_clinical_n ajcc_clinical_stage ajcc_clinical_t ajcc_pathologic_m ajcc_pathologic_n ajcc_pathologic_stage ajcc_pathologic_t ann_arbor_b_symptoms ann_arbor_clinical_stage ann_arbor_extranodal_involvement ann_arbor_pathologic_stage best_overall_response burkitt_lymphoma_clinical_variant circumferential_resection_margin colon_polyps_history days_to_best_overall_response days_to_diagnosis days_to_hiv_diagnosis days_to_new_event figo_stage hiv_positive hpv_positive_type hpv_status iss_stage laterality ldh_level_at_diagnosis ldh_normal_range_upper lymph_nodes_positive lymphatic_invasion_present method_of_diagnosis new_event_anatomic_site new_event_type overall_survival perineural_invasion_present prior_treatment progression_free_survival progression_free_survival_event residual_disease vascular_invasion_present year_of_diagnosis } } pagination { count sort from page total pages size } }} ': {
                  "get": {
                      "tags": ["Case"],
                      "summary": "Get Cases/Diagnoses",
@@ -1300,7 +1300,7 @@ var spec = {
                      "parameters": [{
                              "name": "study_name",
                              "in": "path",
-                             "description": "Name of study, example: TCGA_Colon_Cancer_Proteome",
+                             "description": "Name of study, example: TCGA Breast Cancer Phosphoproteome",
                              "required": true,
                              "type": "string"
                          }, {
@@ -1330,7 +1330,7 @@ var spec = {
                      }
                  }
              },
-             '?query={paginatedCaseDiagnosesPerStudy (pdc_study_id: "{pdc_study_id}" offset: {offset} limit: {limit}) { total caseDiagnosesPerStudy { case_id case_submitter_id disease_type primary_site diagnoses{ diagnosis_id tissue_or_organ_of_origin age_at_diagnosis primary_diagnosis tumor_grade tumor_stage diagnosis_submitter_id classification_of_tumor days_to_last_follow_up days_to_last_known_disease_status days_to_recurrence last_known_disease_status morphology progression_or_recurrence site_of_resection_or_biopsy vital_status days_to_birth days_to_death prior_malignancy ajcc_clinical_m ajcc_clinical_n ajcc_clinical_stage ajcc_clinical_t ajcc_pathologic_m ajcc_pathologic_n ajcc_pathologic_stage ajcc_pathologic_t ann_arbor_b_symptoms ann_arbor_clinical_stage ann_arbor_extranodal_involvement ann_arbor_pathologic_stage best_overall_response burkitt_lymphoma_clinical_variant cause_of_death circumferential_resection_margin colon_polyps_history days_to_best_overall_response days_to_diagnosis days_to_hiv_diagnosis days_to_new_event figo_stage hiv_positive hpv_positive_type hpv_status iss_stage laterality ldh_level_at_diagnosis ldh_normal_range_upper lymph_nodes_positive lymphatic_invasion_present method_of_diagnosis new_event_anatomic_site new_event_type overall_survival perineural_invasion_present prior_treatment progression_free_survival progression_free_survival_event residual_disease vascular_invasion_present year_of_diagnosis } } pagination { count sort from page total pages size } }} ': {
+             '?query={paginatedCaseDiagnosesPerStudy (pdc_study_id: "{pdc_study_id}" offset: {offset} limit: {limit}) { total caseDiagnosesPerStudy { case_id case_submitter_id disease_type primary_site diagnoses{ diagnosis_id tissue_or_organ_of_origin age_at_diagnosis primary_diagnosis tumor_grade tumor_stage diagnosis_submitter_id classification_of_tumor days_to_last_follow_up days_to_last_known_disease_status days_to_recurrence last_known_disease_status morphology progression_or_recurrence site_of_resection_or_biopsy prior_malignancy ajcc_clinical_m ajcc_clinical_n ajcc_clinical_stage ajcc_clinical_t ajcc_pathologic_m ajcc_pathologic_n ajcc_pathologic_stage ajcc_pathologic_t ann_arbor_b_symptoms ann_arbor_clinical_stage ann_arbor_extranodal_involvement ann_arbor_pathologic_stage best_overall_response burkitt_lymphoma_clinical_variant circumferential_resection_margin colon_polyps_history days_to_best_overall_response days_to_diagnosis days_to_hiv_diagnosis days_to_new_event figo_stage hiv_positive hpv_positive_type hpv_status iss_stage laterality ldh_level_at_diagnosis ldh_normal_range_upper lymph_nodes_positive lymphatic_invasion_present method_of_diagnosis new_event_anatomic_site new_event_type overall_survival perineural_invasion_present prior_treatment progression_free_survival progression_free_survival_event residual_disease vascular_invasion_present year_of_diagnosis } } pagination { count sort from page total pages size } }} ': {
                "get": {
                    "tags": ["Case"],
                    "summary": "Get Cases/Diagnoses for PDC Study ID",
@@ -2139,28 +2139,18 @@ var spec = {
           "Diagnosis":{
              "type":"object",
              "properties":{
-                "disease_type":{
-                   "type":"string",
-                   "example":"A1BG"
-                },
+               "diagnosis_id":{
+                  "type":"string",
+                  "example": "ff31813f-70ca-11e8-bcf1-0a2705229b82"
+               },
                 "tissue_or_organ_of_origin":{
                    "type":"number",
-                   "example":"1"
-                },
-                "project_submitter_id":{
-                   "type":"string",
-                   "example":"HGNC:5"
-                },
-                "cases_count":{
-                   "type":"string",
-                   "example":"alpha-1-B glycoprotein"
-                },
-                "diagnosis_id":{
-                   "type":"string"
+                   "example":"Breast, NOS"
                 },
                 "age_at_diagnosis":{
-                   "type":"string"
-                },
+                  "type":"string",
+                  "example": "29966"
+               },
                 "primary_diagnosis":{
                    "type":"string",
                    "example":"Inflitrating Ductal Carcinoma"
@@ -2193,15 +2183,6 @@ var spec = {
                    "type":"string"
                 },
                 "site_of_resection_or_biopsy":{
-                   "type":"string"
-                },
-                "vital_status":{
-                   "type":"string"
-                },
-                "days_to_birth":{
-                   "type":"string"
-                },
-                "days_to_death":{
                    "type":"string"
                 },
                 "prior_malignancy":{
@@ -2247,9 +2228,6 @@ var spec = {
                    "type":"string"
                 },
                 "burkitt_lymphoma_clinical_variant":{
-                   "type":"string"
-                },
-                "cause_of_death":{
                    "type":"string"
                 },
                 "circumferential_resection_margin":{
@@ -3585,19 +3563,19 @@ var spec = {
              "properties":{
                 "case_id":{
                    "type":"string",
-                   "example":"2dfc05ef-63d8-11e8-bcf1-0a2705229b82"
+                   "example":"c3a38e6a-63d8-11e8-bcf1-0a2705229b82"
                 },
                 "case_submitter_id":{
                    "type":"string",
-                   "example":"TCGA-A6-3807"
+                   "example":"TCGA-AO-A12B"
                 },
                 "disease_type":{
                    "type":"string",
-                   "example":"Colon Adenocarcinoma"
+                   "example":"Breast Invasive Carcinoma"
                 },
                 "primary_site":{
                    "type":"string",
-                   "example":"Colon"
+                   "example":"Breast"
                 },
                 "diagnoses":{
                    "type":"array",
@@ -4855,6 +4833,10 @@ var spec = {
                 "experiment_type":{
                    "type":"string",
                    "example":"TMT10"
+                },
+                "embargo_date": {
+                    "type": "string",
+                    "example": "2019-06-01"
                 },
                 "cases_count":{
                    "type":"number",

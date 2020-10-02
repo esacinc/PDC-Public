@@ -54,6 +54,7 @@ describe("BrowseByClinicalService", () => {
 
 	  //@@@PDC-1305 add age_at_diagnosis et al 	
 	  //@@@PDC-2397 Update clinical manifest generation to include additional attributes
+	  //@@@PDC-2335 remove imaging_resource
       op.flush({
         data: {
           getPaginatedUIClinical: {
@@ -62,8 +63,6 @@ describe("BrowseByClinicalService", () => {
               {
                 case_submitter_id: "TCGA-AO-A12B",
                 external_case_id: "GDC: f6ed684f-ee7a-496c-80d5-6eacd494d16a",
-                imaging_resource:
-                  "https://wiki.cancerimagingarchive.net/display/Public/TCGA-BRCA",
                 ethnicity: "Hispanic or Latino",
                 gender: "Female",
                 race: "White",
@@ -146,8 +145,6 @@ describe("BrowseByClinicalService", () => {
               {
                 case_submitter_id: "C3L-01257",
                 external_case_id: "GDC: aeacd3ad-eb06-4ecb-b621-2f05236a0e6c",
-                imaging_resource:
-                  "https://wiki.cancerimagingarchive.net/display/Public/CPTAC-UCEC",
                 ethnicity: "Not Reported",
                 gender: "Female",
                 race: "White",

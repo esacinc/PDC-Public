@@ -584,6 +584,7 @@ const defineCustomModels = (db) => {
 	  ModelClinicalMetadata.removeAttribute('id');
 	  
 	  //@@@PDC-898 new public APIs--study
+	  //@@@PDC-2615 add embargo_date
 	  const ModelStudyPublic = db.getSequelize().define('dummy', {
 		  study_id: { type: Sequelize.STRING,
 					  primaryKey: true   },
@@ -592,6 +593,7 @@ const defineCustomModels = (db) => {
 		  submitter_id_name: { type: Sequelize.STRING },
 		  study_name:  { type: Sequelize.STRING},
 		  study_shortname:  { type: Sequelize.STRING},
+		  embargo_date: { type: Sequelize.DATE },		  
 		  project_submitter_id: { type: Sequelize.STRING },
 		  acquisition_type: { type: Sequelize.STRING },
 		  program_name:  { type: Sequelize.STRING},
@@ -680,6 +682,27 @@ const defineCustomModels = (db) => {
 	  });
 	  ModelEntityReference.removeAttribute('id');
 	  
+	  //@@@PDC-2614 rearrange geneSpectralCount
+	  const ModelGene = db.getSequelize().define('dummy', {
+		gene_id: { 	type: Sequelize.STRING},
+		gene_name: { 	type: Sequelize.STRING  },
+		NCBI_gene_id: { type: Sequelize.INTEGER },
+		authority: { type: Sequelize.STRING },
+		description: { type: Sequelize.STRING },
+		organism: { type: Sequelize.STRING },
+		chromosome: { type: Sequelize.STRING },
+		locus: { type: Sequelize.STRING },
+		assays: { type: Sequelize.STRING },
+		proteins: { type: Sequelize.STRING },
+	  }, {
+		  timestamps: false,
+		  underscored: true,
+		  freezeTableName: true,
+		  tableName: 'dummy'	
+	  });
+	  ModelGene.removeAttribute('id');
+
+	  db['ModelGene'] = ModelGene;
 	  db['ModelCase'] = ModelCase;
 	  db['ModelCaseFile'] = ModelCaseFile;
 	  db['ModelStudy'] = ModelStudy;

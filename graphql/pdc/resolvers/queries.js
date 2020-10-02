@@ -53,9 +53,6 @@ export const resolvers = {
 		uiFilesCountPerStudy(_, args, context) {
 			return resolvers.Query.filesCountPerStudy(_, args, context);
 		},			
-		uiGeneSpectralCount(_, args, context) {
-			return resolvers.Query.geneSpectralCount(_, args, context);
-		},			
 		uiProtein(_, args, context) {
 			return resolvers.Query.protein(_, args, context);
 		},			
@@ -322,49 +319,22 @@ export const resolvers = {
 			}
 			const res = await RedisCacheClient.redisCacheGetAsync(CacheName.getSummaryPageCaseSummary('Case')+cacheFilterName['name']);
 			if(res === null){
+				//@@@PDC-2335 get ext id from reference
+				//@@@PDC-2657 reverse 2335
+				var uiCaseBaseQuery = "SELECT distinct bin_to_uuid(c.case_id) as case_id, "+
+				"c.case_submitter_id, "+
+				"c.tissue_source_site_code, c.days_to_lost_to_followup, c.disease_type, "+ 
+				"c.index_date, c.lost_to_followup, c.primary_site, c.project_submitter_id "+"from `case` c where case_id is not null ";
+
 				var result = null;
 				if (typeof args.case_id != 'undefined'){
-					result = await db.getModelByName('Case').findOne({
-						attributes: [['bin_to_uuid(case_id)', 'case_id'],
-							'case_submitter_id',
-							'project_submitter_id',
-							'external_case_id',
-							'tissue_source_site_code',
-							'days_to_lost_to_followup',
-							'disease_type',
-							'index_date',
-							'lost_to_followup',
-							'primary_site',
-						],
-						where: {
-							case_id: Sequelize.fn('uuid_to_bin', args.case_id )
-							/*project_submitter_id: {
-								[Op.in]: context.value
-							}*/
-						}
-					});					
+					uiCaseBaseQuery += "and c.case_id = uuid_to_bin('"+args.case_id+"')";
 				}
-				else {
-					result = await db.getModelByName('Case').findOne({
-						attributes: [['bin_to_uuid(case_id)', 'case_id'],
-							'case_submitter_id',
-							'project_submitter_id',
-							'external_case_id',
-							'tissue_source_site_code',
-							'days_to_lost_to_followup',
-							'disease_type',
-							'index_date',
-							'lost_to_followup',
-							'primary_site',
-						],
-						where: {
-							case_submitter_id: args.case_submitter_id
-							/*project_submitter_id: {
-								[Op.in]: context.value
-							}*/
-						}
-					});						
+				else if (typeof args.case_submitter_id != 'undefined'){
+					uiCaseBaseQuery += "and c.case_submitter_id = '"+args.case_submitter_id+"'";
 				}
+				result = await db.getSequelize().query(uiCaseBaseQuery, { model: db.getModelByName('Case') });
+				console.log("Case result: "+JSON.stringify(result));
 				RedisCacheClient.redisCacheSetExAsync(CacheName.getSummaryPageCaseSummary('Case')+cacheFilterName['name'], JSON.stringify(result));
 				return result;
 			}else{
@@ -482,30 +452,25 @@ export const resolvers = {
 		*
 		* @return {Gene}
 		*/
-		async geneSpectralCount(_, args, context) {
+		async uiGeneSpectralCount(_, args, context) {
 			var cacheFilterName = {name:''};
 			if (typeof args.gene_name != 'undefined') {
 				cacheFilterName.name +="gene_name:("+ args.gene_name + ");";
 			}
 			const res = await RedisCacheClient.redisCacheGetAsync(CacheName.getSummaryPageGeneSummary('GeneSpectralCount')+cacheFilterName['name']);
 			if(res === null){
-				var result = await db.getModelByName('Gene').findOne({ where: args,     include: [{
-					model: db.getModelByName('Spectral'),
-					attributes: ['project_submitter_id', 'study_submitter_id', ['dataset_alias', 'plex'], 'spectral_count', 'distinct_peptide', 'unshared_peptide' ],
-					where: {
-					  plex_name: 'All' 
-					  /*project_submitter_id: {
-						  [Op.in]: context.value
-						  }*/
-					},
-					required: true
-				  }]  
-				  });
+				var result = await db.getModelByName('Gene').findOne({ where: args});
 				RedisCacheClient.redisCacheSetExAsync(CacheName.getSummaryPageGeneSummary('GeneSpectralCount')+cacheFilterName['name'], JSON.stringify(result));
 				return result;
 			}else{
 				return JSON.parse(res);
 			}
+		},
+		//@@@PDC-2614 rearrange geneSpectralCount
+		geneSpectralCount(_, args, context) {
+			context['arguments'] = args;
+			var geneQuery = "SELECT gene_name, bin_to_uuid(gene_id) as gene_id, chromosome, ncbi_gene_id as NCBI_gene_id, authority, description, organism, locus, proteins, trim(both '\r' from assays) as assays FROM gene where gene_name = '"+ args.gene_name+"'";
+			return db.getSequelize().query(geneQuery, { model: db.getModelByName('ModelGene') });
 		},
 		//@@@PDC-164 plex-level spectral count
 		/**
@@ -517,19 +482,10 @@ export const resolvers = {
 		* @return {Gene}
 		*/
 		aliquotSpectralCount(_, args, context) {
-			 return db.getModelByName('Gene').findOne({ where: {gene_name: args.gene_name},     
-			 include: [{
-				  model: db.getModelByName('Spectral'),
-				  attributes: ['project_submitter_id', 'study_submitter_id', ['dataset_alias', 'plex'], 'spectral_count', 'distinct_peptide', 'unshared_peptide' ],
-				  where: {
-					dataset_alias: {[Op.like]: '%'+args.dataset_alias+'%'} 
-					/*project_submitter_id: {
-						[Op.in]: context.value
-					}*/
-				  },
-				  required: true
-				}]  
-				});
+			//@@@PDC-2638 enhance aliquotSpectralCount
+			context['arguments'] = args;
+			var aliquotQuery = "SELECT gene_name, bin_to_uuid(gene_id) as gene_id, chromosome, ncbi_gene_id as NCBI_gene_id, authority, description, organism, locus, proteins, trim(both '\r' from assays) as assays FROM gene where gene_name = '"+ args.gene_name+"'";
+			return db.getSequelize().query(aliquotQuery, { model: db.getModelByName('ModelGene') });
 		},
 		/**
 		* protein gets one specific gene with all its spectral counts
@@ -2740,10 +2696,12 @@ export const resolvers = {
 			return db.getSequelize().query(comboQuery, { model: db.getModelByName('Program') });			
 		},
 		//@@@PDC-472 casesSamplesAliquots API
+		//@@@PDC-2335 get ext id from reference
 		paginatedCasesSamplesAliquots (_, args, context) {
 			context['arguments'] = args;
 			var uiCaseCountQuery = "select count(distinct c.case_id) as total ";
-			var uiCaseBaseQuery = "SELECT distinct bin_to_uuid(c.case_id) as case_id, c.case_submitter_id, c.external_case_id, "+
+			//@@@PDC-2657 reverse 2335
+			var uiCaseBaseQuery = "SELECT distinct bin_to_uuid(c.case_id) as case_id, c.case_submitter_id, "+
 			"c.tissue_source_site_code, c.days_to_lost_to_followup, c.disease_type, "+ 
 			"c.index_date, c.lost_to_followup, c.primary_site ";
 			var uiCaseQuery = "FROM study s, `case` c, sample sam, aliquot_run_metadata alm, "+
@@ -2961,9 +2919,10 @@ export const resolvers = {
 		//@@@PDC-898 new public APIs--study
 		async study (_, args, context) {
 			context['arguments'] = args;
+			//@@@PDC-2615 add embargo_date
 			var studyBaseQuery = "SELECT bin_to_uuid(s.study_id) as study_id,"+
 			" s.study_submitter_id, s.submitter_id_name as study_name, s.pdc_study_id,"+
-			" s.study_shortname, bin_to_uuid(prog.program_id) as program_id,"+
+			" s.study_shortname, s.embargo_date, bin_to_uuid(prog.program_id) as program_id,"+
 			" bin_to_uuid(proj.project_id) as project_id,"+
 			" prog.name as program_name, proj.name as project_name,"+
 			" c.disease_type, c.primary_site, s.analytical_fraction,"+
@@ -2978,7 +2937,7 @@ export const resolvers = {
 			" count(distinct al.aliquot_id) as aliquots_count ";
 			
 			var studyHeadWrapQuery = 
-			`select study_id, study_submitter_id, pdc_study_id, study_name, study_shortname, program_id, program_name, project_id, project_name, GROUP_CONCAT(distinct disease_type SEPARATOR ';') as disease_type,
+			`select study_id, study_submitter_id, pdc_study_id, study_name, study_shortname, embargo_date, program_id, program_name, project_id, project_name, GROUP_CONCAT(distinct disease_type SEPARATOR ';') as disease_type,
 				GROUP_CONCAT(distinct primary_site SEPARATOR ';') as primary_site, analytical_fraction, experiment_type FROM	(`;
 
 			var studyTailWrapQuery = 
@@ -3106,9 +3065,11 @@ export const resolvers = {
 		//@@@PDC-898 new public APIs--clinicalPerStudy
 		//@@@PDC-1599 add all demographic and diagnosis data
 		//@@@PDC-2417 Remove unused fields from Diagnosis
+		//@@@PDC-2335 get ext id from reference
+		//@@@PDC-2657 reverse 2335
 		clinicalPerStudy(_, args, context) {
 			var clinicalQuery = "select distinct bin_to_uuid(c.case_id) as case_id, "+
-			"c.case_submitter_id, c.external_case_id, c.status, c.disease_type, "+
+			"c.case_submitter_id, c.status, c.disease_type, "+
 			"c.primary_site, bin_to_uuid(dem.demographic_id) as demographic_id, "+
 			"dem.demographic_submitter_id, dem.ethnicity, dem.gender, dem.race, "+
 			"dem.cause_of_death, dem.days_to_birth, dem.days_to_death, dem.vital_status, "+
@@ -3170,11 +3131,13 @@ export const resolvers = {
 		//@@@PDC-1396 add external_case_id
 		biospecimenPerStudy(_, args, context) {
 			//@@@PDC-1127 add pool and taxon
+			//@@@PDC-2335 get ext id from reference
+			//@@@PDC-2657 reverse 2335
 			var biospecimenQuery = "SELECT distinct bin_to_uuid(al.aliquot_id) as aliquot_id, "+
 			" bin_to_uuid(sam.sample_id) as sample_id, al.aliquot_submitter_id, al.aliquot_is_ref, "+ 
 			" al.status as aliquot_status, sam.sample_submitter_id, "+
 			" c.status as case_status, sam.status as sample_status, "+
-			" bin_to_uuid(c.case_id) as case_id, c.case_submitter_id, c.external_case_id, "+
+			" bin_to_uuid(c.case_id) as case_id, c.case_submitter_id, "+
 			" proj.name as project_name, sam.sample_type, c.disease_type, c.primary_site, "+
 			" al.pool, c.taxon "+
 			" from study s, `case` c, sample sam, aliquot al,"+

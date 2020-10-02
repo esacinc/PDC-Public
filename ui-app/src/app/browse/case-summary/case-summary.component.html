@@ -34,15 +34,30 @@
 					<mat-spinner></mat-spinner>
 				</div>
 				<table style="max-height:200px;overflow-y: auto;display: block!important;font-size: 12px; width: 100%; padding-top: 10px" id="caseSummaryDemography">
-					<div *ngFor="let caseData of caseDetailedSummaryData.demographics">
+					<div *ngFor="let caseData of demographics">
 						<tr style="padding-top: 10px">
-							<td class="summary-card-name-left-cell">Gender</td><td class="summary-card-value-right-cell">{{caseData.gender}}</td>
+							<td class="summary-card-name-left-cell">Gender</td>
+							<td class="summary-card-value-left-cell">{{caseData.gender}}</td>
+							<td class="summary-card-name-right-cell">Vital Status</td>
+							<td class="summary-card-value-right-cell" style="border-right: 1px solid #ddd;" [ngStyle]="styleNotReported(caseData.vital_status)">{{caseData.vital_status}}</td>
+							<td class="summary-card-name-right-cell">Cause of Death</td>
+							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(caseData.cause_of_death)">{{caseData.cause_of_death}}</td>
 						</tr>
 						<tr style="padding-top: 10px">
-							<td class="summary-card-name-left-cell">Ethnicity</td><td class="summary-card-value-right-cell">{{caseData.ethnicity}}</td>
+							<td class="summary-card-name-left-cell">Ethnicity</td>
+							<td class="summary-card-value-left-cell">{{caseData.ethnicity}}</td>
+							<td class="summary-card-name-right-cell">Year of Birth</td>
+							<td class="summary-card-value-right-cell" style="border-right: 1px solid #ddd;" [ngStyle]="styleNotReported(caseData.year_of_birth)">{{caseData.year_of_birth}}</td>
+							<td class="summary-card-name-right-cell">Days to Birth</td>
+							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(caseData.days_to_birth)">{{caseData.days_to_birth}}</td>
 						</tr>
 						<tr style="padding-top: 10px">
-							<td class="summary-card-name-left-cell">Race</td><td class="summary-card-value-right-cell">{{caseData.race}}</td>
+							<td class="summary-card-name-left-cell">Race</td>
+							<td class="summary-card-value-left-cell">{{caseData.race}}</td>
+							<td class="summary-card-name-right-cell">Year of Death</td>
+							<td class="summary-card-value-right-cell" style="border-right: 1px solid #ddd;" [ngStyle]="styleNotReported(caseData.year_of_death )">{{caseData.year_of_death }}</td>
+							<td class="summary-card-name-right-cell">Days to Death</td>
+							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(caseData.days_to_death)">{{caseData.days_to_death}}</td>
 						</tr>
 				    </div>
 				</table>

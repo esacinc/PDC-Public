@@ -374,19 +374,19 @@ getCasesByExperimentalStrategy(){
 			}
 		}
 		//PDC-1360 Add Bookmark URLs	
-		console.log(this.router.url);
 		if (this.router.url.indexOf("filters") > -1) {
-			this.bookmarkURL = this.baseUrl + decodeURI(this.router.url);
+			//@@@PDC-2520: Browse/Primary filters/ URL does not get updated on the copied link.
+			this.bookmarkURL = this.baseUrl + "/browse/filters/";
 		} else {
 			this.bookmarkURL = this.baseUrl + this.loc.path() + "/filters/";
-			for (let filter_val in this.newFilterSelected){
-				if (this.newFilterSelected[filter_val] != ""){
-					this.bookmarkURL +=  filter_val + ":" + this.newFilterSelected[filter_val].replace(/;/g, "|") + "&";
-				}
-				//console.log(filter_val);
-			}
-			this.bookmarkURL = this.bookmarkURL.slice(0, -1);
 		}
+		for (let filter_val in this.newFilterSelected){
+			if (this.newFilterSelected[filter_val] != ""){
+				this.bookmarkURL +=  filter_val + ":" + this.newFilterSelected[filter_val].replace(/;/g, "|") + "&";
+			}
+			//console.log(filter_val);
+		}
+		this.bookmarkURL = this.bookmarkURL.slice(0, -1);
 		//@@@PDC-277: Add a filter crumb bar at the top that explains the filter criteria selected
 		if (filter_field[0] != "selectedTab") {
 			this.populateBreadcrumbsForFilters();

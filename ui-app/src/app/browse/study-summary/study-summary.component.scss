@@ -176,3 +176,9 @@
  .genomicLbl {
      margin-top: 5%;
  }
+ 
+ //@@@PDC-2598 conditional styling of Embargo date - future embargo date is bold red
+.future_embargo_date {
+	color: #de350b;
+	font-weight: 800;
+}

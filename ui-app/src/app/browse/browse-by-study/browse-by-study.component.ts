@@ -44,6 +44,7 @@ import { ngxCsv } from "ngx-csv/ngx-csv";
 //@@@PDC-1851: Quality Metrics with TSV file format are not considered in files count
 //@@@PDC-1902: Peptide Spectral Matches with Text file format are not considered in files count 
 //@@@PDC-2460: Add new data category/file type: Alternate Processing Pipeline/Archive
+//@@@PDC-2584: Add Embargo date to the study table on Browse page
 export class BrowseByStudyComponent implements OnInit, OnChanges {
 
   filteredStudiesData: AllStudiesData[]; //Filtered list of Studies
@@ -147,6 +148,9 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 		  this.browseByStudyService.getFilteredStudiesPaginated(this.offset, this.limit, this.sort, this.newFilterSelected).subscribe((data: any) =>{
 			//@@@PDC-379 collapse study records with different disease_type and primary_site
 			this.filteredStudiesData = this.mergeStudies(data.getPaginatedUIStudy.uiStudies);
+			for (let idx = 0; idx < this.filteredStudiesData.length; idx++ ){
+				this.concatinateDataEnd(idx);
+			}
 			this.setFileCountsForDisplay();
 			if (this.offset == 0) {
 				this.totalRecords = data.getPaginatedUIStudy.total;
@@ -318,6 +322,9 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 		this.browseByStudyService.getFilteredStudiesPaginated(this.offset, this.limit, this.sort, this.newFilterSelected).subscribe((data: any) =>{
 	    //@@@PDC-379 collapse study records with different disease_type and primary_site
 		this.filteredStudiesData = this.mergeStudies(data.getPaginatedUIStudy.uiStudies);
+		for (let idx = 0; idx < this.filteredStudiesData.length; idx++ ){
+			this.concatinateDataEnd(idx);
+		}
 		this.setFileCountsForDisplay();
 			//this.filteredStudiesData = data.getPaginatedUIStudy.uiStudies;
 			if (this.offset == 0) {
@@ -359,6 +366,9 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 			}
 			this.browseByStudyService.getFilteredStudiesPaginated(0, this.totalRecords, this.sort, this.newFilterSelected).subscribe((data: any) =>{
 			let filteredStudiesData = this.mergeStudies(data.getPaginatedUIStudy.uiStudies);
+			for (let idx = 0; idx < this.filteredStudiesData.length; idx++ ){
+				this.concatinateDataEnd(idx);
+			}
 			this.setFileCountsForDisplay(filteredStudiesData);
 			let headerCols = [];
 			let colValues = [];
@@ -468,6 +478,9 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 	  this.browseByStudyService.getFilteredStudiesPaginated(this.offset, this.limit, this.sort, this.newFilterSelected).subscribe((data: any) =>{
 	    //@@@PDC-379 collapse study records with different disease_type and primary_site
 		this.filteredStudiesData = this.mergeStudies(data.getPaginatedUIStudy.uiStudies);
+		for (let idx = 0; idx < this.filteredStudiesData.length; idx++ ){
+			this.concatinateDataEnd(idx);
+		}
 		this.setFileCountsForDisplay();
 			//this.filteredStudiesData = data.getPaginatedUIStudy.uiStudies;
 			if (this.offset == 0) {
@@ -487,6 +500,78 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
     }
 	}
 	
+	//@@@PDC-2534 - Concatinate 'Not Reported' primary site at the end of the primary sites list 
+	concatinateDataEnd(index: number){
+		
+		//Primary Site column on Browse page
+		if (this.filteredStudiesData[index].primary_site.indexOf("Not Reported") == 0){
+			var temp = this.filteredStudiesData[index].primary_site.split(";");
+			//if there is more than one element in primary sites list
+			if (temp.length > 1){
+				this.filteredStudiesData[index].primary_site = temp.slice(1).join("; ") + "; " + temp[0];
+			}
+		}else if (this.filteredStudiesData[index].primary_site.indexOf("Other") == 0){
+			var temp = this.filteredStudiesData[index].primary_site.split(";");
+			//if there is more than one element in primary sites list
+			if (temp.length > 1){
+				this.filteredStudiesData[index].primary_site = temp.slice(1).join("; ") + "; " + temp[0];
+			}
+		} else if (this.filteredStudiesData[index].primary_site != "") {
+			var temp = this.filteredStudiesData[index].primary_site.split(";");
+			if (temp.length > 1){
+				this.filteredStudiesData[index].primary_site = temp.join("; ");
+			}
+		}
+		
+		//Disease Type column
+		if (this.filteredStudiesData[index].disease_type.indexOf("Not Reported") == 0){
+			var temp = this.filteredStudiesData[index].disease_type.split(";");
+			//if there is more than one element in primary sites list
+			if (temp.length > 1){
+				this.filteredStudiesData[index].disease_type = temp.slice(1).join("; ") + "; " + temp[0];
+			}
+		}else if (this.filteredStudiesData[index].disease_type.indexOf("Other") == 0){
+			var temp = this.filteredStudiesData[index].disease_type.split(";");
+			//if there is more than one element in primary sites list
+			if (temp.length > 1){
+				this.filteredStudiesData[index].disease_type = temp.slice(1).join("; ") + "; " + temp[0];
+			}
+		} else if (this.filteredStudiesData[index].disease_type != "") {
+			var temp = this.filteredStudiesData[index].disease_type.split(";");
+			if (temp.length > 1){
+				this.filteredStudiesData[index].disease_type = temp.join("; ");
+			}
+		}
+	}
+	
+	//@@@PDC-2598 - Apply conditional formatting to embargo date on the study summary pages
+	//If the date is in the future the value should be bold and in italics
+	getStyleClass(embargo_date: string){
+		if (this.isDateLater(embargo_date) )
+			return 'future_embargo_date';
+		else {
+			return '';
+		}
+	}
+	//Show tooltip if the embargo dat is in the future
+	getTooltip(embargo_date:string){
+		if (this.isDateLater(embargo_date) ){
+			return "Data for this study is under an EMBARGO for publication and/or citation";
+		} else {
+			return "";
+		}
+	}
+	//Help function that returns true if parameter date is in the future, otherwise false
+	private isDateLater(embargo_date: string):boolean{
+		var now = new Date;
+		var target = new Date(embargo_date);
+		if (target > now )
+			return true;
+		else {
+			return false;
+		}
+	}
+	
   ngOnInit() {
 	  //@@@PDC-799: Redirecting to the NIH login page for the file authorization loses PDC state
 	  this.activatedRoute.queryParams.subscribe(queryParams => {
@@ -502,6 +587,7 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 		{field: 'study_id', header: 'Study ID'},
 		{field: 'study_submitter_id', header: 'Study Submitter ID'},
 		{field: 'submitter_id_name', header:'Study Name' },
+		{field: 'embargo_date', header: 'Embargo date'},
 		{field: 'project_name', header: 'Project Name'},
 		{field: 'program_name', header: 'Program Name'},
 		{field: 'disease_type', header: 'Disease Type'},
@@ -515,7 +601,7 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 		{field: 'protein_assembly_count', header: 'PROT_ASSEM'},
 		//{field: 'protein_databases_count', header: 'Protein Databases'},
 		{field: 'quality_metrics_count', header: 'Quality Metrics'},
-		{field: 'cases_count', header: 'Cases #'}		
+		{field: 'cases_count', header: 'Cases #'}
 		];
 		//@@@PDC-1063: Implement select all, select page, select none for all tabs
 		this.checkboxOptions = ["Select all pages", "Select this page", "Select None"];

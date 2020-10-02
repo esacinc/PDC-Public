@@ -71,6 +71,7 @@ describe("GeneProteinSummaryService", () => {
   ));
 
     //@@@PDC-1123 call ui wrapper API
+	//@@@PDC-2450 gene/protein summary missing NCBI gene id
   it("test getGeneDetails", inject(
     [GeneProteinSummaryService],
     (service: GeneProteinSummaryService) => {
@@ -86,7 +87,7 @@ describe("GeneProteinSummaryService", () => {
         data: {
           uiGeneSpectralCount: {
             gene_name: "A1BG",
-            NCBI_gene_id: 1,
+            ncbi_gene_id: 1,
             authority: "HGNC:5",
             description: "alpha-1-B glycoprotein",
             organism: "Homo sapiens",

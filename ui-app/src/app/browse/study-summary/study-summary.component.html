@@ -39,8 +39,11 @@
 					<!--@@@PDC-1358  add study uuid-->
 					<tr><td class="summary-card-name-left-cell">PDC Study Identifier</td>
 						<td class="summary-card-value-left-cell">{{pdcStudyID}}</td>
-						<td class="summary-card-name-right-cell">Embargo Release Date</td>
-						<td class="summary-card-value-right-cell">{{studySummaryData.embargo_date | date :  "MMMM d, y"}}</td>
+						<td class="summary-card-name-right-cell" [matTooltip]="getTooltip(studySummaryData.embargo_date)" matTooltipClass="custom-tooltip" matTooltipPosition="above">Embargo Release Date</td>
+						<td class="summary-card-value-right-cell" [ngClass]="getStyleClass(studySummaryData.embargo_date)" [matTooltip]="getTooltip(studySummaryData.embargo_date)" matTooltipClass="custom-tooltip" matTooltipPosition="above">
+							<div *ngIf="studySummaryData.embargo_date == '' || studySummaryData.embargo_date == null">N/A</div>
+							{{studySummaryData.embargo_date | date :  "MMMM d, y"}}
+						</td>
 					</tr>
 					<tr><td class="summary-card-name-left-cell">Study ID</td>
 						<td class="summary-card-value-left-cell">{{studySummaryData.study_id}}</td>
@@ -53,9 +56,9 @@
 						<td class="summary-card-value-right-cell">{{studySummaryData.disease_type}}</td>
 					</tr>
 					<tr><td class="summary-card-name-left-cell">Experimental Strategy</td>
-							<td class="summary-card-value-left-cell">{{studySummaryData.experiment_type}}</td>
-							<td class="summary-card-name-right-cell">Project ID</td>
-							<td class="summary-card-value-right-cell">{{studySummaryData.project_name}}</td>
+						<td class="summary-card-value-left-cell">{{studySummaryData.experiment_type}}</td>
+						<td class="summary-card-name-right-cell">Project ID</td>
+						<td class="summary-card-value-right-cell">{{studySummaryData.project_name}}</td>
 					</tr>
 					</tbody>
 				</table>

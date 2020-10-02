@@ -101,7 +101,7 @@ describe("CaseSummaryService", () => {
     (service: CaseSummaryService) => {
       service.getDetailedCaseSummaryData("TCGA-61-1911").subscribe((data) => {
         expect(data).toBeDefined();
-        expect(data["uiCaseSummary"].case_id).toBe(
+        expect(data["uiCaseSummary"][0].case_id).toBe(
           "0067a0e0-63d8-11e8-bcf1-0a2705229b82"
         );
       });
@@ -112,7 +112,8 @@ describe("CaseSummaryService", () => {
 
       op.flush({
         data: {
-          uiCaseSummary: {
+          uiCaseSummary: [
+		  {
             case_id: "df4e907e-8f98-11ea-b1fd-0aad30af8a83",
             case_submitter_id: "C3L-00977",
             project_submitter_id: "CPTAC3-Discovery",
@@ -243,6 +244,7 @@ describe("CaseSummaryService", () => {
               },
             ],
           },
+		  ],
         },
         errors: [
           {

@@ -68,11 +68,12 @@ constructor(private apollo: Apollo) {
 
 
     //@@@PDC-1123 call ui wrapper API
+	//@@@PDC-2450 gene/protein summary missing NCBI gene id
 	geneDetailsQuery = gql`
 				query ProteinQuery($gene_name: String!){
 					uiGeneSpectralCount(gene_name: $gene_name){
 					  gene_name
-					  NCBI_gene_id
+					  ncbi_gene_id
 					  authority
 					  description
 					  organism

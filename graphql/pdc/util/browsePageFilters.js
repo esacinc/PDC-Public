@@ -362,14 +362,14 @@ WHERE
         AND c.case_id = dia.case_id
 `;
 //@@@PDC-2395 add attributes to uiClinical
+//@@@PDC-2335 get ext id from reference
+//@@@PDC-2606 ext id from reference not required
 const clinical_tab_data = `
 SELECT DISTINCT
     prog.name AS program_name,
     proj.name AS project_name,
     BIN_TO_UUID(c.case_id) AS case_id,
     c.case_submitter_id,
-    c.external_case_id,
-    c.imaging_resource,
     c.status,
     c.disease_type,
     c.primary_site,
@@ -445,10 +445,10 @@ FROM
     program prog,	
     aliquot al,
     aliquot_run_metadata alm,
-    \`case\` c,
     sample sam,
     demographic dem,
-    diagnosis dia
+    diagnosis dia,
+    \`case\` c
 WHERE
     proj.program_id = prog.program_id
         AND proj.project_id = s.project_id

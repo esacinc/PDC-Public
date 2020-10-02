@@ -282,6 +282,7 @@ const defineSequelizeModels = (db) => {
 		gene_name: { 	type: Sequelize.STRING},
 		gene_id: { type: Sequelize.STRING},
 		project_submitter_id: { type: Sequelize.STRING },
+		pdc_study_id: { type: Sequelize.STRING },
 		plex: { type: Sequelize.STRING },
 		plex_name: { type: Sequelize.STRING },
 		spectral_count: { type: Sequelize.INTEGER },
@@ -312,6 +313,22 @@ const defineSequelizeModels = (db) => {
 		  tableName: 'project'	
 	  });
 	  
+	  //@@@PDC-2435 add contacts to study
+	  const ContactModel = db.getSequelize().define('contact', {
+		contact_id: { type: Sequelize.STRING,
+					  primaryKey: true   },
+		name: { type: Sequelize.STRING },
+		email: { type: Sequelize.STRING },
+		institution: { type: Sequelize.STRING },
+		url: { type: Sequelize.STRING },
+	  }, {
+		  timestamps: false,
+		  underscored: true,
+		  freezeTableName: true,
+		  tableName: 'contact'	
+	  });
+	  ContactModel.removeAttribute('id');
+
 	  //Relationships among models
 	  ProgramModel.hasMany(ProjectModel, {foreignKey: 'program_id'});
 	  ProjectModel.belongsTo(ProgramModel, {foreignKey: 'program_id'});
@@ -327,6 +344,7 @@ const defineSequelizeModels = (db) => {
 	  db['Gene'] = GeneModel;
 	  db['Spectral'] = SpectralCountModel;
 	  db['Project'] = ProjectModel;
+	  db['Contact'] = ContactModel;
 };
 
 
