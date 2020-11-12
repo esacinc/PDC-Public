@@ -19,7 +19,7 @@ properties:
         enum:
         - 'Yes'
         - 'No'
-        required: 'False'
+        required: 'True'
         type: Enumeration
     aliquot_quantity:
         description: The quantity in micrograms (ug) of the aliquot(s) derived from
@@ -90,7 +90,7 @@ properties:
         enum:
         - 'Yes'
         - 'No'
-        required: 'False'
+        required: 'True'
         type: Enumeration
     project_id:
         key: 'yes'
@@ -115,7 +115,7 @@ properties:
         enum:
         - Qualified
         - Disqualified
-        required: 'False'
+        required: 'True'
         type: Enumeration
 title: Aliquot
 type: object

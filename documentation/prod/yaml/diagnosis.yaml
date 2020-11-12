@@ -12,7 +12,7 @@ properties:
         cde_id: 3225640
         description: Age at the time of diagnosis expressed in number of days since
             birth.
-        required: 'False'
+        required: 'True'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3225640&version=2.0
         type: Integer
@@ -496,10 +496,6 @@ properties:
         key: 'yes'
         required: 'True'
         type: String
-    cause_of_death:
-        description: Text term to identify the cause of death for a patient.
-        required: 'False'
-        type: String
     child_pugh_classification:
         cde_id: 2931791
         description: The text term used to describe the classification used in the
@@ -622,16 +618,6 @@ properties:
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6154732&version=2.0
         type: Integer
-    days_to_birth:
-        description: Time interval from a person's date of birth to the date of initial
-            pathologic diagnosis, represented as a calculated negative number of days.
-        required: 'False'
-        type: String
-    days_to_death:
-        description: Time interval from a person's date of death to the date of initial
-            pathologic diagnosis, represented as a calculated number of days.
-        required: 'False'
-        type: String
     days_to_diagnosis:
         cde_id: 6154733
         description: Number of days between the date used for index and the date the
@@ -655,7 +641,7 @@ properties:
             minimum: -32872
             type: number
         -   type: 'null'
-        required: 'False'
+        required: 'True'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3008273&version=2.0
         type: Integer
@@ -668,7 +654,7 @@ properties:
             minimum: -32872
             type: number
         -   type: 'null'
-        required: 'False'
+        required: 'True'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3008273&version=2.0
         type: Integer
@@ -687,7 +673,7 @@ properties:
             minimum: -32872
             type: number
         -   type: 'null'
-        required: 'False'
+        required: 'True'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6154731&version=2.0
         type: Integer
@@ -1107,7 +1093,7 @@ properties:
         - With tumor
         - not reported
         - Not Allowed To Collect
-        required: 'False'
+        required: 'True'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5424231&version=2.0
         type: Enumeration
@@ -2473,7 +2459,7 @@ properties:
         - 9992/3
         - Unknown
         - Not Reported
-        required: 'False'
+        required: 'True'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3226275&version=2.0
         type: Enumeration
@@ -5329,7 +5315,7 @@ properties:
         - unknown
         - not reported
         - Not Allowed To Collect
-        required: 'False'
+        required: 'True'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3121376&version=2.0
         type: Enumeration
@@ -6207,21 +6193,6 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3168001&version=2.0
-        type: Enumeration
-    vital_status:
-        cde_id: 5
-        description: The survival state of the person registered on the protocol.
-        enum:
-        - alive
-        - dead
-        - lost to follow-up
-        - unknown
-        - not reported
-        - Not Allowed To Collect
-        - pending
-        required: 'False'
-        source: caDSR
-        term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5&version=2.0
         type: Enumeration
     weiss_assessment_score:
         cde_id: 3648744

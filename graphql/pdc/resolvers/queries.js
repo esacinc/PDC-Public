@@ -54,7 +54,13 @@ export const resolvers = {
 			return resolvers.Query.filesCountPerStudy(_, args, context);
 		},			
 		uiProtein(_, args, context) {
-			return resolvers.Query.protein(_, args, context);
+			//@@@PDC-2642 gene-related apis enhancement
+			context['arguments'] = args;
+			return db.getModelByName('Gene').findOne({ where: {
+			proteins: {
+			  [Op.like]: '%'+args.protein+'%'
+			}}     
+			});			
 		},			
 		uiDiseasesAvailable(_, args, context) {
 			return resolvers.Query.diseasesAvailable(_, args, context);
@@ -495,21 +501,10 @@ export const resolvers = {
 		* @return {Gene}
 		*/
 		protein(_, args, context) {
-			 return db.getModelByName('Gene').findOne({ where: {
-				proteins: {
-				  [Op.like]: '%'+args.protein+'%'
-			  }},     
-			  include: [{
-				  model: db.getModelByName('Spectral'),
-				  attributes: ['project_submitter_id', 'study_submitter_id', ['dataset_alias', 'plex'], 'spectral_count', 'distinct_peptide', 'unshared_peptide' ],
-				  /*where: {
-					project_submitter_id: {
-						[Op.in]: context.value
-						}
-				  },*/
-				  required: true
-				}]  
-				});
+			//@@@PDC-2642 gene-related apis enhancement
+			context['arguments'] = args;
+			var aliquotQuery = "SELECT gene_name, bin_to_uuid(gene_id) as gene_id, chromosome, ncbi_gene_id as NCBI_gene_id, authority, description, organism, locus, proteins, trim(both '\r' from assays) as assays FROM gene where proteins like '%"+ args.protein+"%'";
+			return db.getSequelize().query(aliquotQuery, { model: db.getModelByName('ModelGene') });
 		},
 		//@@@PDC-133 projects per experiment_type
 		/**
@@ -1528,11 +1523,13 @@ export const resolvers = {
 			}
 			var fileLimitQuery = " LIMIT "+ myOffset+ ", "+ myLimit;
 			context['query'] = fileBaseQuery+fileQuery+fileLimitQuery;
-			if (myOffset == 0 && paginated) {
+			//@@@PDC-2725 pagination enhancement
+			//if (myOffset == 0 && paginated) {
+			if (paginated) {
 				return db.getSequelize().query(fileCountQuery+fileQuery, { model: db.getModelByName('ModelPagination') });
 			}
 			else {
-				var myJson = [{total: args.limit}];
+				var myJson = [{total: 0}];
 				return myJson;
 			}
 		},
@@ -1551,11 +1548,43 @@ export const resolvers = {
 				myLimit = args.limit;
 				paginated = true;
 			}
-			if (myOffset == 0 && paginated) {
+			//@@@PDC-2725 pagination enhancement
+			//if (myOffset == 0 && paginated) {
+			if (paginated) {
 				return db.getSequelize().query(caseCountQuery, { model: db.getModelByName('ModelPagination') });
 			}
 			else {
-				var myJson = [{total: args.limit}];
+				var myJson = [{total: 0}];
+				return myJson;
+			}
+		},
+		//@@@PDC-2690 api returns gene info without spectral count
+		getPaginatedGenes(_, args, context) {
+			context['arguments'] = args;
+			var geneCountQuery = "SELECT count(*) as total FROM gene g ";
+			var geneQuery = "SELECT gene_name, bin_to_uuid(gene_id) as gene_id, chromosome, ncbi_gene_id as NCBI_gene_id, authority, description, organism, locus, proteins, trim(both '\r' from assays) as assays FROM gene g ";
+			if (typeof args.gene_name != 'undefined') {
+				geneCountQuery += "where gene_name like '%"+args.gene_name+"%'";
+				geneQuery += "where gene_name like '%"+args.gene_name+"%'";
+			}
+			
+			var myOffset = 0;
+			var myLimit = 100;
+			var paginated = false;
+			if (typeof args.offset != 'undefined' && typeof args.limit != 'undefined') {
+				myOffset = args.offset;
+				myLimit = args.limit;
+				paginated = true;
+			}
+			geneQuery += " LIMIT "+ myOffset+ ", "+ myLimit;
+			context['query'] = geneQuery;
+			//@@@PDC-2725 pagination enhancement
+			//if (myOffset == 0 && paginated) {
+			if (paginated) {
+				return db.getSequelize().query(geneCountQuery, { model: db.getModelByName('ModelPagination') });
+			}
+			else {
+				var myJson = [{total: 0}];
 				return myJson;
 			}
 		},
@@ -2331,11 +2360,13 @@ export const resolvers = {
 			}
 			var gssLimitQuery = " LIMIT "+ myOffset+ ", "+ myLimit;
 			context['query'] = gssBaseQuery+gssQuery+gssLimitQuery;
-			if (myOffset == 0 && paginated) {
+			//@@@PDC-2725 pagination enhancement
+			//if (myOffset == 0 && paginated) {
+			if (paginated) {
 				return db.getSequelize().query(gssCountQuery+gssQuery, { model: db.getModelByName('ModelPagination') });
 			}
 			else {
-				var myJson = [{total: args.limit}];
+				var myJson = [{total: 0}];
 				return myJson;
 			}
 		},
@@ -2590,7 +2621,8 @@ export const resolvers = {
 		* @return {FileMetadata}
 		*/  
 		fileMetadata(_, args, context) {
-			var gasQuery = "select distinct f.file_name, f.file_location,"+
+			//@@@PDC-2642 add file_id	
+			var gasQuery = "select distinct bin_to_uuid(f.file_id) as file_id, f.file_name, f.file_location,"+
 			" f.md5sum, f.file_size, f.original_file_name as file_submitter_id, f.data_category, f.file_type ,f.file_format, "+ 
 			" srm.analyte, p.instrument_model as instrument, srm.folder_name as plex_or_dataset_name,"+
 			" f.fraction_number, srm.experiment_type,"+ 
@@ -2602,16 +2634,6 @@ export const resolvers = {
 			" left join study s on s.study_id = srm.study_id"+
 			" left join protocol p on s.study_id = p.study_id"+
 			" where f.file_id is not null ";
-			/*var gasQuery = "select f.file_name, f.file_location, f.md5sum,"+
-			" f.file_size, f.original_file_name as file_submitter_id,"+
-			" srm.analyte, p.instrument_model as instrument,"+ 
-			" srm.folder_name, srm.fraction, srm.experiment_type,"+
-			" srm.study_run_metadata_submitter_id,"+
-			" bin_to_uuid(srm.study_run_metadata_id) as study_run_metadata_id"+
-			" from study_run_metadata srm, protocol p, study s,"+
-			" study_file sf, file f "+
-			" where f.file_id=sf.file_id and srm.study_id = sf.study_id"+
-			" and s.study_id = srm.study_id and s.study_id = p.study_id ";*/
 			//@@@PDC-884 fileMetadata API search by UUID 			
 			if (typeof args.file_id != 'undefined') {
 				gasQuery += " and f.file_id = uuid_to_bin('" + args.file_id + "')"; 				
@@ -2722,11 +2744,13 @@ export const resolvers = {
 			}
 			var uiCaseLimitQuery = " LIMIT "+ myOffset+ ", "+ myLimit;
 			context['query'] = uiCaseBaseQuery+uiCaseQuery+uiCaseLimitQuery;
-			if (myOffset == 0 && paginated) {
+			//@@@PDC-2725 pagination enhancement
+			//if (myOffset == 0 && paginated) {
+			if (paginated) {
 				return db.getSequelize().query(uiCaseCountQuery+uiCaseQuery, { model: db.getModelByName('ModelPagination') });
 			}
 			else {
-				var myJson = [{total: args.limit}];
+				var myJson = [{total: 0}];
 				return myJson;
 			}
 		},
@@ -2752,11 +2776,13 @@ export const resolvers = {
 			}
 			var uiCaseLimitQuery = " LIMIT "+ myOffset+ ", "+ myLimit;
 			context['query'] = uiCaseBaseQuery+uiCaseQuery+uiCaseLimitQuery;
-			if (myOffset == 0 && paginated) {
+			//@@@PDC-2725 pagination enhancement
+			//if (myOffset == 0 && paginated) {
+			if (paginated) {
 				return db.getSequelize().query(uiCaseCountQuery+uiCaseQuery, { model: db.getModelByName('ModelPagination') });
 			}
 			else {
-				var myJson = [{total: args.limit}];
+				var myJson = [{total: 0}];
 				return myJson;
 			}
 		},
@@ -2782,11 +2808,13 @@ export const resolvers = {
 			}
 			var uiCaseLimitQuery = " LIMIT "+ myOffset+ ", "+ myLimit;
 			context['query'] = uiCaseBaseQuery+uiCaseQuery+uiCaseLimitQuery;
-			if (myOffset == 0 && paginated) {
+			//@@@PDC-2725 pagination enhancement
+			//if (myOffset == 0 && paginated) {
+			if (paginated) {
 				return db.getSequelize().query(uiCaseCountQuery+uiCaseQuery, { model: db.getModelByName('ModelPagination') });
 			}
 			else {
-				var myJson = [{total: args.limit}];
+				var myJson = [{total: 0}];
 				return myJson;
 			}
 		},
@@ -2832,11 +2860,13 @@ export const resolvers = {
 				myLimit = args.limit;
 				paginated = true;
 			}
-			if (myOffset == 0 && paginated) {
+			//@@@PDC-2725 pagination enhancement
+			//if (myOffset == 0 && paginated) {
+			if (paginated) {
 				return db.getSequelize().query(matrixCountQuery, { model: db.getModelByName('ModelPagination') });
 			}
 			else {
-				var myJson = [{total: myLimit}];
+				var myJson = [{total: 0}];
 				return myJson;
 			}
 		},
@@ -2908,11 +2938,13 @@ export const resolvers = {
 				myLimit = args.limit;
 				paginated = true;
 			}
-			if (myOffset == 0 && paginated) {
+			//@@@PDC-2725 pagination enhancement
+			//if (myOffset == 0 && paginated) {
+			if (paginated) {
 				return db.getSequelize().query(matrixCountQuery, { model: db.getModelByName('ModelPagination') });
 			}
 			else {
-				var myJson = [{total: myLimit}];
+				var myJson = [{total: 0}];
 				return myJson;
 			}
 		},
@@ -3030,7 +3062,7 @@ export const resolvers = {
 			var protoQuery = "SELECT distinct bin_to_uuid(prot.protocol_id) as protocol_id, "+
 			"prot.protocol_submitter_id, prot.experiment_type, protocol_name, "+
 			"bin_to_uuid(s.study_id) as study_id, s.study_submitter_id, s.pdc_study_id, "+
-			"bin_to_uuid(prog.program_id) as program_id, prog.program_submitter_id, "+
+			"bin_to_uuid(prog.program_id) as program_id, prog.program_submitter_id, proj.project_submitter_id, "+
 			"protocol_date, document_name, quantitation_strategy, "+
 			"label_free_quantitation, labeled_quantitation,  isobaric_labeling_reagent, "+ 
 			"reporter_ion_ms_level, starting_amount, starting_amount_uom, "+ "digestion_reagent, alkylation_reagent, enrichment_strategy, enrichment, "+ 

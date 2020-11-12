@@ -109,7 +109,7 @@ properties:
         - not allowed to collect
         - unknown
         - Unknown
-        required: 'False'
+        required: 'True'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2192217&version=2.0
         type: Enumeration
@@ -180,7 +180,7 @@ properties:
         - not allowed to collect
         - unknown
         - Unknown
-        required: 'False'
+        required: 'True'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2192199&version=1.0
         type: Enumeration

@@ -56,6 +56,7 @@ import { environment } from '../../environments/environment';
 //@@@PDC-1855: Change dialog message for new users trying to register.
 //@@@PDC-1876: Allow deep linking to study summary page by PDC ID
 //@@@PDC-2135: drop down menu is not stable and moves down the page when a user scroll the page down
+//@@@PDC-2675: when user clicks "Don't have an account ? Click here to sign up" nothing happens
 export class NavbarComponent implements OnInit {
   background = '';
   searchFormControl = new FormControl();
@@ -330,7 +331,8 @@ export class NavbarComponent implements OnInit {
 		aliquots_count: 0,
 		filesCount: [],
 		supplementaryFilesCount: [],
-		nonSupplementaryFilesCount: []
+		nonSupplementaryFilesCount: [],
+		contacts: []
 	};
 	console.log(study_data);
 	dialogConfig.data = {
@@ -945,43 +947,7 @@ export class NavbarComponent implements OnInit {
 
 		if (!this.userLoggedInFlag) {
 			// Open the dialog to let them login
-			const dialogConfig = new MatDialogConfig();
-
-			//   dialogConfig.disableClose = true;
-			//   dialogConfig.autoFocus = false;
-			// dialogConfig.hasBackdrop = true;
-			//dialogConfig.minWidth = '1000px';
-			dialogConfig.width = "38%";
-			dialogConfig.height = "60%";
-			dialogConfig.minWidth = 720;
-			dialogConfig.minHeight = 630;
-
-			const dialogRef = this.dialog.open(LoginComponent, dialogConfig);
-			//dialogRef.updatePosition({ top: '50px', left: '70%' });
-			dialogRef.afterClosed().subscribe(result => {
-				if (result === "login successfully") {
-					this.openChorus();
-				}else if(result === "user register with email") {
-					//Let user know that their email is not registered through PDC
-					let confirmationMessage = `
-							User with such email was not found. Would you like to register a new user?`;
-					let continueRegisterNewUser = "Yes";
-					const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-						  width: "350px",
-						  height: "140px",
-						  data: { message: confirmationMessage, continueMessage: continueRegisterNewUser }
-						});
-						
-					dialogRef.afterClosed().subscribe(result => {
-						  if ( result === "Yes") {
-							//Open registration dialog
-							dialogConfig.width = "55%";
-							dialogConfig.minWidth = 980;
-							this.dialog.open(RegistrationComponent, dialogConfig);
-						  }
-					});
-				}
-			});
+			this.login();
 		}
 		else {
 			this.openChorus();

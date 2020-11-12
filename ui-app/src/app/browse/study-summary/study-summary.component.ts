@@ -53,6 +53,8 @@ enum FileTypes {
 //@@@PDC-1609: URL structure for permanent links to PDC 
 //@@@PDC-1876: Allow deep linking to study summary page by PDC ID
 //@@@PDC-2378: Add supplementary data to the study summary screen
+//@@@PDC-2598 - Apply conditional formatting to embargo date on the study summary pages
+//@@@PDC-2436 - Update study summary screen to add contact details
 export class StudySummaryComponent implements OnInit {
 
   study_id: string;
@@ -239,8 +241,9 @@ export class StudySummaryComponent implements OnInit {
 			}
 			if (this.studySummaryData.embargo_date) {
 				var currentDate = formatDate(new Date(), 'yyyy-MM-dd', 'en');
+				//PDC-2744 DUA pops up when embargo date is "N/A"
 				//If the current date is with in the embargo date, display the DUA with a 'accept' button
-				if (currentDate < this.studySummaryData.embargo_date) {
+				if (this.studySummaryData.embargo_date != "N/A" && currentDate < this.studySummaryData.embargo_date) {
 					if (this.duaAvailable) {
 						this.studySummaryOverlayWindow.open();
 					} 
@@ -472,14 +475,18 @@ showCaseSummary(case_id: string, module: string){
 		dialogConfig.data = {
 			summaryData: this.filteredClinicalData[case_index],
 		};
+		//@@@PDC-2610: Case Summary: Not pulling up Program & Project when viewed under Clinical tab
+		//create an alias for study summary overlay window URL in the form [base url]/study/study uuid
+		this.loc.replaceState("/case/" + this.filteredClinicalData[case_index].case_id);
 	} else if (module == "biospecimen") {
 		var case_index = this.findCaseByBiospecimenID(case_id);
 		dialogConfig.data = {
 			summaryData: this.filteredCasesData[case_index],
 		};
+		//@@@PDC-2610: Case Summary: Not pulling up Program & Project when viewed under Clinical tab
+		//create an alias for study summary overlay window URL in the form [base url]/study/study uuid
+		this.loc.replaceState("/case/" + this.filteredCasesData[case_index].case_id);
 	}
-	//create an alias for study summary overlay window URL in the form [base url]/study/study uuid
-	this.loc.replaceState("/case/" + this.filteredClinicalData[case_index].case_id);
 	this.router.navigate([{outlets: {caseSummary: ['case-summary', case_id]}}], { skipLocationChange: true });
 	const dialogRef = this.dialog.open(CaseSummaryComponent, dialogConfig);
 	dialogRef.afterClosed().subscribe((val:any) => {

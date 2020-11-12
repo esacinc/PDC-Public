@@ -125,12 +125,21 @@ export type AllStudiesData = {
 	filesCount: FileCountsForStudyPage[];
 	supplementaryFilesCount: FileCountsForStudyPage[];
 	nonSupplementaryFilesCount: FileCountsForStudyPage[];
+	contacts: ContactDataForStudyPage[];
 }
 
 export type FileCountsForStudyPage = {
 	file_type: string;
 	data_category: string;
 	files_count: number
+}
+
+//@@@PDC-2436 - Update study summary screen to add contact details
+export type ContactDataForStudyPage = {
+	name: string;
+	institution: string; 
+	email: string;
+	url: string; 	
 }
 
 //export type QueryAllCasesData = {

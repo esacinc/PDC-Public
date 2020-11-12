@@ -286,6 +286,14 @@ describe("BrowseByStudyService", () => {
 					  file_type: "Proprietary",
 					  files_count: 500
 					}
+				],
+				contacts: [
+					{
+					  email: "",
+					  institution: "Johns Hopkins University",
+					  name: "Hui Zhang",
+					  url: ""
+					}
 				]
               }
             ],

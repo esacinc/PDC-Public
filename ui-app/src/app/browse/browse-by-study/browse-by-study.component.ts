@@ -150,6 +150,7 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 			this.filteredStudiesData = this.mergeStudies(data.getPaginatedUIStudy.uiStudies);
 			for (let idx = 0; idx < this.filteredStudiesData.length; idx++ ){
 				this.concatinateDataEnd(idx);
+				this.setEmptyEmbargoDate(idx);
 			}
 			this.setFileCountsForDisplay();
 			if (this.offset == 0) {
@@ -324,6 +325,7 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 		this.filteredStudiesData = this.mergeStudies(data.getPaginatedUIStudy.uiStudies);
 		for (let idx = 0; idx < this.filteredStudiesData.length; idx++ ){
 			this.concatinateDataEnd(idx);
+			this.setEmptyEmbargoDate(idx);
 		}
 		this.setFileCountsForDisplay();
 			//this.filteredStudiesData = data.getPaginatedUIStudy.uiStudies;
@@ -368,6 +370,7 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 			let filteredStudiesData = this.mergeStudies(data.getPaginatedUIStudy.uiStudies);
 			for (let idx = 0; idx < this.filteredStudiesData.length; idx++ ){
 				this.concatinateDataEnd(idx);
+				this.setEmptyEmbargoDate(idx);
 			}
 			this.setFileCountsForDisplay(filteredStudiesData);
 			let headerCols = [];
@@ -383,6 +386,11 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 				  if (!study[colValues[i]]) {
 						study[colValues[i]] = '';
 					}
+				  //PDC-2617 - Set "N/A" value if embargo date column value is empty	
+				  if (headerCols[i] == "Embargo date" && study[colValues[i]] == '') {
+					  study[colValues[i]] = "N/A";
+				  }
+					  
 				}
 				localSelectedStudies.push(study);
 			}
@@ -401,6 +409,12 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 			}
 			});
 		}, 10);
+	}
+	//PDC-2617 - Set "N/A" value if embargo date column value is empty	
+	setEmptyEmbargoDate(idx: number){
+		if (this.filteredStudiesData[idx].embargo_date === null || this.filteredStudiesData[idx].embargo_date === ""){
+			this.filteredStudiesData[idx].embargo_date = "N/A";
+		}
 	}
 
 	/* Helper function to determine whether the download all button should be disabled or not */
@@ -480,6 +494,7 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 		this.filteredStudiesData = this.mergeStudies(data.getPaginatedUIStudy.uiStudies);
 		for (let idx = 0; idx < this.filteredStudiesData.length; idx++ ){
 			this.concatinateDataEnd(idx);
+			this.setEmptyEmbargoDate(idx);
 		}
 		this.setFileCountsForDisplay();
 			//this.filteredStudiesData = data.getPaginatedUIStudy.uiStudies;

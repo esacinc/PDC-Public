@@ -1,7 +1,7 @@
 type GeneSp {
   gene_id: String
   gene_name: String
-  ncbi_gene_id: Int
+  ncbi_gene_id: String
   authority: String
   description: String
   organism: String

@@ -22,7 +22,7 @@ properties:
         type: Enumeration
     data_category:
         description: Broad categorization of the contents of the data file.
-        required: 'False'
+        required: 'True'
         type: String
     dbgap_control_number:
         description: Study identifier from database of genotypes and phenotypes (dbGaP)
@@ -61,7 +61,7 @@ properties:
         type: String
     fraction_number:
         description: Chromatorgraphy fraction number of the file
-        required: 'False'
+        required: 'True'
         type: String
     md5sum:
         description: A 128-bit hash value derived from a file for the purpose of detecting

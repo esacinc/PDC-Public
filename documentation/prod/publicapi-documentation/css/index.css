@@ -17449,3 +17449,8 @@ table#paginatedDataMatrixSwaggerTable tr:nth-child(even) {
 .swaggerContentArea {
     min-height: 1000px !important;
 }
+
+/*@@@PDC-2637: Address discrepancies in the public api swagger*/
+#Quantitative_quantDataMatrix .sandbox {
+    display:none;
+}

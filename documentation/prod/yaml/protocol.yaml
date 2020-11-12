@@ -169,12 +169,12 @@ properties:
         - Label Free
         - iTRAQ
         - TMT
-        required: 'False'
+        required: 'True'
         type: Enumeration
     fractions_analyzed_count:
         description: Final number of fractions analyzed by mass spectrometry. For
             Thermo instruments, this will equal the number of data files.
-        required: 'False'
+        required: 'True'
         type: Integer
     gradient_length:
         description: Time with units
@@ -533,7 +533,7 @@ properties:
         - iTRAQ
         - iTRAQH
         - TMT
-        required: 'False'
+        required: 'True'
         source: PSI MS
         term_url: http://www.ontobee.org/ontology/MS?iri=http://purl.obolibrary.org/obo/MS_1002009
         type: Enumeration

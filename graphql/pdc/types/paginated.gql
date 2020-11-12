@@ -10,6 +10,7 @@ type Paginated {
 	uiPtm: [UIPtm]
 	files: [File]
 	cases: [Case]
+	genesProper: [Gene]
 	caseDiagnosesPerStudy: [Case]
 	caseDemographicsPerStudy: [Case]
 	casesSamplesAliquots: [Case]

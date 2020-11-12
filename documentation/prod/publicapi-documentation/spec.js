@@ -57,7 +57,7 @@ var spec = {
              "get": {
                        "tags": ["Case"],
                "summary": "Gets all cases",
-               "description": "<b>Returns case ID.<br><br>Fields:</b><ul><li>case_id</li><li>case_submitter_id</li><li>project_submitter_id</li><li>disease_type</li><li>primary_site</li></ul>",
+               "description": "<b>Returns case details.<br><br>Fields:</b><ul><li>case_id</li><li>case_submitter_id</li><li>project_submitter_id</li><li>disease_type</li><li>primary_site</li></ul>",
                "operationId": "allCases",
                "produces": [
                            "application/json"
@@ -97,11 +97,11 @@ var spec = {
                }
              }
                },
-               "?query={allPrograms  {program_id  program_submitter_id  name  sponsor  start_date  end_date  program_manager  projects  {project_id  project_submitter_id  name  studies  {study_id  submitter_id_name  study_submitter_id  analytical_fraction  experiment_type  acquisition_type}  cases{  case_id  case_submitter_id  project_submitter_id  external_case_id  tissue_source_site_code  days_to_lost_to_followup  disease_type  index_date  lost_to_followup  primary_site  count  demographics{  demographic_id  ethnicity  gender  demographic_submitter_id  race  cause_of_death  days_to_birth  days_to_death  vital_status  year_of_birth  year_of_death  }  samples  {  sample_id  sample_submitter_id  sample_type  sample_type_id  gdc_sample_id  gdc_project_id  biospecimen_anatomic_site  composition  current_weight  days_to_collection  days_to_sample_procurement  diagnosis_pathologically_confirmed  freezing_method  initial_weight  intermediate_dimension  is_ffpe  longest_dimension  method_of_sample_procurement  oct_embedded  pathology_report_uuid  preservation_method  sample_type_id  shortest_dimension  time_between_clamping_and_freezing  time_between_excision_and_freezing  tissue_type  tumor_code  tumor_code_id  tumor_descriptor  aliquots  {  aliquot_id  aliquot_submitter_id  aliquot_quantity  aliquot_volume  amount  analyte_type  }  }  project  {project_id  project_submitter_id  name  studies  {study_id  submitter_id_name  study_submitter_id  analytical_fraction  experiment_type  acquisition_type  }}  diagnoses{  diagnosis_id  tissue_or_organ_of_origin  age_at_diagnosis  primary_diagnosis  tumor_grade  tumor_stage  diagnosis_submitter_id  classification_of_tumor  days_to_last_follow_up  days_to_last_known_disease_status  days_to_recurrence  last_known_disease_status  morphology  progression_or_recurrence  site_of_resection_or_biopsy prior_malignancy  ajcc_clinical_m  ajcc_clinical_n  ajcc_clinical_stage  ajcc_clinical_t  ajcc_pathologic_m  ajcc_pathologic_n  ajcc_pathologic_stage  ajcc_pathologic_t  ann_arbor_b_symptoms  ann_arbor_clinical_stage  ann_arbor_extranodal_involvement  ann_arbor_pathologic_stage  best_overall_response  burkitt_lymphoma_clinical_variant circumferential_resection_margin  colon_polyps_history  days_to_best_overall_response  days_to_diagnosis  days_to_hiv_diagnosis  days_to_new_event  figo_stage  hiv_positive  hpv_positive_type  hpv_status  iss_stage  laterality  ldh_level_at_diagnosis  ldh_normal_range_upper  lymph_nodes_positive  lymphatic_invasion_present  method_of_diagnosis  new_event_anatomic_site  new_event_type  overall_survival  perineural_invasion_present  prior_treatment  progression_free_survival  progression_free_survival_event  residual_disease  vascular_invasion_present  year_of_diagnosis  }}  }  }}": {
+               "?query={allPrograms  {program_id  program_submitter_id  name projects  {project_id  project_submitter_id  name  studies  {pdc_study_id study_id study_submitter_id submitter_id_name analytical_fraction experiment_type acquisition_type} }}}": {
              "get": {
                        "tags": ["Program"],
                "summary": "Gets all programs",
-               "description": "<b>Returns all available programs.<br><br>Fields:<ul><li>program_id:</b> Program ID, example : 10251935-5540-11e8-b664-00a098d917f8</li><li>program_submitter_id:</b> Text term for the structural pattern of cancer cells used to define a microscopic diagnosis caDSR: 3081934, example : Mucinous Carcinoma</li><li><b>name:</b> Text term that describes the anatomic site of the tumor or disease. caDSR: 3427536, example: Breast</li><li><b>Sponsor:</b> Name of experiment type</li><li><b>start_date: </b>Text term for the structural pattern of cancer cells used to define a microscopic diagnosis caDSR: 3081934, example : Mucinous Carcinoma</li><li><b>end_date:</b> Text term that describes the anatomic site of the tumor or disease. caDSR: 3427536, example: Breast</li><li><b>program_manager:</b> Name of experiment type</li><li><b>projects</b></li></ul>",
+               "description": "<b>Returns all available programs.<br><br>Fields:<ul><li>program_id:</b> Program ID, example : 10251935-5540-11e8-b664-00a098d917f8</li><li><b>program_submitter_id:</b> Program Submitter ID, example : Clinical Proteomic Tumor Analysis Consortium</li><li><b>name:</b> Name of the program, example: Clinical Proteomic Tumor Analysis Consortium</li><li><b>projects</b></li></ul>",
                "operationId": "allPrograms",
                "produces": [
                  "application/json"
@@ -119,11 +119,11 @@ var spec = {
                }
              }
                },
-               '?query={aliquotSpectralCount(gene_name: "{gene_name}" dataset_alias: "{dataset_alias}"){gene_id gene_name NCBI_gene_id authority description organism chromosome locus proteins assays spectral_counts { project_submitter_id plex spectral_count distinct_peptide unshared_peptide gene_name study_submitter_id pdc_study_id aliquot_id}}}': {
+               '?query={aliquotSpectralCount(gene_name: "{gene_name}" dataset_alias: "{dataset_alias}"){gene_id gene_name NCBI_gene_id authority description organism chromosome locus proteins assays spectral_counts { project_submitter_id plex spectral_count distinct_peptide unshared_peptide study_submitter_id pdc_study_id}}}': {
                  "get": {
                            "tags": ["Gene"],
-                   "summary": "Returns the binary form of gene_id",
-                   "description": "<b>Returns the binary form of gene_id<br><br>Fields:</b><ul><li>gene_id</li><li>gene_name</li><li>NCBI_gene_id</li><li>authority</li><li>description</li><li>organism</li><li>chromosome</li><li>locus</li><li>proteins</li><li>assays</li><li>spectral_counts</li></ul>",
+                   "summary": "Returns the aliquot spectral counts",
+                   "description": "<b>Returns the aliquot spectral counts<br><br>Fields:</b><ul><li>gene_id</li><li>gene_name</li><li>NCBI_gene_id</li><li>authority</li><li>description</li><li>organism</li><li>chromosome</li><li>locus</li><li>proteins</li><li>assays</li><li>spectral_counts</li></ul>",
                    "operationId": "aliquotSpectralCount",
                    "produces": [
                      "application/json"
@@ -131,14 +131,14 @@ var spec = {
                    "parameters": [{
                        "name": "gene_name",
                        "in": "path",
-                       "description": "HGNC Gene ID, example: A1BG",
+                       "description": "Gene Name, example: A1BG",
                        "required": true,
                        "type": "string"
                      },
                      {
                        "name": "dataset_alias",
                        "in": "path",
-                       "description": "ID of aliquot to return, example: A2-A0D0-01A",
+                       "description": "Dataset alias, example: A2-A0D0-01A",
                        "required": true,
                        "type": "string"
                      }
@@ -156,7 +156,7 @@ var spec = {
                    }
                  }
                },
-               '?query={case (case_submitter_id: "{case_submitter_id}") { case_id case_submitter_id project_submitter_id external_case_id tissue_source_site_code days_to_lost_to_followup disease_type index_date lost_to_followup primary_site count demographics{ demographic_id ethnicity gender demographic_submitter_id race cause_of_death days_to_birth days_to_death vital_status year_of_birth year_of_death } samples { sample_id sample_submitter_id sample_type sample_type_id gdc_sample_id gdc_project_id biospecimen_anatomic_site composition current_weight days_to_collection days_to_sample_procurement diagnosis_pathologically_confirmed freezing_method initial_weight intermediate_dimension is_ffpe longest_dimension method_of_sample_procurement oct_embedded pathology_report_uuid preservation_method sample_type_id shortest_dimension time_between_clamping_and_freezing time_between_excision_and_freezing tissue_type tumor_code tumor_code_id tumor_descriptor aliquots { aliquot_id aliquot_submitter_id aliquot_quantity aliquot_volume amount analyte_type } } project {project_id project_submitter_id name studies {study_id pdc_study_id submitter_id_name study_submitter_id analytical_fraction experiment_type acquisition_type }} diagnoses{ diagnosis_id tissue_or_organ_of_origin age_at_diagnosis primary_diagnosis tumor_grade tumor_stage diagnosis_submitter_id classification_of_tumor days_to_last_follow_up days_to_last_known_disease_status days_to_recurrence last_known_disease_status morphology progression_or_recurrence site_of_resection_or_biopsy prior_malignancy ajcc_clinical_m ajcc_clinical_n ajcc_clinical_stage ajcc_clinical_t ajcc_pathologic_m ajcc_pathologic_n ajcc_pathologic_stage ajcc_pathologic_t ann_arbor_b_symptoms ann_arbor_clinical_stage ann_arbor_extranodal_involvement ann_arbor_pathologic_stage best_overall_response burkitt_lymphoma_clinical_variant circumferential_resection_margin colon_polyps_history days_to_best_overall_response days_to_diagnosis days_to_hiv_diagnosis days_to_new_event figo_stage hiv_positive hpv_positive_type hpv_status iss_stage laterality ldh_level_at_diagnosis ldh_normal_range_upper lymph_nodes_positive lymphatic_invasion_present method_of_diagnosis new_event_anatomic_site new_event_type overall_survival perineural_invasion_present prior_treatment progression_free_survival progression_free_survival_event residual_disease vascular_invasion_present year_of_diagnosis } }}': {
+               '?query={case (case_submitter_id: "{case_submitter_id}") { case_id case_submitter_id project_submitter_id days_to_lost_to_followup disease_type index_date lost_to_followup primary_site demographics{ demographic_id ethnicity gender demographic_submitter_id race cause_of_death days_to_birth days_to_death vital_status year_of_birth year_of_death } samples { sample_id sample_submitter_id sample_type sample_type_id gdc_sample_id gdc_project_id biospecimen_anatomic_site composition current_weight days_to_collection days_to_sample_procurement diagnosis_pathologically_confirmed freezing_method initial_weight intermediate_dimension is_ffpe longest_dimension method_of_sample_procurement oct_embedded pathology_report_uuid preservation_method sample_type_id shortest_dimension time_between_clamping_and_freezing time_between_excision_and_freezing tissue_type tumor_code tumor_code_id tumor_descriptor aliquots { aliquot_id aliquot_submitter_id analyte_type aliquot_run_metadata {aliquot_run_metadata_id} } } diagnoses{ diagnosis_id tissue_or_organ_of_origin age_at_diagnosis primary_diagnosis tumor_grade tumor_stage diagnosis_submitter_id classification_of_tumor days_to_last_follow_up days_to_last_known_disease_status days_to_recurrence last_known_disease_status morphology progression_or_recurrence site_of_resection_or_biopsy prior_malignancy ajcc_clinical_m ajcc_clinical_n ajcc_clinical_stage ajcc_clinical_t ajcc_pathologic_m ajcc_pathologic_n ajcc_pathologic_stage ajcc_pathologic_t ann_arbor_b_symptoms ann_arbor_clinical_stage ann_arbor_extranodal_involvement ann_arbor_pathologic_stage best_overall_response burkitt_lymphoma_clinical_variant circumferential_resection_margin colon_polyps_history days_to_best_overall_response days_to_diagnosis days_to_hiv_diagnosis days_to_new_event figo_stage hiv_positive hpv_positive_type hpv_status iss_stage laterality ldh_level_at_diagnosis ldh_normal_range_upper lymph_nodes_positive lymphatic_invasion_present method_of_diagnosis new_event_anatomic_site new_event_type overall_survival perineural_invasion_present prior_treatment progression_free_survival progression_free_survival_event residual_disease vascular_invasion_present year_of_diagnosis } }}': {
                  "get": {
                            "tags": ["Case"],
                    "summary": "Find case by ID",
@@ -168,7 +168,7 @@ var spec = {
                    "parameters": [{
                        "name": "case_submitter_id",
                        "in": "path",
-                       "description": "ID of case to return, example: 01BR001",
+                       "description": "Case Submitter ID, example: C3N-00386",
                        "required": true,
                        "type": "string"
                      }
@@ -186,9 +186,9 @@ var spec = {
                    }
                  }
                    },
-                   '?query={caseSearch(name: "{name}"){searchCases {record_type name submitter_id_name case_id description proteins}}}': {
+/*                    '?query={caseSearch(name: "{name}"){searchCases {record_type name submitter_id_name case_id description proteins}}}': {
                  "get": {
-                           "tags": ["Case"],
+                   "tags": ["Case"],
                    "summary": "Find cases by partial case_submitter_id",
                    "description": "<b>Returns a list of search records<br><br>Fields:</b><ul><li>record_type</li><li>name</li><li>submitter_id_name</li><li>case_id</li><li>description</li><li>proteins</li></ul>",
                    "operationId": "caseSearch",
@@ -215,8 +215,8 @@ var spec = {
                      }
                    }
                  }
-               },
-               "?query={diseasesAvailable {disease_type project_submitter_id cases_count diagnosis_id tissue_or_organ_of_origin age_at_diagnosis primary_diagnosis tumor_grade tumor_stage diagnosis_submitter_id classification_of_tumor days_to_last_follow_up days_to_last_known_disease_status days_to_recurrence last_known_disease_status morphology progression_or_recurrence site_of_resection_or_biopsy prior_malignancy ajcc_clinical_m ajcc_clinical_n ajcc_clinical_stage ajcc_clinical_t ajcc_pathologic_m ajcc_pathologic_n ajcc_pathologic_stage ajcc_pathologic_t ann_arbor_b_symptoms ann_arbor_clinical_stage ann_arbor_extranodal_involvement ann_arbor_pathologic_stage best_overall_response burkitt_lymphoma_clinical_variant circumferential_resection_margin colon_polyps_history days_to_best_overall_response days_to_diagnosis days_to_hiv_diagnosis days_to_new_event figo_stage hiv_positive hpv_positive_type hpv_status iss_stage laterality ldh_level_at_diagnosis ldh_normal_range_upper lymph_nodes_positive lymphatic_invasion_present method_of_diagnosis new_event_anatomic_site new_event_type overall_survival perineural_invasion_present prior_treatment progression_free_survival progression_free_survival_event residual_disease vascular_invasion_present year_of_diagnosis}}": {
+               }, */
+               "?query={diseasesAvailable {disease_type project_submitter_id cases_count tissue_or_organ_of_origin}}": {
                  "get": {
                            "tags": ["Disease"],
                    "summary": "Get available info of diseases",
@@ -282,11 +282,11 @@ var spec = {
                    }
                  }
                    },
-                   "?query={filesPerStudy {study_id pdc_study_id study_submitter_id study_name file_id file_name file_submitter_id file_type md5sum file_location file_size data_category file_format}}": {
+/*                    "?query={filesPerStudy {study_id pdc_study_id study_submitter_id study_name file_id file_name file_submitter_id file_type md5sum file_location file_size data_category file_format signedUrl {url} }}": {
                  "get": {
                            "tags": ["Files"],
                    "summary": "Get files per study",
-                   "description": "<b>Returns a list of files per study. </b><br>Takes a long time to execute because of the huge volume of data.<b><br><br>Fields:</b><ul><li>study_id</li><li>pdc_study_id</li><li>study_submitter_id</li><li>study_name</li><li>file_id</li><li>file_name</li><li>file_submitter_id</li><li>file_type</li><li>md5sum</li><li>file_location</li><li>file_size</li><li>file_format</li></ul>",
+                   "description": "<b>Returns a list of files per study. This API can also be used with multiple input parameters.</b><br>Takes a long time to execute because of the huge volume of data.<b><br><br>Fields:</b><ul><li>study_id</li><li>pdc_study_id</li><li>study_submitter_id</li><li>study_name</li><li>file_id</li><li>file_name</li><li>file_submitter_id</li><li>file_type</li><li>md5sum</li><li>file_location</li><li>file_size</li><li>file_format</li><li>signedUrl {url}</li></ul>",
                    "operationId": "filesPerStudy",
                    "produces": [
                      "application/json"
@@ -303,8 +303,8 @@ var spec = {
                      }
                    }
                  }
-               },
-               '?query={geneSearch (name: "{name}") {genes {record_type name submitter_id_name description proteins}}}': {
+               }, */
+               /* '?query={geneSearch (name: "{name}") {genes {record_type name submitter_id_name description proteins}}}': {
                  "get": {
                            "tags": ["Gene"],
                    "summary": "Find genes by partial gene_name",
@@ -333,12 +333,12 @@ var spec = {
                      }
                    }
                  }
-                   },
-                   '?query={geneSpectralCount (gene_name: "{gene_name}"){gene_id gene_name NCBI_gene_id authority description organism chromosome locus proteins assays spectral_counts { project_submitter_id plex spectral_count distinct_peptide unshared_peptide gene_name study_submitter_id aliquot_id} }}': {
+                   }, */
+                   '?query={geneSpectralCount (gene_name: "{gene_name}"){gene_id gene_name NCBI_gene_id authority description organism chromosome locus proteins assays spectral_counts { project_submitter_id plex spectral_count distinct_peptide unshared_peptide study_submitter_id} }}': {
                  "get": {
                            "tags": ["Gene"],
-                   "summary": "Returns the binary form of gene_id",
-                   "description": "<b>Returns the binary form of gene_id<br><br>Fields:</b><ul><li>gene_name</li><li>NCBI_gene_id</li><li>authority</li><li>description</li><li>organism</li><li>chromosome</li><li>locus</li><li>proteins</li><li>assays</li><li>spectral_counts</li></ul>",
+                   "summary": "Returns the gene spectral counts",
+                   "description": "<b>Returns the gene spectral counts<br><br>Fields:</b><ul><li>gene_id</li><li>gene_name</li><li>NCBI_gene_id</li><li>authority</li><li>description</li><li>organism</li><li>chromosome</li><li>locus</li><li>proteins</li><li>assays</li><li>spectral_counts</li></ul>",
                    "operationId": "geneSpectralCount",
                    "produces": [
                      "application/json"
@@ -346,7 +346,7 @@ var spec = {
                    "parameters": [{
                        "name": "gene_name",
                        "in": "path",
-                       "description": "HGNC gene ID of the gene to return, example: A1BG",
+                       "description": "Gene Name, example: A1BG",
                        "required": true,
                        "type": "string"
                      }
@@ -364,11 +364,11 @@ var spec = {
                    }
                  }
                },
-               '?query={ fileMetadata(file_id: "{file_id}") {file_id file_name file_size md5sum file_location file_submitter_id fraction_number experiment_type data_category file_type file_format plex_or_dataset_name analyte instrument study_run_metadata_submitter_id study_run_metadata_id aliquots { aliquot_id aliquot_submitter_id status aliquot_is_ref sample_id sample_submitter_id case_id case_submitter_id aliquot_quantity aliquot_volume amount analyte_type concentration} } }': {
+               '?query={ fileMetadata(file_id: "{file_id}") {file_id file_name file_size md5sum file_location file_submitter_id fraction_number experiment_type data_category file_type file_format plex_or_dataset_name analyte instrument study_run_metadata_submitter_id study_run_metadata_id aliquots { aliquot_id aliquot_submitter_id sample_id sample_submitter_id case_id case_submitter_id} } }': {
                  "get": {
                            "tags": ["Files"],
                    "summary": "Get file metadata",
-                   "description": "<b>Returns a list of file metadata<br><br>Fields:</b><ul><li>file_id</li><li>file_name</li><li>file_size</li><li>md5sum</li><li>file_location</li><li>file_submitter_id</li><li>fraction</li><li>experiment_type</li><li>data_category</li><li>file_type</li><li>file_format</li><li>plex_or_dataset_name</li><li>analyte</li><li>instrument</li><li>study_run_metadata_submitter_id</li><li>study_run_metadata_id</li><li>aliquots</li></ul>",
+                   "description": "<b>Returns a list of file metadata<br><br>Fields:</b><ul><li>file_id</li><li>file_name</li><li>file_size</li><li>md5sum</li><li>file_location</li><li>file_submitter_id</li><li>fraction_number</li><li>experiment_type</li><li>data_category</li><li>file_type</li><li>file_format</li><li>plex_or_dataset_name</li><li>analyte</li><li>instrument</li><li>study_run_metadata_submitter_id</li><li>study_run_metadata_id</li><li>aliquots</li></ul>",
                    "operationId": "fileMetadata",
                    "produces": [
                      "application/json"
@@ -398,7 +398,7 @@ var spec = {
                  "get": {
                            "tags": ["Case"],
                    "summary": "Get paginated case records",
-                   "description": "<b>Returns a list of cases and a pagination record<br/><br/>Fields:</b><ul><li>cases</li></ul>",
+                   "description": "<b>Returns a list of cases and a pagination record<br/><br/>Fields:</b><ul><li>total</li><li>cases</li></ul>",
                    "operationId": "getPaginatedCases",
                    "produces": [
                      "application/json"
@@ -434,7 +434,7 @@ var spec = {
                  "get": {
                            "tags": ["Files"],
                    "summary": "Get paginated file records",
-                   "description": "<b>Returns a list of files and a pagination record<br/><br/>Fields:</b><ul><li>files</li></ul>",
+                   "description": "<b>Returns a list of files and a pagination record<br/><br/>Fields:</b><ul><li>total</li><li>files</li></ul>",
                    "operationId": "getPaginatedFiles",
                    "produces": [
                      "application/json"
@@ -470,7 +470,7 @@ var spec = {
                  "get": {
                            "tags": ["Case"],
                    "summary": "Get Cases/Demographics",
-                   "description": "<b>Returns cases/demographics per study</b><br>Takes a long time to execute because of the huge volume of data.<br><br><b>Fields:</b><ul><li>case</li><li>demographics</li></ul>",
+                   "description": "<b>Returns cases/demographics per study. This API can also be used with multiple input parameters.</b><br>Takes a long time to execute because of the huge volume of data.<br><br><b>Fields:</b><ul><li>total</li><li>caseDemographicsPerStudy</li></ul>",
                    "operationId": "paginatedCaseDemographicsPerStudy",
                    "produces": [
                      "application/json"
@@ -478,7 +478,7 @@ var spec = {
                    "parameters": [{
                        "name": "study_submitter_id",
                        "in": "path",
-                       "description": "Study Submitter ID, example: S038-3",
+                       "description": "Study Submitter ID, example: CPTAC UCEC Discovery Study - Acetylome",
                        "required": true,
                        "type": "string"
                      }, {
@@ -512,7 +512,7 @@ var spec = {
                   "get": {
                             "tags": ["Case"],
                     "summary": "Get Cases/Demographics for PDC Study ID",
-                    "description": "<b>Returns cases/demographics per study</b><br>Takes a long time to execute because of the huge volume of data.<br><br><b>Fields:</b><ul><li>case</li><li>demographics</li></ul>",
+                    "description": "<b>Returns cases/demographics per study. This API can also be used with multiple input parameters.</b><br>Takes a long time to execute because of the huge volume of data.<br><br><b>Fields:</b><ul><li>total</li><li>caseDemographicsPerStudy</li></ul>",
                     "operationId": "paginatedCaseDemographicsPerStudy",
                     "produces": [
                       "application/json"
@@ -520,7 +520,7 @@ var spec = {
                     "parameters": [{
                         "name": "pdc_study_id",
                         "in": "path",
-                        "description": "PDC Study ID, example: PDC000174",
+                        "description": "PDC Study ID, example: PDC000226",
                         "required": true,
                         "type": "string"
                       }, {
@@ -550,11 +550,11 @@ var spec = {
                     }
                   }
                 },
-               '?query={paginatedSpectralCountPerStudyAliquot(study_submitter_id: "{study_submitter_id}" plex_name: "{plex_name}" gene_name: "{gene_name}" offset: {offset} limit: {limit}) { total spectralCounts { gene_name study_submitter_id pdc_study_id aliquot_id plex spectral_count distinct_peptide unshared_peptide } pagination { count sort from page total pages size } }}': {
+               '?query={paginatedSpectralCountPerStudyAliquot(study_submitter_id: "{study_submitter_id}" plex_name: "{plex_name}" gene_name: "{gene_name}" offset: {offset} limit: {limit}) { total spectralCounts { study_submitter_id pdc_study_id plex spectral_count distinct_peptide unshared_peptide } pagination { count sort from page total pages size } }}': {
                  "get": {
                            "tags": ["Quantitative"],
                    "summary": "Get spectral counts per study/aliquot/gene",
-                   "description": "<b>Returns spectral counts per study/aliquot/gene<br><br>Fields:</b><ul><li>spectralCounts</li></ul>",
+                   "description": "<b>Returns spectral counts per study/aliquot/gene. This API can also be used with multiple input parameters.<br><br>Fields:</b><ul><li>total</li><li>spectralCounts</li></ul>",
                    "operationId": "paginatedSpectralCountPerStudyAliquot",
                    "produces": [
                      "application/json"
@@ -604,11 +604,11 @@ var spec = {
                    }
                  }
                    },
-                   '?query={paginatedSpectralCountPerStudyAliquot(pdc_study_id: "{pdc_study_id}" gene_name: "{gene_name}" offset: {offset} limit: {limit}) { total spectralCounts { gene_name study_submitter_id pdc_study_id aliquot_id plex spectral_count distinct_peptide unshared_peptide } pagination { count sort from page total pages size } }}': {
+                   '?query={paginatedSpectralCountPerStudyAliquot(pdc_study_id: "{pdc_study_id}" gene_name: "{gene_name}" offset: {offset} limit: {limit}) { total spectralCounts { study_submitter_id pdc_study_id plex spectral_count distinct_peptide unshared_peptide } pagination { count sort from page total pages size } }}': {
                      "get": {
                                "tags": ["Quantitative"],
                        "summary": "Get spectral counts per study/aliquot/gene for a PDC Study ID",
-                       "description": "<b>Returns spectral counts per study/aliquot/gene<br><br>Fields:</b><ul><li>spectralCounts</li></ul>",
+                       "description": "<b>Returns spectral counts per study/aliquot/gene. This API can also be used with multiple input parameters.<br><br>Fields:</b><ul><li>total</li><li>spectralCounts</li></ul>",
                        "operationId": "paginatedSpectralCountPerStudyAliquot",
                        "produces": [
                          "application/json"
@@ -678,7 +678,7 @@ var spec = {
                  "get": {
                     "tags": ["Experimental"],
                    "summary": "Gets experimental design for a Study",
-                   "description": "<b>Gets experimental design for a Study.<br/><br/>Fields:</b><ul><li>pdc_study_id</li><li>study_run_metadata_id</li><li>study_run_metadata_submitter_id</li><li>study_id</li><li>study_submitter_id</li><li>analyte</li><li>acquisition_type</li><li>experiment_type</li><li>plex_dataset_name</li><li>experiment_number</li><li>number_of_fractions</li><li>label_free</li><li>itraq_113</li><li>itraq_114</li><li>itraq_115</li><li>itraq_116</li><li>itraq_117</li><li>itraq_118</li><li>itraq_119</li><li>itraq_121</li><li>tmt_126</li><li>tmt_127n</li><li>tmt_127c</li><li>tmt_128n</li><li>tmt_128c</li><li>tmt_129n</li><li>tmt_129c</li><li>tmt_130n</li><li>tmt_130c</li><li>tmt_131</li><li>tmt_131c</li></ul>",
+                   "description": "<b>Gets experimental design for a Study. This API can also be used with multiple input parameters.<br/><br/>Fields:</b><ul><li>pdc_study_id</li><li>study_run_metadata_id</li><li>study_run_metadata_submitter_id</li><li>study_id</li><li>study_submitter_id</li><li>analyte</li><li>acquisition_type</li><li>experiment_type</li><li>plex_dataset_name</li><li>experiment_number</li><li>number_of_fractions</li><li>label_free</li><li>itraq_113</li><li>itraq_114</li><li>itraq_115</li><li>itraq_116</li><li>itraq_117</li><li>itraq_118</li><li>itraq_119</li><li>itraq_121</li><li>tmt_126</li><li>tmt_127n</li><li>tmt_127c</li><li>tmt_128n</li><li>tmt_128c</li><li>tmt_129n</li><li>tmt_129c</li><li>tmt_130n</li><li>tmt_130c</li><li>tmt_131</li><li>tmt_131c</li></ul>",
                    "operationId": "studyExperimentalDesign",
                    "produces": [
                      "application/json"
@@ -707,7 +707,7 @@ var spec = {
                   "get": {
                      "tags": ["Experimental"],
                     "summary": "Gets experimental design for a PDC Study ID",
-                    "description": "<b>Gets experimental design for a Study.<br/><br/>Fields:</b><ul><li>pdc_study_id</li><li>study_run_metadata_id</li><li>study_run_metadata_submitter_id</li><li>study_id</li><li>study_submitter_id</li><li>analyte</li><li>acquisition_type</li><li>experiment_type</li><li>plex_dataset_name</li><li>experiment_number</li><li>number_of_fractions</li><li>label_free</li><li>itraq_113</li><li>itraq_114</li><li>itraq_115</li><li>itraq_116</li><li>itraq_117</li><li>itraq_118</li><li>itraq_119</li><li>itraq_121</li><li>tmt_126</li><li>tmt_127n</li><li>tmt_127c</li><li>tmt_128n</li><li>tmt_128c</li><li>tmt_129n</li><li>tmt_129c</li><li>tmt_130n</li><li>tmt_130c</li><li>tmt_131</li><li>tmt_131c</li></ul>",
+                    "description": "<b>Gets experimental design for a Study. This API can also be used with multiple input parameters.<br/><br/>Fields:</b><ul><li>pdc_study_id</li><li>study_run_metadata_id</li><li>study_run_metadata_submitter_id</li><li>study_id</li><li>study_submitter_id</li><li>analyte</li><li>acquisition_type</li><li>experiment_type</li><li>plex_dataset_name</li><li>experiment_number</li><li>number_of_fractions</li><li>label_free</li><li>itraq_113</li><li>itraq_114</li><li>itraq_115</li><li>itraq_116</li><li>itraq_117</li><li>itraq_118</li><li>itraq_119</li><li>itraq_121</li><li>tmt_126</li><li>tmt_127n</li><li>tmt_127c</li><li>tmt_128n</li><li>tmt_128c</li><li>tmt_129n</li><li>tmt_129c</li><li>tmt_130n</li><li>tmt_130c</li><li>tmt_131</li><li>tmt_131c</li></ul>",
                     "operationId": "studyExperimentalDesign",
                     "produces": [
                       "application/json"
@@ -736,7 +736,7 @@ var spec = {
                  "get": {
                            "tags": ["General"],
                    "summary": "Returns biospecimen details per study",
-                   "description": "<b>Returns biospecimen details per study.<br><br>Fields:</b><ul><li>aliquot_id</li><li>sample_id</li><li>case_id</li><li>aliquot_submitter_id</li><li>sample_submitter_id</li><li>case_submitter_id</li><li>aliquot_status</li><li>case_status</li><li>sample_status</li><li>project_name</li><li>sample_type</li><li>disease_type</li><li>primary_site</li><li>pool</li><li>taxon</li></ul>",
+                   "description": "<b>Returns biospecimen details per study. This API can also be used with multiple input parameters.<br><br>Fields:</b><ul><li>aliquot_id</li><li>sample_id</li><li>case_id</li><li>aliquot_submitter_id</li><li>sample_submitter_id</li><li>case_submitter_id</li><li>aliquot_status</li><li>case_status</li><li>sample_status</li><li>project_name</li><li>sample_type</li><li>disease_type</li><li>primary_site</li><li>pool</li><li>taxon</li></ul>",
                    "operationId": "biospecimenPerStudy",
                    "produces": [
                      "application/json"
@@ -765,7 +765,7 @@ var spec = {
                   "get": {
                      "tags": ["General"],
                     "summary": "Returns biospecimen details for a PDC Study ID",
-                    "description": "<b>Returns biospecimen details per study.<br><br>Fields:</b><ul><li>aliquot_id</li><li>sample_id</li><li>case_id</li><li>aliquot_submitter_id</li><li>sample_submitter_id</li><li>case_submitter_id</li><li>aliquot_status</li><li>case_status</li><li>sample_status</li><li>project_name</li><li>sample_type</li><li>disease_type</li><li>primary_site</li><li>pool</li><li>taxon</li></ul>",
+                    "description": "<b>Returns biospecimen details per study. This API can also be used with multiple input parameters.<br><br>Fields:</b><ul><li>aliquot_id</li><li>sample_id</li><li>case_id</li><li>aliquot_submitter_id</li><li>sample_submitter_id</li><li>case_submitter_id</li><li>aliquot_status</li><li>case_status</li><li>sample_status</li><li>project_name</li><li>sample_type</li><li>disease_type</li><li>primary_site</li><li>pool</li><li>taxon</li></ul>",
                     "operationId": "biospecimenPerStudy",
                     "produces": [
                       "application/json"
@@ -790,11 +790,11 @@ var spec = {
                     }
                   }
                 },
-               '?query={ clinicalPerStudy(study_submitter_id: "{study_submitter_id}"){ case_id case_submitter_id status external_case_id ethnicity gender race morphology primary_diagnosis site_of_resection_or_biopsy tissue_or_organ_of_origin tumor_grade tumor_stage } }': {
+               '?query={ clinicalPerStudy(study_submitter_id: "{study_submitter_id}"){ case_id case_submitter_id status ethnicity gender race morphology primary_diagnosis site_of_resection_or_biopsy tissue_or_organ_of_origin tumor_grade tumor_stage } }': {
                  "get": {
                            "tags": ["Clinical"],
                    "summary": "Returns clinical details per study",
-                   "description": "<b>Returns clinical details per study.<br><br>Fields:</b><ul><li>case_id</li><li>case_submitter_id</li><li>status</li><li>external_case_id</li><li>ethnicity</li><li>gender</li><li>race</li><li>morphology</li><li>primary_diagnosis</li><li>site_of_resection_or_biopsy</li><li>tissue_or_organ_of_origin</li><li>tumor_grade</li><li>tumor_stage</li></ul>",
+                   "description": "<b>Returns clinical details per study. This API can also be used with multiple input parameters.<br><br>Fields:</b><ul><li>case_id</li><li>case_submitter_id</li><li>status</li><li>ethnicity</li><li>gender</li><li>race</li><li>morphology</li><li>primary_diagnosis</li><li>site_of_resection_or_biopsy</li><li>tissue_or_organ_of_origin</li><li>tumor_grade</li><li>tumor_stage</li></ul>",
                    "operationId": "clinicalPerStudy",
                    "produces": [
                      "application/json"
@@ -819,11 +819,11 @@ var spec = {
                    }
                  }
                },
-               '?query={ clinicalPerStudy(pdc_study_id: "{pdc_study_id}"){ case_id case_submitter_id status external_case_id ethnicity gender race morphology primary_diagnosis site_of_resection_or_biopsy tissue_or_organ_of_origin tumor_grade tumor_stage } }': {
+               '?query={ clinicalPerStudy(pdc_study_id: "{pdc_study_id}"){ case_id case_submitter_id status ethnicity gender race morphology primary_diagnosis site_of_resection_or_biopsy tissue_or_organ_of_origin tumor_grade tumor_stage } }': {
                   "get": {
                             "tags": ["Clinical"],
                     "summary": "Returns clinical details for PDC Study ID",
-                    "description": "<b>Returns clinical details per study.<br><br>Fields:</b><ul><li>case_id</li><li>case_submitter_id</li><li>status</li><li>external_case_id</li><li>ethnicity</li><li>gender</li><li>race</li><li>morphology</li><li>primary_diagnosis</li><li>site_of_resection_or_biopsy</li><li>tissue_or_organ_of_origin</li><li>tumor_grade</li><li>tumor_stage</li></ul>",
+                    "description": "<b>Returns clinical details per study. This API can also be used with multiple input parameters.<br><br>Fields:</b><ul><li>case_id</li><li>case_submitter_id</li><li>status</li><li>ethnicity</li><li>gender</li><li>race</li><li>morphology</li><li>primary_diagnosis</li><li>site_of_resection_or_biopsy</li><li>tissue_or_organ_of_origin</li><li>tumor_grade</li><li>tumor_stage</li></ul>",
                     "operationId": "clinicalPerStudy",
                     "produces": [
                       "application/json"
@@ -848,11 +848,11 @@ var spec = {
                     }
                   }
                 },
-                '?query={ protocolPerStudy(pdc_study_id: "{pdc_study_id}" ){ project_submitter_id protocol_id protocol_submitter_id study_id pdc_study_id study_submitter_id program_id program_submitter_id protocol_name protocol_date document_name quantitation_strategy experiment_type label_free_quantitation labeled_quantitation isobaric_labeling_reagent reporter_ion_ms_level starting_amount starting_amount_uom digestion_reagent alkylation_reagent enrichment_strategy enrichment chromatography_dimensions_count one_d_chromatography_type two_d_chromatography_type fractions_analyzed_count column_type amount_on_column amount_on_column_uom column_length column_length_uom column_inner_diameter column_inner_diameter_uom particle_size particle_size_uom particle_type gradient_length gradient_length_uom instrument_make instrument_model dissociation_type ms1_resolution ms2_resolution dda_topn normalized_collision_energy acquistion_type dia_multiplexing dia_ims } }': {
+                '?query={ protocolPerStudy(pdc_study_id: "{pdc_study_id}" ){protocol_id protocol_submitter_id study_id pdc_study_id study_submitter_id program_id program_submitter_id protocol_name protocol_date document_name quantitation_strategy experiment_type label_free_quantitation labeled_quantitation isobaric_labeling_reagent reporter_ion_ms_level starting_amount starting_amount_uom digestion_reagent alkylation_reagent enrichment_strategy enrichment chromatography_dimensions_count one_d_chromatography_type two_d_chromatography_type fractions_analyzed_count column_type amount_on_column amount_on_column_uom column_length column_length_uom column_inner_diameter column_inner_diameter_uom particle_size particle_size_uom particle_type gradient_length gradient_length_uom instrument_make instrument_model dissociation_type ms1_resolution ms2_resolution dda_topn normalized_collision_energy acquistion_type dia_multiplexing dia_ims } }': {
                   "get": {
                             "tags": ["General"],
                     "summary": "Gets all protocols for PDC Study ID",
-                    "description": "<b>Gets all protocols per study.<br><br>Fields:</b><ul><li>project_submitter_id</li><li>protocol_id</li><li>protocol_submitter_id</li><li>study_id</li><li>pdc_study_id</li><li>study_submitter_id</li><li>program_id</li><li>program_submitter_id</li><li>protocol_name</li><li>protocol_date</li><li>document_name</li><li>quantitation_strategy</li><li>experiment_type</li><li>label_free_quantitation</li><li>labeled_quantitation</li><li>isobaric_labeling_reagent</li><li>reporter_ion_ms_level</li><li>starting_amount</li><li>starting_amount_uom</li><li>digestion_reagent</li><li>alkylation_reagent</li><li>enrichment_strategy</li><li>enrichment</li><li>chromatography_dimensions_count</li><li>one_d_chromatography_type</li><li>two_d_chromatography_type</li><li>fractions_analyzed_count</li><li>column_type</li><li>amount_on_column</li><li>amount_on_column_uom</li><li>column_length</li><li>column_length_uom</li><li>column_inner_diameter</li><li>column_inner_diameter_uom</li><li>particle_size</li><li>particle_size_uom</li><li>particle_type</li><li>gradient_length</li><li>gradient_length_uom</li><li>instrument_make</li><li>instrument_model</li><li>dissociation_type</li><li>ms1_resolution</li><li>ms2_resolution</li><li>dda_topn</li><li>normalized_collision_energy</li><li>acquistion_type</li><li>dia_multiplexing</li><li>dia_ims</li></ul>",
+                    "description": "<b>Gets all protocols per study. This API can also be used with multiple input parameters.<br><br>Fields:</b><ul><li>protocol_id</li><li>protocol_submitter_id</li><li>study_id</li><li>pdc_study_id</li><li>study_submitter_id</li><li>program_id</li><li>program_submitter_id</li><li>protocol_name</li><li>protocol_date</li><li>document_name</li><li>quantitation_strategy</li><li>experiment_type</li><li>label_free_quantitation</li><li>labeled_quantitation</li><li>isobaric_labeling_reagent</li><li>reporter_ion_ms_level</li><li>starting_amount</li><li>starting_amount_uom</li><li>digestion_reagent</li><li>alkylation_reagent</li><li>enrichment_strategy</li><li>enrichment</li><li>chromatography_dimensions_count</li><li>one_d_chromatography_type</li><li>two_d_chromatography_type</li><li>fractions_analyzed_count</li><li>column_type</li><li>amount_on_column</li><li>amount_on_column_uom</li><li>column_length</li><li>column_length_uom</li><li>column_inner_diameter</li><li>column_inner_diameter_uom</li><li>particle_size</li><li>particle_size_uom</li><li>particle_type</li><li>gradient_length</li><li>gradient_length_uom</li><li>instrument_make</li><li>instrument_model</li><li>dissociation_type</li><li>ms1_resolution</li><li>ms2_resolution</li><li>dda_topn</li><li>normalized_collision_energy</li><li>acquistion_type</li><li>dia_multiplexing</li><li>dia_ims</li></ul>",
                     "operationId": "protocolPerStudy",
                     "produces": [
                       "application/json"
@@ -877,11 +877,11 @@ var spec = {
                     }
                   }
                 },
-               '?query={ protocolPerStudy(study_submitter_id: "{study_submitter_id}" ){ project_submitter_id protocol_id protocol_submitter_id study_id pdc_study_id study_submitter_id program_id program_submitter_id protocol_name protocol_date document_name quantitation_strategy experiment_type label_free_quantitation labeled_quantitation isobaric_labeling_reagent reporter_ion_ms_level starting_amount starting_amount_uom digestion_reagent alkylation_reagent enrichment_strategy enrichment chromatography_dimensions_count one_d_chromatography_type two_d_chromatography_type fractions_analyzed_count column_type amount_on_column amount_on_column_uom column_length column_length_uom column_inner_diameter column_inner_diameter_uom particle_size particle_size_uom particle_type gradient_length gradient_length_uom instrument_make instrument_model dissociation_type ms1_resolution ms2_resolution dda_topn normalized_collision_energy acquistion_type dia_multiplexing dia_ims } }': {
+               '?query={ protocolPerStudy(study_submitter_id: "{study_submitter_id}" ){ protocol_id protocol_submitter_id study_id pdc_study_id study_submitter_id program_id program_submitter_id protocol_name protocol_date document_name quantitation_strategy experiment_type label_free_quantitation labeled_quantitation isobaric_labeling_reagent reporter_ion_ms_level starting_amount starting_amount_uom digestion_reagent alkylation_reagent enrichment_strategy enrichment chromatography_dimensions_count one_d_chromatography_type two_d_chromatography_type fractions_analyzed_count column_type amount_on_column amount_on_column_uom column_length column_length_uom column_inner_diameter column_inner_diameter_uom particle_size particle_size_uom particle_type gradient_length gradient_length_uom instrument_make instrument_model dissociation_type ms1_resolution ms2_resolution dda_topn normalized_collision_energy acquistion_type dia_multiplexing dia_ims } }': {
                  "get": {
                            "tags": ["General"],
                    "summary": "Gets all protocols per Study",
-                   "description": "<b>Gets all protocols per study.<br><br>Fields:</b><ul><li>project_submitter_id</li><li>protocol_id</li><li>protocol_submitter_id</li><li>study_id</li><li>pdc_study_id</li><li>study_submitter_id</li><li>program_id</li><li>program_submitter_id</li><li>protocol_name</li><li>protocol_date</li><li>document_name</li><li>quantitation_strategy</li><li>experiment_type</li><li>label_free_quantitation</li><li>labeled_quantitation</li><li>isobaric_labeling_reagent</li><li>reporter_ion_ms_level</li><li>starting_amount</li><li>starting_amount_uom</li><li>digestion_reagent</li><li>alkylation_reagent</li><li>enrichment_strategy</li><li>enrichment</li><li>chromatography_dimensions_count</li><li>one_d_chromatography_type</li><li>two_d_chromatography_type</li><li>fractions_analyzed_count</li><li>column_type</li><li>amount_on_column</li><li>amount_on_column_uom</li><li>column_length</li><li>column_length_uom</li><li>column_inner_diameter</li><li>column_inner_diameter_uom</li><li>particle_size</li><li>particle_size_uom</li><li>particle_type</li><li>gradient_length</li><li>gradient_length_uom</li><li>instrument_make</li><li>instrument_model</li><li>dissociation_type</li><li>ms1_resolution</li><li>ms2_resolution</li><li>dda_topn</li><li>normalized_collision_energy</li><li>acquistion_type</li><li>dia_multiplexing</li><li>dia_ims</li></ul>",
+                   "description": "<b>Gets all protocols per study. This API can also be used with multiple input parameters.<br><br>Fields:</b><ul><li>protocol_id</li><li>protocol_submitter_id</li><li>study_id</li><li>pdc_study_id</li><li>study_submitter_id</li><li>program_id</li><li>program_submitter_id</li><li>protocol_name</li><li>protocol_date</li><li>document_name</li><li>quantitation_strategy</li><li>experiment_type</li><li>label_free_quantitation</li><li>labeled_quantitation</li><li>isobaric_labeling_reagent</li><li>reporter_ion_ms_level</li><li>starting_amount</li><li>starting_amount_uom</li><li>digestion_reagent</li><li>alkylation_reagent</li><li>enrichment_strategy</li><li>enrichment</li><li>chromatography_dimensions_count</li><li>one_d_chromatography_type</li><li>two_d_chromatography_type</li><li>fractions_analyzed_count</li><li>column_type</li><li>amount_on_column</li><li>amount_on_column_uom</li><li>column_length</li><li>column_length_uom</li><li>column_inner_diameter</li><li>column_inner_diameter_uom</li><li>particle_size</li><li>particle_size_uom</li><li>particle_type</li><li>gradient_length</li><li>gradient_length_uom</li><li>instrument_make</li><li>instrument_model</li><li>dissociation_type</li><li>ms1_resolution</li><li>ms2_resolution</li><li>dda_topn</li><li>normalized_collision_energy</li><li>acquistion_type</li><li>dia_multiplexing</li><li>dia_ims</li></ul>",
                    "operationId": "protocolPerStudy",
                    "produces": [
                      "application/json"
@@ -910,7 +910,7 @@ var spec = {
                  "get": {
                    "tags": ["Study"],
                    "summary": "Gets Study details",
-                   "description": "<b>Gets Study details.<br><br>Fields:</b><ul><li>study_id</li><li>pdc_study_id</li><li>study_submitter_id</li><li>program_id</li><li>project_id</li><li>study_name</li><li>program_name</li><li>project_name</li><li>disease_type</li><li>primary_site</li><li>analytical_fraction</li><li>experiment_type</li><li>cases_count</li><li>aliquots_count</li><li>filesCount</li></ul>",
+                   "description": "<b>Gets Study details. This API can also be used with multiple input parameters.<br><br>Fields:</b><ul><li>study_id</li><li>pdc_study_id</li><li>study_submitter_id</li><li>program_id</li><li>project_id</li><li>study_name</li><li>program_name</li><li>project_name</li><li>disease_type</li><li>primary_site</li><li>analytical_fraction</li><li>experiment_type</li><li>embargo_date</li><li>cases_count</li><li>aliquots_count</li><li>filesCount</li></ul>",
                    "operationId": "study",
                    "produces": [
                      "application/json"
@@ -939,7 +939,7 @@ var spec = {
                   "get": {
                     "tags": ["Study"],
                     "summary": "Gets Study details for PDC Study ID",
-                    "description": "<b>Gets Study details.<br><br>Fields:</b><ul><li>study_id</li><li>pdc_study_id</li><li>study_submitter_id</li><li>program_id</li><li>project_id</li><li>study_name</li><li>program_name</li><li>project_name</li><li>disease_type</li><li>primary_site</li><li>analytical_fraction</li><li>experiment_type</li><li>cases_count</li><li>aliquots_count</li><li>filesCount</li></ul>",
+                    "description": "<b>Gets Study details. This API can also be used with multiple input parameters.<br><br>Fields:</b><ul><li>study_id</li><li>pdc_study_id</li><li>study_submitter_id</li><li>program_id</li><li>project_id</li><li>study_name</li><li>program_name</li><li>project_name</li><li>disease_type</li><li>primary_site</li><li>analytical_fraction</li><li>experiment_type</li><li>embargo_date</li><li>cases_count</li><li>aliquots_count</li><li>filesCount</li></ul>",
                     "operationId": "study",
                     "produces": [
                       "application/json"
@@ -964,11 +964,11 @@ var spec = {
                     }
                   }
                 },
-              '?query={ filesPerStudy (study_id: "{study_id}") {study_id pdc_study_id study_submitter_id study_name file_id file_name file_submitter_id file_type md5sum file_location file_size data_category file_format} }': {
+              '?query={ filesPerStudy (study_id: "{study_id}") {study_id pdc_study_id study_submitter_id study_name file_id file_name file_submitter_id file_type md5sum file_location file_size data_category file_format signedUrl {url}} }': {
                  "get": {
                            "tags": ["Files"],
                    "summary": "Get files per Study ID",
-                   "description": "<b>Returns a list of files per study. </b><br>Takes a long time to execute because of the huge volume of data.<b><br><br>Fields:</b><ul><li>study_id</li><li>pdc_study_id</li><li>study_submitter_id</li><li>study_name</li><li>file_id</li><li>file_name</li><li>file_submitter_id</li><li>file_type</li><li>md5sum</li><li>file_location</li><li>file_size</li><li>data_category</li><li>file_format</li></ul>",
+                   "description": "<b>Returns a list of files per study. This API can also be used with multiple input parameters.</b><br>Takes a long time to execute because of the huge volume of data.<b><br><br>Fields:</b><ul><li>study_id</li><li>pdc_study_id</li><li>study_submitter_id</li><li>study_name</li><li>file_id</li><li>file_name</li><li>file_submitter_id</li><li>file_type</li><li>md5sum</li><li>file_location</li><li>file_size</li><li>data_category</li><li>file_format</li><li>signedUrl {url}</li></ul>",
                    "operationId": "filesPerStudy",
                    "produces": [
                      "application/json"
@@ -993,11 +993,11 @@ var spec = {
                    }
                  }
                },
-               '?query={ filesPerStudy (pdc_study_id: "{pdc_study_id}") {study_id pdc_study_id study_submitter_id study_name file_id file_name file_submitter_id file_type md5sum file_location file_size data_category file_format} }': {
+               '?query={ filesPerStudy (pdc_study_id: "{pdc_study_id}") {study_id pdc_study_id study_submitter_id study_name file_id file_name file_submitter_id file_type md5sum file_location file_size data_category file_format signedUrl {url}} }': {
                   "get": {
                             "tags": ["Files"],
                     "summary": "Get files per PDC Study ID",
-                    "description": "<b>Returns a list of files per study. </b><br>Takes a long time to execute because of the huge volume of data.<b><br><br>Fields:</b><ul><li>study_id</li><li>pdc_study_id</li><li>study_submitter_id</li><li>study_name</li><li>file_id</li><li>file_name</li><li>file_submitter_id</li><li>file_type</li><li>md5sum</li><li>file_location</li><li>file_size</li><li>data_category</li><li>file_format</li></ul>",
+                    "description": "<b>Returns a list of files per study. This API can also be used with multiple input parameters.</b><br>Takes a long time to execute because of the huge volume of data.<b><br><br>Fields:</b><ul><li>study_id</li><li>pdc_study_id</li><li>study_submitter_id</li><li>study_name</li><li>file_id</li><li>file_name</li><li>file_submitter_id</li><li>file_type</li><li>md5sum</li><li>file_location</li><li>file_size</li><li>data_category</li><li>file_format</li><li>signedUrl {url}</li></ul>",
                     "operationId": "filesPerStudy",
                     "produces": [
                       "application/json"
@@ -1022,11 +1022,11 @@ var spec = {
                     }
                   }
                 },
-               '?query={program(program_submitter_id:  "{program_submitter_id}")  {program_id  program_submitter_id  name  sponsor  start_date  end_date  program_manager  projects  {project_id  project_submitter_id  name  studies  {study_id  submitter_id_name  study_submitter_id  analytical_fraction  experiment_type  acquisition_type}  cases{  case_id  case_submitter_id  project_submitter_id  external_case_id  tissue_source_site_code  days_to_lost_to_followup  disease_type  index_date  lost_to_followup  primary_site  count  demographics{  demographic_id  ethnicity  gender  demographic_submitter_id  race  cause_of_death  days_to_birth  days_to_death  vital_status  year_of_birth  year_of_death  }  samples  {  sample_id  sample_submitter_id  sample_type  sample_type_id  gdc_sample_id  gdc_project_id  biospecimen_anatomic_site  composition  current_weight  days_to_collection  days_to_sample_procurement  diagnosis_pathologically_confirmed  freezing_method  initial_weight  intermediate_dimension  is_ffpe  longest_dimension  method_of_sample_procurement  oct_embedded  pathology_report_uuid  preservation_method  sample_type_id  shortest_dimension  time_between_clamping_and_freezing  time_between_excision_and_freezing  tissue_type  tumor_code  tumor_code_id  tumor_descriptor  aliquots  {  aliquot_id  aliquot_submitter_id  aliquot_quantity  aliquot_volume  amount  analyte_type  }  }  project  {project_id  project_submitter_id  name  studies  {study_id  submitter_id_name  study_submitter_id  analytical_fraction  experiment_type  acquisition_type  }}  diagnoses{  diagnosis_id  tissue_or_organ_of_origin  age_at_diagnosis  primary_diagnosis  tumor_grade  tumor_stage  diagnosis_submitter_id  classification_of_tumor  days_to_last_follow_up  days_to_last_known_disease_status  days_to_recurrence  last_known_disease_status  morphology  progression_or_recurrence  site_of_resection_or_biopsy prior_malignancy  ajcc_clinical_m  ajcc_clinical_n  ajcc_clinical_stage  ajcc_clinical_t  ajcc_pathologic_m  ajcc_pathologic_n  ajcc_pathologic_stage  ajcc_pathologic_t  ann_arbor_b_symptoms  ann_arbor_clinical_stage  ann_arbor_extranodal_involvement  ann_arbor_pathologic_stage  best_overall_response  burkitt_lymphoma_clinical_variant circumferential_resection_margin  colon_polyps_history  days_to_best_overall_response  days_to_diagnosis  days_to_hiv_diagnosis  days_to_new_event  figo_stage  hiv_positive  hpv_positive_type  hpv_status  iss_stage  laterality  ldh_level_at_diagnosis  ldh_normal_range_upper  lymph_nodes_positive  lymphatic_invasion_present  method_of_diagnosis  new_event_anatomic_site  new_event_type  overall_survival  perineural_invasion_present  prior_treatment  progression_free_survival  progression_free_survival_event  residual_disease  vascular_invasion_present  year_of_diagnosis  }}  }  }}': {
+               '?query={program(program_submitter_id:  "{program_submitter_id}")  {program_id  program_submitter_id  name  projects  {project_id  project_submitter_id  name  studies  {pdc_study_id study_id study_submitter_id submitter_id_name analytical_fraction experiment_type acquisition_type} }  }  }': {
                  "get": {
                            "tags": ["Program"],
                    "summary": "Find program by ID",
-                   "description": "<b>Returns a single program with its projects<br><br>Fields:</b><ul><li>program</li><li>projects</li></ul>",
+                   "description": "<b>Returns a single program and its projects.<br><br>Fields:<ul><li>program_id:</b> Program ID, example : 10251935-5540-11e8-b664-00a098d917f8</li><li><b>program_submitter_id:</b> Program Submitter ID, example : Clinical Proteomic Tumor Analysis Consortium</li><li><b>name:</b> Name of the program, example: Clinical Proteomic Tumor Analysis Consortium</li><li><b>projects</b></li></ul>",
                    "operationId": "program",
                    "produces": [
                      "application/json"
@@ -1034,7 +1034,7 @@ var spec = {
                    "parameters": [{
                        "name": "program_submitter_id",
                        "in": "path",
-                       "description": "ID of program to return, example: Georgetown Proteomics Research Program",
+                       "description": "Program Submitter ID, example: Clinical Proteomic Tumor Analysis Consortium",
                        "required": true,
                        "type": "string"
                      }
@@ -1052,11 +1052,11 @@ var spec = {
                    }
                  }
                },
-               "?query={programsProjectsStudies {program_id program_submitter_id name sponsor start_date end_date program_manager projects {project_id project_submitter_id name studies { pdc_study_id study_id study_submitter_id submitter_id_name study_name program_name project_name program_id project_id project_submitter_id disease_type primary_site analytical_fraction experiment_type acquisition_type cases_count aliquots_count} }}}": {
+               "?query={programsProjectsStudies {program_id program_submitter_id name projects {project_id project_submitter_id name studies { pdc_study_id study_id study_submitter_id submitter_id_name analytical_fraction experiment_type acquisition_type} }}}": {
                  "get": {
                            "tags": ["Program"],
                    "summary": "Get all programs/projects/studies",
-                   "description": "<b>Returns a hierarchy of programs/projects/studies for an optional filter value.<br><br>Fields:</b><ul><li>program_id</li><li>program_submitter_id</li><li>name</li><li>sponsor</li><li>start_date</li><li>end_date</li><li>program_manager</li><li>projects {project_id project_submitter_id name}</li><li> studies {pdc_study_id study_id study_submitter_id submitter_id_name study_name program_name project_name program_id project_id project_submitter_id disease_type primary_site analytical_fraction experiment_type acquisition_type cases_count aliquots_count}</li></ul>",
+                   "description": "<b>Returns a hierarchy of programs/projects/studies.<br><br>Fields:</b><ul><li>program_id</li><li>program_submitter_id</li><li>name</li><li>projects {project_id project_submitter_id name}</li><li> studies {pdc_study_id study_id study_submitter_id submitter_id_name analytical_fraction experiment_type acquisition_type}</li></ul>",
                    "operationId": "programsProjectsStudies",
                    "produces": [
                      "application/json"
@@ -1074,7 +1074,7 @@ var spec = {
                    }
                  }
                    },
-                   "?query={projectsPerExperimentType{experiment_type project_submitter_id name}}": {
+/*                    "?query={projectsPerExperimentType{experiment_type project_submitter_id name}}": {
                  "get": {
                            "tags": ["Project"],
                    "summary": "Get projects per experiment types",
@@ -1096,23 +1096,15 @@ var spec = {
                    }
                  }
                },
-               '?query={projectsPerInstrument (instrument: "{instrument}") {project_submitter_id protocol_id protocol_submitter_id study_id pdc_study_id study_submitter_id program_id program_submitter_id protocol_name protocol_date document_name quantitation_strategy experiment_type label_free_quantitation labeled_quantitation isobaric_labeling_reagent reporter_ion_ms_level starting_amount starting_amount_uom digestion_reagent alkylation_reagent enrichment_strategy enrichment chromatography_dimensions_count one_d_chromatography_type two_d_chromatography_type fractions_analyzed_count column_type amount_on_column amount_on_column_uom column_length column_length_uom column_inner_diameter column_inner_diameter_uom particle_size particle_size_uom particle_type gradient_length gradient_length_uom instrument_make instrument_model dissociation_type ms1_resolution ms2_resolution dda_topn normalized_collision_energy acquistion_type dia_multiplexing dia_ims}}': {
+               '?query={projectsPerInstrument  {project_submitter_id instrument_model }}': {
                  "get": {
                            "tags": ["Project"],
                    "summary": "Get projects per instrument",
-                   "description": "<b>Returns a list of projects per mass spectrometry instrument, example: Lumos.<br><br>Fields:</b><ul><li>project_submitter_id</li><li>protocol_id</li><li>protocol_submitter_id</li><li>study_id</li><li>pdc_study_id</li><li>study_submitter_id</li><li>program_id</li><li>program_submitter_id</li><li>protocol_name</li><li>protocol_date</li><li>document_name</li><li>quantitation_strategy</li><li>experiment_type</li><li>label_free_quantitation</li><li>labeled_quantitation</li><li>isobaric_labeling_reagent</li><li>reporter_ion_ms_level</li><li>starting_amount</li><li>starting_amount_uom</li><li>digestion_reagent</li><li>alkylation_reagent</li><li>enrichment_strategy</li><li>enrichment</li><li>chromatography_dimensions_count</li><li>one_d_chromatography_type</li><li>two_d_chromatography_type</li><li>fractions_analyzed_count</li><li>column_type</li><li>amount_on_column</li><li>amount_on_column_uom</li><li>column_length</li><li>column_length_uom</li><li>column_inner_diameter</li><li>column_inner_diameter_uom</li><li>particle_size</li><li>particle_size_uom</li><li>particle_type</li><li>gradient_length</li><li>gradient_length_uom</li><li>instrument_make</li><li>instrument_model</li><li>dissociation_type</li><li>ms1_resolution</li><li>ms2_resolution</li><li>dda_topn</li><li>normalized_collision_energy</li><li>acquistion_type</li><li>dia_multiplexing</li><li>dia_ims</li></ul>",
+                   "description": "<b>Returns a list of projects and mass spectrometry instruments. This API can also be used with multiple input parameters.<br><br>Fields:</b><ul><li>project_submitter_id</li><li>instrument_model</li></ul>",
                    "operationId": "projectsPerInstrument",
                    "produces": [
                      "application/json"
                    ],
-                   "parameters": [{
-                     "name": "instrument",
-                     "in": "path",
-                     "description": "Instrument, example: lumos",
-                     "required": true,
-                     "type": "string"
-                   }
-                 ],
                    "responses": {
                      "200": {
                        "description": "successful operation",
@@ -1126,11 +1118,41 @@ var spec = {
                    }
                  }
                },
-               '?query={protein(protein: "{protein}"){gene_name NCBI_gene_id authority description organism chromosome locus proteins assays spectral_counts {project_submitter_id plex spectral_count distinct_peptide unshared_peptide}}}': {
+               '?query={projectsPerInstrument(instrument: "{instrument}")  {project_submitter_id instrument_model }}': {
+                  "get": {
+                            "tags": ["Project"],
+                    "summary": "Get projects per instrument",
+                    "description": "<b>Returns project and mass spectrometry instruments. This API can also be used with multiple input parameters.<br><br>Fields:</b><ul><li>project_submitter_id</li><li>instrument_model</li></ul>",
+                    "operationId": "projectsPerInstrument",
+                    "produces": [
+                      "application/json"
+                    ],
+                  "parameters": [{
+                      "name": "instrument",
+                      "in": "path",
+                      "description": "Instrument, example: Q Exactive HF",
+                      "required": true,
+                      "type": "string"
+                    }
+                   ], 
+                    "responses": {
+                      "200": {
+                        "description": "successful operation",
+                        "schema": {
+                          "$ref": "#/definitions/projectsPerInstrument"
+                        }
+                      },
+                      "401": {
+                        "description": "Unauthorized"
+                      }
+                    }
+                  }
+                }, */
+               '?query={protein(protein: "{protein}"){gene_name NCBI_gene_id authority description organism chromosome locus proteins assays spectral_counts {project_submitter_id plex spectral_count distinct_peptide unshared_peptide study_submitter_id pdc_study_id}}}': {
                  "get": {
                            "tags": ["Quantitative"],
                    "summary": "Get spectral counts and plex in available projects for a protein",
-                   "description": "<b>Returns spectral counts of available projects for gene to which the protein ID (Uniprot or Refseq) mapped<br><br>Fields:</b><ul><li>gene_name</li><li>NCBI_gene_id</li><li>authority</li><li>description</li><li>organism</li><li>chromosome</li><li>locus</li><li>proteins</li><li>assays</li><li>spectralCounts</li></ul>",
+                   "description": "<b>Returns spectral counts of available projects for gene to which the protein ID (Uniprot or Refseq) is mapped.<br><br>Fields:</b><ul><li>gene_name</li><li>NCBI_gene_id</li><li>authority</li><li>description</li><li>organism</li><li>chromosome</li><li>locus</li><li>proteins</li><li>assays</li><li>spectralCounts</li></ul>",
                    "operationId": "protein",
                    "produces": [
                      "application/json"
@@ -1156,7 +1178,7 @@ var spec = {
                    }
                  }
                    },
-               '?query={studySearch(name: "{name}"){ studies { record_type name submitter_id_name pdc_study_id} }}': {
+               /*'?query={studySearch(name: "{name}"){ studies { record_type name submitter_id_name pdc_study_id} }}': {
                  "get": {
                    "tags": ["Study"],
                    "summary": "Find studies by partial study_shortname",
@@ -1215,7 +1237,7 @@ var spec = {
                       }
                     }
                   }
-                },
+                },*/
                 '?query={ pdcEntityReference(entity_type:"{entity_type}", entity_id: "{entity_id}", reference_type: "{reference_type}") { reference_id entity_type entity_id reference_type reference_entity_type reference_entity_alias reference_resource_name reference_resource_shortname reference_entity_location } }': {
                   "get": {
                     "tags": ["General"],
@@ -1258,7 +1280,7 @@ var spec = {
                     }
                   }
                 },
-                '?query={studySearchByExternalId(reference_entity_alias:"{reference_entity_alias}"){studies{record_type name submitter_id_name study_id study_submitter_id pdc_study_id}}}': {
+                /*'?query={studySearchByExternalId(reference_entity_alias:"{reference_entity_alias}"){studies{record_type name submitter_id_name study_id study_submitter_id pdc_study_id}}}': {
                   "get": {
                     "tags": ["Study"],
                     "summary": "Find studies by External ID",
@@ -1287,12 +1309,12 @@ var spec = {
                       }
                     }
                   }
-                },
+                },*/
                '?query={paginatedCaseDiagnosesPerStudy (study_name: "{study_name}" offset: {offset} limit: {limit}) { total caseDiagnosesPerStudy { case_id case_submitter_id disease_type primary_site diagnoses{ diagnosis_id tissue_or_organ_of_origin age_at_diagnosis primary_diagnosis tumor_grade tumor_stage diagnosis_submitter_id classification_of_tumor days_to_last_follow_up days_to_last_known_disease_status days_to_recurrence last_known_disease_status morphology progression_or_recurrence site_of_resection_or_biopsy prior_malignancy ajcc_clinical_m ajcc_clinical_n ajcc_clinical_stage ajcc_clinical_t ajcc_pathologic_m ajcc_pathologic_n ajcc_pathologic_stage ajcc_pathologic_t ann_arbor_b_symptoms ann_arbor_clinical_stage ann_arbor_extranodal_involvement ann_arbor_pathologic_stage best_overall_response burkitt_lymphoma_clinical_variant circumferential_resection_margin colon_polyps_history days_to_best_overall_response days_to_diagnosis days_to_hiv_diagnosis days_to_new_event figo_stage hiv_positive hpv_positive_type hpv_status iss_stage laterality ldh_level_at_diagnosis ldh_normal_range_upper lymph_nodes_positive lymphatic_invasion_present method_of_diagnosis new_event_anatomic_site new_event_type overall_survival perineural_invasion_present prior_treatment progression_free_survival progression_free_survival_event residual_disease vascular_invasion_present year_of_diagnosis } } pagination { count sort from page total pages size } }} ': {
                  "get": {
                      "tags": ["Case"],
                      "summary": "Get Cases/Diagnoses",
-                     "description": "<b>Returns cases/diagnoses per study<br><br>Fields:</b><ul><li>case</li><li>diagnoses</li></ul>",
+                     "description": "<b>Returns cases/diagnoses per study. This API can also be used with multiple input parameters.<br><br>Fields:</b><ul><li>total</li><li>caseDiagnosesPerStudy</li></ul>",
                      "operationId": "paginatedCaseDiagnosesPerStudy",
                      "produces": [
                          "application/json"
@@ -1300,7 +1322,7 @@ var spec = {
                      "parameters": [{
                              "name": "study_name",
                              "in": "path",
-                             "description": "Name of study, example: TCGA Breast Cancer Phosphoproteome",
+                             "description": "Name of study, example: CPTAC UCEC Discovery Study - Acetylome",
                              "required": true,
                              "type": "string"
                          }, {
@@ -1334,7 +1356,7 @@ var spec = {
                "get": {
                    "tags": ["Case"],
                    "summary": "Get Cases/Diagnoses for PDC Study ID",
-                   "description": "<b>Returns cases/diagnoses for PDC Study ID<br><br>Fields:</b><ul><li>case</li><li>diagnoses</li></ul>",
+                   "description": "<b>Returns cases/diagnoses for PDC Study ID. This API can also be used with multiple input parameters.<br><br>Fields:</b><ul><li>total</li><li>caseDiagnosesPerStudy</li></ul>",
                    "operationId": "paginatedCaseDiagnosesPerStudy",
                    "produces": [
                        "application/json"
@@ -1342,7 +1364,7 @@ var spec = {
                    "parameters": [{
                            "name": "pdc_study_id",
                            "in": "path",
-                           "description": "PDC Study ID, example: PDC000174",
+                           "description": "PDC Study ID, example: PDC000226",
                            "required": true,
                            "type": "string"
                        }, {
@@ -1398,7 +1420,7 @@ var spec = {
                  "get": {
                            "tags": ["Workflow"],
                    "summary": "Get workflow metadata",
-                   "description": "<b>Returns a list of workflow metadata<br><br>Fields:</b><ul><li>workflow_metadata_submitter_id</li><li>pdc_study_id</li><li>study_submitter_id</li><li>protocol_submitter_id</li><li>cptac_study_id</li><li>submitter_id_name</li><li>study_submitter_name</li><li>analytical_fraction</li><li>experiment_type</li><li>instrument</li><li>refseq_database_version</li><li>uniport_database_version</li><li>hgnc_version</li><li>raw_data_processing</li><li>raw_data_conversion</li><li>sequence_database_search</li><li>search_database_parameters</li><li>phosphosite_localization</li><li>ms1_data_analysis</li><li>psm_report_generation</li><li>cptac_dcc_mzidentml</li><li>mzidentml_refseq</li><li>mzidentml_uniprot</li><li>gene_to_prot</li><li>cptac_galaxy_workflows</li><li>cptac_galaxy_tools</li><li>cdap_reports</li><li>cptac_dcc_tools</li></ul>",
+                   "description": "<b>Returns a list of workflow metadata. This API can also be used with multiple input parameters.<br><br>Fields:</b><ul><li>workflow_metadata_submitter_id</li><li>pdc_study_id</li><li>study_submitter_id</li><li>protocol_submitter_id</li><li>cptac_study_id</li><li>submitter_id_name</li><li>study_submitter_name</li><li>analytical_fraction</li><li>experiment_type</li><li>instrument</li><li>refseq_database_version</li><li>uniport_database_version</li><li>hgnc_version</li><li>raw_data_processing</li><li>raw_data_conversion</li><li>sequence_database_search</li><li>search_database_parameters</li><li>phosphosite_localization</li><li>ms1_data_analysis</li><li>psm_report_generation</li><li>cptac_dcc_mzidentml</li><li>mzidentml_refseq</li><li>mzidentml_uniprot</li><li>gene_to_prot</li><li>cptac_galaxy_workflows</li><li>cptac_galaxy_tools</li><li>cdap_reports</li><li>cptac_dcc_tools</li></ul>",
                    "operationId": "workflowMetadata",
                    "produces": [
                      "application/json"
@@ -1420,7 +1442,7 @@ var spec = {
                      "get": {
                                "tags": ["Workflow"],
                        "summary": "Get workflow metadata for a PDC Study ID",
-                       "description": "<b>Returns a list of workflow metadata<br><br>Fields:</b><ul><li>workflow_metadata_submitter_id</li><li>pdc_study_id</li><li>study_submitter_id</li><li>protocol_submitter_id</li><li>cptac_study_id</li><li>submitter_id_name</li><li>study_submitter_name</li><li>analytical_fraction</li><li>experiment_type</li><li>instrument</li><li>refseq_database_version</li><li>uniport_database_version</li><li>hgnc_version</li><li>raw_data_processing</li><li>raw_data_conversion</li><li>sequence_database_search</li><li>search_database_parameters</li><li>phosphosite_localization</li><li>ms1_data_analysis</li><li>psm_report_generation</li><li>cptac_dcc_mzidentml</li><li>mzidentml_refseq</li><li>mzidentml_uniprot</li><li>gene_to_prot</li><li>cptac_galaxy_workflows</li><li>cptac_galaxy_tools</li><li>cdap_reports</li><li>cptac_dcc_tools</li></ul>",
+                       "description": "<b>Returns a list of workflow metadata. This API can also be used with multiple input parameters.<br><br>Fields:</b><ul><li>workflow_metadata_submitter_id</li><li>pdc_study_id</li><li>study_submitter_id</li><li>protocol_submitter_id</li><li>cptac_study_id</li><li>submitter_id_name</li><li>study_submitter_name</li><li>analytical_fraction</li><li>experiment_type</li><li>instrument</li><li>refseq_database_version</li><li>uniport_database_version</li><li>hgnc_version</li><li>raw_data_processing</li><li>raw_data_conversion</li><li>sequence_database_search</li><li>search_database_parameters</li><li>phosphosite_localization</li><li>ms1_data_analysis</li><li>psm_report_generation</li><li>cptac_dcc_mzidentml</li><li>mzidentml_refseq</li><li>mzidentml_uniprot</li><li>gene_to_prot</li><li>cptac_galaxy_workflows</li><li>cptac_galaxy_tools</li><li>cdap_reports</li><li>cptac_dcc_tools</li></ul>",
                        "operationId": "workflowMetadata",
                        "produces": [
                          "application/json"
@@ -1450,7 +1472,7 @@ var spec = {
                  "get": {
                            "tags": ["Clinical"],
                    "summary": "Find clinical metadata for a study",
-                   "description": "<b>Returns clinical metadata for a study<br><br>Fields:</b><ul><li>aliquot_submitter_id</li><li>morphology</li><li>primary_diagnosis</li><li>tumor_grade</li><li>tumor_stage</li></ul>",
+                   "description": "<b>Returns clinical metadata for a study. This API can also be used with multiple input parameters.<br><br>Fields:</b><ul><li>aliquot_submitter_id</li><li>morphology</li><li>primary_diagnosis</li><li>tumor_grade</li><li>tumor_stage</li></ul>",
                    "operationId": "clinicalMetadata",
                    "produces": [
                      "application/json"
@@ -1480,7 +1502,7 @@ var spec = {
                      "get": {
                                "tags": ["Clinical"],
                        "summary": "Find clinical metadata for PDC Study ID",
-                       "description": "<b>Returns clinical metadata for a study<br><br>Fields:</b><ul><li>aliquot_submitter_id</li><li>morphology</li><li>primary_diagnosis</li><li>tumor_grade</li><li>tumor_stage</li></ul>",
+                       "description": "<b>Returns clinical metadata for a study. This API can also be used with multiple input parameters.<br><br>Fields:</b><ul><li>aliquot_submitter_id</li><li>morphology</li><li>primary_diagnosis</li><li>tumor_grade</li><li>tumor_stage</li></ul>",
                        "operationId": "clinicalMetadata",
                        "produces": [
                          "application/json"
@@ -1510,7 +1532,7 @@ var spec = {
                  "get": {
                            "tags": ["Experimental"],
                    "summary": "Find experimental metadata for a study",
-                   "description": "<b>Returns experimental metadata for a study<br><br>Fields:</b><ul><li>experiment_type</li><li>analytical_fraction</li><li>instrument</li><li>study_run_metadata</li><li>files</li></ul>",
+                   "description": "<b>Returns experimental metadata for a study. This API can also be used with multiple input parameters.<br><br>Fields:</b><ul><li>experiment_type</li><li>analytical_fraction</li><li>instrument</li><li>study_run_metadata</li><li>files</li></ul>",
                    "operationId": "experimentalMetadata",
                    "produces": [
                      "application/json"
@@ -1540,7 +1562,7 @@ var spec = {
                      "get": {
                                "tags": ["Experimental"],
                        "summary": "Find experimental metadata for PDC Study ID",
-                       "description": "<b>Returns experimental metadata for a study<br><br>Fields:</b><ul><li>experiment_type</li><li>analytical_fraction</li><li>instrument</li><li>study_run_metadata</li><li>files</li></ul>",
+                       "description": "<b>Returns experimental metadata for a study. This API can also be used with multiple input parameters.<br><br>Fields:</b><ul><li>experiment_type</li><li>analytical_fraction</li><li>instrument</li><li>study_run_metadata</li><li>files</li></ul>",
                        "operationId": "experimentalMetadata",
                        "produces": [
                          "application/json"
@@ -1566,11 +1588,11 @@ var spec = {
                        }
                      }
                        },
-                   '?query={ paginatedCasesSamplesAliquots(offset:{offset} limit: {limit}) { total casesSamplesAliquots { case_id case_submitter_id external_case_id tissue_source_site_code days_to_lost_to_followup disease_type index_date lost_to_followup primary_site samples { sample_id sample_submitter_id sample_type sample_type_id gdc_sample_id gdc_project_id biospecimen_anatomic_site composition current_weight days_to_collection days_to_sample_procurement diagnosis_pathologically_confirmed freezing_method initial_weight intermediate_dimension is_ffpe longest_dimension method_of_sample_procurement oct_embedded pathology_report_uuid preservation_method sample_type_id shortest_dimension time_between_clamping_and_freezing time_between_excision_and_freezing tissue_type tumor_code tumor_code_id tumor_descriptor aliquots { aliquot_id aliquot_submitter_id aliquot_quantity aliquot_volume amount analyte_type aliquot_run_metadata { aliquot_run_metadata_id } } } } pagination { count sort from page total pages size } } }': {
+                   '?query={ paginatedCasesSamplesAliquots(offset:{offset} limit: {limit}) { total casesSamplesAliquots { case_id case_submitter_id days_to_lost_to_followup disease_type index_date lost_to_followup primary_site samples { sample_id sample_submitter_id sample_type sample_type_id gdc_sample_id gdc_project_id biospecimen_anatomic_site composition current_weight days_to_collection days_to_sample_procurement diagnosis_pathologically_confirmed freezing_method initial_weight intermediate_dimension is_ffpe longest_dimension method_of_sample_procurement oct_embedded pathology_report_uuid preservation_method sample_type_id shortest_dimension time_between_clamping_and_freezing time_between_excision_and_freezing tissue_type tumor_code tumor_code_id tumor_descriptor aliquots { aliquot_id aliquot_submitter_id analyte_type aliquot_run_metadata { aliquot_run_metadata_id } } } } pagination { count sort from page total pages size } } }': {
                  "get": {
                            "tags": ["Case"],
                    "summary": "Get paginated case records",
-                   "description": "<b>Returns a list of cases, samples amd aliquot records<br/><br/>Fields:</b><ul><li>cases</li><li>samples</li></ul>",
+                   "description": "<b>Returns a list of cases, samples amd aliquot records. This API can also be used with multiple input parameters.<br/><br/>Fields:</b><ul><li>total</li><li>casesSamplesAliquots</li></ul>",
                    "operationId": "paginatedCasesSamplesAliquots",
                    "produces": [
                      "application/json"
@@ -1602,11 +1624,11 @@ var spec = {
                    }
                  }
                    },
-                   '?query={ paginatedCasesSamplesAliquots(pdc_study_id:"{pdc_study_id}" offset:{offset} limit: {limit}) { total casesSamplesAliquots { case_id case_submitter_id external_case_id tissue_source_site_code days_to_lost_to_followup disease_type index_date lost_to_followup primary_site samples { sample_id sample_submitter_id sample_type sample_type_id gdc_sample_id gdc_project_id biospecimen_anatomic_site composition current_weight days_to_collection days_to_sample_procurement diagnosis_pathologically_confirmed freezing_method initial_weight intermediate_dimension is_ffpe longest_dimension method_of_sample_procurement oct_embedded pathology_report_uuid preservation_method sample_type_id shortest_dimension time_between_clamping_and_freezing time_between_excision_and_freezing tissue_type tumor_code tumor_code_id tumor_descriptor aliquots { aliquot_id aliquot_submitter_id aliquot_quantity aliquot_volume amount analyte_type aliquot_run_metadata { aliquot_run_metadata_id } } } } pagination { count sort from page total pages size } } }': {
+                   '?query={ paginatedCasesSamplesAliquots(pdc_study_id:"{pdc_study_id}" offset:{offset} limit: {limit}) { total casesSamplesAliquots { case_id case_submitter_id days_to_lost_to_followup disease_type index_date lost_to_followup primary_site samples { sample_id sample_submitter_id sample_type sample_type_id gdc_sample_id gdc_project_id biospecimen_anatomic_site composition current_weight days_to_collection days_to_sample_procurement diagnosis_pathologically_confirmed freezing_method initial_weight intermediate_dimension is_ffpe longest_dimension method_of_sample_procurement oct_embedded pathology_report_uuid preservation_method sample_type_id shortest_dimension time_between_clamping_and_freezing time_between_excision_and_freezing tissue_type tumor_code tumor_code_id tumor_descriptor aliquots { aliquot_id aliquot_submitter_id analyte_type aliquot_run_metadata { aliquot_run_metadata_id } } } } pagination { count sort from page total pages size } } }': {
                      "get": {
                                "tags": ["Case"],
                        "summary": "Get paginated case records for PDC Study ID",
-                       "description": "<b>Returns a list of cases, samples amd aliquot records<br/><br/>Fields:</b><ul><li>cases</li><li>samples</li></ul>",
+                       "description": "<b>Returns a list of cases, samples amd aliquot records. This API can also be used with multiple input parameters.<br/><br/>Fields:</b><ul><li>total</li><li>casesSamplesAliquots</li></ul>",
                        "operationId": "paginatedCasesSamplesAliquots",
                        "produces": [
                          "application/json"
@@ -1614,7 +1636,7 @@ var spec = {
                        "parameters": [{
                                    "name": "pdc_study_id",
                                    "in": "path",
-                                   "description": "PDC Study ID, example : PDC000174",
+                                   "description": "PDC Study ID, example : PDC000226",
                                    "required": true,
                                    "type": "integer"
                                }, {
@@ -1645,7 +1667,7 @@ var spec = {
                        }
                      }
                        },
-                   '?query={casePerFile(file_id:"{file_id}") { file_id case_id case_submitter_id }}': {
+/*                    '?query={casePerFile(file_id:"{file_id}") { file_id case_id case_submitter_id }}': {
                  "get": {
                            "tags": ["Files"],
                    "summary": "Get cases for a file",
@@ -1673,17 +1695,17 @@ var spec = {
                      }
                    }
                  }
-               },
-               '?query={ quantDataMatrix(study_submitter_id: "{study_submitter_id}" data_type: "{data_type}") }': {
+               }, */
+               '?query={ quantDataMatrix(pdc_study_id: "{pdc_study_id}" data_type: "{data_type}") }': {
                  "get": {
                            "tags": ["Quantitative"],
-                   "summary": "Returns quant data matrix for a Study Submitter ID",
-                   "description": "Returns quant data matrix for a Study Submitter ID.<br/>The API takes a long time to execute because of the huge volume of data.<br/><b>Fields:<ul><li>study_submitter_id:</b> Study Submitter ID, example: S046-1</li><li><b>date_type: </b>Data type, example: log2_ratio</li></ul>",
+                   "summary": "Returns quant data matrix for a PDC Study ID",
+                   "description": "Returns quant data matrix for a PDC Study ID.<br/><b>Fields:<ul><li>pdc_study_id:</b> PDC Study ID, example: PDC000127</li><li><b>date_type: </b>Data type, example: log2_ratio/unshared_log2_ratio</li></ul>This API also works with the following parameters:<br><br><b>?query= { quantDataMatrix(study_id: '{study_id}'  data_type: '{data_type}') }</b><br><br><b>Fields:<ul><li>study_id:</b> Study ID, example: dbe94609-1fb3-11e9-b7f8-0a80fada099c</li><li><b>date_type: </b>Data type, example: log2_ratio/unshared_log2_ratio</li></ul><br>Please click <a href='/API_documentation/PDC_clustergram.html' target='_blank'><b>here</b></a> to know more on how to test this API.",
                    "operationId": "quantDataMatrix",
                    "produces": [
                      "application/json"
                    ],
-                   "parameters": [{
+/*                    "parameters": [{
                            "name": "study_submitter_id",
                            "in": "path",
                            "description": "Study Submitter ID, example : S044-1",
@@ -1696,7 +1718,7 @@ var spec = {
                            "required": true,
                            "type": "string"
                      }
-                   ],
+                   ], */
                    //"x-explorer-enabled": false,
                    "responses": {
                      "200": {
@@ -1708,7 +1730,7 @@ var spec = {
                    }
                   }
                  },
-                 '?query={ quantDataMatrix(pdc_study_id: "{pdc_study_id}" data_type: "{data_type}") }': {
+/*                 '?query={ quantDataMatrix(pdc_study_id: "{pdc_study_id}" data_type: "{data_type}") }': {
                   "get": {
                             "tags": ["Quantitative"],
                     "summary": "Returns quant data matrix for a PDC Study ID",
@@ -1775,7 +1797,7 @@ var spec = {
                       }
                     }
                   }             
-               },
+               },*/
    },
    "definitions": {
          "Gene":{
@@ -1879,42 +1901,34 @@ var spec = {
           "Case":{
              "type":"object",
              "properties":{
-                "case_id":{
-                   "type":"string",
-                   "example":"0065cb8d-63d6-11e8-bcf1-0a2705229b82"
-                },
-                "case_submitter_id":{
-                   "type":"string",
-                   "example":"05BR016"
-                },
-                "external_case_id":{
-                   "type":"string",
-                   "example":"null"
-                },
-                "tissue_source_site_code":{
-                   "type":"string",
-                   "example":""
-                },
-                "days_to_lost_to_followup":{
-                   "type":"integer",
-                   "example":0
-                },
-                "disease_type":{
-                   "type":"string",
-                   "example":"Breast Invasive Carcinoma"
-                },
-                "index_date":{
-                   "type":"string",
-                   "example":"null"
-                },
-                "lost_to_followup":{
-                   "type":"string",
-                   "example":""
-                },
-                "primary_site":{
-                   "type":"string",
-                   "example":"Breast"
-                },
+               "case_id":{
+                  "type":"string",
+                  "example":"a023e964-118a-11e9-afb9-0a9c39d33490"
+               },
+               "case_submitter_id":{
+                  "type":"string",
+                  "example":"C3N-00386"
+               },
+               "days_to_lost_to_followup":{
+                  "type":"integer",
+                  "example":0
+               },
+               "disease_type":{
+                  "type":"string",
+                  "example":"Uterine Corpus Endometrial Carcinoma"
+               },
+               "index_date":{
+                  "type":"string",
+                  "example":"Diagnosis"
+               },
+               "lost_to_followup":{
+                  "type":"string",
+                  "example":""
+               },
+               "primary_site":{
+                  "type":"string",
+                  "example":"Uterus, NOS"
+               },
                 "samples":{
                    "type":"array",
                    "items":{
@@ -1963,11 +1977,11 @@ var spec = {
              "properties":{
                 "demographic_id":{
                    "type":"string",
-                   "example":"f69579d4-7588-11e8-bcf1-0a2705229b82"
+                   "example":"848b480c-0f56-11e9-a064-0a9c39d33490"
                 },
                 "ethnicity":{
                    "type":"string",
-                   "example":"not hispanic or latino"
+                   "example":"Not Reported"
                 },
                 "gender":{
                    "type":"string",
@@ -1975,39 +1989,39 @@ var spec = {
                 },
                 "demographic_submitter_id":{
                    "type":"string",
-                   "example":"01OV007-DM"
+                   "example":"C3N-00386-DEMO"
                 },
                 "race":{
                    "type":"string",
-                   "example":"white"
+                   "example":"Not Reported"
                 },
                 "cause_of_death":{
                    "type":"string",
-                   "example":"null"
+                   "example":"Not Reported"
                 },
                 "days_to_birth":{
                    "type":"integer",
                    "format":"int32",
-                   "example":"null"
+                   "example":"-16190"
                 },
                 "days_to_death":{
                    "type":"integer",
                    "format":"int32",
-                   "example":"null"
+                   "example":"0"
                 },
                 "vital_status":{
                    "type":"string",
-                   "example":"null"
+                   "example":"Alive"
                 },
                 "year_of_birth":{
                    "type":"integer",
                    "format":"int32",
-                   "example":"null"
+                   "example":"1972"
                 },
                 "year_of_death":{
                    "type":"integer",
                    "format":"int32",
-                   "example":"null"
+                   "example":"0"
                 }
              },
              "xml":{
@@ -2019,11 +2033,11 @@ var spec = {
              "properties":{
                 "sample_id":{
                    "type":"string",
-                   "example":"3a480a10-641b-11e8-bcf1-0a2705229b82"
+                   "example":"99a4bcef-1259-11e9-afb9-0a9c39d33490"
                 },
                 "sample_submitter_id":{
                    "type":"string",
-                   "example":"3f957017-d081-45f4-b458-ec3f8d"
+                   "example":"C3N-00386-02"
                 },
                 "sample_type":{
                    "type":"string",
@@ -2031,51 +2045,55 @@ var spec = {
                 },
                 "sample_type_id":{
                    "type":"string",
-                   "example":"1"
+                   "example":"null"
                 },
                 "gdc_sample_id":{
                    "type":"string",
-                   "example":"d8453b9b-3eac-4c60-a981-d08c687ab0b1"
+                   "example":"null"
                 },
                 "gdc_project_id":{
                    "type":"string",
-                   "example":""
+                   "example":"null"
                 },
                 "biospecimen_anatomic_site":{
                    "type":"string",
-                   "example":"null"
+                   "example":"Not Reported"
                 },
                 "composition":{
                    "type":"string",
-                   "example":"null"
+                   "example":"Solid Tissue"
                 },
                 "current_weight":{
                    "type":"string",
-                   "example":"null"
+                   "example":"0"
                 },
                 "days_to_collection":{
                    "type":"string",
-                   "example":"null"
+                   "example":"0"
                 },
                 "days_to_sample_procurement":{
                    "type":"string",
-                   "example":"null"
+                   "example":"0"
+                },
+                "diagnosis_pathologically_confirmed": {
+                  "type":"string",
+                  "example":"Not Reported"                
                 },
                 "freezing_method":{
                    "type":"string",
-                   "example":"null"
+                   "example":"LN2"
                 },
                 "initial_weight":{
                    "type":"string",
-                   "example":"null"
+                   "example":"400"
                 },
-                "Intermediate_dimension":{
+                "intermediate_dimension":{
                    "type":"string",
                    "example":"null"
                 },
                 "is_ffpe":{
                    "type":"string",
-                   "example":"null"
+                   "example":"0"
                 },
                 "longest_dimension":{
                    "type":"string",
@@ -2083,11 +2101,11 @@ var spec = {
                 },
                 "method_of_sample_procurement":{
                    "type":"string",
-                   "example":"null"
+                   "example":"Not Reported"
                 },
                 "oct_embedded":{
                    "type":"string",
-                   "example":"null"
+                   "example":"Yes"
                 },
                 "pathology_report_uuid":{
                    "type":"string",
@@ -2095,7 +2113,7 @@ var spec = {
                 },
                 "preservation_method":{
                    "type":"string",
-                   "example":"null"
+                   "example":"Snap Frozen"
                 },
                 "shortest_dimension":{
                    "type":"string",
@@ -2103,15 +2121,15 @@ var spec = {
                 },
                 "time_between_clamping_and_freezing":{
                    "type":"string",
-                   "example":"null"
+                   "example":"0"
                 },
                 "time_between_excision_and_freezing":{
                    "type":"string",
-                   "example":"null"
+                   "example":"11"
                 },
                 "tissue_type":{
                    "type":"string",
-                   "example":"null"
+                   "example":"Tumor"
                 },
                 "tumor_code":{
                    "type":"string",
@@ -2123,7 +2141,7 @@ var spec = {
                 },
                 "tumor_descriptor":{
                    "type":"string",
-                   "example":"null"
+                   "example":"Not Reported"
                 },
                 "aliquots":{
                    "type":"array",
@@ -2141,175 +2159,231 @@ var spec = {
              "properties":{
                "diagnosis_id":{
                   "type":"string",
-                  "example": "ff31813f-70ca-11e8-bcf1-0a2705229b82"
+                  "example": "f748299b-0f5a-11e9-a064-0a9c39d33490"
                },
                 "tissue_or_organ_of_origin":{
                    "type":"number",
-                   "example":"Breast, NOS"
+                   "example":"Corpus uteri"
                 },
                 "age_at_diagnosis":{
                   "type":"string",
-                  "example": "29966"
+                  "example": "16190"
                },
                 "primary_diagnosis":{
                    "type":"string",
-                   "example":"Inflitrating Ductal Carcinoma"
+                   "example":"Endometrioid adenocarcinoma, NOS"
                 },
                 "tumor_grade":{
-                   "type":"string"
+                   "type":"string",
+                   "example": "G1"
                 },
                 "tumor_stage":{
-                   "type":"string"
+                   "type":"string",
+                   "example": "Stage I"
                 },
                 "diagnosis_submitter_id":{
-                   "type":"string"
+                   "type":"string",
+                   "example": "C3N-00386-DIAG"
                 },
                 "classification_of_tumor":{
-                   "type":"string"
+                   "type":"string",
+                   "example": "Not Reported"
                 },
                 "days_to_last_follow_up":{
-                   "type":"string"
+                   "type":"string",
+                   "example": "673"
                 },
                 "days_to_last_known_disease_status":{
-                   "type":"string"
+                   "type":"string",
+                   "example": "673"
+                },
+                "days_to_recurrence": {
+                  "type":"string",
+                  "example": "0"
                 },
                 "last_known_disease_status":{
-                   "type":"string"
+                   "type":"string",
+                   "example": "Tumor free"
                 },
                 "morphology":{
-                   "type":"string"
+                   "type":"string",
+                   "example": "8380/3"
                 },
                 "progression_or_recurrence":{
-                   "type":"string"
+                   "type":"string",
+                   "example": "no"
                 },
                 "site_of_resection_or_biopsy":{
-                   "type":"string"
+                   "type":"string",
+                   "example": "Corpus uteri"
                 },
                 "prior_malignancy":{
-                   "type":"string"
+                   "type":"string",
+                   "example": "Not Reported"
                 },
                 "ajcc_clinical_m":{
-                   "type":"string"
+                   "type":"string",
+                   "example": "Not Reported"
                 },
                 "ajcc_clinical_n":{
-                   "type":"string"
+                   "type":"string",
+                   "example": "Not Reported"
                 },
                 "ajcc_clinical_stage":{
-                   "type":"string"
+                   "type":"string",
+                   "example": "Not Reported"
                 },
                 "ajcc_clinical_t":{
-                   "type":"string"
+                   "type":"string",
+                   "example": "Not Reported"
                 },
                 "ajcc_pathologic_m":{
-                   "type":"string"
+                   "type":"string",
+                   "example": "Not Reported"
                 },
                 "ajcc_pathologic_n":{
-                   "type":"string"
+                   "type":"string",
+                   "example": "Not Reported"
                 },
                 "ajcc_pathologic_stage":{
-                   "type":"string"
+                   "type":"string",
+                   "example": "Not Reported"
                 },
                 "ajcc_pathologic_t":{
-                   "type":"string"
+                   "type":"string",
+                   "example": "Not Reported"
                 },
                 "ann_arbor_b_symptoms":{
-                   "type":"string"
+                   "type":"string",
+                   "example": "Not Reported"
                 },
                 "ann_arbor_clinical_stage":{
-                   "type":"string"
+                   "type":"string",
+                   "example": "Not Reported"
                 },
                 "ann_arbor_extranodal_involvement":{
-                   "type":"string"
+                   "type":"string",
+                   "example": "Not Reported"
                 },
                 "ann_arbor_pathologic_stage":{
-                   "type":"string"
+                   "type":"string",
+                   "example": "Not Reported"
                 },
                 "best_overall_response":{
-                   "type":"string"
+                   "type":"string",
+                   "example": "null"
                 },
                 "burkitt_lymphoma_clinical_variant":{
-                   "type":"string"
+                   "type":"string",
+                   "example": "Not Reported"
                 },
                 "circumferential_resection_margin":{
-                   "type":"string"
+                   "type":"string",
+                   "example": "null"
                 },
                 "colon_polyps_history":{
-                   "type":"string"
+                   "type":"string",
+                   "example":"null"
                 },
                 "days_to_best_overall_response":{
-                   "type":"string"
+                   "type":"string",
+                   "example": "null"
                 },
                 "days_to_diagnosis":{
-                   "type":"string"
+                   "type":"string",
+                   "example": "null"
                 },
                 "days_to_hiv_diagnosis":{
-                   "type":"string"
+                   "type":"string",
+                   "example": "null"
                 },
                 "days_to_new_event":{
-                   "type":"string"
+                   "type":"string",
+                   "example": "null"
                 },
                 "figo_stage":{
-                   "type":"string"
+                   "type":"string",
+                   "example": "Not Reported"
                 },
                 "hiv_positive":{
-                   "type":"string"
+                   "type":"string",
+                   "example": "null"
                 },
                 "hpv_positive_type":{
-                   "type":"string"
+                   "type":"string",
+                   "example": "null"
                 },
                 "hpv_status":{
-                   "type":"string"
+                   "type":"string",
+                   "example": "null"
                 },
                 "iss_stage":{
-                   "type":"string"
+                   "type":"string",
+                   "example": "Not Reported"
                 },
                 "laterality":{
-                   "type":"string"
+                   "type":"string",
+                   "example": "Not Reported"
                 },
                 "ldh_level_at_diagnosis":{
-                   "type":"string"
+                   "type":"string",
+                   "example": "null"
                 },
                 "ldh_normal_range_upper":{
-                   "type":"string"
+                   "type":"string",
+                   "example": "null"
                 },
                 "lymph_nodes_positive":{
-                   "type":"string"
+                   "type":"string",
+                   "example": "null"
                 },
                 "lymphatic_invasion_present":{
-                   "type":"string"
+                   "type":"string",
+                   "example": "Not Reported"
                 },
                 "method_of_diagnosis":{
-                   "type":"string"
+                   "type":"string",
+                   "example": "Not Reported"
                 },
                 "new_event_anatomic_site":{
-                   "type":"string"
+                   "type":"string",
+                   "example": "null"
                 },
                 "new_event_type":{
-                   "type":"string"
+                   "type":"string",
+                   "example": "null"
                 },
                 "overall_survival":{
-                   "type":"string"
+                   "type":"string",
+                   "example": "null"
                 },
                 "perineural_invasion_present":{
-                   "type":"string"
+                   "type":"string",
+                   "example": "Not Reported"
                 },
                 "prior_treatment":{
-                   "type":"string"
+                   "type":"string",
+                   "example": "Not Reported"
                 },
                 "progression_free_survival":{
-                   "type":"string"
+                   "type":"string",
+                   "example": "null"
                 },
                 "progression_free_survival_event":{
-                   "type":"string"
+                   "type":"string",
+                   "example": "null"
                 },
                 "residual_disease":{
-                   "type":"string"
+                   "type":"string",
+                   "example": "Not Reported"
                 },
                 "vascular_invasion_present":{
-                   "type":"string"
+                   "type":"string",
+                   "example": "Not Reported"
                 },
                 "year_of_diagnosis":{
-                   "type":"string"
+                   "type":"string",
+                   "example": "null"
                 }
              },
              "xml":{
@@ -2411,28 +2485,16 @@ var spec = {
                    "type":"string",
                    "example":"3f957017-d081-45f4-b458-ec3f8d_D2"
                 },
-                "aliquot_quantity":{
-                   "type":"string",
-                   "example":"null"
-                },
-                "aliquot_volume":{
-                   "type":"string",
-                   "example":"null"
-                },
-                "amount":{
-                   "type":"string",
-                   "example":"null"
-                },
                 "analyte_type":{
                    "type":"string",
                    "example":"Protein"
-                },
+                }, 
                 "aliquot_run_metadata":{
                   "type":"array",
                   "items":{
                      "$ref":"#/definitions/aliquotRunMetaDataForPaginated"
                   }
-               }               
+               }           
              },
              "xml":{
                 "name":"Aliquot"
@@ -2671,7 +2733,7 @@ var spec = {
                 },
                 "tissue_or_organ_of_origin":{
                    "type":"string",
-                   "example":"kidney"
+                   "example":"Kidney, NOS"
                 },
                 "disease_type":{
                    "type":"string",
@@ -3199,30 +3261,30 @@ var spec = {
              "properties":{
                 "count":{
                    "type":"integer",
-                   "format":"int32"
+                   "example":"10"
                 },
                 "sort":{
                    "type":"string"
                 },
                 "from":{
                    "type":"integer",
-                   "format":"int32"
+                   "example":"0"
                 },
                 "page":{
                    "type":"integer",
-                   "format":"int32"
+                   "example":"1"
                 },
                 "total":{
                    "type":"integer",
-                   "format":"int32"
+                   "example":"10"
                 },
                 "pages":{
                    "type":"integer",
-                   "format":"int32"
+                   "example":"1"
                 },
                 "size":{
                    "type":"integer",
-                   "format":"int32"
+                   "example":"10"
                 }
              },
              "xml":{
@@ -3341,6 +3403,10 @@ var spec = {
                    "items":{
                       "$ref":"#/definitions/Case"
                    }
+                },
+                "pagination": {             
+                  "type":"string",
+                  "$ref":"#/definitions/Pagination"
                 }
              },
              "xml":{
@@ -3402,10 +3468,6 @@ var spec = {
           "spectralCountsPaginatedAliquot":{
              "type":"object",
              "properties":{
-                "gene_name":{
-                   "type":"string",
-                   "example":"A2M"
-                },
                 "study_submitter_id":{
                    "type":"string",
                    "example":"S015-2"
@@ -3414,10 +3476,6 @@ var spec = {
                   "type":"string",
                   "example":"PDC000174"
                },
-                "aliquot_id":{
-                   "type":"string",
-                   "example":"A2-A0D0-01A:BH-A0HK-01A:C8-A12T-01A:POOL"
-                },
                 "plex":{
                    "type":"string",
                    "example":"06TCGA_A2-A0D0-01A_BH-A0HK-01A_C8-A12T-01A_Phosphoproteome_BI_20130329"
@@ -3552,7 +3610,10 @@ var spec = {
                    "items":{
                       "$ref":"#/definitions/paginatedCaseDiagnosis"
                    }
-                }
+                },
+                "pagination":{
+                  "$ref":"#/definitions/Pagination"
+               }
              },
              "xml":{
                 "name":"paginatedCaseDiagnosesPerStudyDesc"
@@ -3563,19 +3624,19 @@ var spec = {
              "properties":{
                 "case_id":{
                    "type":"string",
-                   "example":"c3a38e6a-63d8-11e8-bcf1-0a2705229b82"
+                   "example":"a023e964-118a-11e9-afb9-0a9c39d33490"
                 },
                 "case_submitter_id":{
                    "type":"string",
-                   "example":"TCGA-AO-A12B"
+                   "example":"C3N-00386"
                 },
                 "disease_type":{
                    "type":"string",
-                   "example":"Breast Invasive Carcinoma"
+                   "example":"Uterine Corpus Endometrial Carcinoma"
                 },
                 "primary_site":{
                    "type":"string",
-                   "example":"Breast"
+                   "example":"Uterus, NOS"
                 },
                 "diagnoses":{
                    "type":"array",
@@ -3630,6 +3691,9 @@ var spec = {
                    "items":{
                       "$ref":"#/definitions/paginatedCaseDemographics"
                    }
+                },
+                "pagination":{
+                  "$ref":"#/definitions/Pagination"
                 }
              },
              "xml":{
@@ -3641,19 +3705,19 @@ var spec = {
              "properties":{
                 "case_id":{
                    "type":"string",
-                   "example":"9a244957-63d5-11e8-bcf1-0a2705229b82"
+                   "example":"a023e964-118a-11e9-afb9-0a9c39d33490"
                 },
                 "case_submitter_id":{
                    "type":"string",
-                   "example":"01OV007"
+                   "example":"C3N-00386"
                 },
                 "disease_type":{
                    "type":"string",
-                   "example":"Ovarian Serous Cystadenocarcinoma"
+                   "example":"Uterine Corpus Endometrial Carcinoma"
                 },
                 "primary_site":{
                    "type":"string",
-                   "example":"Ovary"
+                   "example":"Uterus, NOS"
                 },
                 "demographics":{
                    "type":"array",
@@ -3690,6 +3754,10 @@ var spec = {
                 "getPaginatedFiles":{
                    "type":"string",
                    "$ref":"#/definitions/getPaginatedFilesDesc"
+                },
+                "pagination": {
+                  "type":"string",
+                  "$ref":"#/definitions/Pagination"
                 }
              },
              "xml":{
@@ -3784,7 +3852,10 @@ var spec = {
                    "items":{
                       "$ref":"#/definitions/allCasesDesc"
                    }
-                }
+                },
+                "pagination":{
+                  "$ref":"#/definitions/Pagination"
+               }
              },
              "xml":{
                 "name":"getPaginatedCasesDesc"
@@ -3960,14 +4031,6 @@ var spec = {
                    "type":"string",
                    "example":"CPT0000790001"
                 },
-                "status":{
-                  "type":"string",
-                  "example":"null"
-               },
-               "aliquot_is_ref":{
-                  "type":"string",
-                  "example":"null"
-               },
                 "sample_id":{
                    "type":"string",
                    "example":"7e25284f-204c-11e9-b7f8-0a80fada099c"
@@ -3983,27 +4046,7 @@ var spec = {
                 "case_submitter_id":{
                    "type":"string",
                    "example":"C3L-00097"
-                },
-                "aliquot_quantity":{
-                  "type":"string",
-                  "example":"null"
-               },
-               "aliquot_volume":{
-                  "type":"string",
-                  "example":"null"
-               },
-               "amount":{
-                 "type":"string",
-                 "example":"null"
-              },
-              "analyte_type":{
-                 "type":"string",
-                 "example":"null"
-              },
-               "concentration":{
-                  "type":"string",
-                  "example":"null"
-               },
+                }
              },
              "xml":{
                 "name":"fileMetadataAliquotsDesc"
@@ -4046,15 +4089,15 @@ var spec = {
              "properties":{
                 "project_submitter_id":{
                    "type":"string",
-                   "example":"A1BG"
+                   "example":"Proteogenomic Analysis of Pediatric Brain Cancer Tumors Pilot Study"
                 },
                 "experiment_type":{
                    "type":"number",
-                   "example":"1"
+                   "example":"TMT11"
                 },
                 "analytical_fraction":{
                    "type":"string",
-                   "example":"HGNC:5"
+                   "example":"Proteome"
                 },
                 "cases":{
                    "type":"array",
@@ -4169,12 +4212,30 @@ var spec = {
                 "file_format":{
                    "type":"string",
                    "example":"mzML"
-                }
+                },
+                "signedUrl":{
+                  "type":"array",
+                  "items":{
+                     "$ref":"#/definitions/signedUrlDesc"
+                  }
+               }
              },
              "xml":{
                 "name":"filesPerStudyDesc"
              }
           },
+          "signedUrlDesc":{
+            "type":"object",
+            "properties":{
+               "url":{
+                  "type":"string",
+                  "example":"https://pdcdatastore.s3.amazonaws.com/studies/206/mzml/02CPTAC_CompRef_GBM_P_PNNL_20190306_B2S5_f10.mzML.gz?AWSAccessKeyId=AKIAQPWI5WIU7M4BLQXG&Expires=1602261172&Signature=W2wF3metuSJUtoZQQFkrfVX0dek%3D"
+               }
+              },
+            "xml":{
+               "name":"signedUrlDesc"
+            }
+         },
           "filesCountPerStudy":{
              "type":"object",
              "required":[
@@ -4259,7 +4320,7 @@ var spec = {
                 "diseasesAvailable":{
                    "type":"array",
                    "items":{
-                      "$ref":"#/definitions/Diagnosis"
+                      "$ref":"#/definitions/diseasesAvailableDesc"
                    }
                 }
              },
@@ -4272,19 +4333,19 @@ var spec = {
              "properties":{
                 "disease_type":{
                    "type":"string",
-                   "example":"A1BG"
-                },
-                "tissue_or_organ_of_origin":{
-                   "type":"number",
-                   "example":"1"
+                   "example":"Breast Invasive Carcinoma"
                 },
                 "project_submitter_id":{
                    "type":"string",
-                   "example":"HGNC:5"
+                   "example":"CPTAC-2"
                 },
                 "cases_count":{
                    "type":"string",
-                   "example":"alpha-1-B glycoprotein"
+                   "example":"116"
+                },
+                "tissue_or_organ_of_origin":{
+                   "type":"number",
+                   "example":"Breast, NOS"
                 }
              },
              "xml":{
@@ -4425,7 +4486,7 @@ var spec = {
              "properties":{
                 "gene_id":{
                    "type":"string",
-                   "example":"��KŸ\u0014\u0011�\n'\u0005\"��"
+                   "example":"f6ba4bc5-b814-11e8-907f-0a2705229b82"
                 },
                 "gene_name":{
                    "type":"string",
@@ -4461,7 +4522,7 @@ var spec = {
                 },
                 "assays":{
                    "type":"string",
-                   "example":"non-CPTAC-1064\r"
+                   "example":"non-CPTAC-1064"
                 },
                 "spectral_counts":{
                    "type":"array",
@@ -4497,22 +4558,14 @@ var spec = {
                    "type":"number",
                    "example":"5"
                 },
-                "gene_name":{
-                   "type":"number",
-                   "example":"null"
-                },
                 "study_submitter_id":{
                    "type":"number",
                    "example":"S015-2"
                 },
                 "pdc_study_id":{
                   "type":"number",
-                  "example":"null"
-               },
-                "aliquot_id":{
-                   "type":"number",
-                   "example":"null"
-                }
+                  "example":"PDC000174"
+               }
              },
              "xml":{
                 "name":"spectralCountsDesc"
@@ -4711,10 +4764,6 @@ var spec = {
                 "status":{
                    "type":"string",
                    "example":"Qualified"
-                },
-                "external_case_id":{
-                   "type":"string",
-                   "example":"null"
                 },
                 "ethnicity":{
                    "type":"string",
@@ -5000,10 +5049,6 @@ var spec = {
           "protocolPerStudyDesc":{
              "type":"object",
              "properties":{
-               "project_submitter_id":{
-                  "type":"string",
-                  "example":"CPTAC-TCGA"
-               },
                 "protocol_id":{
                    "type":"string",
                    "example":"1c06aff5-3b26-11e9-9a07-0a80fada099c"
@@ -5549,19 +5594,19 @@ var spec = {
                 },
                 "morphology":{
                    "type":"string",
-                   "example":"null"
+                   "example":"8500/3"
                 },
                 "primary_diagnosis":{
                    "type":"string",
-                   "example":"Not Received"
+                   "example":"Infiltrating duct carcinoma, NOS"
                 },
                 "tumor_grade":{
                    "type":"string",
-                   "example":"Not Received"
+                   "example":"Not Reported"
                 },
                 "tumor_stage":{
                    "type":"string",
-                   "example":"Not Received"
+                   "example":"stage iiia"
                 }
              },
              "xml":{
@@ -5676,7 +5721,7 @@ var spec = {
                 "projectsPerInstrument":{
                    "type":"array",
                    "items":{
-                      "$ref":"#/definitions/protocolPerStudyDesc"
+                      "$ref":"#/definitions/projectsPerInstrumentDesc"
                    }
                 }
              },
@@ -5690,6 +5735,10 @@ var spec = {
                 "project_submitter_id":{
                    "type":"string",
                    "example":"CPTAC-TCGA"
+                },
+                "instrument_model": {
+                  "type":"string",
+                  "example":"Q Exactive HF"                  
                 }
              },
              "xml":{
@@ -5786,27 +5835,11 @@ var spec = {
                 },
                 "program_submitter_id":{
                    "type":"string",
-                   "example":"CPTAC"
+                   "example":"Clinical Proteomic Tumor Analysis Consortium"
                 },
                 "name":{
                    "type":"string",
                    "example":"Clinical Proteomic Tumor Analysis Consortium"
-                },
-                "sponsor":{
-                   "type":"string",
-                   "example":"NCI"
-                },
-                "start_date":{
-                   "type":"string",
-                   "example":"CPTAC"
-                },
-                "end_date":{
-                   "type":"string",
-                   "example":" "
-                },
-                "program_manager":{
-                   "type":"string",
-                   "example":"Christopher Kinsinger"
                 },
                 "projects":{
                    "type":"array",
@@ -5881,46 +5914,6 @@ var spec = {
                 "acquisition_type":{
                    "type":"string",
                    "example":"DDA"
-                },
-                "study_name":{
-                   "type":"string",
-                   "example":"null"
-                },
-                "program_name":{
-                   "type":"string",
-                   "example":"null"
-                },
-                "project_name":{
-                   "type":"string",
-                   "example":"null"
-                },
-                "program_id":{
-                   "type":"string",
-                   "example":"null"
-                },
-                "project_id":{
-                   "type":"string",
-                   "example":"null"
-                },
-                "project_submitter_id":{
-                   "type":"string",
-                   "example":"null"
-                },
-                "disease_type":{
-                   "type":"string",
-                   "example":"null"
-                },
-                "primary_site":{
-                   "type":"string",
-                   "example":"null"
-                },
-                "cases_count":{
-                   "type":"string",
-                   "example":"null"
-                },
-                "aliquots_count":{
-                   "type":"string",
-                   "example":"null"
                 }
              },
              "xml":{
@@ -6032,38 +6025,16 @@ var spec = {
                 },
                 "program_submitter_id":{
                    "type":"string",
-                   "example":"CPTAC"
+                   "example":"Clinical Proteomic Tumor Analysis Consortium"
                 },
                 "name":{
                    "type":"string",
                    "example":"Clinical Proteomic Tumor Analysis Consortium"
                 },
-                "sponsor":{
-                   "type":"string",
-                   "example":"NCI"
-                },
-                "start_date":{
-                   "type":"string",
-                   "example":"CPTAC"
-                },
-                "end_date":{
-                   "type":"string",
-                   "example":" "
-                },
-                "program_manager":{
-                   "type":"string",
-                   "example":"Christopher Kinsinger"
-                },
                 "projects":{
                    "type":"array",
                    "items":{
-                      "$ref":"#/definitions/Project"
-                   }
-                },
-                "cases":{
-                   "type":"array",
-                   "items":{
-                      "$ref":"#/definitions/Case"
+                      "$ref":"#/definitions/allProgramsProject"
                    }
                 }
              },
@@ -6071,6 +6042,77 @@ var spec = {
                 "name":"allCasesDesc"
              }
           },
+          "allProgramsProject":{
+            "type":"object",
+            "required":[
+               "project_id"
+            ],
+            "properties":{
+               "project_id":{
+                  "type":"string",
+                  "description":"PK",
+                  "example": "267d6671-0e78-11e9-a064-0a9c39d33490"
+               },
+               "project_submitter_id":{
+                  "type":"string",
+                  "example":"CPTAC3-Discovery"
+               },               
+               "name":{
+                  "type":"string",
+                  "example":"CPTAC3-Discovery"
+               },
+               "studies":{
+                  "type":"array",
+                  "items":{
+                     "$ref":"#/definitions/allProgramsStudy"
+                  }
+               }
+            },
+            "xml":{
+               "name":"allProgramsProject"
+            }
+         },
+         "allProgramsStudy":{
+            "type":"object",
+            "required":[
+               "study_id",
+               "project_id"
+            ],
+            "properties":{
+               "pdc_study_id":{
+                  "type":"string",
+                  "example": "PDC000206"
+               },
+               "study_id":{
+                  "type":"string",
+                  "description":"PK",
+                  "example": "0ea91a54-1798-11ea-9bfa-0a42f3c845fe"
+               },
+               "study_submitter_id": {
+                  "type":"string",
+                  "example": "CPTAC GBM Discovery Study - CompRef Phosphoproteome"                 
+               },
+               "submitter_id_name": {
+                  "type":"string",
+                  "example": "CPTAC GBM Discovery Study - CompRef Phosphoproteome"                 
+               },
+               "analytical_fraction":{
+                  "type":"string",
+                  "example":"Phosphoproteome"
+               },
+               "experiment_type":{
+                  "type":"string",
+                  "example":"TMT11"
+               },
+               "acquisition_type": {
+                  "type":"string",
+                  "example": "DDA"                 
+               },
+            },
+            "xml":{
+               "name":"allProgramsStudy"
+            }
+         },
           "projectsDesc":{
              "type":"object",
              "required":[
@@ -6195,19 +6237,11 @@ var spec = {
              "properties":{
                 "case_id":{
                    "type":"string",
-                   "example":"0065cb8d-63d6-11e8-bcf1-0a2705229b82"
+                   "example":"a023e964-118a-11e9-afb9-0a9c39d33490"
                 },
                 "case_submitter_id":{
                    "type":"string",
-                   "example":"05BR016"
-                },
-                "external_case_id":{
-                   "type":"string",
-                   "example":"null"
-                },
-                "tissue_source_site_code":{
-                   "type":"string",
-                   "example":""
+                   "example":"C3N-00386"
                 },
                 "days_to_lost_to_followup":{
                    "type":"integer",
@@ -6215,11 +6249,11 @@ var spec = {
                 },
                 "disease_type":{
                    "type":"string",
-                   "example":"Breast Invasive Carcinoma"
+                   "example":"Uterine Corpus Endometrial Carcinoma"
                 },
                 "index_date":{
                    "type":"string",
-                   "example":"null"
+                   "example":"Diagnosis"
                 },
                 "lost_to_followup":{
                    "type":"string",
@@ -6227,11 +6261,7 @@ var spec = {
                 },
                 "primary_site":{
                    "type":"string",
-                   "example":"Breast"
-                },
-                "count":{
-                   "type":"string",
-                   "example":"null"
+                   "example":"Uterus, NOS"
                 },
                 "demographics":{
                    "type":"array",
@@ -6239,22 +6269,18 @@ var spec = {
                       "$ref":"#/definitions/Demographic"
                    }
                 },
-                "project":{
-                   "type":"string",
-                    "$ref":"#/definitions/Project"
+                "samples":{
+                  "type":"array",
+                  "items":{
+                     "$ref":"#/definitions/Sample"
+                  }
                 },
                 "diagnoses":{
                   "type":"array",
                    "items":{      
                     "$ref":"#/definitions/Diagnosis"
                    }
-                },
-                "samples":{
-                   "type":"array",
-                   "items":{
-                      "$ref":"#/definitions/Sample"
-                   }
-                }
+               }
              },
              "xml":{
                 "name":"caseFullDesc"

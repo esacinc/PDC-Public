@@ -93,7 +93,8 @@ export const resolvers = {
 	Case: {
 		async demographics(obj, args, context) {
 			var cacheFilterName = { name: '' };
-			cacheFilterName.name += "case_submitter_id:(" + obj.case_submitter_id + ");";
+			//@@@PDC-2544 use case_id in cache key
+			cacheFilterName.name += "case_id:(" + obj.case_id + ");";
 			const res = await RedisCacheClient.redisCacheGetAsync(CacheName.getSummaryPageCaseSummary('CaseDemographic') + cacheFilterName['name']);
 			if (res === null) {
 				var result = await db.getModelByName('Demographic').findAll({
@@ -123,7 +124,7 @@ export const resolvers = {
 		//@@@PDC-2417 Remove unused fields from Diagnosis
 		async diagnoses(obj, args, context) {
 			var cacheFilterName = {name:''};
-			cacheFilterName.name +="case_submitter_id:("+ obj.case_submitter_id + ");";
+			cacheFilterName.name +="case_id:("+ obj.case_id + ");";
 			const res = await RedisCacheClient.redisCacheGetAsync(CacheName.getSummaryPageCaseSummary('CaseDiagnose')+cacheFilterName['name']);
 			if(res === null){
 				var result = await db.getModelByName('Diagnosis').findAll({
@@ -199,11 +200,12 @@ export const resolvers = {
 		},
 		async samples(obj, args, context) {
 			var cacheFilterName = { name: '' };
-			cacheFilterName.name += "case_submitter_id:(" + obj.case_submitter_id + ");";
+			cacheFilterName.name += "case_id:(" + obj.case_id + ");";
 			const res = await RedisCacheClient.redisCacheGetAsync(CacheName.getSummaryPageCaseSummary('CaseSample') + cacheFilterName['name']);
 			if (res === null) {
+				//@@@PDC-2755 add pool, status, sample_is_ref attribute
 				var result = await db.getModelByName('Sample').findAll({
-					attributes: [['bin_to_uuid(sample_id)', 'sample_id'], 'sample_submitter_id', 'sample_type', 'sample_type_id', 'gdc_sample_id', 'gdc_project_id', 'biospecimen_anatomic_site', 'composition', 'current_weight', 'days_to_collection', 'days_to_sample_procurement', 'diagnosis_pathologically_confirmed', 'freezing_method', 'initial_weight', 'intermediate_dimension', 'is_ffpe', 'longest_dimension', 'method_of_sample_procurement', 'oct_embedded', 'pathology_report_uuid', 'preservation_method', 'shortest_dimension', 'time_between_clamping_and_freezing', 'time_between_excision_and_freezing', 'tissue_type', 'tumor_code', 'tumor_code_id', 'tumor_descriptor'],
+					attributes: [['bin_to_uuid(sample_id)', 'sample_id'], 'sample_submitter_id', 'sample_type', 'sample_type_id', 'gdc_sample_id', 'gdc_project_id', 'biospecimen_anatomic_site', 'composition', 'current_weight', 'days_to_collection', 'days_to_sample_procurement', 'status', 'pool', 'sample_is_ref', 'diagnosis_pathologically_confirmed', 'freezing_method', 'initial_weight', 'intermediate_dimension', 'is_ffpe', 'longest_dimension', 'method_of_sample_procurement', 'oct_embedded', 'pathology_report_uuid', 'preservation_method', 'shortest_dimension', 'time_between_clamping_and_freezing', 'time_between_excision_and_freezing', 'tissue_type', 'tumor_code', 'tumor_code_id', 'tumor_descriptor'],
 					where: {
 						case_id: Sequelize.fn('uuid_to_bin', obj.case_id )
 						//case_submitter_id: obj.case_submitter_id
@@ -218,7 +220,8 @@ export const resolvers = {
 	},
 	Sample: {
 		aliquots(obj, args, context) {
-			return db.getModelByName('Aliquot').findAll({ attributes: [['bin_to_uuid(aliquot_id)', 'aliquot_id'],'aliquot_submitter_id', 'analyte_type', 'aliquot_quantity', 'aliquot_volume', 'amount', 'concentration'],
+			//@@@PDC-2755 add pool, status, aliquot_is_ref attribute
+			return db.getModelByName('Aliquot').findAll({ attributes: [['bin_to_uuid(aliquot_id)', 'aliquot_id'],'aliquot_submitter_id', 'analyte_type', 'aliquot_quantity', 'aliquot_volume', 'amount', 'concentration', 'pool', 'status', 'aliquot_is_ref'],
 			where: {
 				sample_id: Sequelize.fn('uuid_to_bin', obj.sample_id )
 				//sample_submitter_id: obj.sample_submitter_id
@@ -536,6 +539,10 @@ export const resolvers = {
 		//@@@PDC-485 spectral count per study/aliquot API
 		spectralCounts(obj, args, context) {
 			return db.getSequelize().query(context.query, { model: db.getModelByName('ModelSpectralCount') });
+		},
+		//@@@PDC-2690 api returns gene info without spectral count
+		genesProper(obj, args, context) {
+			return db.getSequelize().query(context.query, { model: db.getModelByName('ModelGene') });
 		},
 		//@@@PDC-329 Pagination for UI study summary page
 		//@@@PDC-788 remove hard-coded file types

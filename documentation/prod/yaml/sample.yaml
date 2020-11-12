@@ -367,7 +367,7 @@ properties:
         - Unknown
         - Not Reported
         - Not Allowed To Collect
-        required: 'False'
+        required: 'True'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432591&version=1.0
         type: Enumeration
@@ -583,7 +583,7 @@ properties:
         enum:
         - 'Yes'
         - 'No'
-        required: 'False'
+        required: 'True'
         type: Enumeration
     preservation_method:
         cde_id: 5432521
@@ -733,7 +733,7 @@ properties:
     status:
         description: Specifies if the sample is qualified or disqualified for any
             reason.
-        required: 'False'
+        required: 'True'
         type: String
     time_between_clamping_and_freezing:
         cde_id: 5432611
@@ -763,7 +763,7 @@ properties:
         - Unknown
         - Not Reported
         - Not Allowed To Collect
-        required: 'False'
+        required: 'True'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432687&version=1.0
         type: Enumeration

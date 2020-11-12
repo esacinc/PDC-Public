@@ -150,7 +150,13 @@ constructor(private apollo: Apollo) {
 						data_category
 						file_type
 						files_count
-					}				
+					}
+					contacts {
+						name
+						institution
+						email
+						url
+					} 					
 				}
 				pagination {
 					count

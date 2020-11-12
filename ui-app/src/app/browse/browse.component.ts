@@ -117,7 +117,7 @@ export class BrowseComponent implements OnInit{
 			},
 			dataLabels: {
 					enabled: true,
-					allowOverlap: true,
+					//allowOverlap: true,
 					padding: -2,
 					format: '<b>{point.name}</b>:<br> {point.percentage:.1f} %',
 					style: {
@@ -169,6 +169,7 @@ export class BrowseComponent implements OnInit{
 			pointFormat: '<span style="color:{series.color}">●</span> Case count: <b>{point.y:.f}</b><br/>'
 		},
 		plotOptions: {
+			//bar: {
 			series: {
 				cursor: 'pointer',
 				point: {
@@ -179,7 +180,8 @@ export class BrowseComponent implements OnInit{
 						}
 					}
 				}
-			}
+			},
+		//},
 		},
 		series: [{
 			name: 'Case count',

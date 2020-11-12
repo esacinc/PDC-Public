@@ -112,6 +112,7 @@
 }
 {
 	protein(protein: "M0R009"){
+	  gene_id
 	  gene_name
 	  NCBI_gene_id
 	  authority
@@ -122,6 +123,7 @@
 	  proteins
 	  assays
 	  spectral_counts {
+	      pdc_study_id
 		  project_submitter_id
 		  plex
 		  spectral_count
@@ -2113,6 +2115,7 @@ PDC-265
 1874 protocol
 {
 	protocolPerStudy(study_submitter_id: "S015-2" ){
+		project_submitter_id
 		protocol_id
 		protocol_submitter_id
 		study_id
@@ -2280,7 +2283,7 @@ PDC-265
 }
 //PDC-180, 1371, 2038, 2417
 {
-  case(case_id: "df4e907e-8f98-11ea-b1fd-0aad30af8a83") {
+  case(case_id: "104c95ee-2139-11ea-aee1-0e1aae319e49") {
     case_id
 	  case_submitter_id
 	  project_submitter_id
@@ -2803,7 +2806,6 @@ PDC-265
     aliquots {
       aliquot_id
       aliquot_submitter_id
-      label
       sample_id
       sample_submitter_id
     }
@@ -5739,11 +5741,10 @@ limit: 10) {
 		}
 	}
 }
-//PDC-884
-898
-1257
+//PDC-884 898 1257 2642
 {
-	fileMetadata(file_id: "10ffa258-14c2-4c74-861e-91ed02fb4cf6") {
+	fileMetadata(file_id: "10ffa258-14c2-4c74-861e-91ed02fb4cf6") 
+		file_id
 		file_name
 		file_location
 		md5sum
@@ -5756,7 +5757,6 @@ limit: 10) {
 		aliquots {
 			aliquot_id 
 			aliquot_submitter_id
-			label
 			sample_id 
 			sample_submitter_id
 			case_id 

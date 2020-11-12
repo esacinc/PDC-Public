@@ -225,7 +225,7 @@ const createHumanBody: TCreateHumanBody = ({
          .style('opacity', 1)
          .html(`
            <div style="color: #bb0e3d; white-space: nowrap;">${d['_key']}</div>
-           <div style="font-size: 12px; color: rgb(20, 20, 20)">
+           <div style="font-size: 12px; color:  #141414">
              ${d['_count']} ${tooltipLabelPostfix}
            </div>
          `)
@@ -438,7 +438,7 @@ tooltip.style('opacity', 0);
         .style('opacity', 1)
         .html(`
           <div style="color: #bb0e3d; white-space: nowrap">${d['_key']}</div>
-          <div style="font-size: 12px; color: rgb(20, 20, 20)">
+          <div style="font-size: 12px; color:  #141414">
             ${d['_count'].toLocaleString()} ${tooltipLabelPostfix}
           </div>
         `)
@@ -645,7 +645,7 @@ tooltip.style('opacity', 0);
               .style('opacity', 1)
               .html(`
                 <div style="color: #bb0e3d; white-space: nowrap">${d[primarySiteKey]}</div>
-                <div style="font-size: 12px; color: rgb(20, 20, 20)">
+                <div style="font-size: 12px; color:  #141414">
                   ${d['_count'].toLocaleString()} ${tooltipLabelPostfix}
                 </div>
               `)

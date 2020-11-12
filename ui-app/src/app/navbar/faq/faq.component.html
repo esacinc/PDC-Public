@@ -13,6 +13,7 @@
         <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(SubmitData)">How do I submit data to PDC? How do I register my program with PDC?</a></b></li>
         <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(FindCorresponding)">How to find corresponding genomic and/or imaging data for the PDC proteomic data?</a></b></li>
         <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(DifferencePDC_CPTAC)">What is the difference between PDC and CPTAC Data Portal?</a></b></li>
+        <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(S3Upload_Data)">How do I configure my AWS account to upload data from my S3 bucket to PDC?</a></b></li>
         <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Download_Data)">How do I download data?</a></b></li>
         <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Multiple_Files)">How do I download multiple files at once?</a></b></li>
         <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(File_Error)">Why does the file download URLs throw an error or exception?</a></b></li>
@@ -61,12 +62,48 @@
             <br>The data from the Clinical Proteomic Tumor Analysis Consortium is also available from the <a href="https://cptac-data-portal.georgetown.edu/" target="_blank">CPTAC Data Portal</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">External Link</span></a>.
         </p>
 
-        <div #Download_Data class="faq-question">How do I download data? </div>
-        <p class="faq-response">Individual files can be downloaded by clicking the 'Download' button in the File table.
-            <br>To download multiple files, identify and select the files of your interest by clicking the check box. You may select multiple files at once by clicking the checkbox in the header row of the table. After the files are selected, click on the 'Download Files' button. Currently there is a limit on the number and volume of files that can be downloaded through this approach.
-            <br>If you want to download multiple files programmatically, see <a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Multiple_Files)">'How do I download multiple files at once?'.</a></p>
+      <div #S3Upload_Data id="S3Upload_Data" class="faq-question">How do I configure my AWS account to upload data from my S3 bucket to PDC? </div>
+      <p class="faq-response">In order to use the S3 transfer feature, you need to configure your AWS account and S3 bucket to allow us to copy.
+        <br>First you will need to have an AWS Access Key and AWS Secret Key from an IAM user that has access to your bucket. The IAM policy should look something like this:
+        <br><br><div>
+            <pre style="background-color: black;color: white;width: 60%;float: center;margin-left: 25%;">
+              {{'{'}}
+              "Version": "2012-10-17",
+                "Statement": [
+                  {{'{'}}
+                    "Sid": "S3Access",
+                    "Effect": "Allow",
+                    "Action": ["s3:GetObject", "s3:ListBucket"],
+                    "Resource": ["arn:aws:s3:::awsexamplesourcebucket", "arn:aws:s3:::awsexamplesourcebucket/*"]
+                  {{'}'}}
+                ]
+              {{'}'}}
+            </pre></div>
+        <br>Then you will need to update your bucket policy to allow us to copy by adding our ARN with get object permission. The source bucket policy should look something like this:
+        <br><br><div>
+            <pre style="background-color: black;color: white;width: 60%;float: center;margin-left: 25%;">
+              {{'{'}}
+                "Version": "2012-10-17",
+                "Statement": [
+                  {{'{'}}
+                    "Sid": "DelegateS3Access",
+                    "Effect": "Allow",
+                    "Principal": {{'{'}}"AWS": "arn:aws:iam::033707373097:user/S3-Prod"{{'}'}},
+                    "Action": ["s3:GetObject"],
+                    "Resource": ["arn:aws:s3:::awsexamplesourcebucket", "arn:aws:s3:::awsexamplesourcebucket/*"]
+                  {{'}'}}
+                ]
+              {{'}'}}
+            </pre></div>
+        <br>Note: Replace the 'awsexamplesourcebucket' with your bucket name.
+      </p>
 
-        <div #Multiple_Files class="faq-question" id="Multiple_Files">How do I download multiple files at once?</div>
+      <div #Download_Data class="faq-question">How do I download data? </div>
+      <p class="faq-response">Individual files can be downloaded by clicking the 'Download' button in the File table.
+        <br>To download multiple files, identify and select the files of your interest by clicking the check box. You may select multiple files at once by clicking the checkbox in the header row of the table. After the files are selected, click on the 'Download Files' button. Currently there is a limit on the number and volume of files that can be downloaded through this approach.
+        <br>If you want to download multiple files programmatically, see <a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Multiple_Files)">'How do I download multiple files at once?'.</a></p>
+
+      <div #Multiple_Files class="faq-question" id="Multiple_Files">How do I download multiple files at once?</div>
         <p class="faq-response">Once you identify the files of your interest, move to 'Files' tab and select one or all files and then click <strong><i>'Export File Manifest'</i></strong>.
             The manifest will contain a download URL each selected file in a separate row. <strong>The URLs will expire after 48 hours</strong>.
             You may revisit the PDC portal to generate a new file manifest.

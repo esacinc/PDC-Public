@@ -158,7 +158,7 @@ export class BrowseByClinicalComponent implements OnInit {
 	var case_index = this.findCaseByID(case_id);
     dialogConfig.data = {
         summaryData: this.filteredClinicalData[case_index],
-    };
+	};
 	this.router.navigate([{outlets: {caseSummary: ['case-summary', case_id]}}], { skipLocationChange: true });
 	const dialogRef = this.dialog.open(CaseSummaryComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(
@@ -170,7 +170,7 @@ export class BrowseByClinicalComponent implements OnInit {
   //Finds case details for a case id
   findCaseByID(case_id: string) {
 	  for (let idx = 0; idx < this.filteredClinicalData.length; idx++ ){
-		  if (this.filteredClinicalData[idx].case_submitter_id === case_id) {
+		  if (this.filteredClinicalData[idx].case_id === case_id) {
 			  return idx;
 		  }
 	  }

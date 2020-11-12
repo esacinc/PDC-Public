@@ -158,6 +158,8 @@ const defineUiModels = (db) => {
 		case_submitter_id: { type: Sequelize.STRING},
 		status: { type: Sequelize.STRING},
 		external_case_id: { type: Sequelize.STRING},
+		program_name: { type: Sequelize.STRING},
+		project_name: { type: Sequelize.STRING},
 		disease_type: { type: Sequelize.STRING},
 		primary_site: { type: Sequelize.STRING},
 		demographic_id: { type: Sequelize.STRING},

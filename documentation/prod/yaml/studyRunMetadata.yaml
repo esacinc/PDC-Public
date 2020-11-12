@@ -36,7 +36,7 @@ properties:
         type: String
     fraction:
         description: Number of fractions in the experimental run
-        required: 'False'
+        required: 'True'
         type: String
     itraq_113:
         description: The sample tagged with this isobaric label reagent
@@ -81,7 +81,7 @@ properties:
     plex_or_folder_name:
         description: Name used to group the files generated in single experimental
             run
-        required: 'False'
+        required: 'True'
         type: String
     protocol_id:
         key: 'yes'

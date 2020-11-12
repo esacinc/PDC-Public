@@ -412,11 +412,13 @@ const defineCustomModels = (db) => {
 	  
 	  //@@@PDC-332 API for file metadata--add more fields
 	  //@@@PDC-1257 replace fraction with fraction_number	  
+	  //@@@PDC-2642 add file_id	  
 	  /**
 	  * ModelFileMetadata is a utility and used in 
 	  *   getFileMetadata query.
 	  */
 	  const ModelFileMetadata = db.getSequelize().define('dummy', {
+		  file_id: { type: Sequelize.STRING },
 		  file_name: { type: Sequelize.STRING },
 		  file_location: { type: Sequelize.STRING },
 		  md5sum: { type: Sequelize.STRING },
@@ -683,10 +685,11 @@ const defineCustomModels = (db) => {
 	  ModelEntityReference.removeAttribute('id');
 	  
 	  //@@@PDC-2614 rearrange geneSpectralCount
+	  //@@@PDC-2690 ncbi_gene_id type change
 	  const ModelGene = db.getSequelize().define('dummy', {
 		gene_id: { 	type: Sequelize.STRING},
 		gene_name: { 	type: Sequelize.STRING  },
-		NCBI_gene_id: { type: Sequelize.INTEGER },
+		NCBI_gene_id: { type: Sequelize.STRING },
 		authority: { type: Sequelize.STRING },
 		description: { type: Sequelize.STRING },
 		organism: { type: Sequelize.STRING },

@@ -1,7 +1,7 @@
 type Gene {
   gene_id: String
   gene_name: String
-  NCBI_gene_id: Int
+  NCBI_gene_id: String
   authority: String
   description: String
   organism: String

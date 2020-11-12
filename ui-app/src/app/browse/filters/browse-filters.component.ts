@@ -44,6 +44,7 @@ import { BrowseFiltersService } from "./browse-filters.service";
 //@@@PDC-1095: Improving file filter select combinations
 //@@@PDC-1668: multiple and trailing spaces in gene names filter bug
 //@@@PDC-2460: Add new data category/file type: Alternate Processing Pipeline/Archive
+//@@@PDC-2508: Checkbox appears faded when clicking Metadata or Quality Metrics Count
 export class BrowseFiltersComponent implements OnInit, OnChanges {
   allCategoryFilterData: FilterData; // Full list of all cases as returned by API
   allFilterCategoryMapData: Map<string, string[]> = new Map();
@@ -1166,7 +1167,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
   fileTypeFilterDisabled(filterName: string):boolean {
 	  let result = false;
 	  let isSelected = false;
-	  if (this.selectedDataCategory.length > 0){
+	  if (this.selectedDataCategory.length > 0 && this.selectedDataCategory[0] != ""){
 		  //Check in the mapping if the current file type filter should be available for selection
 		  for (let dataCat of  this.fileTypeDataCategoryMap[filterName]){
 			  if (this.selectedDataCategory.indexOf(dataCat) > -1) {
@@ -1185,7 +1186,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
   dataCetegoryFilterDisabled(filterName: string):boolean {
 	  let result = false;
 	  let isSelected = false;
-	  if (this.selectedFileType.length > 0){
+	  if (this.selectedFileType.length > 0 && this.selectedFileType[0] != ""){
 		    //Check in the mapping if the current data category filter should be available for selection
 		  for (let fileType of this.dataCategoryFileTypeMap[filterName]){
 			  if (this.selectedFileType.indexOf(fileType) > -1){

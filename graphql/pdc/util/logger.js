@@ -12,8 +12,23 @@ const logger = winston.createLogger({
   defaultMeta: { service: 'GraphQL' },
   transports: [
 	//new winston.transports.Console({format: winston.format.simple()}),
-    new winston.transports.File({ filename: 'logs/pdc-graphql-error.log', level: 'error', maxsize: 1000000, maxFiles: 10 }),
-    new winston.transports.File({ filename: 'logs/pdc-graphql-combined.log', maxsize: 5000000, maxFiles: 10 })
+	//@@@PDC-2689 add timestamp to logs
+    new winston.transports.File({ filename: 'logs/pdc-graphql-error.log', level: 'error', maxsize: 1000000, maxFiles: 10, 
+	format: winston.format.combine(
+        winston.format.timestamp({
+          format: 'YYYY-MM-DD hh:mm:ss A ZZ'
+        }),
+        winston.format.json()
+      ) 
+	  }),
+    new winston.transports.File({ filename: 'logs/pdc-graphql-combined.log', maxsize: 5000000, maxFiles: 10, 	
+	format: winston.format.combine(
+        winston.format.timestamp({
+          format: 'YYYY-MM-DD hh:mm:ss A ZZ'
+        }),
+        winston.format.json()
+      ) 
+	  })
   ]
 });
  

@@ -41,8 +41,8 @@
 						<td class="summary-card-value-left-cell">{{pdcStudyID}}</td>
 						<td class="summary-card-name-right-cell" [matTooltip]="getTooltip(studySummaryData.embargo_date)" matTooltipClass="custom-tooltip" matTooltipPosition="above">Embargo Release Date</td>
 						<td class="summary-card-value-right-cell" [ngClass]="getStyleClass(studySummaryData.embargo_date)" [matTooltip]="getTooltip(studySummaryData.embargo_date)" matTooltipClass="custom-tooltip" matTooltipPosition="above">
-							<div *ngIf="studySummaryData.embargo_date == '' || studySummaryData.embargo_date == null">N/A</div>
-							{{studySummaryData.embargo_date | date :  "MMMM d, y"}}
+							<div *ngIf="studySummaryData.embargo_date != 'N/A'">{{studySummaryData.embargo_date | date :  "MMMM d, y"}}</div>
+							<div *ngIf="studySummaryData.embargo_date == 'N/A'">{{studySummaryData.embargo_date}}</div>
 						</td>
 					</tr>
 					<tr><td class="summary-card-name-left-cell">Study ID</td>
@@ -460,7 +460,7 @@
 			</div>
 			<div *ngIf="!duaAvailable" style = "max-height:220px;overflow-y: auto;display: block!important;font-size: 12px; width: 100%;">
 				<br>
-				<p>PDC data submission and data use are governed by <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">Creative Commons CC-BY 0.4</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">Exit Disclaimer</span></a> licensing terms.</p>
+				<p>PDC data submission and data use are governed by <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">Creative Commons CC-BY 4.0</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">Exit Disclaimer</span></a> licensing terms.</p>
 				<p>Under CC-BY terms, that user is free to,</p>
 				<p>&nbsp;&nbsp;&nbsp;&nbsp;Share — copy and redistribute the material in any medium or format</p>
 				<p>&nbsp;&nbsp;&nbsp;&nbsp;Adapt — remix, transform, and build upon the material for any purpose, even commercially.</p>
@@ -539,7 +539,19 @@
 			</div>
 		</div>
 		<div class="col-md-6" style="padding-bottom:5px">
-		  <div style="padding-bottom:3px">
+		  <div id="contactDetails" *ngIf="studySummaryData.contacts && studySummaryData.contacts.length > 0" style="padding-bottom:3px; width:100%">
+			<mat-card style="padding:0">
+				<mat-card-content>
+					<div style="background:#078abf;color:white!important; padding:3px!important;text-align: center;">
+							<b>Contacts</b>
+					</div>
+					<div style="padding: 10px;" *ngFor="let contact of studySummaryData.contacts">
+						{{contact.name}}<span *ngIf="contact.institution != ''">, {{contact.institution}}</span><br>
+					</div>
+				</mat-card-content>
+			</mat-card>
+		  </div>
+		  <div style="padding-bottom:3px; width:100%">
 			<mat-card class="data-categories-table">
 				<mat-card-content>
 				<table class="table table-striped" style="width:100%" id="dataCategoryStudyTable">

@@ -269,6 +269,22 @@ constructor(private apollo: Apollo) {
 					data_category 
 					files_count 
 				} 
+				supplementaryFilesCount {
+					data_category
+					file_type
+					files_count
+				}
+				nonSupplementaryFilesCount {
+					data_category
+					file_type
+					files_count
+				}
+				contacts {
+					name
+					institution
+					email
+					url
+				} 					
 			}
 			pagination {
 				count

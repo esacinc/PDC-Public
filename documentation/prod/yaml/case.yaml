@@ -148,7 +148,7 @@ properties:
         - Chromophobe Renal Cell Carcinoma
         - Papillary Renal Cell Carcinoma
         - Pediatric/AYA Brain Tumors
-        required: 'False'
+        required: 'True'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6161017&version=1.0
         type: Enumeration
@@ -190,7 +190,7 @@ properties:
         enum:
         - 'Yes'
         - 'No'
-        required: 'False'
+        required: 'True'
         type: Enumeration
     primary_site:
         cde_id: 6161019
@@ -289,7 +289,7 @@ properties:
         - Soft Tissue
         - Thyroid
         - Uterus
-        required: 'False'
+        required: 'True'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6161019&version=1.0
         type: Enumeration
@@ -307,14 +307,13 @@ properties:
         enum:
         - Qualified
         - Disqualified
-        required: 'False'
+        required: 'True'
         type: Enumeration
     taxon:
         description: A taxonomic group, such as a species.
         enum:
         - Trichomonas vaginalis
         - Bemisia tabaci (Gennadius)
-        - Mus musculus
         - Escherichia coli
         - Rattus norvegicus
         - Mycoplasma pneumoniae
@@ -336,7 +335,6 @@ properties:
         - Caenorhabditis briggsae
         - Haliotis rufescens
         - Xenopus laevis
-        - Homo sapiens
         - Mucata mulata
         - Unspecified
         - Bos taurus
@@ -350,7 +348,8 @@ properties:
         - Homo sapiens
         - Mus musculus
         - Not Reported
-        required: 'False'
+        - Homo sapiens; Mus musculus
+        required: 'True'
         type: Enumeration
 title: Case
 type: object

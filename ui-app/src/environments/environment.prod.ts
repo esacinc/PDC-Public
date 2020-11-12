@@ -11,7 +11,7 @@ export const environment = {
   server_url_workflow_local: 'http://localhost:3010/api',
   graphql_server_url: '/graphql',
   PDC_CLUSTER_NAME: 'PDC-CDAP',
-  BUILD_TAG: '1.0.16',
+  BUILD_TAG: '1.0.18',
   idle_session_timeout_seconds: 1800,
   GA_TRACKING_ID: 'UA-124894982-1',
   gdc_case_id_url: 'https://portal.gdc.cancer.gov/cases/',

@@ -255,7 +255,15 @@ describe("BrowseByStudyComponent", () => {
               file_type: "Proprietary",
               files_count: 500
             }
-        ]
+        ],
+		contacts: [
+			{
+			  email: "",
+			  institution: "Johns Hopkins University",
+			  name: "Hui Zhang",
+			  url: ""
+			}
+		]
       }
     ];
     let router = TestBed.get(Router);
@@ -363,7 +371,15 @@ describe("BrowseByStudyComponent", () => {
               file_type: "Proprietary",
               files_count: 500
             }
-      ]
+      ],
+	  contacts: [ 
+		{
+			email: "",
+			institution: "Johns Hopkins University",
+			name: "Hui Zhang",
+			url: ""
+		}
+	  ]
     };
 
     let filteredCasesData = [studyData];

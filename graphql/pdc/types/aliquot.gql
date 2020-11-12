@@ -3,6 +3,7 @@ type Aliquot {
 	aliquot_submitter_id: String
 	status: String
 	aliquot_is_ref: String
+	pool: String
 	sample_id: String
 	sample_submitter_id: String
 	case_id: String

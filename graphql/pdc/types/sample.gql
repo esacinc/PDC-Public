@@ -7,6 +7,7 @@ type Sample {
 	sample_type: String
 	sample_is_ref: String
 	status: String
+	pool: String
 	biospecimen_anatomic_site: String
 	composition: String
 	current_weight: Float

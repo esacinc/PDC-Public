@@ -62,6 +62,7 @@ const defineSequelizeModels = (db) => {
 	  */
 	  //@@@PDC-1093 change data type of is_ffpe from int to string
 	  //@@@PDC-1467 add case_submitter_id
+	  //@@@PDC-2755 add pool attribute
 	  const SampleModel = db.getSequelize().define('sample', {
 		  sample_id: { type: Sequelize.STRING,
 					  primaryKey: true   },
@@ -74,6 +75,7 @@ const defineSequelizeModels = (db) => {
 		  sample_type_id: { type: Sequelize.STRING },
 		  sample_is_ref: { type: Sequelize.STRING },
 		  status: { type: Sequelize.STRING },
+		  pool: { type: Sequelize.STRING },
 		  biospecimen_anatomic_site: { type: Sequelize.STRING },
 		  composition: { type: Sequelize.STRING },
 		  current_weight: { type: Sequelize.FLOAT },
@@ -105,6 +107,7 @@ const defineSequelizeModels = (db) => {
 	  });
 	  
 	  //@@@PDC-898 new public APIs--fileMetadata
+	  //@@@PDC-2755 add pool attribute
 	  /**
 	  * AliquotModel is mapped to the table of aliquot and used in 
 	  * case queries.
@@ -119,6 +122,7 @@ const defineSequelizeModels = (db) => {
 		  case_id: { type: Sequelize.STRING },    
 		  case_submitter_id: { type: Sequelize.STRING },
 		  status: { type: Sequelize.STRING },
+		  pool: { type: Sequelize.STRING },
 		  analyte_type: { type: Sequelize.STRING },
 		  aliquot_quantity: { type: Sequelize.FLOAT },
 		  aliquot_volume: { type: Sequelize.FLOAT },
@@ -250,11 +254,12 @@ const defineSequelizeModels = (db) => {
 	  * GenemModel is mapped to the table of gene and used 
 	  * in gene and  protein queries.
 	  */
+	  //@@@PDC-2690 ncbi_gene_id type change
 	  const GeneModel = db.getSequelize().define('gene', {
 		gene_id: { 	type: Sequelize.STRING,
 			primaryKey: true  },
 		gene_name: { 	type: Sequelize.STRING  },
-		ncbi_gene_id: { type: Sequelize.INTEGER },
+		ncbi_gene_id: { type: Sequelize.STRING },
 		authority: { type: Sequelize.STRING },
 		description: { type: Sequelize.STRING },
 		organism: { type: Sequelize.STRING },

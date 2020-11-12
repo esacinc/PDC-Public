@@ -138,7 +138,7 @@
             <tr style="font-size: 11px;" [pSelectableRow]="clinicalData" >
 				<td style="width:5%;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"><p-tableCheckbox id="clinicalData{{clinicalData.case_submitter_id}}" [value]="clinicalData" class="browsePageCheckboxes"></p-tableCheckbox></td>
 				<!-- @@@PDC-462 show submitter id -->                
-                <td style="width:10%;word-wrap: break-word; white-space: normal;"><a href="javascript:void(0);" (click)="showCaseSummary(clinicalData.case_submitter_id)">{{clinicalData.case_submitter_id }}</a>&nbsp;&nbsp;<span style='color:red' *ngIf="clinicalData.status == 'Disqualified'">{{clinicalData.status}}</span></td>
+                <td style="width:10%;word-wrap: break-word; white-space: normal;"><a href="javascript:void(0);" (click)="showCaseSummary(clinicalData.case_id)">{{clinicalData.case_submitter_id }}</a>&nbsp;&nbsp;<span style='color:red' *ngIf="clinicalData.status == 'Disqualified'">{{clinicalData.status}}</span></td>
 				<td style="width:10%;word-wrap: break-word; white-space: normal;text-align: center">
 				<!-- @@@PDC-1987: Update clinical tab to use new external reference API -->
 					<div *ngFor="let externalRef of clinicalData.externalReferences">
