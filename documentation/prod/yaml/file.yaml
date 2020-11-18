@@ -60,7 +60,7 @@ properties:
         required: 'True'
         type: String
     fraction_number:
-        description: Chromatorgraphy fraction number of the file
+        description: Chromatography fraction number of the file
         required: 'True'
         type: String
     md5sum:

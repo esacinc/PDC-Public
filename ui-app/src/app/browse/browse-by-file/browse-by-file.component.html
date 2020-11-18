@@ -65,7 +65,7 @@
 		</ng-template>
 				<ng-template pTemplate="header">
 					<tr style="font-size: 12px;">
-						<th class="ui-datatable-tableheader" style="width:5%;overflow: unset;">
+						<th class="ui-datatable-tableheader" style="width:3%;overflow: unset;">
 							<label><p-checkbox  id="fileDataChk" [(ngModel)]="headercheckbox" binary="true" (onChange)="onTableHeaderCheckboxToggle()"></p-checkbox >
 							<mat-select id="dataForManifestExport" class="card-body card-list" [(ngModel)]="selectedHeaderCheckbox"
 							(selectionChange)="changeHeaderCheckbox($event)">
@@ -75,12 +75,21 @@
 							</mat-select>
 							<span style="display:none">Select this row</span></label>
 						</th>
+						<!-- PDC-2795 -->
+						<th class="ui-datatable-tableheader" style="width:6%;" [pSortableColumn]="cols[0].field"><a
+								href="{{staticUrlBase}}dictionaryitem.html?eName=Study" target="_blank" style="color:white">PDC Study ID</a>
+							<p-sortIcon [field]="cols[0].field" ariaLabel="Sort PDC Study ID column in ascending/descending order"></p-sortIcon>
+						</th>
 						<!-- @@@PDC-262 link headers to data dictionary -->
-						<th class="ui-datatable-tableheader" style="width:18%;" [pSortableColumn]="cols[0].field"><a
+						<th class="ui-datatable-tableheader" style="width:11%;" [pSortableColumn]="cols[0].field"><a
 								href="{{staticUrlBase}}dictionaryitem.html?eName=Study" target="_blank" style="color:white">Study</a>
 							<p-sortIcon [field]="cols[0].field" ariaLabel="Sort Study column in ascending/descending order"></p-sortIcon>
 						</th>
-						<th class="ui-datatable-tableheader" style="width:25%" [pSortableColumn]="cols[1].field"><a
+						<th class="ui-datatable-tableheader" style="width:5%;" [pSortableColumn]="cols[0].field"><a
+								href="/pdc/faq#Embargo_Date" target="_blank" style="color:white">Embargo Date</a>
+							<p-sortIcon [field]="cols[0].field" ariaLabel="Sort embargo date column in ascending/descending order"></p-sortIcon>
+						</th>
+						<th class="ui-datatable-tableheader" style="width:19%" [pSortableColumn]="cols[1].field"><a
 								href="{{staticUrlBase}}dictionaryitem.html?eName=File#file_name" target="_blank" style="color:white">File
 								Name</a>
 							<p-sortIcon [field]="cols[1].field" ariaLabel="Sort File name column in ascending/descending order"></p-sortIcon>
@@ -98,20 +107,20 @@
 								</div>
 							</div>
 						</th>
-						<th class="ui-datatable-tableheader" style="width:13%" [pSortableColumn]="cols[3].field"><a
+						<th class="ui-datatable-tableheader" style="width:9%" [pSortableColumn]="cols[3].field"><a
 								href="{{staticUrlBase}}dictionaryitem.html?eName=Project" target="_blank" style="color:white">Project</a>
 							<p-sortIcon [field]="cols[3].field" ariaLabel="Sort Project column in ascending/descending order"></p-sortIcon>
 						</th>
-						<th rowspan=3 class="ui-datatable-tableheader" style="width:11%" [pSortableColumn]="cols[4].field"><a href="/pdc/faq/Files_Download" target="_blank" style="color:white">Data Category</a>
+						<th rowspan=3 class="ui-datatable-tableheader" style="width:9%" [pSortableColumn]="cols[4].field"><a href="/pdc/faq/Files_Download" target="_blank" style="color:white">Data Category</a>
 							<p-sortIcon [field]="cols[4].field" ariaLabel="Sort Data Category column in ascending/descending order"></p-sortIcon>
 						</th>
-						<th rowspan=3 class="ui-datatable-tableheader" style="width:9%" [pSortableColumn]="cols[5].field"><a href="/pdc/faq/Files_Download" target="_blank" style="color:white">File Type</a>
+						<th rowspan=3 class="ui-datatable-tableheader" style="width:8%" [pSortableColumn]="cols[5].field"><a href="/pdc/faq/Files_Download" target="_blank" style="color:white">File Type</a>
 							<p-sortIcon [field]="cols[5].field" ariaLabel="Sort File Type column in ascending/descending order"></p-sortIcon>
 						</th>
-						<th rowspan=3 class="ui-datatable-tableheader" style="width:6%" [pSortableColumn]="cols[6].field">Access
+						<th rowspan=3 class="ui-datatable-tableheader" style="width:5%" [pSortableColumn]="cols[6].field">Access
 							<p-sortIcon [field]="cols[6].field" ariaLabel="Sort Access column in ascending/descending order"></p-sortIcon>
 						</th>
-						<th class="ui-datatable-tableheader" style="width:8%" [pSortableColumn]="cols[7].field">
+						<th class="ui-datatable-tableheader" style="width:7%" [pSortableColumn]="cols[7].field">
 							<div class="ui-datatable-tableheader-flex-container">
 								<div class="ui-datatable-tableheader-flex-header">
 									File<br>Size (MB)
@@ -121,7 +130,7 @@
 								</div>
 							</div>
 						</th>
-						<th class="ui-datatable-tableheader" style="width:10%" [pSortableColumn]="cols[8].field">
+						<th class="ui-datatable-tableheader" style="width:8%" [pSortableColumn]="cols[8].field">
 								<div class="ui-datatable-tableheader-flex-container">
 									<div class="ui-datatable-tableheader-flex-header">
 										Downloadable
@@ -135,19 +144,24 @@
 				</ng-template>
 				<ng-template pTemplate="body" let-fileData let-rowIndex="rowIndex">
 					<tr style="font-size: 11px;" [pSelectableRow]="fileData">
-						<td style="width:5%;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">
+						<td style="width:3%;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">
 							<p-tableCheckbox id="fileData-{{rowIndex}}-{{fileData.submitter_id_name}}" [value]="fileData" class="browsePageCheckboxes"></p-tableCheckbox>
 						</td>
-						<td style="width:13%;word-wrap: break-word; white-space: normal;">{{fileData.submitter_id_name }}</td>
-						<td style="width:25%;word-wrap: break-word; white-space: normal;">{{fileData.file_name}}</td>
-						<td style="width:10%;word-wrap: break-word; white-space: normal;">{{fileData.study_run_metadata_submitter_id}}</td>
-						<td style="width:13%;word-wrap: break-word; white-space: normal;">{{fileData.project_name}}</td>
-						<td style="width:9%;word-wrap: break-word; white-space: normal;">{{fileData.data_category}}</td>
-						<td style="width:9%;word-wrap: break-word; white-space: normal;">{{fileData.file_type}}</td>
-						<td style="width:9%;word-wrap: break-word; white-space: normal;">{{fileData.access}}</td>
-						<td style="width:10%;word-wrap: break-word; white-space: normal;">{{fileData.file_size / 1048576 | number:'.3'}}
+						<td style="width:6%;word-wrap: break-word; white-space: normal;">{{fileData.pdc_study_id }}</td>
+						<td style="width:11%;word-wrap: break-word; white-space: normal;">{{fileData.submitter_id_name }}</td>
+						<td [ngClass]="getStyleClass(fileData.embargo_date)" style="width:5%;word-wrap: break-word; white-space: normal;">
+							<div *ngIf="fileData.embargo_date == '' || fileData.embargo_date == null">N/A</div>
+							{{fileData.embargo_date }}
 						</td>
-						<td style="width:9%;word-wrap: break-word; white-space: normal;"><span *ngIf="fileData.downloadable == 'No'">{{fileData.downloadable}}</span><span *ngIf="fileData.downloadable == 'Yes'"><button matTooltip="Some data are under an embargo for publication and/or citation. For more details, visit the summary page for the study of interest for the data use agreement." mat-raised-button mat-primary label="Download Selection" (click)="downloadFile(fileData)" style="font-family:'Lato';background-color: black;color: white;" aria-label="Download">Download&nbsp;&nbsp;&nbsp;<i class="fas fa-download"></i></button></span></td>
+						<td style="width:19%;word-wrap: break-word; white-space: normal;">{{fileData.file_name}}</td>
+						<td style="width:10%;word-wrap: break-word; white-space: normal;">{{fileData.study_run_metadata_submitter_id}}</td>
+						<td style="width:9%;word-wrap: break-word; white-space: normal;">{{fileData.project_name}}</td>
+						<td style="width:9%;word-wrap: break-word; white-space: normal;">{{fileData.data_category}}</td>
+						<td style="width:8%;word-wrap: break-word; white-space: normal;">{{fileData.file_type}}</td>
+						<td style="width:5%;word-wrap: break-word; white-space: normal;">{{fileData.access}}</td>
+						<td style="width:7%;word-wrap: break-word; white-space: normal;">{{fileData.file_size / 1048576 | number:'.3'}}
+						</td>
+						<td style="width:8%;word-wrap: break-word; white-space: normal;"><span *ngIf="fileData.downloadable == 'No'">{{fileData.downloadable}}</span><span *ngIf="fileData.downloadable == 'Yes'"><button matTooltip="Some data are under an embargo for publication and/or citation. For more details, visit the summary page for the study of interest for the data use agreement." mat-raised-button mat-primary label="Download Selection" (click)="downloadFile(fileData)" style="font-family:'Lato';background-color: black;color: white;" aria-label="Download">Download&nbsp;&nbsp;&nbsp;<i class="fas fa-download"></i></button></span></td>
 					</tr>
 				</ng-template>
 		<p-paginator rows="10" totalRecords="120"></p-paginator>

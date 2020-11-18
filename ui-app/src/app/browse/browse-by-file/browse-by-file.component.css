@@ -36,6 +36,12 @@
     float: left;
     align-items: center;
  }
+ 
+ /*PDC-2795 Add embargo date to Files tab on Browse page and files manifest*/
+ .future_embargo_date {
+	color: #de350b;
+	font-weight: 800;
+}
 
  :host /deep/ #dataForManifestExport .mat-select-value {
     display:none !important;

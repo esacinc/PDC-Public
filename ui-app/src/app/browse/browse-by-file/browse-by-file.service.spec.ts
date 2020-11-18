@@ -158,7 +158,8 @@ describe("BrowseByFileService", () => {
                 file_id: "00897698-f7eb-11e8-aaae-520068b8b101",
                 md5sum: "8b0d7785cc4cd2a6c01c41bdc5ccff4f",
                 downloadable: "Yes",
-                pdc_study_id: "PDC000222"
+                pdc_study_id: "PDC000222",
+				embargo_date: "2021-08-03"
               },
               {
                 submitter_id_name: "PCT_SWATH_Kidney",
@@ -173,7 +174,8 @@ describe("BrowseByFileService", () => {
                 file_id: "009267ec-f7eb-11e8-882b-520068b8b101",
                 md5sum: "67862d94ae0325a526adcce93cc5ea96",
                 downloadable: "Yes",
-                pdc_study_id: "PDC000221"
+                pdc_study_id: "PDC000221",
+				embargo_date: "2021-08-03"
               }
             ],
             pagination: {

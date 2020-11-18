@@ -112,6 +112,7 @@ export class BrowseByFileService {
   //@@@PDC-497 Make table column headers sortable on the browse page tabs
   //@@@PDC-567 add sample_type filter
   //@@@PDC-616 Add acquisition type to the general filters
+  //@@@PDC-2795 Add embargo date to Files tab on Browse page and files manifest
   filteredFilesPaginatedQuery = gql`
     query FilteredFilesDataPaginated(
       $offset_value: Int
@@ -166,6 +167,7 @@ export class BrowseByFileService {
           submitter_id_name
           study_id
           pdc_study_id
+		  embargo_date 
           file_name
           study_run_metadata_submitter_id
           project_name

@@ -244,6 +244,7 @@ const defineUiModels = (db) => {
 	//@@@PDC-199 UI file API
 	//@@@PDC-774 add downloadable
 	//@@@PDC-827 Add md5sum  and StudyId
+	//@@@PDC-2815 add embargo_date to getPaginatedUIFile API
 	/**
 	* ModelUIFile is used in uiFile query.
 	*/
@@ -252,6 +253,7 @@ const defineUiModels = (db) => {
 		study_id: { type: Sequelize.STRING},
 		pdc_study_id: { type: Sequelize.STRING },
 		submitter_id_name: { type: Sequelize.STRING},
+		embargo_date: { type: Sequelize.DATE },
 		file_name:  { type: Sequelize.STRING},
 		study_run_metadata_submitter_id:  { type: Sequelize.STRING},
 		project_name:  { type: Sequelize.STRING},

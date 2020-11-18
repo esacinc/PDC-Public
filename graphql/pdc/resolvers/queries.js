@@ -2050,8 +2050,9 @@ export const resolvers = {
 		async getPaginatedUIGeneStudySpectralCountFiltered(_, args, context) {
 			context['arguments'] = args;
 			var gssCountQuery = "SELECT count(distinct sc.study_submitter_id) as total ";
+			//@@@PDC-2873 add pdc_study_id
 			var gssBaseQuery = "SELECT distinct sc.study_submitter_id,"+
-			" s.submitter_id_name, s.experiment_type, "+
+			" s.submitter_id_name, s.experiment_type, s.pdc_study_id, "+
 			" sc.spectral_count, sc.distinct_peptide, "+
 			" sc.unshared_peptide ";
 			var gssQuery = " FROM spectral_count sc, aliquot_run_metadata arm, "+
@@ -2246,8 +2247,9 @@ export const resolvers = {
 			context['arguments'] = args;
 			var generalOpenCountQuery = "SELECT count(*) as total from (";
 			var generalCloseCountQuery = ") x";
+			//@@@PDC-2873 add pdc_study_id
 			var generalSelectQuery = "SELECT distinct arm.aliquot_submitter_id as aliquot_id, sc.dataset_alias as plex, "+
-			" arm.label, s.submitter_id_name, s.experiment_type, "+
+			" arm.label, s.submitter_id_name, s.experiment_type, s.pdc_study_id, "+
 			" sc.spectral_count, sc.distinct_peptide,"+
 			" sc.unshared_peptide, ";
 			var gaSelectQuery = "ga.precursor_area, ga.log2_ratio, ga.unshared_precursor_area, ga.unshared_log2_ratio ";
@@ -2275,7 +2277,7 @@ export const resolvers = {
 			//@@@PDC-769 access ptm_abundance
 			var paWhereQuery = " and pa.study_run_metadata_id = arm.study_run_metadata_id "+
 			" and pa.study_id = s.study_id "+
-			" and pa.aliquot_submitter_id = arm.aliquot_submitter_id ";
+			" and pa.aliquot_submitter_id = arm.aliquot_submitter_id "+
 			" and s.analytical_fraction != 'Proteome' ";
 			//var paWhereQuery = " and s.analytical_fraction != 'Proteome' ";
 			var cacheFilterName = {name:''};

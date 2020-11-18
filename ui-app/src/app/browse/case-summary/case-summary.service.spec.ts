@@ -221,6 +221,9 @@ describe("CaseSummaryService", () => {
                 method_of_sample_procurement: null,
                 oct_embedded: null,
                 pathology_report_uuid: null,
+				pool: "No",
+				sample_is_ref: "no",
+				status: "Qualified",
                 preservation_method: "Snap Frozen",
                 sample_type_id: null,
                 shortest_dimension: null,
@@ -233,12 +236,15 @@ describe("CaseSummaryService", () => {
                 aliquots: [
                   {
                     aliquot_id: "df505d94-8f98-11ea-b1fd-0aad30af8a83",
+					aliquot_is_ref: "no",
                     aliquot_submitter_id: "CPT0169640003",
                     aliquot_quantity: null,
                     aliquot_volume: null,
                     amount: null,
                     analyte_type: "protein",
                     concentration: null,
+					pool: "No",
+					status: "Qualified"
                   },
                 ],
               },

@@ -57,6 +57,7 @@ constructor(private apollo: Apollo) {
 		
     //@@@PDC-1123 call ui wrapper API
 	//@@@PDC-2535 Update UI with the changes to Diagnosis table columns
+	//@@@PDC-2691 Add properties to Case Summary view
 	caseDataDetailedQuery = gql`
 				query FilteredStudiesData($case_id: String!){
 					  uiCaseSummary(case_id: $case_id) {
@@ -147,6 +148,9 @@ constructor(private apollo: Apollo) {
 								gdc_project_id
 								sample_submitter_id
 								sample_type
+								status
+								pool
+								sample_is_ref
 								biospecimen_anatomic_site
 								composition
 								current_weight
@@ -175,6 +179,9 @@ constructor(private apollo: Apollo) {
 									aliquot_submitter_id
 									aliquot_quantity
 									aliquot_volume
+									status
+									pool
+									aliquot_is_ref 
 									amount
 									analyte_type
 									concentration
@@ -244,6 +251,7 @@ constructor(private apollo: Apollo) {
 	}
 
 	//@@@PDC-1042: Enable links to studies and files from case summary page
+	//@@@PDC-2436 - Update study summary screen to add contact details
 	//Query to return study sumamry details for a Study Name
 	filteredStudiesDataPaginatedQuery = gql`
 	query FilteredStudiesDataPaginated($study_name_filter: String!){

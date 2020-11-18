@@ -1280,6 +1280,84 @@ var spec = {
                     }
                   }
                 },
+                '?query={ getPaginatedGenes(offset: {offset}, limit: {limit}) { total genesProper { gene_id gene_name NCBI_gene_id authority description organism chromosome locus proteins assays } pagination { count sort from page total pages size } } }': {
+                  "get": {
+                    "tags": ["Gene"],
+                    "summary": "Get paginated gene records",
+                    "description": "<b>Returns a list of genes and a pagination record. This API can also be used with multiple input parameters.<br/><br/>Fields:</b><ul><li>total</li><li>genesProper</li><li>pagination</li></ul>",
+                    "operationId": "getPaginatedGenes",
+                    "produces": [
+                      "application/json"
+                    ],
+                    "parameters": [{
+                        "name": "offset",
+                        "in": "path",
+                        "description": "Offset of records, example : 0",
+                        "required": true,
+                        "type": "string"
+                      }, {
+                        "name": "limit",
+                        "in": "path",
+                        "description": "Limit of records, example: 10",
+                        "required": true,
+                        "type": "string"
+                      }                        
+                    ],
+                    "responses": {
+                      "200": {
+                        "description": "successful operation",
+                        "schema": {
+                          "$ref": "#/definitions/getPaginatedGenes"
+                        }
+                      },
+                      "401": {
+                        "description": "Unauthorized"
+                      }
+                    }
+                  }
+                },
+                '?query={ getPaginatedGenes(offset: {offset}, limit: {limit}, gene_name: "{gene_name}") { total genesProper { gene_id gene_name NCBI_gene_id authority description organism chromosome locus proteins assays } pagination { count sort from page total pages size } } }': {
+                  "get": {
+                    "tags": ["Gene"],
+                    "summary": "Get paginated gene records",
+                    "description": "<b>Returns a list of genes and a pagination record<br/><br/>Fields:</b><ul><li>total</li><li>genesProper</li><li>pagination</li></ul>",
+                    "operationId": "getPaginatedGenes",
+                    "produces": [
+                      "application/json"
+                    ],
+                    "parameters": [{
+                        "name": "offset",
+                        "in": "path",
+                        "description": "Offset of records, example : 0",
+                        "required": true,
+                        "type": "string"
+                      }, {
+                        "name": "limit",
+                        "in": "path",
+                        "description": "Limit of records, example: 10",
+                        "required": true,
+                        "type": "string"
+                      }, {
+                        "name": "gene_name",
+                        "in": "path",
+                        "description": "Gene Name, example: A2M",
+                        "required": true,
+                        "type": "string"
+                      }                        
+                    ],
+                    "responses": {
+                      "200": {
+                        "description": "successful operation",
+                        "schema": {
+                          "$ref": "#/definitions/getPaginatedGenes"
+                        }
+                      },
+                      "401": {
+                        "description": "Unauthorized"
+                      }
+                    }
+                  }
+                },
                 /*'?query={studySearchByExternalId(reference_entity_alias:"{reference_entity_alias}"){studies{record_type name submitter_id_name study_id study_submitter_id pdc_study_id}}}': {
                   "get": {
                     "tags": ["Study"],
@@ -3810,6 +3888,105 @@ var spec = {
                 "name":"filesForPaginatedRecords"
              }
           },
+          "getPaginatedGenes":{
+            "type":"object",
+            "required":[
+   
+            ],
+            "properties":{
+               "data":{
+                  "type":"string",
+                  "$ref":"#/definitions/getPaginatedGenesDef"
+               }
+            },
+            "xml":{
+               "name":"getPaginatedGenes"
+            }
+         },
+         "getPaginatedGenesDef":{
+            "type":"object",
+            "required":[
+   
+            ],
+            "properties":{
+               "getPaginatedGenes":{
+                  "type":"string",
+                  "$ref":"#/definitions/getPaginatedGenesDesc"
+               }
+            },
+            "xml":{
+               "name":"getPaginatedGenesDef"
+            }
+         },
+         "getPaginatedGenesDesc":{
+            "type":"object",
+            "properties":{
+               "total":{
+                  "type":"number",
+                  "example":2
+               },
+               "genesProper":{
+                  "type":"array",
+                  "items":{
+                     "$ref":"#/definitions/genesProper"
+                  }
+               },
+               "pagination":{
+                 "$ref":"#/definitions/Pagination"
+              }
+            },
+            "xml":{
+               "name":"getPaginatedCasesDesc"
+            }
+         },
+         "genesProper":{
+            "type":"object",
+            "properties":{
+               "gene_id":{
+                  "type":"string",
+                  "example":"f6baad59-b814-11e8-907f-0a2705229b82"
+               },
+               "gene_name":{
+                  "type":"string",
+                  "example":"A2ML1"
+               },
+               "NCBI_gene_id":{
+                  "type":"number",
+                  "example":"144568"
+               },
+               "authority":{
+                  "type":"string",
+                  "example":"HGNC:23336"
+               },
+               "description":{
+                  "type":"string",
+                  "example":"alpha-2-macroglobulin like 1"
+               },
+               "organism":{
+                  "type":"string",
+                  "example":"Homo sapiens"
+               },
+               "chromosome":{
+                  "type":"string",
+                  "example":"12"
+               },
+               "locus":{
+                  "type":"string",
+                  "example":"12p13.31"
+               },
+               "proteins":{
+                  "type":"string",
+                  "example":"A8K2U0;A8K2U0-2;F5GXP1;F5GYG7;H0YGG5;H0YH14;NP_001269353.1;NP_653271.2;XP_011518868.1;XP_011518869.1;XP_016874357.1;XP_016874358.1;XP_016874359.1"
+               },
+               "assays":{
+                  "type":"string",
+                  "example":"non-CPTAC-1064"
+               },
+            },
+            "xml":{
+               "name":"genesProper"
+            }
+         },
           "getPaginatedCases":{
              "type":"object",
              "required":[

@@ -38,7 +38,9 @@
 							<td class="summary-card-name-right-cell">Proteins</td><td class="summary-card-value-right-cell">{{geneSummaryData?.proteins}}</td>
 						</tr>
 						<tr><td class="summary-card-name-left-cell">Organism</td><td class="summary-card-value-left-cell">{{geneSummaryData?.organism}}</td>
-							<td class="summary-card-name-right-cell">Assays</td><td class="summary-card-value-right-cell">{{geneSummaryData?.assays}}</td>
+							<td class="summary-card-name-right-cell">Assays</td><td class="summary-card-value-right-cell">{{geneSummaryData?.assays}}
+								<div *ngIf="isAssaysEmpty()">N/A</div>
+							</td>
 						</tr>
 					</table>
 				</mat-card-content>
@@ -75,17 +77,39 @@
 			<app-oncoprint style="width:100%" [gene_id]="geneSummaryData?.gene_name" [newFilterValue]="newFilterValue"></app-oncoprint>
 		</div>
 		<div class="row" style="width: 100%;">
-			<p-table class="table-striped ui-datatable-odd" id="geneSummaryDataTable" [value]="studySpectralCountsList" [lazy]="true" [paginator]="studyTotalRecords > studyLimit" [(first)]="studyOffset"
-					[rows]="10" [pageLinks]="5" [totalRecords]="studyTotalRecords"
-					[loading]="loading" [resizableColumns]="true" responsive="true" (onLazyLoad)="loadNewPageStudySpectralCounts($event)">
+			<p-table #dt class="table-striped ui-datatable-odd" id="geneSummaryDataTable" [value]="studySpectralCountsList" [lazy]="true" [paginator]="true" [(first)]="studyOffset"
+					[rows]="10" [pageLinks]="5" [totalRecords]="studyTotalRecords" (onRowUnselect) ="onRowUnselected($event)" (onRowSelect)="onRowSelected($event)" [(selection)]="selectedStudies" 
+					[loading]="loading" [resizableColumns]="true" responsive="true" (onLazyLoad)="loadNewPageStudySpectralCounts($event)" [columns]="cols">
 				<ng-template pTemplate="caption">
 					<div style="float:left">Studies in Which the Gene Product Was Detected</div>
 					<div class="ui-helper-clearfix">
 						<div style="float:right">Total Studies: {{studyTotalRecords}}</div>
 					</div>
+					<div class="row">
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding-left: 0px !important">
+								<span id="selectedStudiesCount" *ngIf="!isDownloadDisabled()" style="float:left;padding-top:5px;">Studies selected for download: {{selectedStudies.length}}</span>
+							</div>
+							<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+							<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 manifestDownload">
+								<button matTooltip="Please use CPTAC Data Portal for downloading the files" id="downloadStudyManifest" mat-raised-button mat-primary label="Download Selection" (click)="studyTableExportCSV(dt)" style="font-family:'Lato';" [disabled]="isDownloadDisabled()" aria-label="Download Study Manifest">Export Study Manifest</button>
+							</div>
+						</div>
+					</div>
 				</ng-template>
 				<ng-template style="font-size: 12px; background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%);" pTemplate="header" let-columns>
 					<tr style="font-size: 12px;">
+						<th rowspan=3 class="ui-datatable-tableheader" style="width:4%; align-content: center !important; overflow: unset;" pResizableColumn alt="Check All checkboxes in the table">
+							<label><p-checkbox  id="studyDataChk" [(ngModel)]="headercheckbox" binary="true" (onChange)="onTableHeaderCheckboxToggle()" ></p-checkbox >
+							<mat-select id="dataForManifestExport" class="card-body card-list" [(ngModel)]="selectedHeaderCheckbox"
+							(selectionChange)="changeHeaderCheckbox($event)">
+								<mat-option *ngFor="let checkboxOption of checkboxOptions" [value]="checkboxOption">
+									{{checkboxOption}}
+								</mat-option>
+							</mat-select>
+							<span style="display:none;">Select All</span></label>
+						</th>
+						<th class="ui-datatable-tableheader" pResizableColumn>PDC Study ID</th>
 						<th class="ui-datatable-tableheader" pResizableColumn>Study</th>
 						<th class="ui-datatable-tableheader" pResizableColumn>Experiment Type</th>
 						<th class="ui-datatable-tableheader" pResizableColumn>Spectral Counts</th>
@@ -96,7 +120,9 @@
 					</tr>
 				</ng-template>
 				<ng-template pTemplate="body" let-studyCountData>
-					<tr class="table-striped" style="font-size: 11px;">
+					<tr class="table-striped" style="font-size: 11px;" [pSelectableRow]="studyCountData">
+						<td style="width:3%; align-content: center !important"><p-tableCheckbox id="studyCountData{{studyCountData.submitter_id_name}}" [value]="studyCountData" class="browsePageCheckboxes"></p-tableCheckbox></td>
+						<td style="width:40%; word-wrap: break-word; white-space: normal;">{{studyCountData.pdc_study_id}}</td>
 						<td style="width:40%; word-wrap: break-word; white-space: normal;">{{studyCountData.submitter_id_name}}</td>
 						<td style="width:10%; word-wrap: break-word; white-space: normal;">{{studyCountData.experiment_type}}</td>
 						<td style="width:10%; word-wrap: break-word; white-space: normal;">{{studyCountData.spectral_count}}</td>

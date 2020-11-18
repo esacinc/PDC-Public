@@ -3,6 +3,7 @@ type UIFile {
 	study_id: String
 	pdc_study_id: String
 	submitter_id_name: String
+	embargo_date: Date	
 	file_name: String
 	study_run_metadata_submitter_id: String
 	project_name: String

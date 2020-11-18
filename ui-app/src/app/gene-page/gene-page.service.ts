@@ -121,6 +121,7 @@ constructor(private apollo: Apollo) {
 							plex
 							label
 							submitter_id_name 
+							pdc_study_id
 							experiment_type
 							spectral_count
 							distinct_peptide
@@ -184,6 +185,7 @@ constructor(private apollo: Apollo) {
 										gender: $gender_filter, tumor_grade: $tumor_grade_filter, sample_type: $sample_type_filter, acquisition_type: $acquisition_type_filter){
 				total
 				uiGeneStudySpectralCounts {
+					pdc_study_id
 					submitter_id_name 
 					experiment_type
 					spectral_count

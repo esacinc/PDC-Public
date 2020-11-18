@@ -53,6 +53,7 @@ import { SizeUnitsPipe } from '../../sizeUnitsPipe.pipe';
 //@@@PDC-918: Add button to allow download of full file manifest
 //@@@PDC-1303: Add a download column and button for downloading individual files to the file tab
 //@@@PDC-1416 add unit to file size in file manifest
+//@@@PDC-2795: add embargo date to file tab on Browse page and file manifest
 export class BrowseByFileComponent implements OnInit {
   filteredFilesData: AllFilesData[]; //Filtered list of cases
   loading: boolean = false; //Flag indicates that the data is still being loaded from server
@@ -643,6 +644,10 @@ export class BrowseByFileComponent implements OnInit {
       if (file["access"].toLowerCase() === "controlled" && file.downloadable.toLowerCase() === "yes") {
         controlledFileFlag = true;
       }
+	  //If embargo date is empty substitute with N/A
+	  if (!file["embargo_date"]) {
+		file["embargo_date"] = "N/A";
+	  }
     }
 
     if (controlledFileFlag) {
@@ -655,6 +660,7 @@ export class BrowseByFileComponent implements OnInit {
           "submitter_id_name",
           "pdc_study_id",
           "study_id",
+		  "embargo_date",
           "project_name",
           "data_category",
           "file_type",
@@ -716,6 +722,7 @@ export class BrowseByFileComponent implements OnInit {
           "Study Name",
           "PDC Study ID",
           "Study ID",
+		  "Embargo Date",
           "Project Name",
           "Data Category",
           "File Type",
@@ -734,6 +741,7 @@ export class BrowseByFileComponent implements OnInit {
         "submitter_id_name",
         "pdc_study_id",
         "study_id",
+		"embargo_date",
         "project_name",
         "data_category",
         "file_type",
@@ -884,6 +892,26 @@ export class BrowseByFileComponent implements OnInit {
   private getOpenFileSignedUrl(openFileSignUrlMap){
     let fileIdList : string[] = Object.keys(openFileSignUrlMap);
   }
+  
+  //Help function that returns true if parameter date is in the future, otherwise false
+	private isDateLater(embargo_date: string):boolean{
+		var now = new Date;
+		var target = new Date(embargo_date);
+		if (target > now )
+			return true;
+		else {
+			return false;
+		}
+	}
+  
+	//If the date is in the future the value should be bold and in italics
+	getStyleClass(embargo_date: string){
+		if (this.isDateLater(embargo_date) )
+			return 'future_embargo_date';
+		else {
+			return '';
+		}
+	}
 
   //@@@PDC-729 Integrate PDC with Fence and IndexD
   //@@@PDC-784 Improve download controlled files feature
@@ -1143,7 +1171,9 @@ export class BrowseByFileComponent implements OnInit {
   ngOnInit() {
     // Have to define this structure for Primeng CSV export to work properly
     this.cols = [
+	  {field: "pdc_study_id", header: "PDC Study ID"},
       { field: "submitter_id_name", header: "Study" },
+	  {field: "embargo_date", header: "Embargo Date"},
       { field: "file_name", header: "File Name" },
       { field: "study_run_metadata_submitter_id", header: "Run Metadata ID" },
       { field: "project_name", header: "Project" },

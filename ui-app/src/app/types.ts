@@ -197,9 +197,12 @@ export type QueryAllCasesData = {
 	allCasesData: AllCasesData[];
 }
 
+
+//@@@PDC-2795 Add embargo date to Files tab on Browse page and files manifest
 export type AllFilesData = {
 	file_id: string;
 	submitter_id_name: string;
+	embargo_date : string;
 	file_name: string;
 	pdc_study_id: string;
 	study_run_metadata_submitter_id: string;
@@ -579,20 +582,28 @@ export type DiagnosesData = {
     year_of_diagnosis: string;
 }
 
+//@@@PDC-2691 Add properties to Case Summary view
 export type AliquotData = {
 	aliquot_submitter_id: string;
     aliquot_quantity: string;
     aliquot_volume: string;
+	status: string;
+	pool: string;
+	aliquot_is_ref: string;
     amount: string;
     analyte_type: string;
     concentration: string;
 }
 
+//@@@PDC-2691 Add properties to Case Summary view
 export type SampleData = {
 	gdc_sample_id: string;
     gdc_project_id: string;
     sample_submitter_id: string;
     sample_type: string;
+	status: string;
+	pool: string;
+	sample_is_ref: string;
     biospecimen_anatomic_site: string;
     composition: string;
     current_weight: string;
@@ -724,6 +735,7 @@ export type GeneProteinData = {
 }
 
 export type GeneStudySpectralCountData = {
+	pdc_study_id: string;
 	submitter_id_name: string;
 	experiment_type: string;
 	spectral_count: string;

@@ -30,6 +30,7 @@ import { Filter, GeneProteinData, GeneStudySpectralCountData, GeneAliquotSpectra
 //@@@PDC-716 - add PTM data
 //@@@PDC-772 - remove study and aliquot counts table, add button to gene full page
 //@@@PDC-2450 gene/protein summary missing NCBI gene id
+//@@@PDC-2665 show N/A if Assay data is not available
 export class GeneProteinSummaryComponent implements OnInit {
 
   gene_id: string;
@@ -204,6 +205,16 @@ export class GeneProteinSummaryComponent implements OnInit {
 		}); 
   }
   
+  
+  //Helper function checking whether Assay data is available
+  //checking for length > 1 since occasionally assays field seem to have an invisible character
+  isAssaysEmpty():boolean{
+	  var result = true;
+	  if (this.geneSummaryData.assays && this.geneSummaryData.assays != "" && this.geneSummaryData.assays.length > 1) {
+		  result = false;
+	  }
+	  return result;
+  }
   
   close() {
 		this.router.navigate([{outlets: {'geneSummary': null}}]);

@@ -24,7 +24,9 @@
 						<td class="summary-card-name-right-cell">Proteins</td><td class="summary-card-value-right-cell">{{geneSummaryData.proteins}}</td>
 					</tr>
 					<tr><td class="summary-card-name-left-cell">Organism</td><td class="summary-card-value-left-cell">{{geneSummaryData.organism}}</td>
-						<td class="summary-card-name-right-cell">Assays</td><td class="summary-card-value-right-cell">{{geneSummaryData.assays}}</td>
+						<td class="summary-card-name-right-cell">Assays</td><td class="summary-card-value-right-cell">{{geneSummaryData.assays}}
+							<div *ngIf="isAssaysEmpty()">N/A</div>
+						</td>
 					</tr>
 				</table>
 			</mat-card-content>
@@ -40,11 +42,12 @@
 					<div style="float:right">Total data rows: {{ptmTotalRecords}}</div>
 				</div>
 			</ng-template>
+			<!-- PDC-2664 PTM Data Table Alignment issue on Gene Summary overlay window -->
 			<ng-template style="font-size: 12px; background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%);" pTemplate="header" let-columns>
 				<tr style="font-size: 12px;">
-					<th class="ui-datatable-tableheader" pResizableColumn>PTM Type</th>
-					<th class="ui-datatable-tableheader" pResizableColumn>Site</th>
-					<th class="ui-datatable-tableheader" pResizableColumn>Peptide</th>
+					<th class="ui-datatable-tableheader" style="width:20%;" >PTM Type</th>
+					<th class="ui-datatable-tableheader" style="width:40%;" >Site</th>
+					<th class="ui-datatable-tableheader" style="width:40%;" >Peptide</th>
 				</tr>
 			</ng-template>
 			<ng-template pTemplate="body" let-ptmData>

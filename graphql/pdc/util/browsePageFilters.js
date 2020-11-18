@@ -219,12 +219,14 @@ WHERE
 `;
 
 //@@@PDC-1960 add pdc_study_id to getPaginatedUIFile API
+//@@@PDC-2815 add embargo_date to getPaginatedUIFile API
 const file_tab_data=`
 SELECT DISTINCT
     BIN_TO_UUID(f.file_id) AS file_id,
     BIN_TO_UUID(s.study_id) AS study_id,
 	s.pdc_study_id,
     s.submitter_id_name,
+	s.embargo_date,
     f.file_name,
     sf.study_run_metadata_submitter_id,
     proj.name AS project_name,

@@ -21,7 +21,7 @@ import { MessageDialogComponent } from "./../../dialog/message-dialog/message-di
 //@@@PDC-824 - Update login window and registration page to allow login with just email address and password
 //@@@PDC-919 - Lock user account after 6 unsuccessful login attempts
 //@@@PDC-928 - implement remember me and forgot password
-//@@@PDC-1406: review and update messages that user can get during registration/login/account update 
+//@@@PDC-1406: review and update messages that user can get during registration/login/account update
 //@@@PDC-1487: resolve issues found with user registration/login
 //@@@PDC-1855: Change dialog message for new users trying to register.
 
@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
 		  rememberMeCheckbox: new FormControl('')
 		  //searchType: new FormControl('', Validators.required),
    });
-  
+
   constructor(
     private chorusService: ChorusauthService,
     private socialAuthService: AuthService,
@@ -62,15 +62,15 @@ export class LoginComponent implements OnInit {
   get email(){
 	  return this.loginForm.get('email');
   }
-  
+
   get userPass(){
 	  return this.loginForm.get('userPass');
   }
-  
+
   get rememberMeCheckbox() {
 	  return this.loginForm.get('rememberMeCheckbox');
   }
-  
+
   //NIH/eRA login
   public eRAnihSignIn(uid: string){
     this.systemErrorMessage='';
@@ -107,11 +107,11 @@ export class LoginComponent implements OnInit {
 			case 2:
 				this.systemErrorMessage="System Error. Please contact your system admin";
 				console.log("System error!!!");
-				break;				
+				break;
 		}
-		});	   
+		});
   }
-  
+
   // Authenticate the user with Google
   // @@@PDC-881 close login dialog and open registration dialog if user needs to register
   public socialSignIn(socialPlatform: string) {
@@ -163,9 +163,9 @@ export class LoginComponent implements OnInit {
 		console.log("Error message: " + this.systemErrorMessage);
       });
     });
-    
+
   }
-  
+
   // @@@PDC-881 close login dialog and open registration dialog if user needs to register
   public emailLogin(){
 	let username = this.loginForm.get('email').value;
@@ -273,13 +273,13 @@ export class LoginComponent implements OnInit {
 			});
 			break;
         }
-      });  
+      });
   }
-  
+
   public registerWithEmail(){
 	  this.userService.setUserIDType("PDC");
 	  this.userService.setEmail("");
-	  //console.log(this.dialogRef); 
+	  //console.log(this.dialogRef);
 	  //this.router.navigate(["registration"]);
 	  this.dialogRef.close("new user register");
   }
@@ -297,7 +297,7 @@ export class LoginComponent implements OnInit {
   public nihSignIn() {
     document.location.href = window.location.origin + "/pdc/sp/authnih";
   }
-  
+
   //PDC-928 Remember user's email if checkbox is clicked
   public rememberUserName(){
 	  if (!this.rememberMeCheckbox.value){
@@ -339,11 +339,11 @@ export class LoginComponent implements OnInit {
 			}
 		  });
 	  } else {
-		  this.systemErrorMessage = "Your email is invalid";
+		  this.systemErrorMessage = "Enter a valid email and then click 'Forgot Password'";
 		  console.log("Entered email is invalid");
 	  }
   }
-  
+
   private openLabSelection() {
     // Open the dialog to let them select labs to register with
     const dialogConfig = new MatDialogConfig();

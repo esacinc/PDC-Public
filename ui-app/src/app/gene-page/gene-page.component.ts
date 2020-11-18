@@ -13,8 +13,8 @@ import {MatCardModule, MatExpansionModule, MatToolbarModule, MatCheckboxModule, 
   MatTabsModule, MatButtonModule, MatSidenavModule, MatTooltipModule, MatSelectModule, MatDialogModule, MatProgressSpinnerModule} from '@angular/material';
 import { GenePageService } from "./gene-page.service";
 import { Filter, GeneProteinData, GeneStudySpectralCountData, GeneAliquotSpectralCountData, 
-		GeneStudySpectralCountDataPaginated, GeneAliquotSpectralCountDataPaginated, ptmData } from '../types';
-
+		GeneStudySpectralCountDataPaginated, GeneAliquotSpectralCountDataPaginated, ptmData, AllStudiesData } from '../types';
+import { ngxCsv } from "ngx-csv/ngx-csv";
 
 @Component({
   selector: 'app-gene-page',
@@ -25,6 +25,7 @@ import { Filter, GeneProteinData, GeneStudySpectralCountData, GeneAliquotSpectra
 
 //@@@PDC-770 Add a gene page with filters
 //@@@PDC-2450 gene/protein summary missing NCBI gene id
+//@@@PDC-2665 show N/A if Assay data is not available
 export class GenePageComponent implements OnInit, OnChanges {
 
   gene_id: string;
@@ -64,6 +65,14 @@ export class GenePageComponent implements OnInit, OnChanges {
   opened: boolean = true;
   newFilterSelected: any;
   @Input() newFilterValue: any;
+  //@@@PDC-2874: Add download option for study table on gene summary page
+  selectedStudies: AllStudiesData[] = [];
+  currentPageSelectedStudy = [];
+  selectedHeaderCheckbox = '';
+  checkboxOptions = [];
+  headercheckbox:boolean = false;
+  pageHeaderCheckBoxTrack = [];
+  cols: any[];
   
   constructor(private route: ActivatedRoute,
 				private router: Router,
@@ -113,6 +122,8 @@ export class GenePageComponent implements OnInit, OnChanges {
 			console.log("ERROR: no gene id in url");
 		}
 	  });
+	//@@@PDC-2874: Add download option for study table on gene summary page
+	this.checkboxOptions = ["Select all pages", "Select this page", "Select None"];
   }
   
   getGeneSummaryData(){
@@ -157,6 +168,7 @@ export class GenePageComponent implements OnInit, OnChanges {
 			this.studyPageSize = data.getPaginatedUIGeneStudySpectralCountFiltered.pagination.size;
 			this.studyLimit = data.getPaginatedUIGeneStudySpectralCountFiltered.pagination.size;
 			this.loading = false;
+			this.clearSelection();
 		  });
 	  }, 1000);
   }
@@ -192,11 +204,20 @@ export class GenePageComponent implements OnInit, OnChanges {
   }
   
   loadNewPageStudySpectralCounts(event: any){
+	  //@@@PDC-2874: Add download option for study table on gene summary page
+	  if(event.rows !== this.studyPageSize){
+	    this.clearSelection();
+	  }
+	  if (this.headercheckbox && this.pageHeaderCheckBoxTrack.indexOf(this.studyOffset) === -1){
+		this.pageHeaderCheckBoxTrack.push(this.studyOffset);
+	  } else if (!this.headercheckbox && this.pageHeaderCheckBoxTrack.indexOf(this.studyOffset) !== -1){
+		this.pageHeaderCheckBoxTrack.splice(this.pageHeaderCheckBoxTrack.indexOf(this.studyOffset), 1);
+	  }
 	  this.studyOffset = event.first;
 	  this.studyLimit = event.rows;
 	  this.loading = true;
 	  this.genePageService.getStudySpectralCount(this.gene_id, this.studyOffset, this.studyLimit, "", this.newFilterSelected).subscribe((data: any) =>{
-			this.studySpectralCountsList = data.getPaginatedUIGeneStudySpectralCountFiltered.uiGeneStudySpectralCounts;;
+			this.studySpectralCountsList = data.getPaginatedUIGeneStudySpectralCountFiltered.uiGeneStudySpectralCounts;
 			if (this.studyOffset == 0) {
 				this.studyTotalRecords = data.getPaginatedUIGeneStudySpectralCountFiltered.total;
 				this.studyOffset = data.getPaginatedUIGeneStudySpectralCountFiltered.pagination.from;
@@ -204,7 +225,14 @@ export class GenePageComponent implements OnInit, OnChanges {
 				this.studyLimit = data.getPaginatedUIGeneStudySpectralCountFiltered.pagination.size; 
 			}
 			this.loading = false;
+			this.trackCurrentPageSelectedStudy(data.getPaginatedUIGeneStudySpectralCountFiltered.uiGeneStudySpectralCounts);
 		}); 
+		//@@@PDC-2874: Add download option for study table on gene summary page
+		if (this.pageHeaderCheckBoxTrack.length > 0 && this.pageHeaderCheckBoxTrack.indexOf(this.studyOffset) !== -1){
+			this.headercheckbox = true;
+		} else{
+			this.headercheckbox = false;
+		}
   }
   
   loadPTMData(event: any){
@@ -271,7 +299,18 @@ export class GenePageComponent implements OnInit, OnChanges {
 		console.log(this.newFilterSelected);
 		this.getGeneAliquotSpectralCounts();
 		this.getGeneStudySpectralCounts();
+		this.clearSelection();
   }		
+
+  //Helper function checking whether Assay data is available
+  //checking for length > 1 since occasionally assays field seem to have an invisible character
+  isAssaysEmpty():boolean{
+	  var result = true;
+	  if (this.geneSummaryData.assays && this.geneSummaryData.assays != "" && this.geneSummaryData.assays.length > 1) {
+		  result = false;
+	  }
+	  return result;
+  }	
 
   ngOnChanges(changes: SimpleChanges){
 	  console.log(this.newFilterValue);
@@ -279,6 +318,156 @@ export class GenePageComponent implements OnInit, OnChanges {
   }
   
   ngOnInit() {
+	//Have to define this structure for Primeng CSV export to work properly (https://github.com/primefaces/primeng/issues/5114)
+	//@@@PDC-2874: Add download option for study table on gene summary page
+	this.cols = [
+		{field: 'pdc_study_id', header: 'PDC Study ID'},
+		{field: 'submitter_id_name', header: 'Study'},
+		{field: 'experiment_type', header: 'Experiment Type'},
+		{field: 'spectral_count', header:'Spectral Counts' },
+		{field: 'distinct_peptide', header: 'Distinct Peptides'},
+		{field: 'unshared_peptide', header: 'Unshared Peptides'},
+		{field: 'aliquots_count', header: 'No of Aliquots'},
+		{field: 'plexes_count', header: 'No of Plexes'},
+	];
+	this.checkboxOptions = ["Select all pages", "Select this page", "Select None"];
   }
+
+	//@@@PDC-2874: Add download option for study table on gene summary page
+	/* Helper function to determine whether the download button should be disabled or not */
+	isDownloadDisabled(){
+		if (this.selectedStudies) {
+			if (this.selectedStudies.length > 0) {
+				return false;
+			} else {
+				return true;
+			}
+		} else {
+			return true;
+		}
+	}
+
+    //@@@PDC-2874: Add download option for study table on gene summary page
+	studyTableExportCSV(dt){
+		dt.exportFilename = this.getCsvFileName();
+		dt.exportCSV({ selectionOnly: true });
+	}
+
+	getCsvFileName(): string {
+		let csvFileName = "PDC_study_gene_manifest_";
+		const currentDate: Date = new Date();
+		let month: string = "" + (currentDate.getMonth() + 1);
+		csvFileName += this.convertDateString(month);
+		let date: string = "" + currentDate.getDate();
+		csvFileName += this.convertDateString(date);
+		csvFileName += "" + currentDate.getFullYear();
+		let hour: string = "" + currentDate.getHours();
+		csvFileName += "_" + this.convertDateString(hour);
+		let minute: string = "" + currentDate.getMinutes();
+		csvFileName += this.convertDateString(minute);
+		let second: string = "" + currentDate.getSeconds();
+		csvFileName += this.convertDateString(second);
+		return csvFileName;
+	}
+
+	//@@@PDC-2874: Add download option for study table on gene summary page
+	convertDateString(value: string): string {
+		if (value.length === 1) {
+			return "0" + value;
+		} else {
+			return value;
+		}
+	}
+
+	//@@@PDC-2874: Add download option for study table on gene summary page
+	changeHeaderCheckbox($event) {
+		let checkboxVal = this.selectedHeaderCheckbox;
+		this.selectedStudies = this.currentPageSelectedStudy = [];
+		switch (checkboxVal) {
+	 		case 'Select all pages': 
+				this.downloadCompleteManifest();
+				break;
+			case 'Select this page': 
+				this.headercheckbox = true;
+				this.onTableHeaderCheckboxToggle();
+				break;
+			case 'Select None': 
+				this.clearSelection();
+				break; 
+		}
+	}
+
+	//@@@PDC-2874: Add download option for study table on gene summary page
+	onTableHeaderCheckboxToggle() {
+		let emptyArray = [];
+		let localSelectedStudies = emptyArray.concat(this.selectedStudies);
+		if (this.headercheckbox){
+			for(let study of this.studySpectralCountsList){
+				if(this.currentPageSelectedStudy.indexOf(study.pdc_study_id) === -1){
+					localSelectedStudies.push(study);
+					this.currentPageSelectedStudy.push(study.pdc_study_id);
+				} 
+			}
+			this.selectedStudies = localSelectedStudies;
+		} else {
+			this.selectedStudies = [];
+			this.currentPageSelectedStudy = [];
+			this.pageHeaderCheckBoxTrack = [];
+		}
+	}
+
+	//@@@PDC-2874: Add download option for study table on gene summary page
+	onRowSelected(event:any){
+		this.currentPageSelectedStudy.push(event.data.pdc_study_id);
+		if(this.currentPageSelectedStudy.length === this.studyPageSize){
+			this.headercheckbox = true;
+		}
+	}
+
+	//@@@PDC-2874: Add download option for study table on gene summary page
+	onRowUnselected(event){
+		let index = this.currentPageSelectedStudy.indexOf(event.data.pdc_study_id);
+		if (index >-1) {
+		  this.currentPageSelectedStudy.splice(index,1);
+		}
+		if (this.currentPageSelectedStudy.length === this.studyPageSize){
+		  this.headercheckbox = true;
+		} else{
+		  this.headercheckbox = false;
+		}
+	}
+
+	//@@@PDC-2874: Add download option for study table on gene summary page
+	clearSelection(){
+		this.selectedStudies = [];
+		this.headercheckbox = false;
+		this.currentPageSelectedStudy = [];
+		this.pageHeaderCheckBoxTrack = [];
+	}
+
+	//@@@PDC-2874: Add download option for study table on gene summary page
+	downloadCompleteManifest() {
+		this.loading = true;
+		this.genePageService.getStudySpectralCount(this.gene_id, 0, this.studyTotalRecords, "", this.newFilterSelected).subscribe((data: any) =>{
+			let filteredResults = data.getPaginatedUIGeneStudySpectralCountFiltered.uiGeneStudySpectralCounts;
+			let localSelectedGenes = [];
+			for(let item of filteredResults){
+				localSelectedGenes.push(item);
+			}
+			this.selectedStudies = localSelectedGenes;
+			this.headercheckbox = true;
+			this.loading = false;
+			this.trackCurrentPageSelectedStudy(data.getPaginatedUIGeneStudySpectralCountFiltered.uiGeneStudySpectralCounts);
+		}); 
+	}
+
+	trackCurrentPageSelectedStudy(filteredStudiesData: GeneStudySpectralCountData[]){
+		let studyNameList = [];
+		this.currentPageSelectedStudy = [];
+		filteredStudiesData.forEach((item) => studyNameList.push(item.pdc_study_id));
+		this.selectedStudies.forEach(item => {if(studyNameList.indexOf(item.pdc_study_id) !== -1){
+		  this.currentPageSelectedStudy.push(item.pdc_study_id);
+		}});
+	}
 
 }
