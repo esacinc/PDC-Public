@@ -313,13 +313,14 @@ constructor(private apollo: Apollo) {
 		}
 	}`;
 
+	//@@@PDC-2956: issue with opening case summary via direct URL
 	getCaseSummaryData(case_id:any, case_submitter_id:any){
 		console.log(case_id + ", " + case_submitter_id);
 		return this.apollo.watchQuery<AllCasesData>({
 			query: this.caseSummaryData,
 			variables: {
 				case_id: case_id,
-				case_submitter_id: case_submitter_id
+				case_submitter_id: case_submitter_id || ""
 			}
 		})
 		.valueChanges

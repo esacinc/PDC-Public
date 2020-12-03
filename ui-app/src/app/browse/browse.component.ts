@@ -376,6 +376,7 @@ getCasesByExperimentalStrategy(){
 			}
 		}
 		//PDC-1360 Add Bookmark URLs	
+		//PDC-2901 replace / in filter with _slash
 		if (this.router.url.indexOf("filters") > -1) {
 			//@@@PDC-2520: Browse/Primary filters/ URL does not get updated on the copied link.
 			this.bookmarkURL = this.baseUrl + "/browse/filters/";
@@ -384,7 +385,7 @@ getCasesByExperimentalStrategy(){
 		}
 		for (let filter_val in this.newFilterSelected){
 			if (this.newFilterSelected[filter_val] != ""){
-				this.bookmarkURL +=  filter_val + ":" + this.newFilterSelected[filter_val].replace(/;/g, "|") + "&";
+				this.bookmarkURL +=  filter_val + ":" + this.newFilterSelected[filter_val].replace(/;/g, "|").replace('/','_slash') + "&";
 			}
 			//console.log(filter_val);
 		}

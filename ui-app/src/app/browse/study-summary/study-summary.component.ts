@@ -317,6 +317,10 @@ export class StudySummaryComponent implements OnInit {
 			this.fileCountsRaw = this.studySummaryData.nonSupplementaryFilesCount;
 			this.getFilesCountsPerStudy();
 			this.loading = false;
+			//@@@PDC-2912 - show "N/A" instead of empty embargo date when opening study summary via search box or direct url
+			if (this.studySummaryData.embargo_date === null || this.studySummaryData.embargo_date === ""){
+				this.studySummaryData.embargo_date = "N/A";
+			}
 	   });
   }
   

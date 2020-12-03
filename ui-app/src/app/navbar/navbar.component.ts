@@ -57,6 +57,7 @@ import { environment } from '../../environments/environment';
 //@@@PDC-1876: Allow deep linking to study summary page by PDC ID
 //@@@PDC-2135: drop down menu is not stable and moves down the page when a user scroll the page down
 //@@@PDC-2675: when user clicks "Don't have an account ? Click here to sign up" nothing happens
+//@@@PDC-2956: issue with opening case summary via direct URL
 export class NavbarComponent implements OnInit {
   background = '';
   searchFormControl = new FormControl();
@@ -183,14 +184,13 @@ export class NavbarComponent implements OnInit {
   showCaseSummary(case_id: string, entityType = "", case_uuid = ""){
 	var caseSubmitterID = "";
 	var caseUUID = "";
-	//console.log(case_id);
 	  if (entityType == "CA") {
 		
 		let requiredCaseID = case_id.split("{");
 		caseSubmitterID = requiredCaseID[1];
 		caseUUID = requiredCaseID[0];
 		
-	  } else {
+	  } else if (entityType != ""){
 		//For Sample/Aliquot
 		//var caseUUID = "";
 		var requiredCaseID = [];
@@ -210,7 +210,7 @@ export class NavbarComponent implements OnInit {
 	  this.openCaseSummaryDialog(caseSubmitterID, caseUUID);
   }
 
-  openCaseSummaryDialog(caseSubmitterID, caseUUID) {
+  openCaseSummaryDialog(caseSubmitterID = "", caseUUID) {
 	console.log("Open Case summary for case id: " + caseSubmitterID + ", " + caseUUID + ".");
 	const dialogConfig = new MatDialogConfig();	
 	dialogConfig.disableClose = true;
@@ -784,7 +784,7 @@ export class NavbarComponent implements OnInit {
 						var case_uuid = event.snapshot.params["case_uuid"];
 						console.log("case_uuid: " + case_uuid);
 						this.searchService.getCaseUUIDResults(case_uuid).subscribe((data: any) =>{
-							var case_id = data.case.case_submitter_id;
+							var case_id = data.case[0].case_submitter_id;
 							this.showCaseSummary(case_id,"", case_uuid);
 						});
 					}

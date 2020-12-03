@@ -5,62 +5,101 @@
 <div class="row" style="font-family:'Lato'; margin-top:-75px!important; margin-left:20px; margin-right: 20px; align-items: center;" >
 <mat-card class="about-page card card-body">
     <mat-card-content>
-        <div style="font-family:'LatoBold'; font-size: 20px; margin-bottom: 5px;">Proteomics Data Commons FAQs</div>
-      <div><ul>
-        <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(PDC_Goals)">What are the goals of PDC?</a></b></li>
-        <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(PDC_Launched)">Is PDC launched?</a></b></li>
-        <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Access_Data)">Do I have to login to PDC to access data?</a></b></li>
-        <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(SubmitData)">How do I submit data to PDC? How do I register my program with PDC?</a></b></li>
-        <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(FindCorresponding)">How to find corresponding genomic and/or imaging data for the PDC proteomic data?</a></b></li>
-        <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(DifferencePDC_CPTAC)">What is the difference between PDC and CPTAC Data Portal?</a></b></li>
-        <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(S3Upload_Data)">How do I configure my AWS account to upload data from my S3 bucket to PDC?</a></b></li>
-        <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Download_Data)">How do I download data?</a></b></li>
-        <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Multiple_Files)">How do I download multiple files at once?</a></b></li>
-        <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(File_Error)">Why does the file download URLs throw an error or exception?</a></b></li>
-        <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Details_Study)">Where do I get more details about a study?</a></b></li>
-        <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Gene_Information)">How can I find gene/s of my interest?</a></b></li>
-        <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Protein_Quantitaion)">How do I explore protein quantitation data for a study through heatmaps?</a></b></li>
-        <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Search_PDC)">What can I search on PDC?</a></b></li>
-        <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Search_Sequence)">Can I search for a particular peptide sequence within the datasets in PDC?</a></b></li>
-        <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Files_Download)">What type of files are available for download from PDC?</a></b></li>
-        <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Cite_PDC)">How do I cite the PDC?</a></b></li>
-        <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Policies_PDC)">What are the data use and licensing policies of the PDC?</a></b></li>
-        <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(CPTAC_Data)">What is the CPTAC Data use agreement?</a></b></li>
-        <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Embargo_Date)">What is an embargo date in PDC?</a></b></li>
-        <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Member_Consortium)">Is PDC a member of the ProteomeXchange Consortium?</a></b></li>
-        <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Report_Issue)">How do I report an issue or submit a comment about the process?</a></b></li>
-        <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(PDC_CDAP)">What is PDC Common Data Analysis pipeline? What is the PDC harmonization process?</a></b></li>
-        <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Run_Resource)">Can I use PDC data from NCI Cloud Resource to run my own analyses?</a></b></li>
-        <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Custom_Cohort)">Can I create a custom cohort to download?</a></b></li>
-        <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Open_Access)">What data are not open-access?</a></b></li>
-        <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Types_Data)">What types of data can I get using the API?</a></b></li>
-        <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Ontologies_PDC)">What ontologies are used in annotating? Where can I learn about your metadata standards?</a></b></li>
-      </ul></div>
-        <div #PDC_Goals class="faq-question">What are the goals of PDC? </div>
+      <div #Top style="font-family:'LatoBold'; font-size: 20px; margin-bottom: 5px;">Frequently asked questions</div>
 
-        <p class="faq-response">The primary goal of Proteomic Data Commons (PDC) is to democratize access to cancer-related proteomic datasets and also aims to provide sustainable computational support to the cancer research community through interoperability with other nodes, such as Genomic Data Commons and Cloud Resources, in the NCI Cancer Research Data Commons (CRDC) ecosystem.</p>
+      <ol>
+        <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(PDC_General)">General</a></b>
+          <ul>
+            <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(PDC_Goals)">What are the goals of PDC?</a></b>
+            <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(PDC_Launched)">When was PDC launched?</a></b>
+            <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Member_Consortium)">Is PDC a member of the ProteomeXchange Consortium?</a></b>
+            <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Report_Issue)">How do I report an issue or submit a comment about the process?</a></b>
+            <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(DifferencePDC_CPTAC)">What is the difference between PDC and CPTAC Data Portal?</a></b>
+            <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Find_Corresponding)">How to find corresponding genomic and/or imaging data for the PDC proteomic data?</a></b>
+            <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Ontologies_PDC)">What ontologies are used in annotating?</a></b>
+            <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Ontologies_PDC)">Where can I learn about your metadata standards?</a></b>
+          </ul>
+        <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Data_Submission)">Data Submission</a></b>
+          <ul>
+            <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(SubmitData)">How do I submit data to PDC?</a></b>
+            <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(RegisterPDC)">How do I register my program with PDC?</a></b>
+            <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(S3Upload_Data)">How do I configure my AWS account to upload data from my S3 bucket to PDC?</a></b>
+          </ul>
+        <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Data_Download)">Data Download</a></b>
+        <ul>
+            <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Files_Download)">What type of files are available for download from PDC?</a></b>
+            <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Download_Data)">How do I download data?</a></b>
+            <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Multiple_Files)">How do I download multiple files at once?</a></b>
+            <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(File_Error)">Why does the file download URLs throw an error or exception?</a></b>
+        </ul>
+        <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Data_Access)">Data Access</a></b>
+          <ul>
+            <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Access_Data)">Do I have to login to PDC to access data?</a></b>
+            <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Details_Study)">Where do I get more details about a study?</a></b>
+            <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Gene_Information)">How can I find gene/s of my interest?</a></b>
+            <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Protein_Quantitaion)">How do I explore protein quantitation data for a study through heatmaps?</a></b>
+            <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Search_PDC)">What can I search on PDC?</a></b>
+            <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Search_Sequence)">Can I search for a particular peptide sequence within the datasets in PDC?</a></b>
+            <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Types_Data)">What types of data can I get using the API?</a></b>
+          </ul>
+        <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Data_Policy)">Data Licensing Policy</a></b>
+          <ul>
+            <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Open_Access)">What data are not open-access?</a></b>
+            <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Cite_PDC)">How do I cite the PDC?</a></b>
+            <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Policies_PDC)">What are the data use and licensing policies of the PDC?</a></b>
+            <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(CPTAC_Data)">What is the CPTAC Data use agreement?</a></b>
+            <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Embargo_Date)">What is an embargo date in PDC?</a></b>
+          </ul>
+        <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Data_Analysis)">Data Analysis</a></b>
+          <ul>
+            <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(PDC_CDAP)">What is PDC Common Data Analysis pipeline?</a></b>
+            <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(PDC_CDAP)">What is the PDC harmonization process?</a></b>
+            <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Run_Resource)">Can I use PDC data from NCI Cloud Resource to run my own analyses?</a></b>
+            <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Custom_Cohort)">Can I create a custom cohort to download?</a></b>
+          </ul>
+      </ol>
 
-        <div #PDC_Launched class="faq-question">Is PDC launched? </div>
+      <!------------General-------------->
+      <div #PDC_General class="faqs-header">General</div>
+      <div #PDC_Goals class="faq-question">What are the goals of PDC? </div>
+      <p class="faq-response">The primary goal of Proteomic Data Commons (PDC) is to democratize access to cancer-related proteomic datasets and to provide sustainable computational support to the cancer research community through interoperability with other components, such as Genomic Data Commons and Cloud Resources, in the <a href="https://datacommons.cancer.gov/" target="_blank">NCI Cancer Research Data Commons (CRDC)</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">External Link</span></a> ecosystem.</p>
 
+      <div #PDC_Launched class="faq-question">When was PDC launched?</div>
 			<p class="faq-response">NCI PDC is officially launched on Mar 23, 2020. Click <a href="https://proteomics.cancer.gov/news_and_announcements/proteomic-data-commons-now-live" target="_blank">here</a> to read the official announcement.</p>
 
-      <div #Access_Data class="faq-question">Do I have to login to PDC to access data?</div>
-      <p class="faq-response">No, there is no need to create an account or login to PDC to browse the portal or download the data. However login is required if you would like to submit data to PDC.</p>
+      <div #Member_Consortium class="faq-question">Is PDC a member of the ProteomeXchange Consortium?</div>
+      <p class="faq-response">PDC is currently an observer member of the <a href="http://www.proteomexchange.org/" target="_blank">ProteomeXchange Consortium</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">External Link</span></a>.</p>
 
-      <div #SubmitData class="faq-question">How do I submit data to PDC? How do I register my program with PDC?</div>
-      <p class="faq-response">Detailed instructions for submitting data into the PDC are available <a href="submit-data" target="_blank">here</a>.</p>
-
-      <div #FindCorresponding class="faq-question">How to find corresponding genomic and/or imaging data for the PDC proteomic data?</div>
-      <p class="faq-response">If a study in PDC has corresponding genomic and/or imaging data available in other resources, you may find the mapping of the individual cases to the external resources in the <b>'Clinical'</b> tab on the browse page (see the image below). Either click on the thumbnail in the column 'Genomic or Imaging Data Resource' or you may also select the cases of interest and export the clinical manifest. The manifest file will have the resource name and identifier for each case.</p>
-      <br><br><div style="text-align:center"><img style="width: 60%;margin-left: 9%;" src="assets/css/images/faq-5.png" alt="Select file manifect"></div>
+      <div #Report_Issue class="faq-question">How do I report an issue or submit a comment about the process?</div>
+      <p class="faq-response">You can send us your feedback or comments on any issues you experience at <a href="mailto:nci.pdc.help@esacinc.com?Subject=PDC Help" target="_top">nci.pdc.help@esacinc.com</a>.</p>
 
       <div #DifferencePDC_CPTAC class="faq-question">What is the difference between PDC and CPTAC Data Portal?</div>
-		<!-- @@@PDC-1711 add external link icon -->
-		<p class="faq-response">The PDC will serve as a public data repository of mass spectrometry (MS) based proteomics data, and is maintained by the National Cancer Institute. PDC will host datasets from large consortiums such as Clinical Proteomic Tumor Analysis Consortium (CPTAC), International Cancer Proteogenome Consortium(ICPC) and Applied Proteogenomics OrganizationaL Learning and Outcomes (APOLLO) and also from independent research programs and grants.
-            <br>The PDC Data Portal provides a platform for efficiently querying, visualizing, analyzing and downloading high quality, curated and harmonized proteomic datasets. All of the cancer cohort datasets from CPTAC data portal are already available on PDC.  In the near future the CPTAC data portal will retired and all of the data will be made available through PDC.
-            <br>PDC represents a state of the art repository technology and facilitates multiomic integration through interoperability with other nodes, such as Genomic Data Commons and Cloud Resources, in the NCI Cancer Research Data Commons (CRDC) ecosystem.
-            <br>The data from the Clinical Proteomic Tumor Analysis Consortium is also available from the <a href="https://cptac-data-portal.georgetown.edu/" target="_blank">CPTAC Data Portal</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">External Link</span></a>.
-        </p>
+      <p class="faq-response">The <a href="https://proteomics.cancer.gov/data-portal" target="_blank">CPTAC Data Portal</a> is a centralized repository for the public dissemination of proteomic sequence datasets collected by Clinical Proteomic Tumor Analysis Consortium (CPTAC) consortium.
+        <br><br>
+        The PDC is a public data repository of mass spectrometry (MS) based proteomics data, and is maintained by the National Cancer Institute. PDC will host datasets from large consortiums such as the <a href="https://proteomics.cancer.gov/programs/cptac" target="_blank">Clinical Proteomic Tumor Analysis Consortium (CPTAC)</a>, <a href="https://proteomics.cancer.gov/programs/international-cancer-proteogenome-consortium" target="_blank">International Cancer Proteogenome Consortium (ICPC)</a> and <a href="https://proteomics.cancer.gov/programs/apollo-network" target="_blank">Applied Proteogenomics OrganizationaL Learning and Outcomes (APOLLO)</a> and also from independent research programs and grants.
+        <br><br>
+        The PDC Data Portal also provides a platform for efficiently querying, visualizing, analyzing and downloading high quality, curated and harmonized proteomic datasets. Most of the cancer cohort datasets from CPTAC data portal are already available on PDC.  In the near future the CPTAC data portal will retire and all of the data will be made available through PDC.
+        <br><br>
+        PDC represents a state of the art repository technology and facilitates multi-omics integration through interoperability with other components, such as Genomic Data Commons and Cloud Resources, in the <a href="https://datacommons.cancer.gov/" target="_blank">NCI Cancer Research Data Commons (CRDC)</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">External Link</span></a> ecosystem.
+      </p>
+
+      <div #Find_Corresponding class="faq-question">How to find corresponding genomic and/or imaging data for the PDC proteomic data?</div>
+      <p class="faq-response">If a study in PDC has corresponding genomic and/or imaging data available in other resources, you may find the mapping of the individual cases to the external resources in the ‘Clinical’ tab on the browse page (see the image below). Either click on the thumbnail in the column ‘Genomic or Imaging Data Resource’ or you may also select the cases of interest and export the clinical manifest. The manifest file will have the resource name and identifier for each case.</p>
+      <br><br><div style="text-align:center"><img style="width: 60%;margin-left: 9%;" src="assets/css/images/faq-5.png" alt="Select file manifect"></div>
+
+      <div #Ontologies_PDC class="faq-question">What ontologies are used in annotating?<br>Where can I learn about your metadata standards?</div>
+      <p class="faq-response">PDC uses <a href="https://wiki.nci.nih.gov/pages/viewpage.action?pageId=309494141&sortBy=date&sortOrder=ascending" target="_blank">caDSR</a> and <a href="https://ncithesaurus.nci.nih.gov/ncitbrowser/" target="_blank">NCIt</a> terminologies for biospecimen and clinical metadata and <a href="http://www.psidev.info/groups/controlled-vocabularies" target="_blank">PSI</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">External Link</span></a> ontologies for Proteomic metadata. <a href="../data-dictionary/dictionary.html" target="_blank">Learn</a> more about PDC data dictionary and data model.</p>
+
+      <a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Top)">Go Back</a>
+
+      <!------------Data Submission-------------->
+      <div #Data_Submission class="faqs-header">Data Submission</div>
+
+      <div #SubmitData class="faq-question">How do I submit data to PDC?</div>
+      <p class="faq-response">Detailed instructions for submitting data into the PDC are available <a href="submit-data" target="_blank">here</a>.</p>
+
+      <div #RegisterPDC class="faq-question">How do I register my program with PDC?</div>
+      <p class="faq-response">PDC currently accepts Mass Spectrometry data from proteomic experiments specifically for data dependent and data independent acquisitions. You may contact nci.pdc.help@esacinc.com to request a program for your lab.</p>
 
       <div #S3Upload_Data id="S3Upload_Data" class="faq-question">How do I configure my AWS account to upload data from my S3 bucket to PDC? </div>
       <p class="faq-response">In order to use the S3 transfer feature, you need to configure your AWS account and S3 bucket to allow us to copy.
@@ -70,46 +109,113 @@
               {{'{'}}
               "Version": "2012-10-17",
                 "Statement": [
-                  {{'{'}}
-                    "Sid": "S3Access",
+              {{'{'}}
+              "Sid": "S3Access",
                     "Effect": "Allow",
                     "Action": ["s3:GetObject", "s3:ListBucket"],
                     "Resource": ["arn:aws:s3:::awsexamplesourcebucket", "arn:aws:s3:::awsexamplesourcebucket/*"]
-                  {{'}'}}
-                ]
+              {{'}'}}
+              ]
               {{'}'}}
             </pre></div>
-        <br>Then you will need to update your bucket policy to allow us to copy by adding our ARN with get object permission. The source bucket policy should look something like this:
-        <br><br><div>
+      <br>Then you will need to update your bucket policy to allow us to copy by adding our ARN with get object permission. The source bucket policy should look something like this:
+      <br><br><div>
             <pre style="background-color: black;color: white;width: 60%;float: center;margin-left: 25%;">
               {{'{'}}
-                "Version": "2012-10-17",
+              "Version": "2012-10-17",
                 "Statement": [
-                  {{'{'}}
-                    "Sid": "DelegateS3Access",
+              {{'{'}}
+              "Sid": "DelegateS3Access",
                     "Effect": "Allow",
                     "Principal": {{'{'}}"AWS": "arn:aws:iam::033707373097:user/S3-Prod"{{'}'}},
                     "Action": ["s3:GetObject"],
                     "Resource": ["arn:aws:s3:::awsexamplesourcebucket", "arn:aws:s3:::awsexamplesourcebucket/*"]
-                  {{'}'}}
-                ]
+              {{'}'}}
+              ]
               {{'}'}}
             </pre></div>
-        <br>Note: Replace the 'awsexamplesourcebucket' with your bucket name.
-      </p>
+      <br>Note: Replace the 'awsexamplesourcebucket' with your bucket name.
+
+      <br><br><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Top)">Go Back</a>
+
+      <!------------Data Download-------------->
+      <div #Data_Download class="faqs-header">Data Download</div>
+
+      <div #Files_Download class="faq-question" id="Files_Download">What type of files are available for download from PDC?</div>
+      <div class="faq-response">
+        PDC distributes several types of files: those submitted by the original data submitters and those generated through the PDC Common Data Analysis Pipeline (CDAP).<br><br>
+        <table class="faqTable">
+          <tr><td colspan="2"><strong>Mass Spectrometry Data Formats</strong></td></tr>
+          <tr>
+            <td>RAW (Vendor) Format</td>
+            <td>Mass spectrometry data uploaded by the data submitters as RAW or vendor format files corresponding to the mass spectrometers used to acquire the spectra. </td>
+          </tr>
+          <tr>
+            <td>mzML Format</td>
+            <td>RAW format spectra in the <a href="http://www.psidev.info/" target="_blank">HUPO Proteome Standards Initiative (PSI)</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">External Link</span></a> compliant mzML format..</td>
+          </tr>
+          <tr><td colspan="2"><strong>Peptide-Spectrum Match (PSM) Data</strong><br>Generated by PDC Common Data Analysis Pipeline.</td></tr>
+          <tr>
+            <td>RAW PSM Format</td>
+            <td>The best peptide-spectrum matches (PSMs), from the  first-level analysis of the PDC CDAP, for each tandem-mass spectrum against the peptide sequences from a reference protein sequence database (Uniprot) in tsv format.</td>
+          </tr>
+          <tr>
+            <td>mzIdentML PSM Format</td>
+            <td>Raw PSMs in the PSI compliant mzIdentML format.</td>
+          </tr>
+          <tr><td colspan="2"><strong>Protein Assembly</strong><br>Generated by PDC Common Data Analysis Pipeline.</td></tr>
+          <tr>
+            <td></td>
+            <td>
+              Protein identification and quantitation reports generated from the PSM data through a conservative gene-based generalized parsimony analysis. Peptides are associated with genes, rather than protein identifiers, and genes with at least two unshared peptide identifications are inferred. The resulting gene list is estimated to have a false-discovery rate of at most 1%.
+              Several different output files are generated depending on the experiment type,
+              <br><strong>.summary.tsv</strong> - Protein identification summary report
+              <br><strong>.precursor_area.tsv</strong> - Label-free workflow protein quantitation report for relative quantitation by precursor peak area integration
+              <br><strong>.spectral_count.tsv</strong> - Label-free workflow protein quantitation report for relative quantitation by spectral counts
+              <br><strong>.itraq.tsv</strong> - iTRAQ workflow protein relative quantitation report
+              <br><strong>.tmt.tsv</strong> - TMT workflow protein relative quantitation report
+              <br><strong>.peptides.tsv</strong> - Identified peptide summary report
+              <br><strong>.phosphopeptide.tsv</strong> - Labelled workflow phosphopeptide relative quantitation report
+              <br><strong>.phosphosite.tsv</strong> - Labelled workflow phosphopeptide relative quantitation report
+              <br><strong>.glycopeptide.tsv</strong> - Labelled workflow N-linked glycopeptide relative quantitation report
+              <br><strong>.glycosite.tsv</strong> - Labelled workflow N-linked glycosite relative quantitation report
+            </td>
+          </tr>
+          <tr>
+            <td>QC reports</td>
+            <td>Quality control metrics computed by the CDAP, the report consists of summary statistics derived from all MS/MS spectra from the raw spectral datafiles.</td>
+          </tr>
+          <tr>
+            <td>
+              <strong>Supplementary data</strong>
+              <br>(provided by data submitters)</td>
+            <td>
+              <strong>Other metadata</strong>
+              <br>These are supplementary files from the original data submitters for distribution at the PDC. These usually include the following:
+              <ul>
+                <li>Descriptive protocols</li>
+                <li>Clinical metadata</li>
+                <li>Other useful information</li>
+              </ul>
+              <strong>Alternate Processing Pipeline</strong>
+              <br>These are original output files from the mass spectrometry data processing pipeline run by the data submitters. These files are typically the ones used for results in a peer-reviewed publication and to inform conclusions.
+              <br><br>Submitted by the data submitters
+
+            </td>
+          </tr>
+        </table>
+      </div>
 
       <div #Download_Data class="faq-question">How do I download data? </div>
-      <p class="faq-response">Individual files can be downloaded by clicking the 'Download' button in the File table.
-        <br>To download multiple files, identify and select the files of your interest by clicking the check box. You may select multiple files at once by clicking the checkbox in the header row of the table. After the files are selected, click on the 'Download Files' button. Currently there is a limit on the number and volume of files that can be downloaded through this approach.
-        <br>If you want to download multiple files programmatically, see <a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Multiple_Files)">'How do I download multiple files at once?'.</a></p>
+      <p class="faq-response">Once you identify the files of your interest, move to ‘FIles’ tab on the browse page. Click on the download button to download individual files. Also see ‘How do I download multiple files at once?’.</p>
 
       <div #Multiple_Files class="faq-question" id="Multiple_Files">How do I download multiple files at once?</div>
-        <p class="faq-response">Once you identify the files of your interest, move to 'Files' tab and select one or all files and then click <strong><i>'Export File Manifest'</i></strong>.
-            The manifest will contain a download URL each selected file in a separate row. <strong>The URLs will expire after 48 hours</strong>.
-            You may revisit the PDC portal to generate a new file manifest.
-            <br><br><div style="text-align:center"><img style="width: 60%;margin-left: 9%;" src="assets/css/images/faq-1.png" alt="Select file manifect"></div>
-            <br>On most linux, mac and cygwin environments with wget installed, you may provide the <strong><i>manifest file</i></strong> as input to the following code snippet to initiate batch download.
-            <br><br><div>
+      <p class="faq-response">Once you identify the files of your interest, move to 'Files' tab and select one or all files and then click <strong><i>'Export File Manifest'</i></strong>.
+        The manifest will contain a download URL each selected file on a separate row. <strong>The URLs will expire after 48 hours from the time the manifest was generated</strong>.
+        You may revisit the PDC portal to generate a new file manifest.
+        <br><br><div style="text-align:center"><img style="width: 60%;margin-left: 9%;" src="assets/css/images/faq-1.png" alt="Select file manifect"></div>
+      <br>On most linux, mac and cygwin environments with wget installed, you may provide the <strong><i>File manifest</i></strong> as input to the following code snippet to initiate batch download.
+      <br><br><div>
                     <pre style="background-color: black;color: white;width: 60%;float: center;margin-left: 25%;">
                     <span class="displayGrey">#!/bin/bash
 
@@ -122,12 +228,12 @@
                     #Users may improvise using awk, sed and rewrite in perl, python, etc.</span>
 
                     helpFunction() {{ '{' }}
-                        echo <span class="displayGreen">""</span>
+                      echo <span class="displayGreen">""</span>
                         echo <span class="displayGreen"> "Usage: $0 -f &lt;Name of the manifest file downloaded from PDC in CSV format&lt;"</span>
                         exit <span class="displayRed"> 1</span> <span class="displayGrey"># Exit script after printing help</span>
-                    {{ '}' }}
+                      {{ '}' }}
 
-                    <span class="displayOrange">while</span><span class="displayGreen"> getopts</span> ":f:" opt
+                      <span class="displayOrange">while</span><span class="displayGreen"> getopts</span> ":f:" opt
                     do
                             case <span class="displayGreen">"$opt"</span> <span class="displayOrange">in</span>
                             f ) filename=<span class="displayGreen">"$OPTARG"</span> ;;
@@ -162,139 +268,90 @@
                         done
                     done &gt; $filename
                     </pre>
-            </div>
-            <br>You may also use <strong>Download managers</strong> (special programs or browser extensions) that help manage large and multiple downloads.
-            <br><br><div style="text-align:center">
-                <img src="assets/css/images/faq-2.png" alt="An illustration of a download manager">
-                <br><span style="font-size: 14px;font-weight: bold;">An illustration of a download manager</span>
-            </div>
-            <br>Some free download managers:
-                <br><a href="https://www.freedownloadmanager.org/" target="_blank">https://www.freedownloadmanager.org/</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">External Link</span></a>
-                <br><a href="https://jdownloader.org/" target="_blank">https://jdownloader.org/</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">External Link</span></a>
-                <br><a href="http://xdman.sourceforge.net/ " target="_blank">http://xdman.sourceforge.net/</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">External Link</span></a>
-            <br><i>Disclaimer: The third-party software links available on this website are provided "as is" without warranty of any kind, either expressed or implied and such software is to be used at your own risk.</i>
-        </p>
+      </div>
+        <br>You may also use <strong>Download managers</strong> (special programs or browser extensions) that help manage large and multiple downloads.
+        <br><br><div style="text-align:center">
+        <img src="assets/css/images/faq-2.png" alt="An illustration of a download manager">
+        <br><span style="font-size: 14px;font-weight: bold;">An illustration of a download manager</span>
+      </div>
+      <br>Some free download managers:
+      <br><a href="https://www.freedownloadmanager.org/" target="_blank">https://www.freedownloadmanager.org/</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">External Link</span></a>
+      <br><a href="https://jdownloader.org/" target="_blank">https://jdownloader.org/</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">External Link</span></a>
+      <br><a href="http://xdman.sourceforge.net/ " target="_blank">http://xdman.sourceforge.net/</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">External Link</span></a>
+      <br><i>Disclaimer: The third-party software links are provided “as is” without warranty of any kind, either expressed or implied and such software is to be used at your own risk.</i>
 
+      <div #File_Error class="faq-question">Why does the file download URLs throw an error or exception?</div>
+      <p class="faq-response">PDC is hosted on AWS cloud and is under active development. To reduce egress costs from unintended downloads, <strong>the URLs will expire after 48 hours</strong>. You may revisit the PDC portal to generate a new file manifest.</p>
 
-        <div #File_Error class="faq-question">Why does the file download URLs throw an error or exception?</div>
-        <p class="faq-response">PDC is hosted on AWS cloud and is under active development. To reduce egress costs from unintended downloads, <strong>the URLs will expire after 48 hours</strong>. You may revisit the PDC portal to generate a new file manifest.</p>
+      <a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Top)">Go Back</a>
 
-        <div #Details_Study class="faq-question">Where do I get more details about a study?</div>
-        <p class="faq-response">Click on the name of the study in the browse page, that opens up a study summary page. The study summary page provides details about the objective of the study, protocol, experimental design, clinical data of the cases and samples used in the study.</p>
+      <!------------Data Access-------------->
+      <div #Data_Access class="faqs-header">Data Access</div>
 
-        <div #Gene_Information class="faq-question">How can I find gene/s of my interest?</div>
-        <p class="faq-response">
-            Genes can be searched with their gene symbols through the search box on PDC portal. Enter gene symbol or name of the gene (such as kinase) in the search box and click on the gene of your interest in the drop down. This will take you to a gene summary page.
-            <br>It is also possible to search for multiple genes such as those involved in a pathway. Go to the Gene tab on the browse page and in the gene filter on the left hand side enter the list of gen symbols. You may also select from the prebuilt gene lists from several pathways important in cancer.
-        </p>
-        <div #Protein_Quantitaion class="faq-question">How do I explore protein quantitation data for a study through heatmaps?</div>
-        <p class="faq-response">
-            The PDC Common Data Analysis Pipeline generates a protein abundance matrix rolled up to gene level for each study. The data can be viewed as an interactive heatmap through Morpheus viewer on PDC.
-            <br>Morhpes is a heat maps viewer from Broad Institute. It is versatile and has a lot of features to filter, cluster and save the data.
-            <br>Here is a quick tutorial to find 500 most variables genes by variance and perform hierarchical clustering.
-            <br>Go to study summary page and click on the heatmap thumbnail. It opens a new page with the quantitation preloaded into morpheus viewer.
-           <br>More ways to explore the heatmap can be found here accessed here - <a href="https://software.broadinstitute.org/morpheus/tutorial.html" target="_blank">Morpheus - Tutorial</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">External Link</span></a>
-        </p>
+      <div #Access_Data class="faq-question">Do I have to login to PDC to access data?</div>
+      <p class="faq-response">No, there is no need to create an account or login to PDC to browse the portal or download the data. However login is required if you would like to submit data to PDC.</p>
 
-        <div #Search_PDC class="faq-question">What can I search on PDC?</div>
-        <p class="faq-response">
-          PDC can be searched for the following:
-          <br>    - Biospecimens such as case, sample or aliquot using their original identifiers or PDC ids
-          <br>    - Studies using their PDC id (e.g. PDC000220) or partial name (e.g. CPTAC, HNSCC)
-          <br>    - Genes using their Gene symbol (e.g. BRCC3) or partial description (e.g. Kinase)
-          <br>It is also possible to search for related data from external resources using the external identifiers. For example, you may search for a dbGaP study using its identifier (e.g., phs000892) to identify all related PDC studies.
-        </p>
+      <div #Details_Study class="faq-question">Where do I get more details about a study?</div>
+      <p class="faq-response">Click on the name of the study in the browse page, that opens up a study summary page. The study summary page provides details about the objective of the study, protocol, experimental design, clinical data of the cases and samples used in the study.</p>
 
+      <div #Gene_Information class="faq-question">How can I find gene/s of my interest?</div>
+      <p class="faq-response">Genes can be searched with their gene symbols through the search box on PDC portal. Enter the gene symbol or name of the gene (such as kinase) in the search box and click on the gene of your interest in the drop down. This will take you to a gene summary page.
+        <br><br>It is also possible to search for multiple genes such as those involved in a pathway. Go to the Gene tab on the browse page and in the gene filter on the left hand side enter the list of gene symbols. You may also select from the prebuilt gene lists from several pathways important in cancer.
+      </p>
 
-        <div #Search_Sequence class="faq-question">Can I search for a particular peptide sequence within the datasets in PDC?</div>
-        <p class="faq-response">Peptides can be searched through PepQuery, a peptide-centric approach that focuses on only novel DNA or protein sequences of interest.
-          <br>From the menu bar, go to Analysis -> PepQuery. Enter the peptide in the search box and select the dataset to search against. More details about PepQuery can be found here - <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6396417/" target="_blank">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6396417/</a>.</p>
+      <div #Protein_Quantitaion class="faq-question">How do I explore protein quantitation data for a study through heatmaps?</div>
+      <p class="faq-response">
+        The PDC Common Data Analysis Pipeline generates a protein abundance matrix rolled up to gene level for each study. The data can be viewed as an interactive heatmap through Morpheus viewer on PDC.
+        <br>Morhpes is a heat maps viewer from Broad Institute. It is versatile and has a lot of features to filter, cluster and save the data. More ways to explore the heatmap can be found here accessed here - <a href="https://software.broadinstitute.org/morpheus/tutorial.html" target="_blank">Morpheus - Tutorial</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">External Link</span></a>
+      </p>
 
-        <div #Files_Download class="faq-question" id="Files_Download">What type of files are available for download from PDC? What are the outputs of PDC Common Data Analysis pipeline? What do they mean?</div>
-          <div class="faq-response">
-                PDC distributes several types of files, those submitted by original data submitters and those generated through the PDC common data analysis pipeline.<br><br>
-                <table class="faqTable">
-                        <tr><td colspan="2"><strong>Mass Spectrometry Data Formats</strong></td></tr>
-                        <tr>
-                            <td>RAW (Vendor) Format</td>
-                            <td>Mass spectrometry data uploaded by the data submitters as RAW or vendor format files corresponding to the mass spectrometers used to acquire the spectra. </td>
-                        </tr>
-                        <tr>
-                            <td>mzML Format</td>
-                            <td>RAW format spectra in the <a href="http://www.psidev.info/" target="_blank">HUPO Proteome Standards Initiative (PSI)</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">External Link</span></a> compliant mzML format..</td>
-                        </tr>
-                        <tr><td colspan="2"><strong>Peptide-Spectrum Match (PSM) Data</strong></td></tr>
-                        <tr>
-                            <td>RAW PSM Format</td>
-                            <td>The best peptide-spectrum matches (PSMs), from the  first-level analysis of the PDC CDAP, for each tandem-mass spectrum against the peptide sequences from a reference protein sequence database (Uniprot) in tsv format.</td>
-                        </tr>
-                        <tr>
-                            <td>mzIdentML PSM Format</td>
-                            <td>Raw PSMs in the PSI compliant mzIdentML format.</td>
-                        </tr>
-                        <tr><td colspan="2"><strong>Protein Assembly</strong></td></tr>
-                        <tr>
-                            <td></td>
-                            <td>
-                                Protein identification and quantitation reports generated from the PSM data through a conservative gene-based generalized parsimony analysis. Peptides are associated with genes, rather than protein identifiers, and genes with at least two unshared peptide identifications are inferred. The resulting gene list is estimated to have a false-discovery rate of at most 1%.
-                                Several different output files are generated depending on the experiment type,
-                                <br><strong>.summary.tsv</strong> - Protein identification summary report
-                                <br><strong>.precursor_area.tsv</strong> - Label-free workflow protein quantitation report for relative quantitation by precursor peak area integration
-                                <br><strong>.spectral_count.tsv</strong> - Label-free workflow protein quantitation report for relative quantitation by spectral counts
-                                <br><strong>.itraq.tsv</strong> - iTRAQ workflow protein relative quantitation report
-                                <br><strong>.tmt.tsv</strong> - TMT workflow protein relative quantitation report
-                                <br><strong>.peptides.tsv</strong> - Identified peptide summary report
-                                <br><strong>.phosphopeptide.tsv</strong> - Labelled workflow phosphopeptide relative quantitation report
-                                <br><strong>.phosphosite.tsv</strong> - Labelled workflow phosphopeptide relative quantitation report
-                                <br><strong>.glycopeptide.tsv</strong> - Labelled workflow N-linked glycopeptide relative quantitation report
-                                <br><strong>.glycosite.tsv</strong> - Labelled workflow N-linked glycosite relative quantitation report
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>QC reports</td>
-                            <td>Quality control metrics computed by the CDAP, the report consists of summary statistics derived from all MS/MS spectra from the raw spectral datafiles.</td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <strong>Supplementary data</strong>
-                            <br>(provided by data submitters)</td>
-                            <td>
-                              <strong>Other metadata</strong>
-                              <br>These are supplementary files from the original data submitters for distribution at the PDC. These usually include the following:
-                              <ul>
-                                  <li>Descriptive protocols</li>
-                                  <li>Clinical metadata</li>
-                                  <li>Other useful information</li>
-                              </ul>
-                              <strong>Alternate Processing Pipeline</strong>
-                              <br>These are original output files from the mass spectrometry data processing pipeline run by the data submitters. These files are typically the ones used for results in a peer-reviewed publication and to inform conclusions.
-                              <br><br>Submitted by the data submitters
+      <div #Search_PDC class="faq-question">What can I search on PDC?</div>
+      <p class="faq-response">
+        PDC can be searched for the following:
+        <br>    - Biospecimens such as case, sample or aliquot using their original identifiers or PDC ids
+        <br>    - Studies using their PDC id (e.g. PDC000220) or partial name (e.g. CPTAC, HNSCC)
+        <br>    - Genes using their Gene symbol (e.g. BRCC3) or partial description (e.g. Kinase)
+        <br>    - External identifiers such as dbGaP study (e.g. phs000892)
+        <br>It is also possible to search for related data from external resources using the external identifiers. For example, you may search for a dbGaP study using its identifier (e.g., phs000892) to identify all related PDC studies.
+      </p>
 
-                            </td>
-                        </tr>
-                </table>
-        </div>
+      <div #Search_Sequence class="faq-question">Can I search for a particular peptide sequence within the datasets in PDC?</div>
+      <p class="faq-response">Peptides can be searched through PepQuery, a peptide-centric search that focuses on only novel DNA or protein sequences of interest.
+        <br>From the menu bar, go to Analysis -> PepQuery. Enter the peptide in the search box and select the dataset to search against. More details about PepQuery can be found here - <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6396417/" target="_blank">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6396417/</a>.</p>
 
-        <div #Cite_PDC class="faq-question">How do I cite the PDC?</div>
-        <p class="faq-response">
-                To cite the resource, cite PDC url - <a href="" target="_blank">here</a>
-            <br>A PDC study can be cited with its PDC study identifier or url to the study. Ex: PDC000220 or <a href="study/PDC000220" target="_blank">here</a>
-        </p>
+      <div #Types_Data class="faq-question">What types of data can I get using the API?</div>
+      <p class="faq-response">All of the PDC data and metadata is accessible through APIs. Learn more <a href="../data-dictionary/apidocumentation.html" target="_blank">here</a>.</p>
 
-        <div #Policies_PDC class="faq-question">What are the data use and licensing policies of the PDC?</div>
-        <p class="faq-response">
-            PDC data submission and data use are governed by <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">Creative Commons CC-BY 4.0</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">External Link</span></a> licensing terms.
-            <br>Under CC-BY terms, that user is free to,
-            <br>&nbsp;&nbsp;<sup><i class="fa fa-circle"></i></sup>&nbsp; Share — copy and redistribute the material in any medium or format
-            <br>&nbsp;&nbsp;<sup><i class="fa fa-circle"></i></sup>&nbsp; Adapt — remix, transform, and build upon the material for any purpose, even commercially.
-            <br>The licensor cannot revoke these freedoms as long as you follow the license terms.
-            <br>Under the following terms:
-            <br>&nbsp;&nbsp;<sup><i class="fa fa-circle"></i></sup>&nbsp; Attribution — You must give <a href="https://creativecommons.org/licenses/by/4.0/#" target="_blank">appropriate credit</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">External Link</span></a>, provide a link to the license, and <a href="https://creativecommons.org/licenses/by/4.0/#" target="_blank">indicate if changes were made</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">External Link</span></a>. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.
-            <br>&nbsp;&nbsp;<sup><i class="fa fa-circle"></i></sup>&nbsp; No additional restrictions — You may not apply legal terms or <a href="https://creativecommons.org/licenses/by/4.0/#" target="_blank">technological measures</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">External Link</span></a> that legally restrict others from doing anything the license permits.
-            <br><strong>Note:</strong>
-            <br>PDC may impose an embargo on certain datasets at the request of data submitters. In PDC, an <strong>embargo</strong> is the release of data on the PDC portal with the condition that users who access these datasets from the PDC portal cannot published or disseminated before a certain <strong>date</strong>.
-            The embargo date is displayed on the study summary page of each dataset as applicable.
-        </p>
+      <a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Top)">Go Back</a>
+
+      <!------------Data Licensing Policy-------------->
+      <div #Data_Policy class="faqs-header">Data Licensing Policy</div>
+
+      <div #Open_Access class="faq-question">What data are not open-access?</div>
+      <p class="faq-response">Currently all of the data in PDC are open access.
+        <br>In the near future, PDC is expected to host data submitters provided patient sample specific protein sequence databases. These databases are generated using the genomic and transcriptomic information from the patient sample and helps in identification of novel proteins, resulting from single nucleotide variants, splice variants and fusion genes. These files are currently designated as controlled access databases and would need dbGaP authorization for access.
+      </p>
+
+      <div #Cite_PDC class="faq-question">How do I cite the PDC?</div>
+      <p class="faq-response">
+        To cite the resource, cite PDC url - <a href="https://pdc.cancer.gov" target="_blank">https://pdc.cancer.gov</a>
+        <br>PDC uses human readable identifiers for representing studies. To cite individual study, either cite the PDC study id (e.g., PDC000250) or an URL to the study (e.g., https://pdc.cancer.gov/pdc/study/PDC000250).
+
+      </p>
+
+      <div #Policies_PDC class="faq-question">What are the data use and licensing policies of the PDC?</div>
+      <p class="faq-response">
+        PDC data submission and data use are governed by <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">Creative Commons CC-BY 4.0</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">External Link</span></a> licensing terms.
+        <br>Under CC-BY terms, that user is free to,
+        <br>&nbsp;&nbsp;<sup><i class="fa fa-circle"></i></sup>&nbsp; Share — copy and redistribute the material in any medium or format
+        <br>&nbsp;&nbsp;<sup><i class="fa fa-circle"></i></sup>&nbsp; Adapt — remix, transform, and build upon the material for any purpose, even commercially.
+        <br>The licensor cannot revoke these freedoms as long as you follow the license terms.
+        <br>Under the following terms:
+        <br>&nbsp;&nbsp;<sup><i class="fa fa-circle"></i></sup>&nbsp; Attribution — You must give <a href="https://creativecommons.org/licenses/by/4.0/#" target="_blank">appropriate credit</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">External Link</span></a>, provide a link to the license, and <a href="https://creativecommons.org/licenses/by/4.0/#" target="_blank">indicate if changes were made</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">External Link</span></a>. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.
+        <br>&nbsp;&nbsp;<sup><i class="fa fa-circle"></i></sup>&nbsp; No additional restrictions — You may not apply legal terms or <a href="https://creativecommons.org/licenses/by/4.0/#" target="_blank">technological measures</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">External Link</span></a> that legally restrict others from doing anything the license permits.
+        <br><br>Note: PDC may impose an embargo on certain datasets at the request of data submitters. In PDC, an <strong>embargo</strong> is the release of data on the PDC portal with the condition that users who access these datasets from the PDC portal cannot published or disseminated before a certain <strong>date</strong>.
+        The embargo date is displayed on the study summary page of each dataset as applicable.
+      </p>
 
       <div #CPTAC_Data class="faq-question">What is the CPTAC Data use agreement?</div>
       <p class="faq-response">The datasets from Clinical Proteomic Tumor analysis Consortium (CPTAC) are governed by a separate data use agreement. The agreement is displayed when the user clicks on a study link and also can be accessed directly from the <a href="https://proteomics.cancer.gov/data-portal/about/data-use-agreement" target="_blank">CPTAC consortium website</a>.</p>
@@ -302,32 +359,23 @@
       <div #Embargo_Date id="Embargo_Date" class="faq-question">What is an embargo date in PDC?</div>
       <p class="faq-response">PDC imposes an embargo on certain datasets. In PDC, an <strong>embargo</strong> is the release of data on the PDC portal with the condition that users who access these datasets from the PDC portal cannot publish or disseminate before a certain <strong>date</strong> as per the data use agreement. The embargo date or alerts are  displayed at various places on the PDC portal to inform the users.</p>
 
-        <div #Member_Consortium class="faq-question">Is PDC a member of the ProteomeXchange Consortium?</div>
-        <p class="faq-response">PDC is currently an observer member of the ProteomeXchange Consortium.</p>
+      <a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Top)">Go Back</a>
 
-        <div #Report_Issue class="faq-question">How do I report an issue or submit a comment about the process?</div>
-        <p class="faq-response">You can send us your feedback or comments on any issues you experience at <a href="mailto:nci.pdc.help@esacinc.com?Subject=PDC Help" target="_top">nci.pdc.help@esacinc.com.</a></p>
+      <!------------Data Analysis-------------->
+      <div #Data_Analysis class="faqs-header">Data Analysis</div>
 
-        <div #PDC_CDAP class="faq-question">What is PDC Common Data Analysis pipeline? What is the PDC harmonization process? What tools have been used to produce the processed data?</div>
-        <p class="faq-response">Learn more about the PDC harmonization process <a href="../data-dictionary/harmonization.html" target="_blank">here</a>.</p>
+      <div #PDC_CDAP class="faq-question">What is PDC Common Data Analysis pipeline?<br>What is the PDC harmonization process?</div>
+      <p class="faq-response">Learn more about the PDC harmonization process <a href="../data-dictionary/harmonization.html" target="_blank">here</a>.</p>
 
-        <div #Run_Resource class="faq-question">Can I use PDC data from NCI Cloud Resource to run my own analyses?</div>
-        <p class="faq-response">PDC data is located on Amazon Web Services S3 cloud buckets. All of the PDC data and metadata is accessible through APIs. There is an ongoing effort within the Cancer Research Data Commons for the Cloud Resources to run analysis pipelines on PDC data.
-            <br>A tutorial on navigating the database is available from <a href="http://www.cancergenomicscloud.org/" target="_blank">Seven Bridges Cancer Genomic Cloud (CGC)</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">External Link</span></a>, one of NCI’s Cloud Resources. Using the Seven Bridges “Data Cruncher,” and a specially designed PDC metadata file (PDC_metadata.json) that’s available in the public reference resources, users can extract data from the PDC. Other NCI Cloud Resources include the Broad Institute’s FireCloud and the Institute for Systems Biology’s Cancer Genomics Cloud.
-        </p>
+      <div #Run_Resource class="faq-question">Can I use PDC data from NCI Cloud Resource to run my own analyses?</div>
+      <p class="faq-response">PDC data is located on Amazon Web Services S3 cloud buckets. All of the PDC data and metadata is accessible through APIs. There is an ongoing effort within the NCI Cancer Research Data Commons for the <a href="https://datacommons.cancer.gov/analytical-tools" target="_blank">Cloud Resources</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">External Link</span></a> to run analysis pipelines on PDC data.
+        <br>The <a href="http://www.cancergenomicscloud.org/" target="_blank">Seven Bridges Cancer Genomic Cloud (CGC)</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">External Link</span></a>, one of the NCI’s Cloud Resources, has a <a href="https://docs.cancergenomicscloud.org/docs/import-from-the-pdc" target="_blank">tutorial on how to access PDC data</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">External Link</span></a> from their platform and run an analysis pipeline. Other NCI Cloud Resources include the Broad Institute’s FireCloud and the Institute for Systems Biology’s Cancer Genomics Cloud.
+      </p>
 
-        <div #Custom_Cohort class="faq-question">Can I create a custom cohort to download?</div>
-        <p class="faq-response">PDC portal allows users to build cohorts by applying various clinical, biospecimen, experimental and file features as filters and export the selections as manifest files.</p>
+      <div #Custom_Cohort class="faq-question">Can I create a custom cohort to download?</div>
+      <p class="faq-response">PDC portal allows users to build cohorts by applying various clinical, biospecimen, experimental and file features as filters and export the selections as manifest files.</p>
 
-        <div #Open_Access class="faq-question">What data are not open-access?</div>
-        <p class="faq-response">Currently all of the data in PDC is open access.
-            <br>In the near future, PDC is expected to host data submitters provided patient sample specific protein sequence databases. These databases are generated using the genomic and transcriptomic information from the patient sample and helps in identification of novel proteins, resulting from single nucleotide variants, splice variants and fusion genes. These files are currently designated as controlled access databases and would need dbGaP authorization for access.
-        </p>
-        <div #Types_Data class="faq-question">What types of data can I get using the API?</div>
-        <p class="faq-response">All of the PDC data and metadata is accessible through APIs. Learn more <a href="../data-dictionary/apidocumentation.html" target="_blank">here</a>.</p>
-
-        <div #Ontologies_PDC class="faq-question">What ontologies are used in annotating? Where can I learn about your metadata standards?</div>
-        <p class="faq-response">PDC uses <a href="https://wiki.nci.nih.gov/pages/viewpage.action?pageId=309494141&sortBy=date&sortOrder=ascending" target="_blank">caDSR</a> and <a href="https://ncithesaurus.nci.nih.gov/ncitbrowser/" target="_blank">NCIt</a> terminologies for biospecimen and clinical metadata and <a href="http://www.psidev.info/groups/controlled-vocabularies" target="_blank">PSI</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">External Link</span></a> ontologies for Proteomic metadata. <a href="../data-dictionary/dictionary.html" target="_blank">Learn</a> more about PDC data dictionary and data model.</p>
+      <a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Top)">Go Back</a>
     </mat-card-content>
 </mat-card>
 </div>

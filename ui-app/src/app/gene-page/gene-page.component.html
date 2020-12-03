@@ -112,11 +112,11 @@
 						<th class="ui-datatable-tableheader" pResizableColumn>PDC Study ID</th>
 						<th class="ui-datatable-tableheader" pResizableColumn>Study</th>
 						<th class="ui-datatable-tableheader" pResizableColumn>Experiment Type</th>
-						<th class="ui-datatable-tableheader" pResizableColumn>Spectral Counts</th>
-						<th class="ui-datatable-tableheader" pResizableColumn>Distinct Peptides</th>
-						<th class="ui-datatable-tableheader" pResizableColumn>Unshared Peptides</th>
-						<th class="ui-datatable-tableheader" pResizableColumn>No of Aliquots</th>
-						<th class="ui-datatable-tableheader" pResizableColumn>No of Plexes</th>
+						<th class="ui-datatable-tableheader cursorPointer" pResizableColumn [matTooltip]="studyTotalRecords?'Total number of spectra matched to peptides associated with the gene in acquisitions over all analytical samples in the study':null">Spectral Counts</th>
+						<th class="ui-datatable-tableheader cursorPointer" pResizableColumn [matTooltip]="studyTotalRecords?'Total number of distinct peptide sequences associated with the gene in acquisitions over all analytical samples in the study':null">Distinct Peptides</th>
+						<th class="ui-datatable-tableheader cursorPointer" pResizableColumn [matTooltip]="studyTotalRecords?'Total number of unshared peptide sequences associated with the gene in acquisitions over all analytical samples in the study':null">Unshared Peptides</th>
+						<th class="ui-datatable-tableheader cursorPointer" pResizableColumn [matTooltip]="studyTotalRecords?'Number of analytical samples in the study':null">No of Aliquots</th>
+						<th class="ui-datatable-tableheader cursorPointer" pResizableColumn [matTooltip]="studyTotalRecords?'Number of experimental runs in the study':null" matTooltipPosition="left">No of Plexes</th>
 					</tr>
 				</ng-template>
 				<ng-template pTemplate="body" let-studyCountData>
@@ -161,8 +161,8 @@
 						<!--th class="ui-datatable-tableheader" pResizableColumn>Unshared Precursor Area</th-->
 						<th class="ui-datatable-tableheader" pResizableColumn [matTooltip]="aliquotTotalRecords?'Total precursor area of peptide ions of unshared peptides only associated with the gene in acquisitions from a specific biological sample':null">Unshared Area</th>
 						<!-- @@@PDC-669 -->
-						<th class="ui-datatable-tableheader" pResizableColumn [matTooltip]="aliquotTotalRecords?'Average log-ratio of sample reporter-ion to common reference of peptide ions associated with the gene in acquisitions from a specific biological sample':null">Log2 Ratio</th>
-						<th class="ui-datatable-tableheader" pResizableColumn [matTooltip]="aliquotTotalRecords?'Average log-ratio of sample reporter-ion to common reference of peptide ions of unshared peptides only associated with the gene in acquisitions from a specific biological sample':null">Unshared Log2 Ratio</th>
+						<th class="ui-datatable-tableheader" pResizableColumn [matTooltip]="aliquotTotalRecords?'Average log-ratio of sample reporter-ion to common reference of peptide ions associated with the gene in acquisitions from a specific biological sample':null" matTooltipPosition="left">Log2 Ratio</th>
+						<th class="ui-datatable-tableheader" pResizableColumn [matTooltip]="aliquotTotalRecords?'Average log2ratio of sample reporter ion intensity to common reference ion intensity for peptides uniquely associated with the gene in acquisitions':null" matTooltipPosition="left">Unshared Log2 Ratio</th>
 					</tr>
 				</ng-template>
 				<ng-template pTemplate="body" let-aliquotCountData>

@@ -5,16 +5,16 @@ $header-height: 10.8rem;
       margin: -$header-height auto 0;
       width: 100%;
   }
-  
+
 .mat-card {
 	font-family: 'Lato';
 }
 
 .faq-question {
-	font-size: 16px;
-	font-family: 'LatoBold';
-	margin-top: 20px;
-    margin-bottom: 10px;
+  font-size: 16px;
+  font-family: 'LatoBold';
+  margin-top: 20px;
+  margin-bottom: 10px;
 }
 
 .faq-response {
@@ -35,7 +35,11 @@ td, th {
 }
 
 .faqs {
-    font-size: 16px !important;
+  font-size: 16px !important;
+}
+
+.faqs-header {
+  font-size: 30px !important;
 }
 
 .displayGreen {

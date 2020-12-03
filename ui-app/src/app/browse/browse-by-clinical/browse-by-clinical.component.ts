@@ -8,6 +8,7 @@ import { AllClinicalData } from '../../types';
 import { BrowseByClinicalService } from './browse-by-clinical.service';
 import { CaseSummaryComponent } from '../case-summary/case-summary.component';
 import { ngxCsv } from "ngx-csv/ngx-csv";
+import * as _ from 'lodash';
 
 
 @Component({
@@ -326,10 +327,13 @@ downloadCompleteManifest(buttonClick = false) {
 				headerCols.push(this.cols[i]['header']);
 				colValues.push(this.cols[i]['field']);
 			}
+			let exportData = [];
+			//@@@PDC-2950: External case id missing in clinical manifest
+			exportData = this.addGenomicImagingDataToExportManifest(localSelectedClinical);
 			let csvOptions = {
 				headers: headerCols
 			};
-			let exportFileObject = JSON.parse(JSON.stringify(localSelectedClinical, colValues));		
+			let exportFileObject = JSON.parse(JSON.stringify(exportData, colValues));		
 			new ngxCsv(exportFileObject, this.getCsvFileName(), csvOptions);
 			this.isTableLoading.emit({isTableLoading:"clinical:false"});
 		}
@@ -435,7 +439,7 @@ isDownloadDisabled(){
 	  this.cols = [
 		{field: 'case_id', header: 'Case ID'},
 		{field: 'case_submitter_id', header: 'Cases Submitter ID'},
-		{field: 'external_case_id', header: 'External Case ID'},
+		{field: 'genomicImagingData', header: 'Genomic and Imaging Data Resource'},
 		{field: 'ethnicity', header: 'Ethnicity'},
 		{field: 'gender', header: 'Gender'},
 		{field: 'race', header: 'Race'},
@@ -521,7 +525,40 @@ isDownloadDisabled(){
 		//@@@PDC-795 Change manifest download file name include timestamp 
 		clinicalTableExportCSV(dt){
 			dt.exportFilename = this.getCsvFileName();
-			dt.exportCSV({ selectionOnly: true });
+			//@@@PDC-2950: External case id missing in clinical manifest
+ 			let headerCols = [];
+			let colValues = [];
+			for (var i=0; i< this.cols.length; i++) {
+				headerCols.push(this.cols[i]['header']);
+				colValues.push(this.cols[i]['field']);
+			}
+			let exportData = [];
+			exportData = this.addGenomicImagingDataToExportManifest(this.selectedClinicalData);
+			let csvOptions = {
+				headers: headerCols
+			};
+			let exportFileObject = JSON.parse(JSON.stringify(exportData, colValues));		
+			new ngxCsv(exportFileObject, this.getCsvFileName(), csvOptions); 
+		}
+
+		//@@@PDC-2950: External case id missing in clinical manifest
+		addGenomicImagingDataToExportManifest(manifestData) {
+			let exportData = [];
+			exportData = _.cloneDeep(manifestData);			
+			for (var i = 0; i < exportData.length; i++) {
+				let externalResources = exportData[i]["externalReferences"];
+				let genomicImagingData = "";
+				if (externalResources.length > 0) {
+					//Sort the external references as per reference_resource_shortname 
+					externalResources = externalResources.sort((a, b) => a.reference_resource_shortname < b.reference_resource_shortname ? -1 : a.reference_resource_shortname > b.reference_resource_shortname ? 1 : 0);
+					for (var j = 0; j < externalResources.length; j++) {
+						genomicImagingData += externalResources[j]["reference_resource_shortname"] + ": " + externalResources[j]["reference_entity_location"] + ";";
+					}
+					genomicImagingData = genomicImagingData.slice(0, -1);
+				}
+				exportData[i]["genomicImagingData"] = genomicImagingData;
+			}
+			return exportData;
 		}
 	
 		private getCsvFileName(): string {

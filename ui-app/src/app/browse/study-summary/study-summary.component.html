@@ -480,7 +480,7 @@
 			<mat-card class="data-categories-table">
 				<mat-card-content>
 				<table class="table table-striped" style="width:100%" id="dataCategoryStudyTable">
-					<caption style="caption-side:top;background:#078abf;color:white!important; padding:0!important;text-align: center;" ><b>Common Data Analysis Pipeline (PDC Harmonization) data</b> 
+					<caption style="caption-side:top;background:#078abf;color:white!important; padding:0!important;text-align: center;" ><b>Common Data Analysis Pipeline (PDC Harmonization) data</b>
 								<a href={{files_download_faq_help_url}} target="_"><mat-icon matTooltip="Types of files available for download from PDC" class="help-icon" style="color:#e5e5e5!important">help</mat-icon></a></caption>
 					<thead>
 						<tr style="font-size: 12px;background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%);">
@@ -606,8 +606,8 @@
 					<p-table [value]="publications" [loading]="loading" [resizableColumns]="true" responsive="true" id="publicationsStudyTable">
 						<ng-template pTemplate="body" let-publication>
 							<tr style="font-size: 11px;border: 0px">
-							<td style="width:10%;padding-bottom: 3px; align-content: center !important;border: 0px"><a href="{{publication.pubmed_id}}" target="_blank"><img src="./assets/css/images/pubmedIcon.png" style="width:30px;height:30px"></a></td>
-							<td style="width:90%;padding-bottom: 3px; align-content: center !important; word-wrap: break-word; white-space: inherit;border: 0px">{{publication.title}}</td>
+							  <td style="width:10%;padding-bottom: 3px; align-content: center !important;border: 0px"><a href="{{publication.pubmed_id}}" target="_blank"><img src="./assets/css/images/pubmedIcon.png" style="width:30px;height:30px"></a></td>
+                <td style="width:90%;padding-bottom: 3px; align-content: center !important; word-wrap: break-word; white-space: inherit;border: 0px"><a href="{{publication.pubmed_id}}" target="_blank">{{publication.title}}</a></td>
 							</tr>
 						</ng-template>
 					</p-table>
