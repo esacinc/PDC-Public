@@ -704,6 +704,20 @@ const defineCustomModels = (db) => {
 		  tableName: 'dummy'	
 	  });
 	  ModelGene.removeAttribute('id');
+	  
+	  //@@@PDC-2938 add versions to study summary
+	  const ModelVersion = db.getSequelize().define('dummy', {
+		number: { type: Sequelize.STRING},
+		name: { type: Sequelize.STRING },
+	  }, {
+		  timestamps: false,
+		  underscored: true,
+		  freezeTableName: true,
+		  tableName: 'dummy'	
+	  });
+	  ModelVersion.removeAttribute('id');
+
+
 
 	  db['ModelGene'] = ModelGene;
 	  db['ModelCase'] = ModelCase;
@@ -733,6 +747,7 @@ const defineCustomModels = (db) => {
 	  db['ModelStudyPublic'] = ModelStudyPublic;
 	  db['ModelStudyExperimentalDesign'] = ModelStudyExperimentalDesign;  
 	  db['ModelEntityReference'] = ModelEntityReference;  
+	  db['ModelVersion'] = ModelVersion;  
 };
 
 export { defineCustomModels };

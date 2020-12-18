@@ -2,7 +2,6 @@ type Clinical {
 	case_id: String
 	case_submitter_id: String
 	status: String
-	external_case_id: String
 	disease_type: String
 	primary_site: String
 	demographic_id: String
@@ -73,5 +72,6 @@ type Clinical {
 	progression_free_survival_event: String 
 	residual_disease: String 
 	vascular_invasion_present: String 
-	year_of_diagnosis: String 
+	year_of_diagnosis: String
+	externalReferences: [EntityReference]
 }

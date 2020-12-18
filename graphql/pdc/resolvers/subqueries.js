@@ -332,6 +332,19 @@ export const resolvers = {
 			return JSON.parse(res);
 		}
 	},	
+	//@@@PDC-2978 add case external reference
+	Clinical: {
+		externalReferences(obj, args, context) {
+			var refQuery = "SELECT reference_resource_shortname, trim(both '\r' from reference_entity_location) as reference_entity_location FROM reference r where entity_type = 'case' and reference_type = 'external' and entity_id = uuid_to_bin('"+ obj.case_id + "')";
+			return db.getSequelize().query(refQuery, { model: db.getModelByName('ModelEntityReference') });
+		}
+	},	
+	Biospecimen: {
+		externalReferences(obj, args, context) {
+			var refQuery = "SELECT reference_resource_shortname, trim(both '\r' from reference_entity_location) as reference_entity_location FROM reference r where entity_type = 'case' and reference_type = 'external' and entity_id = uuid_to_bin('"+ obj.case_id + "')";
+			return db.getSequelize().query(refQuery, { model: db.getModelByName('ModelEntityReference') });
+		}
+	},	
 	//@@@PDC-788 remove hard-coded file types
 	//@@@PDC-2377 add supplementary file counts
 	UIStudy: {
@@ -361,6 +374,20 @@ export const resolvers = {
 				"WHERE c.contact_id = sc.contact_id and s.study_id = sc.study_id "+
 				"and s.study_submitter_id = '"+ obj.study_submitter_id + "'";
 				var getIt = await db.getSequelize().query(fileQuery, { model: db.getModelByName('Contact') });
+				RedisCacheClient.redisCacheSetExAsync(contactCacheName, JSON.stringify(getIt));
+				return getIt;				
+			}
+			return JSON.parse(res);
+		},
+		//@@@PDC-2938 add versions to study summary
+		async versions(obj, args, context) {
+			var contactCacheName = context.dataCacheName + ':version:'+obj.study_submitter_id;
+			const res = await RedisCacheClient.redisCacheGetAsync(contactCacheName);
+			if (res === null) {
+				var fileQuery = "SELECT study_version as number "+
+				"FROM study s "+
+				"WHERE s.pdc_study_id = '"+ obj.pdc_study_id + "' order by study_version desc ";
+				var getIt = await db.getSequelize().query(fileQuery, { model: db.getModelByName('ModelVersion') });
 				RedisCacheClient.redisCacheSetExAsync(contactCacheName, JSON.stringify(getIt));
 				return getIt;				
 			}

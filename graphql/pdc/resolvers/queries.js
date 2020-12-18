@@ -1327,6 +1327,20 @@ export const resolvers = {
 				return myJson;
 			}
 		},
+		//@@@PDC-3009 ataCategoryFileTypeMapping
+		async uiDataCategoryFileTypeMapping(_, args, context) {
+			let DataCategoryFileTypeMapping = "DataCategoryFileTypeMapping";
+			const res = await RedisCacheClient.redisCacheGetAsync(DataCategoryFileTypeMapping);
+			if(res === null){
+				let dataCategoryFileTypeMapping = "select distinct data_category, file_type from pdc.file order by data_category";
+				var result = await db.getSequelize().query(dataCategoryFileTypeMapping, { model: db.getModelByName('ModelFile') });
+				RedisCacheClient.redisCacheSetExAsync(DataCategoryFileTypeMapping, JSON.stringify(result));			
+				return result;
+			}
+			else {
+				return  JSON.parse(res);
+			}
+		},
 		//@@@PDC-579 gene tabe pagination
 		//@@@PDC-1291 Redesign Browse Page data tabs
 		async getPaginatedUIGene(_, args, context) {

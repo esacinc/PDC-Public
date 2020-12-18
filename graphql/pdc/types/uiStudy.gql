@@ -17,4 +17,5 @@ type UIStudy {
 	supplementaryFilesCount: [File]
 	nonSupplementaryFilesCount: [File]
 	contacts: [Contact]
+	versions: [Version]
 }

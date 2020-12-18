@@ -526,6 +526,7 @@ WHERE
 `;
 
 //list of filter columns in study table
+//@@@PDC-2936 add study_version
 const study_filter_columns = {
   study_name: "s.submitter_id_name",
   analytical_fraction: "s.analytical_fraction",
@@ -533,6 +534,7 @@ const study_filter_columns = {
   study_submitter_id: "s.study_submitter_id",
   study_id: "s.study_id",
   pdc_study_id: "s.pdc_study_id",
+  study_version: "s.study_version",
   acquisition_type: "s.acquisition_type"
 };
 

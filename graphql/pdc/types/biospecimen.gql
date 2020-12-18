@@ -16,4 +16,5 @@ type Biospecimen {
 	primary_site: String
 	pool: String
 	taxon: String
+	externalReferences: [EntityReference]
 }

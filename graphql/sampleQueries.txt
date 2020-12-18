@@ -5794,8 +5794,9 @@ limit: 10) {
 		}
 	}
 }
+//@@@PDC-2938
 {
-	getPaginatedUIStudy(pdc_study_id: "PDC000173" offset: 0 limit: 10) {
+	getPaginatedUIStudy(pdc_study_id: "PDC000173" study_version: "1" offset: 0 limit: 10) {
 		total
 		uiStudies {
 			submitter_id_name
@@ -5818,6 +5819,9 @@ limit: 10) {
 				data_category
 				file_type
 				files_count
+			}
+			versions {
+				number
 			}
 		}
 		pagination {
@@ -6088,12 +6092,12 @@ limit: 10) {
 		year_of_diagnosis 
 	}
 }
+PDC-2978
 {
-	clinicalPerStudy(pdc_study_id: "PDC000206"){
+	clinicalPerStudy(pdc_study_id: "PDC000128"){
 		case_id
 		case_submitter_id
 		status
-		external_case_id
 		disease_type
 		primary_site
 		demographic_id
@@ -6164,7 +6168,12 @@ limit: 10) {
 		progression_free_survival_event 
 		residual_disease 
 		vascular_invasion_present 
-		year_of_diagnosis 
+		year_of_diagnosis
+		externalReferences {
+			reference_resource_shortname
+			reference_entity_location
+		}
+
 	}
 }
 //PDC-1127
@@ -6192,7 +6201,7 @@ limit: 10) {
 	}
 }
 {
-	biospecimenPerStudy (pdc_study_id: "PDC000206"){
+	biospecimenPerStudy (pdc_study_id: "PDC000128"){
 		aliquot_id 
 		sample_id
 		case_id
@@ -6210,6 +6219,10 @@ limit: 10) {
 		primary_site
 		pool
 		taxon
+		externalReferences {
+			reference_resource_shortname
+			reference_entity_location
+		}
 	}
 }
 //PDC-1120
@@ -6540,6 +6553,14 @@ PDC-2167
 			data_category
 			files_count
 		}
+	}
+}
+PDC-3009
+{
+	uiDataCategoryFileTypeMapping
+	{
+		data_category
+		file_type
 	}
 }
 
