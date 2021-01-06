@@ -14,14 +14,16 @@ const cors = require('cors');
 
 const GQ_APP = express();
 
+//@@@PDC-3050 google analytics tracking
 var track = function(req, res, next) {
 	//@@@PDC-814 Track API usage through Google Analytics
 	//@@@PDC-930 not tracking for calls from UI
-	var api = getAPI(req.query.query);
-	if (api !== 'noTrack') {
-		req.visitor.pageview().send();
-		logger.info("pageview sent: "+api);		
-	}
+	//logger.info("Request: "+Object.getOwnPropertyNames(req));
+	//var api = getAPI(req.query.query);
+	//if (api !== 'noTrack') {
+		//req.visitor.pageview().send();
+		//logger.info("post body: "+req.body);		
+	//}
 	return next();
 }
 
@@ -34,7 +36,7 @@ GQ_APP.use(cors());
 //@@@PDC-814 Track API usage through Google Analytics
 GQ_APP.use(ua.middleware(process.env.GA_TRACKING_ID, {cookieName: '_ga'}));
 
-GQ_APP.use(track);
+//GQ_APP.use(track);
 
 //@@@PDC-2192 apollo server 2.0
 SERVER.applyMiddleware({

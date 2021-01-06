@@ -527,6 +527,7 @@ WHERE
 
 //list of filter columns in study table
 //@@@PDC-2936 add study_version
+//@@@PDC-2969 get latest version by default
 const study_filter_columns = {
   study_name: "s.submitter_id_name",
   analytical_fraction: "s.analytical_fraction",
@@ -535,7 +536,8 @@ const study_filter_columns = {
   study_id: "s.study_id",
   pdc_study_id: "s.pdc_study_id",
   study_version: "s.study_version",
-  acquisition_type: "s.acquisition_type"
+  acquisition_type: "s.acquisition_type",
+  is_latest_version: "s.is_latest_version"
 };
 
 //list of filter columns in program project tables
@@ -584,6 +586,16 @@ function applyStudyFilter(args, cache = { name: "" }) {
       cache.name += `${columnName}:('${filterValue}');`;
     }
   }
+  //@@@PDC-2969 get latest version by default
+  if ((typeof args['study_version'] == "undefined" || args['study_version'].length <= 0)&&
+  (typeof args['study_name'] == "undefined"|| args['study_name'].length <= 0) &&
+  (typeof args['study_submitter_id'] == "undefined"|| args['study_submitter_id'].length <= 0) &&
+  (typeof args['study_id'] == "undefined"|| args['study_id'].length <= 0) &&
+  (typeof args['pdc_study_id'] == "undefined"|| args['pdc_study_id'].length <= 0)) {
+      studyFilterQuery += ` and s.is_latest_version = 1 `;
+      cache.name += `s.is_latest_version:1;`;	  	  
+  }
+  
   return studyFilterQuery;
 }
 

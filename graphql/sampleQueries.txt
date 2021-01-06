@@ -2436,18 +2436,24 @@ PDC-265
 		}
     }
 }
+PDC-2979
 {
-  case(case_id: "104c95ee-2139-11ea-aee1-0e1aae319e49") {
+  case(case_id: "9d8e171a-1fb9-11e9-b7f8-0a80fada099c") {
     case_id
 	  case_submitter_id
 	  project_submitter_id
 	  disease_type
-	  external_case_id
 	  tissue_source_site_code
 	  days_to_lost_to_followup
 	  index_date
 	  lost_to_followup
 	  primary_site    
+		externalReferences {
+			external_reference_id
+			reference_resource_shortname
+			reference_resource_name
+			reference_entity_location
+		}
 		demographics {
 			  ethnicity
 			  gender
@@ -2571,7 +2577,6 @@ PDC-265
 	  case_submitter_id
 	  project_submitter_id
 	  disease_type
-	  external_case_id
 	  tissue_source_site_code
 	  days_to_lost_to_followup
 	  index_date
@@ -3104,7 +3109,7 @@ PDC-265
 }
 //PDC-1959
 {
-	studySearchByExternalId(reference_entity_alias: "ph001287"){
+	studySearchByExternalId(reference_entity_alias: "1287"){
 		studies {
 			record_type
 			name
@@ -6170,7 +6175,9 @@ PDC-2978
 		vascular_invasion_present 
 		year_of_diagnosis
 		externalReferences {
+			external_reference_id
 			reference_resource_shortname
+			reference_resource_name
 			reference_entity_location
 		}
 
@@ -6208,7 +6215,6 @@ PDC-2978
 		aliquot_submitter_id 
 		sample_submitter_id
 		case_submitter_id
-		external_case_id
 		aliquot_is_ref
 		aliquot_status
 		case_status
@@ -6220,7 +6226,9 @@ PDC-2978
 		pool
 		taxon
 		externalReferences {
+			external_reference_id
 			reference_resource_shortname
+			reference_resource_name
 			reference_entity_location
 		}
 	}
@@ -6365,7 +6373,7 @@ PDC-2978
 	}
 	}
 }
-//PDC-954
+//PDC-954, 2979
 {
   allCases {
 		case_id
@@ -6373,6 +6381,13 @@ PDC-2978
 		project_submitter_id
 		disease_type
 		primary_site
+		externalReferences {
+			external_reference_id
+			reference_resource_shortname
+			reference_resource_name
+			reference_entity_location
+		}
+
   }
 }
 //PDC-964

@@ -8,7 +8,7 @@ import { Apollo } from 'apollo-angular';
 import { map } from 'rxjs/operators';
 import gql from 'graphql-tag';
 
-import { AllStudiesData, QueryAllStudiesData, QueryAllFiltersData, SearchResultsGenesProteins, QueryPrograms} from '../../types';
+import { AllStudiesData, QueryAllStudiesData, QueryAllFiltersData, SearchResultsGenesProteins, QueryPrograms, dataCategory2FileTypeMapping} from '../../types';
 
 /*This is a service class used for the API queries */
 
@@ -357,5 +357,25 @@ constructor(private apollo: Apollo) {
         map(result => { console.log(result.data); return result.data;})
       ); 
 	}		
+	
+	//@@@PDC-3010 Update ui to start using file type to data category mapping APIs
+	getDataCategoryToFileTypeMapping(){
+		return this.apollo.watchQuery<dataCategory2FileTypeMapping>({
+			query: gql`
+				query DataCategoryMappingData{
+					uiDataCategoryFileTypeMapping
+					{
+						data_category
+						file_type
+					}
+				} `
+		})
+		.valueChanges
+		.pipe(
+        map(result => {
+				console.log(result.data);
+		return result.data;})
+      ); 
+	}
 
 }

@@ -38,6 +38,7 @@ properties:
         - Iodoacetamide (IAA)
         - 2-chloroacetamide (TCEP)
         - tris(2-carboxyethyl)phosphine
+        - Methyl Methanethiosulfonate (MMTS)
         required: 'True'
         type: Enumeration
     amount_on_column:

@@ -135,6 +135,11 @@ export class StudySummaryComponent implements OnInit {
 	//If I got here via search then most of the fields are empty and I need to query study summary data
 	if (studyData.summaryData.project_name == ""){
 		this.getStudySummaryData();
+	}else {
+		//@@@PDC-2955 Embargo Date of Study does not show as N/A when clicked from Related PDC Studies 
+		if (this.studySummaryData.embargo_date === null || this.studySummaryData.embargo_date === ""){
+			this.studySummaryData.embargo_date = "N/A";
+		}
 	}
 	this.workflowData = {
 		workflow_metadata_submitter_id: '',
@@ -252,6 +257,15 @@ export class StudySummaryComponent implements OnInit {
 						this.studySummaryOverlayWindow.open("DUAForOtherProgramsOverlayWindow");
 					} */
 				}
+				//@@@PDC-2970  all studies with embargo date expired or N/A should have text with Note under DUA tab
+				if (this.studySummaryData.embargo_date != "N/A" && currentDate > this.studySummaryData.embargo_date) {
+					this.duaAvailable = false;
+				}
+			}
+			//@@@PDC-2970 Studies with Embargo data as N/A are missing Embargo Note in Study Summary DUA tab.
+			if (!this.studySummaryData.embargo_date || this.studySummaryData.embargo_date == "N/A" || this.studySummaryData.embargo_date == "")
+			{
+				this.duaAvailable = false;
 			}
 		}, 100);
 	}
@@ -779,6 +793,8 @@ getStudyExperimentalDesign() {
 						for (let col of colsSpecificToExpTypeArr) {
 							let colsSpecificVal = "";
 							colsSpecificVal = studyExpData[col];
+							//@@@PDC-3094 Fix Study summary Experimental Design tab channel having an empty value
+							colValSpecificToExpType = ""; //Need to reintialize this value since the value of a channel can be null and than a previous channel value will be duplicated
 							//Access the biospecimen whose aliquot submitter ID is the same and 
 							//compose the column value with the case submitter ID and sample Type
 							for(let biospecimen of this.biospecimenPerStudy){

@@ -664,11 +664,13 @@ const defineCustomModels = (db) => {
 
 	  //@@@PDC-1882 pdcEntityReference api
 	  //@@@PDC-2018 add submitter_id_name of study
+	  //@@@PDC-2979 get external reference id
 	  const ModelEntityReference = db.getSequelize().define('dummy', {
 		  reference_id: { type: Sequelize.STRING,
 					  primaryKey: true   },
 		  entity_type: { type: Sequelize.STRING },
 		  entity_id: { type: Sequelize.STRING },
+		  external_reference_id: { type: Sequelize.STRING },
 		  reference_type: { type: Sequelize.STRING },
 		  reference_entity_type:  { type: Sequelize.STRING},
 		  reference_entity_alias: { type: Sequelize.STRING },

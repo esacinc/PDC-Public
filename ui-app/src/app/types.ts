@@ -630,12 +630,12 @@ export type SampleData = {
     aliquots: AliquotData[];
 }
 
+//@@@PDC-3095 - remove external_case_id field from uiCaseSummary API
 export type CaseData = {
 	case_id: string;
     case_submitter_id: string;
     project_submitter_id: string;
     disease_type: string;
-    external_case_id: string;
     tissue_source_site_code: string;
     days_to_lost_to_followup: string;
     index_date: string;
@@ -645,6 +645,7 @@ export type CaseData = {
 	diagnoses: DiagnosesData[];
 	samples: SampleData[];
 }
+
 
 export type ExperimentFileByCaseCount = {
 	acquisition_type: string;
@@ -991,3 +992,8 @@ export type EntityReference = {
 	reference_entity_location: string;
 }
 
+//@@@PDC-3010 Update ui to start using file type to data category mapping APIs
+export type dataCategory2FileTypeMapping = {
+	data_category: string;
+	file_type: string;
+}

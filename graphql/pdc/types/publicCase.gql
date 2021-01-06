@@ -4,4 +4,5 @@ type PublicCase {
   project_submitter_id: String
   disease_type: String
   primary_site: String
+  externalReferences: [EntityReference]
 }

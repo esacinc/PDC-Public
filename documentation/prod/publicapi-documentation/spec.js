@@ -53,11 +53,11 @@ var spec = {
         },
      ],
    "paths": {
-         "?query={allCases {case_id case_submitter_id project_submitter_id disease_type primary_site}}": {
+         "?query={allCases {case_id case_submitter_id project_submitter_id disease_type primary_site externalReferences { external_reference_id reference_resource_shortname reference_resource_name reference_entity_location }}}": {
              "get": {
                        "tags": ["Case"],
                "summary": "Gets all cases",
-               "description": "<b>Returns case details.<br><br>Fields:</b><ul><li>case_id</li><li>case_submitter_id</li><li>project_submitter_id</li><li>disease_type</li><li>primary_site</li></ul>",
+               "description": "<b>Returns case details.<br><br>Fields:</b><ul><li>case_id</li><li>case_submitter_id</li><li>project_submitter_id</li><li>disease_type</li><li>primary_site</li><li>externalReferences { external_reference_id reference_resource_shortname reference_resource_name reference_entity_location }</li></ul>",
                "operationId": "allCases",
                "produces": [
                            "application/json"
@@ -156,7 +156,7 @@ var spec = {
                    }
                  }
                },
-               '?query={case (case_submitter_id: "{case_submitter_id}") { case_id case_submitter_id project_submitter_id days_to_lost_to_followup disease_type index_date lost_to_followup primary_site demographics{ demographic_id ethnicity gender demographic_submitter_id race cause_of_death days_to_birth days_to_death vital_status year_of_birth year_of_death } samples { sample_id sample_submitter_id sample_type sample_type_id gdc_sample_id gdc_project_id biospecimen_anatomic_site composition current_weight days_to_collection days_to_sample_procurement diagnosis_pathologically_confirmed freezing_method initial_weight intermediate_dimension is_ffpe longest_dimension method_of_sample_procurement oct_embedded pathology_report_uuid preservation_method sample_type_id shortest_dimension time_between_clamping_and_freezing time_between_excision_and_freezing tissue_type tumor_code tumor_code_id tumor_descriptor aliquots { aliquot_id aliquot_submitter_id analyte_type aliquot_run_metadata {aliquot_run_metadata_id} } } diagnoses{ diagnosis_id tissue_or_organ_of_origin age_at_diagnosis primary_diagnosis tumor_grade tumor_stage diagnosis_submitter_id classification_of_tumor days_to_last_follow_up days_to_last_known_disease_status days_to_recurrence last_known_disease_status morphology progression_or_recurrence site_of_resection_or_biopsy prior_malignancy ajcc_clinical_m ajcc_clinical_n ajcc_clinical_stage ajcc_clinical_t ajcc_pathologic_m ajcc_pathologic_n ajcc_pathologic_stage ajcc_pathologic_t ann_arbor_b_symptoms ann_arbor_clinical_stage ann_arbor_extranodal_involvement ann_arbor_pathologic_stage best_overall_response burkitt_lymphoma_clinical_variant circumferential_resection_margin colon_polyps_history days_to_best_overall_response days_to_diagnosis days_to_hiv_diagnosis days_to_new_event figo_stage hiv_positive hpv_positive_type hpv_status iss_stage laterality ldh_level_at_diagnosis ldh_normal_range_upper lymph_nodes_positive lymphatic_invasion_present method_of_diagnosis new_event_anatomic_site new_event_type overall_survival perineural_invasion_present prior_treatment progression_free_survival progression_free_survival_event residual_disease vascular_invasion_present year_of_diagnosis } }}': {
+               '?query={case (case_submitter_id: "{case_submitter_id}") { case_id case_submitter_id project_submitter_id days_to_lost_to_followup disease_type index_date lost_to_followup primary_site externalReferences { external_reference_id reference_resource_shortname reference_resource_name reference_entity_location } demographics{ demographic_id ethnicity gender demographic_submitter_id race cause_of_death days_to_birth days_to_death vital_status year_of_birth year_of_death } samples { sample_id sample_submitter_id sample_type sample_type_id gdc_sample_id gdc_project_id biospecimen_anatomic_site composition current_weight days_to_collection days_to_sample_procurement diagnosis_pathologically_confirmed freezing_method initial_weight intermediate_dimension is_ffpe longest_dimension method_of_sample_procurement oct_embedded pathology_report_uuid preservation_method sample_type_id shortest_dimension time_between_clamping_and_freezing time_between_excision_and_freezing tissue_type tumor_code tumor_code_id tumor_descriptor aliquots { aliquot_id aliquot_submitter_id analyte_type aliquot_run_metadata {aliquot_run_metadata_id} } } diagnoses{ diagnosis_id tissue_or_organ_of_origin age_at_diagnosis primary_diagnosis tumor_grade tumor_stage diagnosis_submitter_id classification_of_tumor days_to_last_follow_up days_to_last_known_disease_status days_to_recurrence last_known_disease_status morphology progression_or_recurrence site_of_resection_or_biopsy prior_malignancy ajcc_clinical_m ajcc_clinical_n ajcc_clinical_stage ajcc_clinical_t ajcc_pathologic_m ajcc_pathologic_n ajcc_pathologic_stage ajcc_pathologic_t ann_arbor_b_symptoms ann_arbor_clinical_stage ann_arbor_extranodal_involvement ann_arbor_pathologic_stage best_overall_response burkitt_lymphoma_clinical_variant circumferential_resection_margin colon_polyps_history days_to_best_overall_response days_to_diagnosis days_to_hiv_diagnosis days_to_new_event figo_stage hiv_positive hpv_positive_type hpv_status iss_stage laterality ldh_level_at_diagnosis ldh_normal_range_upper lymph_nodes_positive lymphatic_invasion_present method_of_diagnosis new_event_anatomic_site new_event_type overall_survival perineural_invasion_present prior_treatment progression_free_survival progression_free_survival_event residual_disease vascular_invasion_present year_of_diagnosis } }}': {
                  "get": {
                            "tags": ["Case"],
                    "summary": "Find case by ID",
@@ -732,11 +732,11 @@ var spec = {
                     }
                   }
                 },
-               '?query={ biospecimenPerStudy (study_id: "{study_id}"){ aliquot_id sample_id case_id aliquot_submitter_id sample_submitter_id case_submitter_id aliquot_status case_status sample_status project_name sample_type disease_type primary_site pool taxon} }': {
+               '?query={ biospecimenPerStudy (study_id: "{study_id}"){ aliquot_id sample_id case_id aliquot_submitter_id sample_submitter_id case_submitter_id aliquot_status case_status sample_status project_name sample_type disease_type primary_site pool taxon externalReferences { external_reference_id reference_resource_shortname reference_resource_name reference_entity_location }} }': {
                  "get": {
                            "tags": ["General"],
                    "summary": "Returns biospecimen details per study",
-                   "description": "<b>Returns biospecimen details per study. This API can also be used with multiple input parameters.<br><br>Fields:</b><ul><li>aliquot_id</li><li>sample_id</li><li>case_id</li><li>aliquot_submitter_id</li><li>sample_submitter_id</li><li>case_submitter_id</li><li>aliquot_status</li><li>case_status</li><li>sample_status</li><li>project_name</li><li>sample_type</li><li>disease_type</li><li>primary_site</li><li>pool</li><li>taxon</li></ul>",
+                   "description": "<b>Returns biospecimen details per study. This API can also be used with multiple input parameters.<br><br>Fields:</b><ul><li>aliquot_id</li><li>sample_id</li><li>case_id</li><li>aliquot_submitter_id</li><li>sample_submitter_id</li><li>case_submitter_id</li><li>aliquot_status</li><li>case_status</li><li>sample_status</li><li>project_name</li><li>sample_type</li><li>disease_type</li><li>primary_site</li><li>pool</li><li>taxon</li><li>externalReferences { external_reference_id reference_resource_shortname reference_resource_name reference_entity_location }</li></ul>",
                    "operationId": "biospecimenPerStudy",
                    "produces": [
                      "application/json"
@@ -761,11 +761,11 @@ var spec = {
                    }
                  }
                },
-               '?query={ biospecimenPerStudy (pdc_study_id: "{pdc_study_id}"){ aliquot_id sample_id case_id aliquot_submitter_id sample_submitter_id case_submitter_id aliquot_status case_status sample_status project_name sample_type disease_type primary_site pool taxon} }': {
+               '?query={ biospecimenPerStudy (pdc_study_id: "{pdc_study_id}"){ aliquot_id sample_id case_id aliquot_submitter_id sample_submitter_id case_submitter_id aliquot_status case_status sample_status project_name sample_type disease_type primary_site pool taxon externalReferences { external_reference_id reference_resource_shortname reference_resource_name reference_entity_location }} }': {
                   "get": {
                      "tags": ["General"],
                     "summary": "Returns biospecimen details for a PDC Study ID",
-                    "description": "<b>Returns biospecimen details per study. This API can also be used with multiple input parameters.<br><br>Fields:</b><ul><li>aliquot_id</li><li>sample_id</li><li>case_id</li><li>aliquot_submitter_id</li><li>sample_submitter_id</li><li>case_submitter_id</li><li>aliquot_status</li><li>case_status</li><li>sample_status</li><li>project_name</li><li>sample_type</li><li>disease_type</li><li>primary_site</li><li>pool</li><li>taxon</li></ul>",
+                    "description": "<b>Returns biospecimen details per study. This API can also be used with multiple input parameters.<br><br>Fields:</b><ul><li>aliquot_id</li><li>sample_id</li><li>case_id</li><li>aliquot_submitter_id</li><li>sample_submitter_id</li><li>case_submitter_id</li><li>aliquot_status</li><li>case_status</li><li>sample_status</li><li>project_name</li><li>sample_type</li><li>disease_type</li><li>primary_site</li><li>pool</li><li>taxon</li><li>externalReferences { external_reference_id reference_resource_shortname reference_resource_name reference_entity_location }</li></ul>",
                     "operationId": "biospecimenPerStudy",
                     "produces": [
                       "application/json"
@@ -773,7 +773,7 @@ var spec = {
                     "parameters": [{
                         "name": "pdc_study_id",
                         "in": "path",
-                        "description": "PDC Study ID, example: PDC000174",
+                        "description": "PDC Study ID, example: PDC000127",
                         "required": true,
                         "type": "string"
                      }],
@@ -790,11 +790,11 @@ var spec = {
                     }
                   }
                 },
-               '?query={ clinicalPerStudy(study_submitter_id: "{study_submitter_id}"){ case_id case_submitter_id status ethnicity gender race morphology primary_diagnosis site_of_resection_or_biopsy tissue_or_organ_of_origin tumor_grade tumor_stage } }': {
+               '?query={ clinicalPerStudy(study_submitter_id: "{study_submitter_id}"){ case_id case_submitter_id status ethnicity gender race morphology primary_diagnosis site_of_resection_or_biopsy tissue_or_organ_of_origin tumor_grade tumor_stage externalReferences { external_reference_id reference_resource_shortname reference_resource_name reference_entity_location }} }': {
                  "get": {
                            "tags": ["Clinical"],
                    "summary": "Returns clinical details per study",
-                   "description": "<b>Returns clinical details per study. This API can also be used with multiple input parameters.<br><br>Fields:</b><ul><li>case_id</li><li>case_submitter_id</li><li>status</li><li>ethnicity</li><li>gender</li><li>race</li><li>morphology</li><li>primary_diagnosis</li><li>site_of_resection_or_biopsy</li><li>tissue_or_organ_of_origin</li><li>tumor_grade</li><li>tumor_stage</li></ul>",
+                   "description": "<b>Returns clinical details per study. This API can also be used with multiple input parameters.<br><br>Fields:</b><ul><li>case_id</li><li>case_submitter_id</li><li>status</li><li>ethnicity</li><li>gender</li><li>race</li><li>morphology</li><li>primary_diagnosis</li><li>site_of_resection_or_biopsy</li><li>tissue_or_organ_of_origin</li><li>tumor_grade</li><li>tumor_stage</li><li>externalReferences { external_reference_id reference_resource_shortname reference_resource_name reference_entity_location }</li></ul>",
                    "operationId": "clinicalPerStudy",
                    "produces": [
                      "application/json"
@@ -819,11 +819,11 @@ var spec = {
                    }
                  }
                },
-               '?query={ clinicalPerStudy(pdc_study_id: "{pdc_study_id}"){ case_id case_submitter_id status ethnicity gender race morphology primary_diagnosis site_of_resection_or_biopsy tissue_or_organ_of_origin tumor_grade tumor_stage } }': {
+               '?query={ clinicalPerStudy(pdc_study_id: "{pdc_study_id}"){ case_id case_submitter_id status ethnicity gender race morphology primary_diagnosis site_of_resection_or_biopsy tissue_or_organ_of_origin tumor_grade tumor_stage externalReferences { external_reference_id reference_resource_shortname reference_resource_name reference_entity_location }} }': {
                   "get": {
                             "tags": ["Clinical"],
                     "summary": "Returns clinical details for PDC Study ID",
-                    "description": "<b>Returns clinical details per study. This API can also be used with multiple input parameters.<br><br>Fields:</b><ul><li>case_id</li><li>case_submitter_id</li><li>status</li><li>ethnicity</li><li>gender</li><li>race</li><li>morphology</li><li>primary_diagnosis</li><li>site_of_resection_or_biopsy</li><li>tissue_or_organ_of_origin</li><li>tumor_grade</li><li>tumor_stage</li></ul>",
+                    "description": "<b>Returns clinical details per study. This API can also be used with multiple input parameters.<br><br>Fields:</b><ul><li>case_id</li><li>case_submitter_id</li><li>status</li><li>ethnicity</li><li>gender</li><li>race</li><li>morphology</li><li>primary_diagnosis</li><li>site_of_resection_or_biopsy</li><li>tissue_or_organ_of_origin</li><li>tumor_grade</li><li>tumor_stage</li><li>externalReferences { external_reference_id reference_resource_shortname reference_resource_name reference_entity_location }</li></ul>",
                     "operationId": "clinicalPerStudy",
                     "produces": [
                       "application/json"
@@ -4972,17 +4972,48 @@ var spec = {
                 },
                 "tumor_grade":{
                    "type":"string",
-                   "example":"not reported"
+                   "example":"Not Reported"
                 },
                 "tumor_stage":{
                    "type":"string",
-                   "example":"stage iiia"
-                }
+                   "example":"Stage IIIA"
+                },
+                "externalReferences": {
+                  "type":"array",
+                  "items":{
+                     "$ref":"#/definitions/ExternalReferencesClinical"
+                  }
+                },
              },
              "xml":{
                 "name":"clinicalPerStudyDesc"
              }
           },
+          "ExternalReferencesClinical":{
+            "type":"object",
+            "properties":{
+               "external_reference_id":{
+                  "type":"string",
+                  "example":"c49e3b18-fd88-48f4-8b01-300692ceb367"
+               },
+               "reference_resource_shortname":{
+                  "type":"string",
+                  "example":"GDC"
+               },
+               "reference_resource_name":{
+                  "type":"string",
+                  "example":"Genomic Data Commons"
+               },
+               "reference_entity_location":{
+                  "type":"string",
+                  "example":"https://portal.gdc.cancer.gov/cases/c49e3b18-fd88-48f4-8b01-300692ceb367"
+               }
+            },
+            "xml":{
+               "name":"ExternalReferencesClinical"
+            }
+         },
+
           "studyDetailsPerStudyID":{
              "type":"object",
              "properties":{
@@ -5191,12 +5222,42 @@ var spec = {
                "taxon":{
                   "type":"string",
                   "example":"Homo sapiens"
-               }
+               },
+               "externalReferences": {
+                  "type":"array",
+                  "items":{
+                     "$ref":"#/definitions/ExternalReferencesBipspecimen"
+                  }
+                },
              },
              "xml":{
                 "name":"biospecimenPerStudyDesc"
              }
           },
+          "ExternalReferencesBipspecimen":{
+            "type":"object",
+            "properties":{
+               "external_reference_id":{
+                  "type":"string",
+                  "example":"ad9a7ce1-9f9e-4092-8eae-493297289022"
+               },
+               "reference_resource_shortname":{
+                  "type":"string",
+                  "example":"GDC"
+               },
+               "reference_resource_name":{
+                  "type":"string",
+                  "example":"Genomic Data Commons"
+               },
+               "reference_entity_location":{
+                  "type":"string",
+                  "example":"https://portal.gdc.cancer.gov/cases/ad9a7ce1-9f9e-4092-8eae-493297289022"
+               }
+            },
+            "xml":{
+               "name":"ExternalReferencesBipspecimen"
+            }
+         },
           "protocolPerStudy":{
              "type":"object",
              "properties":{
@@ -6366,7 +6427,7 @@ var spec = {
              "properties":{
                 "case_id":{
                    "type":"string",
-                   "example":"0065cb8d-63d6-11e8-bcf1-0a2705229b82"
+                   "example":"327f8188-0a5d-11eb-bc0e-0aad30af8a83"
                 },
                 "case_submitter_id":{
                    "type":"string",
@@ -6384,11 +6445,41 @@ var spec = {
                    "type":"string",
                    "example":"Breast"
                 },
+                "externalReferences": {
+                  "type":"array",
+                  "items":{
+                     "$ref":"#/definitions/ExternalReferencesAllCases"
+                  }
+                },
              },
              "xml":{
                 "name":"allCasesDescription"
              }
           },
+          "ExternalReferencesAllCases":{
+            "type":"object",
+            "properties":{
+               "external_reference_id":{
+                  "type":"string",
+                  "example":"152f9e71-a437-4a4b-8c58-3ffcda41904b"
+               },
+               "reference_resource_shortname":{
+                  "type":"string",
+                  "example":"GDC"
+               },
+               "reference_resource_name":{
+                  "type":"string",
+                  "example":"Genomic Data Commons"
+               },
+               "reference_entity_location":{
+                  "type":"string",
+                  "example":"https://portal.gdc.cancer.gov/cases/152f9e71-a437-4a4b-8c58-3ffcda41904b"
+               }
+            },
+            "xml":{
+               "name":"ExternalReferencesAllCases"
+            }
+         },
           "allCasesDesc":{
              "type":"object",
              "properties":{
@@ -6440,6 +6531,12 @@ var spec = {
                    "type":"string",
                    "example":"Uterus, NOS"
                 },
+                "externalReferences": {
+                  "type":"array",
+                  "items":{
+                     "$ref":"#/definitions/ExternalReferences"
+                  }
+                },
                 "demographics":{
                    "type":"array",
                    "items":{
@@ -6463,6 +6560,30 @@ var spec = {
                 "name":"caseFullDesc"
              }
           },
+          "ExternalReferences":{
+            "type":"object",
+            "properties":{
+               "external_reference_id":{
+                  "type":"string",
+                  "example":"c94de5fb-4fcf-46f0-a4f1-41a88f557770"
+               },
+               "reference_resource_shortname":{
+                  "type":"string",
+                  "example":"GDC"
+               },
+               "reference_resource_name":{
+                  "type":"string",
+                  "example":"Genomic Data Commons"
+               },
+               "reference_entity_location":{
+                  "type":"string",
+                  "example":"https://portal.gdc.cancer.gov/cases/c94de5fb-4fcf-46f0-a4f1-41a88f557770"
+               }
+            },
+            "xml":{
+               "name":"ExternalReferences"
+            }
+         },
           "allCasesDef2":{
              "type":"object",
              "properties":{

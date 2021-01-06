@@ -3,7 +3,6 @@ type Biospecimen {
 	sample_id: String
 	case_id: String
 	case_submitter_id: String	
-	external_case_id: String
 	aliquot_submitter_id: String 
 	case_status: String
 	aliquot_is_ref: String

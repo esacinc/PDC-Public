@@ -87,10 +87,22 @@ export const resolvers = {
 			return db.getSequelize().query(comboQuery, { model: db.getModelByName('ModelStudy') });			
 		}
 	},
+	//@@@PDC-2979 add external reference.
+	PublicCase: {
+		externalReferences(obj, args, context) {
+			var refQuery = "SELECT reference_resource_shortname, trim(both '\r' from reference_entity_location) as reference_entity_location, reference_entity_alias as external_reference_id, reference_resource_name FROM reference r where entity_type = 'case' and reference_type = 'external' and entity_id = uuid_to_bin('"+ obj.case_id + "')";
+			return db.getSequelize().query(refQuery, { model: db.getModelByName('ModelEntityReference') });
+		}
+	},
 	//@@@PDC-180 Case API for UI case summary
 	//@@@PDC-650 implement elasticache for API
 	//@@@PDC-1371 use uuid instead of submitter_id
+	//@@@PDC-2979 add external reference
 	Case: {
+		externalReferences(obj, args, context) {
+			var refQuery = "SELECT reference_resource_shortname, trim(both '\r' from reference_entity_location) as reference_entity_location, reference_entity_alias as external_reference_id, reference_resource_name FROM reference r where entity_type = 'case' and reference_type = 'external' and entity_id = uuid_to_bin('"+ obj.case_id + "')";
+			return db.getSequelize().query(refQuery, { model: db.getModelByName('ModelEntityReference') });
+		},
 		async demographics(obj, args, context) {
 			var cacheFilterName = { name: '' };
 			//@@@PDC-2544 use case_id in cache key
@@ -335,13 +347,15 @@ export const resolvers = {
 	//@@@PDC-2978 add case external reference
 	Clinical: {
 		externalReferences(obj, args, context) {
-			var refQuery = "SELECT reference_resource_shortname, trim(both '\r' from reference_entity_location) as reference_entity_location FROM reference r where entity_type = 'case' and reference_type = 'external' and entity_id = uuid_to_bin('"+ obj.case_id + "')";
+			//var refQuery = "SELECT reference_resource_shortname, trim(both '\r' from reference_entity_location) as reference_entity_location FROM reference r where entity_type = 'case' and reference_type = 'external' and entity_id = uuid_to_bin('"+ obj.case_id + "')";
+			var refQuery = "SELECT reference_resource_shortname, trim(both '\r' from reference_entity_location) as reference_entity_location, reference_entity_alias as external_reference_id, reference_resource_name FROM reference r where entity_type = 'case' and reference_type = 'external' and entity_id = uuid_to_bin('"+ obj.case_id + "')";
 			return db.getSequelize().query(refQuery, { model: db.getModelByName('ModelEntityReference') });
 		}
 	},	
 	Biospecimen: {
 		externalReferences(obj, args, context) {
-			var refQuery = "SELECT reference_resource_shortname, trim(both '\r' from reference_entity_location) as reference_entity_location FROM reference r where entity_type = 'case' and reference_type = 'external' and entity_id = uuid_to_bin('"+ obj.case_id + "')";
+			//var refQuery = "SELECT reference_resource_shortname, trim(both '\r' from reference_entity_location) as reference_entity_location FROM reference r where entity_type = 'case' and reference_type = 'external' and entity_id = uuid_to_bin('"+ obj.case_id + "')";
+			var refQuery = "SELECT reference_resource_shortname, trim(both '\r' from reference_entity_location) as reference_entity_location, reference_entity_alias as external_reference_id, reference_resource_name FROM reference r where entity_type = 'case' and reference_type = 'external' and entity_id = uuid_to_bin('"+ obj.case_id + "')";
 			return db.getSequelize().query(refQuery, { model: db.getModelByName('ModelEntityReference') });
 		}
 	},	
@@ -386,7 +400,7 @@ export const resolvers = {
 			if (res === null) {
 				var fileQuery = "SELECT study_version as number "+
 				"FROM study s "+
-				"WHERE s.pdc_study_id = '"+ obj.pdc_study_id + "' order by study_version desc ";
+				"WHERE s.pdc_study_id like '"+ obj.pdc_study_id + "%' order by study_version desc ";
 				var getIt = await db.getSequelize().query(fileQuery, { model: db.getModelByName('ModelVersion') });
 				RedisCacheClient.redisCacheSetExAsync(contactCacheName, JSON.stringify(getIt));
 				return getIt;				

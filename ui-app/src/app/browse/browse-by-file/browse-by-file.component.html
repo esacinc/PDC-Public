@@ -161,7 +161,7 @@
 						<td style="width:5%;word-wrap: break-word; white-space: normal;">{{fileData.access}}</td>
 						<td style="width:7%;word-wrap: break-word; white-space: normal;">{{fileData.file_size / 1048576 | number:'.3'}}
 						</td>
-						<td style="width:8%;word-wrap: break-word; white-space: normal;"><span *ngIf="fileData.downloadable == 'No'">{{fileData.downloadable}}</span><span *ngIf="fileData.downloadable == 'Yes'"><button matTooltip="Some data are under an embargo for publication and/or citation. For more details, visit the summary page for the study of interest for the data use agreement." mat-raised-button mat-primary label="Download Selection" (click)="downloadFile(fileData)" style="font-family:'Lato';background-color: black;color: white;" aria-label="Download">Download&nbsp;&nbsp;&nbsp;<i class="fas fa-download"></i></button></span></td>
+						<td style="width:8%;word-wrap: break-word; white-space: normal;"><span *ngIf="fileData.downloadable == 'No'">{{fileData.downloadable}}</span><span *ngIf="fileData.downloadable == 'Yes'"><button matTooltip="Some data are under an embargo for publication and/or citation. For more details, visit the summary page for the study of interest for the data use agreement." matTooltipPosition = "left" mat-raised-button mat-primary label="Download Selection" (click)="downloadFile(fileData)" style="font-family:'Lato';background-color: black;color: white;" aria-label="Download">Download&nbsp;&nbsp;&nbsp;<i class="fas fa-download"></i></button></span></td>
 					</tr>
 				</ng-template>
 		<p-paginator rows="10" totalRecords="120"></p-paginator>

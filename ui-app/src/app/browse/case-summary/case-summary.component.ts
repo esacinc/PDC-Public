@@ -27,6 +27,7 @@ import { StudySummaryComponent } from '../study-summary/study-summary.component'
 //@@@PDC-1355: Use uuid as API search parameter
 //@@@PDC-1609: URL structure for permanent links to PDC 
 //@@@PDC-2605: Show properties on Demography tab in Case Summary 
+//@@@PDC-3095 - remove external_case_id field from uiCaseSummary API
 export class CaseSummaryComponent implements OnInit {
   experimentFileCount: ExperimentFileByCaseCount[];
   dataCategoryFileCount: DataCategoryFileByCaseCount[];
@@ -69,7 +70,6 @@ export class CaseSummaryComponent implements OnInit {
 		case_submitter_id: "",
 		project_submitter_id: "",
 		disease_type: "",
-		external_case_id: "",
 		tissue_source_site_code: "",
 		days_to_lost_to_followup: "",
 		index_date: "",

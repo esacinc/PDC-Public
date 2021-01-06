@@ -96,6 +96,7 @@ describe("CaseSummaryService", () => {
   ));
 
   //@@@PDC-1123 add ui wrappers public APIs
+  //@@@PDC-3095 - remove external_case_id field from uiCaseSummary API
   it("test getDetailedCaseSummaryData", inject(
     [CaseSummaryService],
     (service: CaseSummaryService) => {
@@ -118,7 +119,6 @@ describe("CaseSummaryService", () => {
             case_submitter_id: "C3L-00977",
             project_submitter_id: "CPTAC3-Discovery",
             disease_type: "Head and Neck Squamous Cell Carcinoma",
-            external_case_id: "GDC: b18f1b80-72f1-465c-816b-65e06d2b1fa6",
             tissue_source_site_code: "Cureline-7",
             days_to_lost_to_followup: null,
             index_date: "Diagnosis",

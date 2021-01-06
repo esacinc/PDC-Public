@@ -58,6 +58,7 @@ constructor(private apollo: Apollo) {
     //@@@PDC-1123 call ui wrapper API
 	//@@@PDC-2535 Update UI with the changes to Diagnosis table columns
 	//@@@PDC-2691 Add properties to Case Summary view
+	//@@@PDC-3095 - remove external_case_id field from uiCaseSummary API
 	caseDataDetailedQuery = gql`
 				query FilteredStudiesData($case_id: String!){
 					  uiCaseSummary(case_id: $case_id) {
@@ -65,7 +66,6 @@ constructor(private apollo: Apollo) {
 						  case_submitter_id
 						  project_submitter_id
 						  disease_type
-						  external_case_id
 						  tissue_source_site_code
 						  days_to_lost_to_followup
 						  index_date

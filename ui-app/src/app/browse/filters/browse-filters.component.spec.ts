@@ -16,6 +16,13 @@ class MockBrowseFiltersService {
       uiStudy: []
     });
   }
+  
+  //@@@PDC-3010: Update UI to use APIs for fily type to data category mapping
+  getDataCategoryToFileTypeMapping(): Observable<any> {
+    return of({
+		uiDataCategoryFileTypeMapping: []
+	});
+  }
 
   getFilteredFiltersDataQuery({}): Observable<any> {
     return of({

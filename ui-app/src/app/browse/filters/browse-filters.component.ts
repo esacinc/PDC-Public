@@ -7,7 +7,7 @@ import { map, debounceTime, startWith, take } from 'rxjs/operators';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Location } from '@angular/common';
 import { environment } from "../../../environments/environment";
-import { Filter, FilterData, GeneNameList } from "../../types";
+import { Filter, FilterData, GeneNameList, dataCategory2FileTypeMapping } from "../../types";
 import { BrowseService } from "../browse.service";
 import { BrowseFiltersService } from "./browse-filters.service";
 @Component({
@@ -45,6 +45,7 @@ import { BrowseFiltersService } from "./browse-filters.service";
 //@@@PDC-1668: multiple and trailing spaces in gene names filter bug
 //@@@PDC-2460: Add new data category/file type: Alternate Processing Pipeline/Archive
 //@@@PDC-2508: Checkbox appears faded when clicking Metadata or Quality Metrics Count
+//@@@PDC-3010: Update UI to use APIs for fily type to data category mapping
 export class BrowseFiltersComponent implements OnInit, OnChanges {
   allCategoryFilterData: FilterData; // Full list of all cases as returned by API
   allFilterCategoryMapData: Map<string, string[]> = new Map();
@@ -206,17 +207,19 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
     "case_status"
   ];
   
-  dataCategoryFileTypeMap = {
-	  "Other Metadata": ["Document", "Text", "Archive"], "Peptide Spectral Matches": ["Open Standard", "Text"], "Processed Mass Spectra" : ["Open Standard"],
-	  "Protein Assembly": ["Text"], "Protein Databases": ["Text"], "Quality Metrics": ["Text", "Web"], "Raw Mass Spectra": ["Proprietary"], 
-	  "Spectral Library": ["Proprietary"], "Alternate Processing Pipeline": ["Archive"]
-  };
+  //dataCategoryFileTypeMap = {
+//	  "Other Metadata": ["Document", "Text", "Archive"], "Peptide Spectral Matches": ["Open Standard", "Text"], "Processed Mass Spectra" : ["Open Standard"],
+//	  "Protein Assembly": ["Text"], "Protein Databases": ["Text"], "Quality Metrics": ["Text", "Web"], "Raw Mass Spectra": ["Proprietary"], 
+//	  "Spectral Library": ["Proprietary"], "Alternate Processing Pipeline": ["Archive"]
+ // };
+  dataCategoryFileTypeMap = {};
   
-  fileTypeDataCategoryMap = {
-		"Document": ["Other Metadata"], "Open Standard": ["Peptide Spectral Matches", "Processed Mass Spectra"], "Proprietary": ["Raw Mass Spectra", "Spectral Library"],
-		"Text": ["Other Metadata", "Peptide Spectral Matches", "Protein Assembly", "Protein Databases", "Quality Metrics"], "Web": ["Quality Metrics"],
-		"Archive": ["Alternate Processing Pipeline", "Other Metadata"]
-  };
+  //fileTypeDataCategoryMap = {
+	//	"Document": ["Other Metadata"], "Open Standard": ["Peptide Spectral Matches", "Processed Mass Spectra"], "Proprietary": ["Raw Mass Spectra", "Spectral Library"],
+	//	"Text": ["Other Metadata", "Peptide Spectral Matches", "Protein Assembly", "Protein Databases", "Quality Metrics"], "Web": ["Quality Metrics"],
+	//	"Archive": ["Alternate Processing Pipeline", "Other Metadata"]
+  //};
+  fileTypeDataCategoryMap = {};
 
   //array to keep all possible stduies
   allStudyArray: string[] = [];
@@ -227,6 +230,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
     private browseService: BrowseService
   ) {
     BrowseFiltersComponent.urlBase = environment.dictionary_base_url;
+	this.getDataCategoryMapping();
     this.getAllFilterData();
   }
 
@@ -243,6 +247,30 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
       this.populateFilters();
       this.loading = false;
     });
+  }
+  
+  //Get data category to file type and vice a versa mapping
+  private getDataCategoryMapping() {
+	this.loading = true;
+    this.browseFiltersService.getDataCategoryToFileTypeMapping().subscribe((data: any) => {
+		console.log(data);
+		var mapping:dataCategory2FileTypeMapping[] = data.uiDataCategoryFileTypeMapping;
+		for (let record of mapping){
+			//There might be several file types mapped to one data category
+			if (this.dataCategoryFileTypeMap.hasOwnProperty(record.data_category)) {
+				this.dataCategoryFileTypeMap[record.data_category].push(record.file_type);
+			} else {
+				this.dataCategoryFileTypeMap[record.data_category] = Array(record.file_type);
+			}
+			//There might be several data categories mapped to one file type
+			if (this.fileTypeDataCategoryMap.hasOwnProperty(record.file_type)) {
+				this.fileTypeDataCategoryMap[record.file_type].push(record.data_category);
+			} else {
+				this.fileTypeDataCategoryMap[record.file_type] = Array(record.data_category);
+			}
+		}
+		console.log(this.dataCategoryFileTypeMap, this.fileTypeDataCategoryMap);
+	});
   }
   
   private getStudyUUIDNameMapping(){
