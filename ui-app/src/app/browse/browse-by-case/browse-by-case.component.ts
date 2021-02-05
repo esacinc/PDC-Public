@@ -279,8 +279,11 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
 						let csvOptions = {
 							headers: headerCols
 						};
-						let exportFileObject = JSON.parse(JSON.stringify(localSelectedCases, colValues));	
-						new ngxCsv(exportFileObject, this.getCsvFileName(), csvOptions);
+						//PDC-3206 fix ddownload manifest even if there are zero records 
+						if (this.totalRecords > 0) {
+							let exportFileObject = JSON.parse(JSON.stringify(localSelectedCases, colValues));	
+							new ngxCsv(exportFileObject, this.getCsvFileName(), csvOptions);
+						}
 						this.isTableLoading.emit({isTableLoading:"case:false"});
 				  }
 			});				

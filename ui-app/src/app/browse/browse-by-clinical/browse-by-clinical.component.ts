@@ -333,8 +333,11 @@ downloadCompleteManifest(buttonClick = false) {
 			let csvOptions = {
 				headers: headerCols
 			};
-			let exportFileObject = JSON.parse(JSON.stringify(exportData, colValues));		
-			new ngxCsv(exportFileObject, this.getCsvFileName(), csvOptions);
+			//PDC-3206 fix ddownload manifest even if there are zero records 
+			if (this.totalRecords > 0) {
+				let exportFileObject = JSON.parse(JSON.stringify(exportData, colValues));		
+				new ngxCsv(exportFileObject, this.getCsvFileName(), csvOptions);
+			}
 			this.isTableLoading.emit({isTableLoading:"clinical:false"});
 		}
 		});

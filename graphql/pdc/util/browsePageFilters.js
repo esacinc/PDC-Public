@@ -587,11 +587,12 @@ function applyStudyFilter(args, cache = { name: "" }) {
     }
   }
   //@@@PDC-2969 get latest version by default
-  if ((typeof args['study_version'] == "undefined" || args['study_version'].length <= 0)&&
+  /*if ((typeof args['study_version'] == "undefined" || args['study_version'].length <= 0)&&
   (typeof args['study_name'] == "undefined"|| args['study_name'].length <= 0) &&
   (typeof args['study_submitter_id'] == "undefined"|| args['study_submitter_id'].length <= 0) &&
   (typeof args['study_id'] == "undefined"|| args['study_id'].length <= 0) &&
-  (typeof args['pdc_study_id'] == "undefined"|| args['pdc_study_id'].length <= 0)) {
+  (typeof args['pdc_study_id'] == "undefined"|| args['pdc_study_id'].length <= 0)) {*/
+  if (typeof args['study_version'] == "undefined" || args['study_version'].length <= 0) {
       studyFilterQuery += ` and s.is_latest_version = 1 `;
       cache.name += `s.is_latest_version:1;`;	  	  
   }

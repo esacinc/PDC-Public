@@ -149,6 +149,7 @@ properties:
         - Papillary Renal Cell Carcinoma
         - Pediatric/AYA Brain Tumors
         - Oral Squamous Cell Carcinoma
+        - Pancreatic Ductal Adenocarcinoma
         required: 'True'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6161017&version=1.0

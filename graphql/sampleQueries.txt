@@ -1468,10 +1468,12 @@ PDC-136, 774, 827, 787, 1960, 2815
 {
 	getPaginatedCases(offset: 0 limit: 10) {
 	total
-	cases {
+	cases {	
 	  case_submitter_id
 	  project_submitter_id
 	  disease_type
+		disease_type
+		primary_site
 	}
 	pagination {
 		count
@@ -1511,13 +1513,70 @@ PDC-136, 774, 827, 787, 1960, 2815
 	}
 	}
 }
+//PDC-3022
 {
-	getPaginatedCases(offset: 20 limit: 10) {
+	getPaginatedCases(offset: 0 limit: 10) {
+		total
+		cases {
+			  case_id
+			  case_submitter_id
+			  project_submitter_id
+			  disease_type
+			  primary_site
+			  samples {
+					sample_id
+					sample_type
+					sample_submitter_id
+					biospecimen_anatomic_site
+			  }
+			  diagnoses{
+				  tumor_grade
+				  tumor_stage
+			  }
+			  demographics{
+					ethnicity
+					gender
+					race
+					days_to_birth
+			  }
+		}
+	}
+}
+{
+	getPaginatedCases(offset: 0 limit: 10) {
 	total
 	cases {
 	  case_submitter_id
 	  project_submitter_id
 	  disease_type
+      primary_site
+	  samples {
+		sample_id
+		sample_type
+		sample_submitter_id
+		biospecimen_anatomic_site
+					aliquots{
+				aliquot_submitter_id
+				aliquot_quantity
+				aliquot_volume
+				status
+				pool
+				aliquot_is_ref
+				amount
+				analyte_type
+				concentration
+			}
+	  }
+	  diagnoses{
+		  tumor_grade
+		  tumor_stage
+	  }
+	  demographics{
+		ethnicity
+		gender
+		race
+		days_to_birth
+	  }
 	}
 	}
 }
@@ -1765,7 +1824,7 @@ PDC-136, 774, 827, 787, 1960, 2815
 	}
 }
 {
-	getPaginatedUIClinical(study_name: "TCGA_Colon_Cancer_Proteome;TCGA_Breast_Cancer_Proteome" offset: 0 limit: 10) {
+	getPaginatedUIClinical(study_name: "Prospective Breast BI Proteome" offset: 0 limit: 10) {
 		total
 		uiClinical{
 			case_id
@@ -1779,6 +1838,11 @@ PDC-136, 774, 827, 787, 1960, 2815
 			tissue_or_organ_of_origin
 			tumor_grade
 			tumor_stage
+			externalReferences {
+				reference_resource_shortname
+				reference_entity_location
+			}
+
 		}
 		pagination {
 			count
@@ -5577,6 +5641,16 @@ limit: 10) {
 		}
 	}
 }
+{
+	getBatchedUIPtm(offset: 0 limit: 10){
+		total
+		uiBatchedPtm {
+			ptm_type 
+			site
+			peptide
+		}
+	}
+}
 //PDC-191
 1874
 {
@@ -6194,7 +6268,6 @@ PDC-2978
 		aliquot_submitter_id 
 		sample_submitter_id
 		case_submitter_id
-		external_case_id
 		aliquot_is_ref
 		aliquot_status
 		case_status
@@ -6361,7 +6434,12 @@ PDC-2978
 		sample_type
 		disease_type
 		primary_site
-	}
+externalReferences {
+			external_reference_id
+			reference_resource_shortname
+			reference_resource_name
+			reference_entity_location
+		}	}
 	pagination {
 		count
 		sort
@@ -6576,6 +6654,81 @@ PDC-3009
 	{
 		data_category
 		file_type
+	}
+}
+PDC-3022
+{
+	study (study_id: String, pdc_study_id: String) 
+	{
+		study_id
+		study_submitter_id
+		pdc_study_id
+		program_id
+		project_id
+		study_name
+		program_name
+		project_name
+		analytical_fraction
+		experiment_type
+		cases{
+			case_id
+			case_submitter_id
+		    disease_type
+		    tissue_source_site_code
+		    days_to_lost_to_followup
+		    index_date
+		    lost_to_followup
+		    primary_site    
+			samples{
+				gdc_sample_id
+				gdc_project_id
+				sample_submitter_id
+				sample_type
+				status
+				pool
+				sample_is_ref
+				biospecimen_anatomic_site
+				composition
+				current_weight
+				days_to_collection
+				days_to_sample_procurement
+				diagnosis_pathologically_confirmed
+				freezing_method
+				initial_weight 
+				intermediate_dimension
+				is_ffpe
+				longest_dimension
+				method_of_sample_procurement
+				oct_embedded
+				pathology_report_uuid
+				preservation_method
+				sample_type_id
+				shortest_dimension
+				time_between_clamping_and_freezing
+				time_between_excision_and_freezing
+				tissue_type
+				tumor_code
+				tumor_code_id
+				tumor_descriptor
+				aliquots{
+					aliquot_submitter_id
+					aliquot_quantity
+					status
+					pool
+					aliquot_is_ref
+					aliquot_volume
+					amount
+					analyte_type
+					concentration
+				}
+			}
+		}
+	}
+}
+{
+	uiDataVersionSoftwareVersion{
+		data_version
+		build_tag
 	}
 }
 

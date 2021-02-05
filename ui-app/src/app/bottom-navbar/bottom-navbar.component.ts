@@ -5,11 +5,14 @@ import { Subscription } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { PDCUserService } from '../pdcuser.service';
 import { OverlayWindowService } from '../overlay-window/overlay-window.service';
+import { BottomNavbarService } from '../bottom-navbar/bottom-navbar.service';
+import { ReleaseVersionData} from '../types';
 
 @Component({
   selector: 'app-bottom-navbar',
   templateUrl: './bottom-navbar.component.html',
-  styleUrls: ['./bottom-navbar.component.scss']
+  styleUrls: ['./bottom-navbar.component.scss'],
+  providers: [ BottomNavbarService ]
 })
 export class BottomNavbarComponent implements OnInit {
 	
@@ -18,9 +21,27 @@ export class BottomNavbarComponent implements OnInit {
   bottomNavDisplayFlag:boolean  = true;
   homePageURL = "/";
   tag: string;
+  loadingReleaseData: boolean = false;
+  releaseVersionsData: ReleaseVersionData[] = [];
   
   //@@@PDC 707: Add privacy notice to user registration page and in footer of all pages
-  constructor(private http: HttpClient, private userService: PDCUserService, private router: Router,  private overlayWindow: OverlayWindowService) { }
+  constructor(private http: HttpClient, private userService: PDCUserService, private router: Router,  private overlayWindow: OverlayWindowService, private bottomNavbarService: BottomNavbarService,) {
+    //@@@PDC-3163: Add data release version to the UI
+    this.getReleaseVersionData();
+  }
+
+  //@@@PDC-3163: Add data release version to the UI
+  getReleaseVersionData(){
+	  this.loadingReleaseData = true;
+	  setTimeout(() => {
+		  this.bottomNavbarService.getReleaseVersionDetails().subscribe((data: any) =>{
+        if (data && data.uiDataVersionSoftwareVersion && data.uiDataVersionSoftwareVersion[0]) {
+          this.releaseVersionsData =  data.uiDataVersionSoftwareVersion[0];
+        }
+        this.loadingReleaseData = true;
+		  });
+	  }, 1000);
+  }
 
   ngOnInit() {
     this.tag = environment['BUILD_TAG'] || 'No build tag specified';

@@ -6,10 +6,27 @@ import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { PDCUserService } from "../pdcuser.service";
 import { BottomNavbarComponent } from "./bottom-navbar.component";
+import { BottomNavbarService } from "./bottom-navbar.service";
+import { Observable, of } from 'rxjs';
 
 class MockPDCUserService {}
 
 class MockOverlayWindowService {}
+
+class MockBottomNavbarService {
+  //@@@PDC-3163: Add data release version to the UI
+  //This data keeps changing and need to be updated.
+  getReleaseVersionDetails(): Observable<any> {
+    return of({
+      uiDataVersionSoftwareVersion: [
+        {
+          data_release: "1.8",
+          build_tag: "1.0.23"
+        }
+      ]
+    });
+  }
+}
 
 describe("BottomNavbarComponent", () => {
   let component: BottomNavbarComponent;
@@ -28,7 +45,9 @@ describe("BottomNavbarComponent", () => {
       set: {
         providers: [
           { provide: PDCUserService, useClass: MockPDCUserService },
-          { provide: OverlayWindowService, useValue: MockOverlayWindowService }
+          { provide: OverlayWindowService, useValue: MockOverlayWindowService },
+          { provide: BottomNavbarService, useClass: MockBottomNavbarService
+          },
         ]
       }
     });

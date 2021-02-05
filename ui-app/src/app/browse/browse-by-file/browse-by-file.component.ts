@@ -12,6 +12,7 @@ import { MatDialog, MatDialogConfig } from "@angular/material";
 import { ActivatedRoute } from "@angular/router";
 import { Apollo } from "apollo-angular";
 import { ngxCsv } from "ngx-csv/ngx-csv";
+import { take } from 'rxjs/operators';
 import { Table } from "primeng/table";
 import { environment } from "../../../environments/environment";
 import { WorkflowManagerComponent } from "../../analysis/workflow-manager/workflow-manager.component";
@@ -515,6 +516,7 @@ export class BrowseByFileComponent implements OnInit {
   }
 
   //@@@PDC-937: Add a button to allow download all manifests with a single click
+  //@@@PDC-3206: fix Export All Manifests button causing files manifest to download twice
   async fileExportCompleteManifest(buttonClick=false) {
     if (this.totalRecords > 10000) {
         this.dialogueForHugeDataVolume();
@@ -528,6 +530,7 @@ export class BrowseByFileComponent implements OnInit {
           this.sort,
           this.newFilterSelected
         )
+		.pipe(take(1))
         .subscribe((data: any) => {
           if (buttonClick) {
             this.completeFileManifest = data.getPaginatedUIFile.uiFiles;
@@ -606,7 +609,8 @@ export class BrowseByFileComponent implements OnInit {
   //@@@PDC-729 Integrate PDC with Fence and IndexD
   //@@@PDC-784 Improve download controlled files feature
   //@@@PDC-801 For files that are marked downloadable call API to get signed URL and include in manifest
-  //@@@PDC-869 if controlled file is not downloadable, it will not ask user to login eRA and authorize 
+  //@@@PDC-869 if controlled file is not downloadable, it will not ask user to login eRA and authorize
+  //@@@PDC-3206 fix ddownload manifest even if there are zero records  
   async fileTableExportCSV(iscompleteFileDownload:boolean = false, individualFileDownload:boolean = false) {
     let dataForExport;
     if (iscompleteFileDownload) {
@@ -772,7 +776,9 @@ export class BrowseByFileComponent implements OnInit {
             //In the last iteration, download the file manifest
             if (count == loop) {
               this.displayLoading(iscompleteFileDownload, "file1", false);
-              new ngxCsv(exportFileObject, this.getCsvFileName(), csvOptions);
+			  if (count > 0) {
+				new ngxCsv(exportFileObject, this.getCsvFileName(), csvOptions);
+			  }
             }
           }); 
           loop++;
@@ -783,7 +789,9 @@ export class BrowseByFileComponent implements OnInit {
           this.browseByFileService.getFilesData(fileNameStr).subscribe((fileData: any) => {
             this.setFileExportObject(fileData, exportFileObject);
             this.displayLoading(iscompleteFileDownload, "file1", false);
-            new ngxCsv(exportFileObject, this.getCsvFileName(), csvOptions);
+			if (fileNameList.length > 0) {
+				new ngxCsv(exportFileObject, this.getCsvFileName(), csvOptions);
+			}
           });
       }
     }

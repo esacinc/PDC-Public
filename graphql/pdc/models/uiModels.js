@@ -336,6 +336,18 @@ const defineUiModels = (db) => {
 	});
 	ModelUISunburst.removeAttribute('id');
 	
+	//@@@PDC-3162 get current data/software version
+	const ModelUIVersion = db.getSequelize().define('dummy', {
+		data_release: { type: Sequelize.STRING},
+		build_tag:  { type: Sequelize.STRING},
+	}, {
+		timestamps: false,
+		underscored: true,
+		freezeTableName: true,
+		tableName: 'dummy'	
+	});
+	ModelUIVersion.removeAttribute('id');
+
 	//@@@PDC-136 server-side pagination 
 	/**
 	* ModelPagination is used in all paginated queries.
@@ -584,6 +596,7 @@ const defineUiModels = (db) => {
 	db['ModelUIFileCount'] = ModelUIFileCount;
 	db['ModelUIGeneStudySpectralCount'] = ModelUIGeneStudySpectralCount;
 	db['ModelUISunburst'] = ModelUISunburst;	
+	db['ModelUIVersion'] = ModelUIVersion;	
 	db['ModelUIPtm'] = ModelUIPtm;		
 	db['ModelFilterStudy'] = ModelFilterStudy;		
 	db['ModelFilterProgProj'] = ModelFilterProgProj;

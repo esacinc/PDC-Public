@@ -137,14 +137,14 @@ export type FileCountsForStudyPage = {
 //@@@PDC-2436 - Update study summary screen to add contact details
 export type ContactDataForStudyPage = {
 	name: string;
-	institution: string; 
+	institution: string;
 	email: string;
-	url: string; 	
+	url: string;
 }
 
 //export type QueryAllCasesData = {
 export type QueryAllStudiesData = {
-	allStudiesData: AllStudiesData[]; 
+	allStudiesData: AllStudiesData[];
 }
 
 //@@@PDC-535 New filters for browse page
@@ -662,10 +662,10 @@ export type DataCategoryFileByCaseCount = {
 export type FileMetadata = {
 	file_name: string,
 	file_location: string,
-	sample_id: string, 
+	sample_id: string,
 	sample_submitter_id: string,
-	acquisition_file_name: string, 
-	analyte: string, 
+	acquisition_file_name: string,
+	analyte: string,
 	instrument: string,
 	folder_name: string,
 	fraction: string,
@@ -735,6 +735,16 @@ export type GeneProteinData = {
 	spectral_counts: SpectralCounts[];
 }
 
+//@@@PDC-3163: Add data release version to the UI
+export type ReleaseVersionData = {
+	data_release: string;
+	build_tag: string;
+}
+
+export type QueryReleaseVersionData = {
+	uiDataVersionSoftwareVersion: ReleaseVersionData[];
+}
+
 export type GeneStudySpectralCountData = {
 	pdc_study_id: string;
 	submitter_id_name: string;
@@ -743,7 +753,7 @@ export type GeneStudySpectralCountData = {
 	distinct_peptide: string;
 	unshared_peptide: string;
 	aliquots_count: string;
-	plexes_count: string; 
+	plexes_count: string;
 }
 
 export type GeneStudySpectralCountDataPaginated = {
@@ -753,10 +763,10 @@ export type GeneStudySpectralCountDataPaginated = {
 }
 
 export type GeneAliquotSpectralCountData = {
-	aliquot_id: string; 
+	aliquot_id: string;
 	plex: string;
 	label: string;
-	submitter_id_name: string; 
+	submitter_id_name: string;
 	experiment_type: string;
 	spectral_count: string;
 	distinct_peptide: string;
@@ -777,57 +787,57 @@ export type GeneAliquotSpectralCountDataPaginated = {
 
 //@@@PDC-357
 export type SearchResults = {
-	record_type: string; 
-	name: string; 
+	record_type: string;
+	name: string;
 }
 
 export type SearchResultsStudy = {
-	record_type: string; 
-	name: string; 
+	record_type: string;
+	name: string;
 	submitter_id_name: string;
 	study_id: string;
 	pdc_study_id: string;
 }
 
 export type SearchCaseResults = {
-	record_type: string; 
-	name: string; 
+	record_type: string;
+	name: string;
 	case_id: string;
 }
 
 export type SearchResultsForAliquot = {
-	aliquot_id: string; 
-	aliquot_submitter_id: string; 
+	aliquot_id: string;
+	aliquot_submitter_id: string;
 }
 
 export type SearchbyStudyUUID = {
-	study_submitter_id: string; 
+	study_submitter_id: string;
 }
 
 export type UUIDForStudy = {
-	study_submitter_id: string; 
+	study_submitter_id: string;
 }
 
 export type SearchbyCaseUUID = {
-	case_submitter_id: string; 
+	case_submitter_id: string;
 }
 
 export type UUIDForCase = {
-	case_id: string; 
+	case_id: string;
 }
 
 //@@@PDC-440, PDC-438
 export type SearchResultsGenesProteins = {
-	record_type: string; 
+	record_type: string;
 	name: string;
-	description: string; 
+	description: string;
 }
 
 //@@@PDC-465
 export type SearchResultsProteins = {
-	record_type: string; 
+	record_type: string;
 	name: string;
-	description: string; 
+	description: string;
 	proteins: string;
 }
 
@@ -854,7 +864,7 @@ export type PDCUserId = {
 export type PDCUserData = {
 	user_id: PDCUserId;
 	login_username: string;
-	email: string; //@@@PDC-421 added email field 
+	email: string; //@@@PDC-421 added email field
 	user_id_type: string;
 	name: string;
 	organization: string;

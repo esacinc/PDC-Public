@@ -715,6 +715,18 @@ export default ({ height = 500, width = 226, title = '' } = {}) => `
           </defs>
       </svg>
 	  
+	 <svg id="Pancreas" viewBox="0 0 54 25" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;">
+          <g transform="matrix(0.5,0,0,0.5,-6.96947,0.283104)">
+              <g transform="matrix(0.664262,0,0,0.664262,22.7272,8.08318)">
+                  <g transform="matrix(3.01086,-0,-0,3.01086,-13.2301,-13.0211)">
+                      <use xlink:href="#_pancreas" x="0" y="0" width="53.754px" height="24.642px"/>
+                  </g>
+              </g>
+          </g>
+          <defs>
+              <image id="_pancreas" width="54px" height="25px" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADYAAAAZCAYAAAB6v90+AAAACXBIWXMAAA7EAAAOxAGVKw4bAAAFGUlEQVRYhc2Y208bRxTGv736tjZrsA0YFwwhhJKQSGnSSpGqRmr7VvUhf2Teqr71pVWkPlRqeGlEEmgo5RKCYztgr71re1nbu33YOWZYm0scEvpJR+Px2rvzm3N25pwRcMXyYIhcV+Ra3vhrAOCeYhCgs/YKxMHwg5e5dpDR7wiiA8ABYLPWYd+5AnT3wmCnzCzJ5Ts0a2fA8BAqs/ApRtfpPwTVBGABqAMwWNtkgGeDscGcZkHRA3thwdqgV3iQKDMNQIKZxrUau06ABGYzkDKAN8wKAA4YrCOfA0RhoAYsGBodHIeGw/Vd7j48CEGMcpbi+5bS1GqqFa6ppmSoZremmm0BohDqKlKoq3qSJ9mxTqS6YMysq66yyobee/4JsACQGhhIcAb50KBYp/Bosj6BhQMgGc4mHKk9/iZWiu9qhe6eVrTehautI8kxBk16QFIkF1p+tPW9PGNNGgAq8D1p98AYFA+UYLOY4gYxCkBn14OhYcGP9QprLeY1mbtXFkDWg5ctRSqZN1pR2Uy8NnbiBcsVXPMCIH1qSUfe08xqfsaa1MFNuByACsP3SoYNIg9gDkC+obRy+9HSiKU0Q3W1gZpqHbVkuxN3YqruxNW4E3Pj7dhRrjFuKK58wOAcNgG6By+7pxXH1pJb7Vf6ttGQW8VhQAYp6SSAwHsvc+Gnwp/ZCQDzAJY84PbreGHh+eg/4ovkZtUV3Op5D4l2wvIX724u36kspBOOJtZVy13Ttw7/Sq2/q4bqby8LhjTiaPKD0p23YCEIWvIZGEFlASwCuFtXrQc/559o+7FSc5gHChAw3hqLFCMHrUti6FO2mY4+2v6unnC0JwBWAGzAXymbtADwYEulyOGDn+Z+DRuqORQUAHjw8DGhrtdmRn7cfWiGuuoKgL/hL/d1sH2MwMLwF4WcI7Y/fzz/i9KSbedjDepDJEDAl+Xl1MPC/YLkiX8CWAWwCX8Pa8IPRfAe0wBk/k3sTbdku3tF4z5T87XpxMO395VMa3QVwDMAawB24IcfLVauAN3lN1oVQHRD35UB/K/AMq2x8Lf7X6VmzalNAC/gA20hkG0A6FA6x2/QLgA31o582lGfoYSjKV8X76aWK9dLoif+Bv9d2oKfQpXRlx8e56gyjlMiG0B9zsw1VjLPB6Zan0ICBNww8vqdwxvRWXOqIHri7/DfIfJQGX4SQEC9jJ6/D4FRUlnIm9mNm9X5ey+Tm0OviMMo4WjKvYOlzFL1mpNwtG0GsoPjBJfeIwq7Pi/xIjCH/akgeuLaD7vfpABce5ncHCrNuagUVxEXajMjtyrzkVlzqix64tMBMJT/WTjegDvA4PKIJHDpFKVScwBuu4J7d13fuvXHxDP7IFy1LwsmbSfDC0Zez5tZcaoxXpE9icqOIAzVWPb7APXAAMCDQeUJJas5AAsAFl3BXXyl7+S24/vCrlYwq6H6hfc32ZOEyWY6OtlIxzKtUemzxoSdPEocAihyVoa/slF+aaHfOxcGCoKdWPLhb9aUCE8z0CyACUtpjpUjlUhdsSQjZLo11XQkVxIi3ZAc7obkUFf1Yu2Il7aTndGjEUv0RMr4KxwAeYQPMyp1gvXcewGdAAvA8UVhsBiksoXqMypfSMG6jKzOAdS56xRmvdUNQ3jnTLAAIF8585Uvb1Su8wUnX3SeZoOq7L5Tpg/VwDOPAQcvvPHHAwRF4o8JBlnfuchlgQR17inVKUdl5x3qnPBC4PNHg+H1H/gZVV5wQeSZAAAAAElFTkSuQmCC"/>
+          </defs>
+      </svg>
 	      
 	 <svg id="Liver" viewBox="0 0 97 85" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-miterlimit:10;">
           <g transform="matrix(0.5,0,0,0.5,7.19269,7.96908)">
@@ -968,19 +980,6 @@ export default ({ height = 500, width = 226, title = '' } = {}) => `
           </g>
           <defs>
               <image id="_pleura" width="37px" height="26px" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACUAAAAaCAYAAAAwspV7AAAACXBIWXMAAA7EAAAOxAGVKw4bAAACnElEQVRIicWWYWvTUBSGnyxdoa6sGKzKplKpKAyh4ED0yz75G/oj+xv8qCCKgigTROlQlEGlo9tcIJLWD+fc5OQu1Q7a7MAl7W3SPPd9zzn3wiXHbMCaPxdcBghkMKGZSgGCPtPKoYwydYVyYImCpbWqoTQaZoQKcwrElUOpSnWgCbR01BXGwVWuVIioEwHbwDWdP0LsOwXiyqCMSg6oC7QVJgTGeg0rgTKV1lSQLrADbALHwIQ84Su1r6FAHeABcF/nhhYION+4lh3GthZi2w7QU6i2AiVo5QHpSqE8224qSA94CNxR2CzB9TOrts9Vm8ujHvAIuK6/J0jlHSnYau2bDVj3gHaBp8Atc9sIOEQqLwbSoM906UoZy1w/uqtAe0g+uTgBvukYk28zy7HP7GchkicOqAs8Bp7p1cZX4DPwE7EuCfpMC1DeH7tI/8Pj7nWba4O8F3UUZA9RysYZ8AH4gliY5VMGZST3d+7Uu2J+Dykq4/azLcSyHvCEYg65eAO8Aw5Q65xKGVTJnzs4P9x9dXP/BmJVGyn7DpI790qeB9gHXgGfgB/k/SmLmne+aekLIn2ZVc6CNHVsGqBtRKUrc2BA7HoOvEY6+QRPJSgqZStmS1cd6YutPU0zH7F4sewr0AskwUeUqARQC/pMZ4NC7qyRJ+ttRIEIOWZEXPwIfYbY9RJ4i1TdIZrcvkpQXKXbf35jToGIghsKehGgE+AjUmXvEXWGSGLPBbJQKfkeNEJyx85PkK3gKnk+2QXN9Nkx8AtpiAcKMQS+k5d+1rnnrSZbeclRtQ3c0KtN/gbF6rQKTxRspHBjo0xMSVL/E8oD86usqd/XPaBUxx99aWwA3Eh0sAjQOSgDBsVmaltDWcd3NqclY2EYF38B9njSuAzGbScAAAAASUVORK5CYII="/>
-          </defs>
-      </svg>
-	  
-      <svg id="Pancreas" viewBox="0 0 54 25" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;">
-          <g transform="matrix(0.5,0,0,0.5,-6.96947,0.283104)">
-              <g transform="matrix(0.664262,0,0,0.664262,22.7272,8.08318)">
-                  <g transform="matrix(3.01086,-0,-0,3.01086,-13.2301,-13.0211)">
-                      <use xlink:href="#_pancreas" x="0" y="0" width="53.754px" height="24.642px"/>
-                  </g>
-              </g>
-          </g>
-          <defs>
-              <image id="_pancreas" width="54px" height="25px" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADYAAAAZCAYAAAB6v90+AAAACXBIWXMAAA7EAAAOxAGVKw4bAAAFGUlEQVRYhc2Y208bRxTGv736tjZrsA0YFwwhhJKQSGnSSpGqRmr7VvUhf2Teqr71pVWkPlRqeGlEEmgo5RKCYztgr71re1nbu33YOWZYm0scEvpJR+Px2rvzm3N25pwRcMXyYIhcV+Ra3vhrAOCeYhCgs/YKxMHwg5e5dpDR7wiiA8ABYLPWYd+5AnT3wmCnzCzJ5Ts0a2fA8BAqs/ApRtfpPwTVBGABqAMwWNtkgGeDscGcZkHRA3thwdqgV3iQKDMNQIKZxrUau06ABGYzkDKAN8wKAA4YrCOfA0RhoAYsGBodHIeGw/Vd7j48CEGMcpbi+5bS1GqqFa6ppmSoZremmm0BohDqKlKoq3qSJ9mxTqS6YMysq66yyobee/4JsACQGhhIcAb50KBYp/Bosj6BhQMgGc4mHKk9/iZWiu9qhe6eVrTehautI8kxBk16QFIkF1p+tPW9PGNNGgAq8D1p98AYFA+UYLOY4gYxCkBn14OhYcGP9QprLeY1mbtXFkDWg5ctRSqZN1pR2Uy8NnbiBcsVXPMCIH1qSUfe08xqfsaa1MFNuByACsP3SoYNIg9gDkC+obRy+9HSiKU0Q3W1gZpqHbVkuxN3YqruxNW4E3Pj7dhRrjFuKK58wOAcNgG6By+7pxXH1pJb7Vf6ttGQW8VhQAYp6SSAwHsvc+Gnwp/ZCQDzAJY84PbreGHh+eg/4ovkZtUV3Op5D4l2wvIX724u36kspBOOJtZVy13Ttw7/Sq2/q4bqby8LhjTiaPKD0p23YCEIWvIZGEFlASwCuFtXrQc/559o+7FSc5gHChAw3hqLFCMHrUti6FO2mY4+2v6unnC0JwBWAGzAXymbtADwYEulyOGDn+Z+DRuqORQUAHjw8DGhrtdmRn7cfWiGuuoKgL/hL/d1sH2MwMLwF4WcI7Y/fzz/i9KSbedjDepDJEDAl+Xl1MPC/YLkiX8CWAWwCX8Pa8IPRfAe0wBk/k3sTbdku3tF4z5T87XpxMO395VMa3QVwDMAawB24IcfLVauAN3lN1oVQHRD35UB/K/AMq2x8Lf7X6VmzalNAC/gA20hkG0A6FA6x2/QLgA31o582lGfoYSjKV8X76aWK9dLoif+Bv9d2oKfQpXRlx8e56gyjlMiG0B9zsw1VjLPB6Zan0ICBNww8vqdwxvRWXOqIHri7/DfIfJQGX4SQEC9jJ6/D4FRUlnIm9mNm9X5ey+Tm0OviMMo4WjKvYOlzFL1mpNwtG0GsoPjBJfeIwq7Pi/xIjCH/akgeuLaD7vfpABce5ncHCrNuagUVxEXajMjtyrzkVlzqix64tMBMJT/WTjegDvA4PKIJHDpFKVScwBuu4J7d13fuvXHxDP7IFy1LwsmbSfDC0Zez5tZcaoxXpE9icqOIAzVWPb7APXAAMCDQeUJJas5AAsAFl3BXXyl7+S24/vCrlYwq6H6hfc32ZOEyWY6OtlIxzKtUemzxoSdPEocAihyVoa/slF+aaHfOxcGCoKdWPLhb9aUCE8z0CyACUtpjpUjlUhdsSQjZLo11XQkVxIi3ZAc7obkUFf1Yu2Il7aTndGjEUv0RMr4KxwAeYQPMyp1gvXcewGdAAvA8UVhsBiksoXqMypfSMG6jKzOAdS56xRmvdUNQ3jnTLAAIF8585Uvb1Su8wUnX3SeZoOq7L5Tpg/VwDOPAQcvvPHHAwRF4o8JBlnfuchlgQR17inVKUdl5x3qnPBC4PNHg+H1H/gZVV5wQeSZAAAAAElFTkSuQmCC"/>
           </defs>
       </svg>
 	  

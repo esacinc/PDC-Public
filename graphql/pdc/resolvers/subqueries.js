@@ -370,7 +370,7 @@ export const resolvers = {
 				var fileQuery = "SELECT f.data_category, f.file_type, count(f.file_id) as files_count "+
 				"FROM file f, study s, study_file sf "+
 				"WHERE f.file_id = sf.file_id and s.study_id = sf.study_id "+
-				"and s.study_submitter_id = '"+ obj.study_submitter_id +
+				"and s.is_latest_version = 1 and s.study_submitter_id = '"+ obj.study_submitter_id +
 				"' group by f.data_category, f.file_type order by f.data_category";
 				var getIt = await db.getSequelize().query(fileQuery, { model: db.getModelByName('ModelFile') });
 				RedisCacheClient.redisCacheSetExAsync(fileCacheName, JSON.stringify(getIt));
@@ -415,7 +415,7 @@ export const resolvers = {
 				"FROM file f, study s, study_file sf "+
 				"WHERE f.file_id = sf.file_id and s.study_id = sf.study_id "+
 				"and f.data_source = 'Submitter' and f.data_category <> 'Raw Mass Spectra' "+
-				"and s.study_submitter_id = '"+ obj.study_submitter_id +
+				"and s.is_latest_version = 1 and s.study_submitter_id = '"+ obj.study_submitter_id +
 				"' group by f.data_category, f.file_type order by f.data_category";
 				var getIt = await db.getSequelize().query(fileQuery, { model: db.getModelByName('ModelFile') });
 				RedisCacheClient.redisCacheSetExAsync(suppFileCacheName, JSON.stringify(getIt));
@@ -431,7 +431,7 @@ export const resolvers = {
 				"FROM file f, study s, study_file sf "+
 				"WHERE f.file_id = sf.file_id and s.study_id = sf.study_id "+
 				"and (f.data_source = 'CDAP' or (f.data_source = 'Submitter' and f.data_category = 'Raw Mass Spectra')) "+
-				"and s.study_submitter_id = '"+ obj.study_submitter_id +
+				"and s.is_latest_version = 1 and s.study_submitter_id = '"+ obj.study_submitter_id +
 				"' group by f.data_category, f.file_type order by f.data_category";
 				var getIt = await db.getSequelize().query(fileQuery, { model: db.getModelByName('ModelFile') });
 				RedisCacheClient.redisCacheSetExAsync(nonSuppFileCacheName, JSON.stringify(getIt));
@@ -447,7 +447,7 @@ export const resolvers = {
 			var contactQuery = "SELECT c.name, c.institution, c.email, c.url "+
 			"FROM contact c, study s, study_contact sc "+
 			"WHERE c.contact_id = sc.contact_id and s.study_id = sc.study_id "+
-			"and s.study_submitter_id = '"+ obj.study_submitter_id + "'";
+			"and s.is_latest_version = 1 and s.study_submitter_id = '"+ obj.study_submitter_id + "'";
 			return db.getSequelize().query(contactQuery, { model: db.getModelByName('Contact') });
 		},
 		filesCount(obj, args, context) {
@@ -538,13 +538,14 @@ export const resolvers = {
 			const res = await RedisCacheClient.redisCacheGetAsync(context.dataCacheName);
 			if(res === null){
 				var initialStudies = await db.getSequelize().query(context.query, { model: db.getModelByName('ModelUIGeneStudySpectralCount') });
+				//@@@PDC-3079 get latest version of study
 				var gssQuery = "SELECT sc.study_submitter_id, " +
 				"s.submitter_id_name, s.experiment_type, " +
 				"count(distinct sc.study_run_metadata_id) as plexes_count, "+
 				"count(distinct al.aliquot_id) as aliquots_count "+
 				 " FROM spectral_count sc, aliquot al, aliquot_run_metadata alm, study s "+
 				" WHERE sc.study_id = alm.study_id and alm.aliquot_id = al.aliquot_id "+
-				" and sc.study_id = s.study_id ";
+				" and sc.study_id = s.study_id and s.is_latest_version = 1 ";
 				if (typeof context.arguments.gene_name != 'undefined') {
 					let gene_names = context.arguments.gene_name.split(';'); 
 					gssQuery += " and sc.gene_name IN ('" + gene_names.join("','") + "')"; 	
@@ -602,16 +603,23 @@ export const resolvers = {
 		files(obj, args, context) {
 			return db.getSequelize().query(context.query, { model: db.getModelByName('ModelFile') });
 		},
+		//PDC-3022 enhance getPaginatedCase API
 		cases(obj, args, context) {
-			return db.getModelByName('Case').findAll({ 
-			//@@@PDC-2619 change to accommodate calling from documentation 
-			/*where: {
-				project_submitter_id: {
-					[Op.in]: context.value
-				}
-			},*/
-			offset: context.arguments.offset, 
-			limit: context.arguments.limit });				
+			return db.getModelByName('Case').findAll({
+					attributes: [['bin_to_uuid(case_id)', 'case_id'], 
+						'case_submitter_id',
+						'project_submitter_id',
+						'disease_type',
+						'primary_site'
+					],
+					//@@@PDC-2619 change to accommodate calling from documentation 
+					/*where: {
+						project_submitter_id: {
+							[Op.in]: context.value
+						}
+					},*/
+					offset: context.arguments.offset, 
+					limit: context.arguments.limit });				
 		},
 		//@@@PDC-472 casesSamplesAliquots API
 		casesSamplesAliquots(obj, args, context) {
@@ -866,17 +874,22 @@ export const resolvers = {
 				myOffset = context.arguments.offset;
 			return myOffset;
 		},
+		//@@@PDC-3204 handle zero limit.
 		page(obj, args, context) {
-			var myPage = 1;
-			if (context.arguments != 'undefined')
+			var myPage = 0;
+			if (context.arguments != 'undefined' && context.arguments.limit > 0)
 				myPage = Math.ceil(context.arguments.offset / context.arguments.limit)+1;
 			return myPage;
 		},
 		total(obj, args, context) {
 			return obj;			
 		},
+		//@@@PDC-3204 handle zero limit.
 		pages(obj, args, context) {
-			return Math.ceil(obj / context.arguments.limit) ;
+			var myPages = 0;
+			if (context.arguments != 'undefined' && context.arguments.limit > 0)
+				myPages = Math.ceil(obj / context.arguments.limit);
+			return myPages;
 		}
 
 	}

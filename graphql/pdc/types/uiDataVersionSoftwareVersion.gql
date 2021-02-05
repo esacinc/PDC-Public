@@ -1,0 +1,4 @@
+type UIDataVersionSoftwareVersion {
+	data_release: String
+	build_tag: String
+}

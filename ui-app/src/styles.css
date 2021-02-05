@@ -279,9 +279,18 @@ div[class$="_feedback_selection_ignore"] {
 #Liver {
     height: 42px;
     width: 47px;
-    top: 158px;
+    top: 160px;
     left: 148px;
     opacity: 0.3 !important;
+}
+
+/* PDC-3207 - add pancreas to human body image on PDC front page */
+#Pancreas {
+    height: 21px;
+    width: 45px;
+    top: 178px;
+    left: 140px;
+	opacity: 0.35 !important;
 }
 
 /* #Brain {
@@ -331,12 +340,6 @@ div[class$="_feedback_selection_ignore"] {
     width: 11px;
     top: 190px;
     left: 195px;
-}
-#Pancreas {
-    height: 21px;
-    width: 45px;
-    top: 191px;
-    left: 183px;
 }
 #Bladder {
     height: 16px;

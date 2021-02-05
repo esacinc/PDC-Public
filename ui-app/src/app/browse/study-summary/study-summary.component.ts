@@ -285,6 +285,9 @@ export class StudySummaryComponent implements OnInit {
 		//const manifest_file = 'assets/data-folder/' + this.studySummaryData.study_submitter_id + '/manifest.json';
 		//@@@PDC-2106 use pdc_study_id in heatmap folder
 		const manifest_file = 'assets/data-folder/' + this.pdcStudyID + '/manifest.json';
+		//@@@PDC-3162 use study_id in heatmap folder name
+		//const manifest_file = 'assets/data-folder/' + this.study_id + '/manifest.json';
+		
 		console.log('Getting manifest file from: ' + manifest_file);
 		return this.http.get(manifest_file);
   }
@@ -552,6 +555,8 @@ close(navigateToHeatmap: boolean, study_name: string = '') {
 		  //this.router.navigate(['/analysis/' + this.studySubmitterId], navigationExtras);
 		  //@@@PDC-2106 use pdc_study_id in heatmap folder
 		  //this.router.navigate(['/analysis/' + this.pdcStudyID], navigationExtras);
+		  //@@@PDC-3162 use study_id in heatmap folder name
+		  //this.router.navigate([]).then( result => { var url= "/pdc/analysis/" + this.study_id +
 		  this.router.navigate([]).then( result => { var url= "/pdc/analysis/" + this.pdcStudyID + "?StudyName=" + study_name; 
 																	   window.open(url, '_blank'); });
 	  }

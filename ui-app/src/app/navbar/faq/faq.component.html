@@ -47,6 +47,7 @@
             <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Open_Access)">What data are not open-access?</a></b>
             <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Cite_PDC)">How do I cite the PDC?</a></b>
             <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Policies_PDC)">What are the data use and licensing policies of the PDC?</a></b>
+            <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(IP)">What is the Intellectual Property policy of the PDC?</a></b>
             <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(CPTAC_Data)">What is the CPTAC Data use agreement?</a></b>
             <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Embargo_Date)">What is an embargo date in PDC?</a></b>
           </ul>
@@ -71,7 +72,7 @@
       <p class="faq-response">PDC is currently an observer member of the <a href="http://www.proteomexchange.org/" target="_blank">ProteomeXchange Consortium</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">External Link</span></a>.</p>
 
       <div #Report_Issue class="faq-question">How do I report an issue or submit a comment about the process?</div>
-      <p class="faq-response">You can send us your feedback or comments on any issues you experience at <a href="mailto:nci.pdc.help@esacinc.com?Subject=PDC Help" target="_top">nci.pdc.help@esacinc.com</a>.</p>
+      <p class="faq-response">You can send us your feedback or comments on any issues you experience at <a href="mailto:PDCHelpDesk@mail.nih.gov?Subject=PDC Help" target="_top">PDCHelpDesk@mail.nih.gov</a>.</p>
 
       <div #DifferencePDC_CPTAC class="faq-question">What is the difference between PDC and CPTAC Data Portal?</div>
       <p class="faq-response">The <a href="https://proteomics.cancer.gov/data-portal" target="_blank">CPTAC Data Portal</a> is a centralized repository for the public dissemination of proteomic sequence datasets collected by Clinical Proteomic Tumor Analysis Consortium (CPTAC) consortium.
@@ -99,7 +100,7 @@
       <p class="faq-response">Detailed instructions for submitting data into the PDC are available <a href="submit-data" target="_blank">here</a>.</p>
 
       <div #RegisterPDC class="faq-question">How do I register my program with PDC?</div>
-      <p class="faq-response">PDC currently accepts Mass Spectrometry data from proteomic experiments specifically for data dependent and data independent acquisitions. You may contact nci.pdc.help@esacinc.com to request a program for your lab.</p>
+      <p class="faq-response">PDC currently accepts Mass Spectrometry data from proteomic experiments specifically for data dependent and data independent acquisitions. You may contact PDCHelpDesk@mail.nih.gov to request a program for your lab.</p>
 
       <div #S3Upload_Data id="S3Upload_Data" class="faq-question">How do I configure my AWS account to upload data from my S3 bucket to PDC? </div>
       <p class="faq-response">In order to use the S3 transfer feature, you need to configure your AWS account and S3 bucket to allow us to copy.
@@ -353,6 +354,9 @@
         The embargo date is displayed on the study summary page of each dataset as applicable.
       </p>
 
+      <div #IP class="faq-question">What is the Intellectual Property policy of the PDC?</div>
+      <p class="faq-response">Users of PDC shall acknowledge that they are encouraged not to acquire ownership interest in PDC data, nor any immediate or future intellectual property rights in any research conducted using the PDC data. NIH considers these data as pre-competitive and urges Users to avoid making IP claims derived directly from the proteomic dataset(s). It is expected that these NIH-provided data, and conclusions derived therefore, will remain freely available, without requirement for licensing. However, the NIH also recognizes the importance of the subsequent development of IP on downstream discoveries, especially in therapeutics, which will be necessary to support full investment in products that the public needs. For further information about the PDC Intellectual Property policy, please contact us at <a href="mailto:PDCHelpDesk@mail.nih.gov" target="_blank">PDCHelpDesk@mail.nih.gov</a>.</p>
+
       <div #CPTAC_Data class="faq-question">What is the CPTAC Data use agreement?</div>
       <p class="faq-response">The datasets from Clinical Proteomic Tumor analysis Consortium (CPTAC) are governed by a separate data use agreement. The agreement is displayed when the user clicks on a study link and also can be accessed directly from the <a href="https://proteomics.cancer.gov/data-portal/about/data-use-agreement" target="_blank">CPTAC consortium website</a>.</p>
 
@@ -384,6 +388,6 @@
     <mat-card-content>
         Feedback? Join our Google discussion group: <a href="https://groups.google.com/a/esacinc.com/forum/#!forum/pdc-mvp-feedback" target="_blank">PDC Feedback Group</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">External Link</span></a>
         <br>
-        Contact us: <a href="mailto:nci.pdc.help@esacinc.com?Subject=PDC Help" target="_top">Email</a>
+        Contact us: <a href="mailto:PDCHelpDesk@mail.nih.gov?Subject=PDC Help" target="_top">Email</a>
     </mat-card-content>
 </mat-card>

@@ -1,5 +1,5 @@
 type Query {
-  pdcEntityReference(entity_type: String, entity_id: String, reference_type: String): [EntityReference]
+  pdcEntityReference(entity_type: String, entity_id: String, reference_type: String!): [EntityReference]
   quantDataMatrix(study_id: String, study_submitter_id: String, pdc_study_id: String, data_type: String!): [[String]]	
   quantDataMatrixDb(study_submitter_id: String!, data_type: String!, attempt: Int!, numOfAliquot: Int, numOfGene: Int): [[String]]	
   studyExperimentalDesign(study_id: String, pdc_study_id: String, study_submitter_id: String, label_aliquot_id: String): [StudyExperimentalDesign]
@@ -79,6 +79,7 @@ type Query {
   uiDataCategoryFileCount(case_submitter_id: String, case_id: String): [UIFileCount]
   uiGeneStudySpectralCount(gene_name: String!): [UIGeneStudySpectralCount]
   uiGeneAliquotSpectralCount(gene_name: String!): [UIGeneStudySpectralCount]
+  uiDataVersionSoftwareVersion: [UIDataVersionSoftwareVersion]
   getPaginatedUIGeneStudySpectralCount(gene_name: String!, offset: Int, limit: Int): Paginated
   getPaginatedUIGeneAliquotSpectralCount(gene_name: String!, offset: Int, limit: Int): Paginated
   caseSearch(name: String! offset: Int, limit: Int): Paginated

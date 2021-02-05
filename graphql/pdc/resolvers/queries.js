@@ -13,6 +13,7 @@ import { logger } from '../util/logger';
 //@@@PDC-1437 db connect for public APIs
 import { pubDb } from '../util/pubDbconnect';
 import fs from 'fs';
+import ua from 'universal-analytics';
 import  {
 	queryList,
 	applyStudyFilter,
@@ -26,6 +27,7 @@ import  {
   } from '../util/browsePageFilters';
 
 const Op = Sequelize.Op;
+const gaVisitor = ua(process.env.GA_TRACKING_ID);
 
 export const resolvers = {
 	//@@@PDC-140 authorization: filter query results with project id
@@ -91,8 +93,8 @@ export const resolvers = {
 		//@@@PDC-768 clinical metadata API
 		clinicalMetadata(_, args, context) {
 			if(!context.isUI) {
-				context.visitor.pageview().send();
-				logger.info("visitor pageview sent for clinicalMetadata");
+				gaVisitor.pageview("/graphqlAPI/clinicalMetadata").send();
+				//logger.info("visitor pageview sent for clinicalMetadata");
 			}
 			var cmQuery = "SELECT a.aliquot_submitter_id, d.primary_diagnosis, d.tumor_stage, d.tumor_grade, d.morphology "+
 			"FROM study s, diagnosis d, `case` c, sample sam, aliquot a, aliquot_run_metadata arm "+
@@ -111,8 +113,8 @@ export const resolvers = {
 		//@@@PDC-191 experimental metadata API
 		async experimentalMetadata(_, args, context) {
 			if(!context.isUI) {
-				context.visitor.pageview().send();
-				logger.info("visitor pageview sent for experimentalMetadata");
+				gaVisitor.pageview("/graphqlAPI/experimentalMetadata").send();
+				//logger.info("visitor pageview sent for experimentalMetadata");
 			}
 			context['arguments'] = args;
 			var studyQuery = "select s.study_submitter_id, s.pdc_study_id, s.experiment_type, s.analytical_fraction, "+
@@ -140,8 +142,8 @@ export const resolvers = {
 		*/
 		tissueSitesAvailable (_, args, context) { 
 			if(!context.isUI) {
-				context.visitor.pageview().send();
-				logger.info("visitor pageview sent for tissueSitesAvailable");
+				gaVisitor.pageview("/graphqlAPI/tissueSitesAvailable").send();
+				//logger.info("visitor pageview sent for tissueSitesAvailable");
 			}
 			if (typeof args.project_submitter_id != 'undefined') {
 				/*var projectAllowed = false;
@@ -201,8 +203,8 @@ export const resolvers = {
 		*/
 		diseasesAvailable(_, args, context) {
 			if(!context.isUI) {
-				context.visitor.pageview().send();
-				logger.info("visitor pageview sent for diseasesAvailable");
+				gaVisitor.pageview("/graphqlAPI/diseasesAvailable").send();
+				//logger.info("visitor pageview sent for diseasesAvailable");
 			}
 			/*if (typeof args.project_submitter_id != 'undefined') {
 				var projectAllowed = false;
@@ -252,6 +254,15 @@ export const resolvers = {
 			" GROUP BY diag.project_submitter_id,  diag.tissue_or_organ_of_origin, c.disease_type, sample_type";		
 			return db.getSequelize().query(diseaseQuery, { model: db.getModelByName('ModelUISunburst') });
 		},
+		//@@@PDC-3162 get current data/software version
+		uiDataVersionSoftwareVersion(_, args, context) {
+			logger.info("uiDataVersionSoftwareVersion is called with "+ JSON.stringify(args));
+			var verQuery = "SELECT data_release, build_tag "+
+			" from database_version WHERE is_current_version = 1 ";
+			//var verQuery = "SELECT data_release, build_tag "+
+			//" from database_version where updated = (select max(updated) from database_version) ";		
+			return db.getSequelize().query(verQuery, { model: db.getModelByName('ModelUIVersion') });
+		},
 		//@@@PDC-123
 		//@@@PDC-154 get disease type instead of primary diagnosis
 		/**
@@ -266,8 +277,8 @@ export const resolvers = {
 		*/
 		allExperimentTypes(_, args, context) {
 			if(!context.isUI) {
-				context.visitor.pageview().send();
-				logger.info("visitor pageview sent for allExperimentTypes");
+				gaVisitor.pageview("/graphqlAPI/allExperimentTypes").send();
+				//logger.info("visitor pageview sent for allExperimentTypes");
 			}
 			var experimentQuery = 'SELECT DISTINCT Esac.disease_type, Diag.tissue_or_organ_of_origin, Study.experiment_type FROM diagnosis as Diag, study as Study, `case` as Esac WHERE Diag.project_id = Study.project_id and Diag.case_id = Esac.case_id';
 			//@@@PDC-151 check for undefined rather than empty string
@@ -295,8 +306,8 @@ export const resolvers = {
 		*/
 		diseaseTypesPerProject(_, args, context) {
 			if(!context.isUI) {
-				context.visitor.pageview().send();
-				logger.info("visitor pageview sent for diseaseTypesPerProject");
+				gaVisitor.pageview("/graphqlAPI/diseaseTypesPerProject").send();
+				//logger.info("visitor pageview sent for diseaseTypesPerProject");
 			}
 			if (typeof args.project_submitter_id != 'undefined') {
 				var projectAllowed = false;
@@ -350,8 +361,8 @@ export const resolvers = {
 		*/
 		async case(_, args, context) {
 			if(!context.isUI) {
-				context.visitor.pageview().send();
-				logger.info("visitor pageview sent for case");
+				gaVisitor.pageview("/graphqlAPI/case").send();
+				//logger.info("visitor pageview sent for case");
 			}
 			//@@@PDC-180 Case API for UI case summary
 			var cacheFilterName = {name:''};
@@ -396,8 +407,8 @@ export const resolvers = {
 		*/
 		casePerFile (_, args, context) { 
 			if(!context.isUI) {
-				context.visitor.pageview().send();
-				logger.info("visitor pageview sent for casePerFile");
+				gaVisitor.pageview("/graphqlAPI/casePerFile").send();
+				//logger.info("visitor pageview sent for casePerFile");
 			}
 			var fileQuery = "SELECT bin_to_uuid(f.file_id) as file_id, bin_to_uuid(f.case_id) as case_id, f.case_submitter_id from file f where";
 			if (typeof args.file_id != 'undefined') {
@@ -414,9 +425,13 @@ export const resolvers = {
 		*/
 		allCases(_, args, context) {
 			if(!context.isUI) {
-				context.visitor.pageview().send();
-				logger.info("visitor pageview sent for allCases");
+				gaVisitor.pageview("/graphqlAPI/allCases").send();
+				//logger.info("visitor pageview sent for allCases");
 			}
+			//logger.info("ga track id: "+process.env.GA_TRACKING_ID);
+			/*gaVisitor.pageview("/graphqlAPI", function (err) {
+				logger.info("ga error: "+err);
+			});*/
 			//@@@PDC-954 get case uuid
 			return pubDb.getModelByName('Case').findAll({ attributes: [['bin_to_uuid(case_id)', 'case_id'],
 						'case_submitter_id',
@@ -440,8 +455,8 @@ export const resolvers = {
 		*/
 		program(_, args, context) {
 			if(!context.isUI) {
-				context.visitor.pageview().send();
-				logger.info("visitor pageview sent for program");
+				gaVisitor.pageview("/graphqlAPI/program").send();
+				//logger.info("visitor pageview sent for program");
 			}
 			//@@@PDC-782 avoid null in subquery
 			context['arguments']= args
@@ -485,8 +500,8 @@ export const resolvers = {
 		*/
 		allPrograms(_, args, context) {
 			if(!context.isUI) {
-				context.visitor.pageview().send();
-				logger.info("visitor pageview sent for allPrograms");
+				gaVisitor.pageview("/graphqlAPI/allPrograms").send();
+				//logger.info("visitor pageview sent for allPrograms");
 			}
 			//@@@PDC-782 avoid null in subquery
 			context['arguments']= args;
@@ -530,8 +545,8 @@ export const resolvers = {
 		//@@@PDC-2614 rearrange geneSpectralCount
 		geneSpectralCount(_, args, context) {
 			if(!context.isUI) {
-				context.visitor.pageview().send();
-				logger.info("visitor pageview sent for geneSpectralCount");
+				gaVisitor.pageview("/graphqlAPI/geneSpectralCount").send();
+				//logger.info("visitor pageview sent for geneSpectralCount");
 			}
 			context['arguments'] = args;
 			var geneQuery = "SELECT gene_name, bin_to_uuid(gene_id) as gene_id, chromosome, ncbi_gene_id as NCBI_gene_id, authority, description, organism, locus, proteins, trim(both '\r' from assays) as assays FROM gene where gene_name = '"+ args.gene_name+"'";
@@ -548,8 +563,8 @@ export const resolvers = {
 		*/
 		aliquotSpectralCount(_, args, context) {
 			if(!context.isUI) {
-				context.visitor.pageview().send();
-				logger.info("visitor pageview sent for aliquotSpectralCount");
+				gaVisitor.pageview("/graphqlAPI/aliquotSpectralCount").send();
+				//logger.info("visitor pageview sent for aliquotSpectralCount");
 			}
 			//@@@PDC-2638 enhance aliquotSpectralCount
 			context['arguments'] = args;
@@ -565,8 +580,8 @@ export const resolvers = {
 		*/
 		protein(_, args, context) {
 			if(!context.isUI) {
-				context.visitor.pageview().send();
-				logger.info("visitor pageview sent for protein");
+				gaVisitor.pageview("/graphqlAPI/protein").send();
+				//logger.info("visitor pageview sent for protein");
 			}
 			//@@@PDC-2642 gene-related apis enhancement
 			context['arguments'] = args;
@@ -583,8 +598,8 @@ export const resolvers = {
 		*/
 		projectsPerExperimentType(_, args, context) {
 			if(!context.isUI) {
-				context.visitor.pageview().send();
-				logger.info("visitor pageview sent for projectsPerExperimentType");
+				gaVisitor.pageview("/graphqlAPI/projectsPerExperimentType").send();
+				//logger.info("visitor pageview sent for projectsPerExperimentType");
 			}
 			var experimentQuery = 'SELECT DISTINCT Study.experiment_type, Project.project_submitter_id, Project.name FROM study as Study, project as Project  WHERE Project.project_id = Study.project_id';
 			//@@@PDC-151 check for undefined rather than empty string
@@ -610,8 +625,8 @@ export const resolvers = {
 		*/
 		async filesCountPerStudy (_, args, context) {
 			if(!context.isUI) {
-				context.visitor.pageview().send();
-				logger.info("visitor pageview sent for filesCountPerStudy");
+				gaVisitor.pageview("/graphqlAPI/filesCountPerStudy").send();
+				//logger.info("visitor pageview sent for filesCountPerStudy");
 			}
 			//@@@PDC-270 replace file_submitter_id with file_id
 			var fileQuery = 'SELECT study.study_submitter_id as study_submitter_id, study.pdc_study_id as pdc_study_id, file.file_type as file_type, file.data_category, COUNT(file.file_id) AS files_count FROM file AS file, study AS study, study_file AS sf WHERE file.file_id = sf.file_id and study.study_id = sf.study_id';
@@ -688,8 +703,8 @@ export const resolvers = {
 		*/
 		filesPerStudy (_, args, context) { 
 			if(!context.isUI) {
-				context.visitor.pageview().send();
-				logger.info("visitor pageview sent for filesPerStudy");
+				gaVisitor.pageview("/graphqlAPI/filesPerStudy").send();
+				//logger.info("visitor pageview sent for filesPerStudy");
 			}
 			var fileQuery = "SELECT s.study_submitter_id, s.pdc_study_id, s.submitter_id_name as study_name, bin_to_uuid(s.study_id) as study_id, bin_to_uuid(f.file_id) as file_id,"+
 			" f.file_type, f.file_name, f.md5sum, f.file_size, f.data_category, "+
@@ -734,8 +749,8 @@ export const resolvers = {
 		*/
 		projectsPerInstrument (_, args, context) {
 			if(!context.isUI) {
-				context.visitor.pageview().send();
-				logger.info("visitor pageview sent for projectsPerInstrument");
+				gaVisitor.pageview("/graphqlAPI/projectsPerInstrument").send();
+				//logger.info("visitor pageview sent for projectsPerInstrument");
 			}
 			//@@@PDC-632 use id instead of submitter_id
 			//@@@PDC-652 new protocol structure
@@ -767,8 +782,8 @@ export const resolvers = {
 		*/
 		async workflowMetadata (_, args, context) {
 			if(!context.isUI) {
-				context.visitor.pageview().send();
-				logger.info("visitor pageview sent for workflowMetadata");
+				gaVisitor.pageview("/graphqlAPI/workflowMetadata").send();
+				//logger.info("visitor pageview sent for workflowMetadata");
 			}
 			var metadataQuery = 'SELECT metadata.workflow_metadata_submitter_id, metadata.study_submitter_id, study.pdc_study_id, metadata.protocol_submitter_id, metadata.cptac_study_id, metadata.submitter_id_name, metadata.study_submitter_name, metadata.analytical_fraction, metadata.experiment_type, metadata.instrument, metadata.refseq_database_version, metadata.uniport_database_version, metadata.hgnc_version, metadata.raw_data_processing, metadata.raw_data_conversion, metadata.sequence_database_search, metadata.search_database_parameters, metadata.phosphosite_localization, metadata.ms1_data_analysis, metadata.psm_report_generation, metadata.cptac_dcc_mzidentml, metadata.mzidentml_refseq, metadata.mzidentml_uniprot, metadata.gene_to_prot, metadata.cptac_galaxy_workflows, metadata.cptac_galaxy_tools, metadata.cdap_reports, metadata.cptac_dcc_tools FROM workflow_metadata AS metadata, study AS study WHERE metadata.study_id = study.study_id';
 			var cacheFilterName = {name:''};
@@ -1138,12 +1153,20 @@ export const resolvers = {
 			var myOffset = 0;
 			var myLimit = 100;
 			var paginated = false;
+			//@@@PDC-3205 check offset and limit for zero and negative
 			if (typeof args.offset != 'undefined' && typeof args.limit != 'undefined') {
-				myOffset = args.offset;
-				myLimit = args.limit;
+				if (args.offset >= 0)  
+					myOffset = args.offset;
+				if (args.limit >= 0)
+					myLimit = args.limit;
+				else
+					myLimit = 0;
 				paginated = true;
 				cacheFilterName['dataFilterName'] += 'offet:'+args.offset+';';
 				cacheFilterName['dataFilterName'] += 'limit:'+args.limit+';';
+			}
+			else if (args.limit < 0) {
+				myLimit = 0;
 			}
 			var uiComboLimitQuery = " LIMIT "+ myOffset+ ", "+ myLimit;
 			context['query'] =studyDataQuery+groupByStudy+uiSortQuery+uiComboLimitQuery;
@@ -1221,8 +1244,12 @@ export const resolvers = {
 			let myLimit = 100;
 			let paginated = false;
 			if (typeof args.offset != 'undefined' && typeof args.limit != 'undefined') {
-				myOffset = args.offset;
-				myLimit = args.limit;
+				if (args.offset >= 0)  
+					myOffset = args.offset;
+				if (args.limit >= 0)
+					myLimit = args.limit;
+				else
+					myLimit = 0;
 				paginated = true;
 				cacheFilterName['dataFilterName'] += 'offet:'+args.offset+';';
 				cacheFilterName['dataFilterName'] += 'limit:'+args.limit+';';
@@ -1305,8 +1332,12 @@ export const resolvers = {
 			let myLimit = 100;
 			let paginated = false;
 			if (typeof args.offset != 'undefined' && typeof args.limit != 'undefined') {
-				myOffset = args.offset;
-				myLimit = args.limit;
+				if (args.offset >= 0)  
+					myOffset = args.offset;
+				if (args.limit >= 0)
+					myLimit = args.limit;
+				else
+					myLimit = 0;
 				paginated = true;
 				cacheFilterName['dataFilterName'] += 'offet:'+args.offset+';';
 				cacheFilterName['dataFilterName'] += 'limit:'+args.limit+';';
@@ -1390,8 +1421,12 @@ export const resolvers = {
 			let myLimit = 100;
 			let paginated = false;
 			if (typeof args.offset != 'undefined' && typeof args.limit != 'undefined') {
-				myOffset = args.offset;
-				myLimit = args.limit;
+				if (args.offset >= 0)  
+					myOffset = args.offset;
+				if (args.limit >= 0)
+					myLimit = args.limit;
+				else
+					myLimit = 0;
 				paginated = true;
 				cacheFilterName['dataFilterName'] += 'offet:'+args.offset+';';
 				cacheFilterName['dataFilterName'] += 'limit:'+args.limit+';';
@@ -1533,8 +1568,12 @@ export const resolvers = {
 			var myLimit = 1000;
 			var paginated = false;
 			if (typeof args.offset != 'undefined' && typeof args.limit != 'undefined') {
-				myOffset = args.offset;
-				myLimit = args.limit;
+				if (args.offset >= 0)  
+					myOffset = args.offset;
+				if (args.limit >= 0)
+					myLimit = args.limit;
+				else
+					myLimit = 0;
 				paginated = true;
 				cacheFilterName['dataFilterName'] += 'offet:'+args.offset+';';
 				cacheFilterName['dataFilterName'] += 'limit:'+args.limit+';';
@@ -1599,8 +1638,8 @@ export const resolvers = {
 		//@@@PDC-136 pagination
 		getPaginatedFiles(_, args, context) {
 			if(!context.isUI) {
-				context.visitor.pageview().send();
-				logger.info("visitor pageview sent for getPaginatedFiles");
+				gaVisitor.pageview("/graphqlAPI/getPaginatedFiles").send();
+				//logger.info("visitor pageview sent for getPaginatedFiles");
 			}
 			//@@@PDC-136 pagination
 			context['arguments'] = args;
@@ -1623,8 +1662,12 @@ export const resolvers = {
 			var myLimit = 100;
 			var paginated = false;
 			if (typeof args.offset != 'undefined' && typeof args.limit != 'undefined') {
-				myOffset = args.offset;
-				myLimit = args.limit;
+				if (args.offset >= 0)  
+					myOffset = args.offset;
+				if (args.limit >= 0)
+					myLimit = args.limit;
+				else
+					myLimit = 0;
 				paginated = true;
 			}
 			var fileLimitQuery = " LIMIT "+ myOffset+ ", "+ myLimit;
@@ -1642,8 +1685,8 @@ export const resolvers = {
 		//@@@PDC-136 pagination
 		getPaginatedCases(_, args, context) {
 			if(!context.isUI) {
-				context.visitor.pageview().send();
-				logger.info("visitor pageview sent for getPaginatedCases");
+				gaVisitor.pageview("/graphqlAPI/getPaginatedCases").send();
+				//logger.info("visitor pageview sent for getPaginatedCases");
 			}
 			//@@@PDC-136 pagination
 			context['arguments'] = args;
@@ -1654,8 +1697,12 @@ export const resolvers = {
 			var myLimit = 100;
 			var paginated = false;
 			if (typeof args.offset != 'undefined' && typeof args.limit != 'undefined') {
-				myOffset = args.offset;
-				myLimit = args.limit;
+				if (args.offset >= 0)  
+					myOffset = args.offset;
+				if (args.limit >= 0)
+					myLimit = args.limit;
+				else
+					myLimit = 0;
 				paginated = true;
 			}
 			//@@@PDC-2725 pagination enhancement
@@ -1671,8 +1718,8 @@ export const resolvers = {
 		//@@@PDC-2690 api returns gene info without spectral count
 		getPaginatedGenes(_, args, context) {
 			if(!context.isUI) {
-				context.visitor.pageview().send();
-				logger.info("visitor pageview sent for getPaginatedGenes");
+				gaVisitor.pageview("/graphqlAPI/getPaginatedGenes").send();
+				//logger.info("visitor pageview sent for getPaginatedGenes");
 			}
 			context['arguments'] = args;
 			var geneCountQuery = "SELECT count(*) as total FROM gene g ";
@@ -1686,8 +1733,12 @@ export const resolvers = {
 			var myLimit = 100;
 			var paginated = false;
 			if (typeof args.offset != 'undefined' && typeof args.limit != 'undefined') {
-				myOffset = args.offset;
-				myLimit = args.limit;
+				if (args.offset >= 0)  
+					myOffset = args.offset;
+				if (args.limit >= 0)
+					myLimit = args.limit;
+				else
+					myLimit = 0;
 				paginated = true;
 			}
 			geneQuery += " LIMIT "+ myOffset+ ", "+ myLimit;
@@ -2023,12 +2074,13 @@ export const resolvers = {
 		*/
 		async uiExperimentFileCount (_, args, context) {
 			//@@@PDC-337 add study name to file count table
+			//@@@PDC-3188 get file counts for latest version only
 			var efcQuery = "SELECT s.acquisition_type, s.experiment_type, count(distinct f.file_id) as files_count, s.submitter_id_name "+
 			" FROM study s, `case` c, sample sam, aliquot al, "+
 			" aliquot_run_metadata alm, file f, study_file sf "+
 			" WHERE alm.study_id = s.study_id and al.aliquot_id = alm.aliquot_id  and "+
 			" al.sample_id=sam.sample_id and sam.case_id=c.case_id "+
-			" and s.study_id = sf.study_id and sf.file_id = f.file_id ";
+			" and s.study_id = sf.study_id and sf.file_id = f.file_id and s.is_latest_version = 1 ";
 			var cacheFilterName = {name:''};
 			if (typeof args.case_submitter_id != 'undefined') {
 				let csIds = args.case_submitter_id.split(';'); 
@@ -2063,12 +2115,13 @@ export const resolvers = {
 		*/
 		async uiDataCategoryFileCount (_, args, context) {
 			//@@@PDC-759 add data_category to file count group
+			//@@@PDC-3188 get file counts for latest version only
 			var efcQuery = "SELECT f.file_type, f.data_category, count(distinct f.file_id) as files_count, s.submitter_id_name "+
 			" FROM study s, `case` c, sample sam, aliquot al, "+
 			" aliquot_run_metadata alm, file f, study_file sf "+
 			" WHERE alm.study_id = s.study_id and al.aliquot_id = alm.aliquot_id  and "+
 			" al.sample_id=sam.sample_id and sam.case_id=c.case_id "+
-			" and s.study_id = sf.study_id and sf.file_id = f.file_id ";
+			" and s.study_id = sf.study_id and sf.file_id = f.file_id and s.is_latest_version = 1 ";
 			var cacheFilterName = {name:''};
 			if (typeof args.case_submitter_id != 'undefined') {
 				let csIds = args.case_submitter_id.split(';'); 
@@ -2129,8 +2182,9 @@ export const resolvers = {
 			" s.submitter_id_name, s.experiment_type, "+
 			" sc.spectral_count, sc.distinct_peptide, "+
 			" sc.unshared_peptide ";
+			//@@@PDC-3079 get latest version of study
 			var gssQuery = " FROM spectral_count sc, study s "+
-			" WHERE sc.study_id = s.study_id and sc.plex_name = 'All'";
+			" WHERE sc.study_id = s.study_id and sc.plex_name = 'All' and s.is_latest_version = 1 ";
 			var cacheFilterName = {name:''};
 			if (typeof args.gene_name != 'undefined') {
 				let gene_names = args.gene_name.split(';'); 
@@ -2142,8 +2196,12 @@ export const resolvers = {
 			var myLimit = 100;
 			var paginated = false;
 			if (typeof args.offset != 'undefined' && typeof args.limit != 'undefined') {
-				myOffset = args.offset;
-				myLimit = args.limit;
+				if (args.offset >= 0)  
+					myOffset = args.offset;
+				if (args.limit >= 0)
+					myLimit = args.limit;
+				else
+					myLimit = 0;
 				paginated = true;
 				cacheFilterName['dataFilterName'] += 'offet:'+args.offset+';';
 				cacheFilterName['dataFilterName'] += 'limit:'+args.limit+';';
@@ -2176,6 +2234,7 @@ export const resolvers = {
 			" s.submitter_id_name, s.experiment_type, s.pdc_study_id, "+
 			" sc.spectral_count, sc.distinct_peptide, "+
 			" sc.unshared_peptide ";
+			//@@@PDC-3079 get latest version of study
 			var gssQuery = " FROM spectral_count sc, aliquot_run_metadata arm, "+
 			"`case` c, sample sam, aliquot al, study s, "+
 			"demographic dem, diagnosis dia, project proj, "+
@@ -2183,7 +2242,7 @@ export const resolvers = {
 			" WHERE sc.study_id = s.study_id and arm.study_id = s.study_id and al.aliquot_id = arm.aliquot_id "+
 			"and al.sample_id=sam.sample_id and sam.case_id=c.case_id "+ 
 			"and proj.project_id = s.project_id and c.case_id = dem.case_id "+ 
-			"and c.case_id = dia.case_id and proj.program_id = prog.program_id and sc.plex_name = 'All' ";
+			"and c.case_id = dia.case_id and proj.program_id = prog.program_id and sc.plex_name = 'All' and s.is_latest_version = 1 ";
 			var cacheFilterName = {name:''};
 			gssQuery += filters(args, cacheFilterName);
 			if (typeof args.gene_name != 'undefined') {
@@ -2196,8 +2255,12 @@ export const resolvers = {
 			var myLimit = 100;
 			var paginated = false;
 			if (typeof args.offset != 'undefined' && typeof args.limit != 'undefined') {
-				myOffset = args.offset;
-				myLimit = args.limit;
+				if (args.offset >= 0)  
+					myOffset = args.offset;
+				if (args.limit >= 0)
+					myLimit = args.limit;
+				else
+					myLimit = 0;
 				paginated = true;
 				cacheFilterName['dataFilterName'] += 'offet:'+args.offset+';';
 				cacheFilterName['dataFilterName'] += 'limit:'+args.limit+';';
@@ -2259,12 +2322,13 @@ export const resolvers = {
 			" arm.label, s.submitter_id_name, s.experiment_type, "+
 			" sc.spectral_count, sc.distinct_peptide, sc.unshared_peptide,"+
 			" sc.unshared_peptide, ga.precursor_area, ga.log2_ratio, ga.unshared_precursor_area, ga.unshared_log2_ratio ";
+			//@@@PDC-3079 get latest version of study
 			var gssQuery = " FROM spectral_count sc, aliquot_run_metadata arm, study s, gene_abundance ga "+
 			" WHERE sc.study_run_metadata_id=arm.study_run_metadata_id "+
 			" and ga.study_run_metadata_id = arm.study_run_metadata_id "+
 			" and ga.study_id = s.study_id "+
 			" and sc.study_id=s.study_id " +
-			" and ga.aliquot_submitter_id = arm.aliquot_submitter_id ";
+			" and ga.aliquot_submitter_id = arm.aliquot_submitter_id and s.is_latest_version = 1 ";
 			var cacheFilterName = {name:''};
 			if (typeof args.gene_name != 'undefined') {
 				let gene_names = args.gene_name.split(';'); 
@@ -2278,8 +2342,12 @@ export const resolvers = {
 			var myLimit = 100;
 			var paginated = false;
 			if (typeof args.offset != 'undefined' && typeof args.limit != 'undefined') {
-				myOffset = args.offset;
-				myLimit = args.limit;
+				if (args.offset >= 0)  
+					myOffset = args.offset;
+				if (args.limit >= 0)
+					myLimit = args.limit;
+				else
+					myLimit = 0;
 				paginated = true;
 				cacheFilterName['dataFilterName'] += 'offet:'+args.offset+';';
 				cacheFilterName['dataFilterName'] += 'limit:'+args.limit+';';
@@ -2303,66 +2371,6 @@ export const resolvers = {
 				return myJson;
 			}
 		},
-		//@@@PDC-737 GeneAliquotSpectralCount supports filters
-		/*async getPaginatedUIGeneAliquotSpectralCountFiltered(_, args, context) {
-			context['arguments'] = args;
-			var gssCountQuery = "SELECT count(arm.aliquot_submitter_id) as total ";
-			var gssBaseQuery = "SELECT arm.aliquot_submitter_id as aliquot_id, sc.dataset_alias as plex, "+
-			" arm.label, s.submitter_id_name, s.experiment_type, "+
-			" sc.spectral_count, sc.distinct_peptide, sc.unshared_peptide,"+
-			" sc.unshared_peptide, ga.precursor_area, ga.log2_ratio, ga.unshared_precursor_area, ga.unshared_log2_ratio ";
-			var gssQuery = " FROM spectral_count sc, aliquot_run_metadata arm, "+
-			"study s, `case` c, sample sam, aliquot al, "+
-			"demographic dem, diagnosis dia, project proj, "+
-			"program prog, gene_abundance ga "+
-			" WHERE sc.study_run_metadata_id=arm.study_run_metadata_id "+
-			" and ga.study_run_metadata_id = arm.study_run_metadata_id "+
-			" and ga.study_id = s.study_id "+
-			" and sc.study_id=s.study_id " +
-			" and ga.aliquot_submitter_id = arm.aliquot_submitter_id "+
-			" and arm.study_id = s.study_id and al.aliquot_id = arm.aliquot_id "+
-			" and al.sample_id=sam.sample_id and sam.case_id=c.case_id "+ 
-			" and proj.project_id = s.project_id and c.case_id = dem.case_id "+ 
-			" and c.case_id = dia.case_id and proj.program_id = prog.program_id ";
-			var cacheFilterName = {name:''};
-			gssQuery += filters(args, cacheFilterName);
-			if (typeof args.gene_name != 'undefined') {
-				let gene_names = args.gene_name.split(';'); 
-				gssQuery += " and sc.gene_name IN ('" + gene_names.join("','") + "')"+
-				" and ga.gene_name IN ('" + gene_names.join("','") + "')"; 	
-				cacheFilterName.name +="gene_name:("+ gene_names.join(",") + ");";			
-			}
-
-			cacheFilterName['dataFilterName'] = cacheFilterName.name;
-			var myOffset = 0;
-			var myLimit = 100;
-			var paginated = false;
-			if (typeof args.offset != 'undefined' && typeof args.limit != 'undefined') {
-				myOffset = args.offset;
-				myLimit = args.limit;
-				paginated = true;
-				cacheFilterName['dataFilterName'] += 'offet:'+args.offset+';';
-				cacheFilterName['dataFilterName'] += 'limit:'+args.limit+';';
-			}
-			var gssLimitQuery = " LIMIT "+ myOffset+ ", "+ myLimit;
-			context['query'] = gssBaseQuery+gssQuery+gssLimitQuery;
-			context['dataCacheName'] = CacheName.getSummaryPageGeneSummary('AliquotSpectralCountFiltered')+cacheFilterName['dataFilterName'];
-			if (myOffset == 0 && paginated) {
-				const res = await RedisCacheClient.redisCacheGetAsync(CacheName.getSummaryPageGeneSummary('AliquotSpectralCountTotalCountFiltered')+cacheFilterName.name);
-				if(res === null){
-					var rawData = await db.getSequelize().query(gssCountQuery+gssQuery, { model: db.getModelByName('ModelPagination') });
-					var totalCount = rawData[0].total;
-					RedisCacheClient.redisCacheSetExAsync(CacheName.getSummaryPageGeneSummary('AliquotSpectralCountTotalCountFiltered')+cacheFilterName.name, totalCount);
-					return [{total: totalCount}];
-				}else{
-					return [{total: res}];
-				}
-			}
-			else {
-				var myJson = [{total: args.limit}];
-				return myJson;
-			}
-		},*/
 		//@@@PDC-744 get ptm log2_ratio
 		async getPaginatedUIGeneAliquotSpectralCountFiltered(_, args, context) {
 			context['arguments'] = args;
@@ -2385,7 +2393,9 @@ export const resolvers = {
 			//@@@PDC-769 access ptm_abundance
 			var paFromQuery = ", ptm_abundance pa ";
 			//var paFromQuery = '';
-			var generalWhereQuery = " WHERE sc.study_run_metadata_id=arm.study_run_metadata_id "+
+			//@@@PDC-3079 get latest version of study
+			var generalWhereQuery = " WHERE s.is_latest_version = 1 "+ 
+			" and sc.study_run_metadata_id=arm.study_run_metadata_id "+
 			" and sc.study_id=s.study_id " +
 			" and arm.study_id = s.study_id and al.aliquot_id = arm.aliquot_id "+
 			" and al.sample_id=sam.sample_id and sam.case_id=c.case_id "+ 
@@ -2423,8 +2433,12 @@ export const resolvers = {
 			var myLimit = 100;
 			var paginated = false;
 			if (typeof args.offset != 'undefined' && typeof args.limit != 'undefined') {
-				myOffset = args.offset;
-				myLimit = args.limit;
+				if (args.offset >= 0)  
+					myOffset = args.offset;
+				if (args.limit >= 0)
+					myLimit = args.limit;
+				else
+					myLimit = 0;
 				paginated = true;
 				cacheFilterName['dataFilterName'] += 'offet:'+args.offset+';';
 				cacheFilterName['dataFilterName'] += 'limit:'+args.limit+';';
@@ -2451,8 +2465,8 @@ export const resolvers = {
 		//@@@PDC-485 spectral count per study/aliquot API
 		paginatedSpectralCountPerStudyAliquot(_, args, context) {
 			if(!context.isUI) {
-				context.visitor.pageview().send();
-				logger.info("visitor pageview sent for paginatedSpectralCountPerStudyAliquot");
+				gaVisitor.pageview("/graphqlAPI/paginatedSpectralCountPerStudyAliquot").send();
+				//logger.info("visitor pageview sent for paginatedSpectralCountPerStudyAliquot");
 			}
 			context['arguments'] = args;
 			var gssCountQuery = "SELECT count(sc.gene_name) as total ";
@@ -2481,8 +2495,12 @@ export const resolvers = {
 			var myLimit = 100;
 			var paginated = false;
 			if (typeof args.offset != 'undefined' && typeof args.limit != 'undefined') {
-				myOffset = args.offset;
-				myLimit = args.limit;
+				if (args.offset >= 0)  
+					myOffset = args.offset;
+				if (args.limit >= 0)
+					myLimit = args.limit;
+				else
+					myLimit = 0;
 				paginated = true;
 			}
 			var gssLimitQuery = " LIMIT "+ myOffset+ ", "+ myLimit;
@@ -2520,8 +2538,12 @@ export const resolvers = {
 			var myLimit = 100;
 			var paginated = false;
 			if (typeof args.offset != 'undefined' && typeof args.limit != 'undefined') {
-				myOffset = args.offset;
-				myLimit = args.limit;
+				if (args.offset >= 0)  
+					myOffset = args.offset;
+				if (args.limit >= 0)
+					myLimit = args.limit;
+				else
+					myLimit = 0;
 				paginated = true;
 			}
 			var searchLimitQuery = " LIMIT "+ myOffset+ ", "+ myLimit;
@@ -2558,8 +2580,12 @@ export const resolvers = {
 			var myLimit = 100;
 			var paginated = false;
 			if (typeof args.offset != 'undefined' && typeof args.limit != 'undefined') {
-				myOffset = args.offset;
-				myLimit = args.limit;
+				if (args.offset >= 0)  
+					myOffset = args.offset;
+				if (args.limit >= 0)
+					myLimit = args.limit;
+				else
+					myLimit = 0;
 				paginated = true;
 			}
 			var searchLimitQuery = " LIMIT "+ myOffset+ ", "+ myLimit;
@@ -2596,8 +2622,12 @@ export const resolvers = {
 			var myLimit = 100;
 			var paginated = false;
 			if (typeof args.offset != 'undefined' && typeof args.limit != 'undefined') {
-				myOffset = args.offset;
-				myLimit = args.limit;
+				if (args.offset >= 0)  
+					myOffset = args.offset;
+				if (args.limit >= 0)
+					myLimit = args.limit;
+				else
+					myLimit = 0;
 				paginated = true;
 			}
 			var searchLimitQuery = " LIMIT "+ myOffset+ ", "+ myLimit;
@@ -2634,8 +2664,12 @@ export const resolvers = {
 			var myLimit = 100;
 			var paginated = false;
 			if (typeof args.offset != 'undefined' && typeof args.limit != 'undefined') {
-				myOffset = args.offset;
-				myLimit = args.limit;
+				if (args.offset >= 0)  
+					myOffset = args.offset;
+				if (args.limit >= 0)
+					myLimit = args.limit;
+				else
+					myLimit = 0;
 				paginated = true;
 			}
 			var searchLimitQuery = " LIMIT "+ myOffset+ ", "+ myLimit;
@@ -2665,8 +2699,12 @@ export const resolvers = {
 			var myLimit = 100;
 			var paginated = false;
 			if (typeof args.offset != 'undefined' && typeof args.limit != 'undefined') {
-				myOffset = args.offset;
-				myLimit = args.limit;
+				if (args.offset >= 0)  
+					myOffset = args.offset;
+				if (args.limit >= 0)
+					myLimit = args.limit;
+				else
+					myLimit = 0;
 				paginated = true;
 			}
 			var searchLimitQuery = " LIMIT "+ myOffset+ ", "+ myLimit;
@@ -2696,8 +2734,12 @@ export const resolvers = {
 			var myLimit = 100;
 			var paginated = false;
 			if (typeof args.offset != 'undefined' && typeof args.limit != 'undefined') {
-				myOffset = args.offset;
-				myLimit = args.limit;
+				if (args.offset >= 0)  
+					myOffset = args.offset;
+				if (args.limit >= 0)
+					myLimit = args.limit;
+				else
+					myLimit = 0;
 				paginated = true;
 			}
 			var searchLimitQuery = " LIMIT "+ myOffset+ ", "+ myLimit;
@@ -2727,8 +2769,12 @@ export const resolvers = {
 			var myLimit = 100;
 			var paginated = false;
 			if (typeof args.offset != 'undefined' && typeof args.limit != 'undefined') {
-				myOffset = args.offset;
-				myLimit = args.limit;
+				if (args.offset >= 0)  
+					myOffset = args.offset;
+				if (args.limit >= 0)
+					myLimit = args.limit;
+				else
+					myLimit = 0;
 				paginated = true;
 			}
 			var searchLimitQuery = " LIMIT "+ myOffset+ ", "+ myLimit;
@@ -2752,8 +2798,8 @@ export const resolvers = {
 		*/  
 		fileMetadata(_, args, context) {
 			if(!context.isUI) {
-				context.visitor.pageview().send();
-				logger.info("visitor pageview sent for fileMetadata");
+				gaVisitor.pageview("/graphqlAPI/fileMetadata").send();
+				//logger.info("visitor pageview sent for fileMetadata");
 			}
 			//@@@PDC-2642 add file_id	
 			var gasQuery = "select distinct bin_to_uuid(f.file_id) as file_id, f.file_name, f.file_location,"+
@@ -2793,8 +2839,12 @@ export const resolvers = {
 			var myLimit = 500;
 			var paginated = false;
 			if (typeof args.offset != 'undefined' && typeof args.limit != 'undefined') {
-				myOffset = args.offset;
-				myLimit = args.limit;
+				if (args.offset >= 0)  
+					myOffset = args.offset;
+				if (args.limit >= 0)
+					myLimit = args.limit;
+				else
+					myLimit = 0;
 				paginated = true;
 			}
 			var gasLimitQuery = " LIMIT "+ myOffset+ ", "+ myLimit;
@@ -2804,8 +2854,8 @@ export const resolvers = {
 		//@@@PDC-503 quantitiveDataCPTAC2 API
 		quantitiveDataCPTAC2(_, args, context) {
 			if(!context.isUI) {
-				context.visitor.pageview().send();
-				logger.info("visitor pageview sent for quantitiveDataCPTAC2");
+				gaVisitor.pageview("/graphqlAPI/quantitiveDataCPTAC2").send();
+				//logger.info("visitor pageview sent for quantitiveDataCPTAC2");
 			}
 			//@@@PDC-669 gene_abundance table change
 			var quantQuery = "select bin_to_uuid(ga.gene_abundance_id) as gene_abundance_id, "+
@@ -2842,8 +2892,8 @@ export const resolvers = {
 		//@@@PDC-474 programs-projects-studies API
 		programsProjectsStudies(_, args, context) {
 			if(!context.isUI) {
-				context.visitor.pageview().send();
-				logger.info("visitor pageview sent for programsProjectsStudies");
+				gaVisitor.pageview("/graphqlAPI/programsProjectsStudies").send();
+				//logger.info("visitor pageview sent for programsProjectsStudies");
 			}
 			context['arguments'] = args;
 			//@@@PDC-652 new protocol structure
@@ -2863,8 +2913,8 @@ export const resolvers = {
 		//@@@PDC-2335 get ext id from reference
 		paginatedCasesSamplesAliquots (_, args, context) {
 			if(!context.isUI) {
-				context.visitor.pageview().send();
-				logger.info("visitor pageview sent for paginatedCasesSamplesAliquots");
+				gaVisitor.pageview("/graphqlAPI/paginatedCasesSamplesAliquots").send();
+				//logger.info("visitor pageview sent for paginatedCasesSamplesAliquots");
 			}
 			context['arguments'] = args;
 			var uiCaseCountQuery = "select count(distinct c.case_id) as total ";
@@ -2884,8 +2934,12 @@ export const resolvers = {
 			var myLimit = 100;
 			var paginated = false;
 			if (typeof args.offset != 'undefined' && typeof args.limit != 'undefined') {
-				myOffset = args.offset;
-				myLimit = args.limit;
+				if (args.offset >= 0)  
+					myOffset = args.offset;
+				if (args.limit >= 0)
+					myLimit = args.limit;
+				else
+					myLimit = 0;
 				paginated = true;
 			}
 			var uiCaseLimitQuery = " LIMIT "+ myOffset+ ", "+ myLimit;
@@ -2903,8 +2957,8 @@ export const resolvers = {
 		//@@@PDC-475 caseDiagnosesPerStudy API
 		paginatedCaseDiagnosesPerStudy (_, args, context) {
 			if(!context.isUI) {
-				context.visitor.pageview().send();
-				logger.info("visitor pageview sent for paginatedCaseDiagnosesPerStudy");
+				gaVisitor.pageview("/graphqlAPI/paginatedCaseDiagnosesPerStudy").send();
+				//logger.info("visitor pageview sent for paginatedCaseDiagnosesPerStudy");
 			}
 			context['arguments'] = args;
 			var uiCaseCountQuery = "select count(distinct c.case_id) as total ";
@@ -2920,8 +2974,12 @@ export const resolvers = {
 			var myLimit = 100;
 			var paginated = false;
 			if (typeof args.offset != 'undefined' && typeof args.limit != 'undefined') {
-				myOffset = args.offset;
-				myLimit = args.limit;
+				if (args.offset >= 0)  
+					myOffset = args.offset;
+				if (args.limit >= 0)
+					myLimit = args.limit;
+				else
+					myLimit = 0;
 				paginated = true;
 			}
 			var uiCaseLimitQuery = " LIMIT "+ myOffset+ ", "+ myLimit;
@@ -2939,8 +2997,8 @@ export const resolvers = {
 		//@@@PDC-473 caseDemographicsPerStudy API
 		paginatedCaseDemographicsPerStudy (_, args, context) {
 			if(!context.isUI) {
-				context.visitor.pageview().send();
-				logger.info("visitor pageview sent for paginatedCaseDemographicsPerStudy");
+				gaVisitor.pageview("/graphqlAPI/paginatedCaseDemographicsPerStudy").send();
+				//logger.info("visitor pageview sent for paginatedCaseDemographicsPerStudy");
 			}
 			context['arguments'] = args;
 			var uiCaseCountQuery = "select count(distinct c.case_id) as total ";
@@ -2956,8 +3014,12 @@ export const resolvers = {
 			var myLimit = 100;
 			var paginated = false;
 			if (typeof args.offset != 'undefined' && typeof args.limit != 'undefined') {
-				myOffset = args.offset;
-				myLimit = args.limit;
+				if (args.offset >= 0)  
+					myOffset = args.offset;
+				if (args.limit >= 0)
+					myLimit = args.limit;
+				else
+					myLimit = 0;
 				paginated = true;
 			}
 			var uiCaseLimitQuery = " LIMIT "+ myOffset+ ", "+ myLimit;
@@ -2976,8 +3038,8 @@ export const resolvers = {
 		//@@@PDC-562 quant data matrix API
 		paginatedDataMatrix (_, args, context) {
 			if(!context.isUI) {
-				context.visitor.pageview().send();
-				logger.info("visitor pageview sent for paginatedDataMatrix");
+				gaVisitor.pageview("/graphqlAPI/paginatedDataMatrix").send();
+				//logger.info("visitor pageview sent for paginatedDataMatrix");
 			}
 			context['arguments'] = args;
 			var matrixCountQuery = '';
@@ -3014,8 +3076,12 @@ export const resolvers = {
 			var myLimit = 100;
 			var paginated = false;
 			if (typeof args.offset != 'undefined' && typeof args.limit != 'undefined') {
-				myOffset = args.offset;
-				myLimit = args.limit;
+				if (args.offset >= 0)  
+					myOffset = args.offset;
+				if (args.limit >= 0)
+					myLimit = args.limit;
+				else
+					myLimit = 0;
 				paginated = true;
 			}
 			//@@@PDC-2725 pagination enhancement
@@ -3045,8 +3111,12 @@ export const resolvers = {
 			var myLimit = 100;
 			var paginated = false;
 			if (typeof args.offset != 'undefined' && typeof args.limit != 'undefined') {
-				myOffset = args.offset;
-				myLimit = args.limit;
+				if (args.offset >= 0)  
+					myOffset = args.offset;
+				if (args.limit >= 0)
+					myLimit = args.limit;
+				else
+					myLimit = 0;
 				paginated = true;
 				cacheFilterName['dataFilterName'] += 'offet:'+args.offset+';';
 				cacheFilterName['dataFilterName'] += 'limit:'+args.limit+';';
@@ -3073,8 +3143,8 @@ export const resolvers = {
 		//@@@PDC-678 ptm data matrix API
 		async paginatedPtmDataMatrix (_, args, context) {
 			if(!context.isUI) {
-				context.visitor.pageview().send();
-				logger.info("visitor pageview sent for paginatedPtmDataMatrix");
+				gaVisitor.pageview("/graphqlAPI/paginatedPtmDataMatrix").send();
+				//logger.info("visitor pageview sent for paginatedPtmDataMatrix");
 			}
 			context['arguments'] = args;
 			var checkPtmQuery = "select study_submitter_id from study s"+
@@ -3096,8 +3166,12 @@ export const resolvers = {
 			var myLimit = 100;
 			var paginated = false;
 			if (typeof args.offset != 'undefined' && typeof args.limit != 'undefined') {
-				myOffset = args.offset;
-				myLimit = args.limit;
+				if (args.offset >= 0)  
+					myOffset = args.offset;
+				if (args.limit >= 0)
+					myLimit = args.limit;
+				else
+					myLimit = 0;
 				paginated = true;
 			}
 			//@@@PDC-2725 pagination enhancement
@@ -3113,8 +3187,8 @@ export const resolvers = {
 		//@@@PDC-898 new public APIs--study
 		async study (_, args, context) {
 			if(!context.isUI) {
-				context.visitor.pageview().send();
-				logger.info("visitor pageview sent for study");
+				gaVisitor.pageview("/graphqlAPI/study").send();
+				//logger.info("visitor pageview sent for study");
 			}
 			context['arguments'] = args;
 			//@@@PDC-2615 add embargo_date
@@ -3181,8 +3255,8 @@ export const resolvers = {
 		//@@@PDC-1467 add case_submitter_id
 		sample(_, args, context) {
 			if(!context.isUI) {
-				context.visitor.pageview().send();
-				logger.info("visitor pageview sent for sample");
+				gaVisitor.pageview("/graphqlAPI/sample").send();
+				//logger.info("visitor pageview sent for sample");
 			}
 			var sampleQuery = "select bin_to_uuid(sample_id) as sample_id, status, sample_is_ref, "+
 			"sample_submitter_id, sample_type, sample_type_id, gdc_sample_id, gdc_project_id, "+
@@ -3209,8 +3283,8 @@ export const resolvers = {
 		//@@@PDC-1467 add case_submitter_id
 		aliquot(_, args, context) {
 			if(!context.isUI) {
-				context.visitor.pageview().send();
-				logger.info("visitor pageview sent for aliquot");
+				gaVisitor.pageview("/graphqlAPI/aliquot").send();
+				//logger.info("visitor pageview sent for aliquot");
 			}
 			var fileName = '86.21%_RC229872+13.80%_RA226166A.txt'
 			console.log("Encoded: "+encodeURIComponent(fileName));
@@ -3232,8 +3306,8 @@ export const resolvers = {
 		//@@@PDC-898 new public APIs--protocolPerStudy
 		protocolPerStudy (_, args, context) {
 			if(!context.isUI) {
-				context.visitor.pageview().send();
-				logger.info("visitor pageview sent for protocolPerStudy");
+				gaVisitor.pageview("/graphqlAPI/protocolPerStudy").send();
+				//logger.info("visitor pageview sent for protocolPerStudy");
 			}
 			//@@@PDC-1154 column name correction: fractions_analyzed_count
 			//@@@PDC-1251 remove duplicates
@@ -3279,8 +3353,8 @@ export const resolvers = {
 		//@@@PDC-2657 reverse 2335
 		clinicalPerStudy(_, args, context) {
 			if(!context.isUI) {
-				context.visitor.pageview().send();
-				logger.info("visitor pageview sent for clinicalPerStudy");
+				gaVisitor.pageview("/graphqlAPI/clinicalPerStudy").send();
+				//logger.info("visitor pageview sent for clinicalPerStudy");
 			}
 			var clinicalQuery = "select distinct bin_to_uuid(c.case_id) as case_id, "+
 			"c.case_submitter_id, c.status, c.disease_type, "+
@@ -3333,8 +3407,12 @@ export const resolvers = {
 			var myLimit = 1000;
 			var paginated = false;
 			if (typeof args.offset != 'undefined' && typeof args.limit != 'undefined') {
-				myOffset = args.offset;
-				myLimit = args.limit;
+				if (args.offset >= 0)  
+					myOffset = args.offset;
+				if (args.limit >= 0)
+					myLimit = args.limit;
+				else
+					myLimit = 0;
 				paginated = true;
 			}
 			clinicalQuery +=" LIMIT "+ myOffset+ ", "+ myLimit;
@@ -3345,8 +3423,8 @@ export const resolvers = {
 		//@@@PDC-1396 add external_case_id
 		biospecimenPerStudy(_, args, context) {
 			if(!context.isUI) {
-				context.visitor.pageview().send();
-				logger.info("visitor pageview sent for biospecimenPerStudy");
+				gaVisitor.pageview("/graphqlAPI/biospecimenPerStudy").send();
+				//logger.info("visitor pageview sent for biospecimenPerStudy");
 			}
 			//@@@PDC-1127 add pool and taxon
 			//@@@PDC-2335 get ext id from reference
@@ -3381,8 +3459,12 @@ export const resolvers = {
 			var myLimit = 1000;
 			var paginated = false;
 			if (typeof args.offset != 'undefined' && typeof args.limit != 'undefined') {
-				myOffset = args.offset;
-				myLimit = args.limit;
+				if (args.offset >= 0)  
+					myOffset = args.offset;
+				if (args.limit >= 0)
+					myLimit = args.limit;
+				else
+					myLimit = 0;
 				paginated = true;
 			}
 			biospecimenQuery +=" LIMIT "+ myOffset+ ", "+ myLimit;
@@ -3398,8 +3480,8 @@ export const resolvers = {
 		//@@@PDC-2391 order by Study Run Metadata Submitter ID
 		async studyExperimentalDesign(_, args, context) {
 			if(!context.isUI) {
-				context.visitor.pageview().send();
-				logger.info("visitor pageview sent for studyExperimentalDesign");
+				gaVisitor.pageview("/graphqlAPI/studyExperimentalDesign").send();
+				//logger.info("visitor pageview sent for studyExperimentalDesign");
 			}
 			var experimentalQuery = "SELECT distinct bin_to_uuid(srm.study_run_metadata_id) as study_run_metadata_id, "+
 			" bin_to_uuid(s.study_id) as study_id, srm.study_run_metadata_submitter_id,"+ 
@@ -3503,8 +3585,8 @@ export const resolvers = {
 		//@@@PDC-2016 add pdc_study_id to quantDataMatrix
 		async quantDataMatrix(obj, args, context) {
 			if(!context.isUI) {
-				context.visitor.pageview().send();
-				logger.info("visitor pageview sent for quantDataMatrix");
+				gaVisitor.pageview("/graphqlAPI/quantDataMatrix").send();
+				//logger.info("visitor pageview sent for quantDataMatrix");
 			}
 			var sid = null;
 			if (typeof args.study_id != 'undefined' && args.study_id.length > 0) {
@@ -3533,16 +3615,26 @@ export const resolvers = {
 			//@@@PDC-2018 add submitter_id_name of study
 			//@@@PDC-2968 get latest version by default
 			//@@@PDC-3090 join on study_id
-			var entityReferenceQuery = "SELECT bin_to_uuid(reference_id) as reference_id, entity_type, bin_to_uuid(entity_id) as entity_id, reference_type, reference_entity_type, reference_entity_alias, reference_resource_name, reference_resource_shortname, reference_entity_location, s.submitter_id_name FROM reference r left join study s on r.entity_id = s.study_id where s.is_latest_version = 1 ";
+			//@@@PDC-3132 dynamic join based on reference_type
+			var entityReferenceQuery = "SELECT bin_to_uuid(reference_id) as reference_id, entity_type, bin_to_uuid(entity_id) as entity_id, reference_type, reference_entity_type, reference_entity_alias, reference_resource_name, reference_resource_shortname, reference_entity_location, s.submitter_id_name ";
+			if (typeof args.reference_type == 'undefined' || args.reference_type.length <= 0) {
+				return null;
+			}
+			if (args.reference_type=='external') {
+				entityReferenceQuery += " FROM reference r left join study s on r.entity_id = s.study_id where s.is_latest_version = 1 and reference_type ='external' ";
+			}
+			else if (args.reference_type=='internal') {
+				entityReferenceQuery += " FROM reference r left join study s on r.reference_entity_alias = s.pdc_study_id where s.is_latest_version = 1 and reference_type ='internal' ";
+			}
 			if (typeof args.entity_id != 'undefined' && args.entity_id.length > 0) {
 				entityReferenceQuery += " and entity_id = uuid_to_bin('" + args.entity_id+ "')";
 			}
 			if (typeof args.entity_type != 'undefined' && args.entity_type.length > 0) {
 				entityReferenceQuery += " and entity_type ='" + args.entity_type + "'";
 			}			
-			if (typeof args.reference_type != 'undefined' && args.reference_type.length > 0) {
+			/*if (typeof args.reference_type != 'undefined' && args.reference_type.length > 0) {
 				entityReferenceQuery += " and reference_type ='" + args.reference_type + "'";
-			}			
+			}*/			
 			return db.getSequelize().query(entityReferenceQuery, { model: db.getModelByName('ModelEntityReference') });
 
 		},
@@ -3550,8 +3642,8 @@ export const resolvers = {
 		//@@@PDC-1772 take quantDataMatrixDb offline
 		async quantDataMatrixDb(obj, args, context) {
 			if(!context.isUI) {
-				context.visitor.pageview().send();
-				logger.info("visitor pageview sent for quantDataMatrixDb");
+				gaVisitor.pageview("/graphqlAPI/quantDataMatrixDb").send();
+				//logger.info("visitor pageview sent for quantDataMatrixDb");
 			}
 			var matrix = [];
 			var row1 = ['Data Matrix: '];
