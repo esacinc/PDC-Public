@@ -496,9 +496,10 @@ constructor(private apollo: Apollo) {
 	}
 
 	//@@@PDC-1219: Add a new experimental design tab on the study summary page
+	//@@@PDC-3253 call api with acceptDUA
 	studyExperimentalDesignQuery = gql`
 	query StudyExperimentalDesign($study_id_value: String) {
-		studyExperimentalDesign(study_id: $study_id_value) {
+		studyExperimentalDesign(study_id: $study_id_value, acceptDUA: true) {
 			study_id 
 			study_submitter_id    
 			study_run_metadata_id
@@ -544,10 +545,11 @@ constructor(private apollo: Apollo) {
 		map(result => { console.log(result.data); return result.data;})
 		); 
 	}
-
+	
+	//@@@PDC-3253 call ui wrapper api
 	biospecimenPerStudyQuery = gql`
 	query BiospecimenPerStudy($study_id_value: String) {
-		biospecimenPerStudy(study_id: $study_id_value) {
+		uiBiospecimenPerStudy(study_id: $study_id_value) {
 			aliquot_id 
 			sample_id
 			case_id
@@ -582,9 +584,10 @@ constructor(private apollo: Apollo) {
 	}
 
 	//@@@PDC-1883: Add external references to study summary page
+	//@@@PDC-3253 call ui wrapper api
 	entityReferenceQuery = gql`
 	query EntityReferenceQueryData($entity_type_filter: String!, $entity_id_filter: String!, $reference_type_filter: String!){
-		pdcEntityReference(entity_type: $entity_type_filter , entity_id: $entity_id_filter, reference_type: $reference_type_filter) {
+		uiPdcEntityReference(entity_type: $entity_type_filter , entity_id: $entity_id_filter, reference_type: $reference_type_filter) {
 			reference_id
 			entity_type
 			entity_id

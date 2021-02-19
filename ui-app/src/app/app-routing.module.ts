@@ -18,6 +18,7 @@ import { UserAccountComponent } from './user-account/user-account.component';
 import { AuthGuardService as AuthGuard } from './auth-guard.service';
 import { SubmitDataFAQComponent } from './navbar/submit-data/submit-data.component'
 import { RequestDataSubmissionComponent } from './navbar/request-data-submission/request-data-submission.component';
+import { DataUseGuidelinesComponent } from './navbar/data-use-guidelines/data-use-guidelines.component';
 
 import { AppComponent } from './app.component';
 
@@ -49,6 +50,7 @@ const appRoutes: Routes = [
   { path: '', loadChildren: './lazy.module#LazyModule'},
   { path: 'submit-data', component: SubmitDataFAQComponent},
   { path: 'request-data-submission', component: RequestDataSubmissionComponent},
+  { path: 'data-use-guidelines', component: DataUseGuidelinesComponent},
   //@@@PDC-374 - adding auxiliary urls to overlay windows
   { path: 'gene-summary/:gene_id', component: GeneProteinSummaryComponent, outlet: 'geneSummary'},
   { path: 'case-summary/:case_id', component: CaseSummaryComponent, outlet: 'caseSummary'},

@@ -347,13 +347,13 @@ describe("StudySummaryService", () => {
     [StudySummaryService],
     (service: StudySummaryService) => {
       service.getBiospecimenPerStudy("S046-1").subscribe(data => {
-        expect(data["biospecimenPerStudy"]).toBeDefined();
-        expect(data["biospecimenPerStudy"].length).toBe(1);
-        expect(data["biospecimenPerStudy"][0].aliquot_id).toBe(
+        expect(data["uiBiospecimenPerStudy"]).toBeDefined();
+        expect(data["uiBiospecimenPerStudy"].length).toBe(1);
+        expect(data["uiBiospecimenPerStudy"][0].aliquot_id).toBe(
           "5225d754-d0b0-11e9-9a07-0a80fada099c"
         );
-        expect(data["biospecimenPerStudy"][0].aliquot_status).toBe("Qualified");
-        expect(data["biospecimenPerStudy"][0].aliquot_is_ref).toBe(
+        expect(data["uiBiospecimenPerStudy"][0].aliquot_status).toBe("Qualified");
+        expect(data["uiBiospecimenPerStudy"][0].aliquot_is_ref).toBe(
           "no"
         );
       });
@@ -362,7 +362,7 @@ describe("StudySummaryService", () => {
 
       op.flush({
         data: {
-          biospecimenPerStudy: [
+          uiBiospecimenPerStudy: [
             {
               aliquot_id: "5225d754-d0b0-11e9-9a07-0a80fada099c",
               sample_id: "9a3ef50b-d0a6-11e9-9a07-0a80fada099c",

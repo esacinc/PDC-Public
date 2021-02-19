@@ -277,7 +277,7 @@ class MockStudySummaryService {
   //@@@PDC-1219: Add a new experimental design tab on the study summary page
   getBiospecimenPerStudy(): Observable<any> {
     return of({
-      biospecimenPerStudy: [
+      uiBiospecimenPerStudy: [
         {
           aliquot_id: "5225d754-d0b0-11e9-9a07-0a80fada099c",
           sample_id: "9a3ef50b-d0a6-11e9-9a07-0a80fada099c",

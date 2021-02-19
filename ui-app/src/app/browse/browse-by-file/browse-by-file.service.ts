@@ -313,11 +313,12 @@ export class BrowseByFileService {
   }
 
   //@@@PDC-1940: File manifest download is very slow
+  //@@@PDC-3253 call api with acceptDUA
   filesDataQuery = gql`
     query FilesDataQuery(
       $file_name: String!
     ) {
-        filesPerStudy (file_name: $file_name) {
+        filesPerStudy (file_name: $file_name, acceptDUA: true) {
           file_id
           file_name
           signedUrl {

@@ -7,7 +7,7 @@ var spec = {
      "title": "PDC API"
      },
     "basePath": "/graphql",
-   "schemes": [
+    "schemes": [
      "https"
      ],
      "tags": [
@@ -53,7 +53,7 @@ var spec = {
         },
      ],
    "paths": {
-         "?query={allCases {case_id case_submitter_id project_submitter_id disease_type primary_site externalReferences { external_reference_id reference_resource_shortname reference_resource_name reference_entity_location }}}": {
+         "?query={allCases (acceptDUA: {acceptDUA}) {case_id case_submitter_id project_submitter_id disease_type primary_site externalReferences { external_reference_id reference_resource_shortname reference_resource_name reference_entity_location }}}": {
              "get": {
                        "tags": ["Case"],
                "summary": "Gets all cases",
@@ -62,6 +62,13 @@ var spec = {
                "produces": [
                            "application/json"
                ],
+               "parameters": [{
+                  "name": "acceptDUA",
+                  "in": "path",
+                  "description": "Accept DUA variable, example: true/false",
+                  "required": true,
+                  "type": "boolean"
+               }],
                "responses": {
                  "200": {
                    "description": "successful operation",
@@ -75,7 +82,7 @@ var spec = {
                }
              }
          },
-         "?query={allExperimentTypes {experiment_type tissue_or_organ_of_origin disease_type}}": {
+         "?query={allExperimentTypes (acceptDUA: {acceptDUA}) {experiment_type tissue_or_organ_of_origin disease_type}}": {
              "get": {
                        "tags": ["Case"],
                "summary": "Get info of experiment types",
@@ -84,6 +91,13 @@ var spec = {
                "produces": [
                  "application/json"
                ],
+               parameters: [{
+                  "name": "acceptDUA",
+                  "in": "path",
+                  "description": "Accept DUA variable, example: true/false",
+                  "required": true,
+                  "type": "boolean"
+               }],
                "responses": {
                  "200": {
                    "description": "successful operation",
@@ -97,7 +111,7 @@ var spec = {
                }
              }
                },
-               "?query={allPrograms  {program_id  program_submitter_id  name projects  {project_id  project_submitter_id  name  studies  {pdc_study_id study_id study_submitter_id submitter_id_name analytical_fraction experiment_type acquisition_type} }}}": {
+               "?query={allPrograms (acceptDUA: {acceptDUA})  {program_id  program_submitter_id  name projects  {project_id  project_submitter_id  name  studies  {pdc_study_id study_id study_submitter_id submitter_id_name analytical_fraction experiment_type acquisition_type} }}}": {
              "get": {
                        "tags": ["Program"],
                "summary": "Gets all programs",
@@ -106,6 +120,13 @@ var spec = {
                "produces": [
                  "application/json"
                        ],
+               parameters: [{
+                  "name": "acceptDUA",
+                  "in": "path",
+                  "description": "Accept DUA variable, example: true/false",
+                  "required": true,
+                  "type": "boolean"
+                }],
                "responses": {
                  "200": {
                    "description": "successful operation",
@@ -119,7 +140,7 @@ var spec = {
                }
              }
                },
-               '?query={aliquotSpectralCount(gene_name: "{gene_name}" dataset_alias: "{dataset_alias}"){gene_id gene_name NCBI_gene_id authority description organism chromosome locus proteins assays spectral_counts { project_submitter_id plex spectral_count distinct_peptide unshared_peptide study_submitter_id pdc_study_id}}}': {
+               '?query={aliquotSpectralCount(gene_name: "{gene_name}" dataset_alias: "{dataset_alias}" acceptDUA: {acceptDUA}){gene_id gene_name NCBI_gene_id authority description organism chromosome locus proteins assays spectral_counts { project_submitter_id plex spectral_count distinct_peptide unshared_peptide study_submitter_id pdc_study_id}}}': {
                  "get": {
                            "tags": ["Gene"],
                    "summary": "Returns the aliquot spectral counts",
@@ -141,7 +162,13 @@ var spec = {
                        "description": "Dataset alias, example: A2-A0D0-01A",
                        "required": true,
                        "type": "string"
-                     }
+                     }, {
+                        "name": "acceptDUA",
+                        "in": "path",
+                        "description": "Accept DUA variable, example: true/false",
+                        "required": true,
+                        "type": "boolean"
+                      }
                    ],
                    "responses": {
                      "200": {
@@ -156,10 +183,10 @@ var spec = {
                    }
                  }
                },
-               '?query={case (case_submitter_id: "{case_submitter_id}") { case_id case_submitter_id project_submitter_id days_to_lost_to_followup disease_type index_date lost_to_followup primary_site externalReferences { external_reference_id reference_resource_shortname reference_resource_name reference_entity_location } demographics{ demographic_id ethnicity gender demographic_submitter_id race cause_of_death days_to_birth days_to_death vital_status year_of_birth year_of_death } samples { sample_id sample_submitter_id sample_type sample_type_id gdc_sample_id gdc_project_id biospecimen_anatomic_site composition current_weight days_to_collection days_to_sample_procurement diagnosis_pathologically_confirmed freezing_method initial_weight intermediate_dimension is_ffpe longest_dimension method_of_sample_procurement oct_embedded pathology_report_uuid preservation_method sample_type_id shortest_dimension time_between_clamping_and_freezing time_between_excision_and_freezing tissue_type tumor_code tumor_code_id tumor_descriptor aliquots { aliquot_id aliquot_submitter_id analyte_type aliquot_run_metadata {aliquot_run_metadata_id} } } diagnoses{ diagnosis_id tissue_or_organ_of_origin age_at_diagnosis primary_diagnosis tumor_grade tumor_stage diagnosis_submitter_id classification_of_tumor days_to_last_follow_up days_to_last_known_disease_status days_to_recurrence last_known_disease_status morphology progression_or_recurrence site_of_resection_or_biopsy prior_malignancy ajcc_clinical_m ajcc_clinical_n ajcc_clinical_stage ajcc_clinical_t ajcc_pathologic_m ajcc_pathologic_n ajcc_pathologic_stage ajcc_pathologic_t ann_arbor_b_symptoms ann_arbor_clinical_stage ann_arbor_extranodal_involvement ann_arbor_pathologic_stage best_overall_response burkitt_lymphoma_clinical_variant circumferential_resection_margin colon_polyps_history days_to_best_overall_response days_to_diagnosis days_to_hiv_diagnosis days_to_new_event figo_stage hiv_positive hpv_positive_type hpv_status iss_stage laterality ldh_level_at_diagnosis ldh_normal_range_upper lymph_nodes_positive lymphatic_invasion_present method_of_diagnosis new_event_anatomic_site new_event_type overall_survival perineural_invasion_present prior_treatment progression_free_survival progression_free_survival_event residual_disease vascular_invasion_present year_of_diagnosis } }}': {
+               '?query={case (case_submitter_id: "{case_submitter_id}" acceptDUA: {acceptDUA}) { case_id case_submitter_id project_submitter_id days_to_lost_to_followup disease_type index_date lost_to_followup primary_site externalReferences { external_reference_id reference_resource_shortname reference_resource_name reference_entity_location } demographics{ demographic_id ethnicity gender demographic_submitter_id race cause_of_death days_to_birth days_to_death vital_status year_of_birth year_of_death } samples { sample_id sample_submitter_id sample_type sample_type_id gdc_sample_id gdc_project_id biospecimen_anatomic_site composition current_weight days_to_collection days_to_sample_procurement diagnosis_pathologically_confirmed freezing_method initial_weight intermediate_dimension is_ffpe longest_dimension method_of_sample_procurement oct_embedded pathology_report_uuid preservation_method sample_type_id shortest_dimension time_between_clamping_and_freezing time_between_excision_and_freezing tissue_type tumor_code tumor_code_id tumor_descriptor aliquots { aliquot_id aliquot_submitter_id analyte_type aliquot_run_metadata {aliquot_run_metadata_id} } } diagnoses{ diagnosis_id tissue_or_organ_of_origin age_at_diagnosis primary_diagnosis tumor_grade tumor_stage diagnosis_submitter_id classification_of_tumor days_to_last_follow_up days_to_last_known_disease_status days_to_recurrence last_known_disease_status morphology progression_or_recurrence site_of_resection_or_biopsy prior_malignancy ajcc_clinical_m ajcc_clinical_n ajcc_clinical_stage ajcc_clinical_t ajcc_pathologic_m ajcc_pathologic_n ajcc_pathologic_stage ajcc_pathologic_t ann_arbor_b_symptoms ann_arbor_clinical_stage ann_arbor_extranodal_involvement ann_arbor_pathologic_stage best_overall_response burkitt_lymphoma_clinical_variant circumferential_resection_margin colon_polyps_history days_to_best_overall_response days_to_diagnosis days_to_hiv_diagnosis days_to_new_event figo_stage hiv_positive hpv_positive_type hpv_status iss_stage laterality ldh_level_at_diagnosis ldh_normal_range_upper lymph_nodes_positive lymphatic_invasion_present method_of_diagnosis new_event_anatomic_site new_event_type overall_survival perineural_invasion_present prior_treatment progression_free_survival progression_free_survival_event residual_disease vascular_invasion_present year_of_diagnosis icd_10_code synchronous_malignancy} }}': {
                  "get": {
                            "tags": ["Case"],
-                   "summary": "Find case by ID",
+                   "summary": "Find case by Case Submitter ID",
                    "description": "<b>Returns a single case<br>",
                    "operationId": "case",
                    "produces": [
@@ -171,7 +198,13 @@ var spec = {
                        "description": "Case Submitter ID, example: C3N-00386",
                        "required": true,
                        "type": "string"
-                     }
+                     }, {
+                        "name": "acceptDUA",
+                        "in": "path",
+                        "description": "Accept DUA variable, example: true/false",
+                        "required": true,
+                        "type": "boolean"
+                      }
                    ],
                    "responses": {
                      "200": {
@@ -186,6 +219,43 @@ var spec = {
                    }
                  }
                    },
+               '?query={case (case_id: "{case_id}" acceptDUA: {acceptDUA}) { case_id case_submitter_id project_submitter_id days_to_lost_to_followup disease_type index_date lost_to_followup primary_site externalReferences { external_reference_id reference_resource_shortname reference_resource_name reference_entity_location } demographics{ demographic_id ethnicity gender demographic_submitter_id race cause_of_death days_to_birth days_to_death vital_status year_of_birth year_of_death } samples { sample_id sample_submitter_id sample_type sample_type_id gdc_sample_id gdc_project_id biospecimen_anatomic_site composition current_weight days_to_collection days_to_sample_procurement diagnosis_pathologically_confirmed freezing_method initial_weight intermediate_dimension is_ffpe longest_dimension method_of_sample_procurement oct_embedded pathology_report_uuid preservation_method sample_type_id shortest_dimension time_between_clamping_and_freezing time_between_excision_and_freezing tissue_type tumor_code tumor_code_id tumor_descriptor aliquots { aliquot_id aliquot_submitter_id analyte_type aliquot_run_metadata {aliquot_run_metadata_id} } } diagnoses{ diagnosis_id tissue_or_organ_of_origin age_at_diagnosis primary_diagnosis tumor_grade tumor_stage diagnosis_submitter_id classification_of_tumor days_to_last_follow_up days_to_last_known_disease_status days_to_recurrence last_known_disease_status morphology progression_or_recurrence site_of_resection_or_biopsy prior_malignancy ajcc_clinical_m ajcc_clinical_n ajcc_clinical_stage ajcc_clinical_t ajcc_pathologic_m ajcc_pathologic_n ajcc_pathologic_stage ajcc_pathologic_t ann_arbor_b_symptoms ann_arbor_clinical_stage ann_arbor_extranodal_involvement ann_arbor_pathologic_stage best_overall_response burkitt_lymphoma_clinical_variant circumferential_resection_margin colon_polyps_history days_to_best_overall_response days_to_diagnosis days_to_hiv_diagnosis days_to_new_event figo_stage hiv_positive hpv_positive_type hpv_status iss_stage laterality ldh_level_at_diagnosis ldh_normal_range_upper lymph_nodes_positive lymphatic_invasion_present method_of_diagnosis new_event_anatomic_site new_event_type overall_survival perineural_invasion_present prior_treatment progression_free_survival progression_free_survival_event residual_disease vascular_invasion_present year_of_diagnosis icd_10_code synchronous_malignancy} }}': {
+                 "get": {
+                           "tags": ["Case"],
+                   "summary": "Find case by Case ID",
+                   "description": "<b>Returns a single case<br>",
+                   "operationId": "case",
+                   "produces": [
+                     "application/json"
+                   ],
+                   "parameters": [{
+                       "name": "case_id",
+                       "in": "path",
+                       "description": "Case ID, example: a023e964-118a-11e9-afb9-0a9c39d33490",
+                       "required": true,
+                       "type": "string"
+                     }, {
+                        "name": "acceptDUA",
+                        "in": "path",
+                        "description": "Accept DUA variable, example: true/false",
+                        "required": true,
+                        "type": "boolean"
+                      }
+                   ],
+                   "responses": {
+                     "200": {
+                       "description": "successful operation",
+                       "schema": {
+                         "$ref": "#/definitions/findCase"
+                       }
+                     },
+                     "401": {
+                       "description": "Unauthorized"
+                     }
+                   }
+                 }
+                   },
+
 /*                    '?query={caseSearch(name: "{name}"){searchCases {record_type name submitter_id_name case_id description proteins}}}': {
                  "get": {
                    "tags": ["Case"],
@@ -216,7 +286,7 @@ var spec = {
                    }
                  }
                }, */
-               "?query={diseasesAvailable {disease_type project_submitter_id cases_count tissue_or_organ_of_origin}}": {
+               "?query={diseasesAvailable (acceptDUA: {acceptDUA}) {disease_type project_submitter_id cases_count tissue_or_organ_of_origin}}": {
                  "get": {
                            "tags": ["Disease"],
                    "summary": "Get available info of diseases",
@@ -225,6 +295,13 @@ var spec = {
                    "produces": [
                      "application/json"
                    ],
+                   parameters: [{
+                     "name": "acceptDUA",
+                     "in": "path",
+                     "description": "Accept DUA variable, example: true/false",
+                     "required": true,
+                     "type": "boolean"
+                   }],
                    "responses": {
                      "200": {
                        "description": "successful operation",
@@ -238,7 +315,7 @@ var spec = {
                    }
                  }
                    },
-                   "?query={diseaseTypesPerProject {project_submitter_id experiment_type analytical_fraction cases {disease_type count}}}": {
+                   "?query={diseaseTypesPerProject (acceptDUA: {acceptDUA}) {project_submitter_id experiment_type analytical_fraction cases {disease_type count}}}": {
                  "get": {
                            "tags": ["Disease"],
                    "summary": "Get disease types per project",
@@ -247,6 +324,13 @@ var spec = {
                    "produces": [
                      "application/json"
                    ],
+                   parameters: [{
+                     "name": "acceptDUA",
+                     "in": "path",
+                     "description": "Accept DUA variable, example: true/false",
+                     "required": true,
+                     "type": "boolean"
+                   }],
                    "responses": {
                      "200": {
                        "description": "successful operation",
@@ -260,7 +344,7 @@ var spec = {
                    }
                  }
                },
-               "?query={filesCountPerStudy {pdc_study_id study_submitter_id file_type files_count data_category}}": {
+               "?query={filesCountPerStudy (acceptDUA: {acceptDUA}) {pdc_study_id study_submitter_id file_type files_count data_category}}": {
                  "get": {
                            "tags": ["Files"],
                    "summary": "Get file count per study",
@@ -269,6 +353,13 @@ var spec = {
                    "produces": [
                      "application/json"
                    ],
+                   parameters: [{
+                     "name": "acceptDUA",
+                     "in": "path",
+                     "description": "Accept DUA variable, example: true/false",
+                     "required": true,
+                     "type": "boolean"
+                   }],
                    "responses": {
                      "200": {
                        "description": "successful operation",
@@ -334,7 +425,7 @@ var spec = {
                    }
                  }
                    }, */
-                   '?query={geneSpectralCount (gene_name: "{gene_name}"){gene_id gene_name NCBI_gene_id authority description organism chromosome locus proteins assays spectral_counts { project_submitter_id plex spectral_count distinct_peptide unshared_peptide study_submitter_id} }}': {
+                   '?query={geneSpectralCount (gene_name: "{gene_name}" acceptDUA: {acceptDUA}){gene_id gene_name NCBI_gene_id authority description organism chromosome locus proteins assays spectral_counts { project_submitter_id plex spectral_count distinct_peptide unshared_peptide study_submitter_id} }}': {
                  "get": {
                            "tags": ["Gene"],
                    "summary": "Returns the gene spectral counts",
@@ -349,6 +440,12 @@ var spec = {
                        "description": "Gene Name, example: A1BG",
                        "required": true,
                        "type": "string"
+                     }, {
+                        "name": "acceptDUA",
+                        "in": "path",
+                        "description": "Accept DUA variable, example: true/false",
+                        "required": true,
+                        "type": "boolean"
                      }
                    ],
                    "responses": {
@@ -364,12 +461,12 @@ var spec = {
                    }
                  }
                },
-               '?query={ fileMetadata(file_id: "{file_id}") {file_id file_name file_size md5sum file_location file_submitter_id fraction_number experiment_type data_category file_type file_format plex_or_dataset_name analyte instrument study_run_metadata_submitter_id study_run_metadata_id aliquots { aliquot_id aliquot_submitter_id sample_id sample_submitter_id case_id case_submitter_id} } }': {
+               '?query={ filesMetadata(file_id: "{file_id}" acceptDUA: {acceptDUA}) {file_id file_name file_size md5sum file_location file_submitter_id fraction_number experiment_type data_category file_type file_format plex_or_dataset_name analyte instrument study_run_metadata_submitter_id study_run_metadata_id aliquots { aliquot_id aliquot_submitter_id sample_id sample_submitter_id case_id case_submitter_id} } }': {
                  "get": {
                            "tags": ["Files"],
                    "summary": "Get file metadata",
                    "description": "<b>Returns a list of file metadata<br><br>Fields:</b><ul><li>file_id</li><li>file_name</li><li>file_size</li><li>md5sum</li><li>file_location</li><li>file_submitter_id</li><li>fraction_number</li><li>experiment_type</li><li>data_category</li><li>file_type</li><li>file_format</li><li>plex_or_dataset_name</li><li>analyte</li><li>instrument</li><li>study_run_metadata_submitter_id</li><li>study_run_metadata_id</li><li>aliquots</li></ul>",
-                   "operationId": "fileMetadata",
+                   "operationId": "filesMetadata",
                    "produces": [
                      "application/json"
                    ],
@@ -379,6 +476,12 @@ var spec = {
                        "description": "File ID, example: 00046804-1b57-11e9-9ac1-005056921935",
                        "required": true,
                        "type": "string"
+                     }, {
+                        "name": "acceptDUA",
+                        "in": "path",
+                        "description": "Accept DUA variable, example: true/false",
+                        "required": true,
+                        "type": "boolean"
                      }
                    ],
                    "responses": {
@@ -394,11 +497,11 @@ var spec = {
                    }
                  }
                    },
-                   '?query={getPaginatedCases(offset: {offset} limit: {limit}) {total cases {case_submitter_id project_submitter_id disease_type} pagination {count sort from page total pages size}}}': {
+                   '?query={getPaginatedCases(offset: {offset} limit: {limit} acceptDUA: {acceptDUA}) {total cases {case_submitter_id project_submitter_id disease_type} pagination {count sort from page total pages size}}}': {
                  "get": {
                            "tags": ["Case"],
                    "summary": "Get paginated case records",
-                   "description": "<b>Returns a list of cases and a pagination record<br/><br/>Fields:</b><ul><li>total</li><li>cases</li></ul>",
+                   "description": "<b>Returns a list of cases and a pagination record<br/><br/>Fields:</b><ul><li>total</li><li>cases</li><li>pagination</li></ul>",
                    "operationId": "getPaginatedCases",
                    "produces": [
                      "application/json"
@@ -415,7 +518,13 @@ var spec = {
                        "description": "Limit of records, example: 10",
                        "required": true,
                        "type": "integer"
-                     }
+                     }, {
+                        "name": "acceptDUA",
+                        "in": "path",
+                        "description": "Accept DUA variable, example: true/false",
+                        "required": true,
+                        "type": "boolean"
+                      }
                    ],
                    "responses": {
                      "200": {
@@ -430,11 +539,11 @@ var spec = {
                    }
                  }
                    },
-                   '?query={getPaginatedFiles(offset: {offset} limit: {limit}) {total files {pdc_study_id study_submitter_id file_name file_type md5sum} pagination {count sort from page total pages size}}}': {
+                   '?query={getPaginatedFiles(offset: {offset} limit: {limit} acceptDUA: {acceptDUA}) {total files {pdc_study_id study_submitter_id file_name file_type md5sum} pagination {count sort from page total pages size}}}': {
                  "get": {
                            "tags": ["Files"],
                    "summary": "Get paginated file records",
-                   "description": "<b>Returns a list of files and a pagination record<br/><br/>Fields:</b><ul><li>total</li><li>files</li></ul>",
+                   "description": "<b>Returns a list of files and a pagination record<br/><br/>Fields:</b><ul><li>total</li><li>files</li><li>pagination</li></ul>",
                    "operationId": "getPaginatedFiles",
                    "produces": [
                      "application/json"
@@ -451,7 +560,13 @@ var spec = {
                        "description": "Limit of records, example: 10",
                        "required": true,
                        "type": "integer"
-                     }
+                     }, {
+                        "name": "acceptDUA",
+                        "in": "path",
+                        "description": "Accept DUA variable, example: true/false",
+                        "required": true,
+                        "type": "boolean"
+                      }
                    ],
                    "responses": {
                      "200": {
@@ -466,11 +581,11 @@ var spec = {
                    }
                  }
                },
-               '?query={paginatedCaseDemographicsPerStudy (study_submitter_id: "{study_submitter_id}" offset: {offset} limit: {limit}) { total caseDemographicsPerStudy { case_id case_submitter_id disease_type primary_site demographics { demographic_id ethnicity gender demographic_submitter_id race cause_of_death days_to_birth days_to_death vital_status year_of_birth year_of_death } } pagination { count sort from page total pages size } }}': {
+               '?query={paginatedCaseDemographicsPerStudy (study_submitter_id: "{study_submitter_id}" offset: {offset} limit: {limit} acceptDUA: {acceptDUA}) { total caseDemographicsPerStudy { case_id case_submitter_id disease_type primary_site demographics { demographic_id ethnicity gender demographic_submitter_id race cause_of_death days_to_birth days_to_death vital_status year_of_birth year_of_death } } pagination { count sort from page total pages size } }}': {
                  "get": {
                            "tags": ["Case"],
                    "summary": "Get Cases/Demographics",
-                   "description": "<b>Returns cases/demographics per study. This API can also be used with multiple input parameters.</b><br>Takes a long time to execute because of the huge volume of data.<br><br><b>Fields:</b><ul><li>total</li><li>caseDemographicsPerStudy</li></ul>",
+                   "description": "<b>Returns cases/demographics per study. This API can also be used with multiple input parameters.</b><br>Takes a long time to execute because of the huge volume of data.<br><br><b>Fields:</b><ul><li>total</li><li>caseDemographicsPerStudy</li><li>pagination</li></ul>",
                    "operationId": "paginatedCaseDemographicsPerStudy",
                    "produces": [
                      "application/json"
@@ -493,7 +608,13 @@ var spec = {
                        "description": "Limit of records, example: 10",
                        "required": true,
                        "type": "integer"
-                     }        
+                     }, {
+                        "name": "acceptDUA",
+                        "in": "path",
+                        "description": "Accept DUA variable, example: true/false",
+                        "required": true,
+                        "type": "boolean"
+                      }        
                      ],
                    "responses": {
                      "200": {
@@ -508,11 +629,11 @@ var spec = {
                    }
                  }
                },
-               '?query={paginatedCaseDemographicsPerStudy (pdc_study_id: "{pdc_study_id}" offset: {offset} limit: {limit}) { total caseDemographicsPerStudy { case_id case_submitter_id disease_type primary_site demographics { demographic_id ethnicity gender demographic_submitter_id race cause_of_death days_to_birth days_to_death vital_status year_of_birth year_of_death } } pagination { count sort from page total pages size } }}': {
+               '?query={paginatedCaseDemographicsPerStudy (pdc_study_id: "{pdc_study_id}" offset: {offset} limit: {limit} acceptDUA: {acceptDUA}) { total caseDemographicsPerStudy { case_id case_submitter_id disease_type primary_site demographics { demographic_id ethnicity gender demographic_submitter_id race cause_of_death days_to_birth days_to_death vital_status year_of_birth year_of_death } } pagination { count sort from page total pages size } }}': {
                   "get": {
                             "tags": ["Case"],
                     "summary": "Get Cases/Demographics for PDC Study ID",
-                    "description": "<b>Returns cases/demographics per study. This API can also be used with multiple input parameters.</b><br>Takes a long time to execute because of the huge volume of data.<br><br><b>Fields:</b><ul><li>total</li><li>caseDemographicsPerStudy</li></ul>",
+                    "description": "<b>Returns cases/demographics per study. This API can also be used with multiple input parameters.</b><br>Takes a long time to execute because of the huge volume of data.<br><br><b>Fields:</b><ul><li>total</li><li>caseDemographicsPerStudy</li><li>pagination</li></ul>",
                     "operationId": "paginatedCaseDemographicsPerStudy",
                     "produces": [
                       "application/json"
@@ -535,7 +656,13 @@ var spec = {
                         "description": "Limit of records, example: 10",
                         "required": true,
                         "type": "integer"
-                      }        
+                      }, {
+                        "name": "acceptDUA",
+                        "in": "path",
+                        "description": "Accept DUA variable, example: true/false",
+                        "required": true,
+                        "type": "boolean"
+                      }       
                       ],
                     "responses": {
                       "200": {
@@ -550,11 +677,11 @@ var spec = {
                     }
                   }
                 },
-               '?query={paginatedSpectralCountPerStudyAliquot(study_submitter_id: "{study_submitter_id}" plex_name: "{plex_name}" gene_name: "{gene_name}" offset: {offset} limit: {limit}) { total spectralCounts { study_submitter_id pdc_study_id plex spectral_count distinct_peptide unshared_peptide } pagination { count sort from page total pages size } }}': {
+               '?query={paginatedSpectralCountPerStudyAliquot(study_submitter_id: "{study_submitter_id}" plex_name: "{plex_name}" gene_name: "{gene_name}" offset: {offset} limit: {limit} acceptDUA: {acceptDUA}) { total spectralCounts { study_submitter_id pdc_study_id plex spectral_count distinct_peptide unshared_peptide } pagination { count sort from page total pages size } }}': {
                  "get": {
                            "tags": ["Quantitative"],
                    "summary": "Get spectral counts per study/aliquot/gene",
-                   "description": "<b>Returns spectral counts per study/aliquot/gene. This API can also be used with multiple input parameters.<br><br>Fields:</b><ul><li>total</li><li>spectralCounts</li></ul>",
+                   "description": "<b>Returns spectral counts per study/aliquot/gene. This API can also be used with multiple input parameters.<br><br>Fields:</b><ul><li>total</li><li>spectralCounts</li><li>pagination</li></ul>",
                    "operationId": "paginatedSpectralCountPerStudyAliquot",
                    "produces": [
                      "application/json"
@@ -562,7 +689,7 @@ var spec = {
                    "parameters": [{
                        "name": "study_submitter_id",
                        "in": "path",
-                       "description": "Submitter id of study, example: S015-2",
+                       "description": "Submitter id of study, example: TCGA BRCA Phosphoproteome S015-2",
                        "required": true,
                        "type": "string"
                      },{
@@ -589,7 +716,13 @@ var spec = {
                        "description": "Limit of records, example: 10",
                        "required": true,
                        "type": "integer"
-                     }        
+                     }, {
+                        "name": "acceptDUA",
+                        "in": "path",
+                        "description": "Accept DUA variable, example: true/false",
+                        "required": true,
+                        "type": "boolean"
+                      }       
                      ],
                    "responses": {
                      "200": {
@@ -604,11 +737,11 @@ var spec = {
                    }
                  }
                    },
-                   '?query={paginatedSpectralCountPerStudyAliquot(pdc_study_id: "{pdc_study_id}" gene_name: "{gene_name}" offset: {offset} limit: {limit}) { total spectralCounts { study_submitter_id pdc_study_id plex spectral_count distinct_peptide unshared_peptide } pagination { count sort from page total pages size } }}': {
+                   '?query={paginatedSpectralCountPerStudyAliquot(pdc_study_id: "{pdc_study_id}" gene_name: "{gene_name}" offset: {offset} limit: {limit} acceptDUA: {acceptDUA}) { total spectralCounts { study_submitter_id pdc_study_id plex spectral_count distinct_peptide unshared_peptide } pagination { count sort from page total pages size } }}': {
                      "get": {
                                "tags": ["Quantitative"],
                        "summary": "Get spectral counts per study/aliquot/gene for a PDC Study ID",
-                       "description": "<b>Returns spectral counts per study/aliquot/gene. This API can also be used with multiple input parameters.<br><br>Fields:</b><ul><li>total</li><li>spectralCounts</li></ul>",
+                       "description": "<b>Returns spectral counts per study/aliquot/gene. This API can also be used with multiple input parameters.<br><br>Fields:</b><ul><li>total</li><li>spectralCounts</li><li>pagination</li></ul>",
                        "operationId": "paginatedSpectralCountPerStudyAliquot",
                        "produces": [
                          "application/json"
@@ -637,7 +770,13 @@ var spec = {
                            "description": "Limit of records, example: 10",
                            "required": true,
                            "type": "integer"
-                         }        
+                         }, {
+                           "name": "acceptDUA",
+                           "in": "path",
+                           "description": "Accept DUA variable, example: true/false",
+                           "required": true,
+                           "type": "boolean"
+                         }       
                          ],
                        "responses": {
                          "200": {
@@ -652,7 +791,7 @@ var spec = {
                        }
                      }
                   },
-                   "?query={pdcDataStats {program study spectra protein project program peptide data_size data_label data_file}}": {
+                   "?query={pdcDataStats (acceptDUA: {acceptDUA}) {program study spectra protein project program peptide data_size data_label data_file}}": {
                  "get": {
                            "tags": ["General"],
                    "summary": "Gets all PDC statistics",
@@ -661,6 +800,13 @@ var spec = {
                    "produces": [
                      "application/json"
                    ],
+                   parameters: [{
+                     "name": "acceptDUA",
+                     "in": "path",
+                     "description": "Accept DUA variable, example: true/false",
+                     "required": true,
+                     "type": "boolean"
+                   }],
                    "responses": {
                      "200": {
                        "description": "successful operation",
@@ -674,7 +820,7 @@ var spec = {
                    }
                  }
                },
-                  '?query={ studyExperimentalDesign (study_id: "{study_id}"){ pdc_study_id, study_run_metadata_id, study_run_metadata_submitter_id, study_id, study_submitter_id, analyte, acquisition_type, experiment_type, plex_dataset_name, experiment_number, number_of_fractions, label_free, itraq_113, itraq_114, itraq_115, itraq_116, itraq_117, itraq_118, itraq_119, itraq_121, tmt_126, tmt_127n, tmt_127c, tmt_128n, tmt_128c, tmt_129n, tmt_129c, tmt_130n, tmt_130c, tmt_131, tmt_131c } }': {
+                  '?query={ studyExperimentalDesign (study_id: "{study_id}" acceptDUA: {acceptDUA}){ pdc_study_id, study_run_metadata_id, study_run_metadata_submitter_id, study_id, study_submitter_id, analyte, acquisition_type, experiment_type, plex_dataset_name, experiment_number, number_of_fractions, label_free, itraq_113, itraq_114, itraq_115, itraq_116, itraq_117, itraq_118, itraq_119, itraq_121, tmt_126, tmt_127n, tmt_127c, tmt_128n, tmt_128c, tmt_129n, tmt_129c, tmt_130n, tmt_130c, tmt_131, tmt_131c } }': {
                  "get": {
                     "tags": ["Experimental"],
                    "summary": "Gets experimental design for a Study",
@@ -689,7 +835,13 @@ var spec = {
                        "description": "Submitter id of study, example: dbe94609-1fb3-11e9-b7f8-0a80fada099c",
                        "required": true,
                        "type": "string"
-                    }],
+                    }, {
+                     "name": "acceptDUA",
+                     "in": "path",
+                     "description": "Accept DUA variable, example: true/false",
+                     "required": true,
+                     "type": "boolean"
+                   }],
                    "responses": {
                      "200": {
                        "description": "successful operation",
@@ -703,7 +855,7 @@ var spec = {
                    }
                  }
                },
-               '?query={ studyExperimentalDesign (pdc_study_id: "{pdc_study_id}"){ pdc_study_id, study_run_metadata_id, study_run_metadata_submitter_id, study_id, study_submitter_id, analyte, acquisition_type, experiment_type, plex_dataset_name, experiment_number, number_of_fractions, label_free, itraq_113, itraq_114, itraq_115, itraq_116, itraq_117, itraq_118, itraq_119, itraq_121, tmt_126, tmt_127n, tmt_127c, tmt_128n, tmt_128c, tmt_129n, tmt_129c, tmt_130n, tmt_130c, tmt_131, tmt_131c } }': {
+               '?query={ studyExperimentalDesign (pdc_study_id: "{pdc_study_id}" acceptDUA: {acceptDUA}){ pdc_study_id, study_run_metadata_id, study_run_metadata_submitter_id, study_id, study_submitter_id, analyte, acquisition_type, experiment_type, plex_dataset_name, experiment_number, number_of_fractions, label_free, itraq_113, itraq_114, itraq_115, itraq_116, itraq_117, itraq_118, itraq_119, itraq_121, tmt_126, tmt_127n, tmt_127c, tmt_128n, tmt_128c, tmt_129n, tmt_129c, tmt_130n, tmt_130c, tmt_131, tmt_131c } }': {
                   "get": {
                      "tags": ["Experimental"],
                     "summary": "Gets experimental design for a PDC Study ID",
@@ -718,7 +870,13 @@ var spec = {
                         "description": "PDC Study ID of study, example: PDC000127",
                         "required": true,
                         "type": "string"
-                     }],
+                     }, {
+                        "name": "acceptDUA",
+                        "in": "path",
+                        "description": "Accept DUA variable, example: true/false",
+                        "required": true,
+                        "type": "boolean"
+                      }],
                     "responses": {
                       "200": {
                         "description": "successful operation",
@@ -732,7 +890,7 @@ var spec = {
                     }
                   }
                 },
-               '?query={ biospecimenPerStudy (study_id: "{study_id}"){ aliquot_id sample_id case_id aliquot_submitter_id sample_submitter_id case_submitter_id aliquot_status case_status sample_status project_name sample_type disease_type primary_site pool taxon externalReferences { external_reference_id reference_resource_shortname reference_resource_name reference_entity_location }} }': {
+               '?query={ biospecimenPerStudy (study_id: "{study_id}" acceptDUA: {acceptDUA}){ aliquot_id sample_id case_id aliquot_submitter_id sample_submitter_id case_submitter_id aliquot_status case_status sample_status project_name sample_type disease_type primary_site pool taxon externalReferences { external_reference_id reference_resource_shortname reference_resource_name reference_entity_location }} }': {
                  "get": {
                            "tags": ["General"],
                    "summary": "Returns biospecimen details per study",
@@ -747,7 +905,13 @@ var spec = {
                        "description": "Study ID, example: dbe94609-1fb3-11e9-b7f8-0a80fada099c",
                        "required": true,
                        "type": "string"
-                    }],
+                    }, {
+                     "name": "acceptDUA",
+                     "in": "path",
+                     "description": "Accept DUA variable, example: true/false",
+                     "required": true,
+                     "type": "boolean"
+                   }],
                    "responses": {
                      "200": {
                        "description": "successful operation",
@@ -761,7 +925,7 @@ var spec = {
                    }
                  }
                },
-               '?query={ biospecimenPerStudy (pdc_study_id: "{pdc_study_id}"){ aliquot_id sample_id case_id aliquot_submitter_id sample_submitter_id case_submitter_id aliquot_status case_status sample_status project_name sample_type disease_type primary_site pool taxon externalReferences { external_reference_id reference_resource_shortname reference_resource_name reference_entity_location }} }': {
+               '?query={ biospecimenPerStudy (pdc_study_id: "{pdc_study_id}" acceptDUA: {acceptDUA}){ aliquot_id sample_id case_id aliquot_submitter_id sample_submitter_id case_submitter_id aliquot_status case_status sample_status project_name sample_type disease_type primary_site pool taxon externalReferences { external_reference_id reference_resource_shortname reference_resource_name reference_entity_location }} }': {
                   "get": {
                      "tags": ["General"],
                     "summary": "Returns biospecimen details for a PDC Study ID",
@@ -776,7 +940,13 @@ var spec = {
                         "description": "PDC Study ID, example: PDC000127",
                         "required": true,
                         "type": "string"
-                     }],
+                     }, {
+                        "name": "acceptDUA",
+                        "in": "path",
+                        "description": "Accept DUA variable, example: true/false",
+                        "required": true,
+                        "type": "boolean"
+                      }],
                     "responses": {
                       "200": {
                         "description": "successful operation",
@@ -790,11 +960,11 @@ var spec = {
                     }
                   }
                 },
-               '?query={ clinicalPerStudy(study_submitter_id: "{study_submitter_id}"){ case_id case_submitter_id status ethnicity gender race morphology primary_diagnosis site_of_resection_or_biopsy tissue_or_organ_of_origin tumor_grade tumor_stage externalReferences { external_reference_id reference_resource_shortname reference_resource_name reference_entity_location }} }': {
+               '?query={ clinicalPerStudy(study_submitter_id: "{study_submitter_id}" acceptDUA: {acceptDUA}){ case_id case_submitter_id status ethnicity gender race morphology primary_diagnosis site_of_resection_or_biopsy tissue_or_organ_of_origin tumor_grade tumor_stage icd_10_code synchronous_malignancy externalReferences { external_reference_id reference_resource_shortname reference_resource_name reference_entity_location}} }': {
                  "get": {
                            "tags": ["Clinical"],
                    "summary": "Returns clinical details per study",
-                   "description": "<b>Returns clinical details per study. This API can also be used with multiple input parameters.<br><br>Fields:</b><ul><li>case_id</li><li>case_submitter_id</li><li>status</li><li>ethnicity</li><li>gender</li><li>race</li><li>morphology</li><li>primary_diagnosis</li><li>site_of_resection_or_biopsy</li><li>tissue_or_organ_of_origin</li><li>tumor_grade</li><li>tumor_stage</li><li>externalReferences { external_reference_id reference_resource_shortname reference_resource_name reference_entity_location }</li></ul>",
+                   "description": "<b>Returns clinical details per study. This API can also be used with multiple input parameters.<br><br>Fields:</b><ul><li>case_id</li><li>case_submitter_id</li><li>status</li><li>ethnicity</li><li>gender</li><li>race</li><li>morphology</li><li>primary_diagnosis</li><li>site_of_resection_or_biopsy</li><li>tissue_or_organ_of_origin</li><li>tumor_grade</li><li>tumor_stage</li><li>icd_10_code</li><li>synchronous_malignancy</li><li>externalReferences { external_reference_id reference_resource_shortname reference_resource_name reference_entity_location }</li></ul>",
                    "operationId": "clinicalPerStudy",
                    "produces": [
                      "application/json"
@@ -802,10 +972,16 @@ var spec = {
                    "parameters": [{
                        "name": "study_submitter_id",
                        "in": "path",
-                       "description": "Submitter id of study, example: S015-2",
+                       "description": "Submitter ID of study, example: TCGA BRCA Phosphoproteome S015-2",
                        "required": true,
                        "type": "string"
-                    }],
+                    }, {
+                     "name": "acceptDUA",
+                     "in": "path",
+                     "description": "Accept DUA variable, example: true/false",
+                     "required": true,
+                     "type": "boolean"
+                   }],
                    "responses": {
                      "200": {
                        "description": "successful operation",
@@ -819,11 +995,11 @@ var spec = {
                    }
                  }
                },
-               '?query={ clinicalPerStudy(pdc_study_id: "{pdc_study_id}"){ case_id case_submitter_id status ethnicity gender race morphology primary_diagnosis site_of_resection_or_biopsy tissue_or_organ_of_origin tumor_grade tumor_stage externalReferences { external_reference_id reference_resource_shortname reference_resource_name reference_entity_location }} }': {
+               '?query={ clinicalPerStudy(pdc_study_id: "{pdc_study_id}" acceptDUA: {acceptDUA}){ case_id case_submitter_id status ethnicity gender race morphology primary_diagnosis site_of_resection_or_biopsy tissue_or_organ_of_origin tumor_grade tumor_stage icd_10_code synchronous_malignancy externalReferences { external_reference_id reference_resource_shortname reference_resource_name reference_entity_location}} }': {
                   "get": {
                             "tags": ["Clinical"],
                     "summary": "Returns clinical details for PDC Study ID",
-                    "description": "<b>Returns clinical details per study. This API can also be used with multiple input parameters.<br><br>Fields:</b><ul><li>case_id</li><li>case_submitter_id</li><li>status</li><li>ethnicity</li><li>gender</li><li>race</li><li>morphology</li><li>primary_diagnosis</li><li>site_of_resection_or_biopsy</li><li>tissue_or_organ_of_origin</li><li>tumor_grade</li><li>tumor_stage</li><li>externalReferences { external_reference_id reference_resource_shortname reference_resource_name reference_entity_location }</li></ul>",
+                    "description": "<b>Returns clinical details per study. This API can also be used with multiple input parameters.<br><br>Fields:</b><ul><li>case_id</li><li>case_submitter_id</li><li>status</li><li>ethnicity</li><li>gender</li><li>race</li><li>morphology</li><li>primary_diagnosis</li><li>site_of_resection_or_biopsy</li><li>tissue_or_organ_of_origin</li><li>tumor_grade</li><li>tumor_stage</li><li>icd_10_code</li><li>synchronous_malignancy</li><li>externalReferences { external_reference_id reference_resource_shortname reference_resource_name reference_entity_location }</li></ul>",
                     "operationId": "clinicalPerStudy",
                     "produces": [
                       "application/json"
@@ -834,6 +1010,12 @@ var spec = {
                         "description": "PDC Study ID of study, example: PDC000174",
                         "required": true,
                         "type": "string"
+                     }, {
+                        "name": "acceptDUA",
+                        "in": "path",
+                        "description": "Accept DUA variable, example: true/false",
+                        "required": true,
+                        "type": "boolean"
                      }],
                     "responses": {
                       "200": {
@@ -848,7 +1030,7 @@ var spec = {
                     }
                   }
                 },
-                '?query={ protocolPerStudy(pdc_study_id: "{pdc_study_id}" ){protocol_id protocol_submitter_id study_id pdc_study_id study_submitter_id program_id program_submitter_id protocol_name protocol_date document_name quantitation_strategy experiment_type label_free_quantitation labeled_quantitation isobaric_labeling_reagent reporter_ion_ms_level starting_amount starting_amount_uom digestion_reagent alkylation_reagent enrichment_strategy enrichment chromatography_dimensions_count one_d_chromatography_type two_d_chromatography_type fractions_analyzed_count column_type amount_on_column amount_on_column_uom column_length column_length_uom column_inner_diameter column_inner_diameter_uom particle_size particle_size_uom particle_type gradient_length gradient_length_uom instrument_make instrument_model dissociation_type ms1_resolution ms2_resolution dda_topn normalized_collision_energy acquistion_type dia_multiplexing dia_ims } }': {
+                '?query={ protocolPerStudy(pdc_study_id: "{pdc_study_id}" acceptDUA: {acceptDUA}){protocol_id protocol_submitter_id study_id pdc_study_id study_submitter_id program_id program_submitter_id protocol_name protocol_date document_name quantitation_strategy experiment_type label_free_quantitation labeled_quantitation isobaric_labeling_reagent reporter_ion_ms_level starting_amount starting_amount_uom digestion_reagent alkylation_reagent enrichment_strategy enrichment chromatography_dimensions_count one_d_chromatography_type two_d_chromatography_type fractions_analyzed_count column_type amount_on_column amount_on_column_uom column_length column_length_uom column_inner_diameter column_inner_diameter_uom particle_size particle_size_uom particle_type gradient_length gradient_length_uom instrument_make instrument_model dissociation_type ms1_resolution ms2_resolution dda_topn normalized_collision_energy acquistion_type dia_multiplexing dia_ims } }': {
                   "get": {
                             "tags": ["General"],
                     "summary": "Gets all protocols for PDC Study ID",
@@ -863,7 +1045,13 @@ var spec = {
                         "description": "PDC Study id of study, example: PDC000174",
                         "required": true,
                         "type": "string"
-                     }],
+                     }, {
+                        "name": "acceptDUA",
+                        "in": "path",
+                        "description": "Accept DUA variable, example: true/false",
+                        "required": true,
+                        "type": "boolean"
+                      }],
                     "responses": {
                       "200": {
                         "description": "successful operation",
@@ -877,7 +1065,7 @@ var spec = {
                     }
                   }
                 },
-               '?query={ protocolPerStudy(study_submitter_id: "{study_submitter_id}" ){ protocol_id protocol_submitter_id study_id pdc_study_id study_submitter_id program_id program_submitter_id protocol_name protocol_date document_name quantitation_strategy experiment_type label_free_quantitation labeled_quantitation isobaric_labeling_reagent reporter_ion_ms_level starting_amount starting_amount_uom digestion_reagent alkylation_reagent enrichment_strategy enrichment chromatography_dimensions_count one_d_chromatography_type two_d_chromatography_type fractions_analyzed_count column_type amount_on_column amount_on_column_uom column_length column_length_uom column_inner_diameter column_inner_diameter_uom particle_size particle_size_uom particle_type gradient_length gradient_length_uom instrument_make instrument_model dissociation_type ms1_resolution ms2_resolution dda_topn normalized_collision_energy acquistion_type dia_multiplexing dia_ims } }': {
+               '?query={ protocolPerStudy(study_submitter_id: "{study_submitter_id}" acceptDUA: {acceptDUA}){ protocol_id protocol_submitter_id study_id pdc_study_id study_submitter_id program_id program_submitter_id protocol_name protocol_date document_name quantitation_strategy experiment_type label_free_quantitation labeled_quantitation isobaric_labeling_reagent reporter_ion_ms_level starting_amount starting_amount_uom digestion_reagent alkylation_reagent enrichment_strategy enrichment chromatography_dimensions_count one_d_chromatography_type two_d_chromatography_type fractions_analyzed_count column_type amount_on_column amount_on_column_uom column_length column_length_uom column_inner_diameter column_inner_diameter_uom particle_size particle_size_uom particle_type gradient_length gradient_length_uom instrument_make instrument_model dissociation_type ms1_resolution ms2_resolution dda_topn normalized_collision_energy acquistion_type dia_multiplexing dia_ims } }': {
                  "get": {
                            "tags": ["General"],
                    "summary": "Gets all protocols per Study",
@@ -889,10 +1077,16 @@ var spec = {
                    "parameters": [{
                        "name": "study_submitter_id",
                        "in": "path",
-                       "description": "Submitter id of study, example: S015-2",
+                       "description": "Submitter id of study, example: TCGA BRCA Phosphoproteome S015-2",
                        "required": true,
                        "type": "string"
-                    }],
+                    }, {
+                     "name": "acceptDUA",
+                     "in": "path",
+                     "description": "Accept DUA variable, example: true/false",
+                     "required": true,
+                     "type": "boolean"
+                   }],
                    "responses": {
                      "200": {
                        "description": "successful operation",
@@ -906,7 +1100,7 @@ var spec = {
                    }
                  }
                },
-              '?query={ study (study_id: "{study_id}") { study_id pdc_study_id study_submitter_id program_id project_id study_name program_name project_name disease_type primary_site analytical_fraction experiment_type embargo_date cases_count aliquots_count filesCount { data_category file_type files_count } } }': {
+              '?query={ study (study_id: "{study_id}" acceptDUA: {acceptDUA}) { study_id pdc_study_id study_submitter_id program_id project_id study_name program_name project_name disease_type primary_site analytical_fraction experiment_type embargo_date cases_count aliquots_count filesCount { data_category file_type files_count } } }': {
                  "get": {
                    "tags": ["Study"],
                    "summary": "Gets Study details",
@@ -921,7 +1115,13 @@ var spec = {
                        "description": "Study ID, example: dbe94609-1fb3-11e9-b7f8-0a80fada099c",
                        "required": true,
                        "type": "string"
-                    }],
+                    },{
+                     "name": "acceptDUA",
+                     "in": "path",
+                     "description": "Accept DUA variable, example: true/false",
+                     "required": true,
+                     "type": "boolean"
+                  }],
                    "responses": {
                      "200": {
                        "description": "successful operation",
@@ -935,7 +1135,7 @@ var spec = {
                    }
                  }
                },
-               '?query={ study (pdc_study_id: "{pdc_study_id}") { study_id pdc_study_id study_submitter_id program_id project_id study_name program_name project_name disease_type primary_site analytical_fraction experiment_type embargo_date cases_count aliquots_count filesCount { data_category file_type files_count } } }': {
+               '?query={ study (pdc_study_id: "{pdc_study_id}" acceptDUA: {acceptDUA}) { study_id pdc_study_id study_submitter_id program_id project_id study_name program_name project_name disease_type primary_site analytical_fraction experiment_type embargo_date cases_count aliquots_count filesCount { data_category file_type files_count } } }': {
                   "get": {
                     "tags": ["Study"],
                     "summary": "Gets Study details for PDC Study ID",
@@ -950,6 +1150,12 @@ var spec = {
                         "description": "PDC Study ID, example: PDC000127",
                         "required": true,
                         "type": "string"
+                     },{
+                        "name": "acceptDUA",
+                        "in": "path",
+                        "description": "Accept DUA variable, example: true/false",
+                        "required": true,
+                        "type": "boolean"
                      }],
                     "responses": {
                       "200": {
@@ -964,7 +1170,7 @@ var spec = {
                     }
                   }
                 },
-              '?query={ filesPerStudy (study_id: "{study_id}") {study_id pdc_study_id study_submitter_id study_name file_id file_name file_submitter_id file_type md5sum file_location file_size data_category file_format signedUrl {url}} }': {
+              '?query={ filesPerStudy (study_id: "{study_id}" acceptDUA: {acceptDUA}) {study_id pdc_study_id study_submitter_id study_name file_id file_name file_submitter_id file_type md5sum file_location file_size data_category file_format signedUrl {url}} }': {
                  "get": {
                            "tags": ["Files"],
                    "summary": "Get files per Study ID",
@@ -979,7 +1185,13 @@ var spec = {
                        "description": "Study ID, example: dbe94609-1fb3-11e9-b7f8-0a80fada099c",
                        "required": true,
                        "type": "string"
-                    }],
+                    },{
+                     "name": "acceptDUA",
+                     "in": "path",
+                     "description": "Accept DUA variable, example: true/false",
+                     "required": true,
+                     "type": "boolean"
+                   }],
                    "responses": {
                      "200": {
                        "description": "successful operation",
@@ -993,7 +1205,7 @@ var spec = {
                    }
                  }
                },
-               '?query={ filesPerStudy (pdc_study_id: "{pdc_study_id}") {study_id pdc_study_id study_submitter_id study_name file_id file_name file_submitter_id file_type md5sum file_location file_size data_category file_format signedUrl {url}} }': {
+               '?query={ filesPerStudy (pdc_study_id: "{pdc_study_id}" acceptDUA: {acceptDUA}) {study_id pdc_study_id study_submitter_id study_name file_id file_name file_submitter_id file_type md5sum file_location file_size data_category file_format signedUrl {url}} }': {
                   "get": {
                             "tags": ["Files"],
                     "summary": "Get files per PDC Study ID",
@@ -1008,6 +1220,12 @@ var spec = {
                         "description": "PDC Study ID, example: PDC000174",
                         "required": true,
                         "type": "string"
+                     }, {
+                        "name": "acceptDUA",
+                        "in": "path",
+                        "description": "Accept DUA variable, example: true/false",
+                        "required": true,
+                        "type": "boolean"
                      }],
                     "responses": {
                       "200": {
@@ -1022,7 +1240,7 @@ var spec = {
                     }
                   }
                 },
-               '?query={program(program_submitter_id:  "{program_submitter_id}")  {program_id  program_submitter_id  name  projects  {project_id  project_submitter_id  name  studies  {pdc_study_id study_id study_submitter_id submitter_id_name analytical_fraction experiment_type acquisition_type} }  }  }': {
+               '?query={program(program_submitter_id:  "{program_submitter_id}" acceptDUA: {acceptDUA})  {program_id  program_submitter_id  name  projects  {project_id  project_submitter_id  name  studies  {pdc_study_id study_id study_submitter_id submitter_id_name analytical_fraction experiment_type acquisition_type} }  }  }': {
                  "get": {
                            "tags": ["Program"],
                    "summary": "Find program by ID",
@@ -1037,7 +1255,13 @@ var spec = {
                        "description": "Program Submitter ID, example: Clinical Proteomic Tumor Analysis Consortium",
                        "required": true,
                        "type": "string"
-                     }
+                     }, {
+                        "name": "acceptDUA",
+                        "in": "path",
+                        "description": "Accept DUA variable, example: true/false",
+                        "required": true,
+                        "type": "boolean"
+                      }
                    ],
                    "responses": {
                      "200": {
@@ -1052,7 +1276,7 @@ var spec = {
                    }
                  }
                },
-               "?query={programsProjectsStudies {program_id program_submitter_id name projects {project_id project_submitter_id name studies { pdc_study_id study_id study_submitter_id submitter_id_name analytical_fraction experiment_type acquisition_type} }}}": {
+               "?query={programsProjectsStudies (acceptDUA: {acceptDUA}) {program_id program_submitter_id name projects {project_id project_submitter_id name studies { pdc_study_id study_id study_submitter_id submitter_id_name analytical_fraction experiment_type acquisition_type} }}}": {
                  "get": {
                            "tags": ["Program"],
                    "summary": "Get all programs/projects/studies",
@@ -1061,6 +1285,13 @@ var spec = {
                    "produces": [
                      "application/json"
                    ],
+                   "parameters": [{
+                     "name": "acceptDUA",
+                     "in": "path",
+                     "description": "Accept DUA variable, example: true/false",
+                     "required": true,
+                     "type": "boolean"
+                   }],
                    "responses": {
                      "200": {
                        "description": "successful operation",
@@ -1148,7 +1379,7 @@ var spec = {
                     }
                   }
                 }, */
-               '?query={protein(protein: "{protein}"){gene_name NCBI_gene_id authority description organism chromosome locus proteins assays spectral_counts {project_submitter_id plex spectral_count distinct_peptide unshared_peptide study_submitter_id pdc_study_id}}}': {
+               '?query={protein(protein: "{protein}" acceptDUA: {acceptDUA}){gene_name NCBI_gene_id authority description organism chromosome locus proteins assays spectral_counts {project_submitter_id plex spectral_count distinct_peptide unshared_peptide study_submitter_id pdc_study_id}}}': {
                  "get": {
                            "tags": ["Quantitative"],
                    "summary": "Get spectral counts and plex in available projects for a protein",
@@ -1163,7 +1394,13 @@ var spec = {
                        "description": "Name of protein to return, example: M0R009",
                        "required": true,
                        "type": "string"
-                     }
+                     }, {
+                        "name": "acceptDUA",
+                        "in": "path",
+                        "description": "Accept DUA variable, example: true/false",
+                        "required": true,
+                        "type": "boolean"
+                      }
                    ],
                    "responses": {
                      "200": {
@@ -1238,7 +1475,7 @@ var spec = {
                     }
                   }
                 },*/
-                '?query={ pdcEntityReference(entity_type:"{entity_type}", entity_id: "{entity_id}", reference_type: "{reference_type}") { reference_id entity_type entity_id reference_type reference_entity_type reference_entity_alias reference_resource_name reference_resource_shortname reference_entity_location } }': {
+                '?query={ pdcEntityReference(entity_type:"{entity_type}", entity_id: "{entity_id}", reference_type: "{reference_type}", acceptDUA: {acceptDUA}) { reference_id entity_type entity_id reference_type reference_entity_type reference_entity_alias reference_resource_name reference_resource_shortname reference_entity_location } }': {
                   "get": {
                     "tags": ["General"],
                     "summary": "Find Entity References for a Study/Case",
@@ -1265,6 +1502,12 @@ var spec = {
                         "description": "Reference type, example: external/internal",
                         "required": true,
                         "type": "string"
+                      } , {
+                        "name": "acceptDUA",
+                        "in": "path",
+                        "description": "Accept DUA variable, example: true/false",
+                        "required": true,
+                        "type": "boolean"
                       }                        
                     ],
                     "responses": {
@@ -1280,7 +1523,7 @@ var spec = {
                     }
                   }
                 },
-                '?query={ getPaginatedGenes(offset: {offset}, limit: {limit}) { total genesProper { gene_id gene_name NCBI_gene_id authority description organism chromosome locus proteins assays } pagination { count sort from page total pages size } } }': {
+                '?query={ getPaginatedGenes(offset: {offset} limit: {limit} acceptDUA: {acceptDUA}) { total genesProper { gene_id gene_name NCBI_gene_id authority description organism chromosome locus proteins assays } pagination { count sort from page total pages size } } }': {
                   "get": {
                     "tags": ["Gene"],
                     "summary": "Get paginated gene records",
@@ -1301,6 +1544,12 @@ var spec = {
                         "description": "Limit of records, example: 10",
                         "required": true,
                         "type": "string"
+                      }, {
+                        "name": "acceptDUA",
+                        "in": "path",
+                        "description": "Accept DUA variable, example: true/false",
+                        "required": true,
+                        "type": "boolean"
                       }                        
                     ],
                     "responses": {
@@ -1316,7 +1565,7 @@ var spec = {
                     }
                   }
                 },
-                '?query={ getPaginatedGenes(offset: {offset}, limit: {limit}, gene_name: "{gene_name}") { total genesProper { gene_id gene_name NCBI_gene_id authority description organism chromosome locus proteins assays } pagination { count sort from page total pages size } } }': {
+                '?query={ getPaginatedGenes(offset: {offset}, limit: {limit}, gene_name: "{gene_name}" acceptDUA: {acceptDUA}) { total genesProper { gene_id gene_name NCBI_gene_id authority description organism chromosome locus proteins assays } pagination { count sort from page total pages size } } }': {
                   "get": {
                     "tags": ["Gene"],
                     "summary": "Get paginated gene records",
@@ -1343,7 +1592,13 @@ var spec = {
                         "description": "Gene Name, example: A2M",
                         "required": true,
                         "type": "string"
-                      }                        
+                      }, {
+                        "name": "acceptDUA",
+                        "in": "path",
+                        "description": "Accept DUA variable, example: true/false",
+                        "required": true,
+                        "type": "boolean"
+                      }                       
                     ],
                     "responses": {
                       "200": {
@@ -1388,11 +1643,11 @@ var spec = {
                     }
                   }
                 },*/
-               '?query={paginatedCaseDiagnosesPerStudy (study_name: "{study_name}" offset: {offset} limit: {limit}) { total caseDiagnosesPerStudy { case_id case_submitter_id disease_type primary_site diagnoses{ diagnosis_id tissue_or_organ_of_origin age_at_diagnosis primary_diagnosis tumor_grade tumor_stage diagnosis_submitter_id classification_of_tumor days_to_last_follow_up days_to_last_known_disease_status days_to_recurrence last_known_disease_status morphology progression_or_recurrence site_of_resection_or_biopsy prior_malignancy ajcc_clinical_m ajcc_clinical_n ajcc_clinical_stage ajcc_clinical_t ajcc_pathologic_m ajcc_pathologic_n ajcc_pathologic_stage ajcc_pathologic_t ann_arbor_b_symptoms ann_arbor_clinical_stage ann_arbor_extranodal_involvement ann_arbor_pathologic_stage best_overall_response burkitt_lymphoma_clinical_variant circumferential_resection_margin colon_polyps_history days_to_best_overall_response days_to_diagnosis days_to_hiv_diagnosis days_to_new_event figo_stage hiv_positive hpv_positive_type hpv_status iss_stage laterality ldh_level_at_diagnosis ldh_normal_range_upper lymph_nodes_positive lymphatic_invasion_present method_of_diagnosis new_event_anatomic_site new_event_type overall_survival perineural_invasion_present prior_treatment progression_free_survival progression_free_survival_event residual_disease vascular_invasion_present year_of_diagnosis } } pagination { count sort from page total pages size } }} ': {
+               '?query={paginatedCaseDiagnosesPerStudy (study_name: "{study_name}" offset: {offset} limit: {limit} acceptDUA: {acceptDUA}) { total caseDiagnosesPerStudy { case_id case_submitter_id disease_type primary_site diagnoses{ diagnosis_id tissue_or_organ_of_origin age_at_diagnosis primary_diagnosis tumor_grade tumor_stage diagnosis_submitter_id classification_of_tumor days_to_last_follow_up days_to_last_known_disease_status days_to_recurrence last_known_disease_status morphology progression_or_recurrence site_of_resection_or_biopsy prior_malignancy ajcc_clinical_m ajcc_clinical_n ajcc_clinical_stage ajcc_clinical_t ajcc_pathologic_m ajcc_pathologic_n ajcc_pathologic_stage ajcc_pathologic_t ann_arbor_b_symptoms ann_arbor_clinical_stage ann_arbor_extranodal_involvement ann_arbor_pathologic_stage best_overall_response burkitt_lymphoma_clinical_variant circumferential_resection_margin colon_polyps_history days_to_best_overall_response days_to_diagnosis days_to_hiv_diagnosis days_to_new_event figo_stage hiv_positive hpv_positive_type hpv_status iss_stage laterality ldh_level_at_diagnosis ldh_normal_range_upper lymph_nodes_positive lymphatic_invasion_present method_of_diagnosis new_event_anatomic_site new_event_type overall_survival perineural_invasion_present prior_treatment progression_free_survival progression_free_survival_event residual_disease vascular_invasion_present year_of_diagnosis icd_10_code synchronous_malignancy} } pagination { count sort from page total pages size } }} ': {
                  "get": {
                      "tags": ["Case"],
                      "summary": "Get Cases/Diagnoses",
-                     "description": "<b>Returns cases/diagnoses per study. This API can also be used with multiple input parameters.<br><br>Fields:</b><ul><li>total</li><li>caseDiagnosesPerStudy</li></ul>",
+                     "description": "<b>Returns cases/diagnoses per study. This API can also be used with multiple input parameters.<br><br>Fields:</b><ul><li>total</li><li>caseDiagnosesPerStudy</li><li>pagination</li></ul>",
                      "operationId": "paginatedCaseDiagnosesPerStudy",
                      "produces": [
                          "application/json"
@@ -1415,7 +1670,13 @@ var spec = {
                              "description": "Limit of records, example: 10",
                              "required": true,
                              "type": "integer"
-                         }        
+                         }, {
+                           "name": "acceptDUA",
+                           "in": "path",
+                           "description": "Accept DUA variable, example: true/false",
+                           "required": true,
+                           "type": "boolean"
+                         }       
                          ],
                      "responses": {
                          "200": {
@@ -1430,11 +1691,11 @@ var spec = {
                      }
                  }
              },
-             '?query={paginatedCaseDiagnosesPerStudy (pdc_study_id: "{pdc_study_id}" offset: {offset} limit: {limit}) { total caseDiagnosesPerStudy { case_id case_submitter_id disease_type primary_site diagnoses{ diagnosis_id tissue_or_organ_of_origin age_at_diagnosis primary_diagnosis tumor_grade tumor_stage diagnosis_submitter_id classification_of_tumor days_to_last_follow_up days_to_last_known_disease_status days_to_recurrence last_known_disease_status morphology progression_or_recurrence site_of_resection_or_biopsy prior_malignancy ajcc_clinical_m ajcc_clinical_n ajcc_clinical_stage ajcc_clinical_t ajcc_pathologic_m ajcc_pathologic_n ajcc_pathologic_stage ajcc_pathologic_t ann_arbor_b_symptoms ann_arbor_clinical_stage ann_arbor_extranodal_involvement ann_arbor_pathologic_stage best_overall_response burkitt_lymphoma_clinical_variant circumferential_resection_margin colon_polyps_history days_to_best_overall_response days_to_diagnosis days_to_hiv_diagnosis days_to_new_event figo_stage hiv_positive hpv_positive_type hpv_status iss_stage laterality ldh_level_at_diagnosis ldh_normal_range_upper lymph_nodes_positive lymphatic_invasion_present method_of_diagnosis new_event_anatomic_site new_event_type overall_survival perineural_invasion_present prior_treatment progression_free_survival progression_free_survival_event residual_disease vascular_invasion_present year_of_diagnosis } } pagination { count sort from page total pages size } }} ': {
+             '?query={paginatedCaseDiagnosesPerStudy (pdc_study_id: "{pdc_study_id}" offset: {offset} limit: {limit} acceptDUA: {acceptDUA}) { total caseDiagnosesPerStudy { case_id case_submitter_id disease_type primary_site diagnoses{ diagnosis_id tissue_or_organ_of_origin age_at_diagnosis primary_diagnosis tumor_grade tumor_stage diagnosis_submitter_id classification_of_tumor days_to_last_follow_up days_to_last_known_disease_status days_to_recurrence last_known_disease_status morphology progression_or_recurrence site_of_resection_or_biopsy prior_malignancy ajcc_clinical_m ajcc_clinical_n ajcc_clinical_stage ajcc_clinical_t ajcc_pathologic_m ajcc_pathologic_n ajcc_pathologic_stage ajcc_pathologic_t ann_arbor_b_symptoms ann_arbor_clinical_stage ann_arbor_extranodal_involvement ann_arbor_pathologic_stage best_overall_response burkitt_lymphoma_clinical_variant circumferential_resection_margin colon_polyps_history days_to_best_overall_response days_to_diagnosis days_to_hiv_diagnosis days_to_new_event figo_stage hiv_positive hpv_positive_type hpv_status iss_stage laterality ldh_level_at_diagnosis ldh_normal_range_upper lymph_nodes_positive lymphatic_invasion_present method_of_diagnosis new_event_anatomic_site new_event_type overall_survival perineural_invasion_present prior_treatment progression_free_survival progression_free_survival_event residual_disease vascular_invasion_present year_of_diagnosis icd_10_code synchronous_malignancy} } pagination { count sort from page total pages size } }} ': {
                "get": {
                    "tags": ["Case"],
                    "summary": "Get Cases/Diagnoses for PDC Study ID",
-                   "description": "<b>Returns cases/diagnoses for PDC Study ID. This API can also be used with multiple input parameters.<br><br>Fields:</b><ul><li>total</li><li>caseDiagnosesPerStudy</li></ul>",
+                   "description": "<b>Returns cases/diagnoses for PDC Study ID. This API can also be used with multiple input parameters.<br><br>Fields:</b><ul><li>total</li><li>caseDiagnosesPerStudy</li><li>pagination</li></ul>",
                    "operationId": "paginatedCaseDiagnosesPerStudy",
                    "produces": [
                        "application/json"
@@ -1457,6 +1718,12 @@ var spec = {
                            "description": "Limit of records, example: 10",
                            "required": true,
                            "type": "integer"
+                       }, {
+                        "name": "acceptDUA",
+                        "in": "path",
+                        "description": "Accept DUA variable, example: true/false",
+                        "required": true,
+                        "type": "boolean"
                        }        
                        ],
                    "responses": {
@@ -1472,7 +1739,7 @@ var spec = {
                    }
                }
            },
-               "?query={tissueSitesAvailable { tissue_or_organ_of_origin project_submitter_id cases_count }}": {
+               "?query={tissueSitesAvailable (acceptDUA: {acceptDUA}) { tissue_or_organ_of_origin project_submitter_id cases_count }}": {
                  "get": {
                            "tags": ["General"],
                    "summary": "Get available Tissue Sites",
@@ -1481,6 +1748,13 @@ var spec = {
                    "produces": [
                      "application/json"
                    ],
+                   "parameters": [ {
+                     "name": "acceptDUA",
+                     "in": "path",
+                     "description": "Accept DUA variable, example: true/false",
+                     "required": true,
+                     "type": "boolean"
+                   }],
                    "responses": {
                      "200": {
                        "description": "successful operation",
@@ -1494,7 +1768,7 @@ var spec = {
                    }
                  }
                },
-               "?query={workflowMetadata { workflow_metadata_submitter_id pdc_study_id study_submitter_id protocol_submitter_id cptac_study_id submitter_id_name study_submitter_name analytical_fraction experiment_type instrument refseq_database_version uniport_database_version hgnc_version raw_data_processing raw_data_conversion sequence_database_search search_database_parameters phosphosite_localization ms1_data_analysis psm_report_generation cptac_dcc_mzidentml mzidentml_refseq mzidentml_uniprot gene_to_prot cptac_galaxy_workflows cptac_galaxy_tools cdap_reports cptac_dcc_tools }}": {
+               "?query={workflowMetadata (acceptDUA: {acceptDUA}) { workflow_metadata_submitter_id pdc_study_id study_submitter_id protocol_submitter_id cptac_study_id submitter_id_name study_submitter_name analytical_fraction experiment_type instrument refseq_database_version uniport_database_version hgnc_version raw_data_processing raw_data_conversion sequence_database_search search_database_parameters phosphosite_localization ms1_data_analysis psm_report_generation cptac_dcc_mzidentml mzidentml_refseq mzidentml_uniprot gene_to_prot cptac_galaxy_workflows cptac_galaxy_tools cdap_reports cptac_dcc_tools }}": {
                  "get": {
                            "tags": ["Workflow"],
                    "summary": "Get workflow metadata",
@@ -1503,6 +1777,13 @@ var spec = {
                    "produces": [
                      "application/json"
                    ],
+                   parameters: [{
+                     "name": "acceptDUA",
+                     "in": "path",
+                     "description": "Accept DUA variable, example: true/false",
+                     "required": true,
+                     "type": "boolean"
+                   }],
                    "responses": {
                      "200": {
                        "description": "successful operation",
@@ -1516,7 +1797,7 @@ var spec = {
                    }
                  }
                    },
-                   '?query={workflowMetadata(pdc_study_id: "{pdc_study_id}") { workflow_metadata_submitter_id pdc_study_id study_submitter_id protocol_submitter_id cptac_study_id submitter_id_name study_submitter_name analytical_fraction experiment_type instrument refseq_database_version uniport_database_version hgnc_version raw_data_processing raw_data_conversion sequence_database_search search_database_parameters phosphosite_localization ms1_data_analysis psm_report_generation cptac_dcc_mzidentml mzidentml_refseq mzidentml_uniprot gene_to_prot cptac_galaxy_workflows cptac_galaxy_tools cdap_reports cptac_dcc_tools }}': {
+                   '?query={workflowMetadata(pdc_study_id: "{pdc_study_id}" acceptDUA: {acceptDUA}) { workflow_metadata_submitter_id pdc_study_id study_submitter_id protocol_submitter_id cptac_study_id submitter_id_name study_submitter_name analytical_fraction experiment_type instrument refseq_database_version uniport_database_version hgnc_version raw_data_processing raw_data_conversion sequence_database_search search_database_parameters phosphosite_localization ms1_data_analysis psm_report_generation cptac_dcc_mzidentml mzidentml_refseq mzidentml_uniprot gene_to_prot cptac_galaxy_workflows cptac_galaxy_tools cdap_reports cptac_dcc_tools }}': {
                      "get": {
                                "tags": ["Workflow"],
                        "summary": "Get workflow metadata for a PDC Study ID",
@@ -1531,6 +1812,12 @@ var spec = {
                         "description": "PDC Study ID, example: PDC000174",
                         "required": true,
                         "type": "string"
+                      }, {
+                        "name": "acceptDUA",
+                        "in": "path",
+                        "description": "Accept DUA variable, example: true/false",
+                        "required": true,
+                        "type": "boolean"
                       }
                     ],
                        "responses": {
@@ -1546,7 +1833,7 @@ var spec = {
                        }
                      }
                        },
-                   '?query={ clinicalMetadata(study_submitter_id: "{study_submitter_id}") { aliquot_submitter_id morphology primary_diagnosis tumor_grade tumor_stage } }': {
+                   '?query={ clinicalMetadata(study_submitter_id: "{study_submitter_id}" acceptDUA: {acceptDUA}) { aliquot_submitter_id morphology primary_diagnosis tumor_grade tumor_stage } }': {
                  "get": {
                            "tags": ["Clinical"],
                    "summary": "Find clinical metadata for a study",
@@ -1558,10 +1845,16 @@ var spec = {
                    "parameters": [{
                        "name": "study_submitter_id",
                        "in": "path",
-                       "description": "Study submitter iD, example: S015-1",
+                       "description": "Study submitter iD, example: TCGA BRCA Proteome S015-1",
                        "required": true,
                        "type": "string"
-                     }
+                     }, {
+                        "name": "acceptDUA",
+                        "in": "path",
+                        "description": "Accept DUA variable, example: true/false",
+                        "required": true,
+                        "type": "boolean"
+                      }
                    ],
                    "responses": {
                      "200": {
@@ -1576,7 +1869,7 @@ var spec = {
                    }
                  }
                    },
-                   '?query={ clinicalMetadata(pdc_study_id: "{pdc_study_id}") { aliquot_submitter_id morphology primary_diagnosis tumor_grade tumor_stage } }': {
+                   '?query={ clinicalMetadata(pdc_study_id: "{pdc_study_id}" acceptDUA: {acceptDUA}) { aliquot_submitter_id morphology primary_diagnosis tumor_grade tumor_stage } }': {
                      "get": {
                                "tags": ["Clinical"],
                        "summary": "Find clinical metadata for PDC Study ID",
@@ -1591,6 +1884,12 @@ var spec = {
                            "description": "Study submitter iD, example: PDC000173",
                            "required": true,
                            "type": "string"
+                         }, {
+                           "name": "acceptDUA",
+                           "in": "path",
+                           "description": "Accept DUA variable, example: true/false",
+                           "required": true,
+                           "type": "boolean"
                          }
                        ],
                        "responses": {
@@ -1606,7 +1905,7 @@ var spec = {
                        }
                      }
                        },
-                   '?query={ experimentalMetadata(study_submitter_id: "{study_submitter_id}"){ experiment_type analytical_fraction instrument study_run_metadata { study_run_metadata_submitter_id fraction aliquot_run_metadata { aliquot_submitter_id aliquot_run_metadata_id } files { file_type data_category file_location } } } }': {
+                   '?query={ experimentalMetadata(study_submitter_id: "{study_submitter_id}" acceptDUA: {acceptDUA}){ experiment_type analytical_fraction instrument study_run_metadata { study_run_metadata_submitter_id fraction aliquot_run_metadata { aliquot_submitter_id aliquot_run_metadata_id } files { file_type data_category file_location } } } }': {
                  "get": {
                            "tags": ["Experimental"],
                    "summary": "Find experimental metadata for a study",
@@ -1618,9 +1917,15 @@ var spec = {
                    "parameters": [{
                        "name": "study_submitter_id",
                        "in": "path",
-                       "description": "Study submitter ID, example: S015-1",
+                       "description": "Study submitter ID, example: Pediatric Brain Cancer Pilot Study - Proteome",
                        "required": "true",
                        "type": "string"
+                     }, {
+                        "name": "acceptDUA",
+                        "in": "path",
+                        "description": "Accept DUA variable, example: true/false",
+                        "required": true,
+                        "type": "boolean"
                      }
                    ],
                    "responses": {
@@ -1636,7 +1941,7 @@ var spec = {
                    }
                  }
                    },
-                   '?query={ experimentalMetadata(pdc_study_id: "{pdc_study_id}"){ experiment_type analytical_fraction instrument study_run_metadata { study_run_metadata_submitter_id fraction aliquot_run_metadata { aliquot_submitter_id aliquot_run_metadata_id } files { file_type data_category file_location } } } }': {
+                   '?query={ experimentalMetadata(pdc_study_id: "{pdc_study_id}" acceptDUA: {acceptDUA}){ experiment_type analytical_fraction instrument study_run_metadata { study_run_metadata_submitter_id fraction aliquot_run_metadata { aliquot_submitter_id aliquot_run_metadata_id } files { file_type data_category file_location } } } }': {
                      "get": {
                                "tags": ["Experimental"],
                        "summary": "Find experimental metadata for PDC Study ID",
@@ -1651,7 +1956,13 @@ var spec = {
                            "description": "PDC Study ID, example: PDC000180",
                            "required": "true",
                            "type": "string"
-                         }
+                         }, {
+                           "name": "acceptDUA",
+                           "in": "path",
+                           "description": "Accept DUA variable, example: true/false",
+                           "required": true,
+                           "type": "boolean"
+                        }
                        ],
                        "responses": {
                          "200": {
@@ -1666,11 +1977,11 @@ var spec = {
                        }
                      }
                        },
-                   '?query={ paginatedCasesSamplesAliquots(offset:{offset} limit: {limit}) { total casesSamplesAliquots { case_id case_submitter_id days_to_lost_to_followup disease_type index_date lost_to_followup primary_site samples { sample_id sample_submitter_id sample_type sample_type_id gdc_sample_id gdc_project_id biospecimen_anatomic_site composition current_weight days_to_collection days_to_sample_procurement diagnosis_pathologically_confirmed freezing_method initial_weight intermediate_dimension is_ffpe longest_dimension method_of_sample_procurement oct_embedded pathology_report_uuid preservation_method sample_type_id shortest_dimension time_between_clamping_and_freezing time_between_excision_and_freezing tissue_type tumor_code tumor_code_id tumor_descriptor aliquots { aliquot_id aliquot_submitter_id analyte_type aliquot_run_metadata { aliquot_run_metadata_id } } } } pagination { count sort from page total pages size } } }': {
+                   '?query={ paginatedCasesSamplesAliquots(offset:{offset} limit: {limit} acceptDUA: {acceptDUA}) { total casesSamplesAliquots { case_id case_submitter_id days_to_lost_to_followup disease_type index_date lost_to_followup primary_site samples { sample_id sample_submitter_id sample_type sample_type_id gdc_sample_id gdc_project_id biospecimen_anatomic_site composition current_weight days_to_collection days_to_sample_procurement diagnosis_pathologically_confirmed freezing_method initial_weight intermediate_dimension is_ffpe longest_dimension method_of_sample_procurement oct_embedded pathology_report_uuid preservation_method sample_type_id shortest_dimension time_between_clamping_and_freezing time_between_excision_and_freezing tissue_type tumor_code tumor_code_id tumor_descriptor aliquots { aliquot_id aliquot_submitter_id analyte_type aliquot_run_metadata { aliquot_run_metadata_id } } } } pagination { count sort from page total pages size } } }': {
                  "get": {
                            "tags": ["Case"],
                    "summary": "Get paginated case records",
-                   "description": "<b>Returns a list of cases, samples amd aliquot records. This API can also be used with multiple input parameters.<br/><br/>Fields:</b><ul><li>total</li><li>casesSamplesAliquots</li></ul>",
+                   "description": "<b>Returns a list of cases, samples amd aliquot records. This API can also be used with multiple input parameters.<br/><br/>Fields:</b><ul><li>total</li><li>casesSamplesAliquots</li><li>pagination</li></ul>",
                    "operationId": "paginatedCasesSamplesAliquots",
                    "produces": [
                      "application/json"
@@ -1687,7 +1998,13 @@ var spec = {
                                "description": "Limit of records, example: 10",
                                "required": true,
                                "type": "integer"
-                           }
+                           }, {
+                              "name": "acceptDUA",
+                              "in": "path",
+                              "description": "Accept DUA variable, example: true/false",
+                              "required": true,
+                              "type": "boolean"
+                            }
                        ],
                    "responses": {
                      "200": {
@@ -1702,11 +2019,11 @@ var spec = {
                    }
                  }
                    },
-                   '?query={ paginatedCasesSamplesAliquots(pdc_study_id:"{pdc_study_id}" offset:{offset} limit: {limit}) { total casesSamplesAliquots { case_id case_submitter_id days_to_lost_to_followup disease_type index_date lost_to_followup primary_site samples { sample_id sample_submitter_id sample_type sample_type_id gdc_sample_id gdc_project_id biospecimen_anatomic_site composition current_weight days_to_collection days_to_sample_procurement diagnosis_pathologically_confirmed freezing_method initial_weight intermediate_dimension is_ffpe longest_dimension method_of_sample_procurement oct_embedded pathology_report_uuid preservation_method sample_type_id shortest_dimension time_between_clamping_and_freezing time_between_excision_and_freezing tissue_type tumor_code tumor_code_id tumor_descriptor aliquots { aliquot_id aliquot_submitter_id analyte_type aliquot_run_metadata { aliquot_run_metadata_id } } } } pagination { count sort from page total pages size } } }': {
+                   '?query={ paginatedCasesSamplesAliquots(pdc_study_id:"{pdc_study_id}" offset:{offset} limit: {limit} acceptDUA: {acceptDUA}) { total casesSamplesAliquots { case_id case_submitter_id days_to_lost_to_followup disease_type index_date lost_to_followup primary_site samples { sample_id sample_submitter_id sample_type sample_type_id gdc_sample_id gdc_project_id biospecimen_anatomic_site composition current_weight days_to_collection days_to_sample_procurement diagnosis_pathologically_confirmed freezing_method initial_weight intermediate_dimension is_ffpe longest_dimension method_of_sample_procurement oct_embedded pathology_report_uuid preservation_method sample_type_id shortest_dimension time_between_clamping_and_freezing time_between_excision_and_freezing tissue_type tumor_code tumor_code_id tumor_descriptor aliquots { aliquot_id aliquot_submitter_id analyte_type aliquot_run_metadata { aliquot_run_metadata_id } } } } pagination { count sort from page total pages size } } }': {
                      "get": {
                                "tags": ["Case"],
                        "summary": "Get paginated case records for PDC Study ID",
-                       "description": "<b>Returns a list of cases, samples amd aliquot records. This API can also be used with multiple input parameters.<br/><br/>Fields:</b><ul><li>total</li><li>casesSamplesAliquots</li></ul>",
+                       "description": "<b>Returns a list of cases, samples amd aliquot records. This API can also be used with multiple input parameters.<br/><br/>Fields:</b><ul><li>total</li><li>casesSamplesAliquots</li><li>pagination</li></ul>",
                        "operationId": "paginatedCasesSamplesAliquots",
                        "produces": [
                          "application/json"
@@ -1730,7 +2047,13 @@ var spec = {
                                    "description": "Limit of records, example: 10",
                                    "required": true,
                                    "type": "integer"
-                               }
+                               }, {
+                                 "name": "acceptDUA",
+                                 "in": "path",
+                                 "description": "Accept DUA variable, example: true/false",
+                                 "required": true,
+                                 "type": "boolean"
+                              }
                            ],
                        "responses": {
                          "200": {
@@ -1774,11 +2097,11 @@ var spec = {
                    }
                  }
                }, */
-               '?query={ quantDataMatrix(pdc_study_id: "{pdc_study_id}" data_type: "{data_type}") }': {
+               '?query={ quantDataMatrix(pdc_study_id: "{pdc_study_id}" data_type: "{data_type}" acceptDUA: {acceptDUA}) }': {
                  "get": {
                            "tags": ["Quantitative"],
                    "summary": "Returns quant data matrix for a PDC Study ID",
-                   "description": "Returns quant data matrix for a PDC Study ID.<br/><b>Fields:<ul><li>pdc_study_id:</b> PDC Study ID, example: PDC000127</li><li><b>date_type: </b>Data type, example: log2_ratio/unshared_log2_ratio</li></ul>This API also works with the following parameters:<br><br><b>?query= { quantDataMatrix(study_id: '{study_id}'  data_type: '{data_type}') }</b><br><br><b>Fields:<ul><li>study_id:</b> Study ID, example: dbe94609-1fb3-11e9-b7f8-0a80fada099c</li><li><b>date_type: </b>Data type, example: log2_ratio/unshared_log2_ratio</li></ul><br>Please click <a href='/API_documentation/PDC_clustergram.html' target='_blank'><b>here</b></a> to know more on how to test this API.",
+                   "description": "Returns quant data matrix for a PDC Study ID.<br/><b>Fields:<ul><li>pdc_study_id:</b> PDC Study ID, example: PDC000127</li><li><b>date_type: </b>Data type, example: log2_ratio/unshared_log2_ratio</li><li><b>acceptDUA: </b>Accept DUA variable, example: true/false</li></ul>This API also works with the following parameters:<br><br><b>?query= { quantDataMatrix(study_id: '{study_id}'  data_type: '{data_type}' acceptDUA: {acceptDUA}) }</b><br><br><b>Fields:<ul><li>study_id:</b> Study ID, example: dbe94609-1fb3-11e9-b7f8-0a80fada099c</li><li><b>date_type: </b>Data type, example: log2_ratio/unshared_log2_ratio</li><li><b>acceptDUA: </b>Accept DUA variable, example: true/false</li></ul><br>Please click <a href='/API_documentation/PDC_clustergram.html' target='_blank'><b>here</b></a> to know more on how to test this API.",
                    "operationId": "quantDataMatrix",
                    "produces": [
                      "application/json"
@@ -2462,7 +2785,15 @@ var spec = {
                 "year_of_diagnosis":{
                    "type":"string",
                    "example": "null"
-                }
+                },
+                "icd_10_code":{
+                  "type":"string",
+                  "example": "null"
+               },
+               "synchronous_malignancy":{
+                  "type":"string",
+                  "example": "null"
+               }
              },
              "xml":{
                 "name":"Diagnosis"
@@ -3548,7 +3879,7 @@ var spec = {
              "properties":{
                 "study_submitter_id":{
                    "type":"string",
-                   "example":"S015-2"
+                   "example":"TCGA BRCA Phosphoproteome S015-2"
                 },
                 "pdc_study_id":{
                   "type":"string",
@@ -4978,6 +5309,14 @@ var spec = {
                    "type":"string",
                    "example":"Stage IIIA"
                 },
+                "icd_10_code":{
+                  "type":"string",
+                  "example":"null"
+               },
+               "synchronous_malignancy":{
+                  "type":"string",
+                  "example":"null"
+               },
                 "externalReferences": {
                   "type":"array",
                   "items":{
@@ -5305,7 +5644,7 @@ var spec = {
                },
                 "study_submitter_id":{
                    "type":"string",
-                   "example":"S015-2"
+                   "example":"TCGA BRCA Phosphoproteome S015-2"
                 },
                 "program_id":{
                    "type":"string",

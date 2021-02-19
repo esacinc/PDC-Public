@@ -7,6 +7,8 @@ import {getSignedUrl} from '../util/getSignedUrl'
 import {RedisCacheClient, CacheName} from '../util/cacheClient';
 //@@@PDC-1215 use winston logger
 import { logger } from '../util/logger';
+import  {queryList} from '../util/browsePageFilters';
+
 
 const Op = Sequelize.Op;
 //@@@PDC-952 remove hard-coded schema name
@@ -134,6 +136,7 @@ export const resolvers = {
 		},
 		//@@@PDC-2038 add ajcc_staging_system_edition
 		//@@@PDC-2417 Remove unused fields from Diagnosis
+		//@@@PDC-3266 add icd_10_code and synchronous_malignancy
 		async diagnoses(obj, args, context) {
 			var cacheFilterName = {name:''};
 			cacheFilterName.name +="case_id:("+ obj.case_id + ");";
@@ -197,7 +200,9 @@ export const resolvers = {
 						'progression_free_survival_event',
 						'residual_disease',
 						'vascular_invasion_present',
-						'year_of_diagnosis'
+						'year_of_diagnosis',
+						'icd_10_code',
+						'synchronous_malignancy'
 					],
 					where: {
 						case_id: Sequelize.fn('uuid_to_bin', obj.case_id )
@@ -370,8 +375,8 @@ export const resolvers = {
 				var fileQuery = "SELECT f.data_category, f.file_type, count(f.file_id) as files_count "+
 				"FROM file f, study s, study_file sf "+
 				"WHERE f.file_id = sf.file_id and s.study_id = sf.study_id "+
-				"and s.is_latest_version = 1 and s.study_submitter_id = '"+ obj.study_submitter_id +
-				"' group by f.data_category, f.file_type order by f.data_category";
+				"and s.study_id = uuid_to_bin('"+ obj.study_id +
+				"') group by f.data_category, f.file_type order by f.data_category";
 				var getIt = await db.getSequelize().query(fileQuery, { model: db.getModelByName('ModelFile') });
 				RedisCacheClient.redisCacheSetExAsync(fileCacheName, JSON.stringify(getIt));
 				return getIt;				
@@ -386,7 +391,7 @@ export const resolvers = {
 				var fileQuery = "SELECT c.name, c.institution, c.email, c.url "+
 				"FROM contact c, study s, study_contact sc "+
 				"WHERE c.contact_id = sc.contact_id and s.study_id = sc.study_id "+
-				"and s.study_submitter_id = '"+ obj.study_submitter_id + "'";
+				"and s.study_id = uuid_to_bin('"+ obj.study_id + "')";
 				var getIt = await db.getSequelize().query(fileQuery, { model: db.getModelByName('Contact') });
 				RedisCacheClient.redisCacheSetExAsync(contactCacheName, JSON.stringify(getIt));
 				return getIt;				
@@ -415,8 +420,8 @@ export const resolvers = {
 				"FROM file f, study s, study_file sf "+
 				"WHERE f.file_id = sf.file_id and s.study_id = sf.study_id "+
 				"and f.data_source = 'Submitter' and f.data_category <> 'Raw Mass Spectra' "+
-				"and s.is_latest_version = 1 and s.study_submitter_id = '"+ obj.study_submitter_id +
-				"' group by f.data_category, f.file_type order by f.data_category";
+				"and s.study_id = uuid_to_bin('"+ obj.study_id +
+				"') group by f.data_category, f.file_type order by f.data_category";
 				var getIt = await db.getSequelize().query(fileQuery, { model: db.getModelByName('ModelFile') });
 				RedisCacheClient.redisCacheSetExAsync(suppFileCacheName, JSON.stringify(getIt));
 				return getIt;				
@@ -431,8 +436,8 @@ export const resolvers = {
 				"FROM file f, study s, study_file sf "+
 				"WHERE f.file_id = sf.file_id and s.study_id = sf.study_id "+
 				"and (f.data_source = 'CDAP' or (f.data_source = 'Submitter' and f.data_category = 'Raw Mass Spectra')) "+
-				"and s.is_latest_version = 1 and s.study_submitter_id = '"+ obj.study_submitter_id +
-				"' group by f.data_category, f.file_type order by f.data_category";
+				"and s.study_id = uuid_to_bin('"+ obj.study_id +
+				"') group by f.data_category, f.file_type order by f.data_category";
 				var getIt = await db.getSequelize().query(fileQuery, { model: db.getModelByName('ModelFile') });
 				RedisCacheClient.redisCacheSetExAsync(nonSuppFileCacheName, JSON.stringify(getIt));
 				return getIt;				

@@ -13141,7 +13141,7 @@ div#notebook {
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The next one is <strong>data type</strong>. 
-A table of data_types is available <a href="https://pdc-dev.esacinc.com/data-dictionary/publicapi-documentation/#!/Paginated_Records/paginatedDataMatrix">here</a>.  A description of how these values are computed can be found <a href="https://cptac-data-portal.georgetown.edu/cptac/documents/CDAP_ProteinReports_description_20160503.pdf">here</a>.  In brief, these values are log2 transformed ratio data, where aliquot is the numerator and the denominator is a pooled, reference sample.  Ratios are calculated following normalization in the CPTAC Common Data Analysis Pipeline (CDAP.)</p>
+A table of data_types is available <a href="/data-dictionary/publicapi-documentation/#!/Paginated_Records/paginatedDataMatrix">here</a>.  A description of how these values are computed can be found <a href="https://cptac-data-portal.georgetown.edu/cptac/documents/CDAP_ProteinReports_description_20160503.pdf">here</a>.  In brief, these values are log2 transformed ratio data, where aliquot is the numerator and the denominator is a pooled, reference sample.  Ratios are calculated following normalization in the CPTAC Common Data Analysis Pipeline (CDAP.)</p>
 
 </div>
 </div>
@@ -13162,6 +13162,13 @@ A table of data_types is available <a href="https://pdc-dev.esacinc.com/data-dic
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p>Note: All PDC APIs now require a default parameter - <strong>'acceptDUA: true'</strong> to ensure users are aware of the PDC embargo guidelines. Visit <a href="/data-dictionary/publicapi-documentation/">PDC API swagger page</a> to learn about this parameter and visit <a href="/pdc/data-use-guidelines">PDC data use page</a> to learn about the PDC data use guidelines.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>Finally, we are ready to build the query string using <strong>pdc_study_id</strong> and <strong>data_type</strong>.</p>
 
 </div>
@@ -13175,7 +13182,7 @@ A table of data_types is available <a href="https://pdc-dev.esacinc.com/data-dic
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">quant_data_query</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
 <span class="s1">{ </span>
 <span class="s1">    quantDataMatrix(</span>
-<span class="s1">    pdc_study_id: &quot;&#39;&#39;&#39;</span> <span class="o">+</span> <span class="n">pdc_study_id</span> <span class="o">+</span><span class="s1">&#39;&#39;&#39;&quot; data_type: &quot;&#39;&#39;&#39;</span> <span class="o">+</span> <span class="n">data_type</span> <span class="o">+</span> <span class="s1">&#39;&#39;&#39;&quot;</span>
+<span class="s1">    pdc_study_id: &quot;&#39;&#39;&#39;</span> <span class="o">+</span> <span class="n">pdc_study_id</span> <span class="o">+</span><span class="s1">&#39;&#39;&#39;&quot; data_type: &quot;&#39;&#39;&#39;</span> <span class="o">+</span> <span class="n">data_type</span> <span class="o">+</span> <span class="s1">&#39;&#39;&#39;&quot;</span> acceptDUA: true
 <span class="s1">    )</span>
 <span class="s1">}&#39;&#39;&#39;</span>
 </pre></div>
@@ -13188,7 +13195,7 @@ A table of data_types is available <a href="https://pdc-dev.esacinc.com/data-dic
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Now, we can define a function to make the <a href="https://graphql.org/learn/">GraphQL</a> query.  This will get called once for the gene expression data and once for the clinical data.  If you are new to GraphQL, you can also try your queries <a href="https://pdc.esacinc.com/graphiql">here</a>.</p>
+<p>Now, we can define a function to make the <a href="https://graphql.org/learn/">GraphQL</a> query.  This will get called once for the gene expression data and once for the clinical data.  If you are new to GraphQL, you can also try your queries <a href="https://pdc.esacinc.com/graphql">here</a>.</p>
 
 </div>
 </div>
@@ -13375,7 +13382,7 @@ A table of data_types is available <a href="https://pdc-dev.esacinc.com/data-dic
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">metadata_query</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
 <span class="s1">    {</span>
-<span class="s1">        clinicalMetadata(pdc_study_id: &quot;&#39;&#39;&#39;</span> <span class="o">+</span> <span class="n">pdc_study_id</span> <span class="o">+</span> <span class="s1">&#39;&#39;&#39;&quot;) {</span>
+<span class="s1">        clinicalMetadata(pdc_study_id: &quot;&#39;&#39;&#39;</span> <span class="o">+</span> <span class="n">pdc_study_id</span> <span class="o">+</span> <span class="s1">&#39;&#39;&#39;&quot; acceptDUA: true) {</span>
 <span class="s1">            aliquot_submitter_id</span>
 <span class="s1">            morphology</span>
 <span class="s1">            primary_diagnosis</span>

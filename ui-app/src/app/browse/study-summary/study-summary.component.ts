@@ -469,13 +469,13 @@ getEntityReferenceExternalData() {
 	this.loading = true;
 	setTimeout(() => {
 		this.studySummaryService.getEntityReferenceData("study", this.study_id, "external").subscribe((data: any) =>{
-			this.entityReferenceExternalData = data.pdcEntityReference;
+			this.entityReferenceExternalData = data.uiPdcEntityReference;
 			this.loading = false;
 		});		  
 	}, 1000);
 	setTimeout(() => {
 		this.studySummaryService.getEntityReferenceData("study", this.study_id, "internal").subscribe((internalData: any) =>{
-			this.entityReferenceInternalData = internalData.pdcEntityReference;
+			this.entityReferenceInternalData = internalData.uiPdcEntityReference;
 			console.log(this.entityReferenceInternalData);
 			this.loading = false;
 		});		  
@@ -751,8 +751,8 @@ getStudyExperimentalDesign() {
 		//for which 'aliquot_is_ref = Yes'.
 		//Use this as a reference and map it with the data in studyExperimentDesignMap API and extract the denominator for the "Ratio" column.
 		this.studySummaryService.getBiospecimenPerStudy(this.study_id).subscribe((biospecimenData: any) =>{
-			this.biospecimenPerStudy = biospecimenData.biospecimenPerStudy;
-			for(let biospecimen of biospecimenData.biospecimenPerStudy){
+			this.biospecimenPerStudy = biospecimenData.uiBiospecimenPerStudy;
+			for(let biospecimen of biospecimenData.uiBiospecimenPerStudy){
 				if (biospecimen["aliquot_is_ref"] == "yes") {	  
 					aliquotSubmitterID = biospecimen["aliquot_submitter_id"];
 				}

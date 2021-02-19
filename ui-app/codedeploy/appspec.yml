@@ -4,8 +4,8 @@ os: linux
 files:
   - source: /ui-app/dist
     destination: /home/ec2-user/PDC_Build/pdc/dist
-  - source: /documentation/dev
-    destination: /home/ec2-user/PDC_Build/pdc/documentation/dev
+  - source: /documentation/prod
+    destination: /home/ec2-user/PDC_Build/pdc/documentation/prod
   - source: /API_documentation
     destination: /home/ec2-user/PDC_Build/pdc/API_documentation
 

@@ -1658,6 +1658,8 @@ PDC-136, 774, 827, 787, 1960, 2815
 			residual_disease
 			vascular_invasion_present
 			year_of_diagnosis
+			icd_10_code
+			synchronous_malignancy
 			externalReferences {
 				reference_resource_shortname
 				reference_entity_location
@@ -2453,6 +2455,8 @@ PDC-265
 			residual_disease
 			vascular_invasion_present
 			year_of_diagnosis
+			icd_10_code
+			synchronous_malignancy
 		}    
 		samples{
 			gdc_sample_id
@@ -2588,6 +2592,8 @@ PDC-2979
 			residual_disease
 			vascular_invasion_present
 			year_of_diagnosis
+			icd_10_code
+			synchronous_malignancy
 		}    
 		samples{
 			gdc_sample_id
@@ -2715,6 +2721,8 @@ PDC-2979
 			residual_disease
 			vascular_invasion_present
 			year_of_diagnosis
+			icd_10_code
+			synchronous_malignancy
 		}    
 		samples{
 			gdc_sample_id
@@ -3784,6 +3792,8 @@ PDC-2979
 			residual_disease
 			vascular_invasion_present
 			year_of_diagnosis
+			icd_10_code
+			synchronous_malignancy
 	 }    
     }
 		pagination {
@@ -3861,6 +3871,8 @@ PDC-2979
 			residual_disease
 			vascular_invasion_present
 			year_of_diagnosis
+			icd_10_code
+			synchronous_malignancy
 	 }    
     }
 		pagination {
@@ -3938,6 +3950,8 @@ PDC-2979
 			residual_disease
 			vascular_invasion_present
 			year_of_diagnosis
+			icd_10_code
+			synchronous_malignancy
 	 }    
     }
 		pagination {
@@ -4017,6 +4031,8 @@ PDC-2979
 			residual_disease
 			vascular_invasion_present
 			year_of_diagnosis
+			icd_10_code
+			synchronous_malignancy
 	 }    
     }
 		pagination {
@@ -6169,11 +6185,13 @@ limit: 10) {
 		residual_disease 
 		vascular_invasion_present 
 		year_of_diagnosis 
+		icd_10_code
+		synchronous_malignancy
 	}
 }
 PDC-2978
 {
-	clinicalPerStudy(pdc_study_id: "PDC000128"){
+	clinicalPerStudy(pdc_study_id: "PDC000173"){
 		case_id
 		case_submitter_id
 		status
@@ -6248,6 +6266,8 @@ PDC-2978
 		residual_disease 
 		vascular_invasion_present 
 		year_of_diagnosis
+		icd_10_code
+		synchronous_malignancy
 		externalReferences {
 			external_reference_id
 			reference_resource_shortname

@@ -150,6 +150,7 @@ const defineUiModels = (db) => {
 	//@@@PDC-1234 add imaging_resource
 	//@@@PDC-1237 add age_at_diagnosis et al
 	//@@@PDC-1599 add all demographic and diagnosis data
+	//@@@PDC-3266 add icd_10_code and synchronous_malignancy
 	/**
 	* ModelUIClinical is used in uiClinical query.
 	*/
@@ -233,6 +234,8 @@ const defineUiModels = (db) => {
 		residual_disease: { type: Sequelize.STRING}, 
 		vascular_invasion_present: { type: Sequelize.STRING}, 
 		year_of_diagnosis: { type: Sequelize.STRING}, 
+    	icd_10_code: { type: Sequelize.STRING },
+		synchronous_malignancy: { type: Sequelize.STRING },
 	}, {
 		timestamps: false,
 		underscored: true,

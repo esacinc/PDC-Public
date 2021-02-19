@@ -366,6 +366,7 @@ WHERE
 //@@@PDC-2395 add attributes to uiClinical
 //@@@PDC-2335 get ext id from reference
 //@@@PDC-2606 ext id from reference not required
+//@@@PDC-3266 add icd_10_code and synchronous_malignancy
 const clinical_tab_data = `
 SELECT DISTINCT
     prog.name AS program_name,
@@ -440,7 +441,9 @@ SELECT DISTINCT
 	dia.progression_free_survival_event,
 	dia.residual_disease,
 	dia.vascular_invasion_present,
-	dia.year_of_diagnosis
+	dia.year_of_diagnosis,
+	dia.icd_10_code, 
+	dia.synchronous_malignancy
 FROM
     study s,
     project proj,

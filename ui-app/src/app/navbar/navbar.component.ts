@@ -229,7 +229,7 @@ export class NavbarComponent implements OnInit {
 		  program_name: '',
 		  sample_type: '',
 		  disease_type: '',
-		  primary_site: ''
+		  primary_site: '',
 	}
 	//@@@PDC-1441: Add ability to search by case, study, aliquot, sample UUIDs on UI search box
 	//Fetch all required properties for a Case
@@ -416,8 +416,8 @@ export class NavbarComponent implements OnInit {
 	//@@@PDC-1441: Add ability to search by case, study, aliquot, sample UUIDs on UI search box
 	//Search for Case UUI
 	this.searchService.getCaseUUIDResults(search_term).subscribe((data: any) =>{
-		if (data.case && data.case.case_submitter_id) {
-			let search_case_submitter_id = data.case.case_submitter_id;
+		if (data.case[0] && data.case[0].case_submitter_id) {
+			let search_case_submitter_id = data.case[0].case_submitter_id;
 			this.searchCaseTermsForCaseSubmitterID(search_case_submitter_id, search_term);
 		} 
 		//@@@PDC-1943: Refine search functionality to return more results
@@ -446,7 +446,7 @@ export class NavbarComponent implements OnInit {
   }
 
   searchForSampleData(sampleData) {
-	if (sampleData && sampleData.sample && sampleData.sample.length > 0) {
+	if (sampleData && sampleData.sample[0] && sampleData.sample.length > 0) {
 		let sampleDataTemp= [];
 		sampleDataTemp = Object.assign(sampleDataTemp, sampleData.sample);
 		for (let returnValue of sampleDataTemp){

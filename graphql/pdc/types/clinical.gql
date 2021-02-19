@@ -73,5 +73,7 @@ type Clinical {
 	residual_disease: String 
 	vascular_invasion_present: String 
 	year_of_diagnosis: String
+	icd_10_code: String
+	synchronous_malignancy: String
 	externalReferences: [EntityReference]
 }

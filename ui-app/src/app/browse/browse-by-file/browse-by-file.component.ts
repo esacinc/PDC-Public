@@ -55,6 +55,7 @@ import { SizeUnitsPipe } from '../../sizeUnitsPipe.pipe';
 //@@@PDC-1303: Add a download column and button for downloading individual files to the file tab
 //@@@PDC-1416 add unit to file size in file manifest
 //@@@PDC-2795: add embargo date to file tab on Browse page and file manifest
+//@@@PDC-3268: Browse File selection check box in does not select all 
 export class BrowseByFileComponent implements OnInit {
   filteredFilesData: AllFilesData[]; //Filtered list of cases
   loading: boolean = false; //Flag indicates that the data is still being loaded from server
@@ -158,9 +159,11 @@ export class BrowseByFileComponent implements OnInit {
     let localSelectedFiles = emptyArray.concat(this.selectedFiles);
     if(this.headercheckbox){
       for(let file of this.filteredFilesData){
-        if(this.currentPageSelectedFile.indexOf(file.file_id) === -1){
+		//Have to check if the file was already selected by file id and by study name
+		//otherwise there could be a situation (e.g. metadata files) where there is the same file for multiple studies
+        if(this.currentPageSelectedFile.indexOf(file.file_id + "-" + file.pdc_study_id) === -1){
           localSelectedFiles.push(file);
-          this.currentPageSelectedFile.push(file.file_id);
+          this.currentPageSelectedFile.push(file.file_id + "-" + file.pdc_study_id);
         } 
       }
       this.selectedFiles = localSelectedFiles;
@@ -174,7 +177,7 @@ export class BrowseByFileComponent implements OnInit {
 
   //@@@PDC-820 row selections cross pagination
   onRowSelected(event:any){
-    this.currentPageSelectedFile.push(event.data.file_id);
+    this.currentPageSelectedFile.push(event.data.file_id + "-" + event.data.pdc_study_id);
     if(this.currentPageSelectedFile.length === this.pageSize){
       this.headercheckbox = true;
     }
@@ -182,7 +185,7 @@ export class BrowseByFileComponent implements OnInit {
 
   //@@@PDC-820 row selections cross pagination
   onRowUnselected(event){
-    let index = this.currentPageSelectedFile.indexOf(event.data.file_id);
+    let index = this.currentPageSelectedFile.indexOf(event.data.file_id + "-" + event.data.pdc_study_id);
     if(index >-1){
       this.currentPageSelectedFile.splice(index,1);
     }
@@ -1234,8 +1237,9 @@ export class BrowseByFileComponent implements OnInit {
     let fileIdList = [];
     this.currentPageSelectedFile = [];
     filteredFilesData.forEach((item) => fileIdList.push(item.file_id));
+	//Keeping consistency - identify a selected file by file id and study name
     this.selectedFiles.forEach(item => {if(fileIdList.indexOf(item.file_id) !== -1){
-      this.currentPageSelectedFile.push(item.file_id);
+      this.currentPageSelectedFile.push(item.file_id + "-" + item.pdc_study_id);
     }});
   }
 }

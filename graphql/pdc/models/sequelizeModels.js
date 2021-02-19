@@ -142,6 +142,7 @@ const defineSequelizeModels = (db) => {
 	  //@@@PDC-1011 replace gdc_case_id with external_case_id
 	  //@@@PDC-2038 add ajcc_staging_system_edition
 	  //@@@PDC-2417 Remove unused fields from Diagnosis
+	  //@@@PDC-3266 add icd_10_code and synchronous_malignancy
 	  /**
 	  * DiagnosisModel is mapped to the table of diagnosis and used in 
 	  * tissueSitesAvailable and  diseasesAvailable queries.
@@ -214,6 +215,8 @@ const defineSequelizeModels = (db) => {
 		  residual_disease: { type: Sequelize.STRING },
 		  vascular_invasion_present: { type: Sequelize.STRING },
 		  year_of_diagnosis: { type: Sequelize.STRING },
+		  icd_10_code: { type: Sequelize.STRING },
+		  synchronous_malignancy: { type: Sequelize.STRING },
 	  }, {
 		  timestamps: false,
 		  underscored: true,

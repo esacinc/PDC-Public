@@ -40,7 +40,7 @@ if (typeof process.env.PDC_PUB_DB_GQ_PWD != "undefined") {
 			min: 0,
 			idle: 10000
 	  },    
-	  logging: (msg) => logger.info(msg)
+	  logging: (msg) => logger.debug(msg)
     }
   );
 
@@ -91,8 +91,9 @@ if (typeof process.env.PDC_PUB_DB_GQ_PWD != "undefined") {
 				max: maxConnection,
 				min: 0,
 				idle: 10000
-		  },    
-		  logging: (msg) => logger.info(msg)
+		  },
+		  //@@@PDC-3278 set sql query log to debug		  
+		  logging: (msg) => logger.debug(msg)
         }
       );
 

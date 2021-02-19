@@ -282,7 +282,8 @@
       <br><i>Disclaimer: The third-party software links are provided “as is” without warranty of any kind, either expressed or implied and such software is to be used at your own risk.</i>
 
       <div #File_Error class="faq-question">Why does the file download URLs throw an error or exception?</div>
-      <p class="faq-response">PDC is hosted on AWS cloud and is under active development. To reduce egress costs from unintended downloads, <strong>the URLs will expire after 48 hours</strong>. You may revisit the PDC portal to generate a new file manifest.</p>
+      <p class="faq-response">PDC is hosted on AWS cloud and is under active development. To reduce egress costs from unintended downloads, <strong>the URLs will expire after 48 hours</strong>. You may revisit the PDC portal to generate a new file manifest.
+	  We also limit downloads of the same file from the same IP Address to only 10 times per 24 hour period. So if you have downloaded the file several times already you may get an error message indicating that you have exceeded your download attempts for the 24 hour period.</p>
 
       <a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Top)">Go Back</a>
 

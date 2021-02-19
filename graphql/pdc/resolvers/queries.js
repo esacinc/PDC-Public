@@ -1,5 +1,6 @@
 import { db } from '../util/dbconnect';
 import { GraphQLScalarType } from 'graphql';
+import { ApolloError } from 'apollo-server-express';
 import { Kind } from 'graphql/language';
 import Sequelize from 'sequelize';
 import {filters, filtersView} from '../util/filters'
@@ -27,6 +28,13 @@ import  {
   } from '../util/browsePageFilters';
 
 const Op = Sequelize.Op;
+//@@@PDC-3253 add acceptDUA
+var DUA = "https://proteomic.datacommons.cancer.gov/pdc/data-use-guidelines"
+if (typeof process.env.serverurl != "undefined") {
+	DUA = process.env.serverurl + "data-use-guidelines";
+}
+const duaMsg = "Please note that some of the PDC data are under embargo for publication and/or citation. Go to "+ DUA +" on your web browser to learn about the PDC data use guidelines and retry the APIs with the parameter – 'acceptDUA: true' if you agree with them."
+//const duaMsg = "Please note that some of the PDC data are under embargo for publication and/or citation. Go to https://pdc-dev.esacinc.com/data-dictionary/publicapi-documentation on your web browser to learn about the PDC data policy and retry the APIs with the parameter – 'acceptDUA: true' if you agree with the PDC data policy.";
 const gaVisitor = ua(process.env.GA_TRACKING_ID);
 
 export const resolvers = {
@@ -40,10 +48,11 @@ export const resolvers = {
 	//@@@PDC-1340 remove authorization code
 	//@@@PDC-1874 add pdc_study_id to all study-related APIs 
 	//@@@PDC-3050 google analytics tracking
+	//@@@PDC-3278 log all api calls
 	Query: {
 		uiFileMetadata(_, args, context) {
 			context['isUI']= true;
-			return resolvers.Query.fileMetadata(_, args, context);
+			return resolvers.Query.filesMetadata(_, args, context);
 		},			
 		uiCaseSummary(_, args, context) {
 			context['isUI']= true;
@@ -62,6 +71,7 @@ export const resolvers = {
 			return resolvers.Query.filesCountPerStudy(_, args, context);
 		},			
 		uiProtein(_, args, context) {
+			logger.info("uiProtein is called with "+ JSON.stringify(args));
 			//@@@PDC-2642 gene-related apis enhancement
 			context['arguments'] = args;
 			return db.getModelByName('Gene').findOne({ where: {
@@ -90,12 +100,32 @@ export const resolvers = {
 			context['isUI']= true;
 			return resolvers.Query.programsProjectsStudies(_, args, context);
 		},			
+		uiBiospecimenPerStudy(_, args, context) {
+			context['isUI']= true;
+			return resolvers.Query.biospecimenPerStudy(_, args, context);
+		},			
+		uiPdcEntityReference(_, args, context) {
+			context['isUI']= true;
+			return resolvers.Query.pdcEntityReference(_, args, context);
+		},			
+		uiStudyExperimentalDesign(_, args, context) {
+			context['isUI']= true;
+			return resolvers.Query.studyExperimentalDesign(_, args, context);
+		},			
+		uiFilesPerStudy(_, args, context) {
+			context['isUI']= true;
+			return resolvers.Query.filesPerStudy(_, args, context);
+		},			
 		//@@@PDC-768 clinical metadata API
 		clinicalMetadata(_, args, context) {
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/clinicalMetadata").send();
-				//logger.info("visitor pageview sent for clinicalMetadata");
+				logger.info("clinicalMetadata is called with "+ JSON.stringify(args));
+				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					throw new ApolloError(duaMsg);
 			}
+			else
+				logger.info("clinicalMetadata is called from UI with "+ JSON.stringify(args));
 			var cmQuery = "SELECT a.aliquot_submitter_id, d.primary_diagnosis, d.tumor_stage, d.tumor_grade, d.morphology "+
 			"FROM study s, diagnosis d, `case` c, sample sam, aliquot a, aliquot_run_metadata arm "+
 			"WHERE d.case_id=c.case_id AND c.case_id=sam.case_id AND "+
@@ -114,8 +144,12 @@ export const resolvers = {
 		async experimentalMetadata(_, args, context) {
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/experimentalMetadata").send();
-				//logger.info("visitor pageview sent for experimentalMetadata");
+				logger.info("experimentalMetadata is called with "+ JSON.stringify(args));
+				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					throw new ApolloError(duaMsg);
 			}
+			else
+				logger.info("experimentalMetadata is called from UI with "+ JSON.stringify(args));
 			context['arguments'] = args;
 			var studyQuery = "select s.study_submitter_id, s.pdc_study_id, s.experiment_type, s.analytical_fraction, "+
 			"p.instrument_model as instrument from study s, protocol p "+
@@ -143,8 +177,12 @@ export const resolvers = {
 		tissueSitesAvailable (_, args, context) { 
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/tissueSitesAvailable").send();
-				//logger.info("visitor pageview sent for tissueSitesAvailable");
+				logger.info("tissueSitesAvailable is called with "+ JSON.stringify(args));
+				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					throw new ApolloError(duaMsg);
 			}
+			else
+				logger.info("tissueSitesAvailable is called from UI with "+ JSON.stringify(args));
 			if (typeof args.project_submitter_id != 'undefined') {
 				/*var projectAllowed = false;
 				for (var i = 0; i < context.value.length; i++) {
@@ -204,8 +242,12 @@ export const resolvers = {
 		diseasesAvailable(_, args, context) {
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/diseasesAvailable").send();
-				//logger.info("visitor pageview sent for diseasesAvailable");
+				logger.info("diseasesAvailable is called with "+ JSON.stringify(args));
+				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					throw new ApolloError(duaMsg);
 			}
+			else
+				logger.info("diseasesAvailable is called from UI with "+ JSON.stringify(args));
 			/*if (typeof args.project_submitter_id != 'undefined') {
 				var projectAllowed = false;
 				for (var i = 0; i < context.value.length; i++) {
@@ -247,6 +289,7 @@ export const resolvers = {
 		* @return {UISunburst}
 		*/
 		uiSunburstChart(_, args, context) {
+			logger.info("uiSunburstChart is called with "+ JSON.stringify(args));
 			var diseaseQuery = "SELECT diag.project_submitter_id,  diag.tissue_or_organ_of_origin, "+
 			" c.disease_type, sam.sample_type, count(diag.case_id) as cases_count "+ 
 			" FROM diagnosis diag, `case` c, sample sam "+
@@ -260,7 +303,7 @@ export const resolvers = {
 			var verQuery = "SELECT data_release, build_tag "+
 			" from database_version WHERE is_current_version = 1 ";
 			//var verQuery = "SELECT data_release, build_tag "+
-			//" from database_version where updated = (select max(updated) from database_version) ";		
+			//" from database_version where updated = (select max(updated) from database_version) ";
 			return db.getSequelize().query(verQuery, { model: db.getModelByName('ModelUIVersion') });
 		},
 		//@@@PDC-123
@@ -278,8 +321,12 @@ export const resolvers = {
 		allExperimentTypes(_, args, context) {
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/allExperimentTypes").send();
-				//logger.info("visitor pageview sent for allExperimentTypes");
+				logger.info("allExperimentTypes is called with "+ JSON.stringify(args));
+				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					throw new ApolloError(duaMsg);
 			}
+			else
+				logger.info("allExperimentTypes is called from UI with "+ JSON.stringify(args));
 			var experimentQuery = 'SELECT DISTINCT Esac.disease_type, Diag.tissue_or_organ_of_origin, Study.experiment_type FROM diagnosis as Diag, study as Study, `case` as Esac WHERE Diag.project_id = Study.project_id and Diag.case_id = Esac.case_id';
 			//@@@PDC-151 check for undefined rather than empty string
 			if (typeof args.experiment_type != 'undefined') {
@@ -307,8 +354,12 @@ export const resolvers = {
 		diseaseTypesPerProject(_, args, context) {
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/diseaseTypesPerProject").send();
-				//logger.info("visitor pageview sent for diseaseTypesPerProject");
+				logger.info("diseaseTypesPerProject is called with "+ JSON.stringify(args));
+				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					throw new ApolloError(duaMsg);
 			}
+			else
+				logger.info("diseaseTypesPerProject is called from UI with "+ JSON.stringify(args));
 			if (typeof args.project_submitter_id != 'undefined') {
 				var projectAllowed = false;
 				for (var i = 0; i < context.value.length; i++) {
@@ -362,8 +413,12 @@ export const resolvers = {
 		async case(_, args, context) {
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/case").send();
-				//logger.info("visitor pageview sent for case");
+				logger.info("case is called with "+ JSON.stringify(args));
+				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					throw new ApolloError(duaMsg);
 			}
+			else
+				logger.info("case is called from UI with "+ JSON.stringify(args));
 			//@@@PDC-180 Case API for UI case summary
 			var cacheFilterName = {name:''};
 			//@@@PDC-1371 use uuid instead of submitter_id
@@ -408,8 +463,12 @@ export const resolvers = {
 		casePerFile (_, args, context) { 
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/casePerFile").send();
-				//logger.info("visitor pageview sent for casePerFile");
+				logger.info("casePerFile is called with "+ JSON.stringify(args));
+				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					throw new ApolloError(duaMsg);
 			}
+			else
+				logger.info("casePerFile is called from UI with "+ JSON.stringify(args));
 			var fileQuery = "SELECT bin_to_uuid(f.file_id) as file_id, bin_to_uuid(f.case_id) as case_id, f.case_submitter_id from file f where";
 			if (typeof args.file_id != 'undefined') {
 				let fileIds = args.file_id.split(';');
@@ -426,8 +485,12 @@ export const resolvers = {
 		allCases(_, args, context) {
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/allCases").send();
-				//logger.info("visitor pageview sent for allCases");
+				logger.info("allCases is called with "+ JSON.stringify(args));
+				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					throw new ApolloError(duaMsg);
 			}
+			else
+				logger.info("allCases is called from UI with "+ JSON.stringify(args));
 			//logger.info("ga track id: "+process.env.GA_TRACKING_ID);
 			/*gaVisitor.pageview("/graphqlAPI", function (err) {
 				logger.info("ga error: "+err);
@@ -456,8 +519,12 @@ export const resolvers = {
 		program(_, args, context) {
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/program").send();
-				//logger.info("visitor pageview sent for program");
+				logger.info("program is called with "+ JSON.stringify(args));
+				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					throw new ApolloError(duaMsg);
 			}
+			else
+				logger.info("program is called from UI with "+ JSON.stringify(args));
 			//@@@PDC-782 avoid null in subquery
 			context['arguments']= args
 			//@@@PDC-1430 add uuid parameter to program API
@@ -501,8 +568,12 @@ export const resolvers = {
 		allPrograms(_, args, context) {
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/allPrograms").send();
-				//logger.info("visitor pageview sent for allPrograms");
+				logger.info("allPrograms is called with "+ JSON.stringify(args));
+				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					throw new ApolloError(duaMsg);
 			}
+			else
+				logger.info("allPrograms is called from UI with "+ JSON.stringify(args));
 			//@@@PDC-782 avoid null in subquery
 			context['arguments']= args;
 			//@@@PDC-1430 add uuid parameter to program API
@@ -529,6 +600,7 @@ export const resolvers = {
 		* @return {Gene}
 		*/
 		async uiGeneSpectralCount(_, args, context) {
+			logger.info("uiGeneSpectralCount is called with "+ JSON.stringify(args));
 			var cacheFilterName = {name:''};
 			if (typeof args.gene_name != 'undefined') {
 				cacheFilterName.name +="gene_name:("+ args.gene_name + ");";
@@ -546,8 +618,12 @@ export const resolvers = {
 		geneSpectralCount(_, args, context) {
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/geneSpectralCount").send();
-				//logger.info("visitor pageview sent for geneSpectralCount");
+				logger.info("geneSpectralCount is called with "+ JSON.stringify(args));
+				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					throw new ApolloError(duaMsg);
 			}
+			else
+				logger.info("geneSpectralCount is called from UI with "+ JSON.stringify(args));
 			context['arguments'] = args;
 			var geneQuery = "SELECT gene_name, bin_to_uuid(gene_id) as gene_id, chromosome, ncbi_gene_id as NCBI_gene_id, authority, description, organism, locus, proteins, trim(both '\r' from assays) as assays FROM gene where gene_name = '"+ args.gene_name+"'";
 			return db.getSequelize().query(geneQuery, { model: db.getModelByName('ModelGene') });
@@ -564,8 +640,12 @@ export const resolvers = {
 		aliquotSpectralCount(_, args, context) {
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/aliquotSpectralCount").send();
-				//logger.info("visitor pageview sent for aliquotSpectralCount");
+				logger.info("aliquotSpectralCount is called with "+ JSON.stringify(args));
+				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					throw new ApolloError(duaMsg);
 			}
+			else
+				logger.info("aliquotSpectralCount is called from UI with "+ JSON.stringify(args));
 			//@@@PDC-2638 enhance aliquotSpectralCount
 			context['arguments'] = args;
 			var aliquotQuery = "SELECT gene_name, bin_to_uuid(gene_id) as gene_id, chromosome, ncbi_gene_id as NCBI_gene_id, authority, description, organism, locus, proteins, trim(both '\r' from assays) as assays FROM gene where gene_name = '"+ args.gene_name+"'";
@@ -581,8 +661,12 @@ export const resolvers = {
 		protein(_, args, context) {
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/protein").send();
-				//logger.info("visitor pageview sent for protein");
+				logger.info("protein is called with "+ JSON.stringify(args));
+				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					throw new ApolloError(duaMsg);
 			}
+			else
+				logger.info("protein is called from UI with "+ JSON.stringify(args));
 			//@@@PDC-2642 gene-related apis enhancement
 			context['arguments'] = args;
 			var aliquotQuery = "SELECT gene_name, bin_to_uuid(gene_id) as gene_id, chromosome, ncbi_gene_id as NCBI_gene_id, authority, description, organism, locus, proteins, trim(both '\r' from assays) as assays FROM gene where proteins like '%"+ args.protein+"%'";
@@ -599,8 +683,12 @@ export const resolvers = {
 		projectsPerExperimentType(_, args, context) {
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/projectsPerExperimentType").send();
-				//logger.info("visitor pageview sent for projectsPerExperimentType");
+				logger.info("projectsPerExperimentType is called with "+ JSON.stringify(args));
+				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					throw new ApolloError(duaMsg);
 			}
+			else
+				logger.info("projectsPerExperimentType is called from UI with "+ JSON.stringify(args));
 			var experimentQuery = 'SELECT DISTINCT Study.experiment_type, Project.project_submitter_id, Project.name FROM study as Study, project as Project  WHERE Project.project_id = Study.project_id';
 			//@@@PDC-151 check for undefined rather than empty string
 			if (typeof args.experiment_type != 'undefined') {
@@ -626,8 +714,12 @@ export const resolvers = {
 		async filesCountPerStudy (_, args, context) {
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/filesCountPerStudy").send();
-				//logger.info("visitor pageview sent for filesCountPerStudy");
+				logger.info("filesCountPerStudy is called with "+ JSON.stringify(args));
+				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					throw new ApolloError(duaMsg);
 			}
+			else
+				logger.info("filesCountPerStudy is called from UI with "+ JSON.stringify(args));
 			//@@@PDC-270 replace file_submitter_id with file_id
 			var fileQuery = 'SELECT study.study_submitter_id as study_submitter_id, study.pdc_study_id as pdc_study_id, file.file_type as file_type, file.data_category, COUNT(file.file_id) AS files_count FROM file AS file, study AS study, study_file AS sf WHERE file.file_id = sf.file_id and study.study_id = sf.study_id';
 			var cacheFilterName = {name:''};
@@ -662,6 +754,7 @@ export const resolvers = {
 		},
 		//@@@PDC-2167 group files by data source
 		async uiStudyFilesCountBySource (_, args, context) {
+			logger.info("uiStudyFilesCountBySource is called with "+ JSON.stringify(args));
 			var fileQuery = "SELECT distinct s.study_submitter_id, s.pdc_study_id, f.data_source "+
 			"FROM file f, study s, study_file AS sf WHERE f.file_id = sf.file_id and s.study_id = sf.study_id "+
 			"and f.data_source is not null";
@@ -704,8 +797,12 @@ export const resolvers = {
 		filesPerStudy (_, args, context) { 
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/filesPerStudy").send();
-				//logger.info("visitor pageview sent for filesPerStudy");
+				logger.info("filesPerStudy is called with "+ JSON.stringify(args));
+				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					throw new ApolloError(duaMsg);
 			}
+			else
+				logger.info("filesPerStudy is called from UI with "+ JSON.stringify(args));
 			var fileQuery = "SELECT s.study_submitter_id, s.pdc_study_id, s.submitter_id_name as study_name, bin_to_uuid(s.study_id) as study_id, bin_to_uuid(f.file_id) as file_id,"+
 			" f.file_type, f.file_name, f.md5sum, f.file_size, f.data_category, "+
 			" f.original_file_name as file_submitter_id, f.file_location, f.file_format"+
@@ -750,8 +847,12 @@ export const resolvers = {
 		projectsPerInstrument (_, args, context) {
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/projectsPerInstrument").send();
-				//logger.info("visitor pageview sent for projectsPerInstrument");
+				logger.info("filesPerStudy is called with "+ JSON.stringify(args));
+				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					throw new ApolloError(duaMsg);
 			}
+			else
+				logger.info("filesPerStudy is called from UI with "+ JSON.stringify(args));
 			//@@@PDC-632 use id instead of submitter_id
 			//@@@PDC-652 new protocol structure
 			var protoQuery = 'SELECT DISTINCT proto.instrument_model as instrument_model, study.project_submitter_id as project_submitter_id FROM protocol AS proto, study AS study WHERE proto.study_id = study.study_id';
@@ -767,6 +868,14 @@ export const resolvers = {
 		},
 		//@@@PDC-218 Portal Statistics API
 		pdcDataStats(_, args, context) {
+			if(!context.isUI) {
+				gaVisitor.pageview("/graphqlAPI/pdcDataStats").send();
+				logger.info("pdcDataStats is called with "+ JSON.stringify(args));
+				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					throw new ApolloError(duaMsg);
+			}
+			else
+				logger.info("pdcDataStats is called from UI with "+ JSON.stringify(args));
 			//@@@PDC-1389 get latest statistics
 			let dataStatsQuery = "SELECT * from pdc_data_statistics order by updated desc";
 			return db.getSequelize().query(dataStatsQuery, { model: db.getModelByName('ModelPDCDataStatistics') });
@@ -783,8 +892,12 @@ export const resolvers = {
 		async workflowMetadata (_, args, context) {
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/workflowMetadata").send();
-				//logger.info("visitor pageview sent for workflowMetadata");
+				logger.info("workflowMetadata is called with "+ JSON.stringify(args));
+				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					throw new ApolloError(duaMsg);
 			}
+			else
+				logger.info("workflowMetadata is called from UI with "+ JSON.stringify(args));
 			var metadataQuery = 'SELECT metadata.workflow_metadata_submitter_id, metadata.study_submitter_id, study.pdc_study_id, metadata.protocol_submitter_id, metadata.cptac_study_id, metadata.submitter_id_name, metadata.study_submitter_name, metadata.analytical_fraction, metadata.experiment_type, metadata.instrument, metadata.refseq_database_version, metadata.uniport_database_version, metadata.hgnc_version, metadata.raw_data_processing, metadata.raw_data_conversion, metadata.sequence_database_search, metadata.search_database_parameters, metadata.phosphosite_localization, metadata.ms1_data_analysis, metadata.psm_report_generation, metadata.cptac_dcc_mzidentml, metadata.mzidentml_refseq, metadata.mzidentml_uniprot, metadata.gene_to_prot, metadata.cptac_galaxy_workflows, metadata.cptac_galaxy_tools, metadata.cdap_reports, metadata.cptac_dcc_tools FROM workflow_metadata AS metadata, study AS study WHERE metadata.study_id = study.study_id';
 			var cacheFilterName = {name:''};
 			if (typeof args.workflow_metadata_submitter_id != 'undefined') {
@@ -845,6 +958,7 @@ export const resolvers = {
 		* @return {UIStudy}
 		*/
 		async uiStudy (_, args, context) {
+			logger.info("uiStudy is called with "+ JSON.stringify(args));
 			var comboQuery = "SELECT distinct s.study_submitter_id, s.pdc_study_id, s.submitter_id_name"+
 			" FROM study s, `case` c, sample sam, aliquot al, aliquot_run_metadata alm,"+
 			" demographic dem, diagnosis dia, study_file sf, file f,"+
@@ -891,6 +1005,7 @@ export const resolvers = {
 		* @return {UIFilter}
 		*/
 		async uiFilters (_, args, context) {
+			logger.info("uiFilters is called with "+ JSON.stringify(args));
 			//apply global project submitter id filter
 			//let projectSubmitterIdValue = context.value.join("','")
 			//let projectSubmitterIdCondition = ` and s.project_submitter_id IN ('${projectSubmitterIdValue}')`;
@@ -953,6 +1068,7 @@ export const resolvers = {
 		* @return {UICase}
 		*/
 		uiCase (_, args, context) {
+			logger.info("uiCase is called with "+ JSON.stringify(args));
 		    //@@@PDC-203 correct query for UI cases page
 			//@@@PDC-337 add program name 
 			var uiCaseQuery = "SELECT distinct bin_to_uuid(al.aliquot_id) as aliquot_id, "+
@@ -983,6 +1099,7 @@ export const resolvers = {
 		* @return {UIFile}
 		*/
 		uiFile (_, args, context) {
+			logger.info("uiFile is called with "+ JSON.stringify(args));
 			var uiFileQuery = "select distinct s.submitter_id_name, f.file_name, "+
 			" sf.study_run_metadata_submitter_id ,proj.name as project_name, f.file_type, f.file_size"+
 			" from study s, `case` c, sample sam, aliquot al, aliquot_run_metadata alm, "+
@@ -1005,6 +1122,7 @@ export const resolvers = {
 		* @return {uiProtocol}
 		*/
 		async uiProtocol (_, args, context) {
+			logger.info("uiProtocol is called with "+ JSON.stringify(args));
 			//@@@PDC-652 new protocol structure
 			//@@@PDC-1154 column name correction: fractions_analyzed_count
 			var protoQuery = "SELECT distinct bin_to_uuid(prot.protocol_id) as protocol_id, "+
@@ -1059,6 +1177,7 @@ export const resolvers = {
 		* @return {uiPublication}
 		*/
 		async uiPublication (_, args, context) {
+			logger.info("uiPublication is called with "+ JSON.stringify(args));
 			var pubQuery = "SELECT bin_to_uuid(pub.publication_id) as publication_id, pub.pubmed_id, pub.title"+
 			" from publication pub, study_publication sp, study s "+
 			" where pub.publication_id = sp.publication_id and s.study_id = sp.study_id ";
@@ -1091,6 +1210,7 @@ export const resolvers = {
 		//@@@PDC-497 Make table column headers sortable on the browse page tabs
 		//@@@PDC-1291 Redesign Browse Page data tabs
 		async getPaginatedUIStudy (_, args, context) {
+			logger.info("getPaginatedUIStudy is called with "+ JSON.stringify(args));
 			//apply global project submitter id filter
 			//let projectSubmitterIdValue = context.value.join("','")
 			//let projectSubmitterIdCondition = ` and s.project_submitter_id IN ('${projectSubmitterIdValue}')`;
@@ -1191,6 +1311,7 @@ export const resolvers = {
 		},
 		//@@@PDC-1291 Redesign Browse Page data tabs
 		async getPaginatedUIFile(_, args, context) {
+			logger.info("getPaginatedUIFile is called with "+ JSON.stringify(args));
 			//apply global project submitter id filter
 			//let projectSubmitterIdValue = context.value.join("','")
 			//let projectSubmitterIdCondition = ` and s.project_submitter_id IN ('${projectSubmitterIdValue}')`;
@@ -1277,6 +1398,7 @@ export const resolvers = {
 		},
 		//@@@PDC-1291 Redesign Browse Page data tabs
 		async getPaginatedUIClinical(_, args, context) {
+			logger.info("getPaginatedUIClinical is called with "+ JSON.stringify(args));
 			//apply global project submitter id filter
 			//let projectSubmitterIdValue = context.value.join("','")
 			//let projectSubmitterIdCondition = ` and s.project_submitter_id IN ('${projectSubmitterIdValue}')`;
@@ -1364,6 +1486,7 @@ export const resolvers = {
 		},
 		//@@@PDC-1291 Redesign Browse Page data tabs
 		async getPaginatedUICase (_, args, context) {
+			logger.info("getPaginatedUICase is called with "+ JSON.stringify(args));
 			//apply global project submitter id filter
 			//let projectSubmitterIdValue = context.value.join("','")
 			//let projectSubmitterIdCondition = ` and s.project_submitter_id IN ('${projectSubmitterIdValue}')`;
@@ -1452,6 +1575,7 @@ export const resolvers = {
 		},
 		//@@@PDC-3009 ataCategoryFileTypeMapping
 		async uiDataCategoryFileTypeMapping(_, args, context) {
+			logger.info("uiDataCategoryFileTypeMapping is called with "+ JSON.stringify(args));
 			let DataCategoryFileTypeMapping = "DataCategoryFileTypeMapping";
 			const res = await RedisCacheClient.redisCacheGetAsync(DataCategoryFileTypeMapping);
 			if(res === null){
@@ -1467,6 +1591,7 @@ export const resolvers = {
 		//@@@PDC-579 gene tabe pagination
 		//@@@PDC-1291 Redesign Browse Page data tabs
 		async getPaginatedUIGene(_, args, context) {
+			logger.info("getPaginatedUIGene is called with "+ JSON.stringify(args));
 			//let projectSubmitterIdValue = context.value.join("','")
 			//let projectSubmitterIdCondition = ` and s.project_submitter_id IN ('${projectSubmitterIdValue}')`;
 			context['arguments'] = args;
@@ -1639,8 +1764,12 @@ export const resolvers = {
 		getPaginatedFiles(_, args, context) {
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/getPaginatedFiles").send();
-				//logger.info("visitor pageview sent for getPaginatedFiles");
+				logger.info("getPaginatedFiles is called with "+ JSON.stringify(args));
+				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					throw new ApolloError(duaMsg);
 			}
+			else 
+				logger.info("getPaginatedFiles is called from UI with "+ JSON.stringify(args));
 			//@@@PDC-136 pagination
 			context['arguments'] = args;
 			var fileCountQuery = 'SELECT count(*) as total ';
@@ -1686,8 +1815,12 @@ export const resolvers = {
 		getPaginatedCases(_, args, context) {
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/getPaginatedCases").send();
-				//logger.info("visitor pageview sent for getPaginatedCases");
+				logger.info("getPaginatedCases is called with "+ JSON.stringify(args));
+				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					throw new ApolloError(duaMsg);
 			}
+			else 
+				logger.info("getPaginatedCases is called from UI with "+ JSON.stringify(args));
 			//@@@PDC-136 pagination
 			context['arguments'] = args;
 			var caseCountQuery = "SELECT count(*) as total FROM `case` c ";
@@ -1719,8 +1852,12 @@ export const resolvers = {
 		getPaginatedGenes(_, args, context) {
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/getPaginatedGenes").send();
-				//logger.info("visitor pageview sent for getPaginatedGenes");
+				logger.info("getPaginatedGenes is called with "+ JSON.stringify(args));
+				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					throw new ApolloError(duaMsg);
 			}
+			else 
+				logger.info("getPaginatedGenes is called from UI with "+ JSON.stringify(args));
 			context['arguments'] = args;
 			var geneCountQuery = "SELECT count(*) as total FROM gene g ";
 			var geneQuery = "SELECT gene_name, bin_to_uuid(gene_id) as gene_id, chromosome, ncbi_gene_id as NCBI_gene_id, authority, description, organism, locus, proteins, trim(both '\r' from assays) as assays FROM gene g ";
@@ -1769,6 +1906,7 @@ export const resolvers = {
 		* @return {UIExperimentType}
 		*/
 		async uiExperimentBar (_, args, context) {
+			logger.info("uiExperimentBar is called with "+ JSON.stringify(args));
 			//@@@PDC-243 get correct `case` count
 			//@@@PDC-616 Add acquisition type to the general filters
 			//@@@PDC-581 Add clinical filters
@@ -1855,6 +1993,7 @@ export const resolvers = {
 		* @return {UIExperimentType}
 		*/
 		async uiAnalyticalFractionsCount (_, args, context) {
+			logger.info("uiAnalyticalFractionsCount is called with "+ JSON.stringify(args));
 			//@@@PDC-616 Add acquisition type to the general filters
 			//@@@PDC-581 Add clinical filters
 			//@@@PDC-2968 get latest version by default
@@ -1941,6 +2080,7 @@ export const resolvers = {
 		* @return {UIExperimentType}
 		*/
 		async uiExperimentPie (_, args, context) {
+			logger.info("uiExperimentPie is called with "+ JSON.stringify(args));
 			//@@@PDC-243 get correct `case` count
 			//@@@PDC-616 Add acquisition type to the general filters
 			//@@@PDC-581 Add clinical filters
@@ -2019,6 +2159,7 @@ export const resolvers = {
 		* @return {Diagnosis}
 		*/
 		uiTissueSiteCaseCount (_, args, context) {
+			logger.info("uiTissueSiteCaseCount is called with "+ JSON.stringify(args));
 			//@@@PDC-2968 get case counts of studies of latest version
 			var tscQuery = "SELECT d.tissue_or_organ_of_origin, count(distinct d.case_id)" + 
 			" as cases_count FROM diagnosis d, `case` c, sample sam, aliquot a, aliquot_run_metadata arm, study s"+
@@ -2031,6 +2172,7 @@ export const resolvers = {
 		//@@@PDC-1243 fix case count per primary site
 		//@@@PDC-2020 use major primary site
 		async uiPrimarySiteCaseCount (_, args, context) {
+			logger.info("uiPrimarySiteCaseCount is called with "+ JSON.stringify(args));
 			//@@@PDC-2968 get case counts of studies of latest version
 			var pscQuery = "select major_primary_site, count(distinct dia.case_id) as cases_count"+
 			" from `case` c,  pdc.diagnosis dia, sample sam, aliquot a, aliquot_run_metadata arm, study s"+
@@ -2073,6 +2215,7 @@ export const resolvers = {
 		* @return {UIFileCount}
 		*/
 		async uiExperimentFileCount (_, args, context) {
+			logger.info("uiExperimentFileCount is called with "+ JSON.stringify(args));
 			//@@@PDC-337 add study name to file count table
 			//@@@PDC-3188 get file counts for latest version only
 			var efcQuery = "SELECT s.acquisition_type, s.experiment_type, count(distinct f.file_id) as files_count, s.submitter_id_name "+
@@ -2114,6 +2257,7 @@ export const resolvers = {
 		* @return {UIFileCount}
 		*/
 		async uiDataCategoryFileCount (_, args, context) {
+			logger.info("uiDataCategoryFileCount is called with "+ JSON.stringify(args));
 			//@@@PDC-759 add data_category to file count group
 			//@@@PDC-3188 get file counts for latest version only
 			var efcQuery = "SELECT f.file_type, f.data_category, count(distinct f.file_id) as files_count, s.submitter_id_name "+
@@ -2154,6 +2298,7 @@ export const resolvers = {
 		* @return {UIGeneStudySpectralCount}
 		*/  
 		uiGeneStudySpectralCount(_, args, context) {
+			logger.info("uiGeneStudySpectralCount is called with "+ JSON.stringify(args));
 			//@@@PDC-381 get correct counts of plexes and aliquots 
 			var gssQuery = "SELECT sc.study_submitter_id, s.submitter_id_name, s.experiment_type, "+
 			" sum(sc.spectral_count) as spectral_count, sum(sc.distinct_peptide) as distinct_peptide, "+
@@ -2175,6 +2320,7 @@ export const resolvers = {
 		//@@@PDC-391 gene/spectral count query change 
 		//@@@PDC-650 implement elasticache for API
 		async getPaginatedUIGeneStudySpectralCount(_, args, context) {
+			logger.info("getPaginatedUIGeneStudySpectralCount is called with "+ JSON.stringify(args));
 			context['arguments'] = args;
 			var gssCountQuery = "SELECT count(distinct sc.study_submitter_id) as total ";
 			//@@@PDC-381 get correct counts of plexes and aliquots 
@@ -2227,6 +2373,7 @@ export const resolvers = {
 		},
 		//@@@PDC-790 allow filters
 		async getPaginatedUIGeneStudySpectralCountFiltered(_, args, context) {
+			logger.info("getPaginatedUIGeneStudySpectralCountFiltered is called with "+ JSON.stringify(args));
 			context['arguments'] = args;
 			var gssCountQuery = "SELECT count(distinct sc.study_submitter_id) as total ";
 			//@@@PDC-2873 add pdc_study_id
@@ -2293,6 +2440,7 @@ export const resolvers = {
 		* @return {UIGeneStudySpectralCount}
 		*/  
 		uiGeneAliquotSpectralCount(_, args, context) {
+			logger.info("uiGeneAliquotSpectralCount is called with "+ JSON.stringify(args));
 			//@@@PDC-415 get correct spectral count per aliquot 
 			var gasQuery = "SELECT arm.aliquot_submitter_id as aliquot_id, sc.dataset_alias as plex, "+
 			" arm.label, s.submitter_id_name, s.experiment_type, "+
@@ -2313,6 +2461,7 @@ export const resolvers = {
 		//@@@PDC-333 gene/spectral count API pagination 
 		//@@@PDC-650 implement elasticache for API
 		async getPaginatedUIGeneAliquotSpectralCount(_, args, context) {
+			logger.info("getPaginatedUIGeneAliquotSpectralCount is called with "+ JSON.stringify(args));
 			context['arguments'] = args;
 			//@@@PDC-415 get correct spectral count per aliquot 
 			var gssCountQuery = "SELECT count(arm.aliquot_submitter_id) as total ";
@@ -2373,6 +2522,7 @@ export const resolvers = {
 		},
 		//@@@PDC-744 get ptm log2_ratio
 		async getPaginatedUIGeneAliquotSpectralCountFiltered(_, args, context) {
+			logger.info("getPaginatedUIGeneAliquotSpectralCountFiltered is called with "+ JSON.stringify(args));
 			context['arguments'] = args;
 			var generalOpenCountQuery = "SELECT count(*) as total from (";
 			var generalCloseCountQuery = ") x";
@@ -2466,8 +2616,12 @@ export const resolvers = {
 		paginatedSpectralCountPerStudyAliquot(_, args, context) {
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/paginatedSpectralCountPerStudyAliquot").send();
-				//logger.info("visitor pageview sent for paginatedSpectralCountPerStudyAliquot");
+				logger.info("paginatedSpectralCountPerStudyAliquot is called with "+ JSON.stringify(args));
+				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					throw new ApolloError(duaMsg);
 			}
+			else 
+				logger.info("paginatedSpectralCountPerStudyAliquot is called from UI with "+ JSON.stringify(args));
 			context['arguments'] = args;
 			var gssCountQuery = "SELECT count(sc.gene_name) as total ";
 			var gssBaseQuery = "SELECT s.pdc_study_id, sc.study_submitter_id, sc.plex_name as aliquot_id, sc.gene_name, "+
@@ -2524,6 +2678,7 @@ export const resolvers = {
 		* @return Paginated
 		*/  
 		caseSearch(_, args, context) {
+			logger.info("caseSearch is called from UI with "+ JSON.stringify(args));
 			context['arguments'] = args;
 			var nameToSearch = 'xxxxxx';
 			//@@@PDC-514 escape wildcard characters
@@ -2565,6 +2720,7 @@ export const resolvers = {
 		* @return {SearchRecord}
 		*/  
 		geneSearch(_, args, context) {
+			logger.info("geneSearch is called from UI with "+ JSON.stringify(args));
 			context['arguments'] = args;
 			var nameToSearch = 'xxxxxx';
 			//@@@PDC-514 escape wildcard characters
@@ -2607,6 +2763,7 @@ export const resolvers = {
 		* @return {SearchRecord}
 		*/  
 		proteinSearch(_, args, context) {
+			logger.info("proteinSearch is called from UI with "+ JSON.stringify(args));
 			context['arguments'] = args;
 			var nameToSearch = 'xxxxxx';
 			//@@@PDC-514 escape wildcard characters
@@ -2648,6 +2805,7 @@ export const resolvers = {
 		* @return {SearchStudyRecord}
 		*/  
 		studySearch(_, args, context) {
+			logger.info("studySearch is called from UI with "+ JSON.stringify(args));
 			context['arguments'] = args;
 			var nameToSearch = 'xxxxxx';
 			//@@@PDC-514 escape wildcard characters
@@ -2683,6 +2841,7 @@ export const resolvers = {
 			}
 		},
 		studySearchByPDCStudyId(_, args, context) {
+			logger.info("studySearchByPDCStudyId is called from UI with "+ JSON.stringify(args));
 			context['arguments'] = args;
 			var idToSearch = 'xxxxxx';
 			//@@@PDC-514 escape wildcard characters
@@ -2719,6 +2878,7 @@ export const resolvers = {
 		},
 		//@@@PDC-1959 search by external id
 		studySearchByExternalId(_, args, context) {
+			logger.info("studySearchByExternalId is called from UI with "+ JSON.stringify(args));
 			context['arguments'] = args;
 			var idToSearch = 'xxxxxx';			
 			if (typeof args.reference_entity_alias != 'undefined' && args.reference_entity_alias.length > 0) {
@@ -2754,6 +2914,7 @@ export const resolvers = {
 		},
 		//@@@PDC-1441: Add ability to search by case, study, aliquot, sample UUIDs on UI search box
 		aliquotSearch(_, args, context) {
+			logger.info("aliquotSearch is called from UI with "+ JSON.stringify(args));
 			context['arguments'] = args;
 			var nameToSearch = 'xxxxxx';
 			//@@@PDC-514 escape wildcard characters
@@ -2796,11 +2957,15 @@ export const resolvers = {
 		*
 		* @return {FileMetadata}
 		*/  
-		fileMetadata(_, args, context) {
+		filesMetadata(_, args, context) {
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/fileMetadata").send();
-				//logger.info("visitor pageview sent for fileMetadata");
+				logger.info("fileMetadata is called with "+ JSON.stringify(args));
+				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					throw new ApolloError(duaMsg);
 			}
+			else 
+				logger.info("fileMetadata is called from UI with "+ JSON.stringify(args));
 			//@@@PDC-2642 add file_id	
 			var gasQuery = "select distinct bin_to_uuid(f.file_id) as file_id, f.file_name, f.file_location,"+
 			" f.md5sum, f.file_size, f.original_file_name as file_submitter_id, f.data_category, f.file_type ,f.file_format, "+ 
@@ -2855,8 +3020,12 @@ export const resolvers = {
 		quantitiveDataCPTAC2(_, args, context) {
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/quantitiveDataCPTAC2").send();
-				//logger.info("visitor pageview sent for quantitiveDataCPTAC2");
+				logger.info("quantitiveDataCPTAC2 is called with "+ JSON.stringify(args));
+				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					throw new ApolloError(duaMsg);
 			}
+			else 
+				logger.info("quantitiveDataCPTAC2 is called from UI with "+ JSON.stringify(args));
 			//@@@PDC-669 gene_abundance table change
 			var quantQuery = "select bin_to_uuid(ga.gene_abundance_id) as gene_abundance_id, "+
 			"bin_to_uuid(ga.gene_id) as gene_id, ga.gene_name, "+
@@ -2893,8 +3062,12 @@ export const resolvers = {
 		programsProjectsStudies(_, args, context) {
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/programsProjectsStudies").send();
-				//logger.info("visitor pageview sent for programsProjectsStudies");
+				logger.info("programsProjectsStudies is called with "+ JSON.stringify(args));
+				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					throw new ApolloError(duaMsg);
 			}
+			else 
+				logger.info("programsProjectsStudies is called from UI with "+ JSON.stringify(args));
 			context['arguments'] = args;
 			//@@@PDC-652 new protocol structure
 			var comboQuery = "SELECT distinct bin_to_uuid(prog.program_id) as program_id, prog.program_submitter_id, prog.name, prog.sponsor, "+
@@ -2914,8 +3087,12 @@ export const resolvers = {
 		paginatedCasesSamplesAliquots (_, args, context) {
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/paginatedCasesSamplesAliquots").send();
-				//logger.info("visitor pageview sent for paginatedCasesSamplesAliquots");
+				logger.info("paginatedCasesSamplesAliquots is called with "+ JSON.stringify(args));
+				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					throw new ApolloError(duaMsg);
 			}
+			else 
+				logger.info("paginatedCasesSamplesAliquots is called from UI with "+ JSON.stringify(args));
 			context['arguments'] = args;
 			var uiCaseCountQuery = "select count(distinct c.case_id) as total ";
 			//@@@PDC-2657 reverse 2335
@@ -2958,8 +3135,12 @@ export const resolvers = {
 		paginatedCaseDiagnosesPerStudy (_, args, context) {
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/paginatedCaseDiagnosesPerStudy").send();
-				//logger.info("visitor pageview sent for paginatedCaseDiagnosesPerStudy");
+				logger.info("paginatedCaseDiagnosesPerStudy is called with "+ JSON.stringify(args));
+				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					throw new ApolloError(duaMsg);
 			}
+			else 
+				logger.info("paginatedCaseDiagnosesPerStudy is called from UI with "+ JSON.stringify(args));
 			context['arguments'] = args;
 			var uiCaseCountQuery = "select count(distinct c.case_id) as total ";
 			var uiCaseBaseQuery = "SELECT distinct bin_to_uuid(c.case_id) as case_id, c.case_submitter_id, c.disease_type, c.primary_site ";
@@ -2998,8 +3179,12 @@ export const resolvers = {
 		paginatedCaseDemographicsPerStudy (_, args, context) {
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/paginatedCaseDemographicsPerStudy").send();
-				//logger.info("visitor pageview sent for paginatedCaseDemographicsPerStudy");
+				logger.info("paginatedCaseDemographicsPerStudy is called with "+ JSON.stringify(args));
+				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					throw new ApolloError(duaMsg);
 			}
+			else 
+				logger.info("paginatedCaseDemographicsPerStudy is called from UI with "+ JSON.stringify(args));
 			context['arguments'] = args;
 			var uiCaseCountQuery = "select count(distinct c.case_id) as total ";
 			var uiCaseBaseQuery = "SELECT distinct bin_to_uuid(c.case_id) as case_id, c.case_submitter_id, c.disease_type, c.primary_site ";
@@ -3039,8 +3224,12 @@ export const resolvers = {
 		paginatedDataMatrix (_, args, context) {
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/paginatedDataMatrix").send();
-				//logger.info("visitor pageview sent for paginatedDataMatrix");
+				logger.info("paginatedDataMatrix is called with "+ JSON.stringify(args));
+				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					throw new ApolloError(duaMsg);
 			}
+			else 
+				logger.info("paginatedDataMatrix is called from UI with "+ JSON.stringify(args));
 			context['arguments'] = args;
 			var matrixCountQuery = '';
 			switch (args.data_type) {
@@ -3096,6 +3285,7 @@ export const resolvers = {
 		},
 		//@@@PDC-681 ui ptm data API
 		async getPaginatedUIPtm (_, args, context) {
+			logger.info("getPaginatedUIPtm is called from UI with "+ JSON.stringify(args));
 			context['arguments'] = args;
 			var uiPtmCountQuery = "select count(distinct pq.ptm_type, pq.site, pq.peptide) as total ";
 			var uiPtmBaseQuery = "SELECT distinct pq.ptm_type, pq.site, pq.peptide ";
@@ -3142,9 +3332,12 @@ export const resolvers = {
 		},
 		//@@@PDC-678 ptm data matrix API
 		async paginatedPtmDataMatrix (_, args, context) {
+			logger.info("paginatedPtmDataMatrix is called with "+ JSON.stringify(args));
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/paginatedPtmDataMatrix").send();
-				//logger.info("visitor pageview sent for paginatedPtmDataMatrix");
+				logger.info("visitor pageview sent for paginatedPtmDataMatrix");
+				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					throw new ApolloError(duaMsg);
 			}
 			context['arguments'] = args;
 			var checkPtmQuery = "select study_submitter_id from study s"+
@@ -3188,8 +3381,12 @@ export const resolvers = {
 		async study (_, args, context) {
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/study").send();
-				//logger.info("visitor pageview sent for study");
+				logger.info("study is called with "+ JSON.stringify(args));
+				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					throw new ApolloError(duaMsg);
 			}
+			else 
+				logger.info("study is called from UI with "+ JSON.stringify(args));
 			context['arguments'] = args;
 			//@@@PDC-2615 add embargo_date
 			var studyBaseQuery = "SELECT bin_to_uuid(s.study_id) as study_id,"+
@@ -3256,8 +3453,12 @@ export const resolvers = {
 		sample(_, args, context) {
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/sample").send();
-				//logger.info("visitor pageview sent for sample");
+				logger.info("sample is called with "+ JSON.stringify(args));
+				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					throw new ApolloError(duaMsg);
 			}
+			else 
+				logger.info("sample is called from UI with "+ JSON.stringify(args));
 			var sampleQuery = "select bin_to_uuid(sample_id) as sample_id, status, sample_is_ref, "+
 			"sample_submitter_id, sample_type, sample_type_id, gdc_sample_id, gdc_project_id, "+
 			"biospecimen_anatomic_site, composition, current_weight, days_to_collection, "+
@@ -3284,8 +3485,12 @@ export const resolvers = {
 		aliquot(_, args, context) {
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/aliquot").send();
-				//logger.info("visitor pageview sent for aliquot");
+				logger.info("aliquot is called with "+ JSON.stringify(args));
+				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					throw new ApolloError(duaMsg);
 			}
+			else 
+				logger.info("aliquot is called from UI with "+ JSON.stringify(args));
 			var fileName = '86.21%_RC229872+13.80%_RA226166A.txt'
 			console.log("Encoded: "+encodeURIComponent(fileName));
 			var aliquotQuery = "select bin_to_uuid(aliquot_id) as aliquot_id, aliquot_submitter_id, "+
@@ -3307,8 +3512,12 @@ export const resolvers = {
 		protocolPerStudy (_, args, context) {
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/protocolPerStudy").send();
-				//logger.info("visitor pageview sent for protocolPerStudy");
+				logger.info("protocolPerStudy is called with "+ JSON.stringify(args));
+				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					throw new ApolloError(duaMsg);
 			}
+			else 
+				logger.info("protocolPerStudy is called from UI with "+ JSON.stringify(args));
 			//@@@PDC-1154 column name correction: fractions_analyzed_count
 			//@@@PDC-1251 remove duplicates
 			var protoQuery = "SELECT distinct bin_to_uuid(prot.protocol_id) as protocol_id, "+
@@ -3354,8 +3563,12 @@ export const resolvers = {
 		clinicalPerStudy(_, args, context) {
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/clinicalPerStudy").send();
-				//logger.info("visitor pageview sent for clinicalPerStudy");
+				logger.info("clinicalPerStudy is called with "+ JSON.stringify(args));
+				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					throw new ApolloError(duaMsg);
 			}
+			else 
+				logger.info("clinicalPerStudy is called from UI with "+ JSON.stringify(args));
 			var clinicalQuery = "select distinct bin_to_uuid(c.case_id) as case_id, "+
 			"c.case_submitter_id, c.status, c.disease_type, "+
 			"c.primary_site, bin_to_uuid(dem.demographic_id) as demographic_id, "+
@@ -3424,8 +3637,12 @@ export const resolvers = {
 		biospecimenPerStudy(_, args, context) {
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/biospecimenPerStudy").send();
-				//logger.info("visitor pageview sent for biospecimenPerStudy");
+				logger.info("biospecimenPerStudy is called with "+ JSON.stringify(args));
+				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					throw new ApolloError(duaMsg);
 			}
+			else 
+				logger.info("biospecimenPerStudy is called from UI with "+ JSON.stringify(args));
 			//@@@PDC-1127 add pool and taxon
 			//@@@PDC-2335 get ext id from reference
 			//@@@PDC-2657 reverse 2335
@@ -3481,8 +3698,12 @@ export const resolvers = {
 		async studyExperimentalDesign(_, args, context) {
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/studyExperimentalDesign").send();
-				//logger.info("visitor pageview sent for studyExperimentalDesign");
+				logger.info("studyExperimentalDesign is called with "+ JSON.stringify(args));
+				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					throw new ApolloError(duaMsg);
 			}
+			else 
+				logger.info("studyExperimentalDesign is called from UI with "+ JSON.stringify(args));
 			var experimentalQuery = "SELECT distinct bin_to_uuid(srm.study_run_metadata_id) as study_run_metadata_id, "+
 			" bin_to_uuid(s.study_id) as study_id, srm.study_run_metadata_submitter_id,"+ 
 			" s.study_submitter_id, s.pdc_study_id, "+
@@ -3586,8 +3807,12 @@ export const resolvers = {
 		async quantDataMatrix(obj, args, context) {
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/quantDataMatrix").send();
-				//logger.info("visitor pageview sent for quantDataMatrix");
+				logger.info("quantDataMatrix is called with "+ JSON.stringify(args));
+				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					throw new ApolloError(duaMsg);
 			}
+			else 
+				logger.info("quantDataMatrix is called from UI with "+ JSON.stringify(args));
 			var sid = null;
 			if (typeof args.study_id != 'undefined' && args.study_id.length > 0) {
 				sid = args.study_id;
@@ -3612,6 +3837,15 @@ export const resolvers = {
 		},
 		//@@@PDC-1882 pdcEntityReference api
 		pdcEntityReference(obj, args, context) {
+			if(!context.isUI) {
+				gaVisitor.pageview("/graphqlAPI/pdcEntityReference").send();
+				logger.info("pdcEntityReference is called with "+ JSON.stringify(args));
+				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					throw new ApolloError(duaMsg);
+			}
+			else 
+				logger.info("pdcEntityReference is called from UI with "+ JSON.stringify(args));
+			logger.info("pdcEntityReference is called from UI with "+ JSON.stringify(args));
 			//@@@PDC-2018 add submitter_id_name of study
 			//@@@PDC-2968 get latest version by default
 			//@@@PDC-3090 join on study_id
@@ -3643,8 +3877,12 @@ export const resolvers = {
 		async quantDataMatrixDb(obj, args, context) {
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/quantDataMatrixDb").send();
-				//logger.info("visitor pageview sent for quantDataMatrixDb");
+				logger.info("quantDataMatrixDb is called with "+ JSON.stringify(args));
+				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					throw new ApolloError(duaMsg);
 			}
+			else 
+				logger.info("quantDataMatrixDb is called from UI with "+ JSON.stringify(args));
 			var matrix = [];
 			var row1 = ['Data Matrix: '];
 			var row2 = ['Type: '];

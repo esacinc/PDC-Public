@@ -68,6 +68,7 @@ import { RegistrationComponent } from './navbar/registration/registration.compon
 import { ResetPasswordComponent } from './navbar/reset-password/reset-password.component';
 import { SubmitDataFAQComponent } from './navbar/submit-data/submit-data.component';
 import { RequestDataSubmissionComponent } from './navbar/request-data-submission/request-data-submission.component';
+import { DataUseGuidelinesComponent } from './navbar/data-use-guidelines/data-use-guidelines.component';
 
 export function getAuthServiceConfigs() {
 
@@ -110,7 +111,8 @@ export function getAuthServiceConfigs() {
 	RegistrationComponent,
 	ResetPasswordComponent,
 	SubmitDataFAQComponent,
-	RequestDataSubmissionComponent
+	RequestDataSubmissionComponent,
+	DataUseGuidelinesComponent
   ],
   imports: [
 	AngularFontAwesomeModule,
