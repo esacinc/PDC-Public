@@ -17,6 +17,7 @@ type Query {
   getPaginatedUIGeneAliquotSpectralCountFiltered(program_name: String, project_name: String, study_name: String, disease_type: String, primary_site: String, analytical_fraction: String, experiment_type: String, ethnicity: String, race: String, gender: String, morphology: String, primary_diagnosis: String,  site_of_resection_or_biopsy: String, tissue_or_organ_of_origin: String, tumor_grade: String, tumor_stage: String, sample_type: String, acquisition_type: String, gene_name: String!, sort: String, offset: Int, limit: Int): Paginated
   experimentalMetadata(study_submitter_id: String, pdc_study_id: String, acceptDUA: Boolean): [ExperimentalMetadata]
   getPaginatedUIPtm(gene_name: String!, offset: Int, limit: Int): Paginated
+  getUIPtmAlphabetically(gene: String!):[UIPtm]
   paginatedPtmDataMatrix(study_submitter_id: String,  pdc_study_id: String, offset: Int, limit: Int, acceptDUA: Boolean): Paginated	
   uiSunburstChart: [UISunburst]
   uiDataCategoryFileTypeMapping: [File]

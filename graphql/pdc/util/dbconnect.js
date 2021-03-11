@@ -16,11 +16,29 @@ let client = new AWS.SecretsManager({
 });
 let sequelize = null;
 //@@@PDC-2085 increase pool size
-let maxConnection = 30;
-if (typeof process.env.PDC_DB_GQ_MAX_CONN != "undefined") {
-	maxConnection = parseInt(process.env.PDC_DB_GQ_MAX_CONN);
+//@@@PDC-3326 use env vars
+let maxConnection = 50;
+if (typeof process.env.PDC_DB_POOL_MAX != "undefined") {
+	maxConnection = parseInt(process.env.PDC_DB_POOL_MAX);
+}
+let minConnection = 0;
+if (typeof process.env.PDC_DB_POOL_MIN != "undefined") {
+	minConnection = parseInt(process.env.PDC_DB_POOL_MIN);
+}
+let idleConnection = 10000;
+if (typeof process.env.PDC_DB_POOL_IDLE != "undefined") {
+	idleConnection = parseInt(process.env.PDC_DB_POOL_IDLE);
+}
+let maxUsesConnection = 10000;
+if (typeof process.env.PDC_DB_POOL_MAX_USES != "undefined") {
+	maxUsesConnection = parseInt(process.env.PDC_DB_POOL_MAX_USES);
+}
+let acquireConnection = 30000;
+if (typeof process.env.PDC_DB_POOL_ACQUIRE != "undefined") {
+	acquireConnection = parseInt(process.env.PDC_DB_POOL_ACQUIRE);
 }
 
+logger.info("POOL: MAX: "+maxConnection+ " MIN: "+minConnection+ " IDLE: "+idleConnection+ " MAX_USES: "+maxUsesConnection+ " ACQUIRE: "+acquireConnection);
 
 const getSequelize = () => { return sequelize; }; 
 db.getSequelize = getSequelize;
@@ -41,8 +59,10 @@ if (typeof process.env.PDC_DB_GQ_PWD != "undefined") {
       port: process.env.PDC_DB_GQ_PORT,
 	  pool: {
 			max: maxConnection,
-			min: 0,
-			idle: 10000
+			min: minConnection,
+			idle: idleConnection,
+			maxUses: maxUsesConnection,
+			acquire: acquireConnection
 	  },
 	  //@@@PDC-3278 set sql query log to debug
 	  logging: (msg) => logger.debug(msg)
@@ -92,9 +112,11 @@ if (typeof process.env.PDC_DB_GQ_PWD != "undefined") {
           dialect: process.env.PDC_DB_GQ_DIALECT,
           port: process.env.PDC_DB_GQ_PORT,
 		  pool: {
-				max: maxConnection,
-				min: 0,
-				idle: 10000
+			max: maxConnection,
+			min: minConnection,
+			idle: idleConnection,
+			maxUses: maxUsesConnection,
+			acquire: acquireConnection
 		  },    
 		  logging: (msg) => logger.debug(msg)
         }

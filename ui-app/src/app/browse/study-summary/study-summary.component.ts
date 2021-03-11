@@ -8,6 +8,7 @@ import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
 import { Apollo } from 'apollo-angular';
 import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
+import { take } from 'rxjs/operators';
 import {MAT_DIALOG_DATA, MatDialogRef, MatDialogConfig, MatDialog} from '@angular/material';
 import { StudySummaryService } from './study-summary.service';
 import { AllStudiesData, Filter, WorkflowMetadata, ProtocolData, PublicationData, 
@@ -55,6 +56,7 @@ enum FileTypes {
 //@@@PDC-2378: Add supplementary data to the study summary screen
 //@@@PDC-2598 - Apply conditional formatting to embargo date on the study summary pages
 //@@@PDC-2436 - Update study summary screen to add contact details
+//@@@PDC-3174: Study Summary overlay window opens twice for studies whose embargo date is N/A
 export class StudySummaryComponent implements OnInit {
 
   study_id: string;
@@ -418,7 +420,7 @@ showStudySummary(entity_location) {
 	//Remove any special characters from the string
 	pdcStudyID = pdcStudyID.replace(/\s+/g, ' ').trim();
 	setTimeout(() => {
-	this.studySummaryService.getFilteredStudyData('', pdcStudyID).subscribe((data: any) =>{
+	this.studySummaryService.getFilteredStudyData('', pdcStudyID).pipe(take(1)).subscribe((data: any) =>{
 		var studyData = data.getPaginatedUIStudy.uiStudies[0];
 		if (studyData) {
 			const dialogConfig = new MatDialogConfig();
@@ -434,7 +436,7 @@ showStudySummary(entity_location) {
 			this.loc.replaceState("/study/" + pdcStudyID);
 			//No need to navigate to the new outlet, since we are already at the right location, only the study id is changing
 			//this.router.navigate([{outlets: {studySummary: ['study-summary', studyData.submitter_id_name]}}], { skipLocationChange: true });
-			const dialogRef = this.dialog.open(StudySummaryComponent, dialogConfig);	
+			const dialogRef = this.dialog.open(StudySummaryComponent, dialogConfig);
 			dialogRef.afterClosed().subscribe((val:any) => {
 				console.log("Dialog output:", val);
 				//Generate alias URL to hide auxiliary URL details when the previous overlay window was closed and the focus returned to this one
@@ -603,7 +605,6 @@ openHeatMap(study_name: string){
 	  //@@@PDC-1160: Add cases and aliquots to the study summary page
 	  this.clinicalCols = [
 		{field: 'case_submitter_id', header: 'Cases Submitter ID'},
-		{field: 'external_case_id', header: 'External Case ID'},
 		{field: 'ethnicity', header: 'Ethnicity'},
 		{field: 'gender', header: 'Gender'},
 		{field: 'race', header: 'Race'},

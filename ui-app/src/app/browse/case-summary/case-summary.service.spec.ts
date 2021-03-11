@@ -198,6 +198,8 @@ describe("CaseSummaryService", () => {
                 residual_disease: "R0",
                 vascular_invasion_present: null,
                 year_of_diagnosis: null,
+                icd_10_code: null,
+                synchronous_malignancy: null
               },
             ],
             samples: [

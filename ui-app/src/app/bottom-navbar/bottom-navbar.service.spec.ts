@@ -27,9 +27,6 @@ describe("BottomNavbarService", () => {
     service.getReleaseVersionDetails().subscribe((data) => {
       expect(data).toBeDefined();
       expect(data["uiDataVersionSoftwareVersion"].length).toBe(1);
-      expect(data["uiDataVersionSoftwareVersion"][0].data_release).toBe(
-        "0"
-      );
     });
 
     const op = controller.expectOne(gql`
@@ -45,8 +42,8 @@ describe("BottomNavbarService", () => {
       data: {
         uiDataVersionSoftwareVersion: [
           {
-            data_release: "1.8",
-            build_tag: "1.0.23"
+            data_release: "1.9",
+            build_tag: "1.1.0"
           },
         ],
       },

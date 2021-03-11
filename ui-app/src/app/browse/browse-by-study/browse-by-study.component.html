@@ -7,10 +7,12 @@
 						<h3 style="font-family: 'Lato'; font-size:14px;float:left; margin-top:10px!important">{{totalRecords > 1 ? 'Total studies: ' + totalRecords : 'Total study: ' + totalRecords }}</h3>
 					</div>
 				</div>
-				<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
-				<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+				<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
+				<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
 					<div class="wholeManifestDownload">
-						<button matTooltip="Please use CPTAC Data Portal for downloading the files" id="downloadWholeManifest" mat-raised-button mat-primary label="Download Selection" (click)="downloadAllManifest()" style="font-family:'Lato';font-weight:bold;" [disabled]="iscompleteManifestDisabled()" aria-label="Download all Manifests">Export All Manifests</button>
+						Export All Manifests
+						<button matTooltip="Please use CPTAC Data Portal for downloading the files" id="downloadWholeManifest" mat-raised-button mat-primary label="Download Selection" (click)="downloadAllManifest('csv')" style="font-family:'Lato';font-weight:bold; min-width:1%;" [disabled]="iscompleteManifestDisabled()" aria-label="Download all Manifests">CSV</button>&nbsp;
+						<button matTooltip="Please use CPTAC Data Portal for downloading the files" id="downloadWholeManifest" mat-raised-button mat-primary label="Download Selection" (click)="downloadAllManifest('tsv')" style="font-family:'Lato';font-weight:bold; min-width: 1%;" [disabled]="iscompleteManifestDisabled()" aria-label="Download all Manifests">TSV</button>
 					</div> 
 				</div>
 			</div>
@@ -28,9 +30,11 @@
 						<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 							<span id="selectedStudiesCount" *ngIf="!isDownloadDisabled()" style="float:left;padding-top:5px;">Studies selected for download: {{selectedStudies.length}}</span>
 						</div>
-						<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
-						<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 manifestDownload">
-							<button matTooltip="Please use CPTAC Data Portal for downloading the files" id="downloadStudyManifest" mat-raised-button mat-primary label="Download Selection" (click)="studyTableExportCSV(dt)" style="font-family:'Lato';" [disabled]="isDownloadDisabled()" aria-label="Download Study Manifest">Export Study Manifest</button>
+						<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
+						<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 manifestDownload">
+							Export Study Manifest
+							<button matTooltip="Please use CPTAC Data Portal for downloading the files" id="downloadStudyManifest" mat-raised-button mat-primary label="Download Selection" (click)="studyTableExportCSV(dt)" style="font-family:'Lato'; min-width: 1%;" [disabled]="isDownloadDisabled()" aria-label="Download Study Manifest">CSV</button>&nbsp;
+							<button matTooltip="Please use CPTAC Data Portal for downloading the files" id="downloadStudyManifest" mat-raised-button mat-primary label="Download Selection" (click)="studyTableExportTSV(dt)" style="font-family:'Lato'; min-width: 1%;" [disabled]="isDownloadDisabled()" aria-label="Download Study Manifest">TSV</button>&nbsp;
 						</div>
 					</div>
 				</div>

@@ -5657,14 +5657,13 @@ limit: 10) {
 		}
 	}
 }
+//PDC-3171
 {
-	getBatchedUIPtm(offset: 0 limit: 10){
-		total
-		uiBatchedPtm {
-			ptm_type 
-			site
-			peptide
-		}
+	getUIPtmAlphabetically(gene: "K") {
+		gene_name
+		ptm_type 
+		site
+		peptide
 	}
 }
 //PDC-191

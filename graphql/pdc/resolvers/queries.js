@@ -2524,6 +2524,8 @@ export const resolvers = {
 		async getPaginatedUIGeneAliquotSpectralCountFiltered(_, args, context) {
 			logger.info("getPaginatedUIGeneAliquotSpectralCountFiltered is called with "+ JSON.stringify(args));
 			context['arguments'] = args;
+			//@@@PDC-3171 new ptm abundance tables
+			const ptmTableName = "ptm_abundance_"+ args.gene_name.substr(0, 1);
 			var generalOpenCountQuery = "SELECT count(*) as total from (";
 			var generalCloseCountQuery = ") x";
 			//@@@PDC-2873 add pdc_study_id
@@ -2541,7 +2543,8 @@ export const resolvers = {
 			"program prog";
 			var gaFromQuery = ", gene_abundance ga ";
 			//@@@PDC-769 access ptm_abundance
-			var paFromQuery = ", ptm_abundance pa ";
+			//var paFromQuery = ", ptm_abundance pa ";
+			var paFromQuery = ", "+ptmTableName+" pa ";
 			//var paFromQuery = '';
 			//@@@PDC-3079 get latest version of study
 			var generalWhereQuery = " WHERE s.is_latest_version = 1 "+ 
@@ -3287,9 +3290,15 @@ export const resolvers = {
 		async getPaginatedUIPtm (_, args, context) {
 			logger.info("getPaginatedUIPtm is called from UI with "+ JSON.stringify(args));
 			context['arguments'] = args;
+			//@@@PDC-3171 new ptm abundance tables
+			var ptmTableName = "ptm_abundance";
+			if (typeof args.gene_name != 'undefined') {
+				ptmTableName = "ptm_abundance_"+ args.gene_name.substr(0, 1);
+			}				
 			var uiPtmCountQuery = "select count(distinct pq.ptm_type, pq.site, pq.peptide) as total ";
 			var uiPtmBaseQuery = "SELECT distinct pq.ptm_type, pq.site, pq.peptide ";
-			var uiPtmQuery = "FROM ptm_abundance pq"+
+			//var uiPtmQuery = "FROM ptm_abundance pq"+
+			var uiPtmQuery = "FROM "+ptmTableName+" pq"+
 			" WHERE pq.gene_name = '"+ args.gene_name +"' ";
 			//"and pq.project_submitter_id IN ('" + context.value.join("','") + "')";
 
@@ -3330,6 +3339,31 @@ export const resolvers = {
 				return myJson;
 			}
 		},
+		//@@@PDC-3171 new ptm abundance tables
+		/*async getBatchedUIPtm (_, args, context) {
+			if (args.limit > queryList.abundance_suffix.length)
+				args.limit = queryList.abundance_suffix.length
+			context['arguments'] = args;
+			var myJson = [{total: queryList.abundance_suffix.length}];
+			return myJson;
+		},	*/	
+		async getUIPtmAlphabetically (_, args, context) {
+			var uiPtmBaseQuery = "SELECT distinct pq.gene_name, pq.ptm_type, pq.site, pq.peptide FROM ";
+			var cacheFilterName = {name:'batchPtm'};
+
+			cacheFilterName['dataFilterName'] = cacheFilterName.name;
+			cacheFilterName['dataFilterName'] += ':gene:'+args.gene+';';
+			console.log("cacheName: "+cacheFilterName.dataFilterName);
+			const res = await RedisCacheClient.redisCacheGetAsync(CacheName.getSummaryPageGeneSummary('Ptm')+cacheFilterName.dataFilterName);
+			if(res === null){
+				uiPtmBaseQuery += "ptm_abundance_"+args.gene.toUpperCase()+ " pq";
+				var result =await db.getSequelize().query(uiPtmBaseQuery, { model: db.getModelByName('ModelUIPtm') });
+				RedisCacheClient.redisCacheSetExAsync(CacheName.getSummaryPageGeneSummary('Ptm')+cacheFilterName.name, JSON.stringify(result));
+				return result;
+			}else{
+				return JSON.parse(res);
+			}
+		},		
 		//@@@PDC-678 ptm data matrix API
 		async paginatedPtmDataMatrix (_, args, context) {
 			logger.info("paginatedPtmDataMatrix is called with "+ JSON.stringify(args));

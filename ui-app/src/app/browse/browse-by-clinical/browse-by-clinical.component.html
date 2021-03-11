@@ -7,10 +7,12 @@
 							<h3 style="font-family: 'Lato'; font-size:14px;margin-top:10px!important">{{totalRecords > 1 ? 'Total records: ' + totalRecords : 'Total record: ' + totalRecords }}</h3>
 						</div>
 					</div>
-					<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
-					<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+					<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
+					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
 						<div class="wholeManifestDownload">
-							<button matTooltip="Please use CPTAC Data Portal for downloading the files" id="downloadWholeManifest" mat-raised-button mat-primary label="Download Selection" (click)="downloadAllManifest()" style="font-family:'Lato';font-weight:bold" [disabled]="iscompleteManifestDisabled()" aria-label="Download All Manifests">Export All Manifests</button>
+							Export All Manifests
+							<button matTooltip="Please use CPTAC Data Portal for downloading the files" id="downloadWholeManifest" mat-raised-button mat-primary label="Download Selection" (click)="downloadAllManifest('csv')" style="font-family:'Lato';font-weight:bold; min-width:1%;" [disabled]="iscompleteManifestDisabled()" aria-label="Download All Manifests">CSV</button>&nbsp;
+							<button matTooltip="Please use CPTAC Data Portal for downloading the files" id="downloadWholeManifest" mat-raised-button mat-primary label="Download Selection" (click)="downloadAllManifest('tsv')" style="font-family:'Lato';font-weight:bold; min-width:1%;" [disabled]="iscompleteManifestDisabled()" aria-label="Download All Manifests">TSV</button>
 						</div>
 					</div>
 				</div>
@@ -29,9 +31,11 @@
 						<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 							<span id="selectedClinicalDataCount" *ngIf="!isDownloadDisabled()" style="float:left;padding-top:5px;">Clinical data selected for download: {{selectedClinicalData.length}}</span>
 						</div>
-						<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
-						<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 manifestDownload">
-							<button matTooltip="Please use CPTAC Data Portal for downloading the files" id="downloadClinical"  mat-raised-button mat-primary label="Download Selection" (click)="clinicalTableExportCSV(dt)" [disabled]="isDownloadDisabled()" style="font-family:'Lato';" aria-label="Download Clinical Manifests">Export Clinical Manifest</button>
+						<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
+						<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 manifestDownload">
+							Export Clinical Manifest 
+							<button matTooltip="Please use CPTAC Data Portal for downloading the files" id="downloadClinical"  mat-raised-button mat-primary label="Download Selection" (click)="clinicalTableExportCSV(dt)" [disabled]="isDownloadDisabled()" style="font-family:'Lato'; min-width:1%;" aria-label="Download Clinical Manifests">CSV</button>&nbsp;
+							<button matTooltip="Please use CPTAC Data Portal for downloading the files" id="downloadClinical"  mat-raised-button mat-primary label="Download Selection" (click)="clinicalTableExportTSV(dt)" [disabled]="isDownloadDisabled()" style="font-family:'Lato'; min-width:1%;" aria-label="Download Clinical Manifests">TSV</button>&nbsp;
 						</div>
 					</div>
 				</div>
@@ -54,15 +58,12 @@
 				<th class="ui-datatable-tableheader" style="width:7%;" [pSortableColumn]="cols[1].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Project" target="_blank" style="color:white">Project</a><p-sortIcon [field]="cols[1].field" ariaLabel="Sort Case submitter ID in ascending/descending order"></p-sortIcon></th>				
                 <!-- @@@PDC-262 link headers to data dictionary --> 
 				<th class="ui-datatable-tableheader" style="width:7%;" [pSortableColumn]="cols[1].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Case" target="_blank" style="color:white">Case</a><p-sortIcon [field]="cols[1].field" ariaLabel="Sort Case submitter ID in ascending/descending order"></p-sortIcon></th>
-				<th class="ui-datatable-tableheader" style="width:10%" [pSortableColumn]="cols[2].field" pResizableColumn>
+				<th class="ui-datatable-tableheader" style="width:10%" pResizableColumn>
 					<div class="ui-datatable-tableheader-flex-container">
 						<div>
 							<a href="{{staticUrlBase}}dictionaryitem.html?eName=Case#gdc_case_id" target="_blank" style="color:white">
 								Genomic and Imaging<br> Data Resource
 							</a>
-						</div>
-						<div class="ui-datatable-tableheader-flex-sorticon">
-							<p-sortIcon [field]="cols[2].field" ariaLabel="Sort External Case ID in ascending/descending order"></p-sortIcon>
 						</div>
 					</div>
 				</th>			

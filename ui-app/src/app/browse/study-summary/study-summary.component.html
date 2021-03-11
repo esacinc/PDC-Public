@@ -232,24 +232,21 @@
 						<tr style="font-size: 12px;">
 							<!-- @@@PDC-262 link headers to data dictionary -->
 							<th class="ui-datatable-tableheader" style="width:12%;word-break: break-all;" [pSortableColumn]="clinicalCols[0].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Case" target="_blank" style="color:white">Case Submitter ID</a><p-sortIcon [field]="clinicalCols[0].field" ariaLabel="Sort Case submitter ID in ascending/descending order"></p-sortIcon></th>
-							<th class="ui-datatable-tableheader" style="width:13%" [pSortableColumn]="clinicalCols[1].field" pResizableColumn>
+							<th class="ui-datatable-tableheader" style="width:13%" pResizableColumn>
 								<div class="ui-datatable-tableheader-flex-container">
 									<div>
 										<a href="{{staticUrlBase}}dictionaryitem.html?eName=Case#gdc_case_id" target="_blank" style="color:white">
 											Genomic and Imaging<br> Data Resource
 										</a>
 									</div>
-									<div class="ui-datatable-tableheader-flex-sorticon">
-										<p-sortIcon [field]="clinicalCols[1].field" ariaLabel="Sort External Case ID in ascending/descending order"></p-sortIcon>
-									</div>
 								</div>
 							</th>
-							<th class="ui-datatable-tableheader" style="width:8%" [pSortableColumn]="clinicalCols[2].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Demographic#ethnicity" target="_blank" style="color:white">Ethnicity</a><p-sortIcon [field]="clinicalCols[2].field" ariaLabel="Sort Ethinicity column in ascending/descending order"></p-sortIcon></th>
-							<th class="ui-datatable-tableheader" style="width:6%" [pSortableColumn]="clinicalCols[3].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Demographic#gender" target="_blank" style="color:white">Gender</a><p-sortIcon [field]="clinicalCols[3].field" ariaLabel="Sort Gender column in ascending/descending order"></p-sortIcon></th>
-							<th class="ui-datatable-tableheader" style="width:6%" [pSortableColumn]="clinicalCols[4].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Demographic#race" target="_blank" style="color:white">Race</a><p-sortIcon [field]="clinicalCols[4].field" ariaLabel="Sort Race column in ascending/descending order"></p-sortIcon></th>
-							<th class="ui-datatable-tableheader" style="width:8%" [pSortableColumn]="clinicalCols[5].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Diagnosis#morphology" target="_blank" style="color:white">Morphology</a><p-sortIcon [field]="clinicalCols[5].field" ariaLabel="Sort Morphology column in ascending/descending order"></p-sortIcon></th>
-							<th class="ui-datatable-tableheader" style="width:10%" [pSortableColumn]="clinicalCols[6].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Diagnosis#primary_diagnosis" target="_blank" style="color:white">Primary Diagnosis</a><p-sortIcon [field]="clinicalCols[6].field" ariaLabel="Sort Primary Diagnosis column in ascending/descending order"></p-sortIcon></th>
-							<th class="ui-datatable-tableheader" style="width:10%" [pSortableColumn]="clinicalCols[7].field" pResizableColumn>
+							<th class="ui-datatable-tableheader" style="width:8%" [pSortableColumn]="clinicalCols[1].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Demographic#ethnicity" target="_blank" style="color:white">Ethnicity</a><p-sortIcon [field]="clinicalCols[1].field" ariaLabel="Sort Ethinicity column in ascending/descending order"></p-sortIcon></th>
+							<th class="ui-datatable-tableheader" style="width:6%" [pSortableColumn]="clinicalCols[2].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Demographic#gender" target="_blank" style="color:white">Gender</a><p-sortIcon [field]="clinicalCols[2].field" ariaLabel="Sort Gender column in ascending/descending order"></p-sortIcon></th>
+							<th class="ui-datatable-tableheader" style="width:6%" [pSortableColumn]="clinicalCols[3].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Demographic#race" target="_blank" style="color:white">Race</a><p-sortIcon [field]="clinicalCols[3].field" ariaLabel="Sort Race column in ascending/descending order"></p-sortIcon></th>
+							<th class="ui-datatable-tableheader" style="width:8%" [pSortableColumn]="clinicalCols[4].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Diagnosis#morphology" target="_blank" style="color:white">Morphology</a><p-sortIcon [field]="clinicalCols[4].field" ariaLabel="Sort Morphology column in ascending/descending order"></p-sortIcon></th>
+							<th class="ui-datatable-tableheader" style="width:10%" [pSortableColumn]="clinicalCols[5].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Diagnosis#primary_diagnosis" target="_blank" style="color:white">Primary Diagnosis</a><p-sortIcon [field]="clinicalCols[5].field" ariaLabel="Sort Primary Diagnosis column in ascending/descending order"></p-sortIcon></th>
+							<th class="ui-datatable-tableheader" style="width:10%" [pSortableColumn]="clinicalCols[6].field" pResizableColumn>
 								<div class="ui-datatable-tableheader-flex-container">
 									<div>
 										<a href="{{staticUrlBase}}dictionaryitem.html?eName=Diagnosis#site_of_resection_or_biopsy" target="_blank" style="color:white">
@@ -257,11 +254,11 @@
 										</a>
 									</div>
 									<div class="ui-datatable-tableheader-flex-sorticon">
-										<p-sortIcon [field]="clinicalCols[7].field" ariaLabel="Sort Site of Resection column in ascending/descending order"></p-sortIcon>
+										<p-sortIcon [field]="clinicalCols[6].field" ariaLabel="Sort Site of Resection column in ascending/descending order"></p-sortIcon>
 									</div>
 								</div>
 							</th>
-							<th class="ui-datatable-tableheader" style="width:10%" [pSortableColumn]="clinicalCols[8].field" pResizableColumn>
+							<th class="ui-datatable-tableheader" style="width:10%" [pSortableColumn]="clinicalCols[7].field" pResizableColumn>
 								<div class="ui-datatable-tableheader-flex-container">
 									<div>
 										<a href="{{staticUrlBase}}dictionaryitem.html?eName=Diagnosis#tissue_or_organ_of_origin" target="_blank" style="color:white">
@@ -269,12 +266,12 @@
 										</a>
 									</div>
 									<div class="ui-datatable-tableheader-flex-sorticon">
-										<p-sortIcon [field]="clinicalCols[8].field" ariaLabel="Sort Tissue column in ascending/descending order"></p-sortIcon>
+										<p-sortIcon [field]="clinicalCols[7].field" ariaLabel="Sort Tissue column in ascending/descending order"></p-sortIcon>
 									</div>
 								</div>
 							</th>
-							<th class="ui-datatable-tableheader" style="width:8%" [pSortableColumn]="clinicalCols[9].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Diagnosis#tumor_grade" target="_blank" style="color:white">Tumor Grade</a><p-sortIcon [field]="clinicalCols[9].field" ariaLabel="Sort Tumor Grade column in ascending/descending order"></p-sortIcon></th>
-							<th class="ui-datatable-tableheader" style="width:9%" [pSortableColumn]="clinicalCols[10].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Diagnosis#tumor_stage" target="_blank" style="color:white">Tumor Stage</a><p-sortIcon [field]="clinicalCols[10].field" ariaLabel="Sort Tumor Stage column in ascending/descending order"></p-sortIcon></th>
+							<th class="ui-datatable-tableheader" style="width:8%" [pSortableColumn]="clinicalCols[8].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Diagnosis#tumor_grade" target="_blank" style="color:white">Tumor Grade</a><p-sortIcon [field]="clinicalCols[8].field" ariaLabel="Sort Tumor Grade column in ascending/descending order"></p-sortIcon></th>
+							<th class="ui-datatable-tableheader" style="width:9%" [pSortableColumn]="clinicalCols[9].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Diagnosis#tumor_stage" target="_blank" style="color:white">Tumor Stage</a><p-sortIcon [field]="clinicalCols[9].field" ariaLabel="Sort Tumor Stage column in ascending/descending order"></p-sortIcon></th>
 						</tr>
 					</ng-template>
 					<ng-template pTemplate="body" let-clinicalData let-columns="columns">

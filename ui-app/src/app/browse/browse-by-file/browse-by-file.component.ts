@@ -24,7 +24,7 @@ import * as jwt_decode from "jwt-decode";
 import { HttpClient } from '@angular/common/http';
 import { HttpErrorResponse } from "@angular/common/http";
 import * as _ from 'lodash';
-import * as fileSaver from 'file-saver';
+import * as FileSaver from 'file-saver';
 import { SizeUnitsPipe } from '../../sizeUnitsPipe.pipe';
 
 @Component({
@@ -55,6 +55,7 @@ import { SizeUnitsPipe } from '../../sizeUnitsPipe.pipe';
 //@@@PDC-1303: Add a download column and button for downloading individual files to the file tab
 //@@@PDC-1416 add unit to file size in file manifest
 //@@@PDC-2795: add embargo date to file tab on Browse page and file manifest
+//@@@PDC-3265: Add TSV format manifest download for Files tab on Browse page
 //@@@PDC-3268: Browse File selection check box in does not select all 
 export class BrowseByFileComponent implements OnInit {
   filteredFilesData: AllFilesData[]; //Filtered list of cases
@@ -109,6 +110,7 @@ export class BrowseByFileComponent implements OnInit {
   filtersSelected:any;
   //@@@PDC-1303: Add a download column and button for downloading individual files to the file tab
   individualFileData: AllFilesData[] = [];
+  manifestFormat = "csv";
 
   constructor(
     private apollo: Apollo,
@@ -409,6 +411,10 @@ export class BrowseByFileComponent implements OnInit {
     }
 
     setTimeout(() => {
+	//PDC-3265 Check what is the current manifest format
+	  if (this.downloadAllManifests != undefined){
+		  this.manifestFormat = this.downloadAllManifests.split('*')[1];
+	  }
       //@@@PDC-937: Add a button to allow download all manifests with a single click
       if (changes['otherTabsLoaded'] && changes['otherTabsLoaded'].currentValue) {
         this.fileExportCompleteManifest(true);
@@ -504,9 +510,9 @@ export class BrowseByFileComponent implements OnInit {
   }
 
   //@@@PDC-937: Add a button to allow download all manifests with a single click
-  downloadAllManifest() {
+  downloadAllManifest(exportFormat = "csv") {
     setTimeout(() => {
-      this.downloadWholeManifestFlag.emit({downloadAllManifest:this.totalRecords});
+      this.downloadWholeManifestFlag.emit({downloadAllManifest:this.totalRecords, format: exportFormat});
     }, 10);
   }
   
@@ -537,7 +543,7 @@ export class BrowseByFileComponent implements OnInit {
         .subscribe((data: any) => {
           if (buttonClick) {
             this.completeFileManifest = data.getPaginatedUIFile.uiFiles;
-            this.fileTableExportCSV(true);
+            this.fileTableExportCSV(true, false, this.manifestFormat);
           } else {
             this.selectedFiles = data.getPaginatedUIFile.uiFiles;
             this.headercheckbox = true;
@@ -614,7 +620,7 @@ export class BrowseByFileComponent implements OnInit {
   //@@@PDC-801 For files that are marked downloadable call API to get signed URL and include in manifest
   //@@@PDC-869 if controlled file is not downloadable, it will not ask user to login eRA and authorize
   //@@@PDC-3206 fix ddownload manifest even if there are zero records  
-  async fileTableExportCSV(iscompleteFileDownload:boolean = false, individualFileDownload:boolean = false) {
+  async fileTableExportCSV(iscompleteFileDownload:boolean = false, individualFileDownload:boolean = false, exportFormat = "csv") {
     let dataForExport;
     if (iscompleteFileDownload) {
         dataForExport = this.completeFileManifest;
@@ -646,17 +652,16 @@ export class BrowseByFileComponent implements OnInit {
       eRALogIn = "loginRequired";
     }
     let controlledFileFlag: boolean = false;
-
     for (let file of dataForExport) {
       if (file["access"].toLowerCase() === "controlled" && file.downloadable.toLowerCase() === "yes") {
         controlledFileFlag = true;
       }
 	  //If embargo date is empty substitute with N/A
 	  if (!file["embargo_date"]) {
-		file["embargo_date"] = "N/A";
+		  file["embargo_date"] = "N/A";
 	  }
     }
-
+	
     if (controlledFileFlag) {
       localStorage.setItem(
         "controlledFileTableExportCsv",
@@ -780,7 +785,13 @@ export class BrowseByFileComponent implements OnInit {
             if (count == loop) {
               this.displayLoading(iscompleteFileDownload, "file1", false);
 			  if (count > 0) {
-				new ngxCsv(exportFileObject, this.getCsvFileName(), csvOptions);
+				  if (exportFormat == "csv"){
+					new ngxCsv(exportFileObject, this.getCsvFileName("csv"), csvOptions);
+				  } else {
+					let exportTSVData = this.prepareTSVExportManifestData(exportFileObject);
+					var blob = new Blob([exportTSVData], { type: 'text/csv;charset=utf-8;' });
+					FileSaver.saveAs(blob, this.getCsvFileName("tsv"));
+				  }
 			  }
             }
           }); 
@@ -793,7 +804,13 @@ export class BrowseByFileComponent implements OnInit {
             this.setFileExportObject(fileData, exportFileObject);
             this.displayLoading(iscompleteFileDownload, "file1", false);
 			if (fileNameList.length > 0) {
-				new ngxCsv(exportFileObject, this.getCsvFileName(), csvOptions);
+				if (exportFormat == "csv"){
+					new ngxCsv(exportFileObject, this.getCsvFileName("csv"), csvOptions);
+				} else {
+					let exportTSVData = this.prepareTSVExportManifestData(exportFileObject);
+					var blob = new Blob([exportTSVData], { type: 'text/csv;charset=utf-8;' });
+					FileSaver.saveAs(blob, this.getCsvFileName("tsv"));
+				}
 			}
           });
       }
@@ -1127,7 +1144,7 @@ export class BrowseByFileComponent implements OnInit {
         "File Download Link"
       ]
     };
-    const csvFileName = this.getCsvFileName();
+    const csvFileName = this.getCsvFileName("csv");
     new ngxCsv(exportFileObject, csvFileName, csvOptions);
   }
   if (fenceRequest) {
@@ -1145,8 +1162,32 @@ export class BrowseByFileComponent implements OnInit {
     });
     //delete csvOptions.headers;
   }
+  
+  //help function preparing a string containing the data for TSV manifest file (PDC-3265)
+	prepareTSVExportManifestData(manifestData){
+		let result = "";
+		let separator = '\t';
+		let EOL = "\r\n";
+		for (var i=0; i< this.cols.length; i++) {
+			result += this.cols[i]['field'] + separator;
+		}
+		result = result.slice(0, -1);
+		result += EOL;
+		for (var i=0; i < manifestData.length; i++){
+			for (const index in manifestData[i]) {
+				if (manifestData[i][index] == null) {
+					result += "null" + separator;
+				} else {
+					result += manifestData[i][index] + separator;
+				}
+			}
+			result = result.slice(0, -1);
+			result += EOL;
+		}
+		return result;
+	}
 
-  private getCsvFileName(): string {
+  private getCsvFileName(format = "csv"): string {
     let csvFileName = "PDC_file_manifest_";
     const currentDate: Date = new Date();
     let month: string = "" + (currentDate.getMonth() + 1);
@@ -1160,6 +1201,9 @@ export class BrowseByFileComponent implements OnInit {
     csvFileName += this.convertDateString(minute);
     let second: string = "" + currentDate.getSeconds();
     csvFileName += this.convertDateString(second);
+	if (format === "tsv") {
+		csvFileName += ".tsv";
+	}
     return csvFileName;
   }
 

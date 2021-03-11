@@ -537,6 +537,29 @@ export const resolvers = {
 				return JSON.parse(res);
 			}
 		},
+		//@@@PDC-3171 new ptm abundance tables
+		/*async uiBatchedPtm(obj, args, context) {
+			var uiPtmBaseQuery = "SELECT distinct pq.gene_name, pq.ptm_type, pq.site, pq.peptide FROM ";
+			var cacheFilterName = {name:'batch'};
+
+			cacheFilterName['dataFilterName'] = cacheFilterName.name;
+			cacheFilterName['dataFilterName'] += 'offet:'+context.arguments.offset+';';
+			cacheFilterName['dataFilterName'] += 'limit:'+context.arguments.limit+';';
+			const res = await RedisCacheClient.redisCacheGetAsync(CacheName.getSummaryPageGeneSummary('Ptm')+cacheFilterName.name);
+			var all = [];
+			if(res === null){
+				for (var i = context.arguments.offset; i < context.arguments.limit; i++) {
+					uiPtmBaseQuery += "ptm_abundance_"+queryList.abundance_suffix[i]+ " pq";
+					logger.info("ptm query: "+uiPtmBaseQuery);
+					var result =await db.getSequelize().query(uiPtmBaseQuery, { model: db.getModelByName('ModelUIPtm') });
+					Array.prototype.push.apply(all,result); 					
+				}
+				RedisCacheClient.redisCacheSetExAsync(CacheName.getSummaryPageGeneSummary('Ptm')+cacheFilterName.name, JSON.stringify(all));
+				return all;
+			}else{
+				return JSON.parse(res);
+			}
+		},*/
 		//@@@PDC-333 gene/spectral count API pagination 
 		//@@@PDC-391 gene/spectral count query change 
 		async uiGeneStudySpectralCounts(obj, args, context) {

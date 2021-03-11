@@ -813,8 +813,38 @@ function processFilterData(filterCategory, filterData, uiFilters, intersectedStu
   });
   return finalFilterData;
 }
+//@@@PDC-3171 new ptm abundance tables
+const abundance_suffix = [
+	"A",
+	"B",
+	"C",
+	"D",
+	"E",
+	"F",
+	"G",
+	"H",
+	"I",
+	"J",
+	"K",
+	"L",
+	"M",
+	"N",
+	"O",
+	"P",
+	"Q",
+	"R",
+	"S",
+	"T",
+	"U",
+	"V",
+	"W",
+	"X",
+	"Y",
+	"Z"
+];
 
 const queryList = {
+  abundance_suffix: abundance_suffix,
   prog_proj_study: prog_proj_study,
   prog_proj_filter: prog_proj_filter,
   file_study: file_study,

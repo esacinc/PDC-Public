@@ -437,10 +437,12 @@ const defineUiModels = (db) => {
 	ModelUIGeneStudySpectralCount.removeAttribute('id');
 	
 	//@@@PDC-681 ui ptm data API
+	//@@@PDC-3171 new ptm abundance tables
 	/**
 	* ModelUIPtm is used in uiPtm query.
 	*/
 	const ModelUIPtm = db.getSequelize().define('ptm_abundance', {
+		gene_name: { type: Sequelize.STRING},
 		ptm_type: { type: Sequelize.STRING},
 		site:  { type: Sequelize.STRING},
 		peptide: { type: Sequelize.STRING},

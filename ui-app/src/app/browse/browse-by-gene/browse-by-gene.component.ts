@@ -9,6 +9,7 @@ import { AllGeneData, ptmData } from '../../types';
 import { BrowseByGeneService } from './browse-by-gene.service';
 import { GeneProteinSummaryComponent } from '../../gene-protein-summary/gene-protein-summary.component';
 import { ngxCsv } from "ngx-csv/ngx-csv";
+import * as FileSaver from 'file-saver';
 
 @Component({
   selector: 'browse-by-gene',
@@ -65,6 +66,7 @@ export class BrowseByGeneComponent implements OnInit {
   //@@@PDC-1063: Implement select all, select page, select none for all tabs
   checkboxOptions = [];
   selectedHeaderCheckbox = '';
+  manifestFormat = "csv";
 
   constructor(private apollo: Apollo, private router: Router,  private dialog: MatDialog,
 				private browseByGeneService : BrowseByGeneService, private activatedRoute:ActivatedRoute) {
@@ -206,7 +208,12 @@ export class BrowseByGeneComponent implements OnInit {
 	}
 
 	//@@@PDC-937: Add a button to allow download all manifests with a single click
+	//PDC-3073: Add TSV format to manifests
 	setTimeout(() => {
+		if (this.downloadAllManifests != undefined){
+			this.manifestFormat = this.downloadAllManifests.split('*')[1];
+		}
+		console.log(this.manifestFormat);
 		if (changes['downloadAllManifests'] && changes['downloadAllManifests'].currentValue) {
 			this.downloadCompleteManifest();
 		}
@@ -223,9 +230,10 @@ export class BrowseByGeneComponent implements OnInit {
   }
 
 //@@@PDC-937: Add a button to allow download all manifests with a single click
-downloadAllManifest() {
+//PDC-3073: Add TSV format to manifests
+downloadAllManifest(exportFormat = "csv") {
 	setTimeout(() => {
-		this.downloadWholeManifestFlag.emit({downloadAllManifest:this.totalRecords});
+		this.downloadWholeManifestFlag.emit({downloadAllManifest:this.totalRecords, format: exportFormat});
 	}, 10);
 }
 
@@ -261,8 +269,14 @@ downloadCompleteManifest(buttonClick = false) {
 				//PDC-3206 fix ddownload manifest even if there are zero records  
 				if (this.totalRecords > 0) {
 					let exportFileObject = JSON.parse(JSON.stringify(localSelectedGenes, colValues));
-					
-					new ngxCsv(exportFileObject, this.getCsvFileName(), csvOptions);
+					if (this.manifestFormat == "csv") {
+						new ngxCsv(exportFileObject, this.getCsvFileName("csv"), csvOptions);
+					}else {
+						//For TSV format have to preprocess and use different function than CSV
+						let exportTSVData = this.prepareTSVExportManifestData(exportFileObject);
+						var blob = new Blob([exportTSVData], { type: 'text/csv;charset=utf-8;' });
+						FileSaver.saveAs(blob, this.getCsvFileName("tsv"));
+					}
 				}
 				this.isTableLoading.emit({isTableLoading:"gene:false"});
 			}
@@ -438,25 +452,62 @@ isDownloadDisabled(){
 
   	//@@@PDC-795 Change manifest download file name include timestamp 
 	geneTableExportCSV(dt){
-		dt.exportFilename = this.getCsvFileName();
+		dt.exportFilename = this.getCsvFileName("csv");
 		dt.exportCSV({ selectionOnly: true });
 	}
+	//PDC-3073, PDC-3074 Add TSV format for manifests
+	geneTableExportTSV(dt){
+		let colValues = [];
+		for (var i=0; i< this.cols.length; i++) {
+			colValues.push(this.cols[i]['field']);
+		}
+		let exportFileObject = JSON.parse(JSON.stringify(this.selectedGenesData, colValues));
+		let exportTSVData = this.prepareTSVExportManifestData(exportFileObject);
+		var blob = new Blob([exportTSVData], { type: 'text/csv;charset=utf-8;' });
+		FileSaver.saveAs(blob, this.getCsvFileName("tsv"));		
+	}
+	//help function preparing a string containing the data for TSV manifest file	
+	prepareTSVExportManifestData(manifestData){
+		let result = "";
+		let separator = '\t';
+		let EOL = "\r\n";
+		for (var i=0; i< this.cols.length; i++) {
+			result += this.cols[i]['field'] + separator;
+		}
+		result = result.slice(0, -1);
+		result += EOL;
+		for (var i=0; i < manifestData.length; i++){
+			for (const index in manifestData[i]) {
+				if (manifestData[i][index] == null) {
+					result += "null" + separator;
+				} else {
+					result += manifestData[i][index] + separator;
+				}
+			}
+			result = result.slice(0, -1).trim();
+			result += EOL;
+		}
+		return result;
+	}
 
-	private getCsvFileName(): string {
-    let csvFileName = "PDC_gene_manifest_";
-    const currentDate: Date = new Date();
-    let month: string = "" + (currentDate.getMonth() + 1);
-    csvFileName += this.convertDateString(month);
-    let date: string = "" + currentDate.getDate();
-    csvFileName += this.convertDateString(date);
-    csvFileName += "" + currentDate.getFullYear();
-    let hour: string = "" + currentDate.getHours();
-    csvFileName += "_" + this.convertDateString(hour);
-    let minute: string = "" + currentDate.getMinutes();
-    csvFileName += this.convertDateString(minute);
-    let second: string = "" + currentDate.getSeconds();
-    csvFileName += this.convertDateString(second);
-    return csvFileName;
+	private getCsvFileName(format = "csv"): string {
+		let csvFileName = "PDC_gene_manifest_";
+		const currentDate: Date = new Date();
+		let month: string = "" + (currentDate.getMonth() + 1);
+		csvFileName += this.convertDateString(month);
+		let date: string = "" + currentDate.getDate();
+		csvFileName += this.convertDateString(date);
+		csvFileName += "" + currentDate.getFullYear();
+		let hour: string = "" + currentDate.getHours();
+		csvFileName += "_" + this.convertDateString(hour);
+		let minute: string = "" + currentDate.getMinutes();
+		csvFileName += this.convertDateString(minute);
+		let second: string = "" + currentDate.getSeconds();
+		csvFileName += this.convertDateString(second);
+		if (format === "tsv") {
+			csvFileName += ".tsv";
+		}
+		return csvFileName;
 	}
 	
 	private convertDateString(value: string): string {

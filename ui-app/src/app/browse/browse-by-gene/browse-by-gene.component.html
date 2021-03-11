@@ -10,7 +10,9 @@
 				<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
 				<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
 					<div class="wholeManifestDownload">
-						<button matTooltip="Please use CPTAC Data Portal for downloading the files" id="downloadWholeManifest" mat-raised-button mat-primary label="Download Selection" (click)="downloadAllManifest()" style="font-family:'Lato';font-weight:bold;" [disabled]="iscompleteManifestDisabled()" aria-label="Download all Manifests">Export All Manifests</button>
+						Export All Manifests
+						<button matTooltip="Please use CPTAC Data Portal for downloading the files" id="downloadWholeManifest" mat-raised-button mat-primary label="Download Selection" (click)="downloadAllManifest('csv')" style="font-family:'Lato';font-weight:bold; min-width:1%;" [disabled]="iscompleteManifestDisabled()" aria-label="Download all Manifests">CSV</button>&nbsp;
+						<button matTooltip="Please use CPTAC Data Portal for downloading the files" id="downloadWholeManifest" mat-raised-button mat-primary label="Download Selection" (click)="downloadAllManifest('tsv')" style="font-family:'Lato';font-weight:bold; min-width:1%;" [disabled]="iscompleteManifestDisabled()" aria-label="Download all Manifests">TSV</button>
 					</div>
 				</div>
 			</div>
@@ -31,7 +33,9 @@
 						</div>
 						<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
 						<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 manifestDownload">
-							<button matTooltip="Please use CPTAC Data Portal for downloading the files" id="downloadGeneData"  mat-raised-button mat-primary label="Download Selection" (click)="geneTableExportCSV(dt)" [disabled]="isDownloadDisabled()" style="font-family:'Lato';" aria-label="Download Genes Manifest">Export Genes Manifest</button>
+							Export Genes Manifest
+							<button matTooltip="Please use CPTAC Data Portal for downloading the files" id="downloadGeneData"  mat-raised-button mat-primary label="Download Selection" (click)="geneTableExportCSV(dt)" [disabled]="isDownloadDisabled()" style="font-family:'Lato'; min-width:1%;" aria-label="Download Genes Manifest">CSV</button>&nbsp;
+							<button matTooltip="Please use CPTAC Data Portal for downloading the files" id="downloadGeneData"  mat-raised-button mat-primary label="Download Selection" (click)="geneTableExportTSV(dt)" [disabled]="isDownloadDisabled()" style="font-family:'Lato'; min-width:1%;" aria-label="Download Genes Manifest">TSV</button>&nbsp;
 						</div>
 					</div>
 				</div>

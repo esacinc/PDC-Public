@@ -580,6 +580,8 @@ export type DiagnosesData = {
     residual_disease: string;
     vascular_invasion_present: string;
     year_of_diagnosis: string;
+    icd_10_code: string;
+    synchronous_malignancy: string;	
 }
 
 //@@@PDC-2691 Add properties to Case Summary view

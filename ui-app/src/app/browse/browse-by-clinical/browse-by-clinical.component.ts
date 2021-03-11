@@ -9,6 +9,7 @@ import { BrowseByClinicalService } from './browse-by-clinical.service';
 import { CaseSummaryComponent } from '../case-summary/case-summary.component';
 import { ngxCsv } from "ngx-csv/ngx-csv";
 import * as _ from 'lodash';
+import * as FileSaver from 'file-saver';
 
 
 @Component({
@@ -77,7 +78,7 @@ export class BrowseByClinicalComponent implements OnInit {
   //@@@PDC-1063: Implement select all, select page, select none for all tabs
   checkboxOptions = [];
   selectedHeaderCheckbox = '';
-  
+  manifestFormat = "csv";
 	
   constructor(private apollo: Apollo, private router: Router, private dialog: MatDialog,
 				private browseByClinicalService : BrowseByClinicalService, private activatedRoute:ActivatedRoute) {
@@ -283,6 +284,10 @@ export class BrowseByClinicalComponent implements OnInit {
 
 	//@@@PDC-937: Add a button to allow download all manifests with a single click
 	setTimeout(() => {
+		if (this.downloadAllManifests != undefined){
+			this.manifestFormat = this.downloadAllManifests.split('*')[1];
+		}
+		console.log(this.manifestFormat);
 		if (changes['downloadAllManifests'] && changes['downloadAllManifests'].currentValue) {
 			this.downloadCompleteManifest();
 		}
@@ -299,9 +304,10 @@ export class BrowseByClinicalComponent implements OnInit {
   }
 
 //@@@PDC-937: Add a button to allow download all manifests with a single click
-downloadAllManifest() {
+//PDC-3073: Add TSV format to manifests
+downloadAllManifest(exportFormat = "csv") {
 	setTimeout(() => {
-		this.downloadWholeManifestFlag.emit({downloadAllManifest:this.totalRecords});
+		this.downloadWholeManifestFlag.emit({downloadAllManifest:this.totalRecords, format: exportFormat});
 	}, 10);
 }
 
@@ -335,8 +341,15 @@ downloadCompleteManifest(buttonClick = false) {
 			};
 			//PDC-3206 fix ddownload manifest even if there are zero records 
 			if (this.totalRecords > 0) {
-				let exportFileObject = JSON.parse(JSON.stringify(exportData, colValues));		
-				new ngxCsv(exportFileObject, this.getCsvFileName(), csvOptions);
+				let exportFileObject = JSON.parse(JSON.stringify(exportData, colValues));	
+				if (this.manifestFormat == "csv") {
+					new ngxCsv(exportFileObject, this.getExportFileName("csv"), csvOptions);
+				}else {
+					//For TSV format have to preprocess and use different function than CSV
+					let exportTSVData = this.prepareTSVExportManifestData(exportFileObject);
+					var blob = new Blob([exportTSVData], { type: 'text/csv;charset=utf-8;' });
+					FileSaver.saveAs(blob, this.getExportFileName("tsv"));
+				}
 			}
 			this.isTableLoading.emit({isTableLoading:"clinical:false"});
 		}
@@ -527,7 +540,7 @@ isDownloadDisabled(){
 
 		//@@@PDC-795 Change manifest download file name include timestamp 
 		clinicalTableExportCSV(dt){
-			dt.exportFilename = this.getCsvFileName();
+			dt.exportFilename = this.getExportFileName("csv");
 			//@@@PDC-2950: External case id missing in clinical manifest
  			let headerCols = [];
 			let colValues = [];
@@ -538,10 +551,47 @@ isDownloadDisabled(){
 			let exportData = [];
 			exportData = this.addGenomicImagingDataToExportManifest(this.selectedClinicalData);
 			let csvOptions = {
-				headers: headerCols
+				headers: headerCols,
 			};
-			let exportFileObject = JSON.parse(JSON.stringify(exportData, colValues));		
-			new ngxCsv(exportFileObject, this.getCsvFileName(), csvOptions); 
+			let exportFileObject = JSON.parse(JSON.stringify(exportData, colValues));
+			new ngxCsv(exportFileObject, this.getExportFileName(), csvOptions);
+		}
+		
+		//PDC-3073, PDC-3074 Add TSV format for manifests
+		clinicalTableExportTSV(dt){
+			let exportData = [];
+			let colValues = [];
+			for (var i=0; i< this.cols.length; i++) {
+				colValues.push(this.cols[i]['field']);
+			}
+			exportData = this.addGenomicImagingDataToExportManifest(this.selectedClinicalData);
+			let exportFileObject = JSON.parse(JSON.stringify(exportData, colValues));
+			let exportTSVData = this.prepareTSVExportManifestData(exportFileObject);
+			var blob = new Blob([exportTSVData], { type: 'text/csv;charset=utf-8;' });
+			FileSaver.saveAs(blob, this.getExportFileName("tsv"));	
+		}
+		//help function preparing a string containing the data for TSV manifest file
+		prepareTSVExportManifestData(manifestData){
+			let result = "";
+			let separator = '\t';
+			let EOL = "\r\n";
+			for (var i=0; i< this.cols.length; i++) {
+				result += this.cols[i]['field'] + separator;
+			}
+			result = result.slice(0, -1);
+			result += EOL;
+			for (var i=0; i < manifestData.length; i++){
+				for (const index in manifestData[i]) {
+					if (manifestData[i][index] == null) {
+						result += "null" + separator;
+					} else {
+						result += manifestData[i][index] + separator;
+					}
+				}
+				result = result.slice(0, -1);
+				result += EOL;
+			}
+			return result;
 		}
 
 		//@@@PDC-2950: External case id missing in clinical manifest
@@ -555,7 +605,7 @@ isDownloadDisabled(){
 					//Sort the external references as per reference_resource_shortname 
 					externalResources = externalResources.sort((a, b) => a.reference_resource_shortname < b.reference_resource_shortname ? -1 : a.reference_resource_shortname > b.reference_resource_shortname ? 1 : 0);
 					for (var j = 0; j < externalResources.length; j++) {
-						genomicImagingData += externalResources[j]["reference_resource_shortname"] + ": " + externalResources[j]["reference_entity_location"] + ";";
+						genomicImagingData += externalResources[j]["reference_resource_shortname"] + ": " + externalResources[j]["reference_entity_location"].trim() + ";";
 					}
 					genomicImagingData = genomicImagingData.slice(0, -1);
 				}
@@ -564,7 +614,7 @@ isDownloadDisabled(){
 			return exportData;
 		}
 	
-		private getCsvFileName(): string {
+		private getExportFileName(format = "csv"): string {
 			let csvFileName = "PDC_clinical_manifest_";
 			const currentDate: Date = new Date();
 			let month: string = "" + (currentDate.getMonth() + 1);
@@ -578,6 +628,9 @@ isDownloadDisabled(){
 			csvFileName += this.convertDateString(minute);
 			let second: string = "" + currentDate.getSeconds();
 			csvFileName += this.convertDateString(second);
+			if (format === "tsv") {
+				csvFileName += ".tsv";
+			}
 			return csvFileName;
 		}
 		

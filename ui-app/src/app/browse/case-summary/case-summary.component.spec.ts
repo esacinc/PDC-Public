@@ -117,7 +117,9 @@ class MockCaseSummaryService {
 				tumor_grade: "Not Reported",
 				tumor_stage: "Stage IIIB",
 				vascular_invasion_present: "Not Reported",
-				year_of_diagnosis: null
+        year_of_diagnosis: null,
+        icd_10_code: null,
+        synchronous_malignancy: null
 			}
 		],
         samples: [

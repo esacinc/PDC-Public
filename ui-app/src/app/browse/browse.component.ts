@@ -629,9 +629,10 @@ getCasesByExperimentalStrategy(){
 				break;
 		}
 	}
-
+	//PDC-3074 add TSV format for manifests
 	downloadWholeManifest(event:any) {
-		this.downloadAllManifests = event['downloadAllManifest'] + new Date().toLocaleString();
+		this.downloadAllManifests = event['downloadAllManifest'] + "*" + event['format'] + "*" + new Date().toLocaleString();
+		console.log(this.downloadAllManifests);
 	}
 
 	handleTabLoading(event:any) {

@@ -141,6 +141,8 @@ constructor(private apollo: Apollo) {
 								residual_disease
 								vascular_invasion_present
 								year_of_diagnosis
+								icd_10_code
+								synchronous_malignancy
 							}    
 							samples{
 								sample_id

@@ -1,4 +1,5 @@
 type UIPtm {
+	gene_name: String
 	ptm_type: String
 	site: String 
 	peptide: String
