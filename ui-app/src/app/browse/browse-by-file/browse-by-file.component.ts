@@ -359,6 +359,8 @@ export class BrowseByFileComponent implements OnInit {
       }
       this.offset = 0; //Reinitialize offset for each new filter value
       this.loading = true;
+	  //@@@PDC-3366 selection of files was cleared since this API call was made more than once
+	  // adding pipe(take(1)) prevents from getting back to this API call repeated;y
       this.browseByFileService
         .getFilteredFilesPaginated(
           this.offset,
@@ -366,6 +368,7 @@ export class BrowseByFileComponent implements OnInit {
           this.sort,
           this.newFilterSelected
         )
+		.pipe(take(1))
         .subscribe((data: any) => {
           this.filteredFilesData = data.getPaginatedUIFile.uiFiles;
           if (this.offset === 0) {
@@ -801,6 +804,10 @@ export class BrowseByFileComponent implements OnInit {
           //@@@PDC-1940: File manifest download is very slow
           let fileNameStr = fileNameList.join(";")
           this.browseByFileService.getFilesData(fileNameStr).subscribe((fileData: any) => {
+			  //PDC-3366 files selection was cleared when the execution got here
+			  //bandaid solution was to refill selected files values like this:
+			  //this.selectedFiles = dataForExport;
+			  //Better solution was to prevent the call to clearSelection() function
             this.setFileExportObject(fileData, exportFileObject);
             this.displayLoading(iscompleteFileDownload, "file1", false);
 			if (fileNameList.length > 0) {

@@ -6136,7 +6136,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=64215&version=2.0
-        type: Integer
+        type: Double
     tumor_regression_grade:
         cde_id: 6471217
         description: A numeric value used to measure therapeutic response of the primary

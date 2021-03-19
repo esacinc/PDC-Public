@@ -286,9 +286,9 @@ export class StudySummaryComponent implements OnInit {
   getManifestFile() {
 		//const manifest_file = 'assets/data-folder/' + this.studySummaryData.study_submitter_id + '/manifest.json';
 		//@@@PDC-2106 use pdc_study_id in heatmap folder
-		const manifest_file = 'assets/data-folder/' + this.pdcStudyID + '/manifest.json';
-		//@@@PDC-3162 use study_id in heatmap folder name
-		//const manifest_file = 'assets/data-folder/' + this.study_id + '/manifest.json';
+		//const manifest_file = 'assets/data-folder/' + this.pdcStudyID + '/manifest.json';
+		//@@@PDC-3172 use study_id in heatmap folder name
+		const manifest_file = 'assets/data-folder/' + this.study_id + '/manifest.json';
 		
 		console.log('Getting manifest file from: ' + manifest_file);
 		return this.http.get(manifest_file);
@@ -311,7 +311,8 @@ export class StudySummaryComponent implements OnInit {
 	}, error => { this.heatmapAvailable = false; console.log('Error Status:', error.status); });
   }
   isHeatmapAvailable() {
-	const manifest_file = 'assets/data-folder/' + this.pdcStudyID + '/manifest.json';
+	//@@@PDC-3172 use study_id in heatmap folder name
+	const manifest_file = 'assets/data-folder/' + this.study_id + '/manifest.json';
 	this.http.head(manifest_file).pipe(
 	catchError((error) => observableOf({foo: 'bar'})))
 	.subscribe((status) => console.log('status', status))
@@ -557,10 +558,9 @@ close(navigateToHeatmap: boolean, study_name: string = '') {
 		  //this.router.navigate(['/analysis/' + this.studySubmitterId], navigationExtras);
 		  //@@@PDC-2106 use pdc_study_id in heatmap folder
 		  //this.router.navigate(['/analysis/' + this.pdcStudyID], navigationExtras);
-		  //@@@PDC-3162 use study_id in heatmap folder name
-		  //this.router.navigate([]).then( result => { var url= "/pdc/analysis/" + this.study_id +
-		  this.router.navigate([]).then( result => { var url= "/pdc/analysis/" + this.pdcStudyID + "?StudyName=" + study_name; 
-																	   window.open(url, '_blank'); });
+		  //@@@PDC-3172 use study_id in heatmap folder name
+		  this.router.navigate([]).then( result => { var url= "/pdc/analysis/" + this.study_id +"?StudyName=" + study_name; 
+		  window.open(url, '_blank'); });
 	  }
 	this.dialogRef.close();
 }
@@ -568,7 +568,8 @@ close(navigateToHeatmap: boolean, study_name: string = '') {
 //@@@PDC-2234 - open PDC HeatMap in a separate tab to avoid issues with "back" button
 //Will not close study summary upon opening a HeatMap in a separate tab
 openHeatMap(study_name: string){
-	this.router.navigate([]).then( result => { var url= "/pdc/analysis/" + this.pdcStudyID + "?StudyName=" + study_name; 
+	//@@@PDC-3172 use study_id in heatmap folder name
+	this.router.navigate([]).then( result => { var url= "/pdc/analysis/" + this.study_id + "?StudyName=" + study_name; 
 																	   window.open(url, '_blank'); });
 }
 
