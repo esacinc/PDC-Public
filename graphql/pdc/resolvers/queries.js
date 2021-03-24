@@ -52,7 +52,7 @@ export const resolvers = {
 	Query: {
 		uiFileMetadata(_, args, context) {
 			context['isUI']= true;
-			return resolvers.Query.filesMetadata(_, args, context);
+			return resolvers.Query. fileMetadata(_, args, context);
 		},			
 		uiCaseSummary(_, args, context) {
 			context['isUI']= true;
@@ -2960,7 +2960,7 @@ export const resolvers = {
 		*
 		* @return {FileMetadata}
 		*/  
-		filesMetadata(_, args, context) {
+		 fileMetadata(_, args, context) {
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/fileMetadata").send();
 				logger.info("fileMetadata is called with "+ JSON.stringify(args));

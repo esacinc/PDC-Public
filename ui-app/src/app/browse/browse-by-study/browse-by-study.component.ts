@@ -695,14 +695,17 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 		let separator = '\t';
 		let EOL = "\r\n";
 		for (var i=0; i< this.cols.length; i++) {
-			result += this.cols[i]['field'] + separator;
+			//@@@PDC-3482 headers in TSV file should match headers in CSV
+			result += this.cols[i]['header'] + separator;
 		}
 		result = result.slice(0, -1);
 		result += EOL;
 		for (var i=0; i < manifestData.length; i++){
-			for (const index in manifestData[i]) {
+			//@@@PDC-3482 fix issue when some of the study values are zero
+			for (var j=0; j < this.cols.length; j++) {
+				var index = this.cols[j]['field'];
 				if (manifestData[i][index] == null) {
-					result += separator;
+					result += "" + separator;
 				} else {
 					result += manifestData[i][index] + separator;
 				}

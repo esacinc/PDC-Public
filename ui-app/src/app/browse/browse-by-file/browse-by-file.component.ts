@@ -57,6 +57,7 @@ import { SizeUnitsPipe } from '../../sizeUnitsPipe.pipe';
 //@@@PDC-2795: add embargo date to file tab on Browse page and file manifest
 //@@@PDC-3265: Add TSV format manifest download for Files tab on Browse page
 //@@@PDC-3268: Browse File selection check box in does not select all 
+//@@@PDC-3482: TSV Manifest is not correct for Files tab
 export class BrowseByFileComponent implements OnInit {
   filteredFilesData: AllFilesData[]; //Filtered list of cases
   loading: boolean = false; //Flag indicates that the data is still being loaded from server
@@ -791,7 +792,7 @@ export class BrowseByFileComponent implements OnInit {
 				  if (exportFormat == "csv"){
 					new ngxCsv(exportFileObject, this.getCsvFileName("csv"), csvOptions);
 				  } else {
-					let exportTSVData = this.prepareTSVExportManifestData(exportFileObject);
+					let exportTSVData = this.prepareTSVExportManifestData(exportFileObject, csvOptions.headers);
 					var blob = new Blob([exportTSVData], { type: 'text/csv;charset=utf-8;' });
 					FileSaver.saveAs(blob, this.getCsvFileName("tsv"));
 				  }
@@ -814,7 +815,7 @@ export class BrowseByFileComponent implements OnInit {
 				if (exportFormat == "csv"){
 					new ngxCsv(exportFileObject, this.getCsvFileName("csv"), csvOptions);
 				} else {
-					let exportTSVData = this.prepareTSVExportManifestData(exportFileObject);
+					let exportTSVData = this.prepareTSVExportManifestData(exportFileObject, csvOptions.headers);
 					var blob = new Blob([exportTSVData], { type: 'text/csv;charset=utf-8;' });
 					FileSaver.saveAs(blob, this.getCsvFileName("tsv"));
 				}
@@ -1171,12 +1172,12 @@ export class BrowseByFileComponent implements OnInit {
   }
   
   //help function preparing a string containing the data for TSV manifest file (PDC-3265)
-	prepareTSVExportManifestData(manifestData){
+	prepareTSVExportManifestData(manifestData, headers){
 		let result = "";
 		let separator = '\t';
 		let EOL = "\r\n";
-		for (var i=0; i< this.cols.length; i++) {
-			result += this.cols[i]['field'] + separator;
+		for (var i=0; i< headers.length; i++) {
+			result += headers[i] + separator;
 		}
 		result = result.slice(0, -1);
 		result += EOL;

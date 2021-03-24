@@ -478,7 +478,8 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
 			let separator = '\t';
 			let EOL = "\r\n";
 			for (var i=0; i< this.cols.length; i++) {
-				result += this.cols[i]['field'] + separator;
+				//@@@PDC-3482 headers in TSV file should match headers in CSV
+				result += this.cols[i]['header'] + separator;
 			}
 			result = result.slice(0, -1);
 			result += EOL;
