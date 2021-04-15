@@ -278,7 +278,10 @@
 								<td style="width:25%;word-wrap: break-word; white-space: normal;">{{fileCount.acquisition_type}}</td>
 								<td style="width:35%;word-wrap: break-word; white-space: normal;"><a href="javascript:void(0);" (click)="showStudySummary(fileCount.submitter_id_name)">{{fileCount.submitter_id_name}}</a></td>
 								<td style="width:25%;word-wrap: break-word; white-space: normal;">{{fileCount.experiment_type}}</td>
-								<td style="width:15%;word-wrap: break-word; white-space: normal;"><a target="_blank" href= "/pdc/browse/filters/study_name:{{fileCount.submitter_id_name}}&acquisition_type:{{fileCount.acquisition_type}}&experiment_type:{{fileCount.experiment_type}}&selectedTab:3">{{fileCount.files_count}}</a></td>
+								<!--<td style="width:15%;word-wrap: break-word; white-space: normal;"><a target="_blank" href= "/pdc/browse/filters/study_name:{{fileCount.submitter_id_name}}&acquisition_type:{{fileCount.acquisition_type}}&experiment_type:{{fileCount.experiment_type}}&selectedTab:3">{{fileCount.files_count}}</a></td>-->
+								<td style="width:15%;word-wrap: break-word; white-space: normal;">
+									<a href="javascript:void(0);" (click)="showFilesOverlay(fileCount.submitter_id_name, '', '', fileCount.acquisition_type, fileCount.experiment_type)">{{fileCount.files_count}}</a>
+								</td>
 							</tr>
 						</tbody>
 					</table>
@@ -301,7 +304,10 @@
 						<tbody>
 							<tr style="font-size: 12px;" *ngFor="let categoryDetails of dataCategoryFileCount">
 								<td style="width:50%;word-wrap: break-word;white-space: normal;">{{categoryDetails.data_category}} ({{categoryDetails.file_type}})</td>
-								<td style="width:50%;word-wrap: break-word;white-space: normal;"><a target="_blank" href= "/pdc/browse/filters/study_name:{{categoryDetails.submitter_id_name}}&data_category:{{categoryDetails.data_category}}&file_type:{{categoryDetails.file_type}}&selectedTab:3">{{categoryDetails.files_count}}</a></td>
+								<td style="width:50%;word-wrap: break-word;white-space: normal;">
+								<!--<a target="_blank" href= "/pdc/browse/filters/study_name:{{categoryDetails.submitter_id_name}}&data_category:{{categoryDetails.data_category}}&file_type:{{categoryDetails.file_type}}&selectedTab:3">{{categoryDetails.files_count}}</a>-->
+									<a href="javascript:void(0);" (click)="showFilesOverlay(categoryDetails.submitter_id_name, categoryDetails.data_category, categoryDetails.file_type, '', '')">{{categoryDetails.files_count}}</a>
+								</td>
 							</tr>
 						</tbody>
 					</table>

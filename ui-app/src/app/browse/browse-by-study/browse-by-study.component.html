@@ -11,8 +11,8 @@
 				<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
 					<div class="wholeManifestDownload">
 						Export All Manifests
-						<button matTooltip="Please use CPTAC Data Portal for downloading the files" id="downloadWholeManifest" mat-raised-button mat-primary label="Download Selection" (click)="downloadAllManifest('csv')" style="font-family:'Lato';font-weight:bold; min-width:1%;" [disabled]="iscompleteManifestDisabled()" aria-label="Download all Manifests">CSV</button>&nbsp;
-						<button matTooltip="Please use CPTAC Data Portal for downloading the files" id="downloadWholeManifest" mat-raised-button mat-primary label="Download Selection" (click)="downloadAllManifest('tsv')" style="font-family:'Lato';font-weight:bold; min-width: 1%;" [disabled]="iscompleteManifestDisabled()" aria-label="Download all Manifests">TSV</button>
+						&nbsp;<button matTooltip="Exports all manifests for the filters applied" id="downloadWholeManifest" mat-raised-button mat-primary label="Download Selection" (click)="downloadAllManifest('csv')" style="font-family:'Lato';font-weight:bold; min-width:1%;" [disabled]="iscompleteManifestDisabled()" aria-label="Download all Manifests">CSV</button>&nbsp;
+						<button matTooltip="Exports all manifests for the filters applied" id="downloadWholeManifest" mat-raised-button mat-primary label="Download Selection" (click)="downloadAllManifest('tsv')" style="font-family:'Lato';font-weight:bold; min-width: 1%;" [disabled]="iscompleteManifestDisabled()" aria-label="Download all Manifests">TSV</button>
 					</div> 
 				</div>
 			</div>
@@ -27,14 +27,21 @@
 			<div class="container-fluid ui-helper-clearfix button-container-fluid">
 				<div class="row">
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-						<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-							<span id="selectedStudiesCount" *ngIf="!isDownloadDisabled()" style="float:left;padding-top:5px;">Studies selected for download: {{selectedStudies.length}}</span>
+						<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">							
 						</div>
-						<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
 						<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 manifestDownload">
-							Export Study Manifest
-							<button matTooltip="Please use CPTAC Data Portal for downloading the files" id="downloadStudyManifest" mat-raised-button mat-primary label="Download Selection" (click)="studyTableExportCSV(dt)" style="font-family:'Lato'; min-width: 1%;" [disabled]="isDownloadDisabled()" aria-label="Download Study Manifest">CSV</button>&nbsp;
-							<button matTooltip="Please use CPTAC Data Portal for downloading the files" id="downloadStudyManifest" mat-raised-button mat-primary label="Download Selection" (click)="studyTableExportTSV(dt)" style="font-family:'Lato'; min-width: 1%;" [disabled]="isDownloadDisabled()" aria-label="Download Study Manifest">TSV</button>&nbsp;
+						  <div class="row">
+						    <div class="col-12">
+							  Export Study Manifest
+							  &nbsp;<button matTooltip="Exports all selected rows for the current data tab" id="downloadStudyManifest" mat-raised-button mat-primary label="Download Selection" (click)="studyTableExportCSV(dt)" style="font-family:'Lato'; min-width: 1%;" [disabled]="isDownloadDisabled()" aria-label="Download Study Manifest">CSV</button>&nbsp;
+							  <button matTooltip="Exports all selected rows for the current data tab" id="downloadStudyManifest" mat-raised-button mat-primary label="Download Selection" (click)="studyTableExportTSV(dt)" style="font-family:'Lato'; min-width: 1%;" [disabled]="isDownloadDisabled()" aria-label="Download Study Manifest">TSV</button>&nbsp;
+							</div>
+						  </div>
+						  <div class="row">
+						    <div class="col-12">
+							  <span id="selectedStudiesCount" *ngIf="!isDownloadDisabled()" style="padding-top:5px;">Rows selected: {{selectedStudies.length}}&nbsp;</span>
+							</div>
+						  </div>
 						</div>
 					</div>
 				</div>
@@ -121,7 +128,10 @@
         <ng-template pTemplate="body" let-studyData>
             <tr style="font-size: 11px;"[pSelectableRow]="studyData">
 			  <td style="width:3%; align-content: center !important"><p-tableCheckbox id="studyData{{studyData.submitter_id_name}}" [value]="studyData" class="browsePageCheckboxes"></p-tableCheckbox></td>
-			  <td style="width:7%;word-wrap: break-word; white-space: normal;"><a href="javascript:void(0);" (click)="showStudySummary(studyData.study_submitter_id)">{{studyData.pdc_study_id}}</a></td>
+			  <td style="width:7%;word-wrap: break-word; white-space: normal;"><a href="javascript:void(0);" (click)="showStudySummary(studyData.study_submitter_id)">{{studyData.pdc_study_id}}</a>
+				<span *ngIf="studyData.versions?.length > 1"><br><a href="javascript:void(0);" class="btn btn-primary breadCrumbButtons" style="padding: 0px; cursor:default!important;" disabled="true" matTooltip="This study has multiple versions. Additional versions (updates) of a study are created when the underlying data changes substantially. This may involve changes to the raw data, processed data, and/or metadata. When a new version is created, it may fall out of sync with the original publication of this data. Use of the latest version is strongly encouraged, as it commonly represents an update directly from the submitter." matTooltipPosition="right">
+					version {{studyData.versions[0].number}}</a></span>
+			  </td>
 			  <td style="width:11%;word-wrap: break-word; white-space: normal;"><a href="javascript:void(0);" (click)="showStudySummary(studyData.study_submitter_id)">{{studyData.submitter_id_name}}</a></td>
 			  <td [ngClass]="getStyleClass(studyData.embargo_date)" style="width:7%;word-wrap: break-word; white-space: normal;" [matTooltip]="getTooltip(studyData.embargo_date)" matTooltipClass="custom-tooltip" matTooltipPosition="right" >
 					<div *ngIf="studyData.embargo_date == '' || studyData.embargo_date == null">N/A</div>

@@ -221,4 +221,15 @@ describe("BrowseByGeneComponent", () => {
     component.loadNewPage(event);
     expect(serviceSpy).toHaveBeenCalled();
   });
+  
+  it("Test download complete manifest", () => {
+	let simpleChange = {};
+	let newFilterValue = "sample_type:Xenograft";
+	component.newFilterValue = newFilterValue;
+    component.ngOnChanges(simpleChange);
+	component.downloadCompleteManifest(true);
+    expect(serviceSpy).toHaveBeenCalled();	
+  });
+  
+  
 });

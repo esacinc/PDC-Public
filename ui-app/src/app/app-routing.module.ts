@@ -13,6 +13,7 @@ import { RegistrationPageComponent } from './welcome-page/registration-page.comp
 import { GeneProteinSummaryComponent } from './gene-protein-summary/gene-protein-summary.component';
 import { CaseSummaryComponent } from './browse/case-summary/case-summary.component';
 import { StudySummaryComponent } from './browse/study-summary/study-summary.component';
+import { FilesOverlayComponent } from './browse/browse-by-file/files-overlay.component';
 import { GenePageComponent } from './gene-page/gene-page.component';
 import { UserAccountComponent } from './user-account/user-account.component';
 import { AuthGuardService as AuthGuard } from './auth-guard.service';
@@ -55,6 +56,7 @@ const appRoutes: Routes = [
   { path: 'gene-summary/:gene_id', component: GeneProteinSummaryComponent, outlet: 'geneSummary'},
   { path: 'case-summary/:case_id', component: CaseSummaryComponent, outlet: 'caseSummary'},
   { path: 'study-summary/:study_id', component: StudySummaryComponent, outlet: 'studySummary'},
+  { path: 'files-overlay/:study_id', component: FilesOverlayComponent, outlet: 'filesOverlay'},
   { path: 'case/:case_uuid', loadChildren: './lazybrowse.module#LazyBrowseModule'},
   { path: 'study/:study_uuid', loadChildren: './lazybrowse.module#LazyBrowseModule'},
   /* { path: '', component: AppComponent,

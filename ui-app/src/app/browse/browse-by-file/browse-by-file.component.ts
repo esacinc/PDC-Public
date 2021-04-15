@@ -57,7 +57,10 @@ import { SizeUnitsPipe } from '../../sizeUnitsPipe.pipe';
 //@@@PDC-2795: add embargo date to file tab on Browse page and file manifest
 //@@@PDC-3265: Add TSV format manifest download for Files tab on Browse page
 //@@@PDC-3268: Browse File selection check box in does not select all 
+//@@@PDC-3283: Allow showing files for different versions of the study on Browse page
+//@@@PDC-3307: add study version to file manifest
 //@@@PDC-3482: TSV Manifest is not correct for Files tab
+
 export class BrowseByFileComponent implements OnInit {
   filteredFilesData: AllFilesData[]; //Filtered list of cases
   loading: boolean = false; //Flag indicates that the data is still being loaded from server
@@ -103,6 +106,7 @@ export class BrowseByFileComponent implements OnInit {
   completeFileManifest: AllFilesData[]; //Filtered list of cases
   @Output() downloadWholeManifestFlag: EventEmitter<any> = new EventEmitter<any>();
   @Output() isFileTableLoading: EventEmitter<any> = new EventEmitter<any>();
+  @Output() oldStudyVersion: EventEmitter<any> = new EventEmitter<any>();
   @Input() downloadAllManifests;
   @Input() handleTableLoading;
   @Input() otherTabsLoaded;
@@ -112,6 +116,10 @@ export class BrowseByFileComponent implements OnInit {
   //@@@PDC-1303: Add a download column and button for downloading individual files to the file tab
   individualFileData: AllFilesData[] = [];
   manifestFormat = "csv";
+  
+  studyVersion: string = "";
+  
+  allStudiesVersions: any[] = [];
 
   constructor(
     private apollo: Apollo,
@@ -150,6 +158,19 @@ export class BrowseByFileComponent implements OnInit {
     this.limit = 10;
     this.totalRecords = 0;
     this.pageSize = 10;
+	this.studyVersion = sessionStorage.getItem('currentVersion') || "";
+	//assign study version value to each file
+	this.browseByFileService
+        .getStudiesVersions()
+        .subscribe((data: any) => {
+			for (let study of data.getPaginatedUIStudy.uiStudies){
+				if (study.versions && study.versions.length > 0) {
+					this.allStudiesVersions[study.submitter_id_name] = study.versions[0].number;
+				} else {
+					this.allStudiesVersions[study.submitter_id_name] = "N/A";
+				}
+			}
+		});
     this.getAllFilesData();
     this.selectedFileFilters = new FormControl();
     this.sort = "";
@@ -242,6 +263,7 @@ export class BrowseByFileComponent implements OnInit {
     setTimeout(() => {
       this.browseByFileService
         .getFilteredFilesPaginated(
+		  this.studyVersion,
           this.offset,
           this.limit,
           this.sort,
@@ -271,6 +293,7 @@ export class BrowseByFileComponent implements OnInit {
     console.log(this.newFilterSelected);
     this.browseByFileService
       .getFilteredFilesPaginated(
+	    this.studyVersion,
         this.offset,
         this.limit,
         this.sort,
@@ -338,6 +361,16 @@ export class BrowseByFileComponent implements OnInit {
       } else {
         this.newFilterSelected[filter_field[0]] = filter_field[1];
       }
+	  
+	  //@@@PDC-3328 setting a variable that indicates that the current table shows files for older version of a study
+	  if (this.newFilterSelected["study_name"]){
+		  if (this.newFilterSelected["study_name"].length > 0 && sessionStorage.getItem('currentVersion')) {
+			  if (sessionStorage.getItem('currentVersion') < this.allStudiesVersions[this.newFilterSelected["study_name"]]) {
+				this.oldStudyVersion.emit({oldStudyVersion: sessionStorage.getItem('currentVersion')});
+			  }
+		  }
+	  }
+	  
       //@@@PDC-799: Redirecting to the NIH login page for the file authorization loses PDC state
       //If its a fence request, set filters from local storage
       var selectedFiltersForBrowse = JSON.parse(localStorage.getItem("selectedFiltersForBrowse"));
@@ -364,6 +397,7 @@ export class BrowseByFileComponent implements OnInit {
 	  // adding pipe(take(1)) prevents from getting back to this API call repeated;y
       this.browseByFileService
         .getFilteredFilesPaginated(
+		  this.studyVersion,
           this.offset,
           this.limit,
           this.sort,
@@ -459,6 +493,7 @@ export class BrowseByFileComponent implements OnInit {
     this.loading = true;
     this.browseByFileService
       .getFilteredFilesPaginated(
+	    this.studyVersion,
         this.offset,
         this.limit,
         this.sort,
@@ -517,6 +552,7 @@ export class BrowseByFileComponent implements OnInit {
   downloadAllManifest(exportFormat = "csv") {
     setTimeout(() => {
       this.downloadWholeManifestFlag.emit({downloadAllManifest:this.totalRecords, format: exportFormat});
+	  this.clearSelection();
     }, 10);
   }
   
@@ -538,12 +574,12 @@ export class BrowseByFileComponent implements OnInit {
       setTimeout(() => {
         this.browseByFileService
         .getFilteredFilesPaginated(
+		  this.studyVersion,
           0,
           this.totalRecords,
           this.sort,
           this.newFilterSelected
         )
-		.pipe(take(1))
         .subscribe((data: any) => {
           if (buttonClick) {
             this.completeFileManifest = data.getPaginatedUIFile.uiFiles;
@@ -664,6 +700,14 @@ export class BrowseByFileComponent implements OnInit {
 	  if (!file["embargo_date"]) {
 		  file["embargo_date"] = "N/A";
 	  }
+	  //If studyVersion value is set assign it to each of the files
+	  //since the user opened Browse page to view files for a specific version of study
+	  if (this.studyVersion) {
+		  file["pdc_study_version"] = this.studyVersion;
+	  } else {
+		  //In all other cases assign default latest version of the study to which the file belongs
+		  file["pdc_study_version"] = this.allStudiesVersions[file["submitter_id_name"]];
+	  }
     }
 	
     if (controlledFileFlag) {
@@ -675,6 +719,7 @@ export class BrowseByFileComponent implements OnInit {
           "study_run_metadata_submitter_id",
           "submitter_id_name",
           "pdc_study_id",
+		  "pdc_study_version",
           "study_id",
 		  "embargo_date",
           "project_name",
@@ -737,6 +782,7 @@ export class BrowseByFileComponent implements OnInit {
           "Run Metadata ID",
           "Study Name",
           "PDC Study ID",
+		  "PDC Study Version",
           "Study ID",
 		  "Embargo Date",
           "Project Name",
@@ -756,6 +802,7 @@ export class BrowseByFileComponent implements OnInit {
         "study_run_metadata_submitter_id",
         "submitter_id_name",
         "pdc_study_id",
+		"pdc_study_version",
         "study_id",
 		"embargo_date",
         "project_name",
@@ -1060,6 +1107,14 @@ export class BrowseByFileComponent implements OnInit {
       if (exportFile.study_run_metadata_submitter_id === null) {
         exportFile.study_run_metadata_submitter_id = "";
       }
+	  //If studyVersion value is set assign it to each of the files
+	  //since the user opened Browse page to view files for a specific version of study
+	  if (this.studyVersion) {
+		  exportFile["pdc_study_version"] = this.studyVersion;
+	  } else {
+		  //In all other cases assign default latest version of the study to which the file belongs
+		  exportFile["pdc_study_version"] = this.allStudiesVersions[exportFile["submitter_id_name"]];
+	  }
       let file_id = exportFile.file_id;
       delete exportFile.file_id;
       exportFile["file_id"] = file_id;
@@ -1140,6 +1195,7 @@ export class BrowseByFileComponent implements OnInit {
         "Run Metadata ID",
         "Study Name",
         "PDC Study ID",
+		"PDC Study Version",
         "Study ID",
         "Project Name",
         "Data Category",

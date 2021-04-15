@@ -367,6 +367,7 @@ WHERE
 //@@@PDC-2335 get ext id from reference
 //@@@PDC-2606 ext id from reference not required
 //@@@PDC-3266 add icd_10_code and synchronous_malignancy
+//@@@PDC-3428 add tumor_largest_dimension_diameter
 const clinical_tab_data = `
 SELECT DISTINCT
     prog.name AS program_name,
@@ -392,6 +393,7 @@ SELECT DISTINCT
     dia.tissue_or_organ_of_origin,
     dia.tumor_grade,
     dia.tumor_stage,
+	dia.tumor_largest_dimension_diameter,
     dia.age_at_diagnosis,
     dia.classification_of_tumor,
 	dia.days_to_last_follow_up,

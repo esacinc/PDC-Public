@@ -14,8 +14,18 @@ const cloudFrontPrivateKey = process.env.CF_PRIVATE_KEY;
 const myBucket = process.env.AWS_S3_PDC_BUCKET;
 
 const getSignedUrl = function (location) {
+	//logger.info("Incoming File location: "+ location);
+	//location = "studies/214/PSM/tsv/FN18 N45T46 180min 10ug C1 032313.psm";
+	//@@@PDC-3414 handle file name with special chars
+	let words = location.split('/');
+	let indexOfName = words.length-1;
+	words[indexOfName] = encodeURIComponent(words[indexOfName]);
+	location = words.join('/');
 	
-	//logger.info("File location: "+ location);
+	//if (location.indexOf(' ') >= 0) {
+		//location = encodeURIComponent(location);
+	//}
+	//logger.info("Final File location: "+ location);
 	
 	var envKey = '';
 	if (typeof cloudFrontPrivateKey != 'undefined') {

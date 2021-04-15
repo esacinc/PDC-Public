@@ -4,4 +4,5 @@ type ClinicalMetadata {
 	primary_diagnosis:  String
 	tumor_grade:  String
 	tumor_stage:  String
+	tumor_largest_dimension_diameter: String
 }

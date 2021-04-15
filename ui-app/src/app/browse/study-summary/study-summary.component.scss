@@ -30,6 +30,13 @@
   font-size: 20px;
 }
 
+//@@@PDC-3474 Disable all related studies and cases links for older versions of a study in study summary overlay window
+a.disabled {
+  pointer-events: none;
+  cursor: default;
+  color: #222222;
+}
+
 .ui-datatable-tableheader {
     background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%) !important;
     border:0px !important;

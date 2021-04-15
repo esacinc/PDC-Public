@@ -11,6 +11,7 @@ import { CaseSummaryService } from "./case-summary.service";
 import { Filter, FilesCountsPerStudyData, CaseData, AllCasesData, ExperimentFileByCaseCount, DataCategoryFileByCaseCount,
 			SampleData, AliquotData, DiagnosesData, DemographicsData, AllStudiesData} from '../../types';
 import { MatDialog, MatDialogConfig } from '@angular/material';
+import { FilesOverlayComponent } from '../browse-by-file/files-overlay.component';
 import { StudySummaryComponent } from '../study-summary/study-summary.component';
 
 @Component({
@@ -28,6 +29,7 @@ import { StudySummaryComponent } from '../study-summary/study-summary.component'
 //@@@PDC-1609: URL structure for permanent links to PDC 
 //@@@PDC-2605: Show properties on Demography tab in Case Summary 
 //@@@PDC-3095 - remove external_case_id field from uiCaseSummary API
+//@@@PDC-3478 open files data table in overlay window from study and case summaries
 export class CaseSummaryComponent implements OnInit {
   experimentFileCount: ExperimentFileByCaseCount[];
   dataCategoryFileCount: DataCategoryFileByCaseCount[];
@@ -121,6 +123,26 @@ export class CaseSummaryComponent implements OnInit {
 				});
 			});	
 		}, 1000);
+	}
+	
+	showFilesOverlay(submitter_id_name, data_category_val, file_type_val, acquisition_type_val, experiment_type_val) {
+		const dialogConfig = new MatDialogConfig();	
+		dialogConfig.disableClose = true;
+		dialogConfig.autoFocus = false;
+		dialogConfig.hasBackdrop = true;
+		//dialogConfig.minWidth = '1000px';
+		dialogConfig.width = '80%';
+		dialogConfig.height = '95%';
+		dialogConfig.data = {
+				summaryData: {study_name: submitter_id_name, data_category: data_category_val, file_type: file_type_val, versions: false, acquisition_type: acquisition_type_val, experiment_type: experiment_type_val},
+		};
+		this.router.navigate([{outlets: {filesOverlay: ['files-overlay', this.case_id]}}], { skipLocationChange: true });
+		const dialogRef = this.dialog.open(FilesOverlayComponent, dialogConfig);
+		dialogRef.afterClosed().subscribe((val:any) => {
+				console.log("Dialog output:", val);
+				//Generate alias URL to hide auxiliary URL details when the previous overlay window was closed and the focus returned to this one
+				this.loc.replaceState("/case/" + this.caseSummaryData.case_id);
+		});	
 	}
 
 	//@@@PDC-1042: Enable links to studies and files from case summary page
@@ -248,7 +270,7 @@ export class CaseSummaryComponent implements OnInit {
   }
  
   close() {
-		this.router.navigate([{outlets: {'caseSummary': null}}]);
+		this.router.navigate([{outlets: {'caseSummary': null, 'filesOverlay': null}}]);
 		this.loc.replaceState(this.router.url);
         this.dialogRef.close();
   }

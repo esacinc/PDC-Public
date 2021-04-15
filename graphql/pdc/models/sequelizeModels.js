@@ -143,6 +143,7 @@ const defineSequelizeModels = (db) => {
 	  //@@@PDC-2038 add ajcc_staging_system_edition
 	  //@@@PDC-2417 Remove unused fields from Diagnosis
 	  //@@@PDC-3266 add icd_10_code and synchronous_malignancy
+	  //@@@PDC-3428 add tumor_largest_dimension_diameter
 	  /**
 	  * DiagnosisModel is mapped to the table of diagnosis and used in 
 	  * tissueSitesAvailable and  diseasesAvailable queries.
@@ -159,6 +160,7 @@ const defineSequelizeModels = (db) => {
 		  primary_diagnosis: { type: Sequelize.STRING },
 		  tumor_grade: { type: Sequelize.STRING },
 		  tumor_stage: { type: Sequelize.STRING },
+		  tumor_largest_dimension_diameter : { type: Sequelize.STRING },
 		  cases_count: { type: Sequelize.INTEGER },
 		  diagnosis_submitter_id: { type: Sequelize.STRING },
 		  case_submitter_id: { type: Sequelize.STRING },

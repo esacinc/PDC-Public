@@ -10,6 +10,7 @@ import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { take } from 'rxjs/operators';
 import {MAT_DIALOG_DATA, MatDialogRef, MatDialogConfig, MatDialog} from '@angular/material';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { StudySummaryService } from './study-summary.service';
 import { AllStudiesData, Filter, WorkflowMetadata, ProtocolData, PublicationData, 
 		StudyExperimentalDesign, BiospecimenPerStudy, EntityReferencePerStudy, FileCountsForStudyPage } from '../../types';
@@ -17,6 +18,7 @@ import { StudySummaryOverlayService } from './study-summary-overlay-window/study
 import { AllClinicalData, AllCasesData } from '../../types';
 import { CheckboxModule } from 'primeng/checkbox';
 import { CaseSummaryComponent } from '../case-summary/case-summary.component';
+import { FilesOverlayComponent } from '../browse-by-file/files-overlay.component';
 import * as _ from 'lodash';
 import { ngxCsv } from "ngx-csv/ngx-csv";
 
@@ -37,6 +39,7 @@ enum FileTypes {
 	mzIdentML
 }
 
+
 @Component({
   selector: 'app-study-summary',
   templateUrl: './study-summary.component.html',
@@ -56,7 +59,11 @@ enum FileTypes {
 //@@@PDC-2378: Add supplementary data to the study summary screen
 //@@@PDC-2598 - Apply conditional formatting to embargo date on the study summary pages
 //@@@PDC-2436 - Update study summary screen to add contact details
+//@@@PDC-2939 update study summary page to display other versions
+//@@@PDC-2998 - update UI to include API changes for study versions new feature
 //@@@PDC-3174: Study Summary overlay window opens twice for studies whose embargo date is N/A
+//@@@PDC-3474: Disable all related studies and cases links for older versions of a study in study summary overlay window
+//@@@PDC-3478 open files data table in overlay window from study and case summaries
 export class StudySummaryComponent implements OnInit {
 
   study_id: string;
@@ -114,13 +121,20 @@ export class StudySummaryComponent implements OnInit {
 	entityReferenceExternalData:EntityReferencePerStudy[] = [];
 	entityReferenceInternalData:EntityReferencePerStudy[] = [];
 	pdcStudyID:string;
+	studyVersion: string;
+	oldVersionFlag = false;
 
-  constructor(private route: ActivatedRoute, private router: Router, private apollo: Apollo, private http: HttpClient,
+    constructor(private route: ActivatedRoute, private router: Router, private apollo: Apollo, private http: HttpClient,
 				private studySummaryService: StudySummaryService, private loc:Location,
 				private dialogRef: MatDialogRef<StudySummaryComponent>,
 				@Inject(MAT_DIALOG_DATA) public studyData: any, private studySummaryOverlayWindow: StudySummaryOverlayService, private dialog: MatDialog,) {
     
 	console.log(studyData);
+	//sessionStorage.removeItem('currentVersion');
+	//@@@PDC-3474 check if the cirrent version is an old version of the study
+	if (studyData.oldVersion) {
+		this.oldVersionFlag = studyData.oldVersion;
+	}
 	//@@@PDC-612 display all data categories
 	this.fileTypesCounts = {RAW: 0, txt_psm: 0, txt: 0, pdf: 0, mzML: 0, doc: 0, mzIdentML: 0}; 
 	this.suppFileCountsRaw = studyData.summaryData.supplementaryFilesCount;
@@ -137,11 +151,22 @@ export class StudySummaryComponent implements OnInit {
 	//If I got here via search then most of the fields are empty and I need to query study summary data
 	if (studyData.summaryData.project_name == ""){
 		this.getStudySummaryData();
-	}else {
+	} else {
 		//@@@PDC-2955 Embargo Date of Study does not show as N/A when clicked from Related PDC Studies 
 		if (this.studySummaryData.embargo_date === null || this.studySummaryData.embargo_date === ""){
 			this.studySummaryData.embargo_date = "N/A";
 		}
+	}
+	console.log(this.studySummaryData);
+	if (sessionStorage.getItem('currentVersion')) {
+		console.log(sessionStorage.getItem('currentVersion'));
+		this.studyVersion = sessionStorage.getItem('currentVersion');
+	} else 	if (this.studySummaryData.versions.length === 0) {
+		this.studyVersion = "1";
+	} else {
+		this.studyVersion = this.studySummaryData.versions[0].number;
+		console.log("Setting versions to " + this.studyVersion);
+		sessionStorage.setItem('currentVersion', this.studyVersion);
 	}
 	this.workflowData = {
 		workflow_metadata_submitter_id: '',
@@ -226,14 +251,14 @@ export class StudySummaryComponent implements OnInit {
 		'id': "N/A",
 		'cols': ""
 	}];
-	this.getAllClinicalData();
+	this.getAllClinicalData(); 
 	this.getAllCasesData();
 	//@@@PDC-1219: Add a new experimental design tab on the study summary page
 	this.getStudyExperimentalDesign();
 	//@@@PDC-1883: Add external references to study summary page
 	this.getEntityReferenceExternalData();
 	StudySummaryComponent.urlBase = environment.dictionary_base_url;
-	}
+  }
 
 	get staticUrlBase() {
 		return StudySummaryComponent.urlBase;
@@ -271,6 +296,18 @@ export class StudySummaryComponent implements OnInit {
 			}
 		}, 100);
 	}
+	
+  //Helper function that is called when a different version is chosen on study summary window	
+  showVersionStudySummary(version: string){
+	  console.log("Setting version to " + version + " most recent study version: " + this.studySummaryData.versions[0].number);
+	  sessionStorage.setItem('currentVersion', version);
+	  var oldVersion = false;
+	  //@@@PDC-3474: Disable all related studies and cases links for older versions of a study in study summary overlay window
+	  if (this.studySummaryData.versions[0].number > version ) {
+		  oldVersion = true;
+	  }
+	  this.showStudySummary('study/' + this.pdcStudyID, version, oldVersion);
+  }
  
   getWorkflowDataSummary(){
 	  this.loading = true;
@@ -340,6 +377,13 @@ export class StudySummaryComponent implements OnInit {
 			//@@@PDC-2912 - show "N/A" instead of empty embargo date when opening study summary via search box or direct url
 			if (this.studySummaryData.embargo_date === null || this.studySummaryData.embargo_date === ""){
 				this.studySummaryData.embargo_date = "N/A";
+			}
+			//@@@PDC-3404 Search box and Browse page pulled different versions of a versioned study summary
+			//Making sure here that the correct study version is set when the study summary opens from a search box
+			if (this.studySummaryData.versions.length > 1) {
+				this.studyVersion = this.studySummaryData.versions[0].number;
+				console.log("Setting versions to " + this.studyVersion);
+				sessionStorage.setItem('currentVersion', this.studyVersion);
 			}
 	   });
   }
@@ -415,13 +459,27 @@ getAllClinicalData(){
 }
 
 //@@@PDC-1883: Add external references to study summary page
-showStudySummary(entity_location) {
+//PDC-2998 - update UI to include API changes for study versions new feature
+showStudySummary(entity_location, version = '', oldVersionFlag = false) {
+	console.log("Openining study summary " + entity_location + " version: " + version);
 	var entityLocExtracted = entity_location.split("study/");
-	var pdcStudyID = entityLocExtracted[1];
+	var pdcStudyID;
+	if (entityLocExtracted[1]){
+		pdcStudyID = entityLocExtracted[1];
+	}
+	else {
+		pdcStudyID = entityLocExtracted[0];
+	}
 	//Remove any special characters from the string
 	pdcStudyID = pdcStudyID.replace(/\s+/g, ' ').trim();
+	//If version parameter is not set up than a referenced study ID was clicked on the study summary overlay window
+	if (!version) {
+		//currentVersion session storage variable keeps the version of current study,
+		//if referenced study is clicked than currentVersion should be cleared
+		sessionStorage.removeItem('currentVersion');
+	}
 	setTimeout(() => {
-	this.studySummaryService.getFilteredStudyData('', pdcStudyID).pipe(take(1)).subscribe((data: any) =>{
+	this.studySummaryService.getFilteredStudyData('', pdcStudyID, version).pipe(take(1)).subscribe((data: any) =>{
 		var studyData = data.getPaginatedUIStudy.uiStudies[0];
 		if (studyData) {
 			const dialogConfig = new MatDialogConfig();
@@ -432,6 +490,7 @@ showStudySummary(entity_location) {
 			dialogConfig.height = '95%';
 			dialogConfig.data = {
 				summaryData: studyData,
+				oldVersion: oldVersionFlag
 			};
 
 			this.loc.replaceState("/study/" + pdcStudyID);
@@ -520,6 +579,28 @@ showCaseSummary(case_id: string, module: string){
 	});
 }
 
+//@@@PDC-3392 open files for a specific study in an overlay window
+showFilesOverlay(submitter_id_name, data_category_val, file_type_val) {
+	const dialogConfig = new MatDialogConfig();	
+	dialogConfig.disableClose = true;
+	dialogConfig.autoFocus = false;
+	dialogConfig.hasBackdrop = true;
+	//dialogConfig.minWidth = '1000px';
+	dialogConfig.width = '80%';
+	dialogConfig.height = '95%';
+	var versioned_study = this.studySummaryData.versions.length > 1;
+	dialogConfig.data = {
+			summaryData: {study_name: submitter_id_name, data_category: data_category_val, file_type: file_type_val, versions: versioned_study, acquisition_type: "", experiment_type:""},
+	};
+	this.router.navigate([{outlets: {filesOverlay: ['files-overlay', this.study_id]}}], { skipLocationChange: true });
+	const dialogRef = this.dialog.open(FilesOverlayComponent, dialogConfig);
+	dialogRef.afterClosed().subscribe((val:any) => {
+			console.log("Dialog output:", val);
+			//Generate alias URL to hide auxiliary URL details when the previous overlay window was closed and the focus returned to this one
+			this.loc.replaceState("/study/" + this.pdcStudyID);
+	});	
+}
+
 //@@@PDC-1160: Add cases and aliquots to the study summary page
 //@@@PDC-739 Add hyperlink to case id on clinical tab to case summary page
 //Finds case details for a case id
@@ -545,8 +626,9 @@ return -1;
 }
  
 close(navigateToHeatmap: boolean, study_name: string = '') {
-	this.router.navigate([{outlets: {'studySummary': null}}], { replaceUrl: true });
+	this.router.navigate([{outlets: {'studySummary': null, 'filesOverlay': null}}], { replaceUrl: true });
 	this.loc.replaceState(this.router.url);
+	sessionStorage.removeItem('currentVersion');
 	console.log("CLOSE study_name: " + study_name);
 	if ( navigateToHeatmap ) {
 	// Route to the first heatmap

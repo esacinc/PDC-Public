@@ -100,12 +100,16 @@ constructor(private apollo: Apollo) {
 	//@@@PDC-758: Study summary overlay window opened through search is missing data
 	//API call to fetch study summary details from a new API.
 	//@@@PDC-1883: Add external references to study summary page
-	getFilteredStudyData(study_name = '', pdc_study_id = ''){
+	//@@@PDC-2939 update study summary page to display other versions
+	//@@@PDC-2998 - update UI to include API changes for study versions new feature
+	getFilteredStudyData(study_name = '', pdc_study_id = '', study_version = ''){
+		console.log("getFilteredStudyData - " + study_name + " " + pdc_study_id);
 		return this.apollo.watchQuery<QueryAllStudiesData>({
 			query: this.filteredStudyDataQuery,
 			variables: {
 				study_name: study_name,
-				pdc_study_id: pdc_study_id
+				pdc_study_id: pdc_study_id,
+				study_version: study_version
 			}
 		})
 		.valueChanges
@@ -119,8 +123,8 @@ constructor(private apollo: Apollo) {
 	//@@@PDC-1358  add study uuid	
 	//@@@PDC-1883: Add external references to study summary page
 	filteredStudyDataQuery = gql`
-		query paginatedUIStudyQuery($study_name: String!, $pdc_study_id: String!){
-			getPaginatedUIStudy(study_name: $study_name, pdc_study_id: $pdc_study_id) {
+		query paginatedUIStudyQuery($study_name: String!, $pdc_study_id: String!, $study_version: String!){
+			getPaginatedUIStudy(study_name: $study_name, pdc_study_id: $pdc_study_id, study_version: $study_version) {
 				total
 				uiStudies {
 					study_id
@@ -156,7 +160,10 @@ constructor(private apollo: Apollo) {
 						institution
 						email
 						url
-					} 					
+					} 	
+					versions {
+							number
+					}		
 				}
 				pagination {
 					count
@@ -169,7 +176,7 @@ constructor(private apollo: Apollo) {
 				}
 			}
 	}`;
-	
+		
 	//@@@PDC-1123 call ui wrapper API
 	workflowMetadataQuery = gql`
 					query WorkflowMetadataQery($study_id: String!){

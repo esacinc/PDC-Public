@@ -571,12 +571,14 @@ const defineCustomModels = (db) => {
 	  ModelSpectralCount.removeAttribute('id');
 	  
 	  //@@@PDC-768 clinical metadata API
+	  //@@@PDC-3428 add tumor_largest_dimension_diameter
 	  const ModelClinicalMetadata = db.getSequelize().define('dummy', {
 		aliquot_submitter_id: { type: Sequelize.STRING},
 		morphology: { 	type: Sequelize.STRING},
 		primary_diagnosis: { type: Sequelize.STRING },
 		tumor_grade: { type: Sequelize.STRING },
 		tumor_stage: { type: Sequelize.STRING },
+		tumor_largest_dimension_diameter : { type: Sequelize.STRING },
 	  }, {
 		  timestamps: false,
 		  underscored: true,

@@ -6,6 +6,7 @@ import { BrowseModule } from './browse/browse.module';
 import { AuthGuardService as AuthGuard } from './auth-guard.service';
 import { StudySummaryComponent } from './browse/study-summary/study-summary.component';
 import { CaseSummaryComponent } from './browse/case-summary/case-summary.component';
+import { FilesOverlayComponent } from './browse/browse-by-file/files-overlay.component';
 
 const routes: Routes = [
   //{ path: 'case-summary/:case_id', component: CaseSummaryComponent, outlet: 'caseSummary', canActivate: [AuthGuard]},

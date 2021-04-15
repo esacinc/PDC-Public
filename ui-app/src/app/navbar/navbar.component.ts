@@ -332,7 +332,8 @@ export class NavbarComponent implements OnInit {
 		filesCount: [],
 		supplementaryFilesCount: [],
 		nonSupplementaryFilesCount: [],
-		contacts: []
+		contacts: [],
+		versions:[],
 	};
 	console.log(study_data);
 	dialogConfig.data = {

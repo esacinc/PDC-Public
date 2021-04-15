@@ -113,8 +113,10 @@ export class BrowseByFileService {
   //@@@PDC-567 add sample_type filter
   //@@@PDC-616 Add acquisition type to the general filters
   //@@@PDC-2795 Add embargo date to Files tab on Browse page and files manifest
+  //@@@PDC-3283 Show files for different versions of study
   filteredFilesPaginatedQuery = gql`
     query FilteredFilesDataPaginated(
+	  $study_version_value: String!
       $offset_value: Int
       $limit_value: Int
       $sort_value: String
@@ -139,6 +141,7 @@ export class BrowseByFileService {
       $case_status_filter: String!
     ) {
       getPaginatedUIFile(
+	    study_version: $study_version_value
         offset: $offset_value
         limit: $limit_value
         sort: $sort_value
@@ -192,7 +195,7 @@ export class BrowseByFileService {
     }
   `;
 
-  getFilteredFilesPaginated(offset: number, limit: number, sort: string, filters: any) {
+  getFilteredFilesPaginated(version: string, offset: number, limit: number, sort: string, filters: any) {
     let filter_ethnicity = filters["ethnicity"];
     if (filter_ethnicity === "Empty value") {
       filter_ethnicity = "";
@@ -205,6 +208,7 @@ export class BrowseByFileService {
       .watchQuery<QueryAllFilesDataPaginated>({
         query: this.filteredFilesPaginatedQuery,
         variables: {
+		  study_version_value: version || "",
           offset_value: offset,
           limit_value: limit,
           sort_value: sort,
@@ -343,6 +347,32 @@ export class BrowseByFileService {
       .valueChanges.pipe(
         map(result => {
           //console.log(result.data);
+          return result.data;
+        })
+      );
+  }
+  
+  //@@@PDC-3307 Add study version to file manifest
+  //This API will return all studies and their versions
+  getStudiesVersions(){
+	  return this.apollo
+      .watchQuery<any>({
+        query: gql`
+          query StudiesVersions{
+            getPaginatedUIStudy(offset: 0, limit: 1000){
+				uiStudies {
+					submitter_id_name
+					pdc_study_id
+					versions {
+						number
+					}
+				}
+			}
+          }
+        `
+      }).valueChanges.pipe(
+        map(result => {
+          console.log(result.data);
           return result.data;
         })
       );

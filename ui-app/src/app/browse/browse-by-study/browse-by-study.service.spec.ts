@@ -294,7 +294,8 @@ describe("BrowseByStudyService", () => {
 					  name: "Hui Zhang",
 					  url: ""
 					}
-				]
+				],
+				versions:[]
               }
             ],
             pagination: {

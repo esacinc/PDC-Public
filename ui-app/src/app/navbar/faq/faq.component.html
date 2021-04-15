@@ -35,6 +35,7 @@
         <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Data_Access)">Data Access</a></b>
           <ul>
             <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Access_Data)">Do I have to login to PDC to access data?</a></b>
+			<li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Study_Version)">What is a study version?</a></b> 
             <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Details_Study)">Where do I get more details about a study?</a></b>
             <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Gene_Information)">How can I find gene/s of my interest?</a></b>
             <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Protein_Quantitaion)">How do I explore protein quantitation data for a study through heatmaps?</a></b>
@@ -292,6 +293,9 @@
 
       <div #Access_Data class="faq-question">Do I have to login to PDC to access data?</div>
       <p class="faq-response">No, there is no need to create an account or login to PDC to browse the portal or download the data. However login is required if you would like to submit data to PDC.</p>
+		
+	  <div #Study_Version class="faq-question">What is a study version?</div>
+	  <p class="faq-response">PDC studies can have multiple versions. Additional versions (updates) of a study are created when the underlying data changes substantially. This may involve changes to the raw data, processed data, and/or metadata. When a new version is created, it may fall out of sync with the original publication of this data. Use of the latest version is strongly encouraged, as it commonly represents an update directly from the submitter.</p>
 
       <div #Details_Study class="faq-question">Where do I get more details about a study?</div>
       <p class="faq-response">Click on the name of the study in the browse page, that opens up a study summary page. The study summary page provides details about the objective of the study, protocol, experimental design, clinical data of the cases and samples used in the study.</p>

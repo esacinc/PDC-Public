@@ -127,7 +127,8 @@ class MockStudySummaryService {
               file_type: "Proprietary",
               files_count: 299
             }
-          ]
+          ],
+		  versions:[]
           }
         ]
       }

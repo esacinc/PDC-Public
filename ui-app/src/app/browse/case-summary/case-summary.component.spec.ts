@@ -8,9 +8,16 @@ import { MAT_DIALOG_DATA } from '@angular/material';
 import { MatDialogRef } from '@angular/material/dialog';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MatDialog, MatDialogConfig } from '@angular/material';
+import { Router } from "@angular/router";
 
 import { CaseSummaryComponent } from './case-summary.component';
 import { CaseSummaryService } from './case-summary.service';
+
+class MockDialog {
+  open(): any {
+    return { afterClosed: () => of("closed") };
+  }
+}
 
 class MockCaseSummaryService {
   getCaseSummaryData(): Observable<any> {
@@ -181,6 +188,7 @@ describe("CaseSummaryComponent", () => {
             provide: CaseSummaryService,
             useClass: MockCaseSummaryService
           },
+		  { provide: MatDialog,  useClass: MockDialog },
           { provide: MatDialogRef, useValue: {} },
           {
             provide: MAT_DIALOG_DATA,
@@ -191,7 +199,6 @@ describe("CaseSummaryComponent", () => {
               }
             }
           },
-          { provide: MatDialog, useValue: {} },
         ]
       }
     });
@@ -202,6 +209,16 @@ describe("CaseSummaryComponent", () => {
       fixture.detectChanges();
     });
   }));
+  
+  
+  it("Show Files data test", () => {
+	let router = TestBed.get(Router);
+    spyOn(router, "navigate");
+    let spy = spyOn(MockDialog.prototype, "open").and.callThrough();
+	component.showFilesOverlay("Georgetown Lung Cancer Proteomics Study", "Other Metadata", "Document", "", "");
+    expect(router.navigate).toHaveBeenCalled();
+    expect(spy).toHaveBeenCalled();
+  });
 
   it("should create and set data correctly", () => {
     expect(component).toBeTruthy();

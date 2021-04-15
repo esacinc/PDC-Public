@@ -9,13 +9,13 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TableModule } from 'primeng/table';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
-
+import { CheckboxModule } from 'primeng/checkbox';
 import { HttpClientModule} from '@angular/common/http';
 import { APP_BASE_HREF } from '@angular/common';
 import { MatButtonModule, MatToolbarModule, MatGridListModule, MatFormFieldModule,
 	MatIconModule, MatTabsModule, MatInputModule, MatMenuModule, MatTooltipModule, 
 	MatCardModule, MatAutocompleteModule, MatRadioModule, MatProgressSpinnerModule, 
-	MatCheckboxModule, MatListModule  } from '@angular/material';
+	MatCheckboxModule, MatListModule, MatExpansionModule, MatSelectModule  } from '@angular/material';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { FormsModule } from '@angular/forms';
 import {
@@ -56,6 +56,7 @@ import { LoginComponent } from './navbar/login/login.component';
 import { environment } from '../environments/environment';
 import { AuthGuardService } from './auth-guard.service';
 import { StudySummaryComponent } from './browse/study-summary/study-summary.component';
+import { FilesOverlayComponent } from './browse/browse-by-file/files-overlay.component';
 import { OverlayWindowComponent } from './overlay-window/overlay-window.component';
 import { OverlayWindowService } from './overlay-window/overlay-window.service';
 import { StudySummaryOverlayWindowComponent } from './browse/study-summary/study-summary-overlay-window/study-summary-overlay-window.component';
@@ -99,6 +100,7 @@ export function getAuthServiceConfigs() {
 	AboutComponent,
 	CaseSummaryComponent,
 	StudySummaryComponent,
+	FilesOverlayComponent,
 	OverlayWindowComponent,
 	ConfirmationDialogComponent,
 	SizeUnitsPipe,
@@ -124,6 +126,7 @@ export function getAuthServiceConfigs() {
 	ApolloModule,
 	HttpLinkModule,
 	// HttpModule,
+	CheckboxModule,
 	MatButtonModule,
 	MatToolbarModule,
 	MatGridListModule,
@@ -149,7 +152,9 @@ export function getAuthServiceConfigs() {
 	OverlayModule,
 	GenePageModule,
 	MatCheckboxModule,
-	MatListModule
+	MatListModule, 
+	MatExpansionModule,
+	MatSelectModule
   ],
   providers: [ChorusauthService, FrontPageService, SearchService, PDCUserService, OverlayWindowService, StudySummaryOverlayService, AuthGuardService,
     {

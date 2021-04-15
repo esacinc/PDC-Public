@@ -33,6 +33,7 @@ styleUrls: ['../../assets/css/global.css', './browse.component.scss'],
 //@@@PDC-1360 Ability to bookmark a query
 //@@@PDC-1445: Style query bookmark popup
 //@@@PDC-1782: filter url for bookmarking continues to hold gene names even after that filter is cleared
+//@@@PDC-3328 hide filters, charts, and all data tabs except for Files when showing files for older study version
 export class BrowseComponent implements OnInit{ 
 	diseasesData: Observable<Disease[]>;
 	diseaseTypesChart: any;
@@ -69,6 +70,7 @@ export class BrowseComponent implements OnInit{
 	bookmarkURL: string = "";
 	baseUrl: string = "";
 	showBookmarkFlag = false;
+	disablePanelsFlag = false;
 
 	@ViewChild('sidenav') myNav: MatSidenav;
 	constructor(private apollo: Apollo, private browseService: BrowseService, 
@@ -86,7 +88,6 @@ export class BrowseComponent implements OnInit{
 		this.baseUrl = parsedUrl.origin + "/pdc";
 		console.log(this.baseUrl);
 		this.bookmarkURL = this.baseUrl + this.loc.path() + "/filters/";
-		
 		this.route.params.subscribe(params => this.browseStudy(params));
 	}
 	
@@ -629,6 +630,15 @@ getCasesByExperimentalStrategy(){
 				break;
 		}
 	}
+	
+	//@@@PDC-3328 hide filters, charts, and all data tabs except for Files when showing files for older study version
+	setOldStudyVersion(event: any){
+		if (event['oldStudyVersion'] != ""){
+			this.disablePanelsFlag = true;
+			this.opened = false;
+		}
+	}
+	
 	//PDC-3074 add TSV format for manifests
 	downloadWholeManifest(event:any) {
 		this.downloadAllManifests = event['downloadAllManifest'] + "*" + event['format'] + "*" + new Date().toLocaleString();

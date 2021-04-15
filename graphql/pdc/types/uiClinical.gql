@@ -22,6 +22,7 @@ type UIClinical {
 	tissue_or_organ_of_origin: String
 	tumor_grade: String
 	tumor_stage: String
+	tumor_largest_dimension_diameter: String
 	age_at_diagnosis:  String
 	classification_of_tumor:  String
 	days_to_last_follow_up:  String

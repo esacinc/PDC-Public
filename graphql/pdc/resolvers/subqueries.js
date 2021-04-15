@@ -137,6 +137,7 @@ export const resolvers = {
 		//@@@PDC-2038 add ajcc_staging_system_edition
 		//@@@PDC-2417 Remove unused fields from Diagnosis
 		//@@@PDC-3266 add icd_10_code and synchronous_malignancy
+		//@@@PDC-3428 add tumor_largest_dimension_diameter
 		async diagnoses(obj, args, context) {
 			var cacheFilterName = {name:''};
 			cacheFilterName.name +="case_id:("+ obj.case_id + ");";
@@ -158,6 +159,7 @@ export const resolvers = {
 						'tissue_or_organ_of_origin',
 						'tumor_grade',
 						'tumor_stage',
+						'tumor_largest_dimension_diameter',
 						'prior_malignancy',
 						'ajcc_clinical_m',
 						'ajcc_clinical_n',

@@ -196,4 +196,26 @@ describe("BrowseByClinicalComponent", () => {
     component.loadNewPage(event);
     expect(serviceSpy).toHaveBeenCalled();
   });
+  
+  it("test getIcon", () => {
+	  expect(component.getIcon("")).toBe('');
+  });
+  
+  it("test displayTextforExternalID", () => {
+	  expect(component.displayTextforExternalID("","")).toBe('');
+  });
+  
+  it("test findCaseByID", () => {
+	  expect(component.findCaseByID("")).toBe(-1);
+  });
+  
+  it("Test download complete manifest", () => {
+	let simpleChange = {};
+	let newFilterValue = "sample_type:Xenograft";
+	component.newFilterValue = newFilterValue;
+    component.ngOnChanges(simpleChange);
+	component.downloadCompleteManifest(true);
+    expect(serviceSpy).toHaveBeenCalled();	
+  });
+  
 });

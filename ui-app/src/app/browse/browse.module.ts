@@ -9,6 +9,7 @@ import { BrowseByGeneComponent } from './browse-by-gene/browse-by-gene.component
 import { BrowseFiltersComponent } from './filters/browse-filters.component';
 import { BrowseFiltersService } from './filters/browse-filters.service';
 import { StudySummaryComponent } from './study-summary/study-summary.component';
+import { FilesOverlayComponent } from './browse-by-file/files-overlay.component';
 import { CaseSummaryComponent } from './case-summary/case-summary.component';
 import { BrowseComponent } from './browse.component';
 import { FormsModule } from '@angular/forms';

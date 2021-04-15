@@ -19,6 +19,7 @@ type Diagnosis {
 	tissue_or_organ_of_origin:  String
 	tumor_grade:  String
 	tumor_stage:  String
+	tumor_largest_dimension_diameter: String
 	prior_malignancy:  String
 	ajcc_clinical_m:  String
 	ajcc_clinical_n:  String

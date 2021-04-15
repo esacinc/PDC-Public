@@ -137,7 +137,10 @@ constructor(private apollo: Apollo) {
 							institution
 							email
 							url
-						} 		
+						} 
+						versions {
+							number
+						}
 					}
 					pagination {
 						count

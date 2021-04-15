@@ -1581,6 +1581,7 @@ PDC-136, 774, 827, 787, 1960, 2815
 	}
 }
 //PDC-255 462 759 893 1011 2026 2395
+//PDC-3428 
 {
 	getPaginatedUIClinical(offset: 0 limit: 10) {
 		total
@@ -1608,6 +1609,7 @@ PDC-136, 774, 827, 787, 1960, 2815
 			tissue_or_organ_of_origin
 			tumor_grade
 			tumor_stage
+			tumor_largest_dimension_diameter
 			age_at_diagnosis
 			classification_of_tumor
 			days_to_last_follow_up
@@ -2403,7 +2405,8 @@ PDC-265
 			  age_at_diagnosis
 			  primary_diagnosis
 			  tumor_grade
-			  tumor_stage		      
+			  tumor_stage
+			  tumor_largest_dimension_diameter		      
 			diagnosis_submitter_id
 			classification_of_tumor
 			days_to_last_follow_up
@@ -3741,7 +3744,8 @@ PDC-2979
 			  primary_diagnosis
 			  tumor_grade
 			  tumor_stage		      
-			diagnosis_submitter_id
+				tumor_largest_dimension_diameter			
+				diagnosis_submitter_id
 			classification_of_tumor
 			days_to_last_follow_up
 			days_to_last_known_disease_status
@@ -4553,7 +4557,8 @@ sample_type)
 			tissue_or_organ_of_origin
 			tumor_grade
 			tumor_stage
-		}
+			tumor_largest_dimension_diameter		
+			}
 		pagination {
 			count
 			sort
@@ -5833,6 +5838,7 @@ limit: 10) {
 		primary_diagnosis
 		tumor_grade
 		tumor_stage
+		tumor_largest_dimension_diameter
 	}
 }
 {
@@ -6220,7 +6226,8 @@ PDC-2978
 		site_of_resection_or_biopsy 
 		tissue_or_organ_of_origin 
 		tumor_grade 
-		tumor_stage 
+		tumor_stage
+		tumor_largest_dimension_diameter		
 		vital_status 
 		tumor_cell_content 
 		prior_malignancy 
@@ -6420,6 +6427,7 @@ PDC-2978
 			tissue_or_organ_of_origin
 			tumor_grade
 			tumor_stage
+			tumor_largest_dimension_diameter			
 			age_at_diagnosis
 			classification_of_tumor
 			days_to_recurrence

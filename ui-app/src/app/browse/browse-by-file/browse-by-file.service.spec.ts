@@ -70,6 +70,15 @@ describe("BrowseByFileService", () => {
 
     controller.verify();
   }));
+  
+  //@@@PDC-3307 add study version to file manifest
+  it("test getStudiesVersions", inject([BrowseByFileService], (service: BrowseByFileService) => {
+    service.getStudiesVersions().subscribe(data => {
+      expect(data).toBeDefined();
+	  expect(data.getPaginatedUIStudy).toBeDefined();
+	  expect(data.getPaginatedUIStudy.uiStudies).toBeDefined();
+    });
+  }));
 
   it("test getFilteredFiles", inject(
     [BrowseByFileService],
@@ -121,7 +130,7 @@ describe("BrowseByFileService", () => {
   it("test filteredFilesPaginatedQuery", inject(
     [BrowseByFileService],
     (service: BrowseByFileService) => {
-      service.getFilteredFilesPaginated(0, 10, "", {}).subscribe(data => {
+      service.getFilteredFilesPaginated("", 0, 10, "", {}).subscribe(data => {
         expect(data).toBeDefined();
         expect(data["getPaginatedUIFile"].uiFiles.length).toBe(2);
         expect(data["getPaginatedUIFile"].total).toBe(24392);

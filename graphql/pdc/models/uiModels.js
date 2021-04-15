@@ -151,6 +151,7 @@ const defineUiModels = (db) => {
 	//@@@PDC-1237 add age_at_diagnosis et al
 	//@@@PDC-1599 add all demographic and diagnosis data
 	//@@@PDC-3266 add icd_10_code and synchronous_malignancy
+    //@@@PDC-3428 add tumor_largest_dimension_diameter
 	/**
 	* ModelUIClinical is used in uiClinical query.
 	*/
@@ -189,6 +190,7 @@ const defineUiModels = (db) => {
 		tissue_or_organ_of_origin: { type: Sequelize.STRING}, 
 		tumor_grade: { type: Sequelize.STRING}, 
 		tumor_stage: { type: Sequelize.STRING}, 
+   	    tumor_largest_dimension_diameter : { type: Sequelize.STRING },
 		vital_status: { type: Sequelize.STRING}, 
 		tumor_cell_content: { type: Sequelize.STRING}, 
 		prior_malignancy: { type: Sequelize.STRING}, 

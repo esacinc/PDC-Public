@@ -3,6 +3,12 @@
     font-size: 12px;
 }
 
+.breadCrumbButtons {
+  cursor: pointer;
+  margin-bottom: 10px;
+  padding: 3px;
+}
+
 .ui-datatable-odd {
     background: rgb(225, 239, 252);
 }

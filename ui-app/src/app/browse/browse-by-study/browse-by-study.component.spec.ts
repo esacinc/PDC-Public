@@ -155,7 +155,8 @@ describe("BrowseByStudyComponent", () => {
             file_type: "Proprietary",
             files_count: 240
           }
-        ]
+        ],
+		versions: []
       }
     ];
     component.filteredStudiesData = [
@@ -263,7 +264,8 @@ describe("BrowseByStudyComponent", () => {
 			  name: "Hui Zhang",
 			  url: ""
 			}
-		]
+		], 
+		versions: []
       }
     ];
     let router = TestBed.get(Router);
@@ -379,7 +381,8 @@ describe("BrowseByStudyComponent", () => {
 			name: "Hui Zhang",
 			url: ""
 		}
-	  ]
+	  ],
+	  versions: []
     };
 
     let filteredCasesData = [studyData];

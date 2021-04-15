@@ -11,8 +11,8 @@
 				<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
 					<div class="wholeManifestDownload">
 						Export All Manifests
-						<button matTooltip="Please use CPTAC Data Portal for downloading the files" id="downloadWholeManifest" mat-raised-button mat-primary label="Download Selection" (click)="downloadAllManifest('csv')" style="font-family:'Lato';font-weight:bold; min-width:1%;" [disabled]="iscompleteManifestDisabled()" aria-label="Download all Manifests">CSV</button>&nbsp;
-						<button matTooltip="Please use CPTAC Data Portal for downloading the files" id="downloadWholeManifest" mat-raised-button mat-primary label="Download Selection" (click)="downloadAllManifest('tsv')" style="font-family:'Lato';font-weight:bold; min-width:1%;" [disabled]="iscompleteManifestDisabled()" aria-label="Download all Manifests">TSV</button>
+						&nbsp;<button matTooltip="Exports all manifests for the filters applied" id="downloadWholeManifest" mat-raised-button mat-primary label="Download Selection" (click)="downloadAllManifest('csv')" style="font-family:'Lato';font-weight:bold; min-width:1%;" [disabled]="iscompleteManifestDisabled()" aria-label="Download all Manifests">CSV</button>&nbsp;
+						<button matTooltip="Exports all manifests for the filters applied" id="downloadWholeManifest" mat-raised-button mat-primary label="Download Selection" (click)="downloadAllManifest('tsv')" style="font-family:'Lato';font-weight:bold; min-width:1%;" [disabled]="iscompleteManifestDisabled()" aria-label="Download all Manifests">TSV</button>
 					</div>
 				</div>
 			</div>
@@ -28,14 +28,21 @@
 			<div class="container-fluid ui-helper-clearfix button-container-fluid">
 				<div class="row">
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-						<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-							<div id="selectedGenesDataCount" *ngIf="!isDownloadDisabled()" style="float:left;padding-top:5px;">Genes data selected for download: {{selectedGenesData.length}}</div>
+						<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
 						</div>
-						<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
-						<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 manifestDownload">
-							Export Genes Manifest
-							<button matTooltip="Please use CPTAC Data Portal for downloading the files" id="downloadGeneData"  mat-raised-button mat-primary label="Download Selection" (click)="geneTableExportCSV(dt)" [disabled]="isDownloadDisabled()" style="font-family:'Lato'; min-width:1%;" aria-label="Download Genes Manifest">CSV</button>&nbsp;
-							<button matTooltip="Please use CPTAC Data Portal for downloading the files" id="downloadGeneData"  mat-raised-button mat-primary label="Download Selection" (click)="geneTableExportTSV(dt)" [disabled]="isDownloadDisabled()" style="font-family:'Lato'; min-width:1%;" aria-label="Download Genes Manifest">TSV</button>&nbsp;
+						<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 manifestDownload">
+						  <div class="row">
+						    <div class="col-12">
+							  Export Genes Manifest
+							  &nbsp;<button matTooltip="Exports all selected rows for the current data tab" id="downloadGeneData"  mat-raised-button mat-primary label="Download Selection" (click)="geneTableExportCSV(dt)" [disabled]="isDownloadDisabled()" style="font-family:'Lato'; min-width:1%;" aria-label="Download Genes Manifest">CSV</button>&nbsp;
+							  <button matTooltip="Exports all selected rows for the current data tab" id="downloadGeneData"  mat-raised-button mat-primary label="Download Selection" (click)="geneTableExportTSV(dt)" [disabled]="isDownloadDisabled()" style="font-family:'Lato'; min-width:1%;" aria-label="Download Genes Manifest">TSV</button>&nbsp;
+							</div>
+						  </div>
+						  <div class="row">
+						    <div class="col-12">
+							  <div id="selectedGenesDataCount" *ngIf="!isDownloadDisabled()" style="padding-top:5px;">Rows selected: {{selectedGenesData.length}}</div>
+							</div>
+						  </div>
 						</div>
 					</div>
 				</div>

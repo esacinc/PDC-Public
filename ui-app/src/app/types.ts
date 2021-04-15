@@ -126,6 +126,7 @@ export type AllStudiesData = {
 	supplementaryFilesCount: FileCountsForStudyPage[];
 	nonSupplementaryFilesCount: FileCountsForStudyPage[];
 	contacts: ContactDataForStudyPage[];
+	versions: studyVersions[];
 }
 
 export type FileCountsForStudyPage = {
@@ -140,6 +141,11 @@ export type ContactDataForStudyPage = {
 	institution: string;
 	email: string;
 	url: string;
+}
+
+//@@@PDC-2939 update study summary page to display other versions
+export type studyVersions = {
+	number: string;
 }
 
 //export type QueryAllCasesData = {

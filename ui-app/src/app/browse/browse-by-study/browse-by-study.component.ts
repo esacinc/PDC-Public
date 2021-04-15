@@ -3,7 +3,7 @@ import { Apollo } from 'apollo-angular';
 import {
     Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges
 } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material';
+import { MatDialog, MatDialogConfig, MatTooltipModule } from '@angular/material';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { AllStudiesData, FileCountsForStudyPage } from '../../types';
@@ -627,7 +627,7 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 		{field: 'mzml_count', header: 'MZML'},
 		{field: 'metadata_count', header: 'METADATA'},
 		{field: 'psm_count', header: 'PSM'},
-		{field: 'protein_assembly_count', header: 'PROT_ASSEM'},
+		{field: 'protein_assembly_count', header: 'Protein Assembly'},
 		//{field: 'protein_databases_count', header: 'Protein Databases'},
 		{field: 'quality_metrics_count', header: 'Quality Metrics'},
 		{field: 'cases_count', header: 'Cases #'}

@@ -52,7 +52,7 @@ export const resolvers = {
 	Query: {
 		uiFileMetadata(_, args, context) {
 			context['isUI']= true;
-			return resolvers.Query. fileMetadata(_, args, context);
+			return resolvers.Query.fileMetadata(_, args, context);
 		},			
 		uiCaseSummary(_, args, context) {
 			context['isUI']= true;
@@ -117,6 +117,7 @@ export const resolvers = {
 			return resolvers.Query.filesPerStudy(_, args, context);
 		},			
 		//@@@PDC-768 clinical metadata API
+		//@@@PDC-3428 add tumor_largest_dimension_diameter
 		clinicalMetadata(_, args, context) {
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/clinicalMetadata").send();
@@ -126,7 +127,7 @@ export const resolvers = {
 			}
 			else
 				logger.info("clinicalMetadata is called from UI with "+ JSON.stringify(args));
-			var cmQuery = "SELECT a.aliquot_submitter_id, d.primary_diagnosis, d.tumor_stage, d.tumor_grade, d.morphology "+
+			var cmQuery = "SELECT a.aliquot_submitter_id, d.primary_diagnosis, d.tumor_stage, d.tumor_grade, d.morphology, d.tumor_largest_dimension_diameter "+
 			"FROM study s, diagnosis d, `case` c, sample sam, aliquot a, aliquot_run_metadata arm "+
 			"WHERE d.case_id=c.case_id AND c.case_id=sam.case_id AND "+
 			"sam.sample_id=a.sample_id AND arm.aliquot_id = a.aliquot_id "+
@@ -808,11 +809,15 @@ export const resolvers = {
 			" f.original_file_name as file_submitter_id, f.file_location, f.file_format"+
 			" FROM file AS f, study AS s, study_file AS sf"+
 			" WHERE f.file_id = sf.file_id and s.study_id = sf.study_id";
+			//@@@PDC-3529 check for current version if not query by id
+			let queryById = false;
 			if (typeof args.study_id != 'undefined' && args.study_id.length > 0) {
 				fileQuery += " and s.study_id = uuid_to_bin('" + args.study_id + "')";
+				queryById = true;
 			}
 			if (typeof args.study_submitter_id != 'undefined') {
 				fileQuery += " and s.study_submitter_id = '"+args.study_submitter_id+"'";
+				queryById = true;
 			}
 			if (typeof args.pdc_study_id != 'undefined') {
 				fileQuery += " and s.pdc_study_id = '"+args.pdc_study_id+"'";
@@ -829,6 +834,9 @@ export const resolvers = {
 			}
 			if (typeof args.data_category != 'undefined') {
 				fileQuery += " and f.data_category = '"+args.data_category+"'";
+			}
+			if (!queryById) {
+				fileQuery += " and s.is_latest_version = 1 ";
 			}
 			//fileQuery += " and s.project_submitter_id IN ('" + context.value.join("','") + "')";
 			fileQuery += " LIMIT 0, 5000";
@@ -2960,7 +2968,7 @@ export const resolvers = {
 		*
 		* @return {FileMetadata}
 		*/  
-		 fileMetadata(_, args, context) {
+		fileMetadata(_, args, context) {
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/fileMetadata").send();
 				logger.info("fileMetadata is called with "+ JSON.stringify(args));
@@ -3003,6 +3011,8 @@ export const resolvers = {
 				let file_names = args.file_name.split(';'); 
 				gasQuery += " and f.file_name IN ('" + file_names.join("','") + "')"; 				
 			}
+			//@@@PDC-3529 check for current version
+			gasQuery += " and s.is_latest_version = 1 ";
 			var myOffset = 0;
 			var myLimit = 500;
 			var paginated = false;
@@ -3594,6 +3604,7 @@ export const resolvers = {
 		//@@@PDC-2417 Remove unused fields from Diagnosis
 		//@@@PDC-2335 get ext id from reference
 		//@@@PDC-2657 reverse 2335
+		//@@@PDC-3428 add tumor_largest_dimension_diameter
 		clinicalPerStudy(_, args, context) {
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/clinicalPerStudy").send();
@@ -3615,7 +3626,7 @@ export const resolvers = {
 			"dia.classification_of_tumor, dia.days_to_last_follow_up, "+
 			"dia.days_to_last_known_disease_status, dia.days_to_recurrence,  "+
 			"dia.last_known_disease_status, dia.progression_or_recurrence, "+
-			"dia.tumor_cell_content, "+
+			"dia.tumor_cell_content, dia.tumor_largest_dimension_diameter, "+
 			"dia.prior_malignancy, dia.ajcc_clinical_m, "+
 			"dia.ajcc_clinical_n, dia.ajcc_clinical_stage, dia. ajcc_clinical_t, "+
 			"dia.ajcc_pathologic_m, dia.ajcc_pathologic_n, dia.ajcc_pathologic_stage, "+
@@ -3884,18 +3895,23 @@ export const resolvers = {
 			//@@@PDC-2968 get latest version by default
 			//@@@PDC-3090 join on study_id
 			//@@@PDC-3132 dynamic join based on reference_type
-			var entityReferenceQuery = "SELECT bin_to_uuid(reference_id) as reference_id, entity_type, bin_to_uuid(entity_id) as entity_id, reference_type, reference_entity_type, reference_entity_alias, reference_resource_name, reference_resource_shortname, reference_entity_location, s.submitter_id_name ";
+			//@@@PDC-3528 remove duplicates across versions
+			var entityReferenceQuery = "SELECT distinct bin_to_uuid(reference_id) as reference_id, entity_type, bin_to_uuid(entity_id) as entity_id, reference_type, reference_entity_type, reference_entity_alias, reference_resource_name, reference_resource_shortname, reference_entity_location, s.submitter_id_name ";
 			if (typeof args.reference_type == 'undefined' || args.reference_type.length <= 0) {
 				return null;
 			}
+			//@@@PDC-3490 get references for non-current studies
 			if (args.reference_type=='external') {
-				entityReferenceQuery += " FROM reference r left join study s on r.entity_id = s.study_id where s.is_latest_version = 1 and reference_type ='external' ";
+				entityReferenceQuery += " FROM reference r left join study s on r.entity_id = s.study_id where reference_type ='external' ";
 			}
 			else if (args.reference_type=='internal') {
-				entityReferenceQuery += " FROM reference r left join study s on r.reference_entity_alias = s.pdc_study_id where s.is_latest_version = 1 and reference_type ='internal' ";
+				entityReferenceQuery += " FROM reference r left join study s on r.reference_entity_alias = s.pdc_study_id where reference_type ='internal' ";
 			}
 			if (typeof args.entity_id != 'undefined' && args.entity_id.length > 0) {
 				entityReferenceQuery += " and entity_id = uuid_to_bin('" + args.entity_id+ "')";
+			}
+			else {
+				entityReferenceQuery += " and s.is_latest_version = 1 "; 
 			}
 			if (typeof args.entity_type != 'undefined' && args.entity_type.length > 0) {
 				entityReferenceQuery += " and entity_type ='" + args.entity_type + "'";
