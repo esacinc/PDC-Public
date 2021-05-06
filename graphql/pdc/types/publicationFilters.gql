@@ -1,0 +1,7 @@
+type PublicationFilters {
+	filterCount: String
+	disease_types: [String]
+	years: [String]
+	programs: [String]
+}
+

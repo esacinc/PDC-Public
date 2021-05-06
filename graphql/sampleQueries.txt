@@ -1272,6 +1272,68 @@ PDC-218
 	data_file
 	}
 }
+//PDC-3362
+{
+	uiLegacyStudies {
+		study_id
+		submitter_id_name
+		pdc_study_id
+		study_description
+		project_submitter_id
+		analytical_fraction
+		experiment_type
+		embargo_date
+		supplementaryFilesCount {
+			data_category
+			file_type
+			files_count
+		}
+		nonSupplementaryFilesCount{
+			data_category
+			file_type
+			files_count
+		}
+		publications {
+			publication_id
+			pubmed_id
+			doi
+			author
+			title
+			journal
+			journal_url
+			year
+			abstract
+			citation
+		}		
+}
+
+{
+	getPaginatedUILegacyFile(study_id: "8c55aeea-59a0-4ba2-80c3-01350b6ee2d4" offset: 0 limit: 10) {
+	total
+	uiLegacyFiles {
+		pdc_study_id
+		submitter_id_name
+		embargo_date		
+		file_name
+		study_run_metadata_submitter_id
+		project_name
+		file_type
+		file_size
+		md5sum
+		downloadable
+	}
+	pagination {
+		count
+		sort
+		from
+		page
+		total
+		pages
+		size
+	}
+	}
+}
+
 PDC-136, 774, 827, 787, 1960, 2815
 {
 	getPaginatedUIFile(offset: 0 limit: 10) {
@@ -1581,7 +1643,6 @@ PDC-136, 774, 827, 787, 1960, 2815
 	}
 }
 //PDC-255 462 759 893 1011 2026 2395
-//PDC-3428 
 {
 	getPaginatedUIClinical(offset: 0 limit: 10) {
 		total
@@ -1609,7 +1670,6 @@ PDC-136, 774, 827, 787, 1960, 2815
 			tissue_or_organ_of_origin
 			tumor_grade
 			tumor_stage
-			tumor_largest_dimension_diameter
 			age_at_diagnosis
 			classification_of_tumor
 			days_to_last_follow_up
@@ -2338,6 +2398,45 @@ PDC-265
 	}
 
 }
+//PDC-3446
+{
+	getPaginatedUIPublication(offset: 0 limit: 10) {
+	total
+	uiPublication {
+		publication_id
+		pubmed_id
+		doi
+		author
+		title
+		journal
+		journal_url
+		year
+		abstract
+		citation
+		studies {
+			pdc_study_id
+			submitter_id_name
+		}
+		disease_types
+	}
+	pagination {
+		count
+		sort
+		from
+		page
+		total
+		pages
+		size
+	}
+	}
+}
+{
+	getUIPublicationFilters {
+		disease_types
+		years
+		programs
+	}
+}
 //PDC-297
 {
 	getPaginatedUIFile(file_type: "PSM;RAW" offset: 0 limit: 10) {
@@ -2405,8 +2504,7 @@ PDC-265
 			  age_at_diagnosis
 			  primary_diagnosis
 			  tumor_grade
-			  tumor_stage
-			  tumor_largest_dimension_diameter		      
+			  tumor_stage		      
 			diagnosis_submitter_id
 			classification_of_tumor
 			days_to_last_follow_up
@@ -2509,7 +2607,7 @@ PDC-265
 }
 PDC-2979
 {
-  case(case_id: "9d8e171a-1fb9-11e9-b7f8-0a80fada099c") {
+  case(case_id: "c0b461af-63d6-11e8-bcf1-0a2705229b82") {
     case_id
 	  case_submitter_id
 	  project_submitter_id
@@ -3744,8 +3842,7 @@ PDC-2979
 			  primary_diagnosis
 			  tumor_grade
 			  tumor_stage		      
-				tumor_largest_dimension_diameter			
-				diagnosis_submitter_id
+			diagnosis_submitter_id
 			classification_of_tumor
 			days_to_last_follow_up
 			days_to_last_known_disease_status
@@ -4557,8 +4654,7 @@ sample_type)
 			tissue_or_organ_of_origin
 			tumor_grade
 			tumor_stage
-			tumor_largest_dimension_diameter		
-			}
+		}
 		pagination {
 			count
 			sort
@@ -5838,7 +5934,6 @@ limit: 10) {
 		primary_diagnosis
 		tumor_grade
 		tumor_stage
-		tumor_largest_dimension_diameter
 	}
 }
 {
@@ -6226,8 +6321,7 @@ PDC-2978
 		site_of_resection_or_biopsy 
 		tissue_or_organ_of_origin 
 		tumor_grade 
-		tumor_stage
-		tumor_largest_dimension_diameter		
+		tumor_stage 
 		vital_status 
 		tumor_cell_content 
 		prior_malignancy 
@@ -6427,7 +6521,6 @@ PDC-2978
 			tissue_or_organ_of_origin
 			tumor_grade
 			tumor_stage
-			tumor_largest_dimension_diameter			
 			age_at_diagnosis
 			classification_of_tumor
 			days_to_recurrence

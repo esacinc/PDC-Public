@@ -13,6 +13,7 @@ import _ from 'lodash';
 
 //@@@PDC-962 defnie db models after db is initialized asynchronously 
 //@@@PDC-1874 add pdc_study_id to all study-related APIs 
+//@@@PDC-3362 handle legacy studies
 const defineUiModels = (db) => {
 
 	//@@@PDC-1358 add study_id (uuid) to study summary page
@@ -24,10 +25,13 @@ const defineUiModels = (db) => {
 		study_description: { type: Sequelize.STRING},
 		program_name:  { type: Sequelize.STRING},
 		project_name:  { type: Sequelize.STRING},
+		project_submitter_id:  { type: Sequelize.STRING},
 		disease_type:  { type: Sequelize.STRING},
 		primary_site:  { type: Sequelize.STRING},
 		analytical_fraction:  { type: Sequelize.STRING},
 		experiment_type:  { type: Sequelize.STRING},
+		acquisition_type:  { type: Sequelize.STRING},
+		cptac_phase:  { type: Sequelize.STRING},
 		embargo_date: { type: Sequelize.DATE },
 		cases_count:  { type: Sequelize.INTEGER},
 		aliquots_count:  { type: Sequelize.INTEGER},
@@ -368,6 +372,7 @@ const defineUiModels = (db) => {
 	ModelPagination.removeAttribute('id');
 	
 	//@@@PDC-273 API to retrieve publication data for PDC UI
+	//@@@PDC-3446 new publication data for PDC UI
 	/**
 	* ModelUIPublication is used in uiPublication query.
 	*/
@@ -375,6 +380,14 @@ const defineUiModels = (db) => {
 		publication_id: { type: Sequelize.STRING},
 		pubmed_id:  { type: Sequelize.STRING},
 		title: { type: Sequelize.STRING},
+		doi: { type: Sequelize.STRING},
+		author: { type: Sequelize.STRING},
+		title_legacy: { type: Sequelize.STRING},
+		journal: { type: Sequelize.STRING},
+		journal_url: { type: Sequelize.STRING},
+		year: { type: Sequelize.STRING},
+		abstract: { type: Sequelize.STRING},
+		citation: { type: Sequelize.STRING},
 	}, {
 		timestamps: false,
 		underscored: true,

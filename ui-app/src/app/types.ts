@@ -506,6 +506,41 @@ export type QueryPublicationData = {
 	publicationsData: PublicationData[];
 }
 
+//@@@PDC-3447 Add Publication page 
+export type publicationsStudyData = {
+	study_id: string;
+	pdc_study_id: string;
+	submitter_id_name: string;
+}
+
+export type PublicationsData = {
+	publication_id: string;
+	pubmed_id: string;
+	doi: string;
+	author: string;
+	title: string;
+	journal: string;
+	journal_url: string;
+	year: string;
+	//abstract: string;
+	citation: string;
+	studies: publicationsStudyData[];
+	disease_types: string[];
+    supplementary_data: string[];
+}
+
+export type QueryPublicationsData = {
+	total: number;
+	uiPublication: PublicationsData;
+	pagination: Pagination;
+}
+
+export type publicationsFiltersData = {
+	disease_types: string[];
+	years: string[];
+	programs: string[];
+}
+
 export type FilesCountsPerStudyData = {
 	study_submitter_id: string;
 	file_type: string;

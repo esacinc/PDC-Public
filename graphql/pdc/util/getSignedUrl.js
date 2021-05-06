@@ -40,11 +40,13 @@ const getSignedUrl = function (location) {
 	const cfUrl = process.env.CF_BASE + location;
 	//console.log("Raw URL: "+ cfUrl);
 
-	const twoDays = 2*24*60*60*1000;
+	//const twoDays = 2*24*60*60*1000;
+	//@@@PDC-3535 increase signed url validaty to 7 days
+	const sevenDays = 7*24*60*60*1000;
 
 	const signedUrl = signer.getSignedUrl({
 	  url: cfUrl,
-	  expires: Math.floor((Date.now() + twoDays)/1000) 
+	  expires: Math.floor((Date.now() + sevenDays)/1000) 
 	});			
 	return new fileSignedUrl(signedUrl);
 	/*var s3 = new AWS.S3({

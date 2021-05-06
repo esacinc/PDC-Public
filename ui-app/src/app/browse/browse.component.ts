@@ -391,6 +391,8 @@ getCasesByExperimentalStrategy(){
 			//console.log(filter_val);
 		}
 		this.bookmarkURL = this.bookmarkURL.slice(0, -1);
+		//@@@PDC-3645: Query URLs include unescaped spaces
+		this.bookmarkURL = encodeURI(this.bookmarkURL);
 		//@@@PDC-277: Add a filter crumb bar at the top that explains the filter criteria selected
 		if (filter_field[0] != "selectedTab") {
 			this.populateBreadcrumbsForFilters();

@@ -1,0 +1,12 @@
+//@@@PDC-3521: Create a new page - Explore quantitation Data
+@media only screen and (max-width: 1024px) {
+	:host ::ng-deep #exploreQuantitation1, #exploreQuantitation3 {
+		height: 250px !important;
+    }
+ }
+
+ @media only screen and (max-width: 1280px) {
+    :host ::ng-deep #exploreQuantitation2 {
+        height: 200px !important;
+    }
+ }

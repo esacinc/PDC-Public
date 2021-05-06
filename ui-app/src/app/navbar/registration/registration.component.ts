@@ -129,11 +129,36 @@ export class RegistrationComponent implements OnInit {
     this.formInvalidMessage = "";
     if (this.registrationForm.invalid) {
       this.isValidFormSubmitted = false;
+      //@@@PDC- 3712: Duplicate emails should not be allowed for registration
+      //Reset password invalid message based on data in localstorage
+      let passwordInvalidMessage1 = "";
+      let passwordInvalidMessage2 = "";
+      if (localStorage.getItem("passwordInvalidMessage")) {
+        passwordInvalidMessage1 = localStorage.getItem("passwordInvalidMessage");
+      }
+      if (localStorage.getItem("nonMatchingPasswords")) {
+        passwordInvalidMessage2 = localStorage.getItem("nonMatchingPasswords");
+      }
+      //Logic to display error messages
+      if (passwordInvalidMessage1 && passwordInvalidMessage2) {
+        this.passwordInvalidMessage = passwordInvalidMessage1;
+      } else if (passwordInvalidMessage1 && passwordInvalidMessage2) {
+        this.passwordInvalidMessage = passwordInvalidMessage1;
+      } else if (!passwordInvalidMessage1 && passwordInvalidMessage2) {
+        this.passwordInvalidMessage = passwordInvalidMessage2;
+      }
       this.formInvalidMessage = "Some required fields are missing.";
       //console.log(this.registrationForm);
+      //Delete the contents of localStorage after the error messages are displayed.
+      localStorage.removeItem("passwordInvalidMessage");
+      localStorage.removeItem("nonMatchingPasswords");
       return;
     }
     this.isValidFormSubmitted = true;
+    //@@@PDC- 3712: Duplicate emails should not be allowed for registration
+    //Delete the contents of localStorage if the form has valid data.
+    localStorage.removeItem("passwordInvalidMessage");
+    localStorage.removeItem("nonMatchingPasswords");
     //console.log(this.registrationForm.value);
     let researcherType = this.selectedResearcherType;
     //Save what the user wrote in text field for "other" researcher type option
@@ -216,9 +241,11 @@ export class RegistrationComponent implements OnInit {
 					break;
 				case 4:
 					message = "User with this email already exists, do you want to reset password?";
-					continueRegistration = false;
-					//this.dialogRef.close('user registered');
-					break;
+          continueRegistration = false;
+          //@@@PDC-3569: Dialog to update user password when registering with existing email does not work
+          this.resetPassword(message);
+          this.dialogRef.close('user registered');
+					return;
 				case 5:
 					message = "User with this email disabled their account. If you want to enable your account again, please contact site administrators by email pdc-admin@esacinc.com.";
 					continueRegistration = false;
@@ -230,10 +257,10 @@ export class RegistrationComponent implements OnInit {
 					//this.dialogRef.close('user registered');
 					break;
 				default:
-					message = "An error occured";
-					continueRegistration = false;
-					//this.dialogRef.close('user registered');
-					break;
+          message = "An error occured";
+          continueRegistration = false;
+          //this.dialogRef.close('user registered');
+          break;
 			}
 			console.log(message);
 			if (message != "") {
@@ -292,6 +319,56 @@ export class RegistrationComponent implements OnInit {
     }
   }
 
+  //@@@PDC-3569: Dialog to update user password when registering with existing email does not work
+  private resetPassword(message: String) {
+    let emailAddress = this.registrationForm.get("email").value;
+    let continueMessage = "Yes";
+	  const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+          width: "350px",
+		      height: "140px",
+          data: { message: message, continueMessage: continueMessage }
+        });
+		
+	  dialogRef.afterClosed().subscribe(result => {
+        if ( result === "Yes") {
+          this.sendResetPasswordEmail(emailAddress);
+		    }
+	  });
+
+  }
+
+  //@@@PDC-3569: Dialog to update user password when registering with existing email does not work
+  private sendResetPasswordEmail(userId:string) {
+		  this.userService.userForgotPassword(userId).subscribe(emailSent => {
+        if (emailSent) {
+          let message = "An email with instructions to reset password was sent";
+          //alert("Check your email for further instrutions");
+          console.log("An email with instructions to reset password was sent");
+          this.dialog.open(MessageDialogComponent, {
+          width: "400px",
+          height: "120px",
+          disableClose: true,
+          autoFocus: false,
+          hasBackdrop: true,
+          data: { message: message}
+        });
+          this.dialogRef.close("An email with instructions to reset password was sent");
+        } else {
+          let notExistsMsg = "User with such email does not exist";
+          //alert("User with such email does not exist");
+          this.dialog.open(MessageDialogComponent, {
+          width: "400px",
+          height: "120px",
+          disableClose: true,
+          autoFocus: false,
+          hasBackdrop: true,
+          data: { message: notExistsMsg}
+        });
+        console.log("User with such email " + userId + " does not exist");
+      }
+		});
+	}
+
   private _validate(value: string): string {
     let options = value;
     this.passwordInvalidMessage = "Invalid";
@@ -309,14 +386,18 @@ export class RegistrationComponent implements OnInit {
 		this.user_pass.valueChanges.subscribe(value => {
 			if (this.registrationForm.value.user_pass.length < 8 && this.registrationForm.value.user_pass.length > 2){
 				this.passwordInvalidMessage = "The password does not meet the password policy requirements. Check the minimum password length and required symbols.";
-			}
+        //@@@PDC- 3712: Duplicate emails should not be allowed for registration
+        localStorage.setItem("passwordInvalidMessage",this.passwordInvalidMessage);
+      }
 			// validators = [Validators.required, Validators.minLength(8), Validators.pattern('(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#\$%\^&\*]).+')];
 			this.registrationForm.updateValueAndValidity();
 		});
 		this.confirm_password.valueChanges.subscribe(value => {
 			if ( (this.confirm_password.value.length > 0) && (this.confirm_password.value != this.registrationForm.get('user_pass').value) ){
 				this.passwordInvalidMessage = "Passwords do not match!";
-				this.registrationForm.get('confirm_password').setErrors({isError: true});
+        this.registrationForm.get('confirm_password').setErrors({isError: true});
+        //@@@PDC- 3712: Duplicate emails should not be allowed for registration
+        localStorage.setItem("nonMatchingPasswords",this.passwordInvalidMessage);
 			} else {
 				this.passwordInvalidMessage =  "";
 				this.registrationForm.get('confirm_password').setErrors(null);

@@ -466,6 +466,108 @@ export const resolvers = {
 			return db.getSequelize().query(fileQuery, { model: db.getModelByName('ModelFile') });
 		}
 	},
+	//@@@PDC-3362 handle legacy studies
+	LegacyStudy: {
+		async supplementaryFilesCount(obj, args, context) {
+			var suppFileCacheName = 'legacy:supp:'+obj.study_id;
+			const res = await RedisCacheClient.redisCacheGetAsync(suppFileCacheName);
+			if (res === null) {
+				var fileQuery = "SELECT f.data_category, f.file_type, count(f.file_id) as files_count "+
+				"FROM legacy_file f, legacy_study s, legacy_study_file sf "+
+				"WHERE f.file_id = sf.file_id and s.study_id = sf.study_id "+
+				//"and f.data_source = 'Submitter' and f.data_category <> 'Raw Mass Spectra' "+
+				"and f.data_category <> 'Raw Mass Spectra' "+
+				"and s.study_id = uuid_to_bin('"+ obj.study_id +
+				"') group by f.data_category, f.file_type order by f.data_category";
+				var getIt = await db.getSequelize().query(fileQuery, { model: db.getModelByName('ModelFile') });
+				RedisCacheClient.redisCacheSetExAsync(suppFileCacheName, JSON.stringify(getIt));
+				return getIt;				
+			}
+			return JSON.parse(res);
+		},
+		async nonSupplementaryFilesCount(obj, args, context) {
+			var nonSuppFileCacheName = 'legacy:nonSupp:'+obj.study_id;
+			const res = await RedisCacheClient.redisCacheGetAsync(nonSuppFileCacheName);
+			if (res === null) {
+				var fileQuery = "SELECT f.data_category, f.file_type, count(f.file_id) as files_count "+
+				"FROM legacy_file f, legacy_study s, legacy_study_file sf "+
+				"WHERE f.file_id = sf.file_id and s.study_id = sf.study_id "+
+				//"and (f.data_source = 'CDAP' or (f.data_source = 'Submitter' and f.data_category = 'Raw Mass Spectra')) "+
+				"and f.data_category = 'Raw Mass Spectra' "+				
+				"and s.study_id = uuid_to_bin('"+ obj.study_id +
+				"') group by f.data_category, f.file_type order by f.data_category";
+				var getIt = await db.getSequelize().query(fileQuery, { model: db.getModelByName('ModelFile') });
+				RedisCacheClient.redisCacheSetExAsync(nonSuppFileCacheName, JSON.stringify(getIt));
+				return getIt;				
+			}
+			return JSON.parse(res);
+		},
+		publications(obj, args, context) {
+			var pubQuery = "SELECT distinct bin_to_uuid(pub.publication_id) as publication_id, "+
+			"pub.pubmed_id, pub.doi, pub.author, pub.title, pub.journal, pub.journal_url, pub.year, "+
+			"pub.abstract, pub.citation FROM legacy_publication pub, legacy_study_publication sp "+
+			"WHERE pub.publication_id = sp.publication_id and sp.study_id = uuid_to_bin('"+
+			obj.study_id +"')";
+			return db.getSequelize().query(pubQuery, { model: db.getModelByName('ModelUIPublication') });
+		}
+	},
+	//@@@PDC-3446 API for new publication screen
+	Publication: {
+		studies(obj, args, context) {
+			var studyQuery = "SELECT bin_to_uuid(s.study_id) as study_id, s.pdc_study_id, s.submitter_id_name "+
+			"from study s, study_publication sp "+
+			"where sp.study_id = s.study_id and sp.publication_id = uuid_to_bin('"+
+			obj.publication_id + "') and s.is_latest_version = 1";
+			return db.getSequelize().query(studyQuery, { model: db.getModelByName('ModelUIStudy') });
+		},
+		async disease_types(obj, args, context) {
+			var diseaseQuery = "SELECT distinct c.disease_type as disease_type FROM study s, `case` c, sample sam, aliquot al, "+
+			"aliquot_run_metadata alm, study_publication sp WHERE alm.study_id = s.study_id and al.aliquot_id "+
+			" = alm.aliquot_id and al.sample_id=sam.sample_id and sam.case_id=c.case_id and sp.study_id = s.study_id and sp.publication_id = uuid_to_bin('"+
+			obj.publication_id + "') and s.is_latest_version = 1 and c.disease_type != 'Other'";
+			var diseases = await db.getSequelize().query(diseaseQuery, { raw: true });
+			var diseaseTypes = [];
+			diseases[0].forEach((row) =>diseaseTypes.push(row['disease_type']));
+			return diseaseTypes;		
+		},
+		async supplementary_data(obj, args, context) {
+			var suppleQuery = "SELECT distinct f.file_name as file_name FROM study s, study_publication sp, "+
+			"study_file sf, file f WHERE s.study_id = sf.study_id and f.file_id = sf.file_id "+
+			"and sp.study_id = s.study_id and sp.publication_id = uuid_to_bin('"+
+			obj.publication_id + "') and s.is_latest_version = 1 and f.data_category = 'Publication Supplementary Material'";
+			var supples = await db.getSequelize().query(suppleQuery, { raw: true });
+			var suppleTypes = [];
+			supples[0].forEach((row) =>suppleTypes.push(row['file_name']));
+			return suppleTypes;		
+		}
+	},
+	PublicationFilters: {
+		async disease_types(obj, args, context) {
+			var diseaseQuery = "SELECT distinct c.disease_type as disease_type FROM study s, `case` c, sample sam, aliquot al, "+
+			"aliquot_run_metadata alm, study_publication sp WHERE alm.study_id = s.study_id and al.aliquot_id "+
+			" = alm.aliquot_id and al.sample_id=sam.sample_id and sam.case_id=c.case_id and sp.study_id = s.study_id and s.is_latest_version = 1 and c.disease_type != 'Other' order by c.disease_type";
+			var diseases = await db.getSequelize().query(diseaseQuery, { raw: true });
+			var diseaseTypes = [];
+			diseases[0].forEach((row) =>diseaseTypes.push(row['disease_type']));
+			return diseaseTypes;		
+		},
+		async years(obj, args, context) {
+			var yearQuery = "SELECT distinct pub.year FROM publication pub order by pub.year desc";
+			var years = await db.getSequelize().query(yearQuery, { raw: true });
+			var yearsPub = [];
+			years[0].forEach((row) =>yearsPub.push(row['year']));
+			return yearsPub;		
+		},
+		async programs(obj, args, context) {
+			var programQuery = "SELECT distinct prog.name FROM study s, project proj, program prog, "+
+			"study_publication sp, publication pub WHERE sp.study_id = s.study_id and s.is_latest_version = 1 "+
+			"and s.project_id = proj.project_id and proj.program_id = prog.program_id order by prog.name";
+			var programs = await db.getSequelize().query(programQuery, { raw: true });
+			var programNames = [];
+			programs[0].forEach((row) =>programNames.push(row['name']));
+			return programNames;		
+		}
+	},
 	//@@@PDC-136 pagination
 	//@@@PDC-650 implement elasticache for API
 	Paginated: {
@@ -474,6 +576,16 @@ export const resolvers = {
 			return obj[0].total;
 		},
 		async uiFiles(obj, args, context) {
+			const res = await RedisCacheClient.redisCacheGetAsync(context.dataCacheName);
+			if(res === null){
+				var result =await db.getSequelize().query(context.query, { model: db.getModelByName('ModelUIFile') });
+				RedisCacheClient.redisCacheSetExAsync(context.dataCacheName, JSON.stringify(result));
+				return result;
+			}else{
+				return JSON.parse(res);
+			}
+		},
+		async uiLegacyFiles(obj, args, context) {
 			const res = await RedisCacheClient.redisCacheGetAsync(context.dataCacheName);
 			if(res === null){
 				var result =await db.getSequelize().query(context.query, { model: db.getModelByName('ModelUIFile') });
@@ -533,6 +645,18 @@ export const resolvers = {
 			const res = await RedisCacheClient.redisCacheGetAsync(context.dataCacheName);
 			if(res === null){
 				var result =await db.getSequelize().query(context.query, { model: db.getModelByName('ModelUIPtm') });
+				RedisCacheClient.redisCacheSetExAsync(context.dataCacheName, JSON.stringify(result));
+				return result;
+			}else{
+				return JSON.parse(res);
+			}
+		},
+		//@@@PDC-3446 API for new publication screen
+		async uiPublication(obj, args, context) {
+			//console.log("cacheName: "+context.dataCacheName);
+			const res = await RedisCacheClient.redisCacheGetAsync(context.dataCacheName);
+			if(res === null){
+				var result =await db.getSequelize().query(context.query, { model: db.getModelByName('ModelUIPublication') });
 				RedisCacheClient.redisCacheSetExAsync(context.dataCacheName, JSON.stringify(result));
 				return result;
 			}else{

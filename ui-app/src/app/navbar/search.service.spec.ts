@@ -184,4 +184,62 @@ describe("SearchService", () => {
       controller.verify();
     }
   ));
+
+  it("test getAliquotSearchResults", inject(
+    [SearchService],
+    (service: SearchService) => {
+      service.getAliquotSearchResults("CPT0065750003").subscribe((data) => {
+        expect(data).toBeDefined();
+        expect(data["aliquotSearch"].searchAliquots.length).toBe(1);
+        expect(data["aliquotSearch"].searchAliquots[0].aliquot_id).toBe(
+          "c675a936-2053-11e9-b7f8-0a80fada099c"
+        );
+      });
+
+      const op = controller.expectOne(service.searchAliquotsQuery);
+
+      op.flush({
+        data: {
+          aliquotSearch: {
+            searchAliquots: [
+              {
+                aliquot_id: "c675a936-2053-11e9-b7f8-0a80fada099c",
+                aliquot_submitter_id: "CPT0065750003"
+              }
+            ],
+          },
+        },
+      });
+
+      controller.verify();
+    }
+  ));
+
+  it("test getSampleSubmitterIDResults", inject(
+    [SearchService],
+    (service: SearchService) => {
+      service.getSampleSubmitterIDResults("C3L-00796-01").subscribe((data) => {
+        expect(data).toBeDefined();
+        expect(data["sample"].length).toBe(1);
+        expect(data["sample"][0].sample_submitter_id).toBe("C3L-00796-01");
+        expect(data["sample"][0].case_submitter_id).toBe("C3L-00796-01");
+      });
+
+      const op = controller.expectOne(service.searchSampleSubmitterIDQuery);
+
+      op.flush({
+        data: {
+          sample: [
+            {
+              case_submitter_id: "C3L-00796-01",
+              sample_submitter_id: "C3L-00796-01",
+              sample_id: "bcd1ba03-204c-11e9-b7f8-0a80fada099c"
+            }
+          ],
+        },
+      });
+
+      controller.verify();
+    }
+  ));
 });

@@ -1,0 +1,88 @@
+<div class="container-fluid ui-helper-clearfix button-container-fluid" style="overflow-x: scroll;min-width:1200px; font-family:'Lato'; font-size: 14px!important;">
+	<div class="container-fluid ui-helper-clearfix button-container-fluid">
+	</div>
+	
+	<mat-card>
+	  <mat-card-title style="padding-left: 0!important;padding-bottom:10px!important">
+		<div style="font-size:20px;font-family: 'LatoBold';">Publications</div>
+	  </mat-card-title>
+	  <mat-card-content class="card card-body" style="border: none;">
+	    <div class="row" style="align-items: center;">
+			<div [formGroup] = "publicationFiltersGroup" style="padding-top: 15px;">
+			  <mat-form-field appearance="fill">
+				<mat-label>Disease Type</mat-label>
+					<mat-select formControlName="diseaseTypeFormControl" [(ngModel)]="filterSelected.disease_type" (selectionChange)="filterPublications('disease_type')" multiple> 
+					<mat-option *ngFor="let diseaseType of diseaseTypesFilterVals" [value]="diseaseType">{{diseaseType}}</mat-option>
+				  </mat-select>
+			  </mat-form-field>&nbsp;&nbsp;
+			  <mat-form-field appearance="fill">
+				<mat-label>Year</mat-label>
+				  <mat-select formControlName="yearFormControl" [(ngModel)]="filterSelected.year" (selectionChange)="filterPublications('year')" multiple>
+					<mat-option *ngFor="let yearVal of yearFilterVals" [value]="yearVal">{{yearVal}}</mat-option>
+				  </mat-select>
+			  </mat-form-field>&nbsp;&nbsp;
+			  <mat-form-field appearance="fill">
+				<mat-label>Program</mat-label>
+				  <mat-select formControlName="programFormControl" [(ngModel)]="filterSelected.program" (selectionChange)="filterPublications('program')" multiple>
+					<mat-option *ngFor="let programVal of programFilterVals" [value]="programVal">{{programVal}}</mat-option>
+				  </mat-select>
+			  </mat-form-field>&nbsp;&nbsp;
+			</div>
+			<button id="ClearPublicationsFilters" mat-raised-button mat-primary label="Clear all filters" (click)="clearFilters()" style="font-family:'Lato';font-weight:bold; height: fit-content; padding: 5px 5px;" [disabled]="isFilterChosen()" aria-label="Clear all filters">Clear Selected Filters</button>
+		</div>
+	  </mat-card-content >
+	</mat-card>
+
+	<p-dataView [value]="filteredPublicationsData" [lazy]="true" [paginator]="false" [(first)]="offset"
+				[rows]="50" [pageLinks]="5" [rowsPerPageOptions]="[10,20,50, 100]" [totalRecords]="totalRecords"
+				[loading]="loading" 
+				(onLazyLoad)="loadPublications($event)" id="publicationsDataTable" >
+		<ng-template pTemplate="caption">
+			<div *ngIf="totalRecords > 0 && !loading" >
+				<h3 style="font-family: 'Lato'; font-size:14px;margin-top:10px!important;float:left">{{totalRecords > 1 ? 'Total publications: ' + totalRecords : 'Total publication: ' + totalRecords }}</h3>
+			</div>
+		</ng-template>
+		<ng-template pTemplate="listItem" let-pubData let-rowIndex="rowIndex">	
+		  <div style="border-bottom: 1px solid #c5c3c4;padding: 20px 25px;">
+			<div style="word-wrap: break-word; white-space: normal;font-size: 16px!important">
+					<a href={{pubData.journal_url}} target="_"><b>{{pubData.title }}</b></a>&nbsp;&nbsp;
+					<a href="https://www.ncbi.nlm.nih.gov/pubmed/{{pubData.pubmed_id}}" target="_">
+						<img alt="Pubmed url" src="./assets/css/images/pubmedIcon.png" style="height: 30px;"></a>&nbsp;&nbsp; 
+					<a href="http://doi.org/{{pubData.doi}}" target="_"><img alt="Pubmed url" src="./assets/css/images/doi.png"></a>
+				  <br>
+				</div>
+				<div style="width: 60%;word-wrap: break-word; white-space: normal; padding-bottom: 5px;">
+				<mat-expansion-panel hideToggle style="box-shadow: none;">
+				  <mat-expansion-panel-header style="font-size: 12px!important; padding-left: 0;">
+					<mat-panel-title>
+					  <button mat-raised-button style="background-color: rgb(239, 239, 239);">Abstract</button>
+					</mat-panel-title>
+				  </mat-expansion-panel-header>
+					{{pubData.abstract}} 
+				</mat-expansion-panel>
+				</div>
+				<div style="word-wrap: break-word; white-space: normal;"><i>{{pubData.journal }}</i> {{pubData.year }}</div>
+				<div style="padding-top: 10px; padding-bottom: 10px;">{{pubData.citation}}</div>
+				<!--<div style=";word-wrap: break-word; white-space: normal;"><div *ngFor="let disease of pubData.disease_types">{{disease}}<br></div></div>-->
+				<div style="width: 60%;word-wrap: break-word; white-space: normal;padding-bottom: 5px;">
+				<mat-expansion-panel hideToggle style="box-shadow: none;">
+				  <mat-expansion-panel-header style="font-size: 12px!important; padding-left: 0;">
+					<mat-panel-title>
+					  <button mat-raised-button style="background-color: rgb(239, 239, 239);">Related studies</button>
+					</mat-panel-title>
+				  </mat-expansion-panel-header>
+					<div *ngFor="let study of pubData.studies">
+						<a href="javascript:void(0);" (click)="showStudySummary(study.pdc_study_id, study.study_id, study.submitter_id_name)">
+							{{study.submitter_id_name}} ({{study.pdc_study_id}})
+						</a><br>
+					</div>
+				</mat-expansion-panel>
+				</div>
+				<div *ngIf="pubData.supplementary_data.length > 0" ><a href="javascript:void(0);" (click)="showFilesOverlay(pubData.publication_id, 'Publication Supplementary Material')">
+					Supplementary Data ({{ pubData.supplementary_data.length > 1 ? pubData.supplementary_data.length + ' files' : pubData.supplementary_data.length + ' file'}})</a></div>
+		  </div>
+		</ng-template>
+		<!--<p-paginator rows="10" totalRecords="120"></p-paginator>-->
+    </p-dataView>
+</div>
+  

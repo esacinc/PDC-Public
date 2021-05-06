@@ -10,6 +10,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { TableModule } from 'primeng/table';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { CheckboxModule } from 'primeng/checkbox';
+import { PaginatorModule } from 'primeng/paginator';
+import { DataViewModule } from 'primeng/dataview';
 import { HttpClientModule} from '@angular/common/http';
 import { APP_BASE_HREF } from '@angular/common';
 import { MatButtonModule, MatToolbarModule, MatGridListModule, MatFormFieldModule,
@@ -70,6 +72,9 @@ import { ResetPasswordComponent } from './navbar/reset-password/reset-password.c
 import { SubmitDataFAQComponent } from './navbar/submit-data/submit-data.component';
 import { RequestDataSubmissionComponent } from './navbar/request-data-submission/request-data-submission.component';
 import { DataUseGuidelinesComponent } from './navbar/data-use-guidelines/data-use-guidelines.component';
+import { PublicationsComponent } from './publications/publications.component';
+import { PublicationsService } from './publications/publications.service';
+import { ExploreQuantitationData } from './analysis/explore-quantitation-data/explore-quantitation-data.component';
 
 export function getAuthServiceConfigs() {
 
@@ -114,7 +119,9 @@ export function getAuthServiceConfigs() {
 	ResetPasswordComponent,
 	SubmitDataFAQComponent,
 	RequestDataSubmissionComponent,
-	DataUseGuidelinesComponent
+	DataUseGuidelinesComponent,
+	PublicationsComponent,
+	ExploreQuantitationData,
   ],
   imports: [
 	AngularFontAwesomeModule,
@@ -127,6 +134,8 @@ export function getAuthServiceConfigs() {
 	HttpLinkModule,
 	// HttpModule,
 	CheckboxModule,
+	PaginatorModule,
+	DataViewModule,
 	MatButtonModule,
 	MatToolbarModule,
 	MatGridListModule,
@@ -156,7 +165,7 @@ export function getAuthServiceConfigs() {
 	MatExpansionModule,
 	MatSelectModule
   ],
-  providers: [ChorusauthService, FrontPageService, SearchService, PDCUserService, OverlayWindowService, StudySummaryOverlayService, AuthGuardService,
+  providers: [ChorusauthService, FrontPageService, SearchService, PDCUserService, OverlayWindowService, PublicationsService, StudySummaryOverlayService, AuthGuardService,
     {
       provide: AuthServiceConfig,
       useFactory: getAuthServiceConfigs

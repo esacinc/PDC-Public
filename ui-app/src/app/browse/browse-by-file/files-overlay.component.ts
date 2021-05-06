@@ -39,6 +39,8 @@ import {environment} from '../../../environments/environment';
 
 //@@@PDC-3392 open files for a specific study in an overlay window
 //@@@PDC-3478 open files data table in overlay window from study and case summaries
+//@@@PDC-3573 show only unique files for publications supplementary data
+//@@@PDC-3651 fix "select all pages" option issue with supplementary data files
 export class FilesOverlayComponent implements OnInit {
 	
 	filteredFilesData: AllFilesData[]; //Filtered list of cases
@@ -95,6 +97,8 @@ export class FilesOverlayComponent implements OnInit {
   studyVersion: string = "";
   allStudiesVersions: any[] = [];
   study_names_param = [];
+  
+  publicationsFiles = [];
 
 	constructor(private activeRoute: ActivatedRoute, private router: Router, private apollo: Apollo, private http: HttpClient,
 				private browseByFileService: BrowseByFileService, private loc:Location,
@@ -133,6 +137,9 @@ export class FilesOverlayComponent implements OnInit {
 		this.pageSize = 10;
 		if (studyData.summaryData.versions) {
 			this.studyVersion = sessionStorage.getItem('currentVersion') || "";
+		}
+		if (studyData.publicationsFiles) {
+			this.publicationsFiles = studyData.publicationsFiles;
 		}
 		//assign study version value to each file
 		this.browseByFileService
@@ -215,9 +222,29 @@ export class FilesOverlayComponent implements OnInit {
   get staticUrlBase() {
     return FilesOverlayComponent.urlBase;
   }
+  
+  getUniqueFiles(){
+	  //if (this.publicationsFiles.length > 0){
+		  let uniqueFiles: AllFilesData[] = [];
+		  for (let file of this.filteredFilesData) {
+			if (uniqueFiles.length > 0 && ! uniqueFiles.find(fileObj => { return fileObj.file_id == file.file_id})){
+				uniqueFiles.push(file);
+			} else if (uniqueFiles.length == 0) {
+				uniqueFiles.push(file);
+			}
+		  }
+		  console.log(uniqueFiles);
+		  this.filteredFilesData = uniqueFiles;
+	 // }
+  }
 	
 	getAllFilesData() {
 		this.loading = true;
+		if (this.publicationsFiles.length > 0) {
+				  this.limit = 100;
+				  this.pageSize = 100;
+				  this.offset = 0;
+		}
 		setTimeout(() => {
 		  this.browseByFileService
 			.getFilteredFilesPaginated(
@@ -237,6 +264,12 @@ export class FilesOverlayComponent implements OnInit {
 			  this.offset = data.getPaginatedUIFile.pagination.from;
 			  this.pageSize = data.getPaginatedUIFile.pagination.size;
 			  this.limit = data.getPaginatedUIFile.pagination.size;
+			  if (this.publicationsFiles.length > 0) {
+				  this.getUniqueFiles();
+				  this.limit = 100;
+				  this.pageSize = 100;
+				  this.totalRecords = this.filteredFilesData.length;
+			  }
 			  this.loading = false;
 			});
 		}, 1000);
@@ -265,6 +298,11 @@ export class FilesOverlayComponent implements OnInit {
     this.offset = event.first;
     this.limit = event.rows;
     this.loading = true;
+	if (this.publicationsFiles.length > 0) {
+				  this.limit = 100;
+				  this.pageSize = 100;
+				  this.offset = 0;
+	}
     this.browseByFileService
       .getFilteredFilesPaginated(
 	    this.studyVersion,
@@ -273,7 +311,7 @@ export class FilesOverlayComponent implements OnInit {
         this.sort,
         this.newFilterSelected
       )
-      .subscribe((data: any) => {
+      .pipe(take(1)).subscribe((data: any) => {
         this.filteredFilesData = data.getPaginatedUIFile.uiFiles;
         if (this.offset === 0) {
           this.totalRecords = data.getPaginatedUIFile.total;
@@ -285,8 +323,17 @@ export class FilesOverlayComponent implements OnInit {
           this.pageSize = data.getPaginatedUIFile.pagination.size;
           this.limit = data.getPaginatedUIFile.pagination.size;
         }
+		//Fixing selecting all files in the files overlay after changing the number of records per page
+        this.pageSize = data.getPaginatedUIFile.pagination.size;
+		if (this.publicationsFiles.length > 0) {
+				  this.getUniqueFiles();
+				  this.totalRecords = this.filteredFilesData.length;
+				  this.limit = 100;
+				  this.pageSize = 100;
+				  this.offset = 0;
+		}
         this.loading = false;
-        this.trackCurrentPageSelectedFile(data.getPaginatedUIFile.uiFiles);
+        this.trackCurrentPageSelectedFile(this.filteredFilesData);
       });
     if(this.pageHeaderCheckBoxTrack.indexOf(this.offset) !== -1){
       this.headercheckbox = true;
@@ -360,6 +407,13 @@ export class FilesOverlayComponent implements OnInit {
             this.fileTableExportCSV(true, false, this.manifestFormat);
           } else {
             this.selectedFiles = data.getPaginatedUIFile.uiFiles;
+			if (this.publicationsFiles.length > 0) {
+				  this.getUniqueFiles();
+				  this.limit = 100;
+				  this.pageSize = 100;
+				  this.totalRecords = this.filteredFilesData.length;
+				  this.selectedFiles = this.filteredFilesData;
+			}
             this.headercheckbox = true;
           }
           this.displayLoading(buttonClick, "file", false); 

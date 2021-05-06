@@ -404,7 +404,7 @@ export class StudySummaryComponent implements OnInit {
 	  setTimeout(() => {
 		  this.studySummaryService.getPublicationsData(this.study_id).subscribe((data: any) =>{
 			this.publications = data.uiPublication;
-			//console.log(this.publications);
+			console.log(this.publications);
 			this.loading = false;
 		  });
 	  }, 1000);

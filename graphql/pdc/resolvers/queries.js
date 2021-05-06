@@ -439,11 +439,14 @@ export const resolvers = {
 				"c.index_date, c.lost_to_followup, c.primary_site, c.project_submitter_id "+"from `case` c where case_id is not null ";
 
 				var result = null;
+				//@@@PDC-2980 handle multiple cases
 				if (typeof args.case_id != 'undefined'){
-					uiCaseBaseQuery += "and c.case_id = uuid_to_bin('"+args.case_id+"')";
+					let caseIds = args.case_id.split(';');
+					uiCaseBaseQuery += "and bin_to_uuid(c.case_id) IN ('" + caseIds.join("','") + "')";
 				}
 				else if (typeof args.case_submitter_id != 'undefined'){
-					uiCaseBaseQuery += "and c.case_submitter_id = '"+args.case_submitter_id+"'";
+					let caseSubmitterIds = args.case_submitter_id.split(';');
+					uiCaseBaseQuery += "and c.case_submitter_id IN ('" + caseSubmitterIds.join("','") + "')";
 				}
 				result = await db.getSequelize().query(uiCaseBaseQuery, { model: db.getModelByName('Case') });
 				console.log("Case result: "+JSON.stringify(result));
@@ -1186,7 +1189,8 @@ export const resolvers = {
 		*/
 		async uiPublication (_, args, context) {
 			logger.info("uiPublication is called with "+ JSON.stringify(args));
-			var pubQuery = "SELECT bin_to_uuid(pub.publication_id) as publication_id, pub.pubmed_id, pub.title"+
+			//@@@PDC-3446 new publication data for PDC UI
+			var pubQuery = "SELECT bin_to_uuid(pub.publication_id) as publication_id, concat('https://www.ncbi.nlm.nih.gov/pubmed/', pub.pubmed_id) as pubmed_id, pub.citation as title "+
 			" from publication pub, study_publication sp, study s "+
 			" where pub.publication_id = sp.publication_id and s.study_id = sp.study_id ";
 			//" and s.project_submitter_id IN ('" + context.value.join("','") + "')";
@@ -1213,6 +1217,22 @@ export const resolvers = {
 			}else{
 				return JSON.parse(res);
 			}
+		},
+		//@@@PDC-3362 handle legacy studies
+		uiLegacyStudies(_, args, context) {
+			logger.info("uiLegacyStudies is called with "+ JSON.stringify(args));
+			var legacyQuery = "SELECT bin_to_uuid(study_id) as study_id, study_submitter_id, "+
+			"pdc_study_id, project_submitter_id, study_shortname, study_description, submitter_id_name, "+"cptac_phase, analytical_fraction, experiment_type, acquisition_type, embargo_date "+
+			"FROM legacy_study WHERE study_id is not null ";
+			if (typeof args.project_submitter_id != 'undefined' && args.project_submitter_id.length > 0) {
+				let projects = args.project_submitter_id.split(";");
+				legacyQuery += " and project_submitter_id IN ('" + projects.join("','") + "')";
+			}
+			if (typeof args.study_id != 'undefined' && args.study_id.length > 0) {
+				legacyQuery += " and study_id = uuid_to_bin('"+args.study_id+"')";
+			}
+			return db.getSequelize().query(legacyQuery, { model: db.getModelByName('ModelUIStudy') });
+			
 		},
 		//@@@PDC-329 Pagination for UI study summary page
 		//@@@PDC-497 Make table column headers sortable on the browse page tabs
@@ -1316,6 +1336,66 @@ export const resolvers = {
 				var myJson = [{total: args.limit}];
 				return myJson;
 			}
+		},
+		//@@@PDC-3362 handle legacy studies
+		async getPaginatedUILegacyFile(_, args, context) {
+			logger.info("getPaginatedUILegacyFile is called with "+ JSON.stringify(args));
+			context['arguments'] = args;
+			let legacyCacheName = 'Legacy;File;';
+			let legacyTotalCacheName = 'Total;Legacy;File;';
+			let fileCountQuery= "SELECT COUNT(DISTINCT f.file_id) AS total ";
+			let fileBaseQuery= "FROM legacy_study s, legacy_study_file sf, legacy_file f WHERE "+
+			" s.study_id = sf.study_id AND sf.file_id = f.file_id ";
+			let fileDataQuery= "SELECT DISTINCT BIN_TO_UUID(f.file_id) AS file_id, "+
+			"BIN_TO_UUID(s.study_id) AS study_id, s.pdc_study_id, s.submitter_id_name, s.embargo_date, "+
+			"f.file_name, sf.study_run_metadata_submitter_id, s.project_submitter_id AS project_name, "+
+			"f.data_category, f.file_type, f.downloadable, f.md5sum, f.access, "+
+			"CAST(f.file_size AS UNSIGNED) AS file_size ";
+			if (typeof args.study_id != 'undefined' && args.study_id.length > 0) {
+				fileBaseQuery += " and s.study_id = uuid_to_bin('"+args.study_id+"')";
+				legacyCacheName += 'Study:'+args.study_idt+';';
+				legacyTotalCacheName += 'Study:'+args.study_idt+';';
+			}
+			let myOffset = 0;
+			let myLimit = 1000;
+			let paginated = false;
+			if (typeof args.offset != 'undefined' && typeof args.limit != 'undefined') {
+				if (args.offset >= 0)  
+					myOffset = args.offset;
+				if (args.limit >= 0)
+					myLimit = args.limit;
+				else
+					myLimit = 0;
+				paginated = true;
+				legacyCacheName += 'offet:'+args.offset+';';
+				legacyCacheName += 'limit:'+args.limit+';';
+			}
+			let uiFileLimitQuery = " LIMIT "+ myOffset+ ", "+ myLimit;
+
+			let uiSortQuery = "";
+			if (typeof args.sort != 'undefined' && args.sort.length > 0) {
+				uiSortQuery += " order by " +args.sort + " ";
+				legacyCacheName += "order_by:("+ args.sort + ");";
+			}
+			
+			context['dataCacheName'] = legacyCacheName;
+			context['query'] = fileDataQuery+fileBaseQuery+uiSortQuery+uiFileLimitQuery;
+			if (myOffset == 0 && paginated) {
+				const res = await RedisCacheClient.redisCacheGetAsync(legacyTotalCacheName);
+				if(res === null){
+					var rawData = await db.getSequelize().query(fileCountQuery+fileBaseQuery, { model: db.getModelByName('ModelPagination') });
+					var totalCount = rawData[0].total;
+					RedisCacheClient.redisCacheSetExAsync(legacyTotalCacheName, totalCount);
+					return [{total: totalCount}];
+				}else{
+					return [{total: res}];
+				}
+			}
+			else {
+				var myJson = [{total: args.limit}];
+				return myJson;
+			}
+			
 		},
 		//@@@PDC-1291 Redesign Browse Page data tabs
 		async getPaginatedUIFile(_, args, context) {
@@ -3293,6 +3373,80 @@ export const resolvers = {
 			}
 			else {
 				var myJson = [{total: 0}];
+				return myJson;
+			}
+		},
+		//@@@PDC-3446 API for new publication screen
+		getUIPublicationFilters(_, args, context) {
+			logger.info("getUIPublicationFilters is called from UI with "+ JSON.stringify(args));
+			return "3";
+		},
+		async getPaginatedUIPublication (_, args, context) {
+			logger.info("getPaginatedUIPublication is called from UI with "+ JSON.stringify(args));
+			context['arguments'] = args;
+			
+			var cacheFilterName = {name:''};
+			cacheFilterName['dataFilterName'] = cacheFilterName.name;
+			
+			var uiPubCountQuery = "select count(distinct pub.publication_id) as total ";
+			var uiPubBaseQuery = "SELECT distinct bin_to_uuid(pub.publication_id) as publication_id, pub.pubmed_id, pub.doi, pub.author, pub.title, pub.journal, pub.journal_url, pub.year, pub.abstract, pub.citation ";
+			var uiPubQuery = "FROM publication pub, study s, `case` c, sample sam, aliquot al, "+
+			"aliquot_run_metadata alm, study_publication sp, project proj, program prog "+
+			"WHERE alm.study_id = s.study_id and al.aliquot_id = alm.aliquot_id "+
+			"and al.sample_id=sam.sample_id and sam.case_id=c.case_id "+
+			"and sp.study_id = s.study_id and pub.publication_id = sp.publication_id "+ 
+			"and s.project_id = proj.project_id and proj.program_id = prog.program_id "+
+			"and s.is_latest_version = 1 ";
+			if (typeof args.disease_type != 'undefined' && args.disease_type.length > 0) {
+				let dts = args.disease_type.split(";");
+				uiPubQuery += " and c.disease_type IN ('" + dts.join("','") + "')";
+				cacheFilterName['dataFilterName'] += 'disease_type:'+args.disease_type+';';
+			}
+			if (typeof args.program != 'undefined' && args.program.length > 0) {
+				let pgn = args.program.split(";");
+				uiPubQuery += " and prog.name IN ('" + pgn.join("','") + "')";
+				cacheFilterName['dataFilterName'] += 'program:'+args.program+';';
+			}
+			if (typeof args.year != 'undefined' && args.year.length > 0) {
+				let yrs = args.year.split(";");
+				uiPubQuery += " and pub.year IN ('" + yrs.join("','") + "')";
+				cacheFilterName['dataFilterName'] += 'year:'+args.year+';';
+			}
+			uiPubQuery += " order by pub.year desc";
+			
+			
+			
+
+			var myOffset = 0;
+			var myLimit = 500;
+			var paginated = false;
+			if (typeof args.offset != 'undefined' && typeof args.limit != 'undefined') {
+				if (args.offset >= 0)  
+					myOffset = args.offset;
+				if (args.limit >= 0)
+					myLimit = args.limit;
+				else
+					myLimit = 0;
+				paginated = true;
+				cacheFilterName['dataFilterName'] += 'offet:'+args.offset+';';
+				cacheFilterName['dataFilterName'] += 'limit:'+args.limit+';';
+			}
+			var uiPubLimitQuery = " LIMIT "+ myOffset+ ", "+ myLimit;
+			context['query'] = uiPubBaseQuery+uiPubQuery+uiPubLimitQuery;
+			context['dataCacheName'] = 'Publication:'+cacheFilterName['dataFilterName'];
+			if (myOffset == 0 && paginated) {
+				const res = await RedisCacheClient.redisCacheGetAsync('PublicationTotal:'+cacheFilterName['dataFilterName']);
+				if(res === null){
+					var rawData = await db.getSequelize().query(uiPubCountQuery+uiPubQuery, { model: db.getModelByName('ModelPagination') });
+					var totalCount = rawData[0].total;
+					RedisCacheClient.redisCacheSetExAsync('PublicationTotal:'+cacheFilterName['dataFilterName'], totalCount);
+					return [{total: totalCount}];
+				}else{
+					return [{total: res}];
+				}
+			}
+			else {
+				var myJson = [{total: args.limit}];
 				return myJson;
 			}
 		},

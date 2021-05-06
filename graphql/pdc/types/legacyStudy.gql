@@ -1,0 +1,16 @@
+type LegacyStudy {
+	study_id: String
+	study_submitter_id: String 
+	pdc_study_id: String
+	submitter_id_name: String
+	study_description: String
+	project_submitter_id: String
+	analytical_fraction: String
+	experiment_type: String
+	embargo_date: Date
+	cptac_phase: String
+	acquisition_type: String
+	supplementaryFilesCount: [File]
+	nonSupplementaryFilesCount: [File]
+	publications: [Publication]
+}

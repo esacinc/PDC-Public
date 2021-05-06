@@ -533,19 +533,19 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 	concatinateDataEnd(index: number){
 		
 		//Primary Site column on Browse page
-		if (this.filteredStudiesData[index].primary_site.indexOf("Not Reported") == 0){
+		if (this.filteredStudiesData[index].primary_site && this.filteredStudiesData[index].primary_site.indexOf("Not Reported") == 0){
 			var temp = this.filteredStudiesData[index].primary_site.split(";");
 			//if there is more than one element in primary sites list
 			if (temp.length > 1){
 				this.filteredStudiesData[index].primary_site = temp.slice(1).join("; ") + "; " + temp[0];
 			}
-		}else if (this.filteredStudiesData[index].primary_site.indexOf("Other") == 0){
+		}else if (this.filteredStudiesData[index].primary_site && this.filteredStudiesData[index].primary_site.indexOf("Other") == 0){
 			var temp = this.filteredStudiesData[index].primary_site.split(";");
 			//if there is more than one element in primary sites list
 			if (temp.length > 1){
 				this.filteredStudiesData[index].primary_site = temp.slice(1).join("; ") + "; " + temp[0];
 			}
-		} else if (this.filteredStudiesData[index].primary_site != "") {
+		} else if (this.filteredStudiesData[index].primary_site && this.filteredStudiesData[index].primary_site != "") {
 			var temp = this.filteredStudiesData[index].primary_site.split(";");
 			if (temp.length > 1){
 				this.filteredStudiesData[index].primary_site = temp.join("; ");
@@ -553,19 +553,19 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 		}
 		
 		//Disease Type column
-		if (this.filteredStudiesData[index].disease_type.indexOf("Not Reported") == 0){
+		if (this.filteredStudiesData[index].disease_type && this.filteredStudiesData[index].disease_type.indexOf("Not Reported") == 0){
 			var temp = this.filteredStudiesData[index].disease_type.split(";");
 			//if there is more than one element in primary sites list
 			if (temp.length > 1){
 				this.filteredStudiesData[index].disease_type = temp.slice(1).join("; ") + "; " + temp[0];
 			}
-		}else if (this.filteredStudiesData[index].disease_type.indexOf("Other") == 0){
+		}else if (this.filteredStudiesData[index].disease_type && this.filteredStudiesData[index].disease_type.indexOf("Other") == 0){
 			var temp = this.filteredStudiesData[index].disease_type.split(";");
 			//if there is more than one element in primary sites list
 			if (temp.length > 1){
 				this.filteredStudiesData[index].disease_type = temp.slice(1).join("; ") + "; " + temp[0];
 			}
-		} else if (this.filteredStudiesData[index].disease_type != "") {
+		} else if (this.filteredStudiesData[index].disease_type && this.filteredStudiesData[index].disease_type != "") {
 			var temp = this.filteredStudiesData[index].disease_type.split(";");
 			if (temp.length > 1){
 				this.filteredStudiesData[index].disease_type = temp.join("; ");

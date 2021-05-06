@@ -56,12 +56,14 @@
 			<a mat-button class="custom-navbar-menu-item" id="browseNavbar" routerLink='browse'>BROWSE</a>
 			<a mat-button class="custom-navbar-menu-item" id="analysisNavbar" [matMenuTriggerFor]="analysis">ANALYSIS</a>
 			<mat-menu [overlapTrigger]="false" yPosition="below" style="min-width:1%; padding-right: 0px" #analysis="matMenu">
+				<a mat-button id="exploreQuantitationData" href="/pdc/explore-quantitation-data" target="_blank">Explore Quantitation Data</a>
 				<a mat-button (click)="trackPage('/jbrowse')" href='/jbrowse/' id="analysisOption" target="_" >Peptide Genome mapping</a><br/>
 				<!-- @@@PDC-1711 add external link icon -->
 				<a mat-button (click)="trackPage('/pepquery')" href='http://pepquery.esacinc.com/pepquery' id="analysisOption" target="_" >Pepquery</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">Exit Disclaimer</span></a>
 			</mat-menu>
 			<a mat-button class="custom-navbar-menu-item" id="dataUseGuidelines" routerLink='data-use-guidelines'>DATA USE</a>
 			<!-- <a mat-button class="custom-navbar-menu-item" id="submitNavbar" (click)="submitData()">SUBMIT DATA</a> -->
+			<a mat-button class="custom-navbar-menu-item" id="publications" routerLink='publications'>PUBLICATIONS</a>
 			<a mat-button class="custom-navbar-menu-item" id="submitDataNavBar" [matMenuTriggerFor]="submitDataBtn">SUBMIT DATA</a>
 			<mat-menu [overlapTrigger]="false" yPosition="below" #submitDataBtn="matMenu">
 				<span *ngIf='!userLoggedInFlag'><a mat-button (click)="submitData()" class="custom-menu-item mat-menu-item" id="submitNavbar">Login to Workspace</a></span>

@@ -20,6 +20,8 @@ import { AuthGuardService as AuthGuard } from './auth-guard.service';
 import { SubmitDataFAQComponent } from './navbar/submit-data/submit-data.component'
 import { RequestDataSubmissionComponent } from './navbar/request-data-submission/request-data-submission.component';
 import { DataUseGuidelinesComponent } from './navbar/data-use-guidelines/data-use-guidelines.component';
+import { PublicationsComponent } from './publications/publications.component';
+import { ExploreQuantitationData } from './analysis/explore-quantitation-data/explore-quantitation-data.component';
 
 import { AppComponent } from './app.component';
 
@@ -52,6 +54,7 @@ const appRoutes: Routes = [
   { path: 'submit-data', component: SubmitDataFAQComponent},
   { path: 'request-data-submission', component: RequestDataSubmissionComponent},
   { path: 'data-use-guidelines', component: DataUseGuidelinesComponent},
+  { path: 'explore-quantitation-data', component: ExploreQuantitationData},
   //@@@PDC-374 - adding auxiliary urls to overlay windows
   { path: 'gene-summary/:gene_id', component: GeneProteinSummaryComponent, outlet: 'geneSummary'},
   { path: 'case-summary/:case_id', component: CaseSummaryComponent, outlet: 'caseSummary'},
@@ -59,6 +62,7 @@ const appRoutes: Routes = [
   { path: 'files-overlay/:study_id', component: FilesOverlayComponent, outlet: 'filesOverlay'},
   { path: 'case/:case_uuid', loadChildren: './lazybrowse.module#LazyBrowseModule'},
   { path: 'study/:study_uuid', loadChildren: './lazybrowse.module#LazyBrowseModule'},
+  {path: 'publications', component: PublicationsComponent},
   /* { path: '', component: AppComponent,
     children: [ {path: 'browse', component: BrowseComponent}] }, */
   //*{ path: 'pdc', component: FrontPageComponent, canActivate: [AuthGuard] },

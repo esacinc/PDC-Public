@@ -580,7 +580,9 @@ export class BrowseByFileComponent implements OnInit {
           this.sort,
           this.newFilterSelected
         )
-        .subscribe((data: any) => {
+        //@@@PDC-3620: Files Export manifest gets exported two times
+        //To avoid multiple exports, the observable needs to be subscribed only once: take(1)
+        .pipe(take(1)).subscribe((data: any) => {
           if (buttonClick) {
             this.completeFileManifest = data.getPaginatedUIFile.uiFiles;
             this.fileTableExportCSV(true, false, this.manifestFormat);

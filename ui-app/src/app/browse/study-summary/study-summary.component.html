@@ -198,7 +198,7 @@
 				id="studyExperimentalDesignTable" [(selection)]="selectedExperimentalStudies">
 				<ng-template pTemplate="caption">
 					<div class="ui-helper-clearfix">
-						<button matTooltip="Please use CPTAC Data Portal for downloading the files" id="downloadStudyExpDesignManifest" mat-raised-button mat-primary label="Download Selection"
+						<button id="downloadStudyExpDesignManifest" mat-raised-button mat-primary label="Download Selection"
 						(click)="studyTableExportCSV(dt)" style="font-family:'Lato';float:right;margin-right: 1%;" [disabled]="isDownloadDisabled()" aria-label="Download Data">Export</button>
 					</div>
 				</ng-template>

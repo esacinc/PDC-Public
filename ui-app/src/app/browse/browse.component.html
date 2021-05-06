@@ -33,11 +33,11 @@
       <div *ngIf="breadcrumbs.length > 0" style="padding-left:13px; padding-right:15px; padding-bottom:10px">
           <button *ngIf="breadcrumbs.length > 0  && !disablePanelsFlag" class="btn btn-primary breadCrumbButtons" (click)="clearAllSelections()"> CLEAR </button> &nbsp;
           <span *ngFor="let crumb of breadcrumbs; index as i">
-            <button class="btn btn-primary breadCrumbButtons" style="background-color: black" (click)="deleteBreadcrumb(crumb)" disabled="disablePanelsFlag">{{crumb.value}}&nbsp;&nbsp;&nbsp;<i class="fa fa-close" style="font-size:10px" *ngIf="!disablePanelsFlag"></i></button> &nbsp;
+            <button class="btn btn-primary breadCrumbButtons" style="background-color: black" (click)="deleteBreadcrumb(crumb)" [disabled]="disablePanelsFlag">{{crumb.value}}&nbsp;&nbsp;&nbsp;<i class="fa fa-close" style="font-size:10px" *ngIf="!disablePanelsFlag"></i></button> &nbsp;
             <button class="btn btn-primary breadCrumbButtons" disabled="true">{{crumb.separator}}</button> &nbsp;
             <span *ngIf="crumb.separator === 'IN'"> ( &nbsp; </span>
             <span *ngFor="let facetValue of crumb.facetValues">
-              <button class="btn btn-primary breadCrumbButtons" style="background-color: grey" (click)="deleteBreadcrumbVal(facetValue)" disabled="disablePanelsFlag">{{facetValue.value}}&nbsp;&nbsp;&nbsp;<i class="fa fa-close" style="font-size:10px" *ngIf="!disablePanelsFlag"></i></button> &nbsp;
+              <button class="btn btn-primary breadCrumbButtons" style="background-color: grey" (click)="deleteBreadcrumbVal(facetValue)" [disabled]="disablePanelsFlag">{{facetValue.value}}&nbsp;&nbsp;&nbsp;<i class="fa fa-close" style="font-size:10px" *ngIf="!disablePanelsFlag"></i></button> &nbsp;
             </span>
             <span *ngIf="crumb.separator === 'IN'">) </span>
             <button *ngIf="breadcrumbs.length > 1 && i < breadcrumbs.length-1" class="btn btn-primary breadCrumbButtons" disabled="true"> AND </button> &nbsp;

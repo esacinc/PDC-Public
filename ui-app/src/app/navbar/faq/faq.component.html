@@ -213,7 +213,7 @@
 
       <div #Multiple_Files class="faq-question" id="Multiple_Files">How do I download multiple files at once?</div>
       <p class="faq-response">Once you identify the files of your interest, move to 'Files' tab and select one or all files and then click <strong><i>'Export File Manifest'</i></strong>.
-        The manifest will contain a download URL each selected file on a separate row. <strong>The URLs will expire after 48 hours from the time the manifest was generated</strong>.
+        The manifest will contain a download URL each selected file on a separate row. <strong>The URLs will expire after 7 days (168 hours) from the time the manifest was generated</strong>.
         You may revisit the PDC portal to generate a new file manifest.
         <br><br><div style="text-align:center"><img style="width: 60%;margin-left: 9%;" src="assets/css/images/faq-1.png" alt="Select file manifect"></div>
       <br>On most linux, mac and cygwin environments with wget installed, you may provide the <strong><i>File manifest</i></strong> as input to the following code snippet to initiate batch download.
@@ -283,7 +283,7 @@
       <br><i>Disclaimer: The third-party software links are provided “as is” without warranty of any kind, either expressed or implied and such software is to be used at your own risk.</i>
 
       <div #File_Error class="faq-question">Why does the file download URLs throw an error or exception?</div>
-      <p class="faq-response">PDC is hosted on AWS cloud and is under active development. To reduce egress costs from unintended downloads, <strong>the URLs will expire after 48 hours</strong>. You may revisit the PDC portal to generate a new file manifest.
+      <p class="faq-response">PDC is hosted on AWS cloud and is under active development. To reduce egress costs from unintended downloads, <strong>the URLs will expire after 7 days (168 hours)</strong>. You may revisit the PDC portal to generate a new file manifest.
 	  We also limit downloads of the same file from the same IP Address to only 10 times per 24 hour period. So if you have downloaded the file several times already you may get an error message indicating that you have exceeded your download attempts for the 24 hour period.</p>
 
       <a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Top)">Go Back</a>
