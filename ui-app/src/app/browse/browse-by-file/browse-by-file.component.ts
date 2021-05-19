@@ -191,8 +191,15 @@ export class BrowseByFileComponent implements OnInit {
         } 
       }
       this.selectedFiles = localSelectedFiles;
-    }else{
-      this.selectedFiles = [];
+    } else {
+      //@@@PDC-3667: "Select all pages" option issue
+      for (let fileData of this.currentPageSelectedFile) {
+        let index = localSelectedFiles.findIndex(x => (x.file_id + "-" + x.pdc_study_id) === fileData);
+        if (index > -1) {
+          localSelectedFiles.splice(index,1);
+        }
+      }
+      this.selectedFiles = localSelectedFiles; 
       this.currentPageSelectedFile = [];
       this.pageHeaderCheckBoxTrack = [];
       this.selectedHeaderCheckbox = '';
@@ -202,9 +209,8 @@ export class BrowseByFileComponent implements OnInit {
   //@@@PDC-820 row selections cross pagination
   onRowSelected(event:any){
     this.currentPageSelectedFile.push(event.data.file_id + "-" + event.data.pdc_study_id);
-    if(this.currentPageSelectedFile.length === this.pageSize){
-      this.headercheckbox = true;
-    }
+    //@@@PDC-3667: "Select all pages" option issue
+    this.handleCheckboxSelections();
   }
 
   //@@@PDC-820 row selections cross pagination
@@ -213,12 +219,27 @@ export class BrowseByFileComponent implements OnInit {
     if(index >-1){
       this.currentPageSelectedFile.splice(index,1);
     }
-    if(this.currentPageSelectedFile.length === this.pageSize){
-      this.headercheckbox = true;
-    }else{
-      this.headercheckbox = false;
-    }
+    //@@@PDC-3667: "Select all pages" option issue
+    this.handleCheckboxSelections();
   }
+
+  //@@@PDC-3667: "Select all pages" option issue
+  handleCheckboxSelections() {
+		if (this.currentPageSelectedFile.length === this.pageSize) {
+			this.headercheckbox = true;
+		} else {
+			//For the last page
+			if (this.totalRecords - this.offset < this.pageSize) {
+				if (this.currentPageSelectedFile.length === this.totalRecords - this.offset) {
+					this.headercheckbox = true;
+				} else {
+					this.headercheckbox = false;
+				}
+			} else {
+				this.headercheckbox = false;
+			}
+		}
+	}
 
   //@@@PDC-918: Add button to allow download of full file manifest
   changeHeaderCheckbox($event) {
@@ -471,9 +492,6 @@ export class BrowseByFileComponent implements OnInit {
 
   //@@@PDC-497 (onLazyLoad)="loadFiles($event)" will be invoked when sort event fires
   loadFiles(event: any) {
-    if(event.rows !== this.pageSize){
-      this.clearSelection();
-    }
     if(this.headercheckbox && this.pageHeaderCheckBoxTrack.indexOf(this.offset) === -1){
       this.pageHeaderCheckBoxTrack.push(this.offset);
     }else if(!this.headercheckbox && this.pageHeaderCheckBoxTrack.indexOf(this.offset) !== -1){
@@ -513,12 +531,13 @@ export class BrowseByFileComponent implements OnInit {
         }
         this.loading = false;
         this.trackCurrentPageSelectedFile(data.getPaginatedUIFile.uiFiles);
+        if (this.pageHeaderCheckBoxTrack.indexOf(this.offset) !== -1) {
+          this.headercheckbox = true;
+        } else {
+          this.headercheckbox = false;
+        }
+        this.handleCheckboxSelections();
       });
-    if(this.pageHeaderCheckBoxTrack.indexOf(this.offset) !== -1){
-      this.headercheckbox = true;
-    }else{
-      this.headercheckbox = false;
-    }
   }
 
   	/* Helper function to determine whether the download all button should be disabled or not */
@@ -570,7 +589,11 @@ export class BrowseByFileComponent implements OnInit {
     if (this.totalRecords > 10000) {
         this.dialogueForHugeDataVolume();
     } else {
-      this.displayLoading(buttonClick, "file", true);
+      if (!buttonClick) {
+        this.displayLoading(buttonClick, "file", true);
+      } else {
+        this.loading = true;
+      }
       setTimeout(() => {
         this.browseByFileService
         .getFilteredFilesPaginated(
@@ -585,15 +608,26 @@ export class BrowseByFileComponent implements OnInit {
         .pipe(take(1)).subscribe((data: any) => {
           if (buttonClick) {
             this.completeFileManifest = data.getPaginatedUIFile.uiFiles;
-            this.fileTableExportCSV(true, false, this.manifestFormat);
+            this.fileTableExportCSV(true, false, this.manifestFormat);               
+            this.loading = false;
           } else {
             this.selectedFiles = data.getPaginatedUIFile.uiFiles;
             this.headercheckbox = true;
+            //@@@PDC-3667: "Select all pages" option issue
+            this.updateCurrentPageSelectedFiles(data.getPaginatedUIFile.uiFiles);   
           }
           this.displayLoading(buttonClick, "file", false); 
         });
       }, 1000);
     }
+  }
+
+  //@@@PDC-3667: "Select all pages" option issue
+  updateCurrentPageSelectedFiles(localSelectedFiles) {
+    let cloneData = _.cloneDeep(localSelectedFiles);
+    cloneData = cloneData.splice(0, this.pageSize);
+    this.currentPageSelectedFile = [];
+    cloneData.forEach(item => {this.currentPageSelectedFile.push(item.file_id + "-" + item.pdc_study_id)});
   }
 
   dialogueForHugeDataVolume() {

@@ -243,10 +243,10 @@ export class StudySummaryComponent implements OnInit {
 		'cols': "itraq_113,itraq_114,itraq_115,itraq_116,itraq_117,itraq_118,itraq_119,itraq_121"
 	}, {
 		'id': "TMT10",
-		'cols': "tmt_126,tmt_127n,tmt_127c,tmt_128n,tmt_128c,tmt_129n,tmt_129c,tmt_130c,tmt_130n,tmt_131"
+		'cols': "tmt_126,tmt_127n,tmt_127c,tmt_128n,tmt_128c,tmt_129n,tmt_129c,tmt_130n,tmt_130c,tmt_131"
 	}, {
 		'id': "TMT11",
-		'cols': "tmt_126,tmt_127n,tmt_127c,tmt_128n,tmt_128c,tmt_129n,tmt_129c,tmt_130c,tmt_130n,tmt_131,tmt_131c"
+		'cols': "tmt_126,tmt_127n,tmt_127c,tmt_128n,tmt_128c,tmt_129n,tmt_129c,tmt_130n,tmt_130c,tmt_131,tmt_131c"
 	}, {
 		'id': "N/A",
 		'cols': ""
@@ -709,10 +709,10 @@ openHeatMap(study_name: string){
 	  ];
 	  this.studyExperimentDesignTableCommonCols = [
 		// {field: 'study_run_metadata_id', header: 'Study Run Metadata ID'},
-		{field: 'study_run_metadata_submitter_id', header: 'Study Run Metadata Submitter ID'},
+		{field: 'plex_dataset_name', header: 'Plex Dataset Name'},
+		{field: 'study_run_metadata_submitter_id', header: 'Run Metadata ID'},
 /* 		{field: 'experiment_number', header: 'Experiment Number'},
 		{field: 'experiment_type', header: 'Experiment Type'}, */
-		{field: 'plex_dataset_name', header: 'Plex Dataset Name'},
 		// {field: 'acquisition_type', header: 'Acquisition Type'},
 		{field: 'number_of_fractions', header: 'Number of Fractions'}
 		// {field: 'analyte', header: 'Analyte'}

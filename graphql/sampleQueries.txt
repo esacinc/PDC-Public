@@ -1272,10 +1272,33 @@ PDC-218
 	data_file
 	}
 }
-//PDC-3362
+PDC-3640
+{
+	getPDCMetrics(acceptDUA: true){
+    programs
+    projects
+    studies
+    cases
+    files
+    data_size_TB
+  }
+}
+//3597
+uiHeatmapStudies {
+		study_id
+		study_submitter_id
+		submitter_id_name
+		pdc_study_id
+		analytical_fraction
+		primary_site
+		disease_type
+		heatmapFiles
+}
+//PDC-3362 3637
 {
 	uiLegacyStudies {
 		study_id
+		study_submitter_id
 		submitter_id_name
 		pdc_study_id
 		study_description
@@ -1283,6 +1306,7 @@ PDC-218
 		analytical_fraction
 		experiment_type
 		embargo_date
+		sort_order
 		supplementaryFilesCount {
 			data_category
 			file_type
@@ -2435,6 +2459,13 @@ PDC-265
 		disease_types
 		years
 		programs
+	}
+}
+{
+	getUIHeatmapFilters {
+		disease_types
+		primary_sites
+		analytical_fractions
 	}
 }
 //PDC-297

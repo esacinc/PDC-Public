@@ -1,0 +1,7 @@
+type HeatmapFilters {
+	filterCount: String
+	disease_types: [String]
+	primary_sites: [String]
+	analytical_fractions: [String]
+}
+

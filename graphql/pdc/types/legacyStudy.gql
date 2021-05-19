@@ -10,6 +10,7 @@ type LegacyStudy {
 	embargo_date: Date
 	cptac_phase: String
 	acquisition_type: String
+	sort_order: Int
 	supplementaryFilesCount: [File]
 	nonSupplementaryFilesCount: [File]
 	publications: [Publication]

@@ -17,6 +17,7 @@ import _ from 'lodash';
 const defineUiModels = (db) => {
 
 	//@@@PDC-1358 add study_id (uuid) to study summary page
+	//@@@PDC-3637 add sort_order column
 	const ModelUIStudy = db.getSequelize().define('dummy', {
 		study_id: { type: Sequelize.STRING},
 		study_submitter_id: { type: Sequelize.STRING},
@@ -31,6 +32,7 @@ const defineUiModels = (db) => {
 		analytical_fraction:  { type: Sequelize.STRING},
 		experiment_type:  { type: Sequelize.STRING},
 		acquisition_type:  { type: Sequelize.STRING},
+		sort_order:  { type: Sequelize.INTEGER},
 		cptac_phase:  { type: Sequelize.STRING},
 		embargo_date: { type: Sequelize.DATE },
 		cases_count:  { type: Sequelize.INTEGER},

@@ -12,6 +12,7 @@ import { StudySummaryComponent } from '../study-summary/study-summary.component'
 import { BrowseByStudyService } from './browse-by-study.service';
 import { ngxCsv } from "ngx-csv/ngx-csv";
 import * as FileSaver from 'file-saver';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'browse-by-study',
@@ -406,6 +407,8 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 				//@@@PDC-1063: Implement select all, select page, select none for all tabs
 				this.selectedStudies = localSelectedStudies;
 				this.headercheckbox = true;
+				//@@@PDC-3667: "Select all pages" option issue
+				this.updateCurrentPageSelectedStudy(localSelectedStudies);
 			} else {
 				let exportFileObject = JSON.parse(JSON.stringify(localSelectedStudies, colValues));
 				if (this.manifestFormat == "csv") {
@@ -429,6 +432,14 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 		if (this.filteredStudiesData[idx].embargo_date === null || this.filteredStudiesData[idx].embargo_date === ""){
 			this.filteredStudiesData[idx].embargo_date = "N/A";
 		}
+	}
+
+	//@@@PDC-3667: "Select all pages" option issue
+	updateCurrentPageSelectedStudy(localSelectedStudies) {
+		let cloneData = _.cloneDeep(localSelectedStudies);
+		cloneData = cloneData.splice(0, this.pageSize);
+		this.currentPageSelectedStudy = [];
+		cloneData.forEach(item => {this.currentPageSelectedStudy.push(item.study_submitter_id)});
 	}
 
 	/* Helper function to determine whether the download all button should be disabled or not */
@@ -483,9 +494,6 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 	//@@@PDC-497 (onLazyLoad)="loadNewPage($event)" will be invoked when sort event fires  
 	//@@@PDC-848 Fix headercheckbox issue for data tables on browse page
   loadNewPage(event: any){
-	if(event.rows !== this.pageSize){
-		this.clearSelection();
-	}
 	if(this.headercheckbox && this.pageHeaderCheckBoxTrack.indexOf(this.offset) === -1){
 		this.pageHeaderCheckBoxTrack.push(this.offset);
 	}else if(!this.headercheckbox && this.pageHeaderCheckBoxTrack.indexOf(this.offset) !== -1){
@@ -521,12 +529,32 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 			}
 			this.loading = false;
 			this.trackCurrentPageSelectedStudy(data.getPaginatedUIStudy.uiStudies);
+			if (this.pageHeaderCheckBoxTrack.indexOf(this.offset) !== -1) {
+				this.headercheckbox = true;
+			} else {
+				this.headercheckbox = false;
+			}
+			//@@@PDC-3667: "Select all pages" option issue
+			this.handleCheckboxSelections();
 		});
-		if(this.pageHeaderCheckBoxTrack.indexOf(this.offset) !== -1){
-      this.headercheckbox = true;
-    }else{
-      this.headercheckbox = false;
-    }
+	}
+
+	//@@@PDC-3667: "Select all pages" option issue
+	handleCheckboxSelections() {
+		if (this.currentPageSelectedStudy.length === this.pageSize) {
+			this.headercheckbox = true;
+		} else {
+			if (this.totalRecords - this.offset < this.pageSize) {
+				//For the last page
+				if (this.currentPageSelectedStudy.length === this.totalRecords - this.offset) {
+					this.headercheckbox = true;
+				} else {
+					this.headercheckbox = false;
+				}
+			} else {
+				this.headercheckbox = false;
+			}
+		}
 	}
 	
 	//@@@PDC-2534 - Concatinate 'Not Reported' primary site at the end of the primary sites list 
@@ -757,19 +785,25 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
         } 
       }
       this.selectedStudies = localSelectedStudyies;
-    }else{
-      this.selectedStudies = [];
-      this.currentPageSelectedStudy = [];
-      this.pageHeaderCheckBoxTrack = [];
+    } else {
+			//@@@PDC-3667: "Select all pages" option issue
+			for (let study of this.currentPageSelectedStudy) {
+				let index = localSelectedStudyies.findIndex(x => x.study_submitter_id === study);
+				if(index >-1){
+					localSelectedStudyies.splice(index,1);
+				}
+      }
+			this.selectedStudies = localSelectedStudyies; 
+			this.currentPageSelectedStudy = [];
+			this.pageHeaderCheckBoxTrack = [];
     }
   }
 
 	//@@@PDC-848 Fix headercheckbox issue for data tables on browse page
   onRowSelected(event:any){
-    this.currentPageSelectedStudy.push(event.data.study_submitter_id);
-    if(this.currentPageSelectedStudy.length === this.pageSize){
-      this.headercheckbox = true;
-    }
+		this.currentPageSelectedStudy.push(event.data.study_submitter_id);
+		//@@@PDC-3667: "Select all pages" option issue
+		this.handleCheckboxSelections();
   }
 
 	//@@@PDC-848 Fix headercheckbox issue for data tables on browse page
@@ -777,12 +811,9 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
     let index = this.currentPageSelectedStudy.indexOf(event.data.study_submitter_id);
     if(index >-1){
       this.currentPageSelectedStudy.splice(index,1);
-    }
-    if(this.currentPageSelectedStudy.length === this.pageSize){
-      this.headercheckbox = true;
-    }else{
-      this.headercheckbox = false;
-    }
+		}
+		//@@@PDC-3667: "Select all pages" option issue
+		this.handleCheckboxSelections();
   }
 
 	//@@@PDC-848 Fix headercheckbox issue for data tables on browse page

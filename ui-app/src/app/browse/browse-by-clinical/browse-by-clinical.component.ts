@@ -316,6 +316,8 @@ downloadCompleteManifest(buttonClick = false) {
 	setTimeout(() => {
 		if (!buttonClick) {
 			this.isTableLoading.emit({isTableLoading:"clinical:true"});
+		} else {
+			this.loading = true;
 		}
 		this.browseByClinicalService.getFilteredClinicalDataPaginated(0, this.totalRecords, this.sort, this.newFilterSelected).subscribe((data: any) =>{
 		let filteredClinicalData = data.getPaginatedUIClinical.uiClinical;
@@ -326,6 +328,9 @@ downloadCompleteManifest(buttonClick = false) {
 		if (buttonClick) {
 			this.selectedClinicalData = localSelectedClinical;
 			this.headercheckbox = true;
+			//@@@PDC-3667: "Select all pages" option issue
+			this.updateCurrentPageSelectedClinical(localSelectedClinical);
+			this.loading = false;
 		} else {
 			let headerCols = [];
 			let colValues = [];
@@ -355,6 +360,14 @@ downloadCompleteManifest(buttonClick = false) {
 		}
 		});
 	}, 10);
+}
+
+//@@@PDC-3667: "Select all pages" option issue
+updateCurrentPageSelectedClinical(localSelectedClinical) {
+	let cloneData = _.cloneDeep(localSelectedClinical);
+	cloneData = cloneData.splice(0, this.pageSize);
+	this.currentPageSelectedClinical = [];
+	cloneData.forEach(item => {this.currentPageSelectedClinical.push(item.case_submitter_id)});
 }
 
 /* Helper function to determine whether the download all button should be disabled or not */
@@ -388,9 +401,6 @@ isDownloadDisabled(){
 	// It is called when a new page needs to be loaded from the DB  
 	//@@@PDC-497 (onLazyLoad)="loadNewPage($event)" will be invoked when sort event fires  
 	loadNewPage(event: any) {
-		if(event.rows !== this.pageSize){
-			this.clearSelection();
-		}
 		if(this.headercheckbox && this.pageHeaderCheckBoxTrack.indexOf(this.offset) === -1){
 			this.pageHeaderCheckBoxTrack.push(this.offset);
 		}else if(!this.headercheckbox && this.pageHeaderCheckBoxTrack.indexOf(this.offset) !== -1){
@@ -419,13 +429,14 @@ isDownloadDisabled(){
 			}
 			this.loading = false;
 			this.trackCurrentPageSelectedCase(data.getPaginatedUIClinical.uiClinical);
+			if(this.pageHeaderCheckBoxTrack.indexOf(this.offset) !== -1){
+				this.headercheckbox = true;
+			}else{
+				this.headercheckbox = false;
+			}
+			//@@@PDC-3667: "Select all pages" option issue
+			this.handleCheckboxSelections();
 		});
-
-		if(this.pageHeaderCheckBoxTrack.indexOf(this.offset) !== -1){
-      this.headercheckbox = true;
-    }else{
-      this.headercheckbox = false;
-    }
 	}
 
 	//@@@PDC-1063: Implement select all, select page, select none for all tabs
@@ -643,63 +654,84 @@ isDownloadDisabled(){
 			}
 		}
 
-			//@@@PDC-848 Fix headercheckbox issue for data tables on browse page
-			onTableHeaderCheckboxToggle() {
-				console.log(this.headercheckbox);
-				let emptyArray = [];
-				let localSelectedClinical = emptyArray.concat(this.selectedClinicalData);
-				if(this.headercheckbox){
-					for(let item of this.filteredClinicalData){
-						if(this.currentPageSelectedClinical.indexOf(item.case_submitter_id) === -1){
-							localSelectedClinical.push(item);
-							this.currentPageSelectedClinical.push(item.case_submitter_id);
-						} 
+		//@@@PDC-848 Fix headercheckbox issue for data tables on browse page
+		onTableHeaderCheckboxToggle() {
+			console.log(this.headercheckbox);
+			let emptyArray = [];
+			let localSelectedClinical = emptyArray.concat(this.selectedClinicalData);
+			if(this.headercheckbox){
+				for(let item of this.filteredClinicalData){
+					if(this.currentPageSelectedClinical.indexOf(item.case_submitter_id) === -1){
+						localSelectedClinical.push(item);
+						this.currentPageSelectedClinical.push(item.case_submitter_id);
+					} 
+				}
+				this.selectedClinicalData = localSelectedClinical;
+			} else {
+				//@@@PDC-3667: "Select all pages" option issue
+				for (let biospecimen of this.currentPageSelectedClinical) {
+					let index = localSelectedClinical.findIndex(x => x.case_submitter_id === biospecimen);
+					if(index >-1){
+						localSelectedClinical.splice(index,1);
 					}
-					this.selectedClinicalData = localSelectedClinical;
-				}else{
-					this.selectedClinicalData = [];
-					this.currentPageSelectedClinical = [];
-					this.pageHeaderCheckBoxTrack = [];
 				}
-			}
-		
-			//@@@PDC-848 Fix headercheckbox issue for data tables on browse page
-			onRowSelected(event:any){
-				this.currentPageSelectedClinical.push(event.data.case_submitter_id);
-				if(this.currentPageSelectedClinical.length === this.pageSize){
-					this.headercheckbox = true;
-				}
-			}
-		
-			//@@@PDC-848 Fix headercheckbox issue for data tables on browse page
-			onRowUnselected(event){
-				let index = this.currentPageSelectedClinical.indexOf(event.data.case_submitter_id);
-				if(index >-1){
-					this.currentPageSelectedClinical.splice(index,1);
-				}
-				if(this.currentPageSelectedClinical.length === this.pageSize){
-					this.headercheckbox = true;
-				}else{
-					this.headercheckbox = false;
-				}
-			}
-		
-			//@@@PDC-848 Fix headercheckbox issue for data tables on browse page
-			private clearSelection(){
-				this.selectedClinicalData = [];
-				this.headercheckbox = false;
+				this.selectedClinicalData = localSelectedClinical; 
 				this.currentPageSelectedClinical = [];
 				this.pageHeaderCheckBoxTrack = [];
 			}
+		}
 		
-			//@@@PDC-848 Fix headercheckbox issue for data tables on browse page
-			private trackCurrentPageSelectedCase(filteredFilesData: AllClinicalData[]){
-				let fileIdList = [];
-				this.currentPageSelectedClinical = [];
-				filteredFilesData.forEach((item) => fileIdList.push(item.case_submitter_id));
-				this.selectedClinicalData.forEach(item => {if(fileIdList.indexOf(item.case_submitter_id) !== -1){
-					this.currentPageSelectedClinical.push(item.case_submitter_id);
-				}});
-			}		
+		//@@@PDC-848 Fix headercheckbox issue for data tables on browse page
+		onRowSelected(event:any){
+			this.currentPageSelectedClinical.push(event.data.case_submitter_id);
+			//@@@PDC-3667: "Select all pages" option issue
+			this.handleCheckboxSelections();
+		}
+	
+		//@@@PDC-848 Fix headercheckbox issue for data tables on browse page
+		onRowUnselected(event){
+			let index = this.currentPageSelectedClinical.indexOf(event.data.case_submitter_id);
+			if(index >-1){
+				this.currentPageSelectedClinical.splice(index,1);
+			}
+			//@@@PDC-3667: "Select all pages" option issue
+			this.handleCheckboxSelections();
+		}
+
+		//@@@PDC-3667: "Select all pages" option issue
+		handleCheckboxSelections() {
+			if (this.currentPageSelectedClinical.length === this.pageSize) {
+				this.headercheckbox = true;
+			} else {
+				//For the last page
+				if (this.totalRecords - this.offset < this.pageSize) {
+					if (this.currentPageSelectedClinical.length === this.totalRecords - this.offset) {
+						this.headercheckbox = true;
+					} else {
+						this.headercheckbox = false;
+					}
+				} else {
+					this.headercheckbox = false;
+				}
+			}
+		}
+	
+		//@@@PDC-848 Fix headercheckbox issue for data tables on browse page
+		private clearSelection(){
+			this.selectedClinicalData = [];
+			this.headercheckbox = false;
+			this.currentPageSelectedClinical = [];
+			this.pageHeaderCheckBoxTrack = [];
+		}
+	
+		//@@@PDC-848 Fix headercheckbox issue for data tables on browse page
+		private trackCurrentPageSelectedCase(filteredFilesData: AllClinicalData[]){
+			let fileIdList = [];
+			this.currentPageSelectedClinical = [];
+			filteredFilesData.forEach((item) => fileIdList.push(item.case_submitter_id));
+			this.selectedClinicalData.forEach(item => {if(fileIdList.indexOf(item.case_submitter_id) !== -1){
+				this.currentPageSelectedClinical.push(item.case_submitter_id);
+			}});
+		}		
 
 }

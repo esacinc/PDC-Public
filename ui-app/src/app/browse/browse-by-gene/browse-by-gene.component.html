@@ -51,14 +51,14 @@
         <ng-template style="font-size: 12px; background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%);" pTemplate="header">
             <tr style="font-size: 12px;">
 				<th class="ui-datatable-tableheader" style="width:5%;overflow: unset;" pResizableColumn>
-					<label><p-checkbox  id="geneDataChk" [(ngModel)]="headercheckbox" binary="true" (onChange)="onTableHeaderCheckboxToggle()" ></p-checkbox >
+					<label><p-checkbox  id="geneDataChk" [(ngModel)]="headercheckbox" binary="true" (onChange)="onTableHeaderCheckboxToggle()" ></p-checkbox></label>
 					<mat-select id="dataForManifestExport" class="card-body card-list" [(ngModel)]="selectedHeaderCheckbox"
 					(selectionChange)="changeHeaderCheckbox($event)">
 						<mat-option *ngFor="let checkboxOption of checkboxOptions" [value]="checkboxOption">
 							{{checkboxOption}}
 						</mat-option>
 					</mat-select>
-					<span style="display:none;">Check All</span></label>
+					<span style="display:none;">Check All</span>
 					</th>            
                 <th class="ui-datatable-tableheader" style="width:6%;" [pSortableColumn]="cols[0].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Gene#gene_name" target="_blank" style="color:white">Gene</a><p-sortIcon [field]="cols[0].field" ariaLabel="Sort Gene column in ascending/descending order"></p-sortIcon></th>
 			    <th class="ui-datatable-tableheader" style="width:12%" [pSortableColumn]="cols[1].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Gene#chromosome" target="_blank" style="color:white">Chromosome</a><p-sortIcon [field]="cols[1].field" ariaLabel="Sort Chromosome column in ascending/descending order"></p-sortIcon></th>

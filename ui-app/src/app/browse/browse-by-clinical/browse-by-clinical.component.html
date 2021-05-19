@@ -52,7 +52,7 @@
         <ng-template style="font-size: 12px; background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%);" pTemplate="header">
             <tr style="font-size: 12px;">
 				<th class="ui-datatable-tableheader" style="width:3%;overflow: unset;">
-					<label><p-checkbox  id="clinicalDataChk" [(ngModel)]="headercheckbox" binary="true" (onChange)="onTableHeaderCheckboxToggle()" ></p-checkbox >
+					<label><p-checkbox  id="clinicalDataChk" [(ngModel)]="headercheckbox" binary="true" (onChange)="onTableHeaderCheckboxToggle()" ></p-checkbox></label>
 					<mat-select id="dataForManifestExport" class="card-body card-list" [(ngModel)]="selectedHeaderCheckbox"
 					(selectionChange)="changeHeaderCheckbox($event)">
 						<mat-option *ngFor="let checkboxOption of checkboxOptions" [value]="checkboxOption">
@@ -60,7 +60,6 @@
 						</mat-option>
 					</mat-select>
 					<span style="display:none">Select all rows</span>
-					</label>
 				</th>
 				<!-- @@@PDC-3072 Add project_id to clinical tab to distinguish between the same case IDs --> 
 				<th class="ui-datatable-tableheader" style="width:7%;" [pSortableColumn]="cols[1].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Project" target="_blank" style="color:white">Project</a><p-sortIcon [field]="cols[1].field" ariaLabel="Sort Case submitter ID in ascending/descending order"></p-sortIcon></th>				

@@ -52,7 +52,7 @@
         <ng-template style="font-size: 12px; background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%);" pTemplate="header" let-columns>
             <tr style="font-size: 12px;">
 				<th class="ui-datatable-tableheader" style="width:5%;overflow: unset;">
-				<label><p-checkbox  id="caseDataChk" [(ngModel)]="headercheckbox" binary="true" (onChange)="onTableHeaderCheckboxToggle()" ></p-checkbox >
+				<label><p-checkbox  id="caseDataChk" [(ngModel)]="headercheckbox" binary="true" (onChange)="onTableHeaderCheckboxToggle()"></p-checkbox></label>
 					<mat-select id="dataForManifestExport" class="card-body card-list" [(ngModel)]="selectedHeaderCheckbox"
 					(selectionChange)="changeHeaderCheckbox($event)">
 						<mat-option *ngFor="let checkboxOption of checkboxOptions" [value]="checkboxOption">
@@ -60,7 +60,7 @@
 						</mat-option>
 					</mat-select>
 					<span style="display:none">Select all rows</span>
-					</label>
+					
 				</th>
 				<!-- @@@PDC-262 link headers to data dictionary -->                
                 <th class="ui-datatable-tableheader" style="width:18%;word-break: break-all;" [pSortableColumn]="cols[1].field"><a href="{{staticUrlBase}}dictionaryitem.html?eName=Aliquot" target="_blank" style="color:white">Aliquot</a><p-sortIcon [field]="cols[1].field" ariaLabel="Sort Aliquot column in ascending/descending order"></p-sortIcon></th>

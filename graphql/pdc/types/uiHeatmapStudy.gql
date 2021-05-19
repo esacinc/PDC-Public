@@ -1,0 +1,15 @@
+type UIHeatmapStudy {
+	study_id: String
+	study_submitter_id: String 
+	pdc_study_id: String
+	submitter_id_name: String
+	study_description: String
+	program_name: String
+	project_name: String
+	disease_types: [String]
+	primary_sites: [String]
+	analytical_fraction: String
+	experiment_type: String
+	embargo_date: Date
+	heatmapFiles: [String]
+}

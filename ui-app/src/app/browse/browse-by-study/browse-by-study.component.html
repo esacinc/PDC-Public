@@ -50,14 +50,13 @@
         <ng-template pTemplate="header" let-columns>
             <tr>
 				<th rowspan=3 class="ui-datatable-tableheader" style="width:3%; align-content: center !important; overflow: unset;" pResizableColumn alt="Check All checkboxes in the table">
-					<label><p-checkbox  id="studyDataChk" [(ngModel)]="headercheckbox" binary="true" (onChange)="onTableHeaderCheckboxToggle()" ></p-checkbox >
-					<mat-select id="dataForManifestExport" class="card-body card-list" [(ngModel)]="selectedHeaderCheckbox"
-					(selectionChange)="changeHeaderCheckbox($event)">
+					<label><p-checkbox  id="studyDataChk" [(ngModel)]="headercheckbox" binary="true" (onChange)="onTableHeaderCheckboxToggle()"></p-checkbox></label>
+					<mat-select id="dataForManifestExport" class="card-body card-list" [(ngModel)]="selectedHeaderCheckbox" (selectionChange)="changeHeaderCheckbox($event)">
 						<mat-option *ngFor="let checkboxOption of checkboxOptions" [value]="checkboxOption">
 							{{checkboxOption}}
 						</mat-option>
 					</mat-select>
-					<span style="display:none;">Select All</span></label>
+					<span style="display:none;">Select All</span>
 				</th>
 				<!-- @@@PDC-262 link headers to data dictionary -->     
 				<th rowspan=3 class="ui-datatable-tableheader" style="width:7%;" [pSortableColumn]="cols[0].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Study" target="_blank" style="color:white">PDC Study ID</a><p-sortIcon [field]="cols[0].field" ariaLabel="Sort Study in ascending/descending order"></p-sortIcon></th>           

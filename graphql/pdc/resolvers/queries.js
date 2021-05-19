@@ -26,6 +26,7 @@ import  {
 	studyIdIntersection,
 	uiFilterSubqueryProcess
   } from '../util/browsePageFilters';
+import { getHeatMapStudies } from '../util/heatMapData';
 
 const Op = Sequelize.Op;
 //@@@PDC-3253 add acceptDUA
@@ -1221,8 +1222,9 @@ export const resolvers = {
 		//@@@PDC-3362 handle legacy studies
 		uiLegacyStudies(_, args, context) {
 			logger.info("uiLegacyStudies is called with "+ JSON.stringify(args));
+			//@@@PDC-3637 add sort_order column
 			var legacyQuery = "SELECT bin_to_uuid(study_id) as study_id, study_submitter_id, "+
-			"pdc_study_id, project_submitter_id, study_shortname, study_description, submitter_id_name, "+"cptac_phase, analytical_fraction, experiment_type, acquisition_type, embargo_date "+
+			"pdc_study_id, project_submitter_id, study_shortname, study_description, submitter_id_name, "+"cptac_phase, analytical_fraction, experiment_type, acquisition_type, embargo_date, sort_order "+
 			"FROM legacy_study WHERE study_id is not null ";
 			if (typeof args.project_submitter_id != 'undefined' && args.project_submitter_id.length > 0) {
 				let projects = args.project_submitter_id.split(";");
@@ -1233,6 +1235,41 @@ export const resolvers = {
 			}
 			return db.getSequelize().query(legacyQuery, { model: db.getModelByName('ModelUIStudy') });
 			
+		},
+		//@@@PDC-3597 heatmap study api
+		getUIHeatmapFilters(_, args, context) {
+			logger.info("getUIPublicationFilters is called from UI with "+ JSON.stringify(args));
+			return "3";
+		},
+		async uiHeatmapStudies(_, args, context) {
+			logger.info("uiHeatmapStudies is called with "+ JSON.stringify(args));
+			//logger.info("heatmap studies: "+ getHeatMapStudies());
+			
+			var hmsQuery = "SELECT distinct BIN_TO_UUID(s.study_id) AS study_id, s.study_submitter_id, "+
+				"s.pdc_study_id, s.submitter_id_name, "+ 
+				"s.analytical_fraction, s.experiment_type "+
+				"FROM study s, aliquot al, aliquot_run_metadata alm, `case` c, "+
+				"sample sam WHERE alm.study_id = s.study_id AND al.aliquot_id = alm.aliquot_id "+
+				"AND al.sample_id = sam.sample_id AND sam.case_id = c.case_id "+
+				"AND s.study_id IN (UUID_TO_BIN('"+getHeatMapStudies()+"'))";
+			if (typeof args.disease_type != 'undefined' && args.disease_type.length > 0) {
+				let diseases = args.disease_type.split(";");
+				hmsQuery += " and c.disease_type IN ('" + diseases.join("','") + "')";
+			}
+			if (typeof args.primary_site != 'undefined' && args.primary_site.length > 0) {
+				let sites = args.primary_site.split(";");
+				hmsQuery += " and c.primary_site IN ('" + sites.join("','") + "')";
+			}
+			if (typeof args.analytical_fraction != 'undefined' && args.analytical_fraction.length > 0) {
+				let fractions = args.analytical_fraction.split(";");
+				hmsQuery += " and s.analytical_fraction IN ('" + fractions.join("','") + "')";
+			}
+			let result = await db.getSequelize().query(hmsQuery, { model: db.getModelByName('ModelUIStudy') });
+			result.forEach(element => {
+				element.heatmapFiles = getHeatMapStudies(element.study_id);
+				//logger.info("heatmap files for: "+ element.study_id + ":"+element.heatmapFiles);
+				});
+			return result;				
 		},
 		//@@@PDC-329 Pagination for UI study summary page
 		//@@@PDC-497 Make table column headers sortable on the browse page tabs
@@ -1353,8 +1390,18 @@ export const resolvers = {
 			"CAST(f.file_size AS UNSIGNED) AS file_size ";
 			if (typeof args.study_id != 'undefined' && args.study_id.length > 0) {
 				fileBaseQuery += " and s.study_id = uuid_to_bin('"+args.study_id+"')";
-				legacyCacheName += 'Study:'+args.study_idt+';';
-				legacyTotalCacheName += 'Study:'+args.study_idt+';';
+				legacyCacheName += 'Study:'+args.study_id+';';
+				legacyTotalCacheName += 'Study:'+args.study_id+';';
+			}
+			if (typeof args.file_type != 'undefined' && args.file_type.length > 0) {
+				fileBaseQuery += " and f.file_type = '"+args.file_type+"'";
+				legacyCacheName += 'FileType:'+args.file_type+';';
+				legacyTotalCacheName += 'FileType:'+args.file_type+';';
+			}
+			if (typeof args.data_category != 'undefined' && args.data_category.length > 0) {
+				fileBaseQuery += " and f.data_category = '"+args.data_category+"'";
+				legacyCacheName += 'DataCategory:'+args.data_category+';';
+				legacyTotalCacheName += 'DataCategory:'+args.data_category+';';
 			}
 			let myOffset = 0;
 			let myLimit = 1000;
@@ -3376,6 +3423,16 @@ export const resolvers = {
 				return myJson;
 			}
 		},
+		//@@@PDC-3640 new pdc metrics api
+		getPDCMetrics(_, args, context) {
+			logger.info("getPDCMetrics is called with "+ JSON.stringify(args));
+			if(!context.isUI) {
+				gaVisitor.pageview("/graphqlAPI/getPDCMetrics").send();
+				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					throw new ApolloError(duaMsg);
+			}
+			return "pdcMetrics";
+		},
 		//@@@PDC-3446 API for new publication screen
 		getUIPublicationFilters(_, args, context) {
 			logger.info("getUIPublicationFilters is called from UI with "+ JSON.stringify(args));
@@ -3928,7 +3985,9 @@ export const resolvers = {
 				let studySub = args.pdc_study_id.split(";");
 				experimentalQuery += " and s.pdc_study_id IN ('" + studySub.join("','") + "')";
 			}
-			experimentalQuery += " order by srm.study_run_metadata_submitter_id, srm.folder_name asc ";
+			//@@@PDC-3241: Updates to UI for Experimental Design tab for Study Run Metadata Submitter ID, Plex Dataset name and tmt channel ordering
+			//Order data by plex_dataset_name
+			experimentalQuery += " order by srm.folder_name asc ";
 			var studyExperimentalDesigns = await db.getSequelize().query(experimentalQuery, { model: db.getModelByName('ModelStudyExperimentalDesign') });
 			if (typeof args.label_aliquot_id != 'undefined' && args.label_aliquot_id == 'true') {
 				var aliquotIdQuery = "select distinct bin_to_uuid(al.aliquot_id) as label "+

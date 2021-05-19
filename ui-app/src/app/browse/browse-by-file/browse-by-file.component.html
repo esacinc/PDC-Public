@@ -71,14 +71,14 @@
 				<ng-template pTemplate="header">
 					<tr style="font-size: 12px;">
 						<th class="ui-datatable-tableheader" style="width:3%;overflow: unset;">
-							<label><p-checkbox  id="fileDataChk" [(ngModel)]="headercheckbox" binary="true" (onChange)="onTableHeaderCheckboxToggle()"></p-checkbox >
+							<label><p-checkbox  id="fileDataChk" [(ngModel)]="headercheckbox" binary="true" (onChange)="onTableHeaderCheckboxToggle()"></p-checkbox></label>
 							<mat-select id="dataForManifestExport" class="card-body card-list" [(ngModel)]="selectedHeaderCheckbox"
 							(selectionChange)="changeHeaderCheckbox($event)">
 								<mat-option *ngFor="let checkboxOption of checkboxOptions" [value]="checkboxOption">
 									{{checkboxOption}}
 								</mat-option>
 							</mat-select>
-							<span style="display:none">Select this row</span></label>
+							<span style="display:none">Select this row</span>
 						</th>
 						<!-- PDC-2795 -->
 						<th class="ui-datatable-tableheader" style="width:6%;" [pSortableColumn]="cols[0].field"><a

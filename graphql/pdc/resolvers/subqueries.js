@@ -8,6 +8,7 @@ import {RedisCacheClient, CacheName} from '../util/cacheClient';
 //@@@PDC-1215 use winston logger
 import { logger } from '../util/logger';
 import  {queryList} from '../util/browsePageFilters';
+import { getHeatMapStudies } from '../util/heatMapData';
 
 
 const Op = Sequelize.Op;
@@ -541,6 +542,44 @@ export const resolvers = {
 			return suppleTypes;		
 		}
 	},
+	//@@@PDC-3640 new pdc metrics api
+	PDCMetrics: {
+		async programs(obj, args, context) {
+			let myQuery = "SELECT count(*) as programs FROM program";
+			var result = await db.getSequelize().query(myQuery, { raw: true });
+			return parseInt(result[0][0].programs);
+		},
+		async projects(obj, args, context) {
+			let myQuery = "SELECT count(*) as projects FROM project";
+			var result = await db.getSequelize().query(myQuery, { raw: true });
+			return parseInt(result[0][0].projects);
+		},
+		async studies(obj, args, context) {
+			let myQuery = "SELECT count(*) as studies FROM study WHERE is_latest_version = 1";
+			var result = await db.getSequelize().query(myQuery, { raw: true });
+			return parseInt(result[0][0].studies);
+		},		
+		async cases(obj, args, context) {
+			let myQuery = "SELECT  COUNT(DISTINCT dia.diagnosis_id) AS cases FROM study s, aliquot al, "+
+			"aliquot_run_metadata alm, `case` c, sample sam, demographic dem, diagnosis dia "+
+			"WHERE alm.study_id = s.study_id AND al.aliquot_id = alm.aliquot_id "+      
+			"AND al.sample_id = sam.sample_id AND sam.case_id = c.case_id "+
+			"AND c.case_id = dem.case_id AND c.case_id = dia.case_id and s.is_latest_version = 1";
+			var result = await db.getSequelize().query(myQuery, { raw: true });
+			return parseInt(result[0][0].cases);
+		},		
+		async files(obj, args, context) {
+			let myQuery = "SELECT count(*) as files FROM file f, study_file sf, study s "+
+			"WHERE f.file_id = sf.file_id and sf.study_id = s.study_id and s.is_latest_version = 1";
+			var result = await db.getSequelize().query(myQuery, { raw: true });
+			return parseInt(result[0][0].files);
+		},
+		async data_size_TB(obj, args, context) {
+			let myQuery = "select round(((sum(file_size))/POWER(1024,4)), 0) as data_size from file";
+			var result = await db.getSequelize().query(myQuery, { raw: true });
+			return parseInt(result[0][0].data_size);
+		}		
+	},
 	PublicationFilters: {
 		async disease_types(obj, args, context) {
 			var diseaseQuery = "SELECT distinct c.disease_type as disease_type FROM study s, `case` c, sample sam, aliquot al, "+
@@ -566,6 +605,67 @@ export const resolvers = {
 			var programNames = [];
 			programs[0].forEach((row) =>programNames.push(row['name']));
 			return programNames;		
+		}
+	},
+	//@@@PDC-3597 heatmap study api
+	HeatmapFilters: {
+		async disease_types(obj, args, context) {
+			var diseaseQuery = "SELECT distinct c.disease_type as disease_type FROM study s, `case` c, sample sam, aliquot al, "+
+			"aliquot_run_metadata alm WHERE alm.study_id = s.study_id and al.aliquot_id "+
+			"= alm.aliquot_id and al.sample_id=sam.sample_id and sam.case_id=c.case_id and "+
+			//"c.disease_type != 'Other' "+
+			"s.study_id IN (UUID_TO_BIN('"+getHeatMapStudies()+"')) "+
+			"order by c.disease_type";
+			var diseases = await db.getSequelize().query(diseaseQuery, { raw: true });
+			var diseaseTypes = [];
+			diseases[0].forEach((row) =>diseaseTypes.push(row['disease_type']));
+			return diseaseTypes;		
+		},
+		async primary_sites(obj, args, context) {
+			var siteQuery = "SELECT distinct c.primary_site as primary_site FROM study s, `case` c, sample sam, aliquot al, "+
+			"aliquot_run_metadata alm WHERE alm.study_id = s.study_id and al.aliquot_id "+
+			"= alm.aliquot_id and al.sample_id=sam.sample_id and sam.case_id=c.case_id and "+
+			//"c.primary_site != 'Not Reported' "+
+			"s.study_id IN (UUID_TO_BIN('"+getHeatMapStudies()+"')) "+
+			"order by c.primary_site";
+			var sites = await db.getSequelize().query(siteQuery, { raw: true });
+			var siteTypes = [];
+			sites[0].forEach((row) =>siteTypes.push(row['primary_site']));
+			return siteTypes;		
+		},
+		async analytical_fractions(obj, args, context) {
+			var fractionQuery = "SELECT distinct s.analytical_fraction FROM study s WHERE s.study_id IN (UUID_TO_BIN('"+getHeatMapStudies()+"')) "+
+			"order by s.analytical_fraction";
+			var fractions = await db.getSequelize().query(fractionQuery, { raw: true });
+			var fractionNames = [];
+			fractions[0].forEach((row) =>fractionNames.push(row['analytical_fraction']));
+			return fractionNames;		
+		}
+	},
+	UIHeatmapStudy: {
+		async disease_types (obj, args, context) {
+			var dtQuery = "SELECT distinct c.disease_type "+
+				"FROM study s, aliquot al, aliquot_run_metadata alm, `case` c, "+
+				"sample sam WHERE alm.study_id = s.study_id AND al.aliquot_id = alm.aliquot_id "+
+				"AND al.sample_id = sam.sample_id AND sam.case_id = c.case_id "+
+				//"AND c.disease_type != 'Other' "+
+				"AND s.study_id = UUID_TO_BIN('"+obj.study_id+"')";
+			var dts = await db.getSequelize().query(dtQuery, { raw: true });
+			var dtValues = [];
+			dts[0].forEach((row) =>dtValues.push(row['disease_type']));
+			return dtValues;		
+		},
+		async primary_sites (obj, args, context) {
+			var psQuery = "SELECT distinct c.primary_site "+
+				"FROM study s, aliquot al, aliquot_run_metadata alm, `case` c, "+
+				"sample sam WHERE alm.study_id = s.study_id AND al.aliquot_id = alm.aliquot_id "+
+				"AND al.sample_id = sam.sample_id AND sam.case_id = c.case_id "+
+				//"AND c.primary_site != 'Not Reported' "+
+				"AND s.study_id = UUID_TO_BIN('"+obj.study_id+"')";
+			var pss = await db.getSequelize().query(psQuery, { raw: true });
+			var psValues = [];
+			pss[0].forEach((row) =>psValues.push(row['primary_site']));
+			return psValues;		
 		}
 	},
 	//@@@PDC-136 pagination

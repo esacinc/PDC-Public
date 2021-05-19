@@ -1,0 +1,9 @@
+type PDCMetrics {
+	name: String
+	programs: Int
+	projects: Int
+	studies: Int
+	cases: Int
+	files: Int
+	data_size_TB: Int
+}

@@ -791,12 +791,12 @@ var spec = {
                        }
                      }
                   },
-                   "?query={pdcDataStats (acceptDUA: {acceptDUA}) {program study spectra protein project program peptide data_size data_label data_file}}": {
+                   "?query={getPDCMetrics (acceptDUA: {acceptDUA}) {programs projects studies cases files data_size_TB}}": {
                  "get": {
                            "tags": ["General"],
-                   "summary": "Gets all PDC statistics",
-                   "description": "<b>Gets all PDC statistics.<br><br>Fields:</b><ul><li>program</li><li>study</li><li>spectra</li><li>protein</li><li>project</li><li>program</li><li>peptide</li><li>data_size</li><li>data_label</li><li>data_file</li></ul>",
-                   "operationId": "pdcDataStats",
+                   "summary": "Gets PDC metrics",
+                   "description": "<b>Gets the following PDC metrics.<br><br>Fields:</b><ul><li>programs</li><li>projects</li><li>studies</li><li>cases</li><li>files</li><li>data_size_TB</li></ul>",
+                   "operationId": "getPDCMetrics",
                    "produces": [
                      "application/json"
                    ],
@@ -811,7 +811,7 @@ var spec = {
                      "200": {
                        "description": "successful operation",
                        "schema": {
-                         "$ref": "#/definitions/pdcDataStats"
+                         "$ref": "#/definitions/getPDCMetrics"
                        }
                      },
                      "401": {
@@ -3411,48 +3411,36 @@ var spec = {
                 "name":"Paginated"
              }
           },
-          "pdcDataStatsDesc":{
+          "getPDCMetricsDesc":{
              "type":"object",
              "properties":{
-                "program":{
+                "programs":{
                    "type":"integer",
-                   "example":2
+                   "example":6
                 },
-                "study":{
+                "projects":{
                    "type":"integer",
-                   "example":20
+                   "example":13
                 },
-                "spectra":{
+                "studies":{
                    "type":"integer",
-                   "example":64720831
+                   "example":75
                 },
-                "protein":{
+                "cases":{
                    "type":"integer",
-                   "example":12704
+                   "example":2419
                 },
-                "project":{
-                   "type":"integer",
-                   "example":4
-                },
-                "peptide":{
-                   "type":"integer",
-                   "example":991578
-                },
-                "data_size":{
-                   "type":"integer",
-                   "example":8
-                },
-                "data_label":{
-                   "type":"string",
-                   "example":"test4"
-                },
-                "data_file":{
+                "files":{
                    "type":"integer",
                    "example":31172
+                },
+                "data_size_TB":{
+                   "type":"integer",
+                   "example":30
                 }
              },
              "xml":{
-                "name":"pdcDataStatsDesc"
+                "name":"getPDCMetricsDesc"
              }
           },
           "ExperimentProjects":{
@@ -5989,33 +5977,33 @@ var spec = {
                 "name":"studyExperimentalDesignDesc"
              }
           },
-          "pdcDataStats":{
+          "getPDCMetrics":{
              "type":"object",
              "properties":{
                 "data":{
                    "type":"string",
-                   "$ref":"#/definitions/pdcDataStatsDef"
+                   "$ref":"#/definitions/getPDCMetricsDef"
                 }
              },
              "xml":{
-                "name":"pdcDataStats"
+                "name":"getPDCMetrics"
              }
           },
-          "pdcDataStatsDef":{
+          "getPDCMetricsDef":{
              "type":"object",
              "required":[
     
              ],
              "properties":{
-                "pdcDataStats":{
+                "getPDCMetrics":{
                    "type":"array",
                    "items":{
-                      "$ref":"#/definitions/pdcDataStatsDesc"
+                      "$ref":"#/definitions/getPDCMetricsDesc"
                    }
                 }
              },
              "xml":{
-                "name":"pdcDataStatsDef"
+                "name":"getPDCMetricsDef"
              }
           },
           "Protein":{

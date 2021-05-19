@@ -10,6 +10,7 @@ import { BrowseByGeneService } from './browse-by-gene.service';
 import { GeneProteinSummaryComponent } from '../../gene-protein-summary/gene-protein-summary.component';
 import { ngxCsv } from "ngx-csv/ngx-csv";
 import * as FileSaver from 'file-saver';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'browse-by-gene',
@@ -255,6 +256,8 @@ downloadCompleteManifest(buttonClick = false) {
 			if (buttonClick) {
 				this.selectedGenesData = localSelectedGenes;
 				this.headercheckbox = true;
+				//@@@PDC-3667: "Select all pages" option issue
+				this.updateCurrentPageSelectedGenes(localSelectedGenes);
 				this.loading = false;
 			} else {
 				let headerCols = [];
@@ -282,6 +285,14 @@ downloadCompleteManifest(buttonClick = false) {
 			}
 			});
 	}, 10);
+}
+
+//@@@PDC-3667: "Select all pages" option issue
+updateCurrentPageSelectedGenes(localSelectedGenes) {
+	let cloneData = _.cloneDeep(localSelectedGenes);
+	cloneData = cloneData.splice(0, this.pageSize);
+	this.currentPageSelectedGene = [];
+	cloneData.forEach(item => {this.currentPageSelectedGene.push(item.gene_name)});
 }
   
 /* Helper function to determine whether the download all button should be disabled or not */
@@ -313,9 +324,6 @@ isDownloadDisabled(){
   // This function is a callback for pagination controls
 	// It is called when a new page needs to be loaded from the DB  
 	loadNewPage(event: any) {
-		if(event.rows !== this.pageSize){
-			this.clearSelection();
-		}
 		if(this.headercheckbox && this.pageHeaderCheckBoxTrack.indexOf(this.offset) === -1){
 			this.pageHeaderCheckBoxTrack.push(this.offset);
 		}else if(!this.headercheckbox && this.pageHeaderCheckBoxTrack.indexOf(this.offset) !== -1){
@@ -348,13 +356,32 @@ isDownloadDisabled(){
 			}
 			this.loading = false;
 			this.trackCurrentPageSelectedCase(data.getPaginatedUIGene.uiGenes);
+			if (this.pageHeaderCheckBoxTrack.indexOf(this.offset) !== -1) {
+				this.headercheckbox = true;
+			} else{
+				this.headercheckbox = false;
+			}
+			//@@@PDC-3667: "Select all pages" option issue
+			this.handleCheckboxSelections();
 		});
-		
-		if(this.pageHeaderCheckBoxTrack.indexOf(this.offset) !== -1){
-      this.headercheckbox = true;
-    }else{
-      this.headercheckbox = false;
-    }
+	}
+
+	//@@@PDC-3667: "Select all pages" option issue
+	handleCheckboxSelections() {
+		if (this.currentPageSelectedGene.length === this.pageSize) {
+			this.headercheckbox = true;
+		} else {
+			//For the last page
+			if (this.totalRecords - this.offset < this.pageSize) {
+				if (this.currentPageSelectedGene.length === this.totalRecords - this.offset) {
+					this.headercheckbox = true;
+				} else {
+					this.headercheckbox = false;
+				}
+			} else {
+				this.headercheckbox = false;
+			}
+		}
 	}
 	
 	showGeneSummary(gene_name: string){
@@ -532,8 +559,15 @@ isDownloadDisabled(){
 				} 
 			}
 			this.selectedGenesData = localSelectedCases;
-		}else{
-			this.selectedGenesData = [];
+		} else {
+			//@@@PDC-3667: "Select all pages" option issue
+			for (let gene of this.currentPageSelectedGene) {
+				let index = localSelectedCases.findIndex(x => x.gene_name === gene);
+				if(index >-1){
+					localSelectedCases.splice(index,1);
+				}
+      		}
+			this.selectedGenesData = localSelectedCases; 
 			this.currentPageSelectedGene = [];
 			this.pageHeaderCheckBoxTrack = [];
 		}
@@ -542,9 +576,8 @@ isDownloadDisabled(){
 	//@@@PDC-848 Fix headercheckbox issue for data tables on browse page
 	onRowSelected(event:any){
 		this.currentPageSelectedGene.push(event.data.gene_name);
-		if(this.currentPageSelectedGene.length === this.pageSize){
-			this.headercheckbox = true;
-		}
+		//@@@PDC-3667: "Select all pages" option issue
+		this.handleCheckboxSelections();
 	}
 
 	//@@@PDC-848 Fix headercheckbox issue for data tables on browse page
@@ -553,11 +586,8 @@ isDownloadDisabled(){
 		if(index >-1){
 			this.currentPageSelectedGene.splice(index,1);
 		}
-		if(this.currentPageSelectedGene.length === this.pageSize){
-			this.headercheckbox = true;
-		}else{
-			this.headercheckbox = false;
-		}
+		//@@@PDC-3667: "Select all pages" option issue
+		this.handleCheckboxSelections();
 	}
 
 	//@@@PDC-848 Fix headercheckbox issue for data tables on browse page

@@ -11,6 +11,7 @@ import { CaseSummaryComponent } from '../case-summary/case-summary.component';
 import { BrowseByCaseService } from './browse-by-case.service';
 import { ngxCsv } from "ngx-csv/ngx-csv";
 import * as FileSaver from 'file-saver';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'browse-by-case',
@@ -267,6 +268,8 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
 		setTimeout(() => {
 			if (!buttonClick) {
 				this.isTableLoading.emit({isTableLoading:"case:true"});
+			} else {
+				this.loading = true;
 			}
 			this.browseByCaseService.getFilteredCasesPaginated(0, this.totalRecords, this.sort, this.newFilterSelected).subscribe((data: any) =>{
 					let filteredCasesData = data.getPaginatedUICase.uiCases;
@@ -277,6 +280,9 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
 					if (buttonClick) {
 						this.selectedCases = localSelectedCases;
 						this.headercheckbox = true;
+						//@@@PDC-3667: "Select all pages" option issue
+						this.updateCurrentPageSelectedCases(localSelectedCases);
+						this.loading = false;
 					} else {
 						let headerCols = [];
 						let colValues = [];
@@ -305,12 +311,17 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
 		}, 10);
 	}
 
+	//@@@PDC-3667: "Select all pages" option issue
+	updateCurrentPageSelectedCases(localSelectedCases) {
+		let cloneData = _.cloneDeep(localSelectedCases);
+		cloneData = cloneData.splice(0, this.pageSize);
+		this.currentPageSelectedCase = [];
+		cloneData.forEach(item => {this.currentPageSelectedCase.push(item.aliquot_submitter_id)});
+	}
+
 	//@@@PDC-497 (onLazyLoad)="loadCases($event)" will be invoked when sort event fires  
 	//@@@PDC-848 Fix headercheckbox issue for data tables on browse page
 	loadCases(event: any) {
-		if(event.rows !== this.pageSize){
-			this.clearSelection();
-		}
 		if(this.headercheckbox && this.pageHeaderCheckBoxTrack.indexOf(this.offset) === -1){
 			this.pageHeaderCheckBoxTrack.push(this.offset);
 		}else if(!this.headercheckbox && this.pageHeaderCheckBoxTrack.indexOf(this.offset) !== -1){
@@ -339,13 +350,14 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
 			}
 			this.loading = false;
 			this.trackCurrentPageSelectedCase(data.getPaginatedUICase.uiCases);
+			if(this.pageHeaderCheckBoxTrack.indexOf(this.offset) !== -1){
+				this.headercheckbox = true;
+			}else{
+				this.headercheckbox = false;
+			}
+			//@@@PDC-3667: "Select all pages" option issue
+			this.handleCheckboxSelections();
 		});
-
-		if(this.pageHeaderCheckBoxTrack.indexOf(this.offset) !== -1){
-      this.headercheckbox = true;
-    }else{
-      this.headercheckbox = false;
-    }
 	}
 
 	/* Helper function to determine whether the download all button should be disabled or not */
@@ -540,20 +552,26 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
         } 
       }
       this.selectedCases = localSelectedCases;
-    }else{
-      this.selectedCases = [];
-      this.currentPageSelectedCase = [];
-      this.pageHeaderCheckBoxTrack = [];
+    } else {
+			//@@@PDC-3667: "Select all pages" option issue
+			for (let caseValue of this.currentPageSelectedCase) {
+				let index = localSelectedCases.findIndex(x => x.aliquot_submitter_id === caseValue);
+				if (index >-1) {
+					localSelectedCases.splice(index,1);
+				}
+			}
+			this.selectedCases = localSelectedCases; 
+			this.currentPageSelectedCase = [];
+			this.pageHeaderCheckBoxTrack = [];
     }
   }
   
   //@@@PDC-848 Fix headercheckbox issue for data tables on browse page
   //@@@PDC-1431 fix biospecimens table row selection issue	
   onRowSelected(event:any){
-    this.currentPageSelectedCase.push(event.data.aliquot_submitter_id);
-    if(this.currentPageSelectedCase.length === this.pageSize){
-      this.headercheckbox = true;
-    }
+		this.currentPageSelectedCase.push(event.data.aliquot_submitter_id);
+		//@@@PDC-3667: "Select all pages" option issue
+		this.handleCheckboxSelections();
   }
 
 	//@@@PDC-848 Fix headercheckbox issue for data tables on browse page
@@ -562,13 +580,28 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
     let index = this.currentPageSelectedCase.indexOf(event.data.aliquot_submitter_id);
     if(index >-1){
       this.currentPageSelectedCase.splice(index,1);
-    }
-    if(this.currentPageSelectedCase.length === this.pageSize){
-      this.headercheckbox = true;
-    }else{
-      this.headercheckbox = false;
-    }
-  }
+		}
+		//@@@PDC-3667: "Select all pages" option issue
+		this.handleCheckboxSelections();
+	}
+	
+	//@@@PDC-3667: "Select all pages" option issue
+	handleCheckboxSelections() {
+		if (this.currentPageSelectedCase.length === this.pageSize) {
+			this.headercheckbox = true;
+		} else {
+			//For the last page
+			if (this.totalRecords - this.offset < this.pageSize) {
+				if (this.currentPageSelectedCase.length === this.totalRecords - this.offset) {
+					this.headercheckbox = true;
+				} else {
+					this.headercheckbox = false;
+				}
+			} else {
+				this.headercheckbox = false;
+			}
+		}
+	}
 
 	//@@@PDC-848 Fix headercheckbox issue for data tables on browse page
 	private clearSelection(){
