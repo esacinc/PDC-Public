@@ -1,6 +1,6 @@
 //PDC-173 uuid as pk
 {
-  case(case_submitter_id: "01BR001") {
+  case(case_submitter_id: "01BR001"  acceptDUA: true) {
 	  case_submitter_id
 	  project_submitter_id
 	  disease_type
@@ -15,7 +15,7 @@
 }
 //PDC-899
 {
-  program(program_submitter_id: "CPTAC") {
+  program(program_submitter_id: "CPTAC"  acceptDUA: true) {
 	  program_id
 	  program_submitter_id
 	  name
@@ -64,7 +64,7 @@
 }
 //PDC-164, 2614
 {
-	geneSpectralCount(gene_name: "A1BG"){
+	geneSpectralCount(gene_name: "A1BG"  acceptDUA: true){
 	  gene_id
 	  gene_name
 	  NCBI_gene_id
@@ -88,7 +88,7 @@
 }
 //PDC-2638
 {
-	aliquotSpectralCount(gene_name: "A1BG" dataset_alias: "A2-A0D0-01A"){
+	aliquotSpectralCount(gene_name: "A1BG" dataset_alias: "A2-A0D0-01A"  acceptDUA: true){
 	  gene_id
 	  gene_name
 	  NCBI_gene_id
@@ -110,8 +110,9 @@
 	  }
 	}
 }
+3668
 {
-	protein(protein: "M0R009"){
+	protein(protein: "M0R009" acceptDUA: true){
 	  gene_id
 	  gene_name
 	  NCBI_gene_id
@@ -123,8 +124,10 @@
 	  proteins
 	  assays
 	  spectral_counts {
+	      study_id
 	      pdc_study_id
 		  project_submitter_id
+		  project_id
 		  plex
 		  spectral_count
 		  distinct_peptide
@@ -148,7 +151,7 @@ Sample requests for testing
 }
 2.
 {
-	diseaseTypesPerProject (project_submitter_id: "CPTAC-2" ) {
+	diseaseTypesPerProject (project_submitter_id: "CPTAC-2"  acceptDUA: true) {
 		project_submitter_id
 		experiment_type
 		analytical_fraction
@@ -163,18 +166,19 @@ Sample requests for testing
   tissueSitesAvailable {
   tissue_or_organ_of_origin
   project_submitter_id
+  project_id
   cases_count
   }
 }
 {
-  tissueSitesAvailable (tissue_or_organ_of_origin: "Breast"){
+  tissueSitesAvailable (tissue_or_organ_of_origin: "Breast" acceptDUA: true){
   tissue_or_organ_of_origin
   project_submitter_id
   cases_count
   }
 }
 {
-  tissueSitesAvailable (project_submitter_id: "CPTAC-2"){
+  tissueSitesAvailable (project_submitter_id: "CPTAC-2" acceptDUA: true){
   tissue_or_organ_of_origin
   project_submitter_id
   cases_count
@@ -187,13 +191,14 @@ Sample requests for testing
   diseasesAvailable {
   disease_type
   tissue_or_organ_of_origin
+  project_id
   project_submitter_id
   cases_count
   }
 }
 2.
 {
-  diseasesAvailable (disease_type: "Colon Adenocarcinoma") {
+  diseasesAvailable (disease_type: "Colon Adenocarcinoma" acceptDUA: true) {
   disease_type
   tissue_or_organ_of_origin
   project_submitter_id
@@ -202,7 +207,7 @@ Sample requests for testing
 }
 3.
 {
-  diseasesAvailable (tissue_or_organ_of_origin: "Ovary") {
+  diseasesAvailable (tissue_or_organ_of_origin: "Ovary" acceptDUA: true) {
   disease_type
   tissue_or_organ_of_origin
   project_submitter_id
@@ -211,7 +216,7 @@ Sample requests for testing
 }
 4.
 {
-  diseasesAvailable (project_submitter_id: "CPTAC-2") {
+  diseasesAvailable (project_submitter_id: "CPTAC-2" acceptDUA: true) {
   disease_type
   tissue_or_organ_of_origin
   project_submitter_id
@@ -230,7 +235,7 @@ Sample requests for testing
 }
 2.
 {
-	allExperimentTypes (experiment_type: "TMT10"){
+	allExperimentTypes (experiment_type: "TMT10" acceptDUA: true){
 		experiment_type 
 		tissue_or_organ_of_origin
 		disease_type
@@ -238,7 +243,7 @@ Sample requests for testing
 }
 3.
 {
-	allExperimentTypes (tissue_or_organ_of_origin: "Colon"){
+	allExperimentTypes (tissue_or_organ_of_origin: "Colon" acceptDUA: true){
 		experiment_type
 		tissue_or_organ_of_origin
 		disease_type
@@ -246,7 +251,7 @@ Sample requests for testing
 }
 4.
 {
-	allExperimentTypes (disease_type: "Colon Adenocarcinoma"){
+	allExperimentTypes (disease_type: "Colon Adenocarcinoma" acceptDUA: true){
 		experiment_type
 		tissue_or_organ_of_origin
 		disease_type
@@ -261,7 +266,7 @@ Sample requests for testing
 	}
 }
 {
-	projectsPerExperimentType (experiment_type: "TMT10"){
+	projectsPerExperimentType (experiment_type: "TMT10" acceptDUA: true){
 		experiment_type
 		  project_submitter_id
 		  name
@@ -276,10 +281,10 @@ Sample requests for testing
 	files_count
 	}
 }
-PDC-188
-1874
+PDC-188 1874 3668
 {
-	filesCountPerStudy (file_type: "RAW"){
+	filesCountPerStudy (file_type: "RAW" acceptDUA: true){
+	study_id
 	study_submitter_id
 	pdc_study_id
 	file_type
@@ -288,7 +293,8 @@ PDC-188
 	}
 }
 {
-	filesCountPerStudy (study_submitter_id: "S038-3" ){
+	filesCountPerStudy (study_submitter_id: "S038-3"  acceptDUA: true){
+	study_id
 	study_submitter_id
 	pdc_study_id
 	file_type
@@ -297,7 +303,8 @@ PDC-188
 	}
 }
 {
-	filesCountPerStudy (pdc_study_id: "PDC000173" ){
+	filesCountPerStudy (pdc_study_id: "PDC000173"  acceptDUA: true){
+	study_id
 	study_submitter_id
 	pdc_study_id
 	file_type
@@ -308,7 +315,7 @@ PDC-188
 //PDC-471
 898
 {
-	filesPerStudy (study_id: "dbe94609-1fb3-11e9-b7f8-0a80fada099c") {
+	filesPerStudy (study_id: "dbe94609-1fb3-11e9-b7f8-0a80fada099c" acceptDUA: true) {
 		file_id,
 		file_submitter_id
 		file_name
@@ -325,7 +332,7 @@ PDC-188
 }
 PDC-1122
 {
-	filesPerStudy (study_submitter_id: "S038-3") {
+	filesPerStudy (study_submitter_id: "S038-3" acceptDUA: true) {
 		file_id,
 		file_submitter_id
 		file_name
@@ -346,7 +353,7 @@ PDC-1122
 }
 //PDC-1966
 {
-	filesPerStudy (file_name: "FN18_N45T46_180min_10ug_C1_032313.psm;20180321_HF_ZHW_total_liver20_F14.raw;20180226_HF_ZHW_total_liver24_F26.mzid.gz") {
+	filesPerStudy (file_name: "FN18_N45T46_180min_10ug_C1_032313.psm;20180321_HF_ZHW_total_liver20_F14.raw;20180226_HF_ZHW_total_liver24_F26.mzid.gz" acceptDUA: true) {
 		file_id,
 		file_submitter_id
 		file_name
@@ -363,7 +370,7 @@ PDC-1122
 }
 //PDC-1874
 {
-	filesPerStudy (pdc_study_id: "PDC000173") {
+	filesPerStudy (pdc_study_id: "PDC000173" acceptDUA: true) {
 		file_id,
 		file_submitter_id
 		file_name
@@ -383,7 +390,7 @@ PDC-1122
 	}
 }
 {
-	filesPerStudy (data_category: "Peptide Spectral Matches") {
+	filesPerStudy (data_category: "Peptide Spectral Matches" acceptDUA: true) {
 		file_id,
 		file_submitter_id
 		file_type
@@ -416,7 +423,7 @@ PDC-1122
 
 }
 {
-	filesPerStudy (study_submitter_id: "S038-3"){
+	filesPerStudy (study_submitter_id: "S038-3" acceptDUA: true){
 		study_id
 		study_submitter_id
 		study_name
@@ -431,7 +438,7 @@ PDC-1122
 
 }
 {
-	filesPerStudy (file_type: "RAW"){
+	filesPerStudy (file_type: "RAW" acceptDUA: true){
 		study_id
 		study_submitter_id
 		study_name
@@ -446,7 +453,7 @@ PDC-1122
 
 }
 {
-	filesPerStudy (file_name: "10ffa258-14c2-4c74-861e-91ed02fb4cf6.raw"){
+	filesPerStudy (file_name: "10ffa258-14c2-4c74-861e-91ed02fb4cf6.raw" acceptDUA: true){
 		study_id
 		study_submitter_id
 		study_name
@@ -468,7 +475,7 @@ PDC-1122
 	}
 }
 {
-	projectsPerInstrument (instrument: "lumos") {
+	projectsPerInstrument (instrument: "lumos" acceptDUA: true) {
 		instrument_model
 		project_submitter_id
 	}
@@ -507,8 +514,12 @@ PDC-1122
 		  cptac_dcc_tools
 	}
 }
+PDC-3668
 {
-	workflowMetadata (pdc_study_id: "PDC000173") {
+	workflowMetadata (pdc_study_id: "PDC000173" acceptDUA:true) {
+		  workflow_metadata_id
+		  study_id
+		  protocol_id
 		  workflow_metadata_submitter_id
 		  study_submitter_id
 		  pdc_study_id
@@ -540,7 +551,7 @@ PDC-1122
 	}
 }
 {
-	workflowMetadata(workflow_metadata_submitter_id: "Prospective_Breast_BI_Phosphoproteome") {
+	workflowMetadata(workflow_metadata_submitter_id: "Prospective_Breast_BI_Phosphoproteome" acceptDUA: true) {
 		  workflow_metadata_submitter_id
 		  study_submitter_id
 		  protocol_submitter_id
@@ -571,7 +582,7 @@ PDC-1122
 	}
 }
 {
-	workflowMetadata(study_submitter_id: "S039-2") {
+	workflowMetadata(study_submitter_id: "S039-2" acceptDUA: true) {
 		  workflow_metadata_submitter_id
 		  study_submitter_id
 		  submitter_id_name
@@ -1274,7 +1285,7 @@ PDC-218
 }
 PDC-3640
 {
-	getPDCMetrics(acceptDUA: true){
+	getPDCMetrics(acceptDUA: true acceptDUA: true){
     programs
     projects
     studies
@@ -1284,14 +1295,14 @@ PDC-3640
   }
 }
 //3597
-uiHeatmapStudies {
+uiHeatmapStudies(disease_type: "Lung Squamous Cell Carcinoma" analytical_fraction: "Acetylome" primary_site: "Bronchus and lung") {
 		study_id
 		study_submitter_id
 		submitter_id_name
 		pdc_study_id
 		analytical_fraction
-		primary_site
-		disease_type
+		primary_sites
+		disease_types
 		heatmapFiles
 }
 //PDC-3362 3637
@@ -1342,8 +1353,10 @@ uiHeatmapStudies {
 		study_run_metadata_submitter_id
 		project_name
 		file_type
+		data_category
 		file_size
 		md5sum
+		access
 		downloadable
 	}
 	pagination {
@@ -1479,7 +1492,7 @@ PDC-136, 774, 827, 787, 1960, 2815
 }
 //PDC-1874
 {
-	getPaginatedFiles(offset: 0 limit: 10) {
+	getPaginatedFiles(offset: 0 limit: 10 acceptDUA: true) {
 	total
 	files {
 		study_submitter_id
@@ -1500,10 +1513,11 @@ PDC-136, 774, 827, 787, 1960, 2815
 	}
 }
 {
-	getPaginatedFiles(pdc_study_id: "PDC000173" offset: 0 limit: 10) {
+	getPaginatedFiles(pdc_study_id: "PDC000173" offset: 0 limit: 10 acceptDUA: true) {
 	total
 	files {
 		study_submitter_id
+		study_id
 		pdc_study_id
 		file_name
 		file_type
@@ -1521,7 +1535,7 @@ PDC-136, 774, 827, 787, 1960, 2815
 	}
 }
 {
-	getPaginatedFiles(offset: 100 limit: 15) {
+	getPaginatedFiles(offset: 100 limit: 15 acceptDUA: true) {
 	total
 	files {
 		study_submitter_id
@@ -1532,7 +1546,7 @@ PDC-136, 774, 827, 787, 1960, 2815
 	}
 }
 {
-	getPaginatedFiles(file_type: "RAW" offset: 0 limit: 10) {
+	getPaginatedFiles(file_type: "RAW" offset: 0 limit: 10 acceptDUA: true) {
 	total
 	files {
 		study_submitter_id
@@ -1552,10 +1566,12 @@ PDC-136, 774, 827, 787, 1960, 2815
 	}
 }
 {
-	getPaginatedCases(offset: 0 limit: 10) {
+	getPaginatedCases(offset: 0 limit: 10 acceptDUA: true) {
 	total
-	cases {	
+	cases {
+		case_id
 	  case_submitter_id
+	  project_id
 	  project_submitter_id
 	  disease_type
 		disease_type
@@ -1574,7 +1590,7 @@ PDC-136, 774, 827, 787, 1960, 2815
 }
 //@@@PDC-2690
 {
-	getPaginatedGenes(offset: 0 limit: 10) {
+	getPaginatedGenes(offset: 0 limit: 10 acceptDUA: true) {
 	total
 	genesProper {
 		gene_id
@@ -1601,7 +1617,7 @@ PDC-136, 774, 827, 787, 1960, 2815
 }
 //PDC-3022
 {
-	getPaginatedCases(offset: 0 limit: 10) {
+	getPaginatedCases(offset: 0 limit: 10 acceptDUA: true) {
 		total
 		cases {
 			  case_id
@@ -1629,7 +1645,7 @@ PDC-136, 774, 827, 787, 1960, 2815
 	}
 }
 {
-	getPaginatedCases(offset: 0 limit: 10) {
+	getPaginatedCases(offset: 0 limit: 10 acceptDUA: true) {
 	total
 	cases {
 	  case_submitter_id
@@ -1668,7 +1684,7 @@ PDC-136, 774, 827, 787, 1960, 2815
 }
 //PDC-255 462 759 893 1011 2026 2395
 {
-	getPaginatedUIClinical(offset: 0 limit: 10) {
+	getPaginatedUIClinical(offset: 0 limit: 10 acceptDUA: true) {
 		total
 		uiClinical{
 			case_id
@@ -2292,7 +2308,7 @@ PDC-265
 //PDC-898 1154
 1874 protocol
 {
-	protocolPerStudy(study_submitter_id: "S015-2" ){
+	protocolPerStudy(study_submitter_id: "S015-2"  acceptDUA: true){
 		project_submitter_id
 		protocol_id
 		protocol_submitter_id
@@ -2345,7 +2361,7 @@ PDC-265
 	}
 }
 {
-	protocolPerStudy(pdc_study_id: "PDC000206" ){
+	protocolPerStudy(pdc_study_id: "PDC000206"  acceptDUA: true){
 		protocol_id
 		protocol_submitter_id
 		study_id
@@ -2638,7 +2654,7 @@ PDC-265
 }
 PDC-2979
 {
-  case(case_id: "c0b461af-63d6-11e8-bcf1-0a2705229b82") {
+  case(case_id: "c0b461af-63d6-11e8-bcf1-0a2705229b82" acceptDUA: true) {
     case_id
 	  case_submitter_id
 	  project_submitter_id
@@ -2774,7 +2790,7 @@ PDC-2979
     }
 }
 {
-  case(case_submitter_id: "TCGA-61-1911") {
+  case(case_submitter_id: "TCGA-61-1911" acceptDUA: true) {
     case_id
 	  case_submitter_id
 	  project_submitter_id
@@ -3156,7 +3172,7 @@ PDC-2979
 }
 //PDC-332 490
 {
-  fileMetadata(file_name: "06CPTAC_CCRCC_W_JHU_20171120_LUMOS_f09.mzid.gz") {
+  fileMetadata(file_name: "06CPTAC_CCRCC_W_JHU_20171120_LUMOS_f09.mzid.gz" acceptDUA: true) {
     file_name
     file_location
     md5sum
@@ -3429,7 +3445,7 @@ PDC-2979
 	}
 }
 {
-	programsProjectsStudies (disease_type: "Colon Adenocarcinoma"){
+	programsProjectsStudies (disease_type: "Colon Adenocarcinoma" acceptDUA: true){
 	  program_id
 	  program_submitter_id
 	  name
@@ -3453,7 +3469,7 @@ PDC-2979
 	}
 }
 {
-	programsProjectsStudies (analytical_fraction: "Phosphoproteome"){
+	programsProjectsStudies (analytical_fraction: "Phosphoproteome" acceptDUA: true){
 	  program_id
 	  program_submitter_id
 	  name
@@ -3477,7 +3493,7 @@ PDC-2979
 	}
 }
 {
-	programsProjectsStudies (experiment_type: "iTRAQ4"){
+	programsProjectsStudies (experiment_type: "iTRAQ4" acceptDUA: true){
 	  program_id
 	  program_submitter_id
 	  name
@@ -3502,7 +3518,7 @@ PDC-2979
 }
 //PDC-652
 {
-	programsProjectsStudies (instrument_model: "Q Exactive"){
+	programsProjectsStudies (instrument_model: "Q Exactive" acceptDUA: true){
 	  program_id
 	  program_submitter_id
 	  name
@@ -3527,7 +3543,7 @@ PDC-2979
 }
 //PDC-472
 {
-	paginatedCasesSamplesAliquots(offset: 0 limit: 10) {
+	paginatedCasesSamplesAliquots(offset: 0 limit: 10 acceptDUA: true) {
 	total
 	casesSamplesAliquots {
 		case_id 
@@ -3594,7 +3610,7 @@ PDC-2979
 	}
 }
 {
-	paginatedCasesSamplesAliquots(program_name: "Clinical Proteomic Tumor Analysis Consortium" offset: 0 limit: 10) {
+	paginatedCasesSamplesAliquots(program_name: "Clinical Proteomic Tumor Analysis Consortium" offset: 0 limit: 10 acceptDUA: true) {
 	total
 	casesSamplesAliquots {
 		case_submitter_id 
@@ -3656,13 +3672,13 @@ PDC-2979
 	}
 }
 {
-	paginatedCasesSamplesAliquots(program_submitter_id: "CPTAC" offset: 0 limit: 10) {
+	paginatedCasesSamplesAliquots(program_submitter_id: "CPTAC" offset: 0 limit: 10 acceptDUA: true) {
 	...
 	}
 }
 
 {
-	paginatedCasesSamplesAliquots(project_name: "CPTAC-Retrospective" offset: 0 limit: 10) {
+	paginatedCasesSamplesAliquots(project_name: "CPTAC-Retrospective" offset: 0 limit: 10 acceptDUA: true) {
 	total
 	casesSamplesAliquots {
 		case_submitter_id 
@@ -3724,12 +3740,12 @@ PDC-2979
 	}
 }
 {
-	paginatedCasesSamplesAliquots(project_submitter_id: "CPTAC-2" offset: 0 limit: 10) {
+	paginatedCasesSamplesAliquots(project_submitter_id: "CPTAC-2" offset: 0 limit: 10 acceptDUA: true) {
 	...
 	}
 }
 {
-	paginatedCasesSamplesAliquots(study_submitter_id: "S015-1" offset: 0 limit: 10) {
+	paginatedCasesSamplesAliquots(study_submitter_id: "S015-1" offset: 0 limit: 10 acceptDUA: true) {
 	total
 	casesSamplesAliquots {
 		case_submitter_id 
@@ -3792,7 +3808,7 @@ PDC-2979
 }
 //PDC-1874
 {
-	paginatedCasesSamplesAliquots(pdc_study_id: "PDC000173" offset: 0 limit: 10) {
+	paginatedCasesSamplesAliquots(pdc_study_id: "PDC000173" offset: 0 limit: 10 acceptDUA: true) {
 	total
 	casesSamplesAliquots {
 		case_submitter_id 
@@ -3854,14 +3870,14 @@ PDC-2979
 	}
 }
 {
-	paginatedCasesSamplesAliquots(study_name: "TCGA_Colon_Cancer_Proteome" offset: 0 limit: 10) {
+	paginatedCasesSamplesAliquots(study_name: "TCGA_Colon_Cancer_Proteome" offset: 0 limit: 10 acceptDUA: true) {
 	...
 	}
 }
 
 //PDC-475, 2417
 {
-  paginatedCaseDiagnosesPerStudy (study_id: "b93bb1e9-57b8-11e8-b07a-00a098d917f8" offset: 0 limit: 10) {
+  paginatedCaseDiagnosesPerStudy (study_id: "b93bb1e9-57b8-11e8-b07a-00a098d917f8" offset: 0 limit: 10 acceptDUA: true) {
 	total
     caseDiagnosesPerStudy {
 	  case_submitter_id
@@ -3940,7 +3956,7 @@ PDC-2979
 	}
 }
 {
-  paginatedCaseDiagnosesPerStudy (pdc_study_id: "PDC000206" offset: 0 limit: 10) {
+  paginatedCaseDiagnosesPerStudy (pdc_study_id: "PDC000206" offset: 0 limit: 10 acceptDUA: true) {
 	total
     caseDiagnosesPerStudy {
 	  case_submitter_id
@@ -4019,7 +4035,7 @@ PDC-2979
 	}
 }
 {
-  paginatedCaseDiagnosesPerStudy (study_submitter_id: "S015-1" offset: 0 limit: 10) {
+  paginatedCaseDiagnosesPerStudy (study_submitter_id: "S015-1" offset: 0 limit: 10 acceptDUA: true) {
 	total
     caseDiagnosesPerStudy {
 	  case_submitter_id
@@ -4098,7 +4114,7 @@ PDC-2979
 	}
 }
 {
-  paginatedCaseDiagnosesPerStudy (study_name: "TCGA_Colon_Cancer_Proteome" offset: 0 limit: 10) {
+  paginatedCaseDiagnosesPerStudy (study_name: "TCGA_Colon_Cancer_Proteome" offset: 0 limit: 10 acceptDUA: true) {
 	total
     caseDiagnosesPerStudy {
 	  case_id
@@ -4180,7 +4196,7 @@ PDC-2979
 }
 //PDC-473
 {
-  paginatedCaseDemographicsPerStudy (study_id: "b93bb1e9-57b8-11e8-b07a-00a098d917f8" offset: 0 limit: 10) {
+  paginatedCaseDemographicsPerStudy (study_id: "b93bb1e9-57b8-11e8-b07a-00a098d917f8" offset: 0 limit: 10 acceptDUA: true) {
 	total
     caseDemographicsPerStudy {
 	  case_id
@@ -4214,7 +4230,7 @@ PDC-2979
 }
 
 {
-  paginatedCaseDemographicsPerStudy (study_submitter_id: "S015-1" offset: 0 limit: 10) {
+  paginatedCaseDemographicsPerStudy (study_submitter_id: "S015-1" offset: 0 limit: 10 acceptDUA: true) {
 	total
     caseDemographicsPerStudy {
 	  case_id
@@ -4248,7 +4264,7 @@ PDC-2979
 }
 //PDC-1874
 {
-  paginatedCaseDemographicsPerStudy (pdc_study_id: "PDC000173" offset: 0 limit: 10) {
+  paginatedCaseDemographicsPerStudy (pdc_study_id: "PDC000173" offset: 0 limit: 10 acceptDUA: true) {
 	total
     caseDemographicsPerStudy {
 	  case_id
@@ -4281,7 +4297,7 @@ PDC-2979
 	}
 }
 {
-  paginatedCaseDemographicsPerStudy (study_name: "TCGA_Colon_Cancer_Proteome" offset: 0 limit: 10) {
+  paginatedCaseDemographicsPerStudy (study_name: "TCGA_Colon_Cancer_Proteome" offset: 0 limit: 10 acceptDUA: true) {
 	total
     caseDemographicsPerStudy {
 	  case_id	  
@@ -5003,7 +5019,7 @@ sample_type)
 	}
 }
 {
-	quantitiveDataCPTAC2 (pdc_study_id: "PDC000206"){
+	quantitiveDataCPTAC2 (pdc_study_id: "PDC000206" acceptDUA: true){
 		gene_abundance_id
 		gene_id
 		gene_name
@@ -5028,7 +5044,7 @@ sample_type)
 	}
 }
 {
-	quantitiveDataCPTAC2 (study_submitter_id: "S037-2"){
+	quantitiveDataCPTAC2 (study_submitter_id: "S037-2" acceptDUA: true){
 		gene_abundance_id
 		gene_id
 		gene_name
@@ -5053,7 +5069,7 @@ sample_type)
 	}
 }
 {
-	quantitiveDataCPTAC2 (experiment_type: "TMT10"){
+	quantitiveDataCPTAC2 (experiment_type: "TMT10" acceptDUA: true){
 		gene_abundance_id
 		gene_id
 		gene_name
@@ -5078,7 +5094,7 @@ sample_type)
 }
 //PDC-486
 {
-	paginatedDataMatrix(study_submitter_id: "S015-2" data_type: "spectral_count" offset: 0 limit: 10) {		
+	paginatedDataMatrix(study_submitter_id: "S015-2" data_type: "spectral_count" offset: 0 limit: 10 acceptDUA: true) {		
 	total
 	dataMatrix 
 	pagination {
@@ -5093,7 +5109,7 @@ sample_type)
 	}
 }
 {
-	paginatedDataMatrix(study_submitter_id: "S015-2" data_type: "distinct_peptide" offset: 0 limit: 2) {		
+	paginatedDataMatrix(study_submitter_id: "S015-2" data_type: "distinct_peptide" offset: 0 limit: 2 acceptDUA: true) {		
 	total
 	dataMatrix 
 	pagination {
@@ -5108,7 +5124,7 @@ sample_type)
 	}
 }
 {
-	paginatedDataMatrix(study_submitter_id: "S015-2" data_type: "unshared_peptide" offset: 0 limit: 40) {		
+	paginatedDataMatrix(study_submitter_id: "S015-2" data_type: "unshared_peptide" offset: 0 limit: 40 acceptDUA: true) {		
 	total
 	dataMatrix 
 	pagination {
@@ -5124,7 +5140,7 @@ sample_type)
 }
 //PDC-562
 {
-	paginatedDataMatrix(study_submitter_id: "S044-1" data_type: "log2_ratio" offset: 0 limit: 40) {		
+	paginatedDataMatrix(study_submitter_id: "S044-1" data_type: "log2_ratio" offset: 0 limit: 40 acceptDUA: true) {		
 	total
 	dataMatrix 
 	pagination {
@@ -5139,7 +5155,7 @@ sample_type)
 	}
 }
 {
-	paginatedDataMatrix(study_submitter_id: "S044-1" data_type: "unshared_precursor_area" offset: 0 limit: 40) {		
+	paginatedDataMatrix(study_submitter_id: "S044-1" data_type: "unshared_precursor_area" offset: 0 limit: 40 acceptDUA: true) {		
 	total
 	dataMatrix 
 	pagination {
@@ -5154,7 +5170,7 @@ sample_type)
 	}
 }
 {
-	paginatedDataMatrix(study_submitter_id: "S044-1" data_type: "precursor_area" offset: 0 limit: 40) {		
+	paginatedDataMatrix(study_submitter_id: "S044-1" data_type: "precursor_area" offset: 0 limit: 40 acceptDUA: true) {		
 	total
 	dataMatrix 
 	pagination {
@@ -5169,7 +5185,7 @@ sample_type)
 	}
 }
 {
-	paginatedDataMatrix(study_submitter_id: "S044-1" data_type: "unshared_log2_ratio" offset: 0 limit: 40) {		
+	paginatedDataMatrix(study_submitter_id: "S044-1" data_type: "unshared_log2_ratio" offset: 0 limit: 40 acceptDUA: true) {		
 	total
 	dataMatrix 
 	pagination {
@@ -5184,7 +5200,7 @@ sample_type)
 	}
 }
 {
-	paginatedDataMatrix(study_submitter_id: "S044-1" data_type: "log_ratio" offset: 0 limit: 40) {		
+	paginatedDataMatrix(study_submitter_id: "S044-1" data_type: "log_ratio" offset: 0 limit: 40 acceptDUA: true) {		
 	total
 	dataMatrix 
 	pagination {
@@ -5201,7 +5217,7 @@ sample_type)
 //PDC-485
 1874
 {
-	paginatedSpectralCountPerStudyAliquot(study_submitter_id: "S015-2" plex_name: "A2-A0D0-01A:BH-A0HK-01A:C8-A12T-01A:POOL" gene_name: "A2M" offset: 0 limit: 10) {		
+	paginatedSpectralCountPerStudyAliquot(study_submitter_id: "S015-2" plex_name: "A2-A0D0-01A:BH-A0HK-01A:C8-A12T-01A:POOL" gene_name: "A2M" offset: 0 limit: 10 acceptDUA: true) {		
 	total
 	spectralCounts {
 		  gene_name
@@ -5223,13 +5239,13 @@ sample_type)
 	}
 	}
 }
+PDC-3668
 {
-	paginatedSpectralCountPerStudyAliquot(pdc_study_id: "PDC000206" gene_name: "A2M" offset: 0 limit: 10) {		
+	paginatedSpectralCountPerStudyAliquot(pdc_study_id: "PDC000206" gene_name: "A2M" offset: 0 limit: 10 acceptDUA: true) {		
 	total
 	spectralCounts {
-		  gene_name
+  	      study_id
 		  study_submitter_id
-		  aliquot_id
 		  plex
 		  spectral_count
 		  distinct_peptide
@@ -5755,7 +5771,7 @@ limit: 10) {
 }
 //PDC-678
 {
-	paginatedPtmDataMatrix(study_submitter_id: "S015-2" offset: 0 limit: 10) {		
+	paginatedPtmDataMatrix(study_submitter_id: "S015-2" offset: 0 limit: 10 acceptDUA: true) {		
 	total
 	ptmDataMatrix 
 	pagination {
@@ -5801,7 +5817,7 @@ limit: 10) {
 //PDC-191
 1874
 {
-	experimentalMetadata(study_submitter_id: "S015-1"){
+	experimentalMetadata(study_submitter_id: "S015-1" acceptDUA: true){
 		pdc_study_id
 		experiment_type
 		analytical_fraction			
@@ -5823,16 +5839,17 @@ limit: 10) {
 }
 //PDC-1874
 {
-	experimentalMetadata(pdc_study_id: "PDC000173"){
+	experimentalMetadata(pdc_study_id: "PDC000173" acceptDUA: true){
 		pdc_study_id
 		experiment_type
 		analytical_fraction			
 		instrument
 		study_run_metadata {
+			study_run_metadata_id
 			study_run_metadata_submitter_id
 			fraction
 			aliquot_run_metadata {
-				aliquot_submitter_id
+				aliquot_run_metadata_submitter_id
 				aliquot_run_metadata_id
 			}
 			files {
@@ -5959,7 +5976,8 @@ limit: 10) {
 }
 //PDC-768
 {
-	clinicalMetadata(study_submitter_id: "S015-1") {
+	clinicalMetadata(study_submitter_id: "S015-1" acceptDUA: true) {
+		aliquot_id
 		aliquot_submitter_id
 		morphology
 		primary_diagnosis
@@ -5968,7 +5986,8 @@ limit: 10) {
 	}
 }
 {
-	clinicalMetadata(pdc_study_id: "PDC000206") {
+	clinicalMetadata(pdc_study_id: "PDC000206" acceptDUA: true) {
+		aliquot_id
 		aliquot_submitter_id
 		morphology
 		primary_diagnosis
@@ -6133,7 +6152,7 @@ limit: 10) {
 }
 //PDC-884 898 1257 2642
 {
-	fileMetadata(file_id: "10ffa258-14c2-4c74-861e-91ed02fb4cf6") 
+	fileMetadata(file_id: "10ffa258-14c2-4c74-861e-91ed02fb4cf6" acceptDUA: true) 
 		file_id
 		file_name
 		file_location
@@ -6181,7 +6200,7 @@ limit: 10) {
 	}
 }
 {
-	study (study_id: "dbe94609-1fb3-11e9-b7f8-0a80fada099c") 
+	study (study_id: "dbe94609-1fb3-11e9-b7f8-0a80fada099c" acceptDUA: true) 
 	{
 		study_id
 		study_submitter_id
@@ -6206,7 +6225,7 @@ limit: 10) {
 }
 //PDC-2615 2435
 {
-	study (pdc_study_id: "PDC000206") 
+	study (pdc_study_id: "PDC000206" acceptDUA: true) 
 	{
 		study_id
 		study_submitter_id
@@ -6240,7 +6259,7 @@ limit: 10) {
 //PDC-1599, 2417
 1874
 {
-	clinicalPerStudy(study_submitter_id: "S015-1"){
+	clinicalPerStudy(study_submitter_id: "S015-1" acceptDUA: true){
 		case_id
 		case_submitter_id
 		status
@@ -6322,7 +6341,7 @@ limit: 10) {
 }
 PDC-2978
 {
-	clinicalPerStudy(pdc_study_id: "PDC000173"){
+	clinicalPerStudy(pdc_study_id: "PDC000173" acceptDUA: true){
 		case_id
 		case_submitter_id
 		status
@@ -6412,7 +6431,7 @@ PDC-2978
 1396
 1874
 {
-	biospecimenPerStudy (study_id: "dbe94609-1fb3-11e9-b7f8-0a80fada099c"){
+	biospecimenPerStudy (study_id: "dbe94609-1fb3-11e9-b7f8-0a80fada099c" acceptDUA: true){
 		aliquot_id 
 		sample_id
 		case_id
@@ -6432,7 +6451,7 @@ PDC-2978
 	}
 }
 {
-	biospecimenPerStudy (pdc_study_id: "PDC000128"){
+	biospecimenPerStudy (pdc_study_id: "PDC000128" acceptDUA: true){
 		aliquot_id 
 		sample_id
 		case_id
@@ -6461,7 +6480,7 @@ PDC-2978
 1316
 1874
 {
-	studyExperimentalDesign (study_id: "dbe94609-1fb3-11e9-b7f8-0a80fada099c"){
+	studyExperimentalDesign (study_id: "dbe94609-1fb3-11e9-b7f8-0a80fada099c" acceptDUA: true){
 		study_run_metadata_id,
 		study_run_metadata_submitter_id,
 		study_id,
@@ -6607,6 +6626,7 @@ externalReferences {
   allCases {
 		case_id
 		case_submitter_id
+		project_id
 		project_submitter_id
 		disease_type
 		primary_site
@@ -6622,25 +6642,25 @@ externalReferences {
 //PDC-964
 1019
 {
-	quantDataMatrix(study_submitter_id: "S044-1" data_type: "log2_ratio" attempt: 0) 
+	quantDataMatrix(study_submitter_id: "S044-1" data_type: "log2_ratio" attempt: 0 acceptDUA: true) 
 }
 {
-	quantDataMatrix(study_submitter_id: "S044-1" data_type: "log2_ratio" attempt: 0 numOfAliquot: 3) 
+	quantDataMatrix(study_submitter_id: "S044-1" data_type: "log2_ratio" attempt: 0 numOfAliquot: 3 acceptDUA: true) 
 }
 {
-	quantDataMatrix(study_submitter_id: "S044-1" data_type: "log2_ratio" attempt: 0 numOfGene: 10) 
+	quantDataMatrix(study_submitter_id: "S044-1" data_type: "log2_ratio" attempt: 0 numOfGene: 10 acceptDUA: true) 
 }
 {
-	quantDataMatrix(study_submitter_id: "S044-1" data_type: "log2_ratio" attempt: 0 numOfAliquot: 2 numOfGene: 15) 
+	quantDataMatrix(study_submitter_id: "S044-1" data_type: "log2_ratio" attempt: 0 numOfAliquot: 2 numOfGene: 15 acceptDUA: true) 
 }
 PDC-2016
 {
-	quantDataMatrix(pdc_study_id: "PDC000127" data_type: "log2_ratio") 
+	quantDataMatrix(pdc_study_id: "PDC000127" data_type: "log2_ratio" acceptDUA: true) 
 }
 
 
 {
-	casePerFile(file_id: 'f2ffba75-5197-11e9-9a07-0a80fada099c') {
+	casePerFile(file_id: 'f2ffba75-5197-11e9-9a07-0a80fada099c' acceptDUA: true) {
 	  file_id
 	  case_id
 	  case_submitter_id
@@ -6656,7 +6676,7 @@ PDC-1220, 2020
 }
 PDC-1376
 {
-	sample(sample_submitter_id: "TCGA-AG-A00Y-01A") {
+	sample(sample_submitter_id: "TCGA-AG-A00Y-01A" acceptDUA: true) {
 			sample_id
 			gdc_sample_id
 			gdc_project_id
@@ -6689,7 +6709,7 @@ PDC-1376
 }
 PDC-1467
 {
-	sample(sample_id: "0024718b-6420-11e8-bcf1-0a2705229b82") {
+	sample(sample_id: "0024718b-6420-11e8-bcf1-0a2705229b82" acceptDUA: true) {
 			sample_id
 			gdc_sample_id
 			gdc_project_id
@@ -6725,7 +6745,7 @@ PDC-1467
 }
 PDC-1467
 {
-	aliquot(aliquot_submitter_id: "3bbf4310-6a83-4d3b-8772-a5dbb6_D2"){
+	aliquot(aliquot_submitter_id: "3bbf4310-6a83-4d3b-8772-a5dbb6_D2" acceptDUA: true){
 		aliquot_id
 		aliquot_submitter_id
 		case_submitter_id
@@ -6739,7 +6759,7 @@ PDC-1467
 	}
 }
 {
-	aliquot(aliquot_id: "007c1f1e-6424-11e8-bcf1-0a2705229b82"){
+	aliquot(aliquot_id: "007c1f1e-6424-11e8-bcf1-0a2705229b82" acceptDUA: true){
 		aliquot_id
 		aliquot_submitter_id
 		aliquot_is_ref
@@ -6754,7 +6774,7 @@ PDC-1467
 //PDC-1882
 {
 	pdcEntityReference(entity_type: "study", entity_id: "dbe94609-1fb3-11e9-b7f8-0a80fada099c",
-	reference_type: "external") 
+	reference_type: "external" acceptDUA: true) 
 	{
 	reference_id
 	entity_type
@@ -6771,7 +6791,7 @@ PDC-2002
 {
 	pdcEntityReference(entity_type: "study",
 	entity_id: "dbe94609-1fb3-11e9-b7f8-0a80fada099c",
-	reference_type: "internal")
+	reference_type: "internal" acceptDUA: true)
 	{
 	reference_id
 	entity_type
@@ -6809,7 +6829,7 @@ PDC-3009
 }
 PDC-3022
 {
-	study (study_id: String, pdc_study_id: String) 
+	study (study_id: String, pdc_study_id: String acceptDUA: true) 
 	{
 		study_id
 		study_submitter_id

@@ -424,9 +424,11 @@ isDownloadDisabled(){
 				this.totalRecords = data.getPaginatedUIClinical.total;
 				this.clinicalTotalRecordChanged.emit({ type: 'clinical', totalRecords: this.totalRecords });
 				this.offset = data.getPaginatedUIClinical.pagination.from;
-				this.pageSize = data.getPaginatedUIClinical.pagination.size;
 				this.limit = data.getPaginatedUIClinical.pagination.size;
 			}
+			//@@@PDC-3700: Existing issues with Checkbox handling on "Browse" page
+			//Page size should be available for all offsets
+			this.pageSize = data.getPaginatedUIClinical.pagination.size;
 			this.loading = false;
 			this.trackCurrentPageSelectedCase(data.getPaginatedUIClinical.uiClinical);
 			if(this.pageHeaderCheckBoxTrack.indexOf(this.offset) !== -1){

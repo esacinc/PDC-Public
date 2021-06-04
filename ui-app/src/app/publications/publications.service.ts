@@ -11,6 +11,11 @@ import { Subject }    from 'rxjs/Subject';
 
 import { QueryPublicationsData, publicationsFiltersData } from '../types';
 
+export type PubmedIDSearchData = {
+	pubmed_id: string;
+	title: string;
+}
+
 /*This is a service class used for the API queries */
 @Injectable()
 export class PublicationsService {
@@ -28,8 +33,8 @@ export class PublicationsService {
 	}
 	
 	publicationsQuery = gql`
-	  query FilterdPaginatedPublicationsQuery ($offset_value: Int, $limit_value: Int, $year_filter: String!, $disease_type_filter: String!, $program_filter: String!) {
-		getPaginatedUIPublication(offset: $offset_value, limit: $limit_value, year: $year_filter, disease_type: $disease_type_filter, program: $program_filter) {
+	  query FilterdPaginatedPublicationsQuery ($offset_value: Int, $limit_value: Int, $year_filter: String!, $disease_type_filter: String!, $program_filter: String!, $pubmedid_filter: String!) {
+		getPaginatedUIPublication(offset: $offset_value, limit: $limit_value, year: $year_filter, disease_type: $disease_type_filter, program: $program_filter, pubmed_id: $pubmedid_filter) {
 			total
 			uiPublication {
 				publication_id
@@ -64,6 +69,7 @@ export class PublicationsService {
 	
 	
 	getFilteredPaginatedPublications (offset: number, limit: number, filters:any) {
+		console.log(filters);
 		return this.apollo.watchQuery<QueryPublicationsData>({
 			query: this.publicationsQuery,
 			variables: {
@@ -71,7 +77,8 @@ export class PublicationsService {
 				limit_value: limit,
 				year_filter: filters["year"] || '',
 				disease_type_filter: filters["disease_type"] || '',
-				program_filter: filters["program"] || ''			
+				program_filter: filters["program"] || '',
+				pubmedid_filter: filters["pubmed_id"] || ''		
 			}
 		})
 		.valueChanges
@@ -95,6 +102,32 @@ export class PublicationsService {
 		  .pipe(
 			map(result => { console.log(result.data); return result.data;})
 		  ); 
+	}
+	
+	//@@@PDC-3698 update publication page to add a string field in the filters for pubmed ID
+	pubmedSearchQuery = gql`
+		query PubmedIDSearchQuery($search_term: String!){
+		  getPaginatedUIPublication(pubmed_id: $search_term) {
+			uiPublication {
+			  pubmed_id
+			  title
+			}
+		  }
+		}`
+	;
+	
+	//Helper function to return pubmed ids for autocomplete search by pubmed id
+	getPubmedIDSearchResults(search_term_param: string){
+		return this.apollo.watchQuery<PubmedIDSearchData>({
+			query: this.pubmedSearchQuery,
+			variables: {
+				search_term: search_term_param	
+			}
+		})
+		.valueChanges
+		.pipe(
+			map(result => { console.log(result.data); return result.data;})
+		); 
 	}
 
 	/* public notifyChangeTabEvents(data: any) {

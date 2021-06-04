@@ -520,11 +520,13 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 		}
 		this.setFileCountsForDisplay();
 			//this.filteredStudiesData = data.getPaginatedUIStudy.uiStudies;
+			//@@@PDC-3700: Existing issues with Checkbox handling on "Browse" page
+			//Page size should be available for all offsets
+			this.pageSize = data.getPaginatedUIStudy.pagination.size;
 			if (this.offset == 0) {
 				this.totalRecords = data.getPaginatedUIStudy.total;
 				this.studyTotalRecordChanged.emit({ type: 'study', totalRecords: this.totalRecords });
 				this.offset = data.getPaginatedUIStudy.pagination.from;
-				this.pageSize = data.getPaginatedUIStudy.pagination.size;
 				this.limit = data.getPaginatedUIStudy.pagination.size;
 			}
 			this.loading = false;

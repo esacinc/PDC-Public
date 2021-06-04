@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FrontPageComponent } from './front-page/front-page.component';
 import { ChartModule, HIGHCHARTS_MODULES } from 'angular-highcharts';
-import * as highchartsSunburst from 'highcharts/modules/sunburst.src';
+//import * as highchartsSunburst from 'highcharts/modules/sunburst.src';
 import { FormsModule } from '@angular/forms';
 import { CheckboxModule } from 'primeng/checkbox';
 import { TableModule } from 'primeng/table';
@@ -11,7 +11,8 @@ import { HumanBodyChartComponent } from './front-page/human-body-chart/human-bod
 import { MatToolbarModule, MatCardModule, MatGridListModule, MatListModule, MatIconModule, MatTooltipModule } from '@angular/material';
 @NgModule({
   providers: [
-    { provide: HIGHCHARTS_MODULES, useFactory: () => [ highchartsSunburst ] } 
+	//PDC-3683 - after Highcharts upgrade sunburst.src caused an error when deployed with -prod flag
+    //{ provide: HIGHCHARTS_MODULES, useFactory: () => [ highchartsSunburst ] } 
   ],	
   imports: [
     CommonModule,

@@ -214,6 +214,7 @@ export class StudySummaryComponent implements OnInit {
 	this.sort = '';
 	//@@@PDC-1987: Update clinical tab to use new external reference API
 	//@@@PDC-1012: Update UI for GDC Case ID becoming External Case ID
+	//@@@PDC-3758: Handle channels layout for TMT6 in Study Summary Experimental Design tab
 	//Array of external file Details. This has to be updated each time a new type of external case iD is added.
 	this.externalCaseMap = [{
 		'id': "GDC",
@@ -241,6 +242,9 @@ export class StudySummaryComponent implements OnInit {
 	{		
 		'id': "ITRAQ8",
 		'cols': "itraq_113,itraq_114,itraq_115,itraq_116,itraq_117,itraq_118,itraq_119,itraq_121"
+	}, {
+		'id': "TMT6",
+		'cols': "tmt_126,tmt_127n,tmt_128c,tmt_129n,tmt_130c,tmt_131"
 	}, {
 		'id': "TMT10",
 		'cols': "tmt_126,tmt_127n,tmt_127c,tmt_128n,tmt_128c,tmt_129n,tmt_129c,tmt_130n,tmt_130c,tmt_131"
@@ -891,6 +895,10 @@ getStudyExperimentalDesign() {
 									let caseSubmitterID = biospecimen["case_submitter_id"];
 									let sampleType = biospecimen["sample_type"];
 									colValSpecificToExpType = caseSubmitterID + "<div>" + sampleType + "</div>";
+									//@@@PDC-3719 include disqualified in study summary Experimental Design table
+									if (biospecimen["aliquot_status"] === "Disqualified"){
+										colValSpecificToExpType = colValSpecificToExpType + "<div class='colValueDisqualified'>Disqualified</div>";
+									}
 								}
 							}
 							if (colValSpecificToExpType != '') {

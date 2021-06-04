@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { Apollo, SelectPipe } from 'apollo-angular';
 import { Observable, Subject } from 'rxjs';
-import { map ,  switchMap } from 'rxjs/operators';
+import { map ,  switchMap, debounceTime,  startWith} from 'rxjs/operators';
 import gql from 'graphql-tag';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { FormControl, FormGroup } from '@angular/forms';
@@ -30,13 +30,16 @@ styleUrls: ['../../assets/css/global.css', './publications.component.scss'],
 
 //@@@PDC-3573 add some improvements to publications page
 //@@@PDC-3648 add improvements to publications page - change title and add clear all filters button
+//@@@PDC-3698 update publication page to add a string field in the filters for pubmed ID
 
 export class PublicationsComponent implements OnInit{ 
 
 	allFiltersData: Observable<publicationsFiltersData>;
 	filteredPublicationsData: PublicationsData[];
 	
-	filterValues: any = { disease_type: "", year: "", program: ""} ;
+	filterValues: any = { disease_type: "", year: "", program: "", pubmed_id: ""} ;
+	filteredOptions: Observable<string[]>;
+	options: any[] = []; // will hold the display name and value of the search terms
 	
 	diseaseTypesFilterVals = [];
 	yearFilterVals = [];
@@ -53,10 +56,7 @@ export class PublicationsComponent implements OnInit{
 	
 	filterSelected: any;
 	
-	breadcrumbs = [];
-	newFilterValue: string;
-	public filtersChangedInBreadcrumbBar: Object;
-	handleTableLoading:any
+	searchErrorMessageFlag = false;
 
 	@ViewChild('sidenav') myNav: MatSidenav;
 	
@@ -68,10 +68,11 @@ export class PublicationsComponent implements OnInit{
 		this.publicationFiltersGroup = new FormGroup({
 				diseaseTypeFormControl: new FormControl(),
 				yearFormControl: new FormControl(),
-				programFormControl: new FormControl()
+				programFormControl: new FormControl(),
+				searchFormControl: new FormControl()
 		});
 		  
-		this.publicationFiltersGroup.setValue({diseaseTypeFormControl: '', yearFormControl: '', programFormControl: ''});
+		this.publicationFiltersGroup.setValue({diseaseTypeFormControl: '', yearFormControl: '', programFormControl: '', searchFormControl: ''});
 		this.getFiltersData();
 		this.getFilteredPublicationsData();
 	}
@@ -86,6 +87,10 @@ export class PublicationsComponent implements OnInit{
 	
 	get programFormControl(){
 		return this.publicationFiltersGroup.get("programFormControl");
+	}
+	
+	get searchFormControl() {
+		return this.publicationFiltersGroup.get("searchFormControl");
 	}
 	
 	isAbstractExpandedToggle() {
@@ -141,7 +146,9 @@ export class PublicationsComponent implements OnInit{
 
 	
 	filterPublications(filterVal: any){
+		console.log(this.filterSelected.pubmed_id);
 		console.log(filterVal);
+		var searchFlag = true;
 		switch(filterVal){
 			case "disease_type" :{
 				this.filterValues["disease_type"] = this.filterSelected.disease_type.join(';');
@@ -156,29 +163,45 @@ export class PublicationsComponent implements OnInit{
 				this.filterValues["program"] = this.filterSelected.program.join(';');
 				break;
 			}
+			case "pubmed_id": {
+				//PDC-3807 validate pubmed id search input
+				if (this.filterSelected.pubmed_id.value != undefined && this.filterSelected.pubmed_id.value.match("^[0-9]*$")) {
+					this.searchErrorMessageFlag = false;
+					this.filterValues["pubmed_id"] = this.filterSelected.pubmed_id.value;
+				} else {
+					searchFlag = false;
+					this.searchErrorMessageFlag = true;
+				}
+				break;
+			}
 			case "clear": {
-				this.publicationFiltersGroup.setValue({diseaseTypeFormControl: '', yearFormControl: '', programFormControl: ''});
+				this.searchErrorMessageFlag = false;
+				this.publicationFiltersGroup.setValue({diseaseTypeFormControl: '', yearFormControl: '', programFormControl: '', searchFormControl: '' });
 				this.filterValues["program"] = '';
 				this.filterValues["year"] = '';
 				this.filterValues["disease_type"] = '';
+				this.filterValues["pubmed_id"] = '';
 				break;
 			}
 		}
-		this.offset = 0;
-		this.loading = true;
-		this.publicationsService.getFilteredPaginatedPublications(this.offset, this.limit, this.filterValues).subscribe((data: any) =>{
-		  this.filteredPublicationsData = data.getPaginatedUIPublication.uiPublication;
-		  console.log(this.filteredPublicationsData);
-		  this.totalRecords = data.getPaginatedUIPublication.total;
-		  this.offset = data.getPaginatedUIPublication.pagination.from;
-		  this.pageSize = data.getPaginatedUIPublication.pagination.size;
-          this.limit = data.getPaginatedUIPublication.pagination.size;
-		  this.loading = false;
-		});
+		if (searchFlag) {
+			this.searchErrorMessageFlag = false;
+			this.offset = 0;
+			this.loading = true;
+			this.publicationsService.getFilteredPaginatedPublications(this.offset, this.limit, this.filterValues).subscribe((data: any) =>{
+			  this.filteredPublicationsData = data.getPaginatedUIPublication.uiPublication;
+			  console.log(this.filteredPublicationsData);
+			  this.totalRecords = data.getPaginatedUIPublication.total;
+			  this.offset = data.getPaginatedUIPublication.pagination.from;
+			  this.pageSize = data.getPaginatedUIPublication.pagination.size;
+			  this.limit = data.getPaginatedUIPublication.pagination.size;
+			  this.loading = false;
+			});
+		}
 	}
 
 	isFilterChosen(){
-		return (this.filterSelected.disease_type == "" && this.filterSelected.year == "" && this.filterSelected.program == "");
+		return (this.filterSelected.disease_type == "" && this.filterSelected.year == "" && this.filterSelected.program == "" && this.filterSelected.pubmed_id == "");
 	}
 	
 	clearFilters(){
@@ -275,11 +298,46 @@ export class PublicationsComponent implements OnInit{
 				this.loc.replaceState("/publications");
 		});	
 	}
-
+	
+	searchPubmedID(search_term:string){
+		console.log(search_term);
+		//PDC-3807 validate pubmed id search input
+		if (search_term.match("^[0-9]*$")) {
+			this.searchErrorMessageFlag = false;
+			this.loading = true;
+			this.publicationsService.getPubmedIDSearchResults(search_term).subscribe((data: any) =>{
+				let searchResults = data.getPaginatedUIPublication.uiPublication;
+				for (let returnValue of searchResults){
+					let display_name = returnValue.title + " (PMID:" + returnValue.pubmed_id + ")";
+					this.options.push({name: display_name, value: returnValue.pubmed_id });
+				}
+				this.loading = false;  
+			});
+		} else {
+			this.searchErrorMessageFlag = true;
+		}
+	}
+	
+	//helper function for pubmed id autocomplete search field
+	displayFunc(search_result:any):string{
+		return search_result ? search_result.name : '';
+	}
+	
+	//This function returns filled out options list which will populate search autcomplete dropdown list
+	private _filter(value: string): string[] {
+		value = value.trim();
+		this.options = [];
+		//PDC-3807 validate pubmed id search input
+		if (value.match("^[0-9]*$")) {
+			const filterValue = value.toLowerCase();
+			this.searchPubmedID(value);
+		}
+		return this.options;
+	}
 
 	ngOnInit() {
 		
-		this.filterSelected = { disease_type: '', year: '', program: ''}
+		this.filterSelected = { disease_type: '', year: '', program: '', pubmed_id: ''}
 		
 		this.cols = [
 			{field: 'title', header: 'Title'},
@@ -289,6 +347,14 @@ export class PublicationsComponent implements OnInit{
 			{field: 'studies', header: 'Studies'},
 			{field: 'supplementary_data', header: 'Supplementary Data'},
 		];
+		
+		// Monitor changes to search field and populate dropdown autocomplete list 
+	    // as soon as the user entered at least 3 characters
+	    this.filteredOptions = this.searchFormControl.valueChanges.pipe(debounceTime(400))
+			.pipe(
+				startWith(''),
+				map(value => value.length > 1 ? this._filter(value) : [])	
+			);
 	
 	}
 }

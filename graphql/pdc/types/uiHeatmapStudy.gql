@@ -6,8 +6,8 @@ type UIHeatmapStudy {
 	study_description: String
 	program_name: String
 	project_name: String
-	disease_types: [String]
-	primary_sites: [String]
+	disease_type: String
+	primary_site: String
 	analytical_fraction: String
 	experiment_type: String
 	embargo_date: Date

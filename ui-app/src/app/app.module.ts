@@ -75,6 +75,8 @@ import { DataUseGuidelinesComponent } from './navbar/data-use-guidelines/data-us
 import { PublicationsComponent } from './publications/publications.component';
 import { PublicationsService } from './publications/publications.service';
 import { ExploreQuantitationData } from './analysis/explore-quantitation-data/explore-quantitation-data.component';
+import { HeatmapsComponent } from './heatmaps/heatmaps.component';
+import { HeatmapsService } from './heatmaps/heatmaps.service';
 
 export function getAuthServiceConfigs() {
 
@@ -122,6 +124,7 @@ export function getAuthServiceConfigs() {
 	DataUseGuidelinesComponent,
 	PublicationsComponent,
 	ExploreQuantitationData,
+	HeatmapsComponent,
   ],
   imports: [
 	AngularFontAwesomeModule,
@@ -165,7 +168,8 @@ export function getAuthServiceConfigs() {
 	MatExpansionModule,
 	MatSelectModule
   ],
-  providers: [ChorusauthService, FrontPageService, SearchService, PDCUserService, OverlayWindowService, PublicationsService, StudySummaryOverlayService, AuthGuardService,
+  providers: [ChorusauthService, FrontPageService, SearchService, PDCUserService, OverlayWindowService, 
+				PublicationsService, HeatmapsService, StudySummaryOverlayService, AuthGuardService,
     {
       provide: AuthServiceConfig,
       useFactory: getAuthServiceConfigs

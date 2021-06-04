@@ -30,6 +30,7 @@ export class HeatmapViewerComponent implements OnInit {
   landingPages: any[];
   default_analysis_label: string;
   menuList: any;
+  filename:string = "";
 
   d3: any;
   vis_element_refs: ElementRef[];
@@ -50,7 +51,9 @@ export class HeatmapViewerComponent implements OnInit {
     this.vis_element_refs = [];
     this.route.queryParams.subscribe(params => {
       this.study_name = params['StudyName'];
+	  this.filename = params['filename'] || "";
 	});
+	console.log(this.filename);
 	this.analysis_id = this.route.snapshot.paramMap.get('id');
 	//@@@PDC-2126 - fix having to click on Back button twice to navigate back to Browse page
     this.loc.replaceState("/analysis/" + this.analysis_id + "?StudyName=" + this.study_name);
@@ -64,6 +67,9 @@ export class HeatmapViewerComponent implements OnInit {
     
     window.scrollTo(0, 0);
   }
+  
+  //@@@PDC-3724 add handling for heatmap request from "Explore Quantitation Data" page (single map file passed as parameter)
+  //@@@PDC-3804 process heatmap files for "Label Free" experiment type
   ngOnInit() {
     this.landingPages = [];
     this.map_files = [];
@@ -74,46 +80,64 @@ export class HeatmapViewerComponent implements OnInit {
     this.default_analysis_label = '';
     d3.json(manifest_file).then((data: any) => {
       data.heatmaps.map(aMap => {
+		 console.log(aMap);
         if ( 'children' in aMap ) {
+		  let parentPushFlag = false;
+		  if (this.filename == ""){
+			  parentPushFlag = true;
+		  //If a filename was passed from heatmaps page, make sure to add a parent only for the specific file
+		  } else {
+			  for (var i = 0; i < aMap['children'].length; i++) {
+				  if (this.filename == aMap['children'][i].filename) {
+					  parentPushFlag = true;
+				  }
+			  }
+		  }
           const newMenu = [];
-          console.log(aMap);
           console.log('Parent Label:' + aMap['menu-label']);
           const parent_label = aMap['menu-label'];
-          this.map_files.push({
-              label: parent_label,
-              filename: '',
-              location: '',
-              isParent: true,
-              colName: '',
-              rowName: '',
-              tooltip: ''
-          });
+		  if (parentPushFlag) {
+			  this.map_files.push({
+				  label: parent_label,
+				  filename: '',
+				  location: '',
+				  isParent: true,
+				  colName: '',
+				  rowName: '',
+				  tooltip: ''
+			  });
+		  }
           for (let i = 0; i < aMap['children'].length; i++) {
-            newMenu.push(aMap['children'][i]);
-            this.map_files.push({
-              label: aMap['children'][i]['menu-label'],
-              filename: aMap['children'][i].filename,
-              location: 'assets/data-folder/' + this.analysis_id + '/' + aMap['children'][i].filename,
-              colName: aMap['children'][i]['col-header'],
-              rowName: aMap['children'][i]['row-header'],
-              tooltip: aMap['children'][i]['tooltip'],
-              isParent: false
-            });
+			if ((this.filename != "" && this.filename == aMap['children'][i].filename) || ( this.filename == "")){
+				newMenu.push(aMap['children'][i]);
+				this.map_files.push({
+				  label: aMap['children'][i]['menu-label'],
+				  filename: aMap['children'][i].filename,
+				  location: 'assets/data-folder/' + this.analysis_id + '/' + aMap['children'][i].filename,
+				  colName: aMap['children'][i]['col-header'],
+				  rowName: aMap['children'][i]['row-header'],
+				  tooltip: aMap['children'][i]['tooltip'],
+				  isParent: false
+				});
+			}
           }
           this.menuList.set(aMap['menu-label'], newMenu);
         } else {
-          // This is an error - all menu items must have "children" attributes
-          this.menuList.set(aMap['menu-label'], aMap);
-          this.map_files.push({label: aMap['menu-label'],
-              filename: aMap.filename,
-              location: 'assets/data-folder/' + this.analysis_id + '/' + aMap.filename,
-              colName: aMap['col-header'],
-              rowName: aMap['row-header'],
-              tooltip: aMap['tooltip'],
-              parentLabel: ''
-            });
+			if ((this.filename != "" && this.filename == aMap.filename) || ( this.filename == "")){
+			  // This is an error - all menu items must have "children" attributes
+			  this.menuList.set(aMap['menu-label'], aMap);
+			  this.map_files.push({label: aMap['menu-label'],
+				  filename: aMap.filename,
+				  location: 'assets/data-folder/' + this.analysis_id + '/' + aMap.filename,
+				  colName: aMap['col-header'],
+				  rowName: aMap['row-header'],
+				  tooltip: aMap['tooltip'],
+				  parentLabel: ''
+				});
+			}
         }
       });
+	  console.log(this.map_files);
         // Display the first heatmap
         
       this.onSelect(this.map_files[1].location, this.map_files[1].rowName, this.map_files[1].colName,

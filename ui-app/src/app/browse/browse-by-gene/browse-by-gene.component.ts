@@ -351,9 +351,11 @@ isDownloadDisabled(){
 				this.totalRecords = data.getPaginatedUIGene.total;
 				this.genesTotalRecordChanged.emit({ type: 'genes', totalRecords: this.totalRecords });
 				this.offset = data.getPaginatedUIGene.pagination.from;
-				this.pageSize = data.getPaginatedUIGene.pagination.size;
 				this.limit = data.getPaginatedUIGene.pagination.size;
 			}
+			//@@@PDC-3700: Existing issues with Checkbox handling on "Browse" page
+			//Page size should be available for all offsets
+			this.pageSize = data.getPaginatedUIGene.pagination.size;
 			this.loading = false;
 			this.trackCurrentPageSelectedCase(data.getPaginatedUIGene.uiGenes);
 			if (this.pageHeaderCheckBoxTrack.indexOf(this.offset) !== -1) {

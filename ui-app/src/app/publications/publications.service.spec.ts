@@ -93,9 +93,9 @@ describe("PublicationsService", () => {
 
       const op = controller.expectOne(gql`
         query FilterdPaginatedPublicationsQuery ($offset_value: Int, $limit_value: Int, $year_filter: String!, 
-													$disease_type_filter: String!, $program_filter: String!) {
+													$disease_type_filter: String!, $program_filter: String!, $pubmedid_filter: String!) {
 		getPaginatedUIPublication(offset: $offset_value, limit: $limit_value, year: $year_filter, 
-													disease_type: $disease_type_filter, program: $program_filter) {
+													disease_type: $disease_type_filter, program: $program_filter, pubmed_id: $pubmedid_filter) {
 			total
 			uiPublication {
 				publication_id

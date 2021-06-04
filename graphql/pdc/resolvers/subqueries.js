@@ -260,17 +260,18 @@ export const resolvers = {
 		}
 	},
 	//@@@PDC-2614 rearrange geneSpectralCount
+	//@@@PDC-3668 add project_id and study_id
 	Gene: {
 		spectral_counts(obj, args, context) {
 			var spQuery = "";
 			if (typeof context.arguments.dataset_alias != 'undefined'){
 				//@@@PDC-2638 enhance aliquotSpectralCount
-				spQuery = "SELECT s.project_submitter_id, s.study_submitter_id, pdc_study_id, dataset_alias as plex, spectral_count, distinct_peptide, unshared_peptide from spectral_count sp left join study s on sp.study_id = s.study_id where dataset_alias like '%"+context.arguments.dataset_alias+"%' and gene_name = '"+
+				spQuery = "SELECT bin_to_uuid(s.project_id) as project_id, s.project_submitter_id, bin_to_uuid(s.study_id) as study_id, s.study_submitter_id, pdc_study_id, dataset_alias as plex, spectral_count, distinct_peptide, unshared_peptide from spectral_count sp left join study s on sp.study_id = s.study_id where dataset_alias like '%"+context.arguments.dataset_alias+"%' and gene_name = '"+
 				obj.gene_name+"'";
 				
 			}
 			else {
-				spQuery = "SELECT s.project_submitter_id, s.study_submitter_id, pdc_study_id, dataset_alias as plex, spectral_count, distinct_peptide, unshared_peptide from spectral_count sp left join study s on sp.study_id = s.study_id where plex_name = 'All' and gene_name = '"+obj.gene_name+"'";
+				spQuery = "SELECT bin_to_uuid(s.project_id) as project_id, s.project_submitter_id, bin_to_uuid(s.study_id) as study_id, s.study_submitter_id, pdc_study_id, dataset_alias as plex, spectral_count, distinct_peptide, unshared_peptide from spectral_count sp left join study s on sp.study_id = s.study_id where plex_name = 'All' and gene_name = '"+obj.gene_name+"'";
 				
 			}
 			return db.getSequelize().query(spQuery, { model: db.getModelByName('Spectral') });
@@ -311,18 +312,20 @@ export const resolvers = {
 		}		
 	},
 	//@@@PDC-191 experimental metadata API
+	//@@@PDC-3668 add study_run_metadata_id to output
 	ExperimentalMetadata: {
 		study_run_metadata(obj, args, context) {
 			//@@@PDC-1120 StudyRunMetadata table change
-			return db.getModelByName('ModelStudyRunMetadata').findAll({attributes: ['study_run_metadata_submitter_id', 'fraction'],
+			return db.getModelByName('ModelStudyRunMetadata').findAll({attributes: [['bin_to_uuid(study_run_metadata_id)', 'study_run_metadata_id'],'study_run_metadata_submitter_id', 'fraction'],
 			where: {study_submitter_id: obj.study_submitter_id}
 			});
 		}
 	},
 	//@@@PDC-2366 Add aliquot_run_metadata_id to aliquot_run_metadata API entity
+	//@@@PDC-3668 add aliquot_id to output
 	StudyRunMetadata: {
 		aliquot_run_metadata(obj, args, context) {
-			let aliquotQuery = "select aliquot_submitter_id , bin_to_uuid(aliquot_run_metadata_id) as aliquot_run_metadata_id FROM aliquot_run_metadata where study_run_metadata_submitter_id = '"+ obj.study_run_metadata_submitter_id +"'";
+			let aliquotQuery = "select bin_to_uuid(aliquot_id) as aliquot_id, aliquot_submitter_id , bin_to_uuid(aliquot_run_metadata_id) as aliquot_run_metadata_id FROM aliquot_run_metadata where study_run_metadata_submitter_id = '"+ obj.study_run_metadata_submitter_id +"'";
 			return db.getSequelize().query(aliquotQuery, { model: db.getModelByName('ModelAliquotRunMetadata') }); 
 			// db.getModelByName('ModelAliquotRunMetadata').findAll({attributes: ['aliquot_submitter_id'],
 			// 	where: {study_run_metadata_submitter_id: obj.study_run_metadata_submitter_id}
@@ -531,11 +534,10 @@ export const resolvers = {
 			diseases[0].forEach((row) =>diseaseTypes.push(row['disease_type']));
 			return diseaseTypes;		
 		},
+		//@@@PDC-3671 get publication file from file table
 		async supplementary_data(obj, args, context) {
-			var suppleQuery = "SELECT distinct f.file_name as file_name FROM study s, study_publication sp, "+
-			"study_file sf, file f WHERE s.study_id = sf.study_id and f.file_id = sf.file_id "+
-			"and sp.study_id = s.study_id and sp.publication_id = uuid_to_bin('"+
-			obj.publication_id + "') and s.is_latest_version = 1 and f.data_category = 'Publication Supplementary Material'";
+			var suppleQuery = "SELECT distinct f.file_name as file_name FROM file f WHERE  f.publication_id = uuid_to_bin('"+
+			obj.publication_id + "') ";
 			var supples = await db.getSequelize().query(suppleQuery, { raw: true });
 			var suppleTypes = [];
 			supples[0].forEach((row) =>suppleTypes.push(row['file_name']));
@@ -642,7 +644,8 @@ export const resolvers = {
 			return fractionNames;		
 		}
 	},
-	UIHeatmapStudy: {
+	//@@@PDC-3723 add sorting
+	/*UIHeatmapStudy: {
 		async disease_types (obj, args, context) {
 			var dtQuery = "SELECT distinct c.disease_type "+
 				"FROM study s, aliquot al, aliquot_run_metadata alm, `case` c, "+
@@ -667,7 +670,7 @@ export const resolvers = {
 			pss[0].forEach((row) =>psValues.push(row['primary_site']));
 			return psValues;		
 		}
-	},
+	},*/
 	//@@@PDC-136 pagination
 	//@@@PDC-650 implement elasticache for API
 	Paginated: {
@@ -862,6 +865,7 @@ export const resolvers = {
 			return db.getModelByName('Case').findAll({
 					attributes: [['bin_to_uuid(case_id)', 'case_id'], 
 						'case_submitter_id',
+						['bin_to_uuid(project_id)', 'project_id'],
 						'project_submitter_id',
 						'disease_type',
 						'primary_site'

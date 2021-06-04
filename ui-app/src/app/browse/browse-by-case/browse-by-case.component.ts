@@ -316,7 +316,7 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
 		let cloneData = _.cloneDeep(localSelectedCases);
 		cloneData = cloneData.splice(0, this.pageSize);
 		this.currentPageSelectedCase = [];
-		cloneData.forEach(item => {this.currentPageSelectedCase.push(item.aliquot_submitter_id)});
+		cloneData.forEach(item => {this.currentPageSelectedCase.push(item. aliquot_id + "-" + item.aliquot_submitter_id)});
 	}
 
 	//@@@PDC-497 (onLazyLoad)="loadCases($event)" will be invoked when sort event fires  
@@ -345,9 +345,11 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
 				this.totalRecords = data.getPaginatedUICase.total;
 				this.biospecimenTotalRecordChanged.emit({ type: 'biospecimen', totalRecords: this.totalRecords });
 				this.offset = data.getPaginatedUICase.pagination.from;
-				this.pageSize = data.getPaginatedUICase.pagination.size;
 				this.limit = data.getPaginatedUICase.pagination.size;
 			}
+			//@@@PDC-3700: Existing issues with Checkbox handling on "Browse" page
+			//Page size should be available for all offsets
+			this.pageSize = data.getPaginatedUICase.pagination.size;
 			this.loading = false;
 			this.trackCurrentPageSelectedCase(data.getPaginatedUICase.uiCases);
 			if(this.pageHeaderCheckBoxTrack.indexOf(this.offset) !== -1){
@@ -546,16 +548,16 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
     let localSelectedCases = emptyArray.concat(this.selectedCases);
     if(this.headercheckbox){
       for(let item of this.filteredCasesData){
-        if(this.currentPageSelectedCase.indexOf(item.aliquot_submitter_id) === -1){
+        if(this.currentPageSelectedCase.indexOf(item. aliquot_id + "-" + item.aliquot_submitter_id) === -1){
           localSelectedCases.push(item);
-          this.currentPageSelectedCase.push(item.aliquot_submitter_id);
+          this.currentPageSelectedCase.push(item. aliquot_id + "-" + item.aliquot_submitter_id);
         } 
       }
       this.selectedCases = localSelectedCases;
     } else {
 			//@@@PDC-3667: "Select all pages" option issue
 			for (let caseValue of this.currentPageSelectedCase) {
-				let index = localSelectedCases.findIndex(x => x.aliquot_submitter_id === caseValue);
+				let index = localSelectedCases.findIndex(x => (x.aliquot_id + "-" + x.aliquot_submitter_id) === caseValue);
 				if (index >-1) {
 					localSelectedCases.splice(index,1);
 				}
@@ -569,7 +571,7 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
   //@@@PDC-848 Fix headercheckbox issue for data tables on browse page
   //@@@PDC-1431 fix biospecimens table row selection issue	
   onRowSelected(event:any){
-		this.currentPageSelectedCase.push(event.data.aliquot_submitter_id);
+		this.currentPageSelectedCase.push(event.data.aliquot_id + "-" + event.data.aliquot_submitter_id);
 		//@@@PDC-3667: "Select all pages" option issue
 		this.handleCheckboxSelections();
   }
@@ -577,7 +579,7 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
 	//@@@PDC-848 Fix headercheckbox issue for data tables on browse page
   //@@@PDC-1431 fix biospecimens table row selection issue	
   onRowUnselected(event){
-    let index = this.currentPageSelectedCase.indexOf(event.data.aliquot_submitter_id);
+    let index = this.currentPageSelectedCase.indexOf(event.data.aliquot_id + "-" + event.data.aliquot_submitter_id);
     if(index >-1){
       this.currentPageSelectedCase.splice(index,1);
 		}
@@ -616,9 +618,9 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
   private trackCurrentPageSelectedCase(filteredFilesData: AllCasesData[]){
     let fileIdList = [];
     this.currentPageSelectedCase = [];
-    filteredFilesData.forEach((item) => fileIdList.push(item.aliquot_submitter_id));
-    this.selectedCases.forEach(item => {if(fileIdList.indexOf(item.aliquot_submitter_id) !== -1){
-      this.currentPageSelectedCase.push(item.aliquot_submitter_id);
+    filteredFilesData.forEach((item) => fileIdList.push(item['aliquot_id'] + "-" + item.aliquot_submitter_id));
+    this.selectedCases.forEach(item => {if(fileIdList.indexOf(item.aliquot_id + "-" + item.aliquot_submitter_id) !== -1){
+      this.currentPageSelectedCase.push(item.aliquot_id + "-" + item.aliquot_submitter_id);
     }});
   }
 }

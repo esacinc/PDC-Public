@@ -548,6 +548,31 @@ export type FilesCountsPerStudyData = {
 	data_category:string;
 }
 
+
+//PDC-3629 develop Heatmaps page
+export type HeatmapsFiltersData = {
+	filterCount: string;
+	disease_types: string[];
+	primary_sites: string[];
+	analytical_fractions: string[];
+}
+
+export type QueryHeatmapsData = {
+	study_id: string;
+	study_submitter_id: string;
+	submitter_id_name: string;
+	pdc_study_id: string;
+	study_description: string;
+	program_name: string;
+	project_name: string;
+	analytical_fraction: string;
+	primary_site: string;
+	disease_type: string;
+	experiment_type: string;
+	embargo_date: string;
+	heatmapFiles : string;
+}
+
 //PDC-288 Case Summary page
 export type DemographicsData = {
 	ethnicity: string;

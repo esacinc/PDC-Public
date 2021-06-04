@@ -292,14 +292,16 @@ export class BrowseByFileComponent implements OnInit {
         )
         .subscribe((data: any) => {
           this.filteredFilesData = data.getPaginatedUIFile.uiFiles;
-          this.totalRecords = data.getPaginatedUIFile.total;
-          this.fileTotalRecordChanged.emit({
-            type: "file",
-            totalRecords: this.totalRecords
-          });
-          this.offset = data.getPaginatedUIFile.pagination.from;
+          if (this.offset == 0) {
+            this.totalRecords = data.getPaginatedUIFile.total;
+            this.fileTotalRecordChanged.emit({
+              type: "file",
+              totalRecords: this.totalRecords
+            });
+            this.offset = data.getPaginatedUIFile.pagination.from;
+            this.limit = data.getPaginatedUIFile.pagination.size;
+          }
           this.pageSize = data.getPaginatedUIFile.pagination.size;
-          this.limit = data.getPaginatedUIFile.pagination.size;
           this.loading = false;
         });
     }, 1000);
@@ -329,9 +331,9 @@ export class BrowseByFileComponent implements OnInit {
             totalRecords: this.totalRecords
           });
           this.offset = data.getPaginatedUIFile.pagination.from;
-          this.pageSize = data.getPaginatedUIFile.pagination.size;
           this.limit = data.getPaginatedUIFile.pagination.size;
         }
+        this.pageSize = data.getPaginatedUIFile.pagination.size;
         this.loading = false;
         this.clearSelection();
       });
@@ -434,9 +436,9 @@ export class BrowseByFileComponent implements OnInit {
               totalRecords: this.totalRecords
             });
             this.offset = data.getPaginatedUIFile.pagination.from;
-            this.pageSize = data.getPaginatedUIFile.pagination.size;
             this.limit = data.getPaginatedUIFile.pagination.size;
           }
+          this.pageSize = data.getPaginatedUIFile.pagination.size;
           //@@@PDC 829: Update study count in the redirected fence page which retaining filters
           //Special case for retaining browser filters: Do not clear selected data when filters should be retained.
           if (this.fenceRequest && selectedFiltersForBrowse && !this.isFenceReloaded) {
@@ -517,7 +519,7 @@ export class BrowseByFileComponent implements OnInit {
         this.sort,
         this.newFilterSelected
       )
-      .subscribe((data: any) => {
+      .pipe(take(1)).subscribe((data: any) => {
         this.filteredFilesData = data.getPaginatedUIFile.uiFiles;
         if (this.offset === 0) {
           this.totalRecords = data.getPaginatedUIFile.total;
@@ -526,9 +528,11 @@ export class BrowseByFileComponent implements OnInit {
             totalRecords: this.totalRecords
           });
           this.offset = data.getPaginatedUIFile.pagination.from;
-          this.pageSize = data.getPaginatedUIFile.pagination.size;
           this.limit = data.getPaginatedUIFile.pagination.size;
         }
+        //@@@PDC-3700: Existing issues with Checkbox handling on "Browse" page
+			  //Page size should be available for all offsets
+        this.pageSize = data.getPaginatedUIFile.pagination.size;
         this.loading = false;
         this.trackCurrentPageSelectedFile(data.getPaginatedUIFile.uiFiles);
         if (this.pageHeaderCheckBoxTrack.indexOf(this.offset) !== -1) {

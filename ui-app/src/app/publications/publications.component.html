@@ -27,8 +27,19 @@
 					<mat-option *ngFor="let programVal of programFilterVals" [value]="programVal">{{programVal}}</mat-option>
 				  </mat-select>
 			  </mat-form-field>&nbsp;&nbsp;
+			  <mat-form-field appearance="fill">
+			         <input type="text" placeholder="Pubmed ID e.g. 33577785" id="search-term" title="Enter pubmed ID"
+							matInput [formControl]="searchFormControl" [matAutocomplete]="auto" 
+							[(ngModel)]="filterSelected.pubmed_id" (ngModelChange)="filterPublications('pubmed_id')">
+							<mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFunc" panelWidth="55%">
+								<mat-option *ngFor="let option of filteredOptions | async" [value]="option" style="font-size:12px; height:55px; line-height:15px;" [innerHtml]="option.name"></mat-option>
+							</mat-autocomplete>
+							<mat-hint  *ngIf="searchErrorMessageFlag" >Please enter only numerical values</mat-hint>
+			  </mat-form-field>&nbsp;&nbsp;
 			</div>
-			<button id="ClearPublicationsFilters" mat-raised-button mat-primary label="Clear all filters" (click)="clearFilters()" style="font-family:'Lato';font-weight:bold; height: fit-content; padding: 5px 5px;" [disabled]="isFilterChosen()" aria-label="Clear all filters">Clear Selected Filters</button>
+			&nbsp;&nbsp;<button id="ClearPublicationsFilters" mat-raised-button mat-primary label="Clear all filters" (click)="clearFilters()" 
+								style="font-family:'Lato';font-weight:bold; height: fit-content; padding: 5px 5px;" [disabled]="isFilterChosen()"
+								aria-label="Clear all filters" matTooltip="Clear Selected Filters">Clear</button>
 		</div>
 	  </mat-card-content >
 	</mat-card>

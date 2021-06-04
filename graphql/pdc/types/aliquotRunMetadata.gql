@@ -1,7 +1,7 @@
 type AliquotRunMetadata {
 	aliquot_run_metadata_id: String
-	aliquot_run_metadata_submitter_id: String
 	aliquot_submitter_id: String
+	aliquot_id: String
 	label: String
 	experiment_number: Int
 	fraction: String

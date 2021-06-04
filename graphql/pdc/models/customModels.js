@@ -87,11 +87,12 @@ const defineCustomModels = (db) => {
 	  * used in experimentalMetadata query.
 	  */
 	  //@@@PDC-191 experimental metadata API
+	  //@@@PDC-3668 add aliquot_id to output
 	  const ModelAliquotRunMetadata = db.getSequelize().define('aliquot_run_metadata', {
 		aliquot_run_metadata_id: { type: Sequelize.STRING,
 					  primaryKey: true   },
-		aliquot_run_metadata_submitter_id: { type: Sequelize.STRING },
 		aliquot_submitter_id: { type: Sequelize.STRING },
+		aliquot_id: { type: Sequelize.STRING },
 		fraction: { type: Sequelize.STRING },
 	  }, {
 		  timestamps: false,
@@ -101,7 +102,9 @@ const defineCustomModels = (db) => {
 	  });
 	  ModelAliquotRunMetadata.removeAttribute('id');
 	  
+	  //@@@PDC-3668 add study_id to input/output
 	  const ModelExperimentalMetadata = db.getSequelize().define('dummy', {
+		study_id: { type: Sequelize.STRING },
 		study_submitter_id: { type: Sequelize.STRING },
 		pdc_study_id: { type: Sequelize.STRING },
 		experiment_type: { type: Sequelize.STRING },
@@ -200,6 +203,7 @@ const defineCustomModels = (db) => {
 		  file_location: { type: Sequelize.STRING },
 		  downloadable: { type: Sequelize.STRING },
 		  md5sum: { type: Sequelize.STRING },
+		  study_id: { type: Sequelize.STRING },
 		  study_submitter_id: { type: Sequelize.STRING },
 		  pdc_study_id: { type: Sequelize.STRING },
 		  files_count: { type: Sequelize.INTEGER },
@@ -327,10 +331,14 @@ const defineCustomModels = (db) => {
 	  ModelPDCDataStatistics.removeAttribute('id');
 	  
 	  //@@@PDC-165 workflow metadata APIs
+	  //@@@PDC-3668 add uuids
 	  /**
 	  * ModelWorkflowMetadata is mapped to the table of workflow_metadata and * used in workflowMetadata and workflowMetadataPerStudy queries.
 	  */
 	  const ModelWorkflowMetadata = db.getSequelize().define('workflow_metadata', {
+		workflow_metadata_id: { type: Sequelize.STRING},
+		study_id: { type: Sequelize.STRING },
+		protocol_id: { type: Sequelize.STRING },
 		workflow_metadata_submitter_id: { type: Sequelize.STRING},
 		study_submitter_id: { type: Sequelize.STRING },
 		pdc_study_id: { type: Sequelize.STRING },
@@ -412,7 +420,8 @@ const defineCustomModels = (db) => {
 	  
 	  //@@@PDC-332 API for file metadata--add more fields
 	  //@@@PDC-1257 replace fraction with fraction_number	  
-	  //@@@PDC-2642 add file_id	  
+	  //@@@PDC-2642 add file_id	
+	  //@@@PDC-3668 add study_id	  
 	  /**
 	  * ModelFileMetadata is a utility and used in 
 	  *   getFileMetadata query.
@@ -553,7 +562,9 @@ const defineCustomModels = (db) => {
 	  * and aliquot query
 	  */
 	  //@@@PDC-485 spectral count per study and aliquot query
+	  //@@@PDC-3668 add study_id to input/output
 	  const ModelSpectralCount = db.getSequelize().define('dummy', {
+		study_id: { type: Sequelize.STRING},
 		study_submitter_id: { type: Sequelize.STRING},
 		pdc_study_id: { type: Sequelize.STRING },
 		gene_name: { 	type: Sequelize.STRING},
@@ -572,7 +583,9 @@ const defineCustomModels = (db) => {
 	  
 	  //@@@PDC-768 clinical metadata API
 	  //@@@PDC-3428 add tumor_largest_dimension_diameter
+	  //@@@PDC-3668 add aliquot_id to output
 	  const ModelClinicalMetadata = db.getSequelize().define('dummy', {
+		aliquot_id: { type: Sequelize.STRING},
 		aliquot_submitter_id: { type: Sequelize.STRING},
 		morphology: { 	type: Sequelize.STRING},
 		primary_diagnosis: { type: Sequelize.STRING },

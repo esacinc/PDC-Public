@@ -1,4 +1,7 @@
 type WorkflowMetadata {  
+  workflow_metadata_id: String
+  study_id: String
+  protocol_id: String
   workflow_metadata_submitter_id: String
   study_submitter_id: String
   pdc_study_id: String

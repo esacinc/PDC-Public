@@ -153,6 +153,13 @@ a.disabled {
 	color: #3A8BB7;
 }
 
+//@@@PDC-3719 include disqualified in study summary Experimental Design table
+:host /deep/ .ui-table tr td  .colValue .colValueDisqualified {
+	font-weight: normal;
+    font-style: normal;
+	color: red;
+}
+
 .help-icon {
 	font-size: 20px !important;
 }

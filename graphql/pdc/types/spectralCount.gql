@@ -1,7 +1,9 @@
 type Spectral_count {
+  study_id: String
   study_submitter_id: String
   pdc_study_id: String
   project_submitter_id: String
+  project_id: String
   plex: String
   spectral_count: Int
   distinct_peptide: Int

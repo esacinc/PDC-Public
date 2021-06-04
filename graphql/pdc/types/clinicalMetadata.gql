@@ -1,4 +1,5 @@
 type ClinicalMetadata {
+	aliquot_id:  String
 	aliquot_submitter_id:  String
 	morphology:  String
 	primary_diagnosis:  String

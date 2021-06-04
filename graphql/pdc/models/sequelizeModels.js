@@ -8,12 +8,14 @@ import _ from 'lodash';
 */
 //@@@PDC-962 defnie db models after db is initialized asynchronously 
 //@@@PDC-1011 replace external_case_id with external_case_id
+//@@@PDC-3668 add project_id
 const defineSequelizeModels = (db) => {
 
 	const CaseModel = db.getSequelize().define('case', {
 		case_id: { type: Sequelize.STRING,
 					  primaryKey: true   },
 		project_submitter_id: { type: Sequelize.STRING },
+		project_id: { type: Sequelize.STRING },
 		case_submitter_id: { type: Sequelize.STRING },
 		external_case_id: { type: Sequelize.STRING },
 		tissue_source_site_code: { type: Sequelize.STRING },
@@ -286,12 +288,15 @@ const defineSequelizeModels = (db) => {
 	  */
 	  //@@@PDC-164 plex-level spectral count
 	  //@@@PDC-333 gene/spectral count API change
+	  //@@@PDC-3668 add project_id and study_id
 	  const SpectralCountModel = db.getSequelize().define('spectral_count', {
 		study_submitter_id: { 	type: Sequelize.STRING,
 					  primaryKey: true  },
 		gene_name: { 	type: Sequelize.STRING},
 		gene_id: { type: Sequelize.STRING},
 		project_submitter_id: { type: Sequelize.STRING },
+		project_id: { type: Sequelize.STRING },
+		study_id: { type: Sequelize.STRING },
 		pdc_study_id: { type: Sequelize.STRING },
 		plex: { type: Sequelize.STRING },
 		plex_name: { type: Sequelize.STRING },

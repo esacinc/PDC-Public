@@ -84,14 +84,14 @@
 				<ng-template pTemplate="header">
 					<tr style="font-size: 12px;">
 						<th class="ui-datatable-tableheader" style="width:3%;overflow: unset;">
-							<label><p-checkbox  id="fileDataChk" [(ngModel)]="headercheckbox" binary="true" (onChange)="onTableHeaderCheckboxToggle()"></p-checkbox>
+							<label><p-checkbox  id="fileDataChk" [(ngModel)]="headercheckbox" binary="true" (onChange)="onTableHeaderCheckboxToggle()"></p-checkbox></label>
 							<mat-select id="dataForManifestExport" class="card-body card-list" [(ngModel)]="selectedHeaderCheckbox"
 							(selectionChange)="changeHeaderCheckbox($event)">
 								<mat-option *ngFor="let checkboxOption of checkboxOptions" [value]="checkboxOption">
 									{{checkboxOption}}
 								</mat-option>
 							</mat-select>
-							<span style="display:none">Select this row</span></label>
+							<span style="display:none">Select this row</span>
 						</th>
 						<!-- PDC-2795 -->
 						<th *ngIf="publicationsFiles.length === 0" class="ui-datatable-tableheader" style="width:6%;" [pSortableColumn]="cols[0].field"><a
@@ -99,20 +99,20 @@
 							<p-sortIcon [field]="cols[0].field" ariaLabel="Sort PDC Study ID column in ascending/descending order"></p-sortIcon>
 						</th>
 						<!-- @@@PDC-262 link headers to data dictionary -->
-						<th *ngIf="publicationsFiles.length === 0" class="ui-datatable-tableheader" style="width:11%;" [pSortableColumn]="cols[0].field"><a
+						<th *ngIf="publicationsFiles.length === 0" class="ui-datatable-tableheader" style="width:11%;" [pSortableColumn]="cols[1].field"><a
 								href="{{staticUrlBase}}dictionaryitem.html?eName=Study" target="_blank" style="color:white">Study</a>
-							<p-sortIcon [field]="cols[0].field" ariaLabel="Sort Study column in ascending/descending order"></p-sortIcon>
+							<p-sortIcon [field]="cols[1].field" ariaLabel="Sort Study column in ascending/descending order"></p-sortIcon>
 						</th>
-						<th *ngIf="publicationsFiles.length === 0" class="ui-datatable-tableheader" style="width:5%;" [pSortableColumn]="cols[0].field"><a
+						<th *ngIf="publicationsFiles.length === 0" class="ui-datatable-tableheader" style="width:5%;" [pSortableColumn]="cols[2].field"><a
 								href="/pdc/faq#Embargo_Date" target="_blank" style="color:white">Embargo Date</a>
-							<p-sortIcon [field]="cols[0].field" ariaLabel="Sort embargo date column in ascending/descending order"></p-sortIcon>
+							<p-sortIcon [field]="cols[2].field" ariaLabel="Sort embargo date column in ascending/descending order"></p-sortIcon>
 						</th>
-						<th class="ui-datatable-tableheader" style="width:19%" [pSortableColumn]="cols[1].field"><a
+						<th class="ui-datatable-tableheader" style="width:19%" [pSortableColumn]="cols[3].field"><a
 								href="{{staticUrlBase}}dictionaryitem.html?eName=File#file_name" target="_blank" style="color:white">File
 								Name</a>
-							<p-sortIcon [field]="cols[1].field" ariaLabel="Sort File name column in ascending/descending order"></p-sortIcon>
+							<p-sortIcon [field]="cols[3].field" ariaLabel="Sort File name column in ascending/descending order"></p-sortIcon>
 						</th>
-						<th *ngIf="publicationsFiles.length === 0" class="ui-datatable-tableheader" style="width:10%" [pSortableColumn]="cols[2].field">
+						<th *ngIf="publicationsFiles.length === 0" class="ui-datatable-tableheader" style="width:10%" [pSortableColumn]="cols[4].field">
 							<div class="ui-datatable-tableheader-flex-container">
 								<div>
 									<a href="{{staticUrlBase}}dictionaryitem.html?eName=Study%20Run%20Metadata" target="_blank"
@@ -121,40 +121,40 @@
 									</a>
 								</div>
 								<div>
-									<p-sortIcon [field]="cols[2].field" ariaLabel="Sort Run Metadata ID column in ascending/descending order"></p-sortIcon>
+									<p-sortIcon [field]="cols[4].field" ariaLabel="Sort Run Metadata ID column in ascending/descending order"></p-sortIcon>
 								</div>
 							</div>
 						</th>
-						<th class="ui-datatable-tableheader" style="width:9%" [pSortableColumn]="cols[3].field"><a
+						<th class="ui-datatable-tableheader" style="width:9%" [pSortableColumn]="cols[5].field"><a
 								href="{{staticUrlBase}}dictionaryitem.html?eName=Project" target="_blank" style="color:white">Project</a>
-							<p-sortIcon [field]="cols[3].field" ariaLabel="Sort Project column in ascending/descending order"></p-sortIcon>
+							<p-sortIcon [field]="cols[5].field" ariaLabel="Sort Project column in ascending/descending order"></p-sortIcon>
 						</th>
-						<th rowspan=3 class="ui-datatable-tableheader" style="width:9%" [pSortableColumn]="cols[4].field"><a href="/pdc/faq/Files_Download" target="_blank" style="color:white">Data Category</a>
-							<p-sortIcon [field]="cols[4].field" ariaLabel="Sort Data Category column in ascending/descending order"></p-sortIcon>
+						<th rowspan=3 class="ui-datatable-tableheader" style="width:9%" [pSortableColumn]="cols[6].field"><a href="/pdc/faq/Files_Download" target="_blank" style="color:white">Data Category</a>
+							<p-sortIcon [field]="cols[6].field" ariaLabel="Sort Data Category column in ascending/descending order"></p-sortIcon>
 						</th>
-						<th rowspan=3 class="ui-datatable-tableheader" style="width:8%" [pSortableColumn]="cols[5].field"><a href="/pdc/faq/Files_Download" target="_blank" style="color:white">File Type</a>
-							<p-sortIcon [field]="cols[5].field" ariaLabel="Sort File Type column in ascending/descending order"></p-sortIcon>
+						<th rowspan=3 class="ui-datatable-tableheader" style="width:8%" [pSortableColumn]="cols[7].field"><a href="/pdc/faq/Files_Download" target="_blank" style="color:white">File Type</a>
+							<p-sortIcon [field]="cols[7].field" ariaLabel="Sort File Type column in ascending/descending order"></p-sortIcon>
 						</th>
-						<th rowspan=3 class="ui-datatable-tableheader" style="width:5%" [pSortableColumn]="cols[6].field">Access
-							<p-sortIcon [field]="cols[6].field" ariaLabel="Sort Access column in ascending/descending order"></p-sortIcon>
+						<th rowspan=3 class="ui-datatable-tableheader" style="width:5%" [pSortableColumn]="cols[8].field">Access
+							<p-sortIcon [field]="cols[8].field" ariaLabel="Sort Access column in ascending/descending order"></p-sortIcon>
 						</th>
-						<th class="ui-datatable-tableheader" style="width:7%" [pSortableColumn]="cols[7].field">
+						<th class="ui-datatable-tableheader" style="width:7%" [pSortableColumn]="cols[9].field">
 							<div class="ui-datatable-tableheader-flex-container">
 								<div class="ui-datatable-tableheader-flex-header">
 									File<br>Size (MB)
 								</div>
 								<div class="ui-datatable-tableheader-flex-sorticon">
-									<p-sortIcon [field]="cols[7].field" ariaLabel="Sort Fize Size column in ascending/descending order"></p-sortIcon>
+									<p-sortIcon [field]="cols[9].field" ariaLabel="Sort Fize Size column in ascending/descending order"></p-sortIcon>
 								</div>
 							</div>
 						</th>
-						<th class="ui-datatable-tableheader" style="width:8%" [pSortableColumn]="cols[8].field">
+						<th class="ui-datatable-tableheader" style="width:8%" [pSortableColumn]="cols[11].field">
 								<div class="ui-datatable-tableheader-flex-container">
 									<div class="ui-datatable-tableheader-flex-header">
 										Downloadable
 									</div>
 									<div class="ui-datatable-tableheader-flex-sorticon">
-										<p-sortIcon [field]="cols[8].field" ariaLabel="Sort Downloadable column in ascending/descending order"></p-sortIcon>
+										<p-sortIcon [field]="cols[11].field" ariaLabel="Sort Downloadable column in ascending/descending order"></p-sortIcon>
 									</div>
 								</div>
 						</th>

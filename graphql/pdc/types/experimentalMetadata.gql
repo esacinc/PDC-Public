@@ -1,4 +1,5 @@
 type ExperimentalMetadata {
+  study_id: String
   study_submitter_id: String
   pdc_study_id: String
   experiment_type: String
