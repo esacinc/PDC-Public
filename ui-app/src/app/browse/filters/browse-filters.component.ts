@@ -46,6 +46,7 @@ import { BrowseFiltersService } from "./browse-filters.service";
 //@@@PDC-2460: Add new data category/file type: Alternate Processing Pipeline/Archive
 //@@@PDC-2508: Checkbox appears faded when clicking Metadata or Quality Metrics Count
 //@@@PDC-3010: Update UI to use APIs for fily type to data category mapping
+//@@@PDC-3778: Implement deep linking to study filtering using PDC study ID
 export class BrowseFiltersComponent implements OnInit, OnChanges {
   allCategoryFilterData: FilterData; // Full list of all cases as returned by API
   allFilterCategoryMapData: Map<string, string[]> = new Map();
@@ -161,6 +162,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
   
   studyNameStudyIdMap: any = [];
   studyNameUUIDMap: any = [];
+  studyNamePDCStudyIDMap: any = [];
 
   selectedGeneSelectField:string[] = [];
 
@@ -281,10 +283,12 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
 		  for (let project of program.projects){
 			  for (let study of project.studies){
 				  this.studyNameUUIDMap[study.study_id] = study.submitter_id_name;
+				  this.studyNamePDCStudyIDMap[study.pdc_study_id] = study.submitter_id_name;
 			  }
 		  }
 	  }
 	  console.log(this.studyNameUUIDMap);
+	  console.log(this.studyNamePDCStudyIDMap);
     });
   }
 
@@ -408,26 +412,42 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
 						let studyNames = "";
 						//Convert study uuids to study names
 						for (let studyID of filter[1].split('|')){
+							console.log(studyID);
 							if (this.studyNameUUIDMap[studyID]) {
 								studyNames = studyNames + this.studyNameUUIDMap[studyID] + "|";
-							}
-							else {
+							} else{
 								console.log("Error, study uuid: " + studyID + " does not exist!!!");
 							}
 						}
+						studyNames = studyNames.slice(0, -1);
+						console.log(studyNames);
+						this.setFilters("study_name", studyNames);
+						this.selectedFilters.emit("study_name:" + studyNames.split('|').join(';'));
+					//PDC-3778 add pdc_study_id filter URL filter option	
+					}else if (filter[0] == "pdc_study_id"){
+						let studyNames = "";
+						//Convert study uuids to study names
+						for (let studyID of filter[1].split('|')){
+							if (this.studyNamePDCStudyIDMap[studyID]){
+								studyNames = studyNames + this.studyNamePDCStudyIDMap[studyID] + "|";
+							} else{
+								console.log("Error, PDC Study ID: " + studyID + " does not exist!!!");
+							}
+						}
+						studyNames = studyNames.slice(0, -1);
 						console.log(studyNames);
 						this.setFilters("study_name", studyNames);
 						this.selectedFilters.emit("study_name:" + studyNames.split('|').join(';'));
 					} else if (filter[0] == "selectedTab"){
-              this.selectedTabForStudySummary.emit({index:3});
-          } else {
+						this.selectedTabForStudySummary.emit({index:3});
+					} else {
 						//For all other URL filters set the apropriate filter and propagate to other modules
 						this.setFilters(filter[0], filter[1]); //filter[0] - name of the filter, filter[1] - value of the filter
 						this.selectedFilters.emit(filter[0] + ":" + filter[1].split('|').join(';')); //Change delimiter for multiple values for the same filter from | to ;
 					}
 					this.loadingURLParams = true;
 					this.updateFiltersCounters();
-				}, 500); //need to set a short timout so that other components will have time perform queries
+				}, 700); //need to set a short timout so that other components will have time perform queries
 			}
 		}
     });

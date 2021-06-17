@@ -515,6 +515,17 @@ export const resolvers = {
 			return db.getSequelize().query(pubQuery, { model: db.getModelByName('ModelUIPublication') });
 		}
 	},
+	//@@@PDC-3803 get sup data for legacy publication.
+	LegacyPublication: {
+		async supplementary_data(obj, args, context) {
+			var suppleQuery = "SELECT distinct f.file_name as file_name FROM legacy_file f, legacy_study s, legacy_study_file sf, legacy_study_publication sp WHERE s.study_id = sf.study_id and sf.file_id = f.file_id and sp.study_id = s.study_id and f.data_category = 'Publication Supplementary Material' and sp.publication_id = uuid_to_bin('"+
+			obj.publication_id + "') ";
+			var supples = await db.getSequelize().query(suppleQuery, { raw: true });
+			var suppleTypes = [];
+			supples[0].forEach((row) =>suppleTypes.push(row['file_name']));
+			return suppleTypes;		
+		}
+	},	
 	//@@@PDC-3446 API for new publication screen
 	Publication: {
 		studies(obj, args, context) {

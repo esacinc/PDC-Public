@@ -198,6 +198,7 @@ constructor(private apollo: Apollo) {
 		
 	getStudyUUID2NameMapping(){
 		//@@@PDC-1123 call ui wrapper API
+		//@@@PDC-3778 add pdc_study_id filter URL filter option
 		return this.apollo.watchQuery<QueryPrograms>({
 			query: gql`
 				query StudyNameUUIDMapping {
@@ -215,6 +216,7 @@ constructor(private apollo: Apollo) {
 						name
 						studies {
 							study_id
+							pdc_study_id
 							submitter_id_name
 							study_submitter_id			
 							analytical_fraction

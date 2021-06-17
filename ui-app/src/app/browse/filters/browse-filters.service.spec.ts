@@ -1167,6 +1167,7 @@ describe("BrowseFiltersService", () => {
               name
               studies {
                 study_id
+				pdc_study_id
                 submitter_id_name
                 study_submitter_id
                 analytical_fraction
@@ -1185,50 +1186,55 @@ describe("BrowseFiltersService", () => {
               program_id: "10251935-5540-11e8-b664-00a098d917f8",
               program_submitter_id: "CPTAC",
               name: "Clinical Proteomic Tumor Analysis Consortium",
-              sponsor: "NCI",
-              start_date: "01/01/2012",
-              end_date: "",
-              program_manager: "Christopher Kinsinger",
+              sponsor: null,
+              start_date: "2018-06-29",
+              end_date: null,
+              program_manager: "Ratna Thangudu",
               projects: [
                 {
                   project_id: "267d6671-0e78-11e9-a064-0a9c39d33490",
-                  project_submitter_id: "PJ-CPTAC3",
-                  name: "CPTAC3 Discovery",
+                  project_submitter_id: "CPTAC3-Discovery",
+                  name: "CPTAC3-Discovery",
                   studies: [
                     {
                       study_id: "c935c587-0cd1-11e9-a064-0a9c39d33490",
+					  pdc_study_id: "PDC000125",
                       submitter_id_name: "CPTAC UCEC Discovery Study - Proteome",
-                      study_submitter_id: "S043-1",
+                      study_submitter_id: "UCEC Discovery - Proteome S043-1",
                       analytical_fraction: "Proteome",
                       experiment_type: "TMT10",
                       acquisition_type: "DDA"
                     },
                     {
                       study_id: "cb7220f5-0cd1-11e9-a064-0a9c39d33490",
+					  pdc_study_id: "PDC000126",
                       submitter_id_name: "CPTAC UCEC Discovery Study - Phosphoproteme",
-                      study_submitter_id: "S043-2",
+                      study_submitter_id: "UCEC Discovery - Phosphoproteome S043-2",
                       analytical_fraction: "Phosphoproteome",
                       experiment_type: "TMT10",
                       acquisition_type: "DDA"
                     },
                     {
                       study_id: "dbe94609-1fb3-11e9-b7f8-0a80fada099c",
+					  pdc_study_id: "PDC000127",
                       submitter_id_name: "CPTAC CCRCC Discovery Study - Proteome",
-                      study_submitter_id: "S044-1",
+                      study_submitter_id: "CPTAC CCRCC Discovery Study - Proteome S044-1",
                       analytical_fraction: "Proteome",
                       experiment_type: "TMT10",
                       acquisition_type: "DDA"
                     },
                     {
                       study_id: "dd0a228f-1fb3-11e9-b7f8-0a80fada099c",
+					  pdc_study_id: "PDC000128",
                       submitter_id_name: "CPTAC CCRCC Discovery Study - Phosphoproteme",
-                      study_submitter_id: "S044-2",
+                      study_submitter_id: "CPTAC CCRCC Discovery Study - Phosphoproteome S044-2",
                       analytical_fraction: "Phosphoproteome",
                       experiment_type: "TMT10",
                       acquisition_type: "DDA"
                     },
                     {
                       study_id: "f1c59a53-ab7c-11e9-9a07-0a80fada099c",
+					  pdc_study_id: "PDC000153",
                       submitter_id_name: "CPTAC LUAD Discovery Study - Proteome",
                       study_submitter_id: "S046-1",
                       analytical_fraction: "Proteome",
@@ -1237,6 +1243,7 @@ describe("BrowseFiltersService", () => {
                     },
                     {
                       study_id: "f1c59f58-ab7c-11e9-9a07-0a80fada099c",
+					  pdc_study_id: "PDC000149",
                       submitter_id_name: "CPTAC LUAD Discovery Study - Phosphoproteome",
                       study_submitter_id: "S046-2",
                       analytical_fraction: "Phosphoproteome",
@@ -1252,6 +1259,7 @@ describe("BrowseFiltersService", () => {
                   studies: [
                     {
                       study_id: "bb67ec40-57b8-11e8-b07a-00a098d917f8",
+					  pdc_study_id: "PDC000109",
                       submitter_id_name: "Prospective_Colon_VU_Proteome",
                       study_submitter_id: "S037-1",
                       analytical_fraction: "Proteome",
@@ -1260,6 +1268,7 @@ describe("BrowseFiltersService", () => {
                     },
                     {
                       study_id: "bbc1441e-57b8-11e8-b07a-00a098d917f8",
+					  pdc_study_id: "PDC000116",
                       submitter_id_name: "Prospective_Colon_PNNL_Proteome_Qeplus",
                       study_submitter_id: "S037-2",
                       analytical_fraction: "Proteome",
@@ -1268,6 +1277,7 @@ describe("BrowseFiltersService", () => {
                     },
                     {
                       study_id: "bc23a4a1-57b8-11e8-b07a-00a098d917f8",
+					  pdc_study_id: "PDC000117",
                       submitter_id_name: "Prospective_Colon_PNNL_Phosphoproteome_Lumos",
                       study_submitter_id: "S037-3",
                       analytical_fraction: "Phosphoproteome",
@@ -1276,6 +1286,7 @@ describe("BrowseFiltersService", () => {
                     },
                     {
                       study_id: "bc81da61-57b8-11e8-b07a-00a098d917f8",
+					  pdc_study_id: "PDC000110",
                       submitter_id_name: "Prospective_Ovarian_JHU_Proteome",
                       study_submitter_id: "S038-1",
                       analytical_fraction: "Proteome",
@@ -1284,6 +1295,7 @@ describe("BrowseFiltersService", () => {
                     },
                     {
                       study_id: "bcdeeba0-57b8-11e8-b07a-00a098d917f8",
+					  pdc_study_id: "PDC000118",
                       submitter_id_name: "Prospective_Ovarian_PNNL_Proteome_Qeplus",
                       study_submitter_id: "S038-2",
                       analytical_fraction: "Proteome",
@@ -1292,6 +1304,7 @@ describe("BrowseFiltersService", () => {
                     },
                     {
                       study_id: "bd70311c-57b8-11e8-b07a-00a098d917f8",
+					  pdc_study_id: "PDC000119",
                       submitter_id_name: "Prospective_Ovarian_PNNL_Phosphoproteome_Lumos",
                       study_submitter_id: "S038-3",
                       analytical_fraction: "Phosphoproteome",
@@ -1300,6 +1313,7 @@ describe("BrowseFiltersService", () => {
                     },
                     {
                       study_id: "bdcd3802-57b8-11e8-b07a-00a098d917f8",
+					  pdc_study_id: "PDC000120",
                       submitter_id_name: "Prospective_Breast_BI_Proteome",
                       study_submitter_id: "S039-1",
                       analytical_fraction: "Proteome",
@@ -1308,6 +1322,7 @@ describe("BrowseFiltersService", () => {
                     },
                     {
                       study_id: "be2883cb-57b8-11e8-b07a-00a098d917f8",
+					  pdc_study_id: "PDC000121",
                       submitter_id_name: "Prospective_Breast_BI_Phosphoproteome",
                       study_submitter_id: "S039-2",
                       analytical_fraction: "Phosphoproteome",
@@ -1323,6 +1338,7 @@ describe("BrowseFiltersService", () => {
                   studies: [
                     {
                       study_id: "b8da9eeb-57b8-11e8-b07a-00a098d917f8",
+					  pdc_study_id: "PDC000173",
                       submitter_id_name: "TCGA_Breast_Cancer_Proteome",
                       study_submitter_id: "S015-1",
                       analytical_fraction: "Proteome",
@@ -1331,6 +1347,7 @@ describe("BrowseFiltersService", () => {
                     },
                     {
                       study_id: "b93bb1e9-57b8-11e8-b07a-00a098d917f8",
+					  pdc_study_id: "PDC000174",
                       submitter_id_name: "TCGA_Breast_Cancer_Phosphoproteome",
                       study_submitter_id: "S015-2",
                       analytical_fraction: "Phosphoproteome",
@@ -1339,6 +1356,7 @@ describe("BrowseFiltersService", () => {
                     },
                     {
                       study_id: "b998098f-57b8-11e8-b07a-00a098d917f8",
+					  pdc_study_id: "PDC000111",
                       submitter_id_name: "TCGA_Colon_Cancer_Proteome",
                       study_submitter_id: "S016-1",
                       analytical_fraction: "Proteome",
@@ -1347,6 +1365,7 @@ describe("BrowseFiltersService", () => {
                     },
                     {
                       study_id: "b9f2ccc5-57b8-11e8-b07a-00a098d917f8",
+					  pdc_study_id: "PDC000112",
                       submitter_id_name: "TCGA_Ovarian_JHU_Glycoproteome",
                       study_submitter_id: "S020-1",
                       analytical_fraction: "Glycoproteome",
@@ -1355,6 +1374,7 @@ describe("BrowseFiltersService", () => {
                     },
                     {
                       study_id: "ba4e17a5-57b8-11e8-b07a-00a098d917f8",
+					  pdc_study_id: "PDC000113",
                       submitter_id_name: "TCGA_Ovarian_JHU_Proteome",
                       study_submitter_id: "S020-2",
                       analytical_fraction: "Proteome",
@@ -1363,6 +1383,7 @@ describe("BrowseFiltersService", () => {
                     },
                     {
                       study_id: "baa8ae46-57b8-11e8-b07a-00a098d917f8",
+					  pdc_study_id: "PDC000114",
                       submitter_id_name: "TCGA_Ovarian_PNNL_Proteome",
                       study_submitter_id: "S020-3",
                       analytical_fraction: "Proteome",
@@ -1371,6 +1392,7 @@ describe("BrowseFiltersService", () => {
                     },
                     {
                       study_id: "bb076b33-57b8-11e8-b07a-00a098d917f8",
+					  pdc_study_id: "PDC000115",
                       submitter_id_name:
                         "TCGA_Ovarian_PNNL_Phosphoproteome_Velos_Qexatvive",
                       study_submitter_id: "S020-4",
@@ -1398,6 +1420,7 @@ describe("BrowseFiltersService", () => {
                   studies: [
                     {
                       study_id: "ad18f195-f3c0-11e8-a44b-0a9c39d33490",
+					  pdc_study_id: "PDC000152",
                       submitter_id_name: "PCT_SWATH_Kidney",
                       study_submitter_id: "ST25730263",
                       analytical_fraction: "Proteome",

@@ -1429,9 +1429,10 @@ export const resolvers = {
 			let fileCountQuery= "SELECT COUNT(DISTINCT f.file_id) AS total ";
 			let fileBaseQuery= "FROM legacy_study s, legacy_study_file sf, legacy_file f WHERE "+
 			" s.study_id = sf.study_id AND sf.file_id = f.file_id ";
+			//@@@PDC-3802 get run metadata id from plex_or_folder_name
 			let fileDataQuery= "SELECT DISTINCT BIN_TO_UUID(f.file_id) AS file_id, "+
 			"BIN_TO_UUID(s.study_id) AS study_id, s.pdc_study_id, s.submitter_id_name, s.embargo_date, "+
-			"f.file_name, sf.study_run_metadata_submitter_id, s.project_submitter_id AS project_name, "+
+			"f.file_name, f.plex_or_folder_name AS study_run_metadata_submitter_id, s.project_submitter_id AS project_name, "+
 			"f.data_category, f.file_type, f.downloadable, f.md5sum, f.access, "+
 			"CAST(f.file_size AS UNSIGNED) AS file_size ";
 			if (typeof args.study_id != 'undefined' && args.study_id.length > 0) {
