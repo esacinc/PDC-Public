@@ -1348,6 +1348,70 @@ var spec = {
                     }
                   }
                 },
+              '?query={ studyCatalog (acceptDUA: {acceptDUA}) { pdc_study_id versions { study_id study_submitter_id submitter_id_name study_shortname study_version is_latest_version } } }': {
+                 "get": {
+                   "tags": ["Study"],
+                   "summary": "Gets Studies with version information",
+                   "description": "<b>Gets Studies with version information. <br><br>Fields:</b><ul><li>pdc_study_id</li><li>versions</li></ul>",
+                   "operationId": "studyCatalog",
+                   "produces": [
+                     "application/json"
+                   ],
+                   "parameters": [{
+                     "name": "acceptDUA",
+                     "in": "path",
+                     "description": "Accept DUA variable, example: true/false",
+                     "required": true,
+                     "type": "boolean"
+                  }],
+                   "responses": {
+                     "200": {
+                       "description": "successful operation",
+                       "schema": {
+                         "$ref": "#/definitions/studyCatalog"
+                       }
+                     },
+                     "401": {
+                       "description": "Unauthorized"
+                     }
+                   }
+                 }
+               },
+              '?query={ studyCatalog (pdc_study_id: "{pdc_study_id}" acceptDUA: {acceptDUA}) { pdc_study_id versions { study_id study_submitter_id submitter_id_name study_shortname study_version is_latest_version } } }': {
+                 "get": {
+                   "tags": ["Study"],
+                   "summary": "Gets Studies with version information",
+                   "description": "<b>Gets Studies with version information for a specific pdc_study_id. <br><br>Fields:</b><ul><li>pdc_study_id</li><li>versions</li></ul>",
+                   "operationId": "studyCatalog",
+                   "produces": [
+                     "application/json"
+                   ],
+                   "parameters": [{
+                        "name": "pdc_study_id",
+                        "in": "path",
+                        "description": "PDC Study ID, example: PDC000121",
+                        "required": true,
+                        "type": "string"
+                      },{
+                     "name": "acceptDUA",
+                     "in": "path",
+                     "description": "Accept DUA variable, example: true/false",
+                     "required": true,
+                     "type": "boolean"
+                  }],
+                   "responses": {
+                     "200": {
+                       "description": "successful operation",
+                       "schema": {
+                         "$ref": "#/definitions/studyCatalog"
+                       }
+                     },
+                     "401": {
+                       "description": "Unauthorized"
+                     }
+                   }
+                 }
+               },
               '?query={ filesPerStudy (study_id: "{study_id}" acceptDUA: {acceptDUA}) {study_id pdc_study_id study_submitter_id study_name file_id file_name file_submitter_id file_type md5sum file_location file_size data_category file_format signedUrl {url}} }': {
                  "get": {
                            "tags": ["Files"],
@@ -5934,6 +5998,82 @@ var spec = {
               },
               "xml":{
                  "name":"filesCountPerStudyDesc"
+              }
+           },
+          "studyCatalog":{
+             "type":"object",
+             "properties":{
+                "data":{
+                   "type":"string",
+                   "$ref":"#/definitions/studyCatalogDef"
+                }
+             },
+             "xml":{
+                "name":"studyCatalog"
+             }
+          },
+          "studyCatalogDef":{
+             "type":"object",
+             "properties":{
+                "studyCatalog":{
+                   "type":"array",
+                   "items":{
+                      "$ref":"#/definitions/studyCatalogDesc"
+                   }
+                }
+             },
+             "xml":{
+                "name":"studyCatalogDef"
+             }
+          },
+          "studyCatalogDesc":{
+             "type":"object",
+             "properties":{
+                "pdc_study_id":{
+                  "type":"string",
+                  "example":"PDC000121"
+                },
+                "versions":{
+                   "type":"array",
+                   "items":{
+                      "$ref":"#/definitions/versionDesc"
+                   }
+                }
+             },
+             "xml":{
+                "name":"studyCatalogDesc"
+             }
+          },
+         "versionDesc":{
+              "type":"object",
+              "properties":{
+                "study_id":{
+                   "type":"string",
+                   "example":"b91a0e5f-f3a0-11ea-b1fd-0aad30af8a83"
+                },
+                "study_submitter_id":{
+                   "type":"string",
+                   "example":"Prospective Breast BI Phosphoproteome v2"
+                },
+                "submitter_id_name":{
+                   "type":"string",
+                   "example":"Prospective Breast BI Phosphoproteome"
+                },
+                "study_shortname":{
+                   "type":"string",
+                   "example":"Prospective BRCA Phosphoproteome S039-2"
+                },
+                "study_version":{
+                   "type":"string",
+                   "example":"2"
+                },
+                "is_latest_version":{
+                   "type":"string",
+                   "example":"yes/no"
+                }
+              },
+              "xml":{
+                 "name":"versionDesc"
               }
            },
           "biospecimenPerStudy":{

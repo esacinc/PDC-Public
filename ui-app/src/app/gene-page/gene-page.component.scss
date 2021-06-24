@@ -275,4 +275,9 @@
 		cursor: pointer;
 	}
 
+	//@@@PDC-3765: A 'S' symbol in Genes/ under checkbox of "Studies in Which the Gene Product Was Detected
+	.mat-select-value-text {
+		display: none !important;
+	}
+
 }

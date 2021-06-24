@@ -15,6 +15,7 @@ import { GenePageService } from "./gene-page.service";
 import { Filter, GeneProteinData, GeneStudySpectralCountData, GeneAliquotSpectralCountData, 
 		GeneStudySpectralCountDataPaginated, GeneAliquotSpectralCountDataPaginated, ptmData, AllStudiesData } from '../types';
 import { ngxCsv } from "ngx-csv/ngx-csv";
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-gene-page',
@@ -204,10 +205,6 @@ export class GenePageComponent implements OnInit, OnChanges {
   }
   
   loadNewPageStudySpectralCounts(event: any){
-	  //@@@PDC-2874: Add download option for study table on gene summary page
-	  if(event.rows !== this.studyPageSize){
-	    this.clearSelection();
-	  }
 	  if (this.headercheckbox && this.pageHeaderCheckBoxTrack.indexOf(this.studyOffset) === -1){
 		this.pageHeaderCheckBoxTrack.push(this.studyOffset);
 	  } else if (!this.headercheckbox && this.pageHeaderCheckBoxTrack.indexOf(this.studyOffset) !== -1){
@@ -221,18 +218,22 @@ export class GenePageComponent implements OnInit, OnChanges {
 			if (this.studyOffset == 0) {
 				this.studyTotalRecords = data.getPaginatedUIGeneStudySpectralCountFiltered.total;
 				this.studyOffset = data.getPaginatedUIGeneStudySpectralCountFiltered.pagination.from;
-				this.studyPageSize = data.getPaginatedUIGeneStudySpectralCountFiltered.pagination.size;
 				this.studyLimit = data.getPaginatedUIGeneStudySpectralCountFiltered.pagination.size; 
 			}
+			//@@@PDC-3765: A 'S' symbol in Genes/ under checkbox of "Studies in Which the Gene Product Was Detected
+			//Page size should be available for all offsets
+			this.studyPageSize = data.getPaginatedUIGeneStudySpectralCountFiltered.pagination.size;
 			this.loading = false;
 			this.trackCurrentPageSelectedStudy(data.getPaginatedUIGeneStudySpectralCountFiltered.uiGeneStudySpectralCounts);
+			//@@@PDC-2874: Add download option for study table on gene summary page
+			if (this.pageHeaderCheckBoxTrack.length > 0 && this.pageHeaderCheckBoxTrack.indexOf(this.studyOffset) !== -1){
+				this.headercheckbox = true;
+			} else{
+				this.headercheckbox = false;
+			}
+			//@@@PDC-3765: A 'S' symbol in Genes/ under checkbox of "Studies in Which the Gene Product Was Detected
+			this.handleCheckboxSelections();
 		}); 
-		//@@@PDC-2874: Add download option for study table on gene summary page
-		if (this.pageHeaderCheckBoxTrack.length > 0 && this.pageHeaderCheckBoxTrack.indexOf(this.studyOffset) !== -1){
-			this.headercheckbox = true;
-		} else{
-			this.headercheckbox = false;
-		}
   }
   
   loadPTMData(event: any){
@@ -410,7 +411,14 @@ export class GenePageComponent implements OnInit, OnChanges {
 			}
 			this.selectedStudies = localSelectedStudies;
 		} else {
-			this.selectedStudies = [];
+			//@@@PDC-3765: A 'S' symbol in Genes/ under checkbox of "Studies in Which the Gene Product Was Detected
+			for (let study of this.currentPageSelectedStudy) {
+				let index = localSelectedStudies.findIndex(x => x.pdc_study_id === study);
+				if (index > -1){
+					localSelectedStudies.splice(index,1);
+				}
+      		}
+			this.selectedStudies = localSelectedStudies; 
 			this.currentPageSelectedStudy = [];
 			this.pageHeaderCheckBoxTrack = [];
 		}
@@ -419,9 +427,8 @@ export class GenePageComponent implements OnInit, OnChanges {
 	//@@@PDC-2874: Add download option for study table on gene summary page
 	onRowSelected(event:any){
 		this.currentPageSelectedStudy.push(event.data.pdc_study_id);
-		if(this.currentPageSelectedStudy.length === this.studyPageSize){
-			this.headercheckbox = true;
-		}
+		//@@@PDC-3765: A 'S' symbol in Genes/ under checkbox of "Studies in Which the Gene Product Was Detected
+		this.handleCheckboxSelections();
 	}
 
 	//@@@PDC-2874: Add download option for study table on gene summary page
@@ -430,11 +437,8 @@ export class GenePageComponent implements OnInit, OnChanges {
 		if (index >-1) {
 		  this.currentPageSelectedStudy.splice(index,1);
 		}
-		if (this.currentPageSelectedStudy.length === this.studyPageSize){
-		  this.headercheckbox = true;
-		} else{
-		  this.headercheckbox = false;
-		}
+		//@@@PDC-3765: A 'S' symbol in Genes/ under checkbox of "Studies in Which the Gene Product Was Detected
+		this.handleCheckboxSelections();
 	}
 
 	//@@@PDC-2874: Add download option for study table on gene summary page
@@ -443,6 +447,32 @@ export class GenePageComponent implements OnInit, OnChanges {
 		this.headercheckbox = false;
 		this.currentPageSelectedStudy = [];
 		this.pageHeaderCheckBoxTrack = [];
+	}
+
+	//@@@PDC-3765: A 'S' symbol in Genes/ under checkbox of "Studies in Which the Gene Product Was Detected
+	handleCheckboxSelections() {
+		if (this.currentPageSelectedStudy.length === this.studyPageSize) {
+			this.headercheckbox = true;
+		} else {
+			//For the last page
+			if (this.studyTotalRecords - this.studyOffset < this.studyPageSize) {
+				if (this.currentPageSelectedStudy.length === this.studyTotalRecords - this.studyOffset) {
+					this.headercheckbox = true;
+				} else {
+					this.headercheckbox = false;
+				}
+			} else {
+				this.headercheckbox = false;
+			}
+		}
+	}
+
+	//@@@PDC-3765: A 'S' symbol in Genes/ under checkbox of "Studies in Which the Gene Product Was Detected
+	updateCurrentPageSelectedStudies(localSelectedStudies) {
+		let cloneData = _.cloneDeep(localSelectedStudies);
+		cloneData = cloneData.splice(0, this.studyPageSize);
+		this.currentPageSelectedStudy = [];
+		cloneData.forEach(item => {this.currentPageSelectedStudy.push(item.pdc_study_id)});
 	}
 
 	//@@@PDC-2874: Add download option for study table on gene summary page
@@ -456,6 +486,8 @@ export class GenePageComponent implements OnInit, OnChanges {
 			}
 			this.selectedStudies = localSelectedGenes;
 			this.headercheckbox = true;
+			//@@@PDC-3765: A 'S' symbol in Genes/ under checkbox of "Studies in Which the Gene Product Was Detected
+			this.updateCurrentPageSelectedStudies(localSelectedGenes);
 			this.loading = false;
 			this.trackCurrentPageSelectedStudy(data.getPaginatedUIGeneStudySpectralCountFiltered.uiGeneStudySpectralCounts);
 		}); 

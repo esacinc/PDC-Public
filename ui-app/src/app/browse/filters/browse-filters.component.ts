@@ -227,6 +227,27 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
   allStudyArray: string[] = [];
   fenceRequest:boolean = false;
 
+  //@@@PDC-3779: Investigate the ability to only display the top 10 filters in each category
+  // hidden by default
+  showPSite: boolean = false; 
+  showProgram: boolean = false;
+  showDType: boolean = false;
+  showAFraction: boolean = false; 
+  showExpType: boolean = false;
+  showAcqType: boolean = false;
+  showSampleType: boolean = false;
+  showBioStatus: boolean = false;
+  showEthnicity: boolean = false;
+  showRace: boolean = false;
+  showGender: boolean = false;
+  showTmrGrade: boolean = false;
+  showCaseStatus: boolean = false;
+  showDataCategory: boolean = false;
+  showFileType: boolean = false;
+  showAccess: boolean = false;
+  showDownloadable: boolean = false;
+  showStudyName: boolean = false;
+
   constructor( private route:ActivatedRoute, private loc: Location,
     private browseFiltersService: BrowseFiltersService,
     private browseService: BrowseService
@@ -1074,6 +1095,67 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
     }
     return filter;
   }
+
+  //@@@PDC-3779: Investigate the ability to only display the top 10 filters in each category
+  showMoreOrLess(filterName) {
+    switch (filterName) {
+      case "primary_site":
+        this.showPSite = ! this.showPSite;
+        break;
+      case "program_name":
+        this.showProgram = !this.showProgram;
+        break;
+      case "disease_type":
+        this.showDType = !this.showDType;
+        break;
+      case "analytical_fraction":
+        this.showAFraction = !this.showAFraction;
+        break;
+      case "experiment_type":
+        this.showExpType = !this.showExpType;
+        break;
+      case "acquisition_type":
+        this.showAcqType = !this.showAcqType;
+        break;
+      case "sample_type":
+        this.showSampleType = !this.showSampleType;
+        break;
+      case "biospecimen_status":
+        this.showBioStatus = !this.showBioStatus;
+        break;
+      case "ethnicity":
+        this.showEthnicity = !this.showEthnicity;
+        break;
+      case "race":
+        this.showRace = !this.showRace;
+        break;
+      case "gender":
+        this.showGender = !this.showGender;
+        break;
+      case "tumor_grade":
+        this.showTmrGrade = !this.showTmrGrade;
+        break;
+      case "case_status":
+        this.showCaseStatus = !this.showCaseStatus;
+        break;
+      case "data_category":
+        this.showDataCategory = !this.showDataCategory;
+        break;
+      case "file_type":
+        this.showFileType = !this.showFileType;
+        break;
+      case "access":
+        this.showAccess = !this.showAccess;
+        break;
+      case "downloadable":
+        this.showDownloadable = !this.showDownloadable;
+        break;
+      case "study_name":
+        this.showStudyName = !this.showStudyName;
+        break;
+    }
+  }
+
 
   /* Project filter callback onChange */
   filterDataByProject(e) {

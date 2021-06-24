@@ -23,6 +23,7 @@ properties:
             be RPLC.
         enum:
         - RPLC
+        - UHPLC
         required: 'True'
         type: Enumeration
     acquisition_type:
@@ -498,6 +499,7 @@ properties:
         enum:
         - iTRAQ4
         - iTRAQ8
+        - TMT6
         - TMT10
         - TMT11
         - '180'

@@ -45,12 +45,16 @@ const defineCustomModels = (db) => {
 	  */
 	  //@@@PDC-474 programs-projects-studies API
 	  //@@@PDC-1241 fix for latest version of Sequelize
+	  //@@@PDC-3921 new studyCatalog api
 	  const ModelStudy = db.getSequelize().define('study', {
 		study_id: { type: Sequelize.STRING,
 					  primaryKey: true   },
 		study_submitter_id: { type: Sequelize.STRING },
 		pdc_study_id: { type: Sequelize.STRING },
 		submitter_id_name: { type: Sequelize.STRING },
+		study_shortname: { type: Sequelize.STRING },
+		study_version: { type: Sequelize.STRING },
+		is_latest_version: { type: Sequelize.STRING },
 		project_submitter_id: { type: Sequelize.STRING },
 		project_id: { type: Sequelize.STRING },
 		acquisition_type: { type: Sequelize.STRING },

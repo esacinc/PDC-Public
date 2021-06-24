@@ -834,7 +834,7 @@ export const HUMAN_BODY_ALL_ALLOWED_SITES = [
   'Bladder',
   'Blood',
   //'Bone',
-  //'Bone Marrow',
+  'Bone Marrow',
   'Brain',
   'Breast',
   'Cervix',

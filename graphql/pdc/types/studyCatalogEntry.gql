@@ -1,0 +1,4 @@
+type StudyCatalogEntry {
+  pdc_study_id: String
+  versions: [Study]
+}

@@ -1,5 +1,7 @@
-//@@@PDC-312 restructure resolver code 
+//@@@PDC-312 restructure resolver code
+//@@@PDC-3839 get current version of study 
 const filters = function (args, cache = {name:''}) {
+	let isCurrent = true;
 	var uiFileQuery = "";
 	if (typeof args.program_name != 'undefined' && args.program_name.length > 0) {
 		let program = args.program_name.split(';');
@@ -48,6 +50,7 @@ const filters = function (args, cache = {name:''}) {
 		cache.name += "downloadable:("+ download.join(",") + ");";
 	}
 	if (typeof args.study_submitter_id != 'undefined' && args.study_submitter_id.length > 0) {
+		isCurrent = false;
 		let studySub = args.study_submitter_id.split(";");
 		uiFileQuery += " and s.study_submitter_id IN ('" + studySub.join("','") + "')";
 		cache.name += "study_submitter_id:("+ studySub.join(",") + ");";
@@ -157,12 +160,14 @@ const filters = function (args, cache = {name:''}) {
 	}
 	//@@@PDC-475 caseDiagnosesPerStudy API
 	if (typeof args.study_id != 'undefined' && args.study_id.length > 0) {
+		isCurrent = false;
 		let studySub = args.study_id.split(";");
 		uiFileQuery += " and s.study_id IN (uuid_to_bin('" + studySub.join("'),uuid_to_bin('") + "'))";
 		cache.name += "study_id:("+ studySub.join(",") + ");";
 	}
 	//@@@PDC-1371 add uuid parameter to case-related APIs
 	if (typeof args.case_id != 'undefined' && args.case_id.length > 0) {
+		isCurrent = false;
 		let caseSub = args.case_id.split(";");
 		uiFileQuery += " and c.case_id IN (uuid_to_bin('" + caseSub.join("'),uuid_to_bin('") + "'))";
 		cache.name += "case_id:("+ caseSub.join(",") + ");";
@@ -188,6 +193,9 @@ const filters = function (args, cache = {name:''}) {
 		let studySub = args.biospecimen_status.split(";");
 		uiFileQuery += " and al.status IN ('" + studySub.join("','") + "')";
 		cache.name += "biospecimen_status:("+ studySub.join(",") + ");";
+	}
+	if (isCurrent) {
+		uiFileQuery += " and s.is_latest_version = 1 ";
 	}
 	return uiFileQuery;
 };

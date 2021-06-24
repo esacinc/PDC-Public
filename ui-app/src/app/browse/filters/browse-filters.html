@@ -13,7 +13,7 @@
     <fa name="undo"></fa></button>
     </mat-card-header>
     <mat-tab-group animationDuration="0ms" class='side-bar-tabs' [selectedIndex]="selectedTab < 5 ? selectedTab : 0" >
-      <mat-tab>
+	  <mat-tab>
         <ng-template mat-tab-label>
             General
             <span class="float-button-right"></span>
@@ -56,19 +56,31 @@
                 </mat-panel-title>
               </mat-expansion-panel-header>
               <mat-list class="card-body card-list" id="primarySiteList">
-                  <div *ngFor="let prim_site of primarySitesFilter" class="browse-filter">
-                  <label><mat-list-item  [ngStyle]="getStyleForCheckbox(prim_site.filterName, selectedPrimarySites)" >
-                        <p-checkbox name="group2" id="group2{{prim_site.filterName}}"
-                              value={{prim_site.filterName}}
-                              [(ngModel)]="selectedPrimarySites"
-                  [disabled]="prim_site.filterCount == 0"
-                              (onChange)="filterDataByPrimarySite($event)">
-                          </p-checkbox> &nbsp; &nbsp;
-                          <div [ngStyle]="getStyleForCheckbox(prim_site.filterName, selectedPrimarySites)">
-                              {{prim_site.filterName}} ({{prim_site.filterCount}} {{prim_site.filterCount > 1 ? 'Studies' : 'Study'}})
-                          </div>
-                    </mat-list-item></label>
+                  <div *ngIf="primarySitesFilter.length > 10;then primarySitesContent else primarySitesContent"></div>
+                  <ng-template #primarySitesContent>
+                    <div *ngFor="let prim_site of primarySitesFilter, let i = index">  
+                      <div *ngIf="i<10;then primarySitesInnerContent" class="browse-filter"></div>
+                      <div *ngIf="primarySitesFilter.length > 10 && showPSite && i >= 10; then primarySitesInnerContent" class="browse-filter"></div>
+                      <ng-template #primarySitesInnerContent><label><mat-list-item  [ngStyle]="getStyleForCheckbox(prim_site.filterName, selectedPrimarySites)" >
+                          <p-checkbox name="group2" id="group2{{prim_site.filterName}}"
+                                value={{prim_site.filterName}}
+                                [(ngModel)]="selectedPrimarySites"
+                    [disabled]="prim_site.filterCount == 0"
+                                (onChange)="filterDataByPrimarySite($event)">
+                            </p-checkbox> &nbsp; &nbsp;
+                            <div [ngStyle]="getStyleForCheckbox(prim_site.filterName, selectedPrimarySites)">
+                                {{prim_site.filterName}} ({{prim_site.filterCount}} {{prim_site.filterCount > 1 ? 'Studies' : 'Study'}})
+                            </div>
+                      </mat-list-item>
+                      </label></ng-template> 
+                      <div *ngIf="primarySitesFilter.length > 10 && !showPSite && i==10" (click)="showMoreOrLess('primary_site')" class="browse-filter" style="text-align: right;font-size: 1.2rem; color: rgb(107, 98, 98);cursor:pointer;font-weight:700;">
+                          {{primarySitesFilter.length - 10 }} More...
+                      </div>
+                      <div *ngIf="primarySitesFilter.length > 10 && showPSite && i==primarySitesFilter.length - 1" (click)="showMoreOrLess('primary_site')" class="browse-filter" style="text-align: right;font-size: 1.2rem; color: rgb(107, 98, 98);cursor:pointer;font-weight:700;">
+                          Less...
+                      </div>
                   </div>
+                </ng-template>
               </mat-list>
         </mat-expansion-panel>
         <mat-expansion-panel [expanded]="true" class="sidenavFiltersPanel">
@@ -81,8 +93,11 @@
                 </mat-panel-title>
               </mat-expansion-panel-header>
               <mat-list class="card-body card-list" id="programsList">
-                  <div *ngFor="let program of programsFilter" class="browse-filter">
-                      <label><mat-list-item  [ngStyle]="getStyleForCheckbox(program.filterName, selectedPrograms)">
+                  <div *ngIf="programsFilter.length > 10;then programContent else programContent"></div>
+                  <ng-template #programContent><div *ngFor="let program of programsFilter, let i = index" class="browse-filter">
+                      <div *ngIf="i<10;then programInnerContent" class="browse-filter"></div>
+                      <div *ngIf="programsFilter.length > 10 && showProgram && i >= 10; then programInnerContent" class="browse-filter"></div>
+                      <ng-template #programInnerContent><label><mat-list-item  [ngStyle]="getStyleForCheckbox(program.filterName, selectedPrograms)">
                         <p-checkbox name="group3" id="group3{{program.filterName}}"
                               value={{program.filterName}}
                               [(ngModel)]="selectedPrograms"
@@ -92,8 +107,15 @@
                             <div [ngStyle]="getStyleForCheckbox(program.filterName, selectedPrograms)">
                               {{program.filterName}} ({{program.filterCount}} {{program.filterCount > 1 ? 'Studies' : 'Study'}})
                             </div>
-                    </mat-list-item></label>
+                    </mat-list-item></label></ng-template>
+                    <div *ngIf="programsFilter.length > 10 && !showProgram && i==10" (click)="showMoreOrLess('program_name')" class="browse-filter" style="text-align: right;font-size: 1.2rem; color: rgb(107, 98, 98);cursor:pointer;font-weight:700;">
+                        {{programsFilter.length - 10 }} More...
+                    </div>
+                    <div *ngIf="programsFilter.length > 10 && showProgram && i==programsFilter.length - 1" (click)="showMoreOrLess('program_name')" class="browse-filter" style="text-align: right;font-size: 1.2rem; color: rgb(107, 98, 98);cursor:pointer;font-weight:700;">
+                        Less...
+                    </div>
                   </div>
+                </ng-template>
               </mat-list>
         </mat-expansion-panel>
 
@@ -107,19 +129,30 @@
                 </mat-panel-title>
               </mat-expansion-panel-header>
               <mat-list class="card-body card-list" id="diseaseTypeList">
-                  <div *ngFor="let disease of diseaseTypesFilter" class="browse-filter">
-                    <label><mat-list-item  [ngStyle]="getStyleForCheckbox(disease.filterName, selectedDiseases)">
-                        <p-checkbox name="group4" id="group4{{disease.filterName}}"
-                              value={{disease.filterName}}
-                              [(ngModel)]="selectedDiseases"
-                [disabled]="disease.filterCount == 0"
-                              (onChange)="filterDataByDiseaseType($event)">
-                          </p-checkbox> &nbsp; &nbsp;
-                            <div [ngStyle]="getStyleForCheckbox(disease.filterName, selectedDiseases)">
-                              {{disease.filterName}} ({{disease.filterCount}} {{disease.filterCount > 1 ? 'Studies' : 'Study'}})
-                            </div>
-                    </mat-list-item></label>
-                  </div>
+                  <div *ngIf="diseaseTypesFilter.length > 10;then diseaseTypesContent else diseaseTypesContent"></div>
+                  <ng-template #diseaseTypesContent>
+                    <div *ngFor="let disease of diseaseTypesFilter, let i = index" class="browse-filter">
+                      <div *ngIf="i<10;then diseaseTypesInnerContent" class="browse-filter"></div>
+                      <div *ngIf="diseaseTypesFilter.length > 10 && showDType && i >= 10; then diseaseTypesInnerContent" class="browse-filter"></div>
+                      <ng-template #diseaseTypesInnerContent><label><mat-list-item  [ngStyle]="getStyleForCheckbox(disease.filterName, selectedDiseases)">
+                          <p-checkbox name="group4" id="group4{{disease.filterName}}"
+                                value={{disease.filterName}}
+                                [(ngModel)]="selectedDiseases"
+                  [disabled]="disease.filterCount == 0"
+                                (onChange)="filterDataByDiseaseType($event)">
+                            </p-checkbox> &nbsp; &nbsp;
+                              <div [ngStyle]="getStyleForCheckbox(disease.filterName, selectedDiseases)">
+                                {{disease.filterName}} ({{disease.filterCount}} {{disease.filterCount > 1 ? 'Studies' : 'Study'}})
+                              </div>
+                      </mat-list-item></label></ng-template>
+                      <div *ngIf="diseaseTypesFilter.length > 10 && !showDType && i==10" (click)="showMoreOrLess('disease_type')" class="browse-filter" style="text-align: right;font-size: 1.2rem; color: rgb(107, 98, 98);cursor:pointer;font-weight:700;">
+                          {{diseaseTypesFilter.length - 10 }} More...
+                      </div>
+                      <div *ngIf="diseaseTypesFilter.length > 10 && showDType && i==diseaseTypesFilter.length - 1" (click)="showMoreOrLess('disease_type')" class="browse-filter" style="text-align: right;font-size: 1.2rem; color: rgb(107, 98, 98);cursor:pointer;font-weight:700;">
+                          Less...
+                      </div>
+                    </div>
+                  </ng-template>
               </mat-list>
         </mat-expansion-panel>
 
@@ -133,20 +166,30 @@
                   </mat-panel-title>
               </mat-expansion-panel-header>
               <mat-list class="card-body card-list" id="analyticalFractionList">
-                  <div *ngFor="let an_frac of analyticalFractionsFilter" class="browse-filter">
-                      <label><mat-list-item  [ngStyle]="getStyleForCheckbox(an_frac.filterName, selectedAnFracs)">
-                          <p-checkbox name="group5" id="group5{{an_frac.filterName}}"
-                                value={{an_frac.filterName}}
-
-                                [(ngModel)]="selectedAnFracs"
-                [disabled]="an_frac.filterCount == 0"
-                                (onChange)="filterDataByAnalyticalFraction($event)">
-                            </p-checkbox> &nbsp; &nbsp;
-                              <div [ngStyle]="getStyleForCheckbox(an_frac.filterName, selectedAnFracs)">
-                                {{an_frac.filterName}} ({{an_frac.filterCount}} {{an_frac.filterCount > 1 ? 'Studies' : 'Study'}})
-                              </div>
-                      </mat-list-item></label>
-                  </div>
+                  <div *ngIf="analyticalFractionsFilter.length > 10;then analyticalFractionContent else analyticalFractionContent"></div>
+                  <ng-template #analyticalFractionContent>
+                    <div *ngFor="let an_frac of analyticalFractionsFilter, let i = index" class="browse-filter">
+                        <div *ngIf="i<10;then analyticalFractionsInnerContent" class="browse-filter"></div>
+                        <div *ngIf="analyticalFractionsFilter.length > 10 && showAFraction && i >= 10; then analyticalFractionsInnerContent" class="browse-filter"></div>
+                        <ng-template #analyticalFractionsInnerContent><label><mat-list-item  [ngStyle]="getStyleForCheckbox(an_frac.filterName, selectedAnFracs)">
+                            <p-checkbox name="group5" id="group5{{an_frac.filterName}}"
+                                  value={{an_frac.filterName}}
+                                  [(ngModel)]="selectedAnFracs"
+                  [disabled]="an_frac.filterCount == 0"
+                                  (onChange)="filterDataByAnalyticalFraction($event)">
+                              </p-checkbox> &nbsp; &nbsp;
+                                <div [ngStyle]="getStyleForCheckbox(an_frac.filterName, selectedAnFracs)">
+                                  {{an_frac.filterName}} ({{an_frac.filterCount}} {{an_frac.filterCount > 1 ? 'Studies' : 'Study'}})
+                                </div>
+                        </mat-list-item></label></ng-template>
+                        <div *ngIf="analyticalFractionsFilter.length > 10 && !showAFraction && i==10" (click)="showMoreOrLess('analytical_fraction')" class="browse-filter" style="text-align: right;font-size: 1.2rem; color: rgb(107, 98, 98);cursor:pointer;font-weight:700;">
+                            {{analyticalFractionsFilter.length - 10 }} More...
+                        </div>
+                        <div *ngIf="analyticalFractionsFilter.length > 10 && showAFraction && i==analyticalFractionsFilter.length - 1" (click)="showMoreOrLess('analytical_fraction')" class="browse-filter" style="text-align: right;font-size: 1.2rem; color: rgb(107, 98, 98);cursor:pointer;font-weight:700;">
+                            Less...
+                        </div>
+                    </div>
+                  </ng-template>
                 </mat-list>
         </mat-expansion-panel>
 
@@ -160,20 +203,31 @@
                 </mat-panel-title>
               </mat-expansion-panel-header>
               <mat-list class="card-body card-list" id="experimentTypeList">
-                  <div *ngFor="let exp_start of experimentalStrategiesFilter" class="browse-filter">
-                    <label><mat-list-item  [ngStyle]="getStyleForCheckbox(exp_start.filterName, selectedExpStarts)">
-                        <p-checkbox name="group6" id="group6{{exp_start.filterName}}"
-                            value={{exp_start.filterName}}
-                            [(ngModel)]="selectedExpStarts"
-                [disabled]="exp_start.filterCount == 0"
-                            (onChange)="filterDataByExperimentalStrategy($event)">
-                        </p-checkbox> &nbsp; &nbsp;
-                        <div [ngStyle]="getStyleForCheckbox(exp_start.filterName, selectedExpStarts)">
-                          {{exp_start.filterName}} ({{exp_start.filterCount}} {{exp_start.filterCount > 1 ? 'Studies' : 'Study'}})
+                  <div *ngIf="experimentalStrategiesFilter.length > 10;then experimentalStrategiesContent else experimentalStrategiesContent"></div>
+                  <ng-template #experimentalStrategiesContent>
+                    <div *ngFor="let exp_start of experimentalStrategiesFilter, let i = index" class="browse-filter">
+                      <div *ngIf="i<10;then experimentalStrategiesInnerContent" class="browse-filter"></div>
+                      <div *ngIf="experimentalStrategiesFilter.length > 10 && showExpType && i >= 10; then experimentalStrategiesInnerContent" class="browse-filter"></div>
+                      <ng-template #experimentalStrategiesInnerContent><label><mat-list-item  [ngStyle]="getStyleForCheckbox(exp_start.filterName, selectedExpStarts)">
+                          <p-checkbox name="group6" id="group6{{exp_start.filterName}}"
+                              value={{exp_start.filterName}}
+                              [(ngModel)]="selectedExpStarts"
+                  [disabled]="exp_start.filterCount == 0"
+                              (onChange)="filterDataByExperimentalStrategy($event)">
+                          </p-checkbox> &nbsp; &nbsp;
+                          <div [ngStyle]="getStyleForCheckbox(exp_start.filterName, selectedExpStarts)">
+                            {{exp_start.filterName}} ({{exp_start.filterCount}} {{exp_start.filterCount > 1 ? 'Studies' : 'Study'}})
+                          </div>
+                        </mat-list-item></label></ng-template>
+                        <div *ngIf="experimentalStrategiesFilter.length > 10 && !showExpType && i==10" (click)="showMoreOrLess('experiment_type')" class="browse-filter" style="text-align: right;font-size: 1.2rem; color: rgb(107, 98, 98);cursor:pointer;font-weight:700;">
+                            {{experimentalStrategiesFilter.length - 10 }} More...
                         </div>
-                      </mat-list-item></label>
-                    </div>
-                  </mat-list>
+                        <div *ngIf="experimentalStrategiesFilter.length > 10 && showExpType && i==experimentalStrategiesFilter.length - 1" (click)="showMoreOrLess('experiment_type')" class="browse-filter" style="text-align: right;font-size: 1.2rem; color: rgb(107, 98, 98);cursor:pointer;font-weight:700;">
+                            Less...
+                        </div>
+                      </div>
+                  </ng-template>
+                </mat-list>
         </mat-expansion-panel>
 		
 		<mat-expansion-panel [expanded]="true" class="sidenavFiltersPanel">
@@ -190,16 +244,27 @@
             </mat-panel-title>
           </mat-expansion-panel-header>
           <mat-list class="card-body card-list" id="experimentTypeList">
-            <div *ngFor="let acq_start of acquisitionFilter" class="browse-filter">
-              <label><mat-list-item [ngStyle]="getStyleForCheckbox(acq_start.filterName, selectedAcquisitions)">
-                <p-checkbox name="group6" id="group6{{acq_start.filterName}}" value={{acq_start.filterName}} [(ngModel)]="selectedAcquisitions"
-                  [disabled]="acq_start.filterCount == 0" (onChange)="filterDataByAcquisition($event)">
-                </p-checkbox> &nbsp; &nbsp;
-                <div [ngStyle]="getStyleForCheckbox(acq_start.filterName, selectedAcquisitions)">
-                  {{acq_start.filterName}} ({{acq_start.filterCount}} {{acq_start.filterCount > 1 ? 'Studies' : 'Study'}})
+            <div *ngIf="acquisitionFilter.length > 10;then acquisitionFilterContent else acquisitionFilterContent"></div>
+            <ng-template #acquisitionFilterContent>
+              <div *ngFor="let acq_start of acquisitionFilter, let i = index" class="browse-filter">
+                <div *ngIf="i<10;then acquisitionFilterInnerContent" class="browse-filter"></div>
+                <div *ngIf="acquisitionFilter.length > 10 && showAcqType && i >= 10; then acquisitionFilterInnerContent" class="browse-filter"></div>
+                <ng-template #acquisitionFilterInnerContent><label><mat-list-item [ngStyle]="getStyleForCheckbox(acq_start.filterName, selectedAcquisitions)">
+                  <p-checkbox name="group6" id="group6{{acq_start.filterName}}" value={{acq_start.filterName}} [(ngModel)]="selectedAcquisitions"
+                    [disabled]="acq_start.filterCount == 0" (onChange)="filterDataByAcquisition($event)">
+                  </p-checkbox> &nbsp; &nbsp;
+                  <div [ngStyle]="getStyleForCheckbox(acq_start.filterName, selectedAcquisitions)">
+                    {{acq_start.filterName}} ({{acq_start.filterCount}} {{acq_start.filterCount > 1 ? 'Studies' : 'Study'}})
+                  </div>
+                </mat-list-item></label></ng-template>
+                <div *ngIf="acquisitionFilter.length > 10 && !showAcqType && i==10" (click)="showMoreOrLess('acquisition_type')" class="browse-filter" style="text-align: right;font-size: 1.2rem; color: rgb(107, 98, 98);cursor:pointer;font-weight:700;">
+                    {{acquisitionFilter.length - 10 }} More...
                 </div>
-              </mat-list-item></label>
-            </div>
+                <div *ngIf="acquisitionFilter.length > 10 && showAcqType && i==acquisitionFilter.length - 1" (click)="showMoreOrLess('acquisition_type')" class="browse-filter" style="text-align: right;font-size: 1.2rem; color: rgb(107, 98, 98);cursor:pointer;font-weight:700;">
+                    Less...
+                </div>
+              </div>
+            </ng-template>
           </mat-list>
         </mat-expansion-panel>
       </mat-tab>
@@ -238,19 +303,30 @@
                   </mat-panel-title>
                 </mat-expansion-panel-header>
                 <mat-list class="card-body card-list" id="dataCategoryList">
-                    <div *ngFor="let sampleType of sampleTypeFilter" class="browse-filter">
-                      <label><mat-list-item  [ngStyle]="getStyleForCheckbox(sampleType.filterName, selectedSampleType)">
-                          <p-checkbox name="group7" id="group7{{sampleType}}"
-                              value={{sampleType.filterName}}
-                              [(ngModel)]="selectedSampleType"
-                              [disabled]="sampleType.filterCount == 0"
-                              (onChange)="filterDataBySampleType($event)">
-                          </p-checkbox> &nbsp; &nbsp;
-                          <div>
-                            {{sampleType.filterName}} ({{sampleType.filterCount}} {{sampleType.filterCount > 1 ? 'Studies' : 'Study'}})
+                    <div *ngIf="sampleTypeFilter.length > 10;then sampleTypeFilterContent else sampleTypeFilterContent"></div>
+                    <ng-template #sampleTypeFilterContent>
+                      <div *ngFor="let sampleType of sampleTypeFilter, let i = index" class="browse-filter">
+                          <div *ngIf="i<10;then sampleTypeInnerContent" class="browse-filter"></div>
+                          <div *ngIf="sampleTypeFilter.length > 10 && showSampleType && i >= 10; then sampleTypeInnerContent" class="browse-filter"></div>
+                          <ng-template #sampleTypeInnerContent><label><mat-list-item  [ngStyle]="getStyleForCheckbox(sampleType.filterName, selectedSampleType)">
+                            <p-checkbox name="group7" id="group7{{sampleType}}"
+                                value={{sampleType.filterName}}
+                                [(ngModel)]="selectedSampleType"
+                                [disabled]="sampleType.filterCount == 0"
+                                (onChange)="filterDataBySampleType($event)">
+                            </p-checkbox> &nbsp; &nbsp;
+                            <div>
+                              {{sampleType.filterName}} ({{sampleType.filterCount}} {{sampleType.filterCount > 1 ? 'Studies' : 'Study'}})
+                            </div>
+                          </mat-list-item></label></ng-template>
+                          <div *ngIf="sampleTypeFilter.length > 10 && !showSampleType && i==10" (click)="showMoreOrLess('sample_type')" class="browse-filter" style="text-align: right;font-size: 1.2rem; color: rgb(107, 98, 98);cursor:pointer;font-weight:700;">
+                              {{sampleTypeFilter.length - 10 }} More...
                           </div>
-                        </mat-list-item></label>
-                      </div>
+                          <div *ngIf="sampleTypeFilter.length > 10 && showSampleType && i==sampleTypeFilter.length - 1" (click)="showMoreOrLess('sample_type')" class="browse-filter" style="text-align: right;font-size: 1.2rem; color: rgb(107, 98, 98);cursor:pointer;font-weight:700;">
+                              Less...
+                          </div>
+                        </div>
+                    </ng-template>
                     </mat-list>
           </mat-expansion-panel>
           <mat-expansion-panel [expanded]="true" class="sidenavFiltersPanel">
@@ -268,16 +344,27 @@
                 </mat-panel-title>
               </mat-expansion-panel-header>
               <mat-list class="card-body card-list" id="biospecimenStatusList">
-                <div *ngFor="let biospecimenStatus of biospecimenStatusFilter" class="browse-filter">
-                  <label><mat-list-item [ngStyle]="getStyleForCheckbox(biospecimenStatus.filterName, selectedBiospecimenStatus)">
-                    <p-checkbox name="group7" id="group7{{biospecimenStatus.filterName}}" value={{biospecimenStatus.filterName}}
-                      [(ngModel)]="selectedBiospecimenStatus" [disabled]="biospecimenStatus.filterCount == 0" (onChange)="filterDataByBiospecimenStatus($event)">
-                    </p-checkbox> &nbsp; &nbsp;
-                    <div [ngStyle]="getStyleForCheckbox(biospecimenStatus.filterName, selectedBiospecimenStatus)">
-                      {{biospecimenStatus.filterName}} ({{biospecimenStatus.filterCount}} {{biospecimenStatus.filterCount > 1 ? 'Studies' : 'Study'}})
+                <div *ngIf="biospecimenStatusFilter.length > 10;then biospecimenStatusFilterContent else biospecimenStatusFilterContent"></div>
+                <ng-template #biospecimenStatusFilterContent>
+                  <div *ngFor="let biospecimenStatus of biospecimenStatusFilter, let i = index" class="browse-filter">
+                      <div *ngIf="i<10;then biospecimenStatusInnerContent" class="browse-filter"></div>
+                      <div *ngIf="biospecimenStatusFilter.length > 10 && showBioStatus && i >= 10; then biospecimenStatusInnerContent" class="browse-filter"></div>
+                      <ng-template #biospecimenStatusInnerContent><label><mat-list-item [ngStyle]="getStyleForCheckbox(biospecimenStatus.filterName, selectedBiospecimenStatus)">
+                      <p-checkbox name="group7" id="group7{{biospecimenStatus.filterName}}" value={{biospecimenStatus.filterName}}
+                        [(ngModel)]="selectedBiospecimenStatus" [disabled]="biospecimenStatus.filterCount == 0" (onChange)="filterDataByBiospecimenStatus($event)">
+                      </p-checkbox> &nbsp; &nbsp;
+                      <div [ngStyle]="getStyleForCheckbox(biospecimenStatus.filterName, selectedBiospecimenStatus)">
+                        {{biospecimenStatus.filterName}} ({{biospecimenStatus.filterCount}} {{biospecimenStatus.filterCount > 1 ? 'Studies' : 'Study'}})
+                      </div>
+                    </mat-list-item></label></ng-template>
+                    <div *ngIf="biospecimenStatusFilter.length > 10 && !showBioStatus && i==10" (click)="showMoreOrLess('biospecimen_status')" class="browse-filter" style="text-align: right;font-size: 1.2rem; color: rgb(107, 98, 98);cursor:pointer;font-weight:700;">
+                        {{biospecimenStatusFilter.length - 10 }} More...
                     </div>
-                  </mat-list-item></label>
-                </div>
+                    <div *ngIf="biospecimenStatusFilter.length > 10 && showBioStatus && i==biospecimenStatusFilter.length - 1" (click)="showMoreOrLess('biospecimen_status')" class="browse-filter" style="text-align: right;font-size: 1.2rem; color: rgb(107, 98, 98);cursor:pointer;font-weight:700;">
+                        Less...
+                    </div>
+                  </div>
+                </ng-template>
               </mat-list>
             </mat-expansion-panel>
       </mat-tab>
@@ -300,21 +387,32 @@
 			  <!-- @@@PDC-320 -->
 			  </mat-panel-title>
 			</mat-expansion-panel-header>
-            <mat-list class="card-body card-list"  style="padding-left:0px; padding-right:0px;" id="ethnicityFiltersList">
-				<div *ngFor="let ethnicity of ethnicityFilter" class="browse-filter" >
-          <label><mat-list-item [ngStyle]="getStyleForCheckbox(ethnicity.filterName, selectedEthnicity)" >
-					<p-checkbox name="group1" id="group1{{ethnicity.filterName}}"
-						value={{ethnicity.filterName}}
-						[(ngModel)]="selectedEthnicity"
-						[disabled]="ethnicity.filterCount == 0"
-						(onChange)="filterDataByEthnicity($event)">
-					</p-checkbox> &nbsp; &nbsp;
-					<div [ngStyle]="getStyleForCheckbox(ethnicity.filterName, selectedEthnicity)">
-						{{ethnicity.filterName}} ({{ethnicity.filterCount}} {{ethnicity.filterCount > 1 ? 'Studies' : 'Study'}})
-					</div>
-				  </mat-list-item></label>
-				</div>
-			</mat-list>
+          <mat-list class="card-body card-list"  style="padding-left:0px; padding-right:0px;" id="ethnicityFiltersList">
+            <div *ngIf="ethnicityFilter.length > 10;then ethnicityFilterContent else ethnicityFilterContent"></div>
+            <ng-template #ethnicityFilterContent>
+              <div *ngFor="let ethnicity of ethnicityFilter, let i = index" class="browse-filter" >
+                <div *ngIf="i<10;then ethnicityFilterInnerContent" class="browse-filter"></div>
+                <div *ngIf="ethnicityFilter.length > 10 && showEthnicity && i >= 10; then ethnicityFilterInnerContent" class="browse-filter"></div>
+                <ng-template #ethnicityFilterInnerContent><label><mat-list-item [ngStyle]="getStyleForCheckbox(ethnicity.filterName, selectedEthnicity)" >
+                <p-checkbox name="group1" id="group1{{ethnicity.filterName}}"
+                  value={{ethnicity.filterName}}
+                  [(ngModel)]="selectedEthnicity"
+                  [disabled]="ethnicity.filterCount == 0"
+                  (onChange)="filterDataByEthnicity($event)">
+                </p-checkbox> &nbsp; &nbsp;
+                <div [ngStyle]="getStyleForCheckbox(ethnicity.filterName, selectedEthnicity)">
+                  {{ethnicity.filterName}} ({{ethnicity.filterCount}} {{ethnicity.filterCount > 1 ? 'Studies' : 'Study'}})
+                </div>
+                </mat-list-item></label></ng-template>
+                <div *ngIf="ethnicityFilter.length > 10 && !showEthnicity && i==10" (click)="showMoreOrLess('ethnicity')" class="browse-filter" style="text-align: right;font-size: 1.2rem; color: rgb(107, 98, 98);cursor:pointer;font-weight:700;">
+                    {{ethnicityFilter.length - 10 }} More...
+                </div>
+                <div *ngIf="ethnicityFilter.length > 10 && showEthnicity && i==ethnicityFilter.length - 1" (click)="showMoreOrLess('ethnicity')" class="browse-filter" style="text-align: right;font-size: 1.2rem; color: rgb(107, 98, 98);cursor:pointer;font-weight:700;">
+                    Less...
+                </div>
+              </div>
+            </ng-template>
+			    </mat-list>
         </mat-expansion-panel>
 		<mat-expansion-panel [expanded]="true" class="sidenavFiltersPanel">
 			<mat-expansion-panel-header [collapsedHeight]="'40px'" [expandedHeight]="'40px'">
@@ -326,20 +424,31 @@
 			  </mat-panel-title>
 			</mat-expansion-panel-header>
             <mat-list class="card-body card-list"  style="padding-left:0px; padding-right:0px;" id="raceFiltersList">
-				<div *ngFor="let race of raceFilter" class="browse-filter" >
-          <label><mat-list-item [ngStyle]="getStyleForCheckbox(race.filterName, selectedRace)" >
-					<p-checkbox name="group1" id="group1{{race.filterName}}"
-						value={{race.filterName}}
-						[(ngModel)]="selectedRace"
-						[disabled]="race.filterCount == 0"
-						(onChange)="filterDataByRace($event)">
-					</p-checkbox> &nbsp; &nbsp;
-					<div [ngStyle]="getStyleForCheckbox(race.filterName, selectedRace)">
-						{{race.filterName}} ({{race.filterCount}} {{race.filterCount > 1 ? 'Studies' : 'Study'}})
-					</div>
-				  </mat-list-item></label>
-				</div>
-			</mat-list>
+              <div *ngIf="raceFilter.length > 10;then raceFilterContent else raceFilterContent"></div>
+              <ng-template #raceFilterContent>
+                <div *ngFor="let race of raceFilter, let i = index" class="browse-filter" >
+                  <div *ngIf="i<10;then raceFilterInnerContent" class="browse-filter"></div>
+                  <div *ngIf="raceFilter.length > 10 && showRace && i >= 10; then raceFilterInnerContent" class="browse-filter"></div>
+                  <ng-template #raceFilterInnerContent><label><mat-list-item [ngStyle]="getStyleForCheckbox(race.filterName, selectedRace)" >
+                  <p-checkbox name="group1" id="group1{{race.filterName}}"
+                    value={{race.filterName}}
+                    [(ngModel)]="selectedRace"
+                    [disabled]="race.filterCount == 0"
+                    (onChange)="filterDataByRace($event)">
+                  </p-checkbox> &nbsp; &nbsp;
+                  <div [ngStyle]="getStyleForCheckbox(race.filterName, selectedRace)">
+                    {{race.filterName}} ({{race.filterCount}} {{race.filterCount > 1 ? 'Studies' : 'Study'}})
+                  </div>
+                  </mat-list-item></label></ng-template>
+                  <div *ngIf="raceFilter.length > 10 && !showRace && i==10" (click)="showMoreOrLess('race')" class="browse-filter" style="text-align: right;font-size: 1.2rem; color: rgb(107, 98, 98);cursor:pointer;font-weight:700;">
+                      {{raceFilter.length - 10 }} More...
+                  </div>
+                  <div *ngIf="raceFilter.length > 10 && showRace && i==raceFilter.length - 1" (click)="showMoreOrLess('race')" class="browse-filter" style="text-align: right;font-size: 1.2rem; color: rgb(107, 98, 98);cursor:pointer;font-weight:700;">
+                      Less...
+                  </div>
+                </div>
+              </ng-template>
+			      </mat-list>
         </mat-expansion-panel>
 		<mat-expansion-panel [expanded]="true" class="sidenavFiltersPanel">
 			<mat-expansion-panel-header [collapsedHeight]="'40px'" [expandedHeight]="'40px'">
@@ -351,20 +460,31 @@
 			  </mat-panel-title>
 			</mat-expansion-panel-header>
             <mat-list class="card-body card-list"  style="padding-left:0px; padding-right:0px;" id="genderFiltersList">
-				<div *ngFor="let gender of genderFilter" class="browse-filter" >
-          <label><mat-list-item [ngStyle]="getStyleForCheckbox(gender.filterName, selectedGender)" >
-					<p-checkbox name="group1" id="group1{{gender.filterName}}"
-						value={{gender.filterName}}
-						[(ngModel)]="selectedGender"
-						[disabled]="gender.filterCount == 0"
-						(onChange)="filterDataByGender($event)">
-					</p-checkbox> &nbsp; &nbsp;
-					<div [ngStyle]="getStyleForCheckbox(gender.filterName, selectedGender)">
-						{{gender.filterName}} ({{gender.filterCount}} {{gender.filterCount > 1 ? 'Studies' : 'Study'}})
-					</div>
-				  </mat-list-item></label>
-				</div>
-			</mat-list>
+              <div *ngIf="genderFilter.length > 10;then genderFilterContent else genderFilterContent"></div>
+              <ng-template #genderFilterContent>
+                <div *ngFor="let gender of genderFilter, let i = index" class="browse-filter" >
+                  <div *ngIf="i<10;then genderFilterInnerContent" class="browse-filter"></div>
+                  <div *ngIf="genderFilter.length > 10 && showGender && i >= 10; then genderFilterInnerContent" class="browse-filter"></div>
+                  <ng-template #genderFilterInnerContent><label><mat-list-item [ngStyle]="getStyleForCheckbox(gender.filterName, selectedGender)" >
+                  <p-checkbox name="group1" id="group1{{gender.filterName}}"
+                    value={{gender.filterName}}
+                    [(ngModel)]="selectedGender"
+                    [disabled]="gender.filterCount == 0"
+                    (onChange)="filterDataByGender($event)">
+                  </p-checkbox> &nbsp; &nbsp;
+                  <div [ngStyle]="getStyleForCheckbox(gender.filterName, selectedGender)">
+                    {{gender.filterName}} ({{gender.filterCount}} {{gender.filterCount > 1 ? 'Studies' : 'Study'}})
+                  </div>
+                  </mat-list-item></label></ng-template>
+                  <div *ngIf="genderFilter.length > 10 && !showGender && i==10" (click)="showMoreOrLess('gender')" class="browse-filter" style="text-align: right;font-size: 1.2rem; color: rgb(107, 98, 98);cursor:pointer;font-weight:700;">
+                      {{genderFilter.length - 10 }} More...
+                  </div>
+                  <div *ngIf="genderFilter.length > 10 && showGender && i==genderFilter.length - 1" (click)="showMoreOrLess('gender')" class="browse-filter" style="text-align: right;font-size: 1.2rem; color: rgb(107, 98, 98);cursor:pointer;font-weight:700;">
+                      Less...
+                  </div>
+                </div>
+               </ng-template> 
+			        </mat-list>
         </mat-expansion-panel>
 		<mat-expansion-panel [expanded]="true" class="sidenavFiltersPanel">
 			<mat-expansion-panel-header [collapsedHeight]="'40px'" [expandedHeight]="'40px'">
@@ -376,20 +496,31 @@
 			  </mat-panel-title>
 			</mat-expansion-panel-header>
             <mat-list class="card-body card-list"  style="padding-left:0px; padding-right:0px;" id="tumorGradeFiltersList">
-				<div *ngFor="let tumorGrade of tumorGradeFilter" class="browse-filter" >
-          <label><mat-list-item [ngStyle]="getStyleForCheckbox(tumorGrade.filterName, selectedTumorGrade)" >
-					<p-checkbox name="group1" id="group1{{tumorGrade.filterName}}"
-						value={{tumorGrade.filterName}}
-						[(ngModel)]="selectedTumorGrade"
-						[disabled]="tumorGrade.filterCount == 0"
-						(onChange)="filterDataByTumorGrade($event)">
-					</p-checkbox> &nbsp; &nbsp;
-					<div [ngStyle]="getStyleForCheckbox(tumorGrade.filterName, selectedTumorGrade)">
-						{{tumorGrade.filterName}} ({{tumorGrade.filterCount}} {{tumorGrade.filterCount > 1 ? 'Studies' : 'Study'}})
-					</div>
-				  </mat-list-item></label>
-				</div>
-			</mat-list>
+              <div *ngIf="tumorGradeFilter.length > 10;then tumorGradeFilterContent else tumorGradeFilterContent"></div>
+              <ng-template #tumorGradeFilterContent>
+                <div *ngFor="let tumorGrade of tumorGradeFilter, let i = index" class="browse-filter" >
+                  <div *ngIf="i<10;then tumorGradeFilterInnerContent" class="browse-filter"></div>
+                  <div *ngIf="tumorGradeFilter.length > 10 && showTmrGrade && i >= 10; then tumorGradeFilterInnerContent" class="browse-filter"></div>
+                  <ng-template #tumorGradeFilterInnerContent><label><mat-list-item [ngStyle]="getStyleForCheckbox(tumorGrade.filterName, selectedTumorGrade)" >
+                  <p-checkbox name="group1" id="group1{{tumorGrade.filterName}}"
+                    value={{tumorGrade.filterName}}
+                    [(ngModel)]="selectedTumorGrade"
+                    [disabled]="tumorGrade.filterCount == 0"
+                    (onChange)="filterDataByTumorGrade($event)">
+                  </p-checkbox> &nbsp; &nbsp;
+                  <div [ngStyle]="getStyleForCheckbox(tumorGrade.filterName, selectedTumorGrade)">
+                    {{tumorGrade.filterName}} ({{tumorGrade.filterCount}} {{tumorGrade.filterCount > 1 ? 'Studies' : 'Study'}})
+                  </div>
+                  </mat-list-item></label></ng-template>
+                  <div *ngIf="tumorGradeFilter.length > 10 && !showTmrGrade && i==10" (click)="showMoreOrLess('tumor_grade')" class="browse-filter" style="text-align: right;font-size: 1.2rem; color: rgb(107, 98, 98);cursor:pointer;font-weight:700;">
+                      {{tumorGradeFilter.length - 10 }} More...
+                  </div>
+                  <div *ngIf="tumorGradeFilter.length > 10 && showTmrGrade && i==tumorGradeFilter.length - 1" (click)="showMoreOrLess('tumor_grade')" class="browse-filter" style="text-align: right;font-size: 1.2rem; color: rgb(107, 98, 98);cursor:pointer;font-weight:700;">
+                      Less...
+                  </div>
+                </div>
+              </ng-template>
+			      </mat-list>
         </mat-expansion-panel>
         <mat-expansion-panel [expanded]="true" class="sidenavFiltersPanel">
             <mat-expansion-panel-header [collapsedHeight]="'40px'" [expandedHeight]="'40px'">
@@ -406,16 +537,27 @@
               </mat-panel-title>
             </mat-expansion-panel-header>
             <mat-list class="card-body card-list" id="caseStatusList">
-              <div *ngFor="let caseStatus of caseStatusFilter" class="browse-filter">
-                <label><mat-list-item [ngStyle]="getStyleForCheckbox(caseStatus.filterName, selectedCaseStatus)">
-                  <p-checkbox name="group7" id="group7{{caseStatus.filterName}}" value={{caseStatus.filterName}}
-                    [(ngModel)]="selectedCaseStatus" [disabled]="caseStatus.filterCount == 0" (onChange)="filterDataByCaseStatus($event)">
-                  </p-checkbox> &nbsp; &nbsp;
-                  <div [ngStyle]="getStyleForCheckbox(caseStatus.filterName, selectedCaseStatus)">
-                    {{caseStatus.filterName}} ({{caseStatus.filterCount}} {{caseStatus.filterCount > 1 ? 'Studies' : 'Study'}})
+              <div *ngIf="caseStatusFilter.length > 10;then caseStatusFilterContent else caseStatusFilterContent"></div>
+              <ng-template #caseStatusFilterContent>
+                <div *ngFor="let caseStatus of caseStatusFilter, let i = index" class="browse-filter">
+                    <div *ngIf="i<10;then caseStatusFilterInnerContent" class="browse-filter"></div>
+                    <div *ngIf="caseStatusFilter.length > 10 && showCaseStatus && i >= 10; then caseStatusFilterInnerContent" class="browse-filter"></div>
+                    <ng-template #caseStatusFilterInnerContent><label><mat-list-item [ngStyle]="getStyleForCheckbox(caseStatus.filterName, selectedCaseStatus)">
+                    <p-checkbox name="group7" id="group7{{caseStatus.filterName}}" value={{caseStatus.filterName}}
+                      [(ngModel)]="selectedCaseStatus" [disabled]="caseStatus.filterCount == 0" (onChange)="filterDataByCaseStatus($event)">
+                    </p-checkbox> &nbsp; &nbsp;
+                    <div [ngStyle]="getStyleForCheckbox(caseStatus.filterName, selectedCaseStatus)">
+                      {{caseStatus.filterName}} ({{caseStatus.filterCount}} {{caseStatus.filterCount > 1 ? 'Studies' : 'Study'}})
+                    </div>
+                  </mat-list-item></label></ng-template>
+                  <div *ngIf="caseStatusFilter.length > 10 && !showCaseStatus && i==10" (click)="showMoreOrLess('case_status')" class="browse-filter" style="text-align: right;font-size: 1.2rem; color: rgb(107, 98, 98);cursor:pointer;font-weight:700;">
+                      {{caseStatusFilter.length - 10 }} More...
                   </div>
-                </mat-list-item></label>
-              </div>
+                  <div *ngIf="caseStatusFilter.length > 10 && showCaseStatus && i==caseStatusFilter.length - 1" (click)="showMoreOrLess('case_status')" class="browse-filter" style="text-align: right;font-size: 1.2rem; color: rgb(107, 98, 98);cursor:pointer;font-weight:700;">
+                      Less...
+                  </div>
+                </div>
+              </ng-template>
             </mat-list>
           </mat-expansion-panel>
 	  </mat-tab>
@@ -465,17 +607,28 @@
             </mat-panel-title>
           </mat-expansion-panel-header>
           <mat-list class="card-body card-list" id="dataCategoryList">
-            <div *ngFor="let dataCategory of dataCategoryFilter" class="browse-filter">
-              <label><mat-list-item [ngStyle]="getStyleForCheckbox(dataCategory.filterName, selectedDataCategory)">
-                <p-checkbox name="group7" id="group7{{dataCategory.filterName}}" value={{dataCategory.filterName}}
-                  [(ngModel)]="selectedDataCategory" [disabled]="dataCategory.filterCount == 0 || dataCetegoryFilterDisabled(dataCategory.filterName)"
-                  (onChange)="filterDataByDataCategory($event)">
-                </p-checkbox> &nbsp; &nbsp;
-                <div [ngStyle]="getStyleForCheckbox(dataCategory.filterName, selectedDataCategory)">
-                  {{dataCategory.filterName}} ({{dataCategory.filterCount}} {{dataCategory.filterCount > 1 ? 'Studies' : 'Study'}})
+            <div *ngIf="dataCategoryFilter.length > 10;then dataCategoryFilterContent else dataCategoryFilterContent"></div>
+            <ng-template #dataCategoryFilterContent>
+              <div *ngFor="let dataCategory of dataCategoryFilter, let i = index" class="browse-filter">
+                  <div *ngIf="i<10;then dataCategoryInnerContent" class="browse-filter"></div>
+                  <div *ngIf="dataCategoryFilter.length > 10 && showDataCategory && i >= 10; then dataCategoryInnerContent" class="browse-filter"></div>
+                  <ng-template #dataCategoryInnerContent><label><mat-list-item [ngStyle]="getStyleForCheckbox(dataCategory.filterName, selectedDataCategory)">
+                  <p-checkbox name="group7" id="group7{{dataCategory.filterName}}" value={{dataCategory.filterName}}
+                    [(ngModel)]="selectedDataCategory" [disabled]="dataCategory.filterCount == 0 || dataCetegoryFilterDisabled(dataCategory.filterName)"
+                    (onChange)="filterDataByDataCategory($event)">
+                  </p-checkbox> &nbsp; &nbsp;
+                  <div [ngStyle]="getStyleForCheckbox(dataCategory.filterName, selectedDataCategory)">
+                    {{dataCategory.filterName}} ({{dataCategory.filterCount}} {{dataCategory.filterCount > 1 ? 'Studies' : 'Study'}})
+                  </div>
+                </mat-list-item></label></ng-template>
+                <div *ngIf="dataCategoryFilter.length > 10 && !showDataCategory && i==10" (click)="showMoreOrLess('data_category')" class="browse-filter" style="text-align: right;font-size: 1.2rem; color: rgb(107, 98, 98);cursor:pointer;font-weight:700;">
+                    {{dataCategoryFilter.length - 10 }} More...
                 </div>
-              </mat-list-item></label>
-            </div>
+                <div *ngIf="dataCategoryFilter.length > 10 && showDataCategory && i==dataCategoryFilter.length - 1" (click)="showMoreOrLess('data_category')" class="browse-filter" style="text-align: right;font-size: 1.2rem; color: rgb(107, 98, 98);cursor:pointer;font-weight:700;">
+                    Less...
+                </div>
+              </div>
+            </ng-template>
           </mat-list>
         </mat-expansion-panel>
         <mat-expansion-panel [expanded]="true" class="sidenavFiltersPanel">
@@ -493,16 +646,27 @@
             </mat-panel-title>
           </mat-expansion-panel-header>
           <mat-list class="card-body card-list" id="fileTypeList">
-            <div *ngFor="let fileType of fileTypeFilter" class="browse-filter">
-              <label><mat-list-item [ngStyle]="getStyleForCheckbox(fileType.filterName, selectedFileType)">
-                <p-checkbox name="group7" id="group7{{fileType.filterName}}" value={{fileType.filterName}}
-                  [(ngModel)]="selectedFileType" [disabled]="fileType.filterCount == 0 || fileTypeFilterDisabled(fileType.filterName)" (onChange)="filterDataByFileType($event)">
-                </p-checkbox> &nbsp; &nbsp;
-                <div [ngStyle]="getStyleForCheckbox(fileType.filterName, selectedFileType)">
-                  {{fileType.filterName}} ({{fileType.filterCount}} {{fileType.filterCount > 1 ? 'Studies' : 'Study'}})
+            <div *ngIf="fileTypeFilter.length > 10;then fileTypeFilterContent else fileTypeFilterContent"></div>
+            <ng-template #fileTypeFilterContent>
+              <div *ngFor="let fileType of fileTypeFilter, let i = index" class="browse-filter">
+                  <div *ngIf="i<10;then fileTypeInnerContent" class="browse-filter"></div>
+                  <div *ngIf="fileTypeFilter.length > 10 && showFileType && i >= 10; then fileTypeInnerContent" class="browse-filter"></div>
+                  <ng-template #fileTypeInnerContent><label><mat-list-item [ngStyle]="getStyleForCheckbox(fileType.filterName, selectedFileType)">
+                  <p-checkbox name="group7" id="group7{{fileType.filterName}}" value={{fileType.filterName}}
+                    [(ngModel)]="selectedFileType" [disabled]="fileType.filterCount == 0 || fileTypeFilterDisabled(fileType.filterName)" (onChange)="filterDataByFileType($event)">
+                  </p-checkbox> &nbsp; &nbsp;
+                  <div [ngStyle]="getStyleForCheckbox(fileType.filterName, selectedFileType)">
+                    {{fileType.filterName}} ({{fileType.filterCount}} {{fileType.filterCount > 1 ? 'Studies' : 'Study'}})
+                  </div>
+                </mat-list-item></label></ng-template>
+                <div *ngIf="fileTypeFilter.length > 10 && !showFileType && i==10" (click)="showMoreOrLess('file_type')" class="browse-filter" style="text-align: right;font-size: 1.2rem; color: rgb(107, 98, 98);cursor:pointer;font-weight:700;">
+                    {{fileTypeFilter.length - 10 }} More...
                 </div>
-              </mat-list-item></label>
-            </div>
+                <div *ngIf="fileTypeFilter.length > 10 && showFileType && i==fileTypeFilter.length - 1" (click)="showMoreOrLess('file_type')" class="browse-filter" style="text-align: right;font-size: 1.2rem; color: rgb(107, 98, 98);cursor:pointer;font-weight:700;">
+                    Less...
+                </div>
+              </div>
+            </ng-template>
           </mat-list>
         </mat-expansion-panel>
         <mat-expansion-panel [expanded]="true" class="sidenavFiltersPanel">
@@ -520,16 +684,27 @@
             </mat-panel-title>
           </mat-expansion-panel-header>
           <mat-list class="card-body card-list" id="accessList">
-            <div *ngFor="let access of accessFilter" class="browse-filter">
-              <label><mat-list-item [ngStyle]="getStyleForCheckbox(access.filterName, selectedAccess)">
-                <p-checkbox name="group7" id="group7{{access.filterName}}" value={{access.filterName}}
-                  [(ngModel)]="selectedAccess" [disabled]="access.filterCount == 0" (onChange)="filterDataByAccess($event)">
-                </p-checkbox> &nbsp; &nbsp;
-                <div [ngStyle]="getStyleForCheckbox(access.filterName, selectedAccess)">
-                  {{access.filterName}} ({{access.filterCount}} {{access.filterCount > 1 ? 'Studies' : 'Study'}})
+            <div *ngIf="accessFilter.length > 10;then accessFilterContent else accessFilterContent"></div>
+            <ng-template #accessFilterContent>
+              <div *ngFor="let access of accessFilter, let i = index" class="browse-filter">
+                  <div *ngIf="i<10;then accessFilterInnerContent" class="browse-filter"></div>
+                  <div *ngIf="accessFilter.length > 10 && showAccess && i >= 10; then accessFilterInnerContent" class="browse-filter"></div>
+                  <ng-template #accessFilterInnerContent><label><mat-list-item [ngStyle]="getStyleForCheckbox(access.filterName, selectedAccess)">
+                  <p-checkbox name="group7" id="group7{{access.filterName}}" value={{access.filterName}}
+                    [(ngModel)]="selectedAccess" [disabled]="access.filterCount == 0" (onChange)="filterDataByAccess($event)">
+                  </p-checkbox> &nbsp; &nbsp;
+                  <div [ngStyle]="getStyleForCheckbox(access.filterName, selectedAccess)">
+                    {{access.filterName}} ({{access.filterCount}} {{access.filterCount > 1 ? 'Studies' : 'Study'}})
+                  </div>
+                </mat-list-item></label></ng-template>
+                <div *ngIf="accessFilter.length > 10 && !showAccess && i==10" (click)="showMoreOrLess('access')" class="browse-filter" style="text-align: right;font-size: 1.2rem; color: rgb(107, 98, 98);cursor:pointer;font-weight:700;">
+                    {{accessFilter.length - 10 }} More...
                 </div>
-              </mat-list-item></label>
-            </div>
+                <div *ngIf="accessFilter.length > 10 && showAccess && i==accessFilter.length - 1" (click)="showMoreOrLess('access')" class="browse-filter" style="text-align: right;font-size: 1.2rem; color: rgb(107, 98, 98);cursor:pointer;font-weight:700;">
+                    Less...
+                </div>
+              </div>
+            </ng-template>
           </mat-list>
         </mat-expansion-panel>
         <mat-expansion-panel [expanded]="true" class="sidenavFiltersPanel">
@@ -547,16 +722,27 @@
               </mat-panel-title>
             </mat-expansion-panel-header>
             <mat-list class="card-body card-list" id="downloadableList">
-              <div *ngFor="let downloadable of downloadableFilter" class="browse-filter">
-                <label><mat-list-item [ngStyle]="getStyleForCheckbox(downloadable.filterName, selectedDownloadable)">
-                  <p-radioButton name="group8" id="group8{{downloadable.filterName}}" value={{downloadable.filterName}}
-                    [(ngModel)]="selectedDownloadableRadiobuttonVal" (onClick)="filterDataByDownloadable($event)">
-                  </p-radioButton> &nbsp; &nbsp;
-                  <div [ngStyle]="getStyleForCheckbox(downloadable.filterName, selectedDownloadable)">
-                    {{downloadable.filterName}}
+              <div *ngIf="downloadableFilter.length > 10;then downloadableFilterContent else downloadableFilterContent"></div>
+              <ng-template #downloadableFilterContent>
+                <div *ngFor="let downloadable of downloadableFilter, let i = index" class="browse-filter">
+                    <div *ngIf="i<10;then downloadableInnerContent" class="browse-filter"></div>
+                    <div *ngIf="downloadableFilter.length > 10 && showDownloadable && i >= 10; then downloadableInnerContent" class="browse-filter"></div>
+                    <ng-template #downloadableInnerContent><label><mat-list-item [ngStyle]="getStyleForCheckbox(downloadable.filterName, selectedDownloadable)">
+                    <p-radioButton name="group8" id="group8{{downloadable.filterName}}" value={{downloadable.filterName}}
+                      [(ngModel)]="selectedDownloadableRadiobuttonVal" (onClick)="filterDataByDownloadable($event)">
+                    </p-radioButton> &nbsp; &nbsp;
+                    <div [ngStyle]="getStyleForCheckbox(downloadable.filterName, selectedDownloadable)">
+                      {{downloadable.filterName}}
+                    </div>
+                  </mat-list-item></label></ng-template>
+                  <div *ngIf="downloadableFilter.length > 10 && !showDownloadable && i==10" (click)="showMoreOrLess('downloadable')" class="browse-filter" style="text-align: right;font-size: 1.2rem; color: rgb(107, 98, 98);cursor:pointer;font-weight:700;">
+                      {{downloadableFilter.length - 10 }} More...
                   </div>
-                </mat-list-item></label>
-              </div>
+                  <div *ngIf="downloadableFilter.length > 10 && showDownloadable && i==downloadableFilter.length - 1" (click)="showMoreOrLess('downloadable')" class="browse-filter" style="text-align: right;font-size: 1.2rem; color: rgb(107, 98, 98);cursor:pointer;font-weight:700;">
+                      Less...
+                  </div>
+                </div>
+              </ng-template>
             </mat-list>
           </mat-expansion-panel>
       </mat-tab>
@@ -601,6 +787,53 @@
 						style="margin:auto; display:block;">Submit Query</button>
 				<br>
           </mat-expansion-panel>
-      </mat-tab>
+      </mat-tab>  
+	  
+	  <!-- PDC-3776 Make study filtering a primary filter tab-->
+	  <mat-tab>
+          <ng-template mat-tab-label>
+              Study
+              <button mat-icon-button mat-primary label="Undo" id="clearStudySelectionDataCategory" (click)="clearSelectionsStudyID()" matTooltip="Clear all Study data selections"
+              *ngIf="selectedStudyFilter.length > 0" >
+              <fa name="undo"></fa></button>
+          </ng-template>
+		  <mat-expansion-panel [expanded]="true" class="sidenavFiltersPanel">
+              <mat-expansion-panel-header [collapsedHeight]="'40px'" [expandedHeight]="'40px'">
+                  <mat-panel-title>
+                  <span class="browse-filter-title float-button-left">
+                    <a href="{{staticUrlBase}}dictionaryitem.html?eName=Study" target="_blank" class="browse-filter-title">Study</a>
+                  </span>
+                  <span class="float-button-right"></span>
+                  <button mat-icon-button mat-primary class="browse-filter-title" id="clearStudySelections" *ngIf="selectedStudyFilter.length > 0" label="Undo" (click)="clearSelectionsStudyID()" matTooltip="Clear study selection"><fa name="undo"></fa></button>
+                  </mat-panel-title>
+              </mat-expansion-panel-header>
+              <mat-list class="card-body card-list" id="studySelectList">
+                    <div *ngIf="studyFilter.length > 10;then studyFilterContent else studyFilterContent"></div>
+                    <ng-template #studyFilterContent>
+                      <div *ngFor="let study of studyFilter, let i = index" class="browse-filter">
+                          <div *ngIf="i<10;then studyFilterInnerContent" class="browse-filter"></div>
+                          <div *ngIf="studyFilter.length > 10 && showStudyName && i >= 10; then studyFilterInnerContent" class="browse-filter"></div>
+                          <ng-template #studyFilterInnerContent><label><mat-list-item  [ngStyle]="getStyleForCheckbox(study.filterName, selectedStudyFilter)">
+                            <p-checkbox name="group7" id="group7{{study}}"
+                                value={{study.filterName}}
+                                [(ngModel)]="selectedStudyFilter"
+                                [disabled]="study.filterCount == 0"
+                                (onChange)="filterDataByStudy($event)">
+                            </p-checkbox> &nbsp; &nbsp;
+                            <div>
+                              {{study.filterName}} ({{study.filterCount}} {{study.filterCount > 1 ? 'Studies' : 'Study'}})
+                            </div>
+                          </mat-list-item></label></ng-template>
+                          <div *ngIf="studyFilter.length > 10 && !showStudyName && i==10" (click)="showMoreOrLess('study_name')" class="browse-filter" style="text-align: right;font-size: 1.2rem; color: rgb(107, 98, 98);cursor:pointer;font-weight:700;">
+                              {{studyFilter.length - 10 }} More...
+                          </div>
+                          <div *ngIf="studyFilter.length > 10 && showStudyName && i==studyFilter.length - 1" (click)="showMoreOrLess('study_name')" class="browse-filter" style="text-align: right;font-size: 1.2rem; color: rgb(107, 98, 98);cursor:pointer;font-weight:700;">
+                              Less...
+                          </div>
+                        </div>
+                      </ng-template>
+              </mat-list>
+          </mat-expansion-panel>
+	  </mat-tab>
     <!--   <mat-tab label="Third"  >Content 3</mat-tab> -->
     </mat-tab-group>

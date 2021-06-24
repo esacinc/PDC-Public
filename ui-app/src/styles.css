@@ -293,6 +293,15 @@ div[class$="_feedback_selection_ignore"] {
 	opacity: 0.35 !important;
 }
 
+/* PDC-3865 Update human body map to show the new AML study */
+#Bone-Marrow {
+    height: 114px;
+    width: 30px;
+    top: 371px;
+    left: 163px;
+	opacity: 0.5!important;
+}
+
 /* #Brain {
     height: 35px;
     width: 50px;

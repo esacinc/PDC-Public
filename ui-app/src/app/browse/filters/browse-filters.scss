@@ -115,11 +115,11 @@ $stateActiveBgColor: #3baae3;
 	border-top: 0px;
 }
 
-.side-bar-tabs /deep/.mat-tab-label{
-	min-width: 110px!important;
-	padding: 10px!important;
-	justify-content: left!important;
-   }
+//.side-bar-tabs /deep/.mat-tab-label{
+//	min-width: 110px!important;
+//	padding: 10px!important;
+	//justify-content: left!important;
+//   }
 
 /deep/ .sidenavFiltersPanel .mat-expansion-panel-body {
 	padding-left: 0px!important;
@@ -146,34 +146,47 @@ $stateActiveBgColor: #3baae3;
 .mat-expansion-panel-header-title{
 	margin-right:0px!important;
 }
+
+/deep/ div.mat-tab-label-content button#clearBiospecimenDataCategory.mat-icon-button {
+		width: 20px;
+}
 // PDC-620: Make the filter selection tabs along the left side of the window
 /deep/ {
 	.sideBarNavigation .mat-tab-label-container {
 		display: flex;
 		flex-grow: 1;
 		overflow: hidden;
+		flex-direction: column;
 		z-index: 1;
 		width: 38px;
 	}
 	.sideBarNavigation .mat-tab-group {
 		flex-direction: row;
 	}
-	.sideBarNavigation .mat-tab-labels {
+	.sideBarNavigation .mat-tab-labels, sideBarNavigation .mat-tab-label-active {
 		flex-direction: column;
 		width: 60px;
-		height: 540px;
+		height: 770px;
 		margin-left: -40px;
+		justify-content: space-around;
+		display: flex;
 	}
 	.sideBarNavigation .mat-tab-body-wrapper {
 		flex: 1 1 auto;
+		flex-direction: column;
 	}
 	.sideBarNavigation .mat-tab-header {
+		flex-direction: column;
 		border-bottom: none;
 	}
 
 	.sideBarNavigation .mat-ink-bar {
 		height: 100%;
 		left: 98% !important;
+	}
+	
+	.sideBarNavigation .mat-ripple {
+		overflow: visible;
 	}
 
 	.sideBarNavigation .mat-tab-header-pagination {
@@ -201,15 +214,30 @@ $stateActiveBgColor: #3baae3;
 		color: black;
 	}
 
-	.sideBarNavigation #mat-tab-label-1-1 {
-		min-width: 150px !important;
-		padding-top: 50px !important;
-	}
+//	.sideBarNavigation #mat-tab-label-1-1 {
+//		min-width: 150px !important;
+//		padding-top: 50px !important;
+//	}
+	
+//	div#mat-tab-label-1-1{ 
+//		justify-content: center !important;
+//		padding-left: 45px !important;
+//	}
 
-	.sideBarNavigation #mat-tab-label-1-0, .sideBarNavigation #mat-tab-label-1-1, .sideBarNavigation #mat-tab-label-1-2,
-	.sideBarNavigation #mat-tab-label-1-3,  .sideBarNavigation #mat-tab-label-1-4{
-		justify-content: center !important;
-		padding-left: 20px !important;
-	}
+//	.sideBarNavigation #mat-tab-label-1-0, .sideBarNavigation #mat-tab-label-1-1, .sideBarNavigation #mat-tab-label-1-2,
+//	.sideBarNavigation #mat-tab-label-1-3,  .sideBarNavigation #mat-tab-label-1-4, sideBarNavigation #mat-tab-label-1-5{
+//		justify-content: center !important;
+//		//padding-left: 40px !important;
+//	}
+
+	// PDC-3776 Make study filtering a primary filter tab
+//	div#mat-tab-label-1-5{ 
+//		justify-content: center !important;
+//		padding-left: 30px !important;
+//	}
+	
+//	div#mat-tab-label-1-3{ 
+//		padding-left: 45px !important;
+//	}
 
 }

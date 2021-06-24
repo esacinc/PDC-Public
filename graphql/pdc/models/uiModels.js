@@ -256,6 +256,7 @@ const defineUiModels = (db) => {
 	//@@@PDC-774 add downloadable
 	//@@@PDC-827 Add md5sum  and StudyId
 	//@@@PDC-2815 add embargo_date to getPaginatedUIFile API
+	//@@@PDC-3909 add data_source to getPaginatedUILegacyFile API
 	/**
 	* ModelUIFile is used in uiFile query.
 	*/
@@ -268,6 +269,7 @@ const defineUiModels = (db) => {
 		file_name:  { type: Sequelize.STRING},
 		study_run_metadata_submitter_id:  { type: Sequelize.STRING},
 		project_name:  { type: Sequelize.STRING},
+		data_source: { type: Sequelize.STRING},
 		data_category: { type: Sequelize.STRING},
 		file_type:  { type: Sequelize.STRING},
 		downloadable: { type: Sequelize.STRING },
@@ -592,7 +594,9 @@ const defineUiModels = (db) => {
 	ModelHumanBody.removeAttribute('id');
 	
 	//@@@PDC-2167 group files by data source
+	//@@@PDC-3839 get current version of study
 	const ModelStudyFileSource = db.getSequelize().define('dummy', {
+		study_id:  { type: Sequelize.STRING},
 		study_submitter_id:  { type: Sequelize.STRING},
 		pdc_study_id:  { type: Sequelize.STRING},
 		data_source:  { type: Sequelize.STRING},

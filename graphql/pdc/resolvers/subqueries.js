@@ -65,11 +65,12 @@ export const resolvers = {
 	Project: {
 		studies(obj, args, context) {
 			var comboQuery = "";
+			//@@@PDC-3839 get current version of study
 			if (context.noFilter != null) {
 				comboQuery = "SELECT distinct bin_to_uuid(s.study_id) as study_id, s.study_submitter_id, s.submitter_id_name, "+
 				" s.analytical_fraction, s.experiment_type, s.acquisition_type, s.pdc_study_id"+
 				" FROM study s "+
-				" WHERE s.project_id = uuid_to_bin('"+
+				" WHERE s.is_latest_version = 1 and s.project_id = uuid_to_bin('"+
 				obj.project_id +
 				"') ";
 			}
@@ -81,7 +82,7 @@ export const resolvers = {
 				" WHERE alm.study_id = s.study_id and al.aliquot_id = alm.aliquot_id "+
 				" and al.sample_id=sam.sample_id and sam.case_id=c.case_id "+
 				" and proj.project_id = s.project_id and ptc.study_id = s.study_id "+
-				" and proj.program_id = prog.program_id and s.project_id = uuid_to_bin('"+
+				" and proj.program_id = prog.program_id and s.is_latest_version = 1 and s.project_id = uuid_to_bin('"+
 				obj.project_id +
 				"') ";
 				//"and s.project_submitter_id IN ('" + context.value.join("','") + "')";
@@ -321,6 +322,14 @@ export const resolvers = {
 			});
 		}
 	},
+	//@@@PDC-3921 new studyCatalog api
+	StudyCatalogEntry: {
+		versions(obj, args, context) {
+			var verQuery = "SELECT bin_to_uuid(study_id) as study_id, study_submitter_id, "+
+			"study_shortname, submitter_id_name, study_version, if(is_latest_version, 'yes', 'no') as is_latest_version FROM study WHERE pdc_study_id = '" +obj.pdc_study_id+ "' order by study_version desc"; 
+			return db.getSequelize().query(verQuery, { model: db.getModelByName('ModelStudy') });
+		}
+	},
 	//@@@PDC-2366 Add aliquot_run_metadata_id to aliquot_run_metadata API entity
 	//@@@PDC-3668 add aliquot_id to output
 	StudyRunMetadata: {
@@ -475,12 +484,12 @@ export const resolvers = {
 		async supplementaryFilesCount(obj, args, context) {
 			var suppFileCacheName = 'legacy:supp:'+obj.study_id;
 			const res = await RedisCacheClient.redisCacheGetAsync(suppFileCacheName);
+			//@@@PDC-3878 use data_category to decide supple or not
 			if (res === null) {
 				var fileQuery = "SELECT f.data_category, f.file_type, count(f.file_id) as files_count "+
 				"FROM legacy_file f, legacy_study s, legacy_study_file sf "+
 				"WHERE f.file_id = sf.file_id and s.study_id = sf.study_id "+
-				//"and f.data_source = 'Submitter' and f.data_category <> 'Raw Mass Spectra' "+
-				"and f.data_category <> 'Raw Mass Spectra' "+
+				"and f.data_source = 'Submitter' "+
 				"and s.study_id = uuid_to_bin('"+ obj.study_id +
 				"') group by f.data_category, f.file_type order by f.data_category";
 				var getIt = await db.getSequelize().query(fileQuery, { model: db.getModelByName('ModelFile') });
@@ -496,8 +505,7 @@ export const resolvers = {
 				var fileQuery = "SELECT f.data_category, f.file_type, count(f.file_id) as files_count "+
 				"FROM legacy_file f, legacy_study s, legacy_study_file sf "+
 				"WHERE f.file_id = sf.file_id and s.study_id = sf.study_id "+
-				//"and (f.data_source = 'CDAP' or (f.data_source = 'Submitter' and f.data_category = 'Raw Mass Spectra')) "+
-				"and f.data_category = 'Raw Mass Spectra' "+				
+				"and f.data_source <> 'Submitter' "+
 				"and s.study_id = uuid_to_bin('"+ obj.study_id +
 				"') group by f.data_category, f.file_type order by f.data_category";
 				var getIt = await db.getSequelize().query(fileQuery, { model: db.getModelByName('ModelFile') });
@@ -1082,14 +1090,20 @@ export const resolvers = {
 	//@@@PDC-1122 add signed url
 	FilePerStudy: {
 		signedUrl(obj, args, context) {
-			return getSignedUrl(obj.file_location);
+			//@@@PDC-3837 use s3 key for large files
+			logger.info("File Size: "+obj.file_size);
+			if (obj.file_size >= 32212254720)
+				return getSignedUrl(obj.file_location, false);
+			else 
+				return getSignedUrl(obj.file_location, true);
 		}
 	},
 	//@@@PDC-2167 group files by data source
 	StudyFileSource: {
 		async fileCounts(obj, args, context) {
+			//@@@PDC-3839 get current version of study
 			var fileQuery = "SELECT f.file_type, f.data_category, COUNT(f.file_id) AS files_count FROM file f, study s, study_file sf WHERE f.file_id = sf.file_id and s.study_id = sf.study_id "+
-			"and s.pdc_study_id = '"+obj.pdc_study_id+"' and f.data_source = '"+
+			"and s.study_id = uuid_to_bin('"+obj.study_id+"') and f.data_source = '"+
 			obj.data_source+ "' group by file_type, data_category";
 			var cacheFilterName = {name:''};
 			cacheFilterName.name +="pdc_study_id:("+ obj.pdc_study_id + 

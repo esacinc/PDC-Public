@@ -287,6 +287,16 @@
         }
         head.appendChild(js); 
     </script>
+   <style type="text/css">
+	 .importantNote{
+	  max-width: 1200px;
+	  padding: 1em;
+	  border-radius:8px;
+	  border:1px;
+	  border-style: solid;
+	  background:#ADD8E6;
+	}				 
+	 </style>
 </head>
 <body class="page-docs" style="zoom: 1;">
     <div class="pageContent">
@@ -307,6 +317,18 @@
                         <br><b>The quickest way to get started with the GraphQL API is to use <a href="/graphql" target="_blank">PDC GraphQL Explorer</a>.</b>
                         <div class="pageViewSwap"></div>
             </div>
+            <!-- @@@PDC-3918 study versioning announcement -->
+		  <div class="importantNote">
+		  <h3>Important:</h3>
+			<p>					  
+			PDC studies can have multiple versions. While each version of study will have a UUID based unique study id, the PDC study ID (e.g., PDC000121) will always remain the same. By default, all the APIs will return the data related to the latest version. The APIs show the following behavior,
+			</p>
+			<ul>						
+				<li>In order to understand the available versions, we strongly recommend you to first visit PDC portal or call the studyCatalog API. The studyCatalog API will provide a list of studies along with all their versions, version number and version status.</li>
+				<li>When calling an API with PDC study ID (e.g., PDC000121) as input parameter, it will return data for the latest version.</li>
+				<li>When calling an API with UUID based study ID (e.g., be2883cb-57b8-11e8-b07a-00a098d917f8) as input parameter, it will return data for the specific version.</li>
+			</ul>	
+		  </div>
             <div>
                 <button onclick="scrollToTop()" id="topScrollBtn" title="Go to top">Top</button>
                 <section class="content" id="contentDiv">

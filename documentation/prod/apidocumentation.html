@@ -62,6 +62,15 @@
                    color:inherit !important;
                  }
 				 
+				 .importantNote{
+				  max-width: 750px;
+				  padding: 1em;
+				  border-radius:8px;
+				  border:1px;
+				  border-style: solid;
+				  background:#ADD8E6;
+				}
+				 
                  </style>
                </div>
                <title>API Documentation</title>
@@ -131,7 +140,19 @@
 						  <li><a href="/API_documentation/PDC_clustergram.html" target="_blank">Clustergram help page</a></li>
                         </ul>
                       </div>
-					  <!-- @@@PDC-2485 point to graghql playground -->
+                      <!-- @@@PDC-3918 study versioning announcement -->
+                      <div class="importantNote">
+					  <h3>Important:</h3>
+						<p>					  
+						PDC studies can have multiple versions. While each version of study will have a UUID based unique study id, the PDC study ID (e.g., PDC000121) will always remain the same. By default, all the APIs will return the data related to the latest version. The APIs show the following behavior,
+						</p>
+						<ul>						
+							<li>In order to understand the available versions, we strongly recommend you to first visit PDC portal or call the studyCatalog API. The studyCatalog API will provide a list of studies along with all their versions, version number and version status.</li>
+							<li>When calling an API with PDC study ID (e.g., PDC000121) as input parameter, it will return data for the latest version.</li>
+							<li>When calling an API with UUID based study ID (e.g., be2883cb-57b8-11e8-b07a-00a098d917f8) as input parameter, it will return data for the specific version.</li>
+						</ul>	
+					  </div>
+					  <!-- @@@PDC-2485 point to dev graghql playground -->
                       <div class="textSection">
                         <h3><a class="linkNoStyle" name="Getting_started" id="Getting_started">Getting started</a></h3>
 
