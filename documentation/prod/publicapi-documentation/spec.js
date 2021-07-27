@@ -928,7 +928,7 @@ var spec = {
                    }
                  }
                },
-                  '?query={ studyExperimentalDesign (study_id: "{study_id}" acceptDUA: {acceptDUA}){ pdc_study_id, study_run_metadata_id, study_run_metadata_submitter_id, study_id, study_submitter_id, analyte, acquisition_type, experiment_type, plex_dataset_name, experiment_number, number_of_fractions, label_free, itraq_113, itraq_114, itraq_115, itraq_116, itraq_117, itraq_118, itraq_119, itraq_121, tmt_126, tmt_127n, tmt_127c, tmt_128n, tmt_128c, tmt_129n, tmt_129c, tmt_130n, tmt_130c, tmt_131, tmt_131c } }': {
+                  '?query={ studyExperimentalDesign (study_id: "{study_id}" acceptDUA: {acceptDUA}){ pdc_study_id, study_run_metadata_id, study_run_metadata_submitter_id, study_id, study_submitter_id, analyte, acquisition_type, experiment_type, plex_dataset_name, experiment_number, number_of_fractions, label_free{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, itraq_113{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, itraq_114{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, itraq_115{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, itraq_116{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, itraq_117{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, itraq_118{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, itraq_119{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, itraq_121{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, tmt_126{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, tmt_127n{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, tmt_127c{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, tmt_128n{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, tmt_128c{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, tmt_129n{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, tmt_129c{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, tmt_130n{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, tmt_130c{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, tmt_131{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, tmt_131c{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}} }': {
                  "get": {
                     "tags": ["Experimental"],
                    "summary": "Gets experimental design for a Study",
@@ -963,7 +963,7 @@ var spec = {
                    }
                  }
                },
-               '?query={ studyExperimentalDesign (pdc_study_id: "{pdc_study_id}" acceptDUA: {acceptDUA}){ pdc_study_id, study_run_metadata_id, study_run_metadata_submitter_id, study_id, study_submitter_id, analyte, acquisition_type, experiment_type, plex_dataset_name, experiment_number, number_of_fractions, label_free, itraq_113, itraq_114, itraq_115, itraq_116, itraq_117, itraq_118, itraq_119, itraq_121, tmt_126, tmt_127n, tmt_127c, tmt_128n, tmt_128c, tmt_129n, tmt_129c, tmt_130n, tmt_130c, tmt_131, tmt_131c } }': {
+               '?query={ studyExperimentalDesign (pdc_study_id: "{pdc_study_id}" acceptDUA: {acceptDUA}){ pdc_study_id, study_run_metadata_id, study_run_metadata_submitter_id, study_id, study_submitter_id, analyte, acquisition_type, experiment_type, plex_dataset_name, experiment_number, number_of_fractions, label_free{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, itraq_113{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, itraq_114{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, itraq_115{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, itraq_116{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, itraq_117{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, itraq_118{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, itraq_119{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, itraq_121{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, tmt_126{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, tmt_127n{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, tmt_127c{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, tmt_128n{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, tmt_128c{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, tmt_129n{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, tmt_129c{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, tmt_130n{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, tmt_130c{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, tmt_131{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, tmt_131c{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id} } }': {
                   "get": {
                      "tags": ["Experimental"],
                     "summary": "Gets experimental design for a PDC Study ID",
@@ -6500,88 +6500,148 @@ var spec = {
                    "example":"25"
                 },
                 "label_free":{
-                   "type":"string",
-                   "example":"null"
+                   "type":"array",
+                   "items":{
+                      "$ref":"#/definitions/labelAliguots"
+                   }
                 },
                 "itraq_113":{
-                  "type":"string",
-                  "example":"null"
-                },
+                   "type":"array",
+                   "items":{
+                      "$ref":"#/definitions/labelAliguots"
+                   }
+                 },
                 "itraq_114":{
-                   "type":"string",
-                   "example":"null"
+                   "type":"array",
+                   "items":{
+                      "$ref":"#/definitions/labelAliguots"
+                   }
                 },
                 "itraq_115":{
-                   "type":"string",
-                   "example":"null"
-                },
+                   "type":"array",
+                   "items":{
+                      "$ref":"#/definitions/labelAliguots"
+                   }
+                 },
                 "itraq_116":{
-                   "type":"string",
-                   "example":"null"
-                },
+                   "type":"array",
+                   "items":{
+                      "$ref":"#/definitions/labelAliguots"
+                   }
+                 },
                 "itraq_117":{
-                   "type":"string",
-                   "example":"null"
-                },
+                   "type":"array",
+                   "items":{
+                      "$ref":"#/definitions/labelAliguots"
+                   }
+                 },
                 "itraq_118":{
-                  "type":"string",
-                  "example":"null"
-               },
+                   "type":"array",
+                   "items":{
+                      "$ref":"#/definitions/labelAliguots"
+                   }
+                },
                "itraq_119":{
-                  "type":"string",
-                  "example":"null"
+                   "type":"array",
+                   "items":{
+                      "$ref":"#/definitions/labelAliguots"
+                   }
                },
                "itraq_121":{
-                  "type":"string",
-                  "example":"null"
-               },
+                   "type":"array",
+                   "items":{
+                      "$ref":"#/definitions/labelAliguots"
+                   }
+                },
                 "tmt_126":{
-                   "type":"string",
-                   "example":"CPT0079430001"
+                    "type":"array",
+                   "items":{
+                      "$ref":"#/definitions/labelAliguots"
+                   }
                 },
                 "tmt_127n":{
-                   "type":"string",
-                   "example":"CPT0023360001"
-                },
+                   "type":"array",
+                   "items":{
+                      "$ref":"#/definitions/labelAliguots"
+                   }
+                 },
                 "tmt_127c":{
-                   "type":"string",
-                   "example":"CPT0023350003"
-                },
+                   "type":"array",
+                   "items":{
+                      "$ref":"#/definitions/labelAliguots"
+                   }
+                 },
                 "tmt_128n":{
-                   "type":"string",
-                   "example":"CPT0079410003"
-                },
+                   "type":"array",
+                   "items":{
+                      "$ref":"#/definitions/labelAliguots"
+                   }
+                 },
                 "tmt_128c":{
-                   "type":"string",
-                   "example":"CPT0087040003"
-                },
+                   "type":"array",
+                   "items":{
+                      "$ref":"#/definitions/labelAliguots"
+                   }
+                 },
                 "tmt_129n":{
-                   "type":"string",
-                   "example":"CPT0077310003"
-                },
+                   "type":"array",
+                   "items":{
+                      "$ref":"#/definitions/labelAliguots"
+                   }
+                 },
                 "tmt_129c":{
-                   "type":"string",
-                   "example":"CPT0077320001"
-                },
+                   "type":"array",
+                   "items":{
+                      "$ref":"#/definitions/labelAliguots"
+                   }
+                 },
                 "tmt_130n":{
-                   "type":"string",
-                   "example":"CPT0087050003"
-                },
+                   "type":"array",
+                   "items":{
+                      "$ref":"#/definitions/labelAliguots"
+                   }
+                 },
                 "tmt_130c":{
-                   "type":"string",
-                   "example":"CPT0002270011"
-                },
+                   "type":"array",
+                   "items":{
+                      "$ref":"#/definitions/labelAliguots"
+                   }
+                 },
                 "tmt_131":{
-                   "type":"string",
-                   "example":"Pooled Sample"
-                },
+                   "type":"array",
+                   "items":{
+                      "$ref":"#/definitions/labelAliguots"
+                   }
+                 },
                 "tmt_131c":{
-                  "type":"string",
-                  "example":"null"
-               }            
+                   "type":"array",
+                   "items":{
+                      "$ref":"#/definitions/labelAliguots"
+                   }
+                }            
              },
              "xml":{
                 "name":"studyExperimentalDesignDesc"
+             }
+          },
+		  "labelAliguots":{
+             "type":"object",
+             "properties":{
+               "aliquot_id":{
+                  "type":"string",
+                  "example":"f02c5363-2053-11e9-b7f8-0a80fada099c"
+               },
+                "aliquot_run_metadata_id":{
+                   "type":"string",
+                   "example":"f663550c-207a-11e9-b7f8-0a80fada099c"
+                },
+                "aliquot_submitter_id":{
+                   "type":"string",
+                   "example":"CPT0079430001"
+                }
+			 },
+			 "xml":{
+                "name":"labelAliguots"
              }
           },
           "getPDCMetrics":{

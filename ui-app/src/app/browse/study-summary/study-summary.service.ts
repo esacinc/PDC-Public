@@ -504,6 +504,7 @@ constructor(private apollo: Apollo) {
 
 	//@@@PDC-1219: Add a new experimental design tab on the study summary page
 	//@@@PDC-3253 call api with acceptDUA
+	//@@@PDC-3900 new studyExperimentalDesign API
 	studyExperimentalDesignQuery = gql`
 	query StudyExperimentalDesign($study_id_value: String) {
 		studyExperimentalDesign(study_id: $study_id_value, acceptDUA: true) {
@@ -517,26 +518,106 @@ constructor(private apollo: Apollo) {
 			acquisition_type
 			number_of_fractions
 			analyte
-			label_free
-			itraq_113
-			itraq_114
-			itraq_115
-			itraq_116
-			itraq_117
-			itraq_118
-			itraq_119
-			itraq_121
-			tmt_126
-			tmt_127n
-			tmt_127c
-			tmt_128n
-			tmt_128c
-			tmt_129n
-			tmt_129c
-			tmt_130c
-			tmt_130n
-			tmt_131
-			tmt_131c
+			label_free {
+				aliquot_id, 
+				aliquot_run_metadata_id, 
+				aliquot_submitter_id
+			},
+			itraq_113 {
+				aliquot_id, 
+				aliquot_run_metadata_id, 
+				aliquot_submitter_id
+			},
+			itraq_114 {
+				aliquot_id, 
+				aliquot_run_metadata_id, 
+				aliquot_submitter_id
+			},
+			itraq_115 {
+				aliquot_id, 
+				aliquot_run_metadata_id, 
+				aliquot_submitter_id
+			},
+			itraq_116 {
+				aliquot_id, 
+				aliquot_run_metadata_id, 
+				aliquot_submitter_id
+			},
+			itraq_117 {
+				aliquot_id, 
+				aliquot_run_metadata_id, 
+				aliquot_submitter_id
+			},
+			itraq_118 {
+				aliquot_id, 
+				aliquot_run_metadata_id, 
+				aliquot_submitter_id
+			},
+			itraq_119 {
+				aliquot_id, 
+				aliquot_run_metadata_id, 
+				aliquot_submitter_id
+			},
+			itraq_121 {
+				aliquot_id, 
+				aliquot_run_metadata_id, 
+				aliquot_submitter_id
+			},
+			tmt_126{
+				aliquot_id, 
+				aliquot_run_metadata_id, 
+				aliquot_submitter_id
+			},
+			tmt_127n {
+				aliquot_id, 
+				aliquot_run_metadata_id, 
+				aliquot_submitter_id
+			},
+			tmt_127c {
+				aliquot_id, 
+				aliquot_run_metadata_id, 
+				aliquot_submitter_id
+			},
+			tmt_128n {
+				aliquot_id, 
+				aliquot_run_metadata_id, 
+				aliquot_submitter_id
+			},
+			tmt_128c {
+				aliquot_id, 
+				aliquot_run_metadata_id, 
+				aliquot_submitter_id
+			},
+			tmt_129n {
+				aliquot_id, 
+				aliquot_run_metadata_id, 
+				aliquot_submitter_id
+			},
+			tmt_129c {
+				aliquot_id, 
+				aliquot_run_metadata_id, 
+				aliquot_submitter_id
+			},
+			tmt_130c {
+				aliquot_id, 
+				aliquot_run_metadata_id, 
+				aliquot_submitter_id
+			},
+			tmt_130n {
+				aliquot_id, 
+				aliquot_run_metadata_id, 
+				aliquot_submitter_id
+			},
+			tmt_131 {
+				aliquot_id, 
+				aliquot_run_metadata_id, 
+				aliquot_submitter_id
+			},
+			tmt_131c {
+				aliquot_id, 
+				aliquot_run_metadata_id, 
+				aliquot_submitter_id
+			}
 		}
 	}`;
 

@@ -11,14 +11,14 @@ import { HttpClient } from '@angular/common/http';
 import { take } from 'rxjs/operators';
 import {MAT_DIALOG_DATA, MatDialogRef, MatDialogConfig, MatDialog} from '@angular/material';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { StudySummaryService } from './study-summary.service';
+import { LegacyStudySummaryService } from './legacy-study-summary.service';
 import { AllStudiesData, Filter, WorkflowMetadata, ProtocolData, PublicationData, 
-		StudyExperimentalDesign, BiospecimenPerStudy, EntityReferencePerStudy, FileCountsForStudyPage } from '../../types';
-import { StudySummaryOverlayService } from './study-summary-overlay-window/study-summary-overlay-window.service';
+		StudyExperimentalDesign, BiospecimenPerStudy, EntityReferencePerStudy, FileCountsForStudyPage,
+		QueryLegacyStudies		} from '../../types';
 import { AllClinicalData, AllCasesData } from '../../types';
 import { CheckboxModule } from 'primeng/checkbox';
-import { CaseSummaryComponent } from '../case-summary/case-summary.component';
-import { FilesOverlayComponent } from '../browse-by-file/files-overlay.component';
+import { CaseSummaryComponent } from '../../browse/case-summary/case-summary.component';
+import { FilesOverlayComponent } from '../../browse/browse-by-file/files-overlay.component';
 import * as _ from 'lodash';
 import { ngxCsv } from "ngx-csv/ngx-csv";
 
@@ -41,36 +41,17 @@ enum FileTypes {
 
 
 @Component({
-  selector: 'app-study-summary',
-  templateUrl: './study-summary.component.html',
-  styleUrls: ['../../../assets/css/global.css', './study-summary.component.scss'],
-  providers: [ StudySummaryService, StudySummaryOverlayService ]
+  selector: 'app-legacy-study-summary',
+  templateUrl: './legacy-study-summary.component.html',
+  styleUrls: ['../../../assets/css/global.css', './legacy-study-summary.component.scss'],
+  providers: [ LegacyStudySummaryService ]
 })
 
-//@@@PDC-357 - Search UI
-//@@@PDC-374 - adding url to overlay windows
-//@@@PDC-758: Study summary overlay window opened through search is missing data
-//@@@PDC-843: Add embargo date and data use statement to CPTAC studies
-//@@@PDC-1160: Add cases and aliquots to the study summary page
-//@@@PDC-1219: Add a new experimental design tab on the study summary page
-//@@@PDC-1355: Use uuid as API search parameter
-//@@@PDC-1609: URL structure for permanent links to PDC 
-//@@@PDC-1876: Allow deep linking to study summary page by PDC ID
-//@@@PDC-2378: Add supplementary data to the study summary screen
-//@@@PDC-2598 - Apply conditional formatting to embargo date on the study summary pages
-//@@@PDC-2436 - Update study summary screen to add contact details
-//@@@PDC-2939 update study summary page to display other versions
-//@@@PDC-2998 - update UI to include API changes for study versions new feature
-//@@@PDC-3174: Study Summary overlay window opens twice for studies whose embargo date is N/A
-//@@@PDC-3474: Disable all related studies and cases links for older versions of a study in study summary overlay window
-//@@@PDC-3478 open files data table in overlay window from study and case summaries
-export class StudySummaryComponent implements OnInit {
+export class LegacyStudySummaryComponent implements OnInit {
 
   study_id: string;
   study_submitter_id_name: string;
-  studySummaryData: AllStudiesData; 
-  workflowData: WorkflowMetadata;
-  protocol: ProtocolData;
+  studySummaryData: QueryLegacyStudies; 
   publications: PublicationData[] = [];
   fileCountsRaw: FileCountsForStudyPage[];
   suppFileCountsRaw: FileCountsForStudyPage[]; //supplementary data files data
@@ -96,7 +77,6 @@ export class StudySummaryComponent implements OnInit {
 	offset: number;
 	limit: number;
 	pageSize: number;
-	newFilterSelected: any;
 	sort: string;
 	clinicalCols:any[];
 	externalCaseMap;
@@ -104,38 +84,26 @@ export class StudySummaryComponent implements OnInit {
 	kidsFirstURL: string = environment.kidsFirst_url;
 	iconFolder = 'assets/css/images/externalIcons/';
 	filteredCasesData: AllCasesData[]; //Filtered list of cases
-	offsetBiospecimen: number;
 	totalRecordsBiospecimens: number;
 	biospecimenCols:any[];
 	//@@@PDC-1219: Add a new experimental design tab on the study summary page
 	studyExperimentalDesign:StudyExperimentalDesign[] = [];
 	biospecimenPerStudy:BiospecimenPerStudy[] = [];
 	studyExperimentDesignTableCols:any[];
-	studyExperimentDesignMap;
-	studyExperimentDesignTableCommonCols:any[];
 	selectedExperimentalStudies: StudyExperimentalDesign[] = [];
-	studyExperimentDesignTableExtraCols:any[];
-	studyExperimentDesignTableHeaderCol = "";
 	static urlBase;
 	studySubmitterId = "";
 	entityReferenceExternalData:EntityReferencePerStudy[] = [];
 	entityReferenceInternalData:EntityReferencePerStudy[] = [];
 	pdcStudyID:string;
-	studyVersion: string;
 	oldVersionFlag = false;
 
     constructor(private route: ActivatedRoute, private router: Router, private apollo: Apollo, private http: HttpClient,
-				private studySummaryService: StudySummaryService, private loc:Location,
-				private dialogRef: MatDialogRef<StudySummaryComponent>,
-				@Inject(MAT_DIALOG_DATA) public studyData: any, private studySummaryOverlayWindow: StudySummaryOverlayService, private dialog: MatDialog,) {
+				private legacyStudySummaryService: LegacyStudySummaryService, private loc:Location,
+				private dialogRef: MatDialogRef<LegacyStudySummaryComponent>,
+				@Inject(MAT_DIALOG_DATA) public studyData: any,  private dialog: MatDialog,) {
     
 	console.log(studyData);
-	//sessionStorage.removeItem('currentVersion');
-	//@@@PDC-3474 check if the cirrent version is an old version of the study
-	if (studyData.oldVersion) {
-		this.oldVersionFlag = studyData.oldVersion;
-	}
-	//@@@PDC-612 display all data categories
 	this.fileTypesCounts = {RAW: 0, txt_psm: 0, txt: 0, pdf: 0, mzML: 0, doc: 0, mzIdentML: 0}; 
 	this.suppFileCountsRaw = studyData.summaryData.supplementaryFilesCount;
 	this.fileCountsRaw = studyData.summaryData.nonSupplementaryFilesCount;
@@ -147,74 +115,24 @@ export class StudySummaryComponent implements OnInit {
 	//@@@PDC-1888: Standardize the IDs on the study summary and case summary pages
 	this.pdcStudyID = studyData.summaryData.pdc_study_id;
 	console.log("UUID: "+this.study_id + " PDC ID: " + this.pdcStudyID);
-	this.loc.replaceState("/study/" + this.pdcStudyID);
-	//If I got here via search then most of the fields are empty and I need to query study summary data
-	if (studyData.summaryData.project_name == ""){
-		this.getStudySummaryData();
-	} else {
-		//@@@PDC-2955 Embargo Date of Study does not show as N/A when clicked from Related PDC Studies 
-		if (this.studySummaryData.embargo_date === null || this.studySummaryData.embargo_date === ""){
+	//this.loc.replaceState("/study/" + this.pdcStudyID);
+	if (this.studySummaryData.embargo_date === null || this.studySummaryData.embargo_date === ""){
 			this.studySummaryData.embargo_date = "N/A";
-		}
 	}
 	console.log(this.studySummaryData);
-	if (sessionStorage.getItem('currentVersion')) {
-		console.log(sessionStorage.getItem('currentVersion'));
-		this.studyVersion = sessionStorage.getItem('currentVersion');
-	} else 	if (this.studySummaryData.versions.length === 0) {
-		this.studyVersion = "1";
-	} else {
-		this.studyVersion = this.studySummaryData.versions[0].number;
-		console.log("Setting versions to " + this.studyVersion);
-		sessionStorage.setItem('currentVersion', this.studyVersion);
-	}
-	this.workflowData = {
-		workflow_metadata_submitter_id: '',
-		study_submitter_id: '',
-		protocol_submitter_id: '',
-		cptac_study_id: '',
-		submitter_id_name: '',
-		study_submitter_name: '',
-		analytical_fraction: '',
-		experiment_type: '',
-		instrument: '',
-		refseq_database_version: '',
-		uniport_database_version: '',
-		hgnc_version: '',
-		raw_data_processing: '',
-		raw_data_conversion: '',
-		sequence_database_search: '',
-		search_database_parameters: '',
-		phosphosite_localization: '',
-		ms1_data_analysis: '',
-		psm_report_generation: '',
-		cptac_dcc_mzidentml: '',
-		mzidentml_refseq: '',
-		mzidentml_uniprot: '',
-		gene_to_prot: '',
-		cptac_galaxy_workflows: '',
-		cptac_galaxy_tools: '',
-		cdap_reports: '',
-		cptac_dcc_tools: ''
-	};
-	this.getWorkflowDataSummary();
-	this.getProtocol();
-	this.getPublications();
+	this.publications = this.studySummaryData.publications;
+	console.log(this.publications);
+	//this.getPublications();
 	//this.getFilesCountsPerStudy();
 	//@@@PDC-843: Add embargo date and data use statement to CPTAC studies
 	this.setDUAWindowForStudySummary();
-	//@@@PDC-1160: Add cases and aliquots to the study summary page
-	this.offset = this.offsetBiospecimen = 0; //Initialize values for pagination
 	this.limit = 10;
 	this.totalRecordsClinical = this.totalRecordsBiospecimens = 0;
 	this.pageSize = 10;
 	// Array which holds filter names. Must be updated when new filters are added to browse page.  
-	this.newFilterSelected = {"program_name" : "", "project_name": "", "study_name": "", "submitter_id_name": "", "disease_type":"", "primary_site":"", "analytical_fraction":"", "experiment_type":"",
-		"ethnicity": "", "race": "", "gender": "", "tumor_grade": "", "sample_type": "", "acquisition_type": "", "data_category": "", "file_type": "", "access": "", "downloadable": "", "studyName_genes_tab":"", "case_status": "", "biospecimen_status": ""};	
 	this.sort = '';
 	//@@@PDC-1987: Update clinical tab to use new external reference API
 	//@@@PDC-1012: Update UI for GDC Case ID becoming External Case ID
-	//@@@PDC-3758: Handle channels layout for TMT6 in Study Summary Experimental Design tab
 	//Array of external file Details. This has to be updated each time a new type of external case iD is added.
 	this.externalCaseMap = [{
 		'id': "GDC",
@@ -232,57 +150,23 @@ export class StudySummaryComponent implements OnInit {
 		'url': this.kidsFirstURL,
 		'imageUrl': this.iconFolder + "KidsFirst.png",
 	}];
-	this.studyExperimentDesignMap = [{
-		'id': "LABEL FREE",
-		'cols': "label_free"
-	}, {
-		'id': "ITRAQ4",
-		'cols': "itraq_114,itraq_115,itraq_116,itraq_117"
-	},
-	{		
-		'id': "ITRAQ8",
-		'cols': "itraq_113,itraq_114,itraq_115,itraq_116,itraq_117,itraq_118,itraq_119,itraq_121"
-	}, {
-		'id': "TMT6",
-		'cols': "tmt_126,tmt_127n,tmt_128c,tmt_129n,tmt_130c,tmt_131"
-	}, {
-		'id': "TMT10",
-		'cols': "tmt_126,tmt_127n,tmt_127c,tmt_128n,tmt_128c,tmt_129n,tmt_129c,tmt_130n,tmt_130c,tmt_131"
-	}, {
-		'id': "TMT11",
-		'cols': "tmt_126,tmt_127n,tmt_127c,tmt_128n,tmt_128c,tmt_129n,tmt_129c,tmt_130n,tmt_130c,tmt_131,tmt_131c"
-	}, {
-		'id': "N/A",
-		'cols': ""
-	}];
-	this.getAllClinicalData(); 
-	this.getAllCasesData();
-	//@@@PDC-1219: Add a new experimental design tab on the study summary page
-	this.getStudyExperimentalDesign();
 	//@@@PDC-1883: Add external references to study summary page
 	this.getEntityReferenceExternalData();
-	StudySummaryComponent.urlBase = environment.dictionary_base_url;
+	LegacyStudySummaryComponent.urlBase = environment.dictionary_base_url;
   }
 
 	get staticUrlBase() {
-		return StudySummaryComponent.urlBase;
+		return LegacyStudySummaryComponent.urlBase;
 	}
 	
 	//If the current date is with in the embargo date, display the DUA with a 'accept' button
 	setDUAWindowForStudySummary() {
 		setTimeout(() => {
-			if (this.studySummaryData.program_name != 'Clinical Proteomic Tumor Analysis Consortium' &&
-				this.studySummaryData.program_name != 'Pediatric Brain Tumor Atlas - CBTTC') {
-				this.duaAvailable = false;
-			}
 			if (this.studySummaryData.embargo_date) {
 				var currentDate = formatDate(new Date(), 'yyyy-MM-dd', 'en');
 				//PDC-2744 DUA pops up when embargo date is "N/A"
 				//If the current date is with in the embargo date, display the DUA with a 'accept' button
 				if (this.studySummaryData.embargo_date != "N/A" && currentDate < this.studySummaryData.embargo_date) {
-					if (this.duaAvailable) {
-						this.studySummaryOverlayWindow.open();
-					} 
 					// This code is useful for adding overlay window in the future.
 					/* else {
 						this.studySummaryOverlayWindow.open("DUAForOtherProgramsOverlayWindow");
@@ -300,29 +184,6 @@ export class StudySummaryComponent implements OnInit {
 			}
 		}, 100);
 	}
-	
-  //Helper function that is called when a different version is chosen on study summary window	
-  showVersionStudySummary(version: string){
-	  console.log("Setting version to " + version + " most recent study version: " + this.studySummaryData.versions[0].number);
-	  sessionStorage.setItem('currentVersion', version);
-	  var oldVersion = false;
-	  //@@@PDC-3474: Disable all related studies and cases links for older versions of a study in study summary overlay window
-	  if (this.studySummaryData.versions[0].number > version ) {
-		  oldVersion = true;
-	  }
-	  this.showStudySummary('study/' + this.pdcStudyID, version, oldVersion);
-  }
- 
-  getWorkflowDataSummary(){
-	  this.loading = true;
-	  setTimeout(() => {
-		  this.studySummaryService.getWorkflowMetadata(this.study_id).subscribe((data: any) =>{
-			this.workflowData = data.uiWorkflowMetadata[0];
-			// console.log(this.workflowData);
-			this.loading = false;
-		  });
-	  }, 1000);
-  }
 
   getManifestFile() {
 		//const manifest_file = 'assets/data-folder/' + this.studySummaryData.study_submitter_id + '/manifest.json';
@@ -368,45 +229,29 @@ export class StudySummaryComponent implements OnInit {
 	
 	//@@@PDC-758: Study summary overlay window opened through search is missing data
 	//Update API call to fetch study summary details.
-	getStudySummaryData(){
+/*	getStudySummaryData(){
 	  this.loading = true;
-	  this.studySummaryService.getFilteredStudyData(this.study_submitter_id_name).subscribe((data: any) =>{
+	  this.legacyStudySummaryService.getLegacyStudyData(this.study_submitter_id_name).subscribe((data: any) =>{
 			this.studySummaryData = data.getPaginatedUIStudy.uiStudies[0];
 			console.log(this.studySummaryData);
 			this.study_id = this.studySummaryData.study_id;
 			this.suppFileCountsRaw = this.studySummaryData.supplementaryFilesCount;
 			this.fileCountsRaw = this.studySummaryData.nonSupplementaryFilesCount;
 			this.getFilesCountsPerStudy();
+			this.publications = this.studySummaryData.publications;
+			console.log(this.publications);
 			this.loading = false;
 			//@@@PDC-2912 - show "N/A" instead of empty embargo date when opening study summary via search box or direct url
 			if (this.studySummaryData.embargo_date === null || this.studySummaryData.embargo_date === ""){
 				this.studySummaryData.embargo_date = "N/A";
 			}
-			//@@@PDC-3404 Search box and Browse page pulled different versions of a versioned study summary
-			//Making sure here that the correct study version is set when the study summary opens from a search box
-			if (this.studySummaryData.versions.length > 1) {
-				this.studyVersion = this.studySummaryData.versions[0].number;
-				console.log("Setting versions to " + this.studyVersion);
-				sessionStorage.setItem('currentVersion', this.studyVersion);
-			}
 	   });
-  }
-  
-  getProtocol(){
-	  this.loading = true;
-	  setTimeout(() => {
-		  this.studySummaryService.getProtocolData(this.study_id).subscribe((data: any) =>{
-			this.protocol = data.uiProtocol[0];
-			//console.log(this.protocol);
-			this.loading = false;
-		  });
-	  }, 1000);
-  }
+  }*/
   
   getPublications(){
 	  this.loading = true;
 	  setTimeout(() => {
-		  this.studySummaryService.getPublicationsData(this.study_id).subscribe((data: any) =>{
+		  this.legacyStudySummaryService.getPublicationsData(this.study_id).subscribe((data: any) =>{
 			this.publications = data.uiPublication;
 			console.log(this.publications);
 			this.loading = false;
@@ -432,7 +277,7 @@ export class StudySummaryComponent implements OnInit {
 	/*  this.loading = true;
     //@@@PDC-1123 call ui wrapper API
 	  setTimeout(() => {
-		  this.studySummaryService.getFilesCounts(this.study_id).subscribe((data: any) => {
+		  this.legacyStudySummaryService.getFilesCounts(this.study_id).subscribe((data: any) => {
 			this.fileCountsRaw = data.uiFilesCountPerStudy;
 			for (let i = 0; i < this.fileCountsRaw.length; i++) {
 				this.totalFilesCount += this.fileCountsRaw[i].files_count;
@@ -443,48 +288,14 @@ export class StudySummaryComponent implements OnInit {
 	  }, 1000);*/
   }
 
-//@@@PDC-1160: Add cases and aliquots to the study summary page
-/*API call to get all clinical data */
-getAllClinicalData(){
-	this.loading = true;
-	this.newFilterSelected["study_name"] = this.study_submitter_id_name;
-	setTimeout(() => {
-		this.studySummaryService.getFilteredClinicalDataPaginated(this.offset, this.limit, this.sort, this.newFilterSelected).subscribe((data: any) =>{
-		this.totalRecordsClinical = data.getPaginatedUIClinical.total;
-		setTimeout(() => {
-			this.studySummaryService.getFilteredClinicalDataPaginated(this.offset, this.totalRecordsClinical, this.sort, this.newFilterSelected).subscribe((data: any) =>{
-				this.filteredClinicalData = data.getPaginatedUIClinical.uiClinical;
-				this.totalRecordsClinical = data.getPaginatedUIClinical.total;
-				this.loading = false;
-			});
-		}, 1000);
-		});
-	}, 1000);
-}
 
-//@@@PDC-1883: Add external references to study summary page
-//PDC-2998 - update UI to include API changes for study versions new feature
-showStudySummary(entity_location, version = '', oldVersionFlag = false) {
-	console.log("Openining study summary " + entity_location + " version: " + version);
-	var entityLocExtracted = entity_location.split("study/");
-	var pdcStudyID;
-	if (entityLocExtracted[1]){
-		pdcStudyID = entityLocExtracted[1];
-	}
-	else {
-		pdcStudyID = entityLocExtracted[0];
-	}
-	//Remove any special characters from the string
-	pdcStudyID = pdcStudyID.replace(/\s+/g, ' ').trim();
-	//If version parameter is not set up than a referenced study ID was clicked on the study summary overlay window
-	if (!version) {
-		//currentVersion session storage variable keeps the version of current study,
-		//if referenced study is clicked than currentVersion should be cleared
-		sessionStorage.removeItem('currentVersion');
-	}
+//PDC-3860 Add related PDC studies to Legacy study summaries
+showLegacyStudySummary(study_name:string) {
+	console.log("Openining study summary " + study_name);
 	setTimeout(() => {
-	this.studySummaryService.getFilteredStudyData('', pdcStudyID, version).pipe(take(1)).subscribe((data: any) =>{
-		var studyData = data.getPaginatedUIStudy.uiStudies[0];
+	this.legacyStudySummaryService.getLegacyStudyData(study_name).pipe(take(1)).subscribe((data: any) =>{
+		var studyData: QueryLegacyStudies = data.uiLegacyStudies[0];
+		console.log(studyData);
 		if (studyData) {
 			const dialogConfig = new MatDialogConfig();
 			dialogConfig.disableClose = true;
@@ -494,54 +305,32 @@ showStudySummary(entity_location, version = '', oldVersionFlag = false) {
 			dialogConfig.height = '95%';
 			dialogConfig.data = {
 				summaryData: studyData,
-				oldVersion: oldVersionFlag
 			};
 
-			this.loc.replaceState("/study/" + pdcStudyID);
-			//No need to navigate to the new outlet, since we are already at the right location, only the study id is changing
-			//this.router.navigate([{outlets: {studySummary: ['study-summary', studyData.submitter_id_name]}}], { skipLocationChange: true });
-			const dialogRef = this.dialog.open(StudySummaryComponent, dialogConfig);
-			dialogRef.afterClosed().subscribe((val:any) => {
-				console.log("Dialog output:", val);
-				//Generate alias URL to hide auxiliary URL details when the previous overlay window was closed and the focus returned to this one
-				this.loc.replaceState("/study/" + this.pdcStudyID);
-			});
+			this.router.navigate([{outlets: {studySummary: ['legacy-study-summary', study_name]}}], { skipLocationChange: true });
+			const dialogRef = this.dialog.open(LegacyStudySummaryComponent, dialogConfig);
+
+
+				dialogRef.afterClosed().subscribe(
+					val => console.log("Dialog output:", val)
+				);
 		}
 	 });
 	}, 1000);
 }
 
-//@@@PDC-1160: Add cases and aliquots to the study summary page
-/*API call to get all cases data */
-getAllCasesData() {
-	this.loading = true;
-	this.newFilterSelected["study_name"] = this.study_submitter_id_name;
-	setTimeout(() => {
-		this.studySummaryService.getFilteredCasesPaginated(this.offsetBiospecimen, this.limit, this.sort, this.newFilterSelected).subscribe((data: any) =>{
-			this.totalRecordsBiospecimens = data.getPaginatedUICase.total;
-			setTimeout(() => {
-				this.studySummaryService.getFilteredCasesPaginated(this.offsetBiospecimen, this.totalRecordsBiospecimens, this.sort, this.newFilterSelected).subscribe((data: any) =>{
-					this.filteredCasesData = data.getPaginatedUICase.uiCases;
-					this.totalRecordsBiospecimens = data.getPaginatedUICase.total;
-					this.loading = false;
-				});
-		}, 1000);
-		});		  
-	}, 1000);
-}
-
-//@@@PDC-1883: Add external references to study summary page
+//PDC-3860, PDC-3859 - add external references and related PDC studies to legacy study summary
 getEntityReferenceExternalData() {
 	this.loading = true;
 	setTimeout(() => {
-		this.studySummaryService.getEntityReferenceData("study", this.study_id, "external").subscribe((data: any) =>{
-			this.entityReferenceExternalData = data.uiPdcEntityReference;
+		this.legacyStudySummaryService.getEntityReferenceData(this.study_id, "external").subscribe((data: any) =>{
+			this.entityReferenceExternalData = data.uiLegacyStudyReference;
 			this.loading = false;
 		});		  
 	}, 1000);
 	setTimeout(() => {
-		this.studySummaryService.getEntityReferenceData("study", this.study_id, "internal").subscribe((internalData: any) =>{
-			this.entityReferenceInternalData = internalData.uiPdcEntityReference;
+		this.legacyStudySummaryService.getEntityReferenceData(this.study_id, "internal").subscribe((internalData: any) =>{
+			this.entityReferenceInternalData = internalData.uiLegacyStudyReference;
 			console.log(this.entityReferenceInternalData);
 			this.loading = false;
 		});		  
@@ -579,12 +368,14 @@ showCaseSummary(case_id: string, module: string){
 	dialogRef.afterClosed().subscribe((val:any) => {
 			console.log("Dialog output:", val);
 			//Generate alias URL to hide auxiliary URL details when the previous overlay window was closed and the focus returned to this one
-			this.loc.replaceState("/study/" + this.pdcStudyID);
+			//this.loc.replaceState("/legacy-study-summary/" + this.pdcStudyID);
+			this.loc.replaceState("/TechnologyAdvancementStudies/");
 	});
 }
 
 //@@@PDC-3392 open files for a specific study in an overlay window
-showFilesOverlay(submitter_id_name, data_category_val, file_type_val) {
+//@@@PDC-3911 Update UI as result of changed rule for distinguishing supplementary files from non-supplementary
+showFilesOverlay(submitter_id_name, study_id, data_category_val, file_type_val, data_source_val) {
 	const dialogConfig = new MatDialogConfig();	
 	dialogConfig.disableClose = true;
 	dialogConfig.autoFocus = false;
@@ -592,16 +383,18 @@ showFilesOverlay(submitter_id_name, data_category_val, file_type_val) {
 	//dialogConfig.minWidth = '1000px';
 	dialogConfig.width = '80%';
 	dialogConfig.height = '95%';
-	var versioned_study = this.studySummaryData.versions.length > 1;
 	dialogConfig.data = {
-			summaryData: {study_name: submitter_id_name, data_category: data_category_val, file_type: file_type_val, versions: versioned_study, acquisition_type: "", experiment_type:""},
+			summaryData: {study_name: submitter_id_name, study_id: study_id,  data_category: data_category_val, file_type: file_type_val,
+							versions: false, acquisition_type: "", experiment_type:"", data_source: data_source_val},
+			legacyData: true
 	};
 	this.router.navigate([{outlets: {filesOverlay: ['files-overlay', this.study_id]}}], { skipLocationChange: true });
 	const dialogRef = this.dialog.open(FilesOverlayComponent, dialogConfig);
 	dialogRef.afterClosed().subscribe((val:any) => {
 			console.log("Dialog output:", val);
 			//Generate alias URL to hide auxiliary URL details when the previous overlay window was closed and the focus returned to this one
-			this.loc.replaceState("/study/" + this.pdcStudyID);
+			//this.loc.replaceState("/legacy-study-summary/" + this.pdcStudyID);
+			this.loc.replaceState("/TechnologyAdvancementStudies/");
 	});	
 }
 
@@ -632,7 +425,7 @@ return -1;
 close(navigateToHeatmap: boolean, study_name: string = '') {
 	this.router.navigate([{outlets: {'studySummary': null, 'filesOverlay': null}}], { replaceUrl: true });
 	this.loc.replaceState(this.router.url);
-	sessionStorage.removeItem('currentVersion');
+	//sessionStorage.removeItem('currentVersion');
 	console.log("CLOSE study_name: " + study_name);
 	if ( navigateToHeatmap ) {
 	// Route to the first heatmap
@@ -710,16 +503,6 @@ openHeatMap(study_name: string){
 		{field: 'sample_type', header: 'Sample Type'},
 		{field: 'primary_site', header: 'Primary Site' },
 		{field: 'disease_type', header: 'Disease Type'}
-	  ];
-	  this.studyExperimentDesignTableCommonCols = [
-		// {field: 'study_run_metadata_id', header: 'Study Run Metadata ID'},
-		{field: 'plex_dataset_name', header: 'Plex Dataset Name'},
-		{field: 'study_run_metadata_submitter_id', header: 'Run Metadata ID'},
-/* 		{field: 'experiment_number', header: 'Experiment Number'},
-		{field: 'experiment_type', header: 'Experiment Type'}, */
-		// {field: 'acquisition_type', header: 'Acquisition Type'},
-		{field: 'number_of_fractions', header: 'Number of Fractions'}
-		// {field: 'analyte', header: 'Analyte'}
 	  ];
   }
 
@@ -827,103 +610,6 @@ private convertDateString(value: string): string {
 	} else {
 	return value;
 	}
-}
-
-//@@@PDC-1219: Add a new experimental design tab on the study summary page
-getStudyExperimentalDesign() {
-	this.loading = true;
-	var aliquotSubmitterID = '';
-	var experimentType = '';
-	setTimeout(() => {
-		//'aliquot_is_ref = Yes' denotes if a aliquot is the reference. Fetch the aliquot submitter ID from biospecimenPerStudy table 
-		//for which 'aliquot_is_ref = Yes'.
-		//Use this as a reference and map it with the data in studyExperimentDesignMap API and extract the denominator for the "Ratio" column.
-		this.studySummaryService.getBiospecimenPerStudy(this.study_id).subscribe((biospecimenData: any) =>{
-			this.biospecimenPerStudy = biospecimenData.uiBiospecimenPerStudy;
-			for(let biospecimen of biospecimenData.uiBiospecimenPerStudy){
-				if (biospecimen["aliquot_is_ref"] == "yes") {	  
-					aliquotSubmitterID = biospecimen["aliquot_submitter_id"];
-				}
-			}
-			setTimeout(() => {
-				this.studySummaryService.getStudyExperimentalDesign(this.study_id).subscribe((data: any) =>{
-					this.studyExperimentalDesign = data.studyExperimentalDesign;
-					let localSelectedExpStudies = [];
-					let colValues = [];
-					for(let study of this.studyExperimentalDesign) {
-						//if the export column column does not value, set it to empty
-						for (var i=0;i<colValues.length;i++) {
-						  if (!study[colValues[i]]) {
-								study[colValues[i]] = '';
-							}
-						}
-						localSelectedExpStudies.push(study);
-					}
-					this.selectedExperimentalStudies = localSelectedExpStudies;
-					//console.log(this.studyExperimentalDesign);
- 					for(let studyExpData of data.studyExperimentalDesign){
-						experimentType = studyExpData["experiment_type"];
-					}
-					var colsSpecificToExpType = [];	
-					let colsExpType = this.studyExperimentDesignMap.find(x => (x.id).toUpperCase() == experimentType.toUpperCase()).cols; 
-					let colsSpecificToExpTypeArr = colsExpType.split(",");	
-					if (colsExpType != "") {
-						this.studyExperimentDesignTableHeaderCol = "Reagent Label to Biospecimen Mapping";
-						if (colsSpecificToExpTypeArr.includes("label_free")) {
-							this.studyExperimentDesignTableHeaderCol = "Biospecimen Mapping";
-						}				  
-						for (let col of colsSpecificToExpTypeArr) {
-							let newCols = {};
-							let colval = _.assign(newCols, {'field': col}, {'header': col});
-							colsSpecificToExpType.push(colval);
-						}
-					} else {
-						this.studyExperimentalDesign = data.studyExperimentalDesign;
-						colsSpecificToExpTypeArr = [];
-					}				
-					for (let studyExpData of data.studyExperimentalDesign) {
-						var colValSpecificToExpType = "";
-						for (let col of colsSpecificToExpTypeArr) {
-							let colsSpecificVal = "";
-							//@@@PDC-3900 new studyExperimentalDesign API
-							if (studyExpData[col] != null && studyExpData[col].length > 0 && studyExpData[col][0].aliquot_submitter_id != null && studyExpData[col][0].aliquot_submitter_id.length > 0){
-								colsSpecificVal = studyExpData[col][0].aliquot_submitter_id;
-								//console.log("Good aliquot for "+col+": "+colsSpecificVal);
-							}
-							//@@@PDC-3094 Fix Study summary Experimental Design tab channel having an empty value
-							colValSpecificToExpType = ""; //Need to reintialize this value since the value of a channel can be null and than a previous channel value will be duplicated
-							//Access the biospecimen whose aliquot submitter ID is the same and 
-							//compose the column value with the case submitter ID and sample Type
-							for(let biospecimen of this.biospecimenPerStudy){
-								if (colsSpecificVal == biospecimen["aliquot_submitter_id"]) {
-									let caseSubmitterID = biospecimen["case_submitter_id"];
-									let sampleType = biospecimen["sample_type"];
-									colValSpecificToExpType = caseSubmitterID + "<div>" + sampleType + "</div>";
-									//@@@PDC-3719 include disqualified in study summary Experimental Design table
-									if (biospecimen["aliquot_status"] === "Disqualified"){
-										colValSpecificToExpType = colValSpecificToExpType + "<div class='colValueDisqualified'>Disqualified</div>";
-									}
-								}
-							}
-							if (colValSpecificToExpType != '') {
-								studyExpData[col] = colValSpecificToExpType;
-							}
-						}
-						if (colValSpecificToExpType != '') {
-							this.studyExperimentalDesign = data.studyExperimentalDesign;
-						}
-					}
-					this.studyExperimentDesignTableExtraCols = colsSpecificToExpType;
-					if (colsSpecificToExpType.length > 0) {
-						this.studyExperimentDesignTableCols = _.concat(this.studyExperimentDesignTableCommonCols, colsSpecificToExpType);
-					} else {
-						this.studyExperimentDesignTableCols = this.studyExperimentDesignTableCommonCols;
-					}
-				});
-			}, 1000);
-		});
-		}, 1000);
-		this.loading = false;
 }
 
 }

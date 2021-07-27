@@ -3,7 +3,7 @@ type Query {
   uiHeatmapStudies(primary_site: String, disease_type: String, analytical_fraction: String, sort: String): [UIHeatmapStudy]
   getUIHeatmapFilters: HeatmapFilters  
   getPDCMetrics(acceptDUA: Boolean): PDCMetrics
-  uiLegacyStudies(project_submitter_id: String, study_id: String, study_submitter_id: String): [LegacyStudy]
+  uiLegacyStudies(project_submitter_id: String, study_id: String, study_submitter_id: String, pdc_study_id: String): [LegacyStudy]
   pdcEntityReference(entity_type: String, entity_id: String, reference_type: String!, acceptDUA: Boolean): [EntityReference]
   uiLegacyStudyReference(entity_id: String, reference_type: String, acceptDUA: Boolean): [EntityReference]
   uiPdcEntityReference(entity_type: String, entity_id: String, reference_type: String!, acceptDUA: Boolean): [EntityReference]
@@ -74,6 +74,7 @@ type Query {
   uiStudyFilesCountBySource(study_id: String!): [StudyFileSource]
   filesPerStudy(study_id: String, pdc_study_id: String,study_submitter_id: String, file_type: String, file_name: String, data_category: String, file_format: String, acceptDUA: Boolean ): [FilePerStudy]
   uiFilesPerStudy(study_id: String, pdc_study_id: String,study_submitter_id: String, file_type: String, file_name: String, data_category: String, file_format: String, acceptDUA: Boolean ): [FilePerStudy]
+  uiLegacyFilesPerStudy(study_id: String, pdc_study_id: String, study_submitter_id: String, file_type: String, file_name: String, data_category: String, file_format: String): [FilePerStudy]
   projectsPerInstrument(instrument: String, acceptDUA: Boolean): [Protocol] 
   uiProtocol(study_id: String, pdc_study_id: String, study_submitter_id: String): [Protocol] 
   pdcDataStats(acceptDUA: Boolean): [PdcDataStats]

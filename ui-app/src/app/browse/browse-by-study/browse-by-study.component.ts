@@ -245,6 +245,23 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 								studyData[i]['metadata_count'] = currentFileCount;
 							}
 							break;
+						//@@@PDC-3659 Include Publication Supplementary Material and Spectral Library file counts in column Metadata
+						case 'Publication Supplementary Material':
+							typesOfProtocol++;
+							if (typesOfProtocol > 1) {
+								studyData[i]['metadata_count'] += currentFileCount;
+							} else {
+								studyData[i]['metadata_count'] = currentFileCount;
+							}
+							break;
+						case 'Spectral Library':
+							typesOfProtocol++;
+							if (typesOfProtocol > 1) {
+								studyData[i]['metadata_count'] += currentFileCount;
+							} else {
+								studyData[i]['metadata_count'] = currentFileCount;
+							}
+							break;
 							
 					}
 				} 

@@ -12,6 +12,7 @@ import { getHeatMapStudies } from '../util/heatMapData';
 
 
 const Op = Sequelize.Op;
+const labelQuery = "select distinct bin_to_uuid(aliquot_id) as aliquot_id, bin_to_uuid(aliquot_run_metadata_id) as aliquot_run_metadata_id, aliquot_submitter_id FROM aliquot_run_metadata ";
 //@@@PDC-952 remove hard-coded schema name
 //@@@PDC-1340 remove authorization code
 //@@@PDC-1874 add pdc_study_id to all study-related APIs 
@@ -478,6 +479,194 @@ export const resolvers = {
 			"') group by f.data_category, f.file_type order by f.data_category";
 			return db.getSequelize().query(fileQuery, { model: db.getModelByName('ModelFile') });
 		}
+	},
+	//@@@PDC-3847 get aliquot info per label
+	StudyExperimentalDesign: {
+		label_free(obj, args, context) {
+			logger.info("label free: "+obj.label_free_asi);
+			//logger.info("label free: "+JSON.stringify(obj));
+			if (obj.label_free_asi != null && obj.label_free_asi.length > 0){
+				logger.info("In label free: "+obj.label_free_asi);
+				let lfQuery = labelQuery + " where aliquot_submitter_id = '"+
+				obj.label_free_asi+"' and label = 'label_free' and study_run_metadata_id = uuid_to_bin('"+obj.study_run_metadata_id+"')";
+				return db.getSequelize().query(lfQuery, { model: db.getModelByName('ModelAliquotRunMetadata') });
+			}
+			else
+				return null;
+		},
+		itraq_113(obj, args, context) {
+			logger.info("itraq_113_asi: "+obj.itraq_113_asi);
+			if (obj.itraq_113_asi != null && obj.itraq_113_asi.length > 0){
+				let itraq_113Query = labelQuery + " where aliquot_submitter_id = '"+
+				obj.itraq_113_asi+"' and label = 'itraq_113' and study_run_metadata_id = uuid_to_bin('"+obj.study_run_metadata_id+"')";
+				return db.getSequelize().query(itraq_113Query, { model: db.getModelByName('ModelAliquotRunMetadata') });
+			}
+			else
+				return null;
+		},
+		itraq_114(obj, args, context) {
+			logger.info("itraq_114_asi: "+obj.itraq_114_asi);
+			if (obj.itraq_114_asi != null && obj.itraq_114_asi.length > 0){
+				let itraq_114Query = labelQuery + " where aliquot_submitter_id = '"+
+				obj.itraq_114_asi+"' and label = 'itraq_114' and study_run_metadata_id = uuid_to_bin('"+obj.study_run_metadata_id+"')";
+				return db.getSequelize().query(itraq_114Query, { model: db.getModelByName('ModelAliquotRunMetadata') });
+			}
+			else
+				return null;
+		},
+		itraq_115(obj, args, context) {
+			if (obj.itraq_115_asi != null && obj.itraq_115_asi.length > 0){
+				let itraq_115Query = labelQuery + " where aliquot_submitter_id = '"+
+				obj.itraq_115_asi+"' and label = 'itraq_115' and study_run_metadata_id = uuid_to_bin('"+obj.study_run_metadata_id+"')";
+				return db.getSequelize().query(itraq_115Query, { model: db.getModelByName('ModelAliquotRunMetadata') });
+			}
+			else
+				return null;
+		},
+		itraq_116(obj, args, context) {
+			if (obj.itraq_116_asi != null && obj.itraq_116_asi.length > 0){
+				let itraq_116Query = labelQuery + " where aliquot_submitter_id = '"+
+				obj.itraq_116_asi+"' and label = 'itraq_116' and study_run_metadata_id = uuid_to_bin('"+obj.study_run_metadata_id+"')";
+				return db.getSequelize().query(itraq_116Query, { model: db.getModelByName('ModelAliquotRunMetadata') });
+			}
+			else
+				return null;
+		},
+		itraq_117(obj, args, context) {
+			if (obj.itraq_117_asi != null && obj.itraq_117_asi.length > 0){
+				let itraq_117Query = labelQuery + " where aliquot_submitter_id = '"+
+				obj.itraq_117_asi+"' and label = 'itraq_117' and study_run_metadata_id = uuid_to_bin('"+obj.study_run_metadata_id+"')";
+				return db.getSequelize().query(itraq_117Query, { model: db.getModelByName('ModelAliquotRunMetadata') });
+			}
+			else
+				return null;
+		},
+		itraq_118(obj, args, context) {
+			if (obj.itraq_118_asi != null && obj.itraq_118_asi.length > 0){
+				let itraq_118Query = labelQuery + " where aliquot_submitter_id = '"+
+				obj.itraq_118_asi+"' and label = 'itraq_118' and study_run_metadata_id = uuid_to_bin('"+obj.study_run_metadata_id+"')";
+				return db.getSequelize().query(itraq_118Query, { model: db.getModelByName('ModelAliquotRunMetadata') });
+			}
+			else
+				return null;
+		},
+		itraq_119(obj, args, context) {
+			if (obj.itraq_119_asi != null && obj.itraq_119_asi.length > 0){
+				let itraq_119Query = labelQuery + " where aliquot_submitter_id = '"+
+				obj.itraq_119_asi+"' and label = 'itraq_119' and study_run_metadata_id = uuid_to_bin('"+obj.study_run_metadata_id+"')";
+				return db.getSequelize().query(itraq_119Query, { model: db.getModelByName('ModelAliquotRunMetadata') });
+			}
+			else
+				return null;
+		},
+		itraq_121(obj, args, context) {
+			if (obj.itraq_121_asi != null && obj.itraq_121_asi.length > 0){
+				let itraq_121Query = labelQuery + " where aliquot_submitter_id = '"+
+				obj.itraq_121_asi+"' and label = 'itraq_121' and study_run_metadata_id = uuid_to_bin('"+obj.study_run_metadata_id+"')";
+				return db.getSequelize().query(itraq_121Query, { model: db.getModelByName('ModelAliquotRunMetadata') });
+			}
+			else
+				return null;
+		},
+		tmt_126(obj, args, context) {
+			if (obj.tmt_126_asi != null && obj.tmt_126_asi.length > 0){
+				let tmt_126Query = labelQuery + " where aliquot_submitter_id = '"+
+				obj.tmt_126_asi+"' and label = 'tmt_126' and study_run_metadata_id = uuid_to_bin('"+obj.study_run_metadata_id+"')";
+				return db.getSequelize().query(tmt_126Query, { model: db.getModelByName('ModelAliquotRunMetadata') });
+			}
+			else
+				return null;
+		},
+		tmt_127n(obj, args, context) {
+			if (obj.tmt_127n_asi != null && obj.tmt_127n_asi.length > 0){
+				let tmt_127nQuery = labelQuery + " where aliquot_submitter_id = '"+
+				obj.tmt_127n_asi+"' and label = 'tmt_127n' and study_run_metadata_id = uuid_to_bin('"+obj.study_run_metadata_id+"')";
+				return db.getSequelize().query(tmt_127nQuery, { model: db.getModelByName('ModelAliquotRunMetadata') });
+			}
+			else
+				return null;
+		},
+		tmt_127c(obj, args, context) {
+			if (obj.tmt_127c_asi != null && obj.tmt_127c_asi.length > 0){
+				let tmt_127cQuery = labelQuery + " where aliquot_submitter_id = '"+
+				obj.tmt_127c_asi+"' and label = 'tmt_127c' and study_run_metadata_id = uuid_to_bin('"+obj.study_run_metadata_id+"')";
+				return db.getSequelize().query(tmt_127cQuery, { model: db.getModelByName('ModelAliquotRunMetadata') });
+			}
+			else
+				return null;
+		},
+		tmt_128n(obj, args, context) {
+			if (obj.tmt_128n_asi != null && obj.tmt_128n_asi.length > 0){
+				let tmt_128nQuery = labelQuery + " where aliquot_submitter_id = '"+
+				obj.tmt_128n_asi+"' and label = 'tmt_128n' and study_run_metadata_id = uuid_to_bin('"+obj.study_run_metadata_id+"')";
+				return db.getSequelize().query(tmt_128nQuery, { model: db.getModelByName('ModelAliquotRunMetadata') });
+			}
+			else
+				return null;
+		},
+		tmt_128c(obj, args, context) {
+			if (obj.tmt_128c_asi != null && obj.tmt_128c_asi.length > 0){
+				let tmt_128cQuery = labelQuery + " where aliquot_submitter_id = '"+
+				obj.tmt_128c_asi+"' and label = 'tmt_128c' and study_run_metadata_id = uuid_to_bin('"+obj.study_run_metadata_id+"')";
+				return db.getSequelize().query(tmt_128cQuery, { model: db.getModelByName('ModelAliquotRunMetadata') });
+			}
+			else
+				return null;
+		},
+		tmt_129n(obj, args, context) {
+			if (obj.tmt_129n_asi != null && obj.tmt_129n_asi.length > 0){
+				let tmt_129nQuery = labelQuery + " where aliquot_submitter_id = '"+
+				obj.tmt_129n_asi+"' and label = 'tmt_129n' and study_run_metadata_id = uuid_to_bin('"+obj.study_run_metadata_id+"')";
+				return db.getSequelize().query(tmt_129nQuery, { model: db.getModelByName('ModelAliquotRunMetadata') });
+			}
+			else
+				return null;
+		},
+		tmt_129c(obj, args, context) {
+			if (obj.tmt_129c_asi != null && obj.tmt_129c_asi.length > 0){
+				let tmt_129cQuery = labelQuery + " where aliquot_submitter_id = '"+
+				obj.tmt_129c_asi+"' and label = 'tmt_129c' and study_run_metadata_id = uuid_to_bin('"+obj.study_run_metadata_id+"')";
+				return db.getSequelize().query(tmt_129cQuery, { model: db.getModelByName('ModelAliquotRunMetadata') });
+			}
+			else
+				return null;
+		},
+		tmt_130c(obj, args, context) {
+			if (obj.tmt_130c_asi != null && obj.tmt_130c_asi.length > 0){
+				let tmt_130cQuery = labelQuery + " where aliquot_submitter_id = '"+
+				obj.tmt_130c_asi+"' and label = 'tmt_130c' and study_run_metadata_id = uuid_to_bin('"+obj.study_run_metadata_id+"')";
+				return db.getSequelize().query(tmt_130cQuery, { model: db.getModelByName('ModelAliquotRunMetadata') });
+			}
+			else
+				return null;
+		},
+		tmt_130n(obj, args, context) {
+			if (obj.tmt_130n_asi != null && obj.tmt_130n_asi.length > 0){
+				let tmt_130nQuery = labelQuery + " where aliquot_submitter_id = '"+
+				obj.tmt_130n_asi+"' and label = 'tmt_130n' and study_run_metadata_id = uuid_to_bin('"+obj.study_run_metadata_id+"')";
+				return db.getSequelize().query(tmt_130nQuery, { model: db.getModelByName('ModelAliquotRunMetadata') });
+			}
+			else
+				return null;
+		},
+		tmt_131(obj, args, context) {
+			if (obj.tmt_131_asi != null && obj.tmt_131_asi.length > 0){
+				let tmt_131Query = labelQuery + " where aliquot_submitter_id = '"+
+				obj.tmt_131_asi+"' and label = 'tmt_131' and study_run_metadata_id = uuid_to_bin('"+obj.study_run_metadata_id+"')";
+				return db.getSequelize().query(tmt_131Query, { model: db.getModelByName('ModelAliquotRunMetadata') });
+			}
+			else
+				return null;
+		},
+		tmt_131c(obj, args, context) {
+			if (obj.tmt_131c_asi != null && obj.tmt_131c_asi.length > 0){
+				let tmt_131cQuery = labelQuery + " where aliquot_submitter_id = '"+
+				obj.tmt_131c_asi+"' and label = 'tmt_131c' and study_run_metadata_id = uuid_to_bin('"+obj.study_run_metadata_id+"')";
+				return db.getSequelize().query(tmt_131cQuery, { model: db.getModelByName('ModelAliquotRunMetadata') });
+			}
+			else
+				return null;			
+		}		
 	},
 	//@@@PDC-3362 handle legacy studies
 	LegacyStudy: {
@@ -1091,7 +1280,7 @@ export const resolvers = {
 	FilePerStudy: {
 		signedUrl(obj, args, context) {
 			//@@@PDC-3837 use s3 key for large files
-			logger.info("File Size: "+obj.file_size);
+			//logger.info("File Size: "+obj.file_size);
 			if (obj.file_size >= 32212254720)
 				return getSignedUrl(obj.file_location, false);
 			else 

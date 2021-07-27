@@ -46,6 +46,33 @@ class MockBrowseByFileService {
       }
     });
   };
+  //PDC-3937 Use new APIs for downloading legacy studies' files
+  getFilteredLegacyDataFilesPaginated(): Observable<any> {
+    return of({
+      getPaginatedUILegacyFile: {
+        total: 14363,
+        uiLegacyFiles: [
+          {
+            submitter_id_name: "Study PTM CPTC",
+            file_name: "CompRef_2B_P5-29_P5-61_P6-34_P6-38_W_BI_20130503_H-JQ_f10.raw",
+            study_run_metadata_submitter_id: "CompRef_Proteome_BI_4",
+            project_name: "CPTAC Phase II",
+            file_type: "Proprietary",
+            file_size: "1316547294"
+          }
+        ],
+        pagination: {
+          count: 10,
+          sort: "",
+          from: 0,
+          page: 1,
+          total: 14363,
+          pages: 1437,
+          size: 10
+        }
+      }
+    });
+  };
   //@@@PDC-3307 add study version to file manifest
   getStudiesVersions(): Observable<any> {
     return of({
@@ -77,7 +104,7 @@ class MockPDCUserService {
 describe("FilesOverlayComponent", () => {
   let component: FilesOverlayComponent;
   let fixture: ComponentFixture<FilesOverlayComponent>;
-  let serviceSpy: jasmine.Spy;
+  let serviceSpy, serviceSpyLegacyData: jasmine.Spy;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -124,6 +151,10 @@ describe("FilesOverlayComponent", () => {
         MockBrowseByFileService.prototype,
         "getFilteredFilesPaginated"
       ).and.callThrough();
+	  serviceSpyLegacyData = spyOn(
+        MockBrowseByFileService.prototype,
+        "getFilteredLegacyDataFilesPaginated"
+      ).and.callThrough();
       fixture = TestBed.createComponent(FilesOverlayComponent);
       component = fixture.componentInstance;
       fixture.detectChanges();
@@ -143,7 +174,7 @@ describe("FilesOverlayComponent", () => {
   });
 
 
-  it("test laod new page", () => {
+  it("test load new page", () => {
     let event = {
       sortField: "case_submitter_id",
       sortOrder: 1,
@@ -216,6 +247,12 @@ describe("FilesOverlayComponent", () => {
 	  expect(component.selectedHeaderCheckbox).toBe(''); 
   });
   
+   it("test changeHeaderCheckbox Select this page option", () => {
+	  component.selectedHeaderCheckbox = "Select this page";
+	  component.changeHeaderCheckbox({});
+	  expect(component.headercheckbox ).toBe(true);
+  });
+  
   it("test changeHeaderCheckbox select none option", () => {
 	  component.selectedHeaderCheckbox = "Select None";
 	  component.changeHeaderCheckbox({});
@@ -223,6 +260,37 @@ describe("FilesOverlayComponent", () => {
 	  expect(component.currentPageSelectedFile).toEqual([]);
 	  expect(component.pageHeaderCheckBoxTrack).toEqual([]);
 	  expect(component.selectedHeaderCheckbox).toBe(''); 
+  });
+  
+  it("test handleCheckboxSelections", ()=> {
+	  component.currentPageSelectedFile.length = 10;
+	  component.pageSize = 20;
+	  component.handleCheckboxSelections();
+	  expect(component.headercheckbox).toBe(false);
+	  component.pageSize = 10;
+	  component.handleCheckboxSelections();
+	  expect(component.headercheckbox).toBe(true);
+  });
+  
+  it("test getAllFilesData for Legacy Data", () => {
+	component.isLegacyData = true;
+	component.getAllFilesData();
+	fixture.whenStable().then(() => {
+		expect(component.offset).toBe(0);
+		expect(component.pageSize).toBe(10);
+		expect(component.limit).toBe(10);
+	});
+  });
+  
+  it("test load new page for Legacy Data", () => {
+    let event = {
+      sortField: "case_submitter_id",
+      sortOrder: 1,
+      first: 0,
+      rows: 10
+    };
+    component.loadFiles(event);
+    expect(serviceSpyLegacyData).toHaveBeenCalled();
   });
   
 });

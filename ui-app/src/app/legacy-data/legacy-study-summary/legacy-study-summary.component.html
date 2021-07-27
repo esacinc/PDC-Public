@@ -1,0 +1,211 @@
+<title>STUDY SUMMARY</title>
+<button mat-icon-button style="float: right; flex: 0 0 auto;" (click)="close(false)" aria-label="Close">
+	<fa name="times" style="light"></fa>
+</button>
+
+<!--//@@@PDC-461  Make all summary dialog windows headers sticky-->
+<h2 mat-dialog-title style="color:#245672" >STUDY SUMMARY: {{studySummaryData.submitter_id_name}}</h2>
+
+<mat-dialog-content style='max-height: 80vh; '>
+<div class="row" style="width: 100%;vertical-align: middle">
+	<div class="col-md-12" style="align-items: center;">
+		<mat-card style="width: 100%;">
+			<mat-card-header class="study-summary">
+				<mat-card-title class="study-summary">SUMMARY</mat-card-title>
+			</mat-card-header>
+			<mat-card-content style="max-height:330px; overflow-y:auto; word-wrap:break-word; white-space:normal;">
+				<table id="studySummaryCard">
+					<tbody style="width:100%; overflow-y:auto">
+					<!--@@@PDC-1358  add study uuid-->
+					<tr><td class="summary-card-name-left-cell">PDC Study Identifier</td>
+						<td class="summary-card-value-left-cell">{{pdcStudyID}}</td>
+						<td class="summary-card-name-right-cell" [matTooltip]="getTooltip(studySummaryData.embargo_date)" matTooltipClass="custom-tooltip" matTooltipPosition="above">Embargo Release Date</td>
+						<td class="summary-card-value-right-cell" [ngClass]="getStyleClass(studySummaryData.embargo_date)" [matTooltip]="getTooltip(studySummaryData.embargo_date)" matTooltipClass="custom-tooltip" matTooltipPosition="above">
+							<div *ngIf="studySummaryData.embargo_date != 'N/A'">{{studySummaryData.embargo_date | date :  "MMMM d, y"}}</div>
+							<div *ngIf="studySummaryData.embargo_date == 'N/A'">{{studySummaryData.embargo_date}}</div>
+						</td>
+					</tr>
+					<tr><td class="summary-card-name-left-cell">Study ID</td>
+						<td class="summary-card-value-left-cell">{{studySummaryData.study_id}}</td>
+						<td class="summary-card-name-right-cell">Analytical Fraction</td>
+						<td class="summary-card-value-right-cell">{{studySummaryData.analytical_fraction}}</td>
+					</tr>
+					<tr><td class="summary-card-name-left-cell">Study Name</td>
+						<td class="summary-card-value-left-cell">{{studySummaryData.study_submitter_id}}</td>
+						<td class="summary-card-name-right-cell">Project ID</td>
+						<td class="summary-card-value-right-cell">{{studySummaryData.project_submitter_id}}</td>
+					</tr>
+					<tr><td class="summary-card-name-left-cell">Experimental Strategy</td>
+						<td class="summary-card-value-left-cell">{{studySummaryData.experiment_type}}</td>
+						<td class="summary-card-name-right-cell"></td>
+						<td class="summary-card-value-right-cell"></td>
+					</tr>
+					</tbody>
+				</table>
+			</mat-card-content>
+		</mat-card>
+	</div>
+</div>
+<div class="row" style="padding-top:10px">
+	<mat-tab-group mat-stretch-tabs="always" style="width:100%; padding-top: 5px; padding-left: 20px; padding-right: 45px; padding-bottom: 5px;">
+		<mat-tab><ng-template mat-tab-label>
+				Description<a href={{description_help_url}} target="_"><mat-icon matTooltip="Description" class="help-icon">help</mat-icon></a>
+			  </ng-template>
+			<div *ngIf="loading">
+				<mat-spinner></mat-spinner>
+			</div>
+			<br>
+			<!--PDC-1084 description was not translated to HTML properly -->
+			<div style = "max-height:220px;overflow-y: auto;display: block!important;font-size: 12px; width: 100%;" *ngIf="studySummaryData.study_description" [innerHTML]="studySummaryData.study_description"></div>
+			<br>
+		</mat-tab>
+		<mat-tab><ng-template mat-tab-label>
+				DUA<mat-icon matTooltip="Data Use Agreement" class="help-icon">help</mat-icon>
+			  </ng-template>
+			<div *ngIf="duaAvailable" style = "max-height:220px;overflow-y: auto;display: block!important;font-size: 12px; width: 100%;"><h3>Data Use Agreement</h3><p>CPTAC requests that data users abide by the same principles that were previously established in the Fort Lauderdale and Amsterdam meetings. The recommendations from the Fort Lauderdale meeting (2003) on best practices and principles for <a href="https://www.genome.gov/Pages/Research/WellcomeReport0303.pdf" class="ext" target="_blank" rel="noopener noreferrer">sharing large-scale genomic data<span class="ext" aria-label="(link is external)"></span></a> address the roles and responsibilities of data producers, data users and funders of community resource projects. The aim of the recommendations is to establish and maintain an appropriate balance between the interests that data users have in rapid access to data and the needs that data producers have to publish and receive recognition for their work. The conclusion of the attendees at the Fort Lauderdale meeting was that a “responsible use” approach for secondary data users would be sufficient to ensure that the efforts of data producers will be recognized. “Responsible use” was defined as allowing data producers to have the opportunity to publish the initial global analyses of the data within a reasonable period of time prior to secondary analyses.</p>
+				<p>In 2008, the NCI’s OCCPR organized a workshop to discuss how and when proteomics data should be released. The result was the <a href="https://www.ncbi.nlm.nih.gov/pubmed/19344107" target="_blank">Amsterdam Principles</a> that established guidelines for the timing of data release, comprehensiveness of a dataset, data format, deposition to repositories, quality metrics, and responsibility for proteomic data release. Participants agreed that mass spectrometry output data files should be available to support the claims of proteomics publications. In 2010, NCI’s OCCPR convened a follow-on workshop to address quality metrics for proteomics with an emphasis on mass spectrometry. As a sign of solidarity for these principles, four peer-reviewed journals simultaneously published the <a href="https://www.ncbi.nlm.nih.gov/pubmed/22069307" target="_blank">corollary to Amsterdam Principles</a>.</p>
+				<p>Agreeing to abide by these principles and the CPTAC Publication Guidelines is required to gain access to CPTAC data.</p>
+				<h4>Publication Guidelines and Embargo Period</h4>
+				<p>CPTAC is a community resource project and data are made available rapidly after generation for community research use. To act in accord with the Fort Lauderdale Principles and support the continued timely public release of large-scale proteomic data prior to publication, researchers who plan to prepare manuscripts or presentations involving CPTAC data and journal editors who receive such manuscripts are encouraged to coordinate their independent reports with CPTAC’s publication schedule. This may be done by contacting the CPTAC network at <a href="mailto:cancer.proteomics@mail.nih.gov" class="mailto">cancer.proteomics@mail.nih.gov<span class="mailto" aria-label="(link sends e-mail)"></span></a>.</p>
+				<p>CPTAC defines a global analysis publication as the first marker paper, authored by one or more members of the CPTAC, which includes analysis of the existing CPTAC data generated on the tumor type or sample set at the time of a data freeze. Specifically, these manuscripts report on the comprehensive, integrated analyses of multiple CPTAC datasets which may include: characterization of global proteome and/or PTMs such as phosphorylation, acetylation, glycosylation and ubiquitination, and reverse-phase protein analysis. Prior to a global analysis publication on a specific tumor type, available datasets should be considered pre-publication data subject to the standard principles of scientific etiquette regarding publication of findings using data obtained from other sources.</p>
+				<p>The CPTAC program has established the following policy to clarify freedom of CPTAC and non-CPTAC users to publish findings using CPTAC data. There are no limitations on submitting manuscripts to a journal and subsequent publications containing analyses using any CPTAC dataset if the dataset meets one of the following three freedom-to-publish criteria:</p>
+				<ul><li>A global analysis publication paper has been published on that tumor type or sample set; or</li>
+				<li>22 months (embargo period) upon all samples received at data production site; or</li>
+				<li>The author or presenter receives specific approval from the CPTAC Steering Committee.</li>
+				</ul><p>The specific status of each tumor dataset is displayed on the study page under Available Data tab.</p>
+				<p><span style="color:#333333;"><strong>Citing CPTAC Data in Publications</strong></span></p>
+				<p>The CPTAC program requests that publications using data from this program include the following statement: “Data used in this publication were generated by the National Cancer Institute Clinical Proteomic Tumor Analysis Consortium (CPTAC).”</p>
+				<p>If you have questions, contact <a href="mailto:cancer.proteomics@mail.nih.gov" class="mailto">cancer.proteomics@mail.nih.gov<span class="mailto" aria-label="(link sends e-mail)"></span></a>.</p>
+			</div>
+			<div *ngIf="!duaAvailable" style = "max-height:220px;overflow-y: auto;display: block!important;font-size: 12px; width: 100%;">
+				<br>
+				<p>PDC data submission and data use are governed by <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">Creative Commons CC-BY 4.0</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">Exit Disclaimer</span></a> licensing terms.</p>
+				<p>Under CC-BY terms, that user is free to,</p>
+				<p>&nbsp;&nbsp;&nbsp;&nbsp;Share — copy and redistribute the material in any medium or format</p>
+				<p>&nbsp;&nbsp;&nbsp;&nbsp;Adapt — remix, transform, and build upon the material for any purpose, even commercially.</p>
+				<P>The licensor cannot revoke these freedoms as long as you follow the license terms.</P>
+				<p>Under the following terms:</p>
+				<p>&nbsp;&nbsp;&nbsp;&nbsp;Attribution — You must give <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">appropriate credit</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">Exit Disclaimer</span></a>, provide a link to the license, and <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">indicate if changes were made</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">Exit Disclaimer</span></a>. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.</p>
+				<p>&nbsp;&nbsp;&nbsp;&nbsp;No additional restrictions — You may not apply legal terms or <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">technological measures</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">Exit Disclaimer</span></a> that legally restrict others from doing anything the license permits.</p>
+				<br/>
+				<p><span style="color:#333333;"><strong>Note: </strong></span></p>
+				<p>PDC may impose an embargo on certain datasets at the request of data submitters. In PDC, an <b>embargo</b> is the release of data on the PDC portal with the condition that users who access these datasets from the PDC portal cannot published or disseminated before a certain <b>date</b>. The embargo date is displayed on the study summary page of each dataset as applicable.</p>
+			</div>
+		</mat-tab>
+	</mat-tab-group>
+  </div>
+  <div class="row" style="width: 100%; padding-top: 20px;padding-bottom:5px">
+		<div class="col-md-6">
+			<mat-card class="data-categories-table">
+				<mat-card-content>
+				<table class="table table-striped" style="width:100%" id="dataCategoryStudyTable">
+					<caption style="caption-side:top;background:#078abf;color:white!important; padding:0!important;text-align: center;" ><b>Common Data Analysis Pipeline (PDC Harmonization) data</b>
+								<a href={{files_download_faq_help_url}} target="_"><mat-icon matTooltip="Types of files available for download from PDC" class="help-icon" style="color:#e5e5e5!important">help</mat-icon></a></caption>
+					<thead>
+						<tr style="font-size: 12px;background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%);">
+							<th class="ui-datatable-tableheader" style="width:80%;">Data Category</th>
+							<th class="ui-datatable-tableheader" style="width:20%">Files (n={{totalFilesCount}})</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr style="font-size: 12px;" *ngFor="let categoryDetails of fileCountsRaw">
+							<td style="width:80%;word-wrap: break-word;white-space: normal;">{{categoryDetails.data_category}} ({{categoryDetails.file_type}})</td>
+							<!--<td style="width:20%;word-wrap: break-word;white-space: normal;"><a target="_blank" href= "/pdc/browse/filters/study_name:{{studySummaryData.submitter_id_name}}&data_category:{{categoryDetails.data_category}}&file_type:{{categoryDetails.file_type}}&selectedTab:3">{{categoryDetails.files_count}}</a></td>-->
+							<td style="width:20%;word-wrap: break-word;white-space: normal;"><a href="javascript:void(0);" (click)="showFilesOverlay(studySummaryData.submitter_id_name, studySummaryData.study_id, categoryDetails.data_category, categoryDetails.file_type, 'CDAP')">{{categoryDetails.files_count}}</a></td>
+						</tr>
+					</tbody>
+				  </table>
+				</mat-card-content>
+			</mat-card>
+			<div class="row" style="width: 100%; padding-top: 20px;padding-left: 30px">
+				<div *ngIf="entityReferenceExternalData.length > 0" class="row" style="width: 200%;">
+						<mat-card class="entity-reference-table">
+							<mat-card-content>
+							<table class="table table-striped" style="width:100%" id="entityReferenceExternalTable">
+								<thead>
+									<tr style="font-size: 12px;background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%);">
+										<th colspan="2" class="ui-datatable-tableheader" style="width:80%;">External References</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr style="font-size: 12px;" *ngFor="let entityReference of entityReferenceExternalData">
+										<td style="word-wrap: break-word;white-space: normal;width:80%">{{entityReference.reference_resource_name}}</td>
+										<td style="word-wrap: break-word;white-space: normal;"><a href="{{entityReference.reference_entity_location}}" target="_blank">{{entityReference.reference_entity_alias}}</a></td>
+									</tr>
+								</tbody>
+							</table>
+							</mat-card-content>
+						</mat-card>
+				</div>
+				<div *ngIf="entityReferenceInternalData.length > 0" class="row" style="padding-bottom:5px; width: 200%;">
+						<mat-card class="entity-reference-table">
+							<mat-card-content>
+							<table class="table table-striped" style="width:100%" id="entityReferenceInternalTable">
+								<thead>
+									<tr style="font-size: 12px;background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%);">
+										<th colspan="2" class="ui-datatable-tableheader" style="width:80%;">Related PDC studies</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr style="font-size: 12px;" *ngFor="let entityInternalReference of entityReferenceInternalData">
+										<td style="word-wrap: break-word;white-space: normal;width:80%">{{entityInternalReference.submitter_id_name}}</td>
+										<td style="word-wrap: break-word;white-space: normal;"><a href="javascript:void(0);" (click)="showLegacyStudySummary(entityInternalReference.reference_entity_alias)" [ngClass]="{'disabled': oldVersionFlag}">{{entityInternalReference.reference_entity_alias}}</a></td>
+									</tr>
+								</tbody>
+							</table>
+							</mat-card-content>
+						</mat-card>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6" style="padding-bottom:5px">
+		  <div style="padding-bottom:3px; width:100%">
+			<mat-card class="data-categories-table">
+				<mat-card-content>
+				<table class="table table-striped" style="width:100%" id="dataCategoryStudyTable">
+					<caption style="caption-side:top;background:#078abf;color:white!important; padding:0!important;text-align: center;" ><b>Supplementary data</b>
+						<a href={{files_download_faq_help_url}} target="_"><mat-icon matTooltip="Types of files available for download from PDC" class="help-icon" style="color:#e5e5e5!important">help</mat-icon></a>
+					</caption>
+					<thead>
+						<tr style="font-size: 12px;background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%);">
+							<th class="ui-datatable-tableheader" style="width:80%;">Data Category</th>
+							<th class="ui-datatable-tableheader" style="width:20%">Files (n={{totalSuppFilesCount}})</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr style="font-size: 12px;" *ngFor="let categoryDetails of suppFileCountsRaw">
+							<td style="width:80%;word-wrap: break-word;white-space: normal;">{{categoryDetails.data_category}} ({{categoryDetails.file_type}})</td>
+							<td style="width:20%;word-wrap: break-word;white-space: normal;">
+								<!--<a target="_blank" href= "/pdc/browse/filters/study_name:{{studySummaryData.submitter_id_name}}&data_category:{{categoryDetails.data_category}}&file_type:{{categoryDetails.file_type}}&selectedTab:3">{{categoryDetails.files_count}}</a>-->
+								<a href="javascript:void(0);" (click)="showFilesOverlay(studySummaryData.submitter_id_name, studySummaryData.study_id, categoryDetails.data_category, categoryDetails.file_type, 'Submitter')">{{categoryDetails.files_count}}</a>
+							</td>
+						</tr>
+					</tbody>
+				  </table>
+				</mat-card-content>
+			</mat-card>
+		  </div>
+		<!--@@@PDC-1313 use heatmap thumbnail-->
+		<div style="padding-bottom:3px">
+			<mat-card style="padding:10px">
+				<mat-card-header class="study-summary" >
+					<mat-card-title  class="study-summary" >PUBLICATIONS</mat-card-title>
+				</mat-card-header>
+				<mat-card-content>
+					<div *ngIf="!loading && publications && publications.length===0">
+						No publications
+					</div>
+					<p-table [value]="publications" [loading]="loading" [resizableColumns]="true" responsive="true" id="publicationsStudyTable">
+						<ng-template pTemplate="body" let-publication>
+							<tr style="font-size: 11px;border: 0px">
+							  <td style="width:10%;padding-bottom: 3px; align-content: center !important;border: 0px"><a href="https://pubmed.ncbi.nlm.nih.gov/{{publication.pubmed_id}}" target="_blank"><img src="./assets/css/images/pubmedIcon.png" style="width:30px;height:30px"></a></td>
+							  <td style="width:90%;padding-bottom: 3px; align-content: center !important; word-wrap: break-word; white-space: inherit;border: 0px"><a href="https://pubmed.ncbi.nlm.nih.gov/{{publication.pubmed_id}}" target="_blank">{{publication.citation}}</a></td>
+							</tr>
+						</ng-template>
+					</p-table>
+				</mat-card-content>
+			</mat-card>
+		 </div>
+		</div>
+  </div>
+</mat-dialog-content>

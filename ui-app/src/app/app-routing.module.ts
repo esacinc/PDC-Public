@@ -22,7 +22,10 @@ import { RequestDataSubmissionComponent } from './navbar/request-data-submission
 import { DataUseGuidelinesComponent } from './navbar/data-use-guidelines/data-use-guidelines.component';
 import { PublicationsComponent } from './publications/publications.component';
 import { ExploreQuantitationData } from './analysis/explore-quantitation-data/explore-quantitation-data.component';
+import { LegacyDataComponent } from './legacy-data/legacy-data.component';
+import { LegacyStudySummaryComponent } from './legacy-data/legacy-study-summary/legacy-study-summary.component';
 import { HeatmapsComponent } from './heatmaps/heatmaps.component';
+import { ForwardingComponent } from './forwarding/forwarding.component';
 
 import { AppComponent } from './app.component';
 
@@ -64,11 +67,14 @@ const appRoutes: Routes = [
   { path: 'case/:case_uuid', loadChildren: './lazybrowse.module#LazyBrowseModule'},
   { path: 'study/:study_uuid', loadChildren: './lazybrowse.module#LazyBrowseModule'},
   { path: 'publications', component: PublicationsComponent},
+  { path: 'TechnologyAdvancementStudies', component: LegacyDataComponent },
+  { path: 'legacy-study-summary/:study_id', component: LegacyStudySummaryComponent, outlet: 'studySummary'},
   /*{ path: 'heatmaps_page', component: HeatmapsComponent },*/
   /* { path: '', component: AppComponent,
     children: [ {path: 'browse', component: BrowseComponent}] }, */
   //*{ path: 'pdc', component: FrontPageComponent, canActivate: [AuthGuard] },
   { path: 'gene/:gene_id', component: GenePageComponent },
+  { path: 'forwarding/:id', component: ForwardingComponent },
   { path: '**', component: PageNotFoundComponent },
 
   ];

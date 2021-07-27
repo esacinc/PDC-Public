@@ -1,0 +1,6 @@
+type LabelAliquot {
+	aliquot_run_metadata_id: String
+	aliquot_submitter_id: String
+	aliquot_id: String
+	label: String
+}

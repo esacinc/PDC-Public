@@ -1,0 +1,91 @@
+<div class="container-fluid ui-helper-clearfix button-container-fluid" style="overflow-x: scroll;min-width:1200px; font-family:'Lato'; font-size: 12px;">
+	<div class="container-fluid ui-helper-clearfix button-container-fluid">
+		<!-- Space to add text and images -->
+	</div>
+	<mat-card class="card card-body">
+		<div [formGroup] = "publicationFiltersGroup">
+		  <mat-form-field appearance="fill">
+			<mat-label>Disease Type</mat-label>
+				<mat-select formControlName="diseaseTypeFormControl" [(ngModel)]="filterSelected.disease_type" (selectionChange)="filterPublications('disease_type')" multiple> 
+				<mat-option *ngFor="let diseaseType of diseaseTypesFilterVals" [value]="diseaseType">{{diseaseType}}</mat-option>
+			  </mat-select>
+		  </mat-form-field>&nbsp;&nbsp;
+		  <mat-form-field appearance="fill">
+			<mat-label>Year</mat-label>
+			  <mat-select formControlName="yearFormControl" [(ngModel)]="filterSelected.year" (selectionChange)="filterPublications('year')" multiple>
+				<mat-option *ngFor="let yearVal of yearFilterVals" [value]="yearVal">{{yearVal}}</mat-option>
+			  </mat-select>
+		  </mat-form-field>&nbsp;&nbsp;
+		  <mat-form-field appearance="fill">
+			<mat-label>Program</mat-label>
+			  <mat-select formControlName="programFormControl" [(ngModel)]="filterSelected.program" (selectionChange)="filterPublications('program')" multiple>
+				<mat-option *ngFor="let programVal of programFilterVals" [value]="programVal">{{programVal}}</mat-option>
+			  </mat-select>
+		  </mat-form-field>
+		</div>
+	</mat-card>
+	<p-table class="table-striped ui-datatable-odd " #dt [columns]="cols" [value]="filteredPublicationsData" [lazy]="true" [paginator]="true" [(first)]="offset"
+				[rows]="50" [pageLinks]="5" [rowsPerPageOptions]="[10,20,50, 100]" [totalRecords]="totalRecords"
+				[loading]="loading" [resizableColumns]="true" columnResizeMode="expand" [style]="{'width':'100%', 'min-width':'1000px'}"
+				(onRowUnselect) ="onRowUnselected($event)" (onRowSelect)="onRowSelected($event)"  
+				(onLazyLoad)="loadPublications($event)" id="publicationsDataTable" paginatorPosition="both">
+		<ng-template pTemplate="caption">
+			<div *ngIf="totalRecords > 0 && !loading" >
+				<h3 style="font-family: 'Lato'; font-size:14px;margin-top:10px!important;float:left">{{totalRecords > 1 ? 'Total publications: ' + totalRecords : 'Total publication: ' + totalRecords }}</h3>
+			</div>
+		</ng-template>
+		<ng-template pTemplate="header">
+			<tr style="font-size: 12px;">
+				<th class="ui-datatable-tableheader" style="width:40%;overflow: unset;">Title
+				</th>
+				<th class="ui-datatable-tableheader" style="width:5%;" [pSortableColumn]="cols[1].field"><a
+								href="{{staticUrlBase}}dictionaryitem.html?eName=Study" target="_blank" style="color:white">Journal</a>
+					<p-sortIcon [field]="cols[1].field" ariaLabel="Sort PDC Study ID column in ascending/descending order"></p-sortIcon>
+				</th>
+				<th class="ui-datatable-tableheader" style="width:5%;" [pSortableColumn]="cols[2].field"><a
+								href="{{staticUrlBase}}dictionaryitem.html?eName=Study" target="_blank" style="color:white">Year</a>
+					<p-sortIcon [field]="cols[2].field" ariaLabel="Sort PDC Study ID column in ascending/descending order"></p-sortIcon>
+				</th>	
+				<th class="ui-datatable-tableheader" style="width:10%;" [pSortableColumn]="cols[3].field"><a
+								href="{{staticUrlBase}}dictionaryitem.html?eName=Study" target="_blank" style="color:white">Disease Type</a>
+					<p-sortIcon [field]="cols[3].field" ariaLabel="Sort PDC Study ID column in ascending/descending order"></p-sortIcon>
+				</th>
+				<th class="ui-datatable-tableheader" style="width:20%;"><a
+								href="{{staticUrlBase}}dictionaryitem.html?eName=Study" target="_blank" style="color:white">Studies</a>
+				</th>
+				<th class="ui-datatable-tableheader" style="width:20%;"><a
+								href="{{staticUrlBase}}dictionaryitem.html?eName=Study" target="_blank" style="color:white">Supplementary Data</a>
+				</th>
+			</tr>
+		</ng-template>
+		<ng-template pTemplate="body" let-pubData let-rowIndex="rowIndex">	
+			<tr style="font-size: 11px;">
+				<td style="width:40%;word-wrap: break-word; white-space: normal;font-weight:600">
+					<a href="pubData.journal_url">{{pubData.title }}</a>&nbsp;&nbsp;
+					<a href="https://www.ncbi.nlm.nih.gov/pubmed/{{pubData.pubmed_id}}" target="_">
+						<img alt="Pubmed url" src="./assets/css/images/pubmedIcon.png" style="height: 30px;"></a>&nbsp;&nbsp; 
+					<a href="http://doi.org/{{pubData.doi}}"><img alt="Pubmed url" src="./assets/css/images/doi.png" target="_"></a>
+				  <!--<span style="max-width: 100px; overflow: hidden; text-overflow: ellipsis;">-->
+				  <!--<span id="ellipsis-ex" [class.abstract-text-truncate]="isAbstractExpanded" (click)="isAbstractExpandedToggle">
+					{{pubData.abstract}} 
+				  </span>-->
+				</td>
+				<td style="width:5%;word-wrap: break-word; white-space: normal;">{{pubData.journal }}</td>
+				<td style="width:5%;word-wrap: break-word; white-space: normal;">{{pubData.year }}</td>
+				<td style="width:10%;word-wrap: break-word; white-space: normal;"><div *ngFor="let disease of pubData.disease_types">{{disease}}<br></div></td>
+				<td style="width:20%;word-wrap: break-word; white-space: normal;">
+					<div *ngFor="let study of pubData.studies">
+						<a href="javascript:void(0);" (click)="showStudySummary(study.pdc_study_id, study.study_id, study.submitter_id_name)">
+							{{study.submitter_id_name}} ({{study.pdc_study_id}})
+						</a><br></div>
+				</td>
+				<td style="width:20%;word-wrap: break-word; white-space: normal;">
+					<!--<div *ngFor="let supple of pubData.supplementary_data">{{supple}}<br></div>-->
+					<a *ngIf="pubData.supplementary_data.length > 0" href="javascript:void(0);">View and download supplementary data</a>
+				</td>
+			</tr>
+		</ng-template>
+		<p-paginator rows="10" totalRecords="120"></p-paginator>
+    </p-table>
+</div>
+  

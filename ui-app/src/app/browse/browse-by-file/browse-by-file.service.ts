@@ -240,6 +240,80 @@ export class BrowseByFileService {
         })
       );
   }
+  
+  //@@@PDC-3622 add legacy studies data
+  //@@@PDC-3788 fix issues found with Files overlay in legacy data page
+  //@@@PDC-3911 add data source field to distinquish files supplementary from non-supplementary data
+  filteredLegacyDataFilesPaginatedQuery = gql`
+    query FilteredFilesLegacyDataPaginated(
+	  $offset_value: Int
+	  $limit_value: Int
+	  $sort_value: String!
+	  $study_id_filter: String!
+	  $data_source_filter: String!
+	  $data_category_filter: String!
+	  $file_type_filter: String!) {
+		  getPaginatedUILegacyFile(
+			study_id: $study_id_filter
+			data_source: $data_source_filter
+			offset: $offset_value
+			limit:  $limit_value
+			sort: $sort_value
+			data_category:$data_category_filter
+			file_type:$file_type_filter
+		  ) {
+			total
+			uiLegacyFiles {
+			  file_id
+			  pdc_study_id
+			  submitter_id_name
+			  embargo_date
+			  file_name
+			  study_run_metadata_submitter_id
+			  project_name
+			  data_category
+			  file_type
+			  file_size
+			  md5sum
+			  downloadable
+			  access
+			  study_id
+			}
+			pagination {
+			  count
+			  sort
+			  from
+			  page
+			  total
+			  pages
+			  size
+			}
+		  }
+	  }`;
+	  
+  
+  getFilteredLegacyDataFilesPaginated( offset: number, limit: number, sort: string, filters: any) {
+    return this.apollo
+      .watchQuery<QueryAllFilesDataPaginated>({
+        query: this.filteredLegacyDataFilesPaginatedQuery,
+        variables: {
+          offset_value: offset,
+          limit_value: limit,
+		  sort_value: sort,
+          study_id_filter: filters["study_id"] || "",
+		  data_source_filter: filters["data_source"] || "",
+          data_category_filter: filters["data_category"] || "",
+          file_type_filter: filters["file_type"] || "",
+        }
+      })
+      .valueChanges.pipe(
+        map(result => {
+          console.log(result.data);
+          return result.data;
+        })
+      );
+	  
+  }
 
   exchangeForAccessToken(authorizationCode: string): Promise<any> {
     const requestBody = new HttpParams()
@@ -351,6 +425,42 @@ export class BrowseByFileService {
         })
       );
   }
+  
+  //@@@PDC-3937 Use new APIs for downloading legacy studies' files
+  legacyFilesDataQuery = gql`
+    query LegacyFilesDataQuery(
+      $file_name: String!
+    ) {
+        uiLegacyFilesPerStudy (file_name: $file_name) {
+          file_id
+          file_name
+          signedUrl {
+            url
+          }
+      }
+    }
+  `;
+
+  //@@@PDC-1940: File manifest download is very slow
+  getLegacyFilesData(fileNameStr: any) {
+     return this.apollo
+      .watchQuery<QueryAllFilesData>({
+        query: this.legacyFilesDataQuery,
+        variables: {
+          file_name: fileNameStr,
+        },
+        context: {
+          method: 'POST'
+        }
+      })
+      .valueChanges.pipe(
+        map(result => {
+          //console.log(result.data);
+          return result.data;
+        })
+      );
+  }
+  
   
   //@@@PDC-3307 Add study version to file manifest
   //This API will return all studies and their versions

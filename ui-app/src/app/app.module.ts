@@ -12,6 +12,7 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { CheckboxModule } from 'primeng/checkbox';
 import { PaginatorModule } from 'primeng/paginator';
 import { DataViewModule } from 'primeng/dataview';
+import { ButtonModule } from 'primeng/button';
 import { HttpClientModule} from '@angular/common/http';
 import { APP_BASE_HREF } from '@angular/common';
 import { MatButtonModule, MatToolbarModule, MatGridListModule, MatFormFieldModule,
@@ -75,8 +76,11 @@ import { DataUseGuidelinesComponent } from './navbar/data-use-guidelines/data-us
 import { PublicationsComponent } from './publications/publications.component';
 import { PublicationsService } from './publications/publications.service';
 import { ExploreQuantitationData } from './analysis/explore-quantitation-data/explore-quantitation-data.component';
+import { LegacyDataModule } from './legacy-data/legacy-data.module';
+import { LegacyDataService } from './legacy-data/legacy-data.service';
 import { HeatmapsComponent } from './heatmaps/heatmaps.component';
 import { HeatmapsService } from './heatmaps/heatmaps.service';
+import { ForwardingComponent } from './forwarding/forwarding.component';
 
 export function getAuthServiceConfigs() {
 
@@ -125,12 +129,15 @@ export function getAuthServiceConfigs() {
 	PublicationsComponent,
 	ExploreQuantitationData,
 	HeatmapsComponent,
+	ForwardingComponent,
   ],
   imports: [
 	AngularFontAwesomeModule,
 	TableModule,
 	OverlayPanelModule,
+	ButtonModule,
 	BrowserModule,
+	LegacyDataModule,
 	BrowserAnimationsModule,
 	HttpClientModule,
 	ApolloModule,
@@ -168,14 +175,11 @@ export function getAuthServiceConfigs() {
 	MatExpansionModule,
 	MatSelectModule
   ],
-  providers: [ChorusauthService, FrontPageService, SearchService, PDCUserService, OverlayWindowService, 
-				PublicationsService, HeatmapsService, StudySummaryOverlayService, AuthGuardService,
-    {
-      provide: AuthServiceConfig,
-      useFactory: getAuthServiceConfigs
-		},
-		{ provide: APP_BASE_HREF, useValue: window['_app_base'] || '/' }
-		],
+  providers: [ChorusauthService, FrontPageService, SearchService, PDCUserService, OverlayWindowService, PublicationsService, 
+				LegacyDataService, HeatmapsService, StudySummaryOverlayService, AuthGuardService,
+				{ provide: AuthServiceConfig,	useFactory: getAuthServiceConfigs },
+				{ provide: APP_BASE_HREF, useValue: window['_app_base'] || '/' }
+			 ],
   bootstrap: [AppComponent],
   entryComponents: [LabSelectionComponent, LoginComponent, RegistrationComponent, GeneProteinSummaryComponent, 
 					OverlayWindowComponent, ConfirmationDialogComponent, MessageDialogComponent, StudySummaryOverlayWindowComponent, 

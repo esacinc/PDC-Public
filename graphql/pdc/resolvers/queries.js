@@ -939,7 +939,47 @@ export const resolvers = {
 			
 			return db.getSequelize().query(fileQuery, { model: db.getModelByName('ModelStudyFile') });
 		},
-
+		//@@@PDC-3935 get legacy file info for download
+		uiLegacyFilesPerStudy(_, args, context) { 
+			logger.info("uiLegacyFilesPerStudy is called from UI with "+ JSON.stringify(args));
+			var fileQuery = "SELECT s.study_submitter_id, s.pdc_study_id, s.submitter_id_name as study_name, bin_to_uuid(s.study_id) as study_id, bin_to_uuid(f.file_id) as file_id,"+
+			" f.file_type, f.file_name, f.md5sum, f.file_size, f.data_category, "+
+			" f.original_file_name as file_submitter_id, f.file_location, f.file_format"+
+			" FROM legacy_file AS f, legacy_study AS s, legacy_study_file AS sf"+
+			" WHERE f.file_id = sf.file_id and s.study_id = sf.study_id";
+			
+			let queryById = false;
+			if (typeof args.study_id != 'undefined' && args.study_id.length > 0) {
+				fileQuery += " and s.study_id = uuid_to_bin('" + args.study_id + "')";
+				queryById = true;
+			}
+			if (typeof args.study_submitter_id != 'undefined') {
+				fileQuery += " and s.study_submitter_id = '"+args.study_submitter_id+"'";
+				queryById = true;
+			}
+			if (typeof args.pdc_study_id != 'undefined') {
+				fileQuery += " and s.pdc_study_id = '"+args.pdc_study_id+"'";
+			}
+			if (typeof args.file_type != 'undefined') {
+				fileQuery += " and f.file_type = '"+args.file_type+"'";
+			}
+			if (typeof args.file_name != 'undefined' && args.file_name.length > 0) {
+				let fns = args.file_name.split(";");
+				fileQuery += " and f.file_name IN ('" + fns.join("','") + "')";
+			}
+			if (typeof args.file_format != 'undefined') {
+				fileQuery += " and f.file_format = '"+args.file_format+"'";
+			}
+			if (typeof args.data_category != 'undefined') {
+				fileQuery += " and f.data_category = '"+args.data_category+"'";
+			}
+			if (!queryById) {
+				fileQuery += " and s.is_latest_version = 1 ";
+			}
+			fileQuery += " LIMIT 0, 5000";
+			
+			return db.getSequelize().query(fileQuery, { model: db.getModelByName('ModelStudyFile') });
+		},
 		//@@@PDC-163 project per instrument
 		/**
 		* projectsPerInstrument gets projects per instrument
@@ -1351,6 +1391,10 @@ export const resolvers = {
 			//@@@PDC-3805 references for legacy studies
 			if (typeof args.study_submitter_id != 'undefined' && args.study_submitter_id.length > 0) {
 				legacyQuery += " and study_submitter_id = '" + args.study_submitter_id + "'";
+			}
+			//@@@PDC-3969 filter by PDC study id
+			if (typeof args.pdc_study_id != 'undefined' && args.pdc_study_id.length > 0) {
+				legacyQuery += " and pdc_study_id = '" + args.pdc_study_id + "'";
 			}
 			return db.getSequelize().query(legacyQuery, { model: db.getModelByName('ModelUIStudy') });
 			
@@ -4145,7 +4189,8 @@ export const resolvers = {
 		//@@@PDC-2237 sort data by plex_dataset_name
 		//@@@PDC-2336 get fraction count from protocol table
 		//@@@PDC-2391 order by Study Run Metadata Submitter ID
-		async studyExperimentalDesign(_, args, context) {
+		//@@@PDC-3847 get aliquot info per label
+		studyExperimentalDesign(_, args, context) {
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/studyExperimentalDesign").send();
 				logger.info("studyExperimentalDesign is called with "+ JSON.stringify(args));
@@ -4154,16 +4199,17 @@ export const resolvers = {
 			}
 			else 
 				logger.info("studyExperimentalDesign is called from UI with "+ JSON.stringify(args));
+			
 			var experimentalQuery = "SELECT distinct bin_to_uuid(srm.study_run_metadata_id) as study_run_metadata_id, "+
 			" bin_to_uuid(s.study_id) as study_id, srm.study_run_metadata_submitter_id,"+ 
 			" s.study_submitter_id, s.pdc_study_id, "+
 			" srm.analyte, s.acquisition_type, s.experiment_type,"+
 			" srm.folder_name as plex_dataset_name, srm.experiment_number,"+
-			" p.fractions_analyzed_count as number_of_fractions, label_free, itraq_113,"+
-			" itraq_114, itraq_115, itraq_116, itraq_117,"+
-			" itraq_118, itraq_119, itraq_121,"+
-			" tmt_126, tmt_127n, tmt_127c, tmt_128n, tmt_128c,"+
-			" tmt_129n, tmt_129c, tmt_130n, tmt_130c, tmt_131, tmt_131c"+
+			" p.fractions_analyzed_count as number_of_fractions, label_free as label_free_asi, itraq_113 as itraq_113_asi,"+
+			" itraq_114 as itraq_114_asi, itraq_115 as itraq_115_asi, itraq_116 as itraq_116_asi, itraq_117 as itraq_117_asi,"+
+			" itraq_118 as itraq_118_asi, itraq_119 as itraq_119_asi, itraq_121 as itraq_121_asi,"+
+			" tmt_126 as tmt_126_asi, tmt_127n as tmt_127n_asi, tmt_127c as tmt_127c_asi, tmt_128n as tmt_128n_asi, tmt_128c as tmt_128c_asi,"+
+			" tmt_129n as tmt_129n_asi, tmt_129c as tmt_129c_asi, tmt_130n as tmt_130n_asi, tmt_130c as tmt_130c_asi, tmt_131 as tmt_131_asi, tmt_131c as tmt_131c_asi "+
 			" from study_run_metadata srm, study s, protocol p "+
 			" where srm.study_id=s.study_id and p.study_id = s.study_id ";
 			//" and s.project_submitter_id IN ('" + context.value.join("','") + "')";
@@ -4189,76 +4235,7 @@ export const resolvers = {
 			//@@@PDC-3241: Updates to UI for Experimental Design tab for Study Run Metadata Submitter ID, Plex Dataset name and tmt channel ordering
 			//Order data by plex_dataset_name
 			experimentalQuery += " order by srm.folder_name asc ";
-			var studyExperimentalDesigns = await db.getSequelize().query(experimentalQuery, { model: db.getModelByName('ModelStudyExperimentalDesign') });
-			if (typeof args.label_aliquot_id != 'undefined' && args.label_aliquot_id == 'true') {
-				var aliquotIdQuery = "select distinct bin_to_uuid(al.aliquot_id) as label "+
-				"from aliquot al where al.aliquot_submitter_id = '";
-				var aliquotId = null;
-				for (var i = 0; i < studyExperimentalDesigns.length; i++) {
-					if (studyExperimentalDesigns[i].label_free != null && studyExperimentalDesigns[i].label_free.length > 0 ) {
-						studyExperimentalDesigns[i].label_free = getAliquotId(studyExperimentalDesigns[i].label_free, 'label_free');
-					}
-					if (studyExperimentalDesigns[i].itraq_113 != null && studyExperimentalDesigns[i].itraq_113.length > 0) {
-						studyExperimentalDesigns[i].itraq_113 = getAliquotId(studyExperimentalDesigns[i].itraq_113, 'itraq_113');
-					}
-					if (studyExperimentalDesigns[i].itraq_114 != null && studyExperimentalDesigns[i].itraq_114.length > 0) {
-						studyExperimentalDesigns[i].itraq_114 = getAliquotId(studyExperimentalDesigns[i].itraq_114, 'itraq_114');
-					}
-					if (studyExperimentalDesigns[i].itraq_115 != null && studyExperimentalDesigns[i].itraq_115.length > 0) {
-						studyExperimentalDesigns[i].itraq_115 = getAliquotId(studyExperimentalDesigns[i].itraq_115, 'itraq_115');
-					}
-					if (studyExperimentalDesigns[i].itraq_116 != null && studyExperimentalDesigns[i].itraq_116.length > 0) {
-						studyExperimentalDesigns[i].itraq_116 = getAliquotId(studyExperimentalDesigns[i].itraq_116, 'itraq_116');
-					}
-					if (studyExperimentalDesigns[i].itraq_117 != null && studyExperimentalDesigns[i].itraq_117.length > 0) {
-						studyExperimentalDesigns[i].itraq_117 = getAliquotId(studyExperimentalDesigns[i].itraq_117, 'itraq_117');
-					}
-					if (studyExperimentalDesigns[i].itraq_118 != null && studyExperimentalDesigns[i].itraq_118.length > 0) {
-						studyExperimentalDesigns[i].itraq_118 = getAliquotId(studyExperimentalDesigns[i].itraq_118, 'itraq_118');
-					}
-					if (studyExperimentalDesigns[i].itraq_119 != null && studyExperimentalDesigns[i].itraq_119.length > 0) {
-						studyExperimentalDesigns[i].itraq_119 = getAliquotId(studyExperimentalDesigns[i].itraq_119, 'itraq_119');
-					}
-					if (studyExperimentalDesigns[i].itraq_121 != null && studyExperimentalDesigns[i].itraq_121.length > 0) {
-						studyExperimentalDesigns[i].itraq_121 = getAliquotId(studyExperimentalDesigns[i].itraq_121, 'itraq_121');
-					}
-					if (studyExperimentalDesigns[i].tmt_126 != null && studyExperimentalDesigns[i].tmt_126.length > 0) {
-						studyExperimentalDesigns[i].tmt_126 = getAliquotId(studyExperimentalDesigns[i].tmt_126, 'tmt_126');
-					}
-					if (studyExperimentalDesigns[i].tmt_127n != null && studyExperimentalDesigns[i].tmt_127n.length > 0) {
-						studyExperimentalDesigns[i].tmt_127n = getAliquotId(studyExperimentalDesigns[i].tmt_127n, 'tmt_127n');
-					}
-					if (studyExperimentalDesigns[i].tmt_127c != null && studyExperimentalDesigns[i].tmt_127c.length > 0) {
-						studyExperimentalDesigns[i].tmt_127c = getAliquotId(studyExperimentalDesigns[i].tmt_127c, 'tmt_127c');
-					}
-					if (studyExperimentalDesigns[i].tmt_128n != null && studyExperimentalDesigns[i].tmt_128n.length > 0) {
-						studyExperimentalDesigns[i].tmt_128n = getAliquotId(studyExperimentalDesigns[i].tmt_128n, 'tmt_128n');
-					}
-					if (studyExperimentalDesigns[i].tmt_128c != null && studyExperimentalDesigns[i].tmt_128c.length > 0) {
-						studyExperimentalDesigns[i].tmt_128c = getAliquotId(studyExperimentalDesigns[i].tmt_128c, 'tmt_128c');
-					}
-					if (studyExperimentalDesigns[i].tmt_129n != null && studyExperimentalDesigns[i].tmt_129n.length > 0) {
-						studyExperimentalDesigns[i].tmt_129n = getAliquotId(studyExperimentalDesigns[i].tmt_129n, 'tmt_129n');
-					}
-					if (studyExperimentalDesigns[i].tmt_129c != null && studyExperimentalDesigns[i].tmt_129c.length > 0) {
-						studyExperimentalDesigns[i].tmt_129c = getAliquotId(studyExperimentalDesigns[i].tmt_129c, 'tmt_129c');
-					}
-					if (studyExperimentalDesigns[i].tmt_130n != null && studyExperimentalDesigns[i].tmt_130n.length > 0) {
-						studyExperimentalDesigns[i].tmt_130n = getAliquotId(studyExperimentalDesigns[i].tmt_130n, 'tmt_130n');
-					}
-					if (studyExperimentalDesigns[i].tmt_130c != null && studyExperimentalDesigns[i].tmt_130c.length > 0) {
-						studyExperimentalDesigns[i].tmt_130c = getAliquotId(studyExperimentalDesigns[i].tmt_130c, 'tmt_130c');
-					}
-					if (studyExperimentalDesigns[i].tmt_131 != null && studyExperimentalDesigns[i].tmt_131.length > 0) {
-						studyExperimentalDesigns[i].tmt_131 = getAliquotId(studyExperimentalDesigns[i].tmt_131, 'tmt_131');
-					}
-					if (studyExperimentalDesigns[i].tmt_131c != null && studyExperimentalDesigns[i].tmt_131c.length > 0) {
-						studyExperimentalDesigns[i].tmt_131c = getAliquotId(studyExperimentalDesigns[i].tmt_131c, 'tmt_131c');
-					}
-				}				
-			}
-			return studyExperimentalDesigns
-
+			return db.getSequelize().query(experimentalQuery, { model: db.getModelByName('ModelStudyExperimentalDesign') });
 		},
 		//@@@PDC-1491 add dataMatrixFromFile API
 		//@@@PDC-1772 allow study_id as a parameter
@@ -4340,7 +4317,17 @@ export const resolvers = {
 		//@@@PDC-3805 references for legacy studies
 		uiLegacyStudyReference(obj, args, context) {
 			logger.info("uiLegcyStudyReference is called from UI with "+ JSON.stringify(args));
-			var entityReferenceQuery = "SELECT distinct bin_to_uuid(reference_id) as reference_id, entity_type, bin_to_uuid(entity_id) as entity_id, reference_type, reference_entity_type, reference_entity_alias, reference_resource_name, reference_resource_shortname, reference_entity_location from legacy_reference where entity_id is not null ";
+			//var entityReferenceQuery = "SELECT distinct bin_to_uuid(reference_id) as reference_id, entity_type, bin_to_uuid(entity_id) as entity_id, reference_type, reference_entity_type, reference_entity_alias, reference_resource_name, reference_resource_shortname, reference_entity_location from legacy_reference where entity_id is not null ";
+			
+			//@@@PDC-3975 include submitter_id_name field in uiLegacyStudyReference API
+			var entityReferenceQuery = "SELECT distinct bin_to_uuid(reference_id) as reference_id, entity_type, bin_to_uuid(entity_id) as entity_id, reference_type, reference_entity_type, reference_entity_alias, reference_resource_name, reference_resource_shortname, reference_entity_location, s.study_submitter_id as submitter_id_name " 
+			
+			if (args.reference_type=='external') {
+				entityReferenceQuery += " FROM legacy_reference r left join legacy_study s on r.entity_id = s.study_id where entity_id is not null and reference_type ='external' ";
+			}
+			else if (args.reference_type=='internal') {
+				entityReferenceQuery += " FROM legacy_reference r left join legacy_study s on r.reference_entity_alias = s.pdc_study_id where entity_id is not null and reference_type ='internal' ";
+			}
 			if (typeof args.entity_id != 'undefined' && args.entity_id.length > 0) {
 				entityReferenceQuery += " and entity_id = uuid_to_bin('" + args.entity_id+ "')";
 			}

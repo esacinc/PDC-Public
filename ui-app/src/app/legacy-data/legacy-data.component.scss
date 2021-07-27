@@ -1,0 +1,125 @@
+.abstract-text {	
+   font-size: 12px; 
+   width: 100%;
+}
+
+.abstract-text-truncate {
+   max-height:50px;
+   /*overflow-y: auto;
+   overflow: hidden;
+   display: block!important;
+   text-overflow: ellipsis;
+   white-space: nowrap;*/
+   font-size: 12px; 
+   width: 100%;
+}
+
+.mat-button.mat-small {
+  min-width: 1%;
+}
+
+.toolbar-second-row {
+    background-image: linear-gradient(-133deg, #246A92 0%, #245571 100%);
+  }
+
+.example-additional-selection {
+  opacity: 0.75;
+  font-size: 0.75em;
+}
+
+.ui-datatable-odd {
+    background: rgb(225, 239, 252);
+    
+}
+.ui-datatable-even {
+    background: none repeat scroll 0 0 rgb(154, 181, 204);
+    
+}
+.ui-datatable-tableheader {
+    background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%) !important;
+    border:0px !important;
+    color: white !important;
+}
+
+.ui-datatable-tableheader-collapsed {
+    background-image: linear-gradient(-180deg, #3A8BB7 0%, #347da5 100%) !important;
+    border:0px !important;
+    color: white !important;
+}
+.ui-datatable-tableheader-continue {
+    background-image: linear-gradient(-180deg, #347da5 0%, #245672 100%) !important;
+    border:0px !important;
+    color: white !important;
+}
+.ui-grid-render-container.ui-grid-render-container-body {
+    left: 30px;
+    top: 0;
+    position: absolute;
+  }
+ 
+.ui-datatable-tableheader-flex-container{
+    display:-webkit-flex; 
+    display:flex;
+    float: left;
+    align-items: center;
+ }
+
+
+.ui-dataview-tableheader {
+    background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%) !important;
+    border:0px !important;
+    color: white !important;
+}
+
+.ui-dataview-tableheader-collapsed {
+    background-image: linear-gradient(-180deg, #3A8BB7 0%, #347da5 100%) !important;
+    border:0px !important;
+    color: white !important;
+}
+.ui-dataview-tableheader-continue {
+    background-image: linear-gradient(-180deg, #347da5 0%, #245672 100%) !important;
+    border:0px !important;
+    color: white !important;
+}
+ 
+.ui-dataview-tableheader-flex-container{
+    display:-webkit-flex; 
+    display:flex;
+    float: left;
+    align-items: center;
+ }
+
+.ui-dataview-header .ui-widget-header .ui-corner-top {
+	display: block;
+	min-height: 40px!important;
+}
+
+.browse-filter-header-image {
+  background-image: url('../../assets/css/images/Triangle.png');
+}
+
+//@@@PDC-277: Add a filter crumb bar at the top that explains the filter criteria selected
+.breadCrumbButtons {
+  cursor: pointer;
+  margin-bottom: 10px;
+  padding: 3px;
+}
+
+mat-expansion-panel {
+    mat-expansion-panel-header {
+      height: auto!important; 
+    }
+}
+
+/*/deep/ .mat-expansion-indicator {
+  margin-left: 1%;
+}
+
+/deep/ #browsePageExpansionPanel .mat-expansion-panel-header {
+  //height: 36px !important;
+}
+
+/deep/ .mat-expansion-panel-header {
+	height:25px!important;
+}
+*/

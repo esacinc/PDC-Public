@@ -541,6 +541,35 @@ export type publicationsFiltersData = {
 	programs: string[];
 }
 
+//PDC-3547 Legacy studies 
+export type legacyStudyPublications = {
+	publication_id: string;
+	pubmed_id: string;
+	doi: string;
+	author: string;
+	title: string;
+	journal: string;
+	journal_url: string;
+	year: string;
+	abstract: string;
+	citation: string; 
+}
+export type QueryLegacyStudies = {
+	study_id: string;
+	submitter_id_name: string;
+	study_submitter_id: string;
+	pdc_study_id: string;
+	study_description: string;
+	project_submitter_id: string;
+	analytical_fraction: string;
+	experiment_type: string;
+	sort_order: number;
+	embargo_date: string;
+	supplementaryFilesCount: FileCountsForStudyPage[];
+	nonSupplementaryFilesCount: FileCountsForStudyPage[];
+	publications : legacyStudyPublications[];
+}
+
 export type FilesCountsPerStudyData = {
 	study_submitter_id: string;
 	file_type: string;

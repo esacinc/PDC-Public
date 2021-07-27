@@ -312,6 +312,45 @@ PDC-188 1874 3668
 	files_count
 	}
 }
+PDC-3935
+{
+	uiLegacyFilesPerStudy (study_id: "8c55aeea-59a0-4ba2-80c3-01350b6ee2d4") {
+		file_id,
+		file_submitter_id
+		file_name
+		study_name
+		study_submitter_id
+		study_id
+		file_type
+		file_location
+		md5sum
+		file_size
+		data_category
+		file_format
+		signedUrl {
+            url
+          }
+	}
+}
+{
+	uiLegacyFilesPerStudy (file_name: "CompRef_2B_P5-29_P5-61_P6-34_P6-38_W_BI_20130503_H-JQ_f10.raw") {
+		file_id,
+		file_submitter_id
+		file_name
+		study_name
+		study_submitter_id
+		study_id
+		file_type
+		file_location
+		md5sum
+		file_size
+		data_category
+		file_format
+		signedUrl {
+            url
+          }
+	}
+}
 //PDC-471
 898
 {
@@ -353,7 +392,7 @@ PDC-1122
 }
 //PDC-1966
 {
-	filesPerStudy (file_name: "FN18_N45T46_180min_10ug_C1_032313.psm;20180321_HF_ZHW_total_liver20_F14.raw;20180226_HF_ZHW_total_liver24_F26.mzid.gz" acceptDUA: true) {
+	filesPerStudy (file_name: "snRNA.tar.gz" acceptDUA: true) {
 		file_id,
 		file_submitter_id
 		file_name
@@ -1295,7 +1334,7 @@ PDC-3640
   }
 }
 //3597
-uiHeatmapStudies(disease_type: "Lung Squamous Cell Carcinoma" analytical_fraction: "Acetylome" primary_site: "Bronchus and lung") {
+uiHeatmapStudies(disease_type: "Lung Squamous Cell Carcinoma" analytical_fraction: "Phosphoproteome" primary_site: "Bronchus and lung") {
 		study_id
 		study_submitter_id
 		submitter_id_name
@@ -1307,7 +1346,7 @@ uiHeatmapStudies(disease_type: "Lung Squamous Cell Carcinoma" analytical_fractio
 }
 //PDC-3362 3637
 {
-	uiLegacyStudies {
+	uiLegacyStudies (study_submitter_id: "System Suitability (CompRef) Study PNNL - Proteome") {
 		study_id
 		study_submitter_id
 		submitter_id_name
@@ -1339,6 +1378,7 @@ uiHeatmapStudies(disease_type: "Lung Squamous Cell Carcinoma" analytical_fractio
 			year
 			abstract
 			citation
+			supplementary_data
 		}		
 }
 
@@ -6068,6 +6108,20 @@ limit: 10) {
 		}
 	}
 }
+//@@@PDC-3921
+{
+	studyCatalog(pdc_study_id: "PDC000121" acceptDUA: true){
+		pdc_study_id
+		versions {
+			study_id
+			study_submitter_id
+			submitter_id_name
+			study_shortname
+			study_version
+			is_latest_version
+		}
+	}
+}
 //@@@PDC-2938
 {
 	getPaginatedUIStudy(pdc_study_id: "PDC000173" study_version: "1" offset: 0 limit: 10) {
@@ -6505,9 +6559,7 @@ PDC-2978
 		}
 	}
 }
-//PDC-1120
-1316
-1874
+//PDC-1120 1316 1874 3847
 {
 	studyExperimentalDesign (study_id: "dbe94609-1fb3-11e9-b7f8-0a80fada099c" acceptDUA: true){
 		study_run_metadata_id,
@@ -6522,26 +6574,106 @@ PDC-2978
 		plex_dataset_name,
 		experiment_number,
 		number_of_fractions,
-		label_free,
-		itraq_113,
-		itraq_114,
-		itraq_115,
-		itraq_116,
-		itraq_117,
-		itraq_118,
-		itraq_119,
-		itraq_121,
-		tmt_126,
-		tmt_127n,
-		tmt_127c,
-		tmt_128n,
-		tmt_128c,
-		tmt_129n,
-		tmt_129c,
-		tmt_130n,
-		tmt_130c,
-		tmt_131,
-		tmt_131c
+		label_free{
+			aliquot_id, 
+			aliquot_run_metadata_id, 
+			aliquot_submitter_id
+		},
+		itraq_113{
+			aliquot_id, 
+			aliquot_run_metadata_id, 
+			aliquot_submitter_id
+		},
+		itraq_114{
+			aliquot_id, 
+			aliquot_run_metadata_id, 
+			aliquot_submitter_id
+		},
+		itraq_115{
+			aliquot_id, 
+			aliquot_run_metadata_id, 
+			aliquot_submitter_id
+		},
+		itraq_116{
+			aliquot_id, 
+			aliquot_run_metadata_id, 
+			aliquot_submitter_id
+		},
+		itraq_117{
+			aliquot_id, 
+			aliquot_run_metadata_id, 
+			aliquot_submitter_id
+		},
+		itraq_118{
+			aliquot_id, 
+			aliquot_run_metadata_id, 
+			aliquot_submitter_id
+		},
+		itraq_119{
+			aliquot_id, 
+			aliquot_run_metadata_id, 
+			aliquot_submitter_id
+		},
+		itraq_121{
+			aliquot_id, 
+			aliquot_run_metadata_id, 
+			aliquot_submitter_id
+		},
+		tmt_126{
+			aliquot_id, 
+			aliquot_run_metadata_id, 
+			aliquot_submitter_id
+		},
+		tmt_127n{
+			aliquot_id, 
+			aliquot_run_metadata_id, 
+			aliquot_submitter_id
+		},
+		tmt_127c{
+			aliquot_id, 
+			aliquot_run_metadata_id, 
+			aliquot_submitter_id
+		},
+		tmt_128n{
+			aliquot_id, 
+			aliquot_run_metadata_id, 
+			aliquot_submitter_id
+		},
+		tmt_128c{
+			aliquot_id, 
+			aliquot_run_metadata_id, 
+			aliquot_submitter_id
+		},
+		tmt_129n{
+			aliquot_id, 
+			aliquot_run_metadata_id, 
+			aliquot_submitter_id
+		},
+		tmt_129c{
+			aliquot_id, 
+			aliquot_run_metadata_id, 
+			aliquot_submitter_id
+		},
+		tmt_130n{
+			aliquot_id, 
+			aliquot_run_metadata_id, 
+			aliquot_submitter_id
+		},
+		tmt_130c{
+			aliquot_id, 
+			aliquot_run_metadata_id, 
+			aliquot_submitter_id
+		},
+		tmt_131{
+			aliquot_id, 
+			aliquot_run_metadata_id, 
+			aliquot_submitter_id
+		},
+		tmt_131c{
+			aliquot_id, 
+			aliquot_run_metadata_id, 
+			aliquot_submitter_id
+		}
 	}
 }
 //PDC-936
@@ -6684,7 +6816,7 @@ externalReferences {
 }
 PDC-2016
 {
-	quantDataMatrix(pdc_study_id: "PDC000127" data_type: "log2_ratio" acceptDUA: true) 
+	quantDataMatrix(pdc_study_id: "PDC000121" data_type: "log2_ratio" acceptDUA: true) 
 }
 
 
@@ -6800,6 +6932,50 @@ PDC-1467
 		concentration
 	}
 }
+//PDC-3805
+{
+	uiLegcyStudyReference 
+	{
+	reference_id
+	entity_type
+	entity_id
+	reference_type
+	reference_entity_type
+	reference_entity_alias
+	reference_resource_name
+	reference_resource_shortname
+	reference_entity_location
+	}
+}
+{
+	uiLegcyStudyReference(reference_type: "external") 
+	{
+	reference_id
+	entity_type
+	entity_id
+	reference_type
+	reference_entity_type
+	reference_entity_alias
+	reference_resource_name
+	reference_resource_shortname
+	reference_entity_location
+	}
+}
+{
+	uiLegacyStudyReference(entity_id: "569117dc-dc1e-4b57-9376-9e374c9d8495") 
+	{
+	reference_id
+	entity_type
+	entity_id
+	reference_type
+	reference_entity_type
+	reference_entity_alias
+	reference_resource_name
+	reference_resource_shortname
+	reference_entity_location
+	}
+}
+
 //PDC-1882
 {
 	pdcEntityReference(entity_type: "study", entity_id: "dbe94609-1fb3-11e9-b7f8-0a80fada099c",

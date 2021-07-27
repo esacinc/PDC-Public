@@ -26,7 +26,7 @@ class MockFrontPageService {
   }
 }
 
-xdescribe("ProgramStatsComponent", () => {
+describe("ProgramStatsComponent", () => {
   let component: ProgramStatsComponent;
   let fixture: ComponentFixture<ProgramStatsComponent>;
   let service: FrontPageService;

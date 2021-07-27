@@ -41,6 +41,8 @@ import {environment} from '../../../environments/environment';
 //@@@PDC-3478 open files data table in overlay window from study and case summaries
 //@@@PDC-3573 show only unique files for publications supplementary data
 //@@@PDC-3651 fix "select all pages" option issue with supplementary data files
+//@@@PDC-3622 add legacy studies data
+//@@@PDC-3788 fix issues found with Files overlay in legacy data page
 export class FilesOverlayComponent implements OnInit {
 	
 	filteredFilesData: AllFilesData[]; //Filtered list of cases
@@ -99,6 +101,7 @@ export class FilesOverlayComponent implements OnInit {
   study_names_param = [];
   
   publicationsFiles = [];
+  isLegacyData = false;
 
 	constructor(private activeRoute: ActivatedRoute, private router: Router, private apollo: Apollo, private http: HttpClient,
 				private browseByFileService: BrowseByFileService, private loc:Location,
@@ -129,7 +132,7 @@ export class FilesOverlayComponent implements OnInit {
 		  downloadable: "",
 		  studyName_genes_tab: "",
 		  biospecimen_status: "", 
-		  case_status: ""
+		  case_status: "",
 		};
 		this.offset = 0; //Initialize values for pagination
 		this.limit = 10;
@@ -141,50 +144,59 @@ export class FilesOverlayComponent implements OnInit {
 		if (studyData.publicationsFiles) {
 			this.publicationsFiles = studyData.publicationsFiles;
 		}
-		//assign study version value to each file
-		this.browseByFileService
-			.getStudiesVersions()
-			.subscribe((data: any) => {
-				for (let study of data.getPaginatedUIStudy.uiStudies){
-					if (study.versions && study.versions.length > 0) {
-						this.allStudiesVersions[study.submitter_id_name] = study.versions[0].number;
-					} else {
-						this.allStudiesVersions[study.submitter_id_name] = "N/A";
+		if (studyData.legacyData) {
+			this.isLegacyData = true;
+			this.newFilterSelected = {
+			  study_id: studyData.summaryData.study_id,
+			  data_category: studyData.summaryData.data_category,
+			  file_type: studyData.summaryData.file_type,
+			  data_source: studyData.summaryData.data_source
+			};
+		} else { //There could be study versions only if it is not legacy data
+			//assign study version value to each file
+			this.browseByFileService
+				.getStudiesVersions()
+				.subscribe((data: any) => {
+					for (let study of data.getPaginatedUIStudy.uiStudies){
+						if (study.versions && study.versions.length > 0) {
+							this.allStudiesVersions[study.submitter_id_name] = study.versions[0].number;
+						} else {
+							this.allStudiesVersions[study.submitter_id_name] = "N/A";
+						}
 					}
-				}
-			});
+				});
+		}
 		this.getAllFilesData();
 		this.sort = "";
 		FilesOverlayComponent.urlBase = environment.dictionary_base_url;
 	}
 	
 	onTableHeaderCheckboxToggle() {
-    console.log(this.headercheckbox);
-    let emptyArray = [];
-    let localSelectedFiles = emptyArray.concat(this.selectedFiles);
-    if(this.headercheckbox){
-      for(let file of this.filteredFilesData){
-		//Have to check if the file was already selected by file id and by study name
-		//otherwise there could be a situation (e.g. metadata files) where there is the same file for multiple studies
-        if(this.currentPageSelectedFile.indexOf(file.file_id + "-" + file.pdc_study_id) === -1){
-          localSelectedFiles.push(file);
-          this.currentPageSelectedFile.push(file.file_id + "-" + file.pdc_study_id);
-        } 
-      }
-      this.selectedFiles = localSelectedFiles;
-    } else {
-      //@@@PDC-3748: "Select all pages" issue on the Study Summary page
-      for (let fileData of this.currentPageSelectedFile) {
-        let index = localSelectedFiles.findIndex(x => (x.file_id + "-" + x.pdc_study_id) === fileData);
-        if (index > -1) {
-          localSelectedFiles.splice(index,1);
-        }
-      }
-      this.selectedFiles = localSelectedFiles; 
-      this.currentPageSelectedFile = [];
-      this.pageHeaderCheckBoxTrack = [];
-      this.selectedHeaderCheckbox = '';
-    }
+		let emptyArray = [];
+		let localSelectedFiles = emptyArray.concat(this.selectedFiles);
+		if(this.headercheckbox){
+		  for(let file of this.filteredFilesData){
+			//Have to check if the file was already selected by file id and by study name
+			//otherwise there could be a situation (e.g. metadata files) where there is the same file for multiple studies
+			if(this.currentPageSelectedFile.indexOf(file.file_id + "-" + file.pdc_study_id) === -1){
+			  localSelectedFiles.push(file);
+			  this.currentPageSelectedFile.push(file.file_id + "-" + file.pdc_study_id);
+			} 
+		  }
+		  this.selectedFiles = localSelectedFiles;
+		} else {
+		  //@@@PDC-3748: "Select all pages" issue on the Study Summary page
+		  for (let fileData of this.currentPageSelectedFile) {
+			let index = localSelectedFiles.findIndex(x => (x.file_id + "-" + x.pdc_study_id) === fileData);
+			if (index > -1) {
+			  localSelectedFiles.splice(index,1);
+			}
+		  }
+		  this.selectedFiles = localSelectedFiles; 
+		  this.currentPageSelectedFile = [];
+		  this.pageHeaderCheckBoxTrack = [];
+		  this.selectedHeaderCheckbox = '';
+		}
   }
 
   //@@@PDC-820 row selections cross pagination
@@ -255,32 +267,60 @@ export class FilesOverlayComponent implements OnInit {
 				  this.offset = 0;
 		}
 		setTimeout(() => {
-		  this.browseByFileService
-			.getFilteredFilesPaginated(
-			  this.studyVersion,
-			  this.offset,
-			  this.limit,
-			  this.sort,
-			  this.newFilterSelected
-			)
-			.pipe(take(1)).subscribe((data: any) => {
-			  this.filteredFilesData = data.getPaginatedUIFile.uiFiles;
-			  this.totalRecords = data.getPaginatedUIFile.total;
-			  this.fileTotalRecordChanged.emit({
-				type: "file",
-				totalRecords: this.totalRecords
-			  });
-			  this.offset = data.getPaginatedUIFile.pagination.from;
-			  this.pageSize = data.getPaginatedUIFile.pagination.size;
-			  this.limit = data.getPaginatedUIFile.pagination.size;
-			  if (this.publicationsFiles.length > 0) {
-				  this.getUniqueFiles();
-				  this.limit = 100;
-				  this.pageSize = 100;
-				  this.totalRecords = this.filteredFilesData.length;
-			  }
-			  this.loading = false;
-			});
+			if (!this.isLegacyData) {
+			  this.browseByFileService
+				.getFilteredFilesPaginated(
+				  this.studyVersion,
+				  this.offset,
+				  this.limit,
+				  this.sort,
+				  this.newFilterSelected
+				)
+				.subscribe((data: any) => {
+				  this.filteredFilesData = data.getPaginatedUIFile.uiFiles;
+				  this.totalRecords = data.getPaginatedUIFile.total;
+				  this.fileTotalRecordChanged.emit({
+					type: "file",
+					totalRecords: this.totalRecords
+				  });
+				  this.offset = data.getPaginatedUIFile.pagination.from;
+				  this.pageSize = data.getPaginatedUIFile.pagination.size;
+				  this.limit = data.getPaginatedUIFile.pagination.size;
+				  if (this.publicationsFiles.length > 0) {
+					  this.getUniqueFiles();
+					  this.limit = 100;
+					  this.pageSize = 100;
+					  this.totalRecords = this.filteredFilesData.length;
+				  }
+				  this.loading = false;
+				});
+			} else {
+				this.browseByFileService
+					.getFilteredLegacyDataFilesPaginated(
+					  this.offset,
+					  this.limit,
+					  this.sort,
+					  this.newFilterSelected
+				)
+				.subscribe((data: any) => {
+				  this.filteredFilesData = data.getPaginatedUILegacyFile.uiLegacyFiles;
+				  this.totalRecords = data.getPaginatedUILegacyFile.total;
+				  this.fileTotalRecordChanged.emit({
+					type: "file",
+					totalRecords: this.totalRecords
+				  });
+				  this.offset = data.getPaginatedUILegacyFile.pagination.from;
+				  this.pageSize = data.getPaginatedUILegacyFile.pagination.size;
+				  this.limit = data.getPaginatedUILegacyFile.pagination.size;
+				  if (this.publicationsFiles.length > 0) {
+					  this.getUniqueFiles();
+					  this.limit = 100;
+					  this.pageSize = 100;
+					  this.totalRecords = this.filteredFilesData.length;
+				  }
+				  this.loading = false;
+				});
+			}
 		}, 1000);
   }
   
@@ -309,45 +349,80 @@ export class FilesOverlayComponent implements OnInit {
 				  this.pageSize = 100;
 				  this.offset = 0;
 	}
-    this.browseByFileService
-      .getFilteredFilesPaginated(
-	    this.studyVersion,
-        this.offset,
-        this.limit,
-        this.sort,
-        this.newFilterSelected
-      )
-      .pipe(take(1)).subscribe((data: any) => {
-        this.filteredFilesData = data.getPaginatedUIFile.uiFiles;
-        if (this.offset === 0) {
-          this.totalRecords = data.getPaginatedUIFile.total;
-          this.fileTotalRecordChanged.emit({
-            type: "file",
-            totalRecords: this.totalRecords
-          });
-          this.offset = data.getPaginatedUIFile.pagination.from;
-          this.pageSize = data.getPaginatedUIFile.pagination.size;
-          this.limit = data.getPaginatedUIFile.pagination.size;
-        }
-		//Fixing selecting all files in the files overlay after changing the number of records per page
-        this.pageSize = data.getPaginatedUIFile.pagination.size;
-        if (this.publicationsFiles.length > 0) {
-              this.getUniqueFiles();
-              this.totalRecords = this.filteredFilesData.length;
-              this.limit = 100;
-              this.pageSize = 100;
-              this.offset = 0;
-        }
-        this.loading = false;
-        this.trackCurrentPageSelectedFile(this.filteredFilesData);
-        if (this.pageHeaderCheckBoxTrack.indexOf(this.offset) !== -1) {
-          this.headercheckbox = true;
-        } else{
-          this.headercheckbox = false;
-        }
-        //@@@PDC-3748: "Select all pages" issue on the Study Summary page
-        this.handleCheckboxSelections();
-      });
+	if (!this.isLegacyData) {
+		this.browseByFileService
+		  .getFilteredFilesPaginated(
+			this.studyVersion,
+			this.offset,
+			this.limit,
+			this.sort,
+			this.newFilterSelected
+		  )
+		  .pipe(take(1)).subscribe((data: any) => {
+			this.filteredFilesData = data.getPaginatedUIFile.uiFiles;
+			if (this.offset === 0) {
+			  this.totalRecords = data.getPaginatedUIFile.total;
+			  this.fileTotalRecordChanged.emit({
+				type: "file",
+				totalRecords: this.totalRecords
+			  });
+			  this.offset = data.getPaginatedUIFile.pagination.from;
+			  this.pageSize = data.getPaginatedUIFile.pagination.size;
+			  this.limit = data.getPaginatedUIFile.pagination.size;
+			}
+			//Fixing selecting all files in the files overlay after changing the number of records per page
+			this.pageSize = data.getPaginatedUIFile.pagination.size;
+			if (this.publicationsFiles.length > 0) {
+					  this.getUniqueFiles();
+					  this.totalRecords = this.filteredFilesData.length;
+					  this.limit = 100;
+					  this.pageSize = 100;
+					  this.offset = 0;
+			}
+			this.loading = false;
+			this.trackCurrentPageSelectedFile(this.filteredFilesData);
+			if(this.pageHeaderCheckBoxTrack.indexOf(this.offset) !== -1){
+			  this.headercheckbox = true;
+			}else{
+			  this.headercheckbox = false;
+			}
+			//@@@PDC-3748: "Select all pages" issue on the Study Summary page
+			this.handleCheckboxSelections();
+		  });
+	} else {
+		this.browseByFileService
+		  .getFilteredLegacyDataFilesPaginated(
+			this.offset,
+			this.limit,
+			this.sort,
+			this.newFilterSelected
+		  )
+		  .subscribe((data: any) => {
+			this.filteredFilesData = data.getPaginatedUILegacyFile.uiLegacyFiles;
+			if (this.offset === 0) {
+			  this.totalRecords = data.getPaginatedUILegacyFile.total;
+			  this.fileTotalRecordChanged.emit({
+				type: "file",
+				totalRecords: this.totalRecords
+			  });
+			  this.offset = data.getPaginatedUILegacyFile.pagination.from;
+			  this.pageSize = data.getPaginatedUILegacyFile.pagination.size;
+			  this.limit = data.getPaginatedUILegacyFile.pagination.size;
+			}
+			//Fixing selecting all files in the files overlay after changing the number of records per page
+			this.pageSize = data.getPaginatedUILegacyFile.pagination.size;
+			
+			this.loading = false;
+			this.trackCurrentPageSelectedFile(this.filteredFilesData);
+			if(this.pageHeaderCheckBoxTrack.indexOf(this.offset) !== -1){
+			  this.headercheckbox = true;
+			}else{
+			  this.headercheckbox = false;
+			}
+			//@@@PDC-3748: "Select all pages" issue on the Study Summary page
+			this.handleCheckboxSelections();
+		  });
+	}
   }
 
   //@@@PDC-3748: "Select all pages" issue on the Study Summary page
@@ -418,34 +493,57 @@ export class FilesOverlayComponent implements OnInit {
     } else {
       this.displayLoading(buttonClick, "file", true);
       setTimeout(() => {
-        this.browseByFileService
-        .getFilteredFilesPaginated(
-		  this.studyVersion,
-          0,
-          this.totalRecords,
-          this.sort,
-          this.newFilterSelected
-        )
-		.pipe(take(1))
-        .subscribe((data: any) => {
-          if (buttonClick) {
-            this.completeFileManifest = data.getPaginatedUIFile.uiFiles;
-            this.fileTableExportCSV(true, false, this.manifestFormat);
-          } else {
-            this.selectedFiles = data.getPaginatedUIFile.uiFiles;
-            if (this.publicationsFiles.length > 0) {
-                this.getUniqueFiles();
-                this.limit = 100;
-                this.pageSize = 100;
-                this.totalRecords = this.filteredFilesData.length;
-                this.selectedFiles = this.filteredFilesData;
-            }
-            this.headercheckbox = true;
-            //@@@PDC-3748: "Select all pages" issue on the Study Summary page
-            this.updateCurrentPageSelectedFiles(this.selectedFiles);
-          }
-          this.displayLoading(buttonClick, "file", false); 
-        });
+		 if (!this.isLegacyData) {
+			this.browseByFileService
+			.getFilteredFilesPaginated(
+			  this.studyVersion,
+			  0,
+			  this.totalRecords,
+			  this.sort,
+			  this.newFilterSelected
+			)
+			.pipe(take(1))
+			.subscribe((data: any) => {
+			  if (buttonClick) {
+				this.completeFileManifest = data.getPaginatedUIFile.uiFiles;
+				this.fileTableExportCSV(true, false, this.manifestFormat);
+			  } else {
+				this.selectedFiles = data.getPaginatedUIFile.uiFiles;
+				if (this.publicationsFiles.length > 0) {
+				  this.getUniqueFiles();
+				  this.limit = 100;
+				  this.pageSize = 100;
+				  this.totalRecords = this.filteredFilesData.length;
+				  this.selectedFiles = this.filteredFilesData;
+				}
+				this.headercheckbox = true;
+				 //@@@PDC-3748: "Select all pages" issue on the Study Summary page
+				this.updateCurrentPageSelectedFiles(this.selectedFiles);
+			  }
+			  this.displayLoading(buttonClick, "file", false); 
+			});
+		 } else {
+			this.browseByFileService
+			.getFilteredLegacyDataFilesPaginated(
+			  0,
+			  this.totalRecords,
+			  this.sort,
+			  this.newFilterSelected
+			)
+			.pipe(take(1))
+			.subscribe((data: any) => {
+			  if (buttonClick) {
+				this.completeFileManifest = data.getPaginatedUILegacyFile.uiLegacyFiles;
+				this.fileTableExportCSV(true, false, this.manifestFormat);
+			  } else {
+				this.selectedFiles = data.getPaginatedUILegacyFile.uiLegacyFiles;
+				this.headercheckbox = true;
+				 //@@@PDC-3748: "Select all pages" issue on the Study Summary page
+				//this.updateCurrentPageSelectedFiles(this.selectedFiles);
+			  }
+			  this.displayLoading(buttonClick, "file", false); 
+			});
+		 }			
       }, 1000);
     }
   }
@@ -476,7 +574,6 @@ export class FilesOverlayComponent implements OnInit {
     this.individualFileData.push(fileData);
     //this.fileTableExportCSV(false, true);
     let controlledFileFlag: boolean = false;
-
     for (let file of this.individualFileData) {
       if (file["access"].toLowerCase() === "controlled" && file.downloadable.toLowerCase() === "yes") {
         controlledFileFlag = true;
@@ -489,21 +586,61 @@ export class FilesOverlayComponent implements OnInit {
       var downloadLink = "";
       for (let file of this.individualFileData) {
         if (file.downloadable.toLowerCase() === 'yes') {
-          let urlResponse = await this.browseByFileService.getOpenFileSignedUrl(file.file_name);
-          if (!urlResponse.error) {
-            downloadLink = urlResponse.data;
-          } else {
-            this.displayMessageForNotDownloadable();
-          }
+			if (!this.isLegacyData){
+				let urlResponse = await this.browseByFileService.getOpenFileSignedUrl(file.file_name);
+				console.log(urlResponse);
+				if (!urlResponse.error) {
+					downloadLink = urlResponse.data;
+				} else {
+					this.displayMessageForNotDownloadable();
+				}
+				console.log(downloadLink);
+				if (downloadLink) {
+					//If the download file link is available, open the download link and start file download.
+					if (this.checkFilenameExtentions(file.file_name)) {
+						//open files in new tab only if the are automatically opened withing the browser
+						window.open(downloadLink, "_blank");
+					} else {
+						window.open(downloadLink, "_self");
+					}
+				}
+			} else {
+				//@@@PDC-3937 Use new APIs for downloading legacy studies' files
+				this.browseByFileService.getLegacyFilesData(file.file_name).subscribe((fileData: any) => {
+					console.log(fileData);
+					if (fileData.uiLegacyFilesPerStudy[0].signedUrl.url != "") {
+						downloadLink = fileData.uiLegacyFilesPerStudy[0].signedUrl.url;
+					} else {
+						this.displayMessageForNotDownloadable();
+					}
+					
+					if (downloadLink) {
+						//If the download file link is available, open the download link and start file download.
+						if (this.checkFilenameExtentions(file.file_name)) {
+							//open files in new tab only if the are automatically opened withing the browser
+							window.open(downloadLink, "_blank");
+						} else {
+							window.open(downloadLink, "_self");
+						}
+					}
+				});
+			}
         } else{
           this.displayMessageForNotDownloadable();
         }  
       }
-      if (downloadLink) {
-        //If the download file link is available, open the download link and start file download.
-        window.open(downloadLink, "_self");
-      }
     }
+  }
+  
+  //@@@PDC-3871 Some files open on the same browser page 
+  //This helper function will check file extention and return true if extension is a document that usually opens in the browser
+  // the function will return false if the file type is usually automatically downloaded by the browsers
+  private checkFilenameExtentions (filename: string): boolean{
+	  if (filename.indexOf(".pdf") != -1 || filename.indexOf(".txt") != -1  || filename.indexOf(".html") != -1 || filename.indexOf(".png") != -1 || filename.indexOf(".jpeg") != -1 ){
+		  return true;
+	  }else {
+		  return false;
+	  }
   }
 
   //@@@PDC-1303: Add a download column and button for downloading individual files to the file tab
@@ -564,9 +701,12 @@ export class FilesOverlayComponent implements OnInit {
 	  if (!file["embargo_date"]) {
 		  file["embargo_date"] = "N/A";
 	  }
+	  console.log(file["submitter_id_name"]);
+	  console.log(this.studyVersion);
+	  //PDC-3985 - fix study version value for non legacy studies
 	  //If studyVersion value is set assign it to each of the files
 	  //since the user opened Browse page to view files for a specific version of study
-	  if (this.studyVersion) {
+	  if (this.studyVersion != "") {
 		  file["pdc_study_version"] = this.studyVersion;
 	  } else {
 		  //In all other cases assign default latest version of the study to which the file belongs
@@ -691,43 +831,88 @@ export class FilesOverlayComponent implements OnInit {
         for (var i = 0, len = fileNameList.length; i< len; i += chunkSize) {
           let tempArray = fileNameList.slice(i, i+chunkSize);
           let fileNameStr =  tempArray.join(";");
-          //Send 1000 files names per request
-          //@@@PDC-1940: File manifest download is very slow
-          this.browseByFileService.getFilesData(fileNameStr).subscribe((fileData: any) => {
-            this.setFileExportObject(fileData, exportFileObject);
-            count++;
-            //In the last iteration, download the file manifest
-            if (count == loop) {
-              this.displayLoading(iscompleteFileDownload, "file1", false);
-			  if (count > 0) {
-				  if (exportFormat == "csv"){
-					new ngxCsv(exportFileObject, this.getCsvFileName("csv"), csvOptions);
-				  } else {
-					let exportTSVData = this.prepareTSVExportManifestData(exportFileObject, csvOptions.headers);
-					var blob = new Blob([exportTSVData], { type: 'text/csv;charset=utf-8;' });
-					FileSaver.saveAs(blob, this.getCsvFileName("tsv"));
+		  if (! this.isLegacyData){
+			  //Send 1000 files names per request
+			  //@@@PDC-1940: File manifest download is very slow
+			  this.browseByFileService.getFilesData(fileNameStr).subscribe((fileData: any) => {
+				this.setFileExportObject(fileData, exportFileObject);
+				count++;
+				//In the last iteration, download the file manifest
+				if (count == loop) {
+				  this.displayLoading(iscompleteFileDownload, "file1", false);
+				  if (count > 0) {
+					  if (exportFormat == "csv"){
+						new ngxCsv(exportFileObject, this.getCsvFileName("csv"), csvOptions);
+					  } else {
+						let exportTSVData = this.prepareTSVExportManifestData(exportFileObject, csvOptions.headers);
+						var blob = new Blob([exportTSVData], { type: 'text/csv;charset=utf-8;' });
+						FileSaver.saveAs(blob, this.getCsvFileName("tsv"));
+					  }
 				  }
-			  }
-            }
-          }); 
+				}
+			  });
+		  } else {
+			  //@@@PDC-3937 Use new APIs for downloading legacy studies' files
+			  this.browseByFileService.getLegacyFilesData(fileNameStr).subscribe((fileData: any) => {
+				this.setLegacyFileExportObject(fileData, exportFileObject);
+				count++;
+				//In the last iteration, download the file manifest
+				if (count == loop) {
+				  this.displayLoading(iscompleteFileDownload, "file1", false);
+				  //PDC-3985
+				  //remove study version from legacy data manifest
+				  csvOptions.headers.splice(5,1)
+				  if (count > 0) {
+					  if (exportFormat == "csv"){
+						new ngxCsv(exportFileObject, this.getCsvFileName("csv"), csvOptions);
+					  } else {
+						let exportTSVData = this.prepareTSVExportManifestData(exportFileObject, csvOptions.headers);
+						var blob = new Blob([exportTSVData], { type: 'text/csv;charset=utf-8;' });
+						FileSaver.saveAs(blob, this.getCsvFileName("tsv"));
+					  }
+				  }
+				}
+			  });
+		  }			  
           loop++;
         }
       } else {
           //@@@PDC-1940: File manifest download is very slow
           let fileNameStr = fileNameList.join(";")
-          this.browseByFileService.getFilesData(fileNameStr).subscribe((fileData: any) => {
-            this.setFileExportObject(fileData, exportFileObject);
-            this.displayLoading(iscompleteFileDownload, "file1", false);
-			if (fileNameList.length > 0) {
-				if (exportFormat == "csv"){
-					new ngxCsv(exportFileObject, this.getCsvFileName("csv"), csvOptions);
-				} else {
-					let exportTSVData = this.prepareTSVExportManifestData(exportFileObject, csvOptions.headers);
-					var blob = new Blob([exportTSVData], { type: 'text/csv;charset=utf-8;' });
-					FileSaver.saveAs(blob, this.getCsvFileName("tsv"));
+		  if (! this.isLegacyData){
+			  this.browseByFileService.getFilesData(fileNameStr).subscribe((fileData: any) => {
+				console.log(fileData);
+				this.setFileExportObject(fileData, exportFileObject);
+				this.displayLoading(iscompleteFileDownload, "file1", false);
+				if (fileNameList.length > 0) {
+					if (exportFormat == "csv"){
+						new ngxCsv(exportFileObject, this.getCsvFileName("csv"), csvOptions);
+					} else {
+						let exportTSVData = this.prepareTSVExportManifestData(exportFileObject, csvOptions.headers);
+						var blob = new Blob([exportTSVData], { type: 'text/csv;charset=utf-8;' });
+						FileSaver.saveAs(blob, this.getCsvFileName("tsv"));
+					}
 				}
-			}
-          });
+			  });
+		  } else {
+			  this.browseByFileService.getLegacyFilesData(fileNameStr).subscribe((fileData: any) => {
+				console.log(fileData);
+				this.setLegacyFileExportObject(fileData, exportFileObject);
+				this.displayLoading(iscompleteFileDownload, "file1", false);
+				//PDC-3985
+				//remove study version from legacy data manifest
+				csvOptions.headers.splice(5,1)
+				if (fileNameList.length > 0) {
+					if (exportFormat == "csv"){
+						new ngxCsv(exportFileObject, this.getCsvFileName("csv"), csvOptions);
+					} else {
+						let exportTSVData = this.prepareTSVExportManifestData(exportFileObject, csvOptions.headers);
+						var blob = new Blob([exportTSVData], { type: 'text/csv;charset=utf-8;' });
+						FileSaver.saveAs(blob, this.getCsvFileName("tsv"));
+					}
+				}
+			  });
+		  }
       }
     }
   }
@@ -738,6 +923,7 @@ export class FilesOverlayComponent implements OnInit {
       //Fetch the file object in 'exportFileObject' that has the same file id.
       let fileObject = exportFileObject.filter(item => item.file_id === fileItem.file_id);
       for (var fileObj of fileObject) {
+		  console.log(fileObj);
         if (fileObj) {
           if (fileObj.downloadable.toLowerCase() === 'yes') {
             if (fileItem.signedUrl) {
@@ -751,6 +937,36 @@ export class FilesOverlayComponent implements OnInit {
         }
       }
     }
+	if (fileData.filesPerStudy.length == 0) {
+		exportFileObject.forEach(item => item['file_download_link'] = "not found");
+	}
+	console.log(exportFileObject);
+  }
+  
+  //@@@PDC-3937 Use new APIs for downloading legacy studies' files
+  setLegacyFileExportObject(fileData, exportFileObject) {
+    for (var fileItem of fileData.uiLegacyFilesPerStudy) {
+      //Fetch the file object in 'exportFileObject' that has the same file id.
+      let fileObject = exportFileObject.filter(item => item.file_id === fileItem.file_id);
+      for (var fileObj of fileObject) {
+		  console.log(fileObj);
+        if (fileObj) {
+          if (fileObj.downloadable.toLowerCase() === 'yes') {
+            if (fileItem.signedUrl) {
+              fileObj['file_download_link'] = fileItem.signedUrl.url;
+            } else {
+              fileObj['file_download_link'] = this.notDownloadable;
+            }
+          } else {
+            fileObj['file_download_link'] = this.notDownloadable;
+          }
+        }
+      }
+    }
+	if (fileData.uiLegacyFilesPerStudy.length == 0) {
+		exportFileObject.forEach(item => item['file_download_link'] = "not found");
+	}
+	console.log(exportFileObject);
   }
   
   //@@@PDC-1765 add download prompt
@@ -795,23 +1011,39 @@ export class FilesOverlayComponent implements OnInit {
 	let urls: string = "";
 	let nextMsg = 'Continue';
     for (let file of dataForExport) {
-        let urlResponse = await this.browseByFileService.getOpenFileSignedUrl(file["file_name"]);
 		let confirmationMessage = 'Finished downloading: '+file["file_name"];
-        if(!urlResponse.error){
-			console.log("S3 url: "+urlResponse.data);
-			//@@@PDC-1698 download with file save
-			//this.getS3File(urlResponse.data).subscribe((data: any) => {
-				//let blob:any = new Blob([data], { type: 'text/json; charset=utf-8' });
-				//fileSaver.saveAs(blob, file["file_name"]);
-				//console.log("S3 file: "+data);
-			//});
-			//@@@PDC-1925 use window.open for multiple download
-			this.winOpenS3File(urlResponse.data).alert(confirmationMessage);
-			this.sleep(2000);
-			          
-		}else{
-			console.log("S3 error: "+urlResponse.error)
-        }
+		console.log(file["file_name"]);
+		if (!this.isLegacyData){
+			let urlResponse = await this.browseByFileService.getOpenFileSignedUrl(file["file_name"]);
+			console.log(urlResponse);
+			if(!urlResponse.error){
+				console.log("S3 url: "+urlResponse.data);
+				//@@@PDC-1698 download with file save
+				//this.getS3File(urlResponse.data).subscribe((data: any) => {
+					//let blob:any = new Blob([data], { type: 'text/json; charset=utf-8' });
+					//fileSaver.saveAs(blob, file["file_name"]);
+					//console.log("S3 file: "+data);
+				//});
+				//@@@PDC-1925 use window.open for multiple download
+				this.winOpenS3File(urlResponse.data, file["file_name"]).alert(confirmationMessage);
+				this.sleep(2000);
+						  
+			}else{
+				console.log("S3 error: "+urlResponse.error)
+			}
+		} else {
+			//@@@PDC-3937 Use new APIs for downloading legacy studies' files
+			this.browseByFileService.getLegacyFilesData(file["file_name"]).subscribe((fileData: any) => {
+					console.log("S3 url: " + fileData.uiLegacyFilesPerStudy[0].signedUrl.url);
+					if (fileData.uiLegacyFilesPerStudy[0].signedUrl.url != "") {
+						this.winOpenS3File(fileData.uiLegacyFilesPerStudy[0].signedUrl.url, file["file_name"]).alert(confirmationMessage);
+						this.sleep(2000);
+					} else {
+						console.log("S3 error");
+					}
+			});
+			
+		}
 	}
   }
 
@@ -820,8 +1052,12 @@ export class FilesOverlayComponent implements OnInit {
   }
 
   //@@@PDC-1925 use window.open for multiple download
-  winOpenS3File(url){
-	return window.open(url, "_self");
+  winOpenS3File(url, filename){
+	  if (this.checkFilenameExtentions(filename)) {
+		return window.open(url, "_blank");
+	  } else {
+		return window.open(url, "_self");
+	  }  
   }
   
   sleep(milliseconds) {

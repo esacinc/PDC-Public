@@ -203,4 +203,81 @@ describe("BrowseByFileService", () => {
       controller.verify();
     }
   ));
+  
+    it("test getFilteredLegacyDataFilesPaginated", inject(
+    [BrowseByFileService],
+    (service: BrowseByFileService) => {
+      service.getFilteredLegacyDataFilesPaginated(0, 10, "", {}).subscribe(data => {
+        expect(data).toBeDefined();
+        expect(data["getPaginatedUILegacyFile"].uiLegacyFiles.length).toBe(2);
+        expect(data["getPaginatedUILegacyFile"].total).toBe(14363);
+        expect(data["getPaginatedUILegacyFile"].pagination).toEqual({
+          count: 10,
+          sort: "",
+          from: 0,
+          page: 1,
+          total: 14363,
+          pages: 1437,
+          size: 10
+        });
+      });
+
+      const op = controller.expectOne(service.filteredLegacyDataFilesPaginatedQuery);
+
+      expect(op.operation.variables.offset_value).toBe(0);
+
+      op.flush({
+        data: {
+          getPaginatedUILegacyFile: {
+            total: 14363,
+            uiLegacyFiles: [
+              {
+                file_id: "01c05f82-2bfa-420b-9de6-286f02b883f3",
+				pdc_study_id: "PDC000010",
+			    submitter_id_name: "Study PTM CPTC",
+			    embargo_date: null,
+			    file_name: "CompRef_2B_P5-29_P5-61_P6-34_P6-38_W_BI_20130503_H-JQ_f10.raw",
+			    study_run_metadata_submitter_id: "CompRef_Proteome_BI_4",
+			    project_name: "CPTAC Phase II",
+			    data_category: "Raw Mass Spectra",
+			    file_type: "Proprietary",
+			    file_size: "1316547294",
+			    md5sum: "0955cb370c141576f8ae027d4d0da3a5",
+			    downloadable: "Yes",
+			    access: "Open",
+			    study_id: "0fd23ab6-d076-4555-8b5e-9260db315773",
+              },
+              {
+                file_id: "02ecb8ce-2269-48bf-9a0a-118a9d36c4a4",
+				pdc_study_id: "PDC000010",
+				submitter_id_name: "Study PTM CPTC",
+				embargo_date: null,
+				file_name: "H20120605_JQ_CPTAC2_Compref4_protfxn22.raw.cap.psm",
+				study_run_metadata_submitter_id: "CompRef_Proteome_BI",
+				project_name: "CPTAC Phase II",
+				data_category: "Peptide Spectral Matches",
+				file_type: "Text",
+				file_size: "6497088",
+				md5sum: "4fec895acdc520cf735282057433a3bf",
+				downloadable: "Yes",
+				access: "Open",
+				study_id: "0fd23ab6-d076-4555-8b5e-9260db315773",
+              }
+            ],
+            pagination: {
+              count: 10,
+              sort: "",
+              from: 0,
+              page: 1,
+              total: 14363,
+              pages: 1437,
+              size: 10
+            }
+          }
+        }
+      });
+
+      controller.verify();
+    }
+  ));
 });

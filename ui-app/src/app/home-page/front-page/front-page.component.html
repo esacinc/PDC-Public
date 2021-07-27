@@ -38,34 +38,34 @@
 			<mat-card class="bottom-card">
 				<mat-card-header class="bottom-row-card-header">RECENT RELEASES</mat-card-header>
 				<mat-card-content id="recentReleasesContent">
-          <mat-list >
-            <mat-list-item class="bottom-card-list-item" id="list-item">
-              <div class="bottom-card-bullet-item"><div><i class="pi pi-circle-off bottom-card-bullet-icon"></i></div>
-                <div>CPTAC Proteogenomic Translational Research Centers’ (PTRC) Acute Myeloid Leukemia (AML) data released (June 2021).</div>
-              </div>
-            </mat-list-item>
-            <mat-list-item class="bottom-card-list-item" id="list-item">
-              <div class="bottom-card-bullet-item"><div><i class="pi pi-circle-off bottom-card-bullet-icon"></i></div>
-                <div>A new page under ANALYSIS menu - <a href="/pdc/explore-quantitation-data" target="_blank" style="color: blue;">Explore Quantitation Data</a> - for quick access to heatmaps (May 2021).</div>
-              </div>
-            </mat-list-item>
-            <mat-list-item class="bottom-card-list-item" id="list-item">
-              <div class="bottom-card-bullet-item"><div><i class="pi pi-circle-off bottom-card-bullet-icon"></i></div>
-                <div>A <a href="/pdc/publications" target="_blank" style="color: blue;">new page</a> to search and find publications, their related studies and supplementary information (May 2021).</div>
-              </div>
-            </mat-list-item>
-            <mat-list-item class="bottom-card-list-item" id="list-item">
-              <div class="bottom-card-bullet-item"><div><i class="pi pi-circle-off bottom-card-bullet-icon"></i></div>
-                <div>CPTAC program Pancreatic Ductal Adenocarcinoma (PDA) data released (February 2021),<span
-                  style="color: red; "> with an <a href="/pdc/faq#Embargo_Date" target="_blank" style="color: red;">embargo</a> date of February 28, 2022</span></div>
-              </div>
-            </mat-list-item>
-					</mat-list>
-					</mat-card-content>
-				</mat-card>
+				  <mat-list >
+					<mat-list-item class="bottom-card-list-item" id="list-item">
+					  <div class="bottom-card-bullet-item"><div><i class="pi pi-circle-off bottom-card-bullet-icon"></i></div>
+						<div>CPTAC Proteogenomic Translational Research Centers’ (PTRC) Acute Myeloid Leukemia (AML) data released (June 2021).</div>
+					  </div>
+					</mat-list-item>
+					<mat-list-item class="bottom-card-list-item" id="list-item">
+					  <div class="bottom-card-bullet-item"><div><i class="pi pi-circle-off bottom-card-bullet-icon"></i></div>
+						<div>A new page under ANALYSIS menu - <a href="/pdc/explore-quantitation-data" target="_blank" style="color: blue;">Explore Quantitation Data</a> - for quick access to heatmaps (May 2021).</div>
+					  </div>
+					</mat-list-item>
+					<mat-list-item class="bottom-card-list-item" id="list-item">
+					  <div class="bottom-card-bullet-item"><div><i class="pi pi-circle-off bottom-card-bullet-icon"></i></div>
+						<div>A <a href="/pdc/publications" target="_blank" style="color: blue;">new page</a> to search and find publications, their related studies and supplementary information (May 2021).</div>
+					  </div>
+					</mat-list-item>
+					<mat-list-item class="bottom-card-list-item" id="list-item">
+					  <div class="bottom-card-bullet-item"><div><i class="pi pi-circle-off bottom-card-bullet-icon"></i></div>
+						<div>CPTAC program Pancreatic Ductal Adenocarcinoma (PDA) data released (February 2021),<span
+						  style="color: red; "> with an <a href="/pdc/faq#Embargo_Date" target="_blank" style="color: red;">embargo</a> date of February 28, 2022</span></div>
+					  </div>
+					</mat-list-item>
+				  </mat-list>
+				</mat-card-content>
+			</mat-card>
 		</div>
-      <!-- @@@PDC-1711 add external link icon -->
-    <div class="col-md-3" id="newsSection"  style="padding-left: 0!important;padding-right: 0!important;">
+		<!-- @@@PDC-1711 add external link icon -->
+		<div class="col-md-3 ml-0" id="newsSection"  style="padding-left: 0!important;padding-right: 0!important;">
 			<mat-card class="bottom-card">
 			  <mat-card-header class="bottom-row-card-header">NEWS</mat-card-header>
 			  <mat-card-content id="newsSectionContent">
@@ -79,25 +79,25 @@
 			  </mat-card-content>
 			</mat-card>
     </div>
-		<div class="col-md-3" id="tools-and-pipelines"  style="padding-left: 0!important;padding-right: 0!important;">
+		<div class="col-md-3 ml-0" id="tools-and-pipelines"  style="padding-left: 0!important;padding-right: 0!important; overflow-y: scroll;">
 				<mat-card class="bottom-card">
-				  <mat-card-header class="bottom-row-card-header">TOOLS & PIPELINES</mat-card-header>
-				  <mat-card-content id="toolAndPipelinesContent">
+				  <mat-card-header class="bottom-row-card-header" style="padding-right: 10px!important;" >TECHNOLOGY ADVANCEMENT STUDIES</mat-card-header>
+				  <mat-card-content id="CPTACLegacyData">
 					<mat-list>
-            <mat-list-item class="bottom-card-list-item">
-              <i class="pi pi-circle-off"></i>  &nbsp;&nbsp;&nbsp; <a href="/pdc/explore-quantitation-data" target="_blank">Explore Quantitation Data</a> &nbsp; through heatmaps
-            </mat-list-item>
-            <mat-list-item class="bottom-card-list-item">
-              <i class="pi pi-circle-off"></i>  &nbsp;&nbsp;&nbsp; <a href={{harmonization_url}} target="_blank">Common Data Analysis Pipeline (CDAP)</a>
-            </mat-list-item>
 						<mat-list-item class="bottom-card-list-item">
-							<i class="pi pi-circle-off"></i>&nbsp;&nbsp;&nbsp; <a href={{pepquery_url}} target="_blank">PepQuery</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">Exit Disclaimer</span></a>
+						  <i class="pi pi-circle-off"></i>  &nbsp;&nbsp;&nbsp; <a href="/pdc/TechnologyAdvancementStudies" target="_blank">Technology Assessment Studies</a>
+						</mat-list-item>
+						<mat-list-item class="bottom-card-list-item">
+						  <i class="pi pi-circle-off"></i>  &nbsp;&nbsp;&nbsp; <a href="/pdc/TechnologyAdvancementStudies" target="_blank">System Suitability Studies</a>
+						</mat-list-item>
+						<mat-list-item class="bottom-card-list-item">
+							<i class="pi pi-circle-off"></i>&nbsp;&nbsp;&nbsp; <a href="/pdc/TechnologyAdvancementStudies" target="_blank">Non-CPTAC Methodology Studies</a>
 						</mat-list-item>
 					</mat-list>
-					</mat-card-content>
+				  </mat-card-content>
 				</mat-card>
 		</div>
-		<div class="col-md-3" id="helpSection"  style="padding-left: 0!important;padding-right: 15px!important;">
+		<div class="col-md-3 ml-0" id="helpSection"  style="padding-left: 0!important;padding-right: 15px!important;">
 			<mat-card  class="bottom-card">
 				<mat-card-header class="bottom-row-card-header">HELP</mat-card-header>
 				<mat-card-content class="bottom-card" id="helpContent">
