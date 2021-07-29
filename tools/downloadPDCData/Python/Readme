@@ -1,0 +1,10 @@
+This is a sample Python script to batch download PDC data files in to your local computer and/or 
+reorganize them into the following folder structure:
+PDC Study ID/ PDC Study Version/Data category/Run Metadata ID/File Type/
+
+1) Save this script as downloadPDCData.py in your local directory
+2) Download the required python libraries mentioned in requirements.txt file.
+3) Execute the script: 
+    Provide downloaded PDC File manifest as a command line parameter
+    Usage: python3 downloadPDCData.py <PDC File manifest.csv>
+    Ex:  python3 downloadPDCData.py PDC_file_manifest_07262021_111634.csv
