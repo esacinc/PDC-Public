@@ -67,16 +67,19 @@ export const resolvers = {
 		studies(obj, args, context) {
 			var comboQuery = "";
 			//@@@PDC-3839 get current version of study
+			//@@@PDC-3966 add more study fields per CDA request
 			if (context.noFilter != null) {
 				comboQuery = "SELECT distinct bin_to_uuid(s.study_id) as study_id, s.study_submitter_id, s.submitter_id_name, "+
+				" s.submitter_id_name, s.embargo_date, s.study_shortname as study_name,"+
 				" s.analytical_fraction, s.experiment_type, s.acquisition_type, s.pdc_study_id"+
-				" FROM study s "+
+				" FROM study s"+
 				" WHERE s.is_latest_version = 1 and s.project_id = uuid_to_bin('"+
 				obj.project_id +
-				"') ";
+				"')";
 			}
 			else {
-				comboQuery = "SELECT distinct bin_to_uuid(s.study_id) as study_id, s.study_submitter_id, s.submitter_id_name, "+
+				comboQuery = "SELECT distinct bin_to_uuid(s.study_id) as study_id, s.study_submitter_id,"+
+				" s.submitter_id_name, s.embargo_date, s.study_shortname as study_name,"+
 				" s.analytical_fraction, s.experiment_type, s.acquisition_type, s.pdc_study_id"+
 				" FROM study s, `case` c, sample sam, aliquot_run_metadata alm, "+
 				" aliquot al, project proj, program prog, protocol ptc "+
@@ -463,6 +466,27 @@ export const resolvers = {
 	},
 	//@@@PDC-898 new public APIs--study
 	Study: {
+		//@@@PDC-3966 add more study fields per CDA request
+		async disease_types(obj, args, context) {
+			var diseaseQuery = "SELECT distinct c.disease_type as disease_type FROM study s, `case` c, sample sam, aliquot al, "+
+			"aliquot_run_metadata alm WHERE alm.study_id = s.study_id and al.aliquot_id "+
+			" = alm.aliquot_id and al.sample_id=sam.sample_id and sam.case_id=c.case_id and s.study_id = uuid_to_bin('"+
+			obj.study_id + "')";
+			var diseases = await db.getSequelize().query(diseaseQuery, { raw: true });
+			var diseaseTypes = [];
+			diseases[0].forEach((row) =>diseaseTypes.push(row['disease_type']));
+			return diseaseTypes;		
+		},
+		async primary_sites(obj, args, context) {
+			var siteQuery = "SELECT distinct c.primary_site as primary_site FROM study s, `case` c, sample sam, aliquot al, "+
+			"aliquot_run_metadata alm WHERE alm.study_id = s.study_id and al.aliquot_id "+
+			" = alm.aliquot_id and al.sample_id=sam.sample_id and sam.case_id=c.case_id and s.study_id = uuid_to_bin('"+
+			obj.study_id + "')";
+			var sites = await db.getSequelize().query(siteQuery, { raw: true });
+			var primarySites = [];
+			sites[0].forEach((row) =>primarySites.push(row['primary_site']));
+			return primarySites;		
+		},
 		//@@@PDC-2435 add contacts to study
 		contacts(obj, args, context) {
 			var contactQuery = "SELECT c.name, c.institution, c.email, c.url "+

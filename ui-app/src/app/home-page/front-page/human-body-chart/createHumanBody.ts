@@ -28,7 +28,7 @@ const createHumanBody: TCreateHumanBody = ({
   width,
   labelSize,
   tickInterval,
-  title = 'Cases by Primary Site',
+  title = 'Cases by Major Primary site',
   offsetLeft = 0,
   offsetTop = 0,
   primarySiteKey = '_key',

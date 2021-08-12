@@ -392,11 +392,13 @@ export class BrowseByFileService {
 
   //@@@PDC-1940: File manifest download is very slow
   //@@@PDC-3253 call api with acceptDUA
+  //@@@PDC-3928 to get correct files for appropriate study version we need to provide study UUID
   filesDataQuery = gql`
     query FilesDataQuery(
       $file_name: String!
+	  $study_id: String!
     ) {
-        filesPerStudy (file_name: $file_name, acceptDUA: true) {
+        filesPerStudy (file_name: $file_name, study_id: $study_id, acceptDUA: true) {
           file_id
           file_name
           signedUrl {
@@ -407,12 +409,13 @@ export class BrowseByFileService {
   `;
 
   //@@@PDC-1940: File manifest download is very slow
-  getFilesData(fileNameStr: any) {
+  getFilesData(fileNameStr: any, study_id_param: any) {
      return this.apollo
       .watchQuery<QueryAllFilesData>({
         query: this.filesDataQuery,
         variables: {
           file_name: fileNameStr,
+		  study_id: study_id_param || ""
         },
         context: {
           method: 'POST'
@@ -463,6 +466,7 @@ export class BrowseByFileService {
   
   
   //@@@PDC-3307 Add study version to file manifest
+  //@@@PDC-3928 need study UUID to download files for appropriate study version
   //This API will return all studies and their versions
   getStudiesVersions(){
 	  return this.apollo
@@ -471,6 +475,7 @@ export class BrowseByFileService {
           query StudiesVersions{
             getPaginatedUIStudy(offset: 0, limit: 1000){
 				uiStudies {
+					study_id
 					submitter_id_name
 					pdc_study_id
 					versions {

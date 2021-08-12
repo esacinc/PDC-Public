@@ -43,6 +43,7 @@ import {environment} from '../../../environments/environment';
 //@@@PDC-3651 fix "select all pages" option issue with supplementary data files
 //@@@PDC-3622 add legacy studies data
 //@@@PDC-3788 fix issues found with Files overlay in legacy data page
+//@@@PDC-3928 No links to download files in Export File Manifest for Version 1 Studies
 export class FilesOverlayComponent implements OnInit {
 	
 	filteredFilesData: AllFilesData[]; //Filtered list of cases
@@ -99,6 +100,7 @@ export class FilesOverlayComponent implements OnInit {
   studyVersion: string = "";
   allStudiesVersions: any[] = [];
   study_names_param = [];
+  origin_study_id: string = "";
   
   publicationsFiles = [];
   isLegacyData = false;
@@ -140,6 +142,10 @@ export class FilesOverlayComponent implements OnInit {
 		this.pageSize = 10;
 		if (studyData.summaryData.versions) {
 			this.studyVersion = sessionStorage.getItem('currentVersion') || "";
+		}
+		//We need to have study UUID in order to retrieve files for correct versions of a study
+		if (studyData.summaryData.study_id) {
+			this.origin_study_id = studyData.summaryData.study_id;
 		}
 		if (studyData.publicationsFiles) {
 			this.publicationsFiles = studyData.publicationsFiles;
@@ -834,7 +840,7 @@ export class FilesOverlayComponent implements OnInit {
 		  if (! this.isLegacyData){
 			  //Send 1000 files names per request
 			  //@@@PDC-1940: File manifest download is very slow
-			  this.browseByFileService.getFilesData(fileNameStr).subscribe((fileData: any) => {
+			  this.browseByFileService.getFilesData(fileNameStr, this.origin_study_id).subscribe((fileData: any) => {
 				this.setFileExportObject(fileData, exportFileObject);
 				count++;
 				//In the last iteration, download the file manifest
@@ -880,7 +886,7 @@ export class FilesOverlayComponent implements OnInit {
           //@@@PDC-1940: File manifest download is very slow
           let fileNameStr = fileNameList.join(";")
 		  if (! this.isLegacyData){
-			  this.browseByFileService.getFilesData(fileNameStr).subscribe((fileData: any) => {
+			  this.browseByFileService.getFilesData(fileNameStr, this.origin_study_id).subscribe((fileData: any) => {
 				console.log(fileData);
 				this.setFileExportObject(fileData, exportFileObject);
 				this.displayLoading(iscompleteFileDownload, "file1", false);

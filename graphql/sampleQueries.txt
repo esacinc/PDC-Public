@@ -38,8 +38,9 @@
 	}
   }
 }
+3966
 {
-  allPrograms {
+  allPrograms(acceptDUA: true) {
 	  program_id
 	  program_submitter_id
 	  name
@@ -55,7 +56,12 @@
 		  study_id
 		  study_submitter_id
 		  submitter_id_name
+		  pdc_study_id
 		  analytical_fraction
+		  study_name
+		  disease_types
+		  primary_sites
+		  embargo_date
 		  experiment_type
 		  acquisition_type
 	  }
@@ -3513,6 +3519,7 @@ PDC-2979
 	  }
 	}
 }
+3966
 {
 	programsProjectsStudies (disease_type: "Colon Adenocarcinoma" acceptDUA: true){
 	  program_id
@@ -3527,13 +3534,18 @@ PDC-2979
 		project_submitter_id
 		name
 		studies {
-		    study_id
-			submitter_id_name
-			study_submitter_id			
-			analytical_fraction
-			experiment_type
-			acquisition_type
-		}
+		  study_id
+		  study_submitter_id
+		  submitter_id_name
+		  pdc_study_id
+		  analytical_fraction
+		  study_name
+		  disease_types
+		  primary_sites
+		  embargo_date
+		  experiment_type
+		  acquisition_type
+		  }
 	  }
 	}
 }

@@ -869,7 +869,7 @@ export class BrowseByFileComponent implements OnInit {
           let fileNameStr =  tempArray.join(";");
           //Send 1000 files names per request
           //@@@PDC-1940: File manifest download is very slow
-          this.browseByFileService.getFilesData(fileNameStr).subscribe((fileData: any) => {
+          this.browseByFileService.getFilesData(fileNameStr, "").subscribe((fileData: any) => {
             this.setFileExportObject(fileData, exportFileObject);
             count++;
             //In the last iteration, download the file manifest
@@ -891,7 +891,7 @@ export class BrowseByFileComponent implements OnInit {
       } else {
           //@@@PDC-1940: File manifest download is very slow
           let fileNameStr = fileNameList.join(";")
-          this.browseByFileService.getFilesData(fileNameStr).subscribe((fileData: any) => {
+          this.browseByFileService.getFilesData(fileNameStr, "").subscribe((fileData: any) => {
 			  //PDC-3366 files selection was cleared when the execution got here
 			  //bandaid solution was to refill selected files values like this:
 			  //this.selectedFiles = dataForExport;

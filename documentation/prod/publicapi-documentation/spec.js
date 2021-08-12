@@ -111,7 +111,7 @@ var spec = {
                }
              }
                },
-               "?query={allPrograms (acceptDUA: {acceptDUA})  {program_id  program_submitter_id  name projects  {project_id  project_submitter_id  name  studies  {pdc_study_id study_id study_submitter_id submitter_id_name analytical_fraction experiment_type acquisition_type} }}}": {
+               "?query={allPrograms (acceptDUA: {acceptDUA})  {program_id  program_submitter_id  name projects  {project_id  project_submitter_id  name  studies  {pdc_study_id study_id study_submitter_id submitter_id_name analytical_fraction study_name disease_types primary_sites embargo_date experiment_type acquisition_type} }}}": {
              "get": {
                        "tags": ["Program"],
                "summary": "Gets all programs",
@@ -1482,7 +1482,7 @@ var spec = {
                     }
                   }
                 },
-               '?query={program(program_id:  "{program_id}" acceptDUA: {acceptDUA})  {program_id  program_submitter_id  name  projects  {project_id  project_submitter_id  name  studies  {pdc_study_id study_id study_submitter_id submitter_id_name analytical_fraction experiment_type acquisition_type} }  }  }': {
+               '?query={program(program_id:  "{program_id}" acceptDUA: {acceptDUA})  {program_id  program_submitter_id  name  projects  {project_id  project_submitter_id  name  studies  {pdc_study_id study_id study_submitter_id submitter_id_name analytical_fraction  study_name disease_types primary_sites embargo_date experiment_type acquisition_type} }  }  }': {
                  "get": {
                            "tags": ["Program"],
                    "summary": "Find program by ID",
@@ -1518,7 +1518,7 @@ var spec = {
                    }
                  }
                },
-               '?query={program(program_submitter_id:  "{program_submitter_id}" acceptDUA: {acceptDUA})  {program_id  program_submitter_id  name  projects  {project_id  project_submitter_id  name  studies  {pdc_study_id study_id study_submitter_id submitter_id_name analytical_fraction experiment_type acquisition_type} }  }  }': {
+               '?query={program(program_submitter_id:  "{program_submitter_id}" acceptDUA: {acceptDUA})  {program_id  program_submitter_id  name  projects  {project_id  project_submitter_id  name  studies  {pdc_study_id study_id study_submitter_id submitter_id_name analytical_fraction  study_name disease_types primary_sites embargo_date experiment_type acquisition_type} }  }  }': {
                  "get": {
                            "tags": ["Program"],
                    "summary": "Find program by ID",
@@ -1554,11 +1554,11 @@ var spec = {
                    }
                  }
                },
-               "?query={programsProjectsStudies (acceptDUA: {acceptDUA}) {program_id program_submitter_id name projects {project_id project_submitter_id name studies { pdc_study_id study_id study_submitter_id submitter_id_name analytical_fraction experiment_type acquisition_type} }}}": {
+               "?query={programsProjectsStudies (acceptDUA: {acceptDUA}) {program_id program_submitter_id name projects {project_id project_submitter_id name studies { pdc_study_id study_id study_submitter_id submitter_id_name analytical_fraction  study_name disease_types primary_sites embargo_date experiment_type acquisition_type} }}}": {
                  "get": {
                            "tags": ["Program"],
                    "summary": "Get all programs/projects/studies",
-                   "description": "<b>Returns a hierarchy of programs/projects/studies.<br><br>Fields:</b><ul><li>program_id</li><li>program_submitter_id</li><li>name</li><li>projects {project_id project_submitter_id name}</li><li> studies {pdc_study_id study_id study_submitter_id submitter_id_name analytical_fraction experiment_type acquisition_type}</li></ul>",
+                   "description": "<b>Returns a hierarchy of programs/projects/studies.<br><br>Fields:</b><ul><li>program_id</li><li>program_submitter_id</li><li>name</li><li>projects {project_id project_submitter_id name}</li><li> studies {pdc_study_id study_id study_submitter_id submitter_id_name analytical_fraction  study_name disease_types primary_sites embargo_date experiment_type acquisition_type}</li></ul>",
                    "operationId": "programsProjectsStudies",
                    "produces": [
                      "application/json"
@@ -7159,6 +7159,23 @@ var spec = {
                    "type":"string",
                    "example":"Proteome"
                 },
+                "study_name":{
+                   "type":"string",
+                   "example":"CPTAC LSCC Discovery Study - Phosphoproteome"
+                },
+                "disease_types":{
+                   "type":"string",
+                   "example":"[Lung Adenocarcinoma, Other]"
+                },
+                "primary_sites":{
+                   "type":"string",
+                   "example":"[Lung, Bronchus and lung]"
+                },
+                "embargo_date":{
+                   "type":"string",
+				   "format":"date-time",
+                   "example":"2021-12-01"
+                },
                 "experiment_type":{
                    "type":"string",
                    "example":"TMT10"
@@ -7352,6 +7369,23 @@ var spec = {
                   "type":"string",
                   "example":"Phosphoproteome"
                },
+                "study_name":{
+                   "type":"string",
+                   "example":"CPTAC LSCC Discovery Study - Phosphoproteome"
+                },
+                "disease_types":{
+                   "type":"string",
+                   "example":"[Lung Adenocarcinoma, Other]"
+                },
+                "primary_sites":{
+                   "type":"string",
+                   "example":"[Lung, Bronchus and lung]"
+                },
+                "embargo_date":{
+                   "type":"string",
+				   "format":"date-time",
+                   "example":"2021-12-01"
+                },
                "experiment_type":{
                   "type":"string",
                   "example":"TMT11"
@@ -7359,7 +7393,7 @@ var spec = {
                "acquisition_type": {
                   "type":"string",
                   "example": "DDA"                 
-               },
+               }
             },
             "xml":{
                "name":"allProgramsStudy"

@@ -810,7 +810,7 @@
               <mat-list class="card-body card-list" id="studySelectList">
                     <div *ngIf="studyFilter.length > 10;then studyFilterContent else studyFilterContent"></div>
                     <ng-template #studyFilterContent>
-                      <div *ngFor="let study of studyFilter, let i = index" class="browse-filter">
+                      <div *ngFor="let study of studyFilter, let i = index" class="browse-filter" style="padding-bottom: 10px!important">
                           <div *ngIf="i<10;then studyFilterInnerContent" class="browse-filter"></div>
                           <div *ngIf="studyFilter.length > 10 && showStudyName && i >= 10; then studyFilterInnerContent" class="browse-filter"></div>
                           <ng-template #studyFilterInnerContent><label><mat-list-item  [ngStyle]="getStyleForCheckbox(study.filterName, selectedStudyFilter)">

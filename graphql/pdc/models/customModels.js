@@ -46,6 +46,7 @@ const defineCustomModels = (db) => {
 	  //@@@PDC-474 programs-projects-studies API
 	  //@@@PDC-1241 fix for latest version of Sequelize
 	  //@@@PDC-3921 new studyCatalog api
+	  //@@@PDC-3966 add more study fields per CDA request
 	  const ModelStudy = db.getSequelize().define('study', {
 		study_id: { type: Sequelize.STRING,
 					  primaryKey: true   },
@@ -60,7 +61,11 @@ const defineCustomModels = (db) => {
 		acquisition_type: { type: Sequelize.STRING },
 		experiment_type: { type: Sequelize.STRING },
 		analytical_fraction: { type: Sequelize.STRING },
-	  }, {
+		disease_type: { type: Sequelize.STRING },
+		primary_site: { type: Sequelize.STRING },
+		study_name: { type: Sequelize.STRING },
+		embargo_date: { type: Sequelize.DATE },	  
+	}, {
 		  timestamps: false,
 		  underscored: true,
 		  freezeTableName: true,

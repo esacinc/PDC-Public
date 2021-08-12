@@ -75,7 +75,7 @@ const appRoutes: Routes = [
   //*{ path: 'pdc', component: FrontPageComponent, canActivate: [AuthGuard] },
   { path: 'gene/:gene_id', component: GenePageComponent },
   { path: 'forwarding/:id', component: ForwardingComponent },
-  { path: '**', component: PageNotFoundComponent },
+  { path: '**', component: PageNotFoundComponent,  canActivate: [AuthGuard]},
 
   ];
 @NgModule({

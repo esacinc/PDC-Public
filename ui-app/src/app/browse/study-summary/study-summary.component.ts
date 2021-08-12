@@ -584,6 +584,7 @@ showCaseSummary(case_id: string, module: string){
 }
 
 //@@@PDC-3392 open files for a specific study in an overlay window
+//@@@PDC-3928 when downloading files for specific study version have to provide study UUID
 showFilesOverlay(submitter_id_name, data_category_val, file_type_val) {
 	const dialogConfig = new MatDialogConfig();	
 	dialogConfig.disableClose = true;
@@ -594,7 +595,7 @@ showFilesOverlay(submitter_id_name, data_category_val, file_type_val) {
 	dialogConfig.height = '95%';
 	var versioned_study = this.studySummaryData.versions.length > 1;
 	dialogConfig.data = {
-			summaryData: {study_name: submitter_id_name, data_category: data_category_val, file_type: file_type_val, versions: versioned_study, acquisition_type: "", experiment_type:""},
+			summaryData: {study_name: submitter_id_name, study_id: this.study_id, data_category: data_category_val, file_type: file_type_val, versions: versioned_study, acquisition_type: "", experiment_type:""},
 	};
 	this.router.navigate([{outlets: {filesOverlay: ['files-overlay', this.study_id]}}], { skipLocationChange: true });
 	const dialogRef = this.dialog.open(FilesOverlayComponent, dialogConfig);

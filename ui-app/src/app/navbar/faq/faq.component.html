@@ -30,6 +30,7 @@
             <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Files_Download)">What type of files are available for download from PDC?</a></b>
             <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Download_Data)">How do I download data?</a></b>
             <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Multiple_Files)">How do I download multiple files at once?</a></b>
+            <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Organize_Data)">How do I organize the data into a folder structure?</a></b>
             <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(File_Error)">Why does the file download URLs throw an error or exception?</a></b>
         </ul>
         <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Data_Access)">Data Access</a></b>
@@ -216,62 +217,9 @@
         The manifest will contain a download URL each selected file on a separate row. <strong>The URLs will expire after 7 days (168 hours) from the time the manifest was generated</strong>.
         You may revisit the PDC portal to generate a new file manifest.
         <br><br><div style="text-align:center"><img style="width: 60%;margin-left: 9%;" src="assets/css/images/faq-1.png" alt="Select file manifect"></div>
-      <br>On most linux, mac and cygwin environments with wget installed, you may provide the <strong><i>File manifest</i></strong> as input to the following code snippet to initiate batch download.
-      <br><br><div>
-                    <pre style="background-color: black;color: white;width: 60%;float: center;margin-left: 25%;">
-                    <span class="displayGrey">#!/bin/bash
-
-                    #This is a sample bash script to batch download PDC data files in to your local computer
-                    #This works on most linux machines
-                    #The script uses only the native shell functionalities and wget
-                    #Save this script as downloadPDCData.sh in your local directory and set executable permissions
-                    #Provide downloaded PDC File manifest as a command line parameter
-                    #Ex:  ./downloadPDCData.sh -f &lt;PDC File manifest&gt;
-                    #Users may improvise using awk, sed and rewrite in perl, python, etc.</span>
-
-                    helpFunction() {{ '{' }}
-                      echo <span class="displayGreen">""</span>
-                        echo <span class="displayGreen"> "Usage: $0 -f &lt;Name of the manifest file downloaded from PDC in CSV format&lt;"</span>
-                        exit <span class="displayRed"> 1</span> <span class="displayGrey"># Exit script after printing help</span>
-                      {{ '}' }}
-
-                      <span class="displayOrange">while</span><span class="displayGreen"> getopts</span> ":f:" opt
-                    do
-                            case <span class="displayGreen">"$opt"</span> <span class="displayOrange">in</span>
-                            f ) filename=<span class="displayGreen">"$OPTARG"</span> ;;
-                            ? ) helpFunction ;; <span class="displayGrey"># Print helpFunction in case input file name is non-existent</span>
-                            esac
-                    done
-
-                    <span class="displayGrey"># Print helpFunction in case input filename is empty</span>
-                    <span class="displayOrange">if</span> [ -z <span class="displayGreen">"$filename"</span> ]
-                    then
-                        echo "Some or all of the parameters are empty";
-                        helpFunction
-                    fi
-
-                    IFS=<span class="displayGreen">","</span> <span class="displayGrey">#split the input csv file based on comma separator and read into an array</span>
-
-                    <span class="displayOrange">while</span> read -r -a array
-                    do
-                        <span class="displayOrange">for</span> index <span class="displayOrange">in</span> <span class="displayGreen">"${{ '{' }}!array[@]{{ '}' }}"</span>; do
-                            <span class="displayGrey">#echo $index
-                            #Extracting file URL from Column 11</span>
-                            <span class="displayOrange">if</span> [[ <span class="displayGreen">"$index"</span> == <span class="displayRed">11</span>]; then
-                                <span class="displayGrey">#echo "$index ${{ '{' }}array[$index]{{ '}' }}"</span>
-                                url=<span class="displayGreen">"${{ '{' }}array[$index]{{ '}' }}"</span>
-                                temp=<span class="displayGreen">"${{ '{' }}url%\&quot;{{ '}' }}&quot;</span> <span class="displayGrey">#will remove the suffix " (escaped with a backslash to prevent shell interpretation).</span>
-                                temp=<span class="displayGreen">"${{ '{' }}temp#\&quot;{{ '}' }}&quot;</span> <span class="displayGrey">#will remove the prefix " (escaped with a backslash to prevent shell interpretation).</span>
-                                url=$temp
-                                echo <span class="displayGreen">"Downloading $url........."</span>
-                                wget -c $url <span class="displayGrey"># -c allows resuming the failed or stopped downloads
-                                                # -c also eliminates redownload if a file already exists (with same size) in the current directory.</span>
-                            fi
-                        done
-                    done &gt; $filename
-                    </pre>
-      </div>
-        <br>You may also use <strong>Download managers</strong> (special programs or browser extensions) that help manage large and multiple downloads.
+        <br>You may use the following sample scripts (in bash and python) available on PDC github to either download and reorganize or simply reorganize the previously downloaded files into this folder structure. Feel free to modify it to suit your needs. Also see the FAQ - <a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Organize_Data)">How do I organize the data into a folder structure?</a>
+        <br><a href='https://github.com/esacinc/PDC-Public/tree/master/tools/downloadPDCData' target="_blank">https://github.com/esacinc/PDC-Public/tree/master/tools/downloadPDCData</a>
+        <br><br>You may also use <strong>Download managers</strong> (special programs or browser extensions) that help manage large and multiple downloads.
         <br><br><div style="text-align:center">
         <img src="assets/css/images/faq-2.png" alt="An illustration of a download manager">
         <br><span style="font-size: 14px;font-weight: bold;">An illustration of a download manager</span>
@@ -281,6 +229,26 @@
       <br><a href="https://jdownloader.org/" target="_blank">https://jdownloader.org/</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">External Link</span></a>
       <br><a href="http://xdman.sourceforge.net/ " target="_blank">http://xdman.sourceforge.net/</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">External Link</span></a>
       <br><i>Disclaimer: The third-party software links are provided “as is” without warranty of any kind, either expressed or implied and such software is to be used at your own risk.</i>
+
+      <div #Organize_Data class="faq-question" id="Organize_Data">How do I organize the data into a folder structure? </div>
+      <p class="faq-response">
+        By default, all downloaded files will be placed in the same folder without any particular folder structure. The PDC manifest file provides all relevant metadata if you wish to organize them into a folder structure. This is especially useful when analyzing large datasets with labelling experiments.
+        <br><br>The following metadata data available in PDC file manifest can be used to organize the files:
+        <span style="position: relative; left: 1%">
+          <br>PDC Study ID, e.g., PDC000319
+          <br>PDC Study Version, e.g., 1
+          <br>Data Category, e.g., Processed Mass Spectra
+          <br>Run Metadata ID, e.g., AML Gilteritinib TimeCourse - Phosphoproteome-1
+          <br>File Type, e.g., Open Standard
+          <br>File, e.g., PTRC_exp12_plex_01_P_f06.mzML.gz
+        </span>
+        <br><br>You may use this information to create a folder structure and move the downloaded files into the desired location.
+        <br>e.g.
+        <br>PDC Study ID/ PDC Study Version/Data category/Run Metadata ID/File Type/File
+        <br>PDC000319/1/Processed Mass Spectra/ AML Gilteritinib TimeCourse - Phosphoproteome-1/Open Standard/ PTRC_exp12_plex_01_P_f06.mzML.gz
+        <br><br>You may use the following sample scripts (in bash and python) available on PDC github to either download and reorganize or simply reorganize the previously downloaded files into this folder structure. Feel free to modify it to suit your needs.
+        <br><a href='https://github.com/esacinc/PDC-Public/tree/master/tools/downloadPDCData' target="_blank">https://github.com/esacinc/PDC-Public/tree/master/tools/downloadPDCData</a>
+      </p>
 
       <div #File_Error class="faq-question">Why does the file download URLs throw an error or exception?</div>
       <p class="faq-response">PDC is hosted on AWS cloud and is under active development. To reduce egress costs from unintended downloads, <strong>the URLs will expire after 7 days (168 hours)</strong>. You may revisit the PDC portal to generate a new file manifest.
