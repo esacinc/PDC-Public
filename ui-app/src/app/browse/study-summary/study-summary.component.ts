@@ -429,6 +429,9 @@ export class StudySummaryComponent implements OnInit {
 			this.totalSuppFilesCount += this.suppFileCountsRaw[i].files_count;
 		}
 	}
+	if (this.fileCountsRaw != undefined) {
+		this.sortDataCategoriesInOrder();
+	}
 	/*  this.loading = true;
     //@@@PDC-1123 call ui wrapper API
 	  setTimeout(() => {
@@ -442,6 +445,24 @@ export class StudySummaryComponent implements OnInit {
 		  });
 	  }, 1000);*/
   }
+
+//@@@PDC-2552: Study Summary: Place Data Category terms in a defined order instead of alphabetical or numerical
+sortDataCategoriesInOrder() {
+	var order = ["Raw Mass Spectra","Processed Mass Spectra", "Peptide Spectral Matches", "Peptide Spectral Matches", "Protein Assembly", "Quality Metrics", "Quality Metrics"];
+	for (var obj in this.fileCountsRaw) {
+		let entityObj = "";
+		entityObj = this.fileCountsRaw[obj]["data_category"].toLowerCase();
+		//Order elements based on the suggested order
+		if (order.some(ele => entityObj.includes(ele))) {
+			this.fileCountsRaw[obj]["data_category"] = order.find(ele => entityObj.includes(ele));
+		}
+	}
+	this.fileCountsRaw = this.fileCountsRaw.sort((a, b) => {
+		return (
+			order.indexOf(a.data_category) - order.indexOf(b.data_category)
+		);
+	});
+}
 
 //@@@PDC-1160: Add cases and aliquots to the study summary page
 /*API call to get all clinical data */
@@ -793,9 +814,12 @@ studyTableExportCSV(dt) {
 		var changedVal = "";
 		for (let colValue of colValues) {
 			//changedVal = exportVal[colValue].replace(/<[^>]*>/g, '');
-			changedVal = exportVal[colValue].replace('<div>', '\r\n');
-			changedVal = changedVal.replace('</div>', '');
-			exportVal[colValue] = changedVal;
+			//@@@PDC-4060: Experimental Design - not all studies files get exported
+			if (exportVal[colValue] && !Array.isArray(exportVal[colValue])) {
+				changedVal = exportVal[colValue].replace('<div>', '\r\n');
+				changedVal = changedVal.replace('</div>', '');
+				exportVal[colValue] = changedVal;
+			}
 		}
 	}
  	let csvOptions = {

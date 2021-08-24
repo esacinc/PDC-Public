@@ -31,13 +31,14 @@ export class PublicationsService {
                                      'Accept': 'q=0.8;application/json;q=0.9' });
         this.options = new RequestOptions({ headers: this.headers });
 	}
-	
+	//@@@PDC-3646 - add program_name field for the program filter on publications page
 	publicationsQuery = gql`
 	  query FilterdPaginatedPublicationsQuery ($offset_value: Int, $limit_value: Int, $year_filter: String!, $disease_type_filter: String!, $program_filter: String!, $pubmedid_filter: String!) {
 		getPaginatedUIPublication(offset: $offset_value, limit: $limit_value, year: $year_filter, disease_type: $disease_type_filter, program: $program_filter, pubmed_id: $pubmedid_filter) {
 			total
 			uiPublication {
 				publication_id
+				program_name
 				pubmed_id
 				doi
 				author
@@ -53,7 +54,7 @@ export class PublicationsService {
 					submitter_id_name
 				}
 				disease_types
-						supplementary_data
+				supplementary_data
 			}
 			pagination {
 				count

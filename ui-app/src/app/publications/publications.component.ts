@@ -31,6 +31,7 @@ styleUrls: ['../../assets/css/global.css', './publications.component.scss'],
 //@@@PDC-3573 add some improvements to publications page
 //@@@PDC-3648 add improvements to publications page - change title and add clear all filters button
 //@@@PDC-3698 update publication page to add a string field in the filters for pubmed ID
+//@@@PDC-3646 make publication page filters function like Browse page filters 
 
 export class PublicationsComponent implements OnInit{ 
 
@@ -44,6 +45,9 @@ export class PublicationsComponent implements OnInit{
 	diseaseTypesFilterVals = [];
 	yearFilterVals = [];
 	programFilterVals = [];
+	diseaseTypesFilter = [];
+	yearFilter = [];
+	programFilter = [];
 	totalRecords = 0;
 	offset: number = 0;
 	limit: number = 50;
@@ -123,8 +127,51 @@ export class PublicationsComponent implements OnInit{
 		  this.offset = data.getPaginatedUIPublication.pagination.from;
 		  this.pageSize = data.getPaginatedUIPublication.pagination.size;
 		  this.limit = data.getPaginatedUIPublication.pagination.size;
+		  this.yearFilter = [];
+		  this.programFilter = [];
+		  this.diseaseTypesFilter = [];
+		  for (let i=0; i < this.filteredPublicationsData.length; i++ ) {
+			this.updateFiltersCounters(this.filteredPublicationsData[i]);
+		  }
+		  //console.log(this.yearFilter);
+		  //console.log(this.diseaseTypesFilter);
+		  //console.log(this.programFilter);
 		  this.loading = false;
 		});
+	}
+	
+	//@@@PDC-3646 - update publications counters per filters' values
+	private updateFiltersCounters( publicationData: any){
+		let filterValIdx = this.findFilterNameIndex(publicationData.year, this.yearFilter);
+		if (filterValIdx == -1) {
+			this.yearFilter.push( {filterVal: publicationData.year, pub_ids: [publicationData.publication_id]});	
+		} else {
+			this.yearFilter[filterValIdx].pub_ids.push(publicationData.publication_id);
+		}
+		filterValIdx = this.findFilterNameIndex(publicationData.program_name, this.programFilter);
+		if (filterValIdx == -1) {
+			this.programFilter.push( {filterVal: publicationData.program_name, pub_ids: [publicationData.publication_id]});	
+		} else {
+			this.programFilter[filterValIdx].pub_ids.push(publicationData.publication_id);
+		}
+		for (var j = 0; j < publicationData.disease_types.length; j++) {
+			filterValIdx = this.findFilterNameIndex(publicationData.disease_types[j], this.diseaseTypesFilter);
+			if (filterValIdx == -1) { 
+				this.diseaseTypesFilter.push( {filterVal: publicationData.disease_types[j], pub_ids: [publicationData.publication_id]});
+			} else {
+				this.diseaseTypesFilter[filterValIdx].pub_ids.push(publicationData.publication_id);
+			}
+		}
+	}
+	
+	private findFilterNameIndex(varValue: string, filterArray: any[]) {
+		let returnValue = -1;
+		for (var i = 0; i < filterArray.length; i++ ) {
+			if (filterArray[i].filterVal == varValue) {
+				returnValue = i;
+			}
+		}
+		return returnValue;
 	}
 	
 	loadPublications(event: any){
@@ -195,6 +242,12 @@ export class PublicationsComponent implements OnInit{
 			  this.offset = data.getPaginatedUIPublication.pagination.from;
 			  this.pageSize = data.getPaginatedUIPublication.pagination.size;
 			  this.limit = data.getPaginatedUIPublication.pagination.size;
+			  this.yearFilter = [];
+			  this.programFilter = [];
+			  this.diseaseTypesFilter = [];
+			  for (let i=0; i < this.filteredPublicationsData.length; i++ ) {
+				this.updateFiltersCounters(this.filteredPublicationsData[i]);
+			  }
 			  this.loading = false;
 			});
 		}

@@ -677,7 +677,8 @@ export class BrowseByFileComponent implements OnInit {
       }
       if (downloadLink) {
         //If the download file link is available, open the download link and start file download.
-        window.open(downloadLink, "_self");
+        //@@@PDC-3452: Some Quality Metrics Web files open in the same tab
+        window.open(downloadLink, '_blank');
       }
     }
   }
@@ -1001,7 +1002,8 @@ export class BrowseByFileComponent implements OnInit {
 
   //@@@PDC-1925 use window.open for multiple download
   winOpenS3File(url){
-	return window.open(url, "_self");
+    //@@@PDC-3452: Some Quality Metrics Web files open in the same tab
+    return window.open(url, '_blank');
   }
   
   sleep(milliseconds) {

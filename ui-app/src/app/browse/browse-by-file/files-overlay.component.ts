@@ -185,8 +185,8 @@ export class FilesOverlayComponent implements OnInit {
 			//Have to check if the file was already selected by file id and by study name
 			//otherwise there could be a situation (e.g. metadata files) where there is the same file for multiple studies
 			if(this.currentPageSelectedFile.indexOf(file.file_id + "-" + file.pdc_study_id) === -1){
-			  localSelectedFiles.push(file);
-			  this.currentPageSelectedFile.push(file.file_id + "-" + file.pdc_study_id);
+				localSelectedFiles.push(file);
+				this.currentPageSelectedFile.push(file.file_id + "-" + file.pdc_study_id);
 			} 
 		  }
 		  this.selectedFiles = localSelectedFiles;
@@ -223,9 +223,10 @@ export class FilesOverlayComponent implements OnInit {
   }
 
   //@@@PDC-918: Add button to allow download of full file manifest
+  //@@@PDC-4017: Issues with "Select this page" when sorting of column is performed
   changeHeaderCheckbox($event) {
     let checkboxVal = this.selectedHeaderCheckbox;
-    this.selectedFiles = this.currentPageSelectedFile = [];
+    //this.selectedFiles = this.currentPageSelectedFile = []; // no need to reinitialize all selected files.
     switch (checkboxVal) {
       case 'Select all pages': 
             this.fileExportCompleteManifest();
@@ -350,6 +351,8 @@ export class FilesOverlayComponent implements OnInit {
     this.offset = event.first;
     this.limit = event.rows;
     this.loading = true;
+	//@@@PDC-4017 
+	this.selectedHeaderCheckbox = ''; //reinitialize selected checkbox, so that a new page could be selected as well
 	if (this.publicationsFiles.length > 0) {
 				  this.limit = 100;
 				  this.pageSize = 100;

@@ -513,8 +513,10 @@ export type publicationsStudyData = {
 	submitter_id_name: string;
 }
 
+//@@@PDC-3646 - add program_name field for the program filter on publications page
 export type PublicationsData = {
 	publication_id: string;
+	program_name: string;
 	pubmed_id: string;
 	doi: string;
 	author: string;

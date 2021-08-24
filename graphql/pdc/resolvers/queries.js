@@ -3651,7 +3651,7 @@ export const resolvers = {
 			cacheFilterName['dataFilterName'] = cacheFilterName.name;
 			
 			var uiPubCountQuery = "select count(distinct pub.publication_id) as total ";
-			var uiPubBaseQuery = "SELECT distinct bin_to_uuid(pub.publication_id) as publication_id, pub.pubmed_id, pub.doi, pub.author, pub.title, pub.journal, pub.journal_url, pub.year, pub.abstract, pub.citation ";
+			var uiPubBaseQuery = "SELECT distinct bin_to_uuid(pub.publication_id) as publication_id, prog.name as program_name, pub.pubmed_id, pub.doi, pub.author, pub.title, pub.journal, pub.journal_url, pub.year, pub.abstract, pub.citation ";
 			var uiPubQuery = "FROM publication pub, study s, `case` c, sample sam, aliquot al, "+
 			"aliquot_run_metadata alm, study_publication sp, project proj, program prog "+
 			"WHERE alm.study_id = s.study_id and al.aliquot_id = alm.aliquot_id "+

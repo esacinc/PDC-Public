@@ -1,5 +1,6 @@
 type Publication {
 	publication_id: String
+	program_name: String
 	pubmed_id: String
 	doi: String
 	author: String

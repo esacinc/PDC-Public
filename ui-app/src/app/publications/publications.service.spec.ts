@@ -99,6 +99,7 @@ describe("PublicationsService", () => {
 			total
 			uiPublication {
 				publication_id
+				program_name
 				pubmed_id
 				doi
 				author
@@ -143,6 +144,7 @@ describe("PublicationsService", () => {
 				  doi: "10.1038/nature13438",
 				  journal: "Nature",
 				  journal_url: "https://www.nature.com/articles/nature13438",
+				  program_name: "Clinical Proteomic Tumor Analysis Consortium",
 				  publication_id: "44e2e0ce-89c7-11e8-bcf1-0a2705229b82",
 				  pubmed_id: "25043054",
 				  supplementary_data:[

@@ -9,22 +9,25 @@
 	  <mat-card-content class="card card-body" style="border: none;">
 	    <div class="row" style="align-items: center;">
 			<div [formGroup] = "publicationFiltersGroup" style="padding-top: 15px;">
-			  <mat-form-field appearance="fill">
+			  <mat-form-field appearance="fill" style="width:20%">
 				<mat-label>Disease Type</mat-label>
 					<mat-select formControlName="diseaseTypeFormControl" [(ngModel)]="filterSelected.disease_type" (selectionChange)="filterPublications('disease_type')" multiple> 
-					<mat-option *ngFor="let diseaseType of diseaseTypesFilterVals" [value]="diseaseType">{{diseaseType}}</mat-option>
+					<!--<mat-option *ngFor="let diseaseType of diseaseTypesFilterVals" [value]="diseaseType">{{diseaseType}}</mat-option>-->
+					<mat-option *ngFor="let diseaseType of diseaseTypesFilter" [value]="diseaseType.filterVal" [disabled]="diseaseType.pub_ids.length == 0" >{{diseaseType.filterVal}} ({{diseaseType.pub_ids.length}})</mat-option>
 				  </mat-select>
 			  </mat-form-field>&nbsp;&nbsp;
-			  <mat-form-field appearance="fill">
+			  <mat-form-field appearance="fill" style="width:10%">
 				<mat-label>Year</mat-label>
 				  <mat-select formControlName="yearFormControl" [(ngModel)]="filterSelected.year" (selectionChange)="filterPublications('year')" multiple>
-					<mat-option *ngFor="let yearVal of yearFilterVals" [value]="yearVal">{{yearVal}}</mat-option>
+					<!--<mat-option *ngFor="let yearVal of yearFilterVals" [value]="yearVal">{{yearVal}}</mat-option>-->
+					<mat-option *ngFor="let val of yearFilter" [value]="val.filterVal" [disabled]="val.pub_ids.length == 0">{{val.filterVal}} ({{val.pub_ids.length}})</mat-option>
 				  </mat-select>
 			  </mat-form-field>&nbsp;&nbsp;
-			  <mat-form-field appearance="fill">
+			  <mat-form-field appearance="fill" style="width:40%" >
 				<mat-label>Program</mat-label>
 				  <mat-select formControlName="programFormControl" [(ngModel)]="filterSelected.program" (selectionChange)="filterPublications('program')" multiple>
-					<mat-option *ngFor="let programVal of programFilterVals" [value]="programVal">{{programVal}}</mat-option>
+					<!--<mat-option *ngFor="let programVal of programFilterVals" [value]="programVal">{{programVal}}</mat-option>-->
+					<mat-option *ngFor="let programVal of programFilter" [value]="programVal.filterVal" [disabled]="programVal.pub_ids.length == 0" >{{programVal.filterVal}} ({{programVal.pub_ids.length}})</mat-option>
 				  </mat-select>
 			  </mat-form-field>&nbsp;&nbsp;
 			  <mat-form-field appearance="fill">
@@ -47,7 +50,7 @@
 	<p-dataView [value]="filteredPublicationsData" [lazy]="true" [paginator]="false" [(first)]="offset"
 				[rows]="50" [pageLinks]="5" [rowsPerPageOptions]="[10,20,50, 100]" [totalRecords]="totalRecords"
 				[loading]="loading" 
-				(onLazyLoad)="loadPublications($event)" id="publicationsDataTable" >
+				id="publicationsDataTable" > <!--(onLazyLoad)="loadPublications($event)"  -->
 		<ng-template pTemplate="caption">
 			<div *ngIf="totalRecords > 0 && !loading" >
 				<h3 style="font-family: 'Lato'; font-size:14px;margin-top:10px!important;float:left">{{totalRecords > 1 ? 'Total publications: ' + totalRecords : 'Total publication: ' + totalRecords }}</h3>

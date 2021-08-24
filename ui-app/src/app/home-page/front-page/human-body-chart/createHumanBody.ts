@@ -154,8 +154,8 @@ const createHumanBody: TCreateHumanBody = ({
 
   //@@@PDC-1417: For the human body chart, add label to the X-axis
   xAxisLabels.append("text")
-    .attr("x", barStartOffset + 51)
-    .attr("y", plotHeight + 13 + 40)
+    .attr("x", barStartOffset + 191)
+    .attr("y", plotHeight + 13 + 22)
     .attr('fill', 'white')
     .attr('font-size', '14px')
     .style('text-anchor', 'middle')

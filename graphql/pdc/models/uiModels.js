@@ -377,11 +377,13 @@ const defineUiModels = (db) => {
 	
 	//@@@PDC-273 API to retrieve publication data for PDC UI
 	//@@@PDC-3446 new publication data for PDC UI
+	//@@@PDC-3646 add program field for the program filter on PDC UI publication page
 	/**
 	* ModelUIPublication is used in uiPublication query.
 	*/
 	const ModelUIPublication = db.getSequelize().define('publication', {
 		publication_id: { type: Sequelize.STRING},
+		program_name: { type: Sequelize.STRING},
 		pubmed_id:  { type: Sequelize.STRING},
 		title: { type: Sequelize.STRING},
 		doi: { type: Sequelize.STRING},
