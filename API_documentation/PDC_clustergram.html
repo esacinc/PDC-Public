@@ -2,7 +2,7 @@
 <html>
 <head><meta charset="utf-8" />
 
-<title>PDC_clustergram</title>
+<title>NCI PDC: Clustergram Example</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -13077,10 +13077,11 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>If you are viewing the HTML, the notebook can be found <a href="https://github.com/esacinc/PDC-Public/blob/master/API_documentation/PDC_clustergram.ipynb">here.</a></p>
+<h2>PDC Clustergram Example</h2>
+<p>If you are viewing the HTML, the notebook can be found <a href="https://github.com/esacinc/PDC-Public/blob/master/API_documentation/PDC_clustergram.ipynb" target="_blank">here.</a></p>
 <p>This notebook attempts to demonstrate the following:</p>
 <ol>
-<li>Use the Proteome Data Commons (PDC) API to retreive protein relative expression data for a <a href="https://proteomics.cancer.gov/programs/cptac">CPTAC</a> study.  The PDC uses values produced by the Common Data Analysis Pipeline (<a href="https://cptac-data-portal.georgetown.edu/cptac/documents/CDAP_ProteinReports_description_20160503.pdf">CDAP</a>).  More information on the PDC implmentation of the CDAP can be found <a href="https://pdc.esacinc.com/data-dictionary/harmonization.html">here</a>.  <u>Note</u>: TMT/iTRAQ data are provided as log2ratios, where the denominator is a control channel.  In general, control channels are different between studies so comparisons <em>between</em> studies using these values are not currently reccomended in the absence of bridging data.</li>
+<li>Use the Proteome Data Commons (PDC) API to retreive protein relative expression data for a <a href="https://proteomics.cancer.gov/programs/cptac" target="_blank">CPTAC</a> study.  The PDC uses values produced by the Common Data Analysis Pipeline (<a href="https://cptac-data-portal.georgetown.edu/cptac/documents/CDAP_ProteinReports_description_20160503.pdf" target="_blank">CDAP</a>).  More information on the PDC implmentation of the CDAP can be found <a href="https://pdc.esacinc.com/data-dictionary/harmonization.html" target="_blank">here</a>.  <u>Note</u>: TMT/iTRAQ data are provided as log2ratios, where the denominator is a control channel.  In general, control channels are different between studies so comparisons <em>between</em> studies using these values are not currently reccomended in the absence of bridging data.</li>
 <li>Use the PDC API to retrieve the associated clinical metadata for all samples</li>
 <li>Format the data for analysis using pandas</li>
 <li>Cluster and visualize the data using the Seaborn clustermap package</li>
@@ -13141,7 +13142,7 @@ div#notebook {
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The next one is <strong>data type</strong>. 
-A table of data_types is available <a href="https://pdc-dev.esacinc.com/data-dictionary/publicapi-documentation/#!/Paginated_Records/paginatedDataMatrix">here</a>.  A description of how these values are computed can be found <a href="https://cptac-data-portal.georgetown.edu/cptac/documents/CDAP_ProteinReports_description_20160503.pdf">here</a>.  In brief, these values are log2 transformed ratio data, where aliquot is the numerator and the denominator is a pooled, reference sample.  Ratios are calculated following normalization in the CPTAC Common Data Analysis Pipeline (CDAP.)</p>
+A table of data_types is available <a href="https://pdc-dev.esacinc.com/data-dictionary/publicapi-documentation/#!/Paginated_Records/paginatedDataMatrix" target="_blank">here</a>.  A description of how these values are computed can be found <a href="https://cptac-data-portal.georgetown.edu/cptac/documents/CDAP_ProteinReports_description_20160503.pdf" target="_blank">here</a>.  In brief, these values are log2 transformed ratio data, where aliquot is the numerator and the denominator is a pooled, reference sample.  Ratios are calculated following normalization in the CPTAC Common Data Analysis Pipeline (CDAP.)</p>
 
 </div>
 </div>
@@ -13188,7 +13189,7 @@ A table of data_types is available <a href="https://pdc-dev.esacinc.com/data-dic
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Now, we can define a function to make the <a href="https://graphql.org/learn/">GraphQL</a> query.  This will get called once for the gene expression data and once for the clinical data.  If you are new to GraphQL, you can also try your queries <a href="https://pdc.cancer.gov/graphql">here</a>.</p>
+<p>Now, we can define a function to make the <a href="https://graphql.org/learn/" target="_blank">GraphQL</a> query.  This will get called once for the gene expression data and once for the clinical data.  If you are new to GraphQL, you can also try your queries <a href="https://pdc.cancer.gov/graphql" target="_blank">here</a>.</p>
 
 </div>
 </div>

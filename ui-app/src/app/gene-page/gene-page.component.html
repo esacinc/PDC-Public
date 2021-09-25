@@ -48,8 +48,8 @@
 		</div>
 		<br>
 		<div class="row" style="width: 80%;">
-			<p-table class="table-striped ui-datatable-odd" id="geneSummaryPTMDataTable" [value]="genePTMData" [lazy]="true" 
-					[scrollable]="true" scrollHeight="200px" [virtualScroll]="true" [rows]="10" [totalRecords]="ptmTotalRecords"
+			<p-table class="table-striped ui-datatable-odd" id="geneSummaryPTMDataTable" [value]="genePTMData" [lazy]="true" [paginator]="true" [(first)]="ptmOffset"
+					 scrollHeight="200px" [rows]="10" [pageLinks]="5" [totalRecords]="ptmTotalRecords" [loading]="loading"
 					 [resizableColumns]="true" responsive="true" (onLazyLoad)="loadPTMData($event)">
 				<ng-template pTemplate="caption">
 					<div style="float:left">Detected Post-translational Modifications</div>

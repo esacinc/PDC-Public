@@ -721,12 +721,14 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 
 	//@@@PDC-795 Change manifest download file name include timestamp 
 	studyTableExportCSV(dt){
+		this.validateStudyField();
 		dt.exportFilename = this.getCsvFileName("csv");
 		dt.exportCSV({ selectionOnly: true });
 	}
 	
 	//PDC-3073, PDC-3074 Add TSV format for manifests
 	studyTableExportTSV(dt){
+		this.validateStudyField();
 		let colValues = [];
 		for (var i=0; i< this.cols.length; i++) {
 			colValues.push(this.cols[i]['field']);
@@ -736,6 +738,28 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 		var blob = new Blob([exportTSVData], { type: 'text/csv;charset=utf-8;' });
 		FileSaver.saveAs(blob, this.getCsvFileName("tsv"));
 	}
+
+	//PDC-4129 export 0 by default
+	validateStudyField(){
+		for(let study of this.selectedStudies){
+			if(!study['raw_count']){
+				study['raw_count'] = 0
+			}
+			if(!study['mzml_count']){
+				study['mzml_count']=0
+			}
+			if(!study['psm_count']){
+				study['psm_count']=0
+			}
+			if(!study['protein_assembly_count']){
+				study['protein_assembly_count']=0
+			}
+			if(!study['quality_metrics_count']){
+				study['quality_metrics_count']=0
+			}			
+		}
+	}
+
 	//help function preparing a string containing the data for TSV manifest file
 	prepareTSVExportManifestData(manifestData){
 		let result = "";

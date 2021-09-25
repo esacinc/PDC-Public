@@ -305,7 +305,7 @@ properties:
         type: String
     status:
         description: Specifies if the case is qualified or disqualified for any reason.
-            Usually the data releated to such cases may be not used in the data analysis.
+            Usually the data related to such cases may be not used in the data analysis.
         enum:
         - Qualified
         - Disqualified
