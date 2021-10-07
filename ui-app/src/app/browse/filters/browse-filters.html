@@ -333,7 +333,8 @@
               <mat-expansion-panel-header [collapsedHeight]="'40px'" [expandedHeight]="'40px'">
                 <mat-panel-title>
                   <span class="browse-filter-title float-button-left">
-                    <a href="{{staticUrlBase}}dictionaryitem.html?eName=File#biospecimenStatus" target="_blank" class="browse-filter-title">Biospecimen Status</a>
+                    <!-- @@@PDC-4173 correct status link -->
+					<a href="{{staticUrlBase}}dictionaryitem.html?eName=Aliquot#status" target="_blank" class="browse-filter-title">Biospecimen Status</a>
                   </span>
                   <span class="float-button-right"></span>
                   <button mat-icon-button mat-primary class="browse-filter-title" id="clearSelectionsBiospecimenStatus"
@@ -526,7 +527,8 @@
             <mat-expansion-panel-header [collapsedHeight]="'40px'" [expandedHeight]="'40px'">
               <mat-panel-title>
                 <span class="browse-filter-title float-button-left">
-                  <a href="{{staticUrlBase}}dictionaryitem.html?eName=File#caseStatus" target="_blank" class="browse-filter-title">Case Status</a>
+				<!-- @@@PDC-4173 correct status link -->
+                  <a href="{{staticUrlBase}}dictionaryitem.html?eName=Case#status" target="_blank" class="browse-filter-title">Case Status</a>
                 </span>
                 <span class="float-button-right"></span>
                 <button mat-icon-button mat-primary class="browse-filter-title" id="clearSelectionsCaseStatus"

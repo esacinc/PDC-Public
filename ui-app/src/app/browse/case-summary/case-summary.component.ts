@@ -211,23 +211,27 @@ export class CaseSummaryComponent implements OnInit {
   
   getCaseSummaryData(){
 	this.loading = true;
-	this.caseSummaryService.getDetailedCaseSummaryData(this.case_id).subscribe((data: any) =>{
-		//@@@PDC-1123 add ui wrappers public APIs
-		//console.log("Case from Array: "+JSON.stringify(data.uiCaseSummary[0]));
-		//@@@PDC-2335 uiCaseSummary returns an array instead of a single obj
-		this.caseDetailedSummaryData = data.uiCaseSummary[0];
-		//@@@PDC-2956: issue with opening case summary via direct URL
-		if (this.case_submitter_id === "" && data.uiCaseSummary[0].case_submitter_id != "") {
-			this.case_submitter_id = data.uiCaseSummary[0].case_submitter_id;
-		}
-		this.samples = data.uiCaseSummary[0].samples;
-		for (let sample of this.samples){
-			this.aliquots = this.aliquots.concat(sample.aliquots);
-		}
-		this.diagnoses = this.removeNullValues(data.uiCaseSummary[0].diagnoses);
-		this.demographics = this.removeNullValues(data.uiCaseSummary[0].demographics);
-		this.loading = false;
-	});
+	//@@@PDC-4283: Data discrepancy for "Year of Death"
+	//Add timeout for loading demographics data.
+	setTimeout(() => {
+		this.caseSummaryService.getDetailedCaseSummaryData(this.case_id).subscribe((data: any) =>{
+			//@@@PDC-1123 add ui wrappers public APIs
+			//console.log("Case from Array: "+JSON.stringify(data.uiCaseSummary[0]));
+			//@@@PDC-2335 uiCaseSummary returns an array instead of a single obj
+			this.caseDetailedSummaryData = data.uiCaseSummary[0];
+			//@@@PDC-2956: issue with opening case summary via direct URL
+			if (this.case_submitter_id === "" && data.uiCaseSummary[0].case_submitter_id != "") {
+				this.case_submitter_id = data.uiCaseSummary[0].case_submitter_id;
+			}
+			this.samples = data.uiCaseSummary[0].samples;
+			for (let sample of this.samples){
+				this.aliquots = this.aliquots.concat(sample.aliquots);
+			}
+			this.diagnoses = this.removeNullValues(data.uiCaseSummary[0].diagnoses);
+			this.demographics = this.removeNullValues(data.uiCaseSummary[0].demographics);
+			this.loading = false;
+		});
+	}, 1000);
   }
   
   //@@@PDC-336
