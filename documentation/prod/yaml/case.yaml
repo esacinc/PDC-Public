@@ -170,6 +170,7 @@ properties:
         - Initial Genomic Sequencing
         - Sample Procurement
         - Study Enrollment
+        - Recurrence
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6154722&version=1.

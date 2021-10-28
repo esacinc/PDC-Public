@@ -300,6 +300,12 @@ properties:
         - Unknown
         - Not Reported
         - Not Allowed To Collect
+        - Sublingual Gland
+        - Submandibular Gland
+        - Paranasal Sinuses
+        - Supraglottis
+        - Subglottis
+        - Glottis
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=4742851&version=1.0
@@ -367,6 +373,7 @@ properties:
         - Unknown
         - Not Reported
         - Not Allowed To Collect
+        - Mixed Adherent Suspension
         required: 'True'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432591&version=1.0
@@ -557,6 +564,32 @@ properties:
         - Unknown
         - Not Reported
         - Not Allowed To Collect
+        - Endolaryngeal Excision
+        - Laryngopharyngectomy
+        - Radical Maxillectomy
+        - Transoral Laser Excision
+        - Lymph Node Dissection
+        - Mandibulectomy
+        - Radical Nephrectomy
+        - Maxillectomy
+        - 'Parotidectomy, NOS'
+        - Radical Prostatectomy
+        - Superficial Parotidectomy
+        - Palatectomy
+        - Subtotal Prostatectomy
+        - Tonsillectomy
+        - Partial Laryngectomy
+        - Deep Parotidectomy
+        - Buccal Mucosal Resection
+        - Partial Maxillectomy
+        - Total Nephrectomy
+        - Vertical Hemilaryngectomy
+        - Supracricoid Laryngectomy
+        - Glossectomy
+        - Supraglottic Laryngectomy
+        - Total Laryngectomy
+        - Partial Nephrectomy
+        - Transurethral Resection (TURP)
         required: 'False'
         type: Enumeration
     oct_embedded:
@@ -682,6 +715,9 @@ properties:
         - Unknown
         - Not Reported
         - Not Allowed To Collect
+        - Next Generation Cancer Model Expanded Under Non-conforming Conditions
+        - Mixed Adherent Suspension
+        - Saliva
         required: 'True'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3111302&version=2.0
@@ -720,6 +756,7 @@ properties:
         - '85'
         - '86'
         - '99'
+        - '87'
         required: 'False'
         type: Enumeration
     shortest_dimension:
@@ -841,6 +878,7 @@ properties:
         - Unknown
         - Not Reported
         - Not Allowed To Collect
+        - Premalignant
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3288124&version=1.0

@@ -50,6 +50,7 @@ const defineSequelizeModels = (db) => {
 		  days_to_death: { type: Sequelize.INTEGER },
 		  vital_status: { type: Sequelize.STRING },
 		  year_of_birth: { type: Sequelize.INTEGER },
+		  year_of_death: { type: Sequelize.INTEGER },
 	  }, {
 		  timestamps: false,
 		  underscored: true,

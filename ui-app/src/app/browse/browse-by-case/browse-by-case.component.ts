@@ -422,7 +422,7 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
 		{field: 'days_to_collection', header: 'Days To Collection'},
 		{field: 'days_to_sample_procurement', header: 'Days To Sample Procurement'},
 		{field: 'diagnosis_pathologically_confirmed', header: 'Diagnosis Pathologically Confirmed'},
-		{field: 'freezing_method', header: 'Freexing Method'},
+		{field: 'freezing_method', header: 'Freezing Method'},
 		{field: 'initial_weight', header: 'Initial Weight'},
 		{field: 'intermediate_dimension', header: 'Intermediate Dimension'},
 		{field: 'is_ffpe', header: 'Is FFPE'},

@@ -1,0 +1,19 @@
+type Treatment {
+	 treatment_id: String
+	 treatment_submitter_id: String
+	 case_id: String
+	 case_submitter_id: String
+	 project_id: String
+	 project_submitter_id: String
+	 days_to_treatment_end: String
+	 days_to_treatment_start: String
+	 initial_disease_status: String
+	 regimen_or_line_of_therapy: String
+	 therapeutic_agents: String
+	 treatment_anatomic_site: String
+	 treatment_effect: String
+	 treatment_intent_type: String
+	 treatment_or_therapy: String
+	 treatment_outcome: String
+	 treatment_type: String
+}

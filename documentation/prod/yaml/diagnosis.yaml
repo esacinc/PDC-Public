@@ -115,6 +115,7 @@ properties:
         - Unknown
         - Not Reported
         - Not Allowed To Collect
+        - Stage IA3
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3440332&version=2.0
@@ -183,6 +184,7 @@ properties:
         - Unknown
         - Not Reported
         - Not Allowed To Collect
+        - M1d
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3045439&version=2.0
@@ -263,6 +265,9 @@ properties:
         - Stage X
         - Unknown
         - Not Reported
+        - Stage IIIA1
+        - Stage IA3
+        - Stage IIIA2
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3203222&version=2.0
@@ -539,6 +544,8 @@ properties:
         - Unknown
         - not reported
         - Not Allowed To Collect
+        - Progression
+        - Premalignant
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3288124&version=2.0
@@ -808,6 +815,13 @@ properties:
         - Unknown
         - Not Reported
         - Not Allowed To Collect
+        - Stage IC1
+        - Stage IIIA2
+        - Stage IIIAii
+        - Stage IC2
+        - Stage IIIA1
+        - Stage IIIAi
+        - Stage IC3
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3225684&version=2.0
@@ -857,6 +871,7 @@ properties:
         - Group 3
         - Group 4
         - Group 5
+        - Not Reported
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5918370&version=1.0
@@ -1244,6 +1259,21 @@ properties:
         - Spinal Cord
         - Unknown
         - Not Reported
+        - Esophagus
+        - Bladder
+        - Retroperitoneum
+        - Heart
+        - Vulva, NOS
+        - Lymph Node, Subcarinal
+        - Neck
+        - Uterine Adnexa
+        - Gastrointestinal Tract
+        - Lymph Node, Regional
+        - Urethra
+        - Pancreas
+        - Bronchus
+        - Vertebral Canal
+        - Head, Face or Neck, NOS
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3029815&version=2.0
@@ -1280,6 +1310,7 @@ properties:
         - Unknown
         - Not Reported
         - Not Allowed To Collect
+        - Exoresection
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6161031&version=2.0
@@ -2459,6 +2490,31 @@ properties:
         - 9992/3
         - Unknown
         - Not Reported
+        - 8806/6
+        - 8246/6
+        - 8249/6
+        - 8950/6
+        - 9180/6
+        - 8310/6
+        - 8441/6
+        - 8240/6
+        - 8380/6
+        - 8482/6
+        - 8801/6
+        - 8471/1
+        - 8046/6
+        - 8804/6
+        - 8041/6
+        - 8040/3
+        - 8920/6
+        - 8020/6
+        - 8522/6
+        - 8461/6
+        - 8720/6
+        - 8800/6
+        - 8500/6
+        - 9440/6
+        - 8311/6
         required: 'True'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3226275&version=2.0
@@ -5701,6 +5757,7 @@ properties:
         - Overlapping lesion of biliary tract
         - Unknown
         - Not Reported
+        - Pancreatic neck
         required: 'True'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6161034&version=2.0
@@ -5715,6 +5772,10 @@ properties:
         - White Matter
         - Unknown
         - Not Reported
+        - Occipital lobe
+        - Frontal lobe
+        - Parietal lobe
+        - Temporal lobe
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3133891&version=2.0
@@ -6073,6 +6134,7 @@ properties:
         - Overlapping lesion of biliary tract
         - Unknown
         - Not Reported
+        - Laryngeal commissure
         required: 'True'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6161035&version=2.0
@@ -6125,6 +6187,7 @@ properties:
         - Unknown
         - Not Reported
         - not reported
+        - Intermediate Grade
         required: 'True'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2785839&version=2.0

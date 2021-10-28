@@ -32,6 +32,7 @@
             <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Multiple_Files)">How do I download multiple files at once?</a></b>
             <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Organize_Data)">How do I organize the data into a folder structure?</a></b>
             <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(File_Error)">Why does the file download URLs throw an error or exception?</a></b>
+            <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Download_Clinical)">How do I download clinical and biospecimen data?</a></b>
         </ul>
         <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Data_Access)">Data Access</a></b>
           <ul>
@@ -253,6 +254,14 @@
       <div #File_Error class="faq-question">Why does the file download URLs throw an error or exception?</div>
       <p class="faq-response">PDC is hosted on AWS cloud and is under active development. To reduce egress costs from unintended downloads, <strong>the URLs will expire after 7 days (168 hours)</strong>. You may revisit the PDC portal to generate a new file manifest.
 	  We also limit downloads of the same file from the same IP Address to only 10 times per 24 hour period. So if you have downloaded the file several times already you may get an error message indicating that you have exceeded your download attempts for the 24 hour period.</p>
+
+    <div #Download_Clinical class="faq-question">How do I download clinical and biospecimen data?</div>
+    <p class="faq-response">
+      PDC portal allows users to build cohorts by applying various clinical, biospecimen, experimental and file features as filters and export the selections as manifest files.
+      <br><br>To download biospecimen (case, sample, aliquot) related data, once you identify the data of your interest by applying filters, move to the 'Biospecimens' tab on the browse page. Select the checkbox to select a specific row, all rows on the page or all pages and click export biospecimen manifest button in CSV or TSV format. 
+      <br><br>To download clinical data, once you identify the data of your interest by applying filters, move to the 'Clinical' tab on the browse page. Select the checkbox to select a specific row, all rows on the page or all pages and click the export clinical manifest button in CSV or TSV format. Clinical data are organized into multiple files and are exported as one tar.gz archive. The clinical manifest includes data for demographic and diagnosis and the exposure manifest includes exposure related data. 
+      <br><br>Refer to <a href="../data-dictionary/dictionary.html" target="_blank">PDC data dictionary</a> for more information about the biospecimen and clinical data.
+    </p>
 
       <a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Top)">Go Back</a>
 

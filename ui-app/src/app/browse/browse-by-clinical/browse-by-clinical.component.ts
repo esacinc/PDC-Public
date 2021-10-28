@@ -10,6 +10,7 @@ import { CaseSummaryComponent } from '../case-summary/case-summary.component';
 import { ngxCsv } from "ngx-csv/ngx-csv";
 import * as _ from 'lodash';
 import * as FileSaver from 'file-saver';
+import * as JSZip from 'jszip';
 
 
 @Component({
@@ -51,6 +52,7 @@ export class BrowseByClinicalComponent implements OnInit {
   pageSize: number;
   selectedClinicalData: AllClinicalData[] = [];
   cols: any[];
+  exposureCols: any[];
   static urlBase;
 	gdcUrl: string = environment.gdc_case_id_url;
 	kidsFirstURL: string = environment.kidsFirst_url;
@@ -347,19 +349,52 @@ downloadCompleteManifest(buttonClick = false) {
 			//PDC-3206 fix ddownload manifest even if there are zero records 
 			if (this.totalRecords > 0) {
 				let exportFileObject = JSON.parse(JSON.stringify(exportData, colValues));	
-				if (this.manifestFormat == "csv") {
-					new ngxCsv(exportFileObject, this.getExportFileName("csv"), csvOptions);
-				}else {
-					//For TSV format have to preprocess and use different function than CSV
-					let exportTSVData = this.prepareTSVExportManifestData(exportFileObject);
-					var blob = new Blob([exportTSVData], { type: 'text/csv;charset=utf-8;' });
-					FileSaver.saveAs(blob, this.getExportFileName("tsv"));
-				}
+				//@@@PDC-4260: Update clinical manifest to include new clinical data fields
+				this.prepareDownloadData(this.manifestFormat, exportData, exportFileObject);
 			}
 			this.isTableLoading.emit({isTableLoading:"clinical:false"});
 		}
 		});
 	}, 10);
+}
+
+//@@@PDC-4260: Update clinical manifest to include new clinical data fields
+prepareDownloadData(format, exportData, exportFileObject) {
+	this.loading = true;
+	//Prepare exposure Data
+	//For TSV format have to preprocess and use different function than CSV
+	if (format == "tsv") {
+		let exportTSVData = this.prepareTSVExportManifestData(exportFileObject, this.cols);
+		var blob = new Blob([exportTSVData], { type: 'text/csv;charset=utf-8;' });
+	} else if (format == "csv") {
+		let exportCSVData = this.prepareCSVExportManifestData(exportFileObject, this.cols);
+		var blob = new Blob([exportCSVData], { type: 'text/csv' });
+	}
+	let exposureDataArr = [];
+	exposureDataArr = this.populateExposureData(exportData);
+	let exposureColValues = [];
+	for (var i=0; i< this.exposureCols.length; i++) {
+		exposureColValues.push(this.exposureCols[i]['field']);
+	}
+	let exportFileExposureObject = JSON.parse(JSON.stringify(exposureDataArr, exposureColValues));
+	if (format == "tsv") {
+		let exportExposureTSVData = this.prepareTSVExportManifestData(exportFileExposureObject, this.exposureCols);
+		var exposureBlob = new Blob([exportExposureTSVData], { type: 'text/csv;charset=utf-8;' });
+	} else if (format == "csv") {
+		let exportExposureCSVData = this.prepareCSVExportManifestData(exportFileExposureObject, this.exposureCols);
+            var exposureBlob = new Blob([exportExposureCSVData], { type: 'text/csv;' });
+	}
+	//Zip the files to tar.gz
+	const jszip = new JSZip();
+	jszip.file(this.getExportFileName(format), blob);
+	jszip.file(this.getExportFileName(format, "exposure"), exposureBlob);
+	//eg: PDC_clinical_data_manifests_<timestamp>
+	let folderName = this.getExportFileName(format, "", "true").replace("." + format, "") + ".tar.gz";
+	//Download files
+	jszip.generateAsync({ type: 'blob' }).then(function(content) {
+		FileSaver.saveAs(content, folderName);
+	});
+	this.loading = false;
 }
 
 //@@@PDC-3667: "Select all pages" option issue
@@ -540,6 +575,34 @@ isDownloadDisabled(){
 		{field: 'vascular_invasion_present', header: 'Vascular Invasion Present'},
 		{field: 'year_of_diagnosis', header: 'Year of Diagnosis'}
 	  ];
+	  this.exposureCols = [
+		{field: 'case_id', header: 'Case ID'},
+		{field: 'case_submitter_id', header: 'Case Submitter ID'},
+		{field: 'exposure_id', header: 'Exposure ID'},
+		{field: 'exposure_submitter_id', header: 'Exposure Submitter ID'},
+		{field: 'alcohol_days_per_week', header: 'Alcohol Days Per Week'},
+		{field: 'alcohol_drinks_per_day', header: 'Alcohol Drinks Per Day'},
+		{field: 'alcohol_history', header: 'Alcohol History'},
+		{field: 'alcohol_intensity', header: 'Alcohol Intensity'},
+		{field: 'asbestos_exposure', header: 'Asbestos Exposure'},
+		{field: 'bmi', header: 'Bmi'},
+		{field: 'cigarettes_per_day', header: 'Cigarettes Per Day'},
+		{field: 'coal_dust_exposure', header: 'Coal Dust Exposure'},
+		{field: 'environmental_tobacco_smoke_exposure', header: 'Environmental Tobacco Smoke Exposure'},
+		{field: 'height', header: 'Height'},
+		{field: 'pack_years_smoked', header: 'Pack Years Smoked'},
+		{field: 'radon_exposure', header: 'Radon Exposure'},
+		{field: 'respirable_crystalline_silica_exposure', header: 'Respirable Crystalline Silica Exposure'},
+		{field: 'smoking_frequency', header: 'Smoking Frequency'},
+		{field: 'time_between_waking_and_first_smoke', header: 'Time Between Waking And First Smoke'},
+		{field: 'tobacco_smoking_onset_year', header: 'Tobacco Smoking Onset Year'},
+		{field: 'tobacco_smoking_quit_year', header: 'Tobacco Smoking Quit Year'},
+		{field: 'tobacco_smoking_status', header: 'Tobacco Smoking Status'},
+		{field: 'type_of_smoke_exposure', header: 'Type Of Smoke Exposure'},
+		{field: 'type_of_tobacco_used', header: 'Type Of Tobacco Used'},
+		{field: 'weight', header: 'Weight'},
+		{field: 'years_smoked', header: 'Years Smoked'},
+	  ];
 	  //@@@PDC-799: Redirecting to the NIH login page for the file authorization loses PDC state
 	  this.activatedRoute.queryParams.subscribe(queryParams => {
 		if (queryParams.code) {
@@ -555,19 +618,15 @@ isDownloadDisabled(){
 		clinicalTableExportCSV(dt){
 			dt.exportFilename = this.getExportFileName("csv");
 			//@@@PDC-2950: External case id missing in clinical manifest
- 			let headerCols = [];
 			let colValues = [];
 			for (var i=0; i< this.cols.length; i++) {
-				headerCols.push(this.cols[i]['header']);
 				colValues.push(this.cols[i]['field']);
 			}
 			let exportData = [];
 			exportData = this.addGenomicImagingDataToExportManifest(this.selectedClinicalData);
-			let csvOptions = {
-				headers: headerCols,
-			};
 			let exportFileObject = JSON.parse(JSON.stringify(exportData, colValues));
-			new ngxCsv(exportFileObject, this.getExportFileName(), csvOptions);
+			//@@@PDC-4260: Update clinical manifest to include new clinical data fields
+			this.prepareDownloadData("csv", exportData, exportFileObject);
 		}
 		
 		//PDC-3073, PDC-3074 Add TSV format for manifests
@@ -579,18 +638,37 @@ isDownloadDisabled(){
 			}
 			exportData = this.addGenomicImagingDataToExportManifest(this.selectedClinicalData);
 			let exportFileObject = JSON.parse(JSON.stringify(exportData, colValues));
-			let exportTSVData = this.prepareTSVExportManifestData(exportFileObject);
-			var blob = new Blob([exportTSVData], { type: 'text/csv;charset=utf-8;' });
-			FileSaver.saveAs(blob, this.getExportFileName("tsv"));	
+			//@@@PDC-4260: Update clinical manifest to include new clinical data fields
+			this.prepareDownloadData("tsv", exportData, exportFileObject);
 		}
+
+		//@@@PDC-4260: Update clinical manifest to include new clinical data fields
+		//Populate exposure data
+		populateExposureData(exportData) {
+			let exposureDataArr = [];
+			for (var obj in exportData) {
+				let case_id_val = exportData[obj]['case_id'];
+				let case_submitter_id_val = exportData[obj]['case_submitter_id'];
+				let exposures = exportData[obj]['exposures'];
+				if (exposures && exposures.length > 0) {
+					for (var exp in exposures) {
+						exportData[obj]['exposures'][exp]['case_id'] = case_id_val;
+						exportData[obj]['exposures'][exp]['case_submitter_id']	= case_submitter_id_val;
+						exposureDataArr.push(exportData[obj]['exposures'][exp]);
+					}
+				}
+			}
+			return exposureDataArr;
+		}
+
 		//help function preparing a string containing the data for TSV manifest file
-		prepareTSVExportManifestData(manifestData){
+		prepareTSVExportManifestData(manifestData, columns){
 			let result = "";
 			let separator = '\t';
 			let EOL = "\r\n";
-			for (var i=0; i< this.cols.length; i++) {
+			for (var i=0; i< columns.length; i++) {
 				//@@@PDC-3482 headers in TSV file should match headers in CSV
-				result += this.cols[i]['header'] + separator;
+				result += columns[i]['header'] + separator;
 			}
 			result = result.slice(0, -1);
 			result += EOL;
@@ -600,6 +678,32 @@ isDownloadDisabled(){
 						result += "null" + separator;
 					} else {
 						result += manifestData[i][index] + separator;
+					}
+				}
+				result = result.slice(0, -1);
+				result += EOL;
+			}
+			return result;
+		}
+
+		//@@@PDC-4260: Update clinical manifest to include new clinical data fields
+		//help function preparing a string containing the data for CSV manifest file
+		prepareCSVExportManifestData(manifestData, columns){
+			let result = "";
+			let separator = ',';
+			let EOL = "\r\n";
+			for (var i=0; i< columns.length; i++) {
+				//@@@PDC-3482 headers in TSV file should match headers in CSV
+				result += columns[i]['header'] + separator;
+			}
+			result = result.slice(0, -1);
+			result += EOL;
+			for (var i=0; i < manifestData.length; i++){
+				for (const index in manifestData[i]) {
+					if (manifestData[i][index] == null) {
+						result += "null" + separator;
+					} else {
+						result += '"'+ manifestData[i][index] + '"'+ separator;
 					}
 				}
 				result = result.slice(0, -1);
@@ -628,8 +732,16 @@ isDownloadDisabled(){
 			return exportData;
 		}
 	
-		private getExportFileName(format = "csv"): string {
-			let csvFileName = "PDC_clinical_manifest_";
+		private getExportFileName(format = "csv", subType="", folder=""): string {
+			let csvFileName = "";
+			if (subType == "") {
+				csvFileName = "PDC_clinical_manifest_";
+			} else {
+				csvFileName = "PDC_clinical_" + subType + "_manifest_";
+			}
+			if (folder == "true") {
+				csvFileName = "PDC_clinical_data_manifests_";
+			}
 			const currentDate: Date = new Date();
 			let month: string = "" + (currentDate.getMonth() + 1);
 			csvFileName += this.convertDateString(month);
@@ -644,6 +756,8 @@ isDownloadDisabled(){
 			csvFileName += this.convertDateString(second);
 			if (format === "tsv") {
 				csvFileName += ".tsv";
+			} else if (format === "csv") {
+				csvFileName += ".csv";
 			}
 			return csvFileName;
 		}

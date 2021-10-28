@@ -75,5 +75,9 @@ type UIClinical {
 	year_of_diagnosis:  String
 	icd_10_code: String
 	synchronous_malignancy: String
+	exposures: [Exposure]
+	family_histories: [FamilyHistory]
+	follow_ups: [FollowUp]
+	treatments: [Treatment]
 	externalReferences: [EntityReference]
 }

@@ -98,6 +98,7 @@ properties:
         - Wilms Tumor
         - Unknown
         - Not Reported
+        - Pediatric Liver Cancer
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6161022&version=1.0
@@ -225,6 +226,10 @@ properties:
         - Wife
         - Unknown
         - Not Reported
+        - Adopted Brother
+        - Adopted Sister
+        - Female Sibling of Adopted Child
+        - Male Sibling of Adopted Child
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2690165&version=2.0

@@ -711,6 +711,140 @@ const defineCustomModels = (db) => {
 	  });
 	  ModelEntityReference.removeAttribute('id');
 	  
+	  //@@@PDC-4259 add exposure, family history, follow up and treatment
+	  const ModelTreatment = db.getSequelize().define('dummy', {
+			treatment_id: { type: Sequelize.STRING },
+			treatment_submitter_id: { type: Sequelize.STRING },
+			case_id: { type: Sequelize.STRING },
+			case_submitter_id: { type: Sequelize.STRING },
+			project_id: { type: Sequelize.STRING },
+			project_submitter_id: { type: Sequelize.STRING },
+			days_to_treatment_end: { type: Sequelize.STRING },
+			days_to_treatment_start: { type: Sequelize.STRING },
+			initial_disease_status: { type: Sequelize.STRING },
+			regimen_or_line_of_therapy: { type: Sequelize.STRING },
+			therapeutic_agents: { type: Sequelize.STRING },
+			treatment_anatomic_site: { type: Sequelize.STRING },
+			treatment_effect: { type: Sequelize.STRING },
+			treatment_intent_type: { type: Sequelize.STRING },
+			treatment_or_therapy: { type: Sequelize.STRING },
+			treatment_outcome: { type: Sequelize.STRING },
+			treatment_type: { type: Sequelize.STRING },
+	  }, {
+		  timestamps: false,
+		  underscored: true,
+		  freezeTableName: true,
+		  tableName: 'dummy'	
+	  });
+	  ModelTreatment.removeAttribute('id');
+	  
+	  const ModelExposure = db.getSequelize().define('dummy', {
+			exposure_id: { type: Sequelize.STRING },
+			exposure_submitter_id: { type: Sequelize.STRING },
+			case_id: { type: Sequelize.STRING },
+			case_submitter_id: { type: Sequelize.STRING },
+			project_id: { type: Sequelize.STRING },
+			project_submitter_id: { type: Sequelize.STRING },
+			alcohol_days_per_week: { type: Sequelize.STRING },
+			alcohol_drinks_per_day: { type: Sequelize.STRING },
+			alcohol_history: { type: Sequelize.STRING },
+			alcohol_intensity: { type: Sequelize.STRING },
+			asbestos_exposure: { type: Sequelize.STRING },
+			bmi: { type: Sequelize.STRING },
+			cigarettes_per_day: { type: Sequelize.STRING },
+			coal_dust_exposure: { type: Sequelize.STRING },
+			environmental_tobacco_smoke_exposure: { type: Sequelize.STRING },
+			height: { type: Sequelize.STRING },
+			pack_years_smoked: { type: Sequelize.STRING },
+			radon_exposure: { type: Sequelize.STRING },
+			respirable_crystalline_silica_exposure: { type: Sequelize.STRING },
+			smoking_frequency: { type: Sequelize.STRING },
+			time_between_waking_and_first_smoke: { type: Sequelize.STRING },
+			tobacco_smoking_onset_year: { type: Sequelize.STRING },
+			tobacco_smoking_quit_year: { type: Sequelize.STRING },
+			tobacco_smoking_status: { type: Sequelize.STRING },
+			type_of_smoke_exposure: { type: Sequelize.STRING },
+			type_of_tobacco_used: { type: Sequelize.STRING },
+			weight: { type: Sequelize.STRING },
+			years_smoked: { type: Sequelize.STRING },
+	  }, {
+		  timestamps: false,
+		  underscored: true,
+		  freezeTableName: true,
+		  tableName: 'dummy'	
+	  });
+	  ModelExposure.removeAttribute('id');
+	  
+	  const ModelFamilyHistory = db.getSequelize().define('dummy', {
+			family_history_id: { type: Sequelize.STRING },
+			family_history_submitter_id: { type: Sequelize.STRING },
+			case_id: { type: Sequelize.STRING },
+			case_submitter_id: { type: Sequelize.STRING },
+			project_id: { type: Sequelize.STRING },
+			project_submitter_id: { type: Sequelize.STRING },
+			relationship_type: { type: Sequelize.STRING },
+			relationship_gender: { type: Sequelize.STRING },
+			relationship_age_at_diagnosis: { type: Sequelize.STRING },
+			relationship_primary_diagnosis: { type: Sequelize.STRING },
+			relative_with_cancer_history: { type: Sequelize.STRING },
+			relatives_with_cancer_history_count: { type: Sequelize.STRING },
+	  }, {
+		  timestamps: false,
+		  underscored: true,
+		  freezeTableName: true,
+		  tableName: 'dummy'	
+	  });
+	  ModelFamilyHistory.removeAttribute('id');
+	  
+	  const ModelFollowUp = db.getSequelize().define('dummy', {
+			follow_up_id: { type: Sequelize.STRING },
+			follow_up_submitter_id: { type: Sequelize.STRING },
+			case_id: { type: Sequelize.STRING },
+			case_submitter_id: { type: Sequelize.STRING },
+			project_id: { type: Sequelize.STRING },
+			project_submitter_id: { type: Sequelize.STRING },
+			adverse_event: { type: Sequelize.STRING },
+			barretts_esophagus_goblet_cells_present: { type: Sequelize.STRING },
+			bmi: { type: Sequelize.STRING },
+			cause_of_response: { type: Sequelize.STRING },
+			comorbidity: { type: Sequelize.STRING },
+			comorbidity_method_of_diagnosis: { type: Sequelize.STRING },
+			days_to_adverse_event: { type: Sequelize.STRING },
+			days_to_comorbidity: { type: Sequelize.STRING },
+			days_to_follow_up: { type: Sequelize.STRING },
+			days_to_progression: { type: Sequelize.STRING },
+			days_to_progression_free: { type: Sequelize.STRING },
+			days_to_recurrence: { type: Sequelize.STRING },
+			diabetes_treatment_type: { type: Sequelize.STRING },
+			disease_response: { type: Sequelize.STRING },
+			dlco_ref_predictive_percent: { type: Sequelize.STRING },
+			ecog_performance_status: { type: Sequelize.STRING },
+			fev1_ref_post_bronch_percent: { type: Sequelize.STRING },
+			fev1_ref_pre_bronch_percent: { type: Sequelize.STRING },
+			fev1_fvc_pre_bronch_percent: { type: Sequelize.STRING },
+			fev1_fvc_post_bronch_percent: { type: Sequelize.STRING },
+			height: { type: Sequelize.STRING },
+			hepatitis_sustained_virological_response: { type: Sequelize.STRING },
+			hpv_positive_type: { type: Sequelize.STRING },
+			karnofsky_performance_status: { type: Sequelize.STRING },
+			menopause_status: { type: Sequelize.STRING },
+			pancreatitis_onset_year: { type: Sequelize.STRING },
+			progression_or_recurrence: { type: Sequelize.STRING },
+			progression_or_recurrence_anatomic_site: { type: Sequelize.STRING },
+			progression_or_recurrence_type: { type: Sequelize.STRING },
+			reflux_treatment_type: { type: Sequelize.STRING },
+			risk_factor: { type: Sequelize.STRING },
+			risk_factor_treatment: { type: Sequelize.STRING },
+			viral_hepatitis_serologies: { type: Sequelize.STRING },
+			weight: { type: Sequelize.STRING },
+	  }, {
+		  timestamps: false,
+		  underscored: true,
+		  freezeTableName: true,
+		  tableName: 'dummy'	
+	  });
+	  ModelFollowUp.removeAttribute('id');
+
 	  //@@@PDC-2614 rearrange geneSpectralCount
 	  //@@@PDC-2690 ncbi_gene_id type change
 	  const ModelGene = db.getSequelize().define('dummy', {
@@ -775,6 +909,10 @@ const defineCustomModels = (db) => {
 	  db['ModelStudyExperimentalDesign'] = ModelStudyExperimentalDesign;  
 	  db['ModelEntityReference'] = ModelEntityReference;  
 	  db['ModelVersion'] = ModelVersion;  
+	  db['ModelFollowUp'] = ModelFollowUp;  
+	  db['ModelFamilyHistory'] = ModelFamilyHistory;  
+	  db['ModelTreatment'] = ModelTreatment;  
+	  db['ModelExposure'] = ModelExposure;  
 };
 
 export { defineCustomModels };

@@ -1979,11 +1979,13 @@ export const resolvers = {
 				where ge.gene_name = sca.gene_name
 			`;
 
+			//@@@PDC-4236 add study versioning
 			let geneStudyCountQuery = `
 				SELECT sc.gene_name, COUNT(distinct sc.study_id) AS num_study
 				FROM
-					pdc.spectral_count AS sc
+					pdc.spectral_count AS sc, pdc.study AS s
 				WHERE
+					sc.study_id = s.study_id and sc.plex_name = 'All' and s.is_latest_version = 1 and
 					${studyIdQueryCondition}
 			`;
 

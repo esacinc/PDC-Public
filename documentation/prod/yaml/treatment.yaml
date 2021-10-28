@@ -398,6 +398,7 @@ properties:
         - No Necrosis
         - Unknown
         - Not Reported
+        - No Known Treatment Effect
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6514354&version=1.0
@@ -417,6 +418,8 @@ properties:
         - Prevention
         - Unknown
         - Not Reported
+        - Androgen Deprivation Therapy (ADT)
+        - Maintenance Therapy
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2793511&version=1.0
@@ -529,6 +532,11 @@ properties:
         - Unknown
         - Not Reported
         - Not Allowed To Collect
+        - Pleurodesis, NOS
+        - Radiation, Hypofractionated
+        - Radiation, Photon Beam
+        - Pleurodesis, Talc
+        - Radiation, Mixed Photon Beam
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5102381&version=1.0

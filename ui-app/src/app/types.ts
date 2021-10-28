@@ -299,11 +299,42 @@ export type AllClinicalData = {
 	vascular_invasion_present: string;
 	year_of_diagnosis: string;
 	externalReferences: ExternalReferences[];
+	exposures: Exposures[];
 }
 
 export type ExternalReferences = {
 	reference_resource_shortname: string;
 	reference_entity_location: string;
+}
+
+//@@@PDC-4260: Update clinical manifest to include new clinical data fields
+export type Exposures = {
+	case_id: string;
+	case_submitter_id: string;
+	exposure_id: string;
+	exposure_submitter_id: string;
+	alcohol_days_per_week: string;
+	alcohol_drinks_per_day: string;
+	alcohol_history: string;
+	alcohol_intensity: string;
+	asbestos_exposure: string;
+	bmi: string;
+	cigarettes_per_day: string;
+	coal_dust_exposure: string;
+	environmental_tobacco_smoke_exposure: string;
+	height: string;
+	pack_years_smoked: string;
+	radon_exposure: string;
+	respirable_crystalline_silica_exposure: string;
+	smoking_frequency: string;
+	time_between_waking_and_first_smoke: string;
+	tobacco_smoking_onset_year: string;
+	tobacco_smoking_quit_year: string;
+	tobacco_smoking_status: string;
+	type_of_smoke_exposure: string;
+	type_of_tobacco_used: string;
+	weight: string;
+	years_smoked: string;
 }
 
 //@@@PDC-614 add gene data tab to browse page

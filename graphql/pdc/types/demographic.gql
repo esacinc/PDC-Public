@@ -5,11 +5,11 @@ type Demographic {
 	gender: String
 	race: String
 	cause_of_death: String
-	days_to_birth: Int
-	days_to_death: Int
+	days_to_birth: String
+	days_to_death: String
 	vital_status: String
-	year_of_birth: Int
-	year_of_death: Int 
+	year_of_birth: String
+	year_of_death: String 
 	case: Case
 	project: Project
 }

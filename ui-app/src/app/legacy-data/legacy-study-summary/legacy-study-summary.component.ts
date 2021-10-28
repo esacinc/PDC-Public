@@ -12,7 +12,7 @@ import { take } from 'rxjs/operators';
 import {MAT_DIALOG_DATA, MatDialogRef, MatDialogConfig, MatDialog} from '@angular/material';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { LegacyStudySummaryService } from './legacy-study-summary.service';
-import { AllStudiesData, Filter, WorkflowMetadata, ProtocolData, PublicationData, 
+import { AllStudiesData, Filter, WorkflowMetadata, ProtocolData, PublicationData,
 		StudyExperimentalDesign, BiospecimenPerStudy, EntityReferencePerStudy, FileCountsForStudyPage,
 		QueryLegacyStudies		} from '../../types';
 import { AllClinicalData, AllCasesData } from '../../types';
@@ -51,7 +51,7 @@ export class LegacyStudySummaryComponent implements OnInit {
 
   study_id: string;
   study_submitter_id_name: string;
-  studySummaryData: QueryLegacyStudies; 
+  studySummaryData: QueryLegacyStudies;
   publications: PublicationData[] = [];
   fileCountsRaw: FileCountsForStudyPage[];
   suppFileCountsRaw: FileCountsForStudyPage[]; //supplementary data files data
@@ -65,7 +65,7 @@ export class LegacyStudySummaryComponent implements OnInit {
 	protocol_help_url = environment.dictionary_base_url + 'dictionaryitem.html?eName=Protocol';
 	workflow_help_url = environment.dictionary_base_url + 'dictionaryitem.html?eName=Workflow Metadata';
 	description_help_url = environment.dictionary_base_url + 'dictionaryitem.html?eName=Study#study_description';
-	dua_help_url = environment.dictionary_base_url + 'dictionaryitem.html?eName=DUA';
+	dua_help_url = "/pdc/data-use-guidelines";
 	aliquot_help_url = environment.dictionary_base_url + 'dictionaryitem.html?eName=Aliquot';
 	clinical_help_url = environment.dictionary_base_url + 'dictionaryitem.html?eName=Case';
 	experimentalDesign_help_url = environment.dictionary_base_url + 'dictionaryitem.html?eName=Study Run Metadata';
@@ -102,9 +102,9 @@ export class LegacyStudySummaryComponent implements OnInit {
 				private legacyStudySummaryService: LegacyStudySummaryService, private loc:Location,
 				private dialogRef: MatDialogRef<LegacyStudySummaryComponent>,
 				@Inject(MAT_DIALOG_DATA) public studyData: any,  private dialog: MatDialog,) {
-    
+
 	console.log(studyData);
-	this.fileTypesCounts = {RAW: 0, txt_psm: 0, txt: 0, pdf: 0, mzML: 0, doc: 0, mzIdentML: 0}; 
+	this.fileTypesCounts = {RAW: 0, txt_psm: 0, txt: 0, pdf: 0, mzML: 0, doc: 0, mzIdentML: 0};
 	this.suppFileCountsRaw = studyData.summaryData.supplementaryFilesCount;
 	this.fileCountsRaw = studyData.summaryData.nonSupplementaryFilesCount;
 	this.getFilesCountsPerStudy();
@@ -129,7 +129,7 @@ export class LegacyStudySummaryComponent implements OnInit {
 	this.limit = 10;
 	this.totalRecordsClinical = this.totalRecordsBiospecimens = 0;
 	this.pageSize = 10;
-	// Array which holds filter names. Must be updated when new filters are added to browse page.  
+	// Array which holds filter names. Must be updated when new filters are added to browse page.
 	this.sort = '';
 	//@@@PDC-1987: Update clinical tab to use new external reference API
 	//@@@PDC-1012: Update UI for GDC Case ID becoming External Case ID
@@ -158,7 +158,7 @@ export class LegacyStudySummaryComponent implements OnInit {
 	get staticUrlBase() {
 		return LegacyStudySummaryComponent.urlBase;
 	}
-	
+
 	//If the current date is with in the embargo date, display the DUA with a 'accept' button
 	setDUAWindowForStudySummary() {
 		setTimeout(() => {
@@ -191,11 +191,11 @@ export class LegacyStudySummaryComponent implements OnInit {
 		//const manifest_file = 'assets/data-folder/' + this.pdcStudyID + '/manifest.json';
 		//@@@PDC-3172 use study_id in heatmap folder name
 		const manifest_file = 'assets/data-folder/' + this.study_id + '/manifest.json';
-		
+
 		console.log('Getting manifest file from: ' + manifest_file);
 		return this.http.get(manifest_file);
   }
-  
+
   readManifest() {
 	this.mapData = [];
 	this.getManifestFile()
@@ -220,13 +220,13 @@ export class LegacyStudySummaryComponent implements OnInit {
 	.subscribe((status) => console.log('status', status))
 	;
 	}
-	
+
 	//@@@PDC-843: Add embargo date and data use statement to CPTAC studies
 	//Decodes HTML entities in a string.
 	toHTML(input) : any {
 		return new DOMParser().parseFromString(input, "text/html").documentElement.textContent;
 	}
-	
+
 	//@@@PDC-758: Study summary overlay window opened through search is missing data
 	//Update API call to fetch study summary details.
 /*	getStudySummaryData(){
@@ -247,7 +247,7 @@ export class LegacyStudySummaryComponent implements OnInit {
 			}
 	   });
   }*/
-  
+
   getPublications(){
 	  this.loading = true;
 	  setTimeout(() => {
@@ -326,20 +326,20 @@ getEntityReferenceExternalData() {
 		this.legacyStudySummaryService.getEntityReferenceData(this.study_id, "external").subscribe((data: any) =>{
 			this.entityReferenceExternalData = data.uiLegacyStudyReference;
 			this.loading = false;
-		});		  
+		});
 	}, 1000);
 	setTimeout(() => {
 		this.legacyStudySummaryService.getEntityReferenceData(this.study_id, "internal").subscribe((internalData: any) =>{
 			this.entityReferenceInternalData = internalData.uiLegacyStudyReference;
 			console.log(this.entityReferenceInternalData);
 			this.loading = false;
-		});		  
+		});
 	}, 1000);
 }
 
 //@@@PDC-1160: Add cases and aliquots to the study summary page
 showCaseSummary(case_id: string, module: string){
-	const dialogConfig = new MatDialogConfig();	
+	const dialogConfig = new MatDialogConfig();
 	dialogConfig.disableClose = true;
 	dialogConfig.autoFocus = false;
 	dialogConfig.hasBackdrop = true;
@@ -376,7 +376,7 @@ showCaseSummary(case_id: string, module: string){
 //@@@PDC-3392 open files for a specific study in an overlay window
 //@@@PDC-3911 Update UI as result of changed rule for distinguishing supplementary files from non-supplementary
 showFilesOverlay(submitter_id_name, study_id, data_category_val, file_type_val, data_source_val) {
-	const dialogConfig = new MatDialogConfig();	
+	const dialogConfig = new MatDialogConfig();
 	dialogConfig.disableClose = true;
 	dialogConfig.autoFocus = false;
 	dialogConfig.hasBackdrop = true;
@@ -395,7 +395,7 @@ showFilesOverlay(submitter_id_name, study_id, data_category_val, file_type_val, 
 			//Generate alias URL to hide auxiliary URL details when the previous overlay window was closed and the focus returned to this one
 			//this.loc.replaceState("/legacy-study-summary/" + this.pdcStudyID);
 			this.loc.replaceState("/TechnologyAdvancementStudies/");
-	});	
+	});
 }
 
 //@@@PDC-1160: Add cases and aliquots to the study summary page
@@ -421,7 +421,7 @@ for (let idx = 0; idx < this.filteredCasesData.length; idx++ ){
 }
 return -1;
 }
- 
+
 close(navigateToHeatmap: boolean, study_name: string = '') {
 	this.router.navigate([{outlets: {'studySummary': null, 'filesOverlay': null}}], { replaceUrl: true });
 	this.loc.replaceState(this.router.url);
@@ -438,7 +438,7 @@ close(navigateToHeatmap: boolean, study_name: string = '') {
 		  //@@@PDC-2106 use pdc_study_id in heatmap folder
 		  //this.router.navigate(['/analysis/' + this.pdcStudyID], navigationExtras);
 		  //@@@PDC-3172 use study_id in heatmap folder name
-		  this.router.navigate([]).then( result => { var url= "/pdc/analysis/" + this.study_id +"?StudyName=" + study_name; 
+		  this.router.navigate([]).then( result => { var url= "/pdc/analysis/" + this.study_id +"?StudyName=" + study_name;
 		  window.open(url, '_blank'); });
 	  }
 	this.dialogRef.close();
@@ -448,7 +448,7 @@ close(navigateToHeatmap: boolean, study_name: string = '') {
 //Will not close study summary upon opening a HeatMap in a separate tab
 openHeatMap(study_name: string){
 	//@@@PDC-3172 use study_id in heatmap folder name
-	this.router.navigate([]).then( result => { var url= "/pdc/analysis/" + this.study_id + "?StudyName=" + study_name; 
+	this.router.navigate([]).then( result => { var url= "/pdc/analysis/" + this.study_id + "?StudyName=" + study_name;
 																	   window.open(url, '_blank'); });
 }
 
@@ -479,8 +479,8 @@ openHeatMap(study_name: string){
 			return false;
 		}
 	}
-	
-  ngOnInit() {	  
+
+  ngOnInit() {
 	  this.readManifest();
 	  //@@@PDC-1160: Add cases and aliquots to the study summary page
 	  this.clinicalCols = [
@@ -583,8 +583,8 @@ studyTableExportCSV(dt) {
  	let csvOptions = {
 		headers: headerCols
 	};
-	let exportFileObject = JSON.parse(JSON.stringify(exportValues, colValues));			
-	new ngxCsv(exportFileObject, this.getCsvFileName(), csvOptions);	 
+	let exportFileObject = JSON.parse(JSON.stringify(exportValues, colValues));
+	new ngxCsv(exportFileObject, this.getCsvFileName(), csvOptions);
 }
 
 private getCsvFileName(): string {

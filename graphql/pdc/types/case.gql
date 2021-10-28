@@ -13,5 +13,9 @@ type Case {
   demographics: [Demographic]  
   samples: [Sample]
   diagnoses: [Diagnosis]
+  exposures: [Exposure]
+  family_histories: [FamilyHistory]
+  follow_ups: [FollowUp]
+  treatments: [Treatment]
   count: Int
 }

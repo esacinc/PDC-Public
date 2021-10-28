@@ -111,6 +111,23 @@ export const resolvers = {
 			var refQuery = "SELECT reference_resource_shortname, trim(both '\r' from reference_entity_location) as reference_entity_location, reference_entity_alias as external_reference_id, reference_resource_name FROM reference r where entity_type = 'case' and reference_type = 'external' and entity_id = uuid_to_bin('"+ obj.case_id + "')";
 			return db.getSequelize().query(refQuery, { model: db.getModelByName('ModelEntityReference') });
 		},
+		//@@@PDC-4293 add new clinbio entities
+		exposures(obj, args, context) {
+				var refQuery = "SELECT bin_to_uuid(exposure_id) as exposure_id, exposure_submitter_id, alcohol_days_per_week, alcohol_drinks_per_day, alcohol_history, alcohol_intensity, asbestos_exposure, bmi, cigarettes_per_day, coal_dust_exposure, environmental_tobacco_smoke_exposure, height, pack_years_smoked, radon_exposure, respirable_crystalline_silica_exposure, smoking_frequency, time_between_waking_and_first_smoke, tobacco_smoking_onset_year, tobacco_smoking_quit_year, tobacco_smoking_status, type_of_smoke_exposure, type_of_tobacco_used, weight, years_smoked FROM exposure where case_id = uuid_to_bin('"+ obj.case_id + "')";
+				return db.getSequelize().query(refQuery, { model: db.getModelByName('ModelExposure') });
+		},
+		family_histories(obj, args, context) {
+				var refQuery = "SELECT bin_to_uuid(family_history_id) as family_history_id, family_history_submitter_id, relationship_type, relationship_gender, relationship_age_at_diagnosis, relationship_primary_diagnosis, relative_with_cancer_history, relatives_with_cancer_history_count FROM family_history where case_id = uuid_to_bin('"+ obj.case_id + "')";
+				return db.getSequelize().query(refQuery, { model: db.getModelByName('ModelFamilyHistory') });
+		},
+		follow_ups(obj, args, context) {
+				var refQuery = "SELECT bin_to_uuid(follow_up_id) as follow_up_id, follow_up_submitter_id, adverse_event, barretts_esophagus_goblet_cells_present, bmi, cause_of_response, comorbidity, comorbidity_method_of_diagnosis, days_to_adverse_event, days_to_comorbidity, days_to_follow_up, days_to_progression, days_to_progression_free, days_to_recurrence, diabetes_treatment_type, disease_response, dlco_ref_predictive_percent, ecog_performance_status, fev1_ref_post_bronch_percent, fev1_ref_pre_bronch_percent, fev1_fvc_pre_bronch_percent, fev1_fvc_post_bronch_percent, height, hepatitis_sustained_virological_response, hpv_positive_type, karnofsky_performance_status, menopause_status, pancreatitis_onset_year, progression_or_recurrence, progression_or_recurrence_anatomic_site, progression_or_recurrence_type, reflux_treatment_type, risk_factor, risk_factor_treatment, viral_hepatitis_serologies, weight FROM follow_up where case_id = uuid_to_bin('"+ obj.case_id + "')";
+				return db.getSequelize().query(refQuery, { model: db.getModelByName('ModelFollowUp') });
+		},
+		treatments(obj, args, context) {
+				var refQuery = "SELECT bin_to_uuid(treatment_id) as treatment_id, treatment_submitter_id, days_to_treatment_end, days_to_treatment_start, initial_disease_status, regimen_or_line_of_therapy, therapeutic_agents, treatment_anatomic_site, treatment_effect, treatment_intent_type, treatment_or_therapy, treatment_outcome, treatment_type FROM treatment where case_id = uuid_to_bin('"+ obj.case_id + "')";
+				return db.getSequelize().query(refQuery, { model: db.getModelByName('ModelTreatment') });
+		},
 		async demographics(obj, args, context) {
 			var cacheFilterName = { name: '' };
 			//@@@PDC-2544 use case_id in cache key
@@ -355,6 +372,7 @@ export const resolvers = {
 		}
 	},
 	//@@@PDC-2026 add case external reference
+	//@@@PDC-4259 add exposure, family history, follow up and treatment
 	UIClinical: {
 		async externalReferences(obj, args, context) {
 			var refCacheName = context.dataCacheName + ':'+obj.case_id;
@@ -362,6 +380,50 @@ export const resolvers = {
 			if (res === null) {
 				var refQuery = "SELECT reference_resource_shortname, reference_entity_location FROM reference r where entity_type = 'case' and reference_type = 'external' and entity_id = uuid_to_bin('"+ obj.case_id + "')";
 				var getIt = await db.getSequelize().query(refQuery, { model: db.getModelByName('ModelEntityReference') });
+				RedisCacheClient.redisCacheSetExAsync(refCacheName, JSON.stringify(getIt));
+				return getIt;				
+			}
+			return JSON.parse(res);
+		},
+		async exposures(obj, args, context) {
+			var refCacheName = context.dataCacheName + ':Exposure:'+obj.case_id;
+			const res = await RedisCacheClient.redisCacheGetAsync(refCacheName);
+			if (res === null) {
+				var refQuery = "SELECT bin_to_uuid(exposure_id) as exposure_id, exposure_submitter_id, alcohol_days_per_week, alcohol_drinks_per_day, alcohol_history, alcohol_intensity, asbestos_exposure, bmi, cigarettes_per_day, coal_dust_exposure, environmental_tobacco_smoke_exposure, height, pack_years_smoked, radon_exposure, respirable_crystalline_silica_exposure, smoking_frequency, time_between_waking_and_first_smoke, tobacco_smoking_onset_year, tobacco_smoking_quit_year, tobacco_smoking_status, type_of_smoke_exposure, type_of_tobacco_used, weight, years_smoked FROM exposure where case_id = uuid_to_bin('"+ obj.case_id + "')";
+				var getIt = await db.getSequelize().query(refQuery, { model: db.getModelByName('ModelExposure') });
+				RedisCacheClient.redisCacheSetExAsync(refCacheName, JSON.stringify(getIt));
+				return getIt;				
+			}
+			return JSON.parse(res);
+		},
+		async family_histories(obj, args, context) {
+			var refCacheName = context.dataCacheName + ':FamilyHistory:'+obj.case_id;
+			const res = await RedisCacheClient.redisCacheGetAsync(refCacheName);
+			if (res === null) {
+				var refQuery = "SELECT bin_to_uuid(family_history_id) as family_history_id, family_history_submitter_id, relationship_type, relationship_gender, relationship_age_at_diagnosis, relationship_primary_diagnosis, relative_with_cancer_history, relatives_with_cancer_history_count FROM family_history where case_id = uuid_to_bin('"+ obj.case_id + "')";
+				var getIt = await db.getSequelize().query(refQuery, { model: db.getModelByName('ModelFamilyHistory') });
+				RedisCacheClient.redisCacheSetExAsync(refCacheName, JSON.stringify(getIt));
+				return getIt;				
+			}
+			return JSON.parse(res);
+		},
+		async follow_ups(obj, args, context) {
+			var refCacheName = context.dataCacheName + ':FollowUp:'+obj.case_id;
+			const res = await RedisCacheClient.redisCacheGetAsync(refCacheName);
+			if (res === null) {
+				var refQuery = "SELECT bin_to_uuid(follow_up_id) as follow_up_id, follow_up_submitter_id, adverse_event, barretts_esophagus_goblet_cells_present, bmi, cause_of_response, comorbidity, comorbidity_method_of_diagnosis, days_to_adverse_event, days_to_comorbidity, days_to_follow_up, days_to_progression, days_to_progression_free, days_to_recurrence, diabetes_treatment_type, disease_response, dlco_ref_predictive_percent, ecog_performance_status, fev1_ref_post_bronch_percent, fev1_ref_pre_bronch_percent, fev1_fvc_pre_bronch_percent, fev1_fvc_post_bronch_percent, height, hepatitis_sustained_virological_response, hpv_positive_type, karnofsky_performance_status, menopause_status, pancreatitis_onset_year, progression_or_recurrence, progression_or_recurrence_anatomic_site, progression_or_recurrence_type, reflux_treatment_type, risk_factor, risk_factor_treatment, viral_hepatitis_serologies, weight FROM follow_up where case_id = uuid_to_bin('"+ obj.case_id + "')";
+				var getIt = await db.getSequelize().query(refQuery, { model: db.getModelByName('ModelFollowUp') });
+				RedisCacheClient.redisCacheSetExAsync(refCacheName, JSON.stringify(getIt));
+				return getIt;				
+			}
+			return JSON.parse(res);
+		},
+		async treatments(obj, args, context) {
+			var refCacheName = context.dataCacheName + ':Treatment:'+obj.case_id;
+			const res = await RedisCacheClient.redisCacheGetAsync(refCacheName);
+			if (res === null) {
+				var refQuery = "SELECT bin_to_uuid(treatment_id) as treatment_id, treatment_submitter_id, days_to_treatment_end, days_to_treatment_start, initial_disease_status, regimen_or_line_of_therapy, therapeutic_agents, treatment_anatomic_site, treatment_effect, treatment_intent_type, treatment_or_therapy, treatment_outcome, treatment_type FROM treatment where case_id = uuid_to_bin('"+ obj.case_id + "')";
+				var getIt = await db.getSequelize().query(refQuery, { model: db.getModelByName('ModelTreatment') });
 				RedisCacheClient.redisCacheSetExAsync(refCacheName, JSON.stringify(getIt));
 				return getIt;				
 			}
@@ -374,6 +436,23 @@ export const resolvers = {
 			//var refQuery = "SELECT reference_resource_shortname, trim(both '\r' from reference_entity_location) as reference_entity_location FROM reference r where entity_type = 'case' and reference_type = 'external' and entity_id = uuid_to_bin('"+ obj.case_id + "')";
 			var refQuery = "SELECT reference_resource_shortname, trim(both '\r' from reference_entity_location) as reference_entity_location, reference_entity_alias as external_reference_id, reference_resource_name FROM reference r where entity_type = 'case' and reference_type = 'external' and entity_id = uuid_to_bin('"+ obj.case_id + "')";
 			return db.getSequelize().query(refQuery, { model: db.getModelByName('ModelEntityReference') });
+		},
+		//@@@PDC-4293 add new clinbio entities
+		exposures(obj, args, context) {
+				var refQuery = "SELECT bin_to_uuid(exposure_id) as exposure_id, exposure_submitter_id, alcohol_days_per_week, alcohol_drinks_per_day, alcohol_history, alcohol_intensity, asbestos_exposure, bmi, cigarettes_per_day, coal_dust_exposure, environmental_tobacco_smoke_exposure, height, pack_years_smoked, radon_exposure, respirable_crystalline_silica_exposure, smoking_frequency, time_between_waking_and_first_smoke, tobacco_smoking_onset_year, tobacco_smoking_quit_year, tobacco_smoking_status, type_of_smoke_exposure, type_of_tobacco_used, weight, years_smoked FROM exposure where case_id = uuid_to_bin('"+ obj.case_id + "')";
+				return db.getSequelize().query(refQuery, { model: db.getModelByName('ModelExposure') });
+		},
+		family_histories(obj, args, context) {
+				var refQuery = "SELECT bin_to_uuid(family_history_id) as family_history_id, family_history_submitter_id, relationship_type, relationship_gender, relationship_age_at_diagnosis, relationship_primary_diagnosis, relative_with_cancer_history, relatives_with_cancer_history_count FROM family_history where case_id = uuid_to_bin('"+ obj.case_id + "')";
+				return db.getSequelize().query(refQuery, { model: db.getModelByName('ModelFamilyHistory') });
+		},
+		follow_ups(obj, args, context) {
+				var refQuery = "SELECT bin_to_uuid(follow_up_id) as follow_up_id, follow_up_submitter_id, adverse_event, barretts_esophagus_goblet_cells_present, bmi, cause_of_response, comorbidity, comorbidity_method_of_diagnosis, days_to_adverse_event, days_to_comorbidity, days_to_follow_up, days_to_progression, days_to_progression_free, days_to_recurrence, diabetes_treatment_type, disease_response, dlco_ref_predictive_percent, ecog_performance_status, fev1_ref_post_bronch_percent, fev1_ref_pre_bronch_percent, fev1_fvc_pre_bronch_percent, fev1_fvc_post_bronch_percent, height, hepatitis_sustained_virological_response, hpv_positive_type, karnofsky_performance_status, menopause_status, pancreatitis_onset_year, progression_or_recurrence, progression_or_recurrence_anatomic_site, progression_or_recurrence_type, reflux_treatment_type, risk_factor, risk_factor_treatment, viral_hepatitis_serologies, weight FROM follow_up where case_id = uuid_to_bin('"+ obj.case_id + "')";
+				return db.getSequelize().query(refQuery, { model: db.getModelByName('ModelFollowUp') });
+		},
+		treatments(obj, args, context) {
+				var refQuery = "SELECT bin_to_uuid(treatment_id) as treatment_id, treatment_submitter_id, days_to_treatment_end, days_to_treatment_start, initial_disease_status, regimen_or_line_of_therapy, therapeutic_agents, treatment_anatomic_site, treatment_effect, treatment_intent_type, treatment_or_therapy, treatment_outcome, treatment_type FROM treatment where case_id = uuid_to_bin('"+ obj.case_id + "')";
+				return db.getSequelize().query(refQuery, { model: db.getModelByName('ModelTreatment') });
 		}
 	},	
 	Biospecimen: {
@@ -686,6 +765,7 @@ export const resolvers = {
 			if (obj.tmt_131c_asi != null && obj.tmt_131c_asi.length > 0){
 				let tmt_131cQuery = labelQuery + " where aliquot_submitter_id = '"+
 				obj.tmt_131c_asi+"' and label = 'tmt_131c' and study_run_metadata_id = uuid_to_bin('"+obj.study_run_metadata_id+"')";
+				logger.info("In 131c query");
 				return db.getSequelize().query(tmt_131cQuery, { model: db.getModelByName('ModelAliquotRunMetadata') });
 			}
 			else

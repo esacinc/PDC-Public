@@ -183,7 +183,7 @@ var spec = {
                    }
                  }
                },
-               '?query={case (case_submitter_id: "{case_submitter_id}" acceptDUA: {acceptDUA}) { case_id case_submitter_id project_submitter_id days_to_lost_to_followup disease_type index_date lost_to_followup primary_site externalReferences { external_reference_id reference_resource_shortname reference_resource_name reference_entity_location } demographics{ demographic_id ethnicity gender demographic_submitter_id race cause_of_death days_to_birth days_to_death vital_status year_of_birth year_of_death } samples { sample_id sample_submitter_id sample_type sample_type_id gdc_sample_id gdc_project_id biospecimen_anatomic_site composition current_weight days_to_collection days_to_sample_procurement diagnosis_pathologically_confirmed freezing_method initial_weight intermediate_dimension is_ffpe longest_dimension method_of_sample_procurement oct_embedded pathology_report_uuid preservation_method sample_type_id shortest_dimension time_between_clamping_and_freezing time_between_excision_and_freezing tissue_type tumor_code tumor_code_id tumor_descriptor aliquots { aliquot_id aliquot_submitter_id analyte_type aliquot_run_metadata {aliquot_run_metadata_id} } } diagnoses{ diagnosis_id tissue_or_organ_of_origin age_at_diagnosis primary_diagnosis tumor_grade tumor_stage diagnosis_submitter_id classification_of_tumor days_to_last_follow_up days_to_last_known_disease_status days_to_recurrence last_known_disease_status morphology progression_or_recurrence site_of_resection_or_biopsy prior_malignancy ajcc_clinical_m ajcc_clinical_n ajcc_clinical_stage ajcc_clinical_t ajcc_pathologic_m ajcc_pathologic_n ajcc_pathologic_stage ajcc_pathologic_t ann_arbor_b_symptoms ann_arbor_clinical_stage ann_arbor_extranodal_involvement ann_arbor_pathologic_stage best_overall_response burkitt_lymphoma_clinical_variant circumferential_resection_margin colon_polyps_history days_to_best_overall_response days_to_diagnosis days_to_hiv_diagnosis days_to_new_event figo_stage hiv_positive hpv_positive_type hpv_status iss_stage laterality ldh_level_at_diagnosis ldh_normal_range_upper lymph_nodes_positive lymphatic_invasion_present method_of_diagnosis new_event_anatomic_site new_event_type overall_survival perineural_invasion_present prior_treatment progression_free_survival progression_free_survival_event residual_disease vascular_invasion_present year_of_diagnosis icd_10_code synchronous_malignancy tumor_largest_dimension_diameter} }}': {
+               '?query={case (case_submitter_id: "{case_submitter_id}" acceptDUA: {acceptDUA}) { case_id case_submitter_id project_submitter_id days_to_lost_to_followup disease_type index_date lost_to_followup primary_site externalReferences { external_reference_id reference_resource_shortname reference_resource_name reference_entity_location } demographics{ demographic_id ethnicity gender demographic_submitter_id race cause_of_death days_to_birth days_to_death vital_status year_of_birth year_of_death } samples { sample_id sample_submitter_id sample_type sample_type_id gdc_sample_id gdc_project_id biospecimen_anatomic_site composition current_weight days_to_collection days_to_sample_procurement diagnosis_pathologically_confirmed freezing_method initial_weight intermediate_dimension is_ffpe longest_dimension method_of_sample_procurement oct_embedded pathology_report_uuid preservation_method sample_type_id shortest_dimension time_between_clamping_and_freezing time_between_excision_and_freezing tissue_type tumor_code tumor_code_id tumor_descriptor aliquots { aliquot_id aliquot_submitter_id analyte_type aliquot_run_metadata {aliquot_run_metadata_id} } } diagnoses{ diagnosis_id tissue_or_organ_of_origin age_at_diagnosis primary_diagnosis tumor_grade tumor_stage diagnosis_submitter_id classification_of_tumor days_to_last_follow_up days_to_last_known_disease_status days_to_recurrence last_known_disease_status morphology progression_or_recurrence site_of_resection_or_biopsy prior_malignancy ajcc_clinical_m ajcc_clinical_n ajcc_clinical_stage ajcc_clinical_t ajcc_pathologic_m ajcc_pathologic_n ajcc_pathologic_stage ajcc_pathologic_t ann_arbor_b_symptoms ann_arbor_clinical_stage ann_arbor_extranodal_involvement ann_arbor_pathologic_stage best_overall_response burkitt_lymphoma_clinical_variant circumferential_resection_margin colon_polyps_history days_to_best_overall_response days_to_diagnosis days_to_hiv_diagnosis days_to_new_event figo_stage hiv_positive hpv_positive_type hpv_status iss_stage laterality ldh_level_at_diagnosis ldh_normal_range_upper lymph_nodes_positive lymphatic_invasion_present method_of_diagnosis new_event_anatomic_site new_event_type overall_survival perineural_invasion_present prior_treatment progression_free_survival progression_free_survival_event residual_disease vascular_invasion_present year_of_diagnosis icd_10_code synchronous_malignancy tumor_largest_dimension_diameter} 	 exposures { exposure_id exposure_submitter_id alcohol_days_per_week alcohol_drinks_per_day alcohol_history alcohol_intensity asbestos_exposure bmi cigarettes_per_day coal_dust_exposure environmental_tobacco_smoke_exposure height pack_years_smoked radon_exposure respirable_crystalline_silica_exposure smoking_frequency time_between_waking_and_first_smoke tobacco_smoking_onset_year tobacco_smoking_quit_year tobacco_smoking_status type_of_smoke_exposure type_of_tobacco_used weight years_smoked}}}': {
                  "get": {
                            "tags": ["Case"],
                    "summary": "Find case by Case Submitter ID",
@@ -219,7 +219,7 @@ var spec = {
                    }
                  }
                    },
-               '?query={case (case_id: "{case_id}" acceptDUA: {acceptDUA}) { case_id case_submitter_id project_submitter_id days_to_lost_to_followup disease_type index_date lost_to_followup primary_site externalReferences { external_reference_id reference_resource_shortname reference_resource_name reference_entity_location } demographics{ demographic_id ethnicity gender demographic_submitter_id race cause_of_death days_to_birth days_to_death vital_status year_of_birth year_of_death } samples { sample_id sample_submitter_id sample_type sample_type_id gdc_sample_id gdc_project_id biospecimen_anatomic_site composition current_weight days_to_collection days_to_sample_procurement diagnosis_pathologically_confirmed freezing_method initial_weight intermediate_dimension is_ffpe longest_dimension method_of_sample_procurement oct_embedded pathology_report_uuid preservation_method sample_type_id shortest_dimension time_between_clamping_and_freezing time_between_excision_and_freezing tissue_type tumor_code tumor_code_id tumor_descriptor aliquots { aliquot_id aliquot_submitter_id analyte_type aliquot_run_metadata {aliquot_run_metadata_id} } } diagnoses{ diagnosis_id tissue_or_organ_of_origin age_at_diagnosis primary_diagnosis tumor_grade tumor_stage diagnosis_submitter_id classification_of_tumor days_to_last_follow_up days_to_last_known_disease_status days_to_recurrence last_known_disease_status morphology progression_or_recurrence site_of_resection_or_biopsy prior_malignancy ajcc_clinical_m ajcc_clinical_n ajcc_clinical_stage ajcc_clinical_t ajcc_pathologic_m ajcc_pathologic_n ajcc_pathologic_stage ajcc_pathologic_t ann_arbor_b_symptoms ann_arbor_clinical_stage ann_arbor_extranodal_involvement ann_arbor_pathologic_stage best_overall_response burkitt_lymphoma_clinical_variant circumferential_resection_margin colon_polyps_history days_to_best_overall_response days_to_diagnosis days_to_hiv_diagnosis days_to_new_event figo_stage hiv_positive hpv_positive_type hpv_status iss_stage laterality ldh_level_at_diagnosis ldh_normal_range_upper lymph_nodes_positive lymphatic_invasion_present method_of_diagnosis new_event_anatomic_site new_event_type overall_survival perineural_invasion_present prior_treatment progression_free_survival progression_free_survival_event residual_disease vascular_invasion_present year_of_diagnosis icd_10_code synchronous_malignancy tumor_largest_dimension_diameter} }}': {
+               '?query={case (case_id: "{case_id}" acceptDUA: {acceptDUA}) { case_id case_submitter_id project_submitter_id days_to_lost_to_followup disease_type index_date lost_to_followup primary_site externalReferences { external_reference_id reference_resource_shortname reference_resource_name reference_entity_location } demographics{ demographic_id ethnicity gender demographic_submitter_id race cause_of_death days_to_birth days_to_death vital_status year_of_birth year_of_death } samples { sample_id sample_submitter_id sample_type sample_type_id gdc_sample_id gdc_project_id biospecimen_anatomic_site composition current_weight days_to_collection days_to_sample_procurement diagnosis_pathologically_confirmed freezing_method initial_weight intermediate_dimension is_ffpe longest_dimension method_of_sample_procurement oct_embedded pathology_report_uuid preservation_method sample_type_id shortest_dimension time_between_clamping_and_freezing time_between_excision_and_freezing tissue_type tumor_code tumor_code_id tumor_descriptor aliquots { aliquot_id aliquot_submitter_id analyte_type aliquot_run_metadata {aliquot_run_metadata_id} } } diagnoses{ diagnosis_id tissue_or_organ_of_origin age_at_diagnosis primary_diagnosis tumor_grade tumor_stage diagnosis_submitter_id classification_of_tumor days_to_last_follow_up days_to_last_known_disease_status days_to_recurrence last_known_disease_status morphology progression_or_recurrence site_of_resection_or_biopsy prior_malignancy ajcc_clinical_m ajcc_clinical_n ajcc_clinical_stage ajcc_clinical_t ajcc_pathologic_m ajcc_pathologic_n ajcc_pathologic_stage ajcc_pathologic_t ann_arbor_b_symptoms ann_arbor_clinical_stage ann_arbor_extranodal_involvement ann_arbor_pathologic_stage best_overall_response burkitt_lymphoma_clinical_variant circumferential_resection_margin colon_polyps_history days_to_best_overall_response days_to_diagnosis days_to_hiv_diagnosis days_to_new_event figo_stage hiv_positive hpv_positive_type hpv_status iss_stage laterality ldh_level_at_diagnosis ldh_normal_range_upper lymph_nodes_positive lymphatic_invasion_present method_of_diagnosis new_event_anatomic_site new_event_type overall_survival perineural_invasion_present prior_treatment progression_free_survival progression_free_survival_event residual_disease vascular_invasion_present year_of_diagnosis icd_10_code synchronous_malignancy tumor_largest_dimension_diameter} exposures { exposure_id exposure_submitter_id alcohol_days_per_week alcohol_drinks_per_day alcohol_history alcohol_intensity asbestos_exposure bmi cigarettes_per_day coal_dust_exposure environmental_tobacco_smoke_exposure height pack_years_smoked radon_exposure respirable_crystalline_silica_exposure smoking_frequency time_between_waking_and_first_smoke tobacco_smoking_onset_year tobacco_smoking_quit_year tobacco_smoking_status type_of_smoke_exposure type_of_tobacco_used weight years_smoked} }}': {
                  "get": {
                            "tags": ["Case"],
                    "summary": "Find case by Case ID",
@@ -1068,11 +1068,11 @@ var spec = {
                     }
                   }
                 },
-               '?query={ clinicalPerStudy(study_id: "{study_id}" acceptDUA: {acceptDUA}){ case_id case_submitter_id status ethnicity gender race morphology primary_diagnosis site_of_resection_or_biopsy tissue_or_organ_of_origin tumor_grade tumor_stage icd_10_code synchronous_malignancy tumor_largest_dimension_diameter externalReferences { external_reference_id reference_resource_shortname reference_resource_name reference_entity_location}} }': {
+               '?query={ clinicalPerStudy(study_id: "{study_id}" acceptDUA: {acceptDUA}){ case_id case_submitter_id status ethnicity gender race morphology primary_diagnosis site_of_resection_or_biopsy tissue_or_organ_of_origin tumor_grade tumor_stage icd_10_code synchronous_malignancy tumor_largest_dimension_diameter exposures { exposure_id exposure_submitter_id alcohol_days_per_week alcohol_drinks_per_day alcohol_history alcohol_intensity asbestos_exposure bmi cigarettes_per_day coal_dust_exposure environmental_tobacco_smoke_exposure height pack_years_smoked radon_exposure respirable_crystalline_silica_exposure smoking_frequency time_between_waking_and_first_smoke tobacco_smoking_onset_year tobacco_smoking_quit_year tobacco_smoking_status type_of_smoke_exposure type_of_tobacco_used weight years_smoked} externalReferences { external_reference_id reference_resource_shortname reference_resource_name reference_entity_location}} }': {
                  "get": {
                            "tags": ["Clinical"],
                    "summary": "Returns clinical details per study",
-                   "description": "<b>Returns clinical details per study. This API can also be used with multiple input parameters.<br><br>Fields:</b><ul><li>case_id</li><li>case_submitter_id</li><li>status</li><li>ethnicity</li><li>gender</li><li>race</li><li>morphology</li><li>primary_diagnosis</li><li>site_of_resection_or_biopsy</li><li>tissue_or_organ_of_origin</li><li>tumor_grade</li><li>tumor_stage</li><li>icd_10_code</li><li>synchronous_malignancy</li><li>tumor_largest_dimension_diameter</li><li>externalReferences { external_reference_id reference_resource_shortname reference_resource_name reference_entity_location }</li></ul>",
+                   "description": "<b>Returns clinical details per study. This API can also be used with multiple input parameters.<br><br>Fields:</b><ul><li>case_id</li><li>case_submitter_id</li><li>status</li><li>ethnicity</li><li>gender</li><li>race</li><li>morphology</li><li>primary_diagnosis</li><li>site_of_resection_or_biopsy</li><li>tissue_or_organ_of_origin</li><li>tumor_grade</li><li>tumor_stage</li><li>icd_10_code</li><li>synchronous_malignancy</li><li>tumor_largest_dimension_diameter</li><li>exposures { exposure_id exposure_submitter_id alcohol_days_per_week alcohol_drinks_per_day alcohol_history alcohol_intensity asbestos_exposure bmi cigarettes_per_day coal_dust_exposure environmental_tobacco_smoke_exposure height pack_years_smoked radon_exposure respirable_crystalline_silica_exposure smoking_frequency time_between_waking_and_first_smoke tobacco_smoking_onset_year tobacco_smoking_quit_year tobacco_smoking_status type_of_smoke_exposure type_of_tobacco_used weight years_smoked }</li><li>externalReferences { external_reference_id reference_resource_shortname reference_resource_name reference_entity_location }</li></ul>",
                    "operationId": "clinicalPerStudy",
                    "produces": [
                      "application/json"
@@ -1103,11 +1103,11 @@ var spec = {
                    }
                  }
                },
-               '?query={ clinicalPerStudy(study_submitter_id: "{study_submitter_id}" acceptDUA: {acceptDUA}){ case_id case_submitter_id status ethnicity gender race morphology primary_diagnosis site_of_resection_or_biopsy tissue_or_organ_of_origin tumor_grade tumor_stage icd_10_code synchronous_malignancy tumor_largest_dimension_diameter externalReferences { external_reference_id reference_resource_shortname reference_resource_name reference_entity_location}} }': {
+               '?query={ clinicalPerStudy(study_submitter_id: "{study_submitter_id}" acceptDUA: {acceptDUA}){ case_id case_submitter_id status ethnicity gender race morphology primary_diagnosis site_of_resection_or_biopsy tissue_or_organ_of_origin tumor_grade tumor_stage icd_10_code synchronous_malignancy tumor_largest_dimension_diameter exposures { exposure_id exposure_submitter_id alcohol_days_per_week alcohol_drinks_per_day alcohol_history alcohol_intensity asbestos_exposure bmi cigarettes_per_day coal_dust_exposure environmental_tobacco_smoke_exposure height pack_years_smoked radon_exposure respirable_crystalline_silica_exposure smoking_frequency time_between_waking_and_first_smoke tobacco_smoking_onset_year tobacco_smoking_quit_year tobacco_smoking_status type_of_smoke_exposure type_of_tobacco_used weight years_smoked}  externalReferences { external_reference_id reference_resource_shortname reference_resource_name reference_entity_location}} }': {
                  "get": {
                            "tags": ["Clinical"],
                    "summary": "Returns clinical details per study",
-                   "description": "<b>Returns clinical details per study. This API can also be used with multiple input parameters.<br><br>Fields:</b><ul><li>case_id</li><li>case_submitter_id</li><li>status</li><li>ethnicity</li><li>gender</li><li>race</li><li>morphology</li><li>primary_diagnosis</li><li>site_of_resection_or_biopsy</li><li>tissue_or_organ_of_origin</li><li>tumor_grade</li><li>tumor_stage</li><li>icd_10_code</li><li>synchronous_malignancy</li><li>tumor_largest_dimension_diameter</li><li>externalReferences { external_reference_id reference_resource_shortname reference_resource_name reference_entity_location }</li></ul>",
+                   "description": "<b>Returns clinical details per study. This API can also be used with multiple input parameters.<br><br>Fields:</b><ul><li>case_id</li><li>case_submitter_id</li><li>status</li><li>ethnicity</li><li>gender</li><li>race</li><li>morphology</li><li>primary_diagnosis</li><li>site_of_resection_or_biopsy</li><li>tissue_or_organ_of_origin</li><li>tumor_grade</li><li>tumor_stage</li><li>icd_10_code</li><li>synchronous_malignancy</li><li>tumor_largest_dimension_diameter</li><li>exposures { exposure_id exposure_submitter_id alcohol_days_per_week alcohol_drinks_per_day alcohol_history alcohol_intensity asbestos_exposure bmi cigarettes_per_day coal_dust_exposure environmental_tobacco_smoke_exposure height pack_years_smoked radon_exposure respirable_crystalline_silica_exposure smoking_frequency time_between_waking_and_first_smoke tobacco_smoking_onset_year tobacco_smoking_quit_year tobacco_smoking_status type_of_smoke_exposure type_of_tobacco_used weight years_smoked }</li><li>externalReferences { external_reference_id reference_resource_shortname reference_resource_name reference_entity_location }</li></ul>",
                    "operationId": "clinicalPerStudy",
                    "produces": [
                      "application/json"
@@ -1138,11 +1138,11 @@ var spec = {
                    }
                  }
                },
-               '?query={ clinicalPerStudy(pdc_study_id: "{pdc_study_id}" acceptDUA: {acceptDUA}){ case_id case_submitter_id status ethnicity gender race morphology primary_diagnosis site_of_resection_or_biopsy tissue_or_organ_of_origin tumor_grade tumor_stage icd_10_code synchronous_malignancy tumor_largest_dimension_diameter externalReferences { external_reference_id reference_resource_shortname reference_resource_name reference_entity_location}} }': {
+               '?query={ clinicalPerStudy(pdc_study_id: "{pdc_study_id}" acceptDUA: {acceptDUA}){ case_id case_submitter_id status ethnicity gender race morphology primary_diagnosis site_of_resection_or_biopsy tissue_or_organ_of_origin tumor_grade tumor_stage icd_10_code synchronous_malignancy tumor_largest_dimension_diameter exposures { exposure_id exposure_submitter_id alcohol_days_per_week alcohol_drinks_per_day alcohol_history alcohol_intensity asbestos_exposure bmi cigarettes_per_day coal_dust_exposure environmental_tobacco_smoke_exposure height pack_years_smoked radon_exposure respirable_crystalline_silica_exposure smoking_frequency time_between_waking_and_first_smoke tobacco_smoking_onset_year tobacco_smoking_quit_year tobacco_smoking_status type_of_smoke_exposure type_of_tobacco_used weight years_smoked} externalReferences { external_reference_id reference_resource_shortname reference_resource_name reference_entity_location}} }': {
                   "get": {
                             "tags": ["Clinical"],
                     "summary": "Returns clinical details for PDC Study ID",
-                    "description": "<b>Returns clinical details per study. This API can also be used with multiple input parameters.<br><br>Fields:</b><ul><li>case_id</li><li>case_submitter_id</li><li>status</li><li>ethnicity</li><li>gender</li><li>race</li><li>morphology</li><li>primary_diagnosis</li><li>site_of_resection_or_biopsy</li><li>tissue_or_organ_of_origin</li><li>tumor_grade</li><li>tumor_stage</li><li>icd_10_code</li><li>synchronous_malignancy</li><li>tumor_largest_dimension_diameter</li><li>externalReferences { external_reference_id reference_resource_shortname reference_resource_name reference_entity_location }</li></ul>",
+                    "description": "<b>Returns clinical details per study. This API can also be used with multiple input parameters.<br><br>Fields:</b><ul><li>case_id</li><li>case_submitter_id</li><li>status</li><li>ethnicity</li><li>gender</li><li>race</li><li>morphology</li><li>primary_diagnosis</li><li>site_of_resection_or_biopsy</li><li>tissue_or_organ_of_origin</li><li>tumor_grade</li><li>tumor_stage</li><li>icd_10_code</li><li>synchronous_malignancy</li><li>tumor_largest_dimension_diameter</li><li>exposures { exposure_id exposure_submitter_id alcohol_days_per_week alcohol_drinks_per_day alcohol_history alcohol_intensity asbestos_exposure bmi cigarettes_per_day coal_dust_exposure environmental_tobacco_smoke_exposure height pack_years_smoked radon_exposure respirable_crystalline_silica_exposure smoking_frequency time_between_waking_and_first_smoke tobacco_smoking_onset_year tobacco_smoking_quit_year tobacco_smoking_status type_of_smoke_exposure type_of_tobacco_used weight years_smoked }</li><li>externalReferences { external_reference_id reference_resource_shortname reference_resource_name reference_entity_location }</li></ul>",
                     "operationId": "clinicalPerStudy",
                     "produces": [
                       "application/json"
@@ -2912,6 +2912,117 @@ var spec = {
                 "name":"Demographic"
              }
           },
+		  "Exposure":{
+            "type":"object",
+             "properties":{
+ 			  "exposure_id":{
+                   "type":"string",
+                   "example":"848b480c-0f56-11e9-a064-0a9c39d33490"
+                },
+				"exposure_submitter_id":{
+                   "type":"string",
+                   "example":"C3N-00386-EX"
+                },
+				"alcohol_days_per_week":{
+                   "type":"integer",
+                   "format":"int32",
+                   "example":"3"
+                },
+				"alcohol_drinks_per_day":{
+                   "type":"integer",
+                   "format":"int32",
+                   "example":"2"
+                },
+				"alcohol_history":{
+                   "type":"string",
+                   "example":"Yes"
+                },
+				"alcohol_intensity":{
+                   "type":"string",
+                   "example":"Lifelong Non-Drinker"
+                },
+				"asbestos_exposure":{
+                   "type":"string",
+                   "example":"Not Reported"
+                },
+				"bmi":{
+                   "type":"integer",
+                   "format":"int32",
+                   "example":"1972"
+                },
+				"cigarettes_per_day":{
+                   "type":"integer",
+                   "format":"int32",
+                   "example":"5"
+                },
+				"coal_dust_exposure":{
+                   "type":"string",
+                   "example":"Not Reported"
+                },
+				"environmental_tobacco_smoke_exposure":{
+                   "type":"string",
+                   "example":"Not Reported"
+                },
+				"height":{
+                   "type":"integer",
+                   "format":"int32",
+                   "example":"5"
+                },
+				"pack_years_smoked":{
+                   "type":"integer",
+                   "format":"int32",
+                   "example":"52"
+                },
+				"radon_exposure":{
+                   "type":"string",
+                   "example":"Not Reported"
+                },
+				"respirable_crystalline_silica_exposure":{
+                   "type":"string",
+                   "example":"Not Reported"
+                },
+				"smoking_frequency":{
+                   "type":"string",
+                   "example":"Not Reported"
+                },
+				"time_between_waking_and_first_smoke":{
+                   "type":"string",
+                   "example":"Not Reported"
+                },
+				"tobacco_smoking_onset_year":{
+                   "type":"integer",
+                   "format":"int32",
+                   "example":"1972"
+                },
+				"tobacco_smoking_quit_year":{
+                   "type":"integer",
+                   "format":"int32",
+                   "example":"1992"
+                },
+				"tobacco_smoking_status":{
+                   "type":"string",
+                   "example":"Not Reported"
+                },
+				"type_of_smoke_exposure":{
+                   "type":"string",
+                   "example":"Smoke exposure, NOS"
+                },
+				"type_of_tobacco_used":{
+                   "type":"string",
+                   "example":"pipe"
+                },
+				"weight":{
+                   "type":"integer",
+                   "format":"int32",
+                   "example":"185"
+                },
+				"years_smoked":{
+                   "type":"integer",
+                   "format":"int32",
+                   "example":"20"
+                }
+			 }
+		  },
           "Sample":{
              "type":"object",
              "properties":{
@@ -5844,6 +5955,12 @@ var spec = {
                   "type":"string",
                   "example":"0.8"
                },
+                "exposures":{
+                   "type":"array",
+                   "items":{
+                      "$ref":"#/definitions/Exposure"
+                   }
+                },
                 "externalReferences": {
                   "type":"array",
                   "items":{
@@ -7597,6 +7714,12 @@ var spec = {
                    "type":"array",
                    "items":{
                       "$ref":"#/definitions/Demographic"
+                   }
+                },
+                "exposures":{
+                   "type":"array",
+                   "items":{
+                      "$ref":"#/definitions/Exposure"
                    }
                 },
                 "samples":{

@@ -158,7 +158,7 @@ properties:
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2955385&version=1.0
-        type: Integer
+        type: Float
     radon_exposure:
         cde_id: 2816352
         description: 'The yes/no/unknown indicator used to describe whether the patient
@@ -253,6 +253,7 @@ properties:
         - Unknown
         - Not Reported
         - Not Allowed To Collect
+        - '6'
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2181650&version=1.0
@@ -312,6 +313,7 @@ properties:
         - Work-related smoke, plastics factory
         - Work-related smoke, plumbing
         - Work-related smoke, soldering/welding
+        - Tobacco smoke, NOS
         required: 'False'
         source: caDSR
         type: Enumeration
@@ -327,6 +329,7 @@ properties:
         - Other
         - Pipe
         - Smokeless Tobacco
+        - Cigarette
         required: 'False'
         source: caDSR
         type: Enumeration

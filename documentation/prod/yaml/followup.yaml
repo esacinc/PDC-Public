@@ -1012,6 +1012,32 @@ properties:
         - Wagr Syndrome
         - Unknown
         - Not Reported
+        - Chlamydia
+        - Varicella Zoster Virus
+        - Chronic Systemic Steroid Use
+        - Herpes Zoster
+        - Clonal Hematopoiesis
+        - Syphilis
+        - Autoimmune Lymphoproliferative Syndrome (ALPS)
+        - Dermatomyosis
+        - Gastritis
+        - Polycystic Ovarian Syndrome (PCOS)
+        - Abnormal Glucose Level
+        - Sjogren's Syndrome
+        - Metabolic Syndrome
+        - Lymphocytic Meningitis
+        - Cytomegalovirus (CMV)
+        - Ataxia-telangiectasia
+        - Staphylococcus aureus
+        - Malaria
+        - Cryptococcal Meningitis
+        - Chronic Fatigue Syndrome
+        - Treponema pallidum
+        - Mycobacterium avium Complex
+        - Bacteroides fragilis
+        - Pneumocystis Pneumonia
+        - Shingles
+        - Fibromyalgia
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2970715&version=1.0
@@ -1841,6 +1867,63 @@ properties:
         - Wagr Syndrome
         - Unknown
         - Not Reported
+        - Squamous Metaplasia
+        - High-grade Prostatic Intraepithelial Neoplasia (PIN)
+        - Chlamydia
+        - Epithelial Dysplasia
+        - Von Hippel-Lindau Syndrome
+        - Varicella Zoster Virus
+        - Tubulointerstitial Disease
+        - Benign Prostatic Hyperplasia
+        - Chronic Systemic Steroid Use
+        - Epithelial Hyperplasia
+        - Herpes Zoster
+        - Syphilis
+        - Hereditary Prostate Cancer
+        - 'Colonization, Fungal'
+        - Hereditary Papillary Renal Cell Carcinoma
+        - Autoimmune Lymphoproliferative Syndrome (ALPS)
+        - Dermatomyosis
+        - Gastritis
+        - Vascular Disease
+        - Polycystic Ovarian Syndrome (PCOS)
+        - Hereditary Renal Cell Carcinoma
+        - Abnormal Glucose Level
+        - Skin Rash
+        - Sjogren's Syndrome
+        - 'Inflammation, Hyperkeratosis'
+        - Metabolic Syndrome
+        - Cowden Syndrome
+        - Tuberculosis
+        - Cyst(s)
+        - Lymphocytic Meningitis
+        - Adenosis (Atypical Adenomatous Hyperplasia)
+        - BAP1 Tumor Predisposition Syndrome
+        - Hereditary Breast Cancer
+        - Escherichia coli
+        - Chronic Kidney Disease
+        - Cytomegalovirus (CMV)
+        - Hereditary Leiomyomatosis and Renal Cell Carcinoma
+        - Ataxia-telangiectasia
+        - Malaria
+        - Staphylococcus aureus
+        - Cryptococcal Meningitis
+        - Hereditary Kidney Oncocytoma
+        - 'Colonization, Bacterial'
+        - Hereditary Ovarian Cancer
+        - Nodular Prostatic Hyperplasia
+        - Treponema pallidum
+        - Tumor-associated Lymphoid Proliferation
+        - Mycobacterium avium Complex
+        - Bacteroides fragilis
+        - Glomerular Disease
+        - Birt-Hogg-Dube Syndrome
+        - BRCA Family History
+        - Pneumocystis Pneumonia
+        - Shingles
+        - Sialadenitis
+        - Tuberous Sclerosis
+        - Succinate Dehydrogenase-Deficient Renal Cell Carcinoma
         required: 'False'
         source: caDSR
         term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6142389&version=1.0

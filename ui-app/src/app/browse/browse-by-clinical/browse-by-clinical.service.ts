@@ -114,6 +114,32 @@ constructor(private apollo: Apollo) {
 							residual_disease
 							vascular_invasion_present
 							year_of_diagnosis
+							exposures {
+								exposure_id
+								exposure_submitter_id
+								alcohol_days_per_week
+								alcohol_drinks_per_day
+								alcohol_history
+								alcohol_intensity
+								asbestos_exposure
+								bmi
+								cigarettes_per_day
+								coal_dust_exposure
+								environmental_tobacco_smoke_exposure
+								height
+								pack_years_smoked
+								radon_exposure
+								respirable_crystalline_silica_exposure
+								smoking_frequency
+								time_between_waking_and_first_smoke
+								tobacco_smoking_onset_year
+								tobacco_smoking_quit_year
+								tobacco_smoking_status
+								type_of_smoke_exposure
+								type_of_tobacco_used
+								weight
+								years_smoked
+							}
 							externalReferences {
 								reference_resource_shortname
 								reference_entity_location

@@ -1,0 +1,14 @@
+type FamilyHistory {
+	family_history_id: String
+	family_history_submitter_id: String
+	case_id: String
+	case_submitter_id: String
+	project_id: String
+	project_submitter_id: String
+	relationship_type: String
+	relationship_gender: String
+	relationship_age_at_diagnosis: String
+	relationship_primary_diagnosis: String
+	relative_with_cancer_history: String
+	relatives_with_cancer_history_count: String
+}

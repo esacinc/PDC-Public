@@ -133,7 +133,8 @@ describe("BrowseByClinicalService", () => {
 			  progression_free_survival_event: null,
 			  residual_disease: "Not Reported",
 			  vascular_invasion_present: "Not Reported",
-			  year_of_diagnosis: "--",
+        year_of_diagnosis: "--",
+        exposures: [],
                 externalReferences: [
                   {
                     reference_resource_shortname: "GDC",
@@ -215,7 +216,8 @@ describe("BrowseByClinicalService", () => {
 			  progression_free_survival_event: null,
 			  residual_disease: "Not Reported",
 			  vascular_invasion_present: "Not Reported",
-			  year_of_diagnosis: null,
+        year_of_diagnosis: null,
+        exposures: [],
                 externalReferences: [
                   {
                     reference_resource_shortname: "GDC",

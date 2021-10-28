@@ -321,7 +321,6 @@ a.footerLink {
 	font-size: 14px;
 }
 
-/*PDC-1107 */
 /* The Modal (background) */
 .modal {
   display: none; /* Hidden by default */
@@ -362,7 +361,7 @@ a.footerLink {
 }
 
 .privacyPolicyContent {
-	font-size: 14px;
+  font-size: 14px;
 	max-height: 360px; 
 	overflow-y: auto; 
 	display: block!important; 
@@ -381,4 +380,79 @@ a.footerLink {
   top: 0;
   position: fixed;
   color: black;
+}
+
+.nav-bar{
+	font-family: 'Lato';
+    font-size: 16px;
+    letter-spacing: 0;
+    padding-top: 10px;
+    padding-bottom: 10px;
+	
+    margin-bottom: 0px;
+    color: #585858;
+    background: #EFF2F3;
+    min-height: auto;
+}
+
+.navbar {
+  overflow: hidden;
+  background-color: #EFF2F3;
+  padding-right:50px;
+}
+
+.navbar a {
+  float: right;
+  font-size: 16px;
+  color: #585858;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  
+}
+
+.dropdown {
+  float: right;
+  overflow: hidden;
+}
+
+.dropdown .dropbtn {
+  font-size: 16px;
+  border: none;
+  outline: none;
+  color: #585858;
+  padding: 14px 16px;
+  background-color: inherit;
+  font-family: inherit; /* Important for vertical align on mobile phones */
+  margin: 0; /* Important for vertical align on mobile phones */
+}
+
+.navbar a:hover, .dropdown:hover .dropbtn {
+  background-color: rgb(185, 185, 185);
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 16px;
+  box-shadow: 0px 8px 12px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  float: none;
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.dropdown-content a:hover {
+  background-color: rgb(233, 231, 231);
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
 }

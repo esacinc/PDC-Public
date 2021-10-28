@@ -712,7 +712,7 @@ export class NavbarComponent implements OnInit {
 		);
 		this.router.events.subscribe(event =>{
 			if (event instanceof NavigationEnd) {
-				if(event.url === '/welcome' || event.url === '/registration' || event.url === '/user-account' || event.url === '/email-confirmed' || event.url === '/submit-data'){
+				if(event.url === '/welcome' || event.url === '/registration' || event.url === '/user-account' || event.url === '/email-confirmed'){
 					this.navDisplayFlag = false;
 				}else{
 					this.navDisplayFlag = true;
