@@ -5,353 +5,424 @@ deprecated:
 - height
 - weight
 description: 'Clinically relevant patient information not immediately resulting from
-    genetic predispositions.
+  genetic predispositions.
 
-    '
+  '
 downloadable: false
 links:
--   backref: exposures
-    label: Exposure references the Case it is derived from.
-    multiplicity: many_to_one
-    name: Case
-    required: true
-    target_type: case
+- backref: exposures
+  label: Exposure references the Case it is derived from.
+  multiplicity: many_to_one
+  name: Case
+  required: true
+  target_type: case
 preferred:
 - pack_years_smoked
 - years_smoked
 previous_version_downloadable: false
 properties:
-    alcohol_days_per_week:
-        cde_id: 3114013
-        description: 'Numeric value used to describe the average number of days each
-            week that a person consumes an alcoholic beverage.
+  age_at_onset:
+    description: Numeric value used to represent the age of the patient when exposure
+      to a specific environmental factor began.
+    required: 'False'
+    type: Integer
+  alcohol_days_per_week:
+    cde_id: 3114013
+    description: 'Numeric value used to describe the average number of days each week
+      that a person consumes an alcoholic beverage.
 
-            '
-        required: 'False'
-        source: caDSR
-        term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3114013&version=1.0
-        type: Integer
-    alcohol_drinks_per_day:
-        cde_id: 3124961
-        description: 'Numeric value used to describe the average number of alcoholic
-            beverages  a person consumes per day.
+      '
+    required: 'False'
+    source: caDSR
+    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3114013&version=1.0
+    type: Number
+  alcohol_drinks_per_day:
+    cde_id: 3124961
+    description: 'Numeric value used to describe the average number of alcoholic beverages  a
+      person consumes per day.
 
-            '
-        required: 'False'
-        source: caDSR
-        term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3124961&version=1.0
-        type: Integer
-    alcohol_history:
-        cde_id: 2201918
-        deprecated_enum:
-        - 'no'
-        - 'yes'
-        description: 'A response to a question that asks whether the participant has
-            consumed at least 12 drinks of any kind of alcoholic beverage in their
-            lifetime.
+      '
+    required: 'False'
+    source: caDSR
+    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3124961&version=1.0
+    type: Number
+  alcohol_history:
+    cde_id: 2201918
+    deprecated_enum:
+    - 'no'
+    - 'yes'
+    description: 'A response to a question that asks whether the participant has consumed
+      at least 12 drinks of any kind of alcoholic beverage in their lifetime.
 
-            '
-        enum:
-        - 'Yes'
-        - 'No'
-        - Unknown
-        - Not Reported
-        - 'no'
-        - 'yes'
-        required: 'False'
-        source: caDSR
-        term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2201918&version=1.0
-        type: Enumeration
-    alcohol_intensity:
-        cde_id: 3457767
-        description: 'Category to describe the patient''s current level of alcohol
-            use as self-reported by the patient.
+      '
+    enum:
+    - Unknown
+    - Not Reported
+    - 'No'
+    - 'Yes'
+    required: 'False'
+    source: caDSR
+    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2201918&version=1.0
+    type: Enumeration
+  alcohol_intensity:
+    cde_id: 3457767
+    description: 'Category to describe the patient''s current level of alcohol use
+      as self-reported by the patient.
 
-            '
-        enum:
-        - Drinker
-        - Heavy Drinker
-        - Lifelong Non-Drinker
-        - Non-Drinker
-        - Occasional Drinker
-        - Unknown
-        - Not Reported
-        required: 'False'
-        source: caDSR
-        term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3457767&version=1.0
-        type: Enumeration
-    asbestos_exposure:
-        cde_id: 1253
-        description: 'The yes/no/unknown indicator used to describe whether the patient
-            was exposed to asbestos.
+      '
+    enum:
+    - Drinker
+    - Heavy Drinker
+    - Lifelong Non-Drinker
+    - Non-Drinker
+    - Occasional Drinker
+    - Unknown
+    - Not Reported
+    required: 'False'
+    source: caDSR
+    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3457767&version=1.0
+    type: Enumeration
+  alcohol_type:
+    description: A specific type of alcohol.
+    enum:
+    - Beer
+    - Liquor
+    - Other
+    - Wine
+    - Unknown
+    - Not Reported
+    required: 'False'
+    type: Enumeration
+  asbestos_exposure:
+    cde_id: 1253
+    description: 'The yes/no/unknown indicator used to describe whether the patient
+      was exposed to asbestos.
 
-            '
-        enum:
-        - 'Yes'
-        - 'No'
-        - Unknown
-        - Not Reported
-        required: 'False'
-        source: caDSR
-        term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=1253&version=3.0
-        type: Enumeration
-    bmi:
-        cde_id: 2006410
-        description: 'A calculated numerical quantity that represents an individual''s
-            weight to height ratio.
+      '
+    enum:
+    - 'Yes'
+    - 'No'
+    - Unknown
+    - Not Reported
+    required: 'False'
+    source: caDSR
+    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=1253&version=3.0
+    type: Enumeration
+  bmi:
+    cde_id: 2006410
+    description: 'A calculated numerical quantity that represents an individual''s
+      weight to height ratio.
 
-            '
-        required: 'False'
-        source: caDSR
-        term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2006410&version=3.0
-        type: Integer
-    cigarettes_per_day:
-        cde_id: 2001716
-        description: 'The average number of cigarettes smoked per day.
+      '
+    required: 'False'
+    source: caDSR
+    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2006410&version=3.0
+    type: Integer
+  cigarettes_per_day:
+    cde_id: 2001716
+    description: 'The average number of cigarettes smoked per day.
 
-            '
-        required: 'False'
-        source: caDSR
-        term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2001716&version=4.0
-        type: Integer
-    coal_dust_exposure:
-        description: 'The yes/no/unknown indicator used to describe whether a patient
-            was exposed to fine powder derived by the crushing of coal.
+      '
+    required: 'False'
+    source: caDSR
+    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2001716&version=4.0
+    type: Number
+  coal_dust_exposure:
+    description: 'The yes/no/unknown indicator used to describe whether a patient
+      was exposed to fine powder derived by the crushing of coal.
 
-            '
-        enum:
-        - 'Yes'
-        - 'No'
-        - Unknown
-        required: 'False'
-        source: caDSR
-        type: Enumeration
-    environmental_tobacco_smoke_exposure:
-        description: 'The yes/no/unknown indicator used to describe whether a patient
-            was exposed to smoke that is emitted from burning tobacco, including cigarettes,
-            pipes, and cigars. This includes tobacco smoke exhaled by smokers.
+      '
+    enum:
+    - 'Yes'
+    - 'No'
+    - Unknown
+    required: 'False'
+    source: caDSR
+    type: Enumeration
+  environmental_tobacco_smoke_exposure:
+    description: 'The yes/no/unknown indicator used to describe whether a patient
+      was exposed to smoke that is emitted from burning tobacco, including cigarettes,
+      pipes, and cigars. This includes tobacco smoke exhaled by smokers.
 
-            '
-        enum:
-        - 'Yes'
-        - 'No'
-        - Unknown
-        required: 'False'
-        source: caDSR
-        type: Enumeration
-    height:
-        cde_id: 649
-        description: 'The height of the patient in centimeters.
+      '
+    enum:
+    - 'Yes'
+    - 'No'
+    - Unknown
+    required: 'False'
+    source: caDSR
+    type: Enumeration
+  exposure_duration:
+    description: Text term used to describe the length of time the patient was exposed
+      to an environmental factor.
+    enum:
+    - Six Weeks or More
+    - Unknown
+    - Not Reported
+    required: 'False'
+    type: Enumeration
+  exposure_duration_years:
+    cde_id: C83280
+    description: The period of time from start to finish of exposure, in years.
+    required: 'False'
+    source: NCIt
+    term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&ns=ncit&code=C83280
+    type: Integer
+  exposure_type:
+    description: The text term used to describe the type of environmental exposure.
+    enum:
+    - Marijuana
+    - Radiation
+    - Smoke
+    - Tobacco
+    - Wood Dust
+    required: 'False'
+    type: Enumeration
+  height:
+    cde_id: 649
+    description: 'The height of the patient in centimeters.
 
-            '
-        required: 'False'
-        source: caDSR
-        term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=649&version=4.1
-        type: Integer
-    pack_years_smoked:
-        cde_id: 2955385
-        description: 'Numeric computed value to represent lifetime tobacco exposure
-            defined as number of cigarettes smoked per day x number of years smoked
-            divided by 20.
+      '
+    required: 'False'
+    source: caDSR
+    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=649&version=4.1
+    type: Integer
+  marijuana_use_per_week:
+    description: Numeric value that represents the number of times the patient uses
+      marijuana each day.
+    required: 'False'
+    type: Number
+  pack_years_smoked:
+    cde_id: 2955385
+    description: 'Numeric computed value to represent lifetime tobacco exposure defined
+      as number of cigarettes smoked per day x number of years smoked divided by 20.
 
-            '
-        required: 'False'
-        source: caDSR
-        term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2955385&version=1.0
-        type: Float
-    radon_exposure:
-        cde_id: 2816352
-        description: 'The yes/no/unknown indicator used to describe whether the patient
-            was exposed to radon.
+      '
+    required: 'False'
+    source: caDSR
+    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2955385&version=1.0
+    type: Number
+  parent_with_radiation_exposure:
+    description: Indicates whether the patient's parent(s) were exposed to radiation
+    enum:
+    - 'Yes'
+    - 'No'
+    - Not Reported
+    required: 'False'
+    type: Enumeration
+  radon_exposure:
+    cde_id: 2816352
+    description: 'The yes/no/unknown indicator used to describe whether the patient
+      was exposed to radon.
 
-            '
-        enum:
-        - 'Yes'
-        - 'No'
-        - Unknown
-        - Not Reported
-        required: 'False'
-        source: caDSR
-        term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2816352&version=1.0
-        type: Enumeration
-    respirable_crystalline_silica_exposure:
-        description: 'The yes/no/unknown indicator used to describe whether a patient
-            was exposured to respirable crystalline silica, a widespread, naturally
-            occurring, crystalline metal oxide that consists of different forms including
-            quartz, cristobalite, tridymite, tripoli, ganister, chert and novaculite.
+      '
+    enum:
+    - 'Yes'
+    - 'No'
+    - Unknown
+    - Not Reported
+    required: 'False'
+    source: caDSR
+    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2816352&version=1.0
+    type: Enumeration
+  respirable_crystalline_silica_exposure:
+    description: 'The yes/no/unknown indicator used to describe whether a patient
+      was exposured to respirable crystalline silica, a widespread, naturally occurring,
+      crystalline metal oxide that consists of different forms including quartz, cristobalite,
+      tridymite, tripoli, ganister, chert and novaculite.
 
-            '
-        enum:
-        - 'Yes'
-        - 'No'
-        - Unknown
-        required: 'False'
-        source: caDSR
-        type: Enumeration
-    smoking_frequency:
-        description: 'The text term used to generally decribe how often the patient
-            smokes.
+      '
+    enum:
+    - 'Yes'
+    - 'No'
+    - Unknown
+    required: 'False'
+    source: caDSR
+    type: Enumeration
+  secondhand_smoke_as_child:
+    cde_id: 6841888
+    description: The text term used to indicate whether the patient was exposed to
+      secondhand smoke as a child.
+    enum:
+    - 'Yes'
+    - 'No'
+    - Unknown
+    - Not Reported
+    required: 'False'
+    source: caDSR
+    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6841888&version=1.0
+    type: Enumeration
+  smokeless_tobacco_quit_age:
+    description: The age the subject quit smoking tobacco.
+    required: 'False'
+    type: Integer
+  smoking_frequency:
+    description: 'The text term used to generally decribe how often the patient smokes.
 
-            '
-        enum:
-        - Every day
-        - Some days
-        - Unknown
-        required: 'False'
-        source: caDSR
-        type: Enumeration
-    time_between_waking_and_first_smoke:
-        cde_id: 3279220
-        description: 'The text term used to describe the approximate amount of time
-            elapsed between the time the patient wakes up in the morning to the time
-            they smoke their first cigarette.
+      '
+    enum:
+    - Every day
+    - Some days
+    - Unknown
+    required: 'False'
+    source: caDSR
+    type: Enumeration
+  time_between_waking_and_first_smoke:
+    cde_id: 3279220
+    description: 'The text term used to describe the approximate amount of time elapsed
+      between the time the patient wakes up in the morning to the time they smoke
+      their first cigarette.
 
-            '
-        enum:
-        - Within 5 Minutes
-        - 6-30 Minutes
-        - 31-60 Minutes
-        - After 60 Minutes
-        - Unknown
-        required: 'False'
-        source: caDSR
-        term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3279220&version=1.0
-        type: Enumeration
-    tobacco_smoking_onset_year:
-        cde_id: 2228604
-        description: 'The year in which the participant began smoking.
+      '
+    enum:
+    - Within 5 Minutes
+    - 6-30 Minutes
+    - 31-60 Minutes
+    - After 60 Minutes
+    - Unknown
+    required: 'False'
+    source: caDSR
+    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3279220&version=1.0
+    type: Enumeration
+  tobacco_smoking_onset_year:
+    cde_id: 2228604
+    description: 'The year in which the participant began smoking.
 
-            '
-        required: 'False'
-        source: caDSR
-        term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2228604&version=1.0
-        type: Integer
-    tobacco_smoking_quit_year:
-        cde_id: 2228610
-        description: 'The year in which the participant quit smoking.
+      '
+    required: 'False'
+    source: caDSR
+    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2228604&version=1.0
+    type: Integer
+  tobacco_smoking_quit_year:
+    cde_id: 2228610
+    description: 'The year in which the participant quit smoking.
 
-            '
-        required: 'False'
-        source: caDSR
-        term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2228610&version=1.0
-        type: Integer
-    tobacco_smoking_status:
-        cde_id: 2181650
-        deprecated_enum:
-        - Not Allowed To Collect
-        description: 'Category describing current smoking status and smoking history
-            as self-reported by a patient.
+      '
+    required: 'False'
+    source: caDSR
+    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2228610&version=1.0
+    type: Integer
+  tobacco_smoking_status:
+    cde_id: 2181650
+    deprecated_enum:
+    - Not Allowed To Collect
+    description: 'Category describing current smoking status and smoking history as
+      self-reported by a patient.
 
-            '
-        enum:
-        - '1'
-        - '2'
-        - '3'
-        - '4'
-        - '5'
-        - '7'
-        - Unknown
-        - Not Reported
-        - Not Allowed To Collect
-        - '6'
-        required: 'False'
-        source: caDSR
-        term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2181650&version=1.0
-        type: Enumeration
-    type_of_smoke_exposure:
-        description: 'The text term used to describe the patient''s specific type
-            of smoke exposure.
+      '
+    enum:
+    - '1'
+    - '2'
+    - '3'
+    - '4'
+    - '5'
+    - '7'
+    - Unknown
+    - Not Reported
+    - Not Allowed To Collect
+    - '6'
+    required: 'False'
+    source: caDSR
+    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2181650&version=1.0
+    type: Enumeration
+  tobacco_use_per_day:
+    description: Numeric value that represents the number of times the patient uses
+      tobacco each day.
+    required: 'False'
+    type: Number
+  type_of_smoke_exposure:
+    description: 'The text term used to describe the patient''s specific type of smoke
+      exposure.
 
-            '
-        enum:
-        - Accidental building fire smoke
-        - Accidental fire smoke, grass
-        - Accidental fire smoke, NOS
-        - Accidental forest fire smoke
-        - Accidental vehicle fire smoke
-        - Aircraft smoke
-        - Burning tree smoke
-        - Coal smoke, NOS
-        - Cooking-related smoke, NOS
-        - Electronic cigarette smoke, NOS
-        - Electrical fire smoke
-        - Environmental tobacco smoke
-        - Factory smokestack smoke
-        - Field burning smoke
-        - Fire smoke, NOS
-        - Furnace or boiler smoke
-        - Gas burning smoke, propane
-        - Grease fire smoke
-        - Grilling smoke
-        - Hashish smoke
-        - Indoor stove or fireplace smoke, coal burning
-        - Indoor stove or fireplace smoke, NOS
-        - Indoor stove or fireplace smoke, wood burning
-        - Machine smoke
-        - Marijuana smoke
-        - No Smoke Exposure
-        - Oil burning smoke, Kerosene
-        - Oil burning smoke, NOS
-        - Recreational fire smoke
-        - Smoke exposure, NOS
-        - Smokehouse smoke
-        - Tobacco smoke, cigar
-        - Tobacco smoke, cigarettes
-        - Tobacco smoke, pipe
-        - Unknown
-        - Volcanic smoke
-        - Waste burning smoke
-        - Wood burning smoke, factory
-        - Wood burning smoke, NOS
-        - Work-related smoke, artificial smoke machines
-        - Work-related smoke, fire fighting
-        - Work-related smoke, foundry
-        - Work-related smoke, generators
-        - Work-related smoke, military
-        - Work-related smoke, NOS
-        - Work-related smoke, paint baking
-        - Work-related smoke, plastics factory
-        - Work-related smoke, plumbing
-        - Work-related smoke, soldering/welding
-        - Tobacco smoke, NOS
-        required: 'False'
-        source: caDSR
-        type: Enumeration
-    type_of_tobacco_used:
-        description: 'The text term used to describe the specific type of tobacco
-            used by the patient.
+      '
+    enum:
+    - Accidental building fire smoke
+    - Accidental fire smoke, grass
+    - Accidental fire smoke, NOS
+    - Accidental forest fire smoke
+    - Accidental vehicle fire smoke
+    - Aircraft smoke
+    - Burning tree smoke
+    - Coal smoke, NOS
+    - Cooking-related smoke, NOS
+    - Electronic cigarette smoke, NOS
+    - Electrical fire smoke
+    - Environmental tobacco smoke
+    - Factory smokestack smoke
+    - Field burning smoke
+    - Fire smoke, NOS
+    - Furnace or boiler smoke
+    - Gas burning smoke, propane
+    - Grease fire smoke
+    - Grilling smoke
+    - Hashish smoke
+    - Indoor stove or fireplace smoke, coal burning
+    - Indoor stove or fireplace smoke, NOS
+    - Indoor stove or fireplace smoke, wood burning
+    - Machine smoke
+    - Marijuana smoke
+    - No Smoke Exposure
+    - Oil burning smoke, Kerosene
+    - Oil burning smoke, NOS
+    - Recreational fire smoke
+    - Smoke exposure, NOS
+    - Smokehouse smoke
+    - Tobacco smoke, cigar
+    - Tobacco smoke, cigarettes
+    - Tobacco smoke, pipe
+    - Unknown
+    - Volcanic smoke
+    - Waste burning smoke
+    - Wood burning smoke, factory
+    - Wood burning smoke, NOS
+    - Work-related smoke, artificial smoke machines
+    - Work-related smoke, fire fighting
+    - Work-related smoke, foundry
+    - Work-related smoke, generators
+    - Work-related smoke, military
+    - Work-related smoke, NOS
+    - Work-related smoke, paint baking
+    - Work-related smoke, plastics factory
+    - Work-related smoke, plumbing
+    - Work-related smoke, soldering/welding
+    - Tobacco smoke, NOS
+    required: 'False'
+    source: caDSR
+    type: Enumeration
+  type_of_tobacco_used:
+    description: 'The text term used to describe the specific type of tobacco used
+      by the patient.
 
-            '
-        enum:
-        - Cigarettes
-        - Cigar
-        - Electronic Cigarette
-        - Other
-        - Pipe
-        - Smokeless Tobacco
-        - Cigarette
-        required: 'False'
-        source: caDSR
-        type: Enumeration
-    weight:
-        cde_id: 651
-        description: 'The weight of the patient measured in kilograms.
+      '
+    enum:
+    - Cigarette
+    - Cigar
+    - Electronic Cigarette
+    - Other
+    - Pipe
+    - Smokeless Tobacco
+    required: 'False'
+    source: caDSR
+    type: Enumeration
+  weight:
+    cde_id: 651
+    description: 'The weight of the patient measured in kilograms.
 
-            '
-        required: 'False'
-        source: caDSR
-        term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=651&version=4.0
-        type: Integer
-    years_smoked:
-        cde_id: 3137957
-        description: 'Numeric value (or unknown) to represent the number of years
-            a person has been smoking.
+      '
+    required: 'False'
+    source: caDSR
+    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=651&version=4.0
+    type: Integer
+  years_smoked:
+    cde_id: 3137957
+    description: 'Numeric value (or unknown) to represent the number of years a person
+      has been smoking.
 
-            '
-        required: 'False'
-        source: caDSR
-        term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3137957&version=1.0
-        type: Integer
+      '
+    required: 'False'
+    source: caDSR
+    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3137957&version=1.0
+    type: Number
 required:
 - submitter_id
 title: Exposure

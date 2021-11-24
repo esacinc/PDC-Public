@@ -261,6 +261,7 @@ export class LegacyStudySummaryComponent implements OnInit {
 
   //PDC-2378 - This function will calculate total files counts for
   // raw and supplementary data files
+	/*
   getFilesCountsPerStudy(){
 	this.totalFilesCount = 0;
 	if (this.fileCountsRaw != undefined) {
@@ -274,6 +275,7 @@ export class LegacyStudySummaryComponent implements OnInit {
 			this.totalSuppFilesCount += this.suppFileCountsRaw[i].files_count;
 		}
 	}
+	*/
 	/*  this.loading = true;
     //@@@PDC-1123 call ui wrapper API
 	  setTimeout(() => {
@@ -285,8 +287,45 @@ export class LegacyStudySummaryComponent implements OnInit {
 			console.log(this.fileCountsRaw);
 			this.loading = false;
 		  });
-	  }, 1000);*/
+	  }, 1000);
   }
+	*/
+
+getFilesCountsPerStudy(){
+    this.totalFilesCount = 0;
+    if (this.fileCountsRaw != undefined) {
+	      for (let i = 0; i < this.fileCountsRaw.length; i++) {
+		        this.totalFilesCount += this.fileCountsRaw[i].files_count;
+	      }
+     }
+     this.totalSuppFilesCount = 0;
+     if (this.suppFileCountsRaw != undefined) {
+	       for (let i = 0; i < this.suppFileCountsRaw.length; i++) {
+		         this.totalSuppFilesCount += this.suppFileCountsRaw[i].files_count;
+	       }
+     }
+     if (this.fileCountsRaw != undefined) {
+	       this.sortDataCategoriesInOrder();
+    }
+}
+
+sortDataCategoriesInOrder(){
+	var order = ["Raw Mass Spectra","Processed Mass Spectra", "Peptide Spectral Matches", "Peptide Spectral Matches", "Protein Assembly", "Quality Metrics", "Quality Metrics"];
+	for (var obj in this.fileCountsRaw) {
+		console.log(obj);
+		let entityObj = "";
+		entityObj = this.fileCountsRaw[obj]["data_category"].toLowerCase();
+		//Order elements based on the suggested order
+		if (order.some(ele => entityObj.includes(ele))) {
+			this.fileCountsRaw[obj]["data_category"] = order.find(ele => entityObj.includes(ele));
+		}
+	}
+	this.fileCountsRaw = this.fileCountsRaw.sort((a, b) => {
+		return (
+			order.indexOf(a.data_category) - order.indexOf(b.data_category)
+		);
+	});
+}
 
 
 //PDC-3860 Add related PDC studies to Legacy study summaries

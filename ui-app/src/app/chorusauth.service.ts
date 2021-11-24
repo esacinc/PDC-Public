@@ -14,12 +14,15 @@ export class ChorusauthService {
   // Checks to see if the user with this email exists already in Chorus
   // Since it is calling an asynchronous function it returns an observable so the caller can wait
   public checkUser(email: string): Observable<boolean> {
-    const url = '/chorusapi/user/' + email;
+
+    email = sessionStorage.getItem('loginUser');
+
+    const url = environment.chorus_jwt_url + '/user/' + email;
     let response: ChorusUserUpdateResponse;
 
     // @@@PDC-634: Need to make calls to pdcapi more secure.
     // Get a JWT from ChorusAPI by a post call and use the token as authorization header while making the GET request.
-    setTimeout(() =>{this.getJWTTokenFromChorusAPI()},1000);
+    //setTimeout(() => { this.getJWTTokenFromChorusAPI() },1000);
 
     const existsObservable = new Observable<boolean>((observer) => {
       setTimeout(() => {
@@ -81,11 +84,11 @@ export class ChorusauthService {
 
   // Updates the chorus user to set emailVerified to true so they can login without the email verification
   private updateUser(email: string) {
-    const url = '/chorusapi/user/' + email;
+    const url = environment.chorus_jwt_url + '/user/' + email;
 
     // @@@PDC-634: Need to make calls to pdcapi more secure.
     // Get a JWT from ChorusAPI by a post call and use the token as authorization header while making the GET request.
-    this.getJWTTokenFromChorusAPI();
+    //this.getJWTTokenFromChorusAPI();
     setTimeout(() => {
       this.http.put(url,null, {headers: new HttpHeaders({'authorization':'bearer '+localStorage.getItem('jwtToken')})}).subscribe(data => {
           console.log(data);
@@ -97,10 +100,10 @@ export class ChorusauthService {
   }
 
   // @@@PDC-634: Need to make calls to CHORUSAPI more secure.
-  // Makes a POST request to login service in CHORUSAPI to get a JWT. This valid token is used as an 
+  // Makes a POST request to login service in CHORUSAPI to get a JWT. This valid token is used as an
   // authorization header for making secure calls to CHORUSAPI apis.
   private getJWTTokenFromChorusAPI() {
-    this.http.post('/chorusapi/login', null).subscribe(data => {
+    this.http.post(environment.chorus_jwt_url + '/login', null).subscribe(data => {
       localStorage.setItem('jwtToken', data['token']);
       },
       (error: HttpErrorResponse) => {
@@ -111,6 +114,9 @@ export class ChorusauthService {
   // @@@PDC-812: get workspace url from environment object
   // Post to chorus to login the user
   public authenticateUser(email: string): Observable<boolean> {
+
+    email = sessionStorage.getItem('loginUser');
+
     const url = '/workspace/j_spring_security_check';
     const payload = new FormData();
 
@@ -139,7 +145,7 @@ export class ChorusauthService {
 
   // get labs that match the passed in term
   public searchLabs(term: string, selectedLabs: ChorusLab[]): Observable<ChorusLab[]> {
-    const url = '/chorusapi/lab?name=' + term;
+    const url = environment.chorus_jwt_url + '/lab?name=' + term;
     let response: ChorusLabResponse;
 
     const labsObservable = new Observable<ChorusLab[]>((observer) => {
@@ -150,9 +156,9 @@ export class ChorusauthService {
       }
       // @@@PDC-634: Need to make calls to pdcapi more secure.
       // Get a JWT from ChorusAPI by a post call and use the token as authorization header while making the GET request.
-      this.getJWTTokenFromChorusAPI();
+      //this.getJWTTokenFromChorusAPI();
       setTimeout(() => {
-        this.http.get(url, {headers: new HttpHeaders({'authorization':'bearer '+localStorage.getItem('jwtToken')})}).subscribe(resp => {
+        this.http.get(url, {headers: new HttpHeaders({'authorization':'bearer ' + localStorage.getItem('jwtToken')})}).subscribe(resp => {
             response = resp as ChorusLabResponse;
 
             // If the labs returned are in the selectedLabs already remove them from the result

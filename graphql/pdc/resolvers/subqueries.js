@@ -3,6 +3,7 @@ import { GraphQLScalarType } from 'graphql';
 import { Kind } from 'graphql/language';
 import Sequelize from 'sequelize';
 import {filters, filtersView} from '../util/filters'
+import { replacementFilters, replacementFiltersView } from "../util/replacementFilters";
 import {getSignedUrl} from '../util/getSignedUrl'
 import {RedisCacheClient, CacheName} from '../util/cacheClient';
 //@@@PDC-1215 use winston logger
@@ -15,21 +16,21 @@ const Op = Sequelize.Op;
 const labelQuery = "select distinct bin_to_uuid(aliquot_id) as aliquot_id, bin_to_uuid(aliquot_run_metadata_id) as aliquot_run_metadata_id, aliquot_submitter_id FROM aliquot_run_metadata ";
 //@@@PDC-952 remove hard-coded schema name
 //@@@PDC-1340 remove authorization code
-//@@@PDC-1874 add pdc_study_id to all study-related APIs 
+//@@@PDC-1874 add pdc_study_id to all study-related APIs
 export const resolvers = {
 	//Definition of the type of Date
 	Date: new GraphQLScalarType({
 		name: 'Date',
 		description: 'Date custom scalar type',
 		parseValue(value) {
-		  return new Date(value); 
+		  return new Date(value);
 		},
 		serialize(value) {
-		  return value; 
+		  return value;
 		},
 		parseLiteral(ast) {
 		  if (ast.kind === Kind.INT) {
-			return parseInt(ast.value, 10); 
+			return parseInt(ast.value, 10);
 		  }
 		  return null;
 		},
@@ -38,7 +39,8 @@ export const resolvers = {
     //@@@PDC-1430 link program/project/study using uuid
 	Program: {
 		projects(obj, args, context) {
-			var comboQuery = "";
+			let comboQuery = "";
+			let replacements = { };
 			if (context.noFilter != null) {
 				comboQuery = "SELECT distinct bin_to_uuid(proj.project_id) as project_id, proj.project_submitter_id, proj.name "+
 				" FROM project proj "+
@@ -57,15 +59,23 @@ export const resolvers = {
 				obj.program_id +
 				"') ";
 				//"and s.project_submitter_id IN ('" + context.value.join("','") + "')";
-				comboQuery += filters(context.arguments);				
+
+				comboQuery += replacementFilters(context.arguments, { name: "" }, replacements);
 			}
-			return db.getSequelize().query(comboQuery, { model: db.getModelByName('Project') });			
+			return db.getSequelize().query(
+					comboQuery,
+					{
+						replacements: replacements,
+						model: db.getModelByName('Project')
+					}
+				);
 		}
 	},
     //@@@PDC-1430 link program/project/study using uuid
 	Project: {
 		studies(obj, args, context) {
-			var comboQuery = "";
+			let comboQuery = "";
+			let replacements = { };
 			//@@@PDC-3839 get current version of study
 			//@@@PDC-3966 add more study fields per CDA request
 			if (context.noFilter != null) {
@@ -90,16 +100,26 @@ export const resolvers = {
 				obj.project_id +
 				"') ";
 				//"and s.project_submitter_id IN ('" + context.value.join("','") + "')";
-				comboQuery += filters(context.arguments);
+				comboQuery += replacementFilters(context.arguments, { name: " " }, replacements);
 			}
-			return db.getSequelize().query(comboQuery, { model: db.getModelByName('ModelStudy') });			
+			return db.getSequelize().query(
+					comboQuery,
+					{
+						replacements: replacements,
+						model: db.getModelByName('ModelStudy')
+					}
+				);
 		}
 	},
 	//@@@PDC-2979 add external reference.
 	PublicCase: {
 		externalReferences(obj, args, context) {
-			var refQuery = "SELECT reference_resource_shortname, trim(both '\r' from reference_entity_location) as reference_entity_location, reference_entity_alias as external_reference_id, reference_resource_name FROM reference r where entity_type = 'case' and reference_type = 'external' and entity_id = uuid_to_bin('"+ obj.case_id + "')";
-			return db.getSequelize().query(refQuery, { model: db.getModelByName('ModelEntityReference') });
+			let refQuery = "SELECT reference_resource_shortname, trim(both '\r' from reference_entity_location) as reference_entity_location, " +
+				" reference_entity_alias as external_reference_id, reference_resource_name " +
+				" FROM reference r where entity_type = 'case' and reference_type = 'external' " +
+				" and entity_id = uuid_to_bin('"+ obj.case_id + "')";
+			return db.getSequelize().query(refQuery,
+				{ model: db.getModelByName('ModelEntityReference') });
 		}
 	},
 	//@@@PDC-180 Case API for UI case summary
@@ -269,16 +289,16 @@ export const resolvers = {
 				//sample_submitter_id: obj.sample_submitter_id
 			}
 			});
-		}		
+		}
 	},
 	//@@@PDC-2366 Add aliquot_run_metadata_id to aliquot_run_metadata API entity
 	Aliquot:{
 		aliquot_run_metadata(obj, args, context) {
 			// db.getModelByName('ModelAliquotRunMetadata').findAll({attributes: ['aliquot_submitter_id', ['bin_to_uuid(aliquot_run_metadata_id)','aliquot_run_metadata_id']],
 			// where: {aliquot_submitter_id: obj.aliquot_submitter_id}
-			// });	
+			// });
 			let aliquotQuery = "select aliquot_submitter_id , bin_to_uuid(aliquot_run_metadata_id) as aliquot_run_metadata_id FROM aliquot_run_metadata where bin_to_uuid(aliquot_id) = '"+ obj.aliquot_id +"'";
-			return db.getSequelize().query(aliquotQuery, { model: db.getModelByName('ModelAliquotRunMetadata') }); 		
+			return db.getSequelize().query(aliquotQuery, { model: db.getModelByName('ModelAliquotRunMetadata') });
 		}
 	},
 	//@@@PDC-2614 rearrange geneSpectralCount
@@ -290,11 +310,11 @@ export const resolvers = {
 				//@@@PDC-2638 enhance aliquotSpectralCount
 				spQuery = "SELECT bin_to_uuid(s.project_id) as project_id, s.project_submitter_id, bin_to_uuid(s.study_id) as study_id, s.study_submitter_id, pdc_study_id, dataset_alias as plex, spectral_count, distinct_peptide, unshared_peptide from spectral_count sp left join study s on sp.study_id = s.study_id where dataset_alias like '%"+context.arguments.dataset_alias+"%' and gene_name = '"+
 				obj.gene_name+"'";
-				
+
 			}
 			else {
 				spQuery = "SELECT bin_to_uuid(s.project_id) as project_id, s.project_submitter_id, bin_to_uuid(s.study_id) as study_id, s.study_submitter_id, pdc_study_id, dataset_alias as plex, spectral_count, distinct_peptide, unshared_peptide from spectral_count sp left join study s on sp.study_id = s.study_id where plex_name = 'All' and gene_name = '"+obj.gene_name+"'";
-				
+
 			}
 			return db.getSequelize().query(spQuery, { model: db.getModelByName('Spectral') });
 		}
@@ -311,7 +331,7 @@ export const resolvers = {
 				return result;
 			}else{
 				return JSON.parse(res);
-			}		
+			}
 		}
 	},
 	FileMetadata: {
@@ -325,13 +345,13 @@ export const resolvers = {
 			"left join study_run_metadata srm on sf.study_run_metadata_id = srm.study_run_metadata_id "+
 			//"join study_run_metadata srm on sf.study_id = srm.study_id "+
             "join aliquot_run_metadata arm on srm.study_run_metadata_id = arm.study_run_metadata_id "+
-            "left join aliquot a on arm.aliquot_id = a.aliquot_id "+ 
-            "left join sample sam on a.sample_id = sam.sample_id "+ 
-            "left join `case` c on sam.case_id = c.case_id "+ 
+            "left join aliquot a on arm.aliquot_id = a.aliquot_id "+
+            "left join sample sam on a.sample_id = sam.sample_id "+
+            "left join `case` c on sam.case_id = c.case_id "+
 			"where f.file_name = '"+ obj.file_name + "'";
 
 			return db.getSequelize().query(aliquotQuery, { model: db.getModelByName('Aliquot') });
-		}		
+		}
 	},
 	//@@@PDC-191 experimental metadata API
 	//@@@PDC-3668 add study_run_metadata_id to output
@@ -347,7 +367,7 @@ export const resolvers = {
 	StudyCatalogEntry: {
 		versions(obj, args, context) {
 			var verQuery = "SELECT bin_to_uuid(study_id) as study_id, study_submitter_id, "+
-			"study_shortname, submitter_id_name, study_version, if(is_latest_version, 'yes', 'no') as is_latest_version FROM study WHERE pdc_study_id = '" +obj.pdc_study_id+ "' order by study_version desc"; 
+			"study_shortname, submitter_id_name, study_version, if(is_latest_version, 'yes', 'no') as is_latest_version FROM study WHERE pdc_study_id = '" +obj.pdc_study_id+ "' order by study_version desc";
 			return db.getSequelize().query(verQuery, { model: db.getModelByName('ModelStudy') });
 		}
 	},
@@ -356,7 +376,7 @@ export const resolvers = {
 	StudyRunMetadata: {
 		aliquot_run_metadata(obj, args, context) {
 			let aliquotQuery = "select bin_to_uuid(aliquot_id) as aliquot_id, aliquot_submitter_id , bin_to_uuid(aliquot_run_metadata_id) as aliquot_run_metadata_id FROM aliquot_run_metadata where study_run_metadata_submitter_id = '"+ obj.study_run_metadata_submitter_id +"'";
-			return db.getSequelize().query(aliquotQuery, { model: db.getModelByName('ModelAliquotRunMetadata') }); 
+			return db.getSequelize().query(aliquotQuery, { model: db.getModelByName('ModelAliquotRunMetadata') });
 			// db.getModelByName('ModelAliquotRunMetadata').findAll({attributes: ['aliquot_submitter_id'],
 			// 	where: {study_run_metadata_submitter_id: obj.study_run_metadata_submitter_id}
 			// });
@@ -381,7 +401,7 @@ export const resolvers = {
 				var refQuery = "SELECT reference_resource_shortname, reference_entity_location FROM reference r where entity_type = 'case' and reference_type = 'external' and entity_id = uuid_to_bin('"+ obj.case_id + "')";
 				var getIt = await db.getSequelize().query(refQuery, { model: db.getModelByName('ModelEntityReference') });
 				RedisCacheClient.redisCacheSetExAsync(refCacheName, JSON.stringify(getIt));
-				return getIt;				
+				return getIt;
 			}
 			return JSON.parse(res);
 		},
@@ -392,7 +412,7 @@ export const resolvers = {
 				var refQuery = "SELECT bin_to_uuid(exposure_id) as exposure_id, exposure_submitter_id, alcohol_days_per_week, alcohol_drinks_per_day, alcohol_history, alcohol_intensity, asbestos_exposure, bmi, cigarettes_per_day, coal_dust_exposure, environmental_tobacco_smoke_exposure, height, pack_years_smoked, radon_exposure, respirable_crystalline_silica_exposure, smoking_frequency, time_between_waking_and_first_smoke, tobacco_smoking_onset_year, tobacco_smoking_quit_year, tobacco_smoking_status, type_of_smoke_exposure, type_of_tobacco_used, weight, years_smoked FROM exposure where case_id = uuid_to_bin('"+ obj.case_id + "')";
 				var getIt = await db.getSequelize().query(refQuery, { model: db.getModelByName('ModelExposure') });
 				RedisCacheClient.redisCacheSetExAsync(refCacheName, JSON.stringify(getIt));
-				return getIt;				
+				return getIt;
 			}
 			return JSON.parse(res);
 		},
@@ -403,7 +423,7 @@ export const resolvers = {
 				var refQuery = "SELECT bin_to_uuid(family_history_id) as family_history_id, family_history_submitter_id, relationship_type, relationship_gender, relationship_age_at_diagnosis, relationship_primary_diagnosis, relative_with_cancer_history, relatives_with_cancer_history_count FROM family_history where case_id = uuid_to_bin('"+ obj.case_id + "')";
 				var getIt = await db.getSequelize().query(refQuery, { model: db.getModelByName('ModelFamilyHistory') });
 				RedisCacheClient.redisCacheSetExAsync(refCacheName, JSON.stringify(getIt));
-				return getIt;				
+				return getIt;
 			}
 			return JSON.parse(res);
 		},
@@ -414,7 +434,7 @@ export const resolvers = {
 				var refQuery = "SELECT bin_to_uuid(follow_up_id) as follow_up_id, follow_up_submitter_id, adverse_event, barretts_esophagus_goblet_cells_present, bmi, cause_of_response, comorbidity, comorbidity_method_of_diagnosis, days_to_adverse_event, days_to_comorbidity, days_to_follow_up, days_to_progression, days_to_progression_free, days_to_recurrence, diabetes_treatment_type, disease_response, dlco_ref_predictive_percent, ecog_performance_status, fev1_ref_post_bronch_percent, fev1_ref_pre_bronch_percent, fev1_fvc_pre_bronch_percent, fev1_fvc_post_bronch_percent, height, hepatitis_sustained_virological_response, hpv_positive_type, karnofsky_performance_status, menopause_status, pancreatitis_onset_year, progression_or_recurrence, progression_or_recurrence_anatomic_site, progression_or_recurrence_type, reflux_treatment_type, risk_factor, risk_factor_treatment, viral_hepatitis_serologies, weight FROM follow_up where case_id = uuid_to_bin('"+ obj.case_id + "')";
 				var getIt = await db.getSequelize().query(refQuery, { model: db.getModelByName('ModelFollowUp') });
 				RedisCacheClient.redisCacheSetExAsync(refCacheName, JSON.stringify(getIt));
-				return getIt;				
+				return getIt;
 			}
 			return JSON.parse(res);
 		},
@@ -425,11 +445,11 @@ export const resolvers = {
 				var refQuery = "SELECT bin_to_uuid(treatment_id) as treatment_id, treatment_submitter_id, days_to_treatment_end, days_to_treatment_start, initial_disease_status, regimen_or_line_of_therapy, therapeutic_agents, treatment_anatomic_site, treatment_effect, treatment_intent_type, treatment_or_therapy, treatment_outcome, treatment_type FROM treatment where case_id = uuid_to_bin('"+ obj.case_id + "')";
 				var getIt = await db.getSequelize().query(refQuery, { model: db.getModelByName('ModelTreatment') });
 				RedisCacheClient.redisCacheSetExAsync(refCacheName, JSON.stringify(getIt));
-				return getIt;				
+				return getIt;
 			}
 			return JSON.parse(res);
 		}
-	},	
+	},
 	//@@@PDC-2978 add case external reference
 	Clinical: {
 		externalReferences(obj, args, context) {
@@ -454,14 +474,14 @@ export const resolvers = {
 				var refQuery = "SELECT bin_to_uuid(treatment_id) as treatment_id, treatment_submitter_id, days_to_treatment_end, days_to_treatment_start, initial_disease_status, regimen_or_line_of_therapy, therapeutic_agents, treatment_anatomic_site, treatment_effect, treatment_intent_type, treatment_or_therapy, treatment_outcome, treatment_type FROM treatment where case_id = uuid_to_bin('"+ obj.case_id + "')";
 				return db.getSequelize().query(refQuery, { model: db.getModelByName('ModelTreatment') });
 		}
-	},	
+	},
 	Biospecimen: {
 		externalReferences(obj, args, context) {
 			//var refQuery = "SELECT reference_resource_shortname, trim(both '\r' from reference_entity_location) as reference_entity_location FROM reference r where entity_type = 'case' and reference_type = 'external' and entity_id = uuid_to_bin('"+ obj.case_id + "')";
 			var refQuery = "SELECT reference_resource_shortname, trim(both '\r' from reference_entity_location) as reference_entity_location, reference_entity_alias as external_reference_id, reference_resource_name FROM reference r where entity_type = 'case' and reference_type = 'external' and entity_id = uuid_to_bin('"+ obj.case_id + "')";
 			return db.getSequelize().query(refQuery, { model: db.getModelByName('ModelEntityReference') });
 		}
-	},	
+	},
 	//@@@PDC-788 remove hard-coded file types
 	//@@@PDC-2377 add supplementary file counts
 	UIStudy: {
@@ -477,7 +497,7 @@ export const resolvers = {
 				"') group by f.data_category, f.file_type order by f.data_category";
 				var getIt = await db.getSequelize().query(fileQuery, { model: db.getModelByName('ModelFile') });
 				RedisCacheClient.redisCacheSetExAsync(fileCacheName, JSON.stringify(getIt));
-				return getIt;				
+				return getIt;
 			}
 			return JSON.parse(res);
 		},
@@ -492,7 +512,7 @@ export const resolvers = {
 				"and s.study_id = uuid_to_bin('"+ obj.study_id + "')";
 				var getIt = await db.getSequelize().query(fileQuery, { model: db.getModelByName('Contact') });
 				RedisCacheClient.redisCacheSetExAsync(contactCacheName, JSON.stringify(getIt));
-				return getIt;				
+				return getIt;
 			}
 			return JSON.parse(res);
 		},
@@ -506,7 +526,7 @@ export const resolvers = {
 				"WHERE s.pdc_study_id like '"+ obj.pdc_study_id + "%' order by study_version desc ";
 				var getIt = await db.getSequelize().query(fileQuery, { model: db.getModelByName('ModelVersion') });
 				RedisCacheClient.redisCacheSetExAsync(contactCacheName, JSON.stringify(getIt));
-				return getIt;				
+				return getIt;
 			}
 			return JSON.parse(res);
 		},
@@ -522,7 +542,7 @@ export const resolvers = {
 				"') group by f.data_category, f.file_type order by f.data_category";
 				var getIt = await db.getSequelize().query(fileQuery, { model: db.getModelByName('ModelFile') });
 				RedisCacheClient.redisCacheSetExAsync(suppFileCacheName, JSON.stringify(getIt));
-				return getIt;				
+				return getIt;
 			}
 			return JSON.parse(res);
 		},
@@ -538,7 +558,7 @@ export const resolvers = {
 				"') group by f.data_category, f.file_type order by f.data_category";
 				var getIt = await db.getSequelize().query(fileQuery, { model: db.getModelByName('ModelFile') });
 				RedisCacheClient.redisCacheSetExAsync(nonSuppFileCacheName, JSON.stringify(getIt));
-				return getIt;				
+				return getIt;
 			}
 			return JSON.parse(res);
 		}
@@ -554,7 +574,7 @@ export const resolvers = {
 			var diseases = await db.getSequelize().query(diseaseQuery, { raw: true });
 			var diseaseTypes = [];
 			diseases[0].forEach((row) =>diseaseTypes.push(row['disease_type']));
-			return diseaseTypes;		
+			return diseaseTypes;
 		},
 		async primary_sites(obj, args, context) {
 			var siteQuery = "SELECT distinct c.primary_site as primary_site FROM study s, `case` c, sample sam, aliquot al, "+
@@ -564,7 +584,7 @@ export const resolvers = {
 			var sites = await db.getSequelize().query(siteQuery, { raw: true });
 			var primarySites = [];
 			sites[0].forEach((row) =>primarySites.push(row['primary_site']));
-			return primarySites;		
+			return primarySites;
 		},
 		//@@@PDC-2435 add contacts to study
 		contacts(obj, args, context) {
@@ -769,8 +789,8 @@ export const resolvers = {
 				return db.getSequelize().query(tmt_131cQuery, { model: db.getModelByName('ModelAliquotRunMetadata') });
 			}
 			else
-				return null;			
-		}		
+				return null;
+		}
 	},
 	//@@@PDC-3362 handle legacy studies
 	LegacyStudy: {
@@ -787,7 +807,7 @@ export const resolvers = {
 				"') group by f.data_category, f.file_type order by f.data_category";
 				var getIt = await db.getSequelize().query(fileQuery, { model: db.getModelByName('ModelFile') });
 				RedisCacheClient.redisCacheSetExAsync(suppFileCacheName, JSON.stringify(getIt));
-				return getIt;				
+				return getIt;
 			}
 			return JSON.parse(res);
 		},
@@ -803,7 +823,7 @@ export const resolvers = {
 				"') group by f.data_category, f.file_type order by f.data_category";
 				var getIt = await db.getSequelize().query(fileQuery, { model: db.getModelByName('ModelFile') });
 				RedisCacheClient.redisCacheSetExAsync(nonSuppFileCacheName, JSON.stringify(getIt));
-				return getIt;				
+				return getIt;
 			}
 			return JSON.parse(res);
 		},
@@ -824,9 +844,9 @@ export const resolvers = {
 			var supples = await db.getSequelize().query(suppleQuery, { raw: true });
 			var suppleTypes = [];
 			supples[0].forEach((row) =>suppleTypes.push(row['file_name']));
-			return suppleTypes;		
+			return suppleTypes;
 		}
-	},	
+	},
 	//@@@PDC-3446 API for new publication screen
 	Publication: {
 		studies(obj, args, context) {
@@ -844,7 +864,7 @@ export const resolvers = {
 			var diseases = await db.getSequelize().query(diseaseQuery, { raw: true });
 			var diseaseTypes = [];
 			diseases[0].forEach((row) =>diseaseTypes.push(row['disease_type']));
-			return diseaseTypes;		
+			return diseaseTypes;
 		},
 		//@@@PDC-3671 get publication file from file table
 		async supplementary_data(obj, args, context) {
@@ -853,7 +873,7 @@ export const resolvers = {
 			var supples = await db.getSequelize().query(suppleQuery, { raw: true });
 			var suppleTypes = [];
 			supples[0].forEach((row) =>suppleTypes.push(row['file_name']));
-			return suppleTypes;		
+			return suppleTypes;
 		}
 	},
 	//@@@PDC-3640 new pdc metrics api
@@ -872,16 +892,16 @@ export const resolvers = {
 			let myQuery = "SELECT count(*) as studies FROM study WHERE is_latest_version = 1";
 			var result = await db.getSequelize().query(myQuery, { raw: true });
 			return parseInt(result[0][0].studies);
-		},		
+		},
 		async cases(obj, args, context) {
 			let myQuery = "SELECT  COUNT(DISTINCT dia.diagnosis_id) AS cases FROM study s, aliquot al, "+
 			"aliquot_run_metadata alm, `case` c, sample sam, demographic dem, diagnosis dia "+
-			"WHERE alm.study_id = s.study_id AND al.aliquot_id = alm.aliquot_id "+      
+			"WHERE alm.study_id = s.study_id AND al.aliquot_id = alm.aliquot_id "+
 			"AND al.sample_id = sam.sample_id AND sam.case_id = c.case_id "+
 			"AND c.case_id = dem.case_id AND c.case_id = dia.case_id and s.is_latest_version = 1";
 			var result = await db.getSequelize().query(myQuery, { raw: true });
 			return parseInt(result[0][0].cases);
-		},		
+		},
 		async files(obj, args, context) {
 			let myQuery = "SELECT count(*) as files FROM file f, study_file sf, study s "+
 			"WHERE f.file_id = sf.file_id and sf.study_id = s.study_id and s.is_latest_version = 1";
@@ -892,7 +912,7 @@ export const resolvers = {
 			let myQuery = "select round(((sum(file_size))/POWER(1024,4)), 0) as data_size from file";
 			var result = await db.getSequelize().query(myQuery, { raw: true });
 			return parseInt(result[0][0].data_size);
-		}		
+		}
 	},
 	PublicationFilters: {
 		async disease_types(obj, args, context) {
@@ -902,14 +922,14 @@ export const resolvers = {
 			var diseases = await db.getSequelize().query(diseaseQuery, { raw: true });
 			var diseaseTypes = [];
 			diseases[0].forEach((row) =>diseaseTypes.push(row['disease_type']));
-			return diseaseTypes;		
+			return diseaseTypes;
 		},
 		async years(obj, args, context) {
 			var yearQuery = "SELECT distinct pub.year FROM publication pub order by pub.year desc";
 			var years = await db.getSequelize().query(yearQuery, { raw: true });
 			var yearsPub = [];
 			years[0].forEach((row) =>yearsPub.push(row['year']));
-			return yearsPub;		
+			return yearsPub;
 		},
 		async programs(obj, args, context) {
 			var programQuery = "SELECT distinct prog.name FROM study s, project proj, program prog, "+
@@ -918,7 +938,7 @@ export const resolvers = {
 			var programs = await db.getSequelize().query(programQuery, { raw: true });
 			var programNames = [];
 			programs[0].forEach((row) =>programNames.push(row['name']));
-			return programNames;		
+			return programNames;
 		}
 	},
 	//@@@PDC-3597 heatmap study api
@@ -933,7 +953,7 @@ export const resolvers = {
 			var diseases = await db.getSequelize().query(diseaseQuery, { raw: true });
 			var diseaseTypes = [];
 			diseases[0].forEach((row) =>diseaseTypes.push(row['disease_type']));
-			return diseaseTypes;		
+			return diseaseTypes;
 		},
 		async primary_sites(obj, args, context) {
 			var siteQuery = "SELECT distinct c.primary_site as primary_site FROM study s, `case` c, sample sam, aliquot al, "+
@@ -945,7 +965,7 @@ export const resolvers = {
 			var sites = await db.getSequelize().query(siteQuery, { raw: true });
 			var siteTypes = [];
 			sites[0].forEach((row) =>siteTypes.push(row['primary_site']));
-			return siteTypes;		
+			return siteTypes;
 		},
 		async analytical_fractions(obj, args, context) {
 			var fractionQuery = "SELECT distinct s.analytical_fraction FROM study s WHERE s.study_id IN (UUID_TO_BIN('"+getHeatMapStudies()+"')) "+
@@ -953,7 +973,7 @@ export const resolvers = {
 			var fractions = await db.getSequelize().query(fractionQuery, { raw: true });
 			var fractionNames = [];
 			fractions[0].forEach((row) =>fractionNames.push(row['analytical_fraction']));
-			return fractionNames;		
+			return fractionNames;
 		}
 	},
 	//@@@PDC-3723 add sorting
@@ -968,7 +988,7 @@ export const resolvers = {
 			var dts = await db.getSequelize().query(dtQuery, { raw: true });
 			var dtValues = [];
 			dts[0].forEach((row) =>dtValues.push(row['disease_type']));
-			return dtValues;		
+			return dtValues;
 		},
 		async primary_sites (obj, args, context) {
 			var psQuery = "SELECT distinct c.primary_site "+
@@ -980,7 +1000,7 @@ export const resolvers = {
 			var pss = await db.getSequelize().query(psQuery, { raw: true });
 			var psValues = [];
 			pss[0].forEach((row) =>psValues.push(row['primary_site']));
-			return psValues;		
+			return psValues;
 		}
 	},*/
 	//@@@PDC-136 pagination
@@ -993,7 +1013,13 @@ export const resolvers = {
 		async uiFiles(obj, args, context) {
 			const res = await RedisCacheClient.redisCacheGetAsync(context.dataCacheName);
 			if(res === null){
-				var result =await db.getSequelize().query(context.query, { model: db.getModelByName('ModelUIFile') });
+				let result =await db.getSequelize().query(
+						context.query,
+						{
+							replacements: context.replacements,
+							model: db.getModelByName('ModelUIFile')
+						}
+					);
 				RedisCacheClient.redisCacheSetExAsync(context.dataCacheName, JSON.stringify(result));
 				return result;
 			}else{
@@ -1003,7 +1029,13 @@ export const resolvers = {
 		async uiLegacyFiles(obj, args, context) {
 			const res = await RedisCacheClient.redisCacheGetAsync(context.dataCacheName);
 			if(res === null){
-				var result =await db.getSequelize().query(context.query, { model: db.getModelByName('ModelUIFile') });
+				let result =await db.getSequelize().query(
+					context.query,
+					{
+						replacements: context.replacements,
+						model: db.getModelByName('ModelUIFile')
+					}
+					);
 				RedisCacheClient.redisCacheSetExAsync(context.dataCacheName, JSON.stringify(result));
 				return result;
 			}else{
@@ -1013,18 +1045,30 @@ export const resolvers = {
 		async uiCases(obj, args, context) {
 			const res = await RedisCacheClient.redisCacheGetAsync(context.dataCacheName);
 			if(res === null){
-				var result =await db.getSequelize().query(context.query, { model: db.getModelByName('ModelUICase') });
+				let result =await db.getSequelize().query(
+						context.query,
+						{
+							replacements: context.replacements,
+							model: db.getModelByName('ModelUICase')
+						}
+					);
 				RedisCacheClient.redisCacheSetExAsync(context.dataCacheName, JSON.stringify(result));
 				return result;
 			}else{
 				return JSON.parse(res);
 			}
 		},
-		//@@@PDC-255 API for UI clinical tab 
+		//@@@PDC-255 API for UI clinical tab
 		async uiClinical(obj, args, context) {
 			const res = await RedisCacheClient.redisCacheGetAsync(context.dataCacheName);
 			if(res === null){
-				var result =await db.getSequelize().query(context.query, { model: db.getModelByName('ModelUIClinical') });
+				let result =await db.getSequelize().query(
+						context.query,
+						{
+							replacements: context.replacements,
+							model: db.getModelByName('ModelUIClinical')
+						}
+					);
 				RedisCacheClient.redisCacheSetExAsync(context.dataCacheName, JSON.stringify(result));
 				return result;
 			}else{
@@ -1034,17 +1078,32 @@ export const resolvers = {
 		//@@@PDC-579 gene tabe pagination
 		async uiGenes(obj, args, context) {
 			const res = await RedisCacheClient.redisCacheGetAsync(context.dataCacheName);
-			if(res === null){
-				var result =await db.getSequelize().query(context.query, { model: db.getModelByName('ModelUIGene') });
+			if (res === null) {
+				let replacements = context.replacements;
+				let result = await db.getSequelize().query(
+						context.query,
+						{
+							replacements: context.replacements,
+							model: db.getModelByName('ModelUIGene')
+						}
+					);
 				let geneNameArray = [];
 				result.forEach(element => geneNameArray.push(element.gene_name));
-				let geneNameFilterValue = geneNameArray.join("','");
 				let geneStudyCountQuery = context.geneStudyCountQuery;
-				geneStudyCountQuery = geneStudyCountQuery+`
-							AND sc.gene_name in ('${geneNameFilterValue}')
+				if (geneNameArray.length > 0) {
+					geneStudyCountQuery = geneStudyCountQuery + `
+							AND sc.gene_name in (:geneNameArray)
 					GROUP BY sc.gene_name
 				`;
-				let geneStudyCount = await db.getSequelize().query(geneStudyCountQuery, { model: db.getModelByName('ModelUIGeneName') });
+					replacements['geneNameArray'] = geneNameArray;
+				}
+				let geneStudyCount = await db.getSequelize().query(
+						geneStudyCountQuery,
+						{
+							replacements: replacements,
+							model: db.getModelByName('ModelUIGeneName')
+						}
+					);
 				let geneStudyCountMap = new Map();
 				geneStudyCount.forEach(element => geneStudyCountMap.set(element.gene_name, element.num_study));
 
@@ -1059,7 +1118,13 @@ export const resolvers = {
 		async uiPtm(obj, args, context) {
 			const res = await RedisCacheClient.redisCacheGetAsync(context.dataCacheName);
 			if(res === null){
-				var result =await db.getSequelize().query(context.query, { model: db.getModelByName('ModelUIPtm') });
+				var result =await db.getSequelize().query(
+						context.query,
+						{
+							replacements: context.replacements,
+							model: db.getModelByName('ModelUIPtm')
+						}
+					);
 				RedisCacheClient.redisCacheSetExAsync(context.dataCacheName, JSON.stringify(result));
 				return result;
 			}else{
@@ -1071,7 +1136,13 @@ export const resolvers = {
 			//console.log("cacheName: "+context.dataCacheName);
 			const res = await RedisCacheClient.redisCacheGetAsync(context.dataCacheName);
 			if(res === null){
-				var result =await db.getSequelize().query(context.query, { model: db.getModelByName('ModelUIPublication') });
+				var result =await db.getSequelize().query(
+						context.query,
+						{
+							replacements: context.replacements,
+							model: db.getModelByName('ModelUIPublication')
+						}
+					);
 				RedisCacheClient.redisCacheSetExAsync(context.dataCacheName, JSON.stringify(result));
 				return result;
 			}else{
@@ -1093,7 +1164,7 @@ export const resolvers = {
 					uiPtmBaseQuery += "ptm_abundance_"+queryList.abundance_suffix[i]+ " pq";
 					logger.info("ptm query: "+uiPtmBaseQuery);
 					var result =await db.getSequelize().query(uiPtmBaseQuery, { model: db.getModelByName('ModelUIPtm') });
-					Array.prototype.push.apply(all,result); 					
+					Array.prototype.push.apply(all,result);
 				}
 				RedisCacheClient.redisCacheSetExAsync(CacheName.getSummaryPageGeneSummary('Ptm')+cacheFilterName.name, JSON.stringify(all));
 				return all;
@@ -1101,12 +1172,17 @@ export const resolvers = {
 				return JSON.parse(res);
 			}
 		},*/
-		//@@@PDC-333 gene/spectral count API pagination 
-		//@@@PDC-391 gene/spectral count query change 
+		//@@@PDC-333 gene/spectral count API pagination
+		//@@@PDC-391 gene/spectral count query change
 		async uiGeneStudySpectralCounts(obj, args, context) {
 			const res = await RedisCacheClient.redisCacheGetAsync(context.dataCacheName);
 			if(res === null){
-				var initialStudies = await db.getSequelize().query(context.query, { model: db.getModelByName('ModelUIGeneStudySpectralCount') });
+				var initialStudies = await db.getSequelize().query(
+					context.query,
+					{
+						replacements: context.replacements,
+						model: db.getModelByName('ModelUIGeneStudySpectralCount')
+					});
 				//@@@PDC-3079 get latest version of study
 				var gssQuery = "SELECT sc.study_submitter_id, " +
 				"s.submitter_id_name, s.experiment_type, " +
@@ -1116,13 +1192,13 @@ export const resolvers = {
 				" WHERE sc.study_id = alm.study_id and alm.aliquot_id = al.aliquot_id "+
 				" and sc.study_id = s.study_id and s.is_latest_version = 1 ";
 				if (typeof context.arguments.gene_name != 'undefined') {
-					let gene_names = context.arguments.gene_name.split(';'); 
-					gssQuery += " and sc.gene_name IN ('" + gene_names.join("','") + "')"; 	
+					let gene_names = context.arguments.gene_name.split(';');
+					gssQuery += " and sc.gene_name IN ('" + gene_names.join("','") + "')";
 				}
 				gssQuery += " group by sc.study_submitter_id";
-				
+
 				var studyCounts = await db.getSequelize().query(gssQuery, { model: db.getModelByName('ModelUIGeneStudySpectralCount') });
-				
+
 				for (var i = 0; i < initialStudies.length; i++) {
 					for (var j = 0; j < studyCounts.length; j++) {
 						if (initialStudies[i].study_submitter_id===studyCounts[j].study_submitter_id){
@@ -1140,7 +1216,13 @@ export const resolvers = {
 		async uiGeneAliquotSpectralCounts(obj, args, context) {
 			const res = await RedisCacheClient.redisCacheGetAsync(context.dataCacheName);
 			if(res === null){
-				var result =await db.getSequelize().query(context.query, { model: db.getModelByName('ModelUIGeneStudySpectralCount') });
+				var result =await db.getSequelize().query(
+						context.query,
+						{
+							replacements: context.replacements,
+							model: db.getModelByName('ModelUIGeneStudySpectralCount')
+						}
+					);
 				RedisCacheClient.redisCacheSetExAsync(context.dataCacheName, JSON.stringify(result));
 				return result;
 			}else{
@@ -1149,11 +1231,23 @@ export const resolvers = {
 		},
 		//@@@PDC-485 spectral count per study/aliquot API
 		spectralCounts(obj, args, context) {
-			return db.getSequelize().query(context.query, { model: db.getModelByName('ModelSpectralCount') });
+			return db.getSequelize().query(
+					context.query,
+					{
+						replacements: context.replacements,
+						model: db.getModelByName('ModelSpectralCount')
+					}
+				);
 		},
 		//@@@PDC-2690 api returns gene info without spectral count
 		genesProper(obj, args, context) {
-			return db.getSequelize().query(context.query, { model: db.getModelByName('ModelGene') });
+			return db.getSequelize().query(
+					context.query,
+					{
+						replacements: context.replacements,
+						model: db.getModelByName('ModelGene')
+					}
+				);
 		},
 		//@@@PDC-329 Pagination for UI study summary page
 		//@@@PDC-788 remove hard-coded file types
@@ -1162,7 +1256,13 @@ export const resolvers = {
 			//console.log("studyQuery: "+context.query);
 			const res = await RedisCacheClient.redisCacheGetAsync(context.dataCacheName);
 			if(res === null){
-				var myCombo = await db.getSequelize().query(context.query, { model: db.getModelByName('ModelUIStudy') });
+				let myCombo = await db.getSequelize().query(
+						context.query,
+						{
+							replacements: context.replacements,
+							model: db.getModelByName('ModelUIStudy')
+						}
+					);
 				RedisCacheClient.redisCacheSetExAsync(context.dataCacheName, JSON.stringify(myCombo));
 				return myCombo;
 			}else{
@@ -1170,54 +1270,108 @@ export const resolvers = {
 			}
 		},
 		files(obj, args, context) {
-			return db.getSequelize().query(context.query, { model: db.getModelByName('ModelFile') });
+			return db.getSequelize().query(
+					context.query,
+					{
+						replacements: context.replacements,
+						model: db.getModelByName('ModelFile')
+					}
+				);
 		},
 		//PDC-3022 enhance getPaginatedCase API
 		cases(obj, args, context) {
 			return db.getModelByName('Case').findAll({
-					attributes: [['bin_to_uuid(case_id)', 'case_id'], 
+					attributes: [['bin_to_uuid(case_id)', 'case_id'],
 						'case_submitter_id',
 						['bin_to_uuid(project_id)', 'project_id'],
 						'project_submitter_id',
 						'disease_type',
 						'primary_site'
 					],
-					//@@@PDC-2619 change to accommodate calling from documentation 
+					//@@@PDC-2619 change to accommodate calling from documentation
 					/*where: {
 						project_submitter_id: {
 							[Op.in]: context.value
 						}
 					},*/
-					offset: context.arguments.offset, 
-					limit: context.arguments.limit });				
+					offset: context.arguments.offset,
+					limit: context.arguments.limit });
 		},
 		//@@@PDC-472 casesSamplesAliquots API
 		casesSamplesAliquots(obj, args, context) {
-			return db.getSequelize().query(context.query, { model: db.getModelByName('Case') });			
+			return db.getSequelize().query(
+					context.query,
+					{
+						replacements: context.replacements,
+						model: db.getModelByName('Case')
+					}
+				);
 		},
-		//@@@PDC-475 caseDiagnosesPerStudy API		
+		//@@@PDC-475 caseDiagnosesPerStudy API
 		caseDiagnosesPerStudy(obj, args, context) {
-			return db.getSequelize().query(context.query, { model: db.getModelByName('Case') });			
+			return db.getSequelize().query(
+					context.query,
+					{
+						replacements: context.replacements,
+						model: db.getModelByName('Case')
+					}
+				);
 		},
-		//@@@PDC-473 caseDemographicsPerStudy API		
+		//@@@PDC-473 caseDemographicsPerStudy API
 		caseDemographicsPerStudy(obj, args, context) {
-			return db.getSequelize().query(context.query, { model: db.getModelByName('Case') });			
+			return db.getSequelize().query(
+					context.query,
+					{
+						replacements: context.replacements,
+						model: db.getModelByName('Case')
+					}
+				);
 		},
 		searchCases(obj, args, context) {
-			return db.getSequelize().query(context.query, {model: db.getModelByName('ModelSearchCaseRecord')});
+			return db.getSequelize().query(
+					context.query,
+					{
+						replacements: context.replacements,
+						model: db.getModelByName('ModelSearchCaseRecord')
+					}
+				);
 		},
 		genes(obj, args, context) {
-			return db.getSequelize().query(context.query, {model: db.getModelByName('ModelSearchRecord')});
+			return db.getSequelize().query(
+					context.query,
+					{
+						replacements: context.replacements,
+						model: db.getModelByName('ModelSearchRecord')
+					}
+				);
 		},
 		//@@@PDC-380 gene search by proteins
 		genesWithProtein(obj, args, context) {
-			return db.getSequelize().query(context.query, {model: db.getModelByName('ModelSearchRecord')});
+			return db.getSequelize().query(
+				context.query,
+				{
+					replacements: context.replacements,
+					model: db.getModelByName('ModelSearchRecord')
+				}
+			);
 		},
 		searchAliquots(obj, args, context) {
-			return db.getSequelize().query(context.query, {model: db.getModelByName('ModelSearchAliquotRecord')});
+			return db.getSequelize().query(
+				context.query,
+				{
+					replacements: context.replacements,
+					model: db.getModelByName('ModelSearchAliquotRecord')
+				}
+			);
 		},
 		studies(obj, args, context) {
-			return db.getSequelize().query(context.query, {model: db.getModelByName('ModelSearchStudyRecord')});
+			return db.getSequelize().query(
+					context.query,
+					{
+						replacements: context.replacements,
+						model: db.getModelByName('ModelSearchStudyRecord')
+					}
+				);
 		},
 		//@@@PDC-486 data matrix API
 		//@@@PDC-562 quant data matrix API
@@ -1230,27 +1384,27 @@ export const resolvers = {
 				case 'unshared_peptide':
 					matrixCountQuery = "select distinct sc.study_submitter_id, sc.plex_name" +
 					" FROM spectral_count sc"+
-					" WHERE sc.study_submitter_id = '"+ context.arguments.study_submitter_id +			
-					//"' and sc.project_submitter_id IN ('" + context.value.join("','") + 
+					" WHERE sc.study_submitter_id = '"+ context.arguments.study_submitter_id +
+					//"' and sc.project_submitter_id IN ('" + context.value.join("','") +
 					"' order by sc.plex_name";
 					break;
 				//@@@PDC-669 support all areas/ratios in gene_abundance
-				case 'precursor_area': 
-				case 'log2_ratio': 
-				case 'unshared_precursor_area': 
-				case 'unshared_log2_ratio': 
+				case 'precursor_area':
+				case 'log2_ratio':
+				case 'unshared_precursor_area':
+				case 'unshared_log2_ratio':
 				//@@@PDC-765 Key data matrix with aliquot_submitter_id and aliquot_alias
 					matrixCountQuery = "select distinct ga.study_submitter_id, ga.aliquot_submitter_id, ga.aliquot_alias" +
 					" FROM gene_abundance ga"+
-					" WHERE ga.study_submitter_id = '"+ 
-					context.arguments.study_submitter_id +			
+					" WHERE ga.study_submitter_id = '"+
+					context.arguments.study_submitter_id +
 					//"' and ga.project_submitter_id IN ('" + context.value.join("','") + "')" +
 					"' order by ga.aliquot_submitter_id";
 					break;
-				case 'log_ratio': 
+				case 'log_ratio':
 					matrixCountQuery = "select distinct pq.study_submitter_id, pq.aliquot_submitter_id " +
 					" FROM phosphosite_quant pq"+
-					" WHERE pq.study_submitter_id = '"+ context.arguments.study_submitter_id +			
+					" WHERE pq.study_submitter_id = '"+ context.arguments.study_submitter_id +
 					//"' and pq.project_submitter_id IN ('" + context.value.join("','") + "')" +
 					"' order by pq.aliquot_submitter_id";
 					break;
@@ -1280,20 +1434,20 @@ export const resolvers = {
 						" order by sc.gene_name";
 						break;
 					//@@@PDC-669 support all areas/ratios in gene_abundance
-					case 'precursor_area': 
-					case 'log2_ratio': 
-					case 'unshared_precursor_area': 
-					case 'unshared_log2_ratio': 
+					case 'precursor_area':
+					case 'log2_ratio':
+					case 'unshared_precursor_area':
+					case 'unshared_log2_ratio':
 					//@@@PDC-765 Key data matrix with aliquot_submitter_id and aliquot_alias
 						matrix[0].push(aliquots[i].aliquot_submitter_id+":"+aliquots[i].aliquot_alias);
 						geneQuery = "select ga.gene_name, ga." +context.arguments.data_type +
 						" FROM gene_abundance ga" +
 						" WHERE ga.study_submitter_id = '"+ aliquots[i].study_submitter_id +
-						"' and ga.aliquot_submitter_id = '"+ aliquots[i].aliquot_submitter_id + 
+						"' and ga.aliquot_submitter_id = '"+ aliquots[i].aliquot_submitter_id +
 						"' and ga.aliquot_alias = '"+ aliquots[i].aliquot_alias + "'"+
 						" order by ga.gene_name";
 						break;
-					case 'log_ratio': 
+					case 'log_ratio':
 						matrix[0].push(aliquots[i].aliquot_submitter_id);
 						geneQuery = "select pq.gene_name, pq." +context.arguments.data_type +
 						" FROM phosphosite_quant pq" +
@@ -1309,7 +1463,7 @@ export const resolvers = {
 				var geneCount = 0;
 				for (var j = 0; j < genes.length; j++){
 					if (genes[j].gene_name === currentGene){
-						continue;						
+						continue;
 					}
 					currentGene = genes[j].gene_name;
 					if (i == 0) {
@@ -1387,7 +1541,7 @@ export const resolvers = {
 			//logger.info("File Size: "+obj.file_size);
 			if (obj.file_size >= 32212254720)
 				return getSignedUrl(obj.file_location, false);
-			else 
+			else
 				return getSignedUrl(obj.file_location, true);
 		}
 	},
@@ -1399,7 +1553,7 @@ export const resolvers = {
 			"and s.study_id = uuid_to_bin('"+obj.study_id+"') and f.data_source = '"+
 			obj.data_source+ "' group by file_type, data_category";
 			var cacheFilterName = {name:''};
-			cacheFilterName.name +="pdc_study_id:("+ obj.pdc_study_id + 
+			cacheFilterName.name +="pdc_study_id:("+ obj.pdc_study_id +
 			"):data_category:("+ obj.data_source +");";
 			const res = await RedisCacheClient.redisCacheGetAsync(CacheName.getSummaryPageStudySummary('StudyFilesCountBySource')+cacheFilterName['name']);
 			if(res === null){
@@ -1420,7 +1574,7 @@ export const resolvers = {
 			var listPss = [];
 			pss[0].forEach((row) =>listPss.push(row['primary_site']));
 			return listPss;
-		}		
+		}
 	},
 	Pagination: {
 		size(obj, args, context) {
@@ -1431,7 +1585,7 @@ export const resolvers = {
 		},
 		count(obj, args, context) {
 			var remains = obj - context.arguments.offset
-			if (remains <= context.arguments.limit)				
+			if (remains <= context.arguments.limit)
 				return remains;
 			else
 				return context.arguments.limit;
@@ -1458,7 +1612,7 @@ export const resolvers = {
 			return myPage;
 		},
 		total(obj, args, context) {
-			return obj;			
+			return obj;
 		},
 		//@@@PDC-3204 handle zero limit.
 		pages(obj, args, context) {

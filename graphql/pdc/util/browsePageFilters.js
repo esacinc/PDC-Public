@@ -1,6 +1,6 @@
 import _ from "lodash";
 
-//@@@PDC-1874 add pdc_study_id to all study-related APIs 
+//@@@PDC-1874 add pdc_study_id to all study-related APIs
 //query to get list of filter values mapping studies for program project study tables
 const prog_proj_filter = `
 SELECT DISTINCT
@@ -599,9 +599,9 @@ function applyStudyFilter(args, cache = { name: "" }) {
   (typeof args['pdc_study_id'] == "undefined"|| args['pdc_study_id'].length <= 0)) {*/
   if (typeof args['study_version'] == "undefined" || args['study_version'].length <= 0) {
       studyFilterQuery += ` and s.is_latest_version = 1 `;
-      cache.name += `s.is_latest_version:1;`;	  	  
+      cache.name += `s.is_latest_version:1;`;
   }
-  
+
   return studyFilterQuery;
 }
 
@@ -650,7 +650,7 @@ function addStudyInQuery(studyResult){
   studyResult.forEach(element => studyArray.push(element.dataValues.study_submitter_id));
   let columnName = study_filter_columns.study_submitter_id;
   let filterValue = studyArray.join("','");
-  studyQueryCondition = ` and ${columnName} IN ('${filterValue}') `;  
+  studyQueryCondition = ` and ${columnName} IN ('${filterValue}') `;
   return studyQueryCondition;
 }
 
@@ -867,6 +867,11 @@ const queryList = {
 
 export {
   queryList,
+  study_filter_columns,
+  prog_proj_filter_columns,
+  file_filter_column,
+  al_sam_ca_dem_dia_filter_column,
+
   applyStudyFilter,
   applyProgProjFilter,
   applyFileFilter,

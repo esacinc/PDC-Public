@@ -737,7 +737,7 @@ var spec = {
                    "parameters": [{
                        "name": "study_id",
                        "in": "path",
-                       "description": "Study ID, example: 96296e87-89a4-11ea-b1fd-0aad30af8a83",
+                       "description": "Study ID, example: b93bb1e9-57b8-11e8-b07a-00a098d917f8",
                        "required": true,
                        "type": "string"
                      },{
@@ -1771,7 +1771,7 @@ var spec = {
                       }, {
                         "name": "entity_id",
                         "in": "path",
-                        "description": "Entity ID: Study/Case ID, example: dbe94609-1fb3-11e9-b7f8-0a80fada099c",
+                        "description": "Entity ID: Study/Case ID, example: Study ID:dbe94609-1fb3-11e9-b7f8-0a80fada099c/Case ID:a023e964-118a-11e9-afb9-0a9c39d33490",
                         "required": true,
                         "type": "string"
                       }, {
@@ -4485,7 +4485,7 @@ var spec = {
              "properties":{
                 "study_id":{
                    "type":"string",
-                   "example":"96296e87-89a4-11ea-b1fd-0aad30af8a83"
+                   "example":"b93bb1e9-57b8-11e8-b07a-00a098d917f8"
                 },
                 "study_submitter_id":{
                    "type":"string",

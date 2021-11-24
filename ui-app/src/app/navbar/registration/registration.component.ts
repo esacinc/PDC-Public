@@ -18,7 +18,7 @@ import { OverlayWindowService } from "../../overlay-window/overlay-window.servic
 })
 // @@@PDC-881 registration dialog
 //@@@PDC-885: registration form for google users did not validate properly
-//@@@PDC-1406: review and update messages that user can get during registration/login/account update 
+//@@@PDC-1406: review and update messages that user can get during registration/login/account update
 //@@@PDC-1487: resolve issues found with user registration/login
 //@@@PDC-1661: user registration bugs fixes
 export class RegistrationComponent implements OnInit {
@@ -117,7 +117,7 @@ export class RegistrationComponent implements OnInit {
   get user_pass() {
     return this.registrationForm.get("user_pass");
   }
-  
+
   get confirm_password() {
     return this.registrationForm.get("confirm_password");
   }
@@ -208,7 +208,7 @@ export class RegistrationComponent implements OnInit {
               localStorage.removeItem("controlledFileExportFlag");
               document.location.href = environment.dcf_fence_login_url.replace("%dcf_client_id%",environment.dcf_client_id);
               this.router.navigate(["browse"]);
-            } 
+            }
           } else {
             console.log("Registration failed!");
           }
@@ -221,7 +221,7 @@ export class RegistrationComponent implements OnInit {
 	  let continueRegistration = true;
 	  if (this.idProvider === "PDC") {
 		secure_pass = Md5.hashAsciiStr(this.registrationForm.get('user_pass').value) as string;
-		this.userService.checkPDCUserByEmail(this.registrationForm.get("email").value, "PDC", this.registrationForm.get('user_pass').value).then(exists => {
+		this.userService.registerPDCUserByEmail(this.registrationForm.get("email").value, "PDC", this.registrationForm.get('user_pass').value).then(exists => {
 			var message = "";
 			switch (exists) {
 				case 0:
@@ -275,7 +275,7 @@ export class RegistrationComponent implements OnInit {
 			}
 			this.dialogRef.close('user registered');
 			return;
-		});	
+		});
 	  }
 	  //wait for the previous call to check whether the user with such email exists to finish and return response
 	  await new Promise(resolve => setTimeout(resolve, 500));
@@ -299,7 +299,7 @@ export class RegistrationComponent implements OnInit {
             if ( this.userService.getUserIDType() === "PDC" && this.userService.getIsRegistered() === 0 ) {
 				//alert("Thank you for registering with PDC. You will receive a message to confirm your registration at the email address provided. Once confirmed, you should be able to login with your email id password.");
 				console.log("Thank you for registering with PDC. You will receive a message to confirm your registration at the email address provided. Once confirmed, you should be able to login with your email id password.");
-				message = "Thank you for registering with PDC. You will receive a message to confirm your registration at the email address provided. Once confirmed, you should be able to login with your email and password.";		
+				message = "Thank you for registering with PDC. You will receive a message to confirm your registration at the email address provided. Once confirmed, you should be able to login with your email and password.";
 				messageHeight = "200px";
 			}
 			this.dialog.open(MessageDialogComponent, {
@@ -328,7 +328,7 @@ export class RegistrationComponent implements OnInit {
 		      height: "140px",
           data: { message: message, continueMessage: continueMessage }
         });
-		
+
 	  dialogRef.afterClosed().subscribe(result => {
         if ( result === "Yes") {
           this.sendResetPasswordEmail(emailAddress);

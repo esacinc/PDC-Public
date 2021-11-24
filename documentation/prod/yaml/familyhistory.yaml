@@ -2,260 +2,260 @@ additionalProperties: false
 category: clinical
 description: 'Record of a patient''s background regarding cancer events of blood relatives.
 
-    '
+  '
 downloadable: false
 links:
--   backref: family_histories
-    label: Family History references the Case it is derived from.
-    multiplicity: many_to_one
-    name: Case
-    required: true
-    target_type: case
+- backref: family_histories
+  label: Family History references the Case it is derived from.
+  multiplicity: many_to_one
+  name: Case
+  required: true
+  target_type: case
 previous_version_downloadable: false
 properties:
-    relationship_age_at_diagnosis:
-        cde_id: 5300571
-        description: 'The age (in years) when the patient''s relative was first diagnosed.
+  relationship_age_at_diagnosis:
+    cde_id: 5300571
+    description: 'The age (in years) when the patient''s relative was first diagnosed.
 
-            '
-        maximum: 90
-        minimum: 0
-        required: 'False'
-        source: caDSR
-        term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5300571&version=1.0
-        type: Integer
-    relationship_gender:
-        cde_id: 6161021
-        description: 'The text term used to describe the gender of the patient''s
-            relative with a history of cancer.
+      '
+    maximum: 90
+    minimum: 0
+    required: 'False'
+    source: caDSR
+    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5300571&version=1.0
+    type: Number
+  relationship_gender:
+    cde_id: 6161021
+    description: 'The text term used to describe the gender of the patient''s relative
+      with a history of cancer.
 
-            '
-        enum:
-        - female
-        - male
-        - unknown
-        - unspecified
-        - not reported
-        required: 'False'
-        source: caDSR
-        term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6161021&version=1.0
-        type: Enumeration
-    relationship_primary_diagnosis:
-        cde_id: 6161022
-        description: 'The text term used to describe the malignant diagnosis of the
-            patient''s relative with a history of cancer.
+      '
+    enum:
+    - female
+    - male
+    - unknown
+    - unspecified
+    - not reported
+    required: 'False'
+    source: caDSR
+    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6161021&version=1.0
+    type: Enumeration
+  relationship_primary_diagnosis:
+    cde_id: 6161022
+    description: 'The text term used to describe the malignant diagnosis of the patient''s
+      relative with a history of cancer.
 
-            '
-        enum:
-        - Adrenal Gland Cancer
-        - Basal Cell Cancer
-        - Bile Duct Cancer
-        - Bladder Cancer
-        - Blood Cancer
-        - Bone Cancer
-        - Brain Cancer
-        - Breast Cancer
-        - Cancer
-        - Cervical Cancer
-        - Chondrosarcoma
-        - CNS Cancer
-        - Colorectal Cancer
-        - Esophageal Cancer
-        - Ewing Sarcoma
-        - Gallbladder Cancer
-        - Gastric Cancer
-        - Glioblastoma
-        - Gynecologic Cancer
-        - Head and Neck Cancer
-        - Hematologic Cancer
-        - Kaposi Sarcoma
-        - Kidney Cancer
-        - Laryngeal Cancer
-        - Leukemia
-        - Liver Cancer
-        - Lung Cancer
-        - Lymph Node Cancer
-        - Lymphoma
-        - Melanoma
-        - Mesothelioma
-        - Multiple Myeloma
-        - Neuroblastoma
-        - Osteosarcoma
-        - Ovarian Cancer
-        - Pancreas Cancer
-        - Prostate Cancer
-        - Rectal Cancer
-        - Rhabdomyosarcoma
-        - Sarcoma
-        - Skin Cancer
-        - Spleen Cancer
-        - Testicular Cancer
-        - Throat Cancer
-        - Thyroid Cancer
-        - Tongue Cancer
-        - Tonsillar Cancer
-        - Uterine Cancer
-        - Wilms Tumor
-        - Unknown
-        - Not Reported
-        - Pediatric Liver Cancer
-        required: 'False'
-        source: caDSR
-        term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6161022&version=1.0
-        type: Enumeration
-    relationship_type:
-        cde_id: 2690165
-        description: 'The subgroup that describes the state of connectedness between
-            members of the unit of society organized around kinship ties.
+      '
+    enum:
+    - Adrenal Gland Cancer
+    - Basal Cell Cancer
+    - Bile Duct Cancer
+    - Bladder Cancer
+    - Blood Cancer
+    - Bone Cancer
+    - Brain Cancer
+    - Breast Cancer
+    - Cancer
+    - Cervical Cancer
+    - Chondrosarcoma
+    - CNS Cancer
+    - Colorectal Cancer
+    - Esophageal Cancer
+    - Ewing Sarcoma
+    - Gallbladder Cancer
+    - Gastric Cancer
+    - Glioblastoma
+    - Gynecologic Cancer
+    - Head and Neck Cancer
+    - Hematologic Cancer
+    - Kaposi Sarcoma
+    - Kidney Cancer
+    - Laryngeal Cancer
+    - Leukemia
+    - Liver Cancer
+    - Lung Cancer
+    - Lymph Node Cancer
+    - Lymphoma
+    - Melanoma
+    - Mesothelioma
+    - Multiple Myeloma
+    - Neuroblastoma
+    - Osteosarcoma
+    - Ovarian Cancer
+    - Pancreas Cancer
+    - Prostate Cancer
+    - Rectal Cancer
+    - Rhabdomyosarcoma
+    - Sarcoma
+    - Skin Cancer
+    - Spleen Cancer
+    - Testicular Cancer
+    - Throat Cancer
+    - Thyroid Cancer
+    - Tongue Cancer
+    - Tonsillar Cancer
+    - Uterine Cancer
+    - Wilms Tumor
+    - Unknown
+    - Not Reported
+    - Pediatric Liver Cancer
+    required: 'False'
+    source: caDSR
+    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6161022&version=1.0
+    type: Enumeration
+  relationship_type:
+    cde_id: 2690165
+    description: 'The subgroup that describes the state of connectedness between members
+      of the unit of society organized around kinship ties.
 
-            '
-        enum:
-        - Adopted Daughter
-        - Adopted Son
-        - Adoptive Brother
-        - Adoptive Father
-        - Adoptive Mother
-        - Adoptive Sister
-        - Aunt
-        - Brother
-        - Brother-in-law
-        - Child
-        - Cousin
-        - Daughter
-        - Daughter-in-law
-        - Domestic Partner
-        - Father
-        - Father-in-law
-        - Female Cousin
-        - First Cousin
-        - First Cousin Once Removed
-        - Foster Brother
-        - Foster Daughter
-        - Foster Father
-        - Foster Mother
-        - Foster Sister
-        - Foster Son
-        - Fraternal Twin Brother
-        - Fraternal Twin Sibling
-        - Fraternal Twin Sister
-        - Full Brother
-        - Full Sister
-        - Grand Nephew
-        - Grand Niece
-        - Grandchild
-        - Granddaughter
-        - Grandfather
-        - Grandmother
-        - Grandparent
-        - Grandson
-        - Great Grandchild
-        - Half Brother
-        - Half Sibling
-        - Half Sister
-        - Husband
-        - Identical Twin Brother
-        - Identical Twin Sibling
-        - Identical Twin Sister
-        - Legal Guardian
-        - Male Cousin
-        - Maternal Aunt
-        - Maternal First Cousin
-        - Maternal First Cousin Once Removed
-        - Maternal Grandfather
-        - Maternal Grandmother
-        - Maternal Grandparent
-        - Maternal Great Aunt
-        - Maternal Great Grandparent
-        - Maternal Great Uncle
-        - Maternal Half Brother
-        - Maternal Half Sibling
-        - Maternal Half Sister
-        - Maternal Uncle
-        - Mother
-        - Mother-in-law
-        - Natural Brother
-        - Natural Child
-        - Natural Daughter
-        - Natural Father
-        - Natural Grandchild
-        - Natural Grandfather
-        - Natural Grandmother
-        - Natural Grandparent
-        - Natural Mother
-        - Natural Parent
-        - Natural Sibling
-        - Natural Sister
-        - Natural Son
-        - Nephew
-        - Niece
-        - Niece Second Degree Relative
-        - Other
-        - Parent
-        - Paternal Aunt
-        - Paternal First Cousin
-        - Paternal First Cousin Once Removed
-        - Paternal Grandfather
-        - Paternal Grandmother
-        - Paternal Grandparent
-        - Paternal Great Aunt
-        - Paternal Great Grandparent
-        - Paternal Great Uncle
-        - Paternal Half Brother
-        - Paternal Half Sibling
-        - Paternal Half Sister
-        - Paternal Uncle
-        - Refused
-        - Sibling
-        - Sister
-        - Sister-in-law
-        - Son
-        - Son-in-law
-        - Spouse
-        - Step Child
-        - Step Sibling
-        - Stepbrother
-        - Stepdaughter
-        - Stepfather
-        - Stepmother
-        - Stepsister
-        - Stepson
-        - Twin Sibling
-        - Uncle
-        - Unrelated
-        - Ward
-        - Wife
-        - Unknown
-        - Not Reported
-        - Adopted Brother
-        - Adopted Sister
-        - Female Sibling of Adopted Child
-        - Male Sibling of Adopted Child
-        required: 'False'
-        source: caDSR
-        term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2690165&version=2.0
-        type: Enumeration
-    relative_with_cancer_history:
-        cde_id: 6161023
-        description: 'The yes/no/unknown indicator used to describe whether any of
-            the patient''s relatives have a history of cancer.
+      '
+    enum:
+    - Adopted Daughter
+    - Adopted Son
+    - Adoptive Brother
+    - Adoptive Father
+    - Adoptive Mother
+    - Adoptive Sister
+    - Aunt
+    - Brother
+    - Brother-in-law
+    - Child
+    - Cousin
+    - Daughter
+    - Daughter-in-law
+    - Domestic Partner
+    - Father
+    - Father-in-law
+    - Female Cousin
+    - First Cousin
+    - First Cousin Once Removed
+    - Foster Brother
+    - Foster Daughter
+    - Foster Father
+    - Foster Mother
+    - Foster Sister
+    - Foster Son
+    - Fraternal Twin Brother
+    - Fraternal Twin Sibling
+    - Fraternal Twin Sister
+    - Full Brother
+    - Full Sister
+    - Grand Nephew
+    - Grand Niece
+    - Grandchild
+    - Granddaughter
+    - Grandfather
+    - Grandmother
+    - Grandparent
+    - Grandson
+    - Great Grandchild
+    - Half Brother
+    - Half Sibling
+    - Half Sister
+    - Husband
+    - Identical Twin Brother
+    - Identical Twin Sibling
+    - Identical Twin Sister
+    - Legal Guardian
+    - Male Cousin
+    - Maternal Aunt
+    - Maternal First Cousin
+    - Maternal First Cousin Once Removed
+    - Maternal Grandfather
+    - Maternal Grandmother
+    - Maternal Grandparent
+    - Maternal Great Aunt
+    - Maternal Great Grandparent
+    - Maternal Great Uncle
+    - Maternal Half Brother
+    - Maternal Half Sibling
+    - Maternal Half Sister
+    - Maternal Uncle
+    - Mother
+    - Mother-in-law
+    - Natural Brother
+    - Natural Child
+    - Natural Daughter
+    - Natural Father
+    - Natural Grandchild
+    - Natural Grandfather
+    - Natural Grandmother
+    - Natural Grandparent
+    - Natural Mother
+    - Natural Parent
+    - Natural Sibling
+    - Natural Sister
+    - Natural Son
+    - Nephew
+    - Niece
+    - Niece Second Degree Relative
+    - Other
+    - Parent
+    - Paternal Aunt
+    - Paternal First Cousin
+    - Paternal First Cousin Once Removed
+    - Paternal Grandfather
+    - Paternal Grandmother
+    - Paternal Grandparent
+    - Paternal Great Aunt
+    - Paternal Great Grandparent
+    - Paternal Great Uncle
+    - Paternal Half Brother
+    - Paternal Half Sibling
+    - Paternal Half Sister
+    - Paternal Uncle
+    - Refused
+    - Sibling
+    - Sister
+    - Sister-in-law
+    - Son
+    - Son-in-law
+    - Spouse
+    - Step Child
+    - Step Sibling
+    - Stepbrother
+    - Stepdaughter
+    - Stepfather
+    - Stepmother
+    - Stepsister
+    - Stepson
+    - Twin Sibling
+    - Uncle
+    - Unrelated
+    - Ward
+    - Wife
+    - Unknown
+    - Not Reported
+    - Adopted Brother
+    - Adopted Sister
+    - Female Sibling of Adopted Child
+    - Male Sibling of Adopted Child
+    required: 'False'
+    source: caDSR
+    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2690165&version=2.0
+    type: Enumeration
+  relative_with_cancer_history:
+    cde_id: 6161023
+    description: 'The yes/no/unknown indicator used to describe whether any of the
+      patient''s relatives have a history of cancer.
 
-            '
-        enum:
-        - 'yes'
-        - 'no'
-        - unknown
-        - not reported
-        required: 'False'
-        source: caDSR
-        term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6161023&version=1.0
-        type: Enumeration
-    relatives_with_cancer_history_count:
-        description: 'The number of relatives the patient has with a known history
-            of cancer.
+      '
+    enum:
+    - 'yes'
+    - 'no'
+    - unknown
+    - not reported
+    required: 'False'
+    source: caDSR
+    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6161023&version=1.0
+    type: Enumeration
+  relatives_with_cancer_history_count:
+    description: 'The number of relatives the patient has with a known history of
+      cancer.
 
-            '
-        required: 'False'
-        type: Integer
+      '
+    required: 'False'
+    type: Integer
 required:
 - submitter_id
 title: Family History

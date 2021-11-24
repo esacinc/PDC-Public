@@ -305,9 +305,16 @@ function paintDictionaryItem(data){
   var colRef = 1;
   var dictItemProperties = curEntityData.properties;
   //var output = [], item;
+  //@@@PDC-4336: Update the PDC Data dictionary & Workspace YAML files to sync with GDC
+  var deprecatedProperties = [];
+  if (curEntityData.deprecated) {
+  	var dictItemDeprecatedProperties = curEntityData.deprecated;
+  	deprecatedProperties = Object.values(dictItemDeprecatedProperties);
+  }
 
   for (var dictItem in dictItemProperties) {
-     if (!dictItemProperties[dictItem].key) {
+    //@@@PDC-4336: Update the PDC Data dictionary & Workspace YAML files to sync with GDC
+    if((!dictItemProperties[dictItem].key && deprecatedProperties.length == 0) || (!dictItemProperties[dictItem].key && deprecatedProperties.length > 0 && !deprecatedProperties.includes(dictItem))) {
         dStr += "<tr";
 
         if (colRef == 2){

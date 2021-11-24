@@ -1,70 +1,70 @@
 category: Biospecimen
 description: A physical sub-part of any sample.
 links:
--   label: Portion references the Sample it is derived from.
-    name: Sample
-    required: 'True'
+- label: Portion references the Sample it is derived from.
+  name: Sample
+  required: 'True'
 properties:
-    creation_datetime:
-        cde_id: 5432592
-        description: The datetime of portion creation encoded as seconds from epoch.
-        required: 'False'
-        source: caDSR
-        term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432592&version=1.0
-        type: Integer
-    is_ffpe:
-        cde_id: 4170557
-        description: Indicator to signify whether or not the tissue sample was fixed
-            in formalin and embedded in paraffin (FFPE).
-        enum:
-        - 'true'
-        - 'false'
-        required: 'False'
-        source: caDSR
-        term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=4170557&version=1.0
-        type: Enumeration
-    portion_id:
-        key: 'yes'
-        required: 'False'
-        type: String
-    portion_number:
-        cde_id: 5432711
-        description: Numeric value that represents the sequential number assigned
-            to a portion of the sample.
-        required: 'False'
-        source: caDSR
-        term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432711&version=1.0
-        type: Integer
-    portion_submitter_id:
-        key: 'yes'
-        required: 'False'
-        type: String
-    project_id:
-        key: 'yes'
-        required: 'False'
-        type: String
-    project_submitter_id:
-        key: 'yes'
-        required: 'False'
-        type: String
-    sample_id:
-        key: 'yes'
-        required: 'False'
-        type: String
-    sample_submitter_id:
-        key: 'yes'
-        required: 'False'
-        type: String
-    weight:
-        cde_id: 651
-        description: Numeric value that represents the sample portion weight, measured
-            in milligrams.
-        required: 'False'
-        source: caDSR
-        term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=651&version=4.0
-        type: Integer
+  creation_datetime:
+    cde_id: 5432592
+    description: The datetime of portion creation encoded as seconds from epoch.
+    required: 'False'
+    source: caDSR
+    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432592&version=1.0
+    type: Integer
+  is_ffpe:
+    cde_id: 4170557
+    description: Indicator to signify whether or not the tissue sample was fixed in
+      formalin and embedded in paraffin (FFPE).
+    enum:
+    - 'true'
+    - 'false'
+    required: 'False'
+    source: caDSR
+    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=4170557&version=1.0
+    type: Enumeration
+  portion_id:
+    key: 'yes'
+    required: 'False'
+    type: String
+  portion_number:
+    cde_id: 5432711
+    description: Numeric value that represents the sequential number assigned to a
+      portion of the sample.
+    required: 'False'
+    source: caDSR
+    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432711&version=1.0
+    type: Integer
+  portion_submitter_id:
+    key: 'yes'
+    required: 'False'
+    type: String
+  project_id:
+    key: 'yes'
+    required: 'False'
+    type: String
+  project_submitter_id:
+    key: 'yes'
+    required: 'False'
+    type: String
+  sample_id:
+    key: 'yes'
+    required: 'False'
+    type: String
+  sample_submitter_id:
+    key: 'yes'
+    required: 'False'
+    type: String
+  weight:
+    cde_id: 651
+    description: Numeric value that represents the sample portion weight, measured
+      in milligrams.
+    required: 'False'
+    source: caDSR
+    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=651&version=4.0
+    type: Number
 title: Portion
 type: object
 uniqueKeys:
--   - portion_id
-    - portion_submitter_id
+- - portion_id
+  - portion_submitter_id

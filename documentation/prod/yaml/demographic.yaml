@@ -1,228 +1,465 @@
 category: Clinical
 description: Data for the characterization of the patient by means of segmenting the
-    population (e.g., characterization by age, sex, or race).
+  population (e.g., characterization by age, sex, or race).
 links:
--   label: Demographic references the Case it is derived from.
-    name: Case
-    required: 'True'
+- label: Demographic references the Case it is derived from.
+  name: Case
+  required: 'True'
 properties:
-    age_at_index:
-        cde_id: 6028530
-        description: The patient's age (in years) on the reference or anchor date
-            date used during date obfuscation.
-        enum:
-        - integer
-        - 'null'
-        oneOf:
-        -   maximum: 32872
-            minimum: 0
-            type: integer
-        -   type: 'null'
-        required: 'False'
-        source: caDSR
-        term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6028530&version=1.0
-        type: Enumeration
-    age_is_obfuscated:
-        description: 'The age of the patient has been modified for compliance reasons.
-            The actual age differs from what is reported. Other date intervals for
-            this patient may also be modified.
+  age_at_index:
+    cde_id: 6028530
+    description: The patient's age (in years) on the reference or anchor date date
+      used during date obfuscation.
+    oneOf:
+    - maximum: 89
+      minimum: 0
+      type: integer
+    - type: 'null'
+    required: 'False'
+    source: caDSR
+    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6028530&version=1.0
+    type: Integer
+  age_is_obfuscated:
+    description: 'The age of the patient has been modified for compliance reasons.
+      The actual age differs from what is reported. Other date intervals for this
+      patient may also be modified.
 
-            '
-        required: 'False'
-        type: Boolean
-    case_id:
-        key: 'yes'
-        required: 'False'
-        type: String
-    case_submitter_id:
-        key: 'yes'
-        required: 'True'
-        type: String
-    cause_of_death:
-        cde_id: 2554674
-        description: Text term to identify the cause of death for a patient.
-        enum:
-        - Cancer Related
-        - Cardiovascular Disorder, NOS
-        - End-stage Renal Disease
-        - Infection
-        - Not Cancer Related
-        - Renal Disorder, NOS
-        - Spinal Muscular Atrophy
-        - Surgical Complications
-        - Toxicity
-        - Not Reported
-        - Unknown
-        required: 'False'
-        source: caDSR
-        term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2554674&version=3.0
-        type: Enumeration
-    cause_of_death_source:
-        description: 'The text term used to describe the source used to determine
-            the patient''s cause of death.
+      '
+    required: 'False'
+    type: Boolean
+  case_id:
+    key: 'yes'
+    required: 'False'
+    type: String
+  case_submitter_id:
+    key: 'yes'
+    required: 'True'
+    type: String
+  cause_of_death:
+    cde_id: 2554674
+    description: Text term to identify the cause of death for a patient.
+    enum:
+    - Cancer Related
+    - Cardiovascular Disorder, NOS
+    - End-stage Renal Disease
+    - Infection
+    - Not Cancer Related
+    - Renal Disorder, NOS
+    - Spinal Muscular Atrophy
+    - Surgical Complications
+    - Toxicity
+    - Not Reported
+    - Unknown
+    required: 'False'
+    source: caDSR
+    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2554674&version=3.0
+    type: Enumeration
+  cause_of_death_source:
+    description: 'The text term used to describe the source used to determine the
+      patient''s cause of death.
 
-            '
-        enum:
-        - Autopsy
-        - Death Certificate
-        - Medical Record
-        - Social Security Death Index
-        - Unknown
-        - Not Reported
-        required: 'False'
-        type: Enumeration
-    days_to_birth:
-        cde_id: 6154723
-        description: Number of days between the date used for index and the date from
-            a person's date of birth represented as a calculated negative number of
-            days.
-        required: 'False'
-        source: caDSR
-        term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6154723&version=1.0
-        type: Integer
-    days_to_death:
-        cde_id: 6154724
-        description: Number of days between the date used for index and the date from
-            a person's date of death represented as a calculated number of days.
-        required: 'False'
-        source: caDSR
-        term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6154724&version=1.0
-        type: Integer
-    demographic_id:
-        key: 'yes'
-        required: 'False'
-        type: String
-    demographic_submitter_id:
-        key: 'yes'
-        required: 'False'
-        type: String
-    ethnicity:
-        cde_id: 2192217
-        description: An individual's self-described social and cultural grouping,
-            specifically whether an individual describes themselves as Hispanic or
-            Latino. The provided values are based on the categories defined by the
-            U.S. Office of Management and Business and used by the U.S. Census Bureau.
-        enum:
-        - hispanic or latino
-        - not hispanic or latino
-        - not reported
-        - not allowed to collect
-        - unknown
-        - Unknown
-        required: 'True'
-        source: caDSR
-        term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2192217&version=2.0
-        type: Enumeration
-    gender:
-        cde_id: 2200604
-        description: 'Text designations that identify gender. Gender is described
-            as the assemblage of properties that distinguish people on the basis of
-            their societal roles. [Explanatory Comment 1: Identification of gender
-            is based upon self-report and may come from a form, questionnaire, interview,
-            etc.]'
-        enum:
-        - female
-        - male
-        - unknown
-        - unspecified
-        - not reported
-        required: 'True'
-        source: caDSR
-        term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2200604&version=3.0
-        type: Enumeration
-    occupation_duration_years:
-        cde_id: 2435424
-        description: 'The number of years a patient worked in a specific occupation.
+      '
+    enum:
+    - Autopsy
+    - Death Certificate
+    - Medical Record
+    - Social Security Death Index
+    - Unknown
+    - Not Reported
+    required: 'False'
+    type: Enumeration
+  country_of_residence_at_enrollment:
+    cde_id: 7050286
+    description: The text term used to describe the patient's country of residence
+      at the time they were enrolled in the study.
+    enum:
+    - Afghanistan
+    - Albania
+    - Algeria
+    - Andorra
+    - Angola
+    - Anguilla
+    - Antigua and Barbuda
+    - Argentina
+    - Armenia
+    - Aruba
+    - Australia
+    - Austria
+    - Azerbaijan
+    - Bahamas
+    - Bahrain
+    - Bangladesh
+    - Barbados
+    - Belarus
+    - Belgium
+    - Belize
+    - Benin
+    - Bermuda
+    - Bhutan
+    - Bolivia
+    - Bosnia and Herzegovina
+    - Botswana
+    - Brazil
+    - Brunei
+    - Bulgaria
+    - Burkina Faso
+    - Burundi
+    - Cambodia
+    - Cameroon
+    - Canada
+    - Cape Verde
+    - Cayman Islands
+    - Central African Republic
+    - Chad
+    - Chile
+    - China
+    - Colombia
+    - Comoros
+    - Congo
+    - Cook Islands
+    - Costa Rica
+    - Cote d'Ivoire
+    - Croatia
+    - Cuba
+    - Curacao
+    - Cyprus
+    - Czech Republic (Czechia)
+    - Democratic Republic of the Congo
+    - Denmark
+    - Djibouti
+    - Dominica
+    - Dominican Republic
+    - Ecuador
+    - Egypt
+    - El Salvador
+    - Equatorial Guinea
+    - Eritrea
+    - Estonia
+    - Eswatini
+    - Ethiopia
+    - Falkland Islands (Malvinas)
+    - Faroe Islands
+    - Federated States of Micronesia
+    - Fiji
+    - Finland
+    - France
+    - French Guiana
+    - French Polynesia
+    - Gabon
+    - Gambia
+    - Georgia
+    - Germany
+    - Ghana
+    - Gibraltar
+    - Greece
+    - Greenland
+    - Grenada
+    - Guadeloupe
+    - Guam
+    - Guatemala
+    - Guernsey
+    - Guinea
+    - Guinea-Bissau
+    - Guyana
+    - Haiti
+    - Holy See
+    - Honduras
+    - Hong Kong
+    - Hungary
+    - Iceland
+    - India
+    - Indonesia
+    - Iran
+    - Iraq
+    - Ireland
+    - Isle of Man
+    - Israel
+    - Italy
+    - Jamaica
+    - Japan
+    - Jersey
+    - Jordan
+    - Kazakhstan
+    - Kenya
+    - Kiribati
+    - Kosovo
+    - Kuwait
+    - Kyrgyzstan
+    - Laos
+    - Latvia
+    - Lebanon
+    - Lesotho
+    - Liberia
+    - Libya
+    - Liechtenstein
+    - Lithuania
+    - Luxembourg
+    - Macau
+    - Madagascar
+    - Malawi
+    - Malaysia
+    - Maldives
+    - Mali
+    - Malta
+    - Marshall Islands
+    - Martinique
+    - Mauritania
+    - Mauritius
+    - Mayotte
+    - Mexico
+    - Moldova
+    - Monaco
+    - Mongolia
+    - Montenegro
+    - Montserrat
+    - Morocco
+    - Mozambique
+    - Myanmar
+    - Namibia
+    - Nauru
+    - Nepal
+    - Netherlands
+    - New Caledonia
+    - New Zealand
+    - Nicaragua
+    - Niger
+    - Nigeria
+    - Niue
+    - North Korea
+    - North Macedonia
+    - Northern Mariana Islands
+    - Norway
+    - Oman
+    - Pakistan
+    - Palau
+    - Panama
+    - Papua New Guinea
+    - Paraguay
+    - Peru
+    - Philippines
+    - Poland
+    - Portugal
+    - Puerto Rico
+    - Qatar
+    - Reunion
+    - Romania
+    - Russia
+    - Rwanda
+    - Saint Helena, Ascension and Tristan da Cunha
+    - Saint Kitts and Nevis
+    - Saint Lucia
+    - Saint Pierre and Miquelon
+    - Saint Vincent and the Grenadines
+    - Samoa
+    - San Marino
+    - Sao Tome and Principe
+    - Saudi Arabia
+    - Senegal
+    - Serbia
+    - Seychelles
+    - Sierra Leone
+    - Singapore
+    - Slovakia
+    - Slovenia
+    - Solomon Islands
+    - Somalia
+    - South Africa
+    - South Korea
+    - South Sudan
+    - Spain
+    - Sri Lanka
+    - State of Palestine
+    - Sudan
+    - Suriname
+    - Svalbard & Jan Mayen Islands
+    - Sweden
+    - Switzerland
+    - Syria
+    - Taiwan
+    - Tajikistan
+    - Tanzania
+    - Thailand
+    - Timor-Leste
+    - Togo
+    - Tokelau
+    - Tonga
+    - Trinidad and Tobago
+    - Tunisia
+    - Turkey
+    - Turkmenistan
+    - Tuvalu
+    - Uganda
+    - Ukraine
+    - United Arab Emirates
+    - United Kingdom
+    - United States
+    - Uruguay
+    - Uzbekistan
+    - Vanuatu
+    - Venezuela
+    - Vietnam
+    - Virgin Islands, British
+    - Virgin Islands, U.S.
+    - Wallis and Futuna
+    - Western Sahara
+    - Yemen
+    - Zambia
+    - Zimbabwe
+    required: 'False'
+    source: caDSR
+    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=7050286&version=1.0
+    type: Enumeration
+  days_to_birth:
+    cde_id: 6154723
+    description: Number of days between the date used for index and the date from
+      a person's date of birth represented as a calculated negative number of days.
+    required: 'False'
+    source: caDSR
+    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6154723&version=1.0
+    type: Integer
+  days_to_death:
+    cde_id: 6154724
+    description: Number of days between the date used for index and the date from
+      a person's date of death represented as a calculated number of days.
+    required: 'False'
+    source: caDSR
+    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6154724&version=1.0
+    type: Integer
+  demographic_id:
+    key: 'yes'
+    required: 'False'
+    type: String
+  demographic_submitter_id:
+    key: 'yes'
+    required: 'False'
+    type: String
+  ethnicity:
+    cde_id: 2192217
+    description: An individual's self-described social and cultural grouping, specifically
+      whether an individual describes themselves as Hispanic or Latino. The provided
+      values are based on the categories defined by the U.S. Office of Management
+      and Business and used by the U.S. Census Bureau.
+    enum:
+    - hispanic or latino
+    - not hispanic or latino
+    - not reported
+    - not allowed to collect
+    - Unknown
+    required: 'True'
+    source: caDSR
+    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2192217&version=2.0
+    type: Enumeration
+  gender:
+    cde_id: 2200604
+    description: 'Text designations that identify gender. Gender is described as the
+      assemblage of properties that distinguish people on the basis of their societal
+      roles. [Explanatory Comment 1: Identification of gender is based upon self-report
+      and may come from a form, questionnaire, interview, etc.]'
+    enum:
+    - female
+    - male
+    - unknown
+    - unspecified
+    - not reported
+    required: 'True'
+    source: caDSR
+    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2200604&version=3.0
+    type: Enumeration
+  occupation_duration_years:
+    cde_id: 2435424
+    description: 'The number of years a patient worked in a specific occupation.
 
-            '
-        required: 'False'
-        source: caDSR
-        term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2435424&version=1.0
-        type: Integer
-    premature_at_birth:
-        cde_id: 6010765
-        description: The yes/no/unknown indicator used to describe whether the patient
-            was premature (less than 37 weeks gestation) at birth.
-        enum:
-        - 'Yes'
-        - 'No'
-        - Unknown
-        - Not Reported
-        required: 'False'
-        source: caDSR
-        term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6010765&version=1.0
-        type: Enumeration
-    project_id:
-        key: 'yes'
-        required: 'False'
-        type: String
-    project_submitter_id:
-        key: 'yes'
-        required: 'False'
-        type: String
-    race:
-        cde_id: 2192199
-        description: An arbitrary classification of a taxonomic group that is a division
-            of a species. It usually arises as a consequence of geographical isolation
-            within a species and is characterized by shared heredity, physical attributes
-            and behavior, and in the case of humans, by common history, nationality,
-            or geographic distribution. The provided values are based on the categories
-            defined by the U.S. Office of Management and Business and used by the
-            U.S. Census Bureau.
-        enum:
-        - white
-        - american indian or alaska native
-        - black or african american
-        - asian
-        - native hawaiian or other pacific islander
-        - other
-        - not reported
-        - not allowed to collect
-        - unknown
-        - Unknown
-        required: 'True'
-        source: caDSR
-        term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2192199&version=1.0
-        type: Enumeration
-    vital_status:
-        cde_id: 5
-        description: The survival state of the person registered on the protocol.
-        enum:
-        - Alive
-        - Dead
-        - Unknown
-        - Not Reported
-        required: 'False'
-        source: caDSR
-        term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5&version=5.0
-        type: Enumeration
-    weeks_gestation_at_birth:
-        cde_id: 2737369
-        description: Numeric value used to describe the number of weeks starting from
-            the approximate date of the biological mother's last menstrual period
-            and ending with the birth of the patient.
-        required: 'False'
-        source: caDSR
-        term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2737369&version=1.0
-        type: Integer
-    year_of_birth:
-        cde_id: 2896954
-        description: Numeric value to represent the calendar year in which an individual
-            was born.
-        required: 'False'
-        source: caDSR
-        term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2896954&version=1.0
-        type: Integer
-    year_of_death:
-        cde_id: 2897030
-        description: Numeric value to represent the year of the death of an individual.
-        required: 'False'
-        source: caDSR
-        term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2897030&version=1.0
-        type: Integer
+      '
+    required: 'False'
+    source: caDSR
+    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2435424&version=1.0
+    type: Integer
+  premature_at_birth:
+    cde_id: 6010765
+    description: The yes/no/unknown indicator used to describe whether the patient
+      was premature (less than 37 weeks gestation) at birth.
+    enum:
+    - 'Yes'
+    - 'No'
+    - Unknown
+    - Not Reported
+    required: 'False'
+    source: caDSR
+    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6010765&version=1.0
+    type: Enumeration
+  project_id:
+    key: 'yes'
+    required: 'False'
+    type: String
+  project_submitter_id:
+    key: 'yes'
+    required: 'False'
+    type: String
+  race:
+    cde_id: 2192199
+    description: An arbitrary classification of a taxonomic group that is a division
+      of a species. It usually arises as a consequence of geographical isolation within
+      a species and is characterized by shared heredity, physical attributes and behavior,
+      and in the case of humans, by common history, nationality, or geographic distribution.
+      The provided values are based on the categories defined by the U.S. Office of
+      Management and Business and used by the U.S. Census Bureau.
+    enum:
+    - white
+    - american indian or alaska native
+    - black or african american
+    - asian
+    - native hawaiian or other pacific islander
+    - other
+    - not reported
+    - not allowed to collect
+    - Unknown
+    required: 'True'
+    source: caDSR
+    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2192199&version=1.0
+    type: Enumeration
+  vital_status:
+    cde_id: 5
+    description: The survival state of the person registered on the protocol.
+    enum:
+    - Alive
+    - Dead
+    - Unknown
+    - Not Reported
+    required: 'False'
+    source: caDSR
+    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5&version=5.0
+    type: Enumeration
+  weeks_gestation_at_birth:
+    cde_id: 2737369
+    description: Numeric value used to describe the number of weeks starting from
+      the approximate date of the biological mother's last menstrual period and ending
+      with the birth of the patient.
+    required: 'False'
+    source: caDSR
+    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2737369&version=1.0
+    type: Number
+  year_of_birth:
+    cde_id: 2896954
+    description: Numeric value to represent the calendar year in which an individual
+      was born.
+    oneOf:
+    - minimum: 1900
+      type: integer
+    - type: 'null'
+    required: 'False'
+    source: caDSR
+    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2896954&version=1.0
+    type: Integer
+  year_of_death:
+    cde_id: 2897030
+    description: Numeric value to represent the year of the death of an individual.
+    required: 'False'
+    source: caDSR
+    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2897030&version=1.0
+    type: Integer
 title: Demographic
 type: object
 uniqueKeys:
--   - demographic_id
-    - demographic_submitter_id
-    - study_id
+- - demographic_id
+  - demographic_submitter_id
+  - study_id
