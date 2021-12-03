@@ -9,6 +9,8 @@ type Case {
   index_date: String
   lost_to_followup: String
   primary_site: String
+  consent_type: String
+  days_to_consent: String
   externalReferences: [EntityReference]
   demographics: [Demographic]  
   samples: [Sample]

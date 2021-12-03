@@ -39,4 +39,36 @@ type FollowUp {
 	 risk_factor_treatment: String
 	 viral_hepatitis_serologies: String
 	 weight: String
+	 adverse_event_grade: String
+	aids_risk_factors: String
+	body_surface_area: String
+	cd4_count: String
+	cdc_hiv_risk_factors: String
+	days_to_imaging: String
+	evidence_of_recurrence_type: String
+	eye_color: String
+	haart_treatment_indicator: String
+	history_of_tumor: String
+	history_of_tumor_type: String
+	hiv_viral_load: String
+	hormonal_contraceptive_type: String
+	hormonal_contraceptive_use: String
+	hormone_replacement_therapy_type: String
+	hysterectomy_margins_involved: String
+	hysterectomy_type: String
+	imaging_result: String
+	imaging_type: String
+	immunosuppressive_treatment_type: String
+	nadir_cd4_count: String
+	pregnancy_outcome: String
+	procedures_performed: String
+	recist_targeted_regions_number: String
+	recist_targeted_regions_sum: String
+	scan_tracer_used: String
+	undescended_testis_corrected: String
+	undescended_testis_corrected_age: String
+	undescended_testis_corrected_laterality: String
+	undescended_testis_corrected_method: String
+	undescended_testis_history: String
+	undescended_testis_history_laterality: String
 }

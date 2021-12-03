@@ -43,4 +43,6 @@ type UICase {
 	sample_type: String
 	disease_type: String
 	primary_site: String
+    consent_type: String
+    days_to_consent: String
 }

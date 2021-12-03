@@ -183,7 +183,7 @@ var spec = {
                    }
                  }
                },
-               '?query={case (case_submitter_id: "{case_submitter_id}" acceptDUA: {acceptDUA}) { case_id case_submitter_id project_submitter_id days_to_lost_to_followup disease_type index_date lost_to_followup primary_site externalReferences { external_reference_id reference_resource_shortname reference_resource_name reference_entity_location } demographics{ demographic_id ethnicity gender demographic_submitter_id race cause_of_death days_to_birth days_to_death vital_status year_of_birth year_of_death } samples { sample_id sample_submitter_id sample_type sample_type_id gdc_sample_id gdc_project_id biospecimen_anatomic_site composition current_weight days_to_collection days_to_sample_procurement diagnosis_pathologically_confirmed freezing_method initial_weight intermediate_dimension is_ffpe longest_dimension method_of_sample_procurement oct_embedded pathology_report_uuid preservation_method sample_type_id shortest_dimension time_between_clamping_and_freezing time_between_excision_and_freezing tissue_type tumor_code tumor_code_id tumor_descriptor aliquots { aliquot_id aliquot_submitter_id analyte_type aliquot_run_metadata {aliquot_run_metadata_id} } } diagnoses{ diagnosis_id tissue_or_organ_of_origin age_at_diagnosis primary_diagnosis tumor_grade tumor_stage diagnosis_submitter_id classification_of_tumor days_to_last_follow_up days_to_last_known_disease_status days_to_recurrence last_known_disease_status morphology progression_or_recurrence site_of_resection_or_biopsy prior_malignancy ajcc_clinical_m ajcc_clinical_n ajcc_clinical_stage ajcc_clinical_t ajcc_pathologic_m ajcc_pathologic_n ajcc_pathologic_stage ajcc_pathologic_t ann_arbor_b_symptoms ann_arbor_clinical_stage ann_arbor_extranodal_involvement ann_arbor_pathologic_stage best_overall_response burkitt_lymphoma_clinical_variant circumferential_resection_margin colon_polyps_history days_to_best_overall_response days_to_diagnosis days_to_hiv_diagnosis days_to_new_event figo_stage hiv_positive hpv_positive_type hpv_status iss_stage laterality ldh_level_at_diagnosis ldh_normal_range_upper lymph_nodes_positive lymphatic_invasion_present method_of_diagnosis new_event_anatomic_site new_event_type overall_survival perineural_invasion_present prior_treatment progression_free_survival progression_free_survival_event residual_disease vascular_invasion_present year_of_diagnosis icd_10_code synchronous_malignancy tumor_largest_dimension_diameter} 	 exposures { exposure_id exposure_submitter_id alcohol_days_per_week alcohol_drinks_per_day alcohol_history alcohol_intensity asbestos_exposure bmi cigarettes_per_day coal_dust_exposure environmental_tobacco_smoke_exposure height pack_years_smoked radon_exposure respirable_crystalline_silica_exposure smoking_frequency time_between_waking_and_first_smoke tobacco_smoking_onset_year tobacco_smoking_quit_year tobacco_smoking_status type_of_smoke_exposure type_of_tobacco_used weight years_smoked}}}': {
+               '?query={case (case_submitter_id: "{case_submitter_id}" acceptDUA: {acceptDUA}) { case_id case_submitter_id project_submitter_id days_to_lost_to_followup disease_type index_date lost_to_followup primary_site consent_type days_to_consent externalReferences { external_reference_id reference_resource_shortname reference_resource_name reference_entity_location } demographics{ demographic_id ethnicity gender demographic_submitter_id race cause_of_death days_to_birth days_to_death vital_status year_of_birth year_of_death age_at_index premature_at_birth weeks_gestation_at_birth age_is_obfuscated cause_of_death_source occupation_duration_years country_of_residence_at_enrollment } samples { sample_id sample_submitter_id sample_type sample_type_id gdc_sample_id gdc_project_id biospecimen_anatomic_site composition current_weight days_to_collection days_to_sample_procurement diagnosis_pathologically_confirmed freezing_method initial_weight intermediate_dimension is_ffpe longest_dimension method_of_sample_procurement oct_embedded pathology_report_uuid preservation_method sample_type_id shortest_dimension time_between_clamping_and_freezing time_between_excision_and_freezing tissue_type tumor_code tumor_code_id tumor_descriptor biospecimen_laterality catalog_reference distance_normal_to_tumor distributor_reference growth_rate passage_count sample_ordinal tissue_collection_type aliquots { aliquot_id aliquot_submitter_id analyte_type aliquot_run_metadata {aliquot_run_metadata_id} } } diagnoses{ diagnosis_id tissue_or_organ_of_origin age_at_diagnosis primary_diagnosis tumor_grade tumor_stage diagnosis_submitter_id classification_of_tumor days_to_last_follow_up days_to_last_known_disease_status days_to_recurrence last_known_disease_status morphology progression_or_recurrence site_of_resection_or_biopsy prior_malignancy ajcc_clinical_m ajcc_clinical_n ajcc_clinical_stage ajcc_clinical_t ajcc_pathologic_m ajcc_pathologic_n ajcc_pathologic_stage ajcc_pathologic_t ann_arbor_b_symptoms ann_arbor_clinical_stage ann_arbor_extranodal_involvement ann_arbor_pathologic_stage best_overall_response burkitt_lymphoma_clinical_variant circumferential_resection_margin colon_polyps_history days_to_best_overall_response days_to_diagnosis days_to_hiv_diagnosis days_to_new_event figo_stage hiv_positive hpv_positive_type hpv_status iss_stage laterality ldh_level_at_diagnosis ldh_normal_range_upper lymph_nodes_positive lymphatic_invasion_present method_of_diagnosis new_event_anatomic_site new_event_type overall_survival perineural_invasion_present prior_treatment progression_free_survival progression_free_survival_event residual_disease vascular_invasion_present year_of_diagnosis icd_10_code synchronous_malignancy tumor_largest_dimension_diameter anaplasia_present anaplasia_present_type child_pugh_classification cog_liver_stage cog_neuroblastoma_risk_group cog_renal_stage cog_rhabdomyosarcoma_risk_group enneking_msts_grade enneking_msts_metastasis enneking_msts_stage enneking_msts_tumor_site esophageal_columnar_dysplasia_degree esophageal_columnar_metaplasia_present first_symptom_prior_to_diagnosis gastric_esophageal_junction_involvement goblet_cells_columnar_mucosa_present gross_tumor_weight inpc_grade inpc_histologic_group inrg_stage inss_stage irs_group irs_stage ishak_fibrosis_score lymph_nodes_tested medulloblastoma_molecular_classification metastasis_at_diagnosis metastasis_at_diagnosis_site mitosis_karyorrhexis_index peripancreatic_lymph_nodes_positive peripancreatic_lymph_nodes_tested supratentorial_localization tumor_confined_to_organ_of_origin tumor_focality tumor_regression_grade vascular_invasion_type wilms_tumor_histologic_subtype breslow_thickness gleason_grade_group igcccg_stage international_prognostic_index largest_extrapelvic_peritoneal_focus masaoka_stage non_nodal_regional_disease non_nodal_tumor_deposits ovarian_specimen_status ovarian_surface_involvement percent_tumor_invasion peritoneal_fluid_cytological_status primary_gleason_grade secondary_gleason_grade weiss_assessment_score adrenal_hormone ann_arbor_b_symptoms_described diagnosis_is_primary_disease eln_risk_classification figo_staging_edition_year gleason_grade_tertiary gleason_patterns_percent margin_distance margins_involved_site pregnant_at_diagnosis satellite_nodule_present sites_of_involvement tumor_depth who_cns_grade who_nte_grade } 	 exposures { exposure_id exposure_submitter_id alcohol_days_per_week alcohol_drinks_per_day alcohol_history alcohol_intensity asbestos_exposure bmi cigarettes_per_day coal_dust_exposure environmental_tobacco_smoke_exposure height pack_years_smoked radon_exposure respirable_crystalline_silica_exposure smoking_frequency time_between_waking_and_first_smoke tobacco_smoking_onset_year tobacco_smoking_quit_year tobacco_smoking_status type_of_smoke_exposure type_of_tobacco_used weight years_smoked age_at_onset, alcohol_type, exposure_duration, exposure_duration_years, exposure_type, marijuana_use_per_week, parent_with_radiation_exposure, secondhand_smoke_as_child, smokeless_tobacco_quit_age, tobacco_use_per_day}}}': {
                  "get": {
                            "tags": ["Case"],
                    "summary": "Find case by Case Submitter ID",
@@ -219,7 +219,7 @@ var spec = {
                    }
                  }
                    },
-               '?query={case (case_id: "{case_id}" acceptDUA: {acceptDUA}) { case_id case_submitter_id project_submitter_id days_to_lost_to_followup disease_type index_date lost_to_followup primary_site externalReferences { external_reference_id reference_resource_shortname reference_resource_name reference_entity_location } demographics{ demographic_id ethnicity gender demographic_submitter_id race cause_of_death days_to_birth days_to_death vital_status year_of_birth year_of_death } samples { sample_id sample_submitter_id sample_type sample_type_id gdc_sample_id gdc_project_id biospecimen_anatomic_site composition current_weight days_to_collection days_to_sample_procurement diagnosis_pathologically_confirmed freezing_method initial_weight intermediate_dimension is_ffpe longest_dimension method_of_sample_procurement oct_embedded pathology_report_uuid preservation_method sample_type_id shortest_dimension time_between_clamping_and_freezing time_between_excision_and_freezing tissue_type tumor_code tumor_code_id tumor_descriptor aliquots { aliquot_id aliquot_submitter_id analyte_type aliquot_run_metadata {aliquot_run_metadata_id} } } diagnoses{ diagnosis_id tissue_or_organ_of_origin age_at_diagnosis primary_diagnosis tumor_grade tumor_stage diagnosis_submitter_id classification_of_tumor days_to_last_follow_up days_to_last_known_disease_status days_to_recurrence last_known_disease_status morphology progression_or_recurrence site_of_resection_or_biopsy prior_malignancy ajcc_clinical_m ajcc_clinical_n ajcc_clinical_stage ajcc_clinical_t ajcc_pathologic_m ajcc_pathologic_n ajcc_pathologic_stage ajcc_pathologic_t ann_arbor_b_symptoms ann_arbor_clinical_stage ann_arbor_extranodal_involvement ann_arbor_pathologic_stage best_overall_response burkitt_lymphoma_clinical_variant circumferential_resection_margin colon_polyps_history days_to_best_overall_response days_to_diagnosis days_to_hiv_diagnosis days_to_new_event figo_stage hiv_positive hpv_positive_type hpv_status iss_stage laterality ldh_level_at_diagnosis ldh_normal_range_upper lymph_nodes_positive lymphatic_invasion_present method_of_diagnosis new_event_anatomic_site new_event_type overall_survival perineural_invasion_present prior_treatment progression_free_survival progression_free_survival_event residual_disease vascular_invasion_present year_of_diagnosis icd_10_code synchronous_malignancy tumor_largest_dimension_diameter} exposures { exposure_id exposure_submitter_id alcohol_days_per_week alcohol_drinks_per_day alcohol_history alcohol_intensity asbestos_exposure bmi cigarettes_per_day coal_dust_exposure environmental_tobacco_smoke_exposure height pack_years_smoked radon_exposure respirable_crystalline_silica_exposure smoking_frequency time_between_waking_and_first_smoke tobacco_smoking_onset_year tobacco_smoking_quit_year tobacco_smoking_status type_of_smoke_exposure type_of_tobacco_used weight years_smoked} }}': {
+               '?query={case (case_id: "{case_id}" acceptDUA: {acceptDUA}) { case_id case_submitter_id project_submitter_id days_to_lost_to_followup disease_type index_date lost_to_followup primary_site consent_type days_to_consent externalReferences { external_reference_id reference_resource_shortname reference_resource_name reference_entity_location } demographics{ demographic_id ethnicity gender demographic_submitter_id race cause_of_death days_to_birth days_to_death vital_status year_of_birth year_of_death age_at_index premature_at_birth weeks_gestation_at_birth age_is_obfuscated cause_of_death_source occupation_duration_years country_of_residence_at_enrollment } samples { sample_id sample_submitter_id sample_type sample_type_id gdc_sample_id gdc_project_id biospecimen_anatomic_site composition current_weight days_to_collection days_to_sample_procurement diagnosis_pathologically_confirmed freezing_method initial_weight intermediate_dimension is_ffpe longest_dimension method_of_sample_procurement oct_embedded pathology_report_uuid preservation_method sample_type_id shortest_dimension time_between_clamping_and_freezing time_between_excision_and_freezing tissue_type tumor_code tumor_code_id tumor_descriptor biospecimen_laterality catalog_reference distance_normal_to_tumor distributor_reference growth_rate passage_count sample_ordinal tissue_collection_type aliquots { aliquot_id aliquot_submitter_id analyte_type aliquot_run_metadata {aliquot_run_metadata_id} } } diagnoses{ diagnosis_id tissue_or_organ_of_origin age_at_diagnosis primary_diagnosis tumor_grade tumor_stage diagnosis_submitter_id classification_of_tumor days_to_last_follow_up days_to_last_known_disease_status days_to_recurrence last_known_disease_status morphology progression_or_recurrence site_of_resection_or_biopsy prior_malignancy ajcc_clinical_m ajcc_clinical_n ajcc_clinical_stage ajcc_clinical_t ajcc_pathologic_m ajcc_pathologic_n ajcc_pathologic_stage ajcc_pathologic_t ann_arbor_b_symptoms ann_arbor_clinical_stage ann_arbor_extranodal_involvement ann_arbor_pathologic_stage best_overall_response burkitt_lymphoma_clinical_variant circumferential_resection_margin colon_polyps_history days_to_best_overall_response days_to_diagnosis days_to_hiv_diagnosis days_to_new_event figo_stage hiv_positive hpv_positive_type hpv_status iss_stage laterality ldh_level_at_diagnosis ldh_normal_range_upper lymph_nodes_positive lymphatic_invasion_present method_of_diagnosis new_event_anatomic_site new_event_type overall_survival perineural_invasion_present prior_treatment progression_free_survival progression_free_survival_event residual_disease vascular_invasion_present year_of_diagnosis icd_10_code synchronous_malignancy tumor_largest_dimension_diameter anaplasia_present anaplasia_present_type child_pugh_classification cog_liver_stage cog_neuroblastoma_risk_group cog_renal_stage cog_rhabdomyosarcoma_risk_group enneking_msts_grade enneking_msts_metastasis enneking_msts_stage enneking_msts_tumor_site esophageal_columnar_dysplasia_degree esophageal_columnar_metaplasia_present first_symptom_prior_to_diagnosis gastric_esophageal_junction_involvement goblet_cells_columnar_mucosa_present gross_tumor_weight inpc_grade inpc_histologic_group inrg_stage inss_stage irs_group irs_stage ishak_fibrosis_score lymph_nodes_tested medulloblastoma_molecular_classification metastasis_at_diagnosis metastasis_at_diagnosis_site mitosis_karyorrhexis_index peripancreatic_lymph_nodes_positive peripancreatic_lymph_nodes_tested supratentorial_localization tumor_confined_to_organ_of_origin tumor_focality tumor_regression_grade vascular_invasion_type wilms_tumor_histologic_subtype breslow_thickness gleason_grade_group igcccg_stage international_prognostic_index largest_extrapelvic_peritoneal_focus masaoka_stage non_nodal_regional_disease non_nodal_tumor_deposits ovarian_specimen_status ovarian_surface_involvement percent_tumor_invasion peritoneal_fluid_cytological_status primary_gleason_grade secondary_gleason_grade weiss_assessment_score adrenal_hormone ann_arbor_b_symptoms_described diagnosis_is_primary_disease eln_risk_classification figo_staging_edition_year gleason_grade_tertiary gleason_patterns_percent margin_distance margins_involved_site pregnant_at_diagnosis satellite_nodule_present sites_of_involvement tumor_depth who_cns_grade who_nte_grade } 	 exposures { exposure_id exposure_submitter_id alcohol_days_per_week alcohol_drinks_per_day alcohol_history alcohol_intensity asbestos_exposure bmi cigarettes_per_day coal_dust_exposure environmental_tobacco_smoke_exposure height pack_years_smoked radon_exposure respirable_crystalline_silica_exposure smoking_frequency time_between_waking_and_first_smoke tobacco_smoking_onset_year tobacco_smoking_quit_year tobacco_smoking_status type_of_smoke_exposure type_of_tobacco_used weight years_smoked age_at_onset, alcohol_type, exposure_duration, exposure_duration_years, exposure_type, marijuana_use_per_week, parent_with_radiation_exposure, secondhand_smoke_as_child, smokeless_tobacco_quit_age, tobacco_use_per_day}}}': {
                  "get": {
                            "tags": ["Case"],
                    "summary": "Find case by Case ID",
@@ -2906,6 +2906,34 @@ var spec = {
                    "type":"integer",
                    "format":"int32",
                    "example":"0"
+                },
+				"age_at_index":{
+                   "type":"integer",
+                   "example":"50"
+                }, 
+				"premature_at_birth":{
+                   "type":"string",
+                   "example":"Yes"
+                },  
+				"weeks_gestation_at_birth":{
+                   "type":"integer",
+                   "example":"6"
+                },  
+				"age_is_obfuscated":{
+                   "type":"boolean",
+                   "example":"true"
+                },  
+				"cause_of_death_source":{
+                   "type":"string",
+                   "example":"Autopsy"
+                },  
+				"occupation_duration_years":{
+                   "type":"integer",
+                   "example":"30"
+                },  
+				"country_of_residence_at_enrollment":{
+                   "type":"string",
+                   "example":"Afghanistan"
                 }
              },
              "xml":{
@@ -3020,6 +3048,46 @@ var spec = {
                    "type":"integer",
                    "format":"int32",
                    "example":"20"
+                },
+				"age_at_onset":{
+                   "type":"integer",
+                   "example":"45"
+                }, 
+				"alcohol_type":{
+                   "type":"string",
+                   "example":"Liquor"
+                }, 
+				"exposure_duration":{
+                   "type":"string",
+                   "example":"Six Weeks or More"
+                }, 
+				"exposure_duration_years":{
+                   "type":"integer",
+                   "example":"15"
+                }, 
+				"exposure_type":{
+                   "type":"string",
+                   "example":"Marijuana"
+                }, 
+				"marijuana_use_per_week":{
+                   "type":"number",
+                   "example":"3.5"
+                }, 
+				"parent_with_radiation_exposure":{
+                   "type":"string",
+                   "example":"Not Reported"
+                }, 
+				"secondhand_smoke_as_child":{
+                   "type":"string",
+                   "example":"Unknown"
+                }, 
+				"smokeless_tobacco_quit_age":{
+                   "type":"integer",
+                   "example":"48"
+                }, 
+				"tobacco_use_per_day":{
+                   "type":"number",
+                   "example":"7.5"
                 }
 			 }
 		  },
@@ -3137,6 +3205,38 @@ var spec = {
                 "tumor_descriptor":{
                    "type":"string",
                    "example":"Not Reported"
+                },
+				"biospecimen_laterality":{
+                   "type":"string",
+                   "example":"Bilateral"
+                }, 
+				"catalog_reference":{
+                   "type":"string",
+                   "example":"Not Reported"
+                }, 
+				"distance_normal_to_tumor":{
+                   "type":"string",
+                   "example":"Adjacent (< or = 2cm)"
+                }, 
+				"distributor_reference":{
+                   "type":"string",
+                   "example":"Not Reported"
+                }, 
+				"growth_rate":{
+                   "type":"integer",
+                   "example":"1"
+                }, 
+				"passage_count":{
+                   "type":"integer",
+                   "example":"2"
+                }, 
+				"sample_ordinal":{
+                   "type":"integer",
+                   "example":"3"
+                }, 
+				"tissue_collection_type":{
+                   "type":"string",
+                   "example":"Prospective"
                 },
                 "aliquots":{
                    "type":"array",
@@ -3391,7 +3491,275 @@ var spec = {
                "tumor_largest_dimension_diameter":{
                   "type":"string",
                   "example": "null"
-               }               
+               },
+			"anaplasia_present":{
+							  "type":"string",
+							  "example": "Yes"
+						   },
+			"anaplasia_present_type":{
+							  "type":"string",
+							  "example": "Diffuse"
+						   },
+			"child_pugh_classification":{
+							  "type":"string",
+							  "example": "A"
+						   },
+			"cog_liver_stage":{
+							  "type":"string",
+							  "example": "Stage I"
+						   },	
+			"cog_neuroblastoma_risk_group":{
+							  "type":"string",
+							  "example": "High Risk"
+						   },	
+			"cog_renal_stage":{
+							  "type":"string",
+							  "example": "Stage I"
+						   },	
+			"cog_rhabdomyosarcoma_risk_group":{
+							  "type":"string",
+							  "example": "Low Risk"
+						   },	
+			"enneking_msts_grade":{
+							  "type":"string",
+							  "example": "Low Grade (G1)"
+						   },	
+			"enneking_msts_metastasis":{
+							  "type":"string",
+							  "example": "Regional or Distant Metastasis (M1)"
+						   },	
+			"enneking_msts_stage":{
+							  "type":"string",
+							  "example": "Stage IA"
+						   },	
+			"enneking_msts_tumor_site":{
+							  "type":"string",
+							  "example": "Extracompartmental (T2)"
+						   },	
+			"esophageal_columnar_dysplasia_degree":{
+							  "type":"string",
+							  "example": "Indefinite for Dysplasia"
+						   },	
+			"esophageal_columnar_metaplasia_present":{
+							  "type":"string",
+							  "example": "No"
+						   },	
+			"first_symptom_prior_to_diagnosis":{
+							  "type":"string",
+							  "example": "Headaches"
+						   },	
+			"gastric_esophageal_junction_involvement":{
+							  "type":"string",
+							  "example": "Yes"
+						   },	
+			"goblet_cells_columnar_mucosa_present":{
+							  "type":"string",
+							  "example": "No"
+						   },	
+			"gross_tumor_weight":{
+							  "type":"integer",
+							  "example": "1"
+						   },	
+			"inpc_grade":{
+							  "type":"string",
+							  "example": "Differentiating"
+						   },	
+			"inpc_histologic_group":{
+							  "type":"string",
+							  "example": "Favorable"
+						   },	
+			"inrg_stage":{
+							  "type":"string",
+							  "example": "L1"
+						   },	
+			"inss_stage":{
+							  "type":"string",
+							  "example": "Stage 1"
+						   },	
+			"irs_group":{
+							  "type":"string",
+							  "example": "Group I"
+						   },	
+			"irs_stage":{
+							  "type":"string",
+							  "example": "1"
+						   },	
+			"ishak_fibrosis_score":{
+							  "type":"string",
+							  "example": "1,2 - Portal Fibrosis"
+						   },
+			"lymph_nodes_tested":{
+							  "type":"integer",
+							  "example": "1"
+						   },
+			"medulloblastoma_molecular_classification":{
+							  "type":"string",
+							  "example": "SHH-Activated"
+						   },
+			"metastasis_at_diagnosis":{
+							  "type":"string",
+							  "example": "Distant Metastasis"
+						   },
+			"metastasis_at_diagnosis_site":{
+							  "type":"string",
+							  "example": "Abdomen"
+						   },
+			"mitosis_karyorrhexis_index":{
+							  "type":"string",
+							  "example": "Low"
+						   },
+			"peripancreatic_lymph_nodes_positive":{
+							  "type":"string",
+							  "example": "0"
+						   },
+			"peripancreatic_lymph_nodes_tested":{
+							  "type":"integer",
+							  "example": "1"
+						   },
+			"supratentorial_localization":{
+							  "type":"string",
+							  "example": "Cerebral Cortex"
+						   },
+			"tumor_confined_to_organ_of_origin":{
+							  "type":"string",
+							  "example": "Yes"
+						   },
+			"tumor_focality":{
+							  "type":"string",
+							  "example": "Unifocal"
+						   },
+			"tumor_regression_grade":{
+							  "type":"string",
+							  "example": "1"
+						   },
+			"vascular_invasion_type":{
+							  "type":"string",
+							  "example": "Extramural"
+						   },
+			"wilms_tumor_histologic_subtype":{
+							  "type":"string",
+							  "example": "Favorable"
+						   },
+			"breslow_thickness":{
+							  "type":"integer",
+							  "example": "1"
+						   },
+			"gleason_grade_group":{
+							  "type":"string",
+							  "example": "Group 1"
+						   },
+			"igcccg_stage":{
+							  "type":"string",
+							  "example": "Good Prognosis"
+						   },
+			"international_prognostic_index":{
+							  "type":"string",
+							  "example": "Low Risk"
+						   },
+			"largest_extrapelvic_peritoneal_focus":{
+							  "type":"string",
+							  "example": "Macroscopic (2cm or less)"
+						   },
+			"masaoka_stage":{
+							  "type":"string",
+							  "example": "Stage I"
+						   },
+			"non_nodal_regional_disease":{
+							  "type":"string",
+							  "example": "Present"
+						   },
+			"non_nodal_tumor_deposits":{
+							  "type":"string",
+							  "example": "Yes"
+						   },
+			"ovarian_specimen_status":{
+							  "type":"string",
+							  "example": "Ovarian Capsule Intact"
+						   },
+			"ovarian_surface_involvement":{
+							  "type":"string",
+							  "example": "Present"
+						   },
+			"percent_tumor_invasion":{
+							  "type":"integer",
+							  "example": "1"
+						   },
+			"peritoneal_fluid_cytological_status":{
+							  "type":"string",
+							  "example": "Atypical"
+						   },
+			"primary_gleason_grade":{
+							  "type":"string",
+							  "example": "Pattern 1"
+						   },
+			"secondary_gleason_grade":{
+							  "type":"string",
+							  "example": "Pattern 1"
+						   },
+			"weiss_assessment_score":{
+							  "type":"string",
+							  "example": "1"
+						   },
+			"adrenal_hormone":{
+							  "type":"string",
+							  "example": "No"
+						   },
+			"ann_arbor_b_symptoms_described":{
+							  "type":"string",
+							  "example": "Fever"
+						   },
+			"diagnosis_is_primary_disease":{
+							  "type":"string",
+							  "example": "false"
+						   },
+			"eln_risk_classification":{
+							  "type":"string",
+							  "example": "Favorable"
+						   },
+			"figo_staging_edition_year":{
+							  "type":"string",
+							  "example": "2009"
+						   },
+			"gleason_grade_tertiary":{
+							  "type":"string",
+							  "example": "Pattern 4"
+						   },
+			"gleason_patterns_percent":{
+							  "type":"integer",
+							  "example": "1"
+						   },
+			"margin_distance":{
+							  "type":"number",
+							  "example": "1.5"
+						   },
+			"margins_involved_site":{
+							  "type":"string",
+							  "example": "Gerota Fascia"
+						   },
+			"pregnant_at_diagnosis":{
+							  "type":"string",
+							  "example": "Yes"
+						   },
+			"satellite_nodule_present":{
+							  "type":"string",
+							  "example": "Absent"
+						   },
+			"sites_of_involvement":{
+							  "type":"string",
+							  "example": "Unknown"
+						   },
+			"tumor_depth":{
+							  "type":"number",
+							  "example": "1.2"
+						   },
+			"who_cns_grade":{
+							  "type":"string",
+							  "example": "Grade I"
+						   },
+			"who_nte_grade":{
+							  "type":"string",
+							  "example": "G1"
+						   }
              },
              "xml":{
                 "name":"Diagnosis"
@@ -7703,6 +8071,14 @@ var spec = {
                 "primary_site":{
                    "type":"string",
                    "example":"Uterus, NOS"
+                },
+                "consent_type":{
+                   "type":"string",
+                   "example":"Consent Exemption"
+                },
+                "days_to_consent":{
+                   "type":"integer",
+                   "example":10
                 },
                 "externalReferences": {
                   "type":"array",

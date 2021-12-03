@@ -27,4 +27,14 @@ type Exposure {
 	type_of_tobacco_used: String
 	weight: String
 	years_smoked: String
+	age_at_onset: String
+	alcohol_type: String
+	exposure_duration: String
+	exposure_duration_years: String
+	exposure_type: String
+	marijuana_use_per_week: String
+	parent_with_radiation_exposure: String
+	secondhand_smoke_as_child: String
+	smokeless_tobacco_quit_age: String
+	tobacco_use_per_day: String
 }

@@ -31,6 +31,14 @@ type Sample {
 	tumor_code: String
 	tumor_code_id: String
 	tumor_descriptor: String
+	biospecimen_laterality: String
+	catalog_reference: String
+	distance_normal_to_tumor: String
+	distributor_reference: String
+	growth_rate: String
+	passage_count: String
+	sample_ordinal: String
+	tissue_collection_type: String	
 	aliquots: [Aliquot]
 	case: Case
 	project: Project

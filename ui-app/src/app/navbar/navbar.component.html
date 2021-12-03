@@ -58,7 +58,7 @@
 			<mat-menu [overlapTrigger]="false" yPosition="below" style="min-width:1%; padding-right: 0px" #analysis="matMenu">
 				<a mat-button class="custom-menu-item" id="exploreQuantitationData" href="/pdc/explore-quantitation-data" target="_blank">Explore Quantitation Data</a>
 				<a mat-button class="custom-menu-item" (click)="trackPage('/jbrowse')" href='/jbrowse/' id="analysisOption" target="_" >Peptide Genome mapping</a>
-				<a mat-button class="custom-menu-item" id="harmonizationUrl" href={{harmonization_url}} target="_blank">Common Data Analysis Pipeline (CDAP)</a><br/>
+				<a mat-button class="custom-menu-item" id="harmonizationUrl" routerLink='harmonization'>Common Data Analysis Pipeline (CDAP)</a><br/>
 				<!-- @@@PDC-1711 add external link icon -->
 				<a mat-button (click)="trackPage('/pepquery')" href='http://pepquery.esacinc.com/pepquery' id="analysisOption" target="_" >Pepquery</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">Exit Disclaimer</span></a>
 			</mat-menu>

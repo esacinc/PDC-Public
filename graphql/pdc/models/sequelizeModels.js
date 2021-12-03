@@ -9,6 +9,7 @@ import _ from 'lodash';
 //@@@PDC-962 defnie db models after db is initialized asynchronously 
 //@@@PDC-1011 replace external_case_id with external_case_id
 //@@@PDC-3668 add project_id
+//@@@PDC-4391 add new columns
 const defineSequelizeModels = (db) => {
 
 	const CaseModel = db.getSequelize().define('case', {
@@ -24,6 +25,8 @@ const defineSequelizeModels = (db) => {
 		index_date: { type: Sequelize.STRING },
 		lost_to_followup: { type: Sequelize.STRING },
 		primary_site: { type: Sequelize.STRING },
+		consent_type: { type: Sequelize.STRING },
+		days_to_consent: { type: Sequelize.STRING },
 	  }, {
 		  timestamps: false,
 		  underscored: true,
@@ -37,6 +40,7 @@ const defineSequelizeModels = (db) => {
 	  * DemographicModel is mapped to the table of diagnosis and used in 
 	  * case queries.
 	  */
+	  //@@@PDC-4391 add new columns
 	  const DemographicModel = db.getSequelize().define('demographic', {
 		  demographic_id: { type: Sequelize.STRING,
 					  primaryKey: true   },
@@ -51,6 +55,13 @@ const defineSequelizeModels = (db) => {
 		  vital_status: { type: Sequelize.STRING },
 		  year_of_birth: { type: Sequelize.INTEGER },
 		  year_of_death: { type: Sequelize.INTEGER },
+		age_at_index: { type: Sequelize.STRING },
+		premature_at_birth: { type: Sequelize.STRING },
+		weeks_gestation_at_birth: { type: Sequelize.STRING },
+		age_is_obfuscated: { type: Sequelize.STRING },
+		cause_of_death_source: { type: Sequelize.STRING },
+		occupation_duration_years: { type: Sequelize.STRING },
+		country_of_residence_at_enrollment: { type: Sequelize.STRING },	
 	  }, {
 		  timestamps: false,
 		  underscored: true,
@@ -66,6 +77,7 @@ const defineSequelizeModels = (db) => {
 	  //@@@PDC-1093 change data type of is_ffpe from int to string
 	  //@@@PDC-1467 add case_submitter_id
 	  //@@@PDC-2755 add pool attribute
+	  //@@@PDC-4391 add new columns
 	  const SampleModel = db.getSequelize().define('sample', {
 		  sample_id: { type: Sequelize.STRING,
 					  primaryKey: true   },
@@ -102,6 +114,14 @@ const defineSequelizeModels = (db) => {
 		  tumor_code: { type: Sequelize.STRING },
 		  tumor_code_id: { type: Sequelize.STRING },
 		  tumor_descriptor: { type: Sequelize.STRING },
+		biospecimen_laterality: { type: Sequelize.STRING },
+		catalog_reference: { type: Sequelize.STRING },
+		distance_normal_to_tumor: { type: Sequelize.STRING },
+		distributor_reference: { type: Sequelize.STRING },
+		growth_rate: { type: Sequelize.STRING },
+		passage_count: { type: Sequelize.STRING },
+		sample_ordinal: { type: Sequelize.STRING },
+		tissue_collection_type: { type: Sequelize.STRING },	
 	  }, {
 		  timestamps: false,
 		  underscored: true,
@@ -147,6 +167,7 @@ const defineSequelizeModels = (db) => {
 	  //@@@PDC-2417 Remove unused fields from Diagnosis
 	  //@@@PDC-3266 add icd_10_code and synchronous_malignancy
 	  //@@@PDC-3428 add tumor_largest_dimension_diameter
+	  //@@@PDC-4391 add new columns
 	  /**
 	  * DiagnosisModel is mapped to the table of diagnosis and used in 
 	  * tissueSitesAvailable and  diseasesAvailable queries.
@@ -222,6 +243,74 @@ const defineSequelizeModels = (db) => {
 		  year_of_diagnosis: { type: Sequelize.STRING },
 		  icd_10_code: { type: Sequelize.STRING },
 		  synchronous_malignancy: { type: Sequelize.STRING },
+		anaplasia_present: { type: Sequelize.STRING },
+		anaplasia_present_type: { type: Sequelize.STRING },
+		child_pugh_classification: { type: Sequelize.STRING },
+		cog_liver_stage: { type: Sequelize.STRING },
+		cog_neuroblastoma_risk_group: { type: Sequelize.STRING },
+		cog_renal_stage: { type: Sequelize.STRING },
+		cog_rhabdomyosarcoma_risk_group: { type: Sequelize.STRING },
+		enneking_msts_grade: { type: Sequelize.STRING },
+		enneking_msts_metastasis: { type: Sequelize.STRING },
+		enneking_msts_stage: { type: Sequelize.STRING },
+		enneking_msts_tumor_site: { type: Sequelize.STRING },
+		esophageal_columnar_dysplasia_degree: { type: Sequelize.STRING },
+		esophageal_columnar_metaplasia_present: { type: Sequelize.STRING },
+		first_symptom_prior_to_diagnosis: { type: Sequelize.STRING },
+		gastric_esophageal_junction_involvement: { type: Sequelize.STRING },
+		goblet_cells_columnar_mucosa_present: { type: Sequelize.STRING },
+		gross_tumor_weight: { type: Sequelize.STRING },
+		inpc_grade: { type: Sequelize.STRING },
+		inpc_histologic_group: { type: Sequelize.STRING },
+		inrg_stage: { type: Sequelize.STRING },
+		inss_stage: { type: Sequelize.STRING },
+		irs_group: { type: Sequelize.STRING },
+		irs_stage: { type: Sequelize.STRING },
+		ishak_fibrosis_score: { type: Sequelize.STRING },
+		lymph_nodes_tested: { type: Sequelize.STRING },
+		medulloblastoma_molecular_classification: { type: Sequelize.STRING },
+		metastasis_at_diagnosis: { type: Sequelize.STRING },
+		metastasis_at_diagnosis_site: { type: Sequelize.STRING },
+		mitosis_karyorrhexis_index: { type: Sequelize.STRING },
+		peripancreatic_lymph_nodes_positive: { type: Sequelize.STRING },
+		peripancreatic_lymph_nodes_tested: { type: Sequelize.STRING },
+		supratentorial_localization: { type: Sequelize.STRING },
+		tumor_confined_to_organ_of_origin: { type: Sequelize.STRING },
+		tumor_focality: { type: Sequelize.STRING },
+		tumor_regression_grade: { type: Sequelize.STRING },
+		vascular_invasion_type: { type: Sequelize.STRING },
+		wilms_tumor_histologic_subtype: { type: Sequelize.STRING },
+		breslow_thickness: { type: Sequelize.STRING },
+		gleason_grade_group: { type: Sequelize.STRING },
+		igcccg_stage: { type: Sequelize.STRING },
+		international_prognostic_index: { type: Sequelize.STRING },
+		largest_extrapelvic_peritoneal_focus: { type: Sequelize.STRING },
+		masaoka_stage: { type: Sequelize.STRING },
+		non_nodal_regional_disease: { type: Sequelize.STRING },
+		non_nodal_tumor_deposits: { type: Sequelize.STRING },
+		ovarian_specimen_status: { type: Sequelize.STRING },
+		ovarian_surface_involvement: { type: Sequelize.STRING },
+		percent_tumor_invasion: { type: Sequelize.STRING },
+		peritoneal_fluid_cytological_status: { type: Sequelize.STRING },
+		primary_gleason_grade: { type: Sequelize.STRING },
+		secondary_gleason_grade: { type: Sequelize.STRING },
+		weiss_assessment_score: { type: Sequelize.STRING },
+		adrenal_hormone: { type: Sequelize.STRING },
+		ann_arbor_b_symptoms_described: { type: Sequelize.STRING },
+		diagnosis_is_primary_disease: { type: Sequelize.STRING },
+		eln_risk_classification: { type: Sequelize.STRING },
+		figo_staging_edition_year: { type: Sequelize.STRING },
+		gleason_grade_tertiary: { type: Sequelize.STRING },
+		gleason_patterns_percent: { type: Sequelize.STRING },
+		margin_distance: { type: Sequelize.STRING },
+		margins_involved_site: { type: Sequelize.STRING },
+		pregnant_at_diagnosis: { type: Sequelize.STRING },
+		satellite_nodule_present: { type: Sequelize.STRING },
+		sites_of_involvement: { type: Sequelize.STRING },
+		tumor_depth: { type: Sequelize.STRING },
+		who_cns_grade: { type: Sequelize.STRING },
+		who_nte_grade: { type: Sequelize.STRING },
+		diagnosis_uuid: { type: Sequelize.STRING },
 	  }, {
 		  timestamps: false,
 		  underscored: true,

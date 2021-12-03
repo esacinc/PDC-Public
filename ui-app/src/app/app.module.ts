@@ -16,8 +16,8 @@ import { ButtonModule } from 'primeng/button';
 import { HttpClientModule} from '@angular/common/http';
 import { APP_BASE_HREF } from '@angular/common';
 import { MatButtonModule, MatToolbarModule, MatGridListModule, MatFormFieldModule,
-	MatIconModule, MatTabsModule, MatInputModule, MatMenuModule, MatTooltipModule, 
-	MatCardModule, MatAutocompleteModule, MatRadioModule, MatProgressSpinnerModule, 
+	MatIconModule, MatTabsModule, MatInputModule, MatMenuModule, MatTooltipModule,
+	MatCardModule, MatAutocompleteModule, MatRadioModule, MatProgressSpinnerModule,
 	MatCheckboxModule, MatListModule, MatExpansionModule, MatSelectModule  } from '@angular/material';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { FormsModule } from '@angular/forms';
@@ -35,7 +35,7 @@ import { Md5 } from 'ts-md5';
 
 import { NavbarComponent } from './navbar/navbar.component';
 import { SearchService } from './navbar/search.service';
-import { SearchStylePipe } from './navbar/search-style.pipe'; 
+import { SearchStylePipe } from './navbar/search-style.pipe';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowseModule} from './browse/browse.module';
@@ -81,6 +81,9 @@ import { LegacyDataService } from './legacy-data/legacy-data.service';
 import { HeatmapsComponent } from './heatmaps/heatmaps.component';
 import { HeatmapsService } from './heatmaps/heatmaps.service';
 import { ForwardingComponent } from './forwarding/forwarding.component';
+import { HarmonizationComponent } from './harmonization/harmonization.component';
+import { DataDictionaryComponent } from './data-dictionary/data-dictionary.component';
+import { DataDictionaryService } from './data-dictionary/data-dictionary.service';
 
 export function getAuthServiceConfigs() {
 
@@ -130,6 +133,8 @@ export function getAuthServiceConfigs() {
 	ExploreQuantitationData,
 	HeatmapsComponent,
 	ForwardingComponent,
+	HarmonizationComponent,
+	DataDictionaryComponent
   ],
   imports: [
 	AngularFontAwesomeModule,
@@ -158,7 +163,7 @@ export function getAuthServiceConfigs() {
 	AppRoutingModule,
     SocialLoginModule,
     FormsModule,
-    MatCardModule, 
+    MatCardModule,
 	MatAutocompleteModule,
 	ReactiveFormsModule,
 	MatRadioModule,
@@ -171,25 +176,25 @@ export function getAuthServiceConfigs() {
 	OverlayModule,
 	GenePageModule,
 	MatCheckboxModule,
-	MatListModule, 
+	MatListModule,
 	MatExpansionModule,
 	MatSelectModule
   ],
-  providers: [ChorusauthService, FrontPageService, SearchService, PDCUserService, OverlayWindowService, PublicationsService, 
+  providers: [ChorusauthService, FrontPageService, DataDictionaryService,SearchService, PDCUserService, OverlayWindowService, PublicationsService,
 				LegacyDataService, HeatmapsService, StudySummaryOverlayService, AuthGuardService,
 				{ provide: AuthServiceConfig,	useFactory: getAuthServiceConfigs },
 				{ provide: APP_BASE_HREF, useValue: window['_app_base'] || '/' }
 			 ],
   bootstrap: [AppComponent],
-  entryComponents: [LabSelectionComponent, LoginComponent, RegistrationComponent, GeneProteinSummaryComponent, 
-					OverlayWindowComponent, ConfirmationDialogComponent, MessageDialogComponent, StudySummaryOverlayWindowComponent, 
+  entryComponents: [LabSelectionComponent, LoginComponent, RegistrationComponent, GeneProteinSummaryComponent,
+					OverlayWindowComponent, ConfirmationDialogComponent, MessageDialogComponent, StudySummaryOverlayWindowComponent,
 					PrivacyPolicyOverlayWindowComponent, DUAForOtherProgramsOverlayWindow, ResetPasswordComponent]
 })
-// @@@PDC-168 The landing page for the PDC Node provides a summary view of the data that is in the PDC database. 
+// @@@PDC-168 The landing page for the PDC Node provides a summary view of the data that is in the PDC database.
 // @@@PDC-169 The user should be able to browse data by Case
 // @@@PDC-445 start using relative URLs
 // @@@PDC-516 angular lazy loading
-export class AppModule { 
+export class AppModule {
 	constructor(apollo: Apollo, httpLink: HttpLink) {
 		console.log(environment);
 		let  graphql_server_url = environment.graphql_server_url;

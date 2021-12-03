@@ -242,4 +242,58 @@ describe("SearchService", () => {
       controller.verify();
     }
   ));
+
+  it("test getSampleUUIDResults", inject(
+    [SearchService],
+    (service: SearchService) => {
+      service.getSampleUUIDResults("bcd1ba03-204c-11e9-b7f8-0a80fada099c").subscribe((data) => {
+        expect(data).toBeDefined();
+        expect(data["sample"].length).toBe(1);
+        expect(data["sample"][0].sample_submitter_id).toBe("C3L-00796-01");
+        expect(data["sample"][0].case_submitter_id).toBe("C3L-00796");
+      });
+
+      const op = controller.expectOne(service.searchSampleUUIDQuery);
+
+      op.flush({
+        data: {
+          sample: [
+            {
+              case_submitter_id: "C3L-00796",
+              sample_submitter_id: "C3L-00796-01",
+              sample_id: "bcd1ba03-204c-11e9-b7f8-0a80fada099c"
+            }
+          ],
+        },
+      });
+
+      controller.verify();
+    }
+  ));
+
+  it("test getCaseUUIDResults", inject(
+    [SearchService],
+    (service: SearchService) => {
+      service.getCaseUUIDResults("00dc49de-1fba-11e9-b7f8-0a80fada099c").subscribe((data) => {
+        expect(data).toBeDefined();
+        expect(data["case"].length).toBe(1);
+        expect(data["case"][0].case_submitter_id).toBe("NCI7-2");
+      });
+
+      const op = controller.expectOne(service.searchCaseUUIDQuery);
+
+      op.flush({
+        data: {
+          case: [
+            {
+              case_submitter_id: "NCI7-2",
+              case_id: "00dc49de-1fba-11e9-b7f8-0a80fada099c"
+            }
+          ],
+        },
+      });
+
+      controller.verify();
+    }
+  ));
 });

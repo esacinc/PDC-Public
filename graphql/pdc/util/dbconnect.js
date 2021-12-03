@@ -76,7 +76,7 @@ if (typeof process.env.PDC_DB_GQ_PWD != "undefined") {
   //console.log("Max connections: "+sequelize.options.pool.max);
 
 } else {
-  const secretName = process.env.PDC_DB_PWD_SECRET_NAME;
+  const secretName = process.env.PDC_DB_READ_PWD_SECRET_NAME;
   client.getSecretValue({ SecretId: secretName }, function(err, data) {
     if (err) {
       if (err.code === "DecryptionFailureException")

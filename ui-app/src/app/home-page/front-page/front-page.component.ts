@@ -38,7 +38,7 @@ export class FrontPageComponent implements OnInit {
   diseasesTotalCounts: Disease[] = [];
   newsItems: any[];
   dictionary_url = environment.dictionary_base_url + 'dictionary.html';
-  harmonization_url = environment.dictionary_base_url + 'harmonization.html';
+  //harmonization_url = environment.dictionary_base_url + 'harmonization.html';
   pepquery_url = environment.pepquery_url;
   apidocumentation_url = environment.dictionary_base_url + 'apidocumentation.html';
   submission_portal_docs_url = environment.submission_portal_docs_url;

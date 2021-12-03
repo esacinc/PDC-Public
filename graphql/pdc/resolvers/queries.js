@@ -4892,6 +4892,7 @@ export const resolvers = {
 		//@@@PDC-2335 get ext id from reference
 		//@@@PDC-2657 reverse 2335
 		//@@@PDC-3428 add tumor_largest_dimension_diameter
+		//@@@PDC-4391 add new columns
 		clinicalPerStudy(_, args, context) {
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/clinicalPerStudy").send();
@@ -4902,11 +4903,13 @@ export const resolvers = {
 			else
 				logger.info("clinicalPerStudy is called from UI with "+ JSON.stringify(args));
 			let clinicalQuery = "select distinct bin_to_uuid(c.case_id) as case_id, "+
-			"c.case_submitter_id, c.status, c.disease_type, "+
+			"c.case_submitter_id, c.status, c.disease_type, c.consent_type, c.consent_type, c.days_to_consent, "+
 			"c.primary_site, bin_to_uuid(dem.demographic_id) as demographic_id, "+
 			"dem.demographic_submitter_id, dem.ethnicity, dem.gender, dem.race, "+
 			"dem.cause_of_death, dem.days_to_birth, dem.days_to_death, dem.vital_status, "+
-			"dem.year_of_birth, dem.year_of_death, "+
+			"dem.year_of_birth, dem.year_of_death, 	dem.age_at_index, dem.premature_at_birth, "+
+			"dem.weeks_gestation_at_birth, dem.age_is_obfuscated, dem.cause_of_death_source, "+
+			"dem.occupation_duration_years, dem.country_of_residence_at_enrollment, "+
 			"bin_to_uuid(dia.diagnosis_id) as diagnosis_id, dia.diagnosis_submitter_id, "+
 			"dia.morphology, dia.primary_diagnosis, dia.site_of_resection_or_biopsy, "+
 			"dia.tissue_or_organ_of_origin, dia.tumor_grade, dia.tumor_stage, dia.age_at_diagnosis, "+
@@ -4928,7 +4931,27 @@ export const resolvers = {
 			"dia.method_of_diagnosis, dia.new_event_anatomic_site, dia.new_event_type, "+
 			"dia.overall_survival, dia.perineural_invasion_present, dia.prior_treatment, "+
 			"dia.progression_free_survival, dia.progression_free_survival_event, "+
-			"dia.residual_disease, dia.vascular_invasion_present, dia.year_of_diagnosis "+
+			"dia.residual_disease, dia.vascular_invasion_present, dia.year_of_diagnosis, "+
+			"dia.anaplasia_present, dia.anaplasia_present_type, dia.child_pugh_classification, "+
+			"dia.cog_liver_stage, dia.cog_neuroblastoma_risk_group, dia.cog_renal_stage, "+ 
+			"dia.cog_rhabdomyosarcoma_risk_group, dia.enneking_msts_grade, dia.enneking_msts_metastasis, "+ 
+			"dia.enneking_msts_stage, dia.enneking_msts_tumor_site, dia.esophageal_columnar_dysplasia_degree, "+ "dia.esophageal_columnar_metaplasia_present, dia.first_symptom_prior_to_diagnosis, "+ 
+			"dia.gastric_esophageal_junction_involvement, dia.goblet_cells_columnar_mucosa_present, "+
+			"dia.gross_tumor_weight, dia.inpc_grade, dia.inpc_histologic_group, dia.inrg_stage, dia.inss_stage,"+ 
+			"dia.irs_group, dia.irs_stage, dia.ishak_fibrosis_score, dia.lymph_nodes_tested, "+
+			"dia.medulloblastoma_molecular_classification, dia.metastasis_at_diagnosis, "+
+			"dia.metastasis_at_diagnosis_site, dia.mitosis_karyorrhexis_index, "+
+			"dia.peripancreatic_lymph_nodes_positive, dia.peripancreatic_lymph_nodes_tested, "+
+			"dia.supratentorial_localization, dia.tumor_confined_to_organ_of_origin, dia.tumor_focality, "+
+			"dia.tumor_regression_grade, dia.vascular_invasion_type, dia.wilms_tumor_histologic_subtype, "+
+			"dia.breslow_thickness, dia.gleason_grade_group, dia.igcccg_stage, "+
+			"dia.international_prognostic_index, dia.largest_extrapelvic_peritoneal_focus, dia.masaoka_stage, "+ "dia.non_nodal_regional_disease, dia.non_nodal_tumor_deposits, dia.ovarian_specimen_status, "+
+			"dia.ovarian_surface_involvement, dia.percent_tumor_invasion, "+
+			"dia.peritoneal_fluid_cytological_status, dia.primary_gleason_grade, dia.secondary_gleason_grade, "+ "dia.weiss_assessment_score, dia.adrenal_hormone, dia.ann_arbor_b_symptoms_described, "+
+			"dia.diagnosis_is_primary_disease, dia.eln_risk_classification, dia.figo_staging_edition_year, "+
+			"dia.gleason_grade_tertiary, dia.gleason_patterns_percent, dia.margin_distance, "+
+			"dia.margins_involved_site, dia.pregnant_at_diagnosis, dia.satellite_nodule_present, "+
+			"dia.sites_of_involvement, dia.tumor_depth, dia.who_cns_grade, dia.who_nte_grade, dia.diagnosis_uuid "+
 			"FROM study s, `case` c, demographic dem, diagnosis dia, "+
 			"sample sam, aliquot al, aliquot_run_metadata alm "+
 			"where alm.study_id=s.study_id and al.aliquot_id= alm.aliquot_id "+

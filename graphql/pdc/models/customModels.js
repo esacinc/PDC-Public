@@ -712,6 +712,7 @@ const defineCustomModels = (db) => {
 	  ModelEntityReference.removeAttribute('id');
 	  
 	  //@@@PDC-4259 add exposure, family history, follow up and treatment
+	  //@@@PDC-4391 add new columns
 	  const ModelTreatment = db.getSequelize().define('dummy', {
 			treatment_id: { type: Sequelize.STRING },
 			treatment_submitter_id: { type: Sequelize.STRING },
@@ -730,6 +731,14 @@ const defineCustomModels = (db) => {
 			treatment_or_therapy: { type: Sequelize.STRING },
 			treatment_outcome: { type: Sequelize.STRING },
 			treatment_type: { type: Sequelize.STRING },
+			chemo_concurrent_to_radiation: { type: Sequelize.STRING },
+			number_of_cycles: { type: Sequelize.STRING },
+			reason_treatment_ended: { type: Sequelize.STRING },
+			route_of_administration: { type: Sequelize.STRING },
+			treatment_arm: { type: Sequelize.STRING },
+			treatment_dose: { type: Sequelize.STRING },
+			treatment_dose_units: { type: Sequelize.STRING },
+			treatment_effect_indicator: { type: Sequelize.STRING },
 	  }, {
 		  timestamps: false,
 		  underscored: true,
@@ -738,6 +747,7 @@ const defineCustomModels = (db) => {
 	  });
 	  ModelTreatment.removeAttribute('id');
 	  
+	  //@@@PDC-4391 add new columns
 	  const ModelExposure = db.getSequelize().define('dummy', {
 			exposure_id: { type: Sequelize.STRING },
 			exposure_submitter_id: { type: Sequelize.STRING },
@@ -767,6 +777,16 @@ const defineCustomModels = (db) => {
 			type_of_tobacco_used: { type: Sequelize.STRING },
 			weight: { type: Sequelize.STRING },
 			years_smoked: { type: Sequelize.STRING },
+			age_at_onset: { type: Sequelize.STRING },
+			alcohol_type: { type: Sequelize.STRING },
+			exposure_duration: { type: Sequelize.STRING },
+			exposure_duration_years: { type: Sequelize.STRING },
+			exposure_type: { type: Sequelize.STRING },
+			marijuana_use_per_week: { type: Sequelize.STRING },
+			parent_with_radiation_exposure: { type: Sequelize.STRING },
+			secondhand_smoke_as_child: { type: Sequelize.STRING },
+			smokeless_tobacco_quit_age: { type: Sequelize.STRING },
+			tobacco_use_per_day: { type: Sequelize.STRING },
 	  }, {
 		  timestamps: false,
 		  underscored: true,
@@ -796,6 +816,7 @@ const defineCustomModels = (db) => {
 	  });
 	  ModelFamilyHistory.removeAttribute('id');
 	  
+	  //@@@PDC-4391 add new columns
 	  const ModelFollowUp = db.getSequelize().define('dummy', {
 			follow_up_id: { type: Sequelize.STRING },
 			follow_up_submitter_id: { type: Sequelize.STRING },
@@ -837,6 +858,38 @@ const defineCustomModels = (db) => {
 			risk_factor_treatment: { type: Sequelize.STRING },
 			viral_hepatitis_serologies: { type: Sequelize.STRING },
 			weight: { type: Sequelize.STRING },
+			adverse_event_grade: { type: Sequelize.STRING },
+			aids_risk_factors: { type: Sequelize.STRING },
+			body_surface_area: { type: Sequelize.STRING },
+			cd4_count: { type: Sequelize.STRING },
+			cdc_hiv_risk_factors: { type: Sequelize.STRING },
+			days_to_imaging: { type: Sequelize.STRING },
+			evidence_of_recurrence_type: { type: Sequelize.STRING },
+			eye_color: { type: Sequelize.STRING },
+			haart_treatment_indicator: { type: Sequelize.STRING },
+			history_of_tumor: { type: Sequelize.STRING },
+			history_of_tumor_type: { type: Sequelize.STRING },
+			hiv_viral_load: { type: Sequelize.STRING },
+			hormonal_contraceptive_type: { type: Sequelize.STRING },
+			hormonal_contraceptive_use: { type: Sequelize.STRING },
+			hormone_replacement_therapy_type: { type: Sequelize.STRING },
+			hysterectomy_margins_involved: { type: Sequelize.STRING },
+			hysterectomy_type: { type: Sequelize.STRING },
+			imaging_result: { type: Sequelize.STRING },
+			imaging_type: { type: Sequelize.STRING },
+			immunosuppressive_treatment_type: { type: Sequelize.STRING },
+			nadir_cd4_count: { type: Sequelize.STRING },
+			pregnancy_outcome: { type: Sequelize.STRING },
+			procedures_performed: { type: Sequelize.STRING },
+			recist_targeted_regions_number: { type: Sequelize.STRING },
+			recist_targeted_regions_sum: { type: Sequelize.STRING },
+			scan_tracer_used: { type: Sequelize.STRING },
+			undescended_testis_corrected: { type: Sequelize.STRING },
+			undescended_testis_corrected_age: { type: Sequelize.STRING },
+			undescended_testis_corrected_laterality: { type: Sequelize.STRING },
+			undescended_testis_corrected_method: { type: Sequelize.STRING },
+			undescended_testis_history: { type: Sequelize.STRING },
+			undescended_testis_history_laterality: { type: Sequelize.STRING },
 	  }, {
 		  timestamps: false,
 		  underscored: true,

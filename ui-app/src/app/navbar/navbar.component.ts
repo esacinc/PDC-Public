@@ -78,7 +78,7 @@ export class NavbarComponent implements OnInit {
   dictionary_url = environment.dictionary_base_url + 'dictionary.html';
   apidocumentation_url = environment.dictionary_base_url + 'apidocumentation.html';
   submission_portal_docs_url = environment.submission_portal_docs_url;
-  harmonization_url = environment.dictionary_base_url + 'harmonization.html';
+  //harmonization_url = environment.dictionary_base_url + 'harmonization.html';
   userEmailConfirmed = false;
   homePageURL = '/';
   userRegisteredToWorkspaceFlag = false;

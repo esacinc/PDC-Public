@@ -16,4 +16,13 @@ type Treatment {
 	 treatment_or_therapy: String
 	 treatment_outcome: String
 	 treatment_type: String
+	 chemo_concurrent_to_radiation: String
+	number_of_cycles: String
+	reason_treatment_ended: String
+	route_of_administration: String
+	treatment_arm: String
+	treatment_dose: String
+	treatment_dose_units: String
+	treatment_effect_indicator: String
+	treatment_frequency: String
 }

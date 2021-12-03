@@ -9,7 +9,14 @@ type Demographic {
 	days_to_death: String
 	vital_status: String
 	year_of_birth: String
-	year_of_death: String 
+	year_of_death: String
+	age_at_index: String
+	premature_at_birth: String
+	weeks_gestation_at_birth: String
+	age_is_obfuscated: String
+	cause_of_death_source: String
+	occupation_duration_years: String
+	country_of_residence_at_enrollment: String	
 	case: Case
 	project: Project
 }

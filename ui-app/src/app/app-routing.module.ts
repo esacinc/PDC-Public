@@ -28,6 +28,8 @@ import { HeatmapsComponent } from './heatmaps/heatmaps.component';
 import { ForwardingComponent } from './forwarding/forwarding.component';
 
 import { AppComponent } from './app.component';
+import { HarmonizationComponent } from './harmonization/harmonization.component';
+import { DataDictionaryComponent } from './data-dictionary/data-dictionary.component';
 
 const appRoutes: Routes = [
   //pdc url will be lazy loading when route redirect to 'pdc'.
@@ -75,6 +77,8 @@ const appRoutes: Routes = [
   //*{ path: 'pdc', component: FrontPageComponent, canActivate: [AuthGuard] },
   { path: 'gene/:gene_id', component: GenePageComponent },
   { path: 'forwarding/:id', component: ForwardingComponent },
+  { path: 'harmonization', component: HarmonizationComponent},
+  { path: 'data-dictionary', component: DataDictionaryComponent},
   { path: '**', component: PageNotFoundComponent,  canActivate: [AuthGuard]},
 
   ];
