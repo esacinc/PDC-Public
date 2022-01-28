@@ -31,7 +31,7 @@ constructor(private apollo: Apollo) {
 			query: gql`
 				query CasesData{
 					uiCase {
-					aliquot_submitter_id 
+					aliquot_submitter_id
 					sample_submitter_id
 					case_id
 					case_submitter_id
@@ -48,15 +48,15 @@ constructor(private apollo: Apollo) {
         map(result => {
 				console.log(result.data);
 		return result.data;})
-      ); 
+      );
 	}
-	
+
 	//@@@PDC-192 - adding filters
 	//@@@PDC-462 show submitter ids
 	filteredCasesQuery = gql`
 				query FilteredCasesData($program_name_filter: String!, $project_name_filter: String!, $study_name_filter: String!, $disease_filter: String!, $filterValue: String!, $analytical_frac_filter: String!, $exp_type_filter: String!){
 					uiCase(program_name: $program_name_filter , project_name: $project_name_filter, study_name: $study_name_filter, disease_type: $disease_filter, primary_site: $filterValue, analytical_fraction: $analytical_frac_filter, experiment_type: $exp_type_filter) {
-					aliquot_submitter_id 
+					aliquot_submitter_id
 					sample_submitter_id
 					case_id
 					case_submitter_id
@@ -67,7 +67,7 @@ constructor(private apollo: Apollo) {
 					primary_site
 				}
 			}`;
-	
+
 	//@@@PDC-192 - adding filters
 	getFilteredCases(filters:any){
 		console.log(filters);
@@ -86,23 +86,25 @@ constructor(private apollo: Apollo) {
 		.valueChanges
 		.pipe(
         map(result => { console.log(result.data); return result.data;})
-      ); 
+      );
 	}
-	
+
 	//@@@PDC-237 - Pagination
 	//@@@PDC-462 show submitter ids
 	//@@@PDC-497 Make table column headers sortable on the browse page tabs
 	//@@@PDC-567 Add sample_type filter
 	//@@@PDC-616 Add acquisition type to the general filters
 	//@@@PDC-2399: Update biospecimen manifest generation to include new attributes
+	//@@@PDC-4615 Sample and Exposure Deprecated Properties should be deleted from the Case Summary modal window
+
 	filteredCasesPaginatedQuery = gql`
 				query FilteredCasesDataPaginated($offset_value: Int, $limit_value: Int, $sort_value: String, $program_name_filter: String!, $project_name_filter: String!, $study_name_filter: String!, $disease_filter: String!, $filterValue: String!, $analytical_frac_filter: String!, $exp_type_filter: String!,  $ethnicity_filter: String!, $race_filter: String!, $gender_filter: String!, $tumor_grade_filter: String!, $sample_type_filter: String!, $acquisition_type_filter: String!, $data_category_filter: String!, $file_type_filter: String!, $access_filter: String!, $downloadable_filter: String!, $biospecimen_status_filter: String!, $case_status_filter: String!){
-					getPaginatedUICase(offset: $offset_value, limit: $limit_value, sort: $sort_value, program_name: $program_name_filter , 
+					getPaginatedUICase(offset: $offset_value, limit: $limit_value, sort: $sort_value, program_name: $program_name_filter ,
 										project_name: $project_name_filter, study_name: $study_name_filter, disease_type: $disease_filter,
 										primary_site: $filterValue, analytical_fraction: $analytical_frac_filter, experiment_type: $exp_type_filter,
 										ethnicity: $ethnicity_filter, race: $race_filter, gender: $gender_filter, tumor_grade: $tumor_grade_filter,
 										sample_type: $sample_type_filter, acquisition_type: $acquisition_type_filter, data_category: $data_category_filter, file_type: $file_type_filter, access: $access_filter, downloadable: $downloadable_filter, biospecimen_status: $biospecimen_status_filter, case_status: $case_status_filter) {
-						total					
+						total
 						uiCases{
 							aliquot_id
 							sample_id
@@ -128,10 +130,8 @@ constructor(private apollo: Apollo) {
 							freezing_method
 							initial_weight
 							intermediate_dimension
-							is_ffpe
 							longest_dimension
 							method_of_sample_procurement
-							oct_embedded
 							pathology_report_uuid
 							preservation_method
 							sample_type_id
@@ -147,7 +147,9 @@ constructor(private apollo: Apollo) {
 							project_name
 							sample_type
 							disease_type
-							primary_site 	
+							primary_site
+							tissue_collection_type
+							sample_ordinal
 						}
 						pagination {
 							count
@@ -200,7 +202,7 @@ constructor(private apollo: Apollo) {
 		.valueChanges
 		.pipe(
         map(result => { console.log(result.data); return result.data;})
-      ); 
+      );
 	}
-	
+
 }

@@ -155,7 +155,9 @@ describe("BrowseByCaseComponent", () => {
 		tissue_type: "",
 		tumor_code: "",
 		tumor_code_id: "",
-		tumor_descriptor: "",
+    tumor_descriptor: "",
+    tissue_collection_type: "",
+		sample_ordinal: "",
     };
 
     let filteredCasesData = [casesData];

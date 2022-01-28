@@ -298,8 +298,86 @@ export type AllClinicalData = {
 	residual_disease: string;
 	vascular_invasion_present: string;
 	year_of_diagnosis: string;
+	age_at_index: string;
+	premature_at_birth: string;
+	weeks_gestation_at_birth: string;
+	age_is_obfuscated: string;
+	cause_of_death_source: string;
+	occupation_duration_years: string;
+	country_of_residence_at_enrollment: string;
+	icd_10_code: string;
+	synchronous_malignancy: string;
+	anaplasia_present: string;
+	anaplasia_present_type: string;
+	child_pugh_classification: string;
+	cog_liver_stage: string;
+	cog_neuroblastoma_risk_group: string;
+	cog_renal_stage: string;
+	cog_rhabdomyosarcoma_risk_group: string;
+	enneking_msts_grade: string;
+	enneking_msts_metastasis: string;
+	enneking_msts_stage: string;
+	enneking_msts_tumor_site: string;
+	esophageal_columnar_dysplasia_degree: string;
+	esophageal_columnar_metaplasia_present: string;
+	first_symptom_prior_to_diagnosis: string;
+	gastric_esophageal_junction_involvement: string;
+	goblet_cells_columnar_mucosa_present: string;
+	gross_tumor_weight: string;
+	inpc_grade: string;
+	inpc_histologic_group: string;
+	inrg_stage: string;
+	inss_stage: string;
+	irs_group: string;
+	irs_stage: string;
+	ishak_fibrosis_score: string;
+	lymph_nodes_tested: string;
+	medulloblastoma_molecular_classification: string;
+	metastasis_at_diagnosis: string;
+	metastasis_at_diagnosis_site: string;
+	mitosis_karyorrhexis_index: string;
+	peripancreatic_lymph_nodes_positive: string;
+	peripancreatic_lymph_nodes_tested: string;
+	supratentorial_localization: string;
+	tumor_confined_to_organ_of_origin: string;
+	tumor_focality: string;
+	tumor_regression_grade: string;
+	vascular_invasion_type: string;
+	wilms_tumor_histologic_subtype: string;
+	breslow_thickness: string;
+	gleason_grade_group: string;
+	igcccg_stage: string;
+	international_prognostic_index: string;
+	largest_extrapelvic_peritoneal_focus: string;
+	masaoka_stage: string;
+	non_nodal_regional_disease: string;
+	non_nodal_tumor_deposits: string;
+	ovarian_specimen_status: string;
+	ovarian_surface_involvement: string;
+	percent_tumor_invasion: string;
+	peritoneal_fluid_cytological_status: string;
+	primary_gleason_grade: string;
+	secondary_gleason_grade: string;
+	weiss_assessment_score: string;
+	adrenal_hormone: string;
+	ann_arbor_b_symptoms_described: string;
+	diagnosis_is_primary_disease: string;
+	eln_risk_classification: string;
+	figo_staging_edition_year: string;
+	gleason_grade_tertiary: string;
+	gleason_patterns_percent: string;
+	margin_distance: string;
+	margins_involved_site: string;
+	pregnant_at_diagnosis: string;
+	satellite_nodule_present: string;
+	sites_of_involvement: string;
+	tumor_depth: string;
+	who_cns_grade: string;
+	who_nte_grade: string;
+	diagnosis_uuid: string;
 	externalReferences: ExternalReferences[];
 	exposures: Exposures[];
+	follow_ups: FollowUps[];
 }
 
 export type ExternalReferences = {
@@ -335,6 +413,88 @@ export type Exposures = {
 	type_of_tobacco_used: string;
 	weight: string;
 	years_smoked: string;
+	age_at_onset: string;
+	alcohol_type: string;
+	exposure_duration: string;
+	exposure_duration_years: string;
+	exposure_type: string;
+	marijuana_use_per_week: string;
+	parent_with_radiation_exposure: string;
+	secondhand_smoke_as_child: string;
+	smokeless_tobacco_quit_age: string;
+	tobacco_use_per_day: string;
+}
+
+//@@@PDC-4490: Update Clinical manifest and Case summary pages for GDC Sync
+export type FollowUps = {
+	follow_up_id: string;
+	follow_up_submitter_id: string;
+	adverse_event: string;
+	barretts_esophagus_goblet_cells_present: string;
+	bmi: string;
+	cause_of_response: string;
+	comorbidity: string;
+	comorbidity_method_of_diagnosis: string;
+	days_to_adverse_event: string;
+	days_to_comorbidity: string;
+	days_to_follow_up: string;
+	days_to_progression: string;
+	days_to_progression_free: string;
+	days_to_recurrence: string;
+	diabetes_treatment_type: string;
+	disease_response: string;
+	dlco_ref_predictive_percent: string;
+	ecog_performance_status: string;
+	fev1_ref_post_bronch_percent: string;
+	fev1_ref_pre_bronch_percent: string;
+	fev1_fvc_pre_bronch_percent: string;
+	fev1_fvc_post_bronch_percent: string;
+	height: string;
+	hepatitis_sustained_virological_response: string;
+	hpv_positive_type: string;
+	karnofsky_performance_status: string;
+	menopause_status: string;
+	pancreatitis_onset_year: string;
+	progression_or_recurrence: string;
+	progression_or_recurrence_anatomic_site: string;
+	progression_or_recurrence_type: string;
+	reflux_treatment_type: string;
+	risk_factor: string;
+	risk_factor_treatment: string;
+	viral_hepatitis_serologies: string;
+	weight: string;
+	adverse_event_grade: string;
+	aids_risk_factors: string;
+	body_surface_area: string;
+	cd4_count: string;
+	cdc_hiv_risk_factors: string;
+	days_to_imaging: string;
+	evidence_of_recurrence_type: string;
+	eye_color: string;
+	haart_treatment_indicator: string;
+	history_of_tumor: string;
+	history_of_tumor_type: string;
+	hiv_viral_load: string;
+	hormonal_contraceptive_type: string;
+	hormonal_contraceptive_use: string;
+	hormone_replacement_therapy_type: string;
+	hysterectomy_margins_involved: string;
+	hysterectomy_type: string;
+	imaging_result: string;
+	imaging_type: string;
+	immunosuppressive_treatment_type: string;
+	nadir_cd4_count: string;
+	pregnancy_outcome: string;
+	procedures_performed: string;
+	recist_targeted_regions_number: string;
+	recist_targeted_regions_sum: string;
+	scan_tracer_used: string;
+	undescended_testis_corrected: string;
+	undescended_testis_corrected_age: string;
+	undescended_testis_corrected_laterality: string;
+	undescended_testis_corrected_method: string;
+	undescended_testis_history: string;
+	undescended_testis_history_laterality: string;
 }
 
 //@@@PDC-614 add gene data tab to browse page
@@ -418,6 +578,8 @@ export type AllUICasesData = {
 	tumor_code: string;
 	tumor_code_id: string;
 	tumor_descriptor: string;
+	tissue_collection_type: string;
+	sample_ordinal: string;
 }
 
 export type QueryAllCasesDataPaginated = {
@@ -537,7 +699,7 @@ export type QueryPublicationData = {
 	publicationsData: PublicationData[];
 }
 
-//@@@PDC-3447 Add Publication page 
+//@@@PDC-3447 Add Publication page
 export type publicationsStudyData = {
 	study_id: string;
 	pdc_study_id: string;
@@ -574,7 +736,7 @@ export type publicationsFiltersData = {
 	programs: string[];
 }
 
-//PDC-3547 Legacy studies 
+//PDC-3547 Legacy studies
 export type legacyStudyPublications = {
 	publication_id: string;
 	pubmed_id: string;
@@ -585,7 +747,7 @@ export type legacyStudyPublications = {
 	journal_url: string;
 	year: string;
 	abstract: string;
-	citation: string; 
+	citation: string;
 }
 export type QueryLegacyStudies = {
 	study_id: string;
@@ -709,7 +871,7 @@ export type DiagnosesData = {
     vascular_invasion_present: string;
     year_of_diagnosis: string;
     icd_10_code: string;
-    synchronous_malignancy: string;	
+    synchronous_malignancy: string;
 }
 
 //@@@PDC-2691 Add properties to Case Summary view
@@ -726,6 +888,8 @@ export type AliquotData = {
 }
 
 //@@@PDC-2691 Add properties to Case Summary view
+//@@@PDC-4615 Sample and Exposure Deprecated Properties should be deleted from the Case Summary modal window
+//@@@PDC-4568 Deprecated Properties of Sample and Exposure should not show up in the export manifests.
 export type SampleData = {
 	gdc_sample_id: string;
     gdc_project_id: string;
@@ -743,10 +907,8 @@ export type SampleData = {
     freezing_method: string;
     initial_weight: string;
     Intermediate_dimension: string;
-    is_ffpe: string;
     longest_dimension: string;
     method_of_sample_procurement: string;
-    oct_embedded: string;
     pathology_report_uuid: string;
     preservation_method: string;
     sample_type_id: string;

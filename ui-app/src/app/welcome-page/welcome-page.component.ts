@@ -16,8 +16,8 @@ import { MatDialog, MatDialogConfig, MatIconRegistry } from '@angular/material';
   styleUrls: ['../../assets/css/global.css', './welcome-page.component.scss']
 })
 
-//@@@PDC-371 Develop PDC welcome screen 
-//@@@PDC-516 angular lazy loading 
+//@@@PDC-371 Develop PDC welcome screen
+//@@@PDC-516 angular lazy loading
 //@@@PDC-1182: New user login not going to registration page
 export class WelcomePageComponent implements OnInit {
 
@@ -29,9 +29,9 @@ export class WelcomePageComponent implements OnInit {
 				private router: Router, private http: HttpClient, private userService: PDCUserService,
 				private activeRoute: ActivatedRoute, private dialog: MatDialog) {
 				}
-  
+
   // Authenticate the user with Google
-  //@@@PDC-419 handle system error		
+  //@@@PDC-419 handle system error
   public socialSignIn(socialPlatform: string) {
     const socialPlatformProvider = GoogleLoginProvider.PROVIDER_ID;
     this.systemErrorMessage='';
@@ -41,16 +41,16 @@ export class WelcomePageComponent implements OnInit {
         this.userService.checkPDCUserByEmail(userData.email).then(exists => {
 		switch (exists) {
 			//user exists
-			case 0: 
+			case 0:
 				//'' route url will be welcome page to login. 'pdc' route url will be home page
 				this.router.navigate(['pdc']);
 				break;
 			//user does not exist
-			case 1: 
+			case 1:
 				console.log(userData);
 				this.userService.setUserIDType("Google");
 				this.userService.setLoginUsername(userData.email);
-				this.userService.setEmail(userData.email); 
+				this.userService.setEmail(userData.email);
 				this.userService.setName(userData.name);
 				this.router.navigate(['registration']);
 				break;
@@ -58,14 +58,14 @@ export class WelcomePageComponent implements OnInit {
 			case 2:
 				this.systemErrorMessage="System Error. Please contact your system admin";
 				console.log("System error!!!");
-				break;				
+				break;
 		}
         });
     });
   }
-  
+
   //User used eRA/NIH login credentials
-	//@@@PDC-419 handle system error		
+	//@@@PDC-419 handle system error
   //@@@PDC-784 Improve download controlled files feature
    public eRAnihSignIn(uid: string){
     this.systemErrorMessage='';
@@ -101,23 +101,24 @@ export class WelcomePageComponent implements OnInit {
 			case 2:
 				this.systemErrorMessage="System Error. Please contact your system admin";
 				console.log("System error!!!");
-				break;				
+				break;
 		}
-		});	   
+		});
   }
-  
+
   ngOnInit() {
     //@@@PDC-709: User remains logged in forever if their session does not time out before they close the browser
     //@@@PDC-552: Check if session storage has the user information i.e; if user is logged in
 	  if (sessionStorage.getItem("loginToken") == "true") {
 			this.router.navigate(['pdc']);
 		}
-	  // If the user uses eRA/NIH login, it will be returned back bu pdcapi with uid parameter defined
+	  // If the user uses eRA/NIH login, it will be returned back bu pdcapi with uid and token parameter defined
 	this.activeRoute.queryParams.subscribe(queryParams => {
 		console.log(queryParams);
-		if (queryParams.uid){
+		if (queryParams.uid && queryParams.token){
+      localStorage.setItem('jwtToken', queryParams.token);
 			this.eRAnihSignIn(queryParams.uid);
-		}				
+		}
 	});
   }
 

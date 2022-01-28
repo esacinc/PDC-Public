@@ -1,0 +1,434 @@
+body, input {
+	margin: 0;
+  font-family:'Lato';
+  font-size: 16px;
+  color:#454545;
+}
+
+table, th, td {
+  border: 1px solid white;
+}
+
+a{
+  text-decoration: none;
+  color:#246A92;
+}
+
+.pageContent{
+  width: 100%;
+}
+
+
+.headerDiv {
+  height: 110px;
+}
+
+.contentBG{
+  background-color: #246A92;
+  height:180px;
+  width: 100%;
+  position: absolute;
+}
+
+.logoHolder{
+  float:left;
+  padding: 5px;
+}
+
+.topNavHolder{
+  float:right;
+}
+
+.searchBox{
+  float:left;
+  border:1px solid #c8c8c8;
+  width:300px;
+  height:40px;
+  border-radius: 4px;
+}
+
+.searchInput{
+  float:left;
+}
+
+.searchInput input{
+  width: 250px;
+  height: 36px;
+  border: none;
+  padding-left: 10px;
+  margin-top: 1px;
+}
+.searchIcon{
+  margin:10px;
+  float:right;
+}
+
+.topNav{
+  float:left;
+  margin:10px 0;
+}
+
+.topNavLinkHolder{
+  float:left;
+  margin-left:25px;
+  color: #585858;
+}
+
+.contentArea{
+  background-color: #FFFFFF;
+  min-height: 400px;
+  margin: 20px;
+  position: relative;
+  box-shadow: 0px 2px 7px rgba(0, 0, 0, .25);
+  border-radius: 2px;
+  padding:20px;
+}
+
+.pageTitleArea{
+  padding-bottom: 20px;
+}
+
+.pageTitle{
+  font-size:20px;
+  font-family: 'LatoBold';
+  padding-bottom: 5px;
+}
+
+.pageDesc{
+  font-size: 16px;
+  color:#555555;
+}
+
+.pageViewSwap{
+  font-size: 14px;
+  padding: 20px 0 10px 0;
+}
+
+.graphContainer{
+  text-align: center;
+}
+
+.graphContainer svg{
+  width:60%;
+  height:auto;
+}
+
+.pageBackNav{
+  height: 20px;
+  color:#246A92;
+  cursor: pointer;
+  padding-bottom: 20px;
+}
+
+.footer{
+  margin-top:80px;
+  position: relative;
+  background-image: linear-gradient(-133deg, #246A92 0%, #245571 100%);
+  height: 120px;
+  bottom: 0;
+  clear: both;
+  border-bottom:30px solid #233641;
+  text-align: center;
+  color:#FFFFFF;
+}
+
+.footerLinks{
+  padding: 15px 0 0px 0;
+  font-size:14px;
+}
+
+.footerLinkSep{
+  padding:0 10px;
+}
+
+.dict_table{
+  width: 100%;
+  border:none;
+  line-height: 22px;
+}
+
+.dict_table tr{
+  height:45px;
+}
+
+.dict_table td{
+  padding-left:10px;
+}
+
+.dict_tbl_header{
+  background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%);
+}
+
+.dict_tbl_header td{
+  color:#ffffff;
+}
+
+.dict_alt_row{
+  background-color: #EAF1F7;
+}
+
+.dict_tbl_col1{
+  width: 20%;
+}
+
+.dict_tbl_col2{
+  padding:5px 0;
+}
+
+.dictionaryItem{
+  color:#246A92;
+  cursor: pointer;
+}
+
+.itemCollTable{
+  width: 100%;
+  border:none;
+  line-height: 22px;
+}
+
+.itemCollTable tr{
+  height:45px;
+}
+
+.itemCollTable td{
+  padding-left:10px;
+}
+
+.itemCollCol1{
+  width: 20%;
+  background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%);
+  color:#FFFFFF;
+}
+
+.itemCollCol2{
+  background-color: #EAF1F7;
+}
+
+.linksCollCol1{
+  width: 20%;
+}
+
+.linksCollCol2{
+  width: 15%;
+}
+
+.propCollCol1{
+  vertical-align: top;
+  width: 15%;
+  padding:6px 0;
+}
+
+.propCollCol2{
+  vertical-align: top;
+  width: 46%;
+  padding:6px 0;
+}
+
+.propCollCol3{
+  vertical-align: top;
+  width: 15%;
+  padding:6px 0;
+}
+
+.propCollCol4{
+  vertical-align: top;
+  width: 12%;
+  padding:6px 0;
+}
+
+.propCollCol5{
+  vertical-align: top;
+  width: 12%;
+  padding:6px 0;
+}
+
+.propCollCol6{
+  vertical-align: top;
+  padding:6px 0;
+}
+
+.itemPropertiesTable{
+  width: 100%;
+  border:none;
+  line-height: 22px;
+}
+
+.itemPropertiesTable tr{
+  height:45px;
+}
+
+.itemPropertiesTable td{
+  padding-left:10px;
+}
+
+.tableTitle{
+  font-weight: bold;
+  font-size: 16px;
+  padding-bottom: 10px;
+}
+
+ul{
+  margin:0;
+}
+
+.showMoreOrLess{
+  color: #246A92;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 25px 0 2px 0;
+  text-indent: -15px;
+}
+
+/* @@@PDC 565: API Documentation */
+#documentationLink {
+  background-color: blue;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.footerLinkInfo a {
+  color: white;
+}
+
+a.footerLink {
+	color: white;
+	font-size: 14px;
+}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 60%; /* Could be more or less, depending on screen size */
+  border-radius: 4px;
+}
+
+/* The Close Button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.privacyPolicyContent {
+  font-size: 14px;
+	max-height: 360px;
+	overflow-y: auto;
+	display: block!important;
+	font-family: 'Lato'
+}
+
+/*@@@PDC-1363: Update the entity.yaml in PDC Workspace with the new changes made to PDC DD */
+.modal-doc {
+  display: none; /* Hidden by default */
+  z-index: 9999 !important; /* Sit on top */
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgba(0,0,0,0.4);
+  left: 0;
+  top: 0;
+  position: fixed;
+  color: black;
+}
+
+.nav-bar{
+	font-family: 'Lato';
+    font-size: 16px;
+    letter-spacing: 0;
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+    margin-bottom: 0px;
+    color: #585858;
+    background: #EFF2F3;
+    min-height: auto;
+}
+
+.navbar {
+  overflow: hidden;
+  background-color: #EFF2F3;
+  padding-right:50px;
+}
+
+.navbar a {
+  float: right;
+  font-size: 16px;
+  color: #585858;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+
+}
+
+.dropdown {
+  float: right;
+  overflow: hidden;
+}
+
+.dropdown .dropbtn {
+  font-size: 16px;
+  border: none;
+  outline: none;
+  color: #585858;
+  padding: 14px 16px;
+  background-color: inherit;
+  font-family: inherit; /* Important for vertical align on mobile phones */
+  margin: 0; /* Important for vertical align on mobile phones */
+}
+
+.navbar a:hover, .dropdown:hover .dropbtn {
+  background-color: rgb(185, 185, 185);
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 16px;
+  box-shadow: 0px 8px 12px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  float: none;
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.dropdown-content a:hover {
+  background-color: rgb(233, 231, 231);
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}

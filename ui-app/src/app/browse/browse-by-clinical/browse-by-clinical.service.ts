@@ -67,6 +67,13 @@ constructor(private apollo: Apollo) {
 							vital_status
 							year_of_birth
 							year_of_death
+							age_at_index
+							premature_at_birth
+							weeks_gestation_at_birth
+							age_is_obfuscated
+							cause_of_death_source
+							occupation_duration_years
+							country_of_residence_at_enrollment
 							days_to_last_follow_up
 							days_to_last_known_disease_status
 							last_known_disease_status
@@ -114,36 +121,55 @@ constructor(private apollo: Apollo) {
 							residual_disease
 							vascular_invasion_present
 							year_of_diagnosis
-							exposures {
-								exposure_id
-								exposure_submitter_id
-								alcohol_days_per_week
-								alcohol_drinks_per_day
-								alcohol_history
-								alcohol_intensity
-								asbestos_exposure
-								bmi
-								cigarettes_per_day
-								coal_dust_exposure
-								environmental_tobacco_smoke_exposure
-								height
-								pack_years_smoked
-								radon_exposure
-								respirable_crystalline_silica_exposure
-								smoking_frequency
-								time_between_waking_and_first_smoke
-								tobacco_smoking_onset_year
-								tobacco_smoking_quit_year
-								tobacco_smoking_status
-								type_of_smoke_exposure
-								type_of_tobacco_used
-								weight
-								years_smoked
-							}
+							icd_10_code
+							synchronous_malignancy
+							anaplasia_present
+							anaplasia_present_type
+							child_pugh_classification
+							cog_liver_stage
+							cog_neuroblastoma_risk_group
+							cog_renal_stage
+							cog_rhabdomyosarcoma_risk_group
+							enneking_msts_grade
+							enneking_msts_metastasis
+							enneking_msts_stage
+							enneking_msts_tumor_site
+							esophageal_columnar_dysplasia_degree
+							esophageal_columnar_metaplasia_present
+							first_symptom_prior_to_diagnosis
+							gastric_esophageal_junction_involvement
+							goblet_cells_columnar_mucosa_present
+							gross_tumor_weight
+							inpc_grade
+							inpc_histologic_group
+							inrg_stage
+							inss_stage
+							irs_group
+							irs_stage
+							ishak_fibrosis_score
+							lymph_nodes_tested
+							medulloblastoma_molecular_classification
+							metastasis_at_diagnosis
+							metastasis_at_diagnosis_site
+							mitosis_karyorrhexis_index
+							peripancreatic_lymph_nodes_positive
+							peripancreatic_lymph_nodes_tested
+							supratentorial_localization
+							tumor_confined_to_organ_of_origin
+							tumor_focality
+							tumor_regression_grade
+							vascular_invasion_type
+							wilms_tumor_histologic_subtype
+							breslow_thickness
+							gleason_grade_group
+							igcccg_stage
+							international_prognostic_index
+							largest_extrapelvic_peritoneal_focus
+							masaoka_stage
 							externalReferences {
 								reference_resource_shortname
 								reference_entity_location
-							} 
+							}			
 						}
 						pagination {
 							count
@@ -168,6 +194,250 @@ constructor(private apollo: Apollo) {
 		}
 		return this.apollo.watchQuery<QueryAllClinicalDataPaginated>({
 			query: this.filteredCinicalDataPaginatedQuery,
+			variables: {
+				offset_value: offset,
+				limit_value: limit,
+				sort_value: sort,
+				program_name_filter: filters["program_name"] || "",
+				project_name_filter: filters["project_name"] || "" ,
+				study_name_filter: filters["study_name"] || "",
+				disease_filter: filters["disease_type"]|| "",
+				filterValue: filters["primary_site"] || "",
+				analytical_frac_filter: filters["analytical_fraction"] || "",
+				exp_type_filter: filters["experiment_type"] || "",
+				ethnicity_filter: filter_ethnicity || "",
+				race_filter: filter_race || "",
+				gender_filter: filters["gender"] || "",
+				tumor_grade_filter: filters["tumor_grade"] || "",
+				sample_type_filter: filters["sample_type"],
+				acquisition_type_filter: filters["acquisition_type"],
+				data_category_filter: filters["data_category"] || '',
+				file_type_filter: filters["file_type"] || '',
+				access_filter: filters["access"] || '',
+				downloadable_filter: filters["downloadable"] || '',
+				case_status_filter: filters["case_status"] || '',
+				biospecimen_status_filter: filters["biospecimen_status"] || ''
+			}
+		})
+		.valueChanges
+		.pipe(
+        map(result => { console.log(result.data); return result.data;})
+      ); 
+	}
+
+	//@@@PDC-4490: Update Clinical manifest and Case summary pages for GDC Sync
+	filteredCinicalAdditionalDataPaginatedQuery = gql`
+	query FilteredCinicalAdditionalDataPaginated($offset_value: Int, $limit_value: Int, $sort_value: String, $program_name_filter: String!, $project_name_filter: String!, $study_name_filter: String!, $disease_filter: String!, $filterValue: String!, $analytical_frac_filter: String!, $exp_type_filter: String!, $ethnicity_filter: String!, $race_filter: String!, $gender_filter: String!, $tumor_grade_filter: String!, $sample_type_filter: String!, $acquisition_type_filter: String!, $data_category_filter: String!, $file_type_filter: String!, $access_filter: String!, $downloadable_filter: String!, $case_status_filter: String!, $biospecimen_status_filter: String!){
+		getPaginatedUIClinical(offset: $offset_value, limit: $limit_value, sort: $sort_value, program_name: $program_name_filter , project_name: $project_name_filter, 
+								study_name: $study_name_filter, disease_type: $disease_filter, primary_site: $filterValue, analytical_fraction: $analytical_frac_filter, 
+								experiment_type: $exp_type_filter, ethnicity: $ethnicity_filter, race: $race_filter, gender: $gender_filter, 
+								tumor_grade: $tumor_grade_filter, sample_type: $sample_type_filter, acquisition_type: $acquisition_type_filter, data_category: $data_category_filter, file_type: $file_type_filter, access: $access_filter, downloadable: $downloadable_filter, case_status: $case_status_filter, biospecimen_status: $biospecimen_status_filter) {
+			total
+			uiClinical{	
+				case_submitter_id
+				non_nodal_regional_disease
+				non_nodal_tumor_deposits
+				ovarian_specimen_status
+				ovarian_surface_involvement
+				percent_tumor_invasion
+				peritoneal_fluid_cytological_status
+				primary_gleason_grade
+				secondary_gleason_grade
+				weiss_assessment_score
+				adrenal_hormone
+				ann_arbor_b_symptoms_described
+				diagnosis_is_primary_disease
+				eln_risk_classification
+				figo_staging_edition_year
+				gleason_grade_tertiary
+				gleason_patterns_percent
+				margin_distance
+				margins_involved_site
+				pregnant_at_diagnosis
+				satellite_nodule_present
+				sites_of_involvement
+				tumor_depth
+				who_cns_grade
+				who_nte_grade
+				diagnosis_uuid
+				follow_ups {
+					follow_up_id
+					follow_up_submitter_id
+					adverse_event
+					adverse_event_grade
+					aids_risk_factors
+					barretts_esophagus_goblet_cells_present
+					bmi
+					body_surface_area
+					cause_of_response
+					cd4_count
+					cdc_hiv_risk_factors
+					comorbidity
+					comorbidity_method_of_diagnosis
+					days_to_adverse_event
+					days_to_comorbidity
+					days_to_follow_up
+					days_to_imaging
+					days_to_progression
+					days_to_progression_free
+					days_to_recurrence
+					diabetes_treatment_type
+					disease_response
+					dlco_ref_predictive_percent
+					ecog_performance_status
+					evidence_of_recurrence_type
+					eye_color
+					fev1_ref_post_bronch_percent
+					fev1_ref_pre_bronch_percent
+					fev1_fvc_pre_bronch_percent
+					fev1_fvc_post_bronch_percent
+					haart_treatment_indicator
+					height
+					hepatitis_sustained_virological_response
+					history_of_tumor
+					history_of_tumor_type
+					hiv_viral_load
+					hormonal_contraceptive_type
+					hormonal_contraceptive_use
+					hormone_replacement_therapy_type
+					hpv_positive_type
+					hysterectomy_margins_involved
+					hysterectomy_type
+					imaging_result
+					imaging_type
+					immunosuppressive_treatment_type
+					karnofsky_performance_status
+					menopause_status
+					nadir_cd4_count
+					pancreatitis_onset_year
+					pregnancy_outcome
+					procedures_performed
+					progression_or_recurrence
+					progression_or_recurrence_anatomic_site
+					progression_or_recurrence_type
+					recist_targeted_regions_number
+					recist_targeted_regions_sum
+					reflux_treatment_type
+					risk_factor
+					risk_factor_treatment
+					scan_tracer_used
+					undescended_testis_corrected
+					undescended_testis_corrected_age
+					undescended_testis_corrected_laterality
+					undescended_testis_corrected_method
+					undescended_testis_history
+					undescended_testis_history_laterality
+					viral_hepatitis_serologies
+					weight
+				}
+			}
+		}
+	}`;
+
+	//@@@PDC-4490: Update Clinical manifest and Case summary pages for GDC Sync
+	//2 calls for the same API due to "URI too long" error
+	getFilteredClinicalAdditionalDataPaginated(offset: number, limit: number, sort: string, filters:any){
+		let filter_ethnicity = filters["ethnicity"];
+		if (filter_ethnicity === "Empty value"){
+			filter_ethnicity = "";
+		}
+		let filter_race = filters["race"];
+		if (filter_race === "Empty value"){
+			filter_race = "";
+		}
+		return this.apollo.watchQuery<QueryAllClinicalDataPaginated>({
+			query: this.filteredCinicalAdditionalDataPaginatedQuery,
+			variables: {
+				offset_value: offset,
+				limit_value: limit,
+				sort_value: sort,
+				program_name_filter: filters["program_name"] || "",
+				project_name_filter: filters["project_name"] || "" ,
+				study_name_filter: filters["study_name"] || "",
+				disease_filter: filters["disease_type"]|| "",
+				filterValue: filters["primary_site"] || "",
+				analytical_frac_filter: filters["analytical_fraction"] || "",
+				exp_type_filter: filters["experiment_type"] || "",
+				ethnicity_filter: filter_ethnicity || "",
+				race_filter: filter_race || "",
+				gender_filter: filters["gender"] || "",
+				tumor_grade_filter: filters["tumor_grade"] || "",
+				sample_type_filter: filters["sample_type"],
+				acquisition_type_filter: filters["acquisition_type"],
+				data_category_filter: filters["data_category"] || '',
+				file_type_filter: filters["file_type"] || '',
+				access_filter: filters["access"] || '',
+				downloadable_filter: filters["downloadable"] || '',
+				case_status_filter: filters["case_status"] || '',
+				biospecimen_status_filter: filters["biospecimen_status"] || ''
+			}
+		})
+		.valueChanges
+		.pipe(
+        map(result => { console.log(result.data); return result.data;})
+      ); 
+	}
+
+	//@@@PDC-4490: Update Clinical manifest and Case summary pages for GDC Sync
+	filteredCinicalExposureDataPaginatedQuery = gql`
+	query FilteredClinicalExposureDataPaginated($offset_value: Int, $limit_value: Int, $sort_value: String, $program_name_filter: String!, $project_name_filter: String!, $study_name_filter: String!, $disease_filter: String!, $filterValue: String!, $analytical_frac_filter: String!, $exp_type_filter: String!, $ethnicity_filter: String!, $race_filter: String!, $gender_filter: String!, $tumor_grade_filter: String!, $sample_type_filter: String!, $acquisition_type_filter: String!, $data_category_filter: String!, $file_type_filter: String!, $access_filter: String!, $downloadable_filter: String!, $case_status_filter: String!, $biospecimen_status_filter: String!){
+		getPaginatedUIClinical(offset: $offset_value, limit: $limit_value, sort: $sort_value, program_name: $program_name_filter , project_name: $project_name_filter, 
+								study_name: $study_name_filter, disease_type: $disease_filter, primary_site: $filterValue, analytical_fraction: $analytical_frac_filter, 
+								experiment_type: $exp_type_filter, ethnicity: $ethnicity_filter, race: $race_filter, gender: $gender_filter, 
+								tumor_grade: $tumor_grade_filter, sample_type: $sample_type_filter, acquisition_type: $acquisition_type_filter, data_category: $data_category_filter, file_type: $file_type_filter, access: $access_filter, downloadable: $downloadable_filter, case_status: $case_status_filter, biospecimen_status: $biospecimen_status_filter) {
+			total
+			uiClinical{	
+				case_submitter_id
+				exposures {
+					exposure_id
+					exposure_submitter_id
+					alcohol_days_per_week
+					alcohol_drinks_per_day
+					alcohol_history
+					alcohol_intensity
+					asbestos_exposure
+					cigarettes_per_day
+					coal_dust_exposure
+					environmental_tobacco_smoke_exposure
+					pack_years_smoked
+					radon_exposure
+					respirable_crystalline_silica_exposure
+					smoking_frequency
+					time_between_waking_and_first_smoke
+					tobacco_smoking_onset_year
+					tobacco_smoking_quit_year
+					tobacco_smoking_status
+					type_of_smoke_exposure
+					type_of_tobacco_used
+					years_smoked
+					age_at_onset
+					alcohol_type
+					exposure_duration
+					exposure_duration_years
+					exposure_type
+					marijuana_use_per_week
+					parent_with_radiation_exposure
+					secondhand_smoke_as_child
+					smokeless_tobacco_quit_age
+					tobacco_use_per_day	
+				}
+			}
+		}
+	}`;
+
+	//@@@PDC-4490: Update Clinical manifest and Case summary pages for GDC Sync
+	//2 calls for the same API due to "URI too long" error
+	getFilteredClinicalExposureDataPaginated(offset: number, limit: number, sort: string, filters:any){
+		let filter_ethnicity = filters["ethnicity"];
+		if (filter_ethnicity === "Empty value"){
+			filter_ethnicity = "";
+		}
+		let filter_race = filters["race"];
+		if (filter_race === "Empty value"){
+			filter_race = "";
+		}
+		return this.apollo.watchQuery<QueryAllClinicalDataPaginated>({
+			query: this.filteredCinicalExposureDataPaginatedQuery,
 			variables: {
 				offset_value: offset,
 				limit_value: limit,

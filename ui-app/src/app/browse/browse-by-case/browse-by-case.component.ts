@@ -37,7 +37,7 @@ import * as _ from 'lodash';
 //@@@PDC-799: Redirecting to the NIH login page for the file authorization loses PDC state
 //@@@PDC-937: Add a button to allow download all manifests with a single click
 //@@@PDC-1063: Implement select all, select page, select none for all tabs
-//@@@PDC-1609: URL structure for permanent links to PDC 
+//@@@PDC-1609: URL structure for permanent links to PDC
 //@@@PDC-2399: Update biospecimen manifest generation to include new attributes
 export class BrowseByCaseComponent implements OnInit, OnChanges {
 
@@ -58,12 +58,12 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
   @Output() biospecimenTotalRecordChanged:EventEmitter<any> = new EventEmitter<any>();
   fenceRequest:boolean = false;
   //keep a full list of filter category
-  // Array which holds filter names. Must be updated when new filters are added to browse page. 
+  // Array which holds filter names. Must be updated when new filters are added to browse page.
   allFilterCategory: string[] = ["project_name","primary_site","program_name","disease_type","analytical_fraction","experiment_type","acquisition_type","study_name","submitter_id_name","sample_type","ethnicity","race","gender","tumor_grade","data_category","file_type","access","downloadable","studyName_genes_tab", "biospecimen_status", "case_status"];
   //@@@PDC-848 Fix headercheckbox issue for data tables on browse page
 	headercheckbox:boolean = false;
   currentPageSelectedCase = [];
-	pageHeaderCheckBoxTrack = [];	
+	pageHeaderCheckBoxTrack = [];
 	//@@@PDC-937: Add a button to allow download all manifests with a single click
 	@Output() downloadWholeManifestFlag: EventEmitter<any> = new EventEmitter<any>();
 	@Output() isTableLoading: EventEmitter<any> = new EventEmitter<any>();
@@ -76,13 +76,13 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
   checkboxOptions = [];
   selectedHeaderCheckbox = '';
   manifestFormat = "csv";
-	
+
   constructor(private apollo: Apollo,
 				private router: Router,
 				private browseByCaseService : BrowseByCaseService,
 				private dialog: MatDialog,
-				private activatedRoute:ActivatedRoute) { 
-	// Array which holds filter names. Must be updated when new filters are added to browse page. 
+				private activatedRoute:ActivatedRoute) {
+	// Array which holds filter names. Must be updated when new filters are added to browse page.
 	this.newFilterSelected = {"program_name" : "", "project_name": "", "study_name": "", "submitter_id_name": "", "disease_type":"", "primary_site":"", "analytical_fraction":"", "experiment_type":"",
 								"ethnicity": "", "race": "", "gender": "", "tumor_grade": "", "sample_type": "", "acquisition_type": "", "data_category": "", "file_type": "", "access": "", "downloadable": "", "studyName_genes_tab":"", "biospecimen_status": "", "case_status": ""};
 	this.offset = 0; //Initialize values for pagination
@@ -93,15 +93,15 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
 	this.sort = "";
 	BrowseByCaseComponent.urlBase = environment.dictionary_base_url;
   }
-  
+
   get staticUrlBase() {
     return BrowseByCaseComponent.urlBase;
   }
-  
+
   showCaseSummary(case_id: string){
-	
+
 	const dialogConfig = new MatDialogConfig();
-	
+
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = false;
 	dialogConfig.hasBackdrop = true;
@@ -120,7 +120,7 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
     );
 
   }
-  
+
   findCaseByID(case_id: string) {
 	  for (let idx = 0; idx < this.filteredCasesData.length; idx++ ){
 		  if (this.filteredCasesData[idx].case_submitter_id === case_id) {
@@ -143,10 +143,10 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
 			this.loading = false;
 			this.clearSelection();
 			});
-			
+
 	  }, 1000);
   }
-  
+
   ngOnChanges(changes: SimpleChanges){
 	  // ngOnChanges fires when the page loads, at that moment newFilterValue is not set yet
 	  if (this.newFilterValue){
@@ -232,7 +232,7 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
 			this.clearSelection();
 		});
 		}
-		
+
 		//@@@PDC-937: Add a button to allow download all manifests with a single click
 		//PDC-3073: Add TSV format to manifests
 		setTimeout(() => {
@@ -262,7 +262,7 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
 			this.downloadWholeManifestFlag.emit({downloadAllManifest:this.totalRecords, format: exportFormat});
 		}, 10);
 	}
-	
+
 	//@@@PDC-937: Add a button to allow download all manifests with a single click
 	downloadCompleteManifest(buttonClick = false) {
 		setTimeout(() => {
@@ -293,9 +293,9 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
 						let csvOptions = {
 							headers: headerCols
 						};
-						//PDC-3206 fix ddownload manifest even if there are zero records 
+						//PDC-3206 fix ddownload manifest even if there are zero records
 						if (this.totalRecords > 0) {
-							let exportFileObject = JSON.parse(JSON.stringify(localSelectedCases, colValues));	
+							let exportFileObject = JSON.parse(JSON.stringify(localSelectedCases, colValues));
 							if (this.manifestFormat == "csv") {
 								new ngxCsv(exportFileObject, this.getCsvFileName("csv"), csvOptions);
 							}else {
@@ -307,7 +307,7 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
 						}
 						this.isTableLoading.emit({isTableLoading:"case:false"});
 				  }
-			});				
+			});
 		}, 10);
 	}
 
@@ -319,7 +319,7 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
 		cloneData.forEach(item => {this.currentPageSelectedCase.push(item. aliquot_id + "-" + item.aliquot_submitter_id)});
 	}
 
-	//@@@PDC-497 (onLazyLoad)="loadCases($event)" will be invoked when sort event fires  
+	//@@@PDC-497 (onLazyLoad)="loadCases($event)" will be invoked when sort event fires
 	//@@@PDC-848 Fix headercheckbox issue for data tables on browse page
 	loadCases(event: any) {
 		if(this.headercheckbox && this.pageHeaderCheckBoxTrack.indexOf(this.offset) === -1){
@@ -395,6 +395,7 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
 	  //Have to define the following structure for Primeng CSV export to work properly
 		//@@@PDC-462 show submitter ids
 		//@@@PDC-1789: Add study_submitter_id and study_id to exported study manifests
+    //@@@PDC-4568: Deprecated Properties of Sample and Exposure should not show up in the export manifests
 	  this.cols = [
 		{field: 'aliquot_id', header: 'Aliquot ID'},
 		{field: 'aliquot_submitter_id', header: 'Aliquot Submitter ID'},
@@ -425,16 +426,18 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
 		{field: 'freezing_method', header: 'Freezing Method'},
 		{field: 'initial_weight', header: 'Initial Weight'},
 		{field: 'intermediate_dimension', header: 'Intermediate Dimension'},
-		{field: 'is_ffpe', header: 'Is FFPE'},
 		{field: 'longest_dimension', header: 'Longest Dimension'},
 		{field: 'method_of_sample_procurement', header: 'Method Of Sample Procurement'},
-		{field: 'oct_embedded', header: 'Oct Embedded'},
 		{field: 'pathology_report_uuid', header: 'Pathilogy Report UUID'},
 		{field: 'preservation_method', header: 'Preservation Method'},
 		{field: 'sample_type_id', header: 'Sample Type id'},
+    	//@@@PDC-4601: Two New Sample properties cannot be viewed on the Case summary modal window
+    	{field: 'sample_ordinal', header: 'Sample Ordinal'},
 		{field: 'shortest_dimension', header: 'Shortest Dimension'},
 		{field: 'time_between_clamping_and_freezing', header: 'Time Between Clamping And Freezing'},
 		{field: 'time_between_excision_and_freezing', header: 'Time Between Excision and Freezing'},
+    	//@@@PDC-4601: Two New Sample properties cannot be viewed on the Case summary modal window
+    	{field: 'tissue_collection_type', header: 'Tissue Collection Type'},
 		{field: 'tissue_type', header: 'Tissue Type'},
 		{field: 'tumor_code', header: 'Tumor Code'},
 		{field: 'tumor_code_id', header: 'Tumor Code ID'},
@@ -446,35 +449,35 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
 		if (queryParams.code) {
 		   this.fenceRequest = true;
 		}
-		});	
+		});
 		//@@@PDC-1063: Implement select all, select page, select none for all tabs
 		this.checkboxOptions = ["Select all pages", "Select this page", "Select None"];
 	}
-	
+
 	//@@@PDC-1063: Implement select all, select page, select none for all tabs
 	changeHeaderCheckbox($event) {
 		let checkboxVal = this.selectedHeaderCheckbox;
 		this.selectedCases =  this.currentPageSelectedCase =  [];
 		switch (checkboxVal) {
-			case 'Select all pages': 
+			case 'Select all pages':
 				this.downloadCompleteManifest(true);
 				break;
-			case 'Select this page': 
+			case 'Select this page':
 				this.headercheckbox = true;
 				this.onTableHeaderCheckboxToggle();
 				break;
-			case 'Select None': 
+			case 'Select None':
 				this.clearSelection();
 				break;
 		}
 	}
 
-		//@@@PDC-795 Change manifest download file name include timestamp 
+		//@@@PDC-795 Change manifest download file name include timestamp
 		biospecimenTableExportCSV(dt){
 			dt.exportFilename = this.getCsvFileName("csv");
 			dt.exportCSV({ selectionOnly: true });
 		}
-		
+
 		//PDC-3073, PDC-3074 Add TSV format for manifests
 		biospecimenTableExportTSV(dt){
 			let colValues = [];
@@ -511,7 +514,7 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
 			return result;
 		}
 
-	
+
 		private getCsvFileName(format = "csv"): string {
 			let csvFileName = "PDC_biospecimen_manifest_";
 			const currentDate: Date = new Date();
@@ -531,7 +534,7 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
 			}
 			return csvFileName;
 		}
-		
+
 		private convertDateString(value: string): string {
 			if (value.length === 1) {
 				return "0" + value;
@@ -551,7 +554,7 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
         if(this.currentPageSelectedCase.indexOf(item. aliquot_id + "-" + item.aliquot_submitter_id) === -1){
           localSelectedCases.push(item);
           this.currentPageSelectedCase.push(item. aliquot_id + "-" + item.aliquot_submitter_id);
-        } 
+        }
       }
       this.selectedCases = localSelectedCases;
     } else {
@@ -562,14 +565,14 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
 					localSelectedCases.splice(index,1);
 				}
 			}
-			this.selectedCases = localSelectedCases; 
+			this.selectedCases = localSelectedCases;
 			this.currentPageSelectedCase = [];
 			this.pageHeaderCheckBoxTrack = [];
     }
   }
-  
+
   //@@@PDC-848 Fix headercheckbox issue for data tables on browse page
-  //@@@PDC-1431 fix biospecimens table row selection issue	
+  //@@@PDC-1431 fix biospecimens table row selection issue
   onRowSelected(event:any){
 		this.currentPageSelectedCase.push(event.data.aliquot_id + "-" + event.data.aliquot_submitter_id);
 		//@@@PDC-3667: "Select all pages" option issue
@@ -577,7 +580,7 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
   }
 
 	//@@@PDC-848 Fix headercheckbox issue for data tables on browse page
-  //@@@PDC-1431 fix biospecimens table row selection issue	
+  //@@@PDC-1431 fix biospecimens table row selection issue
   onRowUnselected(event){
     let index = this.currentPageSelectedCase.indexOf(event.data.aliquot_id + "-" + event.data.aliquot_submitter_id);
     if(index >-1){
@@ -586,7 +589,7 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
 		//@@@PDC-3667: "Select all pages" option issue
 		this.handleCheckboxSelections();
 	}
-	
+
 	//@@@PDC-3667: "Select all pages" option issue
 	handleCheckboxSelections() {
 		if (this.currentPageSelectedCase.length === this.pageSize) {

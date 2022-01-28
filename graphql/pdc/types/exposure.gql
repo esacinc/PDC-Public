@@ -10,11 +10,9 @@ type Exposure {
 	alcohol_history: String
 	alcohol_intensity: String
 	asbestos_exposure: String
-	bmi: String
 	cigarettes_per_day: String
 	coal_dust_exposure: String
 	environmental_tobacco_smoke_exposure: String
-	height: String
 	pack_years_smoked: String
 	radon_exposure: String
 	respirable_crystalline_silica_exposure: String
@@ -25,7 +23,6 @@ type Exposure {
 	tobacco_smoking_status: String
 	type_of_smoke_exposure: String
 	type_of_tobacco_used: String
-	weight: String
 	years_smoked: String
 	age_at_onset: String
 	alcohol_type: String

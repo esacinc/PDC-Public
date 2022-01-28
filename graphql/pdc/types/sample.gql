@@ -17,10 +17,8 @@ type Sample {
 	freezing_method: String
 	initial_weight: Float 
 	intermediate_dimension: String
-	is_ffpe: String
 	longest_dimension: String
 	method_of_sample_procurement: String
-	oct_embedded: String
 	pathology_report_uuid: String
 	preservation_method: String
 	sample_type_id: String

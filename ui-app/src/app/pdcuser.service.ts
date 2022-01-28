@@ -468,7 +468,7 @@ export class PDCUserService {
               //when user is created successfully we set him to be logged in
               //unless they registered with their email/password and have not confirmed the email yet
               let userData = response.data;
-              if (userData.user_id_type != 'PDC' || userData.registered != 0) {
+              if (userData.user_id_type !== 'PDC' || userData.registered !== 0) {
                 this.setEmail(email);
                 this.setName(username);
                 this.setUserIDType(id_provider);
@@ -628,11 +628,11 @@ export class PDCUserService {
       setTimeout(() => {
         this.http.get(url, { }).subscribe(data => {
             response = data as LoginUserResponse;
-            if (response.data.length > 0) {
+            if (response.data) {
               //if the user record is found
-              this.userData = response.data[0];
+              this.userData = response.data;
               //console.log(this.userData);
-              if (this.userData.registered == 1) {
+              if (this.userData.registered === 1) {
                 console.log('UserData registered = 1');
                 //if user's registered flag is set to 1, such user already exists,
                 //thus loggedIn is set to true and 0 is returned
@@ -658,6 +658,24 @@ export class PDCUserService {
             observer.next(2);
             observer.complete();
           });
+      }, 1000);
+    });
+
+    return confirmObservable;
+  }
+
+  public confirmRecaptcha(token: string): Observable<number> {
+    const url = '/pdcapi/confirm/recaptcha/';
+
+    const recaptcha_data = {
+      'recaptcha_response': token
+    };
+
+    const confirmObservable = new Observable<number>((observer) => {
+      setTimeout(() => {
+        this.http.post(url, recaptcha_data).subscribe(data => {
+
+        });
       }, 1000);
     });
 

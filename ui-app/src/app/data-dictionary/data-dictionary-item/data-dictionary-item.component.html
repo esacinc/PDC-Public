@@ -1,0 +1,91 @@
+<mat-toolbar>
+  <mat-toolbar-row style="background-image: linear-gradient(-133deg, #246A92 0%, #245571 100%)"></mat-toolbar-row>
+  <mat-toolbar-row style="background-image: linear-gradient(-133deg, #246A92 0%, #245571 100%)"></mat-toolbar-row>
+</mat-toolbar>
+<div class="contentArea" style="margin-top:-100px!important;">
+			<div class="pageTitleArea">
+				<div class="pageBackNav"><a href={{linkback}}> < back to data dictionary</a></div>
+        <br>
+				<div class='pageTitle'>{{curEntity}}</div>
+				<div class="pageDesc"></div>
+			</div>
+      <div>
+          <div class='tableTitle'>Summary</div>
+          <table class='itemCollTable' cellpadding='0' cellspacing='1'>
+                  <tr>
+                      <td class='itemCollCol1'>Type</td>
+                      <td class='itemCollCol2'>{{curEntity}}</td>
+                  </tr>
+                  <tr>
+                      <td class='itemCollCol1'>Category</td>
+                      <td class='itemCollCol2'>{{currentCategory}}</td>
+                  </tr>
+                  <tr>
+                      <td class='itemCollCol1'>Description</td>
+                      <td class='itemCollCol2'>{{currentDescription}}
+                         <a href={{descriptionUrl}} *ngIf='descriptionUrl' target='_blank'>({{carCDESource}} - {{catCDEID}})</a>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td class='itemCollCol1'>Unique Keys</td>
+                      <td class='itemCollCol2'>
+                          <ul *ngFor="let item of uniqueKeyDetails">
+                               <li>{{item}}</li>
+                          </ul>
+                      </td>
+                  </tr>
+            </table>
+      </div>
+      <br/>
+      <ng-container *ngIf='dictItemLinks'>
+          <div class='tableTitle'>Links</div>
+          <table class='itemCollTable' cellpadding='0' cellspacing='1'>
+               <tr class='dict_tbl_header'>
+                   <td class='linksCollCol1'>Name</td>
+                   <td class='linksCollCol2'>Required</td>
+                   <td class='linksCollCol3'>Label</td>
+               </tr>
+               <tr *ngFor="let items of dictItemLinks">
+                   <td class='linksCollCol1'><span dt='items.name' class='dictionaryItem'><a href="/pdc/data-dictionary/{{items.name}}">{{items.name}}</a></span></td>
+                   <td class='linksCollCol2'>{{items.required}}</td>
+                   <td class='linksCollCol3'>{{items.label}}</td>
+               </tr>
+          </table>
+          <br/>
+      </ng-container>
+      <div class='tableTitle'>Properties</div>
+      <table class='itemPropertiesTable' cellpadding='0' cellspacing='1'>
+          <tr class='dict_tbl_header'>
+              <td class='propCollCol1'>Name</td>
+              <td class='propCollCol2'>Description</td>
+              <td class='propCollCol3'>Acceptable Types/Values</td>
+              <td class='propCollCol4'>Required</td>
+              <td class='propCollCol5'>CDE</td>
+          </tr>
+          <ng-container *ngFor="let test of displayProperties | keyvalue: 0">
+              <tr>
+                  <td class='propCollCol1'>{{test.key}}</td>
+                  <td class='propCollCol2'>{{test.value.description}}</td>
+                  <td class='propCollCol3'>{{test.value.type}}
+
+                  <ng-container *ngIf='test.value.enum' >
+
+                  <ul [innerHTML]=enumValues[test.key].initial_load></ul>
+                  <ul id={{test.key}} class='hide-list' [innerHTML]=enumValues[test.key].show_load></ul>
+                  <ng-container *ngIf='test.value.enum.length > 6' >
+                            <div class='showMoreOrLess' id="showMore_{{test.key}}" (click)='showMoreOrLess(test.key)' style="margin-left:40px;">Show more items...</div>
+                  </ng-container>
+                  
+                   </ng-container>
+
+                  </td>
+                  <td class='propCollCol4'>{{test.value.required}}</td>
+                  <td class='propCollCol5'>
+                       <ng-container *ngFor='let string of cdeIdValue[test.value.cde_id] | keyvalue'>
+                           <div [innerHTML]=string.value></div>
+                       </ng-container>
+                  </td>
+             </tr>
+          </ng-container>
+       </table>
+		</div>

@@ -75,7 +75,7 @@ export class NavbarComponent implements OnInit {
   searchButtonFlag = true;
   loggedInEmail = '';
   navDisplayFlag = true;
-  dictionary_url = environment.dictionary_base_url + 'dictionary.html';
+  dictionary_url = environment.dictionary_base_url + '/pdc/data-dictionary';
   apidocumentation_url = environment.dictionary_base_url + 'apidocumentation.html';
   submission_portal_docs_url = environment.submission_portal_docs_url;
   //harmonization_url = environment.dictionary_base_url + 'harmonization.html';
@@ -752,12 +752,11 @@ export class NavbarComponent implements OnInit {
               this.userService.confirmUserEmail(userEmail).subscribe(data => {
                 //console.log(data);
                 var message = '';
-                if (data == 0) {
-                  message = 'User ' + userEmail + ' confirmed their email successfully';
+                if (data === 0) {
+                  message = 'User confirmed their email successfully';
                   this.userEmailConfirmed = true;
                 } else {
-                  message = 'Could not confirm user email ' + userEmail + '. User record was not found, or blocked, or already confirmed. For further assistance contact site administrators by email pdc-admin@esacinc.com.';
-
+                  message = 'Could not confirm user email. User record was not found, or blocked, or already confirmed. For further assistance contact site administrators by email pdc-admin@esacinc.com.';
                 }
                 var currentUrl = this.loc.path();
                 //Generate new url that does not contain email-confirmed parameters

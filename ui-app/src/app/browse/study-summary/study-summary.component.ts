@@ -372,6 +372,7 @@ export class StudySummaryComponent implements OnInit {
 	  this.loading = true;
 	  this.studySummaryService.getFilteredStudyData(this.study_submitter_id_name).subscribe((data: any) =>{
 			this.studySummaryData = data.getPaginatedUIStudy.uiStudies[0];
+			this.studySummaryData.study_description = this.studySummaryData.study_description.replace(/<a/g,'<a target="_blank" ');
 			console.log(this.studySummaryData);
 			this.study_id = this.studySummaryData.study_id;
 			this.suppFileCountsRaw = this.studySummaryData.supplementaryFilesCount;

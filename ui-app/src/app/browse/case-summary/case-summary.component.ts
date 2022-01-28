@@ -9,7 +9,7 @@ import "rxjs/add/operator/map";
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import { CaseSummaryService } from "./case-summary.service";
 import { Filter, FilesCountsPerStudyData, CaseData, AllCasesData, ExperimentFileByCaseCount, DataCategoryFileByCaseCount,
-			SampleData, AliquotData, DiagnosesData, DemographicsData, AllStudiesData} from '../../types';
+			SampleData, AliquotData, DiagnosesData, DemographicsData, AllStudiesData, Exposures, FollowUps} from '../../types';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { FilesOverlayComponent } from '../browse-by-file/files-overlay.component';
 import { StudySummaryComponent } from '../study-summary/study-summary.component';
@@ -36,17 +36,32 @@ export class CaseSummaryComponent implements OnInit {
   case_submitter_id: string;
   case_id: string;
   caseDetailedSummaryData: CaseData; //Querry for a detailed summary
+  caseAdditionalDetailedSummaryData: CaseData;
+  caseDiagnosisSummaryData: CaseData;
   caseSummaryData: AllCasesData; //Data passed from browse cases tab
   samples: SampleData[];
   aliquots: AliquotData[];
   diagnoses: DiagnosesData[];
   demographics: DemographicsData[];
+  exposures: Exposures[];
+  followups: FollowUps[];
   fileTypesCounts: any; 
   totalFilesCount: number = 0;
   loading: boolean = false;
 	showMore: boolean = false;
 	filteredStudiesData: AllStudiesData[]; //Filtered list of Studies
-  
+	//@@@PDC-4490: Update Clinical manifest and Case summary pages for GDC Sync
+	showLessExposureEvenProps = [];showLessExposureOddProps = [];showLessExposureEvenPropVals = [];showLessExposureOddPropVals = [];
+	showMoreExposureEvenProps = [];showMoreExposureOddProps = [];showMoreExposureEvenPropVals = [];showMoreExposureOddPropVals = [];
+	showLessFollowUpEvenProps = [];showLessFollowUpOddProps = [];showLessFollowUpEvenPropVals = [];showLessFollowUpOddPropVals = [];
+	showMoreFollowUpOddProps = [];showMoreFollowUpEvenProps = [];showMoreFollowUpOddPropVals = [];showMoreFollowUpEvenPropVals = [];
+	showLessDiagnosisEvenProps = [];showLessDiagnosisOddProps = [];showLessDiagnosisEvenPropVals = [];showLessDiagnosisOddPropVals = [];
+	showMoreDiagnosisOddProps = [];showMoreDiagnosisEvenProps = [];showMoreDiagnosisOddPropVals = [];showMoreDiagnosisEvenPropVals = [];
+	showLessDemographicsEvenProps = [];showLessDemographicsOddProps = [];showLessDemographicsEvenPropVals = [];showLessDemographicsOddPropVals = [];
+	showMoreDemographicsOddProps = [];showMoreDemographicsEvenProps = [];showMoreDemographicsOddPropVals = [];showMoreDemographicsEvenPropVals = [];
+	showMoreDemographics: boolean = false;
+	showMoreExposure: boolean = false;
+	showMoreFollowUp: boolean = false;
   constructor(private activatedRoute: ActivatedRoute, private router: Router, private apollo: Apollo,
 				private loc:Location,
 				private caseSummaryService: CaseSummaryService,
@@ -214,25 +229,144 @@ export class CaseSummaryComponent implements OnInit {
 	//@@@PDC-4283: Data discrepancy for "Year of Death"
 	//Add timeout for loading demographics data.
 	setTimeout(() => {
-		this.caseSummaryService.getDetailedCaseSummaryData(this.case_id).subscribe((data: any) =>{
-			//@@@PDC-1123 add ui wrappers public APIs
-			//console.log("Case from Array: "+JSON.stringify(data.uiCaseSummary[0]));
-			//@@@PDC-2335 uiCaseSummary returns an array instead of a single obj
-			this.caseDetailedSummaryData = data.uiCaseSummary[0];
-			//@@@PDC-2956: issue with opening case summary via direct URL
-			if (this.case_submitter_id === "" && data.uiCaseSummary[0].case_submitter_id != "") {
-				this.case_submitter_id = data.uiCaseSummary[0].case_submitter_id;
-			}
-			this.samples = data.uiCaseSummary[0].samples;
-			for (let sample of this.samples){
-				this.aliquots = this.aliquots.concat(sample.aliquots);
-			}
-			this.diagnoses = this.removeNullValues(data.uiCaseSummary[0].diagnoses);
-			this.demographics = this.removeNullValues(data.uiCaseSummary[0].demographics);
-			this.loading = false;
-		});
+		//@@@PDC-4490: Update Clinical manifest and Case summary pages for GDC Sync
+		this.caseSummaryService.getDiagnosisCaseSummaryData(this.case_id).subscribe((diagnosisData: any) =>{
+			this.caseDiagnosisSummaryData = diagnosisData.uiCaseSummary[0]
+			this.caseSummaryService.getAdditionalDetailedCaseSummaryData(this.case_id).subscribe((additionalData: any) =>{
+				this.caseAdditionalDetailedSummaryData = additionalData.uiCaseSummary[0];
+				this.caseSummaryService.getDetailedCaseSummaryData(this.case_id).subscribe((data: any) =>{
+					//@@@PDC-1123 add ui wrappers public APIs
+					//console.log("Case from Array: "+JSON.stringify(data.uiCaseSummary[0]));
+					//@@@PDC-2335 uiCaseSummary returns an array instead of a single obj
+					this.caseDetailedSummaryData = data.uiCaseSummary[0];
+					if (this.caseDiagnosisSummaryData) {
+						this.caseDetailedSummaryData['diagnoses'] = this.caseDiagnosisSummaryData['diagnoses'];
+					}
+					this.caseDetailedSummaryData = this.populateAdditionalCaseData(this.caseDetailedSummaryData);
+					//@@@PDC-2956: issue with opening case summary via direct URL
+					if (this.case_submitter_id === "" && data.uiCaseSummary[0].case_submitter_id != "") {
+						this.case_submitter_id = data.uiCaseSummary[0].case_submitter_id;
+					}
+					this.samples = data.uiCaseSummary[0].samples;
+					for (let sample of this.samples){
+						this.aliquots = this.aliquots.concat(sample.aliquots);
+					}
+					//@@@PDC-4490: Update Clinical manifest and Case summary pages for GDC Sync
+					this.diagnoses = this.removeNullValues(data.uiCaseSummary[0].diagnoses);
+					if (this.diagnoses && this.diagnoses.length > 0) this.generateLoopsforAdditionalData(this.diagnoses[0], "diagnosis");
+					this.demographics = this.removeNullValues(data.uiCaseSummary[0].demographics);
+					if (this.demographics && this.demographics.length > 0) this.generateLoopsforAdditionalData(this.demographics[0], "demographics");				
+					this.exposures = this.removeNullValues(data.uiCaseSummary[0].exposures);
+					if (this.exposures && this.exposures.length > 0) this.generateLoopsforAdditionalData(this.exposures[0], "exposure");
+					this.followups = this.removeNullValues(data.uiCaseSummary[0].follow_ups);
+					if (this.followups && this.followups.length > 0) this.generateLoopsforAdditionalData(this.followups[0], "followup");
+					this.loading = false;
+				});
+			});
+	  	});
 	}, 1000);
   }
+
+  //@@@PDC-4490: Update Clinical manifest and Case summary pages for GDC Sync
+  generateLoopsforAdditionalData(dataSet, entity){
+	if (entity == "exposure") {
+		//if (dataSet && dataSet['exposure_id']) delete dataSet['exposure_id']; 
+		//if (dataSet && dataSet['exposure_submitter_id']) delete dataSet['exposure_submitter_id']; 
+		this.showLessExposureEvenProps = this.populateAdditionalDatasets(dataSet, 1, true);
+		this.showLessExposureOddProps = this.populateAdditionalDatasets(dataSet, 2, true);
+		this.showLessExposureEvenPropVals = this.populateAdditionalDatasets(dataSet, 3, true);
+		this.showLessExposureOddPropVals = this.populateAdditionalDatasets(dataSet, 4, true);
+		this.showMoreExposureEvenProps = this.populateAdditionalDatasets(dataSet, 1, false);
+		this.showMoreExposureOddProps = this.populateAdditionalDatasets(dataSet, 2, false);
+		this.showMoreExposureEvenPropVals = this.populateAdditionalDatasets(dataSet, 3, false);
+		this.showMoreExposureOddPropVals = this.populateAdditionalDatasets(dataSet, 4, false);
+	} else if (entity == "followup") {
+		//if (dataSet && dataSet['follow_up_id']) delete dataSet['follow_up_id']; 
+		//if (dataSet && dataSet['follow_up_submitter_id']) delete dataSet['follow_up_submitter_id']; 
+		this.showLessFollowUpEvenProps = this.populateAdditionalDatasets(dataSet, 1, true);
+		this.showLessFollowUpOddProps = this.populateAdditionalDatasets(dataSet, 2, true);
+		this.showLessFollowUpEvenPropVals = this.populateAdditionalDatasets(dataSet, 3, true);
+		this.showLessFollowUpOddPropVals = this.populateAdditionalDatasets(dataSet, 4, true);
+		this.showMoreFollowUpEvenProps = this.populateAdditionalDatasets(dataSet, 1, false);
+		this.showMoreFollowUpOddProps = this.populateAdditionalDatasets(dataSet, 2, false);
+		this.showMoreFollowUpEvenPropVals = this.populateAdditionalDatasets(dataSet, 3, false);
+		this.showMoreFollowUpOddPropVals = this.populateAdditionalDatasets(dataSet, 4, false);		
+	} else if (entity == "diagnosis") {
+		this.showLessDiagnosisEvenProps = this.populateAdditionalDatasets(dataSet, 1, true);
+		this.showLessDiagnosisOddProps = this.populateAdditionalDatasets(dataSet, 2, true);
+		this.showLessDiagnosisEvenPropVals = this.populateAdditionalDatasets(dataSet, 3, true);
+		this.showLessDiagnosisOddPropVals = this.populateAdditionalDatasets(dataSet, 4, true);
+		this.showMoreDiagnosisEvenProps = this.populateAdditionalDatasets(dataSet, 1, false);
+		this.showMoreDiagnosisOddProps = this.populateAdditionalDatasets(dataSet, 2, false);
+		this.showMoreDiagnosisEvenPropVals = this.populateAdditionalDatasets(dataSet, 3, false);
+		this.showMoreDiagnosisOddPropVals = this.populateAdditionalDatasets(dataSet, 4, false);		
+	} else if (entity == "demographics") {
+		this.showLessDemographicsEvenProps = this.populateAdditionalDatasets(dataSet, 1, true);
+		this.showLessDemographicsOddProps = this.populateAdditionalDatasets(dataSet, 2, true);
+		this.showLessDemographicsEvenPropVals = this.populateAdditionalDatasets(dataSet, 3, true);
+		this.showLessDemographicsOddPropVals = this.populateAdditionalDatasets(dataSet, 4, true);
+		this.showMoreDemographicsEvenProps = this.populateAdditionalDatasets(dataSet, 1, false);
+		this.showMoreDemographicsOddProps = this.populateAdditionalDatasets(dataSet, 2, false);
+		this.showMoreDemographicsEvenPropVals = this.populateAdditionalDatasets(dataSet, 3, false);
+		this.showMoreDemographicsOddPropVals = this.populateAdditionalDatasets(dataSet, 4, false);		
+	}
+  }
+
+  //@@@PDC-4490: Update Clinical manifest and Case summary pages for GDC Sync
+  populateAdditionalDatasets(data, option, showLess) {
+	  if (data && data['__typename']) delete data['__typename']; 
+	  let count = 0;
+	  var dataSet = [];
+	  var that = this;
+	  dataSet = Object.keys(data).map(function(property){
+		count = count + 1;
+		if ((!showLess) || (showLess && count <= 6)) {
+			if (option == 1 && count %2 === 0) {
+				let convertedProperty = that.convertUnderscoreCaseToTitleCase(property);
+				return convertedProperty;
+			} 
+			if (option == 2 && count % 2 !== 0) {
+				let convertedProperty = that.convertUnderscoreCaseToTitleCase(property);
+				return convertedProperty;
+			}
+			if (option == 3 && count % 2 === 0) {
+				return data[property];
+			} 
+			if (option == 4 && count % 2 !== 0) {
+				return data[property];
+			}
+		}
+	  });
+	  dataSet = dataSet.filter(function( element ) {
+			return element !== undefined;
+	  });
+	  return dataSet;
+  }
+
+  //@@@PDC-4490: Update Clinical manifest and Case summary pages for GDC Sync
+  convertUnderscoreCaseToTitleCase(field) {
+	var result = "";
+	if (field && field != '') {
+		field = field.replace(/_/g, ' ');
+		var arr = field.split(" ");
+		//loop through each element of the array and capitalize the first letter.
+		for (var i = 0; i < arr.length; i++) {
+			arr[i] = arr[i].charAt(0).toUpperCase() + arr[i].slice(1);
+		}
+		result = arr.join(" ");
+	}
+	return result;
+  }
+
+  //@@@PDC-4490: Update Clinical manifest and Case summary pages for GDC Sync
+  populateAdditionalCaseData(caseDetailedSummaryData) {
+	let clinicalDataRow = this.caseAdditionalDetailedSummaryData;
+	if (clinicalDataRow) {
+		caseDetailedSummaryData['follow_ups'] = clinicalDataRow['follow_ups'];
+		caseDetailedSummaryData['exposures'] = clinicalDataRow['exposures'];
+	}
+	return caseDetailedSummaryData;
+}
   
   //@@@PDC-336
   //Replace null value of a field with default "not reported" value
@@ -271,6 +405,31 @@ export class CaseSummaryComponent implements OnInit {
   
   showLessClicked(){ 
 	this.showMore = false;    
+  }
+
+  //@@@PDC-4490: Update Clinical manifest and Case summary pages for GDC Sync
+  showMoreDemographicsClicked(){
+	this.showMoreDemographics = true;  
+  }
+  
+  showLessDemographicsClicked(){ 
+	this.showMoreDemographics = false;    
+  }
+
+  showMoreExposureClicked(){
+	this.showMoreExposure = true;  
+  }
+  
+  showLessExposureClicked(){ 
+	this.showMoreExposure = false;    
+  }
+  
+  showMoreFollowUpClicked(){
+	this.showMoreFollowUp = true;  
+  }
+  
+  showLessFollowUpClicked(){ 
+	this.showMoreFollowUp = false;    
   }
  
   close() {

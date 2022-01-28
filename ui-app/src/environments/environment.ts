@@ -34,7 +34,8 @@ export const environment = {
   dcf_fence_signedurl_url:'https://nci-crdc-staging.datacommons.io/user/data/download/',
   workspace_url:'/workspace/pages/v2/index.html',
   kidsFirst_url: 'https://portal.kidsfirstdrc.org/participant/',
-  pepquery_url: 'http://pepquery.esacinc.com/pepquery/',
-  // workspace_url:'/workspace/pages/dashboard.html#/projects/all'
+  pepquery_url: 'http://pepquery2.pepquery.org/',
+  // workspace_url:'/workspace/pages/dashboard.html#/projects/all',
+  recaptcha_site_key: '6LdF5KwdAAAAAKJcWGMb4NNjy5mtFW6Of1YhG81B'
 };
 

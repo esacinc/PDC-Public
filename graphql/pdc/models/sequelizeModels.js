@@ -78,6 +78,8 @@ const defineSequelizeModels = (db) => {
 	  //@@@PDC-1467 add case_submitter_id
 	  //@@@PDC-2755 add pool attribute
 	  //@@@PDC-4391 add new columns
+	  //@@@PDC-4486 add new columns for sample
+	  //@@@PDC-4569 remove is_ffpe and oct_embedded
 	  const SampleModel = db.getSequelize().define('sample', {
 		  sample_id: { type: Sequelize.STRING,
 					  primaryKey: true   },
@@ -100,10 +102,8 @@ const defineSequelizeModels = (db) => {
 		  freezing_method: { type: Sequelize.STRING },
 		  initial_weight: { type: Sequelize.FLOAT }, 
 		  intermediate_dimension: { type: Sequelize.STRING },
-		  is_ffpe: { type: Sequelize.STRING },
 		  longest_dimension: { type: Sequelize.STRING },
 		  method_of_sample_procurement: { type: Sequelize.STRING },
-		  oct_embedded: { type: Sequelize.STRING },
 		  pathology_report_uuid: { type: Sequelize.STRING },
 		  preservation_method: { type: Sequelize.STRING },
 		  sample_type_id: { type: Sequelize.STRING },
@@ -114,14 +114,14 @@ const defineSequelizeModels = (db) => {
 		  tumor_code: { type: Sequelize.STRING },
 		  tumor_code_id: { type: Sequelize.STRING },
 		  tumor_descriptor: { type: Sequelize.STRING },
-		biospecimen_laterality: { type: Sequelize.STRING },
-		catalog_reference: { type: Sequelize.STRING },
-		distance_normal_to_tumor: { type: Sequelize.STRING },
-		distributor_reference: { type: Sequelize.STRING },
-		growth_rate: { type: Sequelize.STRING },
-		passage_count: { type: Sequelize.STRING },
-		sample_ordinal: { type: Sequelize.STRING },
-		tissue_collection_type: { type: Sequelize.STRING },	
+		  biospecimen_laterality: { type: Sequelize.STRING },			
+		  catalog_reference: { type: Sequelize.STRING },
+		  distance_normal_to_tumor: { type: Sequelize.STRING },
+		  distributor_reference: { type: Sequelize.STRING },
+		  growth_rate: { type: Sequelize.STRING },
+		  passage_count: { type: Sequelize.STRING },
+		  sample_ordinal: { type: Sequelize.STRING },
+		  tissue_collection_type: { type: Sequelize.STRING },	
 	  }, {
 		  timestamps: false,
 		  underscored: true,

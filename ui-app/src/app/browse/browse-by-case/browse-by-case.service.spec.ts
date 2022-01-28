@@ -200,7 +200,9 @@ describe("BrowseByCaseService", () => {
 				  project_name: "CPTAC2 Retrospective",
 				  sample_type: "Primary Tumor",
 				  disease_type: "Breast Invasive Carcinoma",
-				  primary_site: "Breast"
+          primary_site: "Breast",
+          tissue_collection_type: null,
+          sample_ordinal: null
 				},
 				{
 				  aliquot_id: "004c5675-1272-11e9-afb9-0a9c39d33490",
@@ -246,7 +248,9 @@ describe("BrowseByCaseService", () => {
 				  project_name: "CPTAC3-Discovery",
 				  sample_type: "Solid Tissue Normal",
 				  disease_type: "Uterine Corpus Endometrial Carcinoma",
-				  primary_site: "Uterus, NOS"
+          primary_site: "Uterus, NOS",
+          tissue_collection_type: null,
+          sample_ordinal: null
 				}
             ],
             pagination: {

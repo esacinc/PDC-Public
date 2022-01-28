@@ -12,6 +12,13 @@ import { MatDialog } from '@angular/material';
 import { RegistrationComponent } from "./registration.component";
 import { MatRadioModule, MatFormFieldModule } from "@angular/material";
 
+import {
+  RecaptchaModule,
+  RecaptchaFormsModule,
+  RECAPTCHA_V3_SITE_KEY,
+  RecaptchaV3Module, ReCaptchaV3Service
+} from 'ng-recaptcha';
+
 class MockDialog {
   open(): any {
     return { afterClosed: () => of("closed") };
@@ -40,6 +47,8 @@ class MockPDCUserService {
 
 class MockOverlayWindowService {}
 
+class MockReCaptchaV3Service {}
+
 describe("RegistrationComponent", () => {
   let component: RegistrationComponent;
   let fixture: ComponentFixture<RegistrationComponent>;
@@ -53,6 +62,9 @@ describe("RegistrationComponent", () => {
         FormsModule,
         MatRadioModule,
         ReactiveFormsModule,
+        RecaptchaModule,
+        RecaptchaFormsModule,
+        RecaptchaV3Module,
         RouterTestingModule
       ],
       providers: [
@@ -61,7 +73,8 @@ describe("RegistrationComponent", () => {
         { provide: PDCUserService, useClass: MockPDCUserService },
         { provide: OverlayWindowService, useClass: MockOverlayWindowService },
         { provide: MatDialogRef, useValue: {} },
-        { provide: MatDialog, useClass: MockDialog }
+        { provide: MatDialog, useClass: MockDialog },
+        { provide: ReCaptchaV3Service, useClass: MockReCaptchaV3Service },
       ]
     }).compileComponents();
   }));

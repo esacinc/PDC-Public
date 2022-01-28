@@ -296,4 +296,58 @@ describe("SearchService", () => {
       controller.verify();
     }
   ));
+
+  it("test getStudySubmitterID", inject(
+    [SearchService],
+    (service: SearchService) => {
+      service.getStudySubmitterID("dbe94609-1fb3-11e9-b7f8-0a80fada099c","",true).subscribe((data) => {
+        expect(data).toBeDefined();
+        expect(data["study"].length).toBe(1);
+        expect(data["study"][0].study_id).toBe("dbe94609-1fb3-11e9-b7f8-0a80fada099c");
+      });
+
+      const op = controller.expectOne(service.fetchStudySubmitterIDQuery);
+
+      op.flush({
+        data: {
+          study: [
+            {
+              study_submitter_id: "CPTAC CCRCC Discovery Study - Proteome S044-1",
+              study_name: "CPTAC CCRCC Discovery Study - Proteome",
+              pdc_study_id: "PDC000127",
+              study_id: "dbe94609-1fb3-11e9-b7f8-0a80fada099c"
+            }
+          ],
+        },
+      });
+
+      controller.verify();
+    }
+  ));
+
+  it("test getStudybyUUIDResults", inject(
+    [SearchService],
+    (service: SearchService) => {
+      service.getStudybyUUIDResults("dbe94609-1fb3-11e9-b7f8-0a80fada099c","",true).subscribe((data) => {
+        expect(data).toBeDefined();
+        expect(data["study"].length).toBe(1);
+        expect(data["study"][0].study_submitter_id).toBe("CPTAC CCRCC Discovery Study - Proteome S044-1");
+      });
+
+      const op = controller.expectOne(service.searchStudyUUIDQuery);
+
+      op.flush({
+        data: {
+          study: [
+            {
+              study_submitter_id: "CPTAC CCRCC Discovery Study - Proteome S044-1",
+              study_shortname: "CPTAC CCRCC Discovery Study - Proteome S044-1"
+            }
+          ],
+        },
+      });
+
+      controller.verify();
+    }
+  ));
 });

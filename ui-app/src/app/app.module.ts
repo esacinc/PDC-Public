@@ -32,6 +32,12 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import { NgIdleModule } from '@ng-idle/core';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { Md5 } from 'ts-md5';
+import {
+  RecaptchaModule,
+  RecaptchaFormsModule,
+  RECAPTCHA_V3_SITE_KEY,
+  RecaptchaV3Module
+} from 'ng-recaptcha';
 
 import { NavbarComponent } from './navbar/navbar.component';
 import { SearchService } from './navbar/search.service';
@@ -82,8 +88,10 @@ import { HeatmapsComponent } from './heatmaps/heatmaps.component';
 import { HeatmapsService } from './heatmaps/heatmaps.service';
 import { ForwardingComponent } from './forwarding/forwarding.component';
 import { HarmonizationComponent } from './harmonization/harmonization.component';
-import { DataDictionaryComponent } from './data-dictionary/data-dictionary.component';
-import { DataDictionaryService } from './data-dictionary/data-dictionary.service';
+
+import { DataDictionaryModule } from './data-dictionary/data-dictionary.module';
+import { ApiDocumentationComponent } from './api-documentation/api-documentation.component';
+
 
 export function getAuthServiceConfigs() {
 
@@ -98,6 +106,8 @@ export function getAuthServiceConfigs() {
 
   return config;
 }
+
+const RECAPTCHA_V3_PDC_KEY = environment.recaptcha_site_key;
 
 @NgModule({
   declarations: [
@@ -134,7 +144,9 @@ export function getAuthServiceConfigs() {
 	HeatmapsComponent,
 	ForwardingComponent,
 	HarmonizationComponent,
-	DataDictionaryComponent
+	ApiDocumentationComponent
+
+
   ],
   imports: [
 	AngularFontAwesomeModule,
@@ -144,6 +156,7 @@ export function getAuthServiceConfigs() {
 	BrowserModule,
 	LegacyDataModule,
 	BrowserAnimationsModule,
+	DataDictionaryModule, 
 	HttpClientModule,
 	ApolloModule,
 	HttpLinkModule,
@@ -178,12 +191,20 @@ export function getAuthServiceConfigs() {
 	MatCheckboxModule,
 	MatListModule,
 	MatExpansionModule,
-	MatSelectModule
+	MatSelectModule,
+  RecaptchaModule,
+  RecaptchaFormsModule,
+  RecaptchaV3Module
   ],
-  providers: [ChorusauthService, FrontPageService, DataDictionaryService,SearchService, PDCUserService, OverlayWindowService, PublicationsService,
+
+  providers: [ChorusauthService, FrontPageService, SearchService, PDCUserService, OverlayWindowService, PublicationsService,
 				LegacyDataService, HeatmapsService, StudySummaryOverlayService, AuthGuardService,
 				{ provide: AuthServiceConfig,	useFactory: getAuthServiceConfigs },
-				{ provide: APP_BASE_HREF, useValue: window['_app_base'] || '/' }
+				{ provide: APP_BASE_HREF, useValue: window['_app_base'] || '/' },
+        {
+          provide: RECAPTCHA_V3_SITE_KEY,
+          useValue: RECAPTCHA_V3_PDC_KEY
+        }
 			 ],
   bootstrap: [AppComponent],
   entryComponents: [LabSelectionComponent, LoginComponent, RegistrationComponent, GeneProteinSummaryComponent,

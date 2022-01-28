@@ -60,7 +60,7 @@
 				<a mat-button class="custom-menu-item" (click)="trackPage('/jbrowse')" href='/jbrowse/' id="analysisOption" target="_" >Peptide Genome mapping</a>
 				<a mat-button class="custom-menu-item" id="harmonizationUrl" routerLink='harmonization'>Common Data Analysis Pipeline (CDAP)</a><br/>
 				<!-- @@@PDC-1711 add external link icon -->
-				<a mat-button (click)="trackPage('/pepquery')" href='http://pepquery.esacinc.com/pepquery' id="analysisOption" target="_" >Pepquery</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">Exit Disclaimer</span></a>
+				<a mat-button (click)="trackPage('/pepquery')" href='http://pepquery2.pepquery.org/' id="analysisOption" target="_" >Pepquery</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">Exit Disclaimer</span></a>
 			</mat-menu>
 			<a mat-button class="custom-navbar-menu-item" id="dataUseGuidelines" routerLink='data-use-guidelines'>DATA USE</a>
 			<!-- <a mat-button class="custom-navbar-menu-item" id="submitNavbar" (click)="submitData()">SUBMIT DATA</a> -->
@@ -77,14 +77,15 @@
 					</span>
 				</span>
 				<a mat-menu-item  class="custom-menu-item"  id="submitDataMenu" target="_blank"  href='/pdc/submit-data'>How to Submit Data</a>
-				<a mat-menu-item  class="custom-menu-item"  id="dataSubmissionMenu" target="_blank"  href='/pdc/request-data-submission'>Request Data Submission</a>
+				
+				<!-- //@@@PDC-PDC-4699: hide request data submission page <a mat-menu-item  class="custom-menu-item"  id="dataSubmissionMenu" target="_blank"  href='/pdc/request-data-submission'>Request Data Submission</a> -->
 			</mat-menu>
 			<!-- <a mat-button class="custom-navbar-menu-item" id="newsNavbar" routerLink='news'>NEWS</a> -->
 			<a mat-button class="custom-navbar-menu-item" id="aboutNavbar" routerLink='about'>ABOUT</a>
 			<a mat-button class="custom-navbar-menu-item" id="helpNavbar" [matMenuTriggerFor]="help">HELP</a>
 			<mat-menu yPosition="below" [overlapTrigger]="false" focusFirstItem="false" #help="matMenu">
-				<a mat-menu-item class="custom-menu-item" href={{dictionary_url}} target="_blank" id="dataDictionaryLink">Data Model and Dictionary</a>
-				<a mat-menu-item class="custom-menu-item" href={{apidocumentation_url}} target="_blank" id="APIDocs">API Documentation</a>
+				<a mat-menu-item class="custom-menu-item" href="/pdc/data-dictionary" target="_blank" id="dataDictionaryLink">Data Model and Dictionary</a>
+				<a mat-menu-item class="custom-menu-item" href="/pdc/api-documentation" target="_blank" id="APIDocs">API Documentation</a>
 				<a mat-menu-item class="custom-menu-item" id="faq" routerLink='faq' target="_blank">Frequently Asked Questions</a>
 				<a mat-menu-item class="custom-menu-item" id="faqDataTypes" target="_blank" href='/pdc/faq/Files_Download'>Available Data Types and Files</a>
 				<a mat-menu-item class="custom-menu-item" id="submitDataSubmenu" href="/pdc/submit-data" target="_blank">How to Submit Data</a>

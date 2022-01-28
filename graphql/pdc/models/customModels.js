@@ -748,6 +748,7 @@ const defineCustomModels = (db) => {
 	  ModelTreatment.removeAttribute('id');
 	  
 	  //@@@PDC-4391 add new columns
+	  //@@@PDC-4639 remove bmi, height and weight columns from exposure
 	  const ModelExposure = db.getSequelize().define('dummy', {
 			exposure_id: { type: Sequelize.STRING },
 			exposure_submitter_id: { type: Sequelize.STRING },
@@ -760,11 +761,11 @@ const defineCustomModels = (db) => {
 			alcohol_history: { type: Sequelize.STRING },
 			alcohol_intensity: { type: Sequelize.STRING },
 			asbestos_exposure: { type: Sequelize.STRING },
-			bmi: { type: Sequelize.STRING },
+			//bmi: { type: Sequelize.STRING },
 			cigarettes_per_day: { type: Sequelize.STRING },
 			coal_dust_exposure: { type: Sequelize.STRING },
 			environmental_tobacco_smoke_exposure: { type: Sequelize.STRING },
-			height: { type: Sequelize.STRING },
+			//height: { type: Sequelize.STRING },
 			pack_years_smoked: { type: Sequelize.STRING },
 			radon_exposure: { type: Sequelize.STRING },
 			respirable_crystalline_silica_exposure: { type: Sequelize.STRING },
@@ -775,7 +776,7 @@ const defineCustomModels = (db) => {
 			tobacco_smoking_status: { type: Sequelize.STRING },
 			type_of_smoke_exposure: { type: Sequelize.STRING },
 			type_of_tobacco_used: { type: Sequelize.STRING },
-			weight: { type: Sequelize.STRING },
+			//weight: { type: Sequelize.STRING },
 			years_smoked: { type: Sequelize.STRING },
 			age_at_onset: { type: Sequelize.STRING },
 			alcohol_type: { type: Sequelize.STRING },

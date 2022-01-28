@@ -588,11 +588,12 @@ export const resolvers = {
 			if(res === null){
 				//@@@PDC-2335 get ext id from reference
 				//@@@PDC-2657 reverse 2335
+				//@@@PDC-4486 new columns for case
 				let uiCaseBaseQuery = "SELECT distinct bin_to_uuid(c.case_id) as case_id, "+
 				"c.case_submitter_id, "+
 				"c.tissue_source_site_code, c.days_to_lost_to_followup, c.disease_type, "+
-				"c.index_date, c.lost_to_followup, c.primary_site, c.project_submitter_id "+
-				"from `case` c where case_id is not null ";
+				"c.index_date, c.lost_to_followup, c.primary_site, c.project_submitter_id, "+
+				"c.consent_type, c.days_to_consent from `case` c where case_id is not null ";
 
 				let result = null;
 				let replacements = { };
@@ -4185,9 +4186,10 @@ export const resolvers = {
 			context['arguments'] = args;
 			let uiCaseCountQuery = "select count(distinct c.case_id) as total ";
 			//@@@PDC-2657 reverse 2335
+			//@@@PDC-4486 new columns for case
 			let uiCaseBaseQuery = "SELECT distinct bin_to_uuid(c.case_id) as case_id, c.case_submitter_id, "+
 			"c.tissue_source_site_code, c.days_to_lost_to_followup, c.disease_type, "+
-			"c.index_date, c.lost_to_followup, c.primary_site ";
+			"c.index_date, c.lost_to_followup, c.primary_site, c.consent_type, c.days_to_consent ";
 			let uiCaseQuery = "FROM study s, `case` c, sample sam, aliquot_run_metadata alm, "+
 			" aliquot al, project proj, program prog "+
 			" WHERE alm.study_id = s.study_id and al.aliquot_id = alm.aliquot_id "+
@@ -4241,7 +4243,10 @@ export const resolvers = {
 				logger.info("paginatedCaseDiagnosesPerStudy is called from UI with "+ JSON.stringify(args));
 			context['arguments'] = args;
 			let uiCaseCountQuery = "select count(distinct c.case_id) as total ";
-			let uiCaseBaseQuery = "SELECT distinct bin_to_uuid(c.case_id) as case_id, c.case_submitter_id, c.disease_type, c.primary_site ";
+			//@@@PDC-4486 new columns for case
+			let uiCaseBaseQuery = "SELECT distinct bin_to_uuid(c.case_id) as case_id, c.case_submitter_id, c.disease_type, c.primary_site, "+
+			"c.tissue_source_site_code, c.days_to_lost_to_followup, "+
+			"c.index_date, c.lost_to_followup, c.consent_type, c.days_to_consent ";
 			let uiCaseQuery = "FROM study s, `case` c, sample sam, aliquot_run_metadata alm, "+
 			" aliquot al "+
 			" WHERE alm.study_id = s.study_id and al.aliquot_id = alm.aliquot_id "+
@@ -4292,7 +4297,231 @@ export const resolvers = {
 				logger.info("paginatedCaseDemographicsPerStudy is called from UI with "+ JSON.stringify(args));
 			context['arguments'] = args;
 			let uiCaseCountQuery = "select count(distinct c.case_id) as total ";
-			let uiCaseBaseQuery = "SELECT distinct bin_to_uuid(c.case_id) as case_id, c.case_submitter_id, c.disease_type, c.primary_site ";
+			//@@@PDC-4486 new columns for case
+			let uiCaseBaseQuery = "SELECT distinct bin_to_uuid(c.case_id) as case_id, c.case_submitter_id, c.disease_type, c.primary_site, "+
+			"c.tissue_source_site_code, c.days_to_lost_to_followup, "+
+			"c.index_date, c.lost_to_followup, c.consent_type, c.days_to_consent ";
+			let uiCaseQuery = "FROM study s, `case` c, sample sam, aliquot_run_metadata alm, "+
+			" aliquot al "+
+			" WHERE alm.study_id = s.study_id and al.aliquot_id = alm.aliquot_id "+
+			" and al.sample_id=sam.sample_id and sam.case_id=c.case_id ";
+			//" and s.project_submitter_id IN ('" + context.value.join("','") + "')";
+
+			let replacements = { };
+
+			uiCaseQuery += replacementFilters(args, { name: "" }, replacements);
+
+			let myOffset = 0;
+			let myLimit = 100;
+			let paginated = false;
+			if (typeof args.offset != 'undefined' && typeof args.limit != 'undefined') {
+				if (args.offset >= 0)
+					myOffset = args.offset;
+				if (args.limit >= 0)
+					myLimit = args.limit;
+				else
+					myLimit = 0;
+				paginated = true;
+			}
+			let uiCaseLimitQuery = " LIMIT "+ myOffset+ ", "+ myLimit;
+			context['query'] = uiCaseBaseQuery + uiCaseQuery + uiCaseLimitQuery;
+			context['replacements'] = replacements;
+			//@@@PDC-2725 pagination enhancement
+			//if (myOffset == 0 && paginated) {
+			if (paginated) {
+				return db.getSequelize().query(
+						uiCaseCountQuery + uiCaseQuery,
+						{
+							replacements: replacements,
+							model: db.getModelByName('ModelPagination')
+						}
+					);
+			}
+			else {
+				return [{total: 0}];
+			}
+		},
+		//@@@PDC-4547 public apis for new clinbio entities
+		paginatedCaseExposuresPerStudy (_, args, context) {
+			if(!context.isUI) {
+				gaVisitor.pageview("/graphqlAPI/paginatedCaseExposuresPerStudy").send();
+				logger.info("paginatedCaseExposuresPerStudy is called with "+ JSON.stringify(args));
+				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					throw new ApolloError(duaMsg);
+			}
+			else
+				logger.info("paginatedCaseExposuresPerStudy is called from UI with "+ JSON.stringify(args));
+			context['arguments'] = args;
+			let uiCaseCountQuery = "select count(distinct c.case_id) as total ";
+			//@@@PDC-4486 new columns for case
+			let uiCaseBaseQuery = "SELECT distinct bin_to_uuid(c.case_id) as case_id, c.case_submitter_id, c.disease_type, c.primary_site, "+
+			"c.tissue_source_site_code, c.days_to_lost_to_followup, "+
+			"c.index_date, c.lost_to_followup, c.consent_type, c.days_to_consent ";
+			let uiCaseQuery = "FROM study s, `case` c, sample sam, aliquot_run_metadata alm, "+
+			" aliquot al "+
+			" WHERE alm.study_id = s.study_id and al.aliquot_id = alm.aliquot_id "+
+			" and al.sample_id=sam.sample_id and sam.case_id=c.case_id ";
+			//" and s.project_submitter_id IN ('" + context.value.join("','") + "')";
+
+			let replacements = { };
+
+			uiCaseQuery += replacementFilters(args, { name: "" }, replacements);
+
+			let myOffset = 0;
+			let myLimit = 100;
+			let paginated = false;
+			if (typeof args.offset != 'undefined' && typeof args.limit != 'undefined') {
+				if (args.offset >= 0)
+					myOffset = args.offset;
+				if (args.limit >= 0)
+					myLimit = args.limit;
+				else
+					myLimit = 0;
+				paginated = true;
+			}
+			let uiCaseLimitQuery = " LIMIT "+ myOffset+ ", "+ myLimit;
+			context['query'] = uiCaseBaseQuery + uiCaseQuery + uiCaseLimitQuery;
+			context['replacements'] = replacements;
+			//@@@PDC-2725 pagination enhancement
+			//if (myOffset == 0 && paginated) {
+			if (paginated) {
+				return db.getSequelize().query(
+						uiCaseCountQuery + uiCaseQuery,
+						{
+							replacements: replacements,
+							model: db.getModelByName('ModelPagination')
+						}
+					);
+			}
+			else {
+				return [{total: 0}];
+			}
+		},
+		paginatedCaseFollowUpsPerStudy (_, args, context) {
+			if(!context.isUI) {
+				gaVisitor.pageview("/graphqlAPI/paginatedCaseFollowUpsPerStudy").send();
+				logger.info("paginatedCaseFollowUpsPerStudy is called with "+ JSON.stringify(args));
+				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					throw new ApolloError(duaMsg);
+			}
+			else
+				logger.info("paginatedCaseFollowUpsPerStudy is called from UI with "+ JSON.stringify(args));
+			context['arguments'] = args;
+			let uiCaseCountQuery = "select count(distinct c.case_id) as total ";
+			//@@@PDC-4486 new columns for case
+			let uiCaseBaseQuery = "SELECT distinct bin_to_uuid(c.case_id) as case_id, c.case_submitter_id, c.disease_type, c.primary_site, "+
+			"c.tissue_source_site_code, c.days_to_lost_to_followup, "+
+			"c.index_date, c.lost_to_followup, c.consent_type, c.days_to_consent ";
+			let uiCaseQuery = "FROM study s, `case` c, sample sam, aliquot_run_metadata alm, "+
+			" aliquot al "+
+			" WHERE alm.study_id = s.study_id and al.aliquot_id = alm.aliquot_id "+
+			" and al.sample_id=sam.sample_id and sam.case_id=c.case_id ";
+			//" and s.project_submitter_id IN ('" + context.value.join("','") + "')";
+
+			let replacements = { };
+
+			uiCaseQuery += replacementFilters(args, { name: "" }, replacements);
+
+			let myOffset = 0;
+			let myLimit = 100;
+			let paginated = false;
+			if (typeof args.offset != 'undefined' && typeof args.limit != 'undefined') {
+				if (args.offset >= 0)
+					myOffset = args.offset;
+				if (args.limit >= 0)
+					myLimit = args.limit;
+				else
+					myLimit = 0;
+				paginated = true;
+			}
+			let uiCaseLimitQuery = " LIMIT "+ myOffset+ ", "+ myLimit;
+			context['query'] = uiCaseBaseQuery + uiCaseQuery + uiCaseLimitQuery;
+			context['replacements'] = replacements;
+			//@@@PDC-2725 pagination enhancement
+			//if (myOffset == 0 && paginated) {
+			if (paginated) {
+				return db.getSequelize().query(
+						uiCaseCountQuery + uiCaseQuery,
+						{
+							replacements: replacements,
+							model: db.getModelByName('ModelPagination')
+						}
+					);
+			}
+			else {
+				return [{total: 0}];
+			}
+		},
+		paginatedCaseFamilyHistoriesPerStudy (_, args, context) {
+			if(!context.isUI) {
+				gaVisitor.pageview("/graphqlAPI/paginatedCaseFamilyHistoriesPerStudy").send();
+				logger.info("paginatedCaseFamilyHistoriesPerStudy is called with "+ JSON.stringify(args));
+				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					throw new ApolloError(duaMsg);
+			}
+			else
+				logger.info("paginatedCaseFamilyHistoriesPerStudy is called from UI with "+ JSON.stringify(args));
+			context['arguments'] = args;
+			let uiCaseCountQuery = "select count(distinct c.case_id) as total ";
+			//@@@PDC-4486 new columns for case
+			let uiCaseBaseQuery = "SELECT distinct bin_to_uuid(c.case_id) as case_id, c.case_submitter_id, c.disease_type, c.primary_site, "+
+			"c.tissue_source_site_code, c.days_to_lost_to_followup, "+
+			"c.index_date, c.lost_to_followup, c.consent_type, c.days_to_consent ";
+			let uiCaseQuery = "FROM study s, `case` c, sample sam, aliquot_run_metadata alm, "+
+			" aliquot al "+
+			" WHERE alm.study_id = s.study_id and al.aliquot_id = alm.aliquot_id "+
+			" and al.sample_id=sam.sample_id and sam.case_id=c.case_id ";
+			//" and s.project_submitter_id IN ('" + context.value.join("','") + "')";
+
+			let replacements = { };
+
+			uiCaseQuery += replacementFilters(args, { name: "" }, replacements);
+
+			let myOffset = 0;
+			let myLimit = 100;
+			let paginated = false;
+			if (typeof args.offset != 'undefined' && typeof args.limit != 'undefined') {
+				if (args.offset >= 0)
+					myOffset = args.offset;
+				if (args.limit >= 0)
+					myLimit = args.limit;
+				else
+					myLimit = 0;
+				paginated = true;
+			}
+			let uiCaseLimitQuery = " LIMIT "+ myOffset+ ", "+ myLimit;
+			context['query'] = uiCaseBaseQuery + uiCaseQuery + uiCaseLimitQuery;
+			context['replacements'] = replacements;
+			//@@@PDC-2725 pagination enhancement
+			//if (myOffset == 0 && paginated) {
+			if (paginated) {
+				return db.getSequelize().query(
+						uiCaseCountQuery + uiCaseQuery,
+						{
+							replacements: replacements,
+							model: db.getModelByName('ModelPagination')
+						}
+					);
+			}
+			else {
+				return [{total: 0}];
+			}
+		},
+		paginatedCaseTreatmentsPerStudy (_, args, context) {
+			if(!context.isUI) {
+				gaVisitor.pageview("/graphqlAPI/paginatedCaseTreatmentsPerStudy").send();
+				logger.info("paginatedCaseTreatmentsPerStudy is called with "+ JSON.stringify(args));
+				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					throw new ApolloError(duaMsg);
+			}
+			else
+				logger.info("paginatedCaseTreatmentsPerStudy is called from UI with "+ JSON.stringify(args));
+			context['arguments'] = args;
+			let uiCaseCountQuery = "select count(distinct c.case_id) as total ";
+			//@@@PDC-4486 new columns for case
+			let uiCaseBaseQuery = "SELECT distinct bin_to_uuid(c.case_id) as case_id, c.case_submitter_id, c.disease_type, c.primary_site, "+
+			"c.tissue_source_site_code, c.days_to_lost_to_followup, "+
+			"c.index_date, c.lost_to_followup, c.consent_type, c.days_to_consent ";
 			let uiCaseQuery = "FROM study s, `case` c, sample sam, aliquot_run_metadata alm, "+
 			" aliquot al "+
 			" WHERE alm.study_id = s.study_id and al.aliquot_id = alm.aliquot_id "+
@@ -4743,6 +4972,7 @@ export const resolvers = {
 		},
 		//@@@PDC-1376 add sample and aliquot APIs to search by uuid/submitter_id
 		//@@@PDC-1467 add case_submitter_id
+        //@@@PDC-4569 remove is_ffpe and oct_embedded
 		sample(_, args, context) {
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/sample").send();
@@ -4756,11 +4986,12 @@ export const resolvers = {
 			"sample_submitter_id, sample_type, sample_type_id, gdc_sample_id, gdc_project_id, "+
 			"biospecimen_anatomic_site, composition, current_weight, days_to_collection, "+
 			"days_to_sample_procurement, diagnosis_pathologically_confirmed, freezing_method, "+
-			"initial_weight, intermediate_dimension, is_ffpe, longest_dimension, "+
-			"method_of_sample_procurement, oct_embedded, pathology_report_uuid, preservation_method, "+
+			"initial_weight, intermediate_dimension, longest_dimension, "+
+			"method_of_sample_procurement, pathology_report_uuid, preservation_method, "+
 			"time_between_clamping_and_freezing, time_between_excision_and_freezing, "+
 			"shortest_dimension, tissue_type, tumor_code, tumor_code_id, tumor_descriptor, "+
-			"case_submitter_id from sample ";
+			"biospecimen_laterality, catalog_reference, distance_normal_to_tumor, distributor_reference, "+ 
+			"growth_rate, passage_count, sample_ordinal, tissue_collection_type, case_submitter_id from sample ";
 
 			let replacements = { };
 

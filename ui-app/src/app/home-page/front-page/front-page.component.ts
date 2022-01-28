@@ -18,8 +18,8 @@ import {environment} from '../../../environments/environment';
   providers: [ FrontPageService]
 })
 
-// @@@PDC-168 The landing page for the PDC Node provides a summary view of the data that is in 
-// the PDC database. 
+// @@@PDC-168 The landing page for the PDC Node provides a summary view of the data that is in
+// the PDC database.
 //@@@PDC-447 - angular-highcharts module changed their chart structure from "_options" to "options"
 //@@@PDC-621 - Populate sunburst chart with data from new uiSunburst API
 //@@@PDC-638 - data missing in sunburst graph and change root node name
@@ -37,10 +37,10 @@ export class FrontPageComponent implements OnInit {
   casesData: Observable<SunburstData[]>;
   diseasesTotalCounts: Disease[] = [];
   newsItems: any[];
-  dictionary_url = environment.dictionary_base_url + 'dictionary.html';
+  dictionary_url = '/pdc/data-dictionary';
   //harmonization_url = environment.dictionary_base_url + 'harmonization.html';
   pepquery_url = environment.pepquery_url;
-  apidocumentation_url = environment.dictionary_base_url + 'apidocumentation.html';
+  apidocumentation_url = '/pdc/api-documentation';
   submission_portal_docs_url = environment.submission_portal_docs_url;
   tissuesChart: any;
   casesChart: any;
@@ -49,10 +49,10 @@ export class FrontPageComponent implements OnInit {
   pieChart: Chart;
   sunburstChart: Chart;
   colors: string[] = [];
-  //@ViewChild(HumanBodyChartComponent) humanBodyComp:HumanBodyChartComponent; 
-  
+  //@ViewChild(HumanBodyChartComponent) humanBodyComp:HumanBodyChartComponent;
+
   constructor(private apollo: Apollo, private sanitizer: DomSanitizer,
-				private frontPageService: FrontPageService) { //, private http: Http) { 
+				private frontPageService: FrontPageService) { //, private http: Http) {
 	this.tissuesChart = this.createPieChart();
 	this.casesChart = this.createSunburstChart();
 	this.getTissueSitesData();
@@ -72,14 +72,14 @@ export class FrontPageComponent implements OnInit {
 
   }
   createPieChart(): any {
-    
+
 	  this.pieChart = new Chart({
       chart: {
         type: 'pie',
         margin: 0,
         height: '30%',
       },
-      
+
       title: {
         text: ''
       },
@@ -99,7 +99,7 @@ export class FrontPageComponent implements OnInit {
                   color: '#585858'
                 }
             },
-            
+
             innerSize: '50%',
             colors: ['#FF9F31', '#FFD03C', '#407185', '#588897',
                     '#7BA2AF', '#F9EB36', '#65A5C8', '#67C4E2', '#71E2E8',  '#72E0C0',
@@ -123,7 +123,7 @@ export class FrontPageComponent implements OnInit {
         margin: 0,
         height: '90%',
       },
-      
+
       title: {
         text: ''
       },
@@ -147,7 +147,7 @@ export class FrontPageComponent implements OnInit {
                   //color: '#080808',
 				  color: '#FFFFFF',
 				  textOutline: false,
-				  fontWeight: 'normal', 
+				  fontWeight: 'normal',
 				  verticalAlign: 'top',
                 }
             },
@@ -177,7 +177,7 @@ export class FrontPageComponent implements OnInit {
         },
 		lang: {
 			thousandsSep: '\u002C'
-		},  
+		},
 		tooltip: {
 			pointFormatter: function(){
                 return '<b>' + this.info + '</b>: ' + this.value.toLocaleString();
@@ -201,7 +201,7 @@ export class FrontPageComponent implements OnInit {
 							fontSize: '12px'
 						}
 					},
-					
+
 				}, {
 					level: 2,
 					colorByPoint: true
@@ -254,7 +254,7 @@ export class FrontPageComponent implements OnInit {
 		  for (let idx = 0; idx < data.length; idx++){
 			  var counter_idx = this.isDiseaseInArray(this.diseasesTotalCounts, data[idx].disease_type);
 			  if (counter_idx === -1) {
-				  this.diseasesTotalCounts.push({disease_type: String(data[idx].disease_type), 
+				  this.diseasesTotalCounts.push({disease_type: String(data[idx].disease_type),
 												 tissue_or_organ_of_origin: '',
 												 project_submitter_id: '',
 												 cases_count: parseInt(data[idx].cases_count)});
@@ -263,12 +263,12 @@ export class FrontPageComponent implements OnInit {
 			  }
 		  }
 			console.log(this.diseasesData);
-			this.diseasesTotalCounts.sort(this.compareDiseases); 
-	  });  
+			this.diseasesTotalCounts.sort(this.compareDiseases);
+	  });
   }
-  
+
   //PDC-1301 Move 'Other' disease type to bottom on home page
-  //Helper function compares diseases for alphabethical sort 
+  //Helper function compares diseases for alphabethical sort
   // and moves 'Other' disease to the bottom of the list
   compareDiseases(disease1, disease2){
 	var return_val = 0;
@@ -278,13 +278,13 @@ export class FrontPageComponent implements OnInit {
 	if (disease2.disease_type == 'Other') return_val = -1;
 	return return_val;
   }
-  
+
   //PDC-621 - Populate sunburst chart with data from new uiSunburst API
   //PDC-638 - data missing in sunburst graph and change root node name
   getSunburstChart(){
 	this.frontPageService.getSunburstChartData().subscribe((data: any) => {
 		this.casesData = data.uiSunburstChart;
-		
+
 		//Populate first levels of sunburst chart
 		this.casesChart = this.createSunburstChart();
 		//initialize the 0 level for sunburst chart
@@ -346,7 +346,7 @@ export class FrontPageComponent implements OnInit {
 		console.log(this.casesChart.options.series[0]);
 	});
   }
-  
+
   //Check if element is already found in array
   private isElementInArray(array, element_name:string, parent_element: string): number {
 		//console.log("element name: " + element_name + " parent element: " + parent_element);
@@ -365,7 +365,7 @@ export class FrontPageComponent implements OnInit {
 		}
 		return -1;
   }
- 
+
   //Check if a disease name already exists in the list
   private isDiseaseInArray(array, disease: string): number{
 	  for (var i = 0; i < array.length; i++){

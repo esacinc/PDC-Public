@@ -1,0 +1,169 @@
+<div class="pageContent">
+
+
+				  <!--<div class="nav-bar">
+
+                    <div class="navbar">
+                     <div class="dropdown">
+                        <button class="dropbtn">Dropdown
+                          <i class="fa fa-caret-down"></i>
+                        </button>
+                        <div class="dropdown-content">
+                          <a href="#">Link 1</a>
+                          <a href="#">Link 2</a>
+                          <a href="#">Link 3</a>
+                        </div>
+                      </div>
+
+					  <div class="dropdown">
+                        <button class="dropbtn">HELP
+                          <i class="fa fa-caret-down"></i>
+                        </button>
+                        <div class="dropdown-content">
+                          <a href="/data-dictionary/dictionary.html">Data Model and Dictionary</a>
+                          <a href="/data-dictionary/apidocumentation.html">API Documentation</a>
+						  <a href="/pdc/faq">Frequently Asked Questions</a>
+						  <a href="/pdc/faq/Files_Download">Available Data Types and Files</a>
+						  <a href="/pdc/submit-data">How to Submit Data</a>
+						  <a href="https://list.nih.gov/cgi-bin/wa.exe?SUBED1=PDC-ANNOUNCE-L&A=1">Subscribe to PDC mailing list</a>
+						  <a href="https://drive.google.com/file/d/1k_sPoPuhusZPRDJWkVecWEnyCqvQm8nA/view?ths=true">Software Release Notes</a>
+						  <a href="https://docs.google.com/document/d/1K8rSin-9KrDS08vB3Tpnfcch_NMK78MAt27rpkdM-HE/view?ths=true">Data Release Notes</a>
+						  <a href="mailto:PDCHelpDesk@mail.nih.gov?Subject=PDC Help">Contact Us</a>
+						  <a href="https://groups.google.com/a/esacinc.com/forum/#!forum/pdc-mvp-feedback">Discussion Forum</a>
+                        </div>
+                      </div>
+                      <a href="/pdc/about">ABOUT</a>
+					  <div class="dropdown">
+                        <button class="dropbtn">SUBMIT DATA
+                          <i class="fa fa-caret-down"></i>
+                        </button>
+                        <div class="dropdown-content">
+                          <a href="/pdc/submit-data">How to Submit Data</a>
+                          <a href="/pdc/request-data-submission">Request Data Submission</a>
+                        </div>
+                      </div>
+                      <a href="/pdc/publications">PUBLICATIONS</a>
+                      <a href="/pdc/data-use-guidenlines">DATA USE</a>
+					  <div class="dropdown">
+                        <button class="dropbtn">ANALYSIS
+                          <i class="fa fa-caret-down"></i>
+                        </button>
+                        <div class="dropdown-content">
+                          <a href="/pdc/explore-quantitation-data">Explore Quantitation Data</a>
+                          <a href="/jbrowse/">Peptide Genome mapping</a>
+                          <a href="/data-dictionary/harmonization.html">Common Data Analysis Pipeline (CDAP)</a>
+						  <a href="http://pepquery.esacinc.com/pepquery">Pepquery</a>
+                        </div>
+                      </div>
+                      <a href="/pdc/browse">BROWSE</a>
+                      <a href="/pdc">HOME</a>
+                    </div>
+
+                  </div>-->
+
+                  <div class="contentBG">
+                  </div>
+                  <div class="contentArea" style="margin-top:-150px!important;" >
+                     <div class="pageText">
+                       <div class="textSection">
+                         <h3>PDC GraphQL API Overview</h3>
+
+                         <p>
+                         The PDC GraphQL API allows for more efficient retrieval of data by enabling to fetch multiple, nested resources in a single request. The API is based on the data model and data dictionary described <a href="http://pdc-dev.esacinc.com/data-dictionary/dictionary.html" target="_blank">here</a>.
+                       </p>
+
+                        <p>
+                         The PDC GraphQL API is currently in alpha.
+                       </p>
+
+                         On this page:
+
+                         <ul class = "externalPageLinks">
+                         <li (click)="moveToGettingStartedDocumentationDiv()"><a style="color:#246A92">Getting started</a></li>
+                         <li (click)="moveToEndpointDocumentationDiv()"><a style="color:#246A92">Endpoint</a></li>
+                         <li (click)="moveToAuthenticationDocumentationDiv()"><a  style="color:#246A92">Authentication</a></li>
+                         <li (click)="moveToPerformingRequestsDocumentationDiv()"><a style="color:#246A92">Performing requests with curl</a></li>
+                         <li (click)="moveToSchemaDocumentationDiv()"><a style="color:#246A92" >Schema</a></li>
+                         <li (click)="moveToGraphqlDocumentationDiv()"><a style="color:#246A92" >GraphQL+ Python Example</a></li>
+                         <li (click)="moveToLearningMoreDocumentationDiv()"><a style="color:#246A92">Learning more about GraphQL</a></li>
+                         <li ><a href="/data-dictionary/publicapi-documentation/" target="_blank">Public API Documentation</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                              <a href="/data-dictionary/publicapi-documentation/" target="_blank"><button id="documentationLink">TRY IT NOW!</button></a>
+                          </li>
+                         <li><a href="/API_documentation/PDC_clustergram.html" target="_blank">Clustergram help page</a></li>
+                        </ul>
+                      </div>
+                      <!-- @@@PDC-3918 study versioning announcement -->
+                      <div class="importantNote">
+					  <h3>Important:</h3>
+						<p>
+						PDC studies can have multiple versions. While each version of study will have a UUID based unique study id, the PDC study ID (e.g., PDC000121) will always remain the same. By default, all the APIs will return the data related to the latest version. The APIs show the following behavior,
+						</p>
+						<ul>
+							<li>In order to understand the available versions, we strongly recommend you to first visit PDC portal or call the studyCatalog API. The studyCatalog API will provide a list of studies along with all their versions, version number and version status.</li>
+							<li>When calling an API with PDC study ID (e.g., PDC000121) as input parameter, it will return data for the latest version.</li>
+							<li>When calling an API with UUID based study ID (e.g., be2883cb-57b8-11e8-b07a-00a098d917f8) as input parameter, it will return data for the specific version.</li>
+						</ul>
+					  </div>
+					  <!-- @@@PDC-2485 point to dev graghql playground -->
+                      <div #Getting_started class="textSection" id="Getting_started">
+                        <h3><a class="linkNoStyle" name="Getting_started" >Getting started</a></h3>
+
+                       The quickest way to get started with the GraphQL API is to <a href="/graphql" target="_blank">PDC GraphQL Explorer</a>:
+                       <br/><br/>
+                       <img border="0" width="800" height="206" src="./assets/css/images/graphqlExplorer.png" alt="PDC GraphQL Explorer"/>
+                     </div>
+
+
+                       <div #Endpoint class="textSection">
+                         <h3><a class="linkNoStyle" name="Endpoint" id="Endpoint">Endpoint</a></h3>
+
+                       The GraphQL API endpoint is https://pdc-dev.esacinc.com/graphql. All requests must be HTTP POST requests with application/json encoded bodies.
+                      </div>
+
+                       <div #Authentication class="textSection">
+                         <h3><a class="linkNoStyle" name="Authentication" id="Authentication">Authentication</a></h3>
+
+                       PDC GraphQL is open access.
+                     </div>
+
+                     <div #Performing_requests class="textSection">
+                       <h3><a class="linkNoStyle" name="Performing_requests" id="Performing_requests">Performing requests with curl</a></h3>
+
+                       A GraphQL request is a standard HTTPS POST request, with a JSON-encoded body containing a "query" key, and optionally a "variables" key.
+
+                       For example, the following curl command returns the case submitter id project submitter id disease typeproperties for a queried case:
+                       <pre>
+                         <code>{{curl_example}}</code>
+
+
+                     </pre>
+                   </div>
+                     <div #Schema class="textSection">
+                       <h3><a class="linkNoStyle" name="Schema" id="Schema">Schema</a></h3>
+
+                       Click <a href="/data-dictionary/publicapi-documentation/" target="_blank">here</a> for Swagger documentation of exposed schema (full list of fields and types) that you can explore using the <a href="/graphql" target="_blank">PDC GraphQL Explorer</a>.
+                     </div>
+                     <div #GraphQL class="textSection">
+                       <h3><a class="linkNoStyle" name="GraphQL" id="GraphQL">GraphQL+Python Example</a></h3>
+
+                       Below is an example of querying PDC GraphQL API with Python. Click <a href="/API_documentation/PDC_clustergram.html" target="_blank">here</a> for an example of API usage for generating a clustergram from protein expression data.
+                     </div>
+
+                      <pre>
+                      <code>{{code}}</code>
+                    </pre>
+                    <div #Learning_more class="textSection">
+                      <h3><a class="linkNoStyle" name="Learning_more" id="Learning_more">Learning more about GraphQL</a></h3>
+
+                       Further resources for learning more about GraphQL:
+
+                       <ul>
+                         <li><a href="https://graphql.org/learn/" target="_blank">graphql.org/learn</a> — The Learn section of the official GraphQL website</li>
+                      </ul>
+                     </div>
+
+
+
+                     </div>
+                  </div>
+                  </div>

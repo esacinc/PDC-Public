@@ -33,228 +33,122 @@
 				<div *ngIf="loading">
 					<mat-spinner></mat-spinner>
 				</div>
-				<table style="max-height:200px;overflow-y: auto;display: block!important;font-size: 12px; width: 100%; padding-top: 10px" id="caseSummaryDemography">
-					<div *ngFor="let caseData of demographics">
-						<tr style="padding-top: 10px">
-							<td class="summary-card-name-left-cell">Gender</td>
-							<td class="summary-card-value-left-cell">{{caseData.gender}}</td>
-							<td class="summary-card-name-right-cell">Vital Status</td>
-							<td class="summary-card-value-right-cell" style="border-right: 1px solid #ddd;" [ngStyle]="styleNotReported(caseData.vital_status)">{{caseData.vital_status}}</td>
-							<td class="summary-card-name-right-cell">Cause of Death</td>
-							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(caseData.cause_of_death)">{{caseData.cause_of_death}}</td>
-						</tr>
-						<tr style="padding-top: 10px">
-							<td class="summary-card-name-left-cell">Ethnicity</td>
-							<td class="summary-card-value-left-cell">{{caseData.ethnicity}}</td>
-							<td class="summary-card-name-right-cell">Year of Birth</td>
-							<td class="summary-card-value-right-cell" style="border-right: 1px solid #ddd;" [ngStyle]="styleNotReported(caseData.year_of_birth)">{{caseData.year_of_birth}}</td>
-							<td class="summary-card-name-right-cell">Days to Birth</td>
-							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(caseData.days_to_birth)">{{caseData.days_to_birth}}</td>
-						</tr>
-						<tr style="padding-top: 10px">
-							<td class="summary-card-name-left-cell">Race</td>
-							<td class="summary-card-value-left-cell">{{caseData.race}}</td>
-							<td class="summary-card-name-right-cell">Year of Death</td>
-							<td class="summary-card-value-right-cell" style="border-right: 1px solid #ddd;" [ngStyle]="styleNotReported(caseData.year_of_death )">{{caseData.year_of_death }}</td>
-							<td class="summary-card-name-right-cell">Days to Death</td>
-							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(caseData.days_to_death)">{{caseData.days_to_death}}</td>
-						</tr>
-				    </div>
-				</table>
+				<div *ngIf="demographics && demographics.length == 0 && !loading" style="font-size: 14px; padding-top: 10px">No data available for Demographic.</div>
+				<div *ngIf="demographics && demographics.length > 0">
+					<div *ngIf="showMoreDemographics;else show_more_demographics">
+							<table style="max-height:200px;overflow-y: auto;display: block!important;font-size: 12px; width: 100%; padding-top: 10px" id="caseSummaryDemography">
+									<tr *ngFor="let tst of showMoreDemographicsOddProps; let i= index;">
+										<td class="summary-card-name-left-cell">{{showMoreDemographicsOddProps[i]}}</td>
+										<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(showMoreDemographicsOddPropVals[i])">{{showMoreDemographicsOddPropVals[i]}}</td>
+										<td class="summary-card-name-right-cell">{{showMoreDemographicsEvenProps[i]}}</td>
+										<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(showMoreDemographicsEvenPropVals[i])">{{showMoreDemographicsEvenPropVals[i]}}</td>
+									</tr>
+									<tr *ngIf="showMoreDemographicsOddProps.length > 0"><td><button  mat-stroked-button (click)="showLessDemographicsClicked()">Show less</button></td><td></td></tr>
+							</table>
+					</div>
+					<ng-template #show_more_demographics>
+							<table style="max-height:200px;overflow-y: auto;display: block!important;font-size: 12px; width: 100%; padding-top: 10px">
+									<tr *ngFor="let tst of showLessDemographicsOddProps; let i= index;">
+										<td class="summary-card-name-left-cell">{{showLessDemographicsOddProps[i]}}</td>
+										<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(showLessDemographicsOddPropVals[i])">{{showLessDemographicsOddPropVals[i]}}</td>
+										<td class="summary-card-name-right-cell">{{showLessDemographicsEvenProps[i]}}</td>
+										<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(showLessDemographicsEvenPropVals[i])">{{showLessDemographicsEvenPropVals[i]}}</td>
+									</tr>
+									<tr *ngIf="showLessDemographicsOddProps.length > 0"><td><button mat-stroked-button (click)="showMoreDemographicsClicked()">Show more</button></td><td></td></tr>
+							</table>
+					</ng-template>
+				  </div>
 		    </mat-tab>
 		    <mat-tab label="DIAGNOSIS">
-			  <div *ngIf="showMore;else show_more">
-				<table style="max-height:200px;overflow-y: auto;display: block!important;font-size: 12px; width: 100%; padding-top: 10px" id="caseSummaryDiagnosis">
-					<div *ngFor="let diagnosis of diagnoses">
-						<tr style="padding-top: 10px"><td class="summary-card-name-left-cell">Age at Diagnosis</td>
-							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.age_at_diagnosis)"><ng-container [ngSwitch]="true">
-																																<div *ngSwitchCase="diagnosis.age_at_diagnosis == 1">{{diagnosis.age_at_diagnosis}} day</div>
-																																<div *ngSwitchCase="diagnosis.age_at_diagnosis > 1">{{diagnosis.age_at_diagnosis}} days</div>
-																																<div *ngSwitchDefault>{{diagnosis.age_at_diagnosis}}</div>
-																															</ng-container></td>
-							<td class="summary-card-name-right-cell">Morphology</td>
-							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.morphology)">{{diagnosis.morphology}}</td>
-						</tr>
-						<tr><td class="summary-card-name-left-cell">Primary Diagnosis</td>
-							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.primary_diagnosis)">{{diagnosis.primary_diagnosis}}</td>
-							<td class="summary-card-name-right-cell">Tumor Grade</td>
-							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.tumor_grade)">{{diagnosis.tumor_grade}}</td>
-						</tr>
-						<tr><td class="summary-card-name-left-cell">Tumor Stage</td>
-							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.tumor_stage)">{{diagnosis.tumor_stage}}</td>
-							<td class="summary-card-name-right-cell">Tissue or Organ of Origin</td>
-							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.tissue_or_organ_of_origin)">{{diagnosis.tissue_or_organ_of_origin}}</td>
-						</tr>
-						<tr><td class="summary-card-name-left-cell">Diagnosis Submitter ID</td>
-							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.diagnosis_submitter_id)">{{diagnosis.diagnosis_submitter_id}}</td>
-							<td class="summary-card-name-right-cell">Days to Best Overall Response</td>
-							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.days_to_best_overall_response)">{{diagnosis.days_to_best_overall_response}}</td>
-						</tr>
-						<tr><td class="summary-card-name-left-cell">Classification of Tumor</td>
-							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.classification_of_tumor)">{{diagnosis.classification_of_tumor}}</td>
-							<td class="summary-card-name-right-cell">Days to Diagnosis</td>
-							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.days_to_diagnosis)">{{diagnosis.days_to_diagnosis}}</td>
-						</tr>
-						<tr><td class="summary-card-name-left-cell">Days to Last Follow up</td>
-							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.days_to_last_follow_up)">{{diagnosis.days_to_last_follow_up}}</td>
-							<td class="summary-card-name-right-cell">Days to HIV Diagnosis</td>
-							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.days_to_hiv_diagnosis)">{{diagnosis.days_to_hiv_diagnosis}}</td>
-						</tr>
-						<tr><td class="summary-card-name-left-cell">Days to Last Known Disease Status</td>
-							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.days_to_last_known_disease_status)">{{diagnosis.days_to_last_known_disease_status}}</td>
-							<td class="summary-card-name-right-cell">Days to New Event</td>
-							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.days_to_new_event)">{{diagnosis.days_to_new_event}}</td>
-						</tr>
-						<tr><td class="summary-card-name-left-cell">Days to Recurrence</td>
-							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.days_to_recurrence)">{{diagnosis.days_to_recurrence}}</td>
-							<td class="summary-card-name-right-cell">Figo Stage</td>
-							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.figo_stage)">{{diagnosis.figo_stage}}</td>
-						</tr>
-						<tr><td class="summary-card-name-left-cell">Last Known Disease Status</td>
-							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.last_known_disease_status)">{{diagnosis.last_known_disease_status}}</td>
-							<td class="summary-card-name-right-cell">HIV Positive</td>
-							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.hiv_positive)">{{diagnosis.hiv_positive}}</td>
-						</tr>
-						<tr><td class="summary-card-name-left-cell">HPV  Positive Type</td>
-							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.hpv_positive_type)">{{diagnosis.hpv_positive_type}}</td>
-							<td class="summary-card-name-right-cell">Colon Polyps History</td>
-							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.colon_polyps_history)">{{diagnosis.colon_polyps_history}}</td>
-						</tr>
-						<tr><td class="summary-card-name-left-cell">Progression or Recurrence</td>
-							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.progression_or_recurrence)">{{diagnosis.progression_or_recurrence}}</td>
-							<td class="summary-card-name-right-cell">HPV Status</td>
-							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.hpv_status)">{{diagnosis.hpv_status}}</td>
-						</tr>
-						<tr><td class="summary-card-name-left-cell">Site of Resection or Biopsy</td>
-							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.site_of_resection_or_biopsy)">{{diagnosis.site_of_resection_or_biopsy}}</td>
-							<td class="summary-card-name-right-cell">ISS Stage</td>
-							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.iss_stage)">{{diagnosis.iss_stage}}</td>
-						</tr>
-						<tr><td class="summary-card-name-left-cell">Prior Malignancy</td>
-							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.prior_malignancy)">{{diagnosis.prior_malignancy}}</td>
-							<td class="summary-card-name-right-cell">Laterality</td>
-							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.laterality)">{{diagnosis.laterality}}</td>
-						</tr>
-						<tr><td class="summary-card-name-left-cell">AJCC Clinical m</td>
-							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.ajcc_clinical_m)">{{diagnosis.ajcc_clinical_m}}</td>
-							<td class="summary-card-name-right-cell">LDH Level at Diagnosis</td>
-							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.ldh_level_at_diagnosis)">{{diagnosis.ldh_level_at_diagnosis}}</td>
-						</tr>
-						<tr><td class="summary-card-name-left-cell">AJCC clinical n</td>
-							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.ajcc_clinical_n)">{{diagnosis.ajcc_clinical_n}}</td>
-							<td class="summary-card-name-right-cell">LDH Normal Range Upper</td>
-							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.ldh_normal_range_upper)">{{diagnosis.ldh_normal_range_upper}}</td>
-						</tr>
-						<tr><td class="summary-card-name-left-cell">AJCC clinical Stage</td>
-							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.ajcc_clinical_stage)">{{diagnosis.ajcc_clinical_stage}}</td>
-							<td class="summary-card-name-right-cell">Lymph Nodes Positive</td>
-							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.lymph_nodes_positive)">{{diagnosis.lymph_nodes_positive}}</td>
-						</tr>
-						<tr><td class="summary-card-name-left-cell">AJCC clinical t</td>
-							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.ajcc_clinical_t)">{{diagnosis.ajcc_clinical_t}}</td>
-							<td class="summary-card-name-right-cell">Lymphatic Invasion Present</td>
-							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.lymphatic_invasion_present)">{{diagnosis.lymphatic_invasion_present}}</td>
-						</tr>
-						<tr><td class="summary-card-name-left-cell">AJCC pathologic m</td>
-							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.ajcc_pathologic_m)">{{diagnosis.ajcc_pathologic_m}}</td>
-							<td class="summary-card-name-right-cell">Method of Diagnosis</td>
-							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.method_of_diagnosis)">{{diagnosis.method_of_diagnosis}}</td>
-						</tr>
-						<tr><td class="summary-card-name-left-cell">AJCC pathologic n</td>
-							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.ajcc_pathologic_n)">{{diagnosis.ajcc_pathologic_n}}</td>
-							<td class="summary-card-name-right-cell">New Event Anatomic Site</td>
-							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.new_event_anatomic_site)">{{diagnosis.new_event_anatomic_site}}</td>
-						</tr>
-						<tr><td class="summary-card-name-left-cell">AJCC pathologic Stage</td>
-							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.ajcc_pathologic_stage)">{{diagnosis.ajcc_pathologic_stage}}</td>
-							<td class="summary-card-name-right-cell">New Event Type</td>
-							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.new_event_type)">{{diagnosis.new_event_type}}</td>
-						</tr>
-						<tr><td class="summary-card-name-left-cell">AJCC pathologic t</td>
-							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.ajcc_pathologic_t)">{{diagnosis.ajcc_pathologic_t}}</td>
-							<td class="summary-card-name-right-cell">Overall Survival</td>
-							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.overall_survival)">{{diagnosis.overall_survival}}</td>
-						</tr>
-						<tr><td class="summary-card-name-left-cell">AJCC staging system edition</td>
-							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.ajcc_staging_system_edition)">{{diagnosis.ajcc_staging_system_edition}}</td>
-							<td class="summary-card-name-right-cell">Perineural Invasion Present</td>
-							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.perineural_invasion_present)">{{diagnosis.perineural_invasion_present}}</td>
-						</tr>
-						<tr><td class="summary-card-name-left-cell">Ann Arbor b Symptoms</td>
-							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.ann_arbor_b_symptoms)">{{diagnosis.ann_arbor_b_symptoms}}</td>
-							<td class="summary-card-name-right-cell">Prior Treatment</td>
-							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.prior_treatment)">{{diagnosis.prior_treatment}}</td>
-						</tr>
-						<tr><td class="summary-card-name-left-cell">Ann Arbor Clinical Stage</td>
-							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.ann_arbor_clinical_stage)">{{diagnosis.ann_arbor_clinical_stage}}</td>
-							<td class="summary-card-name-right-cell">Progression Free Survival</td>
-							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.progression_free_survival)">{{diagnosis.progression_free_survival}}</td>
-						</tr>
-						<tr><td class="summary-card-name-left-cell">Ann Arbor Extranodal Involvement</td>
-							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.ann_arbor_extranodal_involvement)">{{diagnosis.ann_arbor_extranodal_involvement}}</td>
-							<td class="summary-card-name-right-cell">Progression Free Survival Event</td>
-							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.progression_free_survival_event)">{{diagnosis.progression_free_survival_event}}</td>
-						</tr>
-						<tr><td class="summary-card-name-left-cell">Ann Arbor Pathologic Stage</td>
-							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.ann_arbor_pathologic_stage)">{{diagnosis.ann_arbor_pathologic_stage}}</td>
-							<td class="summary-card-name-right-cell">Residual Disease</td>
-							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.residual_disease)">{{diagnosis.residual_disease}}</td>
-						</tr>
-						<tr><td class="summary-card-name-left-cell">Best Overall Response</td>
-							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.best_overall_response)">{{diagnosis.best_overall_response}}</td>
-							<td class="summary-card-name-right-cell">Vascular Invasion Present</td>
-							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.vascular_invasion_present)">{{diagnosis.vascular_invasion_present}}</td>
-						</tr>
-						<tr><td class="summary-card-name-left-cell">Burkitt Lymphoma Clinical Variant</td>
-							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.burkitt_lymphoma_clinical_variant)">{{diagnosis.burkitt_lymphoma_clinical_variant}}</td>
-							<td class="summary-card-name-right-cell">Year of Diagnosis</td>
-							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.year_of_diagnosis)">{{diagnosis.year_of_diagnosis}}</td>
-						</tr>
-						<tr><td class="summary-card-name-left-cell">Circumferential Resection Margin</td>
-							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.circumferential_resection_margin)">{{diagnosis.circumferential_resection_margin}}</td>
-							<td class="summary-card-name-right-cell">Icd 10 Code</td>
-							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.icd_10_code)">{{diagnosis.icd_10_code}}</td>
-						</tr>
-						<tr>
-							<td class="summary-card-name-left-cell">Synchronous Malignancy</td>
-							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.synchronous_malignancy)">{{diagnosis.synchronous_malignancy}}</td>
-							<td class="summary-card-name-right-cell"></td>
-							<td class="summary-card-value-right-cell"></td>
-						</tr>
-						<tr><td><button  mat-stroked-button (click)="showLessClicked()">Show less</button></td><td></td></tr>
+				<div *ngIf="loading">
+						<mat-spinner></mat-spinner>
+				</div>
+				<div *ngIf="diagnoses && diagnoses.length == 0 && !loading" style="font-size: 14px; padding-top: 10px">No data available for Diagnosis.</div>
+				<div *ngIf="diagnoses && diagnoses.length > 0">
+					<div *ngIf="showMore;else show_more">
+							<table style="max-height:200px;overflow-y: auto;display: block!important;font-size: 12px; width: 100%; padding-top: 10px" id="caseSummaryDemography">
+									<tr *ngFor="let tst of showMoreDiagnosisOddProps; let i= index;">
+										<td class="summary-card-name-left-cell">{{showMoreDiagnosisOddProps[i]}}</td>
+										<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(showMoreDiagnosisOddPropVals[i])">{{showMoreDiagnosisOddPropVals[i]}}</td>
+										<td class="summary-card-name-right-cell">{{showMoreDiagnosisEvenProps[i]}}</td>
+										<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(showMoreDiagnosisEvenPropVals[i])">{{showMoreDiagnosisEvenPropVals[i]}}</td>
+									</tr>
+									<tr *ngIf="showMoreDiagnosisOddProps.length > 0"><td><button  mat-stroked-button (click)="showLessClicked()">Show less</button></td><td></td></tr>
+							</table>
 					</div>
-				</table>
+					<ng-template #show_more>
+							<table style="max-height:200px;overflow-y: auto;display: block!important;font-size: 12px; width: 100%; padding-top: 10px">
+									<tr *ngFor="let tst of showLessDiagnosisOddProps; let i= index;">
+										<td class="summary-card-name-left-cell">{{showLessDiagnosisOddProps[i]}}</td>
+										<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(showLessDiagnosisOddPropVals[i])">{{showLessDiagnosisOddPropVals[i]}}</td>
+										<td class="summary-card-name-right-cell">{{showLessDiagnosisEvenProps[i]}}</td>
+										<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(showLessDiagnosisEvenPropVals[i])">{{showLessDiagnosisEvenPropVals[i]}}</td>
+									</tr>
+									<tr *ngIf="showLessDiagnosisOddProps.length > 0"><td><button mat-stroked-button (click)="showMoreClicked()">Show more</button></td><td></td></tr>
+							</table>
+					</ng-template>
 			  </div>
-			  <ng-template #show_more>
-				<table style="max-height:200px;overflow-y: auto;display: block!important;font-size: 12px; width: 100%; padding-top: 10px">
-					<div *ngFor="let diagnosis of diagnoses">
-						<tr style="padding-top: 10px">
-							<td class="summary-card-name-left-cell">Age at Diagnosis</td>
-							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.age_at_diagnosis)"><ng-container [ngSwitch]="true">
-																																<div *ngSwitchCase="diagnosis.age_at_diagnosis == 1">{{diagnosis.age_at_diagnosis}} day</div>
-																																<div *ngSwitchCase="diagnosis.age_at_diagnosis > 1">{{diagnosis.age_at_diagnosis}} days</div>
-																																<div *ngSwitchDefault>{{diagnosis.age_at_diagnosis}}</div>
-																															</ng-container></td>
-							<td class="summary-card-name-right-cell">Morphology</td>
-							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.morphology)">{{diagnosis.morphology}}</td>
-						</tr>
-						<tr>
-							<td class="summary-card-name-left-cell">Primary Diagnosis</td>
-							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.primary_diagnosis)">{{diagnosis.primary_diagnosis}}</td>
-							<td class="summary-card-name-right-cell">Tumor Grade</td>
-							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.tumor_grade)">{{diagnosis.tumor_grade}}</td>
-						</tr>
-						<tr>
-							<td class="summary-card-name-left-cell">Tumor Stage</td>
-							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(diagnosis.tumor_stage)">{{diagnosis.tumor_stage}}</td>
-							<td class="summary-card-name-right-cell">Tissue or Organ of Origin</td>
-							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(diagnosis.tissue_or_organ_of_origin)">{{diagnosis.tissue_or_organ_of_origin}}</td>
-						</tr>
-						<tr><td><button  mat-stroked-button (click)="showMoreClicked()">Show more</button></td><td></td></tr>
-					</div>
-				</table>
-			  </ng-template>
 			</mat-tab>
+            <mat-tab label="EXPOSURE">
+					<div *ngIf="loading">
+						<mat-spinner></mat-spinner>
+					</div>
+					<div *ngIf="exposures && exposures.length == 0 && !loading" style="font-size: 14px; padding-top: 10px">No data available for Exposure.</div>
+					<div *ngIf="exposures && exposures.length > 0">
+						<div *ngIf="showMoreExposure;else showMore_Exposure">
+						<table style="max-height:200px;overflow-y: auto;display: block!important;font-size: 12px; width: 100%; padding-top: 10px" id="caseSummaryDemography">
+								<tr *ngFor="let tst of showMoreExposureOddProps; let i= index;">
+									<td class="summary-card-name-left-cell">{{showMoreExposureOddProps[i]}}</td>
+									<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(showMoreExposureOddPropVals[i])">{{showMoreExposureOddPropVals[i]}}</td>
+									<td class="summary-card-name-right-cell">{{showMoreExposureEvenProps[i]}}</td>
+									<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(showMoreExposureEvenPropVals[i])">{{showMoreExposureEvenPropVals[i]}}</td>
+								</tr>
+								<tr *ngIf="showMoreExposureOddProps.length > 0"><td><button  mat-stroked-button (click)="showLessExposureClicked()">Show less</button></td><td></td></tr>
+						</table>
+					</div>
+					<ng-template #showMore_Exposure>
+					<table style="max-height:200px;overflow-y: auto;display: block!important;font-size: 12px; width: 100%; padding-top: 10px">
+							<tr *ngFor="let tst of showLessExposureOddProps; let i= index;">
+								<td class="summary-card-name-left-cell">{{showLessExposureOddProps[i]}}</td>
+								<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(showLessExposureOddPropVals[i])">{{showLessExposureOddPropVals[i]}}</td>
+								<td class="summary-card-name-right-cell">{{showLessExposureEvenProps[i]}}</td>
+								<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(showLessExposureEvenPropVals[i])">{{showLessExposureEvenPropVals[i]}}</td>
+							</tr>
+							<tr *ngIf="showLessExposureOddProps.length > 0"><td><button mat-stroked-button (click)="showMoreExposureClicked()">Show more</button></td><td></td></tr>
+					</table>
+					</ng-template>
+				 </div>
+			   </mat-tab>
+			   <mat-tab label="FOLLOW UP">
+				<div *ngIf="loading">
+					<mat-spinner></mat-spinner>
+				</div>
+				<div *ngIf="followups && followups.length == 0 && !loading" style="font-size: 14px; padding-top: 10px">No data available for Follow Up.</div>
+				<div *ngIf="followups && followups.length > 0">
+					<div *ngIf="showMoreFollowUp;else showMore_FollowUp">
+					<table style="max-height:200px;overflow-y: auto;display: block!important;font-size: 12px; width: 100%; padding-top: 10px" id="caseSummaryDemography">
+							<tr *ngFor="let tst of showMoreFollowUpOddProps; let i= index;">
+								<td class="summary-card-name-left-cell">{{showMoreFollowUpOddProps[i]}}</td>
+								<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(showMoreFollowUpOddPropVals[i])">{{showMoreFollowUpOddPropVals[i]}}</td>
+								<td class="summary-card-name-right-cell">{{showMoreFollowUpEvenProps[i]}}</td>
+								<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(showMoreFollowUpEvenPropVals[i])">{{showMoreFollowUpEvenPropVals[i]}}</td>
+							</tr>
+							<tr *ngIf="showMoreFollowUpOddProps.length > 0"><td><button  mat-stroked-button (click)="showLessFollowUpClicked()">Show less</button></td><td></td></tr>
+					</table>
+				</div>
+				<ng-template #showMore_FollowUp>
+				<table style="max-height:200px;overflow-y: auto;display: block!important;font-size: 12px; width: 100%; padding-top: 10px">
+						<tr *ngFor="let tst of showLessFollowUpEvenProps; let i= index;">
+							<td class="summary-card-name-left-cell">{{showLessFollowUpOddProps[i]}}</td>
+							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(showLessFollowUpOddPropVals[i])">{{showLessFollowUpOddPropVals[i]}}</td>
+							<td class="summary-card-name-right-cell">{{showLessFollowUpEvenProps[i]}}</td>
+							<td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(showLessFollowUpEvenPropVals[i])">{{showLessFollowUpEvenPropVals[i]}}</td>
+						</tr>
+						<tr *ngIf="showLessFollowUpOddProps.length > 0"><td><button mat-stroked-button (click)="showMoreFollowUpClicked()">Show more</button></td><td></td></tr>
+				</table>
+				</ng-template>
+			 </div>
+		   </mat-tab>
 		</mat-tab-group>
 	</div>
 	<div class="row" style="width: 100%; padding-top: 30px;">
@@ -326,6 +220,7 @@
 				<div *ngIf="loading">
 					<mat-spinner></mat-spinner>
 				</div>
+        <!--//@@@PDC-4615 Sample and Exposure Deprecated Properties should be deleted from the Case Summary modal window-->
 				<table  style="font-size: 12px; width: 100%; padding-top: 10px" id="biospecimenSummTable">
 					<div *ngFor="let sample of samples">
 						<!--<tr style="padding-top: 10px"><td class="tab-table-field-name">GDC Sample ID</td><td class="tab-table-field-value">{{sample.gdc_sample_id}}</td></tr>-->
@@ -346,17 +241,19 @@
 						<tr><td class="tab-table-field-name">Freezing Method</td><td class="tab-table-field-value">{{sample.freezing_method}}</td></tr>
 						<tr><td class="tab-table-field-name">Initial Weight</td><td class="tab-table-field-value">{{sample.initial_weight}}</td></tr>
 						<tr><td class="tab-table-field-name">Intermediate Dimension</td><td class="tab-table-field-value">{{sample.Intermediate_dimension}}</td></tr>
-						<tr><td class="tab-table-field-name">Is FFPE</td><td class="tab-table-field-value">{{sample.is_ffpe}}</td></tr>
 						<tr><td class="tab-table-field-name">Longest Dimension</td><td class="tab-table-field-value">{{sample.longest_dimension}}</td></tr>
 						<tr><td class="tab-table-field-name">Method of Sample Procurement</td><td class="tab-table-field-value">{{sample.method_of_sample_procurement}}</td></tr>
-						<tr><td class="tab-table-field-name">OCT Embedded</td><td class="tab-table-field-value">{{sample.oct_embedded}}</td></tr>
 						<tr><td class="tab-table-field-name">Pathology Report UUID</td><td class="tab-table-field-value">{{sample.pathology_report_uuid}}</td></tr>
 						<tr><td class="tab-table-field-name">Preservation Method</td><td class="tab-table-field-value">{{sample.preservation_method}}</td></tr>
+            <!--//@@@PDC-4601 Two New Sample properties cannot be viewed on the Case summary modal window -->
+            <tr><td class="tab-table-field-name">Sample Ordinal</td><td class="tab-table-field-value">{{sample.sample_ordinal}}</td></tr>
 						<tr><td class="tab-table-field-name">Sample Type ID</td><td class="tab-table-field-value">{{sample.sample_type_id}}</td></tr>
 						<tr><td class="tab-table-field-name">Shortest Dimension</td><td class="tab-table-field-value">{{sample.shortest_dimension}}</td></tr>
 						<tr><td class="tab-table-field-name">Time between Clamping and Freezing</td><td class="tab-table-field-value">{{sample.time_between_clamping_and_freezing}}</td></tr>
 						<tr><td class="tab-table-field-name">Time between Excision and Freezing</td><td class="tab-table-field-value">{{sample.time_between_excision_and_freezing}}</td></tr>
 						<tr><td class="tab-table-field-name">Tissue Type</td><td class="tab-table-field-value">{{sample.tissue_type}}</td></tr>
+            <!--//@@@PDC-4601 Two New Sample properties cannot be viewed on the Case summary modal window -->
+            <tr><td class="tab-table-field-name">Tissue Collection Type</td><td class="tab-table-field-value">{{sample.tissue_collection_type}}</td></tr>
 						<tr><td class="tab-table-field-name">Tumor Code</td><td class="tab-table-field-value">{{sample.tumor_code}}</td></tr>
 						<tr><td class="tab-table-field-name">Tumor Code ID</td><td class="tab-table-field-value">{{sample.tumor_code_id}}</td></tr>
 						<tr><td class="tab-table-field-name" style="border-bottom: 1px solid #ddd;">Tumor Descriptor</td><td class="tab-table-field-value" style="border-bottom: 1px solid #ddd;">{{sample.tumor_descriptor}}</td></tr>

@@ -37,7 +37,7 @@
         <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Data_Access)">Data Access</a></b>
           <ul>
             <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Access_Data)">Do I have to login to PDC to access data?</a></b>
-			<li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Study_Version)">What is a study version?</a></b> 
+			<li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Study_Version)">What is a study version?</a></b>
             <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Details_Study)">Where do I get more details about a study?</a></b>
             <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Gene_Information)">How can I find gene/s of my interest?</a></b>
             <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Protein_Quantitaion)">How do I explore protein quantitation data for a study through heatmaps?</a></b>
@@ -92,7 +92,7 @@
       <br><br><div style="text-align:center"><img style="width: 60%;margin-left: 9%;" src="assets/css/images/faq-5.png" alt="Select file manifect"></div>
 
       <div #Ontologies_PDC class="faq-question">What ontologies are used in annotating?<br>Where can I learn about your metadata standards?</div>
-      <p class="faq-response">PDC uses <a href="https://wiki.nci.nih.gov/pages/viewpage.action?pageId=309494141&sortBy=date&sortOrder=ascending" target="_blank">caDSR</a> and <a href="https://ncithesaurus.nci.nih.gov/ncitbrowser/" target="_blank">NCIt</a> terminologies for biospecimen and clinical metadata and <a href="http://www.psidev.info/groups/controlled-vocabularies" target="_blank">PSI</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">External Link</span></a> ontologies for Proteomic metadata. <a href="../data-dictionary/dictionary.html" target="_blank">Learn</a> more about PDC data dictionary and data model.</p>
+      <p class="faq-response">PDC uses <a href="https://wiki.nci.nih.gov/pages/viewpage.action?pageId=309494141&sortBy=date&sortOrder=ascending" target="_blank">caDSR</a> and <a href="https://ncithesaurus.nci.nih.gov/ncitbrowser/" target="_blank">NCIt</a> terminologies for biospecimen and clinical metadata and <a href="http://www.psidev.info/groups/controlled-vocabularies" target="_blank">PSI</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">External Link</span></a> ontologies for Proteomic metadata. <a href="/pdc/data-dictionary" target="_blank">Learn</a> more about PDC data dictionary and data model.</p>
 
       <a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Top)">Go Back</a>
 
@@ -259,8 +259,12 @@
     <p class="faq-response">
       PDC portal allows users to build cohorts by applying various clinical, biospecimen, experimental and file features as filters and export the selections as manifest files.
       <br><br>To download biospecimen (case, sample, aliquot) related data, once you identify the data of your interest by applying filters, move to the 'Biospecimens' tab on the browse page. Select the checkbox to select a specific row, all rows on the page or all pages and click export biospecimen manifest button in CSV or TSV format. 
-      <br><br>To download clinical data, once you identify the data of your interest by applying filters, move to the 'Clinical' tab on the browse page. Select the checkbox to select a specific row, all rows on the page or all pages and click the export clinical manifest button in CSV or TSV format. Clinical data are organized into multiple files and are exported as one tar.gz archive. The clinical manifest includes data for demographic and diagnosis and the exposure manifest includes exposure related data. 
-      <br><br>Refer to <a href="../data-dictionary/dictionary.html" target="_blank">PDC data dictionary</a> for more information about the biospecimen and clinical data.
+      <br><br>To download clinical data, once you identify the data of your interest by applying filters, move to the 'Clinical' tab on the browse page. Select the checkbox to select a specific row, all rows on the page or all pages and click the export clinical manifest button in CSV or TSV format. Clinical data are organized into multiple files and are exported as one tar.gz archive. 
+      The archive contains:
+      <span class="clinbio-ele">Clinical manifest that includes data for demographic and diagnosis.</span>
+      <span class="clinbio-ele">Exposure manifest that includes exposure related data.</span>
+      <span class="clinbio-ele">Follow-up manifest that includes follow-up related data.</span>
+      <br><br>Refer to <a href="/pdc/data-dictionary" target="_blank">PDC data dictionary</a> for more information about the biospecimen and clinical data.
     </p>
 
       <a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Top)">Go Back</a>
@@ -270,7 +274,7 @@
 
       <div #Access_Data class="faq-question">Do I have to login to PDC to access data?</div>
       <p class="faq-response">No, there is no need to create an account or login to PDC to browse the portal or download the data. However login is required if you would like to submit data to PDC.</p>
-		
+
 	  <div #Study_Version class="faq-question">What is a study version?</div>
 	  <p class="faq-response">PDC studies can have multiple versions. Additional versions (updates) of a study are created when the underlying data changes substantially. This may involve changes to the raw data, processed data, and/or metadata. When a new version is created, it may fall out of sync with the original publication of this data. Use of the latest version is strongly encouraged, as it commonly represents an update directly from the submitter.</p>
 

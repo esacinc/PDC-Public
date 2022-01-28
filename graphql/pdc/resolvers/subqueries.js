@@ -133,8 +133,9 @@ export const resolvers = {
 			return db.getSequelize().query(refQuery, { model: db.getModelByName('ModelEntityReference') });
 		},
 		//@@@PDC-4293 add new clinbio entities
+		//@@@PDC-4639 remove bmi, height and weight columns from exposure
 		exposures(obj, args, context) {
-				var refQuery = "SELECT bin_to_uuid(exposure_id) as exposure_id, exposure_submitter_id, alcohol_days_per_week, alcohol_drinks_per_day, alcohol_history, alcohol_intensity, asbestos_exposure, bmi, cigarettes_per_day, coal_dust_exposure, environmental_tobacco_smoke_exposure, height, pack_years_smoked, radon_exposure, respirable_crystalline_silica_exposure, smoking_frequency, time_between_waking_and_first_smoke, tobacco_smoking_onset_year, tobacco_smoking_quit_year, tobacco_smoking_status, type_of_smoke_exposure, type_of_tobacco_used, weight, years_smoked, age_at_onset, alcohol_type, exposure_duration, exposure_duration_years, exposure_type, marijuana_use_per_week, parent_with_radiation_exposure, secondhand_smoke_as_child, smokeless_tobacco_quit_age, tobacco_use_per_day FROM exposure where case_id = uuid_to_bin('"+ obj.case_id + "')";
+				var refQuery = "SELECT bin_to_uuid(exposure_id) as exposure_id, exposure_submitter_id, alcohol_days_per_week, alcohol_drinks_per_day, alcohol_history, alcohol_intensity, asbestos_exposure, cigarettes_per_day, coal_dust_exposure, environmental_tobacco_smoke_exposure, pack_years_smoked, radon_exposure, respirable_crystalline_silica_exposure, smoking_frequency, time_between_waking_and_first_smoke, tobacco_smoking_onset_year, tobacco_smoking_quit_year, tobacco_smoking_status, type_of_smoke_exposure, type_of_tobacco_used, years_smoked, age_at_onset, alcohol_type, exposure_duration, exposure_duration_years, exposure_type, marijuana_use_per_week, parent_with_radiation_exposure, secondhand_smoke_as_child, smokeless_tobacco_quit_age, tobacco_use_per_day FROM exposure where case_id = uuid_to_bin('"+ obj.case_id + "')";
 				return db.getSequelize().query(refQuery, { model: db.getModelByName('ModelExposure') });
 		},
 		family_histories(obj, args, context) {
@@ -342,8 +343,10 @@ export const resolvers = {
 			const res = await RedisCacheClient.redisCacheGetAsync(CacheName.getSummaryPageCaseSummary('CaseSample') + cacheFilterName['name']);
 			if (res === null) {
 				//@@@PDC-2755 add pool, status, sample_is_ref attribute
+				//@@@4486 add new columns for sample
+				//@@@PDC-4569 remove is_ffpe and oct_embedded
 				var result = await db.getModelByName('Sample').findAll({
-					attributes: [['bin_to_uuid(sample_id)', 'sample_id'], 'sample_submitter_id', 'sample_type', 'sample_type_id', 'gdc_sample_id', 'gdc_project_id', 'biospecimen_anatomic_site', 'composition', 'current_weight', 'days_to_collection', 'days_to_sample_procurement', 'status', 'pool', 'sample_is_ref', 'diagnosis_pathologically_confirmed', 'freezing_method', 'initial_weight', 'intermediate_dimension', 'is_ffpe', 'longest_dimension', 'method_of_sample_procurement', 'oct_embedded', 'pathology_report_uuid', 'preservation_method', 'shortest_dimension', 'time_between_clamping_and_freezing', 'time_between_excision_and_freezing', 'tissue_type', 'tumor_code', 'tumor_code_id', 'tumor_descriptor'],
+					attributes: [['bin_to_uuid(sample_id)', 'sample_id'], 'sample_submitter_id', 'sample_type', 'sample_type_id', 'gdc_sample_id', 'gdc_project_id', 'biospecimen_anatomic_site', 'composition', 'current_weight', 'days_to_collection', 'days_to_sample_procurement', 'status', 'pool', 'sample_is_ref', 'diagnosis_pathologically_confirmed', 'freezing_method', 'initial_weight', 'intermediate_dimension', 'longest_dimension', 'method_of_sample_procurement', 'pathology_report_uuid', 'preservation_method', 'shortest_dimension', 'time_between_clamping_and_freezing', 'time_between_excision_and_freezing', 'tissue_type', 'tumor_code', 'tumor_code_id', 'tumor_descriptor', 'biospecimen_laterality', 'catalog_reference', 'distance_normal_to_tumor', 'distributor_reference', 'growth_rate', 'passage_count', 'sample_ordinal', 'tissue_collection_type'],
 					where: {
 						case_id: Sequelize.fn('uuid_to_bin', obj.case_id )
 						//case_submitter_id: obj.case_submitter_id
@@ -485,8 +488,9 @@ export const resolvers = {
 		async exposures(obj, args, context) {
 			var refCacheName = context.dataCacheName + ':Exposure:'+obj.case_id;
 			const res = await RedisCacheClient.redisCacheGetAsync(refCacheName);
+			//@@@PDC-4639 remove bmi, height and weight columns from exposure
 			if (res === null) {
-				var refQuery = "SELECT bin_to_uuid(exposure_id) as exposure_id, exposure_submitter_id, alcohol_days_per_week, alcohol_drinks_per_day, alcohol_history, alcohol_intensity, asbestos_exposure, bmi, cigarettes_per_day, coal_dust_exposure, environmental_tobacco_smoke_exposure, height, pack_years_smoked, radon_exposure, respirable_crystalline_silica_exposure, smoking_frequency, time_between_waking_and_first_smoke, tobacco_smoking_onset_year, tobacco_smoking_quit_year, tobacco_smoking_status, type_of_smoke_exposure, type_of_tobacco_used, weight, years_smoked, age_at_onset, alcohol_type, exposure_duration, exposure_duration_years, exposure_type, marijuana_use_per_week, parent_with_radiation_exposure, secondhand_smoke_as_child, smokeless_tobacco_quit_age, tobacco_use_per_day FROM exposure where case_id = uuid_to_bin('"+ obj.case_id + "')";
+				var refQuery = "SELECT bin_to_uuid(exposure_id) as exposure_id, exposure_submitter_id, alcohol_days_per_week, alcohol_drinks_per_day, alcohol_history, alcohol_intensity, asbestos_exposure, cigarettes_per_day, coal_dust_exposure, environmental_tobacco_smoke_exposure, pack_years_smoked, radon_exposure, respirable_crystalline_silica_exposure, smoking_frequency, time_between_waking_and_first_smoke, tobacco_smoking_onset_year, tobacco_smoking_quit_year, tobacco_smoking_status, type_of_smoke_exposure, type_of_tobacco_used, years_smoked, age_at_onset, alcohol_type, exposure_duration, exposure_duration_years, exposure_type, marijuana_use_per_week, parent_with_radiation_exposure, secondhand_smoke_as_child, smokeless_tobacco_quit_age, tobacco_use_per_day FROM exposure where case_id = uuid_to_bin('"+ obj.case_id + "')";
 				var getIt = await db.getSequelize().query(refQuery, { model: db.getModelByName('ModelExposure') });
 				RedisCacheClient.redisCacheSetExAsync(refCacheName, JSON.stringify(getIt));
 				return getIt;
@@ -537,7 +541,8 @@ export const resolvers = {
 		},
 		//@@@PDC-4293 add new clinbio entities
 		exposures(obj, args, context) {
-				var refQuery = "SELECT bin_to_uuid(exposure_id) as exposure_id, exposure_submitter_id, alcohol_days_per_week, alcohol_drinks_per_day, alcohol_history, alcohol_intensity, asbestos_exposure, bmi, cigarettes_per_day, coal_dust_exposure, environmental_tobacco_smoke_exposure, height, pack_years_smoked, radon_exposure, respirable_crystalline_silica_exposure, smoking_frequency, time_between_waking_and_first_smoke, tobacco_smoking_onset_year, tobacco_smoking_quit_year, tobacco_smoking_status, type_of_smoke_exposure, type_of_tobacco_used, weight, years_smoked, age_at_onset, alcohol_type, exposure_duration, exposure_duration_years, exposure_type, marijuana_use_per_week, parent_with_radiation_exposure, secondhand_smoke_as_child, smokeless_tobacco_quit_age, tobacco_use_per_day FROM exposure where case_id = uuid_to_bin('"+ obj.case_id + "')";
+				//@@@PDC-4639 remove bmi, height and weight columns from exposure
+				var refQuery = "SELECT bin_to_uuid(exposure_id) as exposure_id, exposure_submitter_id, alcohol_days_per_week, alcohol_drinks_per_day, alcohol_history, alcohol_intensity, asbestos_exposure, cigarettes_per_day, coal_dust_exposure, environmental_tobacco_smoke_exposure, pack_years_smoked, radon_exposure, respirable_crystalline_silica_exposure, smoking_frequency, time_between_waking_and_first_smoke, tobacco_smoking_onset_year, tobacco_smoking_quit_year, tobacco_smoking_status, type_of_smoke_exposure, type_of_tobacco_used, years_smoked, age_at_onset, alcohol_type, exposure_duration, exposure_duration_years, exposure_type, marijuana_use_per_week, parent_with_radiation_exposure, secondhand_smoke_as_child, smokeless_tobacco_quit_age, tobacco_use_per_day FROM exposure where case_id = uuid_to_bin('"+ obj.case_id + "')";
 				return db.getSequelize().query(refQuery, { model: db.getModelByName('ModelExposure') });
 		},
 		family_histories(obj, args, context) {
@@ -1397,6 +1402,43 @@ export const resolvers = {
 		},
 		//@@@PDC-473 caseDemographicsPerStudy API
 		caseDemographicsPerStudy(obj, args, context) {
+			return db.getSequelize().query(
+					context.query,
+					{
+						replacements: context.replacements,
+						model: db.getModelByName('Case')
+					}
+				);
+		},
+		//@@@PDC-4547 public apis for new clinbio entities
+		caseExposuresPerStudy(obj, args, context) {
+			return db.getSequelize().query(
+					context.query,
+					{
+						replacements: context.replacements,
+						model: db.getModelByName('Case')
+					}
+				);
+		},
+		caseFamilyHistoriesPerStudy(obj, args, context) {
+			return db.getSequelize().query(
+					context.query,
+					{
+						replacements: context.replacements,
+						model: db.getModelByName('Case')
+					}
+				);
+		},
+		caseFollowUpsPerStudy(obj, args, context) {
+			return db.getSequelize().query(
+					context.query,
+					{
+						replacements: context.replacements,
+						model: db.getModelByName('Case')
+					}
+				);
+		},
+		caseTreatmentsPerStudy(obj, args, context) {
 			return db.getSequelize().query(
 					context.query,
 					{

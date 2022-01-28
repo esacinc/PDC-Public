@@ -273,6 +273,8 @@ WHERE
         AND sam.case_id = c.case_id
 `;
 //@@@PDC-2396 add attributes to uiCase
+//@@@PDC-4569 remove is_ffpe and oct_embedded
+//@@@PDC-4687 add tissue_collection_type and sample_ordinal
 const case_tab_data = `
 SELECT DISTINCT
     proj.name AS project_name,
@@ -304,14 +306,14 @@ SELECT DISTINCT
 	sam.freezing_method,
 	sam.initial_weight, 
 	sam.intermediate_dimension,
-	sam.is_ffpe,
 	sam.longest_dimension,
 	sam.method_of_sample_procurement,
-	sam.oct_embedded,
 	sam.pathology_report_uuid,
 	sam.preservation_method,
 	sam.sample_type_id,
 	sam.shortest_dimension,
+	sam.tissue_collection_type, 
+	sam.sample_ordinal,
 	sam.time_between_clamping_and_freezing,
 	sam.time_between_excision_and_freezing,
 	sam.tissue_type,

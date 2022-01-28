@@ -29,7 +29,9 @@ import { ForwardingComponent } from './forwarding/forwarding.component';
 
 import { AppComponent } from './app.component';
 import { HarmonizationComponent } from './harmonization/harmonization.component';
-import { DataDictionaryComponent } from './data-dictionary/data-dictionary.component';
+
+import { DataDictionaryComponent } from './data-dictionary/data-dictionary/data-dictionary.component';
+import { ApiDocumentationComponent } from './api-documentation/api-documentation.component';
 
 const appRoutes: Routes = [
   //pdc url will be lazy loading when route redirect to 'pdc'.
@@ -58,7 +60,8 @@ const appRoutes: Routes = [
   { path: 'analysis/:id', component: HeatmapViewerComponent},
   { path: '', loadChildren: './lazy.module#LazyModule'},
   { path: 'submit-data', component: SubmitDataFAQComponent},
-  { path: 'request-data-submission', component: RequestDataSubmissionComponent},
+  //@@@PDC-PDC-4699: hide request data submission page
+  // { path: 'request-data-submission', component: RequestDataSubmissionComponent},
   { path: 'data-use-guidelines', component: DataUseGuidelinesComponent},
   { path: 'explore-quantitation-data', component: HeatmapsComponent},
   //@@@PDC-374 - adding auxiliary urls to overlay windows
@@ -68,6 +71,7 @@ const appRoutes: Routes = [
   { path: 'files-overlay/:study_id', component: FilesOverlayComponent, outlet: 'filesOverlay'},
   { path: 'case/:case_uuid', loadChildren: './lazybrowse.module#LazyBrowseModule'},
   { path: 'study/:study_uuid', loadChildren: './lazybrowse.module#LazyBrowseModule'},
+  { path: 'data-dictionary', loadChildren:'./lazydictionary.module#LazyDataDictionaryModule'},
   { path: 'publications', component: PublicationsComponent},
   { path: 'TechnologyAdvancementStudies', component: LegacyDataComponent },
   { path: 'legacy-study-summary/:study_id', component: LegacyStudySummaryComponent, outlet: 'studySummary'},
@@ -78,7 +82,7 @@ const appRoutes: Routes = [
   { path: 'gene/:gene_id', component: GenePageComponent },
   { path: 'forwarding/:id', component: ForwardingComponent },
   { path: 'harmonization', component: HarmonizationComponent},
-  { path: 'data-dictionary', component: DataDictionaryComponent},
+  { path: 'api-documentation', component: ApiDocumentationComponent},
   { path: '**', component: PageNotFoundComponent,  canActivate: [AuthGuard]},
 
   ];
