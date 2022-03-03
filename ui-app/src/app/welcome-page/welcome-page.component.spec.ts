@@ -121,8 +121,8 @@ describe("WelcomePageComponent", () => {
     route = TestBed.get(Router);
     userSpy = spyOn(userService, "checkPDCUser").and.callFake(() => of(0));
     routeSpy = spyOn(route, "navigate");
-    component.eRAnihSignIn("nihuid");
-    expect(userSpy).toHaveBeenCalledWith("nihuid");
+    component.eRAnihSignIn("nihuid","nihtoken");
+    expect(userSpy).toHaveBeenCalledWith("nihuid", "nihtoken");
     userSpy.calls.mostRecent().returnValue.subscribe(() => {
       expect(routeSpy).toHaveBeenCalledWith(["pdc"]);
       done();
@@ -134,8 +134,8 @@ describe("WelcomePageComponent", () => {
     route = TestBed.get(Router);
     userSpy = spyOn(userService, "checkPDCUser").and.callFake(() => of(1));
     routeSpy = spyOn(route, "navigate");
-    component.eRAnihSignIn("nihuid");
-    expect(userSpy).toHaveBeenCalledWith("nihuid");
+    component.eRAnihSignIn("nihuid","nihtoken");
+    expect(userSpy).toHaveBeenCalledWith("nihuid", "nihtoken");
     userSpy.calls.mostRecent().returnValue.subscribe(() => {
       expect(routeSpy).toHaveBeenCalledWith(["pdc"]);
       done();
@@ -145,8 +145,8 @@ describe("WelcomePageComponent", () => {
   it("test nih sign in with error", () => {
     userService = TestBed.get(PDCUserService);
     userSpy = spyOn(userService, "checkPDCUser").and.returnValue(of(2));
-    component.eRAnihSignIn("nihuid");
-    expect(userSpy).toHaveBeenCalledWith("nihuid");
+    component.eRAnihSignIn("nihuid","nihtoken");
+    expect(userSpy).toHaveBeenCalledWith("nihuid", "nihtoken");
     fixture.detectChanges();
     expect(component.systemErrorMessage).toBe(
       "System Error. Please contact your system admin"
@@ -155,11 +155,11 @@ describe("WelcomePageComponent", () => {
 
   it("test ngOnInit", () => {
     activeRoute = TestBed.get(ActivatedRoute);
-    activeRoute.queryParams = of({ uid: "nih12345" });
+    activeRoute.queryParams = of({ uid: "nih12345", token: "12345" });
     userService = TestBed.get(PDCUserService);
     userSpy = spyOn(userService, "checkPDCUser").and.returnValue(of(2));
     component.ngOnInit();
-    expect(userSpy).toHaveBeenCalledWith("nih12345");
+    expect(userSpy).toHaveBeenCalledWith("nih12345", "12345");
     fixture.detectChanges();
     expect(component.systemErrorMessage).toBe(
       "System Error. Please contact your system admin"

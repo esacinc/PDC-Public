@@ -67,9 +67,10 @@ export class WelcomePageComponent implements OnInit {
   //User used eRA/NIH login credentials
 	//@@@PDC-419 handle system error
   //@@@PDC-784 Improve download controlled files feature
-   public eRAnihSignIn(uid: string){
+  //@@@PDC-4744 NIH Login failing
+   public eRAnihSignIn(uid: string, token: string) {
     this.systemErrorMessage='';
-	  this.userService.checkPDCUser(uid).subscribe(registered => {
+	  this.userService.checkPDCUser(uid, token).subscribe(registered => {
 		switch (registered) {
 			//user registered
 			case 0:
@@ -115,9 +116,8 @@ export class WelcomePageComponent implements OnInit {
 	  // If the user uses eRA/NIH login, it will be returned back bu pdcapi with uid and token parameter defined
 	this.activeRoute.queryParams.subscribe(queryParams => {
 		console.log(queryParams);
-		if (queryParams.uid && queryParams.token){
-      localStorage.setItem('jwtToken', queryParams.token);
-			this.eRAnihSignIn(queryParams.uid);
+		if (queryParams.uid && queryParams.token) {
+      this.eRAnihSignIn(queryParams.uid, queryParams.token);
 		}
 	});
   }

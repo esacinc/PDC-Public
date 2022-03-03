@@ -72,9 +72,9 @@ export class LoginComponent implements OnInit {
   }
 
   //NIH/eRA login
-  public eRAnihSignIn(uid: string){
+  public eRAnihSignIn(uid: string, token: string){
     this.systemErrorMessage='';
-	  this.userService.checkPDCUser(uid).subscribe(registered => {
+	  this.userService.checkPDCUser(uid, token).subscribe(registered => {
 		  console.log("Registered: " + registered);
 		switch (registered) {
 			//user registered

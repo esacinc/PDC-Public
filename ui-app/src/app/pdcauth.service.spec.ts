@@ -87,8 +87,8 @@ describe("PDCUserService", () => {
         data: [userData]
       };
 
-      
-      service.checkPDCUser("iii@esacinc.com").subscribe(data => {
+
+      service.checkPDCUser("iii@esacinc.com", "12345").subscribe(data => {
         expect(data).toBe(1);
       });
       //const req = controller.expectOne("/pdcapi/user/uid/iii@esacinc.com");

@@ -654,7 +654,7 @@ export class NavbarComponent implements OnInit {
       console.log(queryParams);
       if (queryParams.uid) {
         let user_uid = queryParams.uid;
-        this.userService.checkPDCUser(user_uid).subscribe((login: any) => {
+        this.userService.checkPDCUser(user_uid, queryParams.token).subscribe((login: any) => {
           var currentUrl = this.loc.path();
           //Generate new url that does not contain uid parameters
           var newUrl = currentUrl.split('?uid=');

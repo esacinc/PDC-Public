@@ -136,8 +136,9 @@ export class PDCUserService {
   // parameter: uid
   // return value: number
   //@@@PDC-419 handle system error
-  public checkPDCUser(uid: string): Observable<number> {
-    const url = environment.private_api_url + 'uid/' + uid;
+  public checkPDCUser(uid: string, token: string): Observable<number> {
+    console.log("token:" + token);
+    const url = environment.private_api_url + 'uid/' + uid + '?token=' + token;
     let response: LoginUserResponse;
 
     this.setUID(uid);
@@ -157,8 +158,9 @@ export class PDCUserService {
               if (this.userData.registered == 1) {
                 //if user's registered flag is set to 1, such user already exists,
                 //thus loggedIn is set to true and 0 is returned
+                this.setUserInformationInLocalStorage();
+                localStorage.setItem('jwtToken', token);
                 this.setIsLoggedIn(true);
-                //this.setUserInformationInLocalStorage();
                 observer.next(0);
               } else {
                 //if user's registered flag is not set 1 is returned
