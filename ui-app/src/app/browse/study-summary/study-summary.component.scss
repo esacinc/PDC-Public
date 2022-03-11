@@ -38,7 +38,7 @@ a.disabled {
 }
 
 .ui-datatable-tableheader {
-    background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%) !important;
+    background-color: #3A8BAF !important;
     border:0px !important;
 	color: white !important;
 	word-break: break-all !important;
@@ -50,11 +50,11 @@ a.disabled {
 }
  
 .table-striped > tbody >  tr:nth-of-type(odd){
-	background-color: #ffffff;
+	background: linear-gradient(to bottom, #f6f7f9 0%, #ebedf0 100%);
 }
  
 .table-striped > tbody >  tr:nth-of-type(even){
-	background-color: rgb(225, 239, 252);
+	background-color: #fafafb;
 }
   
 ::-webkit-scrollbar {
@@ -73,7 +73,7 @@ a.disabled {
 }
 
 .mat-card-content{
-	font-size:12px;
+	font-size:14px;
 }
 
 .table .summary-table{
@@ -165,9 +165,9 @@ a.disabled {
 }
 
 //@@@PDC-1420: Cannot sort the columns in "Clinical" table of the Study summary page
-:host /deep/ .ui-table table {
+/* :host /deep/ .ui-table table {
 	width: 100% !important;
-}
+} */
 
 //@@@PDC-1421: Unable to expand columns in the tables of Study Summary page
 #clinicalDataTable, #studyExperimentalDesignTable, #biospecimensDataTable {
@@ -195,4 +195,74 @@ a.disabled {
 .future_embargo_date {
 	color: #de350b;
 	font-weight: 800;
+}
+
+/deep/ {
+
+	.ui-table tr td, .ui-table-thead tr, .table, .table tr td, .table tr th {
+		font-size: 14px !important;
+	} 
+
+	.ui-table table {
+		overflow-x: scroll !important;
+		table-layout: unset !important;
+	} 
+
+	.ui-paginator .ui-paginator-page.ui-state-active {
+		background-color: #3A8BAF;
+	}
+
+	.clinicalTable .ui-table-unfrozen-view {
+		padding-top: 0.5 px !important;
+		overflow-x: scroll !important;
+	}
+
+ 	.clinicalTable .ui-table-unfrozen-view .ui-table-thead th,
+	.clinicalTable .ui-table-unfrozen-view .ui-table-tbody td,
+	#biospecimensDataTable .ui-table-unfrozen-view .ui-table-thead th,
+    #biospecimensDataTable .ui-table-unfrozen-view .ui-table-tbody td {
+		min-width: 150px !important;
+		max-width: 150px !important;
+		width: 150px !important;
+	}
+
+	.studyExperimentDesignTable .ui-table-frozen-view .ui-table-thead th,
+	.studyExperimentDesignTable .ui-table-frozen-view .ui-table-tbody td,
+	.studyExperimentDesignTable .ui-table-unfrozen-view .ui-table-thead .fixedWidthCol,
+	.studyExperimentDesignTable .ui-table-unfrozen-view .ui-table-tbody .fixedWidthCol {
+		min-width: 100px !important;
+		max-width: 100px !important;
+		width: 100px !important;
+	}
+
+	.ui-table-scrollable-body-table {
+		table-layout: unset !important;
+	}
+
+/* 	.clinicalTable .ui-table-frozen-view .ui-table-thead th,
+	#biospecimensDataTable .ui-table-frozen-view .ui-table-thead th {
+		height: 69.19px !important;
+	} */
+
+	.ui-datatable-tableheader {
+		background-color: #3A8BAF;
+	}
+
+	.ui-paginator .ui-paginator-page.ui-state-active {
+		background-color: #3A8BAF;
+	}
+
+	.ui-table .ui-table-tbody > tr.ui-state-highlight,
+	.ui-table .ui-table-tbody > tr:nth-child(even).ui-state-highlight {
+		background-color: #aac1d4;
+		color: #000;
+	}
+
+	@media not all and (min-resolution:.001dpcm)
+	{ @supports (-webkit-appearance:none) and (stroke-color:transparent) {
+
+		.safari_only { 
+			height: 68px !important;
+		}
+	}}
 }

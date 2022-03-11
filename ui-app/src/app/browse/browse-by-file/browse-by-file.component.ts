@@ -120,6 +120,8 @@ export class BrowseByFileComponent implements OnInit {
   studyVersion: string = "";
   
   allStudiesVersions: any[] = [];
+  frozenColumns = [];
+  @Input() childTabChanged: string;
 
   constructor(
     private apollo: Apollo,
@@ -302,6 +304,7 @@ export class BrowseByFileComponent implements OnInit {
             this.limit = data.getPaginatedUIFile.pagination.size;
           }
           this.pageSize = data.getPaginatedUIFile.pagination.size;
+          this.makeRowsSameHeight();
           this.loading = false;
         });
     }, 1000);
@@ -336,6 +339,7 @@ export class BrowseByFileComponent implements OnInit {
         this.pageSize = data.getPaginatedUIFile.pagination.size;
         this.loading = false;
         this.clearSelection();
+        this.makeRowsSameHeight();
       });
     //	 this.getAllFilesData();
   }
@@ -451,12 +455,16 @@ export class BrowseByFileComponent implements OnInit {
           } else {
             this.clearSelection();
           }
+          this.makeRowsSameHeight();
           this.loading = false;
         });
     }
   }
   //@@@PDC-522 handle two type of events 1 general filters event 2 files filters
   ngOnChanges(changes: SimpleChanges) {
+    if (changes && changes['childTabChanged']) {
+      this.makeRowsSameHeight();
+    }
     for (let propName in changes) {
       let change = changes[propName];
       if (change.currentValue !== undefined) {
@@ -541,6 +549,7 @@ export class BrowseByFileComponent implements OnInit {
           this.headercheckbox = false;
         }
         this.handleCheckboxSelections();
+        this.makeRowsSameHeight();
       });
   }
 
@@ -915,19 +924,21 @@ export class BrowseByFileComponent implements OnInit {
 
   //@@@PDC-1940: File manifest download is very slow
   setFileExportObject(fileData, exportFileObject) {
-    for (var fileItem of fileData.filesPerStudy) {
-      //Fetch the file object in 'exportFileObject' that has the same file id.
-      let fileObject = exportFileObject.filter(item => item.file_id === fileItem.file_id);
-      for (var fileObj of fileObject) {
-        if (fileObj) {
-          if (fileObj.downloadable.toLowerCase() === 'yes') {
-            if (fileItem.signedUrl) {
-              fileObj['file_download_link'] = fileItem.signedUrl.url;
+    if (fileData && fileData.uiFilesPerStudy) {
+      for (var fileItem of fileData.uiFilesPerStudy) {
+        //Fetch the file object in 'exportFileObject' that has the same file id.
+        let fileObject = exportFileObject.filter(item => item.file_id === fileItem.file_id);
+        for (var fileObj of fileObject) {
+          if (fileObj) {
+            if (fileObj.downloadable.toLowerCase() === 'yes') {
+              if (fileItem.signedUrl) {
+                fileObj['file_download_link'] = fileItem.signedUrl.url;
+              } else {
+                fileObj['file_download_link'] = this.notDownloadable;
+              }
             } else {
               fileObj['file_download_link'] = this.notDownloadable;
             }
-          } else {
-            fileObj['file_download_link'] = this.notDownloadable;
           }
         }
       }
@@ -944,8 +955,8 @@ export class BrowseByFileComponent implements OnInit {
 	console.log("Total file size to download: "+totalSize);
 	let confirmationMessage = 'You are about to download ' + this.sizeUnitsPipe.transform(totalSize) + ' of data. Do you wish to proceed?';
 	let denyMessage = 'Your download request ('+this.sizeUnitsPipe.transform(totalSize)+') exceeds the limit of 20 GB. Please reduce the volumn and try again.';
-	let nextMsg = 'Continue';
-	if (totalSize <= 21474836480) {
+  let nextMsg = 'Continue';
+ 	if (totalSize <= 21474836480) {
 	    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
           width: "450px",
           data: { message: confirmationMessage, continueMessage: nextMsg }
@@ -968,33 +979,50 @@ export class BrowseByFileComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe(result => {
 		  });
-	}
+	} 
   }
   
   async downloadBatch() {
 	let dataForExport =  this.selectedFiles;
 	let urls: string = "";
 	let nextMsg = 'Continue';
-    for (let file of dataForExport) {
-        let urlResponse = await this.browseByFileService.getOpenFileSignedUrl(file["file_name"]);
-		let confirmationMessage = 'Finished downloading: '+file["file_name"];
-        if(!urlResponse.error){
-			console.log("S3 url: "+urlResponse.data);
-			//@@@PDC-1698 download with file save
-			//this.getS3File(urlResponse.data).subscribe((data: any) => {
-				//let blob:any = new Blob([data], { type: 'text/json; charset=utf-8' });
-				//fileSaver.saveAs(blob, file["file_name"]);
-				//console.log("S3 file: "+data);
-			//});
-			//@@@PDC-1925 use window.open for multiple download
-			this.winOpenS3File(urlResponse.data).alert(confirmationMessage);
-			this.sleep(2000);
-			          
-		}else{
-			console.log("S3 error: "+urlResponse.error)
-        }
-	}
+  const fileNameList = [];
+  if (dataForExport) {
+    dataForExport.map(x => fileNameList.push(x.file_name));
+    //@@@PDC-1940: File manifest download is very slow
+    //getFilesData API accepts upto 1000 file names per request. Else it takes more time to execute and impacts the performance.
+    if (fileNameList.length > 1000) {
+      var chunkSize = 1000;
+      for (var i = 0, len = fileNameList.length; i< len; i += chunkSize) {
+        let tempArray = fileNameList.slice(i, i+chunkSize);
+        let fileNameStr =  tempArray.join(";");
+        //Send 1000 files names per request
+        //@@@PDC-1940: File manifest download is very slow
+        this.getFilesDataObj(fileNameStr);
+      }
+    }  else {
+      //@@@PDC-1940: File manifest download is very slow
+      let fileNameStr = fileNameList.join(";")
+      this.getFilesDataObj(fileNameStr);
+    }
   }
+}
+
+//@@@PDC-4781: Use filesPerStudy API to return signed urls for multiple files
+getFilesDataObj(fileNameStr) {
+  this.browseByFileService.getFilesData(fileNameStr, "").pipe(take(1)).subscribe((fileData: any) => { 
+    for (var fileItem of fileData.uiFilesPerStudy) {
+      if (fileItem.signedUrl) {
+        let confirmationMessage = 'Finished downloading: '+ fileItem.file_name;
+        //@@@PDC-1925 use window.open for multiple download
+        this.winOpenS3File(fileItem.signedUrl.url).alert(confirmationMessage);
+        this.sleep(2000);
+      } else {
+        console.log("Error in downloading: " + fileItem.file_name);
+      }
+    }
+  });
+}
 
   getS3File(url){
 	return this.http.get(url, {responseType: 'blob'});
@@ -1346,6 +1374,10 @@ export class BrowseByFileComponent implements OnInit {
       { field: "downloadable", header: "Downloadable" }
     ];
 
+    this.frozenColumns = [
+      {field: "pdc_study_id", header: "PDC Study ID"},
+    ];
+
     //@@@PDC-729 Integrate PDC with Fence and IndexD
     this.activeRoute.queryParams.subscribe(queryParams => {
       console.log(queryParams);
@@ -1392,4 +1424,40 @@ export class BrowseByFileComponent implements OnInit {
       this.currentPageSelectedFile.push(item.file_id + "-" + item.pdc_study_id);
     }});
   }
+
+  onResize(event) {
+    this.makeRowsSameHeight();
+  }
+
+  //@@@PDC-4792: Increase font size in all tables to pass 508 compliance
+  makeRowsSameHeight() {
+    setTimeout(() => {
+      if (document.getElementsByClassName('ui-table-scrollable-wrapper').length) {
+        let wrapper = document.getElementsByClassName('ui-table-scrollable-wrapper');
+        for (var i = 0; i < wrapper.length; i++) {
+            let w = wrapper.item(i) as HTMLElement;
+            let frozen_rows: any = w.querySelectorAll('.ui-table-frozen-view .ui-table-tbody tr');
+            let unfrozen_rows: any = w.querySelectorAll('.ui-table-unfrozen-view .ui-table-tbody tr');
+            let frozen_header_row: any = w.querySelectorAll('.ui-table-frozen-view .ui-table-thead tr');
+            let unfrozen_header_row: any = w.querySelectorAll('.ui-table-unfrozen-view .ui-table-thead');
+            if (frozen_header_row[0].clientHeight > unfrozen_header_row[0].clientHeight) {
+						  unfrozen_header_row[0].style.height = frozen_header_row[0].clientHeight+"px";
+				    } 
+            else if (frozen_header_row[0].clientHeight < unfrozen_header_row[0].clientHeight) {
+              frozen_header_row[0].style.height = unfrozen_header_row[0].clientHeight+"px";
+            }          
+            for (let i = 0; i < frozen_rows.length; i++) {
+              if (frozen_rows[i].clientHeight > unfrozen_rows[i].clientHeight) {
+                unfrozen_rows[i].style.height = frozen_rows[i].clientHeight+"px";
+              } 
+              else if (frozen_rows[i].clientHeight < unfrozen_rows[i].clientHeight) {
+                frozen_rows[i].style.height = unfrozen_rows[i].clientHeight+"px";
+              }
+            }
+            let frozen_header_div: any = w.querySelectorAll('.ui-table-unfrozen-view .ui-table-scrollable-header-box');
+            frozen_header_div[0].setAttribute('style', 'margin-right: 0px !important'); 
+          }
+        }
+       });
+    }
 }

@@ -1,7 +1,8 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { DataDictionaryItemService } from './data-dictionary-item.service';
 import { DataDictionaryService } from '../data-dictionary/data-dictionary.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ViewportScroller } from '@angular/common';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -11,36 +12,7 @@ import { ActivatedRoute } from '@angular/router';
 
 })
 export class DataDictionaryItemComponent implements OnInit {
-  /*
-  dataDictionaryTable: any;
-  curEntity: any;
-  dictionaryEntities: any;
-  caDSRURL: any;
-  NCItURL: any;
-  PSIMSURL: any;
-  hasExamples: any;
-  linkback: any;
-  uniqueKeys: any;
-  categoriesForDictItem: any;
-  catCDEID: any;
-  carCDESource: any;
-  moreDivOn: any;
-  currentCategory: any;
-  curEntityData: any;
-  uniqueKeyDetails: any;
-  keyDetails: any;
-  dictItemLinks: any;
-  dictItemProperties: any;
-  deprecatedProperties: any;
-  dictItemDeprecatedProperties: any;
-  displayProperties: any;
-  displayPropertiesArray: any;
-  showDiv: any;
-  cdeIdValue: any;
-  enumValues:any;
-  displayLinks:any;
-  */
-
+  fragment;
   curEntity;
   dictionaryEntities;
   caDSRURL;
@@ -69,7 +41,7 @@ export class DataDictionaryItemComponent implements OnInit {
 
 
 
-  constructor(private dataDictionaryService: DataDictionaryService, private dataDictionaryItemService: DataDictionaryItemService, private _Activatedroute:ActivatedRoute) {
+  constructor(private dataDictionaryService: DataDictionaryService, private dataDictionaryItemService: DataDictionaryItemService, private _Activatedroute:ActivatedRoute, private viewportScroller:ViewportScroller, private router: Router) {
     this.caDSRURL = "https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=IDENTITY&version=2.0";
     this.NCItURL = "https://ncit.nci.nih.gov/ncitbrowser/pages/concept_details.jsf?dictionary=NCI%20Thesaurus&code=IDENTITY";
     this.PSIMSURL = "http://purl.obolibrary.org/obo/IDENTITY";
@@ -91,10 +63,10 @@ export class DataDictionaryItemComponent implements OnInit {
           var itemURL = this.NCItURL.replace("IDENTITY", this.catCDEID);
 
           this.descriptionUrl = this.NCItURL.replace("IDENTITY", this.catCDEID);
-          //urlStr = " (<a href='" + itemURL + "' target='_blank'>" + this.carCDESource + " - " + this.catCDEID +"</a>)";
+
           this.descriptionUrlStr = " (<a href='" + itemURL + "' target='_blank'>" + this.carCDESource + " - " + this.catCDEID +"</a>)";
       }
-      console.log(data);
+
     });
 
 
@@ -113,7 +85,7 @@ export class DataDictionaryItemComponent implements OnInit {
         this.currentCategory = this.capitalizeFirstLetter(this.curEntityData.category);
     }
 
-    console.log(this.curEntityData.category);
+
 
 
     for(let i=0; i < this.categoriesForDictItem.length; i++){
@@ -134,7 +106,7 @@ export class DataDictionaryItemComponent implements OnInit {
     this.dictItemLinks = this.curEntityData.links;
 
 
-    //let colRef = 1;
+
 
     this.dictItemProperties = this.curEntityData.properties;
     this.displayPropertiesArray = [];
@@ -171,10 +143,7 @@ export class DataDictionaryItemComponent implements OnInit {
 
 
                      for(let x = 0; x < enumVals.length;x++){
-                         //if(x == 6){
-                        //     this.enumValues[dictItem]["initial_load"] += "<li>" + enumVals[x]  + "</li>";
-                        //     moreDivOn = true;
-                         //}
+
                          if(x < 6){
                              this.enumValues[dictItem]["initial_load"] += "<li>" + enumVals[x]  + "</li>";
                              moreDivOn = true;
@@ -224,13 +193,26 @@ export class DataDictionaryItemComponent implements OnInit {
         }
     }
   }
-
-
 });
 
 }
 
-ngOnInit() {}
+ngOnInit() {
+    //@@PDC-4743 Experiment page load issues
+    this._Activatedroute.fragment.subscribe(fragment => { this.fragment = fragment; });
+ }
+
+//@@PDC-4743 Experiment page load issues
+ ngAfterViewChecked(): void {
+      try {
+          if(this.fragment) {
+              document.querySelector('#' + this.fragment).scrollIntoView();
+              //set fragment back to empty in order to enable scrolling after div scrolled into view
+              this.fragment = "";
+           }
+      } catch (e) { }
+  }
+
 
 
 capitalizeFirstLetter(string) {
@@ -239,7 +221,8 @@ capitalizeFirstLetter(string) {
 
 showMoreOrLess(value){
 
-  const dRef = document.getElementById(value);
+
+  const dRef = document.getElementById(value+"_enum");
   let target = event.currentTarget as HTMLElement;
 
   if (dRef.style.display == 'block') {

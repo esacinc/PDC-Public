@@ -168,8 +168,10 @@ export class NavbarComponent implements OnInit {
     dialogConfig.width = '80%';
     dialogConfig.height = '70%';
 
+    //@@@PDC-4725: Set the source parameter in the UI calls to fetch details of a search result
     dialogConfig.data = {
-      summaryData: gene_name
+      summaryData: gene_name,
+      source: 'search'
     };
     this.router.navigate([{outlets: {geneSummary: ['gene-summary', gene_name]}}]);
     const dialogRef = this.dialog.open(GeneProteinSummaryComponent, dialogConfig);
@@ -260,8 +262,10 @@ export class NavbarComponent implements OnInit {
           case_data.primary_site = caseData.primary_site;
         }
       }
+      //@@@PDC-4725: Set the source parameter in the UI calls to fetch details of a search result
       dialogConfig.data = {
         summaryData: case_data,
+        source: 'search'
       };
       var currentUrl = this.loc.path();
       //this.loc.replaceState("/case/" + case_data.case_id);
@@ -352,8 +356,10 @@ export class NavbarComponent implements OnInit {
       versions: [],
     };
     console.log(study_data);
+    //@@@PDC-4725: Set the source parameter in the UI calls to fetch details of a search result
     dialogConfig.data = {
       summaryData: study_data,
+      source: 'search'
     };
     var currentUrl = this.loc.path();
     //this.loc.replaceState("/study/" + study_data.study_id);
@@ -437,10 +443,10 @@ export class NavbarComponent implements OnInit {
     //@@@PDC-1441: Add ability to search by case, study, aliquot, sample UUIDs on UI search box
     //Search for Case UUI
     this.searchService.getCaseUUIDResults(search_term).subscribe((data: any) => {
-      if (data.case[0] && data.case[0].case_submitter_id) {
-        let search_case_submitter_id = data.case[0].case_submitter_id;
+      if (data.uiCaseSummary[0] && data.uiCaseSummary[0].case_submitter_id) {
+        let search_case_submitter_id = data.uiCaseSummary[0].case_submitter_id;
         this.searchCaseTermsForCaseSubmitterID(search_case_submitter_id, search_term);
-      }
+      }  
       //@@@PDC-1943: Refine search functionality to return more results
       //Search for sample ID/sample submitter ID
       this.searchService.getSampleUUIDResults(search_term).subscribe((sampleData: any) => {
@@ -467,9 +473,9 @@ export class NavbarComponent implements OnInit {
   }
 
   searchForSampleData(sampleData) {
-    if (sampleData && sampleData.sample[0] && sampleData.sample.length > 0) {
+    if (sampleData && sampleData.uiSampleSummary[0] && sampleData.uiSampleSummary.length > 0) {
       let sampleDataTemp = [];
-      sampleDataTemp = Object.assign(sampleDataTemp, sampleData.sample);
+      sampleDataTemp = Object.assign(sampleDataTemp, sampleData.uiSampleSummary);
       for (let returnValue of sampleDataTemp) {
         let caseSubmitterIDForSample = '';
         let sampleUUID = '';
@@ -495,9 +501,9 @@ export class NavbarComponent implements OnInit {
 
   //@@@PDC-1441: Add ability to search by case, study, aliquot, sample UUIDs on UI search box
   searchForAliquotData(search_term, aliquotData) {
-    if (aliquotData && aliquotData.aliquot && aliquotData.aliquot.length > 0) {
+    if (aliquotData && aliquotData.uiAliquotSummary && aliquotData.uiAliquotSummary.length > 0) {
       let aliquotDataTemp = [];
-      aliquotDataTemp = Object.assign(aliquotDataTemp, aliquotData.aliquot);
+      aliquotDataTemp = Object.assign(aliquotDataTemp, aliquotData.uiAliquotSummary);
       for (let returnValue of aliquotDataTemp) {
         let caseSubmitterIDForAliquot = '';
         let aliquotUUID = '';
@@ -563,14 +569,14 @@ export class NavbarComponent implements OnInit {
     this.searchForStudyData(search_term);
     //Search by study_id
     this.searchService.getStudybyUUIDResults(search_term, '').subscribe((data: any) => {
-      if (data.study && data.study[0] && data.study[0].study_shortname) {
-        let data_study_shortname = data.study[0].study_shortname;
+      if (data.uiStudySummary && data.uiStudySummary[0] && data.uiStudySummary[0].study_shortname) {
+        let data_study_shortname = data.uiStudySummary[0].study_shortname;
         this.searchForStudyData(data_study_shortname);
       }
       //Search by study_submitter_id
       this.searchService.getStudybyUUIDResults('', search_term).subscribe((studySubmitterIDData: any) => {
-        if (studySubmitterIDData.study && studySubmitterIDData.study[0] && studySubmitterIDData.study[0].study_shortname) {
-          let studySubmitterIDData_shortname = studySubmitterIDData.study[0].study_shortname;
+        if (studySubmitterIDData.study && studySubmitterIDData.uiStudySummary[0] && studySubmitterIDData.uiStudySummary[0].study_shortname) {
+          let studySubmitterIDData_shortname = studySubmitterIDData.uiStudySummary[0].study_shortname;
           this.searchForStudyData(studySubmitterIDData_shortname);
         }
       });
@@ -825,12 +831,12 @@ export class NavbarComponent implements OnInit {
               pdc_study_id = '';
             }
             this.searchService.getStudySubmitterID(study_uuid, pdc_study_id).subscribe((data: any) => {
-              var study_submitter_id_name = data.study[0].study_name;
-              var study_submitter_id = data.study[0].study_submitter_id;
-              var PDC_study_id = data.study[0].pdc_study_id;
+              var study_submitter_id_name = data.uiStudySummary[0].study_name;
+              var study_submitter_id = data.uiStudySummary[0].study_submitter_id;
+              var PDC_study_id = data.uiStudySummary[0].pdc_study_id;
               //@@@PDC-2541: HELP - FAQ - Link for PDC000220 opens a long series of Ext references
               if (study_uuid == '') {
-                study_uuid = data.study[0].study_id;
+                study_uuid = data.uiStudySummary[0].study_id;
               }
               console.log('study_submitter_id_name: ' + study_submitter_id_name + ', study_uuid: ' + study_uuid);
               this.showStudySummary(study_submitter_id_name, study_uuid, study_submitter_id, PDC_study_id);

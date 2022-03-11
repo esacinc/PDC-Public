@@ -27,8 +27,8 @@ constructor(private apollo: Apollo) {
 
 	//@@@PDC-1355: Use uuid as API search parameter
 	caseSummaryData = gql`
-		query CaseSummaryDataQuery($case_id: String!, $case_submitter_id: String!){
-			uiCase (case_id: $case_id, case_submitter_id: $case_submitter_id) {
+		query CaseSummaryDataQuery($case_id: String!, $case_submitter_id: String!, $source: String!){
+			uiCase (case_id: $case_id, case_submitter_id: $case_submitter_id, source: $source) {
 				aliquot_id
 				sample_id
 				case_id
@@ -40,13 +40,14 @@ constructor(private apollo: Apollo) {
 			}
 		}`;
 
-	getCaseSummaryData(case_id_value:any, case_submitter_id:any){
+	getCaseSummaryData(case_id_value:any, case_submitter_id:any, source = ''){
 		console.log(case_id_value);
 		return this.apollo.watchQuery<AllCasesData>({
 			query: this.caseSummaryData,
 			variables: {
 				case_id: case_id_value,
-				case_submitter_id: case_submitter_id
+				case_submitter_id: case_submitter_id,
+				source: source
 			}
 		})
 		.valueChanges
@@ -61,8 +62,8 @@ constructor(private apollo: Apollo) {
 	//@@@PDC-3095 - remove external_case_id field from uiCaseSummary API
 	//@@@PDC-4615 Sample and Exposure Deprecated Properties should be deleted from the Case Summary modal window
 	caseDataDetailedQuery = gql`
-				query FilteredStudiesData($case_id: String!){
-					  uiCaseSummary(case_id: $case_id) {
+				query FilteredStudiesData($case_id: String!, $source: String!){
+					  uiCaseSummary(case_id: $case_id, source: $source) {
 						  case_id
 						  case_submitter_id
 						  project_submitter_id
@@ -137,12 +138,13 @@ constructor(private apollo: Apollo) {
 							}
 						}
 					}`;
-	getDetailedCaseSummaryData(case_id_value:any){
+	getDetailedCaseSummaryData(case_id_value:any, source = ''){
 		console.log(case_id_value);
 		return this.apollo.watchQuery<CaseData>({
 			query: this.caseDataDetailedQuery,
 			variables: {
-				case_id: case_id_value
+				case_id: case_id_value,
+				source: source
 			}
 		})
 		.valueChanges
@@ -153,8 +155,8 @@ constructor(private apollo: Apollo) {
 
 	//@@@PDC-4490: Update Clinical manifest and Case summary pages for GDC Sync
 	caseAdditionalDataDetailedQuery = gql`
-	query FilteredStudiesData($case_id: String!){
-		  uiCaseSummary(case_id: $case_id) {
+	query FilteredStudiesData($case_id: String!, $source: String!){
+		  uiCaseSummary(case_id: $case_id, source: $source) {
 			  case_id
 			  case_submitter_id
 			  project_submitter_id
@@ -272,12 +274,13 @@ constructor(private apollo: Apollo) {
 
 	//@@@PDC-4490: Update Clinical manifest and Case summary pages for GDC Sync
 	//Call the same API twice to fix "URI too long" error
-	getAdditionalDetailedCaseSummaryData(case_id_value:any){
+	getAdditionalDetailedCaseSummaryData(case_id_value:any, source = ''){
 		console.log(case_id_value);
 		return this.apollo.watchQuery<CaseData>({
 		query: this.caseAdditionalDataDetailedQuery,
 		variables: {
-			case_id: case_id_value
+			case_id: case_id_value,
+			source: source
 		}
 		})
 		.valueChanges
@@ -287,8 +290,8 @@ constructor(private apollo: Apollo) {
 	}
 
 	diagnosisDataDetailedQuery = gql`
-	query FilteredStudiesData($case_id: String!){
-		  uiCaseSummary(case_id: $case_id) {
+	query FilteredStudiesData($case_id: String!, $source: String!){
+		  uiCaseSummary(case_id: $case_id, source: $source) {
 			  case_id
 			  case_submitter_id
 			  project_submitter_id
@@ -430,12 +433,13 @@ constructor(private apollo: Apollo) {
 			}
 		}`;
 
-	getDiagnosisCaseSummaryData(case_id_value:any){
+	getDiagnosisCaseSummaryData(case_id_value:any, source = ''){
 		console.log(case_id_value);
 		return this.apollo.watchQuery<CaseData>({
 		query: this.diagnosisDataDetailedQuery,
 		variables: {
-			case_id: case_id_value
+			case_id: case_id_value,
+			source: source
 		}
 		})
 		.valueChanges
@@ -445,8 +449,8 @@ constructor(private apollo: Apollo) {
 	}
 
 	exprimentFileByCaseCountQuery = gql`
-				query ExperimentFileByCaseCountQuery($case_id_filter: String){
-				  uiExperimentFileCount(case_id: $case_id_filter) {
+				query ExperimentFileByCaseCountQuery($case_id_filter: String, $source: String!){
+				  uiExperimentFileCount(case_id: $case_id_filter, source: $source) {
 					acquisition_type
 					submitter_id_name
 					experiment_type
@@ -454,11 +458,12 @@ constructor(private apollo: Apollo) {
 				}
 			}`;
 
-	getExprimentFileByCaseCountData(filters:any){
+	getExprimentFileByCaseCountData(filters:any, source = ''){
 		return this.apollo.watchQuery<ExperimentFileByCaseCount>({
 			query: this.exprimentFileByCaseCountQuery,
 			variables: {
-				case_id_filter: filters
+				case_id_filter: filters,
+				source: source
 			}
 		})
 		.valueChanges
@@ -468,8 +473,8 @@ constructor(private apollo: Apollo) {
 	}
 
 	dataCategoryFileByCaseCountQuery = gql`
-				query DataCategoryFileByCaseCountQuery($case_id_filter: String){
-				  uiDataCategoryFileCount (case_id: $case_id_filter) {
+				query DataCategoryFileByCaseCountQuery($case_id_filter: String, $source: String!){
+				  uiDataCategoryFileCount (case_id: $case_id_filter, source: $source) {
 					file_type
 					submitter_id_name
 					data_category
@@ -477,11 +482,12 @@ constructor(private apollo: Apollo) {
 				}
 			}`;
 
-	getDataCategoryFileByCaseCountData(filters:any){
+	getDataCategoryFileByCaseCountData(filters:any, source = ''){
 		return this.apollo.watchQuery<DataCategoryFileByCaseCount>({
 			query: this.dataCategoryFileByCaseCountQuery,
 			variables: {
-				case_id_filter: filters
+				case_id_filter: filters,
+				source: source
 			}
 		})
 		.valueChanges
@@ -494,8 +500,8 @@ constructor(private apollo: Apollo) {
 	//@@@PDC-2436 - Update study summary screen to add contact details
 	//Query to return study sumamry details for a Study Name
 	filteredStudiesDataPaginatedQuery = gql`
-	query FilteredStudiesDataPaginated($study_name_filter: String!){
-			getPaginatedUIStudy(study_name: $study_name_filter) {
+	query FilteredStudiesDataPaginated($study_name_filter: String!, $source: String!){
+			getPaginatedUIStudy(study_name: $study_name_filter, source: $source) {
 			total
 			uiStudies {
 				study_id
@@ -551,11 +557,12 @@ constructor(private apollo: Apollo) {
 
 	//@@@PDC-1042: Enable links to studies and files from case summary page
 	//Returns study sumamry details for a Study Name
-	getFilteredStudyDetailsForSummaryPage(studyName:any){
+	getFilteredStudyDetailsForSummaryPage(studyName:any, source = ''){
 		return this.apollo.watchQuery<QueryAllStudyDataPaginated>({
 			query: this.filteredStudiesDataPaginatedQuery,
 			variables: {
-				study_name_filter: studyName
+				study_name_filter: studyName,
+				source: source
 			}
 		})
 		.valueChanges

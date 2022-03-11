@@ -461,11 +461,54 @@ var spec = {
                    }
                  }
                },
+               '?query={ fileMetadata(offset: {offset} limit: {limit} acceptDUA: {acceptDUA}) {file_id file_name file_size md5sum file_location file_submitter_id fraction_number experiment_type data_category file_type file_format plex_or_dataset_name analyte instrument study_run_metadata_submitter_id study_run_metadata_id aliquots { aliquot_id aliquot_submitter_id sample_id sample_submitter_id case_id case_submitter_id} } }': {
+                 "get": {
+                           "tags": ["Files"],
+                   "summary": "Get a list of file metadata",
+                   "description": "<b>Returns a list of file metadata<br><br>Fields:</b><ul><li>file_id</li><li>file_name</li><li>file_size</li><li>md5sum</li><li>file_location</li><li>file_submitter_id</li><li>fraction_number</li><li>experiment_type</li><li>data_category</li><li>file_type</li><li>file_format</li><li>plex_or_dataset_name</li><li>analyte</li><li>instrument</li><li>study_run_metadata_submitter_id</li><li>study_run_metadata_id</li><li>aliquots</li></ul>",
+                   "operationId": "fileMetadata",
+                   "produces": [
+                     "application/json"
+                   ],
+                   "parameters": [{
+                                 "name": "offset",
+                                 "in": "path",
+                                 "description": "Offset of records, example : 0",
+                                 "required": true,
+                                 "type": "integer"
+                              },
+                               {
+                                   "name": "limit",
+                                   "in": "path",
+                                   "description": "Limit of records, example: 10",
+                                   "required": true,
+                                   "type": "integer"
+                               }, {
+                        "name": "acceptDUA",
+                        "in": "path",
+                        "description": "Accept DUA variable, example: true/false",
+                        "required": true,
+                        "type": "boolean"
+                     }
+                   ],
+                   "responses": {
+                     "200": {
+                       "description": "successful operation",
+                       "schema": {
+                         "$ref": "#/definitions/fileMetadata"
+                       }
+                     },
+                     "401": {
+                       "description": "Unauthorized"
+                     }
+                   }
+                 }
+                   },
                '?query={ fileMetadata(file_id: "{file_id}" acceptDUA: {acceptDUA}) {file_id file_name file_size md5sum file_location file_submitter_id fraction_number experiment_type data_category file_type file_format plex_or_dataset_name analyte instrument study_run_metadata_submitter_id study_run_metadata_id aliquots { aliquot_id aliquot_submitter_id sample_id sample_submitter_id case_id case_submitter_id} } }': {
                  "get": {
                            "tags": ["Files"],
                    "summary": "Get file metadata",
-                   "description": "<b>Returns a list of file metadata<br><br>Fields:</b><ul><li>file_id</li><li>file_name</li><li>file_size</li><li>md5sum</li><li>file_location</li><li>file_submitter_id</li><li>fraction_number</li><li>experiment_type</li><li>data_category</li><li>file_type</li><li>file_format</li><li>plex_or_dataset_name</li><li>analyte</li><li>instrument</li><li>study_run_metadata_submitter_id</li><li>study_run_metadata_id</li><li>aliquots</li></ul>",
+                   "description": "<b>Returns a file metadata<br><br>Fields:</b><ul><li>file_id</li><li>file_name</li><li>file_size</li><li>md5sum</li><li>file_location</li><li>file_submitter_id</li><li>fraction_number</li><li>experiment_type</li><li>data_category</li><li>file_type</li><li>file_format</li><li>plex_or_dataset_name</li><li>analyte</li><li>instrument</li><li>study_run_metadata_submitter_id</li><li>study_run_metadata_id</li><li>aliquots</li></ul>",
                    "operationId": "fileMetadata",
                    "produces": [
                      "application/json"
@@ -474,6 +517,42 @@ var spec = {
                        "name": "file_id",
                        "in": "path",
                        "description": "File ID, example: 00046804-1b57-11e9-9ac1-005056921935",
+                       "required": true,
+                       "type": "string"
+                     }, {
+                        "name": "acceptDUA",
+                        "in": "path",
+                        "description": "Accept DUA variable, example: true/false",
+                        "required": true,
+                        "type": "boolean"
+                     }
+                   ],
+                   "responses": {
+                     "200": {
+                       "description": "successful operation",
+                       "schema": {
+                         "$ref": "#/definitions/fileMetadata"
+                       }
+                     },
+                     "401": {
+                       "description": "Unauthorized"
+                     }
+                   }
+                 }
+                   },
+               '?query={ fileMetadata(file_name: "{file_name}" acceptDUA: {acceptDUA}) {file_id file_name file_size md5sum file_location file_submitter_id fraction_number experiment_type data_category file_type file_format plex_or_dataset_name analyte instrument study_run_metadata_submitter_id study_run_metadata_id aliquots { aliquot_id aliquot_submitter_id sample_id sample_submitter_id case_id case_submitter_id} } }': {
+                 "get": {
+                           "tags": ["Files"],
+                   "summary": "Get file metadata",
+                   "description": "<b>Returns a file metadata<br><br>Fields:</b><ul><li>file_id</li><li>file_name</li><li>file_size</li><li>md5sum</li><li>file_location</li><li>file_submitter_id</li><li>fraction_number</li><li>experiment_type</li><li>data_category</li><li>file_type</li><li>file_format</li><li>plex_or_dataset_name</li><li>analyte</li><li>instrument</li><li>study_run_metadata_submitter_id</li><li>study_run_metadata_id</li><li>aliquots</li></ul>",
+                   "operationId": "fileMetadata",
+                   "produces": [
+                     "application/json"
+                   ],
+                   "parameters": [{
+                       "name": "file_name",
+                       "in": "path",
+                       "description": "File Name, example: 20151104-P50-20ug-s35.mzML.gz",
                        "required": true,
                        "type": "string"
                      }, {

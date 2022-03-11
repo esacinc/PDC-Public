@@ -26,6 +26,7 @@ import { ngxCsv } from "ngx-csv/ngx-csv";
 //const fileExists = require('file-exists');
 
 import {environment} from '../../../environments/environment';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 //@@@PDC-612 display all data categories
 enum FileTypes {
@@ -123,6 +124,10 @@ export class StudySummaryComponent implements OnInit {
 	pdcStudyID:string;
 	studyVersion: string;
 	oldVersionFlag = false;
+	source: string = "";
+	frozenClinicalColumns = [];
+	studyExperimentDesignTableFrozenCols = [];
+	biospecimenFrozenCols = [];
 
     constructor(private route: ActivatedRoute, private router: Router, private apollo: Apollo, private http: HttpClient,
 				private studySummaryService: StudySummaryService, private loc:Location,
@@ -134,6 +139,10 @@ export class StudySummaryComponent implements OnInit {
 	//@@@PDC-3474 check if the cirrent version is an old version of the study
 	if (studyData.oldVersion) {
 		this.oldVersionFlag = studyData.oldVersion;
+	}
+	//@@@PDC-4725: Set the source parameter in the UI calls to fetch details of a search result
+	if (studyData && studyData.source) {
+		this.source = studyData.source;
 	}
 	//@@@PDC-612 display all data categories
 	this.fileTypesCounts = {RAW: 0, txt_psm: 0, txt: 0, pdf: 0, mzML: 0, doc: 0, mzIdentML: 0};
@@ -316,7 +325,7 @@ export class StudySummaryComponent implements OnInit {
   getWorkflowDataSummary(){
 	  this.loading = true;
 	  setTimeout(() => {
-		  this.studySummaryService.getWorkflowMetadata(this.study_id).subscribe((data: any) =>{
+		  this.studySummaryService.getWorkflowMetadata(this.study_id, this.source).subscribe((data: any) =>{
 			this.workflowData = data.uiWorkflowMetadata[0];
 			// console.log(this.workflowData);
 			this.loading = false;
@@ -370,7 +379,7 @@ export class StudySummaryComponent implements OnInit {
 	//Update API call to fetch study summary details.
 	getStudySummaryData(){
 	  this.loading = true;
-	  this.studySummaryService.getFilteredStudyData(this.study_submitter_id_name).subscribe((data: any) =>{
+	  this.studySummaryService.getFilteredStudyData(this.study_submitter_id_name, '', '', this.source).subscribe((data: any) =>{
 			this.studySummaryData = data.getPaginatedUIStudy.uiStudies[0];
 			this.studySummaryData.study_description = this.studySummaryData.study_description.replace(/<a/g,'<a target="_blank" ');
 			console.log(this.studySummaryData);
@@ -396,7 +405,7 @@ export class StudySummaryComponent implements OnInit {
   getProtocol(){
 	  this.loading = true;
 	  setTimeout(() => {
-		  this.studySummaryService.getProtocolData(this.study_id).subscribe((data: any) =>{
+		  this.studySummaryService.getProtocolData(this.study_id, this.source).subscribe((data: any) =>{
 			this.protocol = data.uiProtocol[0];
 			//console.log(this.protocol);
 			this.loading = false;
@@ -407,7 +416,7 @@ export class StudySummaryComponent implements OnInit {
   getPublications(){
 	  this.loading = true;
 	  setTimeout(() => {
-		  this.studySummaryService.getPublicationsData(this.study_id).subscribe((data: any) =>{
+		  this.studySummaryService.getPublicationsData(this.study_id, this.source).subscribe((data: any) =>{
 			this.publications = data.uiPublication;
 			console.log(this.publications);
 			this.loading = false;
@@ -471,13 +480,14 @@ getAllClinicalData(){
 	this.loading = true;
 	this.newFilterSelected["study_name"] = this.study_submitter_id_name;
 	setTimeout(() => {
-		this.studySummaryService.getFilteredClinicalDataPaginated(this.offset, this.limit, this.sort, this.newFilterSelected).subscribe((data: any) =>{
+		this.studySummaryService.getFilteredClinicalDataPaginated(this.offset, this.limit, this.sort, this.newFilterSelected, this.source).subscribe((data: any) =>{
 		this.totalRecordsClinical = data.getPaginatedUIClinical.total;
 		setTimeout(() => {
-			this.studySummaryService.getFilteredClinicalDataPaginated(this.offset, this.totalRecordsClinical, this.sort, this.newFilterSelected).subscribe((data: any) =>{
+			this.studySummaryService.getFilteredClinicalDataPaginated(this.offset, this.totalRecordsClinical, this.sort, this.newFilterSelected, this.source).subscribe((data: any) =>{
 				this.filteredClinicalData = data.getPaginatedUIClinical.uiClinical;
 				this.totalRecordsClinical = data.getPaginatedUIClinical.total;
 				this.loading = false;
+				//this.makeRowsSameHeight();
 			});
 		}, 1000);
 		});
@@ -505,7 +515,7 @@ showStudySummary(entity_location, version = '', oldVersionFlag = false) {
 		sessionStorage.removeItem('currentVersion');
 	}
 	setTimeout(() => {
-	this.studySummaryService.getFilteredStudyData('', pdcStudyID, version).pipe(take(1)).subscribe((data: any) =>{
+	this.studySummaryService.getFilteredStudyData('', pdcStudyID, version, this.source).pipe(take(1)).subscribe((data: any) =>{
 		var studyData = data.getPaginatedUIStudy.uiStudies[0];
 		if (studyData) {
 			const dialogConfig = new MatDialogConfig();
@@ -539,12 +549,13 @@ getAllCasesData() {
 	this.loading = true;
 	this.newFilterSelected["study_name"] = this.study_submitter_id_name;
 	setTimeout(() => {
-		this.studySummaryService.getFilteredCasesPaginated(this.offsetBiospecimen, this.limit, this.sort, this.newFilterSelected).subscribe((data: any) =>{
+		this.studySummaryService.getFilteredCasesPaginated(this.offsetBiospecimen, this.limit, this.sort, this.newFilterSelected, this.source).subscribe((data: any) =>{
 			this.totalRecordsBiospecimens = data.getPaginatedUICase.total;
 			setTimeout(() => {
-				this.studySummaryService.getFilteredCasesPaginated(this.offsetBiospecimen, this.totalRecordsBiospecimens, this.sort, this.newFilterSelected).subscribe((data: any) =>{
+				this.studySummaryService.getFilteredCasesPaginated(this.offsetBiospecimen, this.totalRecordsBiospecimens, this.sort, this.newFilterSelected, this.source).subscribe((data: any) =>{
 					this.filteredCasesData = data.getPaginatedUICase.uiCases;
 					this.totalRecordsBiospecimens = data.getPaginatedUICase.total;
+					//this.makeRowsSameHeight();
 					this.loading = false;
 				});
 		}, 1000);
@@ -556,13 +567,13 @@ getAllCasesData() {
 getEntityReferenceExternalData() {
 	this.loading = true;
 	setTimeout(() => {
-		this.studySummaryService.getEntityReferenceData("study", this.study_id, "external").subscribe((data: any) =>{
+		this.studySummaryService.getEntityReferenceData("study", this.study_id, "external", this.source).subscribe((data: any) =>{
 			this.entityReferenceExternalData = data.uiPdcEntityReference;
 			this.loading = false;
 		});
 	}, 1000);
 	setTimeout(() => {
-		this.studySummaryService.getEntityReferenceData("study", this.study_id, "internal").subscribe((internalData: any) =>{
+		this.studySummaryService.getEntityReferenceData("study", this.study_id, "internal", this.source).subscribe((internalData: any) =>{
 			this.entityReferenceInternalData = internalData.uiPdcEntityReference;
 			console.log(this.entityReferenceInternalData);
 			this.loading = false;
@@ -725,6 +736,9 @@ openHeatMap(study_name: string){
 		{field: 'tumor_grade', header: 'Tumor Grade'},
 		{field: 'tumor_stage', header: 'Tumor Stage'}
 	  ];
+	  this.frozenClinicalColumns = [
+		{field: 'case_submitter_id', header: 'Cases Submitter ID'}
+	  ];
 	  this.biospecimenCols = [
 		{field: 'aliquot_submitter_id', header: 'Aliquot'},
 		{field: 'sample_submitter_id', header: 'Sample'},
@@ -734,7 +748,10 @@ openHeatMap(study_name: string){
 		{field: 'primary_site', header: 'Primary Site' },
 		{field: 'disease_type', header: 'Disease Type'}
 	  ];
-	  this.studyExperimentDesignTableCommonCols = [
+	  this.biospecimenFrozenCols = [
+		{field: 'aliquot_submitter_id', header: 'Aliquot'},
+	  ];
+	  this.studyExperimentDesignTableFrozenCols = this.studyExperimentDesignTableCommonCols = [
 		// {field: 'study_run_metadata_id', header: 'Study Run Metadata ID'},
 		{field: 'plex_dataset_name', header: 'Plex Dataset Name'},
 		{field: 'study_run_metadata_submitter_id', header: 'Run Metadata ID'},
@@ -866,7 +883,7 @@ getStudyExperimentalDesign() {
 		//'aliquot_is_ref = Yes' denotes if a aliquot is the reference. Fetch the aliquot submitter ID from biospecimenPerStudy table
 		//for which 'aliquot_is_ref = Yes'.
 		//Use this as a reference and map it with the data in studyExperimentDesignMap API and extract the denominator for the "Ratio" column.
-		this.studySummaryService.getBiospecimenPerStudy(this.study_id).subscribe((biospecimenData: any) =>{
+		this.studySummaryService.getBiospecimenPerStudy(this.study_id, this.source).subscribe((biospecimenData: any) =>{
 			this.biospecimenPerStudy = biospecimenData.uiBiospecimenPerStudy;
 			for(let biospecimen of biospecimenData.uiBiospecimenPerStudy){
 				if (biospecimen["aliquot_is_ref"] == "yes") {
@@ -874,8 +891,8 @@ getStudyExperimentalDesign() {
 				}
 			}
 			setTimeout(() => {
-				this.studySummaryService.getStudyExperimentalDesign(this.study_id).subscribe((data: any) =>{
-					this.studyExperimentalDesign = data.studyExperimentalDesign;
+				this.studySummaryService.getStudyExperimentalDesign(this.study_id, this.source).subscribe((data: any) =>{
+					this.studyExperimentalDesign = data.uiStudyExperimentalDesign;
 					let localSelectedExpStudies = [];
 					let colValues = [];
 					for(let study of this.studyExperimentalDesign) {
@@ -889,7 +906,7 @@ getStudyExperimentalDesign() {
 					}
 					this.selectedExperimentalStudies = localSelectedExpStudies;
 					//console.log(this.studyExperimentalDesign);
- 					for(let studyExpData of data.studyExperimentalDesign){
+ 					for(let studyExpData of data.uiStudyExperimentalDesign){
 						experimentType = studyExpData["experiment_type"];
 					}
 					var colsSpecificToExpType = [];
@@ -906,10 +923,10 @@ getStudyExperimentalDesign() {
 							colsSpecificToExpType.push(colval);
 						}
 					} else {
-						this.studyExperimentalDesign = data.studyExperimentalDesign;
+						this.studyExperimentalDesign = data.uiStudyExperimentalDesign;
 						colsSpecificToExpTypeArr = [];
 					}
-					for (let studyExpData of data.studyExperimentalDesign) {
+					for (let studyExpData of data.uiStudyExperimentalDesign) {
 						var colValSpecificToExpType = "";
 						for (let col of colsSpecificToExpTypeArr) {
 							let colsSpecificVal = "";
@@ -938,7 +955,7 @@ getStudyExperimentalDesign() {
 							}
 						}
 						if (colValSpecificToExpType != '') {
-							this.studyExperimentalDesign = data.studyExperimentalDesign;
+							this.studyExperimentalDesign = data.uiStudyExperimentalDesign;
 						}
 					}
 					this.studyExperimentDesignTableExtraCols = colsSpecificToExpType;
@@ -947,11 +964,48 @@ getStudyExperimentalDesign() {
 					} else {
 						this.studyExperimentDesignTableCols = this.studyExperimentDesignTableCommonCols;
 					}
+					this.makeRowsSameHeight();
 				});
 			}, 1000);
 		});
 		}, 1000);
 		this.loading = false;
+}
+
+tabClick () {
+	this.makeRowsSameHeight();
+}
+
+makeRowsSameHeight() {
+	setTimeout(() => {
+		if (document.getElementsByClassName('ui-table-scrollable-wrapper').length) {
+			let wrapper = document.getElementsByClassName('ui-table-scrollable-wrapper');
+			for (var i = 0; i < wrapper.length; i++) {
+				let w = wrapper.item(i) as HTMLElement;
+				let frozen_rows: any = w.querySelectorAll('.ui-table-frozen-view .ui-table-tbody tr');
+				let unfrozen_rows: any = w.querySelectorAll('.ui-table-unfrozen-view .ui-table-tbody tr');
+				let frozen_header_row: any = w.querySelectorAll('.ui-table-frozen-view .ui-table-thead tr');
+				let unfrozen_header_row: any = w.querySelectorAll('.ui-table-unfrozen-view .ui-table-thead');
+				   if (frozen_header_row[0].clientHeight > unfrozen_header_row[0].clientHeight) {
+					unfrozen_header_row[0].style.height = frozen_header_row[0].clientHeight+"px";
+				  } 
+				else if (frozen_header_row[0].clientHeight < unfrozen_header_row[0].clientHeight) {
+					frozen_header_row[0].style.height = unfrozen_header_row[0].clientHeight+"px";
+				} 				   
+				for (let i = 0; i < frozen_rows.length; i++) {
+					if (frozen_rows[i].clientHeight > unfrozen_rows[i].clientHeight) {
+						unfrozen_rows[i].style.height = frozen_rows[i].clientHeight+"px";
+					} 
+					else if (frozen_rows[i].clientHeight < unfrozen_rows[i].clientHeight) 
+					{
+						frozen_rows[i].style.height = unfrozen_rows[i].clientHeight+"px";
+					}
+				}
+				let frozen_header_div: any = w.querySelectorAll('.ui-table-unfrozen-view .ui-table-scrollable-header-box');
+				frozen_header_div[0].setAttribute('style', 'margin-right: 0px !important'); 
+			}
+		}
+	});
 }
 
 }

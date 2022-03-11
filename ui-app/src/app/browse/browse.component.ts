@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, EventEmitter, Output } from '@angular/core';
 import { NgModule } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { Apollo, SelectPipe } from 'apollo-angular';
@@ -16,6 +16,7 @@ import { BrowseService } from './browse.service';
 import { MatSidenav } from '@angular/material';
 
 import {TableTotalRecordCount} from '../types';
+import { MatTabChangeEvent } from '@angular/material';
 
 declare var window: any;
 
@@ -71,6 +72,8 @@ export class BrowseComponent implements OnInit{
 	baseUrl: string = "";
 	showBookmarkFlag = false;
 	disablePanelsFlag = false;
+	captureTabChange = "";
+	
 
 	@ViewChild('sidenav') myNav: MatSidenav;
 	constructor(private apollo: Apollo, private browseService: BrowseService, 
@@ -723,26 +726,32 @@ getCasesByExperimentalStrategy(){
 		switch(event['index']) {
 			case 0: { //General tab
 				this.selectedTab = 0;
+				this.captureTabChange = "0";
 				break;
 			}
 			case 1: { //Biospecimen tab
 				this.selectedTab = 1;
+				this.captureTabChange = "1";
 				break;
 			}
 			case 2: { //Clinical tab
 				this.selectedTab = 2;
+				this.captureTabChange = "2";
 				break;
 			}
 			case 3: { //Files tab
 				this.selectedTab = 3;
+				this.captureTabChange = "3";
 				break;
 			}
 			case 4: { //Genes tab
 				this.selectedTab = 4;
+				this.captureTabChange = "4";
 				break;
 			}
 			default: { //General tab
 				this.selectedTab = 0;
+				this.captureTabChange = "0";
 				break;
 			}
 		}

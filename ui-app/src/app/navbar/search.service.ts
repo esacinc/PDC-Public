@@ -222,20 +222,20 @@ constructor(private apollo: Apollo) {
 	}
 
 	searchStudyUUIDQuery = gql`
-	query studyByUUIDQuery($study_id: String!, $study_submitter_id: String!, $acceptDUA: Boolean!){
-		study(study_id: $study_id, study_submitter_id: $study_submitter_id, acceptDUA: $acceptDUA){
+	query studyByUUIDQuery($study_id: String!, $study_submitter_id: String!, $source: String!){
+		uiStudySummary(study_id: $study_id, study_submitter_id: $study_submitter_id, source: $source){
 			study_submitter_id
 			study_shortname
 		}
 	}`;
 
-	getStudybyUUIDResults(study_id = '', study_submitter_id = '', acceptDUA = true){
+	getStudybyUUIDResults(study_id = '', study_submitter_id = ''){
 		return this.apollo.watchQuery<SearchbyStudyUUID>({
 			query: this.searchStudyUUIDQuery,
 			variables: {
 				study_id: study_id,
 				study_submitter_id: study_submitter_id,
-				acceptDUA: acceptDUA
+				source: "search"
 			}
 		})
 		.valueChanges
@@ -249,8 +249,8 @@ constructor(private apollo: Apollo) {
 	//@@@PDC-1441: Add ability to search by case, study, aliquot, sample UUIDs on UI search box
 	//@@@PDC-1876: Allow deep linking to study summary page by PDC ID - add PDC ID
 	fetchStudySubmitterIDQuery = gql`
-	query studyByUUIDQuery($study_id: String!, $pdc_study_id: String!, $acceptDUA: Boolean! ){
-		study(study_id: $study_id, pdc_study_id: $pdc_study_id, acceptDUA: $acceptDUA){
+	query studyByUUIDQuery($study_id: String!, $pdc_study_id: String!, $source: String!){
+		uiStudySummary(study_id: $study_id, pdc_study_id: $pdc_study_id, source: $source){
 			study_submitter_id
 			study_name
 			pdc_study_id
@@ -258,13 +258,13 @@ constructor(private apollo: Apollo) {
 		}
 	}`;
 
-	getStudySubmitterID(study_id:any, pdc_study_id: any, acceptDUA = true){
+	getStudySubmitterID(study_id:any, pdc_study_id: any){
 		return this.apollo.watchQuery<UUIDForStudy>({
 			query: this.fetchStudySubmitterIDQuery,
 			variables: {
 				study_id: study_id,
 				pdc_study_id: pdc_study_id || '',
-				acceptDUA: acceptDUA
+				source: "search"
 			}
 		})
 		.valueChanges
@@ -276,19 +276,19 @@ constructor(private apollo: Apollo) {
 	}
 
 	searchCaseUUIDQuery = gql`
-	query caseByUUIDQuery($case_id: String!, $acceptDUA: Boolean!){
-		case(case_id: $case_id, acceptDUA: $acceptDUA){
+	query caseByUUIDQuery($case_id: String!, $source: String!){
+		uiCaseSummary(case_id: $case_id, source: $source){
 			case_submitter_id
 			case_id
 		}
 	}`;
 
-	getCaseUUIDResults(case_id:any, acceptDUA = true){
+	getCaseUUIDResults(case_id:any){
 		return this.apollo.watchQuery<SearchbyCaseUUID>({
 			query: this.searchCaseUUIDQuery,
 			variables: {
 				case_id: case_id,
-				acceptDUA: acceptDUA
+				source: "search"
 			}
 		})
 		.valueChanges
@@ -300,8 +300,8 @@ constructor(private apollo: Apollo) {
 	}
 
 	caseSummaryData = gql`
-	query CaseSummaryDataQuery($case_id: String!, $case_submitter_id: String!){
-		uiCase (case_id: $case_id, case_submitter_id: $case_submitter_id) {
+	query CaseSummaryDataQuery($case_id: String!, $case_submitter_id: String!, $source: String!){
+		uiCase (case_id: $case_id, case_submitter_id: $case_submitter_id, source: $source) {
 			case_id
 			case_submitter_id
 			aliquot_id 	
@@ -323,7 +323,8 @@ constructor(private apollo: Apollo) {
 			query: this.caseSummaryData,
 			variables: {
 				case_id: case_id,
-				case_submitter_id: case_submitter_id || ""
+				case_submitter_id: case_submitter_id || "",
+				source: "search"
 			}
 		})
 		.valueChanges
@@ -333,21 +334,21 @@ constructor(private apollo: Apollo) {
 	}
 
 	searchSampleUUIDQuery = gql`
-	query SampleDataQuery($sample_id: String!, $acceptDUA: Boolean!){
-		sample (sample_id: $sample_id, acceptDUA: $acceptDUA) {
+	query SampleDataQuery($sample_id: String!, $source: String!){
+		uiSampleSummary (sample_id: $sample_id, source: $source) {
 			case_submitter_id
 			sample_submitter_id
 			sample_id
 		}
 	}`;
 
-	getSampleUUIDResults(sample_id:any, acceptDUA = true){
+	getSampleUUIDResults(sample_id:any){
 		//console.log(case_submitter_id);
 		return this.apollo.watchQuery<AllCasesData>({
 			query: this.searchSampleUUIDQuery,
 			variables: {
 				sample_id: sample_id,
-				acceptDUA: acceptDUA
+				source: "search"
 			}
 		})
 		.valueChanges
@@ -357,21 +358,21 @@ constructor(private apollo: Apollo) {
 	}
 
 	searchSampleSubmitterIDQuery = gql`
-	query SampleDataQuery($sample_submitter_id: String!, $acceptDUA: Boolean!){
-		sample (sample_submitter_id: $sample_submitter_id, acceptDUA: $acceptDUA) {
+	query SampleDataQuery($sample_submitter_id: String!, $source: String!){
+		uiSampleSummary (sample_submitter_id: $sample_submitter_id, source: $source) {
 			case_submitter_id
 			sample_submitter_id
 			sample_id
 		}
 	}`;
 
-	getSampleSubmitterIDResults(sample_submitter_id: any, acceptDUA = true){
+	getSampleSubmitterIDResults(sample_submitter_id: any){
 		//console.log(case_submitter_id);
 		return this.apollo.watchQuery<AllCasesData>({
 			query: this.searchSampleSubmitterIDQuery,
 			variables: {
 				sample_submitter_id: sample_submitter_id,
-				acceptDUA: acceptDUA
+				source: "search"
 			}
 		})
 		.valueChanges
@@ -381,21 +382,21 @@ constructor(private apollo: Apollo) {
 	}
 
 	searchAliquotUUIDQuery = gql`
-	query AliquotDataQuery($aliquot_id: String!, $acceptDUA: Boolean!){
-		aliquot (aliquot_id: $aliquot_id, acceptDUA: $acceptDUA) {
+	query AliquotDataQuery($aliquot_id: String!, $source: String!){
+		uiAliquotSummary (aliquot_id: $aliquot_id, source: $source) {
 			case_submitter_id
 			aliquot_submitter_id
 			aliquot_id
 		}
 	}`;
 
-	getAliquotUUIDResults(aliquot_id:any, acceptDUA = true){
+	getAliquotUUIDResults(aliquot_id:any){
 		//console.log(case_submitter_id);
 		return this.apollo.watchQuery<AllCasesData>({
 			query: this.searchAliquotUUIDQuery,
 			variables: {
 				aliquot_id: aliquot_id,
-				acceptDUA: acceptDUA
+				source: "search"
 			}
 		})
 		.valueChanges
@@ -405,21 +406,21 @@ constructor(private apollo: Apollo) {
 	}
 
 	searchAliquotSubmitterIDQuery = gql`
-	query AliquotDataQuery($aliquot_submitter_id: String!, $acceptDUA: Boolean!){
-		aliquot (aliquot_submitter_id: $aliquot_submitter_id, acceptDUA: $acceptDUA) {
+	query AliquotDataQuery($aliquot_submitter_id: String!, $source: String!){
+		uiAliquotSummary (aliquot_submitter_id: $aliquot_submitter_id, source: $source) {
 			case_submitter_id
 			aliquot_submitter_id
 			aliquot_id
 		}
 	}`;
 
-	getAliquotSubmitterIDResults(aliquot_submitter_id:any, acceptDUA = true){
+	getAliquotSubmitterIDResults(aliquot_submitter_id:any){
 		//console.log(case_submitter_id);
 		return this.apollo.watchQuery<AllCasesData>({
 			query: this.searchAliquotSubmitterIDQuery,
 			variables: {
 				aliquot_submitter_id: aliquot_submitter_id,
-				acceptDUA: acceptDUA
+				source: "search"
 			}
 		})
 		.valueChanges

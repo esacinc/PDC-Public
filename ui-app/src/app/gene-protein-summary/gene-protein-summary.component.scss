@@ -16,7 +16,7 @@
 }
 
 .ui-datatable-tableheader {
-    background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%) !important;
+    background-color: #3A8BAF !important;
     border:0px !important;
     color: white !important;
 }
@@ -101,4 +101,15 @@
 ::ng-deep .cdk-overlay-pane {
 	height: max-content!important;
 	width: max-content!important;
+}
+
+::ng-deep .table-striped tbody tr:nth-of-type(odd) {
+    background: linear-gradient(to bottom, #f6f7f9 0%, #ebedf0 100%) !important;
+}
+
+:host /deep/ .ui-table-unfrozen-view .ui-table-thead th,
+:host /deep/ .ui-table-unfrozen-view .ui-table-tbody td  {
+	width: 100px !important;
+	min-width: 100px !important;
+	max-width: 100px !important;
 }

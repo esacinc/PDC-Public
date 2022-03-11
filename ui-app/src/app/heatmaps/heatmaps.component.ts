@@ -55,7 +55,8 @@ export class HeatmapsComponent implements OnInit{
 	breadcrumbs = [];
 	newFilterValue: string;
 	public filtersChangedInBreadcrumbBar: Object;
-	handleTableLoading:any
+	handleTableLoading:any;
+	frozenColumns: any[];
 
 	@ViewChild('sidenav') myNav: MatSidenav;
 	
@@ -154,6 +155,7 @@ export class HeatmapsComponent implements OnInit{
 		  this.offset = data.uiHeatmapStudies.pagination.from;
 		  this.pageSize = data.uiHeatmapStudies.pagination.size;
 		  this.limit = data.uiHeatmapStudies.pagination.size;*/
+		  this.makeRowsSameHeight();
 		  this.loading = false;
 		});
 	}
@@ -176,6 +178,7 @@ export class HeatmapsComponent implements OnInit{
 		  /*this.offset = data.uiHeatmapStudies.pagination.from;
 		  this.pageSize = data.uiHeatmapStudies.pagination.size;
           this.limit = data.uiHeatmapStudies.pagination.size;*/
+		  this.makeRowsSameHeight();
 		  this.loading = false;
 		});
 	}
@@ -231,6 +234,7 @@ export class HeatmapsComponent implements OnInit{
 		  this.offset = data.uiHeatmapStudies.pagination.from;
 		  this.pageSize = data.uiHeatmapStudies.pagination.size;
           this.limit = data.uiHeatmapStudies.pagination.size;*/
+		  this.makeRowsSameHeight();
 		  this.loading = false;
 		});
 	}
@@ -245,6 +249,7 @@ export class HeatmapsComponent implements OnInit{
 	
 	openHeatMap(study_id: string, study_name: string, filename: string){
 		console.log(filename);
+		this.makeRowsSameHeight();
 		//@@@PDC-3804 process heatmap files for "Label Free" experiment type
 		//If experiment type is "Label Free" than there will be two heatmap files that belong to "All Peptides" category, so no need to send filenames separately
 			this.router.navigate([]).then( result => { var url= "/pdc/analysis/" + study_id + "?StudyName=" + study_name + "&filename=" + filename ; 
@@ -289,13 +294,14 @@ export class HeatmapsComponent implements OnInit{
 			summaryData: study_data,
 		};
 		this.router.navigate([{outlets: {studySummary: ['study-summary', study_name]}}], { skipLocationChange: true });
-		const dialogRef = this.dialog.open(StudySummaryComponent, dialogConfig);
-
-
-			dialogRef.afterClosed().subscribe(
-				val => console.log("Dialog output:", val)
-			);
-
+		const dialogRef = this.dialog.open(StudySummaryComponent, dialogConfig);	
+		dialogRef.afterClosed().subscribe((val:any) => {
+			console.log("Dialog output:", val);
+			//@@@PDC-4924: Fix UI issues on Heatmaps page & filter stacking feature
+			//When a user clicks on study name/study id in the Study table, the rows get misasligned.
+			//Solution: Scroll the study name/id into viewport 
+			document.getElementById(study_name).scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
+		});
 	}
 
 	ngOnInit() {
@@ -311,6 +317,45 @@ export class HeatmapsComponent implements OnInit{
 			{field: 'experiment_type', header: 'Experiment Type'},
 			{field: 'heatmapFiles', header: 'Available Heatmap'},
 		];
-	
+		
+		this.frozenColumns = [
+			{field: 'pdc_study_id', header: 'Study ID'}
+		];
+	}
+
+	onResize(event) {
+		this.makeRowsSameHeight();
+	}
+
+	makeRowsSameHeight() {
+		setTimeout(() => {
+			if (document.getElementsByClassName('ui-table-scrollable-wrapper').length) {
+				let wrapper = document.getElementsByClassName('ui-table-scrollable-wrapper');
+				for (var i = 0; i < wrapper.length; i++) {
+					let w = wrapper.item(i) as HTMLElement;
+					let frozen_rows: any = w.querySelectorAll('.ui-table-frozen-view .ui-table-tbody tr');
+					let unfrozen_rows: any = w.querySelectorAll('.ui-table-unfrozen-view .ui-table-tbody tr');
+					let frozen_header_row: any = w.querySelectorAll('.ui-table-frozen-view .ui-table-thead tr');
+					let unfrozen_header_row: any = w.querySelectorAll('.ui-table-unfrozen-view .ui-table-thead');
+					   if (frozen_header_row[0].clientHeight > unfrozen_header_row[0].clientHeight) {
+						unfrozen_header_row[0].style.height = frozen_header_row[0].clientHeight+"px";
+					  } 
+					else if (frozen_header_row[0].clientHeight < unfrozen_header_row[0].clientHeight) {
+						frozen_header_row[0].style.height = unfrozen_header_row[0].clientHeight+"px";
+					} 				   
+					for (let i = 0; i < frozen_rows.length; i++) {
+						if (frozen_rows[i].clientHeight > unfrozen_rows[i].clientHeight) {
+							unfrozen_rows[i].style.height = frozen_rows[i].clientHeight+"px";
+						} 
+						else if (frozen_rows[i].clientHeight < unfrozen_rows[i].clientHeight) 
+						{
+							frozen_rows[i].style.height = unfrozen_rows[i].clientHeight+"px";
+						}
+					}
+					let frozen_header_div: any = w.querySelectorAll('.ui-table-unfrozen-view .ui-table-scrollable-header-box');
+					frozen_header_div[0].setAttribute('style', 'margin-right: 0px !important'); 
+				}
+			}
+		});
 	}
 }

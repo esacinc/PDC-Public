@@ -19,46 +19,10 @@ const dictionaryRoutes: Routes = [
         component:  DataDictionaryItemComponent
      }
 
-
-
-
 ];
-/*
-const browseRoutes: Routes = [
-    {
-        path: '',
-        component: BrowseComponent
-    },
-	{  path: 'filters/:filters', component: BrowseComponent},
-    {
-        path: ':study_id',
-        component: BrowseComponent,
-        children: [
-        {
-          path: 'tab/study',
-          component: BrowseComponent,
-        },
-        {
-            path: 'tab/clinical',
-            component: BrowseComponent,
-        },
-        {
-            path: 'tab/files',
-            component: BrowseComponent,
-        },
-		{
-			path: 'tab/genes',
-            component: BrowseComponent,
-		}
-      ]
-    }
-//  { path: 'heatmap/:id',  component: HeatMapComponent },
 
- // { path: 'analysis/:id', component: AnalysisManagerComponent }
-];
-*/
 @NgModule({
-  imports: [
+  imports: [ 
     RouterModule.forChild(dictionaryRoutes)
   ],
   exports: [

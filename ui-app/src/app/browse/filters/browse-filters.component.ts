@@ -1,5 +1,5 @@
 import { FilterElement } from './../../types';
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from "@angular/core";
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ElementRef, ViewChild, ViewChildren, QueryList } from "@angular/core";
 import * as _ from "lodash";
 import { Observable, Subject, fromEvent } from "rxjs";
 //import "rxjs/add/operator/map";
@@ -248,9 +248,12 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
   showDownloadable: boolean = false;
   showStudyName: boolean = false;
 
+  @ViewChild("primarySiteLists") primarySiteLists: ElementRef;
+
   constructor( private route:ActivatedRoute, private loc: Location,
     private browseFiltersService: BrowseFiltersService,
-    private browseService: BrowseService
+    private browseService: BrowseService,
+    private elRef:ElementRef,
   ) {
     BrowseFiltersComponent.urlBase = environment.dictionary_base_url;
 	this.getDataCategoryMapping();
@@ -265,10 +268,12 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
   private getAllFilterData() {
     this.loading = true;
     this.browseFiltersService.getAllFiltersData().subscribe((data: any) => {
-      this.allCategoryFilterData = data.uiFilters;
-	  this.getStudyUUIDNameMapping();
-      this.populateFilters();
-      this.loading = false;
+    this.allCategoryFilterData = data.uiFilters;
+    //@@@PDC-4763: One of the link of CPTAC forwarding has issues
+    //getStudyUUIDNameMapping is called from populateFilters()
+    //this.getStudyUUIDNameMapping();
+    this.populateFilters();
+    this.loading = false;
     });
   }
   
@@ -299,7 +304,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
   private getStudyUUIDNameMapping(){
 	  this.browseFiltersService.getStudyUUID2NameMapping().subscribe((data: any) => {
 	  //@@@PDC-1123 call ui wrapper API
-      let allPrograms = data.uiProgramsProjectsStudies;
+    let allPrograms = data.uiProgramsProjectsStudies;
 	  for (let program of allPrograms){
 		  for (let project of program.projects){
 			  for (let study of project.studies){
@@ -309,8 +314,8 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
 		  }
 	  }
 	  console.log(this.studyNameUUIDMap);
-	  console.log(this.studyNamePDCStudyIDMap);
-    });
+    console.log(this.studyNamePDCStudyIDMap);
+    })
   }
 
   /**
@@ -406,72 +411,89 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
     }
 		//If there were any URL filter values
 		if (filters) {
-			this.urlFilterParams = true;
-			let filtersExtracted = filters.split('&');
-			console.log(filtersExtracted);
-			for (let filter_val of filtersExtracted){
-				var timeoutId = setTimeout(() => {
-					console.log(filter_val);
-					let filter = filter_val.split(':');
-					//PDC-786 allow study_id URL filter to work as study_name filter
-					if (filter[0] == "study_submitter_id"){
-						let studyNames = "";
-						//Convert study submitter ids to study names
-						for (let studyID of filter[1].split('|')){
-							if (this.studyNameStudyIdMap[studyID.toUpperCase()]) {
-								studyNames = studyNames + this.studyNameStudyIdMap[studyID.toUpperCase()] + "|";
-							}
-							else {
-								console.log("Error, study submitter id: " + studyID.toUpperCase() + " does not exist!!!");
-							}
-						}
-						console.log(studyNames);
-						this.setFilters("study_name", studyNames);
-						this.selectedFilters.emit("study_name:" + studyNames.split('|').join(';'));
-					//PDC-835
-					}else if (filter[0] == "study_id"){
-						let studyNames = "";
-						//Convert study uuids to study names
-						for (let studyID of filter[1].split('|')){
-							console.log(studyID);
-							if (this.studyNameUUIDMap[studyID]) {
-								studyNames = studyNames + this.studyNameUUIDMap[studyID] + "|";
-							} else{
-								console.log("Error, study uuid: " + studyID + " does not exist!!!");
-							}
-						}
-						studyNames = studyNames.slice(0, -1);
-						console.log(studyNames);
-						this.setFilters("study_name", studyNames);
-						this.selectedFilters.emit("study_name:" + studyNames.split('|').join(';'));
-					//PDC-3778 add pdc_study_id filter URL filter option	
-					}else if (filter[0] == "pdc_study_id"){
-						let studyNames = "";
-						//Convert study uuids to study names
-						for (let studyID of filter[1].split('|')){
-							if (this.studyNamePDCStudyIDMap[studyID]){
-								studyNames = studyNames + this.studyNamePDCStudyIDMap[studyID] + "|";
-							} else{
-								console.log("Error, PDC Study ID: " + studyID + " does not exist!!!");
-							}
-						}
-						studyNames = studyNames.slice(0, -1);
-						console.log(studyNames);
-						this.setFilters("study_name", studyNames);
-						this.selectedFilters.emit("study_name:" + studyNames.split('|').join(';'));
-					} else if (filter[0] == "selectedTab"){
-						this.selectedTabForStudySummary.emit({index:3});
-					} else {
-						//For all other URL filters set the apropriate filter and propagate to other modules
-						this.setFilters(filter[0], filter[1]); //filter[0] - name of the filter, filter[1] - value of the filter
-						this.selectedFilters.emit(filter[0] + ":" + filter[1].split('|').join(';')); //Change delimiter for multiple values for the same filter from | to ;
-					}
-					this.loadingURLParams = true;
-					this.updateFiltersCounters();
-				}, 700); //need to set a short timout so that other components will have time perform queries
-			}
+      //@@@PDC-4763: One of the link of CPTAC forwarding has issues
+      //The results of this API call are required for URL filters processing.
+      this.browseFiltersService.getStudyUUID2NameMapping().subscribe((studyUUIDData: any) => {
+        //@@@PDC-1123 call ui wrapper API
+        let allPrograms = studyUUIDData.uiProgramsProjectsStudies;
+        for (let program of allPrograms){
+          for (let project of program.projects){
+            for (let study of project.studies){
+              this.studyNameUUIDMap[study.study_id] = study.submitter_id_name;
+              this.studyNamePDCStudyIDMap[study.pdc_study_id] = study.submitter_id_name;
+            }
+          }
+        }
+        console.log(this.studyNameUUIDMap);
+        console.log(this.studyNamePDCStudyIDMap);
+        //@@@PDC-1123 call ui wrapper API
+        this.urlFilterParams = true;
+        let filtersExtracted = filters.split('&');
+        console.log(filtersExtracted);
+        for (let filter_val of filtersExtracted){
+          var timeoutId = setTimeout(() => {
+            console.log(filter_val);
+            let filter = filter_val.split(':');
+            //PDC-786 allow study_id URL filter to work as study_name filter
+            if (filter[0] == "study_submitter_id"){
+              let studyNames = "";
+              //Convert study submitter ids to study names
+              for (let studyID of filter[1].split('|')){
+                if (this.studyNameStudyIdMap[studyID.toUpperCase()]) {
+                  studyNames = studyNames + this.studyNameStudyIdMap[studyID.toUpperCase()] + "|";
+                }
+                else {
+                  console.log("Error, study submitter id: " + studyID.toUpperCase() + " does not exist!!!");
+                }
+              }
+              console.log(studyNames);
+              this.setFilters("study_name", studyNames);
+              this.selectedFilters.emit("study_name:" + studyNames.split('|').join(';'));
+            //PDC-835
+            }else if (filter[0] == "study_id"){
+              let studyNames = "";
+              //Convert study uuids to study names
+              for (let studyID of filter[1].split('|')){
+                console.log(studyID);
+                if (this.studyNameUUIDMap[studyID]) {
+                  studyNames = studyNames + this.studyNameUUIDMap[studyID] + "|";
+                } else{
+                  console.log("Error, study uuid: " + studyID + " does not exist!!!");
+                }
+              }
+              studyNames = studyNames.slice(0, -1);
+              console.log(studyNames);
+              this.setFilters("study_name", studyNames);
+              this.selectedFilters.emit("study_name:" + studyNames.split('|').join(';'));
+            //PDC-3778 add pdc_study_id filter URL filter option	
+            }else if (filter[0] == "pdc_study_id"){
+              let studyNames = "";
+              //Convert study uuids to study names
+              for (let studyID of filter[1].split('|')){
+                if (this.studyNamePDCStudyIDMap[studyID]){
+                  studyNames = studyNames + this.studyNamePDCStudyIDMap[studyID] + "|";
+                } else{
+                  console.log("Error, PDC Study ID: " + studyID + " does not exist!!!");
+                }
+              }
+              studyNames = studyNames.slice(0, -1);
+              console.log(studyNames);
+              this.setFilters("study_name", studyNames);
+              this.selectedFilters.emit("study_name:" + studyNames.split('|').join(';'));
+            } else if (filter[0] == "selectedTab"){
+              this.selectedTabForStudySummary.emit({index:3});
+            } else {
+              //For all other URL filters set the apropriate filter and propagate to other modules
+              this.setFilters(filter[0], filter[1]); //filter[0] - name of the filter, filter[1] - value of the filter
+              this.selectedFilters.emit(filter[0] + ":" + filter[1].split('|').join(';')); //Change delimiter for multiple values for the same filter from | to ;
+            }
+            this.loadingURLParams = true;
+            this.updateFiltersCounters();
+          }, 700); //need to set a short timout so that other components will have time perform queries
+        }
+      }); //main
 		}
-    });
+  });
 
     //@@@PDC-799: Redirecting to the NIH login page for the file authorization loses PDC state
     //If its a fence request, populate previously selected filters.
@@ -525,7 +547,9 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
           this.clearSelectionsPrimarySite();
         } else {
           this.selectedPrimarySites  = filterVal.split('|');
-        }
+        } 
+        let sortedPrimList = this.moveFilterToTop(this.primarySitesFilter, this.selectedPrimarySites, 'true', '-primSite');
+        this.primarySitesFilter = sortedPrimList;
         break;
       case "program_name":
         if (setValuesForFence) {
@@ -535,6 +559,8 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
         } else {
         this.selectedPrograms  = filterVal.split('|');
         }
+        let sortedProgramsList = this.moveFilterToTop(this.programsFilter, this.selectedPrograms, 'true', '-program');
+        this.programsFilter = sortedProgramsList;
         break;
       case "disease_type":
         if (setValuesForFence) {
@@ -544,6 +570,8 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
         } else {
           this.selectedDiseases  = filterVal.split('|');
         }
+        let sortedDiseaseTypeList = this.moveFilterToTop(this.diseaseTypesFilter, this.selectedDiseases, 'true', '-diseaseType');
+        this.diseaseTypesFilter = sortedDiseaseTypeList;
         break;
       case "analytical_fraction":
         if (setValuesForFence) {
@@ -553,6 +581,8 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
         } else {
         this.selectedAnFracs  = filterVal.split('|');
         }
+        let sortedAnFractionList = this.moveFilterToTop(this.analyticalFractionsFilter, this.selectedAnFracs, 'true', '-anFrac');
+        this.analyticalFractionsFilter = sortedAnFractionList;
         break;
       case "experiment_type":
         if (setValuesForFence) {
@@ -562,6 +592,8 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
         } else {
         this.selectedExpStarts  = filterVal.split('|');
         }
+        let sortedExpTypeList = this.moveFilterToTop(this.experimentalStrategiesFilter, this.selectedExpStarts, 'true', '-expStrategy');
+        this.experimentalStrategiesFilter = sortedExpTypeList;
         break;
       case "acquisition_type":
         if (setValuesForFence) {
@@ -571,6 +603,8 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
         } else {
         this.selectedAcquisitions  = filterVal.split('|');
         }
+        let sortedAcqTypeList = this.moveFilterToTop(this.acquisitionFilter, this.selectedAcquisitions, 'true', '-acqType');
+        this.acquisitionFilter = sortedAcqTypeList;
         break;
       case "study_name":
         if (setValuesForFence) {
@@ -581,6 +615,8 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
         } else {
           this.selectedStudyFilter  = filterVal.split('|');
         }
+        let sortedStudyList = this.moveFilterToTop(this.studyFilter, this.selectedStudyFilter, 'true', '-study');
+        this.studyFilter = sortedStudyList;
         break;
       case "submitter_id_name":
         if (setValuesForFence) {
@@ -590,6 +626,8 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
         }  else {
           this.selectedStudyFilter  = filterVal.split('|');
         }
+        let sortedStudyNameList = this.moveFilterToTop(this.studyFilter, this.selectedStudyFilter, 'true', '-study');
+        this.studyFilter = sortedStudyNameList;
         break;
       case "studyName_genes_tab":
         if (setValuesForFence) {
@@ -609,6 +647,8 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
         } else {
           this.selectedSampleType  = filterVal.split('|');
         }
+        let sortedSampleTypeList = this.moveFilterToTop(this.sampleTypeFilter, this.selectedSampleType,'true', '-sampType');
+        this.sampleTypeFilter = sortedSampleTypeList;
         break;
       case "ethnicity":
         if (setValuesForFence) {
@@ -618,6 +658,8 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
         } else {
         this.selectedEthnicity  = filterVal.split('|');
         }
+        let sortedEthnicityList = this.moveFilterToTop(this.ethnicityFilter, this.selectedEthnicity, 'true', '-ethn');
+        this.ethnicityFilter = sortedEthnicityList;
         break;
       case "race":
         if (setValuesForFence) {
@@ -627,6 +669,8 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
         } else {
           this.selectedRace  = filterVal.split('|');
         }
+        let sortedRaceList = this.moveFilterToTop(this.raceFilter, this.selectedRace, 'true', '-race');
+        this.raceFilter = sortedRaceList;
         break;
       case "gender":
         if (setValuesForFence) {
@@ -636,6 +680,8 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
         } else {
         this.selectedGender  = filterVal.split('|');
         }
+        let sortedGenderList = this.moveFilterToTop(this.genderFilter, this.selectedGender, 'true', '-gender');
+        this.genderFilter = sortedGenderList;
         break;
       case "tumor_grade":
         if (setValuesForFence) {
@@ -645,6 +691,8 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
         } else {
         this.selectedTumorGrade  = filterVal.split('|');
         }
+        let sortedTumorGradeList = this.moveFilterToTop(this.tumorGradeFilter, this.selectedTumorGrade, 'true', '-tumorGrade');
+        this.tumorGradeFilter = sortedTumorGradeList;
         break;
       case "data_category":
       if (setValuesForFence) {
@@ -654,7 +702,9 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
       } else {
         this.selectedDataCategory  = filterVal.split('|');
       }
-        break;
+      let sortedDataCategoryList = this.moveFilterToTop(this.dataCategoryFilter, this.selectedDataCategory, 'true', '-dataCategory');
+      this.dataCategoryFilter = sortedDataCategoryList;
+      break;
       case "file_type":
       if (setValuesForFence) {
         this.selectedFileType.push(filterVal);
@@ -663,7 +713,9 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
       } else {
         this.selectedFileType  = filterVal.split('|');
       }
-        break;
+      let sortedFileTypeList = this.moveFilterToTop(this.fileTypeFilter, this.selectedFileType, 'true', '-fileType');
+      this.fileTypeFilter = sortedFileTypeList;
+      break;
       case "access":
       if (setValuesForFence) {
         this.selectedAccess.push(filterVal);
@@ -672,7 +724,9 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
       } else {
         this.selectedAccess  = filterVal.split('|');
       }
-        break;
+      let sortedAccessList = this.moveFilterToTop(this.accessFilter, this.selectedAccess, 'true', '-access');
+      this.accessFilter = sortedAccessList;
+      break;
       case "downloadable":
       if (setValuesForFence) {
         this.selectedDownloadableRadiobuttonVal = filterVal;
@@ -698,24 +752,28 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
         this.selectedGeneNames = filterVal.replace(/\|/, ' ').trim();
         this._validate(this.selectedGeneNames);
         break;
-      case "biospecimen_status":
+    case "biospecimen_status":
+      if (setValuesForFence) {
+        this.selectedBiospecimenStatus.push(filterVal);
+      } else if (clearValuesforbreadcrumb) {
+        this.clearSelectionsBiospecimenStatus();
+      } else {
+        this.selectedBiospecimenStatus  = filterVal.split('|');
+      }
+      let sortedBioList = this.moveFilterToTop(this.biospecimenStatusFilter, this.selectedBiospecimenStatus, 'true', '-bioStatus');
+      this.biospecimenStatusFilter = sortedBioList;
+      break;
+    case "case_status":
         if (setValuesForFence) {
-          this.selectedBiospecimenStatus.push(filterVal);
+          this.selectedCaseStatus.push(filterVal);
         } else if (clearValuesforbreadcrumb) {
-          this.clearSelectionsBiospecimenStatus();
+          this.clearSelectionsCaseStatus();
         } else {
-          this.selectedBiospecimenStatus  = filterVal.split('|');
+          this.selectedCaseStatus  = filterVal.split('|');
         }
+        let sortedCaseStatusList = this.moveFilterToTop(this.caseStatusFilter, this.selectedCaseStatus, 'true', '-caseStatus');
+        this.caseStatusFilter = sortedCaseStatusList;
         break;
-        case "case_status":
-          if (setValuesForFence) {
-            this.selectedCaseStatus.push(filterVal);
-          } else if (clearValuesforbreadcrumb) {
-            this.clearSelectionsCaseStatus();
-          } else {
-            this.selectedCaseStatus  = filterVal.split('|');
-          }
-            break;
     }
   }
 
@@ -1161,13 +1219,37 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
   filterDataByProject(e) {
     let newFilterValue = "project_name:" + this.selectedProjects.join(";");
     this.selectedFilters.emit(newFilterValue);
+    let sortedList = this.moveFilterToTop(this.projectsFilter, this.selectedProjects);
+    this.projectsFilter = sortedList;
     this.updateFiltersCounters();
   }
   /* Primary site filter callback onChange */
-  filterDataByPrimarySite(e) {
+  filterDataByPrimarySite(e, filterSub='', index = 0) {
     let newFilterValue = "primary_site:" + this.selectedPrimarySites.join(";");
     this.selectedFilters.emit(newFilterValue);
+    let sortedList = this.moveFilterToTop(this.primarySitesFilter, this.selectedPrimarySites, e, filterSub, index);
+    this.primarySitesFilter = sortedList;
     this.updateFiltersCounters();
+  }
+
+  //@@@PDC-4792: Increase font size in all tables to pass 508 compliance
+  moveFilterToTop (filterData, selectedFilterData, checkboxClicked = '', filterSub = '', index = 0) {
+    let filterDataCopy = filterData;
+    let sortedList = [];
+    for (let filter of selectedFilterData) {
+      let filterFound = filterDataCopy.find(item => item.filterName === filter);
+      sortedList.push(filterFound);
+      filterDataCopy = filterDataCopy.filter(item=>item.filterName != filter );
+    }
+    filterDataCopy.sort(this.compare);
+    sortedList = sortedList.concat(filterDataCopy);
+    if (checkboxClicked && index > 10 && filterSub) {
+      setTimeout(() => {
+        let eleID = sortedList[0].filterName + filterSub;
+        document.getElementById(eleID).scrollIntoView({ behavior: 'smooth', block: 'center'});
+      });
+    }
+    return sortedList;
   }
 
   //@@@PDC-277: Add a filter crumb bar at the top that explains the filter criteria selected
@@ -1198,6 +1280,8 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
             this.setFilters(filter_value[0], '', false, true);
           }
         }
+        let sortedList = this.moveFilterToTop(this.studyFilter, this.selectedStudyFilter, 'true');
+        this.studyFilter = sortedList;
       }
     }, 1000);
   }
@@ -1210,72 +1294,94 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
   }
   
   /* Program filter callback onChange */
-  filterDataByProgram(e) {
+  filterDataByProgram(e, filterSub = '', index = 0) {
     var newFilterValue = "program_name:" + this.selectedPrograms.join(";");
     this.selectedFilters.emit(newFilterValue);
+    let sortedList = this.moveFilterToTop(this.programsFilter, this.selectedPrograms, e, filterSub, index);
+    this.programsFilter = sortedList;
     this.updateFiltersCounters();
   }
   /* Disease type filter callback onChange */
-  filterDataByDiseaseType(e) {
+  filterDataByDiseaseType(e, filterSub = '', index = 0) {
     var newFilterValue = "disease_type:" + this.selectedDiseases.join(";");
     this.selectedFilters.emit(newFilterValue);
+    let sortedList = this.moveFilterToTop(this.diseaseTypesFilter, this.selectedDiseases, e, filterSub, index);
+    this.diseaseTypesFilter = sortedList;
     this.updateFiltersCounters();
   }
   /* Analytical fraction filter callback onChange */
-  filterDataByAnalyticalFraction(e) {
+  filterDataByAnalyticalFraction(e, filterSub = '', index = 0) {
     var newFilterValue = "analytical_fraction:" + this.selectedAnFracs.join(";");
     this.selectedFilters.emit(newFilterValue);
+    let sortedList = this.moveFilterToTop(this.analyticalFractionsFilter, this.selectedAnFracs, e, filterSub, index);
+    this.analyticalFractionsFilter = sortedList;
     this.updateFiltersCounters();
   }
   /* Experimental strategy filter callback onChange */
-  filterDataByExperimentalStrategy(e) {
+  filterDataByExperimentalStrategy(e, filterSub = '', index = 0) {
     var newFilterValue = "experiment_type:" + this.selectedExpStarts.join(";");
     this.selectedFilters.emit(newFilterValue);
+    let sortedList = this.moveFilterToTop(this.experimentalStrategiesFilter, this.selectedExpStarts, e, filterSub, index);
+    this.experimentalStrategiesFilter = sortedList;
     this.updateFiltersCounters();
   }
 
-  filterDataByAcquisition(e) {
+  filterDataByAcquisition(e, filterSub = '', index = 0) {
     var newFilterValue = "acquisition_type:" + this.selectedAcquisitions.join(";");
     this.selectedFilters.emit(newFilterValue);
+    let sortedList = this.moveFilterToTop(this.acquisitionFilter, this.selectedAcquisitions, e, filterSub, index);
+    this.acquisitionFilter = sortedList;
     this.updateFiltersCounters();
   }
 
-  filterDataByEthnicity(e) {
+  filterDataByEthnicity(e, filterSub = '', index = 0) {
     var newFilterValue = "ethnicity:" + this.selectedEthnicity.join(";");
     this.selectedFilters.emit(newFilterValue);
+    let sortedList = this.moveFilterToTop(this.ethnicityFilter, this.selectedEthnicity, e, filterSub, index);
+    this.ethnicityFilter = sortedList;
     this.updateFiltersCounters();
   }
-  filterDataByRace(e) {
+  filterDataByRace(e, filterSub = '', index = 0) {
     var newFilterValue = "race:" + this.selectedRace.join(";");
     this.selectedFilters.emit(newFilterValue);
+    let sortedList = this.moveFilterToTop(this.raceFilter, this.selectedRace, e, filterSub, index);
+    this.raceFilter = sortedList;
     this.updateFiltersCounters();
   }
-  filterDataByGender(e) {
+  filterDataByGender(e, filterSub = '', index = 0) {
     var newFilterValue = "gender:" + this.selectedGender.join(";");
     this.selectedFilters.emit(newFilterValue);
+    let sortedList = this.moveFilterToTop(this.genderFilter, this.selectedGender, e, filterSub, index);
+    this.genderFilter = sortedList;
     this.updateFiltersCounters();
   }
-  filterDataByTumorGrade(e) {
+  filterDataByTumorGrade(e, filterSub = '', index = 0) {
     var newFilterValue = "tumor_grade:" + this.selectedTumorGrade.join(";");
     this.selectedFilters.emit(newFilterValue);
+    let sortedList = this.moveFilterToTop(this.tumorGradeFilter, this.selectedTumorGrade, e, filterSub, index);
+    this.tumorGradeFilter = sortedList;
     this.updateFiltersCounters();
   }
 
   //PDC-567
-  filterDataBySampleType(e) {
+  filterDataBySampleType(e, filterSub = '', index = 0) {
     var newFilterValue = "sample_type:" + this.selectedSampleType.join(";");
     this.selectedFilters.emit(newFilterValue);
+    let sortedList = this.moveFilterToTop(this.sampleTypeFilter, this.selectedSampleType, e, filterSub, index);
+    this.sampleTypeFilter = sortedList;
     this.updateFiltersCounters();
   }
 
   //PDC-1161: Can't select multiple studies if any other filter is applied
-  filterDataByStudy(e) {
+  filterDataByStudy(e, filterSub = '', index = 0) {
     var newFilterValue = "study_name:" + this.selectedStudyFilter.join(";");
     this.selectedFilters.emit(newFilterValue);
+    let sortedList = this.moveFilterToTop(this.studyFilter, this.selectedStudyFilter, e, filterSub, index);
+    this.studyFilter = sortedList;
     this.updateFiltersCounters([], "", [], true);
   }
 
-  filterDataByDataCategory(e) {
+  filterDataByDataCategory(e, filterSub = '', index = 0) {
 	//In case where user clicked on metadata files counter on study table
 	if (this.selectedDataCategory.length > 0 && this.selectedDataCategory[0].indexOf(";") > -1) {
 		var temp = this.selectedDataCategory[0].split(';');
@@ -1283,12 +1389,16 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
 	}
     var newFilterValue = "data_category:" + this.selectedDataCategory.join(";");
     this.selectedFilters.emit(newFilterValue);
+    let sortedList = this.moveFilterToTop(this.dataCategoryFilter, this.selectedDataCategory, e, filterSub, index);
+    this.dataCategoryFilter = sortedList;
     this.updateFiltersCounters();
   }
 
-  filterDataByFileType(e) {
+  filterDataByFileType(e, filterSub = '', index = 0) {
     var newFilterValue = "file_type:" + this.selectedFileType.join(";");
     this.selectedFilters.emit(newFilterValue);
+    let sortedList = this.moveFilterToTop(this.fileTypeFilter, this.selectedFileType, e, filterSub, index);
+    this.fileTypeFilter = sortedList;
     this.updateFiltersCounters();
   }
 
@@ -1330,9 +1440,11 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
 	  return result;
   }
   
-  filterDataByAccess(e) {
+  filterDataByAccess(e, filterSub = '', index = 0) {
     var newFilterValue = "access:" + this.selectedAccess.join(";");
     this.selectedFilters.emit(newFilterValue);
+    let sortedList = this.moveFilterToTop(this.accessFilter, this.selectedAccess, e, filterSub, index);
+    this.accessFilter = sortedList;
     this.updateFiltersCounters();
   }
 
@@ -1382,15 +1494,19 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
 		}, 200);
   }
   
-  filterDataByBiospecimenStatus(e) {
+  filterDataByBiospecimenStatus(e, filterSub = '', index = 0) {
     var newFilterValue = "biospecimen_status:" + this.selectedBiospecimenStatus.join(";");
     this.selectedFilters.emit(newFilterValue);
+    let sortedList = this.moveFilterToTop(this.biospecimenStatusFilter, this.selectedBiospecimenStatus, e, filterSub, index);
+    this.biospecimenStatusFilter = sortedList;
     this.updateFiltersCounters();
   }
 
-  filterDataByCaseStatus(e) {
+  filterDataByCaseStatus(e, filterSub = '', index = 0) {
     var newFilterValue = "case_status:" + this.selectedCaseStatus.join(";");
     this.selectedFilters.emit(newFilterValue);
+    let sortedList = this.moveFilterToTop(this.caseStatusFilter, this.selectedCaseStatus, e, filterSub, index);
+    this.caseStatusFilter = sortedList;
     this.updateFiltersCounters();
   }
   
@@ -1398,76 +1514,92 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
   //Clear projects filter selections callback button
   clearSelectionsProjects() {
     this.selectedProjects = [];
+    this.projectsFilter.sort(this.compare);
     this.filterDataByProject(false);
   }
   //Clear programs filter selections callback button
   clearSelectionsPrograms() {
     this.selectedPrograms = [];
+    this.programsFilter.sort(this.compare);
     this.filterDataByProgram(false);
   }
   //Clear primary sites filter selections callback button
   clearSelectionsPrimarySite() {
     this.selectedPrimarySites = [];
+    this.primarySitesFilter.sort(this.compare);
     this.filterDataByPrimarySite(false);
   }
   //Clear disease types filter selections callback button
   clearSelectionsDiseaseType() {
     this.selectedDiseases = [];
+    this.diseaseTypesFilter.sort(this.compare);
     this.filterDataByDiseaseType(false);
   }
   //Clear analytical fractions filter selections callback button
   clearSelectionsAnalyticalFraction() {
     this.selectedAnFracs = [];
+    this.analyticalFractionsFilter.sort(this.compare);
     this.filterDataByAnalyticalFraction(false);
   }
   //Clear experimental strategies filter selections callback button
   clearSelectionsExperimentalStrategy() {
     this.selectedExpStarts = [];
+    this.experimentalStrategiesFilter.sort(this.compare);
     this.filterDataByExperimentalStrategy(false);
   }
   clearSelectionsAcquisitions() {
     this.selectedAcquisitions = [];
+    this.acquisitionFilter.sort(this.compare);
     this.filterDataByAcquisition(false);
   }
   clearSelectionsEthnicity() {
     this.selectedEthnicity = [];
+    this.ethnicityFilter.sort(this.compare);
     this.filterDataByEthnicity(false);
   }
   clearSelectionsRace() {
     this.selectedRace = [];
+    this.raceFilter.sort(this.compare);
     this.filterDataByRace(false);
   }
   clearSelectionsGender() {
     this.selectedGender = [];
+    this.genderFilter.sort(this.compare);
     this.filterDataByGender(false);
   }
   clearSelectionsTumorGrade() {
     this.selectedTumorGrade = [];
+    this.tumorGradeFilter.sort(this.compare);
     this.filterDataByTumorGrade(false);
   }
 
   clearSelectionsSampleType() {
     this.selectedSampleType = [];
+    this.sampleTypeFilter.sort(this.compare);
     this.filterDataBySampleType(false);
   }
 
   clearSelectionsStudyID() {
     this.selectedStudyFilter = [];
+    this.studyFilter.sort(this.compare);
     this.filterDataByStudy(false);
   }
 
   clearSelectionsDataCategory() {
     this.selectedDataCategory = [];
+    this.dataCategoryFilter.sort(this.compare);
     this.filterDataByDataCategory(false);
   }
 
   clearSelectionsFileType() {
     this.selectedFileType = [];
+    this.fileTypeFilter.sort(this.compare);
     this.filterDataByFileType(false);
   }
 
   clearSelectionsAccess() {
     this.selectedAccess = [];
+    this.accessFilter.sort(this.compare);
     this.filterDataByAccess(false);
   }
 
@@ -1480,12 +1612,36 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
 
   clearSelectionsBiospecimenStatus() {
     this.selectedBiospecimenStatus = [];
+    this.biospecimenStatusFilter.sort(this.compare);
     this.filterDataByBiospecimenStatus(false);
   }
 
   clearSelectionsCaseStatus() {
     this.selectedCaseStatus = [];
+    this.caseStatusFilter.sort(this.compare);
     this.filterDataByCaseStatus(false);
+  }
+
+  sortAllFilterLists() {
+    this.projectsFilter.sort(this.compare);
+    this.primarySitesFilter.sort(this.compare);
+    this.programsFilter.sort(this.compare);
+    this.diseaseTypesFilter.sort(this.compare);
+    this.analyticalFractionsFilter.sort(this.compare);
+    this.experimentalStrategiesFilter.sort(this.compare);
+    this.ethnicityFilter.sort(this.compare);
+    this.raceFilter.sort(this.compare);
+    this.genderFilter.sort(this.compare);
+    this.tumorGradeFilter.sort(this.compare);
+    this.sampleTypeFilter.sort(this.compare);
+    this.studyFilter.sort(this.compare);
+    this.acquisitionFilter.sort(this.compare);
+    this.dataCategoryFilter.sort(this.compare);
+    this.fileTypeFilter.sort(this.compare);
+    this.accessFilter.sort(this.compare);
+    this.downloadableFilter.sort(this.compare);
+    this.biospecimenStatusFilter.sort(this.compare);
+    this.caseStatusFilter.sort(this.compare);
   }
 
   // clear all filter selections button callback
@@ -1518,6 +1674,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
     this.allStudyIDsForGenes = [];
     this.selectedBiospecimenStatus = [];
     this.selectedCaseStatus = [];
+    this.sortAllFilterLists();
     sessionStorage.removeItem('tableLoading');
     sessionStorage.removeItem('tableUnloading');
     this.updateFiltersCounters();
@@ -1532,6 +1689,11 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
     this.selectedGender = [];
     this.selectedTumorGrade = [];
     this.selectedCaseStatus = [];
+    this.ethnicityFilter.sort(this.compare);
+    this.raceFilter.sort(this.compare);
+    this.genderFilter.sort(this.compare);
+    this.tumorGradeFilter.sort(this.compare);
+    this.caseStatusFilter.sort(this.compare);
     this.updateFiltersCounters();
   }
   //Clear all filters in General filters tab
@@ -1546,6 +1708,13 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
     this.selectedAnFracs = [];
     this.selectedExpStarts = [];
     this.selectedAcquisitions = [];
+    this.projectsFilter.sort(this.compare);
+    this.primarySitesFilter.sort(this.compare);
+    this.programsFilter.sort(this.compare);
+    this.diseaseTypesFilter.sort(this.compare);
+    this.analyticalFractionsFilter.sort(this.compare);
+    this.experimentalStrategiesFilter.sort(this.compare);
+    this.acquisitionFilter.sort(this.compare);
     this.updateFiltersCounters();
   }
 
@@ -1555,6 +1724,14 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
     this.selectedSampleType = [];
     this.selectedStudyFilter = [];
     this.selectedBiospecimenStatus = [];
+    this.sampleTypeFilter.sort(this.compare);
+    this.studyFilter.sort(this.compare);
+    this.biospecimenStatusFilter.sort(this.compare);
+    this.ethnicityFilter.sort(this.compare);
+    this.raceFilter.sort(this.compare);
+    this.genderFilter.sort(this.compare);
+    this.tumorGradeFilter.sort(this.compare);
+    this.caseStatusFilter.sort(this.compare);
     this.updateFiltersCounters();
   }
 
@@ -1567,6 +1744,11 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
     this.selectedAccess = [];
     this.selectedDownloadable = [];
     this.selectedDownloadableRadiobuttonVal = "";
+    this.studyFilter.sort(this.compare);
+    this.dataCategoryFilter.sort(this.compare);
+    this.fileTypeFilter.sort(this.compare);
+    this.accessFilter.sort(this.compare);
+
     this.updateFiltersCounters();
   }
   
@@ -1697,18 +1879,27 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
         res.hasOwnProperty("fileDetailsforFileType") &&
         res.hasOwnProperty("fileDetailsforDataCategory")
       ) {
-        this.selectedStudyFilter = new Array(res.studyNameForFileType);
+        if (res.studyNameForFileType) {
+          this.selectedStudyFilter = new Array(res.studyNameForFileType);
+        }
         this.filterDataByStudy(event);
-        setTimeout(() => {
-          this.selectedFileType = new Array(res.fileDetailsforFileType);
-          this.filterDataByFileType(event);
-        }, 1000);
-        setTimeout(() => {
-          //@@@PDC-1252: Add data category as a filter for the "file counts" section of the Study table
-          this.selectedDataCategory = new Array(res.fileDetailsforDataCategory);
-		  console.log(this.selectedDataCategory);
-          this.filterDataByDataCategory(event);
-        }, 2000);
+        if (res.fileDetailsforFileType != "") {
+          setTimeout(() => {
+            this.selectedFileType = new Array(res.fileDetailsforFileType);
+            this.filterDataByFileType(event);
+          }, 1000);
+        } else if (this.selectedFileType.length > 0 && res.fileDetailsforFileType == "") {
+          //@@@PDC-4805: PSM, Metadata, Protein Assembly, and Quality Metrics files number Issue
+          this.clearSelectionsFileType();
+        }
+        if (res.fileDetailsforDataCategory) {
+          setTimeout(() => {
+            //@@@PDC-1252: Add data category as a filter for the "file counts" section of the Study table
+            this.selectedDataCategory = new Array(res.fileDetailsforDataCategory);
+        console.log(this.selectedDataCategory);
+            this.filterDataByDataCategory(event);
+          }, 2000);
+        } 
       }
     });
   }

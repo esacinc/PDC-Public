@@ -22,7 +22,7 @@
 }
 
 .ui-datatable-tableheader {
-    background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%) !important;
+    background-color:  #3A8BAF !important;
     border:0px !important;
     color: white !important;
 }
@@ -31,8 +31,12 @@
 	padding: 0 !important;
 }
 
-.table-striped > tbody >  tr:nth-of-type(even){
-	background-color: rgb(225, 239, 252);
+/* .table-striped > tbody >  tr:nth-of-type(even){
+	background-color: #aac1d4;
+} */
+
+.table-striped > tbody > tr:nth-child(even) {
+	background-color: #fafafb;
 }
   
 .summary-card-name-left-cell {
@@ -107,4 +111,18 @@
 	bottom:3em;
 	//overflow-y:auto;
 	//width:78%;
+}
+
+/deep/ {
+	.ui-table table {
+		table-layout: unset !important;
+	} 
+
+	.ui-paginator .ui-paginator-page.ui-state-active {
+		background-color: #3A8BAF;
+	}
+
+	.ui-table tr td, .ui-table-thead tr, .table, .table tr td, .table tr th {
+		font-size: 14px !important;
+	} 
 }

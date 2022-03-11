@@ -12,7 +12,7 @@
 			<mat-card-header class="case-summary">
 				<mat-card-title class="case-summary">CASE DETAILS</mat-card-title>
 			</mat-card-header>
-			<mat-card-content style="overflow-y: auto; word-wrap: break-word; white-space: normal;font-size: 12px;">
+			<mat-card-content style="overflow-y: auto; word-wrap: break-word; white-space: normal;font-size: 14px;">
 				<table id="caseSummaryCard">
 					<tr><td class="summary-card-name-left-cell">Case</td><td class="summary-card-value-left-cell">{{case_submitter_id}}</td>
 						<td class="summary-card-name-right-cell">Disease Type</td><td class="summary-card-value-right-cell">{{caseSummaryData.disease_type}}</td>
@@ -36,7 +36,7 @@
 				<div *ngIf="demographics && demographics.length == 0 && !loading" style="font-size: 14px; padding-top: 10px">No data available for Demographic.</div>
 				<div *ngIf="demographics && demographics.length > 0">
 					<div *ngIf="showMoreDemographics;else show_more_demographics">
-							<table style="max-height:200px;overflow-y: auto;display: block!important;font-size: 12px; width: 100%; padding-top: 10px" id="caseSummaryDemography">
+							<table style="max-height:200px;overflow-y: auto;display: block!important;font-size: 14px; width: 100%; padding-top: 10px" id="caseSummaryDemography">
 									<tr *ngFor="let tst of showMoreDemographicsOddProps; let i= index;">
 										<td class="summary-card-name-left-cell">{{showMoreDemographicsOddProps[i]}}</td>
 										<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(showMoreDemographicsOddPropVals[i])">{{showMoreDemographicsOddPropVals[i]}}</td>
@@ -47,7 +47,7 @@
 							</table>
 					</div>
 					<ng-template #show_more_demographics>
-							<table style="max-height:200px;overflow-y: auto;display: block!important;font-size: 12px; width: 100%; padding-top: 10px">
+							<table style="max-height:200px;overflow-y: auto;display: block!important;font-size: 14px; width: 100%; padding-top: 10px">
 									<tr *ngFor="let tst of showLessDemographicsOddProps; let i= index;">
 										<td class="summary-card-name-left-cell">{{showLessDemographicsOddProps[i]}}</td>
 										<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(showLessDemographicsOddPropVals[i])">{{showLessDemographicsOddPropVals[i]}}</td>
@@ -66,7 +66,7 @@
 				<div *ngIf="diagnoses && diagnoses.length == 0 && !loading" style="font-size: 14px; padding-top: 10px">No data available for Diagnosis.</div>
 				<div *ngIf="diagnoses && diagnoses.length > 0">
 					<div *ngIf="showMore;else show_more">
-							<table style="max-height:200px;overflow-y: auto;display: block!important;font-size: 12px; width: 100%; padding-top: 10px" id="caseSummaryDemography">
+							<table style="max-height:200px;overflow-y: auto;display: block!important;font-size: 14px; width: 100%; padding-top: 10px" id="caseSummaryDemography">
 									<tr *ngFor="let tst of showMoreDiagnosisOddProps; let i= index;">
 										<td class="summary-card-name-left-cell">{{showMoreDiagnosisOddProps[i]}}</td>
 										<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(showMoreDiagnosisOddPropVals[i])">{{showMoreDiagnosisOddPropVals[i]}}</td>
@@ -77,7 +77,7 @@
 							</table>
 					</div>
 					<ng-template #show_more>
-							<table style="max-height:200px;overflow-y: auto;display: block!important;font-size: 12px; width: 100%; padding-top: 10px">
+							<table style="max-height:200px;overflow-y: auto;display: block!important;font-size: 14px; width: 100%; padding-top: 10px">
 									<tr *ngFor="let tst of showLessDiagnosisOddProps; let i= index;">
 										<td class="summary-card-name-left-cell">{{showLessDiagnosisOddProps[i]}}</td>
 										<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(showLessDiagnosisOddPropVals[i])">{{showLessDiagnosisOddPropVals[i]}}</td>
@@ -96,7 +96,7 @@
 					<div *ngIf="exposures && exposures.length == 0 && !loading" style="font-size: 14px; padding-top: 10px">No data available for Exposure.</div>
 					<div *ngIf="exposures && exposures.length > 0">
 						<div *ngIf="showMoreExposure;else showMore_Exposure">
-						<table style="max-height:200px;overflow-y: auto;display: block!important;font-size: 12px; width: 100%; padding-top: 10px" id="caseSummaryDemography">
+						<table style="max-height:200px;overflow-y: auto;display: block!important;font-size: 14px; width: 100%; padding-top: 10px" id="caseSummaryDemography">
 								<tr *ngFor="let tst of showMoreExposureOddProps; let i= index;">
 									<td class="summary-card-name-left-cell">{{showMoreExposureOddProps[i]}}</td>
 									<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(showMoreExposureOddPropVals[i])">{{showMoreExposureOddPropVals[i]}}</td>
@@ -107,7 +107,7 @@
 						</table>
 					</div>
 					<ng-template #showMore_Exposure>
-					<table style="max-height:200px;overflow-y: auto;display: block!important;font-size: 12px; width: 100%; padding-top: 10px">
+					<table style="max-height:200px;overflow-y: auto;display: block!important;font-size: 14px; width: 100%; padding-top: 10px">
 							<tr *ngFor="let tst of showLessExposureOddProps; let i= index;">
 								<td class="summary-card-name-left-cell">{{showLessExposureOddProps[i]}}</td>
 								<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(showLessExposureOddPropVals[i])">{{showLessExposureOddPropVals[i]}}</td>
@@ -126,7 +126,7 @@
 				<div *ngIf="followups && followups.length == 0 && !loading" style="font-size: 14px; padding-top: 10px">No data available for Follow Up.</div>
 				<div *ngIf="followups && followups.length > 0">
 					<div *ngIf="showMoreFollowUp;else showMore_FollowUp">
-					<table style="max-height:200px;overflow-y: auto;display: block!important;font-size: 12px; width: 100%; padding-top: 10px" id="caseSummaryDemography">
+					<table style="max-height:200px;overflow-y: auto;display: block!important;font-size: 14px; width: 100%; padding-top: 10px" id="caseSummaryDemography">
 							<tr *ngFor="let tst of showMoreFollowUpOddProps; let i= index;">
 								<td class="summary-card-name-left-cell">{{showMoreFollowUpOddProps[i]}}</td>
 								<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(showMoreFollowUpOddPropVals[i])">{{showMoreFollowUpOddPropVals[i]}}</td>
@@ -137,7 +137,7 @@
 					</table>
 				</div>
 				<ng-template #showMore_FollowUp>
-				<table style="max-height:200px;overflow-y: auto;display: block!important;font-size: 12px; width: 100%; padding-top: 10px">
+				<table style="max-height:200px;overflow-y: auto;display: block!important;font-size: 14px; width: 100%; padding-top: 10px">
 						<tr *ngFor="let tst of showLessFollowUpEvenProps; let i= index;">
 							<td class="summary-card-name-left-cell">{{showLessFollowUpOddProps[i]}}</td>
 							<td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(showLessFollowUpOddPropVals[i])">{{showLessFollowUpOddPropVals[i]}}</td>
@@ -160,7 +160,7 @@
 				<mat-card-content>
 					<table class="table table-striped" id="caseSummExperStrat">
 						<thead>
-							<tr style="font-size: 12px;background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%);">
+							<tr style="background-color: #3A8BAF !important;">
 								<th class="ui-datatable-tableheader" style="width:25%;">Aquisition Type</th>
 								<th class="ui-datatable-tableheader" style="width:35%;">Study</th>
 								<th class="ui-datatable-tableheader" style="width:25%">Experimental Strategy</th>
@@ -168,7 +168,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr *ngFor="let fileCount of experimentFileCount" style="font-size: 12px;">
+							<tr *ngFor="let fileCount of experimentFileCount">
 								<td style="width:25%;word-wrap: break-word; white-space: normal;">{{fileCount.acquisition_type}}</td>
 								<td style="width:35%;word-wrap: break-word; white-space: normal;"><a href="javascript:void(0);" (click)="showStudySummary(fileCount.submitter_id_name)">{{fileCount.submitter_id_name}}</a></td>
 								<td style="width:25%;word-wrap: break-word; white-space: normal;">{{fileCount.experiment_type}}</td>
@@ -190,13 +190,13 @@
 				<mat-card-content>
 					<table class="table table-striped" id="caseSummFileCounts">
 						<thead>
-							<tr style="font-size: 12px;background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%);">
+							<tr style="background-color: #3A8BAF !important;">
 								<th class="ui-datatable-tableheader" style="width:50%;">Data Category</th>
 								<th class="ui-datatable-tableheader" style="width:50%">Files</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr style="font-size: 12px;" *ngFor="let categoryDetails of dataCategoryFileCount">
+							<tr *ngFor="let categoryDetails of dataCategoryFileCount">
 								<td style="width:50%;word-wrap: break-word;white-space: normal;">{{categoryDetails.data_category}} ({{categoryDetails.file_type}})</td>
 								<td style="width:50%;word-wrap: break-word;white-space: normal;">
 								<!--<a target="_blank" href= "/pdc/browse/filters/study_name:{{categoryDetails.submitter_id_name}}&data_category:{{categoryDetails.data_category}}&file_type:{{categoryDetails.file_type}}&selectedTab:3">{{categoryDetails.files_count}}</a>-->
@@ -221,7 +221,7 @@
 					<mat-spinner></mat-spinner>
 				</div>
         <!--//@@@PDC-4615 Sample and Exposure Deprecated Properties should be deleted from the Case Summary modal window-->
-				<table  style="font-size: 12px; width: 100%; padding-top: 10px" id="biospecimenSummTable">
+				<table  style="font-size: 14px; width: 100%; padding-top: 10px" id="biospecimenSummTable">
 					<div *ngFor="let sample of samples">
 						<!--<tr style="padding-top: 10px"><td class="tab-table-field-name">GDC Sample ID</td><td class="tab-table-field-value">{{sample.gdc_sample_id}}</td></tr>-->
 						<tr><td class="tab-table-field-name">Sample Submitter ID</td><td class="tab-table-field-value">{{sample.sample_submitter_id}}</td></tr>
@@ -264,7 +264,7 @@
 				<div *ngIf="loading">
 					<mat-spinner></mat-spinner>
 				</div>
-				<table style="width:100%;font-size: 12px;padding-top: 10px" id="aliquotSummTable">
+				<table style="width:100%;font-size: 14px;padding-top: 10px" id="aliquotSummTable">
 					<div *ngFor="let aliquot of aliquots">
 						<tr style="padding-top: 10px"><td class="tab-table-field-name">Aliquot Submitter ID</td><td class="tab-table-field-value">{{aliquot.aliquot_submitter_id}}</td></tr>
 						<tr><td class="tab-table-field-name">Aliquot UUID</td><td class="tab-table-field-value" >{{aliquot.aliquot_id}}</td></tr>
@@ -272,7 +272,7 @@
 						<tr><td class="tab-table-field-name">Aliquot Volume</td><td class="tab-table-field-value">{{aliquot.aliquot_volume}}</td></tr>
 						<tr><td class="tab-table-field-name">Status</td><td class="tab-table-field-value">{{aliquot.status}}</td></tr>
 						<tr><td class="tab-table-field-name">Pool</td><td class="tab-table-field-value">{{aliquot.pool}}</td></tr>
-						<tr><td class="tab-table-field-name">Alliquot is reference</td><td class="tab-table-field-value">{{aliquot.aliquot_is_ref}}</td></tr>
+						<tr><td class="tab-table-field-name">Aliquot is reference</td><td class="tab-table-field-value">{{aliquot.aliquot_is_ref}}</td></tr>
 						<tr><td class="tab-table-field-name">Amount</td><td class="tab-table-field-value">{{aliquot.amount}}</td></tr>
 						<tr><td class="tab-table-field-name">Analyte Type</td><td class="tab-table-field-value">{{aliquot.analyte_type}}</td></tr>
 						<tr><td class="tab-table-field-name" style="border-bottom: 1px solid #ddd;">Concentration</td><td class="tab-table-field-value" style="border-bottom: 1px solid #ddd;">{{aliquot.concentration}}</td></tr>

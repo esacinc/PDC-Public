@@ -16,7 +16,7 @@
 }
 
 .ui-datatable-tableheader {
-    background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%) !important;
+    background-color:  #3A8BAF !important;
     border:0px !important;
     color: white !important;
 }
@@ -204,9 +204,66 @@
 .mat-expansion-panel-header-title{
 	margin-right:0px!important;
 }
+
+/deep/ .ui-table .ui-table-tbody > tr:nth-child(even).ui-state-highlight,
+/deep/ .ui-table .ui-table-tbody .ui-state-highlight {
+   background-color: #aac1d4 !important;
+   color: #000 !important;
+} 
+
+/deep/ .table-striped tbody tr:nth-of-type(odd) {
+	background: linear-gradient(to bottom, #f6f7f9 0%, #ebedf0 100%) !important;
+}
+
+/deep/ .ui-table table {
+    table-layout: unset !important;
+} 
+
+/deep/ {
+	.ui-table tr td, .ui-table-thead tr, .table, .table tr td, .table tr th {
+		font-size: 14px !important;
+	} 
+
+	#geneSummaryPTMDataTable .ui-table-unfrozen-view .ui-table-thead th,
+	#geneSummaryPTMDataTable .ui-table-unfrozen-view .ui-table-tbody td  {
+		width: 200px !important;
+		min-width: 200px !important;
+		max-width: 200px !important;
+	}
+
+	.ui-table-unfrozen-view .ui-table-thead th {
+		border: 1px solid #D5D5D5 !important;
+	}
+
+	#geneSummaryDataTable, #aliquotRecordTable {
+		.ui-table-unfrozen-view .ui-table-thead th,
+		.ui-table-unfrozen-view .ui-table-tbody td  {
+			width: 150px !important;
+			min-width: 150px !important;
+			max-width: 150px !important;
+		}
+	}
+
+	.ui-datatable-tableheader {
+		background-color: #3A8BAF;
+	}
+
+	.ui-paginator .ui-paginator-page.ui-state-active {
+		background-color: #3A8BAF;
+	}
+
+	@media not all and (min-resolution:.001dpcm)
+	{ @supports (-webkit-appearance:none) and (stroke-color:transparent) {
+  
+	  .safari_only { 
+		height: 67px !important;
+	  }
+	}}
+}
+
 // PDC-620: Make the filter selection tabs along the left side of the window
 /deep/ {
-	.sideBarNavigation .mat-tab-label-container {
+	/* .sideBarNavigation .mat-tab-label-container {
 		display: flex;
 		flex-grow: 1;
 		overflow: hidden;
@@ -268,7 +325,7 @@
 	.sideBarNavigation #mat-tab-label-1-3,  .sideBarNavigation #mat-tab-label-1-4{
 		justify-content: center !important;
 		padding-left: 20px !important;
-	}
+	} */
 
 	/*PDC-2852: Add tooltips to Gene summary page column headers*/
 	.cursorPointer {

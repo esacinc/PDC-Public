@@ -104,6 +104,7 @@ export class FilesOverlayComponent implements OnInit {
   
   publicationsFiles = [];
   isLegacyData = false;
+  frozenCols = [];
 
 	constructor(private activeRoute: ActivatedRoute, private router: Router, private apollo: Apollo, private http: HttpClient,
 				private browseByFileService: BrowseByFileService, private loc:Location,
@@ -299,6 +300,7 @@ export class FilesOverlayComponent implements OnInit {
 					  this.pageSize = 100;
 					  this.totalRecords = this.filteredFilesData.length;
 				  }
+          this.makeRowsSameHeight();
 				  this.loading = false;
 				});
 			} else {
@@ -325,6 +327,7 @@ export class FilesOverlayComponent implements OnInit {
 					  this.pageSize = 100;
 					  this.totalRecords = this.filteredFilesData.length;
 				  }
+          this.makeRowsSameHeight();
 				  this.loading = false;
 				});
 			}
@@ -388,7 +391,6 @@ export class FilesOverlayComponent implements OnInit {
 					  this.pageSize = 100;
 					  this.offset = 0;
 			}
-			this.loading = false;
 			this.trackCurrentPageSelectedFile(this.filteredFilesData);
 			if(this.pageHeaderCheckBoxTrack.indexOf(this.offset) !== -1){
 			  this.headercheckbox = true;
@@ -397,6 +399,8 @@ export class FilesOverlayComponent implements OnInit {
 			}
 			//@@@PDC-3748: "Select all pages" issue on the Study Summary page
 			this.handleCheckboxSelections();
+      this.makeRowsSameHeight();
+			this.loading = false;
 		  });
 	} else {
 		this.browseByFileService
@@ -420,8 +424,6 @@ export class FilesOverlayComponent implements OnInit {
 			}
 			//Fixing selecting all files in the files overlay after changing the number of records per page
 			this.pageSize = data.getPaginatedUILegacyFile.pagination.size;
-			
-			this.loading = false;
 			this.trackCurrentPageSelectedFile(this.filteredFilesData);
 			if(this.pageHeaderCheckBoxTrack.indexOf(this.offset) !== -1){
 			  this.headercheckbox = true;
@@ -430,6 +432,8 @@ export class FilesOverlayComponent implements OnInit {
 			}
 			//@@@PDC-3748: "Select all pages" issue on the Study Summary page
 			this.handleCheckboxSelections();
+      this.makeRowsSameHeight();
+      this.loading = false;
 		  });
 	}
   }
@@ -529,6 +533,7 @@ export class FilesOverlayComponent implements OnInit {
 				 //@@@PDC-3748: "Select all pages" issue on the Study Summary page
 				this.updateCurrentPageSelectedFiles(this.selectedFiles);
 			  }
+        this.makeRowsSameHeight();
 			  this.displayLoading(buttonClick, "file", false); 
 			});
 		 } else {
@@ -550,6 +555,7 @@ export class FilesOverlayComponent implements OnInit {
 				 //@@@PDC-3748: "Select all pages" issue on the Study Summary page
 				//this.updateCurrentPageSelectedFiles(this.selectedFiles);
 			  }
+        this.makeRowsSameHeight();
 			  this.displayLoading(buttonClick, "file", false); 
 			});
 		 }			
@@ -928,27 +934,29 @@ export class FilesOverlayComponent implements OnInit {
 
   //@@@PDC-1940: File manifest download is very slow
   setFileExportObject(fileData, exportFileObject) {
-    for (var fileItem of fileData.filesPerStudy) {
-      //Fetch the file object in 'exportFileObject' that has the same file id.
-      let fileObject = exportFileObject.filter(item => item.file_id === fileItem.file_id);
-      for (var fileObj of fileObject) {
-		  console.log(fileObj);
-        if (fileObj) {
-          if (fileObj.downloadable.toLowerCase() === 'yes') {
-            if (fileItem.signedUrl) {
-              fileObj['file_download_link'] = fileItem.signedUrl.url;
+    if (fileData && fileData.uiFilesPerStudy) {
+      for (var fileItem of fileData.uiFilesPerStudy) {
+        //Fetch the file object in 'exportFileObject' that has the same file id.
+        let fileObject = exportFileObject.filter(item => item.file_id === fileItem.file_id);
+        for (var fileObj of fileObject) {
+        console.log(fileObj);
+          if (fileObj) {
+            if (fileObj.downloadable.toLowerCase() === 'yes') {
+              if (fileItem.signedUrl) {
+                fileObj['file_download_link'] = fileItem.signedUrl.url;
+              } else {
+                fileObj['file_download_link'] = this.notDownloadable;
+              }
             } else {
               fileObj['file_download_link'] = this.notDownloadable;
             }
-          } else {
-            fileObj['file_download_link'] = this.notDownloadable;
           }
         }
       }
+    if (fileData && fileData.uiFilesPerStudy.length == 0) {
+      exportFileObject.forEach(item => item['file_download_link'] = "not found");
     }
-	if (fileData.filesPerStudy.length == 0) {
-		exportFileObject.forEach(item => item['file_download_link'] = "not found");
-	}
+  }
 	console.log(exportFileObject);
   }
   
@@ -1016,44 +1024,77 @@ export class FilesOverlayComponent implements OnInit {
   }
   
   async downloadBatch() {
-	let dataForExport =  this.selectedFiles;
-	let urls: string = "";
-	let nextMsg = 'Continue';
-    for (let file of dataForExport) {
-		let confirmationMessage = 'Finished downloading: '+file["file_name"];
-		console.log(file["file_name"]);
-		if (!this.isLegacyData){
-			let urlResponse = await this.browseByFileService.getOpenFileSignedUrl(file["file_name"]);
-			console.log(urlResponse);
-			if(!urlResponse.error){
-				console.log("S3 url: "+urlResponse.data);
-				//@@@PDC-1698 download with file save
-				//this.getS3File(urlResponse.data).subscribe((data: any) => {
-					//let blob:any = new Blob([data], { type: 'text/json; charset=utf-8' });
-					//fileSaver.saveAs(blob, file["file_name"]);
-					//console.log("S3 file: "+data);
-				//});
-				//@@@PDC-1925 use window.open for multiple download
-				this.winOpenS3File(urlResponse.data, file["file_name"]).alert(confirmationMessage);
-				this.sleep(2000);
-						  
-			}else{
-				console.log("S3 error: "+urlResponse.error)
-			}
-		} else {
-			//@@@PDC-3937 Use new APIs for downloading legacy studies' files
-			this.browseByFileService.getLegacyFilesData(file["file_name"]).subscribe((fileData: any) => {
-					console.log("S3 url: " + fileData.uiLegacyFilesPerStudy[0].signedUrl.url);
-					if (fileData.uiLegacyFilesPerStudy[0].signedUrl.url != "") {
-						this.winOpenS3File(fileData.uiLegacyFilesPerStudy[0].signedUrl.url, file["file_name"]).alert(confirmationMessage);
-						this.sleep(2000);
-					} else {
-						console.log("S3 error");
-					}
-			});
-			
-		}
-	}
+    let dataForExport =  this.selectedFiles;
+    let urls: string = "";
+    let nextMsg = 'Continue';
+    const fileNameList = [];
+    var that = this;
+    if (dataForExport) {
+      dataForExport.map(x => fileNameList.push(x.file_name));
+      if (!this.isLegacyData){
+        //@@@PDC-1940: File manifest download is very slow
+        //getFilesData API accepts upto 1000 file names per request. Else it takes more time to execute and impacts the performance.
+        if (fileNameList.length > 1000) {
+          var chunkSize = 1000;
+          for (var i = 0, len = fileNameList.length; i< len; i += chunkSize) {
+            let tempArray = fileNameList.slice(i, i+chunkSize);
+            let fileNameStr =  tempArray.join(";");
+            //Send 1000 files names per request
+            //@@@PDC-1940: File manifest download is very slow
+            this.getFilesDataObj(fileNameStr);
+          }
+        }  else {
+          //@@@PDC-1940: File manifest download is very slow
+          let fileNameStr = fileNameList.join(";")
+          this.getFilesDataObj(fileNameStr);
+        }
+      } else {
+        if (fileNameList.length > 1000) {
+          var chunkSize = 1000;
+          for (var i = 0, len = fileNameList.length; i< len; i += chunkSize) {
+            let tempArray = fileNameList.slice(i, i+chunkSize);
+            let fileNameStr =  tempArray.join(";");
+            //@@@PDC-3937 Use new APIs for downloading legacy studies' files
+            this.getLegacyFilesDataObj(fileNameStr);
+        } 
+      } else {
+        let fileNameStr = fileNameList.join(";")
+        this.getLegacyFilesDataObj(fileNameStr);
+      }       
+      }
+    }
+  }
+
+  //@@@PDC-4781: Use filesPerStudy API to return signed urls for multiple files
+  getLegacyFilesDataObj(fileNameStr) {
+    this.browseByFileService.getLegacyFilesData(fileNameStr).pipe(take(1)).subscribe((fileData: any) => {
+      for (var fileItem of fileData.uiLegacyFilesPerStudy) {
+        if (fileItem.signedUrl) {
+          let confirmationMessage = 'Finished downloading: '+ fileItem.file_name;
+          //@@@PDC-1925 use window.open for multiple download
+          this.winOpenS3File(fileItem.signedUrl.url, fileItem.file_name).alert(confirmationMessage);
+          this.sleep(2000);
+        } else {
+          console.log("Error in downloading: " + fileItem.file_name);
+        }
+      }
+    });
+  }
+
+  //@@@PDC-4781: Use filesPerStudy API to return signed urls for multiple files
+  getFilesDataObj(fileNameStr) {
+    this.browseByFileService.getFilesData(fileNameStr, "").pipe(take(1)).subscribe((fileData: any) => { 
+      for (var fileItem of fileData.uiFilesPerStudy) {
+        if (fileItem.signedUrl) {
+          let confirmationMessage = 'Finished downloading: '+ fileItem.file_name;
+          //@@@PDC-1925 use window.open for multiple download
+          this.winOpenS3File(fileItem.signedUrl.url, fileItem.file_name).alert(confirmationMessage);
+          this.sleep(2000);
+        } else {
+          console.log("Error in downloading: " + fileItem.file_name);
+        }
+      }
+    });
   }
 
   getS3File(url){
@@ -1408,6 +1449,10 @@ export class FilesOverlayComponent implements OnInit {
       { field: "downloadable", header: "Downloadable" }
     ];
 
+    this.frozenCols = [
+      {field: "pdc_study_id", header: "PDC Study ID"}
+    ];
+
     //@@@PDC-729 Integrate PDC with Fence and IndexD
     this.activeRoute.queryParams.subscribe(queryParams => {
       console.log(queryParams);
@@ -1474,6 +1519,41 @@ export class FilesOverlayComponent implements OnInit {
 		this.loc.replaceState(this.router.url);
         this.dialogRef.close();
 }
+
+onResize(event) {
+  this.makeRowsSameHeight();
+}
+
+makeRowsSameHeight() {
+  setTimeout(() => {
+    if (document.getElementsByClassName('ui-table-scrollable-wrapper').length) {
+      let wrapper = document.getElementsByClassName('ui-table-scrollable-wrapper');
+      for (var i = 0; i < wrapper.length; i++) {
+          let w = wrapper.item(i) as HTMLElement;
+          let frozen_rows: any = w.querySelectorAll('.ui-table-frozen-view .ui-table-tbody tr');
+          let unfrozen_rows: any = w.querySelectorAll('.ui-table-unfrozen-view .ui-table-tbody tr');
+          let frozen_header_row: any = w.querySelectorAll('.ui-table-frozen-view .ui-table-thead tr');
+          let unfrozen_header_row: any = w.querySelectorAll('.ui-table-unfrozen-view .ui-table-thead');
+          if (frozen_header_row[0].clientHeight > unfrozen_header_row[0].clientHeight) {
+            unfrozen_header_row[0].style.height = frozen_header_row[0].clientHeight+"px";
+          } 
+          else if (frozen_header_row[0].clientHeight < unfrozen_header_row[0].clientHeight) {
+            frozen_header_row[0].style.height = unfrozen_header_row[0].clientHeight+"px";
+          }          
+          for (let i = 0; i < frozen_rows.length; i++) {
+            if (frozen_rows[i].clientHeight > unfrozen_rows[i].clientHeight) {
+              unfrozen_rows[i].style.height = frozen_rows[i].clientHeight+"px";
+            } 
+            else if (frozen_rows[i].clientHeight < unfrozen_rows[i].clientHeight) {
+              frozen_rows[i].style.height = unfrozen_rows[i].clientHeight+"px";
+            }
+          }
+          let frozen_header_div: any = w.querySelectorAll('.ui-table-unfrozen-view .ui-table-scrollable-header-box');
+          frozen_header_div[0].setAttribute('style', 'margin-right: 0px !important'); 
+        }
+      }
+     });
+  }
 
 
 }

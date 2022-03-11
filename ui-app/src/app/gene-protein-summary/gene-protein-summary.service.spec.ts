@@ -242,4 +242,59 @@ describe("GeneProteinSummaryService", () => {
       controller.verify();
     }
   ));
+
+  it("test getGenePTMData", inject(
+    [GeneProteinSummaryService],
+    (service: GeneProteinSummaryService) => {
+      service.getGenePTMData("A1BG", 0, 2).subscribe(data => {
+        expect(data).toBeDefined();
+        expect(
+          data["getPaginatedUIPtm"].uiGeneStudySpectralCounts.length
+        ).toBe(1);
+        expect(data["getPaginatedUIPtm"].total).toBe(8);
+        expect(data["getPaginatedUIPtm"].pagination).toEqual({
+          count: 2,
+          sort: "",
+          from: 0,
+          page: 1,
+          total: 8,
+          pages: 4,
+          size: 2
+        });
+      });
+
+      const op = controller.expectOne(service.genePTMDataQuery);
+
+      op.flush({
+        data: {
+          getPaginatedUIPtm: {
+            total: 8,
+            uiPtm:  [
+              {
+                ptm_type: "acetyl",
+                site: "NP_570602.2:k134",
+                peptide: "SLPAPWLSMAPVSWITPGLk"
+              },
+              {
+                ptm_type: "acetyl",
+                site: "NP_570602.2:k248",
+                peptide: "RGEkELLVPR"
+              }
+            ],
+            pagination: {
+              count: 2,
+              sort: "",
+              from: 0,
+              page: 1,
+              total: 8,
+              pages: 4,
+              size: 2
+            }
+          }
+        }
+      });
+
+      controller.verify();
+    }
+  ));
 });

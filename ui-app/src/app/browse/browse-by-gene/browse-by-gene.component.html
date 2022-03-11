@@ -1,31 +1,30 @@
-	<div class="row" style="font-family:'Lato'; font-size: 12px;">
-	<div class="container-fluid ui-helper-clearfix button-container-fluid">
-		<div class="row">
-			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-					<div *ngIf="totalRecords > 0 && !loading" >
-						<h3 style="font-family: 'Lato'; font-size:14px;float:left;margin-top:10px!important">{{totalRecords > 1 ? 'Total records: ' + totalRecords : 'Total record: ' + totalRecords }}</h3>
-				</div>
-				</div>
-				<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
-				<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-					<div class="wholeManifestDownload">
-						Export All Manifests
-						&nbsp;<button matTooltip="Exports all manifests for the filters applied" id="downloadWholeManifest" mat-raised-button mat-primary label="Download Selection" (click)="downloadAllManifest('csv')" style="font-family:'Lato';font-weight:bold; min-width:1%;" [disabled]="iscompleteManifestDisabled()" aria-label="Download all Manifests">CSV</button>&nbsp;
-						<button matTooltip="Exports all manifests for the filters applied" id="downloadWholeManifest" mat-raised-button mat-primary label="Download Selection" (click)="downloadAllManifest('tsv')" style="font-family:'Lato';font-weight:bold; min-width:1%;" [disabled]="iscompleteManifestDisabled()" aria-label="Download all Manifests">TSV</button>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
+	<div class="row" style="font-family:'Lato'; font-size: 12px;" (window:resize)="onResize($event)">
       <p-table class="table-striped ui-datatable-odd" #dt [columns]="cols" [value]="filteredGenesData" [lazy]="true" [paginator]="true" [(first)]="offset" 
 				[rows]="10" [pageLinks]="5" [rowsPerPageOptions]="[10,20,50]" [totalRecords]="totalRecords"
-				[loading]="loading" [resizableColumns]="true" columnResizeMode="expand" [style]="{'width':'100%', 'min-width':'1000px'}" 
+				[loading]="loading" [resizableColumns]="true" columnResizeMode="expand" [ngStyle]="{'width':'100%'}" 
 				(onRowUnselect) ="onRowUnselected($event)" (onRowSelect)="onRowSelected($event)" [(selection)]="selectedGenesData" 
-				dataKey="gene_name" (onLazyLoad)="loadNewPage($event)" id="genesDataTable" paginatorPosition="both">
+				dataKey="gene_name" (onLazyLoad)="loadNewPage($event)" id="genesDataTable" paginatorPosition="both"
+				scrollHeight="500px" [autoLayout]="true" [frozenColumns]="frozenColumns" [scrollable]="true" frozenWidth="150px">
 		<ng-template pTemplate="caption">
-			<div class="container-fluid ui-helper-clearfix button-container-fluid">
+			<div class="container-fluid ui-helper-clearfix button-container-fluid exportButtonsRow">
+					<div class="row">
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+								<div *ngIf="totalRecords > 0 && !loading" >
+									<h3 style="font-family: 'Lato'; font-size:14px;float:left;margin-top:10px!important">{{totalRecords > 1 ? 'Total records: ' + totalRecords : 'Total record: ' + totalRecords }}</h3>
+							</div>
+							</div>
+							<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 manifestDownload">
+								<div class="wholeManifestDownload">
+									Export All Manifests
+									&nbsp;<button matTooltip="Exports all manifests for the filters applied" id="downloadWholeManifest" mat-raised-button mat-primary label="Download Selection" (click)="downloadAllManifest('csv')" style="font-family:'Lato';font-weight:bold; min-width:1%;" [disabled]="iscompleteManifestDisabled()" aria-label="Download all Manifests">CSV</button>&nbsp;
+									<button matTooltip="Exports all manifests for the filters applied" id="downloadWholeManifest" mat-raised-button mat-primary label="Download Selection" (click)="downloadAllManifest('tsv')" style="font-family:'Lato';font-weight:bold; min-width:1%;" [disabled]="iscompleteManifestDisabled()" aria-label="Download all Manifests">TSV</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			<div class="container-fluid ui-helper-clearfix button-container-fluid" style="border-top: 1px solid #ddd;">
 				<div class="row">
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 						<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
@@ -48,9 +47,9 @@
 				</div>
 			</div>
 		</ng-template>
-        <ng-template style="font-size: 12px; background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%);" pTemplate="header">
-            <tr style="font-size: 12px;">
-				<th class="ui-datatable-tableheader" style="width:5%;overflow: unset;" pResizableColumn>
+		<ng-template pTemplate="frozenheader" let-frozenColumns>
+			<tr>
+				<th class="ui-datatable-tableheader" style="width:50px;overflow: unset;">
 					<label><p-checkbox  id="geneDataChk" [(ngModel)]="headercheckbox" binary="true" (onChange)="onTableHeaderCheckboxToggle()" ></p-checkbox></label>
 					<mat-select id="dataForManifestExport" class="card-body card-list" [(ngModel)]="selectedHeaderCheckbox"
 					(selectionChange)="changeHeaderCheckbox($event)">
@@ -60,25 +59,33 @@
 					</mat-select>
 					<span style="display:none;">Check All</span>
 					</th>            
-                <th class="ui-datatable-tableheader" style="width:6%;" [pSortableColumn]="cols[0].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Gene#gene_name" target="_blank" style="color:white">Gene</a><p-sortIcon [field]="cols[0].field" ariaLabel="Sort Gene column in ascending/descending order"></p-sortIcon></th>
-			    <th class="ui-datatable-tableheader" style="width:12%" [pSortableColumn]="cols[1].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Gene#chromosome" target="_blank" style="color:white">Chromosome</a><p-sortIcon [field]="cols[1].field" ariaLabel="Sort Chromosome column in ascending/descending order"></p-sortIcon></th>
-			    <th class="ui-datatable-tableheader" style="width:10%" [pSortableColumn]="cols[2].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Gene#locus" target="_blank" style="color:white">Locus</a><p-sortIcon [field]="cols[2].field" ariaLabel="Sort Locus column in ascending/descending order"></p-sortIcon></th>
-			    <th class="ui-datatable-tableheader" style="width:12%" pResizableColumn>No of Studies</th>
-			    <th class="ui-datatable-tableheader" style="width:13%" pResizableColumn>PTM Sites</th>
-			    <th class="ui-datatable-tableheader" style="width:54%" [pSortableColumn]="cols[4].field" pResizableColumn><a href="{{staticUrlBase}}dictionaryitem.html?eName=Gene#proteins" target="_blank" style="color:white">Proteins</a><p-sortIcon [field]="cols[4].field" ariaLabel="Sort Proteins column in ascending/descending order"></p-sortIcon></th>
+          <th class="ui-datatable-tableheader" style="width:100px;" [pSortableColumn]="cols[0].field"><a href="{{staticUrlBase}}dictionaryitem.html?eName=Gene#gene_name" target="_blank" style="color:white">Gene</a><p-sortIcon [field]="cols[0].field" ariaLabel="Sort Gene column in ascending/descending order"></p-sortIcon></th>
+			</tr>
+		</ng-template>
+        <ng-template style="font-size: 12px; background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%);" pTemplate="header" let-columns>
+            <tr class="safari_only">
+			    <th class="ui-datatable-tableheader fixedWidthCol" [pSortableColumn]="cols[1].field"><a href="{{staticUrlBase}}dictionaryitem.html?eName=Gene#chromosome" target="_blank" style="color:white">Chromosome</a><p-sortIcon [field]="cols[1].field" ariaLabel="Sort Chromosome column in ascending/descending order"></p-sortIcon></th>
+			    <th class="ui-datatable-tableheader fixedWidthCol" [pSortableColumn]="cols[2].field"><a href="{{staticUrlBase}}dictionaryitem.html?eName=Gene#locus" target="_blank" style="color:white">Locus</a><p-sortIcon [field]="cols[2].field" ariaLabel="Sort Locus column in ascending/descending order"></p-sortIcon></th>
+			    <th class="ui-datatable-tableheader fixedWidthCol">No of Studies</th>
+			    <th class="ui-datatable-tableheader fixedWidthCol">PTM Sites</th>
+			    <th class="ui-datatable-tableheader fixedWidthCol" [pSortableColumn]="cols[4].field"><a href="{{staticUrlBase}}dictionaryitem.html?eName=Gene#proteins" target="_blank" style="color:white">Proteins</a><p-sortIcon [field]="cols[4].field" ariaLabel="Sort Proteins column in ascending/descending order"></p-sortIcon></th>
             </tr>
-        </ng-template>
+				</ng-template>
+				<ng-template pTemplate="frozenbody" let-geneData let-frozenColumns>
+					<tr style="font-size: 11px;"[pSelectableRow]="geneData">
+						<td style="width:50px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"><p-tableCheckbox id="geneData{{geneData.gene_name}}" [value]="geneData" class="browsePageCheckboxes"></p-tableCheckbox></td>              
+						<td style="width:100px;word-wrap: break-word; white-space: normal;"><a href="javascript:void(0);" (click)="showGeneSummary(geneData.gene_name)">{{geneData.gene_name }}</a></td>
+					</tr>
+				</ng-template>
         <ng-template pTemplate="body" let-geneData>
             <tr style="font-size: 11px;" [pSelectableRow]="geneData" >
-				<td style="width:5%;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"><p-tableCheckbox id="geneData{{geneData.gene_name}}" [value]="geneData" class="browsePageCheckboxes"></p-tableCheckbox></td>              
-                <td style="width:6%;word-wrap: break-word; white-space: normal;"><a href="javascript:void(0);" (click)="showGeneSummary(geneData.gene_name)">{{geneData.gene_name }}</a></td>
-                <td style="width:12%;word-wrap: break-word; white-space: normal;">{{geneData.chromosome}}</td>
-                <td style="width:10%;word-wrap: break-word; white-space: normal;">{{geneData.locus}}</td>
-                <td style="width:12%;word-wrap: break-word; white-space: normal;">{{geneData.num_study}}</td>
-				<td style="width:13%;word-wrap: break-word; white-space: normal;">
+                <td class="fixedWidthCol" style="word-wrap: break-word; white-space: normal;">{{geneData.chromosome}}</td>
+                <td class="fixedWidthCol" style="word-wrap: break-word; white-space: normal;">{{geneData.locus}}</td>
+                <td class="fixedWidthCol" style="word-wrap: break-word; white-space: normal;">{{geneData.num_study}}</td>
+				<td class="fixedWidthCol" style="word-wrap: break-word; white-space: normal;">
 					<div *ngFor="let ptmData of ptmStatsData[geneData.gene_name]?.ptm_type_counter" style="float:left">{{ptmData.ptm_type}} ({{ptmData.counter}}) </div>
 				</td>
-				<td style="width:54%;word-wrap: break-word; white-space: normal;">{{geneData.proteins}}</td>
+				<td class="fixedWidthCol" style="word-wrap: break-word; white-space: normal;">{{geneData.proteins}}</td>
             </tr>
         </ng-template>
 		<p-paginator rows="10" totalRecords="120"></p-paginator> 

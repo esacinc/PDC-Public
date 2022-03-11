@@ -220,16 +220,16 @@ describe("SearchService", () => {
     (service: SearchService) => {
       service.getSampleSubmitterIDResults("C3L-00796-01").subscribe((data) => {
         expect(data).toBeDefined();
-        expect(data["sample"].length).toBe(1);
-        expect(data["sample"][0].sample_submitter_id).toBe("C3L-00796-01");
-        expect(data["sample"][0].case_submitter_id).toBe("C3L-00796-01");
+        expect(data["uiSampleSummary"].length).toBe(1);
+        expect(data["uiSampleSummary"][0].sample_submitter_id).toBe("C3L-00796-01");
+        expect(data["uiSampleSummary"][0].case_submitter_id).toBe("C3L-00796-01");
       });
 
       const op = controller.expectOne(service.searchSampleSubmitterIDQuery);
 
       op.flush({
         data: {
-          sample: [
+          uiSampleSummary: [
             {
               case_submitter_id: "C3L-00796-01",
               sample_submitter_id: "C3L-00796-01",
@@ -248,16 +248,16 @@ describe("SearchService", () => {
     (service: SearchService) => {
       service.getSampleUUIDResults("bcd1ba03-204c-11e9-b7f8-0a80fada099c").subscribe((data) => {
         expect(data).toBeDefined();
-        expect(data["sample"].length).toBe(1);
-        expect(data["sample"][0].sample_submitter_id).toBe("C3L-00796-01");
-        expect(data["sample"][0].case_submitter_id).toBe("C3L-00796");
+        expect(data["uiSampleSummary"].length).toBe(1);
+        expect(data["uiSampleSummary"][0].sample_submitter_id).toBe("C3L-00796-01");
+        expect(data["uiSampleSummary"][0].case_submitter_id).toBe("C3L-00796");
       });
 
       const op = controller.expectOne(service.searchSampleUUIDQuery);
 
       op.flush({
         data: {
-          sample: [
+          uiSampleSummary: [
             {
               case_submitter_id: "C3L-00796",
               sample_submitter_id: "C3L-00796-01",
@@ -276,15 +276,15 @@ describe("SearchService", () => {
     (service: SearchService) => {
       service.getCaseUUIDResults("00dc49de-1fba-11e9-b7f8-0a80fada099c").subscribe((data) => {
         expect(data).toBeDefined();
-        expect(data["case"].length).toBe(1);
-        expect(data["case"][0].case_submitter_id).toBe("NCI7-2");
+        expect(data["uiCaseSummary"].length).toBe(1);
+        expect(data["uiCaseSummary"][0].case_submitter_id).toBe("NCI7-2");
       });
 
       const op = controller.expectOne(service.searchCaseUUIDQuery);
 
       op.flush({
         data: {
-          case: [
+          uiCaseSummary: [
             {
               case_submitter_id: "NCI7-2",
               case_id: "00dc49de-1fba-11e9-b7f8-0a80fada099c"
@@ -300,17 +300,17 @@ describe("SearchService", () => {
   it("test getStudySubmitterID", inject(
     [SearchService],
     (service: SearchService) => {
-      service.getStudySubmitterID("dbe94609-1fb3-11e9-b7f8-0a80fada099c","",true).subscribe((data) => {
+      service.getStudySubmitterID("dbe94609-1fb3-11e9-b7f8-0a80fada099c","").subscribe((data) => {
         expect(data).toBeDefined();
-        expect(data["study"].length).toBe(1);
-        expect(data["study"][0].study_id).toBe("dbe94609-1fb3-11e9-b7f8-0a80fada099c");
+        expect(data["uiStudySummary"].length).toBe(1);
+        expect(data["uiStudySummary"][0].study_id).toBe("dbe94609-1fb3-11e9-b7f8-0a80fada099c");
       });
 
       const op = controller.expectOne(service.fetchStudySubmitterIDQuery);
 
       op.flush({
         data: {
-          study: [
+          uiStudySummary: [
             {
               study_submitter_id: "CPTAC CCRCC Discovery Study - Proteome S044-1",
               study_name: "CPTAC CCRCC Discovery Study - Proteome",
@@ -328,22 +328,144 @@ describe("SearchService", () => {
   it("test getStudybyUUIDResults", inject(
     [SearchService],
     (service: SearchService) => {
-      service.getStudybyUUIDResults("dbe94609-1fb3-11e9-b7f8-0a80fada099c","",true).subscribe((data) => {
+      service.getStudybyUUIDResults("dbe94609-1fb3-11e9-b7f8-0a80fada099c","").subscribe((data) => {
         expect(data).toBeDefined();
-        expect(data["study"].length).toBe(1);
-        expect(data["study"][0].study_submitter_id).toBe("CPTAC CCRCC Discovery Study - Proteome S044-1");
+        expect(data["uiStudySummary"].length).toBe(1);
+        expect(data["uiStudySummary"][0].study_submitter_id).toBe("CPTAC CCRCC Discovery Study - Proteome S044-1");
       });
 
       const op = controller.expectOne(service.searchStudyUUIDQuery);
 
       op.flush({
         data: {
-          study: [
+          uiStudySummary: [
             {
               study_submitter_id: "CPTAC CCRCC Discovery Study - Proteome S044-1",
               study_shortname: "CPTAC CCRCC Discovery Study - Proteome S044-1"
             }
           ],
+        },
+      });
+
+      controller.verify();
+    }
+  ));
+
+  it("test getAliquotUUIDResults", inject(
+    [SearchService],
+    (service: SearchService) => {
+      service.getAliquotUUIDResults("0f335144-23d2-4496-8e46-7e30d0f07aad").subscribe((data) => {
+        expect(data).toBeDefined();
+        expect(data["uiAliquotSummary"].length).toBe(1);
+        expect(data["uiAliquotSummary"][0].case_submitter_id).toBe("PDAC005");
+      });
+
+      const op = controller.expectOne(service.searchAliquotUUIDQuery);
+
+      op.flush({
+        data: {
+          uiAliquotSummary: [
+            {
+              case_submitter_id: "PDAC005",
+              aliquot_submitter_id: "PDAC005",
+              aliquot_id: "0f335144-23d2-4496-8e46-7e30d0f07aad"
+            }
+          ],
+        },
+      });
+
+      controller.verify();
+    }
+  ));
+
+  it("test getAliquotSubmitterIDResults", inject(
+    [SearchService],
+    (service: SearchService) => {
+      service.getAliquotSubmitterIDResults("PDAC005").subscribe((data) => {
+        expect(data).toBeDefined();
+        expect(data["uiAliquotSummary"].length).toBe(1);
+        expect(data["uiAliquotSummary"][0].case_submitter_id).toBe("PDAC005");
+      });
+
+      const op = controller.expectOne(service.searchAliquotSubmitterIDQuery);
+
+      op.flush({
+        data: {
+          uiAliquotSummary: [
+            {
+              case_submitter_id: "PDAC005",
+              aliquot_submitter_id: "PDAC005",
+              aliquot_id: "0f335144-23d2-4496-8e46-7e30d0f07aad"
+            }
+          ],
+        },
+      });
+
+      controller.verify();
+    }
+  ));
+
+  it("test getCaseSummaryData", inject(
+    [SearchService],
+    (service: SearchService) => {
+      service.getCaseSummaryData("02dcc58d-656d-49af-a5bc-154bf2e86dee", "").subscribe((data) => {
+        expect(data).toBeDefined();
+        expect(data["uiCase"].length).toBe(1);
+        expect(data["uiCase"][0].aliquot_id).toBe("b894e659-0831-4fa8-8eae-a2b23cc75ed2");
+      });
+
+      const op = controller.expectOne(service.caseSummaryData);
+
+      op.flush({
+        data: {
+          uiCase: [
+            {
+              case_id: "02dcc58d-656d-49af-a5bc-154bf2e86dee",
+              case_submitter_id: null,
+              aliquot_id: "b894e659-0831-4fa8-8eae-a2b23cc75ed2",
+              sample_id: "13359afb-c4c9-496a-af48-d0a88e452ae4",
+              project_name: "Proteogenomics Analysis and Mechanism Study to Develop Precision Medicine for Treatment-Resistant Pa",
+              program_name: "Korea University",
+              sample_type: "Primary Tumor",
+              disease_type: "Pancreatic Adenocarcinoma",
+              primary_site: "Pancreas",
+              aliquot_submitter_id: null,
+              sample_submitter_id: null
+            }
+          ],
+        },
+      });
+
+      controller.verify();
+    }
+  ));
+
+  it("test getStudySearchByExternalRef", inject(
+    [SearchService],
+    (service: SearchService) => {
+      service.getStudySearchByExternalRef("1287").subscribe((data) => {
+        expect(data).toBeDefined();
+        expect(data["studySearchByExternalId"]["studies"][0].record_type).toBe("study");
+        expect(data["studySearchByExternalId"]["studies"][0].pdc_study_id).toBe("PDC000123");
+        expect(data["studySearchByExternalId"]["studies"][0].study_submitter_id).toBe("UCEC Discovery - CompRef Phosphoproteome S043-2");
+      });
+
+      const op = controller.expectOne(service.studySearchByExternalRefQuery);
+
+      op.flush({
+        data: {
+          studySearchByExternalId: {
+            studies: [
+              {
+                record_type: "study",
+                name: "UCEC Discovery - CompRef Phosphoproteome S043-2",
+                submitter_id_name: "CPTAC UCEC Discovery Study - CompRef Phosphoproteome",
+                study_id: "de58a7ea-06ad-11ea-8c2e-0a7b46c3918d",
+                study_submitter_id: "UCEC Discovery - CompRef Phosphoproteome S043-2",
+                pdc_study_id: "PDC000123"
+              }
+            ],
+        },
         },
       });
 

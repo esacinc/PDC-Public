@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { PDCUserService } from '../../pdcuser.service';
 import { OverlayWindowService } from '../../overlay-window/overlay-window.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-faq',
@@ -15,7 +16,8 @@ export class FaqComponent implements OnInit {
   isUserLoggedIn:boolean = false;	
   private subscription: Subscription;
 
-  constructor(private userService: PDCUserService, private route:ActivatedRoute,  private overlayWindow: OverlayWindowService) { }
+  constructor(private userService: PDCUserService, private route:ActivatedRoute,  private overlayWindow: OverlayWindowService,
+    private loc: Location) { }
 
   ngOnInit() {
     //@@@PDC-1702: Add a button/help link to FAQ page multiple download section from Browse page
@@ -37,7 +39,9 @@ export class FaqComponent implements OnInit {
 
   //@@@PDC-1628: Update the FAQ page on the data portal
   //Scroll to a particular section of the page.
-  scrollToElement($element): void {
+  scrollToElement($element, eleID = ''): void {
+    //@@@PDC-4692: Create bookmarks for FAQ
+    this.loc.go("/faq/" + eleID);
     $element.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
   }
 

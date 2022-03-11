@@ -56,14 +56,21 @@ export class GeneProteinSummaryComponent implements OnInit {
   ptmOffset: number;
   ptmLimit: number;
   ptmPageSize: number;
+  source = "";
+  frozenColumns = [];
   
   constructor(private activeRoute: ActivatedRoute, private router:Router, private apollo: Apollo,
 				private geneProteinSummaryService: GeneProteinSummaryService,
 				private dialogRef: MatDialogRef<GeneProteinSummaryComponent>,
 				@Inject(MAT_DIALOG_DATA) public geneProteinData: any) {
-    
+	
 	console.log(geneProteinData);
+
 	this.gene_id = geneProteinData.summaryData;
+	//@@@PDC-4725: Set the source parameter in the UI calls to fetch details of a search result
+	if (geneProteinData && geneProteinData.source) {
+		this.source = geneProteinData.source;
+	}
 	//Initialize values for pagination
 	this.studyOffset = 0; 
 	this.studyLimit = 10;
@@ -100,8 +107,9 @@ export class GeneProteinSummaryComponent implements OnInit {
 	  this.loadingGeneSummary = true;
     //@@@PDC-1123 call ui wrapper API
 	  setTimeout(() => {
-		  this.geneProteinSummaryService.getGeneDetails(this.gene_id).subscribe((data: any) =>{
+		  this.geneProteinSummaryService.getGeneDetails(this.gene_id, this.source).subscribe((data: any) =>{
 			this.geneSummaryData = data.uiGeneSpectralCount;
+			this.makeRowsSameHeight();
 			this.loadingGeneSummary = false;
 		  });
 	  }, 1000);
@@ -112,7 +120,7 @@ export class GeneProteinSummaryComponent implements OnInit {
 	  /* this.loadingAliquotRecords = true;
 	  this.aliquotSpectralCountLoadError = '';
 		  //removed timout settings since this query sometimes takes a lot of time
-		  this.geneProteinSummaryService.getAliquotSpectralCount(this.gene_id, this.aliquotOffset, this.aliquotLimit).subscribe((data: any) =>{
+		  this.geneProteinSummaryService.getAliquotSpectralCount(this.gene_id, this.aliquotOffset, this.aliquotLimit, this.source).subscribe((data: any) =>{
 			this.aliquotSpectralCountsList = data.getPaginatedUIGeneAliquotSpectralCount.uiGeneAliquotSpectralCounts;
 			this.aliquotTotalRecords = data.getPaginatedUIGeneAliquotSpectralCount.total;
 			this.aliquotOffset = data.getPaginatedUIGeneAliquotSpectralCount.pagination.from;
@@ -132,7 +140,7 @@ export class GeneProteinSummaryComponent implements OnInit {
   getGeneStudySpectralCounts(){
 	 /* this.loading = true;
 	  setTimeout(() => {
-		  this.geneProteinSummaryService.getStudySpectralCount(this.gene_id, this.studyOffset, this.studyLimit).subscribe((data: any) =>{
+		  this.geneProteinSummaryService.getStudySpectralCount(this.gene_id, this.studyOffset, this.studyLimit, this.source).subscribe((data: any) =>{
 			this.studySpectralCountsList = data.getPaginatedUIGeneStudySpectralCount.uiGeneStudySpectralCounts;
 			this.studyTotalRecords = data.getPaginatedUIGeneStudySpectralCount.total;
 			this.studyOffset = data.getPaginatedUIGeneStudySpectralCount.pagination.from;
@@ -146,12 +154,13 @@ export class GeneProteinSummaryComponent implements OnInit {
   getPTMData(){
 	  this.lodingPTMData = true;
 	  setTimeout(() => {
-		  this.geneProteinSummaryService.getGenePTMData(this.gene_id, this.ptmOffset, this.ptmLimit).subscribe((data: any) =>{
+		  this.geneProteinSummaryService.getGenePTMData(this.gene_id, this.ptmOffset, this.ptmLimit, this.source).subscribe((data: any) =>{
 			this.genePTMData = data.getPaginatedUIPtm.uiPtm;
 			this.ptmTotalRecords = data.getPaginatedUIPtm.total;
 			this.ptmOffset = data.getPaginatedUIPtm.pagination.from;
 			this.ptmPageSize = data.getPaginatedUIPtm.pagination.size;
 			this.ptmLimit = data.getPaginatedUIPtm.pagination.size;
+			this.makeRowsSameHeight();
 			this.lodingPTMData = false;
 		  });
 	  }, 1000);
@@ -161,7 +170,7 @@ export class GeneProteinSummaryComponent implements OnInit {
 	  this.aliquotOffset = event.first;
 	  this.aliquotLimit = event.rows;
 	  this.loadingAliquotRecords = true;
-	  this.geneProteinSummaryService.getAliquotSpectralCount(this.gene_id, this.aliquotOffset, this.aliquotLimit).subscribe((data: any) =>{
+	  this.geneProteinSummaryService.getAliquotSpectralCount(this.gene_id, this.aliquotOffset, this.aliquotLimit, this.source).subscribe((data: any) =>{
 			this.aliquotSpectralCountsList = data.getPaginatedUIGeneAliquotSpectralCount.uiGeneAliquotSpectralCounts;
 			if (this.aliquotOffset == 0) {
 				this.aliquotTotalRecords = data.getPaginatedUIGeneAliquotSpectralCount.total;
@@ -177,7 +186,7 @@ export class GeneProteinSummaryComponent implements OnInit {
 	  this.studyOffset = event.first;
 	  this.studyLimit = event.rows;
 	  this.loading = true;
-	  this.geneProteinSummaryService.getStudySpectralCount(this.gene_id, this.studyOffset, this.studyLimit).subscribe((data: any) =>{
+	  this.geneProteinSummaryService.getStudySpectralCount(this.gene_id, this.studyOffset, this.studyLimit, this.source).subscribe((data: any) =>{
 			this.studySpectralCountsList = data.getPaginatedUIGeneStudySpectralCount.uiGeneStudySpectralCounts;;
 			if (this.studyOffset == 0) {
 				this.studyTotalRecords = data.getPaginatedUIGeneStudySpectralCount.total;
@@ -193,7 +202,7 @@ export class GeneProteinSummaryComponent implements OnInit {
 	  this.ptmOffset = event.first;
 	  this.ptmLimit = event.rows;
 	  this.lodingPTMData = true;
-	  this.geneProteinSummaryService.getGenePTMData(this.gene_id, this.ptmOffset, this.ptmLimit).subscribe((data: any) =>{
+	  this.geneProteinSummaryService.getGenePTMData(this.gene_id, this.ptmOffset, this.ptmLimit, this.source).subscribe((data: any) =>{
 			this.genePTMData = data.getPaginatedUIPtm.uiPtm;
 			if (this.ptmOffset == 0) {
 				this.ptmTotalRecords = data.getPaginatedUIPtm.total;
@@ -201,6 +210,7 @@ export class GeneProteinSummaryComponent implements OnInit {
 				this.ptmPageSize = data.getPaginatedUIPtm.pagination.size;
 				this.ptmLimit = data.getPaginatedUIPtm.pagination.size;
 			}
+			this.makeRowsSameHeight();
 			this.lodingPTMData = false;
 		}); 
   }
@@ -228,6 +238,41 @@ export class GeneProteinSummaryComponent implements OnInit {
   }
   
   ngOnInit() {
+	this.frozenColumns = [
+		{field: "ptm_type", header: "PTM Type"}
+	];
   }
+
+  makeRowsSameHeight() {
+	setTimeout(() => {
+		if (document.getElementsByClassName('ui-table-scrollable-wrapper').length) {
+			let wrapper = document.getElementsByClassName('ui-table-scrollable-wrapper');
+			for (var i = 0; i < wrapper.length; i++) {
+				let w = wrapper.item(i) as HTMLElement;
+				let frozen_rows: any = w.querySelectorAll('.ui-table-frozen-view .ui-table-tbody tr');
+				let unfrozen_rows: any = w.querySelectorAll('.ui-table-unfrozen-view .ui-table-tbody tr');
+				let frozen_header_row: any = w.querySelectorAll('.ui-table-frozen-view .ui-table-thead tr');
+				let unfrozen_header_row: any = w.querySelectorAll('.ui-table-unfrozen-view .ui-table-thead');
+				   if (frozen_header_row[0].clientHeight > unfrozen_header_row[0].clientHeight) {
+					unfrozen_header_row[0].style.height = frozen_header_row[0].clientHeight+"px";
+				  } 
+				else if (frozen_header_row[0].clientHeight < unfrozen_header_row[0].clientHeight) {
+					frozen_header_row[0].style.height = unfrozen_header_row[0].clientHeight+"px";
+				} 				   
+				for (let i = 0; i < frozen_rows.length; i++) {
+					if (frozen_rows[i].clientHeight > unfrozen_rows[i].clientHeight) {
+						unfrozen_rows[i].style.height = frozen_rows[i].clientHeight+"px";
+					} 
+					else if (frozen_rows[i].clientHeight < unfrozen_rows[i].clientHeight) 
+					{
+						frozen_rows[i].style.height = unfrozen_rows[i].clientHeight+"px";
+					}
+				}
+				let frozen_header_div: any = w.querySelectorAll('.ui-table-unfrozen-view .ui-table-scrollable-header-box');
+				frozen_header_div[0].setAttribute('style', 'margin-right: 0px !important'); 
+			}
+		}
+	});
+}
 
 }

@@ -1,7 +1,7 @@
 import { Apollo } from 'apollo-angular';
 
 import {
-    Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges
+    Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, Renderer
 } from '@angular/core';
 import { MatDialog, MatDialogConfig, MatTooltipModule } from '@angular/material';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
@@ -88,6 +88,8 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 	checkboxOptions = [];
 	selectedHeaderCheckbox = '';
 	manifestFormat = "csv";
+	frozenColumns = [];
+	@Input() childTabChanged: string;
 	
   constructor(private apollo: Apollo,
 				private router: Router,
@@ -127,12 +129,13 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
     };
 	this.router.navigate([{outlets: {studySummary: ['study-summary', this.filteredStudiesData[study_index].submitter_id_name]}}], { skipLocationChange: true });
 	const dialogRef = this.dialog.open(StudySummaryComponent, dialogConfig);
-
-
-        dialogRef.afterClosed().subscribe(
-            val => console.log("Dialog output:", val)
-        );
-
+	dialogRef.afterClosed().subscribe((val:any) => {
+		console.log("Dialog output:", val);
+		//@@@PDC-4806: Alignment issue in some resolutions
+		//When a user clicks on study name/study id in the Study table, the rows get misasligned.
+		//Solution: Scroll the study name/id into viewport 
+		document.getElementById(study_id).scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
+	});	
   }
   
   findStudyByID(study_id: string) {
@@ -165,6 +168,7 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 			}
 			this.loading = false;
 			this.clearSelection();
+			this.makeRowsSameHeight();
 		  });
 	  }, 1000);
 	}
@@ -271,6 +275,9 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
   }
   
   ngOnChanges(changes: SimpleChanges){
+	  if (changes && changes['childTabChanged']) {
+		this.makeRowsSameHeight();
+	  }
 	  // ngOnChanges fires when the page loads, at that moment newFilterValue is not set yet
 	  if (this.newFilterValue){
 		var filter_field=this.newFilterValue.split(":"); //the structure is field_name: "value1;value2"
@@ -356,6 +363,7 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 				this.offset = data.getPaginatedUIStudy.pagination.from;
 				this.pageSize = data.getPaginatedUIStudy.pagination.size;
 				this.limit = data.getPaginatedUIStudy.pagination.size;
+				this.makeRowsSameHeight();
 			}
 			this.loading = false;
 			this.clearSelection();
@@ -555,6 +563,7 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 			}
 			//@@@PDC-3667: "Select all pages" option issue
 			this.handleCheckboxSelections();
+			this.makeRowsSameHeight();
 		});
 	}
 
@@ -681,6 +690,10 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 		];
 		//@@@PDC-1063: Implement select all, select page, select none for all tabs
 		this.checkboxOptions = ["Select all pages", "Select this page", "Select None"];
+		this.frozenColumns = [
+			{field: 'pdc_study_id', header: 'PDC Study ID'},
+		];
+
   }
   //@@@PDC-379 collapse study records with different disease_type and primary_site
   mergeStudies(studies: AllStudiesData[]){
@@ -719,6 +732,10 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 		this.selectedTabChangeForFileType.emit({tabVal:3,studyName:study_name,fileType:fileType,dataCategory:dataCategory});
   }
 
+  onResize(event) {
+	this.makeRowsSameHeight();
+  }
+
 	//@@@PDC-795 Change manifest download file name include timestamp 
 	studyTableExportCSV(dt){
 		this.validateStudyField();
@@ -747,6 +764,10 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 			}
 			if(!study['mzml_count']){
 				study['mzml_count']=0
+			}
+			//PDC-4689 set metadata count to 0 if none returned
+			if(!study['metadata_count']){
+				study['metadata_count']=0
 			}
 			if(!study['psm_count']){
 				study['psm_count']=0
@@ -876,6 +897,41 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
       this.currentPageSelectedStudy.push(item.study_submitter_id);
     }});
   }
+
+  //@@@PDC-4792: Increase font size in all tables to pass 508 compliance
+  makeRowsSameHeight() {
+	setTimeout(() => {
+		if (document.getElementsByClassName('ui-table-scrollable-wrapper').length) {
+			let wrapper = document.getElementsByClassName('ui-table-scrollable-wrapper');
+			for (var i = 0; i < wrapper.length; i++) {
+			   	let w = wrapper.item(i) as HTMLElement;
+			   	let frozen_rows: any = w.querySelectorAll('.ui-table-frozen-view .ui-table-tbody tr');
+			   	let unfrozen_rows: any = w.querySelectorAll('.ui-table-unfrozen-view .ui-table-tbody tr');
+			   	let frozen_header_row: any = w.querySelectorAll('.ui-table-frozen-view .ui-table-thead tr');
+				let unfrozen_header_row: any = w.querySelectorAll('.ui-table-unfrozen-view .ui-table-thead');
+			   	if (frozen_header_row[0].clientHeight > unfrozen_header_row[0].clientHeight) {
+					unfrozen_header_row[0].style.height = frozen_header_row[0].clientHeight+"px";
+				} 
+				else if (frozen_header_row[0].clientHeight < unfrozen_header_row[0].clientHeight) {
+					frozen_header_row[0].style.height = unfrozen_header_row[0].clientHeight+"px";
+				}
+			   for (let i = 0; i < frozen_rows.length; i++) {
+					if (frozen_rows[i].clientHeight > unfrozen_rows[i].clientHeight) {
+						unfrozen_rows[i].style.height = frozen_rows[i].clientHeight+"px";
+					}
+					else if (frozen_rows[i].clientHeight < unfrozen_rows[i].clientHeight) {
+						frozen_rows[i].style.height = unfrozen_rows[i].clientHeight+"px";
+					}
+				}
+				//PDC-4806: Alignment issue in some resolutions
+				//Scroll the unfrozen div to the left through a few columns, switch to another tab. 
+				//Navigate back to the parent tab -> columns should not be misaligned
+ 				let frozen_header_div: any = w.querySelectorAll('.ui-table-unfrozen-view .ui-table-scrollable-header-box');
+				frozen_header_div[0].setAttribute('style', 'margin-right: 0px !important'); 
+			  }
+			}
+		 });
+	   }
 }
 
 

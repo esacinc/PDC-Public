@@ -114,3 +114,40 @@
 /deep/ .mat-expansion-panel-header {
 	height:25px!important;
 }
+
+/deep/ {
+  .ui-table table {
+    table-layout: unset !important;
+  } 
+  
+  .ui-table tr td, .ui-table-thead tr, .table, .table tr td, .table tr th {
+        font-size: 14px !important;
+        font-family: 'Lato' !important;
+    }
+
+	.ui-table-unfrozen-view .ui-table-thead th {
+		border: 1px solid #D5D5D5 !important;
+	}
+
+	#heatmapsDataTable {
+		.ui-table-unfrozen-view .ui-table-thead th,
+		.ui-table-unfrozen-view .ui-table-tbody td  {
+			width: 150px !important;
+			min-width: 150px !important;
+			max-width: 150px !important;
+		}
+	}
+
+	.ui-datatable-tableheader {
+		background-color: #3A8BAF;
+	}
+
+	.ui-paginator .ui-paginator-page.ui-state-active {
+		background-color: #3A8BAF;
+    }
+    
+    //@@@PDC-4924: Fix UI issues on Heatmaps page & filter stacking feature
+    .heatmaps-page .mat-card {
+        font-family: 'Lato' !important;
+    }
+}

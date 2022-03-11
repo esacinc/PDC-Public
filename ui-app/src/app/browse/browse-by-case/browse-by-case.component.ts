@@ -76,6 +76,8 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
   checkboxOptions = [];
   selectedHeaderCheckbox = '';
   manifestFormat = "csv";
+  @Input() childTabChanged: string;
+  frozenColumns = [];
 
   constructor(private apollo: Apollo,
 				private router: Router,
@@ -142,12 +144,16 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
 			this.limit = data.getPaginatedUICase.pagination.size;
 			this.loading = false;
 			this.clearSelection();
+			this.makeRowsSameHeight();
 			});
 
 	  }, 1000);
   }
 
   ngOnChanges(changes: SimpleChanges){
+	  if (changes && changes['childTabChanged']) {
+		this.makeRowsSameHeight();
+	  }
 	  // ngOnChanges fires when the page loads, at that moment newFilterValue is not set yet
 	  if (this.newFilterValue){
 		this.filteredCasesData = []; //initialize cases list
@@ -230,6 +236,7 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
 			}
 			this.loading = false;
 			this.clearSelection();
+			this.makeRowsSameHeight();
 		});
 		}
 
@@ -359,6 +366,7 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
 			}
 			//@@@PDC-3667: "Select all pages" option issue
 			this.handleCheckboxSelections();
+			this.makeRowsSameHeight();
 		});
 	}
 
@@ -395,7 +403,10 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
 	  //Have to define the following structure for Primeng CSV export to work properly
 		//@@@PDC-462 show submitter ids
 		//@@@PDC-1789: Add study_submitter_id and study_id to exported study manifests
-    //@@@PDC-4568: Deprecated Properties of Sample and Exposure should not show up in the export manifests
+	//@@@PDC-4568: Deprecated Properties of Sample and Exposure should not show up in the export manifests
+	 this.frozenColumns = [
+		{field: 'aliquot_id', header: 'Aliquot ID'}
+	 ]
 	  this.cols = [
 		{field: 'aliquot_id', header: 'Aliquot ID'},
 		{field: 'aliquot_submitter_id', header: 'Aliquot Submitter ID'},
@@ -442,7 +453,7 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
 		{field: 'tumor_code', header: 'Tumor Code'},
 		{field: 'tumor_code_id', header: 'Tumor Code ID'},
 		{field: 'tumor_descriptor', header: 'Tumor Descriptor'},
-		{field: 'program_name', header: 'Program Name'}
+		{field: 'program_name', header: 'Program Name'},
 	  ];
 	  //@@@PDC-799: Redirecting to the NIH login page for the file authorization loses PDC state
 	  this.activatedRoute.queryParams.subscribe(queryParams => {
@@ -626,4 +637,41 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
       this.currentPageSelectedCase.push(item.aliquot_id + "-" + item.aliquot_submitter_id);
     }});
   }
+
+  onResize(event) {
+    this.makeRowsSameHeight();
+  }
+
+  //@@@PDC-4792: Increase font size in all tables to pass 508 compliance
+  makeRowsSameHeight() {
+	setTimeout(() => {
+		if (document.getElementsByClassName('ui-table-scrollable-wrapper').length) {
+			let wrapper = document.getElementsByClassName('ui-table-scrollable-wrapper');
+			for (var i = 0; i < wrapper.length; i++) {
+			   	let w = wrapper.item(i) as HTMLElement;
+			   	let frozen_rows: any = w.querySelectorAll('.ui-table-frozen-view .ui-table-tbody tr');
+			   	let unfrozen_rows: any = w.querySelectorAll('.ui-table-unfrozen-view .ui-table-tbody tr');
+			   	let frozen_header_row: any = w.querySelectorAll('.ui-table-frozen-view .ui-table-thead tr');
+				let unfrozen_header_row: any = w.querySelectorAll('.ui-table-unfrozen-view .ui-table-thead');
+			   	if (frozen_header_row[0].clientHeight > unfrozen_header_row[0].clientHeight) {
+					unfrozen_header_row[0].style.height = frozen_header_row[0].clientHeight+"px";
+			  	} 
+				else if (frozen_header_row[0].clientHeight < unfrozen_header_row[0].clientHeight) {
+					frozen_header_row[0].style.height = unfrozen_header_row[0].clientHeight+"px";
+				} 			   
+			   	for (let i = 0; i < frozen_rows.length; i++) {
+					if (frozen_rows[i].clientHeight > unfrozen_rows[i].clientHeight) {
+						unfrozen_rows[i].style.height = frozen_rows[i].clientHeight+"px";
+					} 
+					else if (frozen_rows[i].clientHeight < unfrozen_rows[i].clientHeight) 
+					{
+						frozen_rows[i].style.height = unfrozen_rows[i].clientHeight+"px";
+					}
+				}
+				let frozen_header_div: any = w.querySelectorAll('.ui-table-unfrozen-view .ui-table-scrollable-header-box');
+				frozen_header_div[0].setAttribute('style', 'margin-right: 0px !important'); 
+			}
+		}
+	});
+}
 }

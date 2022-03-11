@@ -24,8 +24,10 @@ import { PaginatorModule } from 'primeng/paginator';
 import { DropdownModule} from 'primeng/dropdown';
 import { RadioButtonModule } from 'primeng/radiobutton';
 
-import {MatCardModule, MatExpansionModule, MatToolbarModule, MatCheckboxModule, MatListModule, 
-  MatTabsModule, MatButtonModule, MatSidenavModule, MatTooltipModule, MatSelectModule, MatDialogModule, 
+import { ActivatedRoute, ParamMap, RouterModule } from '@angular/router';
+
+import {MatCardModule, MatExpansionModule, MatToolbarModule, MatCheckboxModule, MatListModule,
+  MatTabsModule, MatButtonModule, MatSidenavModule, MatTooltipModule, MatSelectModule, MatDialogModule,
   MatProgressSpinnerModule, MatMenuModule, MatIconModule} from '@angular/material';
 import { StripHtmlTagsPipe } from './news/strip-html-tags.pipe';
 import { ReactiveFormsModule} from '@angular/forms';
@@ -44,8 +46,8 @@ import { AngularFontAwesomeModule } from 'angular-font-awesome';
     AngularFontAwesomeModule, CommonModule, ChartModule, MatCardModule, MatExpansionModule, PaginatorModule,
     FormsModule, CheckboxModule, RadioButtonModule, TableModule, TabsModule.forRoot(),
     MatCardModule, MatToolbarModule, MatCheckboxModule, MatListModule, MatTabsModule, MatButtonModule,
-    MatSidenavModule, MatButtonModule, MatTooltipModule, DropdownModule, MatSelectModule, 
-	MatDialogModule, MatProgressSpinnerModule, ReactiveFormsModule, MatMenuModule, MatIconModule
+    MatSidenavModule, MatButtonModule, MatTooltipModule, DropdownModule, MatSelectModule,
+	MatDialogModule, MatProgressSpinnerModule, ReactiveFormsModule, MatMenuModule, MatIconModule, RouterModule
   ],
   declarations: [ NewsComponent, StripHtmlTagsPipe,
           BrowseByCaseComponent, BrowseByStudyComponent, BrowseByFileComponent,

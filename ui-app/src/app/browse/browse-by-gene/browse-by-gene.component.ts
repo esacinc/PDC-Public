@@ -68,6 +68,8 @@ export class BrowseByGeneComponent implements OnInit {
   checkboxOptions = [];
   selectedHeaderCheckbox = '';
   manifestFormat = "csv";
+  @Input() childTabChanged: string;
+  frozenColumns = [];
 
   constructor(private apollo: Apollo, private router: Router,  private dialog: MatDialog,
 				private browseByGeneService : BrowseByGeneService, private activatedRoute:ActivatedRoute) {
@@ -106,11 +108,15 @@ export class BrowseByGeneComponent implements OnInit {
 				console.log(this.ptmStatsData);
 				this.loading = false;
 				this.clearSelection();
+				this.makeRowsSameHeight();
 			});
 	  }, 1000);
   }
  
   ngOnChanges(changes: SimpleChanges){
+	if (changes && changes['childTabChanged']) {
+		this.makeRowsSameHeight();
+	}
 	if (this.newFilterValue){
 		this.filteredGenesData = [];
 		console.log(this.newFilterValue);
@@ -199,6 +205,7 @@ export class BrowseByGeneComponent implements OnInit {
 			}
 			this.loading = false;
 			this.clearSelection();
+			this.makeRowsSameHeight();
 		});
 		//@@@PDC-799: Redirecting to the NIH login page for the file authorization loses PDC state
 		// Important: This code has to be present in the last tab of the browse page. 
@@ -365,6 +372,7 @@ isDownloadDisabled(){
 			}
 			//@@@PDC-3667: "Select all pages" option issue
 			this.handleCheckboxSelections();
+			this.makeRowsSameHeight();
 		});
 	}
 
@@ -450,6 +458,9 @@ isDownloadDisabled(){
 		{field: 'locus', header: 'Locus'},
 		{field: 'num_study', header: 'No of Studies'},
 		{field: 'proteins', header: 'Proteins'}
+	  ];
+	  this.frozenColumns = [
+		{field: 'gene_name', header: 'Gene'}
 	  ];
 	  //@@@PDC-799: Redirecting to the NIH login page for the file authorization loses PDC state
 	  this.activatedRoute.queryParams.subscribe(queryParams => {
@@ -608,5 +619,41 @@ isDownloadDisabled(){
 		this.selectedGenesData.forEach(item => {if(fileIdList.indexOf(item.gene_name) !== -1){
 			this.currentPageSelectedGene.push(item.gene_name);
 		}});
+	}
+
+	onResize(event) {
+		this.makeRowsSameHeight();
+	}
+
+	//@@@PDC-4792: Increase font size in all tables to pass 508 compliance
+	makeRowsSameHeight() {
+		setTimeout(() => {
+			if (document.getElementsByClassName('ui-table-scrollable-wrapper').length) {
+				let wrapper = document.getElementsByClassName('ui-table-scrollable-wrapper');
+				for (var i = 0; i < wrapper.length; i++) {
+				    let w = wrapper.item(i) as HTMLElement;
+				    let frozen_rows: any = w.querySelectorAll('.ui-table-frozen-view .ui-table-tbody tr');
+				    let unfrozen_rows: any = w.querySelectorAll('.ui-table-unfrozen-view .ui-table-tbody tr');
+				    let frozen_header_row: any = w.querySelectorAll('.ui-table-frozen-view .ui-table-thead tr');
+				    let unfrozen_header_row: any = w.querySelectorAll('.ui-table-unfrozen-view .ui-table-thead');
+				   	if (frozen_header_row[0].clientHeight > unfrozen_header_row[0].clientHeight) {
+						unfrozen_header_row[0].style.height = frozen_header_row[0].clientHeight+"px";
+				    } 
+					else if (frozen_header_row[0].clientHeight < unfrozen_header_row[0].clientHeight) {
+						frozen_header_row[0].style.height = unfrozen_header_row[0].clientHeight+"px";
+					}				   
+				    for (let i = 0; i < frozen_rows.length; i++) {
+						if (frozen_rows[i].clientHeight > unfrozen_rows[i].clientHeight) {
+						 	unfrozen_rows[i].style.height = frozen_rows[i].clientHeight+"px";
+						} 
+						else if (frozen_rows[i].clientHeight < unfrozen_rows[i].clientHeight) {
+							frozen_rows[i].style.height = unfrozen_rows[i].clientHeight+"px";
+						}
+					}
+					let frozen_header_div: any = w.querySelectorAll('.ui-table-unfrozen-view .ui-table-scrollable-header-box');
+					frozen_header_div[0].setAttribute('style', 'margin-right: 0px !important'); 
+				}
+			}
+		});
 	}
 }

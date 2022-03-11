@@ -91,6 +91,7 @@ import { HarmonizationComponent } from './harmonization/harmonization.component'
 
 import { DataDictionaryModule } from './data-dictionary/data-dictionary.module';
 import { ApiDocumentationComponent } from './api-documentation/api-documentation.component';
+import { PublicapiDocumentationComponent } from './publicapi-documentation/publicapi-documentation.component';
 
 
 export function getAuthServiceConfigs() {
@@ -144,7 +145,8 @@ const RECAPTCHA_V3_PDC_KEY = environment.recaptcha_site_key;
 	HeatmapsComponent,
 	ForwardingComponent,
 	HarmonizationComponent,
-	ApiDocumentationComponent
+	ApiDocumentationComponent,
+	PublicapiDocumentationComponent
 
 
   ],
@@ -156,7 +158,7 @@ const RECAPTCHA_V3_PDC_KEY = environment.recaptcha_site_key;
 	BrowserModule,
 	LegacyDataModule,
 	BrowserAnimationsModule,
-	DataDictionaryModule, 
+	DataDictionaryModule,
 	HttpClientModule,
 	ApolloModule,
 	HttpLinkModule,

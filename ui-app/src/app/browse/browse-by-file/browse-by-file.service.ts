@@ -398,7 +398,7 @@ export class BrowseByFileService {
       $file_name: String!
 	  $study_id: String!
     ) {
-        filesPerStudy (file_name: $file_name, study_id: $study_id, acceptDUA: true) {
+      uiFilesPerStudy (file_name: $file_name, study_id: $study_id) {
           file_id
           file_name
           signedUrl {

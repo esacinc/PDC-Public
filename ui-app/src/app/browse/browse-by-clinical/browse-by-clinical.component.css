@@ -11,7 +11,8 @@
 }
 
 .ui-datatable-tableheader {
-    background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%) !important;
+    /* background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%) !important; */
+    background-color: #3A8BAF !important;
     border:0px !important;
     color: white !important;
 }
@@ -22,6 +23,10 @@
     float: left;
     align-items: center;
  }
+
+ :host /deep/ .ui-table table {
+    table-layout: unset !important;
+ } 
 
  /* @@@PDC-551: Need smaller font for paginator pages on Browse page tables to fit 3 digit numbers */
  :host /deep/ .ui-paginator .ui-paginator-pages .ui-paginator-page{ 
@@ -54,3 +59,31 @@
  .genomicLbl {
      margin-top: 5%;
  }
+
+ :host /deep/ .ui-table tr td,
+ :host /deep/ .ui-table-thead tr {
+   font-size: 14px !important;
+ }
+
+ @media only screen  and (max-width: 2500px) {
+    :host /deep/ .ui-table-unfrozen-view .ui-table-thead th,
+    :host /deep/ .ui-table-unfrozen-view .ui-table-tbody td {
+        min-width: 130px !important;
+        max-width: 130px !important;
+        width: 130px !important;
+    }
+}
+
+@media only screen  and (min-width: 2500px) {
+    :host /deep/ .ui-table-unfrozen-view .ui-table-thead th {
+        min-width: 130px !important;
+        max-width: 130px !important;
+        width: 130px !important;
+    }
+
+    :host /deep/ .ui-table-unfrozen-view .ui-table-tbody td {
+        min-width: 138px !important;
+        max-width: 138px !important;
+        width: 138px !important;
+    }
+}

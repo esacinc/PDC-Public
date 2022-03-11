@@ -102,14 +102,15 @@ constructor(private apollo: Apollo) {
 	//@@@PDC-1883: Add external references to study summary page
 	//@@@PDC-2939 update study summary page to display other versions
 	//@@@PDC-2998 - update UI to include API changes for study versions new feature
-	getFilteredStudyData(study_name = '', pdc_study_id = '', study_version = ''){
+	getFilteredStudyData(study_name = '', pdc_study_id = '', study_version = '', source = ''){
 		console.log("getFilteredStudyData - " + study_name + " " + pdc_study_id);
 		return this.apollo.watchQuery<QueryAllStudiesData>({
 			query: this.filteredStudyDataQuery,
 			variables: {
 				study_name: study_name,
 				pdc_study_id: pdc_study_id,
-				study_version: study_version
+				study_version: study_version,
+				source: source
 			}
 		})
 		.valueChanges
@@ -123,8 +124,8 @@ constructor(private apollo: Apollo) {
 	//@@@PDC-1358  add study uuid	
 	//@@@PDC-1883: Add external references to study summary page
 	filteredStudyDataQuery = gql`
-		query paginatedUIStudyQuery($study_name: String!, $pdc_study_id: String!, $study_version: String!){
-			getPaginatedUIStudy(study_name: $study_name, pdc_study_id: $pdc_study_id, study_version: $study_version) {
+		query paginatedUIStudyQuery($study_name: String!, $pdc_study_id: String!, $study_version: String!, $source: String!){
+			getPaginatedUIStudy(study_name: $study_name, pdc_study_id: $pdc_study_id, study_version: $study_version, source: $source) {
 				total
 				uiStudies {
 					study_id
@@ -179,8 +180,8 @@ constructor(private apollo: Apollo) {
 		
 	//@@@PDC-1123 call ui wrapper API
 	workflowMetadataQuery = gql`
-					query WorkflowMetadataQery($study_id: String!){
-						uiWorkflowMetadata(study_id: $study_id) {
+					query WorkflowMetadataQery($study_id: String!, $source: String!){
+						uiWorkflowMetadata(study_id: $study_id, source: $source) {
 						  workflow_metadata_submitter_id
 						  study_submitter_id
 						  protocol_submitter_id
@@ -211,11 +212,12 @@ constructor(private apollo: Apollo) {
 						}
 				}`;
 	
-	getWorkflowMetadata(filters:any){
+	getWorkflowMetadata(filters:any, source = ''){
 		return this.apollo.watchQuery<WorkflowMetadata>({
 			query: this.workflowMetadataQuery,
 			variables: {
-				study_id: filters
+				study_id: filters,
+				source: source
 			}
 		})
 		.valueChanges
@@ -226,8 +228,8 @@ constructor(private apollo: Apollo) {
 	
 	//PDC-674 - UI changes to accomodate new protocol structure
 	protocolQuery = gql` 
-		query ProtocolQuery($study_id: String!){
-		  uiProtocol (study_id: $study_id ){
+		query ProtocolQuery($study_id: String!, $source: String!){
+		  uiProtocol (study_id: $study_id, source: $source ){
 			protocol_id
 			protocol_submitter_id
 			program_id
@@ -278,11 +280,12 @@ constructor(private apollo: Apollo) {
 		}
 	}`;
 	
-	getProtocolData(filters:any){
+	getProtocolData(filters:any, source = ''){
 		return this.apollo.watchQuery<ProtocolData>({
 			query: this.protocolQuery,
 			variables: {
-				study_id: filters
+				study_id: filters,
+				source: source
 			}
 		})
 		.valueChanges
@@ -292,19 +295,20 @@ constructor(private apollo: Apollo) {
 	}
 	
 	publicationsQuery = gql`
-						query PublicationsQuery($study_id: String!){
-							uiPublication (study_id: $study_id ){
+						query PublicationsQuery($study_id: String!, $source: String!){
+							uiPublication (study_id: $study_id, source: $source){
 								publication_id
 								pubmed_id
 								title
 							}
 						}`;
 						
-	getPublicationsData(filters:any){
+	getPublicationsData(filters:any, source = ''){
 		return this.apollo.watchQuery<QueryPublicationData>({
 			query: this.publicationsQuery,
 			variables: {
-				study_id: filters
+				study_id: filters,
+				source: source
 			}
 		})
 		.valueChanges
@@ -315,19 +319,20 @@ constructor(private apollo: Apollo) {
 	
     //@@@PDC-1123 call ui wrapper API
 	filesCountPerStudyQuery = gql`
-						query FilesCountsQuery($study_id: String!){
-							uiFilesCountPerStudy (study_id: $study_id ){
+						query FilesCountsQuery($study_id: String!, $source: String!){
+							uiFilesCountPerStudy (study_id: $study_id, source: $source ){
 								study_submitter_id
 								file_type
 								files_count
 								data_category 
 							}
 						}`;
-	getFilesCounts(filters:any){
+	getFilesCounts(filters:any, source = ''){
 		return this.apollo.watchQuery<FilesCountsPerStudyData>({
 			query: this.filesCountPerStudyQuery,
 			variables: {
-				study_id: filters
+				study_id: filters,
+				source: source
 			}
 		})
 		.valueChanges
@@ -339,11 +344,11 @@ constructor(private apollo: Apollo) {
 	//@@@PDC-1160: Add cases and aliquots to the study summary page
 	//@@@PDC-1305 add age_at_diagnosis et al 	
 	filteredCinicalDataPaginatedQuery = gql`
-	query FilteredClinicalDataPaginated($offset_value: Int, $limit_value: Int, $sort_value: String, $program_name_filter: String!, $project_name_filter: String!, $study_name_filter: String!, $disease_filter: String!, $filterValue: String!, $analytical_frac_filter: String!, $exp_type_filter: String!, $ethnicity_filter: String!, $race_filter: String!, $gender_filter: String!, $tumor_grade_filter: String!, $sample_type_filter: String!, $acquisition_type_filter: String!, $data_category_filter: String!, $file_type_filter: String!, $access_filter: String!, $downloadable_filter: String!, $case_status_filter: String!, $biospecimen_status_filter: String!){
+	query FilteredClinicalDataPaginated($offset_value: Int, $limit_value: Int, $sort_value: String, $program_name_filter: String!, $project_name_filter: String!, $study_name_filter: String!, $disease_filter: String!, $filterValue: String!, $analytical_frac_filter: String!, $exp_type_filter: String!, $ethnicity_filter: String!, $race_filter: String!, $gender_filter: String!, $tumor_grade_filter: String!, $sample_type_filter: String!, $acquisition_type_filter: String!, $data_category_filter: String!, $file_type_filter: String!, $access_filter: String!, $downloadable_filter: String!, $case_status_filter: String!, $biospecimen_status_filter: String!, $source: String!){
 		getPaginatedUIClinical(offset: $offset_value, limit: $limit_value, sort: $sort_value, program_name: $program_name_filter , project_name: $project_name_filter, 
 								study_name: $study_name_filter, disease_type: $disease_filter, primary_site: $filterValue, analytical_fraction: $analytical_frac_filter, 
 								experiment_type: $exp_type_filter, ethnicity: $ethnicity_filter, race: $race_filter, gender: $gender_filter, 
-								tumor_grade: $tumor_grade_filter, sample_type: $sample_type_filter, acquisition_type: $acquisition_type_filter, data_category: $data_category_filter, file_type: $file_type_filter, access: $access_filter, downloadable: $downloadable_filter, case_status: $case_status_filter, biospecimen_status: $biospecimen_status_filter) {
+								tumor_grade: $tumor_grade_filter, sample_type: $sample_type_filter, acquisition_type: $acquisition_type_filter, data_category: $data_category_filter, file_type: $file_type_filter, access: $access_filter, downloadable: $downloadable_filter, case_status: $case_status_filter, biospecimen_status: $biospecimen_status_filter, source: $source) {
 			total
 			uiClinical{
 				case_submitter_id
@@ -383,7 +388,7 @@ constructor(private apollo: Apollo) {
 		}
 	}`;
 	
-	getFilteredClinicalDataPaginated(offset: number, limit:number, sort: string, filters:any){
+	getFilteredClinicalDataPaginated(offset: number, limit:number, sort: string, filters:any, source = ''){
 		let filter_ethnicity = filters["ethnicity"];
 		if (filter_ethnicity === "Empty value"){
 		filter_ethnicity = "";
@@ -416,7 +421,8 @@ constructor(private apollo: Apollo) {
 			access_filter: filters["access"] || '',
 			downloadable_filter: filters["downloadable"] || '',
 			case_status_filter: filters["case_status"] || '',
-			biospecimen_status_filter: filters["biospecimen_status"] || ''
+			biospecimen_status_filter: filters["biospecimen_status"] || '',
+			source: source
 		}
 		})
 		.valueChanges
@@ -427,12 +433,12 @@ constructor(private apollo: Apollo) {
 
 	//@@@PDC-1160: Add cases and aliquots to the study summary page
 	filteredCasesPaginatedQuery = gql`
-	query FilteredCasesDataPaginated($offset_value: Int, $limit_value: Int, $sort_value: String, $program_name_filter: String!, $project_name_filter: String!, $study_name_filter: String!, $disease_filter: String!, $filterValue: String!, $analytical_frac_filter: String!, $exp_type_filter: String!,  $ethnicity_filter: String!, $race_filter: String!, $gender_filter: String!, $tumor_grade_filter: String!, $sample_type_filter: String!, $acquisition_type_filter: String!, $data_category_filter: String!, $file_type_filter: String!, $access_filter: String!, $downloadable_filter: String!, $biospecimen_status_filter: String!, $case_status_filter: String!){
+	query FilteredCasesDataPaginated($offset_value: Int, $limit_value: Int, $sort_value: String, $program_name_filter: String!, $project_name_filter: String!, $study_name_filter: String!, $disease_filter: String!, $filterValue: String!, $analytical_frac_filter: String!, $exp_type_filter: String!,  $ethnicity_filter: String!, $race_filter: String!, $gender_filter: String!, $tumor_grade_filter: String!, $sample_type_filter: String!, $acquisition_type_filter: String!, $data_category_filter: String!, $file_type_filter: String!, $access_filter: String!, $downloadable_filter: String!, $biospecimen_status_filter: String!, $case_status_filter: String!, $source: String!){
 		getPaginatedUICase(offset: $offset_value, limit: $limit_value, sort: $sort_value, program_name: $program_name_filter , 
 							project_name: $project_name_filter, study_name: $study_name_filter, disease_type: $disease_filter,
 							primary_site: $filterValue, analytical_fraction: $analytical_frac_filter, experiment_type: $exp_type_filter,
 							ethnicity: $ethnicity_filter, race: $race_filter, gender: $gender_filter, tumor_grade: $tumor_grade_filter,
-							sample_type: $sample_type_filter, acquisition_type: $acquisition_type_filter, data_category: $data_category_filter, file_type: $file_type_filter, access: $access_filter, downloadable: $downloadable_filter, biospecimen_status: $biospecimen_status_filter, case_status: $case_status_filter) {
+							sample_type: $sample_type_filter, acquisition_type: $acquisition_type_filter, data_category: $data_category_filter, file_type: $file_type_filter, access: $access_filter, downloadable: $downloadable_filter, biospecimen_status: $biospecimen_status_filter, case_status: $case_status_filter, source: $source) {
 			total					
 			uiCases{
 				aliquot_submitter_id 
@@ -460,7 +466,7 @@ constructor(private apollo: Apollo) {
 			}
 		}`;
 
-	getFilteredCasesPaginated(offset: number, limit: number, sort: string, filters:any){
+	getFilteredCasesPaginated(offset: number, limit: number, sort: string, filters:any, source = ''){
 		let filter_ethnicity = filters["ethnicity"];
 		if (filter_ethnicity === "Empty value"){
 		filter_ethnicity = "";
@@ -493,7 +499,8 @@ constructor(private apollo: Apollo) {
 			access_filter: filters["access"] || '',
 			downloadable_filter: filters["downloadable"] || '',
 			biospecimen_status_filter: filters["biospecimen_status"] || '',
-			case_status_filter: filters["case_status"] || ''
+			case_status_filter: filters["case_status"] || '',
+			source: source
 		}
 		})
 		.valueChanges
@@ -506,8 +513,8 @@ constructor(private apollo: Apollo) {
 	//@@@PDC-3253 call api with acceptDUA
 	//@@@PDC-3900 new studyExperimentalDesign API
 	studyExperimentalDesignQuery = gql`
-	query StudyExperimentalDesign($study_id_value: String) {
-		studyExperimentalDesign(study_id: $study_id_value, acceptDUA: true) {
+	query StudyExperimentalDesign($study_id_value: String, $source: String!) {
+		uiStudyExperimentalDesign(study_id: $study_id_value, source: $source) {
 			study_id 
 			study_submitter_id    
 			study_run_metadata_id
@@ -621,11 +628,12 @@ constructor(private apollo: Apollo) {
 		}
 	}`;
 
-	getStudyExperimentalDesign(study_id:any){
+	getStudyExperimentalDesign(study_id:any, source = ''){
 		return this.apollo.watchQuery<QueryStudyExperimentalDesign>({
 		query: this.studyExperimentalDesignQuery,
 		variables: {
-			study_id_value: study_id
+			study_id_value: study_id,
+			source: source
 		}
 		})
 		.valueChanges
@@ -636,8 +644,8 @@ constructor(private apollo: Apollo) {
 	
 	//@@@PDC-3253 call ui wrapper api
 	biospecimenPerStudyQuery = gql`
-	query BiospecimenPerStudy($study_id_value: String) {
-		uiBiospecimenPerStudy(study_id: $study_id_value) {
+	query BiospecimenPerStudy($study_id_value: String, $source: String!) {
+		uiBiospecimenPerStudy(study_id: $study_id_value, source: $source) {
 			aliquot_id 
 			sample_id
 			case_id
@@ -657,11 +665,12 @@ constructor(private apollo: Apollo) {
 		}
 	}`;
 
-	getBiospecimenPerStudy(study_id:any){
+	getBiospecimenPerStudy(study_id:any, source = ''){
 		return this.apollo.watchQuery<QueryBiospecimenPerStudy>({
 		query: this.biospecimenPerStudyQuery,
 		variables: {
-			study_id_value: study_id
+			study_id_value: study_id,
+			source: source
 		}
 		})
 		.valueChanges
@@ -674,8 +683,8 @@ constructor(private apollo: Apollo) {
 	//@@@PDC-1883: Add external references to study summary page
 	//@@@PDC-3253 call ui wrapper api
 	entityReferenceQuery = gql`
-	query EntityReferenceQueryData($entity_type_filter: String!, $entity_id_filter: String!, $reference_type_filter: String!){
-		uiPdcEntityReference(entity_type: $entity_type_filter , entity_id: $entity_id_filter, reference_type: $reference_type_filter) {
+	query EntityReferenceQueryData($entity_type_filter: String!, $entity_id_filter: String!, $reference_type_filter: String!, $source: String!){
+		uiPdcEntityReference(entity_type: $entity_type_filter , entity_id: $entity_id_filter, reference_type: $reference_type_filter, source: $source) {
 			reference_id
 			entity_type
 			entity_id
@@ -690,13 +699,14 @@ constructor(private apollo: Apollo) {
 	}`;
 
 	//@@@PDC-1883: Add external references to study summary page
-	getEntityReferenceData(entity_type, entity_id, reference_type){
+	getEntityReferenceData(entity_type, entity_id, reference_type, source = ''){
 		return this.apollo.watchQuery<EntityReferencePerStudy>({
 		query: this.entityReferenceQuery,
 		variables: {
 			entity_type_filter: entity_type,
 			entity_id_filter: entity_id,
-			reference_type_filter: reference_type
+			reference_type_filter: reference_type,
+			source: source
 		}
 		})
 		.valueChanges

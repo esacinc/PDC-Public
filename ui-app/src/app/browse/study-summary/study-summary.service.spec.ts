@@ -394,19 +394,19 @@ describe("StudySummaryService", () => {
     [StudySummaryService],
     (service: StudySummaryService) => {
       service.getStudyExperimentalDesign("S044-1").subscribe(data => {
-        expect(data["studyExperimentalDesign"]).toBeDefined();
-        expect(data["studyExperimentalDesign"].length).toBe(1);
-        expect(data["studyExperimentalDesign"][0].study_submitter_id).toBe(
+        expect(data["uiStudyExperimentalDesign"]).toBeDefined();
+        expect(data["uiStudyExperimentalDesign"].length).toBe(1);
+        expect(data["uiStudyExperimentalDesign"][0].study_submitter_id).toBe(
           "S044-1"
         );
-        expect(data["studyExperimentalDesign"][0].experiment_type).toBe("TMT10");
+        expect(data["uiStudyExperimentalDesign"][0].experiment_type).toBe("TMT10");
       });
 
       const op = controller.expectOne(service.studyExperimentalDesignQuery);
 
       op.flush({
         data: {
-          studyExperimentalDesign: [
+          uiStudyExperimentalDesign: [
             {
               study_run_metadata_id: "0127c578-2075-11e9-b7f8-0a80fada099c",
               study_run_metadata_submitter_id: "S044-1-13",
@@ -504,6 +504,147 @@ describe("StudySummaryService", () => {
               files_count: 13
             }
           ]
+        }
+      });
+
+      controller.verify();
+    }
+  ));
+
+  it("test getEntityReferenceData", inject(
+    [StudySummaryService],
+    (service: StudySummaryService) => {
+      service.getEntityReferenceData("study", "dbe94609-1fb3-11e9-b7f8-0a80fada099c", "external", "").subscribe(data => {
+        expect(data["uiPdcEntityReference"]).toBeDefined();
+        expect(data["uiPdcEntityReference"].length).toBe(1);
+        expect(data["uiPdcEntityReference"][0].entity_type).toBe("study");
+        expect(data["uiPdcEntityReference"][0].reference_resource_shortname).toBe("CPTAC");
+      });
+
+      const op = controller.expectOne(service.entityReferenceQuery);
+
+      op.flush({
+        data: {
+          uiPdcEntityReference: [
+            {
+              reference_id: "25b2ff66-88bc-11ea-bc9a-0a16d369a41f",
+              entity_type: "study",
+              entity_id: "dbe94609-1fb3-11e9-b7f8-0a80fada099c",
+              reference_type: "external",
+              reference_entity_type: "study",
+              reference_entity_alias: "S044",
+              reference_resource_name: "Clinical Proteomic Tumor Analysis Consortium",
+              reference_resource_shortname: "CPTAC",
+              reference_entity_location: "https://cptac-data-portal.georgetown.edu/cptac/s/S044\r",
+              submitter_id_name: "CPTAC CCRCC Discovery Study - Proteome",
+            }
+          ]
+        }
+      });
+
+      controller.verify();
+    }
+  ));
+
+  it("test getFilteredCasesPaginated", inject(
+    [StudySummaryService],
+    (service: StudySummaryService) => {
+      service.getFilteredCasesPaginated(0, 10, "", [], "").subscribe(data => {
+        expect(data["getPaginatedUICase"]).toBeDefined();
+        expect(data["getPaginatedUICase"].total).toBe(4000);
+        expect(data["getPaginatedUICase"]["uiCases"][0].aliquot_submitter_id).toBe("PDAC233");
+      });
+
+      const op = controller.expectOne(service.filteredCasesPaginatedQuery);
+
+      op.flush({
+        data: {
+          getPaginatedUICase: {
+            total: 4000,
+            uiCases: [
+            {
+              aliquot_submitter_id: "PDAC233",
+              sample_submitter_id: "PDAC233",
+              case_id: "02dcc58d-656d-49af-a5bc-154bf2e86dee",
+              case_submitter_id: "PDAC233",
+              project_name: "Proteogenomics Analysis and Mechanism Study to Develop Precision Medicine for Treatment-Resistant Pa",
+              program_name: "Korea University",
+              sample_type: "Primary Tumor",
+              disease_type: "Pancreatic Adenocarcinoma",
+              primary_site: "Pancreas",
+              aliquot_status: "Qualified",
+              case_status: "Qualified",
+              sample_status: "Qualified",
+            }
+          ],
+          pagination: {
+            count: 10,
+            sort: "",
+            from: 0,
+            page: 1,
+            total: 4000,
+            pages: 400,
+            size: 10
+          }
+        }
+        }
+      });
+
+      controller.verify();
+    }
+  ));
+
+  it("test getFilteredClinicalDataPaginated", inject(
+    [StudySummaryService],
+    (service: StudySummaryService) => {
+      service.getFilteredClinicalDataPaginated(0, 10, "", [], "").subscribe(data => {
+        expect(data["getFilteredClinicalDataPaginated"]).toBeDefined();
+        expect(data["getFilteredClinicalDataPaginated"].total).toBe(2508);
+        expect(data["getFilteredClinicalDataPaginated"]["uiClinical"][0].case_submitter_id).toBe("PDAC241");
+        expect(data["getFilteredClinicalDataPaginated"]["uiClinical"][0].externalReferences).toBe(null);
+      });
+
+      const op = controller.expectOne(service.filteredCinicalDataPaginatedQuery);
+
+      op.flush({
+        data: {
+          getPaginatedUICase: {
+            total: 2508,
+            uiClinical: [
+            {
+              case_submitter_id: "PDAC241",
+              external_case_id: null,
+              ethnicity: "Not Reported",
+              gender: "Male",
+              race: "Asian",
+              morphology: "8500/3",
+              primary_diagnosis: "Pancreatic endocrine tumor, malignant",
+              site_of_resection_or_biopsy: "Not Reported",
+              tissue_or_organ_of_origin: "Pancreas, NOS",
+              tumor_grade: "Not Reported",
+              tumor_stage: "Stage II",
+              age_at_diagnosis: 27740,
+              classification_of_tumor: null,
+              days_to_recurrence: "260.00",		
+              case_id: "a5418e71-773e-4d52-9191-acebd509970f",
+              disease_type: "Pancreatic Adenocarcinoma",
+              primary_site: "Pancreas",
+              program_name: "Korea University",
+              project_name: "Proteogenomics Analysis and Mechanism Study to Develop Precision Medicine for Treatment-Resistant Pa",
+              status: "Qualified",
+              externalReferences: []
+            }
+          ],
+          pagination: {
+            count: 10,
+            sort: "",
+            from: 0,
+            page: 1,
+            total: 2508,
+            pages: 251,
+            size: 10
+          }
+        }
         }
       });
 

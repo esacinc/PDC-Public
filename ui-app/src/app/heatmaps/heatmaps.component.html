@@ -1,10 +1,10 @@
-<div class="container-fluid ui-helper-clearfix button-container-fluid" style="overflow-x: scroll;min-width:1200px; font-family:'Lato'; font-size: 14px!important;">
+<div (window:resize)="onResize($event)" class="container-fluid ui-helper-clearfix button-container-fluid heatmaps-page" style="overflow-x: scroll;min-width:1200px; font-family:'Lato'; font-size: 14px!important;">
 	<div class="container-fluid ui-helper-clearfix button-container-fluid">
 	  <mat-card>
 	    <mat-card-title style="padding-left: 0!important;padding-bottom:10px!important">
 		  <div style="font-size:20px;font-family: 'LatoBold';">Biological interpretation of PDC protein expression data through heatmaps</div>
 	    </mat-card-title>
-	    <mat-card-content class="card card-body" style="border: none;">
+	    <mat-card-content class="card card-body" style="border: none;font-size: 15px !important">
 			<p>The PDC processes the submitted raw mass spectrometry data through a common data analysis pipeline (CDAP) to produce derived analysis 
 			results which can be used to identify patterns of protein and post-translational modifications (PTMs) abundance. On the PDC portal, 
 			these results can be visualized as a heatmap, useful for identifying correlated clusters of proteins (or PTMs) and/or samples.</p>
@@ -73,35 +73,45 @@
 
 	<p-table class="table-striped ui-datatable-odd" #dt [columns]="cols"  [value]="filteredHeatmapsData" [lazy]="true" [totalRecords]="totalRecords"
 				[loading]="loading" [resizableColumns]="true" columnResizeMode="expand" [style]="{'width':'100%', 'min-width':'1000px'}"
-				(onLazyLoad)="loadHeatmaps($event)" (sortFunction)="heatmapsSortTable($event)" id="heatmapsDataTable" >
+				(onLazyLoad)="loadHeatmaps($event)" (sortFunction)="heatmapsSortTable($event)" id="heatmapsDataTable" 
+				scrollHeight="500px" [autoLayout]="true" [frozenColumns]="frozenColumns" [scrollable]="true" frozenWidth="150px">
 		<ng-template pTemplate="caption">
 		</ng-template>
-        <ng-template style="font-size: 12px; background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%);" pTemplate="header" let-columns>
-            <tr style="font-size: 12px;">          
-                <th class="ui-datatable-tableheader" style="width:10%;word-break: break-all;" [pSortableColumn]="cols[0].field">Study ID<p-sortIcon [field]="cols[0].field" ariaLabel="Sort Study ID in ascending/descending order"></p-sortIcon></th>
-			    <th class="ui-datatable-tableheader" style="width:25%" [pSortableColumn]="cols[1].field">Study Name<p-sortIcon [field]="cols[1].field" ariaLabel="Sort Study Name in ascending/descending order"></p-sortIcon></th>
-			    <th class="ui-datatable-tableheader" style="width:20%" [pSortableColumn]="cols[2].field">Disease Type<p-sortIcon [field]="cols[2].field" ariaLabel="Sort Disease Type in ascending/descending order"></p-sortIcon></th>
-			    <th class="ui-datatable-tableheader" style="width:10%" [pSortableColumn]="cols[3].field">Primary Site<p-sortIcon [field]="cols[3].field" ariaLabel="Sort Primary Site in ascending/descending order"></p-sortIcon></th>
-				<th class="ui-datatable-tableheader" style="width:10%" [pSortableColumn]="cols[4].field">Analytical Fraction<p-sortIcon [field]="cols[4].field" ariaLabel="Sort Analytical Fraction in ascending/descending order"></p-sortIcon></th>
-				<th class="ui-datatable-tableheader" style="width:10%" [pSortableColumn]="cols[5].field">Experiment Type<p-sortIcon [field]="cols[5].field" ariaLabel="Sort Experiment Type in ascending/descending order"></p-sortIcon></th>
-				<th class="ui-datatable-tableheader" style="width:15%" >Available Heatmap</th>
+		<ng-template pTemplate="frozenheader" let-frozenColumns>
+			<tr>
+				<th class="ui-datatable-tableheader" style="word-break: break-all;" [pSortableColumn]="cols[0].field">Study ID<p-sortIcon [field]="cols[0].field" ariaLabel="Sort Study ID in ascending/descending order"></p-sortIcon></th>
+			</tr>
+		</ng-template>
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+			    <th class="ui-datatable-tableheader" [pSortableColumn]="cols[1].field">Study Name<p-sortIcon [field]="cols[1].field" ariaLabel="Sort Study Name in ascending/descending order"></p-sortIcon></th>
+			    <th class="ui-datatable-tableheader" [pSortableColumn]="cols[2].field">Disease Type<p-sortIcon [field]="cols[2].field" ariaLabel="Sort Disease Type in ascending/descending order"></p-sortIcon></th>
+			    <th class="ui-datatable-tableheader" [pSortableColumn]="cols[3].field">Primary Site<p-sortIcon [field]="cols[3].field" ariaLabel="Sort Primary Site in ascending/descending order"></p-sortIcon></th>
+				<th class="ui-datatable-tableheader" [pSortableColumn]="cols[4].field">Analytical Fraction<p-sortIcon [field]="cols[4].field" ariaLabel="Sort Analytical Fraction in ascending/descending order"></p-sortIcon></th>
+				<th class="ui-datatable-tableheader" [pSortableColumn]="cols[5].field">Experiment Type<p-sortIcon [field]="cols[5].field" ariaLabel="Sort Experiment Type in ascending/descending order"></p-sortIcon></th>
+				<th class="ui-datatable-tableheader" >Available Heatmap</th>
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-heatmapData let-columns="columns">
-            <tr style="font-size: 11px;" [pSelectableRow]="caseData" >           
-                <td style="width:10%; white-space: normal;">
+		<ng-template pTemplate="frozenbody" let-heatmapData let-frozenColumns>
+            <tr [pSelectableRow]="heatmapData">
+                <td style="white-space: normal;">
 					<a href="javascript:void(0);" (click)="showStudySummary(heatmapData.pdc_study_id, heatmapData.study_id, heatmapData.submitter_id_name)">{{heatmapData.pdc_study_id }}</a>
-				</td>
-                <td style="width:25%;word-wrap: break-word; white-space: normal;">{{heatmapData.submitter_id_name}}</td>
-				<td style="width:20%;word-wrap: break-word; white-space: normal;">
+				</td> 
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-heatmapData let-columns="columns">
+            <tr [pSelectableRow]="caseData" >           
+                <td id="{{heatmapData.submitter_id_name}}" style="word-wrap: break-word; white-space: normal;">{{heatmapData.submitter_id_name}}</td>
+				<td style="word-wrap: break-word; white-space: normal;">
 					<span *ngIf="disease != 'Other'">{{heatmapData.disease_type}}<br></span>
 				</td>
-				<td style="width:10%;word-wrap: break-word; white-space: normal;">
+				<td style="word-wrap: break-word; white-space: normal;">
 					<span *ngIf="primary_site != 'Not Reported'">{{heatmapData.primary_site}}</span>
 				</td>
-                <td style="width:10%;word-wrap: break-word; white-space: normal;">{{heatmapData.analytical_fraction}}</td>
-				<td style="width:10%;word-wrap: break-word; white-space: normal;">{{heatmapData.experiment_type}}</td>
-                <td style="width:15%;word-wrap: break-word; white-space: normal;">
+                <td style="word-wrap: break-word; white-space: normal;">{{heatmapData.analytical_fraction}}</td>
+				<td style="word-wrap: break-word; white-space: normal;">{{heatmapData.experiment_type}}</td>
+                <td style="word-wrap: break-word; white-space: normal;">
 				  <div class="row justify-content-center align-items-center">
 				    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 						<div *ngFor="let mapFile of heatmapData.heatmapFiles">

@@ -113,7 +113,7 @@ export class WelcomePageComponent implements OnInit {
 	  if (sessionStorage.getItem("loginToken") == "true") {
 			this.router.navigate(['pdc']);
 		}
-	  // If the user uses eRA/NIH login, it will be returned back bu pdcapi with uid and token parameter defined
+	  // If the user uses eRA/NIH login, it will be returned back bu pdcapi with uid parameter defined
 	this.activeRoute.queryParams.subscribe(queryParams => {
 		console.log(queryParams);
 		if (queryParams.uid && queryParams.token) {

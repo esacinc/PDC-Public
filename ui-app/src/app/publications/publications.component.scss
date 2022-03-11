@@ -114,3 +114,13 @@
 /deep/ .mat-expansion-panel-header {
 	height:25px!important;
 }
+
+/deep/ {
+	@media not all and (min-resolution:.001dpcm)
+	{ @supports (-webkit-appearance:none) and (stroke-color:transparent) {
+
+		.safari_only { 
+		  height: 68px !important;
+		}
+	}}
+}

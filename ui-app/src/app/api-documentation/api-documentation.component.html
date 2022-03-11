@@ -1,66 +1,5 @@
 <div class="pageContent">
 
-
-				  <!--<div class="nav-bar">
-
-                    <div class="navbar">
-                     <div class="dropdown">
-                        <button class="dropbtn">Dropdown
-                          <i class="fa fa-caret-down"></i>
-                        </button>
-                        <div class="dropdown-content">
-                          <a href="#">Link 1</a>
-                          <a href="#">Link 2</a>
-                          <a href="#">Link 3</a>
-                        </div>
-                      </div>
-
-					  <div class="dropdown">
-                        <button class="dropbtn">HELP
-                          <i class="fa fa-caret-down"></i>
-                        </button>
-                        <div class="dropdown-content">
-                          <a href="/data-dictionary/dictionary.html">Data Model and Dictionary</a>
-                          <a href="/data-dictionary/apidocumentation.html">API Documentation</a>
-						  <a href="/pdc/faq">Frequently Asked Questions</a>
-						  <a href="/pdc/faq/Files_Download">Available Data Types and Files</a>
-						  <a href="/pdc/submit-data">How to Submit Data</a>
-						  <a href="https://list.nih.gov/cgi-bin/wa.exe?SUBED1=PDC-ANNOUNCE-L&A=1">Subscribe to PDC mailing list</a>
-						  <a href="https://drive.google.com/file/d/1k_sPoPuhusZPRDJWkVecWEnyCqvQm8nA/view?ths=true">Software Release Notes</a>
-						  <a href="https://docs.google.com/document/d/1K8rSin-9KrDS08vB3Tpnfcch_NMK78MAt27rpkdM-HE/view?ths=true">Data Release Notes</a>
-						  <a href="mailto:PDCHelpDesk@mail.nih.gov?Subject=PDC Help">Contact Us</a>
-						  <a href="https://groups.google.com/a/esacinc.com/forum/#!forum/pdc-mvp-feedback">Discussion Forum</a>
-                        </div>
-                      </div>
-                      <a href="/pdc/about">ABOUT</a>
-					  <div class="dropdown">
-                        <button class="dropbtn">SUBMIT DATA
-                          <i class="fa fa-caret-down"></i>
-                        </button>
-                        <div class="dropdown-content">
-                          <a href="/pdc/submit-data">How to Submit Data</a>
-                          <a href="/pdc/request-data-submission">Request Data Submission</a>
-                        </div>
-                      </div>
-                      <a href="/pdc/publications">PUBLICATIONS</a>
-                      <a href="/pdc/data-use-guidenlines">DATA USE</a>
-					  <div class="dropdown">
-                        <button class="dropbtn">ANALYSIS
-                          <i class="fa fa-caret-down"></i>
-                        </button>
-                        <div class="dropdown-content">
-                          <a href="/pdc/explore-quantitation-data">Explore Quantitation Data</a>
-                          <a href="/jbrowse/">Peptide Genome mapping</a>
-                          <a href="/data-dictionary/harmonization.html">Common Data Analysis Pipeline (CDAP)</a>
-						  <a href="http://pepquery.esacinc.com/pepquery">Pepquery</a>
-                        </div>
-                      </div>
-                      <a href="/pdc/browse">BROWSE</a>
-                      <a href="/pdc">HOME</a>
-                    </div>
-
-                  </div>-->
-
                   <div class="contentBG">
                   </div>
                   <div class="contentArea" style="margin-top:-150px!important;" >
@@ -78,15 +17,15 @@
 
                          On this page:
 
-                         <ul class = "externalPageLinks">
-                         <li (click)="moveToGettingStartedDocumentationDiv()"><a style="color:#246A92">Getting started</a></li>
-                         <li (click)="moveToEndpointDocumentationDiv()"><a style="color:#246A92">Endpoint</a></li>
-                         <li (click)="moveToAuthenticationDocumentationDiv()"><a  style="color:#246A92">Authentication</a></li>
-                         <li (click)="moveToPerformingRequestsDocumentationDiv()"><a style="color:#246A92">Performing requests with curl</a></li>
-                         <li (click)="moveToSchemaDocumentationDiv()"><a style="color:#246A92" >Schema</a></li>
-                         <li (click)="moveToGraphqlDocumentationDiv()"><a style="color:#246A92" >GraphQL+ Python Example</a></li>
-                         <li (click)="moveToLearningMoreDocumentationDiv()"><a style="color:#246A92">Learning more about GraphQL</a></li>
-                         <li ><a href="/data-dictionary/publicapi-documentation/" target="_blank">Public API Documentation</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                         <ul class="externalPageLinks">
+                         <li><a style="color:#246A92" [routerLink]="['/api-documentation']" fragment="Getting_started">Getting started</a></li>
+                         <li><a style="color:#246A92" [routerLink]="['/api-documentation']" fragment="Endpoint">Endpoint</a></li>
+                         <li><a  style="color:#246A92" [routerLink]="['/api-documentation']" fragment="Authentication">Authentication</a></li>
+                         <li><a style="color:#246A92" [routerLink]="['/api-documentation']" fragment="Performing_requests">Performing requests with curl</a></li>
+                         <li><a style="color:#246A92" [routerLink]="['/api-documentation']" fragment="Schema">Schema</a></li>
+                         <li><a style="color:#246A92" [routerLink]="['/api-documentation']" fragment="GraphQL">GraphQL+ Python Example</a></li>
+                         <li><a style="color:#246A92" [routerLink]="['/api-documentation']" fragment="Learning_more">Learning more about GraphQL</a></li>
+                         <li><a href="/data-dictionary/publicapi-documentation/" target="_blank">Public API Documentation</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                               <a href="/data-dictionary/publicapi-documentation/" target="_blank"><button id="documentationLink">TRY IT NOW!</button></a>
                           </li>
                          <li><a href="/API_documentation/PDC_clustergram.html" target="_blank">Clustergram help page</a></li>
@@ -105,7 +44,7 @@
 						</ul>
 					  </div>
 					  <!-- @@@PDC-2485 point to dev graghql playground -->
-                      <div #Getting_started class="textSection" id="Getting_started">
+                      <div id="Getting_started" class="textSection" id="Getting_started">
                         <h3><a class="linkNoStyle" name="Getting_started" >Getting started</a></h3>
 
                        The quickest way to get started with the GraphQL API is to <a href="/graphql" target="_blank">PDC GraphQL Explorer</a>:

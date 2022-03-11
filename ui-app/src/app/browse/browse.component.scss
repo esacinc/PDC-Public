@@ -92,3 +92,74 @@
 /deep/ .mat-expansion-panel-header {
 	height:25px!important;
 }
+
+//@@@PDC-4626: Implement the UI-UX changes for the tables and tabs
+/deep/ {
+  .table-panels mat-tab-header {
+    border-bottom: 1px solid #e9e9e9;
+  }
+  
+.table-panels .exportButtonsRow {
+    border-left: 1px solid #e9e9e9;
+    border-right: 1px solid #e9e9e9;
+    background: linear-gradient(to bottom, #f6f7f9 0%, #ebedf0 100%);
+  }
+  
+  .table-panels .mat-tab-label {
+    border: 1px solid rgba(0,0,0,.12);
+    background: linear-gradient(to bottom, #f6f7f9 0%, #ebedf0 100%);
+  }
+  
+  .table-panels .ui-widget-header {
+    background: linear-gradient(to bottom, #f6f7f9 0%, #ebedf0 100%);
+  }
+
+  .table-panels .ui-datatable-tableheader {
+    background-color: #3A8BAF;
+  }
+
+  .table-panels .ui-paginator .ui-paginator-page.ui-state-active {
+    background-color: #3A8BAF;
+  }
+
+ .table-panels .ui-table .ui-table-tbody > tr:nth-child(even).ui-state-highlight,
+ .table-panels .ui-table .ui-table-tbody .ui-state-highlight {
+    background-color: #aac1d4;
+    color: #000;
+  } 
+
+  .table-striped tbody tr:nth-of-type(odd) {
+    background: linear-gradient(to bottom, #f6f7f9 0%, #ebedf0 100%);
+  }
+
+  //TODO: Increase font-size to pass 508 compliance
+  .ui-table tr td,
+  .ui-table-thead tr {
+    font-size: 14px !important;
+  }
+
+  .ui-table table {
+    table-layout: unset !important;
+  }
+
+  .ui-table-unfrozen-view .ui-table-thead th {
+    border: 1px solid #D5D5D5 !important;
+  }
+
+  .ui-chkbox .ui-state-active {
+    background: #186ba0 !important;
+  } 
+
+  .ui-table-frozen-view {
+    padding-top: 1px !important;
+  }
+
+  @media not all and (min-resolution:.001dpcm)
+	{ @supports (-webkit-appearance:none) and (stroke-color:transparent) {
+
+		.safari_only { 
+			height: 68px !important;
+		}
+	}}
+  
+}

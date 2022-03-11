@@ -38,7 +38,7 @@
       </div>
       <br/>
       <ng-container *ngIf='dictItemLinks'>
-          <div class='tableTitle'>Links</div>
+          <div class='tableTitle' id="test1234">Links</div>
           <table class='itemCollTable' cellpadding='0' cellspacing='1'>
                <tr class='dict_tbl_header'>
                    <td class='linksCollCol1'>Name</td>
@@ -53,7 +53,7 @@
           </table>
           <br/>
       </ng-container>
-      <div class='tableTitle'>Properties</div>
+      <div class='tableTitle'  id="test12345">Properties</div>
       <table class='itemPropertiesTable' cellpadding='0' cellspacing='1'>
           <tr class='dict_tbl_header'>
               <td class='propCollCol1'>Name</td>
@@ -63,7 +63,8 @@
               <td class='propCollCol5'>CDE</td>
           </tr>
           <ng-container *ngFor="let test of displayProperties | keyvalue: 0">
-              <tr>
+             <!-- update id for ul not be property value -->
+              <tr id={{test.key}}>
                   <td class='propCollCol1'>{{test.key}}</td>
                   <td class='propCollCol2'>{{test.value.description}}</td>
                   <td class='propCollCol3'>{{test.value.type}}
@@ -71,11 +72,11 @@
                   <ng-container *ngIf='test.value.enum' >
 
                   <ul [innerHTML]=enumValues[test.key].initial_load></ul>
-                  <ul id={{test.key}} class='hide-list' [innerHTML]=enumValues[test.key].show_load></ul>
+                  <ul id='{{test.key}}_enum' class='hide-list' [innerHTML]=enumValues[test.key].show_load></ul>
                   <ng-container *ngIf='test.value.enum.length > 6' >
-                            <div class='showMoreOrLess' id="showMore_{{test.key}}" (click)='showMoreOrLess(test.key)' style="margin-left:40px;">Show more items...</div>
+                            <div class='showMoreOrLess' id="showMore_{{test.key}}_enum" (click)='showMoreOrLess(test.key)' style="margin-left:40px;">Show more items...</div>
                   </ng-container>
-                  
+
                    </ng-container>
 
                   </td>

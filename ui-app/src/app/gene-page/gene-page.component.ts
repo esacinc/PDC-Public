@@ -74,6 +74,9 @@ export class GenePageComponent implements OnInit, OnChanges {
   headercheckbox:boolean = false;
   pageHeaderCheckBoxTrack = [];
   cols: any[];
+  frozenPTMColumns: any[];
+  frozenGeneStudiesColumns: any[];
+  frozenGeneBiospecimenColumns: any[];
   
   constructor(private route: ActivatedRoute,
 				private router: Router,
@@ -148,6 +151,7 @@ export class GenePageComponent implements OnInit, OnChanges {
 			this.aliquotOffset = data.getPaginatedUIGeneAliquotSpectralCountFiltered.pagination.from;
 			this.aliquotLimit = data.getPaginatedUIGeneAliquotSpectralCountFiltered.pagination.size;
 			this.aliquotPageSize = data.getPaginatedUIGeneAliquotSpectralCountFiltered.pagination.size;
+			this.makeRowsSameHeight();
 			this.loadingAliquotRecords = false;
 		  },
 		  err => {
@@ -168,6 +172,7 @@ export class GenePageComponent implements OnInit, OnChanges {
 			this.studyOffset = data.getPaginatedUIGeneStudySpectralCountFiltered.pagination.from;
 			this.studyPageSize = data.getPaginatedUIGeneStudySpectralCountFiltered.pagination.size;
 			this.studyLimit = data.getPaginatedUIGeneStudySpectralCountFiltered.pagination.size;
+			this.makeRowsSameHeight();
 			this.loading = false;
 			this.clearSelection();
 		  });
@@ -183,6 +188,7 @@ export class GenePageComponent implements OnInit, OnChanges {
 			this.ptmOffset = data.getPaginatedUIPtm.pagination.from;
 			this.ptmPageSize = data.getPaginatedUIPtm.pagination.size;
 			this.ptmLimit = data.getPaginatedUIPtm.pagination.size;
+			this.makeRowsSameHeight();
 			this.lodingPTMData = false;
 		  });
 	  }, 1000);
@@ -200,6 +206,7 @@ export class GenePageComponent implements OnInit, OnChanges {
 				this.aliquotPageSize = data.getPaginatedUIGeneAliquotSpectralCountFiltered.pagination.size;
 				this.aliquotLimit = data.getPaginatedUIGeneAliquotSpectralCountFiltered.pagination.size;
 			}
+			this.makeRowsSameHeight();
 			this.loadingAliquotRecords = false;
 		}); 
   }
@@ -223,7 +230,6 @@ export class GenePageComponent implements OnInit, OnChanges {
 			//@@@PDC-3765: A 'S' symbol in Genes/ under checkbox of "Studies in Which the Gene Product Was Detected
 			//Page size should be available for all offsets
 			this.studyPageSize = data.getPaginatedUIGeneStudySpectralCountFiltered.pagination.size;
-			this.loading = false;
 			this.trackCurrentPageSelectedStudy(data.getPaginatedUIGeneStudySpectralCountFiltered.uiGeneStudySpectralCounts);
 			//@@@PDC-2874: Add download option for study table on gene summary page
 			if (this.pageHeaderCheckBoxTrack.length > 0 && this.pageHeaderCheckBoxTrack.indexOf(this.studyOffset) !== -1){
@@ -233,6 +239,8 @@ export class GenePageComponent implements OnInit, OnChanges {
 			}
 			//@@@PDC-3765: A 'S' symbol in Genes/ under checkbox of "Studies in Which the Gene Product Was Detected
 			this.handleCheckboxSelections();
+			this.makeRowsSameHeight();
+			this.loading = false;
 		}); 
   }
   
@@ -248,6 +256,7 @@ export class GenePageComponent implements OnInit, OnChanges {
 				this.ptmPageSize = data.getPaginatedUIPtm.pagination.size;
 				this.ptmLimit = data.getPaginatedUIPtm.pagination.size;
 			}
+			this.makeRowsSameHeight();
 			this.lodingPTMData = false;
 		}); 
   }
@@ -330,6 +339,15 @@ export class GenePageComponent implements OnInit, OnChanges {
 		{field: 'unshared_peptide', header: 'Unshared Peptides'},
 		{field: 'aliquots_count', header: 'No of Aliquots'},
 		{field: 'plexes_count', header: 'No of Plexes'},
+	];
+	this.frozenPTMColumns = [
+		{field: "ptm_type", header: "PTM Type"}
+	];
+	this.frozenGeneStudiesColumns = [
+		{field: 'pdc_study_id', header: 'PDC Study ID'}
+	];
+	this.frozenGeneBiospecimenColumns = [
+		{field: 'aliquot_id', header: 'Aliquot'}
 	];
 	this.checkboxOptions = ["Select all pages", "Select this page", "Select None"];
   }
@@ -500,6 +518,42 @@ export class GenePageComponent implements OnInit, OnChanges {
 		this.selectedStudies.forEach(item => {if(studyNameList.indexOf(item.pdc_study_id) !== -1){
 		  this.currentPageSelectedStudy.push(item.pdc_study_id);
 		}});
+	}
+
+	onResize(event) {
+		this.makeRowsSameHeight();
+	}
+
+	makeRowsSameHeight() {
+		setTimeout(() => {
+			if (document.getElementsByClassName('ui-table-scrollable-wrapper').length) {
+				let wrapper = document.getElementsByClassName('ui-table-scrollable-wrapper');
+				for (var i = 0; i < wrapper.length; i++) {
+					let w = wrapper.item(i) as HTMLElement;
+					let frozen_rows: any = w.querySelectorAll('.ui-table-frozen-view .ui-table-tbody tr');
+					let unfrozen_rows: any = w.querySelectorAll('.ui-table-unfrozen-view .ui-table-tbody tr');
+					let frozen_header_row: any = w.querySelectorAll('.ui-table-frozen-view .ui-table-thead tr');
+					let unfrozen_header_row: any = w.querySelectorAll('.ui-table-unfrozen-view .ui-table-thead');
+					   if (frozen_header_row[0].clientHeight > unfrozen_header_row[0].clientHeight) {
+						unfrozen_header_row[0].style.height = frozen_header_row[0].clientHeight+"px";
+					  } 
+					else if (frozen_header_row[0].clientHeight < unfrozen_header_row[0].clientHeight) {
+						frozen_header_row[0].style.height = unfrozen_header_row[0].clientHeight+"px";
+					} 				   
+					for (let i = 0; i < frozen_rows.length; i++) {
+						if (frozen_rows[i].clientHeight > unfrozen_rows[i].clientHeight) {
+							unfrozen_rows[i].style.height = frozen_rows[i].clientHeight+"px";
+						} 
+						else if (frozen_rows[i].clientHeight < unfrozen_rows[i].clientHeight) 
+						{
+							frozen_rows[i].style.height = unfrozen_rows[i].clientHeight+"px";
+						}
+					}
+					let frozen_header_div: any = w.querySelectorAll('.ui-table-unfrozen-view .ui-table-scrollable-header-box');
+					frozen_header_div[0].setAttribute('style', 'margin-right: 0px !important'); 
+				}
+			}
+		});
 	}
 
 }

@@ -131,47 +131,6 @@ describe("BrowseByClinicalService", () => {
                 lymph_nodes_positive: null,
                 lymphatic_invasion_present: null,
                 method_of_diagnosis: null,
-                new_event_anatomic_site: null,
-                new_event_type: null,
-                overall_survival: null,
-                perineural_invasion_present: null,
-                prior_treatment: null,
-                progression_free_survival: null,
-                progression_free_survival_event: null,
-                residual_disease: null,
-                vascular_invasion_present: null,
-                year_of_diagnosis: null,
-                icd_10_code: null,
-                synchronous_malignancy: null,
-                anaplasia_present: null,
-                anaplasia_present_type: null,
-                child_pugh_classification: null,
-                cog_liver_stage: null,
-                cog_neuroblastoma_risk_group: null,
-                cog_renal_stage: null,
-                cog_rhabdomyosarcoma_risk_group: null,
-                enneking_msts_grade: null,
-                enneking_msts_metastasis: null,
-                enneking_msts_stage: null,
-                enneking_msts_tumor_site: null,
-                esophageal_columnar_dysplasia_degree: null,
-                esophageal_columnar_metaplasia_present: null,
-                first_symptom_prior_to_diagnosis: null,
-                gastric_esophageal_junction_involvement: null,
-                goblet_cells_columnar_mucosa_present: null,
-                gross_tumor_weight: null,
-                inpc_grade: null,
-                inpc_histologic_group: null,
-                inrg_stage: null,
-                inss_stage: null,
-                irs_group: null,
-                irs_stage: null,
-                ishak_fibrosis_score: null,
-                lymph_nodes_tested: null,
-                medulloblastoma_molecular_classification: null,
-                metastasis_at_diagnosis: null,
-                metastasis_at_diagnosis_site: null,
-                mitosis_karyorrhexis_index: null,
                 peripancreatic_lymph_nodes_positive: null,
                 peripancreatic_lymph_nodes_tested: null,
                 supratentorial_localization: null,
@@ -259,47 +218,6 @@ describe("BrowseByClinicalService", () => {
                 lymph_nodes_positive: null,
                 lymphatic_invasion_present: null,
                 method_of_diagnosis: null,
-                new_event_anatomic_site: null,
-                new_event_type: null,
-                overall_survival: null,
-                perineural_invasion_present: null,
-                prior_treatment: null,
-                progression_free_survival: null,
-                progression_free_survival_event: null,
-                residual_disease: null,
-                vascular_invasion_present: null,
-                year_of_diagnosis: null,
-                icd_10_code: null,
-                synchronous_malignancy: null,
-                anaplasia_present: null,
-                anaplasia_present_type: null,
-                child_pugh_classification: null,
-                cog_liver_stage: null,
-                cog_neuroblastoma_risk_group: null,
-                cog_renal_stage: null,
-                cog_rhabdomyosarcoma_risk_group: null,
-                enneking_msts_grade: null,
-                enneking_msts_metastasis: null,
-                enneking_msts_stage: null,
-                enneking_msts_tumor_site: null,
-                esophageal_columnar_dysplasia_degree: null,
-                esophageal_columnar_metaplasia_present: null,
-                first_symptom_prior_to_diagnosis: null,
-                gastric_esophageal_junction_involvement: null,
-                goblet_cells_columnar_mucosa_present: null,
-                gross_tumor_weight: null,
-                inpc_grade: null,
-                inpc_histologic_group: null,
-                inrg_stage: null,
-                inss_stage: null,
-                irs_group: null,
-                irs_stage: null,
-                ishak_fibrosis_score: null,
-                lymph_nodes_tested: null,
-                medulloblastoma_molecular_classification: null,
-                metastasis_at_diagnosis: null,
-                metastasis_at_diagnosis_site: null,
-                mitosis_karyorrhexis_index: null,
                 peripancreatic_lymph_nodes_positive: null,
                 peripancreatic_lymph_nodes_tested: null,
                 supratentorial_localization: null,
@@ -364,10 +282,62 @@ describe("BrowseByClinicalService", () => {
             uiClinical: [
               {
                 case_submitter_id: "PDAC018",
+                anaplasia_present: null,
+                anaplasia_present_type: null,
+                child_pugh_classification: null,
+                cog_liver_stage: null,
+                cog_neuroblastoma_risk_group: null,
+                cog_renal_stage: null,
+                cog_rhabdomyosarcoma_risk_group: null,
+                enneking_msts_grade: null,
+                enneking_msts_metastasis: null,
+                enneking_msts_stage: null,
+                enneking_msts_tumor_site: null,
+                esophageal_columnar_dysplasia_degree: null,
+                esophageal_columnar_metaplasia_present: null,
+                first_symptom_prior_to_diagnosis: null,
+                gastric_esophageal_junction_involvement: null,
+                goblet_cells_columnar_mucosa_present: null,
+                gross_tumor_weight: null,
+                inpc_grade: null,
+                inpc_histologic_group: null,
+                inrg_stage: null,
+                inss_stage: null,
+                irs_group: null,
+                irs_stage: null,
+                ishak_fibrosis_score: null,
+                lymph_nodes_tested: null,
+                medulloblastoma_molecular_classification: null,
                 exposures: []
               },
               {
                 case_submitter_id: "PDAC063",
+                anaplasia_present: null,
+                anaplasia_present_type: null,
+                child_pugh_classification: null,
+                cog_liver_stage: null,
+                cog_neuroblastoma_risk_group: null,
+                cog_renal_stage: null,
+                cog_rhabdomyosarcoma_risk_group: null,
+                enneking_msts_grade: null,
+                enneking_msts_metastasis: null,
+                enneking_msts_stage: null,
+                enneking_msts_tumor_site: null,
+                esophageal_columnar_dysplasia_degree: null,
+                esophageal_columnar_metaplasia_present: null,
+                first_symptom_prior_to_diagnosis: null,
+                gastric_esophageal_junction_involvement: null,
+                goblet_cells_columnar_mucosa_present: null,
+                gross_tumor_weight: null,
+                inpc_grade: null,
+                inpc_histologic_group: null,
+                inrg_stage: null,
+                inss_stage: null,
+                irs_group: null,
+                irs_stage: null,
+                ishak_fibrosis_score: null,
+                lymph_nodes_tested: null,
+                medulloblastoma_molecular_classification: null,
                 exposures: []
               }
             ]
@@ -409,6 +379,21 @@ describe("BrowseByClinicalService", () => {
             uiClinical: [
               {
                 case_submitter_id: "PDAC018",
+                new_event_anatomic_site: null,
+                new_event_type: null,
+                overall_survival: null,
+                perineural_invasion_present: null,
+                prior_treatment: null,
+                progression_free_survival: null,
+                progression_free_survival_event: null,
+                residual_disease: null,
+                vascular_invasion_present: null,
+                year_of_diagnosis: null,
+                icd_10_code: null,
+                synchronous_malignancy: null,
+                metastasis_at_diagnosis: null,
+                metastasis_at_diagnosis_site: null,
+                mitosis_karyorrhexis_index: null,
                 non_nodal_regional_disease: null,
                 non_nodal_tumor_deposits: null,
                 ovarian_specimen_status: null,
@@ -433,11 +418,25 @@ describe("BrowseByClinicalService", () => {
                 tumor_depth: null,
                 who_cns_grade: null,
                 who_nte_grade: null,
-                diagnosis_uuid: null,
-                follow_ups: []
+                diagnosis_uuid: null
               },
               {
                 case_submitter_id: "PDAC063",
+                new_event_anatomic_site: null,
+                new_event_type: null,
+                overall_survival: null,
+                perineural_invasion_present: null,
+                prior_treatment: null,
+                progression_free_survival: null,
+                progression_free_survival_event: null,
+                residual_disease: null,
+                vascular_invasion_present: null,
+                year_of_diagnosis: null,
+                icd_10_code: null,
+                synchronous_malignancy: null,
+                metastasis_at_diagnosis: null,
+                metastasis_at_diagnosis_site: null,
+                mitosis_karyorrhexis_index: null,
                 non_nodal_regional_disease: null,
                 non_nodal_tumor_deposits: null,
                 ovarian_specimen_status: null,
@@ -462,7 +461,44 @@ describe("BrowseByClinicalService", () => {
                 tumor_depth: null,
                 who_cns_grade: null,
                 who_nte_grade: null,
-                diagnosis_uuid: null,
+                diagnosis_uuid: null
+              }
+            ]
+          },
+        },
+      });
+
+      controller.verify();
+    }
+  )); 
+
+  it("test getFilteredClinicalFollowUpDataPaginated", inject(
+    [BrowseByClinicalService],
+    (service: BrowseByClinicalService) => {
+      service
+        .getFilteredClinicalFollowUpDataPaginated(0, 2, "gender asc", {
+          experiment_type: "iTRAQ4;TMT10"
+        })
+        .subscribe(data => {
+          expect(data).toBeDefined();
+          expect(data["getPaginatedUIClinical"].uiClinical.length).toBe(1);
+          expect(data["getPaginatedUIClinical"].uiClinical[0].case_submitter_id).toBe(
+            "PDAC018"
+          );
+        });
+
+      const op = controller.expectOne(service.filteredCinicalFollowUpDataPaginatedQuery);
+
+	  //@@@PDC-1305 add age_at_diagnosis et al 	
+	  //@@@PDC-2397 Update clinical manifest generation to include additional attributes
+	  //@@@PDC-2335 remove imaging_resource
+      op.flush({
+        data: {
+          getPaginatedUIClinical: {
+            total: 1414,
+            uiClinical: [
+              {
+                case_submitter_id: "PDAC018",
                 follow_ups: []
               }
             ]

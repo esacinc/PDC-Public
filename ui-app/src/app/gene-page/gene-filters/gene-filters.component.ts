@@ -110,6 +110,20 @@ export class GeneFiltersComponent implements OnInit, OnChanges {
   allStudyArray: string[] = [];
   allStudyNameArray: string[] = [];
 
+    //@@@PDC-3779: Investigate the ability to only display the top 10 filters in each category
+  // hidden by default
+  showPSite: boolean = false; 
+  showProgram: boolean = false;
+  showDType: boolean = false;
+  showAFraction: boolean = false; 
+  showExpType: boolean = false;
+  showAcqType: boolean = false;
+  showSampleType: boolean = false;
+  showEthnicity: boolean = false;
+  showRace: boolean = false;
+  showGender: boolean = false;
+  showTmrGrade: boolean = false;
+
   constructor( private route:ActivatedRoute, private geneFiltersService: GeneFiltersService, private genePageService: GenePageService) {
     GeneFiltersComponent.urlBase = environment.dictionary_base_url;
 	this.route.paramMap.subscribe(params => {
@@ -499,6 +513,45 @@ export class GeneFiltersComponent implements OnInit, OnChanges {
     return filter;
   }
 
+    //@@@PDC-3779: Investigate the ability to only display the top 10 filters in each category
+    showMoreOrLess(filterName) {
+      switch (filterName) {
+        case "primary_site":
+          this.showPSite = ! this.showPSite;
+          break;
+        case "program_name":
+          this.showProgram = !this.showProgram;
+          break;
+        case "disease_type":
+          this.showDType = !this.showDType;
+          break;
+        case "analytical_fraction":
+          this.showAFraction = !this.showAFraction;
+          break;
+        case "experiment_type":
+          this.showExpType = !this.showExpType;
+          break;
+        case "acquisition_type":
+          this.showAcqType = !this.showAcqType;
+          break;
+        case "sample_type":
+          this.showSampleType = !this.showSampleType;
+          break;
+        case "ethnicity":
+          this.showEthnicity = !this.showEthnicity;
+          break;
+        case "race":
+          this.showRace = !this.showRace;
+          break;
+        case "gender":
+          this.showGender = !this.showGender;
+          break;
+        case "tumor_grade":
+          this.showTmrGrade = !this.showTmrGrade;
+          break;
+      }
+    }
+
   /* Project filter callback onChange */
   filterDataByProject(e) {
     let newFilterValue = "project_name:" + this.selectedProjects.join(";");
@@ -506,137 +559,215 @@ export class GeneFiltersComponent implements OnInit, OnChanges {
     this.updateFiltersCounters();
   }
   /* Primary site filter callback onChange */
-  filterDataByPrimarySite(e) {
+  filterDataByPrimarySite(e, filterSub='', index = 0) {
     let newFilterValue = "primary_site:" + this.selectedPrimarySites.join(";");
     this.selectedFilters.emit(newFilterValue);
+    let sortedList = this.moveFilterToTop(this.primarySitesFilter, this.selectedPrimarySites, e, filterSub, index);
+    this.primarySitesFilter = sortedList;
     this.updateFiltersCounters();
   }
   ngOnChanges(changes: SimpleChanges) {}
   /* Program filter callback onChange */
-  filterDataByProgram(e) {
+  filterDataByProgram(e, filterSub='', index = 0) {
     var newFilterValue = "program_name:" + this.selectedPrograms.join(";");
     this.selectedFilters.emit(newFilterValue);
+    let sortedList = this.moveFilterToTop(this.programsFilter, this.selectedPrograms, e, filterSub, index);
+    this.programsFilter = sortedList;
     this.updateFiltersCounters();
   }
   /* Disease type filter callback onChange */
-  filterDataByDiseaseType(e) {
+  filterDataByDiseaseType(e, filterSub='', index = 0) {
     var newFilterValue = "disease_type:" + this.selectedDiseases.join(";");
     this.selectedFilters.emit(newFilterValue);
+    let sortedList = this.moveFilterToTop(this.diseaseTypesFilter, this.selectedDiseases, e, filterSub, index);
+    this.diseaseTypesFilter = sortedList;
     this.updateFiltersCounters();
   }
   /* Analytical fraction filter callback onChange */
-  filterDataByAnalyticalFraction(e) {
+  filterDataByAnalyticalFraction(e, filterSub='', index = 0) {
     var newFilterValue = "analytical_fraction:" + this.selectedAnFracs.join(";");
     this.selectedFilters.emit(newFilterValue);
+    let sortedList = this.moveFilterToTop(this.analyticalFractionsFilter, this.selectedAnFracs, e, filterSub, index);
+    this.analyticalFractionsFilter = sortedList;
     this.updateFiltersCounters();
   }
   /* Experimental strategy filter callback onChange */
-  filterDataByExperimentalStrategy(e) {
+  filterDataByExperimentalStrategy(e, filterSub='', index = 0) {
     var newFilterValue = "experiment_type:" + this.selectedExpStarts.join(";");
     this.selectedFilters.emit(newFilterValue);
+    let sortedList = this.moveFilterToTop(this.experimentalStrategiesFilter, this.selectedExpStarts, e, filterSub, index);
+    this.experimentalStrategiesFilter = sortedList;
     this.updateFiltersCounters();
   }
 
-  filterDataByAcquisition(e) {
+  filterDataByAcquisition(e, filterSub='', index = 0) {
     var newFilterValue = "acquisition_type:" + this.selectedAcquisitions.join(";");
     this.selectedFilters.emit(newFilterValue);
+    let sortedList = this.moveFilterToTop(this.acquisitionFilter, this.selectedAcquisitions, e, filterSub, index);
+    this.acquisitionFilter = sortedList;
     this.updateFiltersCounters();
   }
 
-  filterDataByEthnicity(e) {
+  filterDataByEthnicity(e, filterSub='', index = 0) {
     var newFilterValue = "ethnicity:" + this.selectedEthnicity.join(";");
     this.selectedFilters.emit(newFilterValue);
+    let sortedList = this.moveFilterToTop(this.ethnicityFilter, this.selectedEthnicity);
+    this.ethnicityFilter = sortedList;
     this.updateFiltersCounters();
   }
-  filterDataByRace(e) {
+  filterDataByRace(e, filterSub='', index = 0) {
     var newFilterValue = "race:" + this.selectedRace.join(";");
     this.selectedFilters.emit(newFilterValue);
+    let sortedList = this.moveFilterToTop(this.raceFilter, this.selectedRace);
+    this.raceFilter = sortedList;
     this.updateFiltersCounters();
   }
-  filterDataByGender(e) {
+  filterDataByGender(e, filterSub='', index = 0) {
     var newFilterValue = "gender:" + this.selectedGender.join(";");
     this.selectedFilters.emit(newFilterValue);
+    let sortedList = this.moveFilterToTop(this.genderFilter, this.selectedGender);
+    this.genderFilter = sortedList;
     this.updateFiltersCounters();
   }
-  filterDataByTumorGrade(e) {
+  filterDataByTumorGrade(e, filterSub='', index = 0) {
     var newFilterValue = "tumor_grade:" + this.selectedTumorGrade.join(";");
     this.selectedFilters.emit(newFilterValue);
+    let sortedList = this.moveFilterToTop(this.tumorGradeFilter, this.selectedTumorGrade);
+    this.tumorGradeFilter = sortedList;
     this.updateFiltersCounters();
   }
 
   //PDC-567
-  filterDataBySampleType(e) {
+  filterDataBySampleType(e, filterSub='', index = 0) {
     var newFilterValue = "sample_type:" + this.selectedSampleType.join(";");
     this.selectedFilters.emit(newFilterValue);
+    let sortedList = this.moveFilterToTop(this.sampleTypeFilter, this.selectedSampleType, e, filterSub, index);
+    this.sampleTypeFilter = sortedList;
     this.updateFiltersCounters();
   }
 
-  filterDataByStudy(e) {
+  filterDataByStudy(e, filterSub='', index = 0) {
     var newFilterValue = "study_name:" + this.selectedStudyFilter.join(";");
     this.selectedFilters.emit(newFilterValue);
+    let sortedList = this.moveFilterToTop(this.studyFilter, this.selectedStudyFilter, e, filterSub, index);
+    this.studyFilter = sortedList;
     this.updateFiltersCounters(true);
+  }
+
+  //@@@PDC-4837: Filters in the sidebar do not bubble to the top when Browse URL has preselected filters
+  moveFilterToTop (filterData, selectedFilterData, checkboxClicked = '', filterSub = '', index = 0) {
+    let filterDataCopy = filterData;
+    let sortedList = [];
+    for (let filter of selectedFilterData) {
+      let filterFound = filterDataCopy.find(item => item.filterName === filter);
+      sortedList.push(filterFound);
+      filterDataCopy = filterDataCopy.filter(item=>item.filterName != filter );
+    }
+    filterDataCopy.sort(this.compare);
+    sortedList = sortedList.concat(filterDataCopy);
+    if (checkboxClicked && index > 10 && filterSub) {
+      setTimeout(() => {
+        let eleID = sortedList[0].filterName + filterSub;
+        document.getElementById(eleID).scrollIntoView({ behavior: 'instant', block: 'center'});
+      });
+    }
+    return sortedList;
   }
 
   //Clear projects filter selections callback button
   clearSelectionsProjects() {
     this.selectedProjects = [];
+    this.projectsFilter.sort(this.compare);
     this.filterDataByProject(false);
   }
   //Clear programs filter selections callback button
   clearSelectionsPrograms() {
     this.selectedPrograms = [];
+    this.programsFilter.sort(this.compare);
     this.filterDataByProgram(false);
   }
   //Clear primary sites filter selections callback button
   clearSelectionsPrimarySite() {
     this.selectedPrimarySites = [];
+    this.primarySitesFilter.sort(this.compare);
     this.filterDataByPrimarySite(false);
   }
   //Clear disease types filter selections callback button
   clearSelectionsDiseaseType() {
     this.selectedDiseases = [];
+    this.diseaseTypesFilter.sort(this.compare);
     this.filterDataByDiseaseType(false);
   }
   //Clear analytical fractions filter selections callback button
   clearSelectionsAnalyticalFraction() {
     this.selectedAnFracs = [];
+    this.analyticalFractionsFilter.sort(this.compare);
     this.filterDataByAnalyticalFraction(false);
   }
   //Clear experimental strategies filter selections callback button
   clearSelectionsExperimentalStrategy() {
     this.selectedExpStarts = [];
+    this.experimentalStrategiesFilter.sort(this.compare);
     this.filterDataByExperimentalStrategy(false);
   }
   clearSelectionsAcquisitions() {
     this.selectedAcquisitions = [];
+    this.acquisitionFilter.sort(this.compare);
     this.filterDataByAcquisition(false);
   }
   clearSelectionsEthnicity() {
     this.selectedEthnicity = [];
+    this.ethnicityFilter.sort(this.compare);
     this.filterDataByEthnicity(false);
   }
   clearSelectionsRace() {
     this.selectedRace = [];
+    this.raceFilter.sort(this.compare);
     this.filterDataByRace(false);
   }
   clearSelectionsGender() {
     this.selectedGender = [];
+    this.genderFilter.sort(this.compare);
     this.filterDataByGender(false);
   }
   clearSelectionsTumorGrade() {
     this.selectedTumorGrade = [];
+    this.tumorGradeFilter.sort(this.compare);
     this.filterDataByTumorGrade(false);
   }
 
   clearSelectionsSampleType() {
     this.selectedSampleType = [];
+    this.sampleTypeFilter.sort(this.compare);
     this.filterDataBySampleType(false);
   }
 
   clearSelectionsStudyID() {
     this.selectedStudyFilter = [];
+    this.studyFilter.sort(this.compare);
     this.filterDataByStudy(false);
   }
+
+   //@@@PDC-4837: Filters in the sidebar do not bubble to the top when Browse URL has preselected filters
+  sortAllFilterLists() {
+    this.projectsFilter.sort(this.compare);
+    this.primarySitesFilter.sort(this.compare);
+    this.programsFilter.sort(this.compare);
+    this.diseaseTypesFilter.sort(this.compare);
+    this.analyticalFractionsFilter.sort(this.compare);
+    this.experimentalStrategiesFilter.sort(this.compare);
+    this.ethnicityFilter.sort(this.compare);
+    this.raceFilter.sort(this.compare);
+    this.genderFilter.sort(this.compare);
+    this.tumorGradeFilter.sort(this.compare);
+    this.sampleTypeFilter.sort(this.compare);
+    this.studyFilter.sort(this.compare);
+    this.acquisitionFilter.sort(this.compare);
+    this.dataCategoryFilter.sort(this.compare);
+    this.fileTypeFilter.sort(this.compare);
+    this.accessFilter.sort(this.compare);
+  }
+
 
   // clear all filter selections button callback
   clearAllSelections() {
@@ -656,6 +787,7 @@ export class GeneFiltersComponent implements OnInit, OnChanges {
     this.selectedTumorGrade = [];
     this.selectedSampleType = [];
     this.selectedStudyFilter = [];
+    this.sortAllFilterLists();
     this.updateFiltersCounters();
   }
 
@@ -667,6 +799,10 @@ export class GeneFiltersComponent implements OnInit, OnChanges {
     this.selectedRace = [];
     this.selectedGender = [];
     this.selectedTumorGrade = [];
+    this.ethnicityFilter.sort(this.compare);
+    this.raceFilter.sort(this.compare);
+    this.genderFilter.sort(this.compare);
+    this.tumorGradeFilter.sort(this.compare);
     this.updateFiltersCounters();
   }
   //Clear all filters in General filters tab
@@ -681,6 +817,13 @@ export class GeneFiltersComponent implements OnInit, OnChanges {
     this.selectedAnFracs = [];
     this.selectedExpStarts = [];
     this.selectedAcquisitions = [];
+    this.projectsFilter.sort(this.compare);
+    this.primarySitesFilter.sort(this.compare);
+    this.programsFilter.sort(this.compare);
+    this.diseaseTypesFilter.sort(this.compare);
+    this.analyticalFractionsFilter.sort(this.compare);
+    this.experimentalStrategiesFilter.sort(this.compare);
+    this.acquisitionFilter.sort(this.compare);
     this.updateFiltersCounters();
   }
 
@@ -689,6 +832,12 @@ export class GeneFiltersComponent implements OnInit, OnChanges {
     this.selectedFilters.emit(newFilterValue);
     this.selectedSampleType = [];
     this.selectedStudyFilter = [];
+    this.sampleTypeFilter.sort(this.compare);
+    this.studyFilter.sort(this.compare);
+    this.ethnicityFilter.sort(this.compare);
+    this.raceFilter.sort(this.compare);
+    this.genderFilter.sort(this.compare);
+    this.tumorGradeFilter.sort(this.compare);
     this.updateFiltersCounters();
   }
 	  

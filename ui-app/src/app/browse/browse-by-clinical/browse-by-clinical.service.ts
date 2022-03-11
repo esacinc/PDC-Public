@@ -111,47 +111,6 @@ constructor(private apollo: Apollo) {
 							lymph_nodes_positive
 							lymphatic_invasion_present
 							method_of_diagnosis
-							new_event_anatomic_site
-							new_event_type
-							overall_survival
-							perineural_invasion_present
-							prior_treatment
-							progression_free_survival
-							progression_free_survival_event
-							residual_disease
-							vascular_invasion_present
-							year_of_diagnosis
-							icd_10_code
-							synchronous_malignancy
-							anaplasia_present
-							anaplasia_present_type
-							child_pugh_classification
-							cog_liver_stage
-							cog_neuroblastoma_risk_group
-							cog_renal_stage
-							cog_rhabdomyosarcoma_risk_group
-							enneking_msts_grade
-							enneking_msts_metastasis
-							enneking_msts_stage
-							enneking_msts_tumor_site
-							esophageal_columnar_dysplasia_degree
-							esophageal_columnar_metaplasia_present
-							first_symptom_prior_to_diagnosis
-							gastric_esophageal_junction_involvement
-							goblet_cells_columnar_mucosa_present
-							gross_tumor_weight
-							inpc_grade
-							inpc_histologic_group
-							inrg_stage
-							inss_stage
-							irs_group
-							irs_stage
-							ishak_fibrosis_score
-							lymph_nodes_tested
-							medulloblastoma_molecular_classification
-							metastasis_at_diagnosis
-							metastasis_at_diagnosis_site
-							mitosis_karyorrhexis_index
 							peripancreatic_lymph_nodes_positive
 							peripancreatic_lymph_nodes_tested
 							supratentorial_localization
@@ -235,6 +194,21 @@ constructor(private apollo: Apollo) {
 			total
 			uiClinical{	
 				case_submitter_id
+				new_event_anatomic_site
+				new_event_type
+				overall_survival
+				perineural_invasion_present
+				prior_treatment
+				progression_free_survival
+				progression_free_survival_event
+				residual_disease
+				vascular_invasion_present
+				year_of_diagnosis
+				icd_10_code
+				synchronous_malignancy
+				metastasis_at_diagnosis
+				metastasis_at_diagnosis_site
+				mitosis_karyorrhexis_index
 				non_nodal_regional_disease
 				non_nodal_tumor_deposits
 				ovarian_specimen_status
@@ -260,6 +234,180 @@ constructor(private apollo: Apollo) {
 				who_cns_grade
 				who_nte_grade
 				diagnosis_uuid
+			}
+		}
+	}`;
+
+	//@@@PDC-4490: Update Clinical manifest and Case summary pages for GDC Sync
+	//2 calls for the same API due to "URI too long" error
+	getFilteredClinicalAdditionalDataPaginated(offset: number, limit: number, sort: string, filters:any){
+		let filter_ethnicity = filters["ethnicity"];
+		if (filter_ethnicity === "Empty value"){
+			filter_ethnicity = "";
+		}
+		let filter_race = filters["race"];
+		if (filter_race === "Empty value"){
+			filter_race = "";
+		}
+		return this.apollo.watchQuery<QueryAllClinicalDataPaginated>({
+			query: this.filteredCinicalAdditionalDataPaginatedQuery,
+			variables: {
+				offset_value: offset,
+				limit_value: limit,
+				sort_value: sort,
+				program_name_filter: filters["program_name"] || "",
+				project_name_filter: filters["project_name"] || "" ,
+				study_name_filter: filters["study_name"] || "",
+				disease_filter: filters["disease_type"]|| "",
+				filterValue: filters["primary_site"] || "",
+				analytical_frac_filter: filters["analytical_fraction"] || "",
+				exp_type_filter: filters["experiment_type"] || "",
+				ethnicity_filter: filter_ethnicity || "",
+				race_filter: filter_race || "",
+				gender_filter: filters["gender"] || "",
+				tumor_grade_filter: filters["tumor_grade"] || "",
+				sample_type_filter: filters["sample_type"],
+				acquisition_type_filter: filters["acquisition_type"],
+				data_category_filter: filters["data_category"] || '',
+				file_type_filter: filters["file_type"] || '',
+				access_filter: filters["access"] || '',
+				downloadable_filter: filters["downloadable"] || '',
+				case_status_filter: filters["case_status"] || '',
+				biospecimen_status_filter: filters["biospecimen_status"] || ''
+			}
+		})
+		.valueChanges
+		.pipe(
+        map(result => { console.log(result.data); return result.data;})
+      ); 
+	}
+
+	//@@@PDC-4490: Update Clinical manifest and Case summary pages for GDC Sync
+	filteredCinicalExposureDataPaginatedQuery = gql`
+	query FilteredClinicalExposureDataPaginated($offset_value: Int, $limit_value: Int, $sort_value: String, $program_name_filter: String!, $project_name_filter: String!, $study_name_filter: String!, $disease_filter: String!, $filterValue: String!, $analytical_frac_filter: String!, $exp_type_filter: String!, $ethnicity_filter: String!, $race_filter: String!, $gender_filter: String!, $tumor_grade_filter: String!, $sample_type_filter: String!, $acquisition_type_filter: String!, $data_category_filter: String!, $file_type_filter: String!, $access_filter: String!, $downloadable_filter: String!, $case_status_filter: String!, $biospecimen_status_filter: String!){
+		getPaginatedUIClinical(offset: $offset_value, limit: $limit_value, sort: $sort_value, program_name: $program_name_filter , project_name: $project_name_filter, 
+								study_name: $study_name_filter, disease_type: $disease_filter, primary_site: $filterValue, analytical_fraction: $analytical_frac_filter, 
+								experiment_type: $exp_type_filter, ethnicity: $ethnicity_filter, race: $race_filter, gender: $gender_filter, 
+								tumor_grade: $tumor_grade_filter, sample_type: $sample_type_filter, acquisition_type: $acquisition_type_filter, data_category: $data_category_filter, file_type: $file_type_filter, access: $access_filter, downloadable: $downloadable_filter, case_status: $case_status_filter, biospecimen_status: $biospecimen_status_filter) {
+			total
+			uiClinical{	
+				case_submitter_id
+				anaplasia_present
+				anaplasia_present_type
+				child_pugh_classification
+				cog_liver_stage
+				cog_neuroblastoma_risk_group
+				cog_renal_stage
+				cog_rhabdomyosarcoma_risk_group
+				enneking_msts_grade
+				enneking_msts_metastasis
+				enneking_msts_stage
+				enneking_msts_tumor_site
+				esophageal_columnar_dysplasia_degree
+				esophageal_columnar_metaplasia_present
+				first_symptom_prior_to_diagnosis
+				gastric_esophageal_junction_involvement
+				goblet_cells_columnar_mucosa_present
+				gross_tumor_weight
+				inpc_grade
+				inpc_histologic_group
+				inrg_stage
+				inss_stage
+				irs_group
+				irs_stage
+				ishak_fibrosis_score
+				lymph_nodes_tested
+				medulloblastoma_molecular_classification
+				exposures {
+					exposure_id
+					exposure_submitter_id
+					alcohol_days_per_week
+					alcohol_drinks_per_day
+					alcohol_history
+					alcohol_intensity
+					asbestos_exposure
+					cigarettes_per_day
+					coal_dust_exposure
+					environmental_tobacco_smoke_exposure
+					pack_years_smoked
+					radon_exposure
+					respirable_crystalline_silica_exposure
+					smoking_frequency
+					time_between_waking_and_first_smoke
+					tobacco_smoking_onset_year
+					tobacco_smoking_quit_year
+					tobacco_smoking_status
+					type_of_smoke_exposure
+					type_of_tobacco_used
+					years_smoked
+					age_at_onset
+					alcohol_type
+					exposure_duration
+					exposure_duration_years
+					exposure_type
+					marijuana_use_per_week
+					parent_with_radiation_exposure
+					secondhand_smoke_as_child
+					smokeless_tobacco_quit_age
+					tobacco_use_per_day	
+				}
+			}
+		}
+	}`;
+
+	//@@@PDC-4490: Update Clinical manifest and Case summary pages for GDC Sync
+	//2 calls for the same API due to "URI too long" error
+	getFilteredClinicalExposureDataPaginated(offset: number, limit: number, sort: string, filters:any){
+		let filter_ethnicity = filters["ethnicity"];
+		if (filter_ethnicity === "Empty value"){
+			filter_ethnicity = "";
+		}
+		let filter_race = filters["race"];
+		if (filter_race === "Empty value"){
+			filter_race = "";
+		}
+		return this.apollo.watchQuery<QueryAllClinicalDataPaginated>({
+			query: this.filteredCinicalExposureDataPaginatedQuery,
+			variables: {
+				offset_value: offset,
+				limit_value: limit,
+				sort_value: sort,
+				program_name_filter: filters["program_name"] || "",
+				project_name_filter: filters["project_name"] || "" ,
+				study_name_filter: filters["study_name"] || "",
+				disease_filter: filters["disease_type"]|| "",
+				filterValue: filters["primary_site"] || "",
+				analytical_frac_filter: filters["analytical_fraction"] || "",
+				exp_type_filter: filters["experiment_type"] || "",
+				ethnicity_filter: filter_ethnicity || "",
+				race_filter: filter_race || "",
+				gender_filter: filters["gender"] || "",
+				tumor_grade_filter: filters["tumor_grade"] || "",
+				sample_type_filter: filters["sample_type"],
+				acquisition_type_filter: filters["acquisition_type"],
+				data_category_filter: filters["data_category"] || '',
+				file_type_filter: filters["file_type"] || '',
+				access_filter: filters["access"] || '',
+				downloadable_filter: filters["downloadable"] || '',
+				case_status_filter: filters["case_status"] || '',
+				biospecimen_status_filter: filters["biospecimen_status"] || ''
+			}
+		})
+		.valueChanges
+		.pipe(
+        map(result => { console.log(result.data); return result.data;})
+      ); 
+	}
+
+	filteredCinicalFollowUpDataPaginatedQuery = gql`
+	query FilteredCinicalFollowUpDataPaginated($offset_value: Int, $limit_value: Int, $sort_value: String, $program_name_filter: String!, $project_name_filter: String!, $study_name_filter: String!, $disease_filter: String!, $filterValue: String!, $analytical_frac_filter: String!, $exp_type_filter: String!, $ethnicity_filter: String!, $race_filter: String!, $gender_filter: String!, $tumor_grade_filter: String!, $sample_type_filter: String!, $acquisition_type_filter: String!, $data_category_filter: String!, $file_type_filter: String!, $access_filter: String!, $downloadable_filter: String!, $case_status_filter: String!, $biospecimen_status_filter: String!){
+		getPaginatedUIClinical(offset: $offset_value, limit: $limit_value, sort: $sort_value, program_name: $program_name_filter , project_name: $project_name_filter, 
+								study_name: $study_name_filter, disease_type: $disease_filter, primary_site: $filterValue, analytical_fraction: $analytical_frac_filter, 
+								experiment_type: $exp_type_filter, ethnicity: $ethnicity_filter, race: $race_filter, gender: $gender_filter, 
+								tumor_grade: $tumor_grade_filter, sample_type: $sample_type_filter, acquisition_type: $acquisition_type_filter, data_category: $data_category_filter, file_type: $file_type_filter, access: $access_filter, downloadable: $downloadable_filter, case_status: $case_status_filter, biospecimen_status: $biospecimen_status_filter) {
+			total
+			uiClinical{	
+				case_submitter_id
 				follow_ups {
 					follow_up_id
 					follow_up_submitter_id
@@ -334,9 +482,9 @@ constructor(private apollo: Apollo) {
 		}
 	}`;
 
-	//@@@PDC-4490: Update Clinical manifest and Case summary pages for GDC Sync
+	//@@@PDC-4899: Records on the Clinical tab are '0' on the Explore page in Data Browser Stage
 	//2 calls for the same API due to "URI too long" error
-	getFilteredClinicalAdditionalDataPaginated(offset: number, limit: number, sort: string, filters:any){
+	getFilteredClinicalFollowUpDataPaginated(offset: number, limit: number, sort: string, filters:any){
 		let filter_ethnicity = filters["ethnicity"];
 		if (filter_ethnicity === "Empty value"){
 			filter_ethnicity = "";
@@ -346,98 +494,7 @@ constructor(private apollo: Apollo) {
 			filter_race = "";
 		}
 		return this.apollo.watchQuery<QueryAllClinicalDataPaginated>({
-			query: this.filteredCinicalAdditionalDataPaginatedQuery,
-			variables: {
-				offset_value: offset,
-				limit_value: limit,
-				sort_value: sort,
-				program_name_filter: filters["program_name"] || "",
-				project_name_filter: filters["project_name"] || "" ,
-				study_name_filter: filters["study_name"] || "",
-				disease_filter: filters["disease_type"]|| "",
-				filterValue: filters["primary_site"] || "",
-				analytical_frac_filter: filters["analytical_fraction"] || "",
-				exp_type_filter: filters["experiment_type"] || "",
-				ethnicity_filter: filter_ethnicity || "",
-				race_filter: filter_race || "",
-				gender_filter: filters["gender"] || "",
-				tumor_grade_filter: filters["tumor_grade"] || "",
-				sample_type_filter: filters["sample_type"],
-				acquisition_type_filter: filters["acquisition_type"],
-				data_category_filter: filters["data_category"] || '',
-				file_type_filter: filters["file_type"] || '',
-				access_filter: filters["access"] || '',
-				downloadable_filter: filters["downloadable"] || '',
-				case_status_filter: filters["case_status"] || '',
-				biospecimen_status_filter: filters["biospecimen_status"] || ''
-			}
-		})
-		.valueChanges
-		.pipe(
-        map(result => { console.log(result.data); return result.data;})
-      ); 
-	}
-
-	//@@@PDC-4490: Update Clinical manifest and Case summary pages for GDC Sync
-	filteredCinicalExposureDataPaginatedQuery = gql`
-	query FilteredClinicalExposureDataPaginated($offset_value: Int, $limit_value: Int, $sort_value: String, $program_name_filter: String!, $project_name_filter: String!, $study_name_filter: String!, $disease_filter: String!, $filterValue: String!, $analytical_frac_filter: String!, $exp_type_filter: String!, $ethnicity_filter: String!, $race_filter: String!, $gender_filter: String!, $tumor_grade_filter: String!, $sample_type_filter: String!, $acquisition_type_filter: String!, $data_category_filter: String!, $file_type_filter: String!, $access_filter: String!, $downloadable_filter: String!, $case_status_filter: String!, $biospecimen_status_filter: String!){
-		getPaginatedUIClinical(offset: $offset_value, limit: $limit_value, sort: $sort_value, program_name: $program_name_filter , project_name: $project_name_filter, 
-								study_name: $study_name_filter, disease_type: $disease_filter, primary_site: $filterValue, analytical_fraction: $analytical_frac_filter, 
-								experiment_type: $exp_type_filter, ethnicity: $ethnicity_filter, race: $race_filter, gender: $gender_filter, 
-								tumor_grade: $tumor_grade_filter, sample_type: $sample_type_filter, acquisition_type: $acquisition_type_filter, data_category: $data_category_filter, file_type: $file_type_filter, access: $access_filter, downloadable: $downloadable_filter, case_status: $case_status_filter, biospecimen_status: $biospecimen_status_filter) {
-			total
-			uiClinical{	
-				case_submitter_id
-				exposures {
-					exposure_id
-					exposure_submitter_id
-					alcohol_days_per_week
-					alcohol_drinks_per_day
-					alcohol_history
-					alcohol_intensity
-					asbestos_exposure
-					cigarettes_per_day
-					coal_dust_exposure
-					environmental_tobacco_smoke_exposure
-					pack_years_smoked
-					radon_exposure
-					respirable_crystalline_silica_exposure
-					smoking_frequency
-					time_between_waking_and_first_smoke
-					tobacco_smoking_onset_year
-					tobacco_smoking_quit_year
-					tobacco_smoking_status
-					type_of_smoke_exposure
-					type_of_tobacco_used
-					years_smoked
-					age_at_onset
-					alcohol_type
-					exposure_duration
-					exposure_duration_years
-					exposure_type
-					marijuana_use_per_week
-					parent_with_radiation_exposure
-					secondhand_smoke_as_child
-					smokeless_tobacco_quit_age
-					tobacco_use_per_day	
-				}
-			}
-		}
-	}`;
-
-	//@@@PDC-4490: Update Clinical manifest and Case summary pages for GDC Sync
-	//2 calls for the same API due to "URI too long" error
-	getFilteredClinicalExposureDataPaginated(offset: number, limit: number, sort: string, filters:any){
-		let filter_ethnicity = filters["ethnicity"];
-		if (filter_ethnicity === "Empty value"){
-			filter_ethnicity = "";
-		}
-		let filter_race = filters["race"];
-		if (filter_race === "Empty value"){
-			filter_race = "";
-		}
-		return this.apollo.watchQuery<QueryAllClinicalDataPaginated>({
-			query: this.filteredCinicalExposureDataPaginatedQuery,
+			query: this.filteredCinicalFollowUpDataPaginatedQuery,
 			variables: {
 				offset_value: offset,
 				limit_value: limit,

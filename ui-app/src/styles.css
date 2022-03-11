@@ -50,8 +50,8 @@ div[class$="_feedback_selection_ignore"] {
 
  /* @@@PDC-1419: Fix the tooltip position for "Export Full Manifest" feature on Browse Page */
 .wholeManifestDownload {
-    padding-top: 10px;
-    padding-bottom: 10px;
+/*     padding-top: 10px;
+    padding-bottom: 10px; */
     text-align: right;
 }
 
@@ -431,3 +431,4 @@ div[class$="_feedback_selection_ignore"] {
     top: 86px;
     left: 197px;
 } */
+    

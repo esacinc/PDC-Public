@@ -43,6 +43,7 @@ export class BrowseByClinicalComponent implements OnInit {
 	filteredClinicalData: AllClinicalData[]; //Filtered list of clinical data
 	filteredAdditionalClinicalData: AllClinicalData[];
 	filteredExposureClinicalData: AllClinicalData[];
+	filteredFollowUpClinicalData: AllClinicalData[];
 	loading: boolean = false; //Flag indicates that the data is still being loaded from server
 	filterChangedFlag: boolean = true; //Flag indicates that filter selection was changed
   @Input() newFilterValue: any;
@@ -84,6 +85,8 @@ export class BrowseByClinicalComponent implements OnInit {
   checkboxOptions = [];
   selectedHeaderCheckbox = '';
   manifestFormat = "csv";
+  frozenColumns = [];
+  @Input() childTabChanged: string;
 
   constructor(private apollo: Apollo, private router: Router, private dialog: MatDialog,
 				private browseByClinicalService : BrowseByClinicalService, private activatedRoute:ActivatedRoute) {
@@ -188,30 +191,38 @@ export class BrowseByClinicalComponent implements OnInit {
   getAllClinicalData(){
 	  this.loading = true;
 	  setTimeout(() => {
-		//@@@PDC-4490: Update Clinical manifest and Case summary pages for GDC Sync
-		this.browseByClinicalService.getFilteredClinicalExposureDataPaginated(this.offset, this.limit, this.sort, this.newFilterSelected).subscribe((exposureData: any) =>{
-			this.filteredExposureClinicalData = exposureData.getPaginatedUIClinical.uiClinical;
-			this.browseByClinicalService.getFilteredClinicalAdditionalDataPaginated(this.offset, this.limit, this.sort, this.newFilterSelected).subscribe((additionalData: any) =>{
-				this.filteredAdditionalClinicalData = additionalData.getPaginatedUIClinical.uiClinical;
-				setTimeout(() => {
-					this.browseByClinicalService.getFilteredClinicalDataPaginated(this.offset, this.limit, this.sort, this.newFilterSelected).subscribe((data: any) =>{
-						this.filteredClinicalData = data.getPaginatedUIClinical.uiClinical;
-						this.filteredClinicalData = this.populateAdditionalClinicalData(this.filteredClinicalData);
-						this.totalRecords = data.getPaginatedUIClinical.total;
-						this.clinicalTotalRecordChanged.emit({type: 'clinical', totalRecords:this.totalRecords});
-						this.offset = data.getPaginatedUIClinical.pagination.from;
-						this.pageSize = data.getPaginatedUIClinical.pagination.size;
-						this.limit = data.getPaginatedUIClinical.pagination.size;
-						this.loading = false;
-						this.clearSelection();
-					});
-				}, 1000);
+		//@@@PDC-4899: Records on the Clinical tab are '0' on the Explore page in Data Browser Stage
+		this.browseByClinicalService.getFilteredClinicalFollowUpDataPaginated(this.offset, this.limit, this.sort, this.newFilterSelected).pipe(take(1)).subscribe((followUpData: any) =>{
+			this.filteredFollowUpClinicalData = followUpData.getPaginatedUIClinical.uiClinical;
+			//@@@PDC-4490: Update Clinical manifest and Case summary pages for GDC Sync
+			this.browseByClinicalService.getFilteredClinicalExposureDataPaginated(this.offset, this.limit, this.sort, this.newFilterSelected).pipe(take(1)).subscribe((exposureData: any) =>{
+				this.filteredExposureClinicalData = exposureData.getPaginatedUIClinical.uiClinical;
+				this.browseByClinicalService.getFilteredClinicalAdditionalDataPaginated(this.offset, this.limit, this.sort, this.newFilterSelected).pipe(take(1)).subscribe((additionalData: any) =>{
+					this.filteredAdditionalClinicalData = additionalData.getPaginatedUIClinical.uiClinical;
+					setTimeout(() => {
+						this.browseByClinicalService.getFilteredClinicalDataPaginated(this.offset, this.limit, this.sort, this.newFilterSelected).pipe(take(1)).subscribe((data: any) =>{
+							this.filteredClinicalData = data.getPaginatedUIClinical.uiClinical;
+							this.filteredClinicalData = this.populateAdditionalClinicalData(this.filteredClinicalData);
+							this.totalRecords = data.getPaginatedUIClinical.total;
+							this.clinicalTotalRecordChanged.emit({type: 'clinical', totalRecords:this.totalRecords});
+							this.offset = data.getPaginatedUIClinical.pagination.from;
+							this.pageSize = data.getPaginatedUIClinical.pagination.size;
+							this.limit = data.getPaginatedUIClinical.pagination.size;
+							this.clearSelection();
+							this.makeRowsSameHeight();
+							this.loading = false;
+						});
+					}, 1000);
+				});
 			});
 		});
 	}, 1000);
   }
 
   ngOnChanges(changes: SimpleChanges){
+	if (changes && changes['childTabChanged']) {
+		this.makeRowsSameHeight();
+	}
 	if (this.newFilterValue){
 		this.filteredClinicalData = [];
 		console.log(this.newFilterValue);
@@ -284,26 +295,31 @@ export class BrowseByClinicalComponent implements OnInit {
 		this.offset = 0; //Reinitialize offset for each new filter value
 		this.loading = true;
 		//setTimeout(() => {
-		//@@@PDC-4490: Update Clinical manifest and Case summary pages for GDC Sync
-		this.browseByClinicalService.getFilteredClinicalExposureDataPaginated(this.offset, this.limit, this.sort, this.newFilterSelected).subscribe((exposureData: any) =>{
-			this.filteredExposureClinicalData = exposureData.getPaginatedUIClinical.uiClinical;
-			this.browseByClinicalService.getFilteredClinicalAdditionalDataPaginated(this.offset, this.limit, this.sort, this.newFilterSelected).subscribe((additionalData: any) =>{
-				this.filteredAdditionalClinicalData = additionalData.getPaginatedUIClinical.uiClinical;
-				//setTimeout(() => {
-					this.browseByClinicalService.getFilteredClinicalDataPaginated(this.offset, this.limit,this.sort, this.newFilterSelected).subscribe((data: any) =>{
-						this.filteredClinicalData = data.getPaginatedUIClinical.uiClinical;
-						this.filteredClinicalData = this.populateAdditionalClinicalData(this.filteredClinicalData);
-						if (this.offset == 0) {
-							this.totalRecords = data.getPaginatedUIClinical.total;
-							this.clinicalTotalRecordChanged.emit({type: 'clinical', totalRecords:this.totalRecords});
-							this.offset = data.getPaginatedUIClinical.pagination.from;
-							this.pageSize = data.getPaginatedUIClinical.pagination.size;
-							this.limit = data.getPaginatedUIClinical.pagination.size;
-						}
-						this.loading = false;
-						this.clearSelection();
-					});
-				//}, 1000);
+		//@@@PDC-4899: Records on the Clinical tab are '0' on the Explore page in Data Browser Stage
+		this.browseByClinicalService.getFilteredClinicalFollowUpDataPaginated(this.offset, this.limit, this.sort, this.newFilterSelected).pipe(take(1)).subscribe((followUpData: any) =>{
+			this.filteredFollowUpClinicalData = followUpData.getPaginatedUIClinical.uiClinical;
+			//@@@PDC-4490: Update Clinical manifest and Case summary pages for GDC Sync
+			this.browseByClinicalService.getFilteredClinicalExposureDataPaginated(this.offset, this.limit, this.sort, this.newFilterSelected).pipe(take(1)).subscribe((exposureData: any) =>{
+				this.filteredExposureClinicalData = exposureData.getPaginatedUIClinical.uiClinical;
+				this.browseByClinicalService.getFilteredClinicalAdditionalDataPaginated(this.offset, this.limit, this.sort, this.newFilterSelected).pipe(take(1)).subscribe((additionalData: any) =>{
+					this.filteredAdditionalClinicalData = additionalData.getPaginatedUIClinical.uiClinical;
+					//setTimeout(() => {
+						this.browseByClinicalService.getFilteredClinicalDataPaginated(this.offset, this.limit,this.sort, this.newFilterSelected).pipe(take(1)).subscribe((data: any) =>{
+							this.filteredClinicalData = data.getPaginatedUIClinical.uiClinical;
+							this.filteredClinicalData = this.populateAdditionalClinicalData(this.filteredClinicalData);
+							if (this.offset == 0) {
+								this.totalRecords = data.getPaginatedUIClinical.total;
+								this.clinicalTotalRecordChanged.emit({type: 'clinical', totalRecords:this.totalRecords});
+								this.offset = data.getPaginatedUIClinical.pagination.from;
+								this.pageSize = data.getPaginatedUIClinical.pagination.size;
+								this.limit = data.getPaginatedUIClinical.pagination.size;
+							}
+							this.clearSelection();
+							this.makeRowsSameHeight();
+							this.loading = false;
+						});
+					//}, 1000);
+				});
 			});
 		});
 		//}, 1000);
@@ -347,45 +363,49 @@ downloadCompleteManifest(buttonClick = false) {
 			this.loading = true;
 		}
 		setTimeout(() => {
-		//@@@PDC-4490: Update Clinical manifest and Case summary pages for GDC Sync
+			//@@@PDC-4490: Update Clinical manifest and Case summary pages for GDC Sync
 			this.browseByClinicalService.getFilteredClinicalDataPaginated(0, this.totalRecords, this.sort, this.newFilterSelected).pipe(take(1)).subscribe((data: any) =>{
 				let filteredClinicalData = data.getPaginatedUIClinical.uiClinical;
 				this.browseByClinicalService.getFilteredClinicalAdditionalDataPaginated(0, this.totalRecords, this.sort, this.newFilterSelected).pipe(take(1)).subscribe((additionalData: any) =>{
 					this.filteredAdditionalClinicalData = additionalData.getPaginatedUIClinical.uiClinical;
-					this.browseByClinicalService.getFilteredClinicalExposureDataPaginated(0, this.totalRecords, this.sort, this.newFilterSelected).subscribe((exposureData: any) =>{
+					this.browseByClinicalService.getFilteredClinicalExposureDataPaginated(0, this.totalRecords, this.sort, this.newFilterSelected).pipe(take(1)).subscribe((exposureData: any) =>{
 						this.filteredExposureClinicalData = exposureData.getPaginatedUIClinical.uiClinical;
-						filteredClinicalData = this.populateAdditionalClinicalData(filteredClinicalData);
-						let localSelectedClinical = [];
-						for(let item of filteredClinicalData){
-							localSelectedClinical.push(item);
-						}
-						if (buttonClick) {
-							this.selectedClinicalData = localSelectedClinical;
-							this.headercheckbox = true;
-							//@@@PDC-3667: "Select all pages" option issue
-							this.updateCurrentPageSelectedClinical(localSelectedClinical);
-							this.loading = false;
-						} else {
-							let headerCols = [];
-							let colValues = [];
-							for (var i=0; i< this.cols.length; i++) {
-								headerCols.push(this.cols[i]['header']);
-								colValues.push(this.cols[i]['field']);
+						//@@@PDC-4899: Records on the Clinical tab are '0' on the Explore page in Data Browser Stage
+						this.browseByClinicalService.getFilteredClinicalFollowUpDataPaginated(0, this.totalRecords, this.sort, this.newFilterSelected).pipe(take(1)).subscribe((followUpData: any) =>{
+							this.filteredFollowUpClinicalData = followUpData.getPaginatedUIClinical.uiClinical;
+							filteredClinicalData = this.populateAdditionalClinicalData(filteredClinicalData);
+							let localSelectedClinical = [];
+							for(let item of filteredClinicalData){
+								localSelectedClinical.push(item);
 							}
-							let exportData = [];
-							//@@@PDC-2950: External case id missing in clinical manifest
-							exportData = this.addGenomicImagingDataToExportManifest(localSelectedClinical);
-							let csvOptions = {
-								headers: headerCols
-							};
-							//PDC-3206 fix ddownload manifest even if there are zero records
-							if (this.totalRecords > 0) {
-								let exportFileObject = JSON.parse(JSON.stringify(exportData, colValues));
-								//@@@PDC-4260: Update clinical manifest to include new clinical data fields
-								this.prepareDownloadData(this.manifestFormat, exportData, exportFileObject);
+							if (buttonClick) {
+								this.selectedClinicalData = localSelectedClinical;
+								this.headercheckbox = true;
+								//@@@PDC-3667: "Select all pages" option issue
+								this.updateCurrentPageSelectedClinical(localSelectedClinical);
+								this.loading = false;
+							} else {
+								let headerCols = [];
+								let colValues = [];
+								for (var i=0; i< this.cols.length; i++) {
+									headerCols.push(this.cols[i]['header']);
+									colValues.push(this.cols[i]['field']);
+								}
+								let exportData = [];
+								//@@@PDC-2950: External case id missing in clinical manifest
+								exportData = this.addGenomicImagingDataToExportManifest(localSelectedClinical);
+								let csvOptions = {
+									headers: headerCols
+								};
+								//PDC-3206 fix ddownload manifest even if there are zero records
+								if (this.totalRecords > 0) {
+									let exportFileObject = JSON.parse(JSON.stringify(exportData, colValues));
+									//@@@PDC-4260: Update clinical manifest to include new clinical data fields
+									this.prepareDownloadData(this.manifestFormat, exportData, exportFileObject);
+								}
+								this.isTableLoading.emit({isTableLoading:"clinical:false"});
 							}
-							this.isTableLoading.emit({isTableLoading:"clinical:false"});
-						}
+						});
 					});
 				});
 			});
@@ -478,32 +498,37 @@ isDownloadDisabled(){
 		this.offset = event.first;
 		this.limit = event.rows;
 		this.loading = true;
-		//@@@PDC-4490: Update Clinical manifest and Case summary pages for GDC Sync
-		this.browseByClinicalService.getFilteredClinicalExposureDataPaginated(this.offset, this.limit, this.sort, this.newFilterSelected).subscribe((exposureData: any) =>{
-			this.filteredExposureClinicalData = exposureData.getPaginatedUIClinical.uiClinical;
-			this.browseByClinicalService.getFilteredClinicalAdditionalDataPaginated(this.offset, this.limit, this.sort, this.newFilterSelected).subscribe((additionalData: any) =>{
-				this.filteredAdditionalClinicalData = additionalData.getPaginatedUIClinical.uiClinical;
-				this.browseByClinicalService.getFilteredClinicalDataPaginated(this.offset, this.limit, this.sort, this.newFilterSelected).subscribe((data: any) => {
-					this.filteredClinicalData = data.getPaginatedUIClinical.uiClinical;
-					this.filteredClinicalData = this.populateAdditionalClinicalData(this.filteredClinicalData);
-					if (this.offset == 0) {
-						this.totalRecords = data.getPaginatedUIClinical.total;
-						this.clinicalTotalRecordChanged.emit({ type: 'clinical', totalRecords: this.totalRecords });
-						this.offset = data.getPaginatedUIClinical.pagination.from;
-						this.limit = data.getPaginatedUIClinical.pagination.size;
-					}
-					//@@@PDC-3700: Existing issues with Checkbox handling on "Browse" page
-					//Page size should be available for all offsets
-					this.pageSize = data.getPaginatedUIClinical.pagination.size;
-					this.loading = false;
-					this.trackCurrentPageSelectedCase(data.getPaginatedUIClinical.uiClinical);
-					if(this.pageHeaderCheckBoxTrack.indexOf(this.offset) !== -1){
-						this.headercheckbox = true;
-					}else{
-						this.headercheckbox = false;
-					}
-					//@@@PDC-3667: "Select all pages" option issue
-					this.handleCheckboxSelections();
+		//@@@PDC-4899: Records on the Clinical tab are '0' on the Explore page in Data Browser Stage
+		this.browseByClinicalService.getFilteredClinicalFollowUpDataPaginated(this.offset, this.limit, this.sort, this.newFilterSelected).pipe(take(1)).subscribe((followUpData: any) =>{
+			this.filteredFollowUpClinicalData = followUpData.getPaginatedUIClinical.uiClinical;
+			//@@@PDC-4490: Update Clinical manifest and Case summary pages for GDC Sync
+			this.browseByClinicalService.getFilteredClinicalExposureDataPaginated(this.offset, this.limit, this.sort, this.newFilterSelected).pipe(take(1)).subscribe((exposureData: any) =>{
+				this.filteredExposureClinicalData = exposureData.getPaginatedUIClinical.uiClinical;
+				this.browseByClinicalService.getFilteredClinicalAdditionalDataPaginated(this.offset, this.limit, this.sort, this.newFilterSelected).pipe(take(1)).subscribe((additionalData: any) =>{
+					this.filteredAdditionalClinicalData = additionalData.getPaginatedUIClinical.uiClinical;
+					this.browseByClinicalService.getFilteredClinicalDataPaginated(this.offset, this.limit, this.sort, this.newFilterSelected).pipe(take(1)).subscribe((data: any) => {
+						this.filteredClinicalData = data.getPaginatedUIClinical.uiClinical;
+						this.filteredClinicalData = this.populateAdditionalClinicalData(this.filteredClinicalData);
+						if (this.offset == 0) {
+							this.totalRecords = data.getPaginatedUIClinical.total;
+							this.clinicalTotalRecordChanged.emit({ type: 'clinical', totalRecords: this.totalRecords });
+							this.offset = data.getPaginatedUIClinical.pagination.from;
+							this.limit = data.getPaginatedUIClinical.pagination.size;
+						}
+						//@@@PDC-3700: Existing issues with Checkbox handling on "Browse" page
+						//Page size should be available for all offsets
+						this.pageSize = data.getPaginatedUIClinical.pagination.size;
+						this.trackCurrentPageSelectedCase(data.getPaginatedUIClinical.uiClinical);
+						if(this.pageHeaderCheckBoxTrack.indexOf(this.offset) !== -1){
+							this.headercheckbox = true;
+						}else{
+							this.headercheckbox = false;
+						}
+						//@@@PDC-3667: "Select all pages" option issue
+						this.handleCheckboxSelections();
+						this.makeRowsSameHeight();
+						this.loading = false;
+					});
 				});
 			});
 		});
@@ -511,25 +536,22 @@ isDownloadDisabled(){
 
 	//@@@PDC-4490: Update Clinical manifest and Case summary pages for GDC Sync
 	populateAdditionalClinicalData(filteredClinicalData) {
-		for (var i in this.filteredAdditionalClinicalData) {
-			let clinicalDataRow = this.filteredAdditionalClinicalData[i];
-			if (clinicalDataRow && clinicalDataRow['case_submitter_id']) {
-				let case_submitter_id = clinicalDataRow['case_submitter_id'];
-				let follow_ups = clinicalDataRow['follow_ups'];
+		//@@@PDC-4899: Records on the Clinical tab are '0' on the Explore page in Data Browser Stage
+		//Populate fields from FollowUp data
+		for (var i in this.filteredFollowUpClinicalData) {
+			let followUpDataRow = this.filteredFollowUpClinicalData[i];
+			if (followUpDataRow && followUpDataRow['case_submitter_id']) {
+				let case_submitter_id = followUpDataRow['case_submitter_id'];
+				let follow_ups = followUpDataRow['follow_ups'];
 				if (filteredClinicalData.length > 0) {
 					let recFound = filteredClinicalData.find(x => x.case_submitter_id == case_submitter_id);
-					recFound['follow_ups'] = follow_ups;
-					Object.keys(clinicalDataRow).forEach( function(key) {
-						if (!['exposures', 'follow_ups', 'externalReferences'].includes(key)) {
-							recFound[key] = clinicalDataRow[key];
-						}
-						if (!recFound) {
-							filteredClinicalData[key] = null;
-						}
-					});
+					if (recFound) {
+						recFound['follow_ups'] = follow_ups;
+					}
 				}
 			}
 		}
+		//Populate fields from Exposure data
 		for (var i in this.filteredExposureClinicalData) {
 			let exposureDataRow = this.filteredExposureClinicalData[i];
 			if (exposureDataRow && exposureDataRow['case_submitter_id']) {
@@ -537,7 +559,38 @@ isDownloadDisabled(){
 				let exposures = exposureDataRow['exposures'];
 				if (filteredClinicalData.length > 0) {
 					let recFound = filteredClinicalData.find(x => x.case_submitter_id == case_submitter_id);
-					recFound['exposures'] = exposures;
+					if (recFound) {
+						recFound['exposures'] = exposures;
+						Object.keys(exposureDataRow).forEach( function(key) {
+							if (!['exposures', 'follow_ups', 'externalReferences', '__typename', 'case_submitter_id'].includes(key)) {
+								recFound[key] = exposureDataRow[key];
+							}
+							if (!recFound) {
+								filteredClinicalData[key] = null;
+							}
+						});
+					}
+				}
+			}
+		}
+		//@@@PDC-4899: Records on the Clinical tab are '0' on the Explore page in Data Browser Stage
+		//Populate fields from filteredAdditionalClinicalData
+ 		for (var i in this.filteredAdditionalClinicalData) {
+			let clinicalDataRow = this.filteredAdditionalClinicalData[i];
+			if (clinicalDataRow && clinicalDataRow['case_submitter_id']) {
+				let case_submitter_id = clinicalDataRow['case_submitter_id'];
+				if (filteredClinicalData.length > 0) {
+					let recFound = filteredClinicalData.find(x => x.case_submitter_id == case_submitter_id);
+					if (recFound) {
+						Object.keys(clinicalDataRow).forEach( function(key) {
+							if (!['exposures', 'follow_ups', 'externalReferences', '__typename', 'case_submitter_id'].includes(key)) {
+								recFound[key] = clinicalDataRow[key];
+							}
+							if (!recFound) {
+								filteredClinicalData[key] = null;
+							}
+						});
+					}
 				}
 			}
 		}
@@ -626,6 +679,9 @@ isDownloadDisabled(){
 	  //@@@PDC-1305 add age_at_diagnosis et al
 	  //@@@PDC-1789: Add study_submitter_id and study_id to exported study manifests
 	  //@@@PDC-2397 Update clinical manifest generation to include additional attributes
+	  this.frozenColumns  = [
+		{field: 'project_name', header: 'Project Name'},
+	  ];
 	  this.cols = [
 		{field: 'case_id', header: 'Case ID'},
 		{field: 'case_submitter_id', header: 'Cases Submitter ID'},
@@ -1132,6 +1188,43 @@ isDownloadDisabled(){
 			this.selectedClinicalData.forEach(item => {if(fileIdList.indexOf(item.case_submitter_id) !== -1){
 				this.currentPageSelectedClinical.push(item.case_submitter_id);
 			}});
+		}
+
+		onResize(event) {
+			this.makeRowsSameHeight();
+		}
+
+		//@@@PDC-4792: Increase font size in all tables to pass 508 compliance
+		makeRowsSameHeight() {
+			setTimeout(() => {
+				if (document.getElementsByClassName('ui-table-scrollable-wrapper').length) {
+					let wrapper = document.getElementsByClassName('ui-table-scrollable-wrapper');
+					for (var i = 0; i < wrapper.length; i++) {
+					    let w = wrapper.item(i) as HTMLElement;
+					    let frozen_rows: any = w.querySelectorAll('.ui-table-frozen-view .ui-table-tbody tr');
+					    let unfrozen_rows: any = w.querySelectorAll('.ui-table-unfrozen-view .ui-table-tbody tr');
+					    let frozen_header_row: any = w.querySelectorAll('.ui-table-frozen-view .ui-table-thead tr');
+					    let unfrozen_header_row: any = w.querySelectorAll('.ui-table-unfrozen-view .ui-table-thead');
+					   	if (frozen_header_row[0].clientHeight > unfrozen_header_row[0].clientHeight) {
+							unfrozen_header_row[0].style.height = frozen_header_row[0].clientHeight+"px";
+				  		} 
+						else if (frozen_header_row[0].clientHeight < unfrozen_header_row[0].clientHeight) {
+							frozen_header_row[0].style.height = unfrozen_header_row[0].clientHeight+"px";
+						} 				   
+					   	for (let i = 0; i < frozen_rows.length; i++) {
+							if (frozen_rows[i].clientHeight > unfrozen_rows[i].clientHeight) {
+								unfrozen_rows[i].style.height = frozen_rows[i].clientHeight+"px";
+							} 
+							else if (frozen_rows[i].clientHeight < unfrozen_rows[i].clientHeight) 
+							{
+								frozen_rows[i].style.height = unfrozen_rows[i].clientHeight+"px";
+							}
+						}
+						let frozen_header_div: any = w.querySelectorAll('.ui-table-unfrozen-view .ui-table-scrollable-header-box');
+						frozen_header_div[0].setAttribute('style', 'margin-right: 0px !important'); 
+					}
+				}
+			});
 		}
 
 }

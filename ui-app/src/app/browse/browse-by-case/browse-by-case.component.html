@@ -1,37 +1,38 @@
-	<div class="row" style="font-family:'Lato'; font-size: 12px;">  
-		<div class="container-fluid ui-helper-clearfix button-container-fluid">
-			<div class="row">
-				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-					<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-						<div *ngIf="totalRecords > 0 && !loading" >
-							<h3 style="font-family: 'Lato'; font-size:14px;margin-top:10px!important" >{{totalRecords > 1 ? 'Total aliquots: ' + totalRecords : 'Total aliquot: ' + totalRecords }}</h3>
+	<div class="row" style="font-family:'Lato'; font-size: 12px;" (window:resize)="onResize($event)">  
+
+	  <p-table class="table-striped ui-datatable-odd" #dt [columns]="cols"  [value]="filteredCasesData" [lazy]="true" [paginator]="true" [(first)]="offset" 
+				[rows]="10" [pageLinks]="5" [rowsPerPageOptions]="[10,20,50]" [totalRecords]="totalRecords"
+				[loading]="loading" [resizableColumns]="true" columnResizeMode="expand" [ngStyle]="{'width':'100%'}"
+				(onRowUnselect) ="onRowUnselected($event)" (onRowSelect)="onRowSelected($event)" [(selection)]="selectedCases" 
+				dataKey="aliquot_submitter_id" (onLazyLoad)="loadCases($event)" id="biospecimensDataTable" paginatorPosition="both"
+				scrollHeight="500px" [autoLayout]="true" [frozenColumns]="frozenColumns" [scrollable]="true" frozenWidth="200px">
+		<ng-template pTemplate="caption">
+		<div class="container-fluid ui-helper-clearfix button-container-fluid exportButtonsRow">
+				<div class="row">
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+						<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+							<div *ngIf="totalRecords > 0 && !loading" >
+								<h3 style="font-family: 'Lato'; font-size:14px;margin-top:10px!important" >{{totalRecords > 1 ? 'Total aliquots: ' + totalRecords : 'Total aliquot: ' + totalRecords }}</h3>
+							</div>
 						</div>
-					</div>
-					<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
-					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-						<div class="wholeManifestDownload">
-							Export All Manifests
-							&nbsp;<button matTooltip="Exports all manifests for the filters applied" id="downloadWholeManifest" mat-raised-button mat-primary label="Download Selection" (click)="downloadAllManifest('csv')" style="font-family:'Lato';font-weight:bold;min-width:1%;" [disabled]="iscompleteManifestDisabled()" aria-label="Download all Manifests">CSV</button>&nbsp;
-							<button matTooltip="Exports all manifests for the filters applied" id="downloadWholeManifest" mat-raised-button mat-primary label="Download Selection" (click)="downloadAllManifest('tsv')" style="font-family:'Lato';font-weight:bold;min-width:1%;" [disabled]="iscompleteManifestDisabled()" aria-label="Download all Manifests">TSV</button>
+						<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
+						<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 manifestDownload">
+							<div class="wholeManifestDownload">
+								Export All Manifests
+								&nbsp;<button matTooltip="Exports all manifests for the filters applied" id="downloadWholeManifest" mat-raised-button mat-primary label="Download Selection" (click)="downloadAllManifest('csv')" style="font-family:'Lato';font-weight:bold;min-width:1%;" [disabled]="iscompleteManifestDisabled()" aria-label="Download all Manifests">CSV</button>&nbsp;
+								<button matTooltip="Exports all manifests for the filters applied" id="downloadWholeManifest" mat-raised-button mat-primary label="Download Selection" (click)="downloadAllManifest('tsv')" style="font-family:'Lato';font-weight:bold;min-width:1%;" [disabled]="iscompleteManifestDisabled()" aria-label="Download all Manifests">TSV</button>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-
-	  <p-table class="table-striped ui-datatable-odd" #dt [columns]="cols"  [value]="filteredCasesData" [lazy]="true" [paginator]="true" [(first)]="offset" 
-				[rows]="10" [pageLinks]="5" [rowsPerPageOptions]="[10,20,50]" [totalRecords]="totalRecords"
-				[loading]="loading" [resizableColumns]="true" columnResizeMode="expand" [style]="{'width':'100%', 'min-width':'1000px'}"
-				(onRowUnselect) ="onRowUnselected($event)" (onRowSelect)="onRowSelected($event)" [(selection)]="selectedCases" 
-				dataKey="aliquot_submitter_id" (onLazyLoad)="loadCases($event)" id="biospecimensDataTable" paginatorPosition="both">
-		<ng-template pTemplate="caption">
-			<div class="container-fluid ui-helper-clearfix button-container-fluid">
+			<div class="container-fluid ui-helper-clearfix button-container-fluid" style="border-top: 1px solid #ddd;">
 				<div class="row">
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-						<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+						<div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
 							
 						</div>
-						<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 manifestDownload">
+						<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 manifestDownload">
 						  <div class="row">
 						    <div class="col-12">
 							  Export Biospecimen Manifest
@@ -49,25 +50,29 @@
 				</div>
 			</div>
 		</ng-template>
-        <ng-template style="font-size: 12px; background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%);" pTemplate="header" let-columns>
-            <tr style="font-size: 12px;">
-				<th class="ui-datatable-tableheader" style="width:5%;overflow: unset;">
-				<label><p-checkbox  id="caseDataChk" [(ngModel)]="headercheckbox" binary="true" (onChange)="onTableHeaderCheckboxToggle()"></p-checkbox></label>
-					<mat-select id="dataForManifestExport" class="card-body card-list" [(ngModel)]="selectedHeaderCheckbox"
-					(selectionChange)="changeHeaderCheckbox($event)">
-						<mat-option *ngFor="let checkboxOption of checkboxOptions" [value]="checkboxOption">
-							{{checkboxOption}}
-						</mat-option>
-					</mat-select>
-					<span style="display:none">Select all rows</span>
-					
+		<ng-template pTemplate="frozenheader" let-frozenColumns>
+			<tr>
+				<th class="ui-datatable-tableheader" style="width:50px;overflow: unset;">
+					<label><p-checkbox  id="caseDataChk" [(ngModel)]="headercheckbox" binary="true" (onChange)="onTableHeaderCheckboxToggle()"></p-checkbox></label>
+						<mat-select id="dataForManifestExport" class="card-body card-list" [(ngModel)]="selectedHeaderCheckbox"
+						(selectionChange)="changeHeaderCheckbox($event)">
+							<mat-option *ngFor="let checkboxOption of checkboxOptions" [value]="checkboxOption">
+								{{checkboxOption}}
+							</mat-option>
+						</mat-select>
+						<span style="display:none">Select all rows</span>
+						
 				</th>
 				<!-- @@@PDC-262 link headers to data dictionary -->                
-                <th class="ui-datatable-tableheader" style="width:18%;word-break: break-all;" [pSortableColumn]="cols[1].field"><a href="{{staticUrlBase}}dictionaryitem.html?eName=Aliquot" target="_blank" style="color:white">Aliquot</a><p-sortIcon [field]="cols[1].field" ariaLabel="Sort Aliquot column in ascending/descending order"></p-sortIcon></th>
-			    <th class="ui-datatable-tableheader" style="width:18%" [pSortableColumn]="cols[3].field"><a href="{{staticUrlBase}}dictionaryitem.html?eName=Sample" target="_blank" style="color:white">Sample</a><p-sortIcon [field]="cols[3].field" ariaLabel="Sort Sample column in ascending/descending order"></p-sortIcon></th>
-			    <th class="ui-datatable-tableheader" style="width:18%" [pSortableColumn]="cols[5].field"><a href="{{staticUrlBase}}dictionaryitem.html?eName=Case" target="_blank" style="color:white">Case</a><p-sortIcon [field]="cols[5].field" ariaLabel="Sort Case column in ascending/descending order"></p-sortIcon></th>
-			    <th class="ui-datatable-tableheader" style="width:18%" [pSortableColumn]="cols[6].field"><a href="{{staticUrlBase}}dictionaryitem.html?eName=Project" target="_blank" style="color:white">Project</a><p-sortIcon [field]="cols[6].field" ariaLabel="Sort Project column in ascending/descending order"></p-sortIcon></th>
-				<th class="ui-datatable-tableheader" style="width:10%" [pSortableColumn]="cols[7].field">
+				<th class="ui-datatable-tableheader" style="width:150px;word-break: break-all;" [pSortableColumn]="cols[1].field"><a href="{{staticUrlBase}}dictionaryitem.html?eName=Aliquot" target="_blank" style="color:white">Aliquot</a><p-sortIcon [field]="cols[1].field" ariaLabel="Sort Aliquot column in ascending/descending order"></p-sortIcon></th>
+			</tr>
+		</ng-template>
+        <ng-template style="font-size: 12px; background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%);" pTemplate="header" let-columns>
+            <tr class="safari_only">
+			    <th class="ui-datatable-tableheader" [pSortableColumn]="cols[3].field"><a href="{{staticUrlBase}}dictionaryitem.html?eName=Sample" target="_blank" style="color:white">Sample</a><p-sortIcon [field]="cols[3].field" ariaLabel="Sort Sample column in ascending/descending order"></p-sortIcon></th>
+			    <th class="ui-datatable-tableheader" [pSortableColumn]="cols[5].field"><a href="{{staticUrlBase}}dictionaryitem.html?eName=Case" target="_blank" style="color:white">Case</a><p-sortIcon [field]="cols[5].field" ariaLabel="Sort Case column in ascending/descending order"></p-sortIcon></th>
+			    <th class="ui-datatable-tableheader" [pSortableColumn]="cols[6].field"><a href="{{staticUrlBase}}dictionaryitem.html?eName=Project" target="_blank" style="color:white">Project</a><p-sortIcon [field]="cols[6].field" ariaLabel="Sort Project column in ascending/descending order"></p-sortIcon></th>
+				<th class="ui-datatable-tableheader" [pSortableColumn]="cols[7].field">
 					<div class="ui-datatable-tableheader-flex-container">
 						<div>
 							<a href="{{staticUrlBase}}dictionaryitem.html?eName=Sample#sample_type" target="_blank" style="color:white">
@@ -79,7 +84,7 @@
 						</div>
 					</div>
 				</th>
-				<th class="ui-datatable-tableheader" style="width:10%; white-space: pre; word-break: break-all;" [pSortableColumn]="cols[8].field">
+				<th class="ui-datatable-tableheader" style="white-space: pre; word-break: break-all;" [pSortableColumn]="cols[8].field">
 					<div class="ui-datatable-tableheader-flex-container">
 						<div>
 							<a href="{{staticUrlBase}}dictionaryitem.html?eName=Case#primary_site" target="_blank" style="color:white">
@@ -91,7 +96,7 @@
 						</div>
 					</div>
 				</th>
-				<th class="ui-datatable-tableheader" style="width:12%" [pSortableColumn]="cols[9].field">
+				<th class="ui-datatable-tableheader" [pSortableColumn]="cols[9].field">
 					<div class="ui-datatable-tableheader-flex-container">
 						<div>
 							<a href="{{staticUrlBase}}dictionaryitem.html?eName=Case#disease_type" target="_blank" style="color:white">
@@ -104,18 +109,22 @@
 					</div>
 				</th>
             </tr>
-        </ng-template>
+		</ng-template>
+		<ng-template pTemplate="frozenbody" let-caseData let-frozenColumns>
+			<tr style="font-size: 11px;"[pSelectableRow]="caseData">
+				<td style="width:50px;word-wrap: break-word; white-space: normal;"><p-tableCheckbox id="caseData{{caseData.aliquot_submitter_id}}" [value]="caseData" class="browsePageCheckboxes"></p-tableCheckbox></td>
+				<!-- @@@PDC-462 show submitter ids -->                
+                <td style="width:150px; white-space: normal;">{{caseData.aliquot_submitter_id }}&nbsp;&nbsp;<span style='color:red' *ngIf="caseData.aliquot_status == 'Disqualified'">{{caseData.aliquot_status}}</span></td>
+			</tr>
+		</ng-template>
         <ng-template pTemplate="body" let-caseData let-columns="columns">
             <tr style="font-size: 11px;" [pSelectableRow]="caseData" >
-				<td style="width:5%;word-wrap: break-word; white-space: normal;"><p-tableCheckbox id="caseData{{caseData.aliquot_submitter_id}}" [value]="caseData" class="browsePageCheckboxes"></p-tableCheckbox></td>
-				<!-- @@@PDC-462 show submitter ids -->                
-                <td style="width:18%; white-space: normal;">{{caseData.aliquot_submitter_id }}&nbsp;&nbsp;<span style='color:red' *ngIf="caseData.aliquot_status == 'Disqualified'">{{caseData.aliquot_status}}</span></td>
-                <td style="width:18%;word-wrap: break-word; white-space: normal;">{{caseData.sample_submitter_id}}&nbsp;&nbsp;<span style='color:red' *ngIf="caseData.sample_status == 'Disqualified'">{{caseData.sample_status}}</span></td>
-                <td style="width:18%;word-wrap: break-word; white-space: normal;"><a href="javascript:void(0);" (click)="showCaseSummary(caseData.case_submitter_id)">{{caseData.case_submitter_id}}</a>&nbsp;&nbsp;<span style='color:red' *ngIf="caseData.case_status == 'Disqualified'">{{caseData.case_status}}</span></td>
-                <td style="width:18%;word-wrap: break-word; white-space: normal;">{{caseData.project_name}}</td>
-				<td style="width:10%;word-wrap: break-word; white-space: normal;">{{caseData.sample_type}}</td>
-				<td style="width:10%;word-wrap: break-word; white-space: normal;">{{caseData.primary_site}}</td>
-				<td style="width:15%;word-wrap: break-word; white-space: normal;">{{caseData.disease_type}}</td>
+                <td style="word-wrap: break-word; white-space: normal;">{{caseData.sample_submitter_id}}&nbsp;&nbsp;<span style='color:red' *ngIf="caseData.sample_status == 'Disqualified'">{{caseData.sample_status}}</span></td>
+                <td style="word-wrap: break-word; white-space: normal;"><a href="javascript:void(0);" (click)="showCaseSummary(caseData.case_submitter_id)">{{caseData.case_submitter_id}}</a>&nbsp;&nbsp;<span style='color:red' *ngIf="caseData.case_status == 'Disqualified'">{{caseData.case_status}}</span></td>
+                <td style="word-wrap: break-word; white-space: normal;">{{caseData.project_name}}</td>
+				<td style="word-wrap: break-word; white-space: normal;">{{caseData.sample_type}}</td>
+				<td style="word-wrap: break-word; white-space: normal;">{{caseData.primary_site}}</td>
+				<td style="word-wrap: break-word; white-space: normal;">{{caseData.disease_type}}</td>
             </tr>
         </ng-template>
       </p-table>

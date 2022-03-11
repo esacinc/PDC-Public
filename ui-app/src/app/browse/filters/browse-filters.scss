@@ -127,7 +127,7 @@ $stateActiveBgColor: #3baae3;
 	padding-bottom: 0px!important;
 }
 
-/deep/ .sidenavFiltersPanel .mat-list-item {
+ /deep/ .sidenavFiltersPanel .mat-list-item {
 	padding-right: 0px!important;
 	height: 35px!important;
 	line-height: 100%;
@@ -150,8 +150,112 @@ $stateActiveBgColor: #3baae3;
 /deep/ div.mat-tab-label-content button#clearBiospecimenDataCategory.mat-icon-button {
 		width: 20px;
 }
-// PDC-620: Make the filter selection tabs along the left side of the window
+
+//@@@PDC-4625: Implement the UI-UX changes to the filter sidebar
+//@@@PDC-4871: UI-UX changes for stacking filters & improvements to the menu section
 /deep/ {
+	.side-bar-tabs .mat-tab-labels {
+		display: block !important;
+	}
+
+	.side-bar-tabs .mat-tab-label {
+		padding: 0px !important;
+		border: 0.5px solid lightgray !important;
+		min-width: 98px !important;
+		//box-shadow: rgb(0 0 0 / 20%) 0 3px 1px -2px , rgb(0 0 0 / 14%) 0 2px 2px 0 , rgb(0 0 0 / 12%) 0 1px 5px 0;
+		box-shadow: 0px 2px 3px rgba(0, 0, 0, .25);;
+		border-radius: 4px;
+		height: 30px !important;
+	}
+
+	.side-bar-tabs .mat-tab-label-container {
+		text-align: center;
+	}
+
+	.side-bar-tabs .mat-tab-label-active {
+		//background: linear-gradient(to bottom, #f6f7f9 0%, #ebedf0 100%);
+		//background-color: #E8E8E8;
+		border-bottom: 2px solid #3F51D4 !important;
+		font-weight: 700;
+	}
+
+	.side-bar-tabs .mat-icon-button {
+		width: 15px !important;
+	}
+
+	.side-bar-tabs .mat-icon-button i {
+		line-height: 20px;
+		font-size: 12px;
+	}
+
+	.sideBarNavigation .mat-expansion-panel-body {
+		padding: 5px !important;
+	}
+
+	.sidenavFiltersPanel .selectedFilterDiv {
+		background-color: #E8E8E8;
+	}
+
+	.card-list div {
+		font-size: 14px !important;
+	}
+
+	.side-bar-tabs .mat-ink-bar {
+		visibility: hidden !important;
+	}
+
+	@media not all and (min-resolution:.001dpcm)
+	{ @supports (-webkit-appearance:none) and (stroke-color:transparent) {
+		.side-bar-tabs .mat-tab-label-active {
+			font-weight: 500 !important;
+		}
+	}}
+
+	.side-bar-tabs .mat-tab-header-pagination.mat-tab-header-pagination-disabled,
+	.side-bar-tabs .mat-tab-header-pagination-controls-enabled .mat-tab-header-pagination {
+    	display: none !important;
+	}
+}
+
+.select-gene {
+	border: 1px solid rgb(118, 118, 118); 
+	width: 97%;
+}
+
+.filter-section {
+	max-height: 550px;
+	overflow-y: auto;
+}
+
+.browse-filter-clear {
+	font-size: 13px !important;
+	//margin-right: 10%;
+	width: 30% !important;
+}
+
+/deep/ {
+	@media not all and (min-resolution:.001dpcm)
+	{ @supports (-webkit-appearance:none) and (stroke-color:transparent) {
+
+		.safari_only { 
+		height: 67px !important;
+
+		}
+	}}
+}
+
+// ::ng-deep .mat-tab-labels {
+// 	/* display: flex; */
+// 	display: block !important;
+// }
+
+// ::ng-deep .mat-tab-label {
+//   min-width: 102.9px !important;
+//   padding: 0px !important;
+// }
+
+// PDC-620: Make the filter selection tabs along the left side of the window
+/* /deep/ {
 	.sideBarNavigation .mat-tab-label-container {
 		display: flex;
 		flex-grow: 1;
@@ -212,7 +316,7 @@ $stateActiveBgColor: #3baae3;
 		text-transform: uppercase;
 		font-weight: bold;
 		color: black;
-	}
+	} */
 
 //	.sideBarNavigation #mat-tab-label-1-1 {
 //		min-width: 150px !important;
@@ -240,4 +344,4 @@ $stateActiveBgColor: #3baae3;
 //		padding-left: 45px !important;
 //	}
 
-}
+//}

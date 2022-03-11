@@ -1,7 +1,7 @@
 <div style="padding-left: 5px; overflow-x: scroll;min-width:1200px">
     <mat-sidenav-container style="min-height: 1100px;padding-left:5px!important">
       <!-- @@@PDC-320 slightly changed the width of sidebar filters to make reset button always appear aligned to filter name -->
-      <mat-sidenav #sidenav style=" margin-top: 3px; width:330px; padding-left:15px!important" mode="side" opened [(opened)]="opened" class="sideBarNavigation">
+      <mat-sidenav #sidenav style=" margin-top: 3px; width:330px; padding-left:15px!important; overflow-y: scroll !important" mode="side" opened [(opened)]="opened" class="sideBarNavigation">
         
         <mat-card class="card" style="padding:0px!important">
           <mat-card-header class="browse-filter">
@@ -79,30 +79,30 @@
       </div>
       <div style="margin-left: 10px;margin-top: 10px;" *ngIf="controlFileDownloadSpinner == true"><i class="fa fa-spinner fa-spin" style="font-size:24px"></i>&nbsp;&nbsp;&nbsp;File Download in progress. Please wait... </div>
           <!-- <mat-card class="mat-card" style="padding-top: 3px; padding-left:8px; padding-right:12px; overflow-x: hidden;"> -->
-        <mat-tab-group [selectedIndex]="selectedTab" (selectedTabChange)="selectedTabChange($event)" style="padding-left: 10px; padding-right: 10px; padding-top: 10px; overflow-x:hidden; display:table">
-		    <mat-tab label="{{studyTotalRecords > 1 ? 'Studies ('+studyTotalRecords + ')' : 'Study ('+studyTotalRecords + ')'  }}" *ngIf="!disablePanelsFlag" >
+        <mat-tab-group class="table-panels" [selectedIndex]="selectedTab" (selectedTabChange)="selectedTabChange($event)" style="padding-left: 10px; padding-top: 10px; overflow-x:hidden;">
+		    <mat-tab label="{{studyTotalRecords > 1 ? 'Studies ('+studyTotalRecords + ')' : 'Study ('+studyTotalRecords + ')'  }}" *ngIf="!disablePanelsFlag">
               <div style="padding-left:0px; margin-left: 15px; margin-right: 10px">
-					      <browse-by-study (isTableLoading)="handleTabLoading($event)" [handleTableLoading]="handleTableLoading" [enableDownloadAllManifests]="enableDownloadAllManifests" [newFilterValue]="newFilterValue" (studyTotalRecordChanged)="totalRecordChanged($event)" (selectedTabChangeForCaseCount)="changeTabForCaseCount($event)" (selectedTabChangeForFileType)="changeTabForFileType($event)" (downloadWholeManifestFlag)="downloadWholeManifest($event)" [downloadAllManifests]="downloadAllManifests">Starting browse by study...</browse-by-study>
+					      <browse-by-study (isTableLoading)="handleTabLoading($event)" [handleTableLoading]="handleTableLoading" [enableDownloadAllManifests]="enableDownloadAllManifests" [newFilterValue]="newFilterValue" (studyTotalRecordChanged)="totalRecordChanged($event)" (selectedTabChangeForCaseCount)="changeTabForCaseCount($event)" (selectedTabChangeForFileType)="changeTabForFileType($event)" (downloadWholeManifestFlag)="downloadWholeManifest($event)" [downloadAllManifests]="downloadAllManifests" [childTabChanged]="captureTabChange">Starting browse by study...</browse-by-study>
 			        </div>
             </mat-tab>
             <mat-tab label=" {{biospecimenTotalRecords > 1 ? 'Biospecimens ('+biospecimenTotalRecords + ')' : 'Biospecimen ('+biospecimenTotalRecords + ')'  }}" *ngIf="!disablePanelsFlag">
 			        <div style="padding-left:0px; margin-left: 15px; margin-right: 10px">
-				        <browse-by-case (isTableLoading)="handleTabLoading($event)" [handleTableLoading]="handleTableLoading" [enableDownloadAllManifests]="enableDownloadAllManifests" [newFilterValue]="newFilterValue" (biospecimenTotalRecordChanged)="totalRecordChanged($event)" (downloadWholeManifestFlag)="downloadWholeManifest($event)" [downloadAllManifests]="downloadAllManifests">Starting browse by case...</browse-by-case>
+				        <browse-by-case (isTableLoading)="handleTabLoading($event)" [handleTableLoading]="handleTableLoading" [enableDownloadAllManifests]="enableDownloadAllManifests" [newFilterValue]="newFilterValue" (biospecimenTotalRecordChanged)="totalRecordChanged($event)" (downloadWholeManifestFlag)="downloadWholeManifest($event)" [downloadAllManifests]="downloadAllManifests" [childTabChanged]="captureTabChange">Starting browse by case...</browse-by-case>
 			        </div>
             </mat-tab>
 	        <mat-tab label="Clinical ({{clinicalTotalRecords}})" *ngIf="!disablePanelsFlag">
 			        <div style="padding-left:0px; margin-left: 15px; margin-right: 10px">
-				        <browse-by-clinical (isTableLoading)="handleTabLoading($event)" [handleTableLoading]="handleTableLoading" [enableDownloadAllManifests]="enableDownloadAllManifests" [newFilterValue]="newFilterValue" (clinicalTotalRecordChanged)="totalRecordChanged($event)" (downloadWholeManifestFlag)="downloadWholeManifest($event)" [downloadAllManifests]="downloadAllManifests">Starting browse by clinical data...</browse-by-clinical>
+				        <browse-by-clinical (isTableLoading)="handleTabLoading($event)" [handleTableLoading]="handleTableLoading" [enableDownloadAllManifests]="enableDownloadAllManifests" [newFilterValue]="newFilterValue" (clinicalTotalRecordChanged)="totalRecordChanged($event)" (downloadWholeManifestFlag)="downloadWholeManifest($event)" [downloadAllManifests]="downloadAllManifests" [childTabChanged]="captureTabChange">Starting browse by clinical data...</browse-by-clinical>
 			        </div>
 		    </mat-tab>            
 		    <mat-tab label="{{fileTotalRecords > 1 ? 'Files ('+fileTotalRecords + ')' : 'File ('+fileTotalRecords + ')'  }}">
               <div style="padding-left:0px; margin-left: 15px; margin-right: 10px">
-			          <browse-by-file (isFileTableLoading)="handleTabLoading($event)" [handleTableLoading]="handleTableLoading" [enableDownloadAllManifests]="enableDownloadAllManifests" [otherTabsLoaded]="otherTabsLoaded" [newFilesFilterValue]="newFilesFilterValue" [newFilterValue]="newFilterValue" (fileTotalRecordChanged)="totalRecordChanged($event)" (downloadWholeManifestFlag)="downloadWholeManifest($event)" [downloadAllManifests]="downloadAllManifests" (oldStudyVersion)="setOldStudyVersion($event)">Starting browse by file...</browse-by-file>
+			          <browse-by-file (isFileTableLoading)="handleTabLoading($event)" [handleTableLoading]="handleTableLoading" [enableDownloadAllManifests]="enableDownloadAllManifests" [otherTabsLoaded]="otherTabsLoaded" [newFilesFilterValue]="newFilesFilterValue" [newFilterValue]="newFilterValue" (fileTotalRecordChanged)="totalRecordChanged($event)" (downloadWholeManifestFlag)="downloadWholeManifest($event)" [downloadAllManifests]="downloadAllManifests" (oldStudyVersion)="setOldStudyVersion($event)" [childTabChanged]="captureTabChange">Starting browse by file...</browse-by-file>
               </div>
             </mat-tab>
 			<mat-tab label="Genes ({{genesTotalRecords}})" *ngIf="!disablePanelsFlag">
 			        <div style="padding-left:0px; margin-left: 15px; margin-right: 10px" >
-				        <browse-by-gene (isTableLoading)="handleTabLoading($event)" [handleTableLoading]="handleTableLoading" [enableDownloadAllManifests]="enableDownloadAllManifests" [newFilterValue]="newFilterValue" (genesTotalRecordChanged)="totalRecordChanged($event)" (downloadWholeManifestFlag)="downloadWholeManifest($event)" [downloadAllManifests]="downloadAllManifests">Starting browse by genes data...</browse-by-gene>
+				        <browse-by-gene (isTableLoading)="handleTabLoading($event)" [handleTableLoading]="handleTableLoading" [enableDownloadAllManifests]="enableDownloadAllManifests" [newFilterValue]="newFilterValue" (genesTotalRecordChanged)="totalRecordChanged($event)" (downloadWholeManifestFlag)="downloadWholeManifest($event)" [downloadAllManifests]="downloadAllManifests" [childTabChanged]="captureTabChange">Starting browse by genes data...</browse-by-gene>
 			        </div>
 		    </mat-tab>   
 	        </mat-tab-group>

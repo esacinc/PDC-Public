@@ -33,6 +33,9 @@ import { HarmonizationComponent } from './harmonization/harmonization.component'
 import { DataDictionaryComponent } from './data-dictionary/data-dictionary/data-dictionary.component';
 import { ApiDocumentationComponent } from './api-documentation/api-documentation.component';
 
+//@@@PDC-4426 migrate publicapi-documentation
+import { PublicapiDocumentationComponent } from './publicapi-documentation/publicapi-documentation.component';
+
 const appRoutes: Routes = [
   //pdc url will be lazy loading when route redirect to 'pdc'.
   { path: 'pdc', loadChildren: './lazy.module#LazyModule'},
@@ -83,6 +86,8 @@ const appRoutes: Routes = [
   { path: 'forwarding/:id', component: ForwardingComponent },
   { path: 'harmonization', component: HarmonizationComponent},
   { path: 'api-documentation', component: ApiDocumentationComponent},
+  //@@@PDC-4426 migrate publicapi-documentation
+  { path: 'publicapi-documentation', component: PublicapiDocumentationComponent},
   { path: '**', component: PageNotFoundComponent,  canActivate: [AuthGuard]},
 
   ];
@@ -90,6 +95,8 @@ const appRoutes: Routes = [
   imports: [
     RouterModule.forRoot(
       appRoutes,
+      //@@PDC-4743 experiment type link load issues - allow anchor scrolling to navigate to property div
+     { anchorScrolling: 'enabled'}
      //  { enableTracing: true } // <-- debugging purposes only
     )
   ],

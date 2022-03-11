@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute, Router, NavigationStart } from "@angular/router";
 import { Apollo } from 'apollo-angular';
 import { Location } from '@angular/common';
 import { Observable } from 'rxjs';
@@ -62,6 +62,7 @@ export class CaseSummaryComponent implements OnInit {
 	showMoreDemographics: boolean = false;
 	showMoreExposure: boolean = false;
 	showMoreFollowUp: boolean = false;
+	source: string = "";
   constructor(private activatedRoute: ActivatedRoute, private router: Router, private apollo: Apollo,
 				private loc:Location,
 				private caseSummaryService: CaseSummaryService,
@@ -73,6 +74,10 @@ export class CaseSummaryComponent implements OnInit {
 	this.case_submitter_id = caseData.summaryData.case_submitter_id;
 	this.case_id = caseData.summaryData.case_id;
 	this.caseSummaryData = caseData.summaryData;
+	//@@@PDC-4725: Set the source parameter in the UI calls to fetch details of a search result
+	if (caseData && caseData.source) {
+		this.source = caseData.source;
+	}
 	if (this.caseSummaryData.case_id === ""){
 		this.getCaseGeneralSummaryData();
 	}
@@ -103,7 +108,7 @@ export class CaseSummaryComponent implements OnInit {
 
   getCaseGeneralSummaryData(){
 	this.loading = true;
-	this.caseSummaryService.getCaseSummaryData(this.case_id, this.case_submitter_id).subscribe((data: any) =>{
+	this.caseSummaryService.getCaseSummaryData(this.case_id, this.case_submitter_id, this.source).subscribe((data: any) =>{
 		//console.log(data.uiCase);
 		this.caseSummaryData = data.uiCase[0];
 		this.loading = false;
@@ -122,7 +127,7 @@ export class CaseSummaryComponent implements OnInit {
 		dialogConfig.height = '95%';
 		setTimeout(() => {
 			// Get all studies data for a study name.
-			this.caseSummaryService.getFilteredStudyDetailsForSummaryPage(studyName).subscribe((data: any) =>{
+			this.caseSummaryService.getFilteredStudyDetailsForSummaryPage(studyName, this.source).subscribe((data: any) =>{
 				this.filteredStudiesData = this.mergeStudies(data.getPaginatedUIStudy.uiStudies);
 				dialogConfig.data = {
 					summaryData: this.filteredStudiesData[0],
@@ -188,7 +193,7 @@ export class CaseSummaryComponent implements OnInit {
   
   getExperimentFileCount(){
 	this.loading = true;
-	this.caseSummaryService.getExprimentFileByCaseCountData(this.case_id).subscribe((data: any) =>{
+	this.caseSummaryService.getExprimentFileByCaseCountData(this.case_id, this.source).subscribe((data: any) =>{
 		this.experimentFileCount = data.uiExperimentFileCount;
 		this.loading = false;
 	});
@@ -197,7 +202,7 @@ export class CaseSummaryComponent implements OnInit {
   
   getDataCategoryFilesCounts(){
 	this.loading = true;
-	this.caseSummaryService.getDataCategoryFileByCaseCountData(this.case_id).subscribe((data: any) =>{
+	this.caseSummaryService.getDataCategoryFileByCaseCountData(this.case_id, this.source).subscribe((data: any) =>{
 		let fileCountsRaw = data.uiDataCategoryFileCount;
 		this.dataCategoryFileCount = this.mergeDataCategoryFiles(data.uiDataCategoryFileCount);
 		this.loading = false;
@@ -230,11 +235,11 @@ export class CaseSummaryComponent implements OnInit {
 	//Add timeout for loading demographics data.
 	setTimeout(() => {
 		//@@@PDC-4490: Update Clinical manifest and Case summary pages for GDC Sync
-		this.caseSummaryService.getDiagnosisCaseSummaryData(this.case_id).subscribe((diagnosisData: any) =>{
+		this.caseSummaryService.getDiagnosisCaseSummaryData(this.case_id, this.source).subscribe((diagnosisData: any) =>{
 			this.caseDiagnosisSummaryData = diagnosisData.uiCaseSummary[0]
-			this.caseSummaryService.getAdditionalDetailedCaseSummaryData(this.case_id).subscribe((additionalData: any) =>{
+			this.caseSummaryService.getAdditionalDetailedCaseSummaryData(this.case_id, this.source).subscribe((additionalData: any) =>{
 				this.caseAdditionalDetailedSummaryData = additionalData.uiCaseSummary[0];
-				this.caseSummaryService.getDetailedCaseSummaryData(this.case_id).subscribe((data: any) =>{
+				this.caseSummaryService.getDetailedCaseSummaryData(this.case_id, this.source).subscribe((data: any) =>{
 					//@@@PDC-1123 add ui wrappers public APIs
 					//console.log("Case from Array: "+JSON.stringify(data.uiCaseSummary[0]));
 					//@@@PDC-2335 uiCaseSummary returns an array instead of a single obj

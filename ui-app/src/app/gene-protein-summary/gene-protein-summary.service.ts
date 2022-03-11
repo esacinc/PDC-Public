@@ -66,8 +66,8 @@ constructor(private apollo: Apollo) {
     //@@@PDC-1123 call ui wrapper API
 	//@@@PDC-2450 gene/protein summary missing NCBI gene id
 	geneDetailsQuery = gql`
-				query ProteinQuery($gene_name: String!){
-					uiGeneSpectralCount(gene_name: $gene_name){
+				query ProteinQuery($gene_name: String!, $source: String!){
+					uiGeneSpectralCount(gene_name: $gene_name, source: $source){
 					  gene_name
 					  ncbi_gene_id
 					  authority
@@ -88,11 +88,12 @@ constructor(private apollo: Apollo) {
 					}
 				}`;
 	
-	getGeneDetails(gene:any){
+	getGeneDetails(gene:any, source = ''){
 		return this.apollo.watchQuery<GeneProteinData>({
 			query: this.geneDetailsQuery,
 			variables: {
-				gene_name: gene
+				gene_name: gene,
+				source: source
 			}
 		})
 		.valueChanges
@@ -103,8 +104,8 @@ constructor(private apollo: Apollo) {
 	// Updated query for @@@PDC-557: Add the protein abundance data to the Gene Summary screen
 	//@@@PDC-669 gene_abundance table change
 	geneAliquotSpectralCountQuery = gql`
-				query aliquotSpectralCountQuery($gene_name:String!, $offset_param: Int, $limit_param: Int){
-					getPaginatedUIGeneAliquotSpectralCount(gene_name: $gene_name, offset: $offset_param, limit: $limit_param){
+				query aliquotSpectralCountQuery($gene_name:String!, $offset_param: Int, $limit_param: Int, $source: String!){
+					getPaginatedUIGeneAliquotSpectralCount(gene_name: $gene_name, offset: $offset_param, limit: $limit_param, source: $source){
 						total
 						uiGeneAliquotSpectralCounts {
 							aliquot_id 
@@ -133,13 +134,14 @@ constructor(private apollo: Apollo) {
 				}`;
 				
 	
-	getAliquotSpectralCount(gene:any, offset:number, limit:number){
+	getAliquotSpectralCount(gene:any, offset:number, limit:number, source = ''){
 		return this.apollo.watchQuery<GeneAliquotSpectralCountDataPaginated>({
 			query: this.geneAliquotSpectralCountQuery,
 			variables: {
 				gene_name: gene,
 				offset_param:offset,
-				limit_param: limit
+				limit_param: limit,
+				source: source
 			}
 		})
 		.valueChanges
@@ -150,8 +152,8 @@ constructor(private apollo: Apollo) {
 	
 	
 	geneStudySpectralCountQuery = gql`
-		query studySpectralCountQuery($gene_name:String!, $offset_param: Int, $limit_param: Int){
-			getPaginatedUIGeneStudySpectralCount(gene_name: $gene_name, offset: $offset_param, limit: $limit_param){
+		query studySpectralCountQuery($gene_name:String!, $offset_param: Int, $limit_param: Int, $source: String!){
+			getPaginatedUIGeneStudySpectralCount(gene_name: $gene_name, offset: $offset_param, limit: $limit_param, source: $source){
 				total
 				uiGeneStudySpectralCounts {
 					submitter_id_name 
@@ -174,13 +176,14 @@ constructor(private apollo: Apollo) {
 			}
 		}`;
 		
-	getStudySpectralCount(gene:any, offset:number, limit:number){
+	getStudySpectralCount(gene:any, offset:number, limit:number, source = ''){
 		return this.apollo.watchQuery<GeneStudySpectralCountDataPaginated>({
 			query: this.geneStudySpectralCountQuery,
 			variables: {
 				gene_name: gene,
 				offset_param:offset,
-				limit_param: limit
+				limit_param: limit,
+				source: source
 			}
 		})
 		.valueChanges
@@ -191,8 +194,8 @@ constructor(private apollo: Apollo) {
 	
 	//PDC-716 Add PTM data
 	genePTMDataQuery = gql`
-		query PTMDataByGeneQuery($gene_name:String!, $offset_param: Int, $limit_param: Int){
-			getPaginatedUIPtm(gene_name: $gene_name offset: $offset_param limit: $limit_param){
+		query PTMDataByGeneQuery($gene_name:String!, $offset_param: Int, $limit_param: Int, $source: String!){
+			getPaginatedUIPtm(gene_name: $gene_name offset: $offset_param limit: $limit_param, source: $source){
 				total
 				uiPtm {
 					ptm_type 
@@ -211,13 +214,14 @@ constructor(private apollo: Apollo) {
 			}
 		}`;
 		
-	getGenePTMData(gene:any, offset:number, limit:number){
+	getGenePTMData(gene:any, offset:number, limit:number, source = ''){
 		return this.apollo.watchQuery<ptmDataPaginated>({
 			query: this.genePTMDataQuery,
 			variables: {
 				gene_name: gene,
 				offset_param: offset,
-				limit_param: limit
+				limit_param: limit,
+				source: source
 			}
 		})
 		.valueChanges

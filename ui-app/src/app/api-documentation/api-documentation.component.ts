@@ -1,4 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef} from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ViewportScroller } from '@angular/common';
 
 @Component({
   selector: 'app-api-documentation',
@@ -6,37 +8,7 @@ import { Component, OnInit, ViewChild, ElementRef} from '@angular/core';
   styleUrls: ['./api-documentation.component.css']
 })
 export class ApiDocumentationComponent implements OnInit {
-    @ViewChild('Getting_started') private getting_started_documentation_div: ElementRef;
-    @ViewChild('Endpoint') private endpoint_documentation_div: ElementRef;
-    @ViewChild('Authentication') private authentication_documentation_div: ElementRef;
-    @ViewChild('Performing_requests') private performing_requests_documentation_div: ElementRef;
-    @ViewChild('Schema') private schema_documentation_div: ElementRef;
-    @ViewChild('GraphQL') private grapqhl_documentation_div: ElementRef;
-    @ViewChild('Learning_more') private learning_more_documentation_div: ElementRef;
-
-    public moveToGettingStartedDocumentationDiv():void {
-            this.getting_started_documentation_div.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
-    }
-    public moveToEndpointDocumentationDiv():void {
-            this.endpoint_documentation_div.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest'});
-    }
-    public moveToAuthenticationDocumentationDiv():void {
-            this.authentication_documentation_div.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest'});
-    }
-    public moveToPerformingRequestsDocumentationDiv():void {
-            this.performing_requests_documentation_div.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest'});
-    }
-    public moveToSchemaDocumentationDiv():void {
-            this.schema_documentation_div.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest'});
-    }
-    public moveToGraphqlDocumentationDiv():void {
-            this.grapqhl_documentation_div.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest'});
-    }
-    public moveToLearningMoreDocumentationDiv():void {
-            this.learning_more_documentation_div.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest'});
-    }
-
-
+    fragment;
 
   curl_example = `
      curl http://pdc-dev.esacinc.com/graphql \
@@ -176,10 +148,18 @@ export class ApiDocumentationComponent implements OnInit {
 }
   `
 
-  constructor() { }
+  constructor(private route:ActivatedRoute,private viewportScroller: ViewportScroller) { }
+
 
 
   ngOnInit() {
+    //@@@PDC-4747 back button apidocumentation page not working 
+    this.route.fragment.subscribe(fragment => { this.fragment = fragment; });
   }
+
+
+
+
+
 
 }

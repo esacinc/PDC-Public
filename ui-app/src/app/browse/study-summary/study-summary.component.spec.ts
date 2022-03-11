@@ -239,7 +239,7 @@ class MockStudySummaryService {
   //@@@PDC-1219: Add a new experimental design tab on the study summary page
   getStudyExperimentalDesign(): Observable<any> {
     return of({
-      studyExperimentalDesign: [
+      uiStudyExperimentalDesign: [
         {
           study_run_metadata_id: "0127c578-2075-11e9-b7f8-0a80fada099c",
           study_run_metadata_submitter_id: "S044-1-13",

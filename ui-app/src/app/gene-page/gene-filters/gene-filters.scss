@@ -115,11 +115,11 @@ $stateActiveBgColor: #3baae3;
 	border-top: 0px;
 }
 
-.side-bar-tabs /deep/.mat-tab-label{
+/* .side-bar-tabs /deep/.mat-tab-label{
 	min-width: 110px!important;
 	padding: 10px!important;
 	justify-content: left!important;
-   }
+} */
 
 /deep/ .sidenavFiltersPanel .mat-expansion-panel-body {
 	padding-left: 0px!important;
@@ -146,8 +146,91 @@ $stateActiveBgColor: #3baae3;
 .mat-expansion-panel-header-title{
 	margin-right:0px!important;
 }
-// PDC-620: Make the filter selection tabs along the left side of the window
+
+//@@@PDC-4625: Implement the UI-UX changes to the filter sidebar
+//@@@PDC-4871: UI-UX changes for stacking filters & improvements to the menu section
 /deep/ {
+	.gene-page .mat-tab-labels {
+		display: flex !important;
+	}
+
+	.gene-page .mat-tab-label {
+		padding: 0px !important;
+		// min-width: 120px !important;
+		border: 0.5px solid lightgray !important;
+		min-width: 102.9px !important;
+		//box-shadow: rgb(0 0 0 / 20%) 0 3px 1px -2px , rgb(0 0 0 / 14%) 0 2px 2px 0 , rgb(0 0 0 / 12%) 0 1px 5px 0;
+		box-shadow: 0px 2px 3px rgba(0, 0, 0, .25);;
+		border-radius: 4px;
+		height: 30px !important;
+	}
+
+	.side-bar-tabs .mat-tab-label-container {
+		text-align: center;
+	}
+
+	.gene-page .mat-tab-label-active {
+		//background: linear-gradient(to bottom, #f6f7f9 0%, #ebedf0 100%);
+		//background-color: #E8E8E8;
+		border-bottom: 2px solid #3F51D4 !important;
+		font-weight: 700;
+	}
+
+	.gene-page .mat-icon-button {
+		width: 15px !important;
+	}
+
+	.gene-page .mat-icon-button i {
+		line-height: 20px;
+		font-size: 12px;
+	}
+
+	.sideBarNavigation .mat-expansion-panel-body {
+		padding: 5px !important;
+	}
+
+	.sidenavFiltersPanel .selectedFilterDiv {
+		background-color: #E8E8E8;
+	}
+
+	.card-list div {
+		font-size: 14px !important;
+	}
+
+	.gene-page .mat-ink-bar {
+		visibility: hidden !important;
+	}
+
+	@media not all and (min-resolution:.001dpcm)
+	{ @supports (-webkit-appearance:none) and (stroke-color:transparent) {
+		.gene-page .mat-tab-label-active {
+			font-weight: 500 !important;
+		}
+	}}
+
+	.gene-page .mat-tab-header-pagination.mat-tab-header-pagination-disabled,
+	.gene-page .mat-tab-header-pagination-controls-enabled .mat-tab-header-pagination {
+    	display: none !important;
+	}
+}
+
+.filter-section {
+	max-height: 500px;
+	overflow-y: auto;
+}
+
+.browse-filter-clear {
+	font-size: 13px !important;
+	//margin-right: 10%;
+	width: 30% !important;
+}
+
+.card-list div {
+	font-size: 14px !important;
+}
+
+// PDC-620: Make the filter selection tabs along the left side of the window
+/* /deep/ {
 	.sideBarNavigation .mat-tab-label-container {
 		display: flex;
 		flex-grow: 1;
@@ -212,4 +295,4 @@ $stateActiveBgColor: #3baae3;
 		padding-left: 20px !important;
 	}
 
-}
+} */

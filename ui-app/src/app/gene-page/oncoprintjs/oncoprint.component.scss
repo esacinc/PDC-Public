@@ -10,7 +10,7 @@
     height: 24px !important;
 }
 
-::ng-deep .ui-table-scrollable-body {
+::ng-deep #oncoprintDiv .ui-table-scrollable-body {
 	max-height: 350px!important;
 	min-height: 90px!important; 
 }

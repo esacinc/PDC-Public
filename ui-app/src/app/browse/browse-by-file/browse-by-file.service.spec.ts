@@ -280,4 +280,73 @@ describe("BrowseByFileService", () => {
       controller.verify();
     }
   ));
+
+  it("test getFilesData", inject([BrowseByFileService], (service: BrowseByFileService) => {
+    service.getFilesData("20151104-P50-20ug-s35.mzML.gz;20151109-P58-20ug-s25.raw", "00565863-81cd-49ff-8e60-5fd67e56c2ce").subscribe(data => {
+      expect(data).toBeDefined();
+      expect(data["uiFilesPerStudy"].length).toBe(2);
+      expect(data["uiFilesPerStudy"][0].file_name).toBe("20151104-P50-20ug-s35.mzML.gz");
+      expect(data["uiFilesPerStudy"][1].file_name).toBe("20151109-P58-20ug-s25.raw");
+    });
+
+    const op = controller.expectOne(service.filesDataQuery);
+
+    op.flush({
+      data: {
+        uiFilesPerStudy: [
+          {
+            file_id: "00040a6f-b7e5-4e5c-ab57-ee92a0ba8201",
+            file_name: "20151104-P50-20ug-s35.mzML.gz",
+            signedUrl: {
+              url: null
+            }
+          },
+          {
+            file_id: "000ec5fd-4315-48ec-9f50-340e10bd5195",
+            file_name: "20151109-P58-20ug-s25.raw",
+            signedUrl: {
+              url: null
+            }
+          }          
+        ]
+      }
+    });
+
+    controller.verify();
+  }));
+
+  it("test getLegacyFilesData", inject([BrowseByFileService], (service: BrowseByFileService) => {
+    service.getLegacyFilesData("1B133_W2_QTRAP_061116_013CPTAC17.wiff;1A135_W2_QTRAP_061116_011CPTAC15.wiff").subscribe(data => {
+      expect(data).toBeDefined();
+      expect(data["uiLegacyFilesPerStudy"].length).toBe(2);
+      expect(data["uiLegacyFilesPerStudy"][0].file_name).toBe("1B133_W2_QTRAP_061116_013CPTAC17.wiff");
+      expect(data["uiLegacyFilesPerStudy"][1].file_name).toBe("1A135_W2_QTRAP_061116_011CPTAC15.wiff");
+    });
+
+    const op = controller.expectOne(service.legacyFilesDataQuery);
+
+    op.flush({
+      data: {
+        uiLegacyFilesPerStudy: [
+          {
+            file_id: "00521226-fcec-4a21-a105-dff1a2ff2ac8",
+            file_name: "1B133_W2_QTRAP_061116_013CPTAC17.wiff",
+            signedUrl: {
+              url: null
+            }
+          },
+          {
+            file_id: "018d60a8-45b9-44e1-b242-979dca7f61e4",
+            file_name: "1A135_W2_QTRAP_061116_011CPTAC15.wiff",
+            signedUrl: {
+              url: null
+            }
+          }          
+        ]
+      }
+    });
+
+    controller.verify();
+  }));
+
 });

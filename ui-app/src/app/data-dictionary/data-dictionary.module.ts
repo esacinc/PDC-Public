@@ -21,13 +21,15 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { TableModule } from 'primeng/table';
 import { DataDictionaryGraphComponent } from './data-dictionary-graph/data-dictionary-graph.component';
 
+import { ActivatedRoute, ParamMap, RouterModule } from '@angular/router';
+
 @NgModule({
   imports: [
     AngularFontAwesomeModule, CommonModule, ChartModule, MatCardModule, MatExpansionModule, PaginatorModule,
     FormsModule, CheckboxModule, RadioButtonModule, TableModule, TabsModule.forRoot(),
     MatCardModule, MatToolbarModule, MatCheckboxModule, MatListModule, MatTabsModule, MatButtonModule,
     MatSidenavModule, MatButtonModule, MatTooltipModule, DropdownModule, MatSelectModule,
-	MatDialogModule, MatProgressSpinnerModule, ReactiveFormsModule, MatMenuModule, MatIconModule
+	  MatDialogModule, MatProgressSpinnerModule, ReactiveFormsModule, MatMenuModule, MatIconModule, RouterModule
   ],
   declarations: [DataDictionaryComponent, DataDictionaryItemComponent, DataDictionaryGraphComponent]
 })
