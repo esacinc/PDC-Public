@@ -9,9 +9,9 @@ import csv
 import os, shutil
 import requests
 
-def downloadOrganize(file_name):
+def downloadOrganize(file_name, delimiter):
     with open(file_name) as f:
-        reader = csv.DictReader(f) # read rows into a dictionary format
+        reader = csv.DictReader(f, delimiter = delimiter) # read rows into a dictionary format
         for row in reader: # read a row as {column1: value1, column2: value2,...}
             fname=row['File Name']
             folder=row['Run Metadata ID']
@@ -38,9 +38,9 @@ def downloadOrganize(file_name):
                     os.makedirs(folder_path)
                 shutil.move(fname,folder_path)
 
-def organizeFolders(file_name):
+def organizeFolders(file_name, delimiter):
     with open(file_name) as f:
-        reader = csv.DictReader(f) # read rows into a dictionary format
+        reader = csv.DictReader(f, delimiter = delimiter) # read rows into a dictionary format
         for row in reader: # read a row as {column1: value1, column2: value2,...}
             fname=row['File Name']
             folder=row['Run Metadata ID']
@@ -69,11 +69,18 @@ def main():
     if sys.argv and len(sys.argv) > 1:
         file_name = sys.argv[1]
         if os.path.isfile(file_name):
+            #check if the file is in a supported format (CSV or TSV) and set table delimiter
+            if file_name.lower().endswith('.csv'):
+                delimiter = ','
+            elif file_name.lower().endswith('.tsv'):
+                delimiter = '\t'
+            else:
+                exit("Input file has an invalid extension. File must be in TSV (.tsv) or CSV (.csv) format")
             user_input = input("> Please enter 1 for downloading and reorganizing files\n> Please enter 2 for reorganizing downloaded files\n> Please enter 3 to exit\n> Enter your option: ")
             if user_input == "1":
-                downloadOrganize(file_name)  
+                downloadOrganize(file_name, delimiter)  
             elif user_input == "2":
-                organizeFolders(file_name)
+                organizeFolders(file_name, delimiter)
             elif user_input == "3":
                 exit
             else:

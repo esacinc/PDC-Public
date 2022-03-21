@@ -24,7 +24,7 @@ parseValue() {
 }  
 #Download and Reorgaize files into folder structure
 downloadOrganize() {
-    IFS=',' #split the input csv file based on comma separator and read into an array
+	IFS=$DELIMITER #split the input csv file based on comma separator and read into an array
     while read -r -a array
     do
         for index in "${!array[@]}"; do
@@ -86,7 +86,7 @@ reorganizeFiles(){
             arrVar+=($file)
         fi
     done
-    IFS=',' #split the input csv file based on comma separator and read into an array
+    IFS=$DELIMITER #split the input file based on predetermined delimiter and read into an array
     while read -r -a array
     do
         for index in "${!array[@]}"; do
@@ -142,6 +142,18 @@ then
     echo "Some or all of the parameters are empty";
     helpFunction
 fi
+
+#Get the delimiter for the input manifest file
+if [[ "$filename" =~ \.csv|\.CSV ]]; then
+    DELIMITER=$','
+
+elif [[ "$filename" =~ \.tsv|\.TSV ]]; then
+    DELIMITER=$'\t'
+else
+    echo -e "Input file has an unsupported extension.\nFile must be in CSV (.csv) or TSV (.tsv) format."
+    exit
+fi
+
 #Command Prompt
 read -rep "> Please enter 1 for downloading and reorganizing files`echo $'\n> '`Please enter 2 for reorganizing downloaded files`echo $'\n> '`Please enter 3 for exit`echo $'\n> '`Choose an option: " yn
 case $yn in
@@ -150,4 +162,3 @@ case $yn in
     [3]* ) exit;;
     * ) echo "Please enter a valid option.";;
 esac
-
