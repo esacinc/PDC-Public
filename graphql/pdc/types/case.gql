@@ -3,6 +3,7 @@ type Case {
   case_submitter_id: String
   project_submitter_id: String
   project_id: String
+  case_is_ref: String
   tissue_source_site_code: String
   days_to_lost_to_followup: Int
   disease_type: String

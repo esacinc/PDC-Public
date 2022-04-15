@@ -92,6 +92,7 @@ import { HarmonizationComponent } from './harmonization/harmonization.component'
 import { DataDictionaryModule } from './data-dictionary/data-dictionary.module';
 import { ApiDocumentationComponent } from './api-documentation/api-documentation.component';
 import { PublicapiDocumentationComponent } from './publicapi-documentation/publicapi-documentation.component';
+import { InputDialogComponent } from './dialog/input-dialog/input-dialog.component';
 
 
 export function getAuthServiceConfigs() {
@@ -100,7 +101,7 @@ export function getAuthServiceConfigs() {
       [
         {
           id: GoogleLoginProvider.PROVIDER_ID,
-          provider: new GoogleLoginProvider('941937191385-d0qkgts2fv0r1rbmcectbonk1d0nh44b.apps.googleusercontent.com')
+          provider: new GoogleLoginProvider(environment.google_oauth_client_id)
         }
       ]
   );
@@ -128,6 +129,7 @@ const RECAPTCHA_V3_PDC_KEY = environment.recaptcha_site_key;
 	FilesOverlayComponent,
 	OverlayWindowComponent,
 	ConfirmationDialogComponent,
+  InputDialogComponent,
 	SizeUnitsPipe,
 	MessageDialogComponent,
 	StudySummaryOverlayWindowComponent,
@@ -210,7 +212,7 @@ const RECAPTCHA_V3_PDC_KEY = environment.recaptcha_site_key;
 			 ],
   bootstrap: [AppComponent],
   entryComponents: [LabSelectionComponent, LoginComponent, RegistrationComponent, GeneProteinSummaryComponent,
-					OverlayWindowComponent, ConfirmationDialogComponent, MessageDialogComponent, StudySummaryOverlayWindowComponent,
+					OverlayWindowComponent, ConfirmationDialogComponent, InputDialogComponent, MessageDialogComponent, StudySummaryOverlayWindowComponent,
 					PrivacyPolicyOverlayWindowComponent, DUAForOtherProgramsOverlayWindow, ResetPasswordComponent]
 })
 // @@@PDC-168 The landing page for the PDC Node provides a summary view of the data that is in the PDC database.

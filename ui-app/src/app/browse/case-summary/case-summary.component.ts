@@ -235,39 +235,30 @@ export class CaseSummaryComponent implements OnInit {
 	//Add timeout for loading demographics data.
 	setTimeout(() => {
 		//@@@PDC-4490: Update Clinical manifest and Case summary pages for GDC Sync
-		this.caseSummaryService.getDiagnosisCaseSummaryData(this.case_id, this.source).subscribe((diagnosisData: any) =>{
-			this.caseDiagnosisSummaryData = diagnosisData.uiCaseSummary[0]
-			this.caseSummaryService.getAdditionalDetailedCaseSummaryData(this.case_id, this.source).subscribe((additionalData: any) =>{
-				this.caseAdditionalDetailedSummaryData = additionalData.uiCaseSummary[0];
-				this.caseSummaryService.getDetailedCaseSummaryData(this.case_id, this.source).subscribe((data: any) =>{
-					//@@@PDC-1123 add ui wrappers public APIs
-					//console.log("Case from Array: "+JSON.stringify(data.uiCaseSummary[0]));
-					//@@@PDC-2335 uiCaseSummary returns an array instead of a single obj
-					this.caseDetailedSummaryData = data.uiCaseSummary[0];
-					if (this.caseDiagnosisSummaryData) {
-						this.caseDetailedSummaryData['diagnoses'] = this.caseDiagnosisSummaryData['diagnoses'];
-					}
-					this.caseDetailedSummaryData = this.populateAdditionalCaseData(this.caseDetailedSummaryData);
-					//@@@PDC-2956: issue with opening case summary via direct URL
-					if (this.case_submitter_id === "" && data.uiCaseSummary[0].case_submitter_id != "") {
-						this.case_submitter_id = data.uiCaseSummary[0].case_submitter_id;
-					}
-					this.samples = data.uiCaseSummary[0].samples;
-					for (let sample of this.samples){
-						this.aliquots = this.aliquots.concat(sample.aliquots);
-					}
-					//@@@PDC-4490: Update Clinical manifest and Case summary pages for GDC Sync
-					this.diagnoses = this.removeNullValues(data.uiCaseSummary[0].diagnoses);
-					if (this.diagnoses && this.diagnoses.length > 0) this.generateLoopsforAdditionalData(this.diagnoses[0], "diagnosis");
-					this.demographics = this.removeNullValues(data.uiCaseSummary[0].demographics);
-					if (this.demographics && this.demographics.length > 0) this.generateLoopsforAdditionalData(this.demographics[0], "demographics");				
-					this.exposures = this.removeNullValues(data.uiCaseSummary[0].exposures);
-					if (this.exposures && this.exposures.length > 0) this.generateLoopsforAdditionalData(this.exposures[0], "exposure");
-					this.followups = this.removeNullValues(data.uiCaseSummary[0].follow_ups);
-					if (this.followups && this.followups.length > 0) this.generateLoopsforAdditionalData(this.followups[0], "followup");
-					this.loading = false;
-				});
-			});
+		//@@@PDC-5045: Convert the GET requests to the getPaginatedUIClinical API of "Clinical" tab to POST
+		this.caseSummaryService.getDetailedCaseSummaryDataPost(this.case_id, this.source).subscribe((data: any) =>{
+			//@@@PDC-1123 add ui wrappers public APIs
+			//console.log("Case from Array: "+JSON.stringify(data.uiCaseSummary[0]));
+			//@@@PDC-2335 uiCaseSummary returns an array instead of a single obj
+			this.caseDetailedSummaryData = data.uiCaseSummary[0];
+			//@@@PDC-2956: issue with opening case summary via direct URL
+			if (this.case_submitter_id === "" && data.uiCaseSummary[0].case_submitter_id != "") {
+				this.case_submitter_id = data.uiCaseSummary[0].case_submitter_id;
+			}
+			this.samples = data.uiCaseSummary[0].samples;
+			for (let sample of this.samples){
+				this.aliquots = this.aliquots.concat(sample.aliquots);
+			}
+			//@@@PDC-4490: Update Clinical manifest and Case summary pages for GDC Sync
+			this.diagnoses = this.removeNullValues(data.uiCaseSummary[0].diagnoses);
+			if (this.diagnoses && this.diagnoses.length > 0) this.generateLoopsforAdditionalData(this.diagnoses[0], "diagnosis");
+			this.demographics = this.removeNullValues(data.uiCaseSummary[0].demographics);
+			if (this.demographics && this.demographics.length > 0) this.generateLoopsforAdditionalData(this.demographics[0], "demographics");				
+			this.exposures = this.removeNullValues(data.uiCaseSummary[0].exposures);
+			if (this.exposures && this.exposures.length > 0) this.generateLoopsforAdditionalData(this.exposures[0], "exposure");
+			this.followups = this.removeNullValues(data.uiCaseSummary[0].follow_ups);
+			if (this.followups && this.followups.length > 0) this.generateLoopsforAdditionalData(this.followups[0], "followup");
+			this.loading = false;
 	  	});
 	}, 1000);
   }

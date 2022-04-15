@@ -65,25 +65,9 @@
    font-size: 14px !important;
  }
 
- @media only screen  and (max-width: 2500px) {
-    :host /deep/ .ui-table-unfrozen-view .ui-table-thead th,
-    :host /deep/ .ui-table-unfrozen-view .ui-table-tbody td {
-        min-width: 130px !important;
-        max-width: 130px !important;
-        width: 130px !important;
-    }
-}
-
-@media only screen  and (min-width: 2500px) {
-    :host /deep/ .ui-table-unfrozen-view .ui-table-thead th {
-        min-width: 130px !important;
-        max-width: 130px !important;
-        width: 130px !important;
-    }
-
-    :host /deep/ .ui-table-unfrozen-view .ui-table-tbody td {
-        min-width: 138px !important;
-        max-width: 138px !important;
-        width: 138px !important;
-    }
+:host /deep/ .ui-table-unfrozen-view .ui-table-thead th,
+:host /deep/ .ui-table-unfrozen-view .ui-table-tbody td {
+    min-width: 130px !important;
+    max-width: 130px !important;
+    width: 130px !important;
 }

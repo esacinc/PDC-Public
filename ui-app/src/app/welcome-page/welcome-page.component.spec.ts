@@ -116,7 +116,10 @@ describe("WelcomePageComponent", () => {
     });
   });
 
-  it("test nih sign in success, and navigate to pdc", done => {
+  //@@@PDC-4898: Remove outdated Welcome page and redirect to home page
+  //Commenting test cases related to checkPDCUser since this code is no longer being used and 
+  //the welcome page is being redirected to home page
+/*   it("test nih sign in success, and navigate to pdc", done => {
     userService = TestBed.get(PDCUserService);
     route = TestBed.get(Router);
     userSpy = spyOn(userService, "checkPDCUser").and.callFake(() => of(0));
@@ -164,5 +167,5 @@ describe("WelcomePageComponent", () => {
     expect(component.systemErrorMessage).toBe(
       "System Error. Please contact your system admin"
     );
-  });
+  }); */
 });

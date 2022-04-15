@@ -436,13 +436,12 @@ isDownloadDisabled(){
 					sites_list.push(data.site);
 				}
 				let ptmType = data.ptm_type.trim();
-				let index = ptm_type_counters.findIndex(x => {if (x.ptm_type === ptmType) {return x;} else { return -1}});
-				if (index > -1 ){
+				let index = ptm_type_counters.findIndex((x:any)=>{return x.ptm_type == ptmType});
+ 				if (index > -1){
 					ptm_type_counters[index].counter++;
-				}
-				else {
+				} else {
 					ptm_type_counters.push( {ptm_type: ptmType, counter: 1} );
-				}
+				} 
 			}
 			console.log(sites_list);
 			//this.ptmStatsData[gene_id] = {"ptm_type_counter": ptm_type_counters, "sites_list": sites_list.join("\r\n")};

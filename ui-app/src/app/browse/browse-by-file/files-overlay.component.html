@@ -5,12 +5,12 @@
 <div id="FilesOvelrayTitle" mat-dialog-title>
 <h2  style="color:#245672" >Files</h2>
 <button class="btn btn-primary breadCrumbButtons" style="background-color: black; margin-right: 3px;" disabled="true">Study Name</button><button *ngIf="study_names_param.length == 1" class="btn btn-primary breadCrumbButtons" disabled="true">IS</button>&nbsp;
-<button *ngIf="study_names_param.length == 1" class="btn btn-primary breadCrumbButtons" style="background-color: grey; margin-right: 3px" disabled="true">{{studyData.summaryData.study_name}}</button> 
+<button *ngIf="study_names_param.length == 1" class="btn btn-primary breadCrumbButtons" style="background-color: grey; margin-right: 3px" disabled="true">{{studyData.summaryData.study_name}}</button>
 <span *ngIf="study_names_param.length > 1">
 	<button  class="btn btn-primary breadCrumbButtons" disabled="true">IN</button>&nbsp;(
 	<button *ngFor="let StudyName of study_names_param" class="btn btn-primary breadCrumbButtons" style="background-color: grey; margin-right: 3px;" disabled="true">{{StudyName}}</button> &nbsp;)
 </span>
-&nbsp;<button class="btn btn-primary breadCrumbButtons" disabled="true">AND</button>&nbsp;  
+&nbsp;<button class="btn btn-primary breadCrumbButtons" disabled="true">AND</button>&nbsp;
 <button *ngIf="studyData.summaryData.data_category!=''" class="btn btn-primary breadCrumbButtons" style="background-color: black; margin-right: 3px" disabled="true">Data Category</button> <button *ngIf="studyData.summaryData.data_category!=''"class="btn btn-primary breadCrumbButtons" disabled="true">IS</button>&nbsp;
 <button *ngIf="studyData.summaryData.data_category!=''" class="btn btn-primary breadCrumbButtons" style="background-color: grey; margin-right: 3px" disabled="true">{{studyData.summaryData.data_category}}</button> <button *ngIf="studyData.summaryData.file_type!=''" class="btn btn-primary breadCrumbButtons" disabled="true">AND</button>&nbsp;
 <button *ngIf="studyData.summaryData.file_type!=''" class="btn btn-primary breadCrumbButtons" style="background-color: black; margin-right: 3px" disabled="true">File Type</button> <button *ngIf="studyData.summaryData.file_type!=''" class="btn btn-primary breadCrumbButtons" disabled="true">IS</button>&nbsp;
@@ -47,7 +47,7 @@
       <p-table class="table-striped ui-datatable-odd " #dt [columns]="cols" [value]="filteredFilesData" [lazy]="true" [paginator]="publicationsFiles.length === 0" [(first)]="offset"
 				[rows]="10" [pageLinks]="5" [rowsPerPageOptions]="[10,20,50,100]" [totalRecords]="totalRecords"
 				[loading]="loading" [resizableColumns]="true" columnResizeMode="expand"[ngStyle]="{'width':'100%'}"
-				(onRowUnselect) ="onRowUnselected($event)" (onRowSelect)="onRowSelected($event)" [(selection)]="selectedFiles" (onLazyLoad)="loadFiles($event)" id="fileDataTable" paginatorPosition="both"
+				(onRowUnselect) ="onRowUnselected($event)" (onRowSelect)="onRowSelected($event)" [(selection)]="selectedFiles" (onLazyLoad)="loadFiles($event)" id="fileDataTable" id="{{publicationsFiles.length === 0 ? 'fileDataTable': 'publicationsFileDataTable'}}" paginatorPosition="both"
 				scrollHeight="500px" [autoLayout]="true" [frozenColumns]="frozenCols" [scrollable]="true" [frozenWidth]="publicationsFiles.length == 0 ? '150px': '50px'">
 		<ng-template pTemplate="caption">
 			<div class="container-fluid ui-helper-clearfix button-container-fluid">
@@ -95,8 +95,9 @@
 					<span style="display:none">Select this row</span>
 				</th>
 				<!-- PDC-2795 -->
+				<!-- @@@PDC-4978 update links to migrated documentation pages -->
 				<th *ngIf="publicationsFiles.length === 0" class="ui-datatable-tableheader" style="width:100px;" [pSortableColumn]="cols[0].field"><a
-						href="{{staticUrlBase}}dictionaryitem.html?eName=Study" target="_blank" style="color:white">PDC Study ID</a>
+						href="/pdc/data-dictionary/Study" target="_blank" style="color:white">PDC Study ID</a>
 					<p-sortIcon [field]="cols[0].field" ariaLabel="Sort PDC Study ID column in ascending/descending order"></p-sortIcon>
 				</th>
 			</tr>
@@ -105,7 +106,7 @@
 					<tr class="safari_only">
 						<!-- @@@PDC-262 link headers to data dictionary -->
 						<th *ngIf="publicationsFiles.length === 0" class="ui-datatable-tableheader" [pSortableColumn]="cols[1].field"><a
-								href="{{staticUrlBase}}dictionaryitem.html?eName=Study" target="_blank" style="color:white">Study</a>
+								href="/pdc/data-dictionary/Study" target="_blank" style="color:white">Study</a>
 							<p-sortIcon [field]="cols[1].field" ariaLabel="Sort Study column in ascending/descending order"></p-sortIcon>
 						</th>
 						<th *ngIf="publicationsFiles.length === 0" class="ui-datatable-tableheader" [pSortableColumn]="cols[2].field"><a
@@ -113,14 +114,14 @@
 							<p-sortIcon [field]="cols[2].field" ariaLabel="Sort embargo date column in ascending/descending order"></p-sortIcon>
 						</th>
 						<th class="ui-datatable-tableheader" [pSortableColumn]="cols[3].field"><a
-								href="{{staticUrlBase}}dictionaryitem.html?eName=File#file_name" target="_blank" style="color:white">File
+								href="/pdc/data-dictionary/File#file_name" target="_blank" style="color:white">File
 								Name</a>
 							<p-sortIcon [field]="cols[3].field" ariaLabel="Sort File name column in ascending/descending order"></p-sortIcon>
 						</th>
 						<th *ngIf="publicationsFiles.length === 0" class="ui-datatable-tableheader" [pSortableColumn]="cols[4].field">
 							<div class="ui-datatable-tableheader-flex-container">
 								<div>
-									<a href="{{staticUrlBase}}dictionaryitem.html?eName=Study%20Run%20Metadata" target="_blank"
+									<a href="/pdc/data-dictionary/Study%20Run%20Metadata" target="_blank"
 										style="color:white">
 										Run Metadata<br>ID
 									</a>
@@ -131,7 +132,7 @@
 							</div>
 						</th>
 						<th class="ui-datatable-tableheader" [pSortableColumn]="cols[5].field"><a
-								href="{{staticUrlBase}}dictionaryitem.html?eName=Project" target="_blank" style="color:white">Project</a>
+								href="/pdc/data-dictionary/Project" target="_blank" style="color:white">Project</a>
 							<p-sortIcon [field]="cols[5].field" ariaLabel="Sort Project column in ascending/descending order"></p-sortIcon>
 						</th>
 						<th rowspan=3 class="ui-datatable-tableheader" [pSortableColumn]="cols[6].field"><a href="/pdc/faq/Files_Download" target="_blank" style="color:white">Data Category</a>

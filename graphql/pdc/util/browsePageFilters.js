@@ -275,6 +275,7 @@ WHERE
 //@@@PDC-2396 add attributes to uiCase
 //@@@PDC-4569 remove is_ffpe and oct_embedded
 //@@@PDC-4687 add tissue_collection_type and sample_ordinal
+//@@@PDC-4968 expose case_is_ref
 const case_tab_data = `
 SELECT DISTINCT
     proj.name AS project_name,
@@ -282,6 +283,7 @@ SELECT DISTINCT
     BIN_TO_UUID(c.case_id) AS case_id,
     c.status AS case_status,
     c.case_submitter_id,
+	c.case_is_ref,
     c.disease_type,
     c.primary_site,
     BIN_TO_UUID(al.aliquot_id) AS aliquot_id,

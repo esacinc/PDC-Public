@@ -5,6 +5,7 @@ type Biospecimen {
 	case_submitter_id: String	
 	aliquot_submitter_id: String 
 	case_status: String
+	case_is_ref: String
 	aliquot_is_ref: String
 	aliquot_status: String
 	sample_status: String

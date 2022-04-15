@@ -24,7 +24,7 @@ if (typeof process.env.PDC_ELASTICACHE_HOST !== 'undefined'){
 }
 
 cacheClient.on("error", (err) => {
-  logger.error("Error " + err);
+  //logger.error("Error " + err);
 });
 
 cacheClient.on('connect', () => {
@@ -47,17 +47,29 @@ const cacheExpirationTime = 1*60*60*24;
 
 //All existing cache names
 const pdcuiBrowsePagePaginatedDataTab = new Map();
+//@@@PDC-4994 handle getAll request
+pdcuiBrowsePagePaginatedDataTab.set('StudyAllCount','PDCUI:BrowsePage:PaginatedDataTab:StudyAllCount:');
+pdcuiBrowsePagePaginatedDataTab.set('FileAllCount','PDCUI:BrowsePage:PaginatedDataTab:FileAllCount:');
+pdcuiBrowsePagePaginatedDataTab.set('ClinicalAllCount','PDCUI:BrowsePage:PaginatedDataTab:ClinicalAllCount:');
+pdcuiBrowsePagePaginatedDataTab.set('CaseAllCount','PDCUI:BrowsePage:PaginatedDataTab:CaseAllCount:');
+pdcuiBrowsePagePaginatedDataTab.set('GeneAllCount','PDCUI:BrowsePage:PaginatedDataTab:GeneAllCount:');
 pdcuiBrowsePagePaginatedDataTab.set('StudyTotalCount','PDCUI:BrowsePage:PaginatedDataTab:StudyTotalCount:');
 pdcuiBrowsePagePaginatedDataTab.set('FileTotalCount','PDCUI:BrowsePage:PaginatedDataTab:FileTotalCount:');
 pdcuiBrowsePagePaginatedDataTab.set('ClinicalTotalCount','PDCUI:BrowsePage:PaginatedDataTab:ClinicalTotalCount:');
 pdcuiBrowsePagePaginatedDataTab.set('CaseTotalCount','PDCUI:BrowsePage:PaginatedDataTab:CaseTotalCount:');
 pdcuiBrowsePagePaginatedDataTab.set('GeneTotalCount','PDCUI:BrowsePage:PaginatedDataTab:GeneTotalCount:');
+pdcuiBrowsePagePaginatedDataTab.set('StudyAllData', 'PDCUI:BrowsePage:PaginatedDataTab:StudyAllData:');
+pdcuiBrowsePagePaginatedDataTab.set('FileAllData', 'PDCUI:BrowsePage:PaginatedDataTab:FileData:');
+pdcuiBrowsePagePaginatedDataTab.set('ClinicalAllData', 'PDCUI:BrowsePage:PaginatedDataTab:ClinicalAllData:');
+pdcuiBrowsePagePaginatedDataTab.set('CaseAllData', 'PDCUI:BrowsePage:PaginatedDataTab:CaseAllData:');
+pdcuiBrowsePagePaginatedDataTab.set('GeneAllData', 'PDCUI:BrowsePage:PaginatedDataTab:GeneAllData:');
 pdcuiBrowsePagePaginatedDataTab.set('StudyData', 'PDCUI:BrowsePage:PaginatedDataTab:StudyData:');
 pdcuiBrowsePagePaginatedDataTab.set('FileData', 'PDCUI:BrowsePage:PaginatedDataTab:FileData:');
 pdcuiBrowsePagePaginatedDataTab.set('ClinicalData', 'PDCUI:BrowsePage:PaginatedDataTab:ClinicalData:');
 pdcuiBrowsePagePaginatedDataTab.set('CaseData', 'PDCUI:BrowsePage:PaginatedDataTab:CaseData:');
 pdcuiBrowsePagePaginatedDataTab.set('GeneData', 'PDCUI:BrowsePage:PaginatedDataTab:GeneData:');
 pdcuiBrowsePagePaginatedDataTab.set('GeneStudy', 'PDCUI:BrowsePage:PaginatedDataTab:GeneStudy:');
+
 
 const pdcuiBrowsePageFilter = new Map();
 pdcuiBrowsePageFilter.set('Filter','PDCUI:BrowsePage:Filter');

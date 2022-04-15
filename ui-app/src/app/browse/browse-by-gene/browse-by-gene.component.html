@@ -1,8 +1,8 @@
 	<div class="row" style="font-family:'Lato'; font-size: 12px;" (window:resize)="onResize($event)">
-      <p-table class="table-striped ui-datatable-odd" #dt [columns]="cols" [value]="filteredGenesData" [lazy]="true" [paginator]="true" [(first)]="offset" 
+      <p-table class="table-striped ui-datatable-odd" #dt [columns]="cols" [value]="filteredGenesData" [lazy]="true" [paginator]="true" [(first)]="offset"
 				[rows]="10" [pageLinks]="5" [rowsPerPageOptions]="[10,20,50]" [totalRecords]="totalRecords"
-				[loading]="loading" [resizableColumns]="true" columnResizeMode="expand" [ngStyle]="{'width':'100%'}" 
-				(onRowUnselect) ="onRowUnselected($event)" (onRowSelect)="onRowSelected($event)" [(selection)]="selectedGenesData" 
+				[loading]="loading" [resizableColumns]="true" columnResizeMode="expand" [ngStyle]="{'width':'100%'}"
+				(onRowUnselect) ="onRowUnselected($event)" (onRowSelect)="onRowSelected($event)" [(selection)]="selectedGenesData"
 				dataKey="gene_name" (onLazyLoad)="loadNewPage($event)" id="genesDataTable" paginatorPosition="both"
 				scrollHeight="500px" [autoLayout]="true" [frozenColumns]="frozenColumns" [scrollable]="true" frozenWidth="150px">
 		<ng-template pTemplate="caption">
@@ -58,22 +58,23 @@
 						</mat-option>
 					</mat-select>
 					<span style="display:none;">Check All</span>
-					</th>            
-          <th class="ui-datatable-tableheader" style="width:100px;" [pSortableColumn]="cols[0].field"><a href="{{staticUrlBase}}dictionaryitem.html?eName=Gene#gene_name" target="_blank" style="color:white">Gene</a><p-sortIcon [field]="cols[0].field" ariaLabel="Sort Gene column in ascending/descending order"></p-sortIcon></th>
+					</th>
+					<!-- @@@PDC-4978 update links to migrated documentation pages -->
+          <th class="ui-datatable-tableheader" style="width:100px;" [pSortableColumn]="cols[0].field"><a href="/pdc/data-dictionary/Gene#gene_name" target="_blank" style="color:white">Gene</a><p-sortIcon [field]="cols[0].field" ariaLabel="Sort Gene column in ascending/descending order"></p-sortIcon></th>
 			</tr>
 		</ng-template>
         <ng-template style="font-size: 12px; background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%);" pTemplate="header" let-columns>
             <tr class="safari_only">
-			    <th class="ui-datatable-tableheader fixedWidthCol" [pSortableColumn]="cols[1].field"><a href="{{staticUrlBase}}dictionaryitem.html?eName=Gene#chromosome" target="_blank" style="color:white">Chromosome</a><p-sortIcon [field]="cols[1].field" ariaLabel="Sort Chromosome column in ascending/descending order"></p-sortIcon></th>
-			    <th class="ui-datatable-tableheader fixedWidthCol" [pSortableColumn]="cols[2].field"><a href="{{staticUrlBase}}dictionaryitem.html?eName=Gene#locus" target="_blank" style="color:white">Locus</a><p-sortIcon [field]="cols[2].field" ariaLabel="Sort Locus column in ascending/descending order"></p-sortIcon></th>
+			    <th class="ui-datatable-tableheader fixedWidthCol" [pSortableColumn]="cols[1].field"><a href="/pdc/data-dictionary/Gene#chromosome" target="_blank" style="color:white">Chromosome</a><p-sortIcon [field]="cols[1].field" ariaLabel="Sort Chromosome column in ascending/descending order"></p-sortIcon></th>
+			    <th class="ui-datatable-tableheader fixedWidthCol" [pSortableColumn]="cols[2].field"><a href="/pdc/data-dictionary/Gene#locus" target="_blank" style="color:white">Locus</a><p-sortIcon [field]="cols[2].field" ariaLabel="Sort Locus column in ascending/descending order"></p-sortIcon></th>
 			    <th class="ui-datatable-tableheader fixedWidthCol">No of Studies</th>
 			    <th class="ui-datatable-tableheader fixedWidthCol">PTM Sites</th>
-			    <th class="ui-datatable-tableheader fixedWidthCol" [pSortableColumn]="cols[4].field"><a href="{{staticUrlBase}}dictionaryitem.html?eName=Gene#proteins" target="_blank" style="color:white">Proteins</a><p-sortIcon [field]="cols[4].field" ariaLabel="Sort Proteins column in ascending/descending order"></p-sortIcon></th>
+			    <th class="ui-datatable-tableheader fixedWidthCol" [pSortableColumn]="cols[4].field"><a href="/pdc/data-dictionary/Gene#proteins" target="_blank" style="color:white">Proteins</a><p-sortIcon [field]="cols[4].field" ariaLabel="Sort Proteins column in ascending/descending order"></p-sortIcon></th>
             </tr>
 				</ng-template>
 				<ng-template pTemplate="frozenbody" let-geneData let-frozenColumns>
 					<tr style="font-size: 11px;"[pSelectableRow]="geneData">
-						<td style="width:50px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"><p-tableCheckbox id="geneData{{geneData.gene_name}}" [value]="geneData" class="browsePageCheckboxes"></p-tableCheckbox></td>              
+						<td style="width:50px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"><p-tableCheckbox id="geneData{{geneData.gene_name}}" [value]="geneData" class="browsePageCheckboxes"></p-tableCheckbox></td>
 						<td style="width:100px;word-wrap: break-word; white-space: normal;"><a href="javascript:void(0);" (click)="showGeneSummary(geneData.gene_name)">{{geneData.gene_name }}</a></td>
 					</tr>
 				</ng-template>
@@ -83,12 +84,12 @@
                 <td class="fixedWidthCol" style="word-wrap: break-word; white-space: normal;">{{geneData.locus}}</td>
                 <td class="fixedWidthCol" style="word-wrap: break-word; white-space: normal;">{{geneData.num_study}}</td>
 				<td class="fixedWidthCol" style="word-wrap: break-word; white-space: normal;">
-					<div *ngFor="let ptmData of ptmStatsData[geneData.gene_name]?.ptm_type_counter" style="float:left">{{ptmData.ptm_type}} ({{ptmData.counter}}) </div>
+					<div *ngFor="let ptmData of ptmStatsData[geneData.gene_name]?.ptm_type_counter" style="float:left"> {{ptmData.ptm_type}} ({{ptmData.counter}});</div>
 				</td>
 				<td class="fixedWidthCol" style="word-wrap: break-word; white-space: normal;">{{geneData.proteins}}</td>
             </tr>
         </ng-template>
-		<p-paginator rows="10" totalRecords="120"></p-paginator> 
+		<p-paginator rows="10" totalRecords="120"></p-paginator>
       </p-table>
       <br>
     </div>

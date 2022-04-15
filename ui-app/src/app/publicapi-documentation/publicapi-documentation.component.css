@@ -90,6 +90,7 @@ button.close {
     position: relative;
     width: auto;
     margin: 10px;
+    pointer-events:unset;
 
 }
 /* @@@PDC-1407: Issues in API Documentation */

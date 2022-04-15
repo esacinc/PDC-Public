@@ -466,6 +466,145 @@ class MockCaseSummaryService {
       ]
     });
   }
+
+  //@@@PDC-5045: Convert the GET requests to the getPaginatedUIClinical API of "Clinical" tab to POST
+  getDetailedCaseSummaryDataPost(): Observable<any> {
+    return of({
+      uiCaseSummary: [
+        {
+          case_id: "f1ed9eb2-cf1e-11e9-9a07-0a80fada099c",
+          case_submitter_id: "C3L-00094",
+          project_submitter_id: "CPTAC3-Discovery",
+          disease_type: "Lung Adenocarcinoma",
+          tissue_source_site_code: "SCHC",
+          days_to_lost_to_followup: null,
+          index_date: "",
+          lost_to_followup: "No",
+          primary_site: "Bronchus and lung",
+          demographics: [
+            {
+              ethnicity: "Not Hispanic or Latino",
+              gender: "Male",
+              demographic_submitter_id: "C3L-00094-DM",
+              race: "White",
+              cause_of_death: "Cancer Related",
+              days_to_birth: "-25560",
+              days_to_death: "889",
+              vital_status: "Dead",
+              year_of_birth: "1946",
+              year_of_death: "2018",
+              age_at_index: null,
+              premature_at_birth: null,
+              weeks_gestation_at_birth: null,
+              age_is_obfuscated: null,
+              cause_of_death_source: null,
+              occupation_duration_years: null,
+              country_of_residence_at_enrollment: null
+            }
+          ],
+          diagnoses: [],
+          exposures: [],
+          follow_ups: [],
+          samples: [
+            {
+              sample_id: "9a27554b-d0a6-11e9-9a07-0a80fada099c",
+              gdc_sample_id: "9c157c47-9df2-49c6-a2fc-89982717307b",
+              gdc_project_id: null,
+              sample_submitter_id: "C3L-00094-06",
+              sample_type: "Solid Tissue Normal",
+              status: "Qualified",
+              pool: "No",
+              sample_is_ref: "no",
+              biospecimen_anatomic_site: "Not Reported",
+              composition: "Solid Tissue",
+              current_weight: null,
+              days_to_collection: null,
+              days_to_sample_procurement: null,
+              diagnosis_pathologically_confirmed: "Not Reported",
+              freezing_method: "LN2",
+              initial_weight: 256,
+              intermediate_dimension: "",
+              is_ffpe: "0",
+              longest_dimension: "",
+              method_of_sample_procurement: "Not Reported",
+              oct_embedded: "No",
+              pathology_report_uuid: "",
+              preservation_method: "Snap Frozen",
+              sample_type_id: null,
+              shortest_dimension: "",
+              time_between_clamping_and_freezing: "",
+              time_between_excision_and_freezing: "",
+              tissue_type: "normal",
+              tumor_code: "",
+              tumor_code_id: "",
+              tumor_descriptor: "Not Reported",
+              aliquots: [
+                {
+                  aliquot_id: "5246c8b5-d0b0-11e9-9a07-0a80fada099c",
+                  aliquot_submitter_id: "CPT0000930003",
+                  aliquot_quantity: null,
+                  aliquot_volume: null,
+                  status: "Qualified",
+                  pool: "No",
+                  aliquot_is_ref: "no",
+                  amount: null,
+                  analyte_type: "protein",
+                  concentration: null
+                }
+              ]
+            },
+            {
+              sample_id: "9a3ef50b-d0a6-11e9-9a07-0a80fada099c",
+              gdc_sample_id: "1f9c6b1c-7edd-4297-82ea-9f7bac608119",
+              gdc_project_id: null,
+              sample_submitter_id: "C3L-00094-03",
+              sample_type: "Primary Tumor",
+              status: "Qualified",
+              pool: "No",
+              sample_is_ref: "no",
+              biospecimen_anatomic_site: "Not Reported",
+              composition: "Solid Tissue",
+              current_weight: null,
+              days_to_collection: null,
+              days_to_sample_procurement: null,
+              diagnosis_pathologically_confirmed: "Not Reported",
+              freezing_method: "LN2",
+              initial_weight: 419,
+              intermediate_dimension: "",
+              is_ffpe: "0",
+              longest_dimension: "",
+              method_of_sample_procurement: "Not Reported",
+              oct_embedded: "No",
+              pathology_report_uuid: "",
+              preservation_method: "Snap Frozen",
+              sample_type_id: null,
+              shortest_dimension: "",
+              time_between_clamping_and_freezing: "",
+              time_between_excision_and_freezing: "",
+              tissue_type: "tumor",
+              tumor_code: "",
+              tumor_code_id: "",
+              tumor_descriptor: "Primary",
+              aliquots: [
+                {
+                  aliquot_id: "5225d754-d0b0-11e9-9a07-0a80fada099c",
+                  aliquot_submitter_id: "CPT0000920017",
+                  aliquot_quantity: null,
+                  aliquot_volume: null,
+                  status: "Qualified",
+                  pool: "No",
+                  aliquot_is_ref: "no",
+                  amount: null,
+                  analyte_type: "protein",
+                  concentration: null
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    });
+  }
 }
 
 describe("CaseSummaryComponent", () => {

@@ -189,32 +189,19 @@ export class BrowseByClinicalComponent implements OnInit {
 
   /*API call to get all clinical data */
   getAllClinicalData(){
-	  this.loading = true;
-	  setTimeout(() => {
-		//@@@PDC-4899: Records on the Clinical tab are '0' on the Explore page in Data Browser Stage
-		this.browseByClinicalService.getFilteredClinicalFollowUpDataPaginated(this.offset, this.limit, this.sort, this.newFilterSelected).pipe(take(1)).subscribe((followUpData: any) =>{
-			this.filteredFollowUpClinicalData = followUpData.getPaginatedUIClinical.uiClinical;
-			//@@@PDC-4490: Update Clinical manifest and Case summary pages for GDC Sync
-			this.browseByClinicalService.getFilteredClinicalExposureDataPaginated(this.offset, this.limit, this.sort, this.newFilterSelected).pipe(take(1)).subscribe((exposureData: any) =>{
-				this.filteredExposureClinicalData = exposureData.getPaginatedUIClinical.uiClinical;
-				this.browseByClinicalService.getFilteredClinicalAdditionalDataPaginated(this.offset, this.limit, this.sort, this.newFilterSelected).pipe(take(1)).subscribe((additionalData: any) =>{
-					this.filteredAdditionalClinicalData = additionalData.getPaginatedUIClinical.uiClinical;
-					setTimeout(() => {
-						this.browseByClinicalService.getFilteredClinicalDataPaginated(this.offset, this.limit, this.sort, this.newFilterSelected).pipe(take(1)).subscribe((data: any) =>{
-							this.filteredClinicalData = data.getPaginatedUIClinical.uiClinical;
-							this.filteredClinicalData = this.populateAdditionalClinicalData(this.filteredClinicalData);
-							this.totalRecords = data.getPaginatedUIClinical.total;
-							this.clinicalTotalRecordChanged.emit({type: 'clinical', totalRecords:this.totalRecords});
-							this.offset = data.getPaginatedUIClinical.pagination.from;
-							this.pageSize = data.getPaginatedUIClinical.pagination.size;
-							this.limit = data.getPaginatedUIClinical.pagination.size;
-							this.clearSelection();
-							this.makeRowsSameHeight();
-							this.loading = false;
-						});
-					}, 1000);
-				});
-			});
+	this.loading = true;
+	setTimeout(() => {
+		//@@@PDC-5045: Convert the GET requests to the getPaginatedUIClinical API of "Clinical" tab to POST
+		this.browseByClinicalService.getFilteredClinicalDataPaginatedPost(this.offset, this.limit, this.sort, this.newFilterSelected).pipe(take(1)).subscribe((data: any) =>{
+			this.filteredClinicalData = data.getPaginatedUIClinical.uiClinical;
+			this.totalRecords = data.getPaginatedUIClinical.total;
+			this.clinicalTotalRecordChanged.emit({type: 'clinical', totalRecords:this.totalRecords});
+			this.offset = data.getPaginatedUIClinical.pagination.from;
+			this.pageSize = data.getPaginatedUIClinical.pagination.size;
+			this.limit = data.getPaginatedUIClinical.pagination.size;
+			this.clearSelection();
+			this.makeRowsSameHeight();
+			this.loading = false;
 		});
 	}, 1000);
   }
@@ -294,35 +281,19 @@ export class BrowseByClinicalComponent implements OnInit {
 		}
 		this.offset = 0; //Reinitialize offset for each new filter value
 		this.loading = true;
-		//setTimeout(() => {
-		//@@@PDC-4899: Records on the Clinical tab are '0' on the Explore page in Data Browser Stage
-		this.browseByClinicalService.getFilteredClinicalFollowUpDataPaginated(this.offset, this.limit, this.sort, this.newFilterSelected).pipe(take(1)).subscribe((followUpData: any) =>{
-			this.filteredFollowUpClinicalData = followUpData.getPaginatedUIClinical.uiClinical;
-			//@@@PDC-4490: Update Clinical manifest and Case summary pages for GDC Sync
-			this.browseByClinicalService.getFilteredClinicalExposureDataPaginated(this.offset, this.limit, this.sort, this.newFilterSelected).pipe(take(1)).subscribe((exposureData: any) =>{
-				this.filteredExposureClinicalData = exposureData.getPaginatedUIClinical.uiClinical;
-				this.browseByClinicalService.getFilteredClinicalAdditionalDataPaginated(this.offset, this.limit, this.sort, this.newFilterSelected).pipe(take(1)).subscribe((additionalData: any) =>{
-					this.filteredAdditionalClinicalData = additionalData.getPaginatedUIClinical.uiClinical;
-					//setTimeout(() => {
-						this.browseByClinicalService.getFilteredClinicalDataPaginated(this.offset, this.limit,this.sort, this.newFilterSelected).pipe(take(1)).subscribe((data: any) =>{
-							this.filteredClinicalData = data.getPaginatedUIClinical.uiClinical;
-							this.filteredClinicalData = this.populateAdditionalClinicalData(this.filteredClinicalData);
-							if (this.offset == 0) {
-								this.totalRecords = data.getPaginatedUIClinical.total;
-								this.clinicalTotalRecordChanged.emit({type: 'clinical', totalRecords:this.totalRecords});
-								this.offset = data.getPaginatedUIClinical.pagination.from;
-								this.pageSize = data.getPaginatedUIClinical.pagination.size;
-								this.limit = data.getPaginatedUIClinical.pagination.size;
-							}
-							this.clearSelection();
-							this.makeRowsSameHeight();
-							this.loading = false;
-						});
-					//}, 1000);
-				});
-			});
+		this.browseByClinicalService.getFilteredClinicalDataPaginatedPost(this.offset, this.limit,this.sort, this.newFilterSelected).pipe(take(1)).subscribe((data: any) =>{
+			this.filteredClinicalData = data.getPaginatedUIClinical.uiClinical;
+			if (this.offset == 0) {
+				this.totalRecords = data.getPaginatedUIClinical.total;
+				this.clinicalTotalRecordChanged.emit({type: 'clinical', totalRecords:this.totalRecords});
+				this.offset = data.getPaginatedUIClinical.pagination.from;
+				this.pageSize = data.getPaginatedUIClinical.pagination.size;
+				this.limit = data.getPaginatedUIClinical.pagination.size;
+			}
+			this.clearSelection();
+			this.makeRowsSameHeight();
+			this.loading = false;
 		});
-		//}, 1000);
 	}
 
 	//@@@PDC-937: Add a button to allow download all manifests with a single click
@@ -363,51 +334,43 @@ downloadCompleteManifest(buttonClick = false) {
 			this.loading = true;
 		}
 		setTimeout(() => {
+			//@@@PDC-4931: Last row of Biospecimen and Clinical is not getting selected when the user use Select All Pages
+			//Set limit as total_records + 1. getFilteredClinicalDataPaginated API returns total records if the limit is increased by 1.
 			//@@@PDC-4490: Update Clinical manifest and Case summary pages for GDC Sync
-			this.browseByClinicalService.getFilteredClinicalDataPaginated(0, this.totalRecords, this.sort, this.newFilterSelected).pipe(take(1)).subscribe((data: any) =>{
+			this.browseByClinicalService.getFilteredClinicalDataPaginatedPost(0, this.totalRecords + 1, this.sort, this.newFilterSelected).pipe(take(1)).subscribe((data: any) =>{
 				let filteredClinicalData = data.getPaginatedUIClinical.uiClinical;
-				this.browseByClinicalService.getFilteredClinicalAdditionalDataPaginated(0, this.totalRecords, this.sort, this.newFilterSelected).pipe(take(1)).subscribe((additionalData: any) =>{
-					this.filteredAdditionalClinicalData = additionalData.getPaginatedUIClinical.uiClinical;
-					this.browseByClinicalService.getFilteredClinicalExposureDataPaginated(0, this.totalRecords, this.sort, this.newFilterSelected).pipe(take(1)).subscribe((exposureData: any) =>{
-						this.filteredExposureClinicalData = exposureData.getPaginatedUIClinical.uiClinical;
-						//@@@PDC-4899: Records on the Clinical tab are '0' on the Explore page in Data Browser Stage
-						this.browseByClinicalService.getFilteredClinicalFollowUpDataPaginated(0, this.totalRecords, this.sort, this.newFilterSelected).pipe(take(1)).subscribe((followUpData: any) =>{
-							this.filteredFollowUpClinicalData = followUpData.getPaginatedUIClinical.uiClinical;
-							filteredClinicalData = this.populateAdditionalClinicalData(filteredClinicalData);
-							let localSelectedClinical = [];
-							for(let item of filteredClinicalData){
-								localSelectedClinical.push(item);
-							}
-							if (buttonClick) {
-								this.selectedClinicalData = localSelectedClinical;
-								this.headercheckbox = true;
-								//@@@PDC-3667: "Select all pages" option issue
-								this.updateCurrentPageSelectedClinical(localSelectedClinical);
-								this.loading = false;
-							} else {
-								let headerCols = [];
-								let colValues = [];
-								for (var i=0; i< this.cols.length; i++) {
-									headerCols.push(this.cols[i]['header']);
-									colValues.push(this.cols[i]['field']);
-								}
-								let exportData = [];
-								//@@@PDC-2950: External case id missing in clinical manifest
-								exportData = this.addGenomicImagingDataToExportManifest(localSelectedClinical);
-								let csvOptions = {
-									headers: headerCols
-								};
-								//PDC-3206 fix ddownload manifest even if there are zero records
-								if (this.totalRecords > 0) {
-									let exportFileObject = JSON.parse(JSON.stringify(exportData, colValues));
-									//@@@PDC-4260: Update clinical manifest to include new clinical data fields
-									this.prepareDownloadData(this.manifestFormat, exportData, exportFileObject);
-								}
-								this.isTableLoading.emit({isTableLoading:"clinical:false"});
-							}
-						});
-					});
-				});
+				let localSelectedClinical = [];
+				for(let item of filteredClinicalData){
+					localSelectedClinical.push(item);
+				}
+				if (buttonClick) {
+					this.selectedClinicalData = localSelectedClinical;
+					this.headercheckbox = true;
+					//@@@PDC-3667: "Select all pages" option issue
+					this.updateCurrentPageSelectedClinical(localSelectedClinical);
+					this.loading = false;
+				} else {
+					let headerCols = [];
+					let colValues = [];
+					for (var i=0; i< this.cols.length; i++) {
+						headerCols.push(this.cols[i]['header']);
+						colValues.push(this.cols[i]['field']);
+					}
+					let exportData = [];
+					//@@@PDC-2950: External case id missing in clinical manifest
+					exportData = this.addGenomicImagingDataToExportManifest(localSelectedClinical);
+					let csvOptions = {
+						headers: headerCols
+					};
+					//PDC-3206 fix ddownload manifest even if there are zero records
+					if (this.totalRecords > 0) {
+						let exportFileObject = JSON.parse(JSON.stringify(exportData, colValues));
+						//@@@PDC-4260: Update clinical manifest to include new clinical data fields
+						this.prepareDownloadData(this.manifestFormat, exportData, exportFileObject);
+					}
+					this.isTableLoading.emit({isTableLoading:"clinical:false"});
+					this.makeRowsSameHeight();
+				}
 			});
 		}, 1000);
 	}, 1000);
@@ -498,39 +461,27 @@ isDownloadDisabled(){
 		this.offset = event.first;
 		this.limit = event.rows;
 		this.loading = true;
-		//@@@PDC-4899: Records on the Clinical tab are '0' on the Explore page in Data Browser Stage
-		this.browseByClinicalService.getFilteredClinicalFollowUpDataPaginated(this.offset, this.limit, this.sort, this.newFilterSelected).pipe(take(1)).subscribe((followUpData: any) =>{
-			this.filteredFollowUpClinicalData = followUpData.getPaginatedUIClinical.uiClinical;
-			//@@@PDC-4490: Update Clinical manifest and Case summary pages for GDC Sync
-			this.browseByClinicalService.getFilteredClinicalExposureDataPaginated(this.offset, this.limit, this.sort, this.newFilterSelected).pipe(take(1)).subscribe((exposureData: any) =>{
-				this.filteredExposureClinicalData = exposureData.getPaginatedUIClinical.uiClinical;
-				this.browseByClinicalService.getFilteredClinicalAdditionalDataPaginated(this.offset, this.limit, this.sort, this.newFilterSelected).pipe(take(1)).subscribe((additionalData: any) =>{
-					this.filteredAdditionalClinicalData = additionalData.getPaginatedUIClinical.uiClinical;
-					this.browseByClinicalService.getFilteredClinicalDataPaginated(this.offset, this.limit, this.sort, this.newFilterSelected).pipe(take(1)).subscribe((data: any) => {
-						this.filteredClinicalData = data.getPaginatedUIClinical.uiClinical;
-						this.filteredClinicalData = this.populateAdditionalClinicalData(this.filteredClinicalData);
-						if (this.offset == 0) {
-							this.totalRecords = data.getPaginatedUIClinical.total;
-							this.clinicalTotalRecordChanged.emit({ type: 'clinical', totalRecords: this.totalRecords });
-							this.offset = data.getPaginatedUIClinical.pagination.from;
-							this.limit = data.getPaginatedUIClinical.pagination.size;
-						}
-						//@@@PDC-3700: Existing issues with Checkbox handling on "Browse" page
-						//Page size should be available for all offsets
-						this.pageSize = data.getPaginatedUIClinical.pagination.size;
-						this.trackCurrentPageSelectedCase(data.getPaginatedUIClinical.uiClinical);
-						if(this.pageHeaderCheckBoxTrack.indexOf(this.offset) !== -1){
-							this.headercheckbox = true;
-						}else{
-							this.headercheckbox = false;
-						}
-						//@@@PDC-3667: "Select all pages" option issue
-						this.handleCheckboxSelections();
-						this.makeRowsSameHeight();
-						this.loading = false;
-					});
-				});
-			});
+		this.browseByClinicalService.getFilteredClinicalDataPaginatedPost(this.offset, this.limit, this.sort, this.newFilterSelected).pipe(take(1)).subscribe((data: any) => {
+			this.filteredClinicalData = data.getPaginatedUIClinical.uiClinical;
+			if (this.offset == 0) {
+				this.totalRecords = data.getPaginatedUIClinical.total;
+				this.clinicalTotalRecordChanged.emit({ type: 'clinical', totalRecords: this.totalRecords });
+				this.offset = data.getPaginatedUIClinical.pagination.from;
+				this.limit = data.getPaginatedUIClinical.pagination.size;
+			}
+			//@@@PDC-3700: Existing issues with Checkbox handling on "Browse" page
+			//Page size should be available for all offsets
+			this.pageSize = data.getPaginatedUIClinical.pagination.size;
+			this.trackCurrentPageSelectedCase(data.getPaginatedUIClinical.uiClinical);
+			if(this.pageHeaderCheckBoxTrack.indexOf(this.offset) !== -1){
+				this.headercheckbox = true;
+			}else{
+				this.headercheckbox = false;
+			}
+			//@@@PDC-3667: "Select all pages" option issue
+			this.handleCheckboxSelections();
+			this.makeRowsSameHeight();
+			this.loading = false;
 		});
 	}
 

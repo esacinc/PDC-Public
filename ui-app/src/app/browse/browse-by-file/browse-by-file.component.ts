@@ -15,7 +15,6 @@ import { ngxCsv } from "ngx-csv/ngx-csv";
 import { take } from 'rxjs/operators';
 import { Table } from "primeng/table";
 import { environment } from "../../../environments/environment";
-import { WorkflowManagerComponent } from "../../analysis/workflow-manager/workflow-manager.component";
 import { PDCUserService } from "../../pdcuser.service";
 import { AllFilesData } from "../../types";
 import { ConfirmationDialogComponent } from "./../../dialog/confirmation-dialog/confirmation-dialog.component";
@@ -265,7 +264,10 @@ export class BrowseByFileComponent implements OnInit {
     return BrowseByFileComponent.urlBase;
   }
 
-  showStudySummary() {
+  //@@@PDC-5047: Investigate file download issues that's causing an auto scaling event
+  //Comment code that's causing auto scaling event
+  //WorkflowManagerComponent is not used anywhere, so comment its declaration
+/*   showStudySummary() {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = false;
@@ -279,7 +281,8 @@ export class BrowseByFileComponent implements OnInit {
     const dialogRef = this.dialog.open(WorkflowManagerComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(val => console.log("Dialog output:", val));
-  }
+  } */
+
   /*API call to get all cases data */
   getAllFilesData() {
     this.loading = true;

@@ -13,6 +13,8 @@ import {fetchDataMatrix} from '../util/fetchDataMatrix';
 import {getAliquotId} from '../util/getAliquotId';
 //@@@PDC-1215 use winston logger
 import { logger } from '../util/logger';
+//@@@PDC-4865 extra logging for analytic data
+import { analyticLog } from '../util/analyticLog';
 //@@@PDC-1437 db connect for public APIs
 import { pubDb } from '../util/pubDbconnect';
 import fs from 'fs';
@@ -62,6 +64,7 @@ export const resolvers = {
 	//@@@PDC-3050 google analytics tracking
 	//@@@PDC-3278 log all api calls
 	//@@@PDC-4812 add more ui wrappers of public APIs
+	
 	Query: {
 		uiFileMetadata(_, args, context) {
 			logger.info("The Wrapper: uiFileMetadata is called with "+ JSON.stringify(args));			
@@ -550,7 +553,8 @@ export const resolvers = {
 		async case(_, args, context) {
 			//@@@PDC-4726 log search query
 			if (args.source != 'undefined' && args.source === 'search') {
-				logger.info("SEARCH QUERY to case:  "+ JSON.stringify(args));
+				//logger.info("SEARCH QUERY to case:  "+ JSON.stringify(args));
+				analyticLog.info("SEARCH QUERY to case:  "+ JSON.stringify(args));
 			}
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/case").send();
@@ -574,8 +578,9 @@ export const resolvers = {
 				//@@@PDC-2335 get ext id from reference
 				//@@@PDC-2657 reverse 2335
 				//@@@PDC-4486 new columns for case
+				//@@@PDC-4968 expose case_is_ref
 				let uiCaseBaseQuery = "SELECT distinct bin_to_uuid(c.case_id) as case_id, "+
-				"c.case_submitter_id, "+
+				"c.case_submitter_id, c.case_is_ref, "+
 				"c.tissue_source_site_code, c.days_to_lost_to_followup, c.disease_type, "+
 				"c.index_date, c.lost_to_followup, c.primary_site, c.project_submitter_id, "+
 				"c.consent_type, c.days_to_consent from `case` c where case_id is not null ";
@@ -770,7 +775,8 @@ export const resolvers = {
 		async uiGeneSpectralCount(_, args, context) {
 			//@@@PDC-4726 log search query
 			if (args.source != 'undefined' && args.source === 'search') {
-				logger.info("SEARCH QUERY to uiGeneSpectralCount:  "+ JSON.stringify(args));
+				//logger.info("SEARCH QUERY to uiGeneSpectralCount:  "+ JSON.stringify(args));
+				analyticLog.info("SEARCH QUERY to uiGeneSpectralCount:  "+ JSON.stringify(args));
 			}
 			else
 				logger.info("uiGeneSpectralCount is called with "+ JSON.stringify(args));
@@ -1243,7 +1249,8 @@ export const resolvers = {
 		async workflowMetadata (_, args, context) {
 			//@@@PDC-4726 log search query
 			if (args.source != 'undefined' && args.source === 'search') {
-				logger.info("SEARCH QUERY to workflowMetadata:  "+ JSON.stringify(args));
+				//logger.info("SEARCH QUERY to workflowMetadata:  "+ JSON.stringify(args));
+				analyticLog.info("SEARCH QUERY to workflowMetadata:  "+ JSON.stringify(args));
 			}
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/workflowMetadata").send();
@@ -1410,7 +1417,8 @@ export const resolvers = {
 				if (args[i] != undefined && args[i].length > 0)
 					filled[i]=args[i];				
 			}
-			logger.info("FILTERED QUERY: "+ JSON.stringify(filled));
+			//logger.info("FILTERED QUERY: "+ JSON.stringify(filled));
+			analyticLog.info("FILTERED QUERY: "+ JSON.stringify(filled));
 			//apply global project submitter id filter
 			//let projectSubmitterIdValue = context.value.join("','")
 			//let projectSubmitterIdCondition = ` and s.project_submitter_id IN ('${projectSubmitterIdValue}')`;
@@ -1506,7 +1514,8 @@ export const resolvers = {
 		uiCase (_, args, context) {
 			//@@@PDC-4726 log search query
 			if (args.source != 'undefined' && args.source === 'search') {
-				logger.info("SEARCH QUERY to uiCase:  "+ JSON.stringify(args));
+				//logger.info("SEARCH QUERY to uiCase:  "+ JSON.stringify(args));
+				analyticLog.info("SEARCH QUERY to uiCase:  "+ JSON.stringify(args));
 			}
 			else
 				logger.info("uiCase is called with "+ JSON.stringify(args));
@@ -1572,7 +1581,8 @@ export const resolvers = {
 		async uiProtocol (_, args, context) {
 			//@@@PDC-4726 log search query
 			if (args.source != 'undefined' && args.source === 'search') {
-				logger.info("SEARCH QUERY to uiProtocol:  "+ JSON.stringify(args));
+				//logger.info("SEARCH QUERY to uiProtocol:  "+ JSON.stringify(args));
+				analyticLog.info("SEARCH QUERY to uiProtocol:  "+ JSON.stringify(args));
 			}
 			else
 				logger.info("uiProtocol is called with "+ JSON.stringify(args));
@@ -1642,7 +1652,8 @@ export const resolvers = {
 		async uiPublication (_, args, context) {
 			//@@@PDC-4726 log search query
 			if (args.source != 'undefined' && args.source === 'search') {
-				logger.info("SEARCH QUERY to uiPublication:  "+ JSON.stringify(args));
+				//logger.info("SEARCH QUERY to uiPublication:  "+ JSON.stringify(args));
+				analyticLog.info("SEARCH QUERY to uiPublication:  "+ JSON.stringify(args));
 			}
 			else
 				logger.info("uiPublication is called with "+ JSON.stringify(args));
@@ -1785,7 +1796,8 @@ export const resolvers = {
 		async getPaginatedUIStudy (_, args, context) {
 			//@@@PDC-4726 log search query
 			if (args.source != 'undefined' && args.source === 'search') {
-				logger.info("SEARCH QUERY to getPaginatedUIStudy:  "+ JSON.stringify(args));
+				//logger.info("SEARCH QUERY to getPaginatedUIStudy:  "+ JSON.stringify(args));
+				analyticLog.info("SEARCH QUERY to getPaginatedUIStudy:  "+ JSON.stringify(args));
 			}
 			else
 				logger.info("getPaginatedUIStudy is called with "+ JSON.stringify(args));
@@ -1833,7 +1845,7 @@ export const resolvers = {
 			let fileReplacementFilter = applyFileReplacementFilter(args, cacheFilterName, studyReplacement);
 			let alSamCaDemDiaReplacementFilter = applyAlSamCaDemDiaReplacementFilter(args, cacheFilterName, studyReplacement);
 
-			console.log("Replacements: " + JSON.stringify(studyReplacement));
+			//console.log("Replacements: " + JSON.stringify(studyReplacement));
 
 			// Step 3 concatenate queries
 			studyCountQuery += studyReplacementFilter;
@@ -1875,7 +1887,7 @@ export const resolvers = {
 			let myLimit = 100;
 			let paginated = false;
 			//@@@PDC-3205 check offset and limit for zero and negative
-			if (typeof args.offset != 'undefined' && typeof args.limit != 'undefined') {
+			if (typeof args.offset != 'undefined' && typeof args.limit != 'undefined' && !args.getAll) {
 				if (args.offset >= 0)
 					myOffset = args.offset;
 				if (args.limit >= 0)
@@ -1890,18 +1902,29 @@ export const resolvers = {
 				myLimit = 0;
 			}
 			let uiComboLimitQuery = " LIMIT " + myOffset+ ", " + myLimit;
-			context['query'] = studyDataQuery + groupByStudy + uiSortQuery + uiComboLimitQuery;
+			if (args.getAll) {
+				context['query'] = studyDataQuery + groupByStudy + uiSortQuery;
+				context['dataCacheName'] = CacheName.getBrowsePagePaginatedDataTabCacheKey('StudyAllData')+cacheFilterName['dataFilterName'];
+			}
+			else {
+				context['query'] = studyDataQuery + groupByStudy + uiSortQuery + uiComboLimitQuery;
+				context['dataCacheName'] = CacheName.getBrowsePagePaginatedDataTabCacheKey('StudyData')+cacheFilterName['dataFilterName'];
+			}
 			context['replacements'] = studyReplacement;
 
-			//context['caCountQuery'] = uiComboCaseAliquotQuery+uiComboQuery;
-			context['dataCacheName'] = CacheName.getBrowsePagePaginatedDataTabCacheKey('StudyData')+cacheFilterName['dataFilterName'];
 
-			console.log("Query: " + context['query']);
-			console.log("Replacements: " + JSON.stringify(context['replacements']));
+			//console.log("Query: " + context['query']);
+			//console.log("Replacements: " + JSON.stringify(context['replacements']));
 			console.log("Cache name: " + context['dataCacheName']);
 
-			if (myOffset == 0 && paginated) {
-				const res = await RedisCacheClient.redisCacheGetAsync(CacheName.getBrowsePagePaginatedDataTabCacheKey('StudyTotalCount')+cacheFilterName.name);
+			if ((myOffset == 0 && paginated) || args.getAll) {
+				let res;
+				if (args.getAll){
+					res = await RedisCacheClient.redisCacheGetAsync(CacheName.getBrowsePagePaginatedDataTabCacheKey('StudyAllCount')+cacheFilterName.name);
+				}
+				else {
+					res = await RedisCacheClient.redisCacheGetAsync(CacheName.getBrowsePagePaginatedDataTabCacheKey('StudyTotalCount')+cacheFilterName.name);
+				}
 				if(res === null){
 					let rawData = await db.getSequelize().query(
 						studyCountQuery,
@@ -1911,7 +1934,12 @@ export const resolvers = {
 						}
 					);
 					let totalCount = rawData[0].total;
-					RedisCacheClient.redisCacheSetExAsync(CacheName.getBrowsePagePaginatedDataTabCacheKey('StudyTotalCount')+cacheFilterName.name, totalCount);
+					if (args.getAll){
+						RedisCacheClient.redisCacheSetExAsync(CacheName.getBrowsePagePaginatedDataTabCacheKey('StudyAllCount')+cacheFilterName.name, totalCount);
+					}
+					else {
+						RedisCacheClient.redisCacheSetExAsync(CacheName.getBrowsePagePaginatedDataTabCacheKey('StudyTotalCount')+cacheFilterName.name, totalCount);
+					}
 					return [{total: totalCount}];
 				}else{
 					return [{total: res}];
@@ -2128,7 +2156,8 @@ export const resolvers = {
 		async getPaginatedUIClinical(_, args, context) {
 			//@@@PDC-4726 log search query
 			if (args.source != 'undefined' && args.source === 'search') {
-				logger.info("SEARCH QUERY to getPaginatedUIClinical:  "+ JSON.stringify(args));
+				//logger.info("SEARCH QUERY to getPaginatedUIClinical:  "+ JSON.stringify(args));
+				analyticLog.info("SEARCH QUERY to getPaginatedUIClinical:  "+ JSON.stringify(args));
 			}
 			else
 				logger.info("getPaginatedUIClinical is called with "+ JSON.stringify(args));
@@ -2202,7 +2231,8 @@ export const resolvers = {
 			let myOffset = 0;
 			let myLimit = 100;
 			let paginated = false;
-			if (typeof args.offset != 'undefined' && typeof args.limit != 'undefined') {
+			//@@@PDC-4994 handle getAll request
+			if (typeof args.offset != 'undefined' && typeof args.limit != 'undefined' && !args.getAll) {
 				if (args.offset >= 0)
 					myOffset = args.offset;
 				if (args.limit >= 0)
@@ -2214,11 +2244,37 @@ export const resolvers = {
 				cacheFilterName['dataFilterName'] += 'limit:'+args.limit+';';
 			}
 			let uiClinicalLimitQuery = " LIMIT "+ myOffset+ ", "+ myLimit;
-			context['query'] = clinicalDataQuery+uiSortQuery+uiClinicalLimitQuery;
+			if (args.getAll) {
+				context['query'] = clinicalDataQuery+uiSortQuery;
+				context['dataCacheName'] = CacheName.getBrowsePagePaginatedDataTabCacheKey('ClinicalAllData')+cacheFilterName['dataFilterName'];
+			}
+			else {
+				context['query'] = clinicalDataQuery+uiSortQuery+uiClinicalLimitQuery;
+				context['dataCacheName'] = CacheName.getBrowsePagePaginatedDataTabCacheKey('ClinicalData')+cacheFilterName['dataFilterName'];
+			}
 			context['replacements'] = replacements;
-			context['dataCacheName'] = CacheName.getBrowsePagePaginatedDataTabCacheKey('ClinicalData')+cacheFilterName['dataFilterName'];
 
-			if (myOffset == 0 && paginated) {
+			if (args.getAll) {
+				logger.info("getPaginatedUIClinicalGetAll: "+ CacheName.getBrowsePagePaginatedDataTabCacheKey('ClinicalAllCount')+cacheFilterName.name);
+				const res = await RedisCacheClient.redisCacheGetAsync(CacheName.getBrowsePagePaginatedDataTabCacheKey('ClinicalAllCount')+cacheFilterName.name);
+				if(res === null){
+					logger.info("getAll Clinicals query: "+ clinicalCountQuery);					
+					let rawData = await db.getSequelize().query(
+							clinicalCountQuery,
+							{
+								replacements: replacements,
+								model: db.getModelByName('ModelPagination')
+							}
+						);
+					let totalCount = rawData[0].total;
+					RedisCacheClient.redisCacheSetExAsync(CacheName.getBrowsePagePaginatedDataTabCacheKey('ClinicalAllCount'), totalCount);
+					return [{total: totalCount}];
+				}else{
+					return [{total: res}];
+				}
+				
+			}
+			else if (myOffset == 0 && paginated) {
 				const res = await RedisCacheClient.redisCacheGetAsync(CacheName.getBrowsePagePaginatedDataTabCacheKey('ClinicalTotalCount')+cacheFilterName.name);
 				if(res === null){
 					let rawData = await db.getSequelize().query(
@@ -2244,7 +2300,8 @@ export const resolvers = {
 		async getPaginatedUICase (_, args, context) {
 			//@@@PDC-4726 log search query
 			if (args.source != 'undefined' && args.source === 'search') {
-				logger.info("SEARCH QUERY to getPaginatedUICase:  "+ JSON.stringify(args));
+				//logger.info("SEARCH QUERY to getPaginatedUICase:  "+ JSON.stringify(args));
+				analyticLog.info("SEARCH QUERY to getPaginatedUICase:  "+ JSON.stringify(args));
 			}
 			else
 				logger.info("getPaginatedUICase is called with "+ JSON.stringify(args));
@@ -2321,7 +2378,8 @@ export const resolvers = {
 			let myOffset = 0;
 			let myLimit = 100;
 			let paginated = false;
-			if (typeof args.offset != 'undefined' && typeof args.limit != 'undefined') {
+			//@@@PDC-4994 handle getAll request
+			if (typeof args.offset != 'undefined' && typeof args.limit != 'undefined' && !args.getAll) {
 				if (args.offset >= 0)
 					myOffset = args.offset;
 				if (args.limit >= 0)
@@ -2333,10 +2391,36 @@ export const resolvers = {
 				cacheFilterName['dataFilterName'] += 'limit:'+args.limit+';';
 			}
 			let uiCaseLimitQuery = " LIMIT "+ myOffset+ ", "+ myLimit;
-			context['query'] = caseDataQuery+uiSortQuery+uiCaseLimitQuery;
+			if (args.getAll) {
+				context['query'] = caseDataQuery+uiSortQuery;
+				context['dataCacheName'] = CacheName.getBrowsePagePaginatedDataTabCacheKey('CaseAllData')+cacheFilterName['dataFilterName'];
+			}
+			else {
+				context['query'] = caseDataQuery+uiSortQuery+uiCaseLimitQuery;
+				context['dataCacheName'] = CacheName.getBrowsePagePaginatedDataTabCacheKey('CaseData')+cacheFilterName['dataFilterName'];
+			}
 			context['replacements'] = replacements;
-			context['dataCacheName'] = CacheName.getBrowsePagePaginatedDataTabCacheKey('CaseData')+cacheFilterName['dataFilterName'];
-			if (myOffset == 0 && paginated) {
+			if (args.getAll) {
+				logger.info("getPaginatedUICaseGetAll: "+ CacheName.getBrowsePagePaginatedDataTabCacheKey('CaseAllCount')+cacheFilterName.name);
+				const res = await RedisCacheClient.redisCacheGetAsync(CacheName.getBrowsePagePaginatedDataTabCacheKey('CaseAllCount')+cacheFilterName.name);
+				if(res === null){
+					logger.info("getAll cases query: "+ caseCountQuery);					
+					let rawData = await db.getSequelize().query(
+							caseCountQuery,
+							{
+								replacements: replacements,
+								model: db.getModelByName('ModelPagination')
+							}
+						);
+					let totalCount = rawData[0].total;
+					RedisCacheClient.redisCacheSetExAsync(CacheName.getBrowsePagePaginatedDataTabCacheKey('CaseAllCount'), totalCount);
+					return [{total: totalCount}];
+				}else{
+					return [{total: res}];
+				}
+				
+			}
+			else if (myOffset == 0 && paginated) {
 				const res = await RedisCacheClient.redisCacheGetAsync(CacheName.getBrowsePagePaginatedDataTabCacheKey('CaseTotalCount')+cacheFilterName.name);
 				if(res === null){
 					let rawData = await db.getSequelize().query(
@@ -2494,7 +2578,8 @@ export const resolvers = {
 			let myOffset = 0;
 			let myLimit = 1000;
 			let paginated = false;
-			if (typeof args.offset != 'undefined' && typeof args.limit != 'undefined') {
+			//@@@PDC-4994 handle getAll request
+			if (typeof args.offset != 'undefined' && typeof args.limit != 'undefined' && !args.getAll) {
 				if (args.offset >= 0)
 					myOffset = args.offset;
 				if (args.limit >= 0)
@@ -2506,16 +2591,29 @@ export const resolvers = {
 				cacheFilterName['dataFilterName'] += 'limit:'+args.limit+';';
 			}
 			let uiCaseLimitQuery = " LIMIT " + myOffset + ", " + myLimit;
-			context['query'] = geneDataQuery  + uiSortQuery + uiCaseLimitQuery;
+			if (args.getAll) {
+				context['query'] = geneDataQuery+uiSortQuery;
+				context['dataCacheName'] = CacheName.getBrowsePagePaginatedDataTabCacheKey('GeneAllData')+cacheFilterName['dataFilterName'];
+			}
+			else {
+				context['query'] = geneDataQuery+uiSortQuery+uiCaseLimitQuery;
+				context['dataCacheName'] = CacheName.getBrowsePagePaginatedDataTabCacheKey('GeneData')+cacheFilterName['dataFilterName'];
+			}
 			context['geneStudyCountQuery'] = geneStudyCountQuery;
 			context['replacements'] = replacements;
-			context['dataCacheName'] = CacheName.getBrowsePagePaginatedDataTabCacheKey('GeneData')+cacheFilterName['dataFilterName'];
 			if (typeof geneNameSub != 'undefined' && geneNameSub.length > 0){
 				return [{ total: geneNameSub.length }];
 			}
-			else if(myOffset == 0 && paginated) {
+			else if((myOffset == 0 && paginated) || args.getAll) {
 				//gene count query is slow, so cache genes mapping to each study
-				const res = await RedisCacheClient.redisCacheGetAsync(CacheName.getBrowsePagePaginatedDataTabCacheKey('GeneTotalCount')+cacheFilterName.name);
+				let res;
+				if (args.getAll) {
+					res = await RedisCacheClient.redisCacheGetAsync(CacheName.getBrowsePagePaginatedDataTabCacheKey('GeneAllCount')+cacheFilterName.name);
+				}
+				else {
+					res = await RedisCacheClient.redisCacheGetAsync(CacheName.getBrowsePagePaginatedDataTabCacheKey('GeneTotalCount')+cacheFilterName.name);
+				}
+				
 				if(res === null){
 					//console.time('gene_cache_study');
 					//get gene count
@@ -2557,7 +2655,12 @@ export const resolvers = {
 					var totalCount = finalSet.size;
 					//console.log('total gene count: '+finalSet.size);
 					//console.timeEnd('gene_cache_study');
-					RedisCacheClient.redisCacheSetExAsync(CacheName.getBrowsePagePaginatedDataTabCacheKey('GeneTotalCount')+cacheFilterName.name, totalCount);
+					if (args.getAll){
+						RedisCacheClient.redisCacheSetExAsync(CacheName.getBrowsePagePaginatedDataTabCacheKey('GeneAllCount')+cacheFilterName.name, totalCount);
+					}
+					else {
+						RedisCacheClient.redisCacheSetExAsync(CacheName.getBrowsePagePaginatedDataTabCacheKey('GeneTotalCount')+cacheFilterName.name, totalCount);
+					}
 					return [{total: totalCount}];
 				}else{
 					return [{total: res}];
@@ -3137,7 +3240,8 @@ export const resolvers = {
 		async uiExperimentFileCount (_, args, context) {
 			//@@@PDC-4726 log search query
 			if (args.source != 'undefined' && args.source === 'search') {
-				logger.info("SEARCH QUERY to uiExperimentFileCount:  "+ JSON.stringify(args));
+				//logger.info("SEARCH QUERY to uiExperimentFileCount:  "+ JSON.stringify(args));
+				analyticLog.info("SEARCH QUERY to uiExperimentFileCount:  "+ JSON.stringify(args));
 			}
 			else
 				logger.info("uiExperimentFileCount is called with "+ JSON.stringify(args));
@@ -3194,7 +3298,8 @@ export const resolvers = {
 		async uiDataCategoryFileCount (_, args, context) {
 			//@@@PDC-4726 log search query
 			if (args.source != 'undefined' && args.source === 'search') {
-				logger.info("SEARCH QUERY to uiDataCategoryFileCount:  "+ JSON.stringify(args));
+				//logger.info("SEARCH QUERY to uiDataCategoryFileCount:  "+ JSON.stringify(args));
+				analyticLog.info("SEARCH QUERY to uiDataCategoryFileCount:  "+ JSON.stringify(args));
 			}
 			else
 				logger.info("uiDataCategoryFileCount is called with "+ JSON.stringify(args));
@@ -3714,7 +3819,8 @@ export const resolvers = {
 		* @return Paginated
 		*/
 		caseSearch(_, args, context) {
-			logger.info("SEARCH QUERY to caseSearch: "+ JSON.stringify(args));
+			//logger.info("SEARCH QUERY to caseSearch: "+ JSON.stringify(args));
+			analyticLog.info("SEARCH QUERY to caseSearch:  "+ JSON.stringify(args));
 			context['arguments'] = args;
 			let nameToSearch = 'xxxxxx';
 			//@@@PDC-514 escape wildcard characters
@@ -3768,7 +3874,8 @@ export const resolvers = {
 		* @return {SearchRecord}
 		*/
 		geneSearch(_, args, context) {
-			logger.info("SEARCH QUERY to geneSearch: "+ JSON.stringify(args));
+			//logger.info("SEARCH QUERY to geneSearch: "+ JSON.stringify(args));
+			analyticLog.info("SEARCH QUERY to geneSearch:  "+ JSON.stringify(args));
 			context['arguments'] = args;
 			let nameToSearch = 'xxxxxx';
 			let replacements = { };
@@ -3820,7 +3927,8 @@ export const resolvers = {
 		* @return {SearchRecord}
 		*/
 		proteinSearch(_, args, context) {
-			logger.info("SEARCH QUERY to proteinSearch: "+ JSON.stringify(args));
+			//logger.info("SEARCH QUERY to proteinSearch: "+ JSON.stringify(args));
+			analyticLog.info("SEARCH QUERY to proteinSearch:  "+ JSON.stringify(args));
 			context['arguments'] = args;
 			let nameToSearch = 'xxxxxx';
 			let replacements = { };
@@ -3870,7 +3978,8 @@ export const resolvers = {
 		* @return {SearchStudyRecord}
 		*/
 		studySearch(_, args, context) {
-			logger.info("SEARCH QUERY to studySearch: "+ JSON.stringify(args));
+			//logger.info("SEARCH QUERY to studySearch: "+ JSON.stringify(args));
+			analyticLog.info("SEARCH QUERY to studySearch:  "+ JSON.stringify(args));
 			context['arguments'] = args;
 			let nameToSearch = 'xxxxxx';
 			let replacements = { };
@@ -3914,7 +4023,8 @@ export const resolvers = {
 			}
 		},
 		studySearchByPDCStudyId(_, args, context) {
-			logger.info("SEARCH QUERY to studySearchByPDCStudyId: "+ JSON.stringify(args));
+			//logger.info("SEARCH QUERY to studySearchByPDCStudyId: "+ JSON.stringify(args));
+			analyticLog.info("SEARCH QUERY to studySearchByPDCStudyId:  "+ JSON.stringify(args));
 			context['arguments'] = args;
 			let idToSearch = 'xxxxxx';
 			let replacements = { };
@@ -3959,7 +4069,8 @@ export const resolvers = {
 		},
 		//@@@PDC-1959 search by external id
 		studySearchByExternalId(_, args, context) {
-			logger.info("SEARCH QUERY to studySearchByExternalId: "+ JSON.stringify(args));
+			//logger.info("SEARCH QUERY to studySearchByExternalId: "+ JSON.stringify(args));
+			analyticLog.info("SEARCH QUERY to studySearchByExternalId:  "+ JSON.stringify(args));
 			context['arguments'] = args;
 			let idToSearch = 'xxxxxx';
 			let replacements = { };
@@ -4003,7 +4114,8 @@ export const resolvers = {
 		},
 		//@@@PDC-1441: Add ability to search by case, study, aliquot, sample UUIDs on UI search box
 		aliquotSearch(_, args, context) {
-			logger.info("SEARCH QUERY to aliquotSearch: "+ JSON.stringify(args));
+			//logger.info("SEARCH QUERY to aliquotSearch: "+ JSON.stringify(args));
+			analyticLog.info("SEARCH QUERY to aliquotSearch:  "+ JSON.stringify(args));
 			context['arguments'] = args;
 			let nameToSearch = 'xxxxxx';
 			let replacements = { };
@@ -4779,7 +4891,8 @@ export const resolvers = {
 		async getPaginatedUIPtm (_, args, context) {
 			//@@@PDC-4726 log search query
 			if (args.source != 'undefined' && args.source === 'search') {
-				logger.info("SEARCH QUERY to getPaginatedUIPtm:  "+ JSON.stringify(args));
+				//logger.info("SEARCH QUERY to getPaginatedUIPtm:  "+ JSON.stringify(args));
+				analyticLog.info("SEARCH QUERY to getPaginatedUIPtm:  "+ JSON.stringify(args));
 			}
 			else
 				logger.info("getPaginatedUIPtm is called from UI with "+ JSON.stringify(args));
@@ -4929,7 +5042,8 @@ export const resolvers = {
 		async study (_, args, context) {
 			//@@@PDC-4726 log search query
 			if (args.source != 'undefined' && args.source === 'search') {
-				logger.info("SEARCH QUERY to study:  "+ JSON.stringify(args));
+				//logger.info("SEARCH QUERY to study:  "+ JSON.stringify(args));
+				analyticLog.info("SEARCH QUERY to study:  "+ JSON.stringify(args));
 			}
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/study").send();
@@ -5023,13 +5137,41 @@ export const resolvers = {
 			}
 			return studies;
 		},
+		//@@@PDC-5048 data stats per program
+		async dataStatsPerProgram(_, args, context) {
+			let programs = await db.getModelByName('Program').findAll({ 
+				attributes: [['bin_to_uuid(program_id)', 'program_id'],
+						'program_submitter_id',
+						'name'
+					]
+				});
+			for (let i = 0; i < programs.length; i++) {
+				let projQuery = "SELECT count(*) as projects FROM project where program_id = uuid_to_bin('"+programs[i].program_id+"')";
+				var resultProj = await db.getSequelize().query(projQuery, { raw: true });
+				programs[i].project_count = parseInt(resultProj[0][0].projects);
+				let studyQuery = "SELECT count(*) as studies FROM study s, project p " +
+				"where s.project_id = p.project_id and program_id = uuid_to_bin('"+
+				programs[i].program_id+"') and s.is_latest_version = 1";
+				var resultStudy = await db.getSequelize().query(studyQuery, { raw: true });
+				programs[i].study_count = parseInt(resultStudy[0][0].studies);
+				let sizeQuery = "SELECT count(*) as file_count, round(((sum(file_size))/POWER(1024,4)), 0) as file_size "+
+				"FROM pdc.file f , project p, study_file sf, study s where s.project_id = p.project_id "+
+				"and s.study_id = sf.study_id and sf.file_id = f.file_id and program_id = uuid_to_bin('"+
+				programs[i].program_id+"') and s.is_latest_version = 1";
+				var resultSize = await db.getSequelize().query(sizeQuery, { raw: true });
+				programs[i].data_size_TB = parseInt(resultSize[0][0].file_size);
+				programs[i].data_file_count = parseInt(resultSize[0][0].file_count);
+			}
+			return programs
+		},
 		//@@@PDC-1376 add sample and aliquot APIs to search by uuid/submitter_id
 		//@@@PDC-1467 add case_submitter_id
         //@@@PDC-4569 remove is_ffpe and oct_embedded
 		sample(_, args, context) {
 			//@@@PDC-4726 log search query
 			if (args.source != 'undefined' && args.source === 'search') {
-				logger.info("SEARCH QUERY to sample:  "+ JSON.stringify(args));
+				//logger.info("SEARCH QUERY to sample:  "+ JSON.stringify(args));
+				analyticLog.info("SEARCH QUERY to sample:  "+ JSON.stringify(args));
 			}
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/sample").send();
@@ -5076,7 +5218,8 @@ export const resolvers = {
 		aliquot(_, args, context) {
 			//@@@PDC-4726 log search query
 			if (args.source != 'undefined' && args.source === 'search') {
-				logger.info("SEARCH QUERY to aliquot:  "+ JSON.stringify(args));
+				//logger.info("SEARCH QUERY to aliquot:  "+ JSON.stringify(args));
+				analyticLog.info("SEARCH QUERY to aliquot:  "+ JSON.stringify(args));
 			}
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/aliquot").send();
@@ -5300,7 +5443,8 @@ export const resolvers = {
 		biospecimenPerStudy(_, args, context) {
 			//@@@PDC-4726 log search query
 			if (args.source != 'undefined' && args.source === 'search') {
-				logger.info("SEARCH QUERY to biospecimenPerStudy:  "+ JSON.stringify(args));
+				//logger.info("SEARCH QUERY to biospecimenPerStudy:  "+ JSON.stringify(args));
+				analyticLog.info("SEARCH QUERY to biospecimenPerStudy:  "+ JSON.stringify(args));
 			}
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/biospecimenPerStudy").send();
@@ -5313,13 +5457,14 @@ export const resolvers = {
 			//@@@PDC-1127 add pool and taxon
 			//@@@PDC-2335 get ext id from reference
 			//@@@PDC-2657 reverse 2335
+			//@@@PDC-4968 expose case_is_ref
 			let biospecimenQuery = "SELECT distinct bin_to_uuid(al.aliquot_id) as aliquot_id, "+
 			" bin_to_uuid(sam.sample_id) as sample_id, al.aliquot_submitter_id, al.aliquot_is_ref, "+
 			" al.status as aliquot_status, sam.sample_submitter_id, "+
 			" c.status as case_status, sam.status as sample_status, "+
 			" bin_to_uuid(c.case_id) as case_id, c.case_submitter_id, "+
 			" proj.name as project_name, sam.sample_type, c.disease_type, c.primary_site, "+
-			" al.pool, c.taxon "+
+			" al.pool, c.taxon, c.case_is_ref "+
 			" from study s, `case` c, sample sam, aliquot al,"+
 			" aliquot_run_metadata alm, project proj "+
 			" where alm.study_id=s.study_id and "+
@@ -5382,7 +5527,8 @@ export const resolvers = {
 		studyExperimentalDesign(_, args, context) {
 			//@@@PDC-4726 log search query
 			if (args.source != 'undefined' && args.source === 'search') {
-				logger.info("SEARCH QUERY to studyExperimentalDesign:  "+ JSON.stringify(args));
+				//logger.info("SEARCH QUERY to studyExperimentalDesign:  "+ JSON.stringify(args));
+				analyticLog.info("SEARCH QUERY to studyExperimentalDesign:  "+ JSON.stringify(args));
 			}
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/studyExperimentalDesign").send();
@@ -5511,7 +5657,7 @@ export const resolvers = {
 				studyIdValidated = study[0][0].study_id;
 			}
 			else {
-				logger.warn('quantDataMatrix: Study not found! '+ idType +': '+sid);
+				logger.error('quantDataMatrix: Study not found! '+ idType +': '+sid);
 				throw new ApolloError('Study not found! '+idType +': '+sid);
 				//return [['Study not found! '][idType +': '+sid]];
 			}
@@ -5524,7 +5670,7 @@ export const resolvers = {
 				return JSON.parse(rawData);				
 			}
 			else {
-				  logger.warn('quantDataMatrix: Matrix data not found! '+ idType +': '+sid+ ': '+args.data_type);
+				  logger.error('quantDataMatrix: Matrix data not found! '+ idType +': '+sid+ ': '+args.data_type);
 				  throw new ApolloError(matrixError);
 			}
 			return matrix;
@@ -5533,7 +5679,8 @@ export const resolvers = {
 		pdcEntityReference(obj, args, context) {
 			//@@@PDC-4726 log search query
 			if (args.source != 'undefined' && args.source === 'search') {
-				logger.info("SEARCH QUERY to pdcEntityReference:  "+ JSON.stringify(args));
+				//logger.info("SEARCH QUERY to pdcEntityReference:  "+ JSON.stringify(args));
+				analyticLog.info("SEARCH QUERY to pdcEntityReference:  "+ JSON.stringify(args));
 			}
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/pdcEntityReference").send();

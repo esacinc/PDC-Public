@@ -6,7 +6,7 @@
 		<div [formGroup] = "publicationFiltersGroup">
 		  <mat-form-field appearance="fill">
 			<mat-label>Disease Type</mat-label>
-				<mat-select formControlName="diseaseTypeFormControl" [(ngModel)]="filterSelected.disease_type" (selectionChange)="filterPublications('disease_type')" multiple> 
+				<mat-select formControlName="diseaseTypeFormControl" [(ngModel)]="filterSelected.disease_type" (selectionChange)="filterPublications('disease_type')" multiple>
 				<mat-option *ngFor="let diseaseType of diseaseTypesFilterVals" [value]="diseaseType">{{diseaseType}}</mat-option>
 			  </mat-select>
 		  </mat-form-field>&nbsp;&nbsp;
@@ -27,7 +27,7 @@
 	<p-table class="table-striped ui-datatable-odd " #dt [columns]="cols" [value]="filteredPublicationsData" [lazy]="true" [paginator]="true" [(first)]="offset"
 				[rows]="50" [pageLinks]="5" [rowsPerPageOptions]="[10,20,50, 100]" [totalRecords]="totalRecords"
 				[loading]="loading" [resizableColumns]="true" columnResizeMode="expand" [style]="{'width':'100%', 'min-width':'1000px'}"
-				(onRowUnselect) ="onRowUnselected($event)" (onRowSelect)="onRowSelected($event)"  
+				(onRowUnselect) ="onRowUnselected($event)" (onRowSelect)="onRowSelected($event)"
 				(onLazyLoad)="loadPublications($event)" id="publicationsDataTable" paginatorPosition="both">
 		<ng-template pTemplate="caption">
 			<div *ngIf="totalRecords > 0 && !loading" >
@@ -38,36 +38,37 @@
 			<tr style="font-size: 12px;">
 				<th class="ui-datatable-tableheader" style="width:40%;overflow: unset;">Title
 				</th>
+				<!-- @@@PDC-4978 update links to migrated documentation pages -->
 				<th class="ui-datatable-tableheader" style="width:5%;" [pSortableColumn]="cols[1].field"><a
-								href="{{staticUrlBase}}dictionaryitem.html?eName=Study" target="_blank" style="color:white">Journal</a>
+								href="/pdc/data-dictionary/Study" target="_blank" style="color:white">Journal</a>
 					<p-sortIcon [field]="cols[1].field" ariaLabel="Sort PDC Study ID column in ascending/descending order"></p-sortIcon>
 				</th>
 				<th class="ui-datatable-tableheader" style="width:5%;" [pSortableColumn]="cols[2].field"><a
-								href="{{staticUrlBase}}dictionaryitem.html?eName=Study" target="_blank" style="color:white">Year</a>
+								href="/pdc/data-dictionary/Study" target="_blank" style="color:white">Year</a>
 					<p-sortIcon [field]="cols[2].field" ariaLabel="Sort PDC Study ID column in ascending/descending order"></p-sortIcon>
-				</th>	
+				</th>
 				<th class="ui-datatable-tableheader" style="width:10%;" [pSortableColumn]="cols[3].field"><a
-								href="{{staticUrlBase}}dictionaryitem.html?eName=Study" target="_blank" style="color:white">Disease Type</a>
+								href="/pdc/data-dictionary/Study" target="_blank" style="color:white">Disease Type</a>
 					<p-sortIcon [field]="cols[3].field" ariaLabel="Sort PDC Study ID column in ascending/descending order"></p-sortIcon>
 				</th>
 				<th class="ui-datatable-tableheader" style="width:20%;"><a
-								href="{{staticUrlBase}}dictionaryitem.html?eName=Study" target="_blank" style="color:white">Studies</a>
+								href="/pdc/data-dictionary/Study" target="_blank" style="color:white">Studies</a>
 				</th>
 				<th class="ui-datatable-tableheader" style="width:20%;"><a
-								href="{{staticUrlBase}}dictionaryitem.html?eName=Study" target="_blank" style="color:white">Supplementary Data</a>
+								href="/pdc/data-dictionary/Study" target="_blank" style="color:white">Supplementary Data</a>
 				</th>
 			</tr>
 		</ng-template>
-		<ng-template pTemplate="body" let-pubData let-rowIndex="rowIndex">	
+		<ng-template pTemplate="body" let-pubData let-rowIndex="rowIndex">
 			<tr style="font-size: 11px;">
 				<td style="width:40%;word-wrap: break-word; white-space: normal;font-weight:600">
 					<a href="pubData.journal_url">{{pubData.title }}</a>&nbsp;&nbsp;
 					<a href="https://www.ncbi.nlm.nih.gov/pubmed/{{pubData.pubmed_id}}" target="_">
-						<img alt="Pubmed url" src="./assets/css/images/pubmedIcon.png" style="height: 30px;"></a>&nbsp;&nbsp; 
+						<img alt="Pubmed url" src="./assets/css/images/pubmedIcon.png" style="height: 30px;"></a>&nbsp;&nbsp;
 					<a href="http://doi.org/{{pubData.doi}}"><img alt="Pubmed url" src="./assets/css/images/doi.png" target="_"></a>
 				  <!--<span style="max-width: 100px; overflow: hidden; text-overflow: ellipsis;">-->
 				  <!--<span id="ellipsis-ex" [class.abstract-text-truncate]="isAbstractExpanded" (click)="isAbstractExpandedToggle">
-					{{pubData.abstract}} 
+					{{pubData.abstract}}
 				  </span>-->
 				</td>
 				<td style="width:5%;word-wrap: break-word; white-space: normal;">{{pubData.journal }}</td>
@@ -88,4 +89,3 @@
 		<p-paginator rows="10" totalRecords="120"></p-paginator>
     </p-table>
 </div>
-  

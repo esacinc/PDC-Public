@@ -118,6 +118,7 @@ const defineUiModels = (db) => {
 	//@@@PDC-1127 add pool and taxon
 	//@@@PDC-1156 add is_ref
 	//@@@PDC-1396 add external_case_id
+	//@@@PDC-4968 expose case_is_ref
 	/**
 	* ModelUICase is used in uiCase query.
 	*/
@@ -125,6 +126,7 @@ const defineUiModels = (db) => {
 		aliquot_id: { type: Sequelize.STRING},
 		sample_id:  { type: Sequelize.STRING},
 		case_id:  { type: Sequelize.STRING},
+		case_is_ref: { type: Sequelize.STRING },
 		aliquot_submitter_id: { type: Sequelize.STRING},
 		aliquot_is_ref: { type: Sequelize.STRING },
 		aliquot_status:  { type: Sequelize.STRING},

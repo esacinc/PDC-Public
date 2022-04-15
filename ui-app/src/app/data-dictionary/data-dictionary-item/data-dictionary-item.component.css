@@ -10,6 +10,16 @@ tr:nth-child(odd) {
 table, th, td {
   border: 1px solid white;
 }
+/* @@PDC-4858 - unset properties inherited by conflicting css */
+#title{
+	margin: 0;
+  font-family:'Lato';
+  font-size: 16px;
+  color:#454545;
+  width:unset;
+	left:unset;
+	position:unset;
+}
 
 a{
   text-decoration: none;

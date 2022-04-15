@@ -1126,6 +1126,7 @@ export const resolvers = {
 			}
 		},
 		async uiCases(obj, args, context) {
+			logger.info("getPaginatedUICaseDetail: "+ context.dataCacheName);
 			const res = await RedisCacheClient.redisCacheGetAsync(context.dataCacheName);
 			if(res === null){
 				let result =await db.getSequelize().query(
@@ -1135,14 +1136,17 @@ export const resolvers = {
 							model: db.getModelByName('ModelUICase')
 						}
 					);
+					logger.info("Num of Cases fetched: "+result.length);
 				RedisCacheClient.redisCacheSetExAsync(context.dataCacheName, JSON.stringify(result));
 				return result;
 			}else{
+				logger.info("Num of Cases cached: "+JSON.parse(res).length);
 				return JSON.parse(res);
 			}
 		},
 		//@@@PDC-255 API for UI clinical tab
 		async uiClinical(obj, args, context) {
+			logger.info("getPaginatedUIClinical "+ context.dataCacheName);
 			const res = await RedisCacheClient.redisCacheGetAsync(context.dataCacheName);
 			if(res === null){
 				let result =await db.getSequelize().query(
@@ -1152,6 +1156,7 @@ export const resolvers = {
 							model: db.getModelByName('ModelUIClinical')
 						}
 					);
+					logger.info("Clinicals: "+JSON.stringify(result))
 				RedisCacheClient.redisCacheSetExAsync(context.dataCacheName, JSON.stringify(result));
 				return result;
 			}else{

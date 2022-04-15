@@ -1,10 +1,14 @@
 type Program {
-  program_id: String
-  program_submitter_id: String
-  name: String
-  sponsor: String
-  start_date: Date
-  end_date: Date
-  program_manager: String
-  projects: [Project]
+	  program_id: String
+	  program_submitter_id: String
+	  name: String
+	  sponsor: String
+	  start_date: Date
+	  end_date: Date
+	  program_manager: String
+	  project_count: Int
+	  study_count: Int
+	  data_size_TB: Int
+	  data_file_count: Int
+      projects: [Project]
 }

@@ -126,11 +126,14 @@ describe("BrowseByFileComponent", () => {
     });
   });
 
-  it("test show study summary", () => {
+  //@@@PDC-5047: Investigate file download issues that's causing an auto scaling event
+  //Comment code that's causing auto scaling event
+  //WorkflowManagerComponent is not used anywhere, so comment its declaration
+/*   it("test show study summary", () => {
     let spy = spyOn(MockDialog.prototype, "open").and.callThrough();
     component.showStudySummary();
     expect(spy).toHaveBeenCalled();
-  });
+  }); */
 
   it("test applySelectFilter", () => {
     let filterValue = "Files:MZML";

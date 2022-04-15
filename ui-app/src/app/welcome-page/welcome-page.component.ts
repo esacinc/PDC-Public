@@ -28,6 +28,8 @@ export class WelcomePageComponent implements OnInit {
   constructor(private chorusService: ChorusauthService, private socialAuthService: AuthService,
 				private router: Router, private http: HttpClient, private userService: PDCUserService,
 				private activeRoute: ActivatedRoute, private dialog: MatDialog) {
+					//@@@PDC-4898: Remove outdated Welcome page and redirect to home page
+					this.router.navigate(['']);
 				}
 
   // Authenticate the user with Google
@@ -110,7 +112,9 @@ export class WelcomePageComponent implements OnInit {
   ngOnInit() {
     //@@@PDC-709: User remains logged in forever if their session does not time out before they close the browser
     //@@@PDC-552: Check if session storage has the user information i.e; if user is logged in
-	  if (sessionStorage.getItem("loginToken") == "true") {
+	//@@@PDC-4898: Remove outdated Welcome page and redirect to home page
+	//Commenting the following code to avoid any issues with the redirect to home page
+/* 	  if (sessionStorage.getItem("loginToken") == "true") {
 			this.router.navigate(['pdc']);
 		}
 	  // If the user uses eRA/NIH login, it will be returned back bu pdcapi with uid parameter defined
@@ -119,7 +123,7 @@ export class WelcomePageComponent implements OnInit {
 		if (queryParams.uid && queryParams.token) {
       this.eRAnihSignIn(queryParams.uid, queryParams.token);
 		}
-	});
+	}); */
   }
 
 }

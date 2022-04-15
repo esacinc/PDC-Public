@@ -1005,6 +1005,11 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
             this.studyFilter = studyList;
           }
         }
+        //@@@PDC-4904: Study Filters in the sidebar do not bubble to the top when Browse URL has preselected filters
+        if (this.selectedStudyFilter && this.selectedStudyFilter.length > 0) {
+          let sortedStudyList = this.moveFilterToTop(this.studyFilter, this.selectedStudyFilter, 'true', '-study');
+          this.studyFilter = sortedStudyList;
+        }
       });
     }
     //remove study in study filter category if study is not able to be selected
@@ -1017,6 +1022,11 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
     //@@@PDC-1161: Can't select multiple studies if any other filter is applied
     if(!studySelected){
       this.studyFilter = studyList;
+    }
+    //@@@PDC-4904: Study Filters in the sidebar do not bubble to the top when Browse URL has preselected filters
+    if (this.selectedStudyFilter && this.selectedStudyFilter.length > 0) {
+      let sortedStudyList = this.moveFilterToTop(this.studyFilter, this.selectedStudyFilter, 'true', '-study');
+      this.studyFilter = sortedStudyList;
     }
   }
 
@@ -1238,8 +1248,10 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
     let sortedList = [];
     for (let filter of selectedFilterData) {
       let filterFound = filterDataCopy.find(item => item.filterName === filter);
-      sortedList.push(filterFound);
-      filterDataCopy = filterDataCopy.filter(item=>item.filterName != filter );
+      if (filterFound != undefined) {
+        sortedList.push(filterFound);
+        filterDataCopy = filterDataCopy.filter(item=>item.filterName != filter );
+      }
     }
     filterDataCopy.sort(this.compare);
     sortedList = sortedList.concat(filterDataCopy);
@@ -1471,7 +1483,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
 		var newFilterValue = "gene_name:" + processedGeneNames;
 		this.selectedFilters.emit(newFilterValue);
 		//PDC-1001 added a timeout to send the list of studies associated with the search gene(s)
-		// to allow time to proccess the gene name filter.
+		// to allow time to process the gene name filter.
 		setTimeout(() => {
 		  this.browseFiltersService.getStudyByGeneName(processedGeneNames).subscribe((data: any) => {
 			let studyList = [];
@@ -1784,7 +1796,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
 		console.log(this.allGeneNamesValid);
 		console.log(this.options);
 		//Change loading to false only after finished checking all genes in the list
-		if ( this.validatingGeneNamesCounter == this.valudatedGeneNamesList.length) {
+		if ( this.allGeneNamesValid && this.validatingGeneNamesCounter == this.valudatedGeneNamesList.length) {
 			this.loadingGeneSymbolValidation = false;  
 		}
 		else {

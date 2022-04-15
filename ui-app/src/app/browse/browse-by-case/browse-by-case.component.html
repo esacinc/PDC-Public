@@ -1,9 +1,9 @@
-	<div class="row" style="font-family:'Lato'; font-size: 12px;" (window:resize)="onResize($event)">  
+	<div class="row" style="font-family:'Lato'; font-size: 12px;" (window:resize)="onResize($event)">
 
-	  <p-table class="table-striped ui-datatable-odd" #dt [columns]="cols"  [value]="filteredCasesData" [lazy]="true" [paginator]="true" [(first)]="offset" 
+	  <p-table class="table-striped ui-datatable-odd" #dt [columns]="cols"  [value]="filteredCasesData" [lazy]="true" [paginator]="true" [(first)]="offset"
 				[rows]="10" [pageLinks]="5" [rowsPerPageOptions]="[10,20,50]" [totalRecords]="totalRecords"
 				[loading]="loading" [resizableColumns]="true" columnResizeMode="expand" [ngStyle]="{'width':'100%'}"
-				(onRowUnselect) ="onRowUnselected($event)" (onRowSelect)="onRowSelected($event)" [(selection)]="selectedCases" 
+				(onRowUnselect) ="onRowUnselected($event)" (onRowSelect)="onRowSelected($event)" [(selection)]="selectedCases"
 				dataKey="aliquot_submitter_id" (onLazyLoad)="loadCases($event)" id="biospecimensDataTable" paginatorPosition="both"
 				scrollHeight="500px" [autoLayout]="true" [frozenColumns]="frozenColumns" [scrollable]="true" frozenWidth="200px">
 		<ng-template pTemplate="caption">
@@ -30,7 +30,7 @@
 				<div class="row">
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 						<div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-							
+
 						</div>
 						<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 manifestDownload">
 						  <div class="row">
@@ -61,21 +61,22 @@
 							</mat-option>
 						</mat-select>
 						<span style="display:none">Select all rows</span>
-						
+
 				</th>
-				<!-- @@@PDC-262 link headers to data dictionary -->                
-				<th class="ui-datatable-tableheader" style="width:150px;word-break: break-all;" [pSortableColumn]="cols[1].field"><a href="{{staticUrlBase}}dictionaryitem.html?eName=Aliquot" target="_blank" style="color:white">Aliquot</a><p-sortIcon [field]="cols[1].field" ariaLabel="Sort Aliquot column in ascending/descending order"></p-sortIcon></th>
+				<!-- @@@PDC-262 link headers to data dictionary -->
+				<th class="ui-datatable-tableheader" style="width:150px;word-break: break-all;" [pSortableColumn]="cols[1].field"><a href="/pdc/data-dictionary/Aliquot" target="_blank" style="color:white">Aliquot</a><p-sortIcon [field]="cols[1].field" ariaLabel="Sort Aliquot column in ascending/descending order"></p-sortIcon></th>
 			</tr>
 		</ng-template>
         <ng-template style="font-size: 12px; background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%);" pTemplate="header" let-columns>
             <tr class="safari_only">
-			    <th class="ui-datatable-tableheader" [pSortableColumn]="cols[3].field"><a href="{{staticUrlBase}}dictionaryitem.html?eName=Sample" target="_blank" style="color:white">Sample</a><p-sortIcon [field]="cols[3].field" ariaLabel="Sort Sample column in ascending/descending order"></p-sortIcon></th>
-			    <th class="ui-datatable-tableheader" [pSortableColumn]="cols[5].field"><a href="{{staticUrlBase}}dictionaryitem.html?eName=Case" target="_blank" style="color:white">Case</a><p-sortIcon [field]="cols[5].field" ariaLabel="Sort Case column in ascending/descending order"></p-sortIcon></th>
-			    <th class="ui-datatable-tableheader" [pSortableColumn]="cols[6].field"><a href="{{staticUrlBase}}dictionaryitem.html?eName=Project" target="_blank" style="color:white">Project</a><p-sortIcon [field]="cols[6].field" ariaLabel="Sort Project column in ascending/descending order"></p-sortIcon></th>
+			    <th class="ui-datatable-tableheader" [pSortableColumn]="cols[3].field"><a href="/pdc/data-dictionary/Sample" target="_blank" style="color:white">Sample</a><p-sortIcon [field]="cols[3].field" ariaLabel="Sort Sample column in ascending/descending order"></p-sortIcon></th>
+			    <th class="ui-datatable-tableheader" [pSortableColumn]="cols[5].field"><a href="/pdc/data-dictionary/Case" target="_blank" style="color:white">Case</a><p-sortIcon [field]="cols[5].field" ariaLabel="Sort Case column in ascending/descending order"></p-sortIcon></th>
+			    <th class="ui-datatable-tableheader" [pSortableColumn]="cols[6].field"><a href="/pdc/data-dictionary/Project" target="_blank" style="color:white">Project</a><p-sortIcon [field]="cols[6].field" ariaLabel="Sort Project column in ascending/descending order"></p-sortIcon></th>
 				<th class="ui-datatable-tableheader" [pSortableColumn]="cols[7].field">
 					<div class="ui-datatable-tableheader-flex-container">
 						<div>
-							<a href="{{staticUrlBase}}dictionaryitem.html?eName=Sample#sample_type" target="_blank" style="color:white">
+							<!-- @@@PDC-4978 update links to migrated documentation pages (comment inclues all links to data-dictionary below)-->
+							<a href="/pdc/data-dictionary/Sample#sample_type" target="_blank" style="color:white">
 								Sample<br>Type
 							</a>
 						</div>
@@ -87,7 +88,7 @@
 				<th class="ui-datatable-tableheader" style="white-space: pre; word-break: break-all;" [pSortableColumn]="cols[8].field">
 					<div class="ui-datatable-tableheader-flex-container">
 						<div>
-							<a href="{{staticUrlBase}}dictionaryitem.html?eName=Case#primary_site" target="_blank" style="color:white">
+							<a href="/pdc/data-dictionary/Case#primary_site" target="_blank" style="color:white">
 								Primary<br>Site
 							</a>
 						</div>
@@ -99,7 +100,7 @@
 				<th class="ui-datatable-tableheader" [pSortableColumn]="cols[9].field">
 					<div class="ui-datatable-tableheader-flex-container">
 						<div>
-							<a href="{{staticUrlBase}}dictionaryitem.html?eName=Case#disease_type" target="_blank" style="color:white">
+							<a href="/pdc/data-dictionary/Case#disease_type" target="_blank" style="color:white">
 								Disease<br>Type
 							</a>
 						</div>
@@ -113,7 +114,7 @@
 		<ng-template pTemplate="frozenbody" let-caseData let-frozenColumns>
 			<tr style="font-size: 11px;"[pSelectableRow]="caseData">
 				<td style="width:50px;word-wrap: break-word; white-space: normal;"><p-tableCheckbox id="caseData{{caseData.aliquot_submitter_id}}" [value]="caseData" class="browsePageCheckboxes"></p-tableCheckbox></td>
-				<!-- @@@PDC-462 show submitter ids -->                
+				<!-- @@@PDC-462 show submitter ids -->
                 <td style="width:150px; white-space: normal;">{{caseData.aliquot_submitter_id }}&nbsp;&nbsp;<span style='color:red' *ngIf="caseData.aliquot_status == 'Disqualified'">{{caseData.aliquot_status}}</span></td>
 			</tr>
 		</ng-template>

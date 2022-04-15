@@ -10,6 +10,7 @@ import _ from 'lodash';
 //@@@PDC-1011 replace external_case_id with external_case_id
 //@@@PDC-3668 add project_id
 //@@@PDC-4391 add new columns
+//@@@PDC-4968 expose case_is_ref
 const defineSequelizeModels = (db) => {
 
 	const CaseModel = db.getSequelize().define('case', {
@@ -18,6 +19,7 @@ const defineSequelizeModels = (db) => {
 		project_submitter_id: { type: Sequelize.STRING },
 		project_id: { type: Sequelize.STRING },
 		case_submitter_id: { type: Sequelize.STRING },
+		case_is_ref: { type: Sequelize.STRING },
 		external_case_id: { type: Sequelize.STRING },
 		tissue_source_site_code: { type: Sequelize.STRING },
 		days_to_lost_to_followup: { type: Sequelize.INTEGER },

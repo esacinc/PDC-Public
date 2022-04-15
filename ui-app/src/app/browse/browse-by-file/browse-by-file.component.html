@@ -30,10 +30,6 @@
 				<div class="row">
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 						<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-							<mat-menu #menu="matMenu">
-									<button mat-menu-item (click)="showStudySummary()" aria-label="Show Study Summary">CDAP</button>
-									<button mat-menu-item>Other</button>
-							</mat-menu>
 							<div id="selectedFilesDataCount" *ngIf="!isDownloadDisabled()" style="float:left;padding-top:5px;">Rows selected: {{selectedFiles.length}}</div>
 						</div>
 						<!--<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
@@ -83,17 +79,18 @@
 					<span style="display:none">Select this row</span>
 				</th>
 				<!-- PDC-2795 -->
+				<!-- @@@PDC-4978 update links to migrated documentation pages -->
 				<th class="ui-datatable-tableheader" style="width:150px" [pSortableColumn]="cols[0].field"><a
-						href="{{staticUrlBase}}dictionaryitem.html?eName=Study" target="_blank" style="color:white">PDC Study ID</a>
+						href="/pdc/data-dictionary/Study" target="_blank" style="color:white">PDC Study ID</a>
 					<p-sortIcon [field]="cols[0].field" ariaLabel="Sort PDC Study ID column in ascending/descending order"></p-sortIcon>
-				</th> 
+				</th>
 			</tr>
 		  </ng-template>
 				<ng-template pTemplate="header" let-columns>
 					<tr style="font-size: 12px;" class="safari_only">
 						<!-- @@@PDC-262 link headers to data dictionary -->
 						<th class="ui-datatable-tableheader" [pSortableColumn]="cols[1].field"><a
-								href="{{staticUrlBase}}dictionaryitem.html?eName=Study" target="_blank" style="color:white">Study</a>
+								href="/pdc/data-dictionary/Study" target="_blank" style="color:white">Study</a>
 							<p-sortIcon [field]="cols[1].field" ariaLabel="Sort Study column in ascending/descending order"></p-sortIcon>
 						</th>
 						<th class="ui-datatable-tableheader" [pSortableColumn]="cols[2].field"><a
@@ -101,14 +98,14 @@
 							<p-sortIcon [field]="cols[2].field" ariaLabel="Sort embargo date column in ascending/descending order"></p-sortIcon>
 						</th>
 						<th class="ui-datatable-tableheader" [pSortableColumn]="cols[3].field"><a
-								href="{{staticUrlBase}}dictionaryitem.html?eName=File#file_name" target="_blank" style="color:white">File
+								href="/pdc/data-dictionary/File#file_name" target="_blank" style="color:white">File
 								Name</a>
 							<p-sortIcon [field]="cols[3].field" ariaLabel="Sort File name column in ascending/descending order"></p-sortIcon>
 						</th>
 						<th class="ui-datatable-tableheader" [pSortableColumn]="cols[4].field">
 							<div class="ui-datatable-tableheader-flex-container">
 								<div>
-									<a href="{{staticUrlBase}}dictionaryitem.html?eName=Study%20Run%20Metadata" target="_blank"
+									<a href="/pdc/data-dictionary/Study%20Run%20Metadata" target="_blank"
 										style="color:white">
 										Run Metadata<br>ID
 									</a>
@@ -119,7 +116,7 @@
 							</div>
 						</th>
 						<th class="ui-datatable-tableheader" [pSortableColumn]="cols[5].field"><a
-								href="{{staticUrlBase}}dictionaryitem.html?eName=Project" target="_blank" style="color:white">Project</a>
+								href="/pdc/data-dictionary/Project" target="_blank" style="color:white">Project</a>
 							<p-sortIcon [field]="cols[5].field" ariaLabel="Sort Project column in ascending/descending order"></p-sortIcon>
 						</th>
 						<th rowspan=3 class="ui-datatable-tableheader" [pSortableColumn]="cols[6].field"><a href="/pdc/faq/Files_Download" target="_blank" style="color:white">Data Category</a>

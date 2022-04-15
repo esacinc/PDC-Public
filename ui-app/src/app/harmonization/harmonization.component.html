@@ -20,14 +20,14 @@
     <p>
       The PDC uses submitted raw mass spectrometry data files to produce derived analysis results which can be used to study identification of proteins and post-translational modifications (PTMs).  All processing is done through Common Data Analysis Pipelines (CDAP).  Whenever possible, quantitative results are also extracted from the raw data, enabling downstream analyses of differential expression between samples at the protein- or PTM site-level.   A version of the CDAP will soon be available within the workspace for users to run on their own data files.
     </p>
-  </div>  
+  </div>
   <div class="row"><h3>Common Data Types</h3>
   </div>
   <div class="row">
     <p>
       One goal of the PDC is to harmonize a diversity of proteomics data types.  All current data types are mass spectrometry data acquired using data dependent acquisition (DDA), but pipelines are under construction for the analysis of data acquired using data independent acquisition (DIA) or SWATHTM.  DDA deposited in the PDC so far includes label-free, iTRAQ4 and TMT10.  The CDAP is capable of processing data from unenriched, phospho-, and glyco-enriched peptide samples.
     </p>
-  </div>   
+  </div>
   <div class="row"><h3>Common Data Analysis Pipeline for DDA</h3>
   </div>
   <div class="row">
@@ -36,7 +36,7 @@
       (described <a href="https://cptac-data-portal.georgetown.edu/cptac/aboutData/show?scope=dataLevels" target="_blank">here</a> and published <a href="https://www.ncbi.nlm.nih.gov/pubmed/26860878" target="_blank">here</a>)
       as a starting point for DDA datasets. The pipeline is implemented in the Galaxy Framework that runs on Amazon Cloud. Software programs and parameters are also detailed in <a href="assets/CDAP_ProteinReports_description_20180914.pdf" target="_blank">this</a> document.  In general, the pipeline proceeds in the following order:
     </p>
-  </div>     
+  </div>
   <div class="row" style="margin: auto auto; vertical-align: middle;">
       <ul>
         <li>
@@ -52,7 +52,7 @@
            Phosphosite localization (i.e., scoring) if the sample has been enriched (current tool: <a href="http://ms.imp.ac.at/index.php?action=phosphors" target="_blank">PhosphoRS</a> from the Mechtler Lab)
         </li>
         <li>
-           Generalized parsimony and “roll-up” of any quantitative information to the gene level (from the spectrum and peptide-levels).  This step also includes normalization and calculation of individual aliquot values to log2ratio values for iTRAQ4 and TMT10 studies. (current tool: PSMLab from the <a href="http://edwardslab.bmcb.georgetown.edu/" target="_blank">Edwards Lab</a> at Georgetown)
+           Generalized parsimony and “roll-up” of any quantitative information to the gene level (from the spectrum and peptide-levels).  This step also includes normalization and calculation of individual aliquot values to log2ratio values for iTRAQ4 and TMT10 studies. (current tool: PSMLab from the <a href="https://edwardslab.bmcb.georgetown.edu/" target="_blank">Edwards Lab</a> at Georgetown)
         </li>
      </ul>
   </div>
@@ -68,9 +68,9 @@
   </div>
   <div class="row">
     <p>
-      Our current pipeline for analysis of data independent acquisition is based on work in the <a href="https://bitbucket.org/searleb/encyclopedia/wiki/Home" target="_blank">MacCoss Lab</a>.  If available, sample or pool-specific data are used to build a spectral library.  The peptides in the library are then scored assigned match scores for each DIA data file.      
+      Our current pipeline for analysis of data independent acquisition is based on work in the <a href="https://bitbucket.org/searleb/encyclopedia/wiki/Home" target="_blank">MacCoss Lab</a>.  If available, sample or pool-specific data are used to build a spectral library.  The peptides in the library are then scored assigned match scores for each DIA data file.
     </p>
-  </div>  
+  </div>
   <div class="row" style="margin: auto auto; vertical-align: middle;">
     <ul>
       <li>
@@ -88,7 +88,7 @@
       <li>
          The output can be written directly to reports and viewed in <a href="https://skyline.ms/project/home/software/Skyline/begin.view" target="_blank">Skyline</a>
       </li>
-   </ul>  
+   </ul>
   </div>
   <div>
     <img src="./assets/css/images/PDC-CDAP-DIA.png" alt="PDC CDAP DIA Image"/>
@@ -97,9 +97,9 @@
   </div>
   <div class="row">
     <p>
-      Following analysis by either CDAP, the results are available as Protein Assembly reports on the PDC Data Portal along with original and processed RAW data and metadata according to approved release schedules.  For the MVP only the RAW data will be available from the users private workspace, the results from the harmonization will be available in later iterations of our development cycle.   
+      Following analysis by either CDAP, the results are available as Protein Assembly reports on the PDC Data Portal along with original and processed RAW data and metadata according to approved release schedules.  For the MVP only the RAW data will be available from the users private workspace, the results from the harmonization will be available in later iterations of our development cycle.
     </p>
-  </div> 
+  </div>
   </mat-card-content>
 </mat-card>
 </div>

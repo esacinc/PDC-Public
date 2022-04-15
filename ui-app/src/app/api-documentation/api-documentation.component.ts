@@ -11,7 +11,7 @@ export class ApiDocumentationComponent implements OnInit {
     fragment;
 
   curl_example = `
-     curl http://pdc-dev.esacinc.com/graphql \
+     curl https://pdc.cancer.gov/graphql \
      -H "Content-Type: application/json" \
      -d '{"query": "{ case(case_submitter_id: \"01BR001\" acceptDUA: true) \
      { case_submitter_id project_submitter_id disease_type }}"}'
@@ -33,7 +33,7 @@ export class ApiDocumentationComponent implements OnInit {
   import json
 
   # The URL for our API calls
-  url = 'https://pdc-dev.esacinc.com/graphql'
+  url = 'https://pdc.cancer.gov/graphql'
 
   # query to get file metadata
 

@@ -1,0 +1,9 @@
+<div mat-dialog-content>
+  <p>{{data.message}}</p>
+</div>
+<div mat-dialog-actions style="float: right; flex: 0 0 auto;">
+  <label for="email">New email address is:</label>
+  <input type="text" class="form-control" id="email" matInput [(ngModel)]="data.input">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button [mat-dialog-close]="data.input" cdkFocusInitial>Continue</button>
+</div>

@@ -27,12 +27,14 @@ import { HeatmapViewerComponent } from './heatmap-viewer/heatmap-viewer.componen
     MatListModule,
     MatProgressSpinnerModule, 
     TreeModule,
-    MatSelectModule 
+    MatSelectModule
   ],
-  declarations: [HeatMapComponent, SafeHtmlPipe, AnalysisComponent, 
-    WorkflowManagerComponent, HeatmapViewerComponent],
+  declarations: [HeatMapComponent, SafeHtmlPipe, AnalysisComponent, WorkflowManagerComponent, HeatmapViewerComponent],
   providers: [AnalysisService],
-  entryComponents: [WorkflowManagerComponent]
+  //@@@PDC-5047: Investigate file download issues that's causing an auto scaling event
+  //Comment code that's causing auto scaling event
+  //WorkflowManagerComponent is not used anywhere, so comment its declaration
+  //entryComponents: [WorkflowManagerComponent]
 
 })
 export class AnalysisModule { }

@@ -18,6 +18,11 @@
 							formControlName="last_name" name="last_name">
 					<mat-error *ngIf="last_name.invalid&&isValidFormSubmitted!=null">Last name is required</mat-error>
 				</div>
+        <div class="form-group">
+          <label for="login_username">My username is:</label>
+          <input type="text" class="form-control" id="login_username" required formControlName="login_username" name="login_username">
+          <mat-error *ngIf="login_username.invalid&&isValidFormSubmitted!=null">username is required</mat-error>
+        </div>
 				<div class="form-group">
 					<label for="email">My email address is:</label>
 					<input type="text" class="form-control" id="email" required formControlName="email" name="email">
@@ -70,14 +75,18 @@
 				<mat-list>
 					<mat-list-item *ngIf="isUserTypePDC()">
 						<button id="resetPasswordBtn" mat-raised-button (click)="resetPassword()"><b>Change Password</b></button>
+            <button id="changeEmailBtn" mat-raised-button (click)="changeEmail()"><b>Change Contact Email</b></button>
 					</mat-list-item>
+          <mat-list-item *ngIf="!isUserTypePDC()">
+            <button id="convertPDCBtn" mat-raised-button (click)="convertToPDC()"><b>Convert to PDC Account</b></button>
+          </mat-list-item>
 					<mat-list-item>
 						<button id="pdcCancelAccount" mat-raised-button (click)="cancelUserAccount()"><b>Deactivate Account</b></button>
 					</mat-list-item>
 				</mat-list>
 				<span style="display: flex;  justify-content: center; margin-bottom: 20px;margin-top: 10px;">
 						<button id="pdcCancelUpdate" mat-raised-button style="line-height:36px!important" (click)="onCancelClick()" >Cancel</button>
-				</span>	
+				</span>
 			</div>
 		</mat-tab>
 	</mat-tab-group>

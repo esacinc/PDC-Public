@@ -29,6 +29,7 @@ export class DataDictionaryItemComponent implements OnInit {
   curEntityData;
   uniqueKeyDetails;
   dictItemLinks;
+  dictItemDisplay;
   dictItemProperties;
   deprecatedProperties;
   dictItemDeprecatedProperties;
@@ -49,28 +50,7 @@ export class DataDictionaryItemComponent implements OnInit {
     this.linkback = "/pdc/data-dictionary";
     this.curEntity=this._Activatedroute.snapshot.paramMap.get("eName");
 
-    this.dataDictionaryService.getDataDictionary().subscribe((data: any) => {
-
-      for(var i=0; i < data.length; i++){
-
-          var cat = data[i];
-          if (cat.entity == this.curEntity) {
-              this.carCDESource = cat.cde_source;
-              this.catCDEID = cat.cde_id;
-          }
-      }
-      if (this.catCDEID != "" && this.carCDESource != "") {
-          var itemURL = this.NCItURL.replace("IDENTITY", this.catCDEID);
-
-          this.descriptionUrl = this.NCItURL.replace("IDENTITY", this.catCDEID);
-
-          this.descriptionUrlStr = " (<a href='" + itemURL + "' target='_blank'>" + this.carCDESource + " - " + this.catCDEID +"</a>)";
-      }
-
-    });
-
-
-
+    //@@PDC-4748-data-dictionary-load-issues - removed additional call to get redundant data to try to improve load time
 
     this.dataDictionaryItemService.getDataDictionaryItem(this.curEntity).subscribe((data: any) => {
     this.dictionaryEntities = data;
@@ -79,18 +59,18 @@ export class DataDictionaryItemComponent implements OnInit {
     this.cdeIdValue = {};
     this.enumValues = {};
 
-
-
     if (this.curEntityData.category) {
         this.currentCategory = this.capitalizeFirstLetter(this.curEntityData.category);
     }
 
+    //paint the general details
+    //@@PDC-4748-data-dictionary-load-issues
+    this.uniqueKeyDetails = this.curEntityData.uniqueKeys[0];
 
-
+    this.dictItemLinks = this.curEntityData.links;
 
     for(let i=0; i < this.categoriesForDictItem.length; i++){
         let cat = this.categoriesForDictItem[i];
-
 
         if (cat.entity == this.curEntity) {
             this.carCDESource = cat.cde_source;
@@ -100,10 +80,7 @@ export class DataDictionaryItemComponent implements OnInit {
     if (this.curEntityData.description) {
         this.currentDescription = this.curEntityData.description;
     }
-    //paint the general details
-    this.uniqueKeyDetails = this.curEntityData.uniqueKeys[0];
 
-    this.dictItemLinks = this.curEntityData.links;
 
 
 
@@ -123,6 +100,7 @@ export class DataDictionaryItemComponent implements OnInit {
 
         if((!this.dictItemProperties[dictItem].key && this.deprecatedProperties.length == 0) || (!this.dictItemProperties[dictItem].key && this.deprecatedProperties.length > 0 && !this.deprecatedProperties.includes(dictItem))) {
             //this.dictItemProperties[dictItem]['colRef'] = colRef;
+            
             this.displayProperties[dictItem] = this.dictItemProperties[dictItem];
             this.displayPropertiesArray.push(this.displayProperties[dictItem]);
 
@@ -232,5 +210,9 @@ showMoreOrLess(value){
         dRef.setAttribute("style", "display:block;");
         target.innerHTML = 'Show less items...';
       }
+  }
+  //@@PDC-4748-data-dictionary-load-issues
+  public trackData(_: number, item: any): any {
+     return item.value;
   }
 }

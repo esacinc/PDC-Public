@@ -137,7 +137,7 @@ export class PDCUserService {
   // return value: number
   //@@@PDC-419 handle system error
   public checkPDCUser(uid: string, token: string): Observable<number> {
-    console.log("token:" + token);
+    console.log('token:' + token);
     const url = environment.private_api_url + 'uid/' + uid + '?token=' + token;
     let response: LoginUserResponse;
 
@@ -521,8 +521,32 @@ export class PDCUserService {
     return registerObservable;
   }
 
+  public convertToPDC(email: string): Observable<boolean> {
+    const url = environment.private_api_url + 'convert-to-pdc/';
+    const user_data = {
+      'email': email,
+      'user_id_type': 'Google',
+    };
+    //this.getJWTTokenFromPDCAPI();
+    const registerObservable = new Observable<boolean>((observer) => {
+      setTimeout(() => {
+        this.http.post(url, user_data, {headers: new HttpHeaders({'authorization': 'bearer ' + localStorage.getItem('jwtToken')})}).subscribe((response: any) => {
+            console.log('Password reset email was successfully sent');
+            observer.next(true);
+            observer.complete();
+          },
+          (error: HttpErrorResponse) => {
+            console.log(error);
+            observer.next(false);
+            observer.complete();
+          });
+      }, 1000);
+    });
+    return registerObservable;
+  }
 
-  public updateUserData(firstname: string, lastname: string, email: string, usertype: string, id_provider: string, organization: string, userpass: string = ''): Observable<boolean> {
+
+  public updateUserData(firstname: string, lastname: string, email: string, usertype: string, id_provider: string, organization: string): Observable<boolean> {
     const url = environment.private_api_url + 'update/' + this.getLoginUsername();
     console.log(url);
     const username = firstname + ' ' + lastname;
@@ -540,7 +564,7 @@ export class PDCUserService {
         this.http.put(url, user_data, {headers: new HttpHeaders({'authorization': 'bearer ' + localStorage.getItem('jwtToken')})}).subscribe(data => {
             console.log(data);
             // Now since the user is created lets update it
-            this.setLoginUsername(email);
+            //this.setLoginUsername(email);
             this.setName(username);
             this.setIsLoggedIn(true);
             //this.setUserInformationInLocalStorage();
@@ -555,7 +579,29 @@ export class PDCUserService {
       }, 1000);
     });
     return registerObservable;
+  }
 
+  //@@@PDC-4766 Email migration utility for Workspace
+  public updateUserEmail(email: string): Observable<boolean> {
+    const url = environment.private_api_url + 'update-email/' + this.getLoginUsername();
+    const user_data = {
+      'email': email
+    };
+
+    const registerObservable = new Observable<boolean>((observer) => {
+      setTimeout(() => {
+        this.http.put(url, user_data, {headers: new HttpHeaders({'authorization': 'bearer ' + localStorage.getItem('jwtToken')})}).subscribe(data => {
+            observer.next(true);
+            observer.complete();
+          },
+          (error: HttpErrorResponse) => {
+            console.log(error);
+            observer.next(false);
+            observer.complete();
+          });
+      }, 1000);
+    });
+    return registerObservable;
   }
 
   public cancelUser(username: string, email: string, usertype: string, id_provider: string, organization: string, userpass: string = ''): Observable<boolean> {
@@ -628,7 +674,7 @@ export class PDCUserService {
 
     const confirmObservable = new Observable<number>((observer) => {
       setTimeout(() => {
-        this.http.get(url, { }).subscribe(data => {
+        this.http.get(url, {}).subscribe(data => {
             response = data as LoginUserResponse;
             if (response.data) {
               //if the user record is found

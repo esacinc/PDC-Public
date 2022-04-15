@@ -36,6 +36,7 @@ export const environment = {
   kidsFirst_url: 'https://portal.kidsfirstdrc.org/participant/',
   pepquery_url: 'http://pepquery2.pepquery.org/',
   // workspace_url:'/workspace/pages/dashboard.html#/projects/all',
+  google_oauth_client_id: '212255068929-mj6ci0pt0271h8n1a2hs7kmbfc8tqjmm.apps.googleusercontent.com',
   recaptcha_site_key: '6Lcq7aIdAAAAAFSuAhna1V0jK-syF2onrYQrCxUG'
 };
 

@@ -84,3 +84,13 @@ $header-height: 10.8rem;
     text-align: left !important;
   }
 }
+
+//@@@PDC-4975: Highlight a statement on the How to Submit data page
+.importantNote {
+  max-width: 750px;
+  padding: 1em;
+  border-radius:8px;
+  border:1px;
+  border-style: solid;
+  background:#ADD8E6;
+}

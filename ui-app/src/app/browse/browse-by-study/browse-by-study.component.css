@@ -78,27 +78,11 @@
    table-layout: unset !important;
 }
 
-@media only screen  and (max-width: 2500px) {
- :host /deep/ .ui-table-unfrozen-view .ui-table-thead th,
- :host /deep/ .ui-table-unfrozen-view .ui-table-tbody td {
+:host /deep/ .ui-table-unfrozen-view .ui-table-thead th,
+:host /deep/ .ui-table-unfrozen-view .ui-table-tbody td {
    min-width: 100px !important;
    max-width: 100px !important;
    width: 100px !important;
- }
-}
-
-@media only screen and (min-width: 2500px) {
-   :host /deep/ .ui-table-unfrozen-view .ui-table-thead th {
-     min-width: 100px !important;
-     max-width: 100px !important;
-     width: 100px !important;
-   }
-
-   :host /deep/ .ui-table-unfrozen-view .ui-table-tbody td {
-     min-width: 108px !important;
-     max-width: 108px !important;
-     width: 108px !important;
-   }
 }
 
 /* :host /deep/ .ui-table-unfrozen-view .ui-table-thead .fixedMaxWidthCol {
@@ -108,6 +92,42 @@
 :host /deep/ .table-striped .ui-datatable-odd {
     width: 100%;
 }
+
+/* :host /deep/ .ui-table-unfrozen-view .ui-table-scrollable-header-box {
+   padding-right: 17px !important;
+} */
+
+/* @@@PDC-4995: Alignment issues
+   Scrollbar adds extra width which causes columns to be misaligned
+   Add scrollbar with a defined width and height. Works on most browsers except Firefox 
+   For future reference */
+/* :host /deep/ ::-webkit-scrollbar {
+   -webkit-appearance: none;
+   width: 10px;
+   height: 12px;
+ }
+ 
+ :host /deep/ ::-webkit-scrollbar-thumb:vertical {
+   border-radius: 1px;
+   background-color: lightgray;
+   box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+ }
+ 
+ :host /deep/ ::-webkit-scrollbar-thumb:horizontal {
+   border-radius: 1px;
+   background-color:lightgray;
+   box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+ }
+ 
+ :host /deep/ .ui-table-unfrozen-view .ui-table-scrollable-header-box {
+   padding-right: 10px !important;
+ }
+ 
+ @supports (-moz-appearance:none) {
+   :host /deep/ .ui-table-unfrozen-view .ui-table-scrollable-header-box {
+     padding-right: 15px !important;
+   }
+ }  */
 
 /* @media only screen  and (max-width: 2500px) {
  :host /deep/ .ui-table-unfrozen-view .ui-table-thead .fixedWidthCol,

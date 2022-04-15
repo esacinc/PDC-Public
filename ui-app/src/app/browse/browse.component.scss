@@ -163,3 +163,8 @@
 	}}
   
 }
+
+//@@@PDC-4995: Alignment issues
+:host /deep/ .ui-table-unfrozen-view .ui-table-scrollable-header-box {
+  padding-right: 17px !important;
+}

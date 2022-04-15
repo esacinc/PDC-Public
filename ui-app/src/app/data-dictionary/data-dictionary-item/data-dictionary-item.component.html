@@ -38,14 +38,15 @@
       </div>
       <br/>
       <ng-container *ngIf='dictItemLinks'>
-          <div class='tableTitle' id="test1234">Links</div>
+          <div class='tableTitle' id="links">Links</div>
           <table class='itemCollTable' cellpadding='0' cellspacing='1'>
                <tr class='dict_tbl_header'>
                    <td class='linksCollCol1'>Name</td>
                    <td class='linksCollCol2'>Required</td>
                    <td class='linksCollCol3'>Label</td>
                </tr>
-               <tr *ngFor="let items of dictItemLinks">
+                <!-- //@@PDC-4748-data-dictionary-load-issues -->
+               <tr *ngFor="let items of dictItemLinks; trackBy: trackData;">
                    <td class='linksCollCol1'><span dt='items.name' class='dictionaryItem'><a href="/pdc/data-dictionary/{{items.name}}">{{items.name}}</a></span></td>
                    <td class='linksCollCol2'>{{items.required}}</td>
                    <td class='linksCollCol3'>{{items.label}}</td>
@@ -53,7 +54,7 @@
           </table>
           <br/>
       </ng-container>
-      <div class='tableTitle'  id="test12345">Properties</div>
+      <div class='tableTitle' id="properties">Properties</div>
       <table class='itemPropertiesTable' cellpadding='0' cellspacing='1'>
           <tr class='dict_tbl_header'>
               <td class='propCollCol1'>Name</td>
@@ -62,10 +63,10 @@
               <td class='propCollCol4'>Required</td>
               <td class='propCollCol5'>CDE</td>
           </tr>
-          <ng-container *ngFor="let test of displayProperties | keyvalue: 0">
-             <!-- update id for ul not be property value -->
-              <tr id={{test.key}}>
-                  <td class='propCollCol1'>{{test.key}}</td>
+          <!-- //@@PDC-4748-data-dictionary-load-issues -->
+          <ng-container *ngFor="let test of displayProperties | keyvalue: 0; trackBy: trackData;">  
+              <tr>
+                  <td class='propCollCol1' id={{test.key}}>{{test.key}}</td>
                   <td class='propCollCol2'>{{test.value.description}}</td>
                   <td class='propCollCol3'>{{test.value.type}}
 
@@ -73,7 +74,7 @@
 
                   <ul [innerHTML]=enumValues[test.key].initial_load></ul>
                   <ul id='{{test.key}}_enum' class='hide-list' [innerHTML]=enumValues[test.key].show_load></ul>
-                  <ng-container *ngIf='test.value.enum.length > 6' >
+                  <ng-container *ngIf='test.value.enum.length > 6'>
                             <div class='showMoreOrLess' id="showMore_{{test.key}}_enum" (click)='showMoreOrLess(test.key)' style="margin-left:40px;">Show more items...</div>
                   </ng-container>
 
