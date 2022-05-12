@@ -334,10 +334,11 @@ downloadCompleteManifest(buttonClick = false) {
 			this.loading = true;
 		}
 		setTimeout(() => {
+			//@@@PDC-5072: Update paginated API calls in the UI to use the 'getAll' parameter
 			//@@@PDC-4931: Last row of Biospecimen and Clinical is not getting selected when the user use Select All Pages
 			//Set limit as total_records + 1. getFilteredClinicalDataPaginated API returns total records if the limit is increased by 1.
 			//@@@PDC-4490: Update Clinical manifest and Case summary pages for GDC Sync
-			this.browseByClinicalService.getFilteredClinicalDataPaginatedPost(0, this.totalRecords + 1, this.sort, this.newFilterSelected).pipe(take(1)).subscribe((data: any) =>{
+			this.browseByClinicalService.getFilteredClinicalDataPaginatedPost(0, 0, this.sort, this.newFilterSelected, true).pipe(take(1)).subscribe((data: any) =>{
 				let filteredClinicalData = data.getPaginatedUIClinical.uiClinical;
 				let localSelectedClinical = [];
 				for(let item of filteredClinicalData){
@@ -663,7 +664,7 @@ isDownloadDisabled(){
 		{field: 'days_to_last_follow_up', header: 'Days to Last Follow Up'},
 		{field: 'days_to_last_known_disease_status', header: 'Days to Last Known Disease Status'},
 		{field: 'last_known_disease_status', header: 'Last Known Disease Status'},
-		{field: 'progression_or_recurrence', header: 'Progession or Recurrence'},
+		{field: 'progression_or_recurrence', header: 'Progression or Recurrence'},
 		{field: 'prior_malignancy', header: 'Prior Malignancy'},
 		{field: 'ajcc_clinical_m', header: 'AJCC Clinical M'},
 		{field: 'ajcc_clinical_n', header: 'AJCC Clinical N'},

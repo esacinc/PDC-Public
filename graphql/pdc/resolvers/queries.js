@@ -361,8 +361,9 @@ export const resolvers = {
 					return null;
 				}
 			}*/
+			//@@@PDC-5168 count case_id instead of diagnosis_id
 			let diseaseQuery = "SELECT bin_to_uuid(dia.project_id) as project_id, dia.project_submitter_id,  dia.tissue_or_organ_of_origin, "+
-			" c.disease_type, count(distinct dia.diagnosis_id) as cases_count "+
+			" c.disease_type, count(distinct c.case_id) as cases_count "+
 			" FROM study s, `case` c, diagnosis dia "+
 			" WHERE c.case_id = dia.case_id and c.project_id = s.project_id "+
 			" and s.is_latest_version = 1 ";
@@ -2539,13 +2540,14 @@ export const resolvers = {
 
 			let studyIdQueryCondition = ` sc.study_id IN (UUID_TO_BIN('${filterValue}')) `;
 
+			//@@@PDC-5056 use gene_id instead of gene_name to join gene and spectral_count
 			let geneDataQuery = `
 					SELECT DISTINCT
 					ge.gene_name, ge.gene_id, chromosome, locus, proteins
 				FROM
 					pdc.gene AS ge,
-					(select distinct gene_name from pdc.spectral_count AS sc where ${studyIdQueryCondition}  ) sca
-				where ge.gene_name = sca.gene_name
+					(select distinct gene_id from pdc.spectral_count AS sc where ${studyIdQueryCondition}  ) sca
+				where ge.gene_id = sca.gene_id
 			`;
 
 			//@@@PDC-4236 add study versioning
@@ -2653,7 +2655,7 @@ export const resolvers = {
 						//studyMap.set(studyName, studyArray);
 					}
 					var totalCount = finalSet.size;
-					//console.log('total gene count: '+finalSet.size);
+					console.log('total gene count: '+finalSet.size);
 					//console.timeEnd('gene_cache_study');
 					if (args.getAll){
 						RedisCacheClient.redisCacheSetExAsync(CacheName.getBrowsePagePaginatedDataTabCacheKey('GeneAllCount')+cacheFilterName.name, totalCount);
@@ -4887,6 +4889,65 @@ export const resolvers = {
 				return [{total: args.limit}];
 			}
 		},
+		//@@@PDC-5053 handle multiple genes in one call
+		async getUIPtmMultiGenes (_, args, context) {			
+			if (args.source != 'undefined' && args.source === 'search') {
+				analyticLog.info("SEARCH QUERY to getUIPtmMultiGenes:  "+ JSON.stringify(args));
+			}
+			else
+				logger.info("getUIPtmMultiGenes is called from UI with "+ JSON.stringify(args));
+			
+			let uiPtmHeaderQuery = "SELECT distinct pq.gene_name, pq.ptm_type, pq.site, pq.peptide FROM ";
+			let uiPtmtrailerQuery = " WHERE pq.gene_name IN (:batch) ";
+			let ptmTableName = "ptm_abundance";
+			let genes = args.genes.split(";");
+			genes.sort();
+			let alpha = "";
+			let batch = [];
+			let result = [];
+			let resPerGene = null;
+			let replacements = { };
+			for (let i = 0; i < genes.length; i++) {
+				if (genes[i].substr(0, 1) === alpha) {
+					batch.push(genes[i]);
+				}
+				else {
+					if (batch.length > 0) {
+						ptmTableName = "ptm_abundance_"+alpha;
+						let queryPerGene = uiPtmHeaderQuery + ptmTableName + " pq " + uiPtmtrailerQuery;
+						replacements['batch'] = batch;
+						resPerGene = await db.getSequelize().query(	queryPerGene,
+							{
+								replacements: replacements,
+								model: db.getModelByName('ModelUIPtm')
+							}
+						);
+						if (resPerGene != null && resPerGene.length > 0) {
+							result = [...result, ...resPerGene];
+						}
+					}
+					alpha = genes[i].substr(0, 1);
+					batch = [];
+					batch.push(genes[i]);
+				}
+			}
+			if (batch.length > 0) {
+				ptmTableName = "ptm_abundance_"+alpha;
+				let queryPerGene = uiPtmHeaderQuery + ptmTableName + " pq " + uiPtmtrailerQuery;
+				replacements['batch'] = batch;
+				resPerGene = await db.getSequelize().query(	queryPerGene,
+					{
+						replacements: replacements,
+						model: db.getModelByName('ModelUIPtm')
+					}
+				);
+				if (resPerGene != null && resPerGene.length > 0) {
+					result = [...result, ...resPerGene];
+				}
+			}
+			return result;
+		},
+
 		//@@@PDC-681 ui ptm data API
 		async getPaginatedUIPtm (_, args, context) {
 			//@@@PDC-4726 log search query

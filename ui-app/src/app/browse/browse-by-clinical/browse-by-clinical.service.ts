@@ -528,11 +528,11 @@ constructor(private apollo: Apollo) {
 
 	//@@@PDC-5045: Convert the GET requests to the getPaginatedUIClinical API of "Clinical" tab to POST
 	filteredCinicalDataPaginatedPostQuery = gql`
-	query FilteredClinicalDataPaginated($offset_value: Int, $limit_value: Int, $sort_value: String, $program_name_filter: String!, $project_name_filter: String!, $study_name_filter: String!, $disease_filter: String!, $filterValue: String!, $analytical_frac_filter: String!, $exp_type_filter: String!, $ethnicity_filter: String!, $race_filter: String!, $gender_filter: String!, $tumor_grade_filter: String!, $sample_type_filter: String!, $acquisition_type_filter: String!, $data_category_filter: String!, $file_type_filter: String!, $access_filter: String!, $downloadable_filter: String!, $case_status_filter: String!, $biospecimen_status_filter: String!){
+	query FilteredClinicalDataPaginated($offset_value: Int, $limit_value: Int, $sort_value: String, $program_name_filter: String!, $project_name_filter: String!, $study_name_filter: String!, $disease_filter: String!, $filterValue: String!, $analytical_frac_filter: String!, $exp_type_filter: String!, $ethnicity_filter: String!, $race_filter: String!, $gender_filter: String!, $tumor_grade_filter: String!, $sample_type_filter: String!, $acquisition_type_filter: String!, $data_category_filter: String!, $file_type_filter: String!, $access_filter: String!, $downloadable_filter: String!, $case_status_filter: String!, $biospecimen_status_filter: String!, $getAll: Boolean!){
 		getPaginatedUIClinical(offset: $offset_value, limit: $limit_value, sort: $sort_value, program_name: $program_name_filter , project_name: $project_name_filter, 
 								study_name: $study_name_filter, disease_type: $disease_filter, primary_site: $filterValue, analytical_fraction: $analytical_frac_filter, 
 								experiment_type: $exp_type_filter, ethnicity: $ethnicity_filter, race: $race_filter, gender: $gender_filter, 
-								tumor_grade: $tumor_grade_filter, sample_type: $sample_type_filter, acquisition_type: $acquisition_type_filter, data_category: $data_category_filter, file_type: $file_type_filter, access: $access_filter, downloadable: $downloadable_filter, case_status: $case_status_filter, biospecimen_status: $biospecimen_status_filter) {
+								tumor_grade: $tumor_grade_filter, sample_type: $sample_type_filter, acquisition_type: $acquisition_type_filter, data_category: $data_category_filter, file_type: $file_type_filter, access: $access_filter, downloadable: $downloadable_filter, case_status: $case_status_filter, biospecimen_status: $biospecimen_status_filter, getAll: $getAll) {
 			total
 			uiClinical{
 				case_submitter_id
@@ -807,7 +807,7 @@ constructor(private apollo: Apollo) {
 
 	//@@@PDC-1940: File manifest download is very slow
 	//@@@PDC-5045: Convert the GET requests to the getPaginatedUIClinical API of "Clinical" tab to POST
-	getFilteredClinicalDataPaginatedPost(offset: number, limit: number, sort: string, filters:any) {
+	getFilteredClinicalDataPaginatedPost(offset: number, limit: number, sort: string, filters:any, getAll:any = false) {
 	let filter_ethnicity = filters["ethnicity"];
 	if (filter_ethnicity === "Empty value"){
 		filter_ethnicity = "";
@@ -840,7 +840,8 @@ constructor(private apollo: Apollo) {
 			access_filter: filters["access"] || '',
 			downloadable_filter: filters["downloadable"] || '',
 			case_status_filter: filters["case_status"] || '',
-			biospecimen_status_filter: filters["biospecimen_status"] || ''
+			biospecimen_status_filter: filters["biospecimen_status"] || '',
+			getAll: getAll
 		},
 		context: {
 			method: 'POST'

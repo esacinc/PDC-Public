@@ -68,7 +68,7 @@
               <tr>
                   <td class='propCollCol1' id={{test.key}}>{{test.key}}</td>
                   <td class='propCollCol2'>{{test.value.description}}</td>
-                  <td class='propCollCol3'>{{test.value.type}}
+                  <td class='propCollCol3'><div [innerHtml] = "test.value.type"></div>
 
                   <ng-container *ngIf='test.value.enum' >
 

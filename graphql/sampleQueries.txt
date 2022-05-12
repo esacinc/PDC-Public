@@ -6145,6 +6145,14 @@ limit: 10) {
 		}
 	}
 }
+{
+	getUIPtmMultiGenes(genes: "CDC42EP1;AFF4;ZNF217;AADAC"){
+			gene_name
+			ptm_type 
+			site
+			peptide
+	}
+}
 //PDC-3171
 {
 	getUIPtmAlphabetically(gene: "K") {

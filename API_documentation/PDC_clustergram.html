@@ -9129,15 +9129,15 @@ label {
 }
 /* Flexible box model classes */
 /* Taken from Alex Russell http://infrequently.org/2009/08/css-3-progress/ */
-/* This file is a compatability layer.  It allows the usage of flexible box 
+/* This file is a compatability layer.  It allows the usage of flexible box
 model layouts accross multiple browsers, including older browsers.  The newest,
 universal implementation of the flexible box model is used when available (see
-`Modern browsers` comments below).  Browsers that are known to implement this 
+`Modern browsers` comments below).  Browsers that are known to implement this
 new spec completely include:
 
     Firefox 28.0+
     Chrome 29.0+
-    Internet Explorer 11+ 
+    Internet Explorer 11+
     Opera 17.0+
 
 Browsers not listed, including Safari, are supported via the styling under the
@@ -12519,7 +12519,7 @@ div#pager .ui-resizable-handle {
   background: #f7f7f7;
   border-top: 1px solid #cfcfcf;
   border-bottom: 1px solid #cfcfcf;
-  /* This injects handle bars (a short, wide = symbol) for 
+  /* This injects handle bars (a short, wide = symbol) for
         the resize handle. */
 }
 div#pager .ui-resizable-handle::after {
@@ -13033,14 +13033,14 @@ div#notebook {
   div.cell {
     display: block;
     page-break-inside: avoid;
-  } 
-  div.output_wrapper { 
-    display: block;
-    page-break-inside: avoid; 
   }
-  div.output { 
+  div.output_wrapper {
     display: block;
-    page-break-inside: avoid; 
+    page-break-inside: avoid;
+  }
+  div.output {
+    display: block;
+    page-break-inside: avoid;
   }
 }
 </style>
@@ -13081,7 +13081,8 @@ div#notebook {
 <p>If you are viewing the HTML, the notebook can be found <a href="https://github.com/esacinc/PDC-Public/blob/master/API_documentation/PDC_clustergram.ipynb" target="_blank">here.</a></p>
 <p>This notebook attempts to demonstrate the following:</p>
 <ol>
-<li>Use the Proteome Data Commons (PDC) API to retreive protein relative expression data for a <a href="https://proteomics.cancer.gov/programs/cptac" target="_blank">CPTAC</a> study.  The PDC uses values produced by the Common Data Analysis Pipeline (<a href="https://cptac-data-portal.georgetown.edu/cptac/documents/CDAP_ProteinReports_description_20160503.pdf" target="_blank">CDAP</a>).  More information on the PDC implmentation of the CDAP can be found <a href="https://pdc.esacinc.com/data-dictionary/harmonization.html" target="_blank">here</a>.  <u>Note</u>: TMT/iTRAQ data are provided as log2ratios, where the denominator is a control channel.  In general, control channels are different between studies so comparisons <em>between</em> studies using these values are not currently reccomended in the absence of bridging data.</li>
+<!-- @@@PDC-5124-two-links-on-clustergram-page-do-not-open -->
+<li>Use the Proteome Data Commons (PDC) API to retreive protein relative expression data for a <a href="https://proteomics.cancer.gov/programs/cptac" target="_blank">CPTAC</a> study.  The PDC uses values produced by the Common Data Analysis Pipeline (<a href="https://cptac-data-portal.georgetown.edu/cptac/documents/CDAP_ProteinReports_description_20160503.pdf" target="_blank">CDAP</a>).  More information on the PDC implmentation of the CDAP can be found <a href="https://proteomic.datacommons.cancer.gov/pdc/harmonization" target="_blank">here</a>.  <u>Note</u>: TMT/iTRAQ data are provided as log2ratios, where the denominator is a control channel.  In general, control channels are different between studies so comparisons <em>between</em> studies using these values are not currently reccomended in the absence of bridging data.</li>
 <li>Use the PDC API to retrieve the associated clinical metadata for all samples</li>
 <li>Format the data for analysis using pandas</li>
 <li>Cluster and visualize the data using the Seaborn clustermap package</li>
@@ -13141,8 +13142,9 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The next one is <strong>data type</strong>. 
-A table of data_types is available <a href="https://pdc.esacinc.com/data-dictionary/publicapi-documentation/#!/Paginated_Records/paginatedDataMatrix" target="_blank">here</a>.  A description of how these values are computed can be found <a href="https://cptac-data-portal.georgetown.edu/cptac/documents/CDAP_ProteinReports_description_20160503.pdf" target="_blank">here</a>.  In brief, these values are log2 transformed ratio data, where aliquot is the numerator and the denominator is a pooled, reference sample.  Ratios are calculated following normalization in the CPTAC Common Data Analysis Pipeline (CDAP.)</p>
+<!-- @@@PDC-5124-two-links-on-clustergram-page-do-not-open -->    
+<p>The next one is <strong>data type</strong>.
+A table of data_types is available <a href="https://proteomic.datacommons.cancer.gov/pdc/publicapi-documentation/#!/Quantitative/quantDataMatrix" target="_blank">here</a>.  A description of how these values are computed can be found <a href="https://cptac-data-portal.georgetown.edu/cptac/documents/CDAP_ProteinReports_description_20160503.pdf" target="_blank">here</a>.  In brief, these values are log2 transformed ratio data, where aliquot is the numerator and the denominator is a pooled, reference sample.  Ratios are calculated following normalization in the CPTAC Common Data Analysis Pipeline (CDAP.)</p>
 
 </div>
 </div>
@@ -13202,11 +13204,11 @@ A table of data_types is available <a href="https://pdc.esacinc.com/data-diction
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">query_pdc</span><span class="p">(</span><span class="n">query</span><span class="p">):</span>
     <span class="c1"># PDC API url</span>
     <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;https://pdc.cancer.gov/graphql&#39;</span>
-    
+
     <span class="c1"># Send the POST graphql query</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Sending query.&#39;</span><span class="p">)</span>
     <span class="n">pdc_response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;query&#39;</span><span class="p">:</span> <span class="n">query</span><span class="p">})</span>
-    
+
     <span class="c1"># Check the results</span>
     <span class="k">if</span> <span class="n">pdc_response</span><span class="o">.</span><span class="n">ok</span><span class="p">:</span>
         <span class="c1"># Decode the response</span>
@@ -13646,7 +13648,7 @@ This can help compress the range, accounting for outliers.</p>
   </div>
 </body>
 
- 
+
 
 
 </html>

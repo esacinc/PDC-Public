@@ -1295,7 +1295,36 @@ var spec = {
                    }
                  }
                },
-                  '?query={ studyExperimentalDesign (study_id: "{study_id}" acceptDUA: {acceptDUA}){ pdc_study_id, study_run_metadata_id, study_run_metadata_submitter_id, study_id, study_submitter_id, analyte, acquisition_type, experiment_type, plex_dataset_name, experiment_number, number_of_fractions, label_free{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, itraq_113{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, itraq_114{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, itraq_115{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, itraq_116{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, itraq_117{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, itraq_118{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, itraq_119{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, itraq_121{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, tmt_126{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, tmt_127n{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, tmt_127c{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, tmt_128n{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, tmt_128c{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, tmt_129n{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, tmt_129c{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, tmt_130n{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, tmt_130c{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, tmt_131{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, tmt_131c{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}} }': {
+             "?query={dataStatsPerProgram (acceptDUA: {acceptDUA}) {program_id program_submitter_id name project_count study_count data_file_count data_size_TB}}": {
+                 "get": {
+                           "tags": ["General"],
+                   "summary": "Gets PDC statistics per program",
+                   "description": "<b>Gets the following PDC statistics.<br><br>Fields:</b><ul><li>program_id</li><li>program_submitter_id</li><li>name</li><li>project_count</li><li>study_count</li><li>data_file_count</li><li>data_size_TB</li></ul>",
+                   "operationId": "dataStatsPerProgram",
+                   "produces": [
+                     "application/json"
+                   ],
+                   parameters: [{
+                     "name": "acceptDUA",
+                     "in": "path",
+                     "description": "Accept DUA variable, example: true/false",
+                     "required": true,
+                     "type": "boolean"
+                   }],
+                   "responses": {
+                     "200": {
+                       "description": "successful operation",
+                       "schema": {
+                         "$ref": "#/definitions/dataStatsPerProgram"
+                       }
+                     },
+                     "401": {
+                       "description": "Unauthorized"
+                     }
+                   }
+                 }
+               },
+			   '?query={ studyExperimentalDesign (study_id: "{study_id}" acceptDUA: {acceptDUA}){ pdc_study_id, study_run_metadata_id, study_run_metadata_submitter_id, study_id, study_submitter_id, analyte, acquisition_type, experiment_type, plex_dataset_name, experiment_number, number_of_fractions, label_free{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, itraq_113{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, itraq_114{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, itraq_115{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, itraq_116{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, itraq_117{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, itraq_118{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, itraq_119{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, itraq_121{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, tmt_126{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, tmt_127n{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, tmt_127c{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, tmt_128n{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, tmt_128c{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, tmt_129n{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, tmt_129c{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, tmt_130n{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, tmt_130c{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, tmt_131{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, tmt_131c{aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}} }': {
                  "get": {
                     "tags": ["Experimental"],
                    "summary": "Gets experimental design for a Study",
@@ -8232,6 +8261,71 @@ var spec = {
 			 },
 			 "xml":{
                 "name":"labelAliguots"
+             }
+          },
+          "dataStatsPerProgram":{
+             "type":"object",
+             "properties":{
+                "data":{
+                   "type":"string",
+                   "$ref":"#/definitions/dataStatsPerProgramDef"
+                }
+             },
+             "xml":{
+                "name":"dataStatsPerProgram"
+             }
+          },
+          "dataStatsPerProgramDef":{
+             "type":"object",
+             "required":[
+    
+             ],
+             "properties":{
+                "dataStatsPerProgram":{
+                   "type":"array",
+                   "items":{
+                      "$ref":"#/definitions/dataStatsPerProgramDesc"
+                   }
+                }
+             },
+             "xml":{
+                "name":"dataStatsPerProgramDef"
+             }
+          },
+          "dataStatsPerProgramDesc":{
+             "type":"object",
+             "properties":{
+                "program_id":{
+                   "type":"string",
+                   "example":"10251935-5540-11e8-b664-00a098d917f8"
+                },
+                "program_submitter_id":{
+                   "type":"string",
+                   "example":"Georgetown Proteomics Research Program"
+                },
+                "name":{
+                   "type":"string",
+                   "example":"Georgetown Proteomics Research Program"
+                },
+                "project_count":{
+                   "type":"integer",
+                   "example":13
+                },
+                "study_count":{
+                   "type":"integer",
+                   "example":101
+                },
+                "data_file_count":{
+                   "type":"integer",
+                   "example":31172
+                },
+                "data_size_TB":{
+                   "type":"integer",
+                   "example":29
+                }
+             },
+             "xml":{
+                "name":"dataStatsPerProgramDesc"
              }
           },
           "getPDCMetrics":{

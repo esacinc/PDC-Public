@@ -253,7 +253,7 @@ downloadCompleteManifest(buttonClick = false) {
 		} else {
 			this.loading = true;
 		}
-		this.browseByGeneService.getFilteredGenesDataPaginated(0, this.totalRecords, this.sort, this.newFilterSelected).subscribe((data: any) =>{
+		this.browseByGeneService.getFilteredGenesDataPaginated(0, 0, this.sort, this.newFilterSelected, true).subscribe((data: any) =>{
 			//console.log(data);
 			let filteredGenesData = data.getPaginatedUIGene.uiGenes as Array<AllGeneData>;
 			let localSelectedGenes = [];

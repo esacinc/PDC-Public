@@ -794,7 +794,7 @@
 				<mat-expansion-panel-header [collapsedHeight]="'40px'" [expandedHeight]="'40px'">
                   <mat-panel-title>
                   <span class="browse-filter-title float-button-left">
-                      Gene
+                    <a href="/pdc/data-dictionary/Gene#gene_name" target="_blank" class="browse-filter-title">Gene</a>
                   </span>
                   <span class="float-button-right"></span>
                   <button mat-icon-button mat-primary class="browse-filter-title" id="clearGenesCategorySelection" label="Undo"
@@ -855,7 +855,7 @@
                               <p-checkbox name="group7" id="group7{{study}}"
                                   value={{study.filterName}}
                                   [(ngModel)]="selectedStudyFilter"
-                                  [disabled]="study.filterCount == 0"
+                                  [disabled]="selectedStudyFilter.length == 0 && study.filterCount == 0"
                                   (onChange)="filterDataByStudy($event, '-study', i)">
                               </p-checkbox> &nbsp; &nbsp;
                               <div>

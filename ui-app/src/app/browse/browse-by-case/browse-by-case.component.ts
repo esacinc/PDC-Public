@@ -278,9 +278,10 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
 			} else {
 				this.loading = true;
 			}
+			//@@@PDC-5072: Update paginated API calls in the UI to use the 'getAll' parameter
 			//@@@PDC-4931: Last row of Biospecimen and Clinical is not getting selected when the user use Select All Pages
 			//Set limit as total_records + 1. getFilteredClinicalDataPaginated API returns total records if the limit is increased by 1.
-			this.browseByCaseService.getFilteredCasesPaginated(0, this.totalRecords + 1, this.sort, this.newFilterSelected).subscribe((data: any) =>{
+			this.browseByCaseService.getFilteredCasesPaginated(0, 0, this.sort, this.newFilterSelected, true).subscribe((data: any) =>{
 					let filteredCasesData = data.getPaginatedUICase.uiCases;
 					let localSelectedCases = [];
 					for(let item of filteredCasesData){
@@ -315,8 +316,8 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
 							}
 						}
 						this.isTableLoading.emit({isTableLoading:"case:false"});
-						this.makeRowsSameHeight();
 				  }
+				  this.makeRowsSameHeight();
 			});
 		}, 10);
 	}

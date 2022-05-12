@@ -400,7 +400,7 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 			if (!buttonClick) {
 				this.isTableLoading.emit({isTableLoading:"study:true"});
 			}
-			this.browseByStudyService.getFilteredStudiesPaginated(0, this.totalRecords, this.sort, this.newFilterSelected).subscribe((data: any) =>{
+			this.browseByStudyService.getFilteredStudiesPaginated(0, 0, this.sort, this.newFilterSelected, true).subscribe((data: any) =>{
 			let filteredStudiesData = this.mergeStudies(data.getPaginatedUIStudy.uiStudies);
 			for (let idx = 0; idx < this.filteredStudiesData.length; idx++ ){
 				this.concatinateDataEnd(idx);

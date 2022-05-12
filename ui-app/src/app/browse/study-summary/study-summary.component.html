@@ -12,8 +12,10 @@
 		<mat-card style="background:#21b5f0;font-family: 'Lato';font-weight: 400;color:#ffffff;text-align: center;">
 			<mat-card-content>
 				<span style="font-size: 20px;">
-				<!--@@@PDC-1427  sync up case/aliquot counts-->
-					{{totalRecordsClinical}}
+				<!--@@@PDC-5068 sync up case/aliquot counts with browse table-->
+					{{studySummaryData.cases_count}}
+				<!--@@@PDC-1427  sync up case/aliquot counts
+					{{totalRecordsClinical}}-->
 				</span><br>
 				Cases
 			</mat-card-content>
@@ -21,8 +23,10 @@
 		<mat-card style="background:#078abf;font-family: 'Lato';font-weight: 400;color:#ffffff;text-align: center;">
 			<mat-card-content>
 				<span style="font-size: 20px;">
-				<!--@@@PDC-1427  sync up case/aliquot counts-->
-					{{totalRecordsBiospecimens}}
+				<!--@@@PDC-5068 sync up case/aliquot counts with browse table-->
+					{{studySummaryData.aliquots_count}}
+				<!--@@@PDC-1427  sync up case/aliquot counts
+					{{totalRecordsBiospecimens}}-->
 				</span><br>
 				Aliquots
 			</mat-card-content>
