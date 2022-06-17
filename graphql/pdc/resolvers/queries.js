@@ -574,6 +574,16 @@ export const resolvers = {
 			if (typeof args.case_submitter_id != 'undefined') {
 				cacheFilterName.name +="case_submitter_id:("+ args.case_submitter_id + ");";
 			}
+			//@@@PDC-5178 case-sample-aliquot across studies
+			let studyFilters = {};
+			if (typeof args.study_id != 'undefined') {
+				studyFilters['study_id'] = args.study_id
+			}
+			if (typeof args.pdc_study_id != 'undefined') {
+				studyFilters['pdc_study_id'] = args.pdc_study_id
+			}
+			context['arguments'] = studyFilters; 
+			
 			const res = await RedisCacheClient.redisCacheGetAsync(CacheName.getSummaryPageCaseSummary('Case')+cacheFilterName['name']);
 			if(res === null){
 				//@@@PDC-2335 get ext id from reference
@@ -4373,6 +4383,8 @@ export const resolvers = {
 			}
 			let uiCaseLimitQuery = " LIMIT "+ myOffset+ ", "+ myLimit;
 			context['query'] = uiCaseBaseQuery + uiCaseQuery + uiCaseLimitQuery;
+			//@@@PDC-5178 case-sample-aliquot across studies
+			context['routeQuery'] = uiCaseQuery;
 			context['replacements'] = replacements;
 			//@@@PDC-2725 pagination enhancement
 			//if (myOffset == 0 && paginated) {
@@ -5173,7 +5185,9 @@ export const resolvers = {
 			}
 
 			let studyGroupQuery = ") group by s.submitter_id_name, c.disease_type";
-
+			
+			//@@@PDC-5178 case-sample-aliquot across studies
+			context['replacements'] = replacements;
 			let studies = await db.getSequelize().query(
 				studyHeadWrapQuery + studyBaseQuery + studyQuery + studyGroupQuery + studyTailWrapQuery,
 					{
@@ -5389,6 +5403,7 @@ export const resolvers = {
 		//@@@PDC-2657 reverse 2335
 		//@@@PDC-3428 add tumor_largest_dimension_diameter
 		//@@@PDC-4391 add new columns
+		//@@@PDC-5205 add auxiliary_data and tumor_cell_content
 		clinicalPerStudy(_, args, context) {
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/clinicalPerStudy").send();
@@ -5447,7 +5462,8 @@ export const resolvers = {
 			"dia.diagnosis_is_primary_disease, dia.eln_risk_classification, dia.figo_staging_edition_year, "+
 			"dia.gleason_grade_tertiary, dia.gleason_patterns_percent, dia.margin_distance, "+
 			"dia.margins_involved_site, dia.pregnant_at_diagnosis, dia.satellite_nodule_present, "+
-			"dia.sites_of_involvement, dia.tumor_depth, dia.who_cns_grade, dia.who_nte_grade, dia.diagnosis_uuid "+
+			"dia.sites_of_involvement, dia.tumor_depth, dia.who_cns_grade, dia.who_nte_grade, dia.diagnosis_uuid, "+
+			"dia.auxiliary_data, dia.tumor_cell_content "+  
 			"FROM study s, `case` c, demographic dem, diagnosis dia, "+
 			"sample sam, aliquot al, aliquot_run_metadata alm "+
 			"where alm.study_id=s.study_id and al.aliquot_id= alm.aliquot_id "+
@@ -5600,6 +5616,7 @@ export const resolvers = {
 			else
 				logger.info("studyExperimentalDesign is called from UI with "+ JSON.stringify(args));
 
+			//@@@PDC-5290 add experiment types of TMT16 and TMT18
 			let experimentalQuery = "SELECT distinct bin_to_uuid(srm.study_run_metadata_id) as study_run_metadata_id, "+
 			" bin_to_uuid(s.study_id) as study_id, srm.study_run_metadata_submitter_id,"+
 			" s.study_submitter_id, s.pdc_study_id, "+
@@ -5609,7 +5626,8 @@ export const resolvers = {
 			" itraq_114 as itraq_114_asi, itraq_115 as itraq_115_asi, itraq_116 as itraq_116_asi, itraq_117 as itraq_117_asi,"+
 			" itraq_118 as itraq_118_asi, itraq_119 as itraq_119_asi, itraq_121 as itraq_121_asi,"+
 			" tmt_126 as tmt_126_asi, tmt_127n as tmt_127n_asi, tmt_127c as tmt_127c_asi, tmt_128n as tmt_128n_asi, tmt_128c as tmt_128c_asi,"+
-			" tmt_129n as tmt_129n_asi, tmt_129c as tmt_129c_asi, tmt_130n as tmt_130n_asi, tmt_130c as tmt_130c_asi, tmt_131 as tmt_131_asi, tmt_131c as tmt_131c_asi "+
+			" tmt_129n as tmt_129n_asi, tmt_129c as tmt_129c_asi, tmt_130n as tmt_130n_asi, tmt_130c as tmt_130c_asi, tmt_131 as tmt_131_asi, tmt_131c as tmt_131c_asi, "+
+			" tmt_132n as tmt_132n_asi, tmt_132c as tmt_132c_asi, tmt_133n as tmt_133n_asi, tmt_133c as tmt_133c_asi, tmt_134n as tmt_134n_asi, tmt_134c as tmt_134c_asi, tmt_135n as tmt_135n_asi "+
 			" from study_run_metadata srm, study s, protocol p "+
 			" where srm.study_id=s.study_id and p.study_id = s.study_id ";
 			//" and s.project_submitter_id IN ('" + context.value.join("','") + "')";

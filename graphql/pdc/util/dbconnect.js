@@ -40,7 +40,12 @@ if (typeof process.env.PDC_DB_POOL_ACQUIRE != "undefined") {
 
 logger.info("POOL: MAX: "+maxConnection+ " MIN: "+minConnection+ " IDLE: "+idleConnection+ " MAX_USES: "+maxUsesConnection+ " ACQUIRE: "+acquireConnection);
 
-const getSequelize = () => { return sequelize; }; 
+const getSequelize = () => {
+	//@@@PDC-5063 log db connect failure
+	if (sequelize == null)
+		logger.error("Unable to connect to database!");
+		return sequelize; 
+	};
 db.getSequelize = getSequelize;
 
 const getModelByName = (modelName) => {

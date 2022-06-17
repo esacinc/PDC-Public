@@ -31,6 +31,13 @@ type StudyExperimentalDesign {
 	tmt_130n_asi: String
 	tmt_131_asi: String
 	tmt_131c_asi: String
+	tmt_132n_asi: String
+	tmt_132c_asi: String
+	tmt_133n_asi: String
+	tmt_133c_asi: String
+	tmt_134n_asi: String
+	tmt_134c_asi: String
+	tmt_135n_asi: String
 	label_free: [LabelAliquot]
 	itraq_113: [LabelAliquot]
 	itraq_114: [LabelAliquot]
@@ -51,4 +58,11 @@ type StudyExperimentalDesign {
 	tmt_130n: [LabelAliquot]
 	tmt_131: [LabelAliquot]
 	tmt_131c: [LabelAliquot]
+	tmt_132n: [LabelAliquot]
+	tmt_132c: [LabelAliquot]
+	tmt_133n: [LabelAliquot]
+	tmt_133c: [LabelAliquot]
+	tmt_134n: [LabelAliquot]
+	tmt_134c: [LabelAliquot]
+	tmt_135n: [LabelAliquot]
 }

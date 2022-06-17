@@ -194,6 +194,7 @@ export class BrowseByClinicalComponent implements OnInit {
 		//@@@PDC-5045: Convert the GET requests to the getPaginatedUIClinical API of "Clinical" tab to POST
 		this.browseByClinicalService.getFilteredClinicalDataPaginatedPost(this.offset, this.limit, this.sort, this.newFilterSelected).pipe(take(1)).subscribe((data: any) =>{
 			this.filteredClinicalData = data.getPaginatedUIClinical.uiClinical;
+			this.populateAssociatedSampleInfo(this.filteredClinicalData);
 			this.totalRecords = data.getPaginatedUIClinical.total;
 			this.clinicalTotalRecordChanged.emit({type: 'clinical', totalRecords:this.totalRecords});
 			this.offset = data.getPaginatedUIClinical.pagination.from;
@@ -283,6 +284,7 @@ export class BrowseByClinicalComponent implements OnInit {
 		this.loading = true;
 		this.browseByClinicalService.getFilteredClinicalDataPaginatedPost(this.offset, this.limit,this.sort, this.newFilterSelected).pipe(take(1)).subscribe((data: any) =>{
 			this.filteredClinicalData = data.getPaginatedUIClinical.uiClinical;
+			this.populateAssociatedSampleInfo(this.filteredClinicalData);
 			if (this.offset == 0) {
 				this.totalRecords = data.getPaginatedUIClinical.total;
 				this.clinicalTotalRecordChanged.emit({type: 'clinical', totalRecords:this.totalRecords});
@@ -340,6 +342,7 @@ downloadCompleteManifest(buttonClick = false) {
 			//@@@PDC-4490: Update Clinical manifest and Case summary pages for GDC Sync
 			this.browseByClinicalService.getFilteredClinicalDataPaginatedPost(0, 0, this.sort, this.newFilterSelected, true).pipe(take(1)).subscribe((data: any) =>{
 				let filteredClinicalData = data.getPaginatedUIClinical.uiClinical;
+				this.populateAssociatedSampleInfo(filteredClinicalData);
 				let localSelectedClinical = [];
 				for(let item of filteredClinicalData){
 					localSelectedClinical.push(item);
@@ -464,6 +467,7 @@ isDownloadDisabled(){
 		this.loading = true;
 		this.browseByClinicalService.getFilteredClinicalDataPaginatedPost(this.offset, this.limit, this.sort, this.newFilterSelected).pipe(take(1)).subscribe((data: any) => {
 			this.filteredClinicalData = data.getPaginatedUIClinical.uiClinical;
+			this.populateAssociatedSampleInfo(this.filteredClinicalData);
 			if (this.offset == 0) {
 				this.totalRecords = data.getPaginatedUIClinical.total;
 				this.clinicalTotalRecordChanged.emit({ type: 'clinical', totalRecords: this.totalRecords });
@@ -484,6 +488,23 @@ isDownloadDisabled(){
 			this.makeRowsSameHeight();
 			this.loading = false;
 		});
+	}
+
+	//@@@PDC-5206: Present Diagnosis to Sample relationship on PDC Browser
+	populateAssociatedSampleInfo(filteredClinicalData) {
+		if (filteredClinicalData.length > 0) {
+			for (var i in filteredClinicalData) {
+				if (filteredClinicalData[i].samples && typeof(filteredClinicalData[i].samples) != 'string' && filteredClinicalData[i].samples.length > 0) {
+					let associatedSamples = filteredClinicalData[i]['samples'];
+					let arr = [];
+					for(let key in associatedSamples){
+						arr.push(associatedSamples[key]['sample_submitter_id']);
+					}
+					let associatedsampleIds = arr.join(", ");
+					filteredClinicalData[i]['samples'] = associatedsampleIds;
+				}
+			}
+		}
 	}
 
 	//@@@PDC-4490: Update Clinical manifest and Case summary pages for GDC Sync
@@ -637,6 +658,7 @@ isDownloadDisabled(){
 	  this.cols = [
 		{field: 'case_id', header: 'Case ID'},
 		{field: 'case_submitter_id', header: 'Cases Submitter ID'},
+		{field: 'samples', header: 'Related Entities'},
 		{field: 'genomicImagingData', header: 'Genomic and Imaging Data Resource'},
 		{field: 'ethnicity', header: 'Ethnicity'},
 		{field: 'gender', header: 'Gender'},
@@ -1020,6 +1042,10 @@ isDownloadDisabled(){
 					genomicImagingData = genomicImagingData.slice(0, -1);
 				}
 				exportData[i]["genomicImagingData"] = genomicImagingData;
+				let associatedSamples = exportData[i]["samples"];
+				if (associatedSamples != '') {
+					exportData[i]["samples"] = "Samples: " + associatedSamples;
+				}
 			}
 			return exportData;
 		}
@@ -1069,8 +1095,9 @@ isDownloadDisabled(){
 			let localSelectedClinical = emptyArray.concat(this.selectedClinicalData);
 			if(this.headercheckbox){
 				for(let item of this.filteredClinicalData){
-					if(this.currentPageSelectedClinical.indexOf(item.case_submitter_id) === -1){
-						localSelectedClinical.push(item);
+           //@@PDC-5362-download-clinical-manifest-not-including-multiple-diagnosis-records
+           if(this.countInArray(localSelectedClinical,item) == 0){
+            localSelectedClinical.push(item);
 						this.currentPageSelectedClinical.push(item.case_submitter_id);
 					}
 				}
@@ -1091,10 +1118,30 @@ isDownloadDisabled(){
 
 		//@@@PDC-848 Fix headercheckbox issue for data tables on browse page
 		onRowSelected(event:any){
+      //@@PDC-5362-download-clinical-manifest-not-including-multiple-diagnosis-records
+      for (let filtered_data of this.filteredClinicalData) {
+         if(filtered_data.case_submitter_id == event.data.case_submitter_id){
+            if(this.countInArray(this.selectedClinicalData,filtered_data) == 0){
+                this.selectedClinicalData.push(filtered_data);
+            }
+         }
+      }
 			this.currentPageSelectedClinical.push(event.data.case_submitter_id);
 			//@@@PDC-3667: "Select all pages" option issue
 			this.handleCheckboxSelections();
 		}
+
+    //@@PDC-5362-download-clinical-manifest-not-including-multiple-diagnosis-records
+    countInArray(array, what) {
+      var count = 0;
+      for (var i = 0; i < array.length; i++) {
+         if (array[i] === what) {
+            count++;
+         }
+      }
+      console.log(count);
+      return count;
+    }
 
 		//@@@PDC-848 Fix headercheckbox issue for data tables on browse page
 		onRowUnselected(event){
@@ -1159,21 +1206,21 @@ isDownloadDisabled(){
 					    let unfrozen_header_row: any = w.querySelectorAll('.ui-table-unfrozen-view .ui-table-thead');
 					   	if (frozen_header_row[0].clientHeight > unfrozen_header_row[0].clientHeight) {
 							unfrozen_header_row[0].style.height = frozen_header_row[0].clientHeight+"px";
-				  		} 
+				  		}
 						else if (frozen_header_row[0].clientHeight < unfrozen_header_row[0].clientHeight) {
 							frozen_header_row[0].style.height = unfrozen_header_row[0].clientHeight+"px";
-						} 				   
+						}
 					   	for (let i = 0; i < frozen_rows.length; i++) {
 							if (frozen_rows[i].clientHeight > unfrozen_rows[i].clientHeight) {
 								unfrozen_rows[i].style.height = frozen_rows[i].clientHeight+"px";
-							} 
-							else if (frozen_rows[i].clientHeight < unfrozen_rows[i].clientHeight) 
+							}
+							else if (frozen_rows[i].clientHeight < unfrozen_rows[i].clientHeight)
 							{
 								frozen_rows[i].style.height = unfrozen_rows[i].clientHeight+"px";
 							}
 						}
 						let frozen_header_div: any = w.querySelectorAll('.ui-table-unfrozen-view .ui-table-scrollable-header-box');
-						frozen_header_div[0].setAttribute('style', 'margin-right: 0px !important'); 
+						frozen_header_div[0].setAttribute('style', 'margin-right: 0px !important');
 					}
 				}
 			});

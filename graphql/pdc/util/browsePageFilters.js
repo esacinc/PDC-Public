@@ -373,6 +373,8 @@ WHERE
 //@@@PDC-3266 add icd_10_code and synchronous_malignancy
 //@@@PDC-3428 add tumor_largest_dimension_diameter
 //@@@PDC-4391 add new columns
+//@@@PDC-5205 add auxiliary_data and tumor_cell_content
+//@@@PDC-5252 fetch diagnosis-sample association
 const clinical_tab_data = `
 SELECT DISTINCT
     prog.name AS program_name,
@@ -400,7 +402,7 @@ SELECT DISTINCT
 	dem.cause_of_death_source,
 	dem.occupation_duration_years,
 	dem.country_of_residence_at_enrollment,
-    dia.diagnosis_id,
+    BIN_TO_UUID(dia.diagnosis_id) AS diagnosis_id,
     dia.morphology,
     dia.primary_diagnosis,
     dia.site_of_resection_or_biopsy,
@@ -525,6 +527,8 @@ SELECT DISTINCT
 	dia.satellite_nodule_present,
 	dia.sites_of_involvement,
 	dia.tumor_depth,
+	dia.tumor_cell_content,
+	dia.auxiliary_data,
 	dia.who_cns_grade,
 	dia.who_nte_grade,
 	dia.diagnosis_uuid

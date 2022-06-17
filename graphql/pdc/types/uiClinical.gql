@@ -26,6 +26,7 @@ type UIClinical {
 	occupation_duration_years: String
 	country_of_residence_at_enrollment: String	
 	morphology: String
+	diagnosis_id: String
 	primary_diagnosis: String
 	site_of_resection_or_biopsy: String
 	tissue_or_organ_of_origin: String
@@ -149,6 +150,8 @@ type UIClinical {
 	satellite_nodule_present: String
 	sites_of_involvement: String
 	tumor_depth: String
+	tumor_cell_content: String
+	auxiliary_data: String
 	who_cns_grade: String
 	who_nte_grade: String
 	diagnosis_uuid: String
@@ -157,4 +160,5 @@ type UIClinical {
 	follow_ups: [FollowUp]
 	treatments: [Treatment]
 	externalReferences: [EntityReference]
+	samples: [Sample]
 }

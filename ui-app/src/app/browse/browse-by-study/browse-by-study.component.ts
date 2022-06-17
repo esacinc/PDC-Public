@@ -419,11 +419,31 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 				for (var i=0;i<colValues.length;i++) {
 				  if (!study[colValues[i]]) {
 						study[colValues[i]] = '';
-					}
+				  }
 				  //PDC-2617 - Set "N/A" value if embargo date column value is empty	
 				  if (headerCols[i] == "Embargo date" && study[colValues[i]] == '') {
 					  study[colValues[i]] = "N/A";
 				  }
+				   //PDC-5245 init file count to 0 
+				  if (headerCols[i] == "RAW" && study[colValues[i]] == '') {
+					  study[colValues[i]] = "0";
+				  }
+				  if (headerCols[i] == "MZML" && study[colValues[i]] == '') {
+					  study[colValues[i]] = "0";
+				  }
+				  if (headerCols[i] == "METADATA" && study[colValues[i]] == '') {
+					  study[colValues[i]] = "0";
+				  }
+				  if (headerCols[i] == "PSM" && study[colValues[i]] == '') {
+					  study[colValues[i]] = "0";
+				  }
+				  if (headerCols[i] == "Protein Assembly" && study[colValues[i]] == '') {
+					  study[colValues[i]] = "0";
+				  }
+				  if (headerCols[i] == "Quality Metrics" && study[colValues[i]] == '') {
+					  study[colValues[i]] = "0";
+				  }
+
 					  
 				}
 				localSelectedStudies.push(study);

@@ -443,7 +443,8 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
 		{field: 'intermediate_dimension', header: 'Intermediate Dimension'},
 		{field: 'longest_dimension', header: 'Longest Dimension'},
 		{field: 'method_of_sample_procurement', header: 'Method Of Sample Procurement'},
-		{field: 'pathology_report_uuid', header: 'Pathilogy Report UUID'},
+    //@@@PDC-5174: misspelled property pathology_report_uuid
+		{field: 'pathology_report_uuid', header: 'Pathology Report UUID'},
 		{field: 'preservation_method', header: 'Preservation Method'},
 		{field: 'sample_type_id', header: 'Sample Type id'},
     	//@@@PDC-4601: Two New Sample properties cannot be viewed on the Case summary modal window
@@ -659,21 +660,21 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
 				let unfrozen_header_row: any = w.querySelectorAll('.ui-table-unfrozen-view .ui-table-thead');
 			   	if (frozen_header_row[0].clientHeight > unfrozen_header_row[0].clientHeight) {
 					unfrozen_header_row[0].style.height = frozen_header_row[0].clientHeight+"px";
-			  	} 
+			  	}
 				else if (frozen_header_row[0].clientHeight < unfrozen_header_row[0].clientHeight) {
 					frozen_header_row[0].style.height = unfrozen_header_row[0].clientHeight+"px";
-				} 			   
+				}
 			   	for (let i = 0; i < frozen_rows.length; i++) {
 					if (frozen_rows[i].clientHeight > unfrozen_rows[i].clientHeight) {
 						unfrozen_rows[i].style.height = frozen_rows[i].clientHeight+"px";
-					} 
-					else if (frozen_rows[i].clientHeight < unfrozen_rows[i].clientHeight) 
+					}
+					else if (frozen_rows[i].clientHeight < unfrozen_rows[i].clientHeight)
 					{
 						frozen_rows[i].style.height = unfrozen_rows[i].clientHeight+"px";
 					}
 				}
 				let frozen_header_div: any = w.querySelectorAll('.ui-table-unfrozen-view .ui-table-scrollable-header-box');
-				frozen_header_div[0].setAttribute('style', 'margin-right: 0px !important'); 
+				frozen_header_div[0].setAttribute('style', 'margin-right: 0px !important');
 			}
 		}
 	});

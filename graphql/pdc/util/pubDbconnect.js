@@ -36,8 +36,12 @@ if (typeof process.env.PDC_DB_POOL_ACQUIRE != "undefined") {
 }
 
 
-const getSequelize = () => { return sequelize; }; 
-pubDb.getSequelize = getSequelize;
+const getSequelize = () => {
+	//@@@PDC-5063 log db connect failure
+	if (sequelize == null)
+		logger.error("Unable to connect to database!");
+		return sequelize; 
+	};pubDb.getSequelize = getSequelize;
 
 const getModelByName = (modelName) => {
   return pubDb[modelName];

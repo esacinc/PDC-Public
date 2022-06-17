@@ -26,8 +26,8 @@ import { StudySummaryComponent } from '../study-summary/study-summary.component'
 //@@@PDC-374 - adding url to overlay windows
 //@@@PDC-1042: Enable links to studies and files from case summary page
 //@@@PDC-1355: Use uuid as API search parameter
-//@@@PDC-1609: URL structure for permanent links to PDC 
-//@@@PDC-2605: Show properties on Demography tab in Case Summary 
+//@@@PDC-1609: URL structure for permanent links to PDC
+//@@@PDC-2605: Show properties on Demography tab in Case Summary
 //@@@PDC-3095 - remove external_case_id field from uiCaseSummary API
 //@@@PDC-3478 open files data table in overlay window from study and case summaries
 export class CaseSummaryComponent implements OnInit {
@@ -45,7 +45,7 @@ export class CaseSummaryComponent implements OnInit {
   demographics: DemographicsData[];
   exposures: Exposures[];
   followups: FollowUps[];
-  fileTypesCounts: any; 
+  fileTypesCounts: any;
   totalFilesCount: number = 0;
   loading: boolean = false;
 	showMore: boolean = false;
@@ -69,7 +69,7 @@ export class CaseSummaryComponent implements OnInit {
 				private dialogRef: MatDialogRef<CaseSummaryComponent>,
 				@Inject(MAT_DIALOG_DATA) public caseData: any,
 				private dialog: MatDialog) {
-    
+
 	console.log(caseData);
 	this.case_submitter_id = caseData.summaryData.case_submitter_id;
 	this.case_id = caseData.summaryData.case_id;
@@ -83,7 +83,7 @@ export class CaseSummaryComponent implements OnInit {
 	}
 	//console.log(this.caseSummaryData);
 	this.loc.replaceState("/case/" + this.caseSummaryData.case_id);
-	this.fileTypesCounts = {RAW: 0, 'PSM-TSV': 0, 'PSM-MZID': 0, PROT_ASSEM: 0, MZML: 0, PROTOCOL: 0}; 
+	this.fileTypesCounts = {RAW: 0, 'PSM-TSV': 0, 'PSM-MZID': 0, PROT_ASSEM: 0, MZML: 0, PROTOCOL: 0};
 	this.aliquots = [];
 	this.diagnoses = [];
 	this.samples = [];
@@ -114,7 +114,7 @@ export class CaseSummaryComponent implements OnInit {
 		this.loading = false;
 	});
 	}
-	
+
 	//@@@PDC-1042: Enable links to studies and files from case summary page
 	//Opens an overlay window for Study Summary page
 	showStudySummary(studyName: string){
@@ -135,18 +135,18 @@ export class CaseSummaryComponent implements OnInit {
 				//create an alias for study summary overlay window URL in the form [base url]/study/study uuid
 				this.loc.replaceState("/study/" + this.filteredStudiesData[0].study_id);
 				this.router.navigate([{outlets: {studySummary: ['study-summary', studyName]}}], { skipLocationChange: true });
-				const dialogRef = this.dialog.open(StudySummaryComponent, dialogConfig);	
+				const dialogRef = this.dialog.open(StudySummaryComponent, dialogConfig);
 				dialogRef.afterClosed().subscribe((val:any) => {
 					console.log("Dialog output:", val);
 					//Generate alias URL to hide auxiliary URL details when the previous overlay window was closed and the focus returned to this one
 					this.loc.replaceState("/case/" + this.caseSummaryData.case_id);
 				});
-			});	
+			});
 		}, 1000);
 	}
-	
+
 	showFilesOverlay(submitter_id_name, data_category_val, file_type_val, acquisition_type_val, experiment_type_val) {
-		const dialogConfig = new MatDialogConfig();	
+		const dialogConfig = new MatDialogConfig();
 		dialogConfig.disableClose = true;
 		dialogConfig.autoFocus = false;
 		dialogConfig.hasBackdrop = true;
@@ -162,7 +162,7 @@ export class CaseSummaryComponent implements OnInit {
 				console.log("Dialog output:", val);
 				//Generate alias URL to hide auxiliary URL details when the previous overlay window was closed and the focus returned to this one
 				this.loc.replaceState("/case/" + this.caseSummaryData.case_id);
-		});	
+		});
 	}
 
 	//@@@PDC-1042: Enable links to studies and files from case summary page
@@ -174,7 +174,7 @@ export class CaseSummaryComponent implements OnInit {
 			studyName = studies[0].submitter_id_name;
 		}
 			var tempStudy = Object.assign({}, studies[0]);
-		
+
 			for (let idx = 1; idx < studies.length; idx++ ){
 			if (studies[idx].submitter_id_name === studyName) {
 				tempStudy.disease_type = tempStudy.disease_type + ', '+ studies[idx].disease_type;
@@ -184,13 +184,13 @@ export class CaseSummaryComponent implements OnInit {
 			else {
 				mergedStudies.push(tempStudy);
 				studyName = studies[idx].submitter_id_name;
-				tempStudy = Object.assign({}, studies[idx]);;			
+				tempStudy = Object.assign({}, studies[idx]);;
 			}
 			}
 			mergedStudies.push(tempStudy);
-			return mergedStudies;			
+			return mergedStudies;
 		}
-  
+
   getExperimentFileCount(){
 	this.loading = true;
 	this.caseSummaryService.getExprimentFileByCaseCountData(this.case_id, this.source).subscribe((data: any) =>{
@@ -198,8 +198,8 @@ export class CaseSummaryComponent implements OnInit {
 		this.loading = false;
 	});
   }
-  
-  
+
+
   getDataCategoryFilesCounts(){
 	this.loading = true;
 	this.caseSummaryService.getDataCategoryFileByCaseCountData(this.case_id, this.source).subscribe((data: any) =>{
@@ -208,7 +208,7 @@ export class CaseSummaryComponent implements OnInit {
 		this.loading = false;
 	});
   }
-  
+
   mergeDataCategoryFiles(dataCategoryFileCount: any[]){
 	let dataCategoryMap = new Map();
 	for(let dataCategory of dataCategoryFileCount){
@@ -228,7 +228,7 @@ export class CaseSummaryComponent implements OnInit {
 	}
 	return Array.from(dataCategoryMap.values());
   }
-  
+
   getCaseSummaryData(){
 	this.loading = true;
 	//@@@PDC-4283: Data discrepancy for "Year of Death"
@@ -251,9 +251,10 @@ export class CaseSummaryComponent implements OnInit {
 			}
 			//@@@PDC-4490: Update Clinical manifest and Case summary pages for GDC Sync
 			this.diagnoses = this.removeNullValues(data.uiCaseSummary[0].diagnoses);
-			if (this.diagnoses && this.diagnoses.length > 0) this.generateLoopsforAdditionalData(this.diagnoses[0], "diagnosis");
+			//@@@PDC-5248: Display all diagnosis case summary
+			if (this.diagnoses && this.diagnoses.length > 0) this.generateLoopsforAdditionalData(this.diagnoses, "diagnosis");
 			this.demographics = this.removeNullValues(data.uiCaseSummary[0].demographics);
-			if (this.demographics && this.demographics.length > 0) this.generateLoopsforAdditionalData(this.demographics[0], "demographics");				
+			if (this.demographics && this.demographics.length > 0) this.generateLoopsforAdditionalData(this.demographics[0], "demographics");
 			this.exposures = this.removeNullValues(data.uiCaseSummary[0].exposures);
 			if (this.exposures && this.exposures.length > 0) this.generateLoopsforAdditionalData(this.exposures[0], "exposure");
 			this.followups = this.removeNullValues(data.uiCaseSummary[0].follow_ups);
@@ -266,8 +267,8 @@ export class CaseSummaryComponent implements OnInit {
   //@@@PDC-4490: Update Clinical manifest and Case summary pages for GDC Sync
   generateLoopsforAdditionalData(dataSet, entity){
 	if (entity == "exposure") {
-		//if (dataSet && dataSet['exposure_id']) delete dataSet['exposure_id']; 
-		//if (dataSet && dataSet['exposure_submitter_id']) delete dataSet['exposure_submitter_id']; 
+		//if (dataSet && dataSet['exposure_id']) delete dataSet['exposure_id'];
+		//if (dataSet && dataSet['exposure_submitter_id']) delete dataSet['exposure_submitter_id'];
 		this.showLessExposureEvenProps = this.populateAdditionalDatasets(dataSet, 1, true);
 		this.showLessExposureOddProps = this.populateAdditionalDatasets(dataSet, 2, true);
 		this.showLessExposureEvenPropVals = this.populateAdditionalDatasets(dataSet, 3, true);
@@ -277,8 +278,8 @@ export class CaseSummaryComponent implements OnInit {
 		this.showMoreExposureEvenPropVals = this.populateAdditionalDatasets(dataSet, 3, false);
 		this.showMoreExposureOddPropVals = this.populateAdditionalDatasets(dataSet, 4, false);
 	} else if (entity == "followup") {
-		//if (dataSet && dataSet['follow_up_id']) delete dataSet['follow_up_id']; 
-		//if (dataSet && dataSet['follow_up_submitter_id']) delete dataSet['follow_up_submitter_id']; 
+		//if (dataSet && dataSet['follow_up_id']) delete dataSet['follow_up_id'];
+		//if (dataSet && dataSet['follow_up_submitter_id']) delete dataSet['follow_up_submitter_id'];
 		this.showLessFollowUpEvenProps = this.populateAdditionalDatasets(dataSet, 1, true);
 		this.showLessFollowUpOddProps = this.populateAdditionalDatasets(dataSet, 2, true);
 		this.showLessFollowUpEvenPropVals = this.populateAdditionalDatasets(dataSet, 3, true);
@@ -286,16 +287,31 @@ export class CaseSummaryComponent implements OnInit {
 		this.showMoreFollowUpEvenProps = this.populateAdditionalDatasets(dataSet, 1, false);
 		this.showMoreFollowUpOddProps = this.populateAdditionalDatasets(dataSet, 2, false);
 		this.showMoreFollowUpEvenPropVals = this.populateAdditionalDatasets(dataSet, 3, false);
-		this.showMoreFollowUpOddPropVals = this.populateAdditionalDatasets(dataSet, 4, false);		
+		this.showMoreFollowUpOddPropVals = this.populateAdditionalDatasets(dataSet, 4, false);
 	} else if (entity == "diagnosis") {
-		this.showLessDiagnosisEvenProps = this.populateAdditionalDatasets(dataSet, 1, true);
-		this.showLessDiagnosisOddProps = this.populateAdditionalDatasets(dataSet, 2, true);
-		this.showLessDiagnosisEvenPropVals = this.populateAdditionalDatasets(dataSet, 3, true);
-		this.showLessDiagnosisOddPropVals = this.populateAdditionalDatasets(dataSet, 4, true);
-		this.showMoreDiagnosisEvenProps = this.populateAdditionalDatasets(dataSet, 1, false);
-		this.showMoreDiagnosisOddProps = this.populateAdditionalDatasets(dataSet, 2, false);
-		this.showMoreDiagnosisEvenPropVals = this.populateAdditionalDatasets(dataSet, 3, false);
-		this.showMoreDiagnosisOddPropVals = this.populateAdditionalDatasets(dataSet, 4, false);		
+		//@@@PDC-5251: Display the associated sample information for Diagnoses on the the Case Summary page
+		//Delete the property 'samples' if not present, else display the associated sample submitter ids
+		for (let dataeEle of dataSet){
+			if (dataeEle['samples'] && dataeEle['samples'].length == 0) {
+				delete dataeEle['samples'];
+			} else {
+				let associatedSamples = dataeEle['samples'];
+				let associatedsampleIds = associatedSamples.map(x => x.sample_submitter_id).join(", ");
+				dataeEle['samples'] = associatedsampleIds;
+			}
+		}
+		//@@@PDC-5248-display-all-diagnosis case summary
+		for (let data of dataSet){
+			let index = dataSet.indexOf(data);
+			this.showLessDiagnosisEvenProps[index] = this.populateAdditionalDatasets(data, 1, true);
+			this.showLessDiagnosisOddProps[index] = this.populateAdditionalDatasets(data, 2, true);
+			this.showLessDiagnosisEvenPropVals[index] = this.populateAdditionalDatasets(data, 3, true);
+			this.showLessDiagnosisOddPropVals[index] = this.populateAdditionalDatasets(data, 4, true);
+			this.showMoreDiagnosisEvenProps[index] = this.populateAdditionalDatasets(data, 1, false);
+			this.showMoreDiagnosisOddProps[index] = this.populateAdditionalDatasets(data, 2, false);
+			this.showMoreDiagnosisEvenPropVals[index] = this.populateAdditionalDatasets(data, 3, false);
+			this.showMoreDiagnosisOddPropVals[index] = this.populateAdditionalDatasets(data, 4, false);
+		}
 	} else if (entity == "demographics") {
 		this.showLessDemographicsEvenProps = this.populateAdditionalDatasets(dataSet, 1, true);
 		this.showLessDemographicsOddProps = this.populateAdditionalDatasets(dataSet, 2, true);
@@ -304,13 +320,13 @@ export class CaseSummaryComponent implements OnInit {
 		this.showMoreDemographicsEvenProps = this.populateAdditionalDatasets(dataSet, 1, false);
 		this.showMoreDemographicsOddProps = this.populateAdditionalDatasets(dataSet, 2, false);
 		this.showMoreDemographicsEvenPropVals = this.populateAdditionalDatasets(dataSet, 3, false);
-		this.showMoreDemographicsOddPropVals = this.populateAdditionalDatasets(dataSet, 4, false);		
+		this.showMoreDemographicsOddPropVals = this.populateAdditionalDatasets(dataSet, 4, false);
 	}
   }
 
   //@@@PDC-4490: Update Clinical manifest and Case summary pages for GDC Sync
   populateAdditionalDatasets(data, option, showLess) {
-	  if (data && data['__typename']) delete data['__typename']; 
+	  if (data && data['__typename']) delete data['__typename'];
 	  let count = 0;
 	  var dataSet = [];
 	  var that = this;
@@ -320,21 +336,21 @@ export class CaseSummaryComponent implements OnInit {
 			if (option == 1 && count %2 === 0) {
 				let convertedProperty = that.convertUnderscoreCaseToTitleCase(property);
 				return convertedProperty;
-			} 
+			}
 			if (option == 2 && count % 2 !== 0) {
 				let convertedProperty = that.convertUnderscoreCaseToTitleCase(property);
 				return convertedProperty;
 			}
 			if (option == 3 && count % 2 === 0) {
 				return data[property];
-			} 
+			}
 			if (option == 4 && count % 2 !== 0) {
 				return data[property];
 			}
 		}
 	  });
 	  dataSet = dataSet.filter(function( element ) {
-			return element !== undefined;
+		return element !== undefined;
 	  });
 	  return dataSet;
   }
@@ -363,7 +379,7 @@ export class CaseSummaryComponent implements OnInit {
 	}
 	return caseDetailedSummaryData;
 }
-  
+
   //@@@PDC-336
   //Replace null value of a field with default "not reported" value
   removeNullValues(parameter_list:any){
@@ -383,7 +399,7 @@ export class CaseSummaryComponent implements OnInit {
 	  }
 	  return result_list;
   }
-  
+
   //@@@PDC-336
   //Setting style for fields with "not reported" value
   styleNotReported(value: string){
@@ -394,46 +410,63 @@ export class CaseSummaryComponent implements OnInit {
 		  return{};
 	  }
   }
-  
-  showMoreClicked(){
-	this.showMore = true;  
+
+	//@@PDC-5248: display all diagnosis case summary - function for toggle
+	showMoreOrLess(value){
+		const dRef = document.getElementById(value+"_enum");
+		const dRef_show = document.getElementById(value+"_enum_show");
+		let target = event.currentTarget as HTMLElement;
+
+		if (dRef_show.style.display == 'block') {
+					dRef_show.setAttribute("style", "display:none;");
+					dRef.setAttribute("style", "display:block;");
+					target.innerHTML = 'Show more';
+				} else {
+					dRef_show.setAttribute("style", "display:block;");
+					dRef.setAttribute("style", "display:none;");
+					target.innerHTML = 'Show less';
+				}
   }
-  
-  showLessClicked(){ 
-	this.showMore = false;    
+
+  showMoreClicked(){
+	this.showMore = true;
+  }
+
+  showLessClicked(){
+	this.showMore = false;
   }
 
   //@@@PDC-4490: Update Clinical manifest and Case summary pages for GDC Sync
   showMoreDemographicsClicked(){
-	this.showMoreDemographics = true;  
+	this.showMoreDemographics = true;
   }
-  
-  showLessDemographicsClicked(){ 
-	this.showMoreDemographics = false;    
+
+  showLessDemographicsClicked(){
+	this.showMoreDemographics = false;
   }
 
   showMoreExposureClicked(){
-	this.showMoreExposure = true;  
+	this.showMoreExposure = true;
   }
-  
-  showLessExposureClicked(){ 
-	this.showMoreExposure = false;    
+
+  showLessExposureClicked(){
+	this.showMoreExposure = false;
   }
-  
+
   showMoreFollowUpClicked(){
-	this.showMoreFollowUp = true;  
+	this.showMoreFollowUp = true;
   }
-  
-  showLessFollowUpClicked(){ 
-	this.showMoreFollowUp = false;    
+
+  showLessFollowUpClicked(){
+	this.showMoreFollowUp = false;
   }
- 
+
   close() {
 		this.router.navigate([{outlets: {'caseSummary': null, 'filesOverlay': null}}]);
 		this.loc.replaceState(this.router.url);
         this.dialogRef.close();
   }
-	
+
   ngOnInit() {
   }
 

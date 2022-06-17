@@ -474,6 +474,23 @@ sortDataCategoriesInOrder() {
 	});
 }
 
+//@@@PDC-5206: Present Diagnosis to Sample relationship on PDC Browser
+populateAssociatedSampleInfo(filteredClinicalData) {	
+	if (filteredClinicalData.length > 0) {
+		for (var i in filteredClinicalData) {
+			if (filteredClinicalData[i].samples && typeof(filteredClinicalData[i].samples) != 'string' && filteredClinicalData[i].samples.length > 0) {
+				let associatedSamples = filteredClinicalData[i]['samples'];
+				let arr = [];  
+				for(let key in associatedSamples){  
+					arr.push(associatedSamples[key]['sample_submitter_id']);
+				}
+				let associatedsampleIds = arr.join(", ");
+				filteredClinicalData[i]['samples'] = associatedsampleIds;
+			}
+		}
+	}
+}
+
 //@@@PDC-1160: Add cases and aliquots to the study summary page
 /*API call to get all clinical data */
 getAllClinicalData(){
@@ -485,6 +502,7 @@ getAllClinicalData(){
 		setTimeout(() => {
 			this.studySummaryService.getFilteredClinicalDataPaginated(this.offset, this.totalRecordsClinical, this.sort, this.newFilterSelected, this.source).subscribe((data: any) =>{
 				this.filteredClinicalData = data.getPaginatedUIClinical.uiClinical;
+				this.populateAssociatedSampleInfo(this.filteredClinicalData);
 				this.totalRecordsClinical = data.getPaginatedUIClinical.total;
 				this.loading = false;
 				//this.makeRowsSameHeight();

@@ -791,6 +791,10 @@ constructor(private apollo: Apollo) {
 					undescended_testis_history_laterality
 					viral_hepatitis_serologies
 					weight
+				}
+				samples {
+					sample_id
+					sample_submitter_id
 				}		
 			}
 			pagination {

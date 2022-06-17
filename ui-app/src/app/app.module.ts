@@ -74,6 +74,7 @@ import { PrivacyPolicyOverlayWindowComponent } from './overlay-window/privacy-po
 import { DUAForOtherProgramsOverlayWindow } from './browse/study-summary/study-summary-overlay-window/dua-other-programs/dua-other-programs-overlay-window.component';
 import { UserAccountComponent } from './user-account/user-account.component';
 import { FaqComponent } from './navbar/faq/faq.component';
+import { DataDownloadDocComponent } from './navbar/data-download-documentation/data-download-documentation.component';
 import { RegistrationComponent } from './navbar/registration/registration.component';
 import { ResetPasswordComponent } from './navbar/reset-password/reset-password.component';
 import { SubmitDataFAQComponent } from './navbar/submit-data/submit-data.component';
@@ -148,7 +149,8 @@ const RECAPTCHA_V3_PDC_KEY = environment.recaptcha_site_key;
 	ForwardingComponent,
 	HarmonizationComponent,
 	ApiDocumentationComponent,
-	PublicapiDocumentationComponent
+	PublicapiDocumentationComponent,
+	DataDownloadDocComponent
 
 
   ],

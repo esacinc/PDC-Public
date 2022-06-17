@@ -161,6 +161,7 @@ const defineUiModels = (db) => {
 	//@@@PDC-3266 add icd_10_code and synchronous_malignancy
     //@@@PDC-3428 add tumor_largest_dimension_diameter
 	//@@@PDC-4391 add new columns
+	//@@@PDC-5205 add auxiliary_data and tumor_cell_content
 	/**
 	* ModelUIClinical is used in uiClinical query.
 	*/
@@ -323,6 +324,8 @@ const defineUiModels = (db) => {
 		sites_of_involvement: { type: Sequelize.STRING },
 		tumor_depth: { type: Sequelize.STRING },
 		who_cns_grade: { type: Sequelize.STRING },
+		tumor_cell_content: { type: Sequelize.STRING },
+		auxiliary_data: { type: Sequelize.STRING },
 		who_nte_grade: { type: Sequelize.STRING },
 		diagnosis_uuid: { type: Sequelize.STRING },
 	}, {

@@ -645,6 +645,7 @@ const defineCustomModels = (db) => {
 	  //@@@PDC-1156 add is_ref
 	  //@@@PDC-1316 remove itraq_120
 	  //@@@PDC-3847 get aliquot info per label
+	  //@@@PDC-5290 add experiment types of TMT16 and TMT18
 	  const ModelStudyExperimentalDesign = db.getSequelize().define('dummy', {
 		  study_run_metadata_id: { type: Sequelize.STRING,
 					  primaryKey: true },
@@ -679,6 +680,13 @@ const defineCustomModels = (db) => {
 		  tmt_130c_asi:  { type: Sequelize.STRING},
 		  tmt_131_asi:  { type: Sequelize.STRING},
 		  tmt_131c_asi:  { type: Sequelize.STRING},
+		  tmt_132n_asi:  { type: Sequelize.STRING},
+		  tmt_132c_asi:  { type: Sequelize.STRING},
+		  tmt_133n_asi:  { type: Sequelize.STRING},
+		  tmt_133c_asi:  { type: Sequelize.STRING},
+		  tmt_134n_asi:  { type: Sequelize.STRING},
+		  tmt_134c_asi:  { type: Sequelize.STRING},
+		  tmt_135n_asi:  { type: Sequelize.STRING},
 	  }, {
 		  timestamps: false,
 		  underscored: true,

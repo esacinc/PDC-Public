@@ -46,4 +46,5 @@ type UICase {
 	primary_site: String
     consent_type: String
     days_to_consent: String
+	diagnoses: [Diagnosis]
 }

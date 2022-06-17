@@ -51,7 +51,7 @@
             <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Cite_PDC, 'Cite_PDC')">How do I cite the PDC?</a></b>
             <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Policies_PDC, 'Policies_PDC')">What are the data use and licensing policies of the PDC?</a></b>
             <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(IP, 'IP')">What is the Intellectual Property policy of the PDC?</a></b>
-            <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(CPTAC_Data, 'CPTAC_Data')">What is the CPTAC Data use agreement?</a></b>
+            <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(CPTAC_Data, 'CPTAC_Data')">What is the CPTAC Data Use Agreement?</a></b>
             <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Embargo_Date, 'Embargo_Date')">What is an embargo date in PDC?</a></b>
           </ul>
         <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Data_Analysis, 'Data_Analysis')">Data Analysis</a></b>
@@ -78,12 +78,13 @@
       <p class="faq-response">You can send us your feedback or comments on any issues you experience at <a href="mailto:PDCHelpDesk@mail.nih.gov?Subject=PDC Help" target="_top">PDCHelpDesk@mail.nih.gov</a>.</p>
 
       <div #Difference_PDC_CPTAC id="Difference_PDC_CPTAC" class="faq-question">What is the difference between PDC and CPTAC Data Portal?</div>
-      <p class="faq-response">The <a href="https://proteomics.cancer.gov/data-portal" target="_blank">CPTAC Data Portal</a> is a centralized repository for the public dissemination of proteomic sequence datasets collected by Clinical Proteomic Tumor Analysis Consortium (CPTAC) consortium.
+      <p class="faq-response">
+        The CPTAC Data Portal was a centralized repository for the public dissemination of proteomic sequence datasets collected by Clinical Proteomic Tumor Analysis Consortium (CPTAC) consortium. As of February, 2022 the CPTAC Data Portal is retired and all of the data is now available through PDC.
         <br><br>
         The PDC is a public data repository of mass spectrometry (MS) based proteomics data, and is maintained by the National Cancer Institute. PDC will host datasets from large consortiums such as the <a href="https://proteomics.cancer.gov/programs/cptac" target="_blank">Clinical Proteomic Tumor Analysis Consortium (CPTAC)</a>, <a href="https://proteomics.cancer.gov/programs/international-cancer-proteogenome-consortium" target="_blank">International Cancer Proteogenome Consortium (ICPC)</a> and <a href="https://proteomics.cancer.gov/programs/apollo-network" target="_blank">Applied Proteogenomics OrganizationaL Learning and Outcomes (APOLLO)</a> and also from independent research programs and grants.
         <br><br>
-        The PDC Data Portal also provides a platform for efficiently querying, visualizing, analyzing and downloading high quality, curated and harmonized proteomic datasets. Most of the cancer cohort datasets from CPTAC data portal are already available on PDC.  In the near future the CPTAC data portal will retire and all of the data will be made available through PDC.
-        <br><br>
+        The PDC Data Portal also provides a platform for efficiently querying, visualizing, analyzing and downloading high quality, curated and harmonized proteomic datasets.
+        <br>
         PDC represents a state of the art repository technology and facilitates multi-omics integration through interoperability with other components, such as Genomic Data Commons and Cloud Resources, in the <a href="https://datacommons.cancer.gov/" target="_blank">NCI Cancer Research Data Commons (CRDC)</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">External Link</span></a> ecosystem.
       </p>
 
@@ -212,6 +213,7 @@
 
       <div #Download_Data id="Download_Data" class="faq-question">How do I download data? </div>
       <p class="faq-response">Once you identify the files of your interest, move to ‘FIles’ tab on the 'Explore' page. Click on the download button to download individual files. Also see ‘How do I download multiple files at once?’.</p>
+      <p class="faq-response">The PDC Data Download Client, a command-line tool, provides an alternative method of downloading data from PDC and enables resumption of interrupted transfers. Click <a href="/pdc/data-download-documentation" target="_blank">here</a> for documentation of PDC Data Download Client.</p>
 
       <div #Multiple_Files class="faq-question" id="Multiple_Files">How do I download multiple files at once?</div>
       <p class="faq-response">Once you identify the files of your interest, move to 'Files' tab and select one or all files and then click <strong><i>'Export File Manifest'</i></strong>.
@@ -346,8 +348,8 @@
       <div #IP id="IP" class="faq-question">What is the Intellectual Property policy of the PDC?</div>
       <p class="faq-response">Users of PDC shall acknowledge that they are encouraged not to acquire ownership interest in PDC data, nor any immediate or future intellectual property rights in any research conducted using the PDC data. NIH considers these data as pre-competitive and urges Users to avoid making IP claims derived directly from the proteomic dataset(s). It is expected that these NIH-provided data, and conclusions derived therefore, will remain freely available, without requirement for licensing. However, the NIH also recognizes the importance of the subsequent development of IP on downstream discoveries, especially in therapeutics, which will be necessary to support full investment in products that the public needs. For further information about the PDC Intellectual Property policy, please contact us at <a href="mailto:PDCHelpDesk@mail.nih.gov?Subject=PDC Help" target="_blank">PDCHelpDesk@mail.nih.gov</a>.</p>
 
-      <div #CPTAC_Data id="CPTAC_Data" class="faq-question">What is the CPTAC Data use agreement?</div>
-      <p class="faq-response">The datasets from Clinical Proteomic Tumor analysis Consortium (CPTAC) are governed by a separate data use agreement. The agreement is displayed when the user clicks on a study link and also can be accessed directly from the <a href="https://proteomics.cancer.gov/data-portal/about/data-use-agreement" target="_blank">CPTAC consortium website</a>.</p>
+      <div #CPTAC_Data id="CPTAC_Data" class="faq-question">What is the CPTAC Data Use Agreement?</div>
+      <p class="faq-response">The datasets from Clinical Proteomic Tumor analysis Consortium (CPTAC) are governed by a separate data use agreement. The agreement is displayed when the user clicks on a study link and also can be accessed directly from the <a href="https://proteomics.cancer.gov/data-portal/data-use-agreement" target="_blank">CPTAC consortium website</a>.</p>
 
       <div #Embargo_Date id="Embargo_Date" class="faq-question">What is an embargo date in PDC?</div>
       <p class="faq-response">PDC imposes an embargo on certain datasets. In PDC, an <strong>embargo</strong> is the release of data on the PDC portal with the condition that users who access these datasets from the PDC portal cannot publish or disseminate before a certain <strong>date</strong> as per the data use agreement. The embargo date or alerts are  displayed at various places on the PDC portal to inform the users.</p>

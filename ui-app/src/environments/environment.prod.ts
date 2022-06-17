@@ -31,6 +31,6 @@ export const environment = {
   pepquery_url: 'http://pepquery2.pepquery.org/',
   // workspace_url:'/workspace/pages/v2/index.html',
   // workspace_url:'/workspace/pages/dashboard.html#/projects/all',
-  google_oauth_client_id: '941937191385-d0qkgts2fv0r1rbmcectbonk1d0nh44b.apps.googleusercontent.com',
+  google_oauth_client_id: '212255068929-mj6ci0pt0271h8n1a2hs7kmbfc8tqjmm.apps.googleusercontent.com',
   recaptcha_site_key: '6LdL5KwdAAAAAIlkQvlJXtCHI1qZnCBLJFj9cQaA'
 };

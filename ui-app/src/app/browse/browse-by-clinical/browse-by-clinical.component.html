@@ -161,7 +161,13 @@
 		</ng-template>
         <ng-template pTemplate="body" let-clinicalData let-columns="columns">
             <tr style="font-size: 11px;" [pSelectableRow]="clinicalData" >
-                <td style="word-wrap: break-word; white-space: normal;"><a href="javascript:void(0);" (click)="showCaseSummary(clinicalData.case_id)">{{clinicalData.case_submitter_id }}</a>&nbsp;&nbsp;<span style='color:red' *ngIf="clinicalData.status == 'Disqualified'">{{clinicalData.status}}</span></td>
+                <td style="word-wrap: break-word; white-space: normal;"><a href="javascript:void(0);" (click)="showCaseSummary(clinicalData.case_id)">{{clinicalData.case_submitter_id }}</a>
+					<span *ngIf="clinicalData.samples && clinicalData.samples != ''"><br>
+						<span *ngIf="clinicalData.samples.includes(',')"><i class="fa fa-info-circle" aria-hidden="true" title="The samples {{clinicalData.samples}} are associated with this clinical record"></i>&nbsp;{{clinicalData.samples}}</span>
+						<span *ngIf="!clinicalData.samples.includes(',')"><i class="fa fa-info-circle" aria-hidden="true" title="The sample {{clinicalData.samples}} is associated with this clinical record"></i>&nbsp;{{clinicalData.samples}}</span>
+					</span>
+					<span style='color:red' *ngIf="clinicalData.status == 'Disqualified'"><br>{{clinicalData.status}}</span>
+				</td>
 				<td style="word-wrap: break-word; white-space: normal;text-align: center">
 				<!-- @@@PDC-1987: Update clinical tab to use new external reference API -->
 					<div *ngFor="let externalRef of clinicalData.externalReferences">

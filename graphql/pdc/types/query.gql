@@ -6,7 +6,7 @@ type Query {
   allExperimentTypes(experiment_type: String, tissue_or_organ_of_origin: String, disease_type: String, acceptDUA: Boolean): [Experiment]	
   allPrograms(acceptDUA: Boolean): [Program]	
   biospecimenPerStudy(study_id: String, pdc_study_id: String, study_submitter_id: String, source: String, acceptDUA: Boolean): [Biospecimen]	
-  case(case_submitter_id: String, case_id: String, source: String, acceptDUA: Boolean): [Case]	
+  case(case_submitter_id: String, case_id: String, study_id: String, pdc_study_id: String, source: String, acceptDUA: Boolean): [Case]	
   casePerFile(file_id: String!, acceptDUA: Boolean): [CasePerFile] 	
   caseSearch(name: String! offset: Int, limit: Int): Paginated	
   clinicalMetadata(study_id: String, study_submitter_id: String,  pdc_study_id: String, acceptDUA: Boolean): [ClinicalMetadata]	
@@ -76,7 +76,7 @@ type Query {
   uiBiospecimenPerStudy(study_id: String, pdc_study_id: String, study_submitter_id: String, source: String, acceptDUA: Boolean): [Biospecimen]	
   uiCase(program_name: String, project_name: String, study_name: String, disease_type: String, primary_site: String, analytical_fraction: String, experiment_type: String, case_submitter_id: String, case_id: String, source: String): [UICase]	
   uiCasePerFile(file_id: String!, acceptDUA: Boolean): [CasePerFile] 	
-  uiCaseSummary(case_submitter_id: String, case_id: String, source: String, acceptDUA: Boolean): [Case]	
+  uiCaseSummary(case_submitter_id: String, case_id: String, study_id: String, pdc_study_id: String, source: String, acceptDUA: Boolean): [Case]	
   uiDataCategoryFileCount(case_submitter_id: String, case_id: String, source: String): [UIFileCount]	
   uiDataCategoryFileTypeMapping: [File]	
   uiDataVersionSoftwareVersion: [UIDataVersionSoftwareVersion]	

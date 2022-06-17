@@ -1,0 +1,39 @@
+.data-doc-page .card-header {
+    font-family: 'Lato';
+    font-weight: 500;
+    font-size: 16px;
+    padding-top: 0px;
+    background-color: #FFFFFF;
+    border-bottom: solid 0px;
+    color: #585858;
+  }
+
+  .data-doc-page .mat-card-content{
+    font-family: 'Lato'; 
+    font-size: 16px;
+  }
+
+  .data-doc-page .data-download {
+    display: block;
+    overflow-x: auto;
+    padding: 0.5em;
+    color: #333;
+    -webkit-text-size-adjust: none;
+    background-color: #ededed;
+    width: 40%;
+    font-weight: bold;
+  }
+
+  .data-doc-page table, th, td {
+    border: 1px solid;
+    padding: 15px;
+  }
+
+  .data-doc-page table th {
+    background-color: #ededed;
+    font-weight: bold;
+  }
+
+  .data-doc-page h4 {
+      color: #bb0e3d
+  }

@@ -190,6 +190,7 @@ export const resolvers = {
 		//@@@PDC-2417 Remove unused fields from Diagnosis
 		//@@@PDC-3266 add icd_10_code and synchronous_malignancy
 		//@@@PDC-3428 add tumor_largest_dimension_diameter
+		//@@@PDC-5205 add auxiliary_data and tumor_cell_content
 		async diagnoses(obj, args, context) {
 			var cacheFilterName = {name:''};
 			cacheFilterName.name +="case_id:("+ obj.case_id + ");";
@@ -322,6 +323,8 @@ export const resolvers = {
 						'satellite_nodule_present',
 						'sites_of_involvement',
 						'tumor_depth',
+						'auxiliary_data',
+						'tumor_cell_content',
 						'who_cns_grade',
 						'who_nte_grade',
 						'diagnosis_uuid'					
@@ -337,37 +340,109 @@ export const resolvers = {
 				return JSON.parse(res);
 			}
 		},
-		async samples(obj, args, context) {
-			var cacheFilterName = { name: '' };
-			cacheFilterName.name += "case_id:(" + obj.case_id + ");";
-			const res = await RedisCacheClient.redisCacheGetAsync(CacheName.getSummaryPageCaseSummary('CaseSample') + cacheFilterName['name']);
-			if (res === null) {
+		samples(obj, args, context) {
+			//var cacheFilterName = { name: '' };
+			//cacheFilterName.name += "case_id:(" + obj.case_id + ");";
+			//const res = await RedisCacheClient.redisCacheGetAsync(CacheName.getSummaryPageCaseSummary('CaseSample') + cacheFilterName['name']);
+			//if (res === null) {
 				//@@@PDC-2755 add pool, status, sample_is_ref attribute
 				//@@@4486 add new columns for sample
 				//@@@PDC-4569 remove is_ffpe and oct_embedded
-				var result = await db.getModelByName('Sample').findAll({
+				/*var result = await db.getModelByName('Sample').findAll({
 					attributes: [['bin_to_uuid(sample_id)', 'sample_id'], 'sample_submitter_id', 'sample_type', 'sample_type_id', 'gdc_sample_id', 'gdc_project_id', 'biospecimen_anatomic_site', 'composition', 'current_weight', 'days_to_collection', 'days_to_sample_procurement', 'status', 'pool', 'sample_is_ref', 'diagnosis_pathologically_confirmed', 'freezing_method', 'initial_weight', 'intermediate_dimension', 'longest_dimension', 'method_of_sample_procurement', 'pathology_report_uuid', 'preservation_method', 'shortest_dimension', 'time_between_clamping_and_freezing', 'time_between_excision_and_freezing', 'tissue_type', 'tumor_code', 'tumor_code_id', 'tumor_descriptor', 'biospecimen_laterality', 'catalog_reference', 'distance_normal_to_tumor', 'distributor_reference', 'growth_rate', 'passage_count', 'sample_ordinal', 'tissue_collection_type'],
 					where: {
 						case_id: Sequelize.fn('uuid_to_bin', obj.case_id )
 						//case_submitter_id: obj.case_submitter_id
 					}
-				});
-				RedisCacheClient.redisCacheSetExAsync(CacheName.getSummaryPageCaseSummary('CaseSample') + cacheFilterName['name'], JSON.stringify(result));
-				return result;
-			} else {
-				return JSON.parse(res);
-			}
+				});*/
+				//@@@PDC-5178 case-sample-aliquot across studies
+				let sampleQuery = "select distinct bin_to_uuid(sam.sample_id) as sample_id, sam.sample_submitter_id, sample_type, sample_type_id, gdc_sample_id, gdc_project_id, biospecimen_anatomic_site, composition, current_weight, days_to_collection, days_to_sample_procurement, sam.status, sam.pool, sample_is_ref, diagnosis_pathologically_confirmed, freezing_method, initial_weight, intermediate_dimension, longest_dimension, method_of_sample_procurement, pathology_report_uuid, preservation_method, shortest_dimension, time_between_clamping_and_freezing, time_between_excision_and_freezing, tissue_type, tumor_code, tumor_code_id, tumor_descriptor, biospecimen_laterality, catalog_reference, distance_normal_to_tumor, distributor_reference, growth_rate, passage_count, sample_ordinal, tissue_collection_type "+
+				"FROM study s, sample sam, aliquot_run_metadata alm, aliquot al, project proj, program prog "+
+				"WHERE alm.study_id = s.study_id and al.aliquot_id = alm.aliquot_id and al.sample_id=sam.sample_id and proj.project_id = s.project_id and sam.case_id = uuid_to_bin(:case_id) ";
+				
+				let cache = { name:'' };
+				let replacements = {};
+				
+				sampleQuery += replacementFilters(context.arguments, cache, replacements);
+				
+				replacements['case_id'] = obj.case_id;
+				
+				return db.getSequelize().query(
+						sampleQuery,
+						{
+							replacements: replacements,
+							model: db.getModelByName('Sample')
+						}
+					);
+				
+				//RedisCacheClient.redisCacheSetExAsync(CacheName.getSummaryPageCaseSummary('CaseSample') + cacheFilterName['name'], JSON.stringify(result));
+				//return result;
+			//} else {
+				//return JSON.parse(res);
+			//}
+		}
+	},
+	//@@@PDC-5252 fetch diagnosis-sample association
+	Diagnosis: {
+		samples(obj, args, context) {
+			let refQuery = "select bin_to_uuid(reference_entity_id) sample_id, "+
+			"reference_entity_alias as sample_submitter_id from reference where entity_id = "+
+			"uuid_to_bin(:diagnosis_id) and reference_entity_type = 'sample'"
+			let replacements = {};
+			replacements['diagnosis_id'] = obj.diagnosis_id;
+			return db.getSequelize().query(
+					refQuery,
+					{
+						replacements: replacements,
+						model: db.getModelByName('Sample')
+					}
+			);
+							
 		}
 	},
 	Sample: {
 		aliquots(obj, args, context) {
 			//@@@PDC-2755 add pool, status, aliquot_is_ref attribute
-			return db.getModelByName('Aliquot').findAll({ attributes: [['bin_to_uuid(aliquot_id)', 'aliquot_id'],'aliquot_submitter_id', 'analyte_type', 'aliquot_quantity', 'aliquot_volume', 'amount', 'concentration', 'pool', 'status', 'aliquot_is_ref'],
+			/*return db.getModelByName('Aliquot').findAll({ attributes: [['bin_to_uuid(aliquot_id)', 'aliquot_id'],'aliquot_submitter_id', 'analyte_type', 'aliquot_quantity', 'aliquot_volume', 'amount', 'concentration', 'pool', 'status', 'aliquot_is_ref'],
 			where: {
 				sample_id: Sequelize.fn('uuid_to_bin', obj.sample_id )
 				//sample_submitter_id: obj.sample_submitter_id
 			}
-			});
+			});*/
+			//@@@PDC-5178 case-sample-aliquot across studies
+			let aliquotQuery = "select distinct bin_to_uuid(al.aliquot_id) aliquot_id, al.aliquot_submitter_id, analyte_type, aliquot_quantity, aliquot_volume, amount, concentration, al.pool, al.status, aliquot_is_ref "+
+			"FROM study s, aliquot_run_metadata alm, aliquot al, project proj, program prog "+
+			"WHERE alm.study_id = s.study_id and al.aliquot_id = alm.aliquot_id and proj.project_id = s.project_id and al.sample_id = uuid_to_bin(:sample_id) ";
+			let cache = { name:'' };
+			let replacements = {};	
+			aliquotQuery += replacementFilters(context.arguments, cache, replacements);
+				
+			replacements['sample_id'] = obj.sample_id;
+				
+			return db.getSequelize().query(
+						aliquotQuery,
+						{
+							replacements: replacements,
+							model: db.getModelByName('Aliquot')
+						}
+				);
+				
+		},
+		//@@@PDC-5252 fetch diagnosis-sample association
+		diagnoses(obj, args, context) {
+			let refQuery = "select bin_to_uuid(entity_id) diagnosis_id, "+
+			"entity_submitter_id as diagnosis_submitter_id from reference where reference_entity_id = "+
+			"uuid_to_bin(:sample_id) and entity_type = 'diagnosis'"
+			let replacements = {};
+			replacements['sample_id'] = obj.sample_id;
+			return db.getSequelize().query(
+					refQuery,
+					{
+						replacements: replacements,
+						model: db.getModelByName('Diagnosis')
+					}
+			);
+							
 		}
 	},
 	//@@@PDC-2366 Add aliquot_run_metadata_id to aliquot_run_metadata API entity
@@ -529,6 +604,22 @@ export const resolvers = {
 				return getIt;
 			}
 			return JSON.parse(res);
+		},
+		//@@@PDC-5252 fetch diagnosis-sample association
+		samples(obj, args, context) {
+			let refQuery = "select bin_to_uuid(reference_entity_id) sample_id, "+
+			"reference_entity_alias as sample_submitter_id from reference where entity_id = "+
+			"uuid_to_bin(:diagnosis_id) and reference_entity_type = 'sample'"
+			let replacements = {};
+			replacements['diagnosis_id'] = obj.diagnosis_id;
+			return db.getSequelize().query(
+					refQuery,
+					{
+						replacements: replacements,
+						model: db.getModelByName('Sample')
+					}
+			);
+							
 		}
 	},
 	//@@@PDC-2978 add case external reference
@@ -689,10 +780,8 @@ export const resolvers = {
 	//@@@PDC-3847 get aliquot info per label
 	StudyExperimentalDesign: {
 		label_free(obj, args, context) {
-			logger.info("label free: "+obj.label_free_asi);
 			//logger.info("label free: "+JSON.stringify(obj));
 			if (obj.label_free_asi != null && obj.label_free_asi.length > 0){
-				logger.info("In label free: "+obj.label_free_asi);
 				let lfQuery = labelQuery + " where aliquot_submitter_id = '"+
 				obj.label_free_asi+"' and label = 'label_free' and study_run_metadata_id = uuid_to_bin('"+obj.study_run_metadata_id+"')";
 				return db.getSequelize().query(lfQuery, { model: db.getModelByName('ModelAliquotRunMetadata') });
@@ -701,7 +790,6 @@ export const resolvers = {
 				return null;
 		},
 		itraq_113(obj, args, context) {
-			logger.info("itraq_113_asi: "+obj.itraq_113_asi);
 			if (obj.itraq_113_asi != null && obj.itraq_113_asi.length > 0){
 				let itraq_113Query = labelQuery + " where aliquot_submitter_id = '"+
 				obj.itraq_113_asi+"' and label = 'itraq_113' and study_run_metadata_id = uuid_to_bin('"+obj.study_run_metadata_id+"')";
@@ -711,7 +799,6 @@ export const resolvers = {
 				return null;
 		},
 		itraq_114(obj, args, context) {
-			logger.info("itraq_114_asi: "+obj.itraq_114_asi);
 			if (obj.itraq_114_asi != null && obj.itraq_114_asi.length > 0){
 				let itraq_114Query = labelQuery + " where aliquot_submitter_id = '"+
 				obj.itraq_114_asi+"' and label = 'itraq_114' and study_run_metadata_id = uuid_to_bin('"+obj.study_run_metadata_id+"')";
@@ -868,8 +955,71 @@ export const resolvers = {
 			if (obj.tmt_131c_asi != null && obj.tmt_131c_asi.length > 0){
 				let tmt_131cQuery = labelQuery + " where aliquot_submitter_id = '"+
 				obj.tmt_131c_asi+"' and label = 'tmt_131c' and study_run_metadata_id = uuid_to_bin('"+obj.study_run_metadata_id+"')";
-				logger.info("In 131c query");
 				return db.getSequelize().query(tmt_131cQuery, { model: db.getModelByName('ModelAliquotRunMetadata') });
+			}
+			else
+				return null;
+		},
+		//@@@PDC-5290 add experiment types of TMT16 and TMT18
+		tmt_132n(obj, args, context) {
+			if (obj.tmt_132n_asi != null && obj.tmt_132n_asi.length > 0){
+				let tmt_132nQuery = labelQuery + " where aliquot_submitter_id = '"+
+				obj.tmt_132n_asi+"' and label = 'tmt_132n' and study_run_metadata_id = uuid_to_bin('"+obj.study_run_metadata_id+"')";
+				return db.getSequelize().query(tmt_132nQuery, { model: db.getModelByName('ModelAliquotRunMetadata') });
+			}
+			else
+				return null;
+		},
+		tmt_132c(obj, args, context) {
+			if (obj.tmt_132c_asi != null && obj.tmt_132c_asi.length > 0){
+				let tmt_132cQuery = labelQuery + " where aliquot_submitter_id = '"+
+				obj.tmt_132c_asi+"' and label = 'tmt_132c' and study_run_metadata_id = uuid_to_bin('"+obj.study_run_metadata_id+"')";
+				return db.getSequelize().query(tmt_132cQuery, { model: db.getModelByName('ModelAliquotRunMetadata') });
+			}
+			else
+				return null;
+		},
+		tmt_133n(obj, args, context) {
+			if (obj.tmt_133n_asi != null && obj.tmt_133n_asi.length > 0){
+				let tmt_133nQuery = labelQuery + " where aliquot_submitter_id = '"+
+				obj.tmt_133n_asi+"' and label = 'tmt_133n' and study_run_metadata_id = uuid_to_bin('"+obj.study_run_metadata_id+"')";
+				return db.getSequelize().query(tmt_133nQuery, { model: db.getModelByName('ModelAliquotRunMetadata') });
+			}
+			else
+				return null;
+		},
+		tmt_133c(obj, args, context) {
+			if (obj.tmt_133c_asi != null && obj.tmt_133c_asi.length > 0){
+				let tmt_133cQuery = labelQuery + " where aliquot_submitter_id = '"+
+				obj.tmt_133c_asi+"' and label = 'tmt_133c' and study_run_metadata_id = uuid_to_bin('"+obj.study_run_metadata_id+"')";
+				return db.getSequelize().query(tmt_133cQuery, { model: db.getModelByName('ModelAliquotRunMetadata') });
+			}
+			else
+				return null;
+		},
+		tmt_134n(obj, args, context) {
+			if (obj.tmt_134n_asi != null && obj.tmt_134n_asi.length > 0){
+				let tmt_134nQuery = labelQuery + " where aliquot_submitter_id = '"+
+				obj.tmt_134n_asi+"' and label = 'tmt_134n' and study_run_metadata_id = uuid_to_bin('"+obj.study_run_metadata_id+"')";
+				return db.getSequelize().query(tmt_134nQuery, { model: db.getModelByName('ModelAliquotRunMetadata') });
+			}
+			else
+				return null;
+		},
+		tmt_134c(obj, args, context) {
+			if (obj.tmt_134c_asi != null && obj.tmt_134c_asi.length > 0){
+				let tmt_134cQuery = labelQuery + " where aliquot_submitter_id = '"+
+				obj.tmt_134c_asi+"' and label = 'tmt_134c' and study_run_metadata_id = uuid_to_bin('"+obj.study_run_metadata_id+"')";
+				return db.getSequelize().query(tmt_134cQuery, { model: db.getModelByName('ModelAliquotRunMetadata') });
+			}
+			else
+				return null;
+		},
+		tmt_135n(obj, args, context) {
+			if (obj.tmt_135n_asi != null && obj.tmt_135n_asi.length > 0){
+				let tmt_135nQuery = labelQuery + " where aliquot_submitter_id = '"+
+				obj.tmt_135n_asi+"' and label = 'tmt_135n' and study_run_metadata_id = uuid_to_bin('"+obj.study_run_metadata_id+"')";
+				return db.getSequelize().query(tmt_135nQuery, { model: db.getModelByName('ModelAliquotRunMetadata') });
 			}
 			else
 				return null;
@@ -1700,6 +1850,23 @@ export const resolvers = {
 			pss[0].forEach((row) =>listPss.push(row['primary_site']));
 			return listPss;
 		}
+	},
+	//@@@PDC-5252 fetch diagnosis-sample association
+	UICase: {
+		diagnoses(obj, args, context) {
+			let refQuery = "select bin_to_uuid(entity_id) diagnosis_id, "+
+			"entity_submitter_id as diagnosis_submitter_id from reference where reference_entity_id = "+
+			"uuid_to_bin(:sample_id) and entity_type = 'diagnosis'"
+			let replacements = {};
+			replacements['sample_id'] = obj.sample_id;
+			return db.getSequelize().query(
+					refQuery,
+					{
+						replacements: replacements,
+						model: db.getModelByName('Diagnosis')
+					}
+			);							
+		}		
 	},
 	Pagination: {
 		size(obj, args, context) {

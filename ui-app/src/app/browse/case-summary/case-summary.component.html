@@ -59,11 +59,38 @@
 					</ng-template>
 				  </div>
 		    </mat-tab>
-		    <mat-tab label="DIAGNOSIS">
+        <!--@@PDC-5248 display all diagnosis case summary-->
+		    <mat-tab label="DIAGNOSIS ({{diagnoses.length}})">
 				<div *ngIf="loading">
 						<mat-spinner></mat-spinner>
 				</div>
-				<div *ngIf="diagnoses && diagnoses.length == 0 && !loading" style="font-size: 14px; padding-top: 10px">No data available for Diagnosis.</div>
+        <!--@@PDC-5248 display all diagnosis case summary-->
+        <div *ngIf="diagnoses && diagnoses.length == 0 && !loading" style="font-size: 14px; padding-top: 10px">No data available for Diagnosis.</div>
+        <div *ngFor="let tst of showMoreDiagnosisOddProps;let i = index;">
+          <table style="max-height:200px;overflow-y: auto;display: block!important;font-size: 14px; width: 100%; padding-top: 10px" id='{{i}}_enum' >
+              <tr *ngFor="let tst of showLessDiagnosisOddProps[i]; let j= index;">
+                <td class="summary-card-name-left-cell">{{showLessDiagnosisOddProps[i][j] == 'Samples' ? 'Associated Samples' : showLessDiagnosisOddProps[i][j]}}</td>
+                <td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(showLessDiagnosisOddPropVals[i][j])">{{showLessDiagnosisOddPropVals[i][j]}}</td>
+                <td class="summary-card-name-right-cell">{{showLessDiagnosisEvenProps[i][j] == 'Samples' ? 'Associated Samples' :  showLessDiagnosisEvenProps[i][j]}}</td>
+                <td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(showLessDiagnosisEvenPropVals[i][j])">{{showLessDiagnosisEvenPropVals[i][j]}}</td>
+              </tr>
+          </table>
+          <table style="max-height:200px;overflow-y: auto;display: none!important;font-size: 14px; width: 100%; padding-top: 10px" id="caseSummaryDemography" id='{{i}}_enum_show'>
+              <tr *ngFor="let tst of showMoreDiagnosisOddProps[i]; let j= index;">
+                <td class="summary-card-name-left-cell">{{showMoreDiagnosisOddProps[i][j] == 'Samples' ? 'Associated Samples' :  showMoreDiagnosisOddProps[i][j]}}</td>
+                <td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(showMoreDiagnosisOddPropVals[i][j])">{{showMoreDiagnosisOddPropVals[i][j]}}</td>
+                <td class="summary-card-name-right-cell">{{showMoreDiagnosisEvenProps[i][j] == 'Samples' ? 'Associated Samples' :  showMoreDiagnosisEvenProps[i][j]}}</td>
+                <td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(showMoreDiagnosisEvenPropVals[i][j])">{{showMoreDiagnosisEvenPropVals[i][j]}}</td>
+              </tr>
+          </table>
+          <table style="font-size: 14px; width: 100%; padding-top: 10px; border-bottom: 1px solid #ddd;" id="caseSummaryDemography"  >
+             <tr *ngIf="showMoreDiagnosisOddProps[i].length > 0"><td><button  mat-stroked-button (click)="showMoreOrLess(i)"  id='hide_{{i}}_button'>Show More</button></td><td></td></tr>
+          </table>
+        </div>
+
+
+        <!--
+        <div *ngIf="diagnoses && diagnoses.length == 0 && !loading" style="font-size: 14px; padding-top: 10px">No data available for Diagnosis.</div>
 				<div *ngIf="diagnoses && diagnoses.length > 0">
 					<div *ngIf="showMore;else show_more">
 							<table style="max-height:200px;overflow-y: auto;display: block!important;font-size: 14px; width: 100%; padding-top: 10px" id="caseSummaryDemography">
@@ -88,6 +115,7 @@
 							</table>
 					</ng-template>
 			  </div>
+        -->
 			</mat-tab>
             <mat-tab label="EXPOSURE">
 					<div *ngIf="loading">
@@ -216,7 +244,7 @@
 		</mat-card-header>
 	    <mat-card-content style="overflow-y: auto;max-height: 200px; width:100%">
 		  <mat-tab-group mat-stretch-tabs="always" style="width:100%;">
-		    <mat-tab label="SAMPLES">
+		    <mat-tab label="SAMPLES ({{samples.length}})">
 				<div *ngIf="loading">
 					<mat-spinner></mat-spinner>
 				</div>

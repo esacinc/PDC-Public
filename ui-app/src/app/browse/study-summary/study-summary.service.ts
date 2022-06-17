@@ -375,6 +375,10 @@ constructor(private apollo: Apollo) {
 					reference_resource_shortname
 					reference_entity_location
 				}
+				samples {
+					sample_id
+					sample_submitter_id
+				}
 			}
 			pagination {
 				count

@@ -26,6 +26,7 @@ import { LegacyDataComponent } from './legacy-data/legacy-data.component';
 import { LegacyStudySummaryComponent } from './legacy-data/legacy-study-summary/legacy-study-summary.component';
 import { HeatmapsComponent } from './heatmaps/heatmaps.component';
 import { ForwardingComponent } from './forwarding/forwarding.component';
+import { DataDownloadDocComponent } from './navbar/data-download-documentation/data-download-documentation.component';
 
 import { AppComponent } from './app.component';
 import { HarmonizationComponent } from './harmonization/harmonization.component';
@@ -63,6 +64,7 @@ const appRoutes: Routes = [
   { path: 'analysis/:id', component: HeatmapViewerComponent},
   { path: '', loadChildren: './lazy.module#LazyModule'},
   { path: 'submit-data', component: SubmitDataFAQComponent},
+  { path: 'data-download-documentation', component: DataDownloadDocComponent },
   //@@@PDC-PDC-4699: hide request data submission page
   // { path: 'request-data-submission', component: RequestDataSubmissionComponent},
   { path: 'data-use-guidelines', component: DataUseGuidelinesComponent},

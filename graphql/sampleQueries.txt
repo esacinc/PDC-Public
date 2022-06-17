@@ -1913,6 +1913,8 @@ PDC-136, 774, 827, 787, 1960, 2815
 			tumor_depth
 			who_cns_grade
 			who_nte_grade
+			tumor_cell_content
+			auxiliary_data
 			diagnosis_uuid
 			exposures {
 				exposure_id
@@ -2897,6 +2899,8 @@ PDC-265
 			year_of_diagnosis
 			icd_10_code
 			synchronous_malignancy
+			tumor_cell_content
+			auxiliary_data
 		}    
 		samples{
 			gdc_sample_id
@@ -4296,7 +4300,7 @@ PDC-2979
 	}
 }
 {
-  paginatedCaseDiagnosesPerStudy (pdc_study_id: "PDC000206" offset: 0 limit: 10 acceptDUA: true) {
+  paginatedCaseDiagnosesPerStudy (pdc_study_id: "PDC000249" offset: 0 limit: 10 acceptDUA: true) {
 	total
     caseDiagnosesPerStudy {
 	  case_submitter_id
@@ -4361,6 +4365,8 @@ PDC-2979
 			year_of_diagnosis
 			icd_10_code
 			synchronous_malignancy
+			tumor_cell_content
+			auxiliary_data
 	 }    
     }
 		pagination {
@@ -8276,6 +8282,8 @@ PDC-3022
 			tumor_depth
 			who_cns_grade
 			who_nte_grade
+			tumor_cell_content
+			auxiliary_data
 			diagnosis_uuid
 			exposures {
 				exposure_id

@@ -170,6 +170,7 @@ const defineSequelizeModels = (db) => {
 	  //@@@PDC-3266 add icd_10_code and synchronous_malignancy
 	  //@@@PDC-3428 add tumor_largest_dimension_diameter
 	  //@@@PDC-4391 add new columns
+	  //@@@PDC-5205 add auxiliary_data and tumor_cell_content
 	  /**
 	  * DiagnosisModel is mapped to the table of diagnosis and used in 
 	  * tissueSitesAvailable and  diseasesAvailable queries.
@@ -310,6 +311,8 @@ const defineSequelizeModels = (db) => {
 		satellite_nodule_present: { type: Sequelize.STRING },
 		sites_of_involvement: { type: Sequelize.STRING },
 		tumor_depth: { type: Sequelize.STRING },
+		tumor_cell_content: { type: Sequelize.STRING },
+		auxiliary_data: { type: Sequelize.STRING },
 		who_cns_grade: { type: Sequelize.STRING },
 		who_nte_grade: { type: Sequelize.STRING },
 		diagnosis_uuid: { type: Sequelize.STRING },

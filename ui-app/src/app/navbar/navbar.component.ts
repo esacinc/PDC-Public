@@ -816,7 +816,7 @@ export class NavbarComponent implements OnInit {
             var case_uuid = event.snapshot.params['case_uuid'];
             console.log('case_uuid: ' + case_uuid);
             this.searchService.getCaseUUIDResults(case_uuid).subscribe((data: any) => {
-              var case_id = data.case[0].case_submitter_id;
+              var case_id = data.uiCaseSummary[0].case_submitter_id;
               this.showCaseSummary(case_id, '', case_uuid);
             });
           }

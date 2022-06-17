@@ -38,6 +38,7 @@ type Sample {
 	sample_ordinal: String
 	tissue_collection_type: String	
 	aliquots: [Aliquot]
+	diagnoses: [Diagnosis]
 	case: Case
 	project: Project
 }

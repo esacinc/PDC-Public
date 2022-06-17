@@ -131,11 +131,14 @@ type Diagnosis {
 	satellite_nodule_present: String
 	sites_of_involvement: String
 	tumor_depth: String
+	tumor_cell_content: String
 	who_cns_grade: String
 	who_nte_grade: String
 	diagnosis_uuid: String
+	auxiliary_data: String
 	cases_count: Int
 	case: Case
 	project: Project
-	studies: [Study]  
+	studies: [Study]
+	samples: [Sample]
 }

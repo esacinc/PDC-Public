@@ -604,6 +604,10 @@ constructor(private apollo: Apollo) {
 					country_of_residence_at_enrollment
 				}
 				diagnoses{
+					samples {
+						sample_id
+						 sample_submitter_id
+					}
 					age_at_diagnosis
 					morphology
 					primary_diagnosis
@@ -773,6 +777,10 @@ constructor(private apollo: Apollo) {
 						amount
 						analyte_type
 						concentration
+					}
+					diagnoses {
+						diagnosis_id
+						diagnosis_submitter_id
 					}
 				}
 				exposures {

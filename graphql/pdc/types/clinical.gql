@@ -152,6 +152,7 @@ type Clinical {
 	tumor_depth: String
 	who_cns_grade: String
 	who_nte_grade: String
+	auxiliary_data: String
 	diagnosis_uuid: String
 	exposures: [Exposure]
 	family_histories: [FamilyHistory]
