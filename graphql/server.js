@@ -59,10 +59,14 @@ GQ_APP.use(cors());
 
 GQ_APP.use(showObj);
 
-//@@@PDC-2192 apollo server 2.0
-SERVER.applyMiddleware({
-  app: GQ_APP
-});
+//@@@PDC-5461 upgrade to apollo-server-express 3.9.0
+async function startServer() {
+    await SERVER.start();
+    SERVER.applyMiddleware({
+		app: GQ_APP
+	});
+}
+startServer();
 
 GQ_APP.listen(GRAPHQL_PORT, () => {
 	logger.info(

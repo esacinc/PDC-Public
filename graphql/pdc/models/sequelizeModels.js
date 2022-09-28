@@ -43,10 +43,12 @@ const defineSequelizeModels = (db) => {
 	  * case queries.
 	  */
 	  //@@@PDC-4391 add new columns
+	  //@@@PDC-5257 add case_submitter_id
 	  const DemographicModel = db.getSequelize().define('demographic', {
 		  demographic_id: { type: Sequelize.STRING,
 					  primaryKey: true   },
 		  case_id: { type: Sequelize.STRING },    
+		  case_submitter_id: { type: Sequelize.STRING },    
 		  demographic_submitter_id: { type: Sequelize.STRING },
 		  ethnicity: { type: Sequelize.STRING },
 		  gender: { type: Sequelize.STRING },
@@ -82,6 +84,7 @@ const defineSequelizeModels = (db) => {
 	  //@@@PDC-4391 add new columns
 	  //@@@PDC-4486 add new columns for sample
 	  //@@@PDC-4569 remove is_ffpe and oct_embedded
+	  //@@@PDC-5412 add diagnosis-sample annotation
 	  const SampleModel = db.getSequelize().define('sample', {
 		  sample_id: { type: Sequelize.STRING,
 					  primaryKey: true   },
@@ -123,7 +126,9 @@ const defineSequelizeModels = (db) => {
 		  growth_rate: { type: Sequelize.STRING },
 		  passage_count: { type: Sequelize.STRING },
 		  sample_ordinal: { type: Sequelize.STRING },
-		  tissue_collection_type: { type: Sequelize.STRING },	
+		  tissue_collection_type: { type: Sequelize.STRING },
+		  annotation: { type: Sequelize.STRING },
+		  
 	  }, {
 		  timestamps: false,
 		  underscored: true,
@@ -171,6 +176,7 @@ const defineSequelizeModels = (db) => {
 	  //@@@PDC-3428 add tumor_largest_dimension_diameter
 	  //@@@PDC-4391 add new columns
 	  //@@@PDC-5205 add auxiliary_data and tumor_cell_content
+	  //@@@PDC-5412 add diagnosis-sample annotation
 	  /**
 	  * DiagnosisModel is mapped to the table of diagnosis and used in 
 	  * tissueSitesAvailable and  diseasesAvailable queries.
@@ -316,6 +322,7 @@ const defineSequelizeModels = (db) => {
 		who_cns_grade: { type: Sequelize.STRING },
 		who_nte_grade: { type: Sequelize.STRING },
 		diagnosis_uuid: { type: Sequelize.STRING },
+		annotation: { type: Sequelize.STRING },
 	  }, {
 		  timestamps: false,
 		  underscored: true,

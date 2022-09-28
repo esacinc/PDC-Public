@@ -36,7 +36,8 @@ type Sample {
 	growth_rate: String
 	passage_count: String
 	sample_ordinal: String
-	tissue_collection_type: String	
+	tissue_collection_type: String
+	annotation: String	
 	aliquots: [Aliquot]
 	diagnoses: [Diagnosis]
 	case: Case

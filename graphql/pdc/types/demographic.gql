@@ -1,6 +1,8 @@
 type Demographic {
 	demographic_id: String
 	demographic_submitter_id: String
+	case_id:  String
+	case_submitter_id:  String
 	ethnicity: String
 	gender: String
 	race: String

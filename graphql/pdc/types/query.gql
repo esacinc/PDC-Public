@@ -18,6 +18,7 @@ type Query {
   fileMetadata(file_id: String, file_name: String, file_submitter_id: String, data_category: String, file_type: String, file_format: String, offset: Int, limit: Int, acceptDUA: Boolean): [FileMetadata]	
   filesCountPerStudy(study_submitter_id: String, study_id: String, pdc_study_id: String, file_type: String, acceptDUA: Boolean): [File]	
   filesPerStudy(study_id: String, pdc_study_id: String,study_submitter_id: String, file_type: String, file_name: String, data_category: String, file_format: String, acceptDUA: Boolean ): [FilePerStudy]	
+  filterStats(filter_name: String, days: Int): [FilterItem]
   geneSearch(name: String! offset: Int, limit: Int): Paginated	
   geneSpectralCount(gene_name: String!, source: String, acceptDUA: Boolean): [Gene]	
   getPaginatedCases(offset: Int, limit: Int, acceptDUA: Boolean): Paginated	

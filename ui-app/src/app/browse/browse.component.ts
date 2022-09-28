@@ -309,7 +309,11 @@ getCasesByExperimentalStrategy(){
 	// @@@PDC-616 Add acquisition type to the general filters
 	onFilterSelected(filterValue: string) {
 		filterValue = filterValue.replace('_slash','/');
-		var filter_field = filterValue.split(':'); // the structure is field_name: "value1;value2"
+	    //@@@PDC-5428 fix study name truncation issue
+	    var filter_field = [];
+	    filter_field.push(filterValue.substring(0, filterValue.indexOf(":")));
+	    filter_field.push(filterValue.substring(filterValue.indexOf(":")+1));
+		//var filter_field = filterValue.split(':'); // the structure is field_name: "value1;value2"
 		if (filter_field[0] == "gene_study_name") {
 			//if the filter field is gene_study_name, do not pass it to other tabs.
 			this.gene_study_name = filterValue;
@@ -317,6 +321,9 @@ getCasesByExperimentalStrategy(){
 			this.newFilterValue = filterValue;
 			this.gene_study_name = '';
 		}
+      //console.log("Raw Filter: "+ filterValue);
+      //console.log("Filter Name: "+ filter_field[0]);
+      //console.log("Filter Value: "+ filter_field[1]);
 		//If clear all filter selection button was pressed need to clear all filters
 		if (filter_field[0] === "Clear all selections"){
 			for (let filter_name in this.newFilterSelected){
@@ -402,6 +409,9 @@ getCasesByExperimentalStrategy(){
 		}
 		this.enableDownloadAllManifests =  this.breadcrumbs.length;
 		// Update the analytic fractions bar chart
+		      
+		//console.log("Filter Value of study name: "+ this.newFilterSelected['study_name']);
+
 		this.browseService.getFilteredAnalyticFractionTypeCasesCount(this.newFilterSelected).subscribe((data: any) => {
 			this.analyticalFractionsChart = this.createBarChart('Cases','analytical fractions');
 			// initialize data in the chart
@@ -479,12 +489,20 @@ getCasesByExperimentalStrategy(){
 	//@@@PDC-277: Add a filter crumb bar at the top that explains the filter criteria selected
 	//Populate the breadcrumb bar
 	populateBreadcrumbsForFilters() {
+		var filter_field = [];
 		if (this.gene_study_name && this.gene_study_name != "") {
-			var filter_field = this.gene_study_name.split(':');
+			//console.log("GENE Study Name: "+this.gene_study_name);
+			filter_field = this.gene_study_name.split(':');
 			this.gene_study_names = filter_field[1];
 		} else {
-			var filter_field = this.newFilterValue.split(':');
+			//@@@PDC-5428 fix study name truncation issue			
+			filter_field.push(this.newFilterValue.substring(0, this.newFilterValue.indexOf(":")));
+			filter_field.push(this.newFilterValue.substring(this.newFilterValue.indexOf(":")+1));
+			//var filter_field = this.newFilterValue.split(':');
 		}
+			//console.log("New filter value: "+this.newFilterValue);
+			//console.log("Filter Name: "+filter_field[0]);
+			//console.log("Filter value: "+filter_field[1]);
 		var displayStudynameForGeneName = false;
 		if (filter_field[0] == "Clear all selections") {
 			this.breadcrumbs = [];

@@ -213,8 +213,11 @@ export class BrowseByClinicalComponent implements OnInit {
 	}
 	if (this.newFilterValue){
 		this.filteredClinicalData = [];
-		console.log(this.newFilterValue);
-		var filter_field=this.newFilterValue.split(":"); //the structure is field_name: "value1;value2"
+		//var filter_field=this.newFilterValue.split(":"); //the structure is field_name: "value1;value2"
+	  //@@@PDC-5428 fix study name truncation issue
+	  var filter_field = [];
+	  filter_field.push(this.newFilterValue.substring(0, this.newFilterValue.indexOf(":")));
+	  filter_field.push(this.newFilterValue.substring(this.newFilterValue.indexOf(":")+1));
 		//If clear all filter selection button was pressed need to clear all filters
 		if (filter_field[0] === "Clear all selections"){
 			for (let filter_name in this.newFilterSelected){
@@ -282,8 +285,10 @@ export class BrowseByClinicalComponent implements OnInit {
 		}
 		this.offset = 0; //Reinitialize offset for each new filter value
 		this.loading = true;
+
 		this.browseByClinicalService.getFilteredClinicalDataPaginatedPost(this.offset, this.limit,this.sort, this.newFilterSelected).pipe(take(1)).subscribe((data: any) =>{
 			this.filteredClinicalData = data.getPaginatedUIClinical.uiClinical;
+      console.log(data.getPaginatedUIClinical.uiClinical);
 			this.populateAssociatedSampleInfo(this.filteredClinicalData);
 			if (this.offset == 0) {
 				this.totalRecords = data.getPaginatedUIClinical.total;
@@ -342,6 +347,9 @@ downloadCompleteManifest(buttonClick = false) {
 			//@@@PDC-4490: Update Clinical manifest and Case summary pages for GDC Sync
 			this.browseByClinicalService.getFilteredClinicalDataPaginatedPost(0, 0, this.sort, this.newFilterSelected, true).pipe(take(1)).subscribe((data: any) =>{
 				let filteredClinicalData = data.getPaginatedUIClinical.uiClinical;
+        console.log(data);
+        console.log(data.getPaginatedUIClinical.uiClinical);
+
 				this.populateAssociatedSampleInfo(filteredClinicalData);
 				let localSelectedClinical = [];
 				for(let item of filteredClinicalData){
@@ -465,6 +473,8 @@ isDownloadDisabled(){
 		this.offset = event.first;
 		this.limit = event.rows;
 		this.loading = true;
+
+
 		this.browseByClinicalService.getFilteredClinicalDataPaginatedPost(this.offset, this.limit, this.sort, this.newFilterSelected).pipe(take(1)).subscribe((data: any) => {
 			this.filteredClinicalData = data.getPaginatedUIClinical.uiClinical;
 			this.populateAssociatedSampleInfo(this.filteredClinicalData);
@@ -497,11 +507,21 @@ isDownloadDisabled(){
 				if (filteredClinicalData[i].samples && typeof(filteredClinicalData[i].samples) != 'string' && filteredClinicalData[i].samples.length > 0) {
 					let associatedSamples = filteredClinicalData[i]['samples'];
 					let arr = [];
+          let arr_test = [];
+          //@@PDC-5414-add-annotation-information
 					for(let key in associatedSamples){
+            let associatedsampleIds_test = {};
+            associatedsampleIds_test['sample_submitter_id'] = associatedSamples[key]['sample_submitter_id'];
+            if(!associatedSamples[key]['annotation']){
+              associatedsampleIds_test['annotation'] = "The sample "+associatedSamples[key]['sample_submitter_id']+" is associated with this clinical record.";
+            } else {
+              associatedsampleIds_test['annotation'] = associatedSamples[key]['annotation'];
+            }
+            arr_test.push(associatedsampleIds_test);
 						arr.push(associatedSamples[key]['sample_submitter_id']);
 					}
 					let associatedsampleIds = arr.join(", ");
-					filteredClinicalData[i]['samples'] = associatedsampleIds;
+					filteredClinicalData[i]['samples'] = arr_test;
 				}
 			}
 		}
@@ -659,6 +679,7 @@ isDownloadDisabled(){
 		{field: 'case_id', header: 'Case ID'},
 		{field: 'case_submitter_id', header: 'Cases Submitter ID'},
 		{field: 'samples', header: 'Related Entities'},
+    {field: 'sample_annotation', header: 'Annotation'},
 		{field: 'genomicImagingData', header: 'Genomic and Imaging Data Resource'},
 		{field: 'ethnicity', header: 'Ethnicity'},
 		{field: 'gender', header: 'Gender'},
@@ -1044,8 +1065,14 @@ isDownloadDisabled(){
 				exportData[i]["genomicImagingData"] = genomicImagingData;
 				let associatedSamples = exportData[i]["samples"];
 				if (associatedSamples != '') {
-					exportData[i]["samples"] = "Samples: " + associatedSamples;
-				}
+          //@@PDC-5414-add-annotation-information
+					exportData[i]["samples"] = "Samples: " + associatedSamples[0]['sample_submitter_id'];
+          exportData[i]["sample_annotation"] = associatedSamples[0]['annotation'];
+				} else {
+          //@@PDC-5519 - if no sample annotation values in manifest shift left
+          exportData[i]["sample_annotation"] = " ";
+
+        }
 			}
 			return exportData;
 		}
@@ -1099,7 +1126,7 @@ isDownloadDisabled(){
            if(this.countInArray(localSelectedClinical,item) == 0){
             localSelectedClinical.push(item);
 						this.currentPageSelectedClinical.push(item.case_submitter_id);
-					}
+          }
 				}
 				this.selectedClinicalData = localSelectedClinical;
 			} else {
@@ -1139,7 +1166,6 @@ isDownloadDisabled(){
             count++;
          }
       }
-      console.log(count);
       return count;
     }
 

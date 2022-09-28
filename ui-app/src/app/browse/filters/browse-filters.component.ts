@@ -313,8 +313,8 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
 			  }
 		  }
 	  }
-	  console.log(this.studyNameUUIDMap);
-    console.log(this.studyNamePDCStudyIDMap);
+	  //console.log(this.studyNameUUIDMap);
+    //console.log(this.studyNamePDCStudyIDMap);
     })
   }
 
@@ -530,7 +530,8 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
   //@@@PDC-799: Redirecting to the NIH login page for the file authorization loses PDC state
   // PDC-728 Helper function to put select checkboxes of the filters set using URL values
   private setFilters(filterName: string, filterVal: string, setValuesForFence = false, clearValuesforbreadcrumb = false){
-    switch (filterName) {
+ 	    console.log("Filter Selected: "+ filterVal);
+   switch (filterName) {
       case "project_name":
       if (setValuesForFence) {
         this.selectedProjects.push(filterVal);
@@ -607,6 +608,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
         this.acquisitionFilter = sortedAcqTypeList;
         break;
       case "study_name":
+	    console.log("Study Name Selected: "+ filterVal);
         if (setValuesForFence) {
           //this code is not needed now but might be useful in the future.
           //this.selectedStudyFilter = new Array(filterVal);
@@ -619,7 +621,8 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
         this.studyFilter = sortedStudyList;
         break;
       case "submitter_id_name":
-        if (setValuesForFence) {
+ 	    console.log("Study Name Selected: "+ filterVal);
+       if (setValuesForFence) {
           this.selectedStudyFilter.push(filterVal);
         } else if (clearValuesforbreadcrumb) {
           this.clearSelectionsStudyID();
@@ -1275,6 +1278,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
           //@@@PDC-1418: Unable to clear breadcrumbs when the user clicks on breadcrumbs other than "Clear"
           let filterValWithrandowmNum =  filterChangedInBreadcrumbBar.split("~");
           let filterValWithoutrandomNum = filterValWithrandowmNum[0];
+		  //console.log("Filter Raw: "+ filterValWithoutrandomNum);
           var filter_value = filterValWithoutrandomNum.split(":");
           if (filter_value[1] != "") {
             if (filter_value[0] == "gene_name") {

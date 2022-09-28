@@ -60,7 +60,7 @@
 							<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>-->
 							<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
 							<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 faqLink" style="text-align: right;">
-								<a href="/pdc/faq/Multiple_Files" target="_blank" style="font-size: 13px;">More ways to download&nbsp;<mat-icon matTooltip="More ways to download" class="help-icon" style="font-size: 14px !important;height: 0px !important;vertical-align: sub;">help</mat-icon></a>
+								<a href="/pdc/faq/Download_Data" target="_blank" style="font-size: 13px;">More ways to download&nbsp;<mat-icon matTooltip="More ways to download" class="help-icon" style="font-size: 14px !important;height: 0px !important;vertical-align: sub;">help</mat-icon></a>
 							</div>
 						</div>
 				</div>
@@ -171,7 +171,9 @@
 						<td style="word-wrap: break-word; white-space: normal;">{{fileData.data_category}}</td>
 						<td style="word-wrap: break-word; white-space: normal;">{{fileData.file_type}}</td>
 						<td style="word-wrap: break-word; white-space: normal;">{{fileData.access}}</td>
-						<td style="word-wrap: break-word; white-space: normal;">{{fileData.file_size / 1048576 | number:'.3'}}
+			
+					  <!-- PDC-5603 some metadata files have size zero -->
+						<td style="word-wrap: break-word; white-space: normal;">{{(fileData.file_size / 1048576 | number:'.3') == 0.000 ? (fileData.file_size / 1048576 | number:'.4') : (fileData.file_size / 1048576 | number:'.3')  }}
 						</td>
 						<td style="word-wrap: break-word; white-space: normal;"><span *ngIf="fileData.downloadable == 'No'">{{fileData.downloadable}}</span><span *ngIf="fileData.downloadable == 'Yes'"><button matTooltip="Some data are under an embargo for publication and/or citation. For more details, visit the summary page for the study of interest for the data use agreement." matTooltipPosition = "left" mat-raised-button mat-primary label="Download Selection" (click)="downloadFile(fileData)" style="font-family:'Lato';background-color: black;color: white;" aria-label="Download">Download&nbsp;&nbsp;&nbsp;<i class="fas fa-download"></i></button></span></td>
 					</tr>

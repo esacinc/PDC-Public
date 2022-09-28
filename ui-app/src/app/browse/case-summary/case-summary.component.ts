@@ -109,7 +109,7 @@ export class CaseSummaryComponent implements OnInit {
   getCaseGeneralSummaryData(){
 	this.loading = true;
 	this.caseSummaryService.getCaseSummaryData(this.case_id, this.case_submitter_id, this.source).subscribe((data: any) =>{
-		//console.log(data.uiCase);
+		console.log(data.uiCase);
 		this.caseSummaryData = data.uiCase[0];
 		this.loading = false;
 	});
@@ -128,6 +128,7 @@ export class CaseSummaryComponent implements OnInit {
 		setTimeout(() => {
 			// Get all studies data for a study name.
 			this.caseSummaryService.getFilteredStudyDetailsForSummaryPage(studyName, this.source).subscribe((data: any) =>{
+				console.log(data);
 				this.filteredStudiesData = this.mergeStudies(data.getPaginatedUIStudy.uiStudies);
 				dialogConfig.data = {
 					summaryData: this.filteredStudiesData[0],
@@ -240,6 +241,7 @@ export class CaseSummaryComponent implements OnInit {
 			//@@@PDC-1123 add ui wrappers public APIs
 			//console.log("Case from Array: "+JSON.stringify(data.uiCaseSummary[0]));
 			//@@@PDC-2335 uiCaseSummary returns an array instead of a single obj
+			console.log(data);
 			this.caseDetailedSummaryData = data.uiCaseSummary[0];
 			//@@@PDC-2956: issue with opening case summary via direct URL
 			if (this.case_submitter_id === "" && data.uiCaseSummary[0].case_submitter_id != "") {
@@ -297,21 +299,28 @@ export class CaseSummaryComponent implements OnInit {
 			} else {
 				let associatedSamples = dataeEle['samples'];
 				let associatedsampleIds = associatedSamples.map(x => x.sample_submitter_id).join(", ");
+				let associatedsampleAnnotations = associatedSamples.map(x => x.annotation).join(", ");
 				dataeEle['samples'] = associatedsampleIds;
+				//@@PDC-5414-add-annotations
+				dataeEle['sample_annotation'] = associatedsampleAnnotations;
+				if(!dataeEle['sample_annotation']){
+					dataeEle['sample_annotation'] = 'The sample '+associatedsampleIds+" is associated with this clinical record."
+				}
 			}
 		}
 		//@@@PDC-5248-display-all-diagnosis case summary
 		for (let data of dataSet){
 			let index = dataSet.indexOf(data);
-			this.showLessDiagnosisEvenProps[index] = this.populateAdditionalDatasets(data, 1, true);
-			this.showLessDiagnosisOddProps[index] = this.populateAdditionalDatasets(data, 2, true);
-			this.showLessDiagnosisEvenPropVals[index] = this.populateAdditionalDatasets(data, 3, true);
-			this.showLessDiagnosisOddPropVals[index] = this.populateAdditionalDatasets(data, 4, true);
-			this.showMoreDiagnosisEvenProps[index] = this.populateAdditionalDatasets(data, 1, false);
-			this.showMoreDiagnosisOddProps[index] = this.populateAdditionalDatasets(data, 2, false);
-			this.showMoreDiagnosisEvenPropVals[index] = this.populateAdditionalDatasets(data, 3, false);
-			this.showMoreDiagnosisOddPropVals[index] = this.populateAdditionalDatasets(data, 4, false);
+			this.showLessDiagnosisEvenProps[index] = this.populateAdditionalDatasetsDiagnosis(data, 1, true);
+			this.showLessDiagnosisOddProps[index] = this.populateAdditionalDatasetsDiagnosis(data, 2, true);
+			this.showLessDiagnosisEvenPropVals[index] = this.populateAdditionalDatasetsDiagnosis(data, 3, true);
+			this.showLessDiagnosisOddPropVals[index] = this.populateAdditionalDatasetsDiagnosis(data, 4, true);
+			this.showMoreDiagnosisEvenProps[index] = this.populateAdditionalDatasetsDiagnosis(data, 1, false);
+			this.showMoreDiagnosisOddProps[index] = this.populateAdditionalDatasetsDiagnosis(data, 2, false);
+			this.showMoreDiagnosisEvenPropVals[index] = this.populateAdditionalDatasetsDiagnosis(data, 3, false);
+			this.showMoreDiagnosisOddPropVals[index] = this.populateAdditionalDatasetsDiagnosis(data, 4, false);
 		}
+
 	} else if (entity == "demographics") {
 		this.showLessDemographicsEvenProps = this.populateAdditionalDatasets(dataSet, 1, true);
 		this.showLessDemographicsOddProps = this.populateAdditionalDatasets(dataSet, 2, true);
@@ -322,7 +331,65 @@ export class CaseSummaryComponent implements OnInit {
 		this.showMoreDemographicsEvenPropVals = this.populateAdditionalDatasets(dataSet, 3, false);
 		this.showMoreDemographicsOddPropVals = this.populateAdditionalDatasets(dataSet, 4, false);
 	}
+
+
   }
+  //@@PDC-5414-add-annotation-helper-function-to-annotation to specific position in object
+	insertIntoObject(obj, key, value, index) {
+		var temp = {};
+		var i = 0;
+		for (var prop in obj) {
+				if (obj.hasOwnProperty(prop)) {
+			     if (i === index && key && value) {
+				      temp[key] = value;
+			     }
+			     temp[prop] = obj[prop];
+			   i++;
+		    }
+	  }
+	  if (!index && key && value) {
+		   temp[key] = value;
+	  }
+    return temp;
+    }
+
+		//@@@PDC-5521-case-sample-shows-annotation - created new function for diagnosis in case need additional fields added in future
+	  populateAdditionalDatasetsDiagnosis(data, option, showLess) {
+		  if (data && data['__typename']) delete data['__typename'];
+		  let count = 0;
+		  var dataSet = [];
+		  var that = this;
+
+      //@@PDC-5588-different-values-UI-and-manifest - if present insert sample annoation field next to sample annotation in display
+      if(data['sample_annotation']){
+		 	   data = this.insertIntoObject(data, 'sample_annotation',' ', 1);
+		  }
+
+		  dataSet = Object.keys(data).map(function(property){
+
+			count = count + 1;
+			if ((!showLess) || (showLess && count <= 6)) {
+				if (option == 1 && count %2 === 0) {
+					let convertedProperty = that.convertUnderscoreCaseToTitleCase(property);
+					return convertedProperty;
+				}
+				if (option == 2 && count % 2 !== 0) {
+					let convertedProperty = that.convertUnderscoreCaseToTitleCase(property);
+					return convertedProperty;
+				}
+				if (option == 3 && count % 2 === 0) {
+					return data[property];
+				}
+				if (option == 4 && count % 2 !== 0) {
+					return data[property];
+				}
+			}
+		  });
+		  dataSet = dataSet.filter(function( element ) {
+			return element !== undefined;
+		  });
+		  return dataSet;
+	  }
 
   //@@@PDC-4490: Update Clinical manifest and Case summary pages for GDC Sync
   populateAdditionalDatasets(data, option, showLess) {
@@ -330,7 +397,9 @@ export class CaseSummaryComponent implements OnInit {
 	  let count = 0;
 	  var dataSet = [];
 	  var that = this;
+
 	  dataSet = Object.keys(data).map(function(property){
+
 		count = count + 1;
 		if ((!showLess) || (showLess && count <= 6)) {
 			if (option == 1 && count %2 === 0) {
@@ -352,6 +421,8 @@ export class CaseSummaryComponent implements OnInit {
 	  dataSet = dataSet.filter(function( element ) {
 		return element !== undefined;
 	  });
+
+
 	  return dataSet;
   }
 
