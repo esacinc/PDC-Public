@@ -77,8 +77,8 @@ if (typeof process.env.PDC_DB_GQ_PWD != "undefined") {
   defineSequelizeModels(db);
   defineCustomModels(db);
   defineUiModels(db);
-  
-  //console.log("Max connections: "+sequelize.options.pool.max);
+  //@@@PDC-5037 log db host
+  logger.info("db host: "+ process.env.PDC_DB_GQ_HOST + " : "+process.env.PDC_DB_GQ);
 
 } else {
   const secretName = process.env.PDC_DB_READ_PWD_SECRET_NAME;

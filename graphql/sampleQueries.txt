@@ -3098,6 +3098,8 @@ PDC-2979
 	  lost_to_followup
 	  primary_site    
 		demographics {
+    case_id
+	  case_submitter_id
 			  ethnicity
 			  gender
 			demographic_submitter_id
@@ -3110,6 +3112,8 @@ PDC-2979
 			year_of_death 
 		}
 		diagnoses{
+    case_id
+	  case_submitter_id
 			  tissue_or_organ_of_origin
 			  age_at_diagnosis
 			  primary_diagnosis
@@ -3172,6 +3176,8 @@ PDC-2979
 			exposures {
 				exposure_id
 				exposure_submitter_id
+    case_id
+	  case_submitter_id
 				alcohol_days_per_week
 				alcohol_drinks_per_day
 				alcohol_history
@@ -3194,6 +3200,116 @@ PDC-2979
 				type_of_tobacco_used
 				weight
 				years_smoked
+			}
+			family_histories {
+    case_id
+	  case_submitter_id
+				family_history_id
+				family_history_submitter_id
+				relationship_type
+				relationship_gender
+				relationship_age_at_diagnosis
+				relationship_primary_diagnosis
+				relative_with_cancer_history
+				relatives_with_cancer_history_count
+			}
+			follow_ups {
+    case_id
+	  case_submitter_id
+				 follow_up_id
+				 follow_up_submitter_id
+				 adverse_event
+				 barretts_esophagus_goblet_cells_present
+				 bmi
+				 cause_of_response
+				 comorbidity
+				 comorbidity_method_of_diagnosis
+				 days_to_adverse_event
+				 days_to_comorbidity
+				 days_to_follow_up
+				 days_to_progression
+				 days_to_progression_free
+				 days_to_recurrence
+				 diabetes_treatment_type
+				 disease_response
+				 dlco_ref_predictive_percent
+				 ecog_performance_status
+				 fev1_ref_post_bronch_percent
+				 fev1_ref_pre_bronch_percent
+				 fev1_fvc_pre_bronch_percent
+				 fev1_fvc_post_bronch_percent
+				 height
+				 hepatitis_sustained_virological_response
+				 hpv_positive_type
+				 karnofsky_performance_status
+				 menopause_status
+				 pancreatitis_onset_year
+				 progression_or_recurrence
+				 progression_or_recurrence_anatomic_site
+				 progression_or_recurrence_type
+				 reflux_treatment_type
+				 risk_factor
+				 risk_factor_treatment
+				 viral_hepatitis_serologies
+				 weight
+				adverse_event_grade
+				aids_risk_factors
+				body_surface_area
+				cd4_count
+				cdc_hiv_risk_factors
+				days_to_imaging
+				evidence_of_recurrence_type
+				eye_color
+				haart_treatment_indicator
+				history_of_tumor
+				history_of_tumor_type
+				hiv_viral_load
+				hormonal_contraceptive_type
+				hormonal_contraceptive_use
+				hormone_replacement_therapy_type
+				hysterectomy_margins_involved
+				hysterectomy_type
+				imaging_result
+				imaging_type
+				immunosuppressive_treatment_type
+				nadir_cd4_count
+				pregnancy_outcome
+				procedures_performed
+				recist_targeted_regions_number
+				recist_targeted_regions_sum
+				scan_tracer_used
+				undescended_testis_corrected
+				undescended_testis_corrected_age
+				undescended_testis_corrected_laterality
+				undescended_testis_corrected_method
+				undescended_testis_history
+				undescended_testis_history_laterality
+			}
+			treatments {
+				 treatment_id
+				 treatment_submitter_id
+    case_id
+	  case_submitter_id
+				 days_to_treatment_end
+				 days_to_treatment_start
+				 initial_disease_status
+				 regimen_or_line_of_therapy
+				 therapeutic_agents
+				 treatment_anatomic_site
+				 treatment_effect
+				 treatment_intent_type
+				 treatment_or_therapy
+				 treatment_outcome
+				 treatment_type			
+				chemo_concurrent_to_radiation
+				number_of_cycles
+				reason_treatment_ended
+				route_of_administration
+				treatment_arm
+				treatment_dose
+				treatment_dose_units
+				treatment_effect_indicator
+				treatment_frequency
 			}
 		
 		samples{
@@ -4150,9 +4266,9 @@ PDC-2979
 	}
 	}
 }
-//PDC-1874
+//PDC-1874 5329
 {
-	paginatedCasesSamplesAliquots(pdc_study_id: "PDC000173" offset: 0 limit: 10 acceptDUA: true) {
+	paginatedCasesSamplesAliquots(pdc_study_id: "PDC000176" offset: 0 limit: 10 acceptDUA: true) {
 	total
 	casesSamplesAliquots {
 		case_submitter_id 
@@ -4190,6 +4306,10 @@ PDC-2979
 			tissue_type
 			tumor_code
 			tumor_code_id
+			diagnoses {
+				diagnosis_id
+				diagnosis_submitter_id
+			}
 			aliquots {
 				aliquot_submitter_id
 				aliquot_quantity
@@ -8128,8 +8248,9 @@ PDC-3022
 		}
 	}
 }
+//5329
 {
-	clinicalPerStudy(pdc_study_id: "PDC000153" acceptDUA: true){
+	clinicalPerStudy(pdc_study_id: "PDC000180" acceptDUA: true){
 		case_id
 		case_submitter_id
 		status
@@ -8285,6 +8406,10 @@ PDC-3022
 			tumor_cell_content
 			auxiliary_data
 			diagnosis_uuid
+			samples {
+				sample_id
+				sample_submitter_id
+			}
 			exposures {
 				exposure_id
 				exposure_submitter_id
@@ -8400,6 +8525,7 @@ PDC-3022
 
 	}
 }
+//5329
 {
   paginatedCaseDiagnosesPerStudy (pdc_study_id: "PDC000206" offset: 0 limit: 10 acceptDUA: true) {
 	total
@@ -8534,6 +8660,10 @@ PDC-3022
 			who_cns_grade
 			who_nte_grade
 			diagnosis_uuid
+			samples {
+				sample_id
+				sample_submitter_id
+			}
 	 }    
     }
 		pagination {

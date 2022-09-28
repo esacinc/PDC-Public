@@ -158,6 +158,6 @@ type Clinical {
 	family_histories: [FamilyHistory]
 	follow_ups: [FollowUp]
 	treatments: [Treatment]
-
+	samples: [Sample]
 	externalReferences: [EntityReference]
 }
