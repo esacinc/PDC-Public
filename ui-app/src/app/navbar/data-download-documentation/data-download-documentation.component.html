@@ -5,84 +5,170 @@
 <div class="row" style="font-family:'Lato'; margin-top:-75px!important; margin-left:20px; margin-right: 20px; align-items: center;" >
 <mat-card class="data-doc-page card card-body">
     <mat-card-content>
-      <div #Top style="font-family:'LatoBold'; font-size: 20px; margin-bottom: 5px;">PDC Data Download Client </div>
+      <!-- PDC-5573-updated-download-documentation-page -->
+      <div class="importantNote">
+        Note: For details about available file types, information on how to download from the PDC web portal user interface or through APIs, go to the <a href="/pdc/faq/Data_Download" target="_blank">Data Download</a> section of the PDC Frequently Asked Questions.
+      </div>
+      <br><br><div #Top style="font-family:'LatoBold'; font-size: 20px; margin-bottom: 5px;">PDC Data Download Client </div>
+      <!-- PDC-5573 Update download data documentation page with UI -->
       <div>
-        The PDC data download client supports the download of all files associated with PDC studies. The tool is recommended for those that have some experience with command line tools in cases where the user needs to download a large volume data in an organized manner. 
+        The PDC data download client supports the download of all files associated with PDC studies. The command line (CL) version is recommended for those that have some experience with command line tools in cases where the user needs to download a large volume data in an organized manner. For users that prefer a graphical interface, the PDC Data Download Client User Interface (UI) is available.
       </div>
       <br><h4>System requirements</h4>
       <div>
         <ul>
           <li>OS: Linux (Ubuntu 14.x or later, CentOS 7), OS X (10.9 Mavericks or < 12.0 ), or Windows (7 or later) </li>
-          <li>CPU: Two 64-bit cores, Intel or AMD</li>
-          <li>RAM: 8 GiB or more</li>
         </ul>
-    </div> 
+    </div>
     <br><h4>Downloading the PDC Data Download Client</h4>
     <div>
+      Binary Distributions
       <table>
         <tr>
           <th>Platform</th>
-          <th>PDC Data Download Client</th>
+          <th>PDC Data Download Client Command Line</th>
+          <th>PDC Data Download Client User Interface</th>
         </tr>
         <tr>
           <td>Linux</td>
           <td><i class="fa fa-file-zip-o"></i>&nbsp;&nbsp;<a href="https://pdc-download-clients.s3.amazonaws.com/pdc-client_v1.0.0_Ubuntu_x64.zip">pdc-client_v1.0.0_Ubuntu_x64.zip</a></td>
+          <td><i class="fa fa-file-zip-o"></i>&nbsp;&nbsp;<a href="https://pdc-download-clients.s3.amazonaws.com/pdc-client_UI_v1.0.0_Ubuntu_x64.zip">pdc-client_UI_v1.0.0_Ubuntu_x64.zip</a></td>
         </tr>
         <tr>
           <td>OS X</td>
           <td><i class="fa fa-file-zip-o"></i>&nbsp;&nbsp;<a href="https://pdc-download-clients.s3.amazonaws.com/pdc-client_v1.0.0_OSX_x64.zip">pdc-client_v1.0.0_OSX_x64.zip</a></td>
+          <td><i class="fa fa-file-zip-o"></i>&nbsp;&nbsp;<a href="https://pdc-download-clients.s3.amazonaws.com/pdc-client_UI_v1.0.0_OSX_x64.zip">pdc-client_UI_v1.0.0_OSX_x64.zip</a></td>
         </tr>
         <tr>
           <td>Windows</td>
           <td><i class="fa fa-file-zip-o"></i>&nbsp;&nbsp;<a href="https://pdc-download-clients.s3.amazonaws.com/pdc-client_v1.0.0_Windows_x64.zip">pdc-client_v1.0.0_Windows_x64.zip</a></td>
+          <td><i class="fa fa-file-zip-o"></i>&nbsp;&nbsp;<a href="https://pdc-download-clients.s3.amazonaws.com/pdc-client_UI_v1.0.0_Windows_x64.zip">pdc-client_UI_v1.0.0_Windows_x64.zip</a></td>
         </tr>
       </table>
+      <br><h4>Known Issues</h4>
+         <ul>
+           <li>There is a limit of 10 download attempts per individual file. This limit includes the retries that are automatically attempted by the download client. The current error message does not reflect this (CL, UI). </li>
+           <li>It is possible to start the download process with no files selected. Though a progress bar is shown and the ‘Files have been successfully downloaded!” message will appear, no files will be downloaded (UI). </li>
+         </ul>
     </div>
-    <br><h4>Obtaining a File manifest for Data download</h4>
+
+    <hr>
+    <h4>On this page:</h4>
+    <ul class="externalPageLinks">
+        <li><a style="color:#246A92" [routerLink]="['/data-download-documentation']" fragment="Obtaining_a_File_manifest_for_data_download">Obtaining a File manifest for Data download</a></li>
+        <li><a style="color:#246A92" [routerLink]="['/data-download-documentation']" fragment="Data_Download_Client_User_Interface_UI">Data Download Client User Interface (UI)</a></li>
+        <li><a  style="color:#246A92" [routerLink]="['/data-download-documentation']" fragment="Data_Download_Client_Command_Line">Data Download Client Command Line</a></li>
+    </ul>
+    <h3 #Obtaining_a_File_manifest_for_data_download id="Obtaining_a_File_manifest_for_data_download">Obtaining a File manifest for Data download</h3>
+    <!-- PDC-5573 -update download data documentation -->
     <div>
-      In order to download files using the PDC Data Download Client, you will need to have a file manifest downloaded from the PDC portal. To generate a file manifest, go to the 'Explore' page, and apply filters to isolate the study or group of studies you want to download files from. Navigate to the files tab and select the files to download. You can use the dropdown in the upper left corner to select all files available for the studies you have filtered by choosing the 'Select all pages' option. With the desired files selected, choose either the CSV or TSV option of the 'Export File Manifest' feature. Both formats are supported by the PDC data download client. Place the downloaded manifest in the same directory as the download client executable, or in another known location.
-      <div style="width:60%; margin-left: 20%"><br><img mat-card-image style="align-content: center" height="500" src="assets/data-download-1.png" alt="Export File Manifest from PDC Data browser"/></div>
-      <div>Note: The PDC data download client will reject manifests older than two weeks, as the download URLs will no longer be valid. </div>
+      In order to download files using either the UI or command line version of the PDC data download client, you will need to have a file manifest downloaded from the PDC portal. To generate a file manifest, go to the ‘Explore’ page, and apply filters to isolate the study or group of studies you want to download files from. Navigate to the files tab and select the files you wish to download. You can use the dropdown in the upper left corner to select all files available for the studies you have filtered by choosing the ‘select all pages’ option. With the desired files selected, choose either the CSV or TSV option of the ‘Export File Manifest’ feature. Both formats are supported by the PDC data download client. Place the downloaded manifest in the same directory as the download client executable, or in another known location.
+      <div style="width:60%; margin-left: 20%"><br><img mat-card-image style="align-content: center;" height="500" src="assets/data-download-1.png" alt="Export File Manifest from PDC Data browser"/></div>
+      <div><b>Note:</b> The PDC data download client will reject manifests older than two weeks, as the download URLs will no longer be valid. </div>
+
+      <br><h3 #Data_Download_Client_User_Interface_(UI) name="Data_Download_Client_User_Interface_(UI)" id="Data_Download_Client_User_Interface_UI">Data Download Client User Interface (UI)</h3>
+      <!-- @@PDC-5635 data download client user interface documentation -->
+      <br><h4>Installation Prerequisites</h4>
+      <div>
+        <p>
+          First, begin by clicking on the link in the “PDC Data Download Client User Interface” column of the “Binary Distributions” table above that corresponds to your operating system type. Note the system requirements displayed above the table. If your particular operating system does not meet the version requirements, the download client UI may not run. To view operating system version on Windows, go to the start menu, search for and select ‘System Information’. To view the operating system version on Mac, navigate to the apple menu and select ‘About This Mac’. Methods for viewing the Linux version will depend on the distribution but opening the command prompt and using the ‘lsb-release’ command will display version information on common Debian-based Linux distributions such as Ubuntu.
+        </p>
+        <p>
+          Clicking on a link will begin the download of the Zip (.zip extension) file containing the download client. Depending on your operating system version, it may be necessary to install an archive manager to extract the archive’s files. Most current operating system versions will have tools for managing Zip files built in.
+        </p>
+      </div>
+      <br><h4>OS X Installation Instructions</h4>
+      <div>
+        <p>
+          On OS X, the Zip file will contain a DMG file which can be run to install the PDC Data download client UI. navigate to the downloaded Zip file, which should appear in your downloads folder by default. Extracting the file (double clicking on the Zip file or right-click -> “open with” -> “Zip file utility”) will produce the DMG file. Double click the DMG file to install the PDC download client. You will be prompted to move the client to your ‘Applications’ folder during the installation process. Now you can run the PDC download client UI as you would any other application.
+        </p>
+      </div>
+      <br><h4>Windows installation Instructions</h4>
+      <div>
+        <p>
+          On Windows, the Zip file will contain all the necessary components to run the UI client. Navigate to the Zip file, which should appear in your downloads folder by default. Note that if you double click on the file, it will open the Zip file; however, you must extract all files to run the client. You may extract the files to any folder you would like. To do this right-click the Zip file and choose “Extract All”, or open the Zip file, select all the files, and move them to the destination folder by dragging them or copying and pasting them. Open the extracted folder and look for the ‘pdcDownloadClient.exe’ executable file; double clicking this file will open the PDC Data Download Client UI. You may create a shortcut to the executable file for easy access in the future.
+        </p>
+      </div>
+      <br><h4>Ubuntu Installation Instructions</h4>
+      <div>
+        <p>
+          On Linux, the Zip file will contain all the necessary components to run the UI client. Navigate to the Zip file, which should appear in your downloads folder by default. You must extract all files to run the client. You may extract the files by right-clicking and selecting ‘Extract Here’. You may move the extracted folder to any location you would like. Open the extracted folder and look for the ‘pdcDownloadClient’ executable file; double clicking this file will open the PDC Data Download Client UI.
+        </p>
+      </div>
+
       <br><h4>Basic Usage</h4>
-      <div>Once the file manifest has been exported you are ready to download files using the command line tool. Executing the PDC data download client without any parameters will show the available base commands and  
-        Note: Trying to use the executable directly by double-clicking will only cause a window to appear briefly. The PDC Data Download Client can only be run using the command-line. Select 'Command Prompt' on Microsoft Windows or 'Terminal' in OS X or Ubuntu to open a new command-line instance.      
-        <br>The path to the file manifest is included in the download command with the inclusion of the <strong>-m</strong> or <strong>--manifest</strong> followed by the location and name of the manifest 
+      <div>
+        Executing the PDC data download client UI by running the standalone executable will open the UI. Here, you may start the download process by selecting a file manifest. Clicking the ‘Select Manifest File’ button will allow you to browse for the manifest.
+        <div style="width:60%; margin-left: 20%"><br><img mat-card-image style="align-content: center; border: 1px solid #555;" height="500" src="assets/UI_Screen_Shot_1.png" alt="Select Manifest File"/></div>
+        Once a manifest has been selected, the contents will appear in the UI in the ‘Manifest’ tab. These contents will be available until either a new manifest is uploaded, the ‘Clear Cache’ option is selected, or the interface is closed.
+        <div style="width:60%; margin-left: 20%"><br><img mat-card-image style="align-content: center" height="500" src="assets/UI_Screen_Shot_2.png" alt="Select Files to Download"/></div>
+        <p>
+          To select the files you wish to download, click the checkbox in the leftmost column of the table next to the desired file. Clicking the checkbox in the top left of the table will select all files present in the manifest. Once you have selected the files you wish to download, click the ‘Download’ button on the bottom right to begin downloading your files. Files that have been downloaded successfully will appear in the ‘Completed’ tab. In the event you either cancel the download by clicking the ‘Stop’ button or if the download fails, the files left to download will appear in the ‘Failed’ or ‘Stopped’ tab. By navigating to those tabs, you may select the remaining files and resume the download.
+        </p>
+        <div>
+          <b>Note:</b> When exiting the client, any failed or stopped downloads will remain visible the next time the PDC Download Client UI is run. Uploading a new manifest, or hitting the ‘Clear Cache’ button will reset these tabs.
+        </div>
+        <div>
+          <br><h4>Configuring the download client </h4>
+          <p>
+          Clicking on the ‘Settings’ tab will allow you to configure various options for downloading your data.
+          </p>
+          <div style="width:60%; margin-left: 20%"><br><img mat-card-image style="align-content: center;border:1px solid #555;" height="500" src="assets/UI_Screen_Shot_3.png" alt="Configuring Download Client"/></div>
+          <p>
+          The ‘Destination Folder’ field allows you to enter the file path to which your files will be downloaded. Currently, the path must be entered as text. If the file path or folder that is entered cannot be found a warning will appear when hitting ‘Save Settings’ indicating that the file path is not valid.
+          </p>
+          <p>
+          The ‘Do not retain the PDC default directory structure’ option specifies whether to use the default directory structure: <br>
+          PDC Study ID -> Study Version Number -> Data Category -> Run Metadata ID (if applicable) -> File Format
+          or an alternative structure, where each file is given its own folder in the parent directory.
+          </p>
+
+          <p>The ‘Calculate Inbound Segment and check Md5sum on Restart’ and ‘Check Md5sum after Download’ options are optional features that ensures file integrity is maintained. </p>
+          <p>Other parameters you may configure are present in the ‘Advanced Settings’. These settings share their behavior with the optional arguments for the PDC Data Download Command Line tool.</p>
+        </div>
+      </div>
+
+      <br><h3 class="linkNoStyle" #Data_Download_Client_Command_Line id="Data_Download_Client_Command_Line" name="Data_Download_Client_Command_Line">Data Download Client Command Line</h3>
+      <br><h4>Basic Usage</h4>
+      <div>Once the file manifest has been exported you are ready to download files using the command line tool. Executing the PDC data download client without any parameters will show the available base commands and
+        Note: Trying to use the executable directly by double-clicking will only cause a window to appear briefly. The PDC Data Download Client can only be run using the command-line. Select 'Command Prompt' on Microsoft Windows or 'Terminal' in OS X or Ubuntu to open a new command-line instance.
+        <br>The path to the file manifest is included in the download command with the inclusion of the <strong>-m</strong> or <strong>--manifest</strong> followed by the location and name of the manifest
         <br><br><code class="data-download">./pdc-client.exe download -m PDC_file_manifest_05032022_145231.tsv </code>
       </div>
       <br><h4>Directory Structure of Downloaded Files</h4>
       <div>
-        The default behavior of the PDC data download client is to download files into a directory tree with the following format to the directory in which the client was run: 
-        <br>PDC Study ID -> Study Version Number -> Data Category -> Run Metadata ID (if applicable) -> File Format 
-        <br>Users may also choose an alternative format that downloads each file into its own separate directory by providing the <strong>--not-retain-pdc-download-path</strong> option. 
+        The default behavior of the PDC data download client is to download files into a directory tree with the following format to the directory in which the client was run:
+        <br>PDC Study ID -> Study Version Number -> Data Category -> Run Metadata ID (if applicable) -> File Format
+        <br>Users may also choose an alternative format that downloads each file into its own separate directory by providing the <strong>--not-retain-pdc-download-path</strong> option.
         <br><br><code class="data-download">./pdc-client.exe download -m PDC_file_manifest_05032022_145231.tsv --not-retain-pdc-download-path</code>
-        <br>When using this option it is possible to specify an alternative directory in which to download the files. Provide the <strong>--dir</strong> followed by the desired file path. This will place all downloaded files in the specified location without creating individual folders for each file. The <strong>--dir</strong> option is only available when used in combination with the <strong>--not-retain-pdc-download-path</strong> option. If <strong>--not-retain-pdc-download-path</strong> is not specified, the <strong>--dir</strong> option is ignored, and files will be downloaded in the current directory in the standard PDC download path. 
+        <br>When using this option it is possible to specify an alternative directory in which to download the files. Provide the <strong>--dir</strong> followed by the desired file path. This will place all downloaded files in the specified location without creating individual folders for each file. The <strong>--dir</strong> option is only available when used in combination with the <strong>--not-retain-pdc-download-path</strong> option. If <strong>--not-retain-pdc-download-path</strong> is not specified, the <strong>--dir</strong> option is ignored, and files will be downloaded in the current directory in the standard PDC download path.
         <br><br><code class="data-download">./pdc-client.exe download -m PDC_file_manifest_05032022_145231.tsv --not-retain-pdc-download-path --dir /Example/Directory/Path</code>
-        <br>Note: The specified directory must be created prior to running the command; the client will not create the directory itself and an error will be thrown if the directory cannot be found. 
+        <br>Note: The specified directory must be created prior to running the command; the client will not create the directory itself and an error will be thrown if the directory cannot be found.
       </div>
       <br><h4>Resuming a Failed Download</h4>
       <div>
-        In the event a file fails to download, a file with the '.partial' extension will appear in the destination folder. To complete the download of these files, repeat the download command with the same destination path and a manifest containing the failed/missing files; the PDC Data Download Client will identify and download any missing and partial files. Files present in the manifest that were successfully downloaded will be automatically skipped. 
-        <br>Note: The PDC allows for a maximum of 10 retries for a given file within a 24-hour period. The number of retries to be automatically attempted can be specified with the <strong>--retry-amount</strong> option, or the automatic retries can be disabled with the <strong>--no-auto-retry</strong> option. The client will notify you when the limit has been reached for a particular file. 
+        In the event a file fails to download, a file with the '.partial' extension will appear in the destination folder. To complete the download of these files, repeat the download command with the same destination path and a manifest containing the failed/missing files; the PDC Data Download Client will identify and download any missing and partial files. Files present in the manifest that were successfully downloaded will be automatically skipped.
+        <br>Note: The PDC allows for a maximum of 10 retries for a given file within a 24-hour period. The number of retries to be automatically attempted can be specified with the <strong>--retry-amount</strong> option, or the automatic retries can be disabled with the <strong>--no-auto-retry</strong> option. The client will notify you when the limit has been reached for a particular file.
       </div>
       <br><h4>File Integrity Checks</h4>
       <div>
-        Every file distributed by the PDC has had its MD5 sum calculated; this value can be found in the file manifests. By default, the PDC Data Download client will calculate the MD5 of any downloaded files and verify it against the value in the manifest. This ensures the downloaded files and the version stored by the PDC are identical, and no file corruption has occurred. Running the download command with the <strong>--no-file-md5sum</strong> option will skip this validation step. 
+        Every file distributed by the PDC has had its MD5 sum calculated; this value can be found in the file manifests. By default, the PDC Data Download client will calculate the MD5 of any downloaded files and verify it against the value in the manifest. This ensures the downloaded files and the version stored by the PDC are identical, and no file corruption has occurred. Running the download command with the <strong>--no-file-md5sum</strong> option will skip this validation step.
         <br><br><code class="data-download">./pdc-client.exe download --no-file-md5sum -m PDC_file_manifest_05032022_145231.tsv </code>
       </div>
       <br><h4>Configuration Parameters</h4>
-      In the event a user must download files from several different manifests, a configuration file can be used to store the optional parameters for repeated use. To create a configuration file, open a new text file and write the desired parameters in the following format: 
-      <br><br><code class="data-download">[download] 
+      In the event a user must download files from several different manifests, a configuration file can be used to store the optional parameters for repeated use. To create a configuration file, open a new text file and write the desired parameters in the following format:
+      <br><br><code class="data-download">[download]
         <br>
-        dir=/c/Users/Example/Downloads/PDC_Download_Dir/ 
+        dir=/c/Users/Example/Downloads/PDC_Download_Dir/
         <br>
         not_retain_pdc_download_path=True </code>
-      <br>Save the text file with the '.dtt' extension and you may use the parameters set within by including the --config option followed by the file path and name of the DTT file. 
+      <br>Save the text file with the '.dtt' extension and you may use the parameters set within by including the --config option followed by the file path and name of the DTT file.
       <br><br><code class="data-download">./pdc-client.exe download -m PDC_file_manifest_05032022_145231.tsv --config my-config.dtt</code>
-      <br>Users may review the options set in the config file by running the download command without a manifest, providing only the command and --config option followed by the file path and name of the DTT file. 
+      <br>Users may review the options set in the config file by running the download command without a manifest, providing only the command and --config option followed by the file path and name of the DTT file.
       <br><code class="data-download">./pdc-client.exe settings download --config my-dtt-config.dtt </code>
-      <br>There are many options that can be used to further configure the download process to suit a user’s needs. running the client with a command and the ‘-h’ option will show all optional arguments for that command. These parameters can be set in the command line, or in a configuration file. 
+      <br>There are many options that can be used to further configure the download process to suit a user’s needs. running the client with a command and the ‘-h’ option will show all optional arguments for that command. These parameters can be set in the command line, or in a configuration file.
       <code class="data-download">./pdc-client.exe download -h </code>
-      <br>Other configuration paarmeters that can be set in the configuration file:
+      <br>Other configuration parameters that can be set in the configuration file:
       <br><code class="data-download">
         no_auto_retry = False
         <br>no_file_md5sum = False

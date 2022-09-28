@@ -204,8 +204,8 @@ export class LoginComponent implements OnInit {
             break;
           //system error
           case 2:
-            this.systemErrorMessage = "System Error. Please contact your system admin";
-            console.log("System error!!!");
+            this.systemErrorMessage = "Invalid Username or Password";
+            console.log("Invalid Username or Password");
             break;
 		  case 3:
 			this.systemErrorMessage = "User have not confirmed their email yet";

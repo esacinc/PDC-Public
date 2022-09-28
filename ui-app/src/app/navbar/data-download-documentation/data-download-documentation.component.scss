@@ -9,7 +9,7 @@
   }
 
   .data-doc-page .mat-card-content{
-    font-family: 'Lato'; 
+    font-family: 'Lato';
     font-size: 16px;
   }
 
@@ -37,3 +37,13 @@
   .data-doc-page h4 {
       color: #bb0e3d
   }
+
+  //@@PDC-5573 - update-download-documentation
+  .importantNote{
+   max-width: 750px;
+   padding: 1em;
+   border-radius:8px;
+   border:1px;
+   border-style: solid;
+   background:#ADD8E6;
+ }

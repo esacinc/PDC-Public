@@ -46,6 +46,16 @@ constructor(@Inject(DOCUMENT) private document: any, private route: ActivatedRou
   }
   
   getFileContent(fname: any, rowLabel: string, colLabel: string) {
+	  //PDC-4909 mitigate xss
+	  var myUrl = window.top.location.href;
+	//console.log("parent: "+ myUrl+ myUrl.indexOf('view_heatmap'));
+	console.log("parent: "+ myUrl);
+	/*if (myUrl.indexOf('view_heatmap') >=0) {
+		console.log("Should quit!");
+
+		throw 'XSS alert!';
+	}*/
+
     console.log('File content changed:', fname);
     if ( fname && fname.length > 1 ) {
       this.url = environment.heatmap_url + this.map_file;

@@ -439,37 +439,57 @@ export class NavbarComponent implements OnInit {
     this.loading = true;
     this.caseSearchResults = [];
     this.searchCaseTermsForCaseSubmitterID(search_term);
+    //@@@PDC-5691: PDC Study ID cannot be searched via search box
+    var isUUID = this.isUuid(search_term);
     //If the search term can't be found, search for Case UUID, Sample ID, Aliquot IDs
     //@@@PDC-1441: Add ability to search by case, study, aliquot, sample UUIDs on UI search box
     //Search for Case UUI
-    this.searchService.getCaseUUIDResults(search_term).subscribe((data: any) => {
-      if (data.uiCaseSummary[0] && data.uiCaseSummary[0].case_submitter_id) {
-        let search_case_submitter_id = data.uiCaseSummary[0].case_submitter_id;
-        this.searchCaseTermsForCaseSubmitterID(search_case_submitter_id, search_term);
-      }  
-      //@@@PDC-1943: Refine search functionality to return more results
-      //Search for sample ID/sample submitter ID
-      this.searchService.getSampleUUIDResults(search_term).subscribe((sampleData: any) => {
-        this.searchForSampleData(sampleData);
-        this.searchService.getSampleSubmitterIDResults(search_term).subscribe((sampleSubmitterData: any) => {
-          this.searchForSampleData(sampleSubmitterData);
-          //Search for aliquot ID/aliquot submitter ID
-          this.searchService.getAliquotUUIDResults(search_term).subscribe((aliquotData: any) => {
-            this.searchForAliquotData(search_term, aliquotData);
-            this.searchService.getAliquotSearchResults(search_term).subscribe((aliquotSearchResults: any) => {
-              var aliquotSearchResultSet = aliquotSearchResults.aliquotSearch.searchAliquots;
-              for (let returnValue of aliquotSearchResultSet) {
-                let aliquotID = returnValue.aliquot_id;
-                //@@@PDC-1943: Refine search functionality to return more results
-                this.searchService.getAliquotUUIDResults(aliquotID).subscribe((aliquotSubmitterData: any) => {
-                  this.searchForAliquotData(aliquotID, aliquotSubmitterData);
-                });
-              }
+    //Search only uuid formats
+    if (isUUID != null) {
+      this.searchService.getCaseUUIDResults(search_term).subscribe((data: any) => {
+        if (data.uiCaseSummary[0] && data.uiCaseSummary[0].case_submitter_id) {
+          let search_case_submitter_id = data.uiCaseSummary[0].case_submitter_id;
+          this.searchCaseTermsForCaseSubmitterID(search_case_submitter_id, search_term);
+        }  
+        //@@@PDC-1943: Refine search functionality to return more results
+        //Search for sample ID/sample submitter ID
+        this.searchService.getSampleUUIDResults(search_term).subscribe((sampleData: any) => {
+          this.searchForSampleData(sampleData);
+          this.searchService.getSampleSubmitterIDResults(search_term).subscribe((sampleSubmitterData: any) => {
+            this.searchForSampleData(sampleSubmitterData);
+            //Search for aliquot ID/aliquot submitter ID
+            this.searchService.getAliquotUUIDResults(search_term).subscribe((aliquotData: any) => {
+              this.searchForAliquotData(search_term, aliquotData);
+              this.searchService.getAliquotSearchResults(search_term).subscribe((aliquotSearchResults: any) => {
+                var aliquotSearchResultSet = aliquotSearchResults.aliquotSearch.searchAliquots;
+                for (let returnValue of aliquotSearchResultSet) {
+                  let aliquotID = returnValue.aliquot_id;
+                  //@@@PDC-1943: Refine search functionality to return more results
+                  this.searchService.getAliquotUUIDResults(aliquotID).subscribe((aliquotSubmitterData: any) => {
+                    this.searchForAliquotData(aliquotID, aliquotSubmitterData);
+                  });
+                }
+              });
             });
           });
         });
       });
-    });
+    } else {
+      this.searchService.getSampleSubmitterIDResults(search_term).subscribe((sampleSubmitterData: any) => {
+        this.searchForSampleData(sampleSubmitterData);
+        //Search for aliquot submitter ID
+          this.searchService.getAliquotSearchResults(search_term).subscribe((aliquotSearchResults: any) => {
+            var aliquotSearchResultSet = aliquotSearchResults.aliquotSearch.searchAliquots;
+            for (let returnValue of aliquotSearchResultSet) {
+              let aliquotID = returnValue.aliquot_submitter_id;
+              //@@@PDC-1943: Refine search functionality to return more results
+              this.searchService.getAliquotSubmitterIDResults(aliquotID).subscribe((aliquotSubmitterData: any) => {
+                this.searchForAliquotData(aliquotID, aliquotSubmitterData);
+              });
+            }
+          });
+      });
+    }
   }
 
   searchForSampleData(sampleData) {
@@ -568,11 +588,23 @@ export class NavbarComponent implements OnInit {
     //Search by study_shortname
     this.searchForStudyData(search_term);
     //Search by study_id
-    this.searchService.getStudybyUUIDResults(search_term, '').subscribe((data: any) => {
-      if (data.uiStudySummary && data.uiStudySummary[0] && data.uiStudySummary[0].study_shortname) {
-        let data_study_shortname = data.uiStudySummary[0].study_shortname;
-        this.searchForStudyData(data_study_shortname);
-      }
+    //@@@PDC-5691: PDC Study ID cannot be searched via search box
+    var isUUID = this.isUuid(search_term);
+    if (isUUID != null) {
+      this.searchService.getStudybyUUIDResults(search_term, '').subscribe((data: any) => {
+        if (data.uiStudySummary && data.uiStudySummary[0] && data.uiStudySummary[0].study_shortname) {
+          let data_study_shortname = data.uiStudySummary[0].study_shortname;
+          this.searchForStudyData(data_study_shortname);
+        }
+        //Search by study_submitter_id
+        this.searchService.getStudybyUUIDResults('', search_term).subscribe((studySubmitterIDData: any) => {
+          if (studySubmitterIDData.study && studySubmitterIDData.uiStudySummary[0] && studySubmitterIDData.uiStudySummary[0].study_shortname) {
+            let studySubmitterIDData_shortname = studySubmitterIDData.uiStudySummary[0].study_shortname;
+            this.searchForStudyData(studySubmitterIDData_shortname);
+          }
+        });
+      });
+    } else {
       //Search by study_submitter_id
       this.searchService.getStudybyUUIDResults('', search_term).subscribe((studySubmitterIDData: any) => {
         if (studySubmitterIDData.study && studySubmitterIDData.uiStudySummary[0] && studySubmitterIDData.uiStudySummary[0].study_shortname) {
@@ -583,16 +615,23 @@ export class NavbarComponent implements OnInit {
       //@@@PDC-1875: Update search to be able to search by new PDC ID
       //Search by pdc_study_id
       //@@@PDC-1937: Implement search by partial PDC ID
-      this.searchService.getStudySearchByPDCStudyId(search_term).subscribe((studyIDData: any) => {
-        if (studyIDData.studySearchByPDCStudyId && studyIDData.studySearchByPDCStudyId.studies && studyIDData.studySearchByPDCStudyId.studies.length > 0) {
-          this.studySearchResults = Object.assign(this.studySearchResults, studyIDData.studySearchByPDCStudyId.studies);
-          this.populateDropDownOptions(this.studySearchResults);
-        } else {
-          //@@@PDC-1931: Enable search based on the external references
-          this.searchStudiesForExternalReferences(search_term);
-        }
-      });
-    });
+      //if (search_term.startsWith("PDC")) {
+        this.searchService.getStudySearchByPDCStudyId(search_term).subscribe((studyIDData: any) => {
+          if (studyIDData.studySearchByPDCStudyId && studyIDData.studySearchByPDCStudyId.studies && studyIDData.studySearchByPDCStudyId.studies.length > 0) {
+            this.studySearchResults = Object.assign(this.studySearchResults, studyIDData.studySearchByPDCStudyId.studies);
+            this.populateDropDownOptions(this.studySearchResults);
+          } else {
+            //@@@PDC-1931: Enable search based on the external references
+            this.searchStudiesForExternalReferences(search_term);
+          }
+        });
+      //}
+    }
+  }
+
+  //@@@PDC-5691: PDC Study ID cannot be searched via search box
+  isUuid(search_term: string) {
+    return search_term.match("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$");
   }
 
   //@@@PDC-1441: Add ability to search by case, study, aliquot, sample UUIDs on UI search box

@@ -122,6 +122,7 @@ constructor(private apollo: Apollo) {
 								tumor_code
 								tumor_code_id
 								tumor_descriptor
+								annotation
 								aliquots{
 									aliquot_id
 									aliquot_submitter_id
@@ -607,6 +608,7 @@ constructor(private apollo: Apollo) {
 					samples {
 						sample_id
 						 sample_submitter_id
+						 annotation
 					}
 					age_at_diagnosis
 					morphology
@@ -766,6 +768,7 @@ constructor(private apollo: Apollo) {
 					tumor_code
 					tumor_code_id
 					tumor_descriptor
+					annotation
 					aliquots{
 						aliquot_id
 						aliquot_submitter_id

@@ -315,7 +315,7 @@ export class BrowseByFileComponent implements OnInit {
 
   applySelectFilter(filterValues: string) {
     // console.log(event.value);
-    // console.log(this.selectedFileFilters);
+    //console.log("Filter in File: "+filterValues);
     // this.newFilterValue.fileTypes = [];
     this.newFilterSelected["file_type"] = filterValues.split(":")[1];
     this.loading = true;
@@ -351,7 +351,14 @@ export class BrowseByFileComponent implements OnInit {
     this.filteredFilesData = [];
     if (this.newFilterValue) {
       console.log(this.newFilterValue);
-      var filter_field = this.newFilterValue.split(":"); //the structure is field_name: "value1;value2"
+      //var filter_field = this.newFilterValue.split(":"); //the structure is field_name: "value1;value2"
+	  //@@@PDC-5428 fix study name truncation issue
+	  var filter_field = [];
+	  filter_field.push(this.newFilterValue.substring(0, this.newFilterValue.indexOf(":")));
+	  filter_field.push(this.newFilterValue.substring(this.newFilterValue.indexOf(":")+1));
+      console.log("Filter Name: "+ filter_field[0]);
+      console.log("Filter Value: "+ filter_field[1]);
+	  
       //If clear all filter selection button was pressed need to clear all filters
       if (filter_field[0] === "Clear all selections") {
         for (let filter_name in this.newFilterSelected) {

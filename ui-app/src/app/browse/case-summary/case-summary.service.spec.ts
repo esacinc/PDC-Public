@@ -178,6 +178,7 @@ describe("CaseSummaryService", () => {
                   tumor_code: "",
                   tumor_code_id: "",
                   tumor_descriptor: "Not Reported",
+                  annotation:"",
                   aliquots: [
                     {
                       aliquot_id: "5246c8b5-d0b0-11e9-9a07-0a80fada099c",
@@ -225,6 +226,7 @@ describe("CaseSummaryService", () => {
                   tumor_code: "",
                   tumor_code_id: "",
                   tumor_descriptor: "Primary",
+                  annotation:"",
                   aliquots: [
                     {
                       aliquot_id: "5225d754-d0b0-11e9-9a07-0a80fada099c",
