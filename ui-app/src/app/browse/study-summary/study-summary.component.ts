@@ -1,14 +1,13 @@
 
 import {of as observableOf,  Observable } from 'rxjs';
 
-import {catchError} from 'rxjs/operators';
+import {catchError,  take } from 'rxjs/operators';
 import { Component, OnInit, Inject } from '@angular/core';
 import { formatDate } from '@angular/common';
 import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
 import { Apollo } from 'apollo-angular';
 import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { take } from 'rxjs/operators';
 import {MAT_DIALOG_DATA, MatDialogRef, MatDialogConfig, MatDialog} from '@angular/material';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { StudySummaryService } from './study-summary.service';
@@ -135,7 +134,6 @@ export class StudySummaryComponent implements OnInit {
 				@Inject(MAT_DIALOG_DATA) public studyData: any, private studySummaryOverlayWindow: StudySummaryOverlayService, private dialog: MatDialog,) {
 
 	console.log(studyData);
-	//sessionStorage.removeItem('currentVersion');
 	//@@@PDC-3474 check if the cirrent version is an old version of the study
 	if (studyData.oldVersion) {
 		this.oldVersionFlag = studyData.oldVersion;
@@ -167,15 +165,11 @@ export class StudySummaryComponent implements OnInit {
 		}
 	}
 	console.log(this.studySummaryData);
-	if (sessionStorage.getItem('currentVersion')) {
-		console.log(sessionStorage.getItem('currentVersion'));
-		this.studyVersion = sessionStorage.getItem('currentVersion');
-	} else 	if (this.studySummaryData.versions.length === 0) {
+	if (this.studySummaryData.versions.length === 0 || this.oldVersionFlag) {
 		this.studyVersion = "1";
 	} else {
 		this.studyVersion = this.studySummaryData.versions[0].number;
 		console.log("Setting versions to " + this.studyVersion);
-		sessionStorage.setItem('currentVersion', this.studyVersion);
 	}
 	this.workflowData = {
 		workflow_metadata_submitter_id: '',
@@ -313,7 +307,6 @@ export class StudySummaryComponent implements OnInit {
   //Helper function that is called when a different version is chosen on study summary window
   showVersionStudySummary(version: string){
 	  console.log("Setting version to " + version + " most recent study version: " + this.studySummaryData.versions[0].number);
-	  sessionStorage.setItem('currentVersion', version);
 	  var oldVersion = false;
 	  //@@@PDC-3474: Disable all related studies and cases links for older versions of a study in study summary overlay window
 	  if (this.studySummaryData.versions[0].number > version ) {
@@ -394,10 +387,10 @@ export class StudySummaryComponent implements OnInit {
 			}
 			//@@@PDC-3404 Search box and Browse page pulled different versions of a versioned study summary
 			//Making sure here that the correct study version is set when the study summary opens from a search box
-			if (this.studySummaryData.versions.length > 1) {
+			if ((this.studySummaryData.versions.length > 1) || 
+			(this.studySummaryData.versions.length == 1 && Number(this.studySummaryData.versions[0].number) > 1)) {
 				this.studyVersion = this.studySummaryData.versions[0].number;
 				console.log("Setting versions to " + this.studyVersion);
-				sessionStorage.setItem('currentVersion', this.studyVersion);
 			}
 	   });
   }
@@ -474,6 +467,10 @@ sortDataCategoriesInOrder() {
 	});
 }
 
+versionCheck() {
+	return (this.studySummaryData.versions.length > 1) || (this.studySummaryData.versions.length == 1 && Number(this.studySummaryData.versions[0].number) > 1)
+}
+
 //@@@PDC-5206: Present Diagnosis to Sample relationship on PDC Browser
 populateAssociatedSampleInfo(filteredClinicalData) {	
 	if (filteredClinicalData.length > 0) {
@@ -530,7 +527,7 @@ showStudySummary(entity_location, version = '', oldVersionFlag = false) {
 	if (!version) {
 		//currentVersion session storage variable keeps the version of current study,
 		//if referenced study is clicked than currentVersion should be cleared
-		sessionStorage.removeItem('currentVersion');
+		//sessionStorage.removeItem('currentVersion');
 	}
 	setTimeout(() => {
 	this.studySummaryService.getFilteredStudyData('', pdcStudyID, version, this.source).pipe(take(1)).subscribe((data: any) =>{
@@ -644,9 +641,9 @@ showFilesOverlay(submitter_id_name, data_category_val, file_type_val) {
 	//dialogConfig.minWidth = '1000px';
 	dialogConfig.width = '80%';
 	dialogConfig.height = '95%';
-	var versioned_study = this.studySummaryData.versions.length > 1;
+	var versioned_study = (this.studySummaryData.versions.length > 1) || (this.studySummaryData.versions.length == 1 && Number(this.studySummaryData.versions[0].number) > 1);
 	dialogConfig.data = {
-			summaryData: {study_name: submitter_id_name, study_id: this.study_id, data_category: data_category_val, file_type: file_type_val, versions: versioned_study, acquisition_type: "", experiment_type:""},
+			summaryData: {study_name: submitter_id_name, study_id: this.study_id, data_category: data_category_val, file_type: file_type_val, versions: versioned_study, acquisition_type: "", experiment_type:"", currentVersion: this.studyVersion},
 	};
 	this.router.navigate([{outlets: {filesOverlay: ['files-overlay', this.study_id]}}], { skipLocationChange: true });
 	const dialogRef = this.dialog.open(FilesOverlayComponent, dialogConfig);
@@ -684,7 +681,6 @@ return -1;
 close(navigateToHeatmap: boolean, study_name: string = '') {
 	this.router.navigate([{outlets: {'studySummary': null, 'filesOverlay': null}}], { replaceUrl: true });
 	this.loc.replaceState(this.router.url);
-	sessionStorage.removeItem('currentVersion');
 	console.log("CLOSE study_name: " + study_name);
 	if ( navigateToHeatmap ) {
 	// Route to the first heatmap

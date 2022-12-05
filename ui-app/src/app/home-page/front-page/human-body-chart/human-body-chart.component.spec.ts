@@ -1,5 +1,4 @@
-import { of } from "rxjs";
-import { Observable } from "rxjs";
+import { of ,  Observable } from "rxjs";
 import { FrontPageService } from "./../../front-page.service";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { RouterTestingModule } from "@angular/router/testing";

@@ -4,6 +4,8 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="X-XSS-Protection" content=1>
+  <!--meta http-equiv="Content-Security-Policy" content="default-src 'self'"-->
   <meta name="viewport"
         content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
   <title>Morpheus</title>
@@ -20,6 +22,14 @@
 </noscript>
 <div id="vis"></div>
 <script type="text/javascript">
+	//@@@PDC-4911 guard against xss
+	var myUrl = window.top.location.href;
+	console.log("parent: "+ myUrl+ myUrl.indexOf('view_heatmap'));
+	if (myUrl.indexOf('view_heatmap') >=0) {
+		console.log("XSS alert!!!");
+		//alert('XSS alert!');
+		throw 'XSS alert';
+	}
   var GET = {};
   document.getElementById("vis").style.cursor = "wait";
   setTimeout('document.getElementById("vis").style.cursor = "pointer"', 1000);
@@ -31,9 +41,16 @@
         continue;
 
     var param = query[i].split("=");
+	console.log("In view_heatmap.html: "+ decodeURIComponent(param[1] || ""));
     GET[decodeURIComponent(param[0])] = decodeURIComponent(param[1] || "");
+	//@@@PDC-4911 guard against xss
+	if (GET['fname'].indexOf('<') >= 0 || GET['fname'].indexOf('>') >= 0 || GET['fname'].indexOf('script') >= 0 || GET['fname'].indexOf('alert') >= 0) {
+		console.log("XSS alert!!!");
+		//alert('XSS alert!');
+		throw 'XSS alert';
+	}
+	
   }
-  baseUrl = 'pdc/assets/data-folder/S039-2/';
   //@@@PDC-1078 show color-coded annotations
   var options = {
       el: $('#vis'),

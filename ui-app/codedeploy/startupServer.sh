@@ -8,3 +8,6 @@ sudo cp /home/ec2-user/PDC_Build/pdc/documentation/prod/apidocumentation.html /v
 sudo cp /home/ec2-user/PDC_Build/pdc/documentation/prod/styles/main.css /var/www/html/data-dictionary/styles/
 sudo rm -rf /var/www/html/API_documentation
 sudo cp -r /home/ec2-user/PDC_Build/pdc/API_documentation /var/www/html/
+sudo rm -f /var/www/html/view_heatmap.html
+sudo cp /home/ec2-user/PDC_Build/pdc/dist/assets/js/view_heatmap.html /var/www/html/
+sudo cp /home/ec2-user/PDC_Build/pdc/dist/assets/data-folder/dataDownloadDocumentation.json /var/www/html/

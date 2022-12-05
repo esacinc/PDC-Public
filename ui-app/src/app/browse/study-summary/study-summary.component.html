@@ -49,7 +49,7 @@
 							<div *ngIf="studySummaryData.embargo_date == 'N/A'">{{studySummaryData.embargo_date}}</div>
 						</td>
 					</tr>
-					<tr *ngIf="this.studySummaryData.versions?.length > 1">
+					<tr *ngIf="versionCheck()">
 						<td class="summary-card-name-left-cell">Version</td>
 						<td class="summary-card-value-left-cell">{{studyVersion}}</td>
 					</tr>
@@ -72,7 +72,7 @@
 				</table>
 			</mat-card-content>
 		</mat-card>
-		<div id="studyVersions" *ngIf="this.studySummaryData.versions?.length > 1">
+		<div id="studyVersions" *ngIf="versionCheck()">
 		  <mat-expansion-panel [expanded]="false">
             <mat-expansion-panel-header>
                 <mat-panel-title style="color:rgb(0, 80, 131)" matTooltip="This study has multiple versions. Additional versions (updates) of a study are created when the underlying data changes substantially. This may involve changes to the raw data, processed data, and/or metadata. When a new version is created, it may fall out of sync with the original publication of this data. Use of the latest version is strongly encouraged, as it commonly represents an update directly from the submitter." matTooltipPosition="right" >Study version history</mat-panel-title>

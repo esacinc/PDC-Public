@@ -76,8 +76,11 @@ function applyAlSamCaDemDiaReplacementFilter(args, cache = { name: "" }, replace
 }
 
 function addStudyInReplacementQuery(studyResult, replacements = { }){
-  let studyArray = [];
   let studyQueryCondition = '';
+  //@@@PDC-5429 avoid sql error when study is not found
+  if (studyResult == null || studyResult.length <= 0)
+	 return studyQueryCondition;
+  let studyArray = [];
   studyResult.forEach(element => studyArray.push(element.dataValues.study_submitter_id));
   let columnName = study_filter_columns.study_submitter_id;
   replacements['study_submitter_id'] = studyArray;

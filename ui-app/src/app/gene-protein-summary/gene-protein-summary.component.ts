@@ -2,18 +2,18 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { ActivatedRoute, Router } from "@angular/router";
 import { Apollo } from 'apollo-angular';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+
 import gql from 'graphql-tag';
-import "rxjs/add/operator/map";
+import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { PaginatorModule } from 'primeng/paginator';
 import { DropdownModule} from 'primeng/dropdown';
-import {MatCardModule, MatExpansionModule, MatToolbarModule, MatCheckboxModule, MatListModule, 
+import {MatCardModule, MatExpansionModule, MatToolbarModule, MatCheckboxModule, MatListModule,
   MatTabsModule, MatButtonModule, MatSidenavModule, MatTooltipModule, MatSelectModule, MatDialogModule, MatProgressSpinnerModule} from '@angular/material';
 import { GeneProteinSummaryService } from "./gene-protein-summary.service";
-import { Filter, GeneProteinData, GeneStudySpectralCountData, GeneAliquotSpectralCountData, 
+import { Filter, GeneProteinData, GeneStudySpectralCountData, GeneAliquotSpectralCountData,
 		GeneStudySpectralCountDataPaginated, GeneAliquotSpectralCountDataPaginated, ptmData } from '../types';
 
 
@@ -58,12 +58,12 @@ export class GeneProteinSummaryComponent implements OnInit {
   ptmPageSize: number;
   source = "";
   frozenColumns = [];
-  
+
   constructor(private activeRoute: ActivatedRoute, private router:Router, private apollo: Apollo,
 				private geneProteinSummaryService: GeneProteinSummaryService,
 				private dialogRef: MatDialogRef<GeneProteinSummaryComponent>,
 				@Inject(MAT_DIALOG_DATA) public geneProteinData: any) {
-	
+
 	console.log(geneProteinData);
 
 	this.gene_id = geneProteinData.summaryData;
@@ -72,7 +72,7 @@ export class GeneProteinSummaryComponent implements OnInit {
 		this.source = geneProteinData.source;
 	}
 	//Initialize values for pagination
-	this.studyOffset = 0; 
+	this.studyOffset = 0;
 	this.studyLimit = 10;
 	this.studyTotalRecords = 0;
 	this.studyPageSize = 10;
@@ -102,7 +102,7 @@ export class GeneProteinSummaryComponent implements OnInit {
 	this.getGeneStudySpectralCounts();
 	this.getPTMData();
   }
-  
+
   getGeneSummaryData(){
 	  this.loadingGeneSummary = true;
     //@@@PDC-1123 call ui wrapper API
@@ -114,7 +114,7 @@ export class GeneProteinSummaryComponent implements OnInit {
 		  });
 	  }, 1000);
   }
- 
+
   //PDC-772 no need to make API query for aliquot counts table
   getGeneAliquotSpectralCounts(){
 	  /* this.loadingAliquotRecords = true;
@@ -135,7 +135,7 @@ export class GeneProteinSummaryComponent implements OnInit {
 		  });
 	 */
   }
-  
+
   //PDC-772 no need to make API query for study table
   getGeneStudySpectralCounts(){
 	 /* this.loading = true;
@@ -150,7 +150,7 @@ export class GeneProteinSummaryComponent implements OnInit {
 		  });
 	  }, 1000);*/
   }
-  
+
   getPTMData(){
 	  this.lodingPTMData = true;
 	  setTimeout(() => {
@@ -165,7 +165,7 @@ export class GeneProteinSummaryComponent implements OnInit {
 		  });
 	  }, 1000);
   }
-  
+
   loadNewPageAliquotSpectralCounts(event: any){
 	  this.aliquotOffset = event.first;
 	  this.aliquotLimit = event.rows;
@@ -179,9 +179,9 @@ export class GeneProteinSummaryComponent implements OnInit {
 				this.aliquotLimit = data.getPaginatedUIGeneAliquotSpectralCount.pagination.size;
 			}
 			this.loadingAliquotRecords = false;
-		}); 
+		});
   }
-  
+
   loadNewPageStudySpectralCounts(event: any){
 	  this.studyOffset = event.first;
 	  this.studyLimit = event.rows;
@@ -195,9 +195,9 @@ export class GeneProteinSummaryComponent implements OnInit {
 				this.studyLimit = data.getPaginatedUIGeneStudySpectralCount.pagination.size;
 			}
 			this.loading = false;
-		}); 
+		});
   }
-  
+
   loadPTMData(event: any){
 	  this.ptmOffset = event.first;
 	  this.ptmLimit = event.rows;
@@ -212,10 +212,10 @@ export class GeneProteinSummaryComponent implements OnInit {
 			}
 			this.makeRowsSameHeight();
 			this.lodingPTMData = false;
-		}); 
+		});
   }
-  
-  
+
+
   //Helper function checking whether Assay data is available
   //checking for length > 1 since occasionally assays field seem to have an invisible character
   isAssaysEmpty():boolean{
@@ -225,18 +225,18 @@ export class GeneProteinSummaryComponent implements OnInit {
 	  }
 	  return result;
   }
-  
+
   close() {
 		this.router.navigate([{outlets: {'geneSummary': null}}]);
         this.dialogRef.close();
   }
-  
+
   navigateFullPage(){
 	  var geneFullPageRoute = 'gene/' + this.geneSummaryData.gene_name;
 	  this.router.navigate([{outlets: {'primary': geneFullPageRoute, 'geneSummary': null}}]);
 	  this.dialogRef.close();
   }
-  
+
   ngOnInit() {
 	this.frozenColumns = [
 		{field: "ptm_type", header: "PTM Type"}
@@ -255,21 +255,21 @@ export class GeneProteinSummaryComponent implements OnInit {
 				let unfrozen_header_row: any = w.querySelectorAll('.ui-table-unfrozen-view .ui-table-thead');
 				   if (frozen_header_row[0].clientHeight > unfrozen_header_row[0].clientHeight) {
 					unfrozen_header_row[0].style.height = frozen_header_row[0].clientHeight+"px";
-				  } 
+				  }
 				else if (frozen_header_row[0].clientHeight < unfrozen_header_row[0].clientHeight) {
 					frozen_header_row[0].style.height = unfrozen_header_row[0].clientHeight+"px";
-				} 				   
+				}
 				for (let i = 0; i < frozen_rows.length; i++) {
 					if (frozen_rows[i].clientHeight > unfrozen_rows[i].clientHeight) {
 						unfrozen_rows[i].style.height = frozen_rows[i].clientHeight+"px";
-					} 
-					else if (frozen_rows[i].clientHeight < unfrozen_rows[i].clientHeight) 
+					}
+					else if (frozen_rows[i].clientHeight < unfrozen_rows[i].clientHeight)
 					{
 						frozen_rows[i].style.height = unfrozen_rows[i].clientHeight+"px";
 					}
 				}
 				let frozen_header_div: any = w.querySelectorAll('.ui-table-unfrozen-view .ui-table-scrollable-header-box');
-				frozen_header_div[0].setAttribute('style', 'margin-right: 0px !important'); 
+				frozen_header_div[0].setAttribute('style', 'margin-right: 0px !important');
 			}
 		}
 	});

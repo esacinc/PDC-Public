@@ -47,7 +47,10 @@ const getModelByName = (modelName) => {
   return pubDb[modelName];
 };
 pubDb.getModelByName = getModelByName;
-
+  
+//@@@PDC-5037 log db host
+logger.info("db pub host: "+ process.env.PDC_PUB_DB_GQ_HOST + " : "+process.env.PDC_PUB_DB_GQ);
+  
 if (typeof process.env.PDC_PUB_DB_GQ_PWD != "undefined") {
   sequelize = new Sequelize(
     process.env.PDC_PUB_DB_GQ,

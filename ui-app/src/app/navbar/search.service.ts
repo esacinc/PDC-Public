@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import gql from 'graphql-tag';
 
-import { SearchResults, QueryAllCasesData, SearchResultsStudy, SearchResultsGenesProteins, SearchResultsProteins, SearchbyStudyUUID, UUIDForStudy, SearchbyCaseUUID, UUIDForCase, AllCasesData, SearchCaseResults, SearchResultsForAliquot  } from '../types'; 
+import { SearchResults, QueryAllCasesData, SearchResultsStudy, SearchResultsGenesProteins, SearchResultsProteins, SearchbyStudyUUID, UUIDForStudy, SearchbyCaseUUID, UUIDForCase, AllCasesData, SearchCaseResults, SearchResultsForAliquot, ObjectSearched  } from '../types'; 
 
 //@@@PDC-264 - added cases_count field to uiStudy query
 //@@@PDC-440 - add description field to gene/protein search results
@@ -421,6 +421,27 @@ constructor(private apollo: Apollo) {
 			variables: {
 				aliquot_submitter_id: aliquot_submitter_id,
 				source: "search"
+			}
+		})
+		.valueChanges
+		.pipe(
+		map(result => { console.log(result.data); return result.data;})
+  		); 
+	}
+
+	objectSearchedQuery = gql`
+	query ObjectSearchedQuery($type: String!, $parameterType: String!, $parameterValue: String!){
+		objectSearched (type: $type, parameterType: $parameterType, parameterValue: $parameterValue)
+	}`;
+
+	//@@@PDC-5778: UI call logging API for search statistics
+	getObjectSearchedResults(type: any, parameterType: any, parameterValue: any){
+		return this.apollo.watchQuery<ObjectSearched>({
+			query: this.objectSearchedQuery,
+			variables: {
+				type: type, 
+				parameterType: parameterType, 
+				parameterValue: parameterValue
 			}
 		})
 		.valueChanges

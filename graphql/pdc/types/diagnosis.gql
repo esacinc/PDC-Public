@@ -136,6 +136,7 @@ type Diagnosis {
 	who_nte_grade: String
 	diagnosis_uuid: String
 	auxiliary_data: String
+	annotation: String
 	cases_count: Int
 	case: Case
 	project: Project

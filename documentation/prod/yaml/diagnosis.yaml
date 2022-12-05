@@ -674,7 +674,7 @@ properties:
       minimum: -32872
       type: number
     - type: 'null'
-    required: 'True'
+    required: 'False'
     source: caDSR
     term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3008273&version=2.0
     type: Number
@@ -687,7 +687,7 @@ properties:
       minimum: -32872
       type: number
     - type: 'null'
-    required: 'True'
+    required: 'False'
     source: caDSR
     term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3008273&version=2.0
     type: Number
@@ -706,7 +706,7 @@ properties:
       minimum: -32872
       type: number
     - type: 'null'
-    required: 'True'
+    required: 'False'
     source: caDSR
     term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6154731&version=2.0
     type: Number

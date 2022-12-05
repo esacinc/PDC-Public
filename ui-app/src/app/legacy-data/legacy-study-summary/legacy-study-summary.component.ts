@@ -1,14 +1,13 @@
 
 import {of as observableOf,  Observable } from 'rxjs';
 
-import {catchError} from 'rxjs/operators';
+import {catchError,  take } from 'rxjs/operators';
 import { Component, OnInit, Inject } from '@angular/core';
 import { formatDate } from '@angular/common';
 import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
 import { Apollo } from 'apollo-angular';
 import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { take } from 'rxjs/operators';
 import {MAT_DIALOG_DATA, MatDialogRef, MatDialogConfig, MatDialog} from '@angular/material';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { LegacyStudySummaryService } from './legacy-study-summary.service';

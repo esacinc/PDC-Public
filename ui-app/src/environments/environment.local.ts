@@ -4,6 +4,7 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 //@@@PDC-262 link headers to data dictionary
+//@@@PDC-5770 get file using uuid
 
 export const environment = {
   production: false,
@@ -25,6 +26,7 @@ export const environment = {
   pdcapi_jwt_url: 'http://localhost:3003/login',
   pdcapi_login_url: 'http://localhost:3003/login/token',
   openfile_signedurl_url: '/pdcapi/file/signedURL/',
+  openfile_uuid_signedurl_url: '/pdcapi/file/signedURLFromUuid/',
   dcf_fence_login_url: 'https://nci-crdc-staging.datacommons.io/user/oauth2/authorize?client_id=%dcf_client_id%&response_type=code&redirect_uri=https%3A%2F%2Fpdc-dev.esacinc.com%2Fpdc%2Ffence&scope=openid+data+user',
   dcf_redirect_url: 'https://pdc-dev.esacinc.com/pdc/fence',
   dcf_client_id:'%dcf_client_id%',

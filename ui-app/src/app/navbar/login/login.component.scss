@@ -35,9 +35,17 @@ div.nih-login-button input {
     flex-direction: column;
 }
 
+//@@@PDC-5119: Update login page for new federated login from NIH
 .social-login-item {
     //background-color:#245571;
-  }
+    margin-bottom: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.nihLoginText {
+  text-align: initial;
+}
 
   .user-login-container {
     display: -webkit-flex; 
@@ -69,3 +77,31 @@ div.nih-login-button input {
     text-align: left;
     margin-bottom: 1rem!important;
   }
+
+//@@@PDC-5695: Update login button label and merge code
+.wrapper {
+  position: relative;
+  height: 250px;
+  text-align: center;
+  margin-top: 30px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.wrapper:after {
+  content: " ";
+  position: absolute;
+  left: 50%;
+  height: 100%;
+  border-left: 1px solid lightgray;
+}
+
+.text {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  padding: 5px;
+  background-color: white;
+  transform: translateX(-50%) translateY(-50%);
+  z-index: 1;
+}

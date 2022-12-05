@@ -2,10 +2,9 @@ import { Injectable } from '@angular/core';
 //import {Http, Response, Headers, RequestOptions} from '@angular/http';
 import {Response, Headers, RequestOptions} from '@angular/http';
 
-import { Subject }    from 'rxjs/Subject';
+import { Subject ,  Observable }    from 'rxjs';
 
 import { Apollo } from 'apollo-angular';
-import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import gql from 'graphql-tag';
 

@@ -1,14 +1,13 @@
 import {of as observableOf,  Observable } from 'rxjs';
 
 import { FormControl } from "@angular/forms";
-import { catchError} from 'rxjs/operators';
+import { catchError,  take } from 'rxjs/operators';
 import { Component, OnInit, Inject,  EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
 import { formatDate } from '@angular/common';
 import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
 import { Apollo } from 'apollo-angular';
 import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { take } from 'rxjs/operators';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialogConfig, MatDialog } from '@angular/material';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSelectModule } from '@angular/material/select';
@@ -142,7 +141,7 @@ export class FilesOverlayComponent implements OnInit {
 		this.totalRecords = 0;
 		this.pageSize = 10;
 		if (studyData.summaryData.versions) {
-			this.studyVersion = sessionStorage.getItem('currentVersion') || "";
+      this.studyVersion = studyData.summaryData.currentVersion || "";
 		}
 		//We need to have study UUID in order to retrieve files for correct versions of a study
 		if (studyData.summaryData.study_id) {
@@ -602,8 +601,10 @@ export class FilesOverlayComponent implements OnInit {
       for (let file of this.individualFileData) {
         if (file.downloadable.toLowerCase() === 'yes') {
 			if (!this.isLegacyData){
-				let urlResponse = await this.browseByFileService.getOpenFileSignedUrl(file.file_name);
-				console.log(urlResponse);
+				//let urlResponse = await this.browseByFileService.getOpenFileSignedUrl(file.file_name);
+			  //@@@PDC-5770 get file using uuid
+			  console.log("Export file id 0930: "+file.file_id);
+			  let urlResponse = await this.browseByFileService.getOpenFileUuidSignedUrl(file.file_id);console.log(urlResponse);
 				if (!urlResponse.error) {
 					downloadLink = urlResponse.data;
 				} else {
@@ -1279,7 +1280,10 @@ export class FilesOverlayComponent implements OnInit {
           //@@@PDC-1940: File manifest download is very slow
           //This code should be changed to use 'getFilesData' API which accepts upto 1000 file names per request. 
           //Not changing now as we don't have sufficient data to test. 
-          let urlResponse = await this.browseByFileService.getOpenFileSignedUrl(exportFile.file_name);
+          //let urlResponse = await this.browseByFileService.getOpenFileSignedUrl(exportFile.file_name);
+		  //@@@PDC-5770 get file using uuid
+		  console.log("Export file id 0929: "+exportFile.file_id);
+          let urlResponse = await this.browseByFileService.getOpenFileUuidSignedUrl(exportFile.file_id);
           if(!urlResponse.error){
             if (individualFileDownload) {
               //@@@PDC-1303: Add a download column and button for downloading individual files to the file tab

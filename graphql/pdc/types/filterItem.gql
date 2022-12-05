@@ -1,0 +1,6 @@
+type FilterItem {
+	filterUsed: String
+	filterAppCount: Int
+	filterName: String
+	filterValue: String
+}	

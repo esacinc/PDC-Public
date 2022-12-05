@@ -5149,7 +5149,7 @@ required:
 title: Treatment
 type: object
 uniqueKeys:
-- id
-- project_id
-- submitter_id
+- treatment_id
+- treatment_submitter_id
+- study_id
 validators: null

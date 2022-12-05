@@ -69,9 +69,10 @@
         <div *ngFor="let tst of showMoreDiagnosisOddProps;let i = index;">
           <table style="max-height:200px;overflow-y: auto;display: block!important;font-size: 14px; width: 100%; padding-top: 10px" id='{{i}}_enum' >
               <tr *ngFor="let tst of showLessDiagnosisOddProps[i]; let j= index;">
-                <td class="summary-card-name-left-cell">{{showLessDiagnosisOddProps[i][j] == 'Samples' ? 'Associated Samples' : showLessDiagnosisOddProps[i][j]}}</td>
+                <td class="summary-card-name-left-cell">{{showLessDiagnosisOddProps[i][j] == 'Samples' ? 'Associated Samples' : showLessDiagnosisOddProps[i][j]}} </td>
                 <td class="summary-card-value-left-cell" [ngStyle]="styleNotReported(showLessDiagnosisOddPropVals[i][j])">{{showLessDiagnosisOddPropVals[i][j]}}</td>
-                <td class="summary-card-name-right-cell">{{showLessDiagnosisEvenProps[i][j] == 'Samples' ? 'Associated Samples' :  showLessDiagnosisEvenProps[i][j]}}</td>
+
+                <td class="summary-card-name-right-cell">{{showLessDiagnosisEvenProps[i][j] == 'Samples' ? 'Sample Annotation' :  showLessDiagnosisEvenProps[i][j]}}</td>
                 <td class="summary-card-value-right-cell" [ngStyle]="styleNotReported(showLessDiagnosisEvenPropVals[i][j])">{{showLessDiagnosisEvenPropVals[i][j]}}</td>
               </tr>
           </table>

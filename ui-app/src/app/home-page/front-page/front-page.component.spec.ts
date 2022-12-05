@@ -12,6 +12,10 @@ class MockFrontPageService {
   getNewsItems(): Observable<any> {
     return of({ news: "" });
   }
+  //@@PDC-5628 
+  getReleaseItems(): Observable<any> {
+    return of({ releases: "" });
+  }
 
   getTissueSites(): Observable<any> {
     return of({ uiTissueSiteCaseCount: [] });

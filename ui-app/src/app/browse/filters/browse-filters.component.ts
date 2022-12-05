@@ -2,7 +2,7 @@ import { FilterElement } from './../../types';
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ElementRef, ViewChild, ViewChildren, QueryList } from "@angular/core";
 import * as _ from "lodash";
 import { Observable, Subject, fromEvent } from "rxjs";
-//import "rxjs/add/operator/map";
+//import { map } from 'rxjs/operators';
 import { map, debounceTime, startWith, take } from 'rxjs/operators';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Location } from '@angular/common';
@@ -51,12 +51,12 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
   allCategoryFilterData: FilterData; // Full list of all cases as returned by API
   allFilterCategoryMapData: Map<string, string[]> = new Map();
   loading: boolean = false; //Flag indicates that the data is still being loaded from server
-  
+
   loadingURLParams:boolean = false; //Loading page with filter values from URL parameters
   urlFilterParams: boolean = false; //There were filter parameters set through url
-  
+
   //PDC-683 and PDC-685 definitions for gene name filter
-  options: string = ""; 
+  options: string = "";
   valudatedGeneNamesList: string[] = [];
   allGeneNamesValid: boolean = false;
   geneNameValid :boolean = false;
@@ -159,7 +159,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
 
   caseStatusFilter: Filter[] = [];
   selectedCaseStatus: string[] = [];
-  
+
   studyNameStudyIdMap: any = [];
   studyNameUUIDMap: any = [];
   studyNamePDCStudyIDMap: any = [];
@@ -185,7 +185,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
   newFilterSelected = {"program_name" : "", "project_name": "", "study_name": "", "submitter_id_name": "", "disease_type":"", "primary_site":"", "analytical_fraction":"", "experiment_type":"",
   "ethnicity": "", "race": "", "gender": "", "tumor_grade": "", "sample_type": "", "acquisition_type": "", "data_category": "", "file_type": "", "access": "", "downloadable": "", "gene_name": "", "studyName_genes_tab": "", "geneNameStudyArray": "", "biospecimen_status": "", "case_status": ""};
   allFilterCategoriesForCntrlFiles: string[] = ["project_name","primary_site","program_name","disease_type","analytical_fraction","experiment_type","acquisition_type","submitter_id_name","sample_type","study_name","ethnicity","race","gender","tumor_grade","data_category","file_type","access","downloadable", "gene_name", "studyName_genes_tab", "geneNameStudyArray", "biospecimen_status", "case_status"];
-  
+
   //keep a full list of filter category
   allFilterCategory: string[] = [
     "project_name",
@@ -208,14 +208,14 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
     "biospecimen_status",
     "case_status"
   ];
-  
+
   //dataCategoryFileTypeMap = {
 //	  "Other Metadata": ["Document", "Text", "Archive"], "Peptide Spectral Matches": ["Open Standard", "Text"], "Processed Mass Spectra" : ["Open Standard"],
-//	  "Protein Assembly": ["Text"], "Protein Databases": ["Text"], "Quality Metrics": ["Text", "Web"], "Raw Mass Spectra": ["Proprietary"], 
+//	  "Protein Assembly": ["Text"], "Protein Databases": ["Text"], "Quality Metrics": ["Text", "Web"], "Raw Mass Spectra": ["Proprietary"],
 //	  "Spectral Library": ["Proprietary"], "Alternate Processing Pipeline": ["Archive"]
  // };
   dataCategoryFileTypeMap = {};
-  
+
   //fileTypeDataCategoryMap = {
 	//	"Document": ["Other Metadata"], "Open Standard": ["Peptide Spectral Matches", "Processed Mass Spectra"], "Proprietary": ["Raw Mass Spectra", "Spectral Library"],
 	//	"Text": ["Other Metadata", "Peptide Spectral Matches", "Protein Assembly", "Protein Databases", "Quality Metrics"], "Web": ["Quality Metrics"],
@@ -229,10 +229,10 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
 
   //@@@PDC-3779: Investigate the ability to only display the top 10 filters in each category
   // hidden by default
-  showPSite: boolean = false; 
+  showPSite: boolean = false;
   showProgram: boolean = false;
   showDType: boolean = false;
-  showAFraction: boolean = false; 
+  showAFraction: boolean = false;
   showExpType: boolean = false;
   showAcqType: boolean = false;
   showSampleType: boolean = false;
@@ -276,7 +276,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
     this.loading = false;
     });
   }
-  
+
   //Get data category to file type and vice a versa mapping
   private getDataCategoryMapping() {
 	this.loading = true;
@@ -300,7 +300,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
 		console.log(this.dataCategoryFileTypeMap, this.fileTypeDataCategoryMap);
 	});
   }
-  
+
   private getStudyUUIDNameMapping(){
 	  this.browseFiltersService.getStudyUUID2NameMapping().subscribe((data: any) => {
 	  //@@@PDC-1123 call ui wrapper API
@@ -313,8 +313,8 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
 			  }
 		  }
 	  }
-	  console.log(this.studyNameUUIDMap);
-    console.log(this.studyNamePDCStudyIDMap);
+	  //console.log(this.studyNameUUIDMap);
+    //console.log(this.studyNamePDCStudyIDMap);
     })
   }
 
@@ -398,8 +398,8 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
     this.downloadableFilter.sort(this.compare);
     this.biospecimenStatusFilter.sort(this.compare);
     this.caseStatusFilter.sort(this.compare);
-	
-  
+
+
   //After the filters were populated if there are any filter values set in URL need to emit these filter values and update filters
 	//URL values for filters should be set in the following format:
 	//https://mainurl/filters/[filter name 1]:[filter value 1]|[filter value 2]&[filter name 2]:[filter value 1]|[filter value 2]
@@ -465,7 +465,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
               console.log(studyNames);
               this.setFilters("study_name", studyNames);
               this.selectedFilters.emit("study_name:" + studyNames.split('|').join(';'));
-            //PDC-3778 add pdc_study_id filter URL filter option	
+            //PDC-3778 add pdc_study_id filter URL filter option
             }else if (filter[0] == "pdc_study_id"){
               let studyNames = "";
               //Convert study uuids to study names
@@ -505,7 +505,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
           var checkBoxVal = selectedFiltersForBrowse[filterName];
           if (filterName == "gene_name" || filterName == "studyName_genes_tab" || filterName == "geneNameStudyArray") {
             this.setFilters(filterName, checkBoxVal, true);
-            if (filterName == "gene_name") { 
+            if (filterName == "gene_name") {
               this.selectedFilters.emit(filterName+":"+checkBoxVal.replace(/ /g, ";"));
             }
             if (filterName == "studyName_genes_tab") {
@@ -514,7 +514,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
           } else {
             for (var j = 0; j < checkBoxVal.length; j++) {
               this.setFilters(filterName, checkBoxVal[j], true);
-            } 
+            }
             this.selectedFilters.emit(filterName+":"+checkBoxVal.join(";"));
             // This is for populating the 3 charts
             if (filterName == "submitter_id_name") {
@@ -530,7 +530,8 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
   //@@@PDC-799: Redirecting to the NIH login page for the file authorization loses PDC state
   // PDC-728 Helper function to put select checkboxes of the filters set using URL values
   private setFilters(filterName: string, filterVal: string, setValuesForFence = false, clearValuesforbreadcrumb = false){
-    switch (filterName) {
+ 	    console.log("Filter Selected: "+ filterVal);
+   switch (filterName) {
       case "project_name":
       if (setValuesForFence) {
         this.selectedProjects.push(filterVal);
@@ -547,7 +548,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
           this.clearSelectionsPrimarySite();
         } else {
           this.selectedPrimarySites  = filterVal.split('|');
-        } 
+        }
         let sortedPrimList = this.moveFilterToTop(this.primarySitesFilter, this.selectedPrimarySites, 'true', '-primSite');
         this.primarySitesFilter = sortedPrimList;
         break;
@@ -607,6 +608,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
         this.acquisitionFilter = sortedAcqTypeList;
         break;
       case "study_name":
+	    console.log("Study Name Selected: "+ filterVal);
         if (setValuesForFence) {
           //this code is not needed now but might be useful in the future.
           //this.selectedStudyFilter = new Array(filterVal);
@@ -619,7 +621,8 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
         this.studyFilter = sortedStudyList;
         break;
       case "submitter_id_name":
-        if (setValuesForFence) {
+ 	    console.log("Study Name Selected: "+ filterVal);
+       if (setValuesForFence) {
           this.selectedStudyFilter.push(filterVal);
         } else if (clearValuesforbreadcrumb) {
           this.clearSelectionsStudyID();
@@ -744,7 +747,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
         } else if (clearValuesforbreadcrumb) {
           this.clearAllGenesSelections();
         }
-        break;  
+        break;
 	  case "gene_names":
 	    //gene names are expected to be delimited with spaces or new lines in the input field
 		//therefore replacing commas with spaces
@@ -789,7 +792,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
   }
 
   /* Update filters counters when filter selection is changed */
-  /*if only one filter category has been selected, all filter 
+  /*if only one filter category has been selected, all filter
   counts in that category shouldn't update*/
   //@@@PDC-1216 redesign filter api
   updateFiltersCounters(geneNameStudyArray: string[] = [], geneNames = "", studyNamesList: any[] = [], studySelected: boolean = false) {
@@ -956,7 +959,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
           let filterCategoryName = this.allFilterCategory[i];
           //@@@PDC-2113: Browse - Clinical - Pick filters & then reverse - Study count does not match
           //This piece of code stops further processing and does not update filter's study count for the first filter (when filters are deselected in reverse).
-		  //Commeting out of the next three lines of code causes issue with filters - when no more than 1 filter option can be chosen in the same filter section. 
+		  //Commeting out of the next three lines of code causes issue with filters - when no more than 1 filter option can be chosen in the same filter section.
           if (numOfFilterCategorySelected === 1 && !geneFilterSelected && filterCategoryName == selectedFilterCategoryName) {
           //@@@PDC-2283 fix the issue filters are deselected in reverse.
             let allFilterData = this.allCategoryFilterData[filterCategoryName];
@@ -971,7 +974,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
               }
             }
             continue;
-          } 
+          }
 
           let selectedFilter: Filter[] = this.findFilterListByName(
             filterCategoryName
@@ -1275,6 +1278,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
           //@@@PDC-1418: Unable to clear breadcrumbs when the user clicks on breadcrumbs other than "Clear"
           let filterValWithrandowmNum =  filterChangedInBreadcrumbBar.split("~");
           let filterValWithoutrandomNum = filterValWithrandowmNum[0];
+		  //console.log("Filter Raw: "+ filterValWithoutrandomNum);
           var filter_value = filterValWithoutrandomNum.split(":");
           if (filter_value[1] != "") {
             if (filter_value[0] == "gene_name") {
@@ -1304,7 +1308,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
 		var re = new RegExp(replaceWhat, 'g');
 		return str.replace(re,replaceTo);
   }
-  
+
   /* Program filter callback onChange */
   filterDataByProgram(e, filterSub = '', index = 0) {
     var newFilterValue = "program_name:" + this.selectedPrograms.join(";");
@@ -1451,7 +1455,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
 	  }
 	  return result;
   }
-  
+
   filterDataByAccess(e, filterSub = '', index = 0) {
     var newFilterValue = "access:" + this.selectedAccess.join(";");
     this.selectedFilters.emit(newFilterValue);
@@ -1505,7 +1509,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
 		  });
 		}, 200);
   }
-  
+
   filterDataByBiospecimenStatus(e, filterSub = '', index = 0) {
     var newFilterValue = "biospecimen_status:" + this.selectedBiospecimenStatus.join(";");
     this.selectedFilters.emit(newFilterValue);
@@ -1521,7 +1525,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
     this.caseStatusFilter = sortedList;
     this.updateFiltersCounters();
   }
-  
+
 
   //Clear projects filter selections callback button
   clearSelectionsProjects() {
@@ -1763,7 +1767,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
 
     this.updateFiltersCounters();
   }
-  
+
    clearAllGenesSelections() {
   	var newFilterValue = "Clear all genes filters selections:"; //set new filter value
     this.selectedFilters.emit(newFilterValue);
@@ -1774,8 +1778,8 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
     this.allStudyIDsForGenes = [];
     this.updateFiltersCounters();
   }
-  
-  //Search for a gene name to validate that such gene exists in our system 
+
+  //Search for a gene name to validate that such gene exists in our system
   searchGeneNames(search_term:string){
 	this.loadingGeneSymbolValidation = true;
 	this.browseFiltersService.getGeneSearchResults(search_term).subscribe((data: any) =>{
@@ -1797,14 +1801,14 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
 		console.log(this.options);
 		//Change loading to false only after finished checking all genes in the list
 		if ( this.allGeneNamesValid && this.validatingGeneNamesCounter == this.valudatedGeneNamesList.length) {
-			this.loadingGeneSymbolValidation = false;  
+			this.loadingGeneSymbolValidation = false;
 		}
 		else {
 			this.validatingGeneNamesCounter++;
 		}
 	});
-  }	
-	
+  }
+
   //This function validates all gene names entered in text area
   private _validate(value: string): string {
 	  const filterValue = value.toLowerCase();
@@ -1817,8 +1821,8 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
 		this.searchGeneNames(geneName);
 	  }
 	  return this.options;
-  }	
-  
+  }
+
   //helper function to update Subject variable with current value
   triggerInputEvent(event){
 	  this.genesNamesInputField.next(event);
@@ -1831,13 +1835,13 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
          this.fenceRequest = true;
       }
     });
-	  
+
 	// PDC-685 and PDC-683 Monitor changes to gene names textarea field and validate all gene symbols
 	// 	as soon as the user entered at least 3 characters or a predefined list of genes was selected
 	this.genesNamesInputField.pipe(
 		debounceTime(200))
-		.subscribe(value => value.length > 2 ? this._validate(value) : '');  
-	  
+		.subscribe(value => value.length > 2 ? this._validate(value) : '');
+
     this.parentCharts.subscribe(event => {
       console.log("in filter child component " + event);
       let filterField = event.split(":");
@@ -1911,7 +1915,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
         console.log(this.selectedDataCategory);
             this.filterDataByDataCategory(event);
           }, 2000);
-        } 
+        }
       }
     });
   }

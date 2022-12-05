@@ -390,6 +390,11 @@ export class BrowseByFileService {
     return this.http.get(environment.openfile_signedurl_url + fileName).toPromise();
   }
 
+  //@@@PDC-5770 get file using uuid
+  getOpenFileUuidSignedUrl(uuid: string): Promise<any> {
+    return this.http.get(environment.openfile_uuid_signedurl_url + uuid).toPromise();
+  }
+
   //@@@PDC-1940: File manifest download is very slow
   //@@@PDC-3253 call api with acceptDUA
   //@@@PDC-3928 to get correct files for appropriate study version we need to provide study UUID

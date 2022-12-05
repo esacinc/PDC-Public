@@ -163,8 +163,9 @@
             <tr style="font-size: 11px;" [pSelectableRow]="clinicalData" >
                 <td style="word-wrap: break-word; white-space: normal;"><a href="javascript:void(0);" (click)="showCaseSummary(clinicalData.case_id)">{{clinicalData.case_submitter_id }}</a>
 					<span *ngIf="clinicalData.samples && clinicalData.samples != ''"><br>
-						<span *ngIf="clinicalData.samples.includes(',')"><i class="fa fa-info-circle" aria-hidden="true" title="The samples {{clinicalData.samples}} are associated with this clinical record"></i>&nbsp;{{clinicalData.samples}}</span>
-						<span *ngIf="!clinicalData.samples.includes(',')"><i class="fa fa-info-circle" aria-hidden="true" title="The sample {{clinicalData.samples}} is associated with this clinical record"></i>&nbsp;{{clinicalData.samples}}</span>
+						<!--@@PDC-5414-add-annotation-information -->
+						<span *ngIf="clinicalData.samples.includes(',')"><i class="fa fa-info-circle" aria-hidden="true" title="{{clinicalData.samples[0].annotation}}"></i>&nbsp;{{clinicalData.samples[0].sample_submitter_id}}</span>
+						<span *ngIf="!clinicalData.samples.includes(',')"><i class="fa fa-info-circle" aria-hidden="true" title="{{clinicalData.samples[0].annotation}}"></i>&nbsp;{{clinicalData.samples[0].sample_submitter_id}}</span>
 					</span>
 					<span style='color:red' *ngIf="clinicalData.status == 'Disqualified'"><br>{{clinicalData.status}}</span>
 				</td>

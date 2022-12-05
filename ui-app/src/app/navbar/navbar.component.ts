@@ -83,6 +83,8 @@ export class NavbarComponent implements OnInit {
   homePageURL = '/';
   userRegisteredToWorkspaceFlag = false;
   //caseUUID = '';
+  searchedSampleSubmitterID = "";
+  searchedAliquotSubmitterID = "";
 
   private subscription: Subscription;
 
@@ -119,6 +121,13 @@ export class NavbarComponent implements OnInit {
     return this.sanitizer.bypassSecurityTrustUrl(this.submission_portal_docs_url);
   }
 
+  //@@@PDC-5778: UI call logging API for search statistics
+  callObjectSearchedAPI(type, paramType, paramVal) {
+    this.searchService.getObjectSearchedResults(type, paramType, paramVal).subscribe((data: any) => {
+      console.log(data);
+    });
+  }
+
   //Callback function that is called when the user clicks "search" icon to open the window with the search term summary
   //@@@PDC-1082 Add validation on search text user put in search bar.
   openSearchTermSummary(test: any) {
@@ -130,34 +139,42 @@ export class NavbarComponent implements OnInit {
         //Display value looks like this: GN: <gene name> (<gene description>)
         //We need to extract only the gene name, that is why another split is needed
         let gene_term = term[1].split(' (');
-        this.showGeneProteinSummary(gene_term[0].replace(/[^a-zA-Z0-9-]/g, ''));
+        this.showGeneProteinSummary(gene_term[0].replace(/[^a-zA-Z0-9-]/g, ''), 'gene');
         this.searchButtonFlag = false;
       }
       if (term[0] === 'PT') {
-        this.showGeneProteinSummary(term[1].replace(/[^a-zA-Z0-9-]/g, ''));
+        this.showGeneProteinSummary(term[1].replace(/[^a-zA-Z0-9-]/g, ''), 'protein');
         this.searchButtonFlag = false;
       }
       if (term[0] === 'CA') {
-        this.showCaseSummary(term[1], term[0]);
+        this.showCaseSummary(term[1], term[0], '', 'case');
         this.searchButtonFlag = false;
       }
       if (term[0] === 'ST') {
-        this.showStudySummary(term[1]);
+        this.showStudySummary(term[1], '', '', '', 'study');
         this.searchButtonFlag = false;
       }
       if (term[0] === 'AL') {
-        this.showCaseSummary(term[1], term[0]);
+        this.showCaseSummary(term[1], term[0], '', 'aliquot');
         this.searchButtonFlag = false;
       }
       if (term[0] === 'SA') {
-        this.showCaseSummary(term[1], term[0]);
+        this.showCaseSummary(term[1], term[0], '', 'sample');
         this.searchButtonFlag = false;
       }
     }
   }
 
-  showGeneProteinSummary(gene_name: string) {
-
+  showGeneProteinSummary(gene_name: string, type = '') {
+    //@@@PDC-5778: UI call logging API for search statistics
+    //Call the API only when searched through search box
+    if (type != "") {
+      if (type == 'protein') {
+        this.callObjectSearchedAPI(type, 'protein_name', gene_name);
+      } else {
+        this.callObjectSearchedAPI(type, 'gene_name', gene_name);
+      }
+    }
     //console.log("Gene name: " + gene_name);
     const dialogConfig = new MatDialogConfig();
 
@@ -186,7 +203,7 @@ export class NavbarComponent implements OnInit {
 
   }
 
-  showCaseSummary(case_id: string, entityType = '', case_uuid = '') {
+  showCaseSummary(case_id: string, entityType = '', case_uuid = '', type = '') {
     var caseSubmitterID = '';
     var caseUUID = '';
     if (entityType == 'CA') {
@@ -207,6 +224,19 @@ export class NavbarComponent implements OnInit {
       caseSubmitterID = requiredCaseID[1];
       //this.openCaseSummaryDialog(caseSubmitterID, caseUUID);
     }
+    //@@@PDC-5778: UI call logging API for search statistics
+    if (type != "") {
+      if (type == 'sample') {
+        if (this.searchedSampleSubmitterID != "") this.callObjectSearchedAPI(type, 'sample_submitter_id', this.searchedSampleSubmitterID)
+        else this.callObjectSearchedAPI(type, 'case_submitter_id', caseSubmitterID)
+      } else if (type == 'aliquot') {
+        if (this.searchedAliquotSubmitterID != "") this.callObjectSearchedAPI(type, 'aliquot_submitter_id', this.searchedAliquotSubmitterID)
+        else this.callObjectSearchedAPI(type, 'case_submitter_id', caseSubmitterID)
+      } else {
+        this.callObjectSearchedAPI(type, 'case_submitter_id', caseSubmitterID);
+      }
+    }
+
     //this function was called with auxiliary URL and NOT with search
     if (entityType === '') {
       if (case_id != '') {
@@ -303,7 +333,7 @@ export class NavbarComponent implements OnInit {
     return '';
   }
 
-  showStudySummary(study_name: string, studyUUID = '', study_submitter_id_param = '', PDC_study_id = '') {
+  showStudySummary(study_name: string, studyUUID = '', study_submitter_id_param = '', PDC_study_id = '', type = '') {
     //@@@PDC-1441: Add ability to search by case, study, aliquot, sample UUIDs on UI search box
     let study_uuid = '';
     let study_submitter_id = '';
@@ -325,6 +355,10 @@ export class NavbarComponent implements OnInit {
       study_uuid = studyUUID;
       study_submitter_id = study_submitter_id_param;
       pdc_study_id = PDC_study_id;
+    }
+    if (type != '') {
+      //@@@PDC-5778: UI call logging API for search statistics
+      this.callObjectSearchedAPI('study', 'study_submitter_id', study_submitter_id);
     }
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
@@ -439,42 +473,63 @@ export class NavbarComponent implements OnInit {
     this.loading = true;
     this.caseSearchResults = [];
     this.searchCaseTermsForCaseSubmitterID(search_term);
+    //@@@PDC-5691: PDC Study ID cannot be searched via search box
+    var isUUID = this.isUuid(search_term);
     //If the search term can't be found, search for Case UUID, Sample ID, Aliquot IDs
     //@@@PDC-1441: Add ability to search by case, study, aliquot, sample UUIDs on UI search box
     //Search for Case UUI
-    this.searchService.getCaseUUIDResults(search_term).subscribe((data: any) => {
-      if (data.uiCaseSummary[0] && data.uiCaseSummary[0].case_submitter_id) {
-        let search_case_submitter_id = data.uiCaseSummary[0].case_submitter_id;
-        this.searchCaseTermsForCaseSubmitterID(search_case_submitter_id, search_term);
-      }  
-      //@@@PDC-1943: Refine search functionality to return more results
-      //Search for sample ID/sample submitter ID
-      this.searchService.getSampleUUIDResults(search_term).subscribe((sampleData: any) => {
-        this.searchForSampleData(sampleData);
-        this.searchService.getSampleSubmitterIDResults(search_term).subscribe((sampleSubmitterData: any) => {
-          this.searchForSampleData(sampleSubmitterData);
-          //Search for aliquot ID/aliquot submitter ID
-          this.searchService.getAliquotUUIDResults(search_term).subscribe((aliquotData: any) => {
-            this.searchForAliquotData(search_term, aliquotData);
-            this.searchService.getAliquotSearchResults(search_term).subscribe((aliquotSearchResults: any) => {
-              var aliquotSearchResultSet = aliquotSearchResults.aliquotSearch.searchAliquots;
-              for (let returnValue of aliquotSearchResultSet) {
-                let aliquotID = returnValue.aliquot_id;
-                //@@@PDC-1943: Refine search functionality to return more results
-                this.searchService.getAliquotUUIDResults(aliquotID).subscribe((aliquotSubmitterData: any) => {
-                  this.searchForAliquotData(aliquotID, aliquotSubmitterData);
-                });
-              }
+    //Search only uuid formats
+    if (isUUID != null) {
+      this.searchService.getCaseUUIDResults(search_term).subscribe((data: any) => {
+        if (data.uiCaseSummary[0] && data.uiCaseSummary[0].case_submitter_id) {
+          let search_case_submitter_id = data.uiCaseSummary[0].case_submitter_id;
+          this.searchCaseTermsForCaseSubmitterID(search_case_submitter_id, search_term);
+        }
+        //@@@PDC-1943: Refine search functionality to return more results
+        //Search for sample ID/sample submitter ID
+        this.searchService.getSampleUUIDResults(search_term).subscribe((sampleData: any) => {
+          this.searchForSampleData(sampleData);
+          this.searchService.getSampleSubmitterIDResults(search_term).subscribe((sampleSubmitterData: any) => {
+            this.searchForSampleData(sampleSubmitterData);
+            //Search for aliquot ID/aliquot submitter ID
+            this.searchService.getAliquotUUIDResults(search_term).subscribe((aliquotData: any) => {
+              this.searchForAliquotData(search_term, aliquotData);
+              this.searchService.getAliquotSearchResults(search_term).subscribe((aliquotSearchResults: any) => {
+                var aliquotSearchResultSet = aliquotSearchResults.aliquotSearch.searchAliquots;
+                for (let returnValue of aliquotSearchResultSet) {
+                  let aliquotID = returnValue.aliquot_id;
+                  //@@@PDC-1943: Refine search functionality to return more results
+                  this.searchService.getAliquotUUIDResults(aliquotID).subscribe((aliquotSubmitterData: any) => {
+                    this.searchForAliquotData(aliquotID, aliquotSubmitterData);
+                  });
+                }
+              });
             });
           });
         });
       });
-    });
+    } else {
+      this.searchService.getSampleSubmitterIDResults(search_term).subscribe((sampleSubmitterData: any) => {
+        this.searchForSampleData(sampleSubmitterData);
+        //Search for aliquot submitter ID
+          this.searchService.getAliquotSearchResults(search_term).subscribe((aliquotSearchResults: any) => {
+            var aliquotSearchResultSet = aliquotSearchResults.aliquotSearch.searchAliquots;
+            for (let returnValue of aliquotSearchResultSet) {
+              let aliquotID = returnValue.aliquot_submitter_id;
+              //@@@PDC-1943: Refine search functionality to return more results
+              this.searchService.getAliquotSubmitterIDResults(aliquotID).subscribe((aliquotSubmitterData: any) => {
+                this.searchForAliquotData(aliquotID, aliquotSubmitterData);
+              });
+            }
+          });
+      });
+    }
   }
 
   searchForSampleData(sampleData) {
     if (sampleData && sampleData.uiSampleSummary[0] && sampleData.uiSampleSummary.length > 0) {
       let sampleDataTemp = [];
+      this.searchedSampleSubmitterID = "";
       sampleDataTemp = Object.assign(sampleDataTemp, sampleData.uiSampleSummary);
       for (let returnValue of sampleDataTemp) {
         let caseSubmitterIDForSample = '';
@@ -488,6 +543,7 @@ export class NavbarComponent implements OnInit {
         }
         if (returnValue.sample_submitter_id) {
           sampleSubmitterID = returnValue.sample_submitter_id;
+          this.searchedSampleSubmitterID = sampleSubmitterID;
         }
         var display_name = 'SA: ';
         if (sampleUUID != '') {
@@ -503,6 +559,7 @@ export class NavbarComponent implements OnInit {
   searchForAliquotData(search_term, aliquotData) {
     if (aliquotData && aliquotData.uiAliquotSummary && aliquotData.uiAliquotSummary.length > 0) {
       let aliquotDataTemp = [];
+      this.searchedAliquotSubmitterID = "";
       aliquotDataTemp = Object.assign(aliquotDataTemp, aliquotData.uiAliquotSummary);
       for (let returnValue of aliquotDataTemp) {
         let caseSubmitterIDForAliquot = '';
@@ -517,6 +574,7 @@ export class NavbarComponent implements OnInit {
         }
         if (returnValue.aliquot_submitter_id) {
           aliquotSubmitterID = returnValue.aliquot_submitter_id;
+          this.searchedAliquotSubmitterID = aliquotSubmitterID;
         }
         var display_name = 'AL: ';
         if (aliquotUUID != '') {
@@ -568,11 +626,23 @@ export class NavbarComponent implements OnInit {
     //Search by study_shortname
     this.searchForStudyData(search_term);
     //Search by study_id
-    this.searchService.getStudybyUUIDResults(search_term, '').subscribe((data: any) => {
-      if (data.uiStudySummary && data.uiStudySummary[0] && data.uiStudySummary[0].study_shortname) {
-        let data_study_shortname = data.uiStudySummary[0].study_shortname;
-        this.searchForStudyData(data_study_shortname);
-      }
+    //@@@PDC-5691: PDC Study ID cannot be searched via search box
+    var isUUID = this.isUuid(search_term);
+    if (isUUID != null) {
+      this.searchService.getStudybyUUIDResults(search_term, '').subscribe((data: any) => {
+        if (data.uiStudySummary && data.uiStudySummary[0] && data.uiStudySummary[0].study_shortname) {
+          let data_study_shortname = data.uiStudySummary[0].study_shortname;
+          this.searchForStudyData(data_study_shortname);
+        }
+        //Search by study_submitter_id
+        this.searchService.getStudybyUUIDResults('', search_term).subscribe((studySubmitterIDData: any) => {
+          if (studySubmitterIDData.study && studySubmitterIDData.uiStudySummary[0] && studySubmitterIDData.uiStudySummary[0].study_shortname) {
+            let studySubmitterIDData_shortname = studySubmitterIDData.uiStudySummary[0].study_shortname;
+            this.searchForStudyData(studySubmitterIDData_shortname);
+          }
+        });
+      });
+    } else {
       //Search by study_submitter_id
       this.searchService.getStudybyUUIDResults('', search_term).subscribe((studySubmitterIDData: any) => {
         if (studySubmitterIDData.study && studySubmitterIDData.uiStudySummary[0] && studySubmitterIDData.uiStudySummary[0].study_shortname) {
@@ -583,16 +653,23 @@ export class NavbarComponent implements OnInit {
       //@@@PDC-1875: Update search to be able to search by new PDC ID
       //Search by pdc_study_id
       //@@@PDC-1937: Implement search by partial PDC ID
-      this.searchService.getStudySearchByPDCStudyId(search_term).subscribe((studyIDData: any) => {
-        if (studyIDData.studySearchByPDCStudyId && studyIDData.studySearchByPDCStudyId.studies && studyIDData.studySearchByPDCStudyId.studies.length > 0) {
-          this.studySearchResults = Object.assign(this.studySearchResults, studyIDData.studySearchByPDCStudyId.studies);
-          this.populateDropDownOptions(this.studySearchResults);
-        } else {
-          //@@@PDC-1931: Enable search based on the external references
-          this.searchStudiesForExternalReferences(search_term);
-        }
-      });
-    });
+      //if (search_term.startsWith("PDC")) {
+        this.searchService.getStudySearchByPDCStudyId(search_term).subscribe((studyIDData: any) => {
+          if (studyIDData.studySearchByPDCStudyId && studyIDData.studySearchByPDCStudyId.studies && studyIDData.studySearchByPDCStudyId.studies.length > 0) {
+            this.studySearchResults = Object.assign(this.studySearchResults, studyIDData.studySearchByPDCStudyId.studies);
+            this.populateDropDownOptions(this.studySearchResults);
+          } else {
+            //@@@PDC-1931: Enable search based on the external references
+            this.searchStudiesForExternalReferences(search_term);
+          }
+        });
+      //}
+    }
+  }
+
+  //@@@PDC-5691: PDC Study ID cannot be searched via search box
+  isUuid(search_term: string) {
+    return search_term.match("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$");
   }
 
   //@@@PDC-1441: Add ability to search by case, study, aliquot, sample UUIDs on UI search box
@@ -762,7 +839,8 @@ export class NavbarComponent implements OnInit {
                   message = 'User confirmed their email successfully';
                   this.userEmailConfirmed = true;
                 } else {
-                  message = 'Could not confirm user email. User record was not found, or blocked, or already confirmed. For further assistance contact site administrators by email pdc-admin@esacinc.com.';
+                  //@@@PDC-5892 - update-help-email
+                  message = 'Could not confirm user email. User record was not found, or blocked, or already confirmed. For further assistance contact site administrators by email PDCHelpDesk@mail.nih.gov.';
                 }
                 var currentUrl = this.loc.path();
                 //Generate new url that does not contain email-confirmed parameters
@@ -912,7 +990,7 @@ export class NavbarComponent implements OnInit {
     dialogConfig.width = '38%';
     dialogConfig.height = '60%';
     dialogConfig.minWidth = 720;
-    dialogConfig.minHeight = 630;
+    dialogConfig.minHeight = 680;
     const dialogRef = this.dialog.open(LoginComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(result => {

@@ -280,7 +280,11 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 	  }
 	  // ngOnChanges fires when the page loads, at that moment newFilterValue is not set yet
 	  if (this.newFilterValue){
-		var filter_field=this.newFilterValue.split(":"); //the structure is field_name: "value1;value2"
+		//var filter_field=this.newFilterValue.split(":"); //the structure is field_name: "value1;value2"
+	  //@@@PDC-5428 fix study name truncation issue
+	  var filter_field = [];
+	  filter_field.push(this.newFilterValue.substring(0, this.newFilterValue.indexOf(":")));
+	  filter_field.push(this.newFilterValue.substring(this.newFilterValue.indexOf(":")+1));
 		//If clear all filter selection button was pressed need to clear all filters
 		if (filter_field[0] === "Clear all selections"){
 			for (let filter_name in this.newFilterSelected){
@@ -326,12 +330,14 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 		else {
 			this.newFilterSelected[filter_field[0]] = filter_field[1];
 		}
+		console.log("Study Filter Value: "+ this.newFilterSelected[filter_field[0]]);
 		this.offset = 0; //Reinitialize offset for each new filter value
 		this.loading = true;
 		//@@@PDC-799: Redirecting to the NIH login page for the file authorization loses PDC state
 		 //If its a fence request, set filters from local storage
 		var selectedFiltersForBrowse = JSON.parse(localStorage.getItem("selectedFiltersForBrowse"));
 		if (this.fenceRequest && selectedFiltersForBrowse) {
+		console.log("IN fence request ");
 			for (var i=0;i<this.allFilterCategory.length;i++) {
 				if (selectedFiltersForBrowse[this.allFilterCategory[i]]) {
 				  var filterName = this.allFilterCategory[i];
@@ -854,6 +860,10 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
     } else {
       return value;
     }
+	}
+
+	versionCheck(studyVersions) {
+		return (studyVersions.length > 1) || (studyVersions.length == 1 && Number(studyVersions[0].number) > 1);
 	}
 	
 	//@@@PDC-848 Fix headercheckbox issue for data tables on browse page

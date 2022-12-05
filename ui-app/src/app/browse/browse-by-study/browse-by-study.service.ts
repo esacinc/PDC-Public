@@ -164,6 +164,8 @@ constructor(private apollo: Apollo) {
 		if (filter_race === "Empty value"){
 			filter_race = "";
 		}
+		console.log("Study Name: "+ filters["study_name"]);
+
 		return this.apollo.watchQuery<QueryAllStudyDataPaginated>({
 			query: this.filteredStudiesDataPaginatedQuery,
 			variables: {

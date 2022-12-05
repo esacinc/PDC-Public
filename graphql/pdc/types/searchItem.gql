@@ -1,0 +1,5 @@
+type SearchItem {
+	type: String
+	value: String
+	count: Int
+}	

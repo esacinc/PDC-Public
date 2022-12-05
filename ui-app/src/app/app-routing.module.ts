@@ -64,9 +64,10 @@ const appRoutes: Routes = [
   { path: 'analysis/:id', component: HeatmapViewerComponent},
   { path: '', loadChildren: './lazy.module#LazyModule'},
   { path: 'submit-data', component: SubmitDataFAQComponent},
+  //@@PDC-5500 - FAQ page link to data download client documentation page is broken
   { path: 'data-download-documentation', component: DataDownloadDocComponent },
-  //@@@PDC-PDC-4699: hide request data submission page
-  // { path: 'request-data-submission', component: RequestDataSubmissionComponent},
+  //@@@PDC-5758 - update how to submit page
+  { path: 'request-data-submission', component: RequestDataSubmissionComponent},
   { path: 'data-use-guidelines', component: DataUseGuidelinesComponent},
   { path: 'explore-quantitation-data', component: HeatmapsComponent},
   //@@@PDC-374 - adding auxiliary urls to overlay windows

@@ -38,27 +38,16 @@
 			<mat-card class="bottom-card">
 				<mat-card-header class="bottom-row-card-header">RECENT RELEASES</mat-card-header>
 				<mat-card-content id="recentReleasesContent">
-				  <mat-list >
-					<mat-list-item class="bottom-card-list-item" id="list-item">
+				  <mat-list>
+					<mat-list-item *ngFor="let aRelease of releaseItems" class="bottom-card-list-item" id="list-item">
 					  <div class="bottom-card-bullet-item" ><div><i class="pi pi-circle-off bottom-card-bullet-icon" ></i></div>
-						<div>PDC Clinical data dictionaries updated (January 2022).</div>
+            <!-- @@PDC-5628 - update json for news and release announcements -->
+						<div><a target="_" href="{{aRelease.link}}">{{aRelease.label}} {{aRelease.date_released}}.</a>
+              <!-- @@PDC-5829 - update recent news section -->
+              <a *ngIf="aRelease.exit_disclaimer" matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">Exit Disclaimer</span></a>
+            </div>
 					  </div>
-					</mat-list-item>
-					<mat-list-item class="bottom-card-list-item" id="list-item">
-					  <div class="bottom-card-bullet-item"><div><i class="pi pi-circle-off bottom-card-bullet-icon"></i></div>
-						<div>Additional Clinical follow-up outcome data added for the CPTAC cohorts - LSCC, LUAD, PDA, UCEC, GBM, ccRCC, HNSCC (January 2022).</div>
-					  </div>
-					</mat-list-item>
-					<mat-list-item class="bottom-card-list-item" id="list-item">
-					  <div class="bottom-card-bullet-item"><div><i class="pi pi-circle-off bottom-card-bullet-icon"></i></div>
-						<div>Clinical outcome data updated for the CPTAC cohorts - LSCC, LUAD, PDA, UCEC, GBM, ccRCC, HNSCC (October 2021).</div>
-					  </div>
-					</mat-list-item>
-					<mat-list-item class="bottom-card-list-item" id="list-item">
-					  <div class="bottom-card-bullet-item"><div><i class="pi pi-circle-off bottom-card-bullet-icon"></i></div>
-						<div>Embargo lifted and publication added to the CPTAC Lung Squamous Cell Carcinoma studies (September 2021).</div>
-					  </div>
-					</mat-list-item>
+          </mat-list-item>
 				  </mat-list>
 				</mat-card-content>
 			</mat-card>
@@ -72,7 +61,10 @@
 				  <mat-list-item *ngFor="let aNews of newsItems" id="list-item" class="bottom-card-list-item">
 					<div class="bottom-card-bullet-item">
 					  <div><i class="pi pi-circle-off bottom-card-bullet-icon"></i></div>
-					  <div><a target="_" href="{{aNews.link}}">{{aNews.label}}</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">Exit Disclaimer</span></a></div></div>
+					  <div><a target="_" href="{{aNews.link}}">{{aNews.label}}</a>
+              <!-- @@PDC-5829 - update recent news section -->
+              <a *ngIf="aNews.exit_disclaimer" matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">Exit Disclaimer</span></a>
+            </div></div>
 				  </mat-list-item>
 				</mat-list>
 			  </mat-card-content>

@@ -2,17 +2,17 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { Apollo } from 'apollo-angular';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+
 import gql from 'graphql-tag';
-import "rxjs/add/operator/map";
+import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { PaginatorModule } from 'primeng/paginator';
 import { DropdownModule} from 'primeng/dropdown';
-import {MatCardModule, MatExpansionModule, MatToolbarModule, MatCheckboxModule, MatListModule, 
+import {MatCardModule, MatExpansionModule, MatToolbarModule, MatCheckboxModule, MatListModule,
   MatTabsModule, MatButtonModule, MatSidenavModule, MatTooltipModule, MatSelectModule, MatDialogModule, MatProgressSpinnerModule} from '@angular/material';
 import { GenePageService } from "./gene-page.service";
-import { Filter, GeneProteinData, GeneStudySpectralCountData, GeneAliquotSpectralCountData, 
+import { Filter, GeneProteinData, GeneStudySpectralCountData, GeneAliquotSpectralCountData,
 		GeneStudySpectralCountDataPaginated, GeneAliquotSpectralCountDataPaginated, ptmData, AllStudiesData } from '../types';
 import { ngxCsv } from "ngx-csv/ngx-csv";
 import * as _ from 'lodash';
@@ -77,13 +77,13 @@ export class GenePageComponent implements OnInit, OnChanges {
   frozenPTMColumns: any[];
   frozenGeneStudiesColumns: any[];
   frozenGeneBiospecimenColumns: any[];
-  
+
   constructor(private route: ActivatedRoute,
 				private router: Router,
 				private genePageService: GenePageService) {
-    
+
 	//Initialize values for pagination
-	this.studyOffset = 0; 
+	this.studyOffset = 0;
 	this.studyLimit = 10;
 	this.studyTotalRecords = 0;
 	this.studyPageSize = 10;
@@ -129,7 +129,7 @@ export class GenePageComponent implements OnInit, OnChanges {
 	//@@@PDC-2874: Add download option for study table on gene summary page
 	this.checkboxOptions = ["Select all pages", "Select this page", "Select None"];
   }
-  
+
   getGeneSummaryData(){
 	  this.loadingGeneSummary = true;
     //@@@PDC-1123 call ui wrapper API
@@ -140,7 +140,7 @@ export class GenePageComponent implements OnInit, OnChanges {
 		  });
 	  }, 1000);
   }
- 
+
   getGeneAliquotSpectralCounts(){
 	  this.loadingAliquotRecords = true;
 	  this.aliquotSpectralCountLoadError = '';
@@ -159,9 +159,9 @@ export class GenePageComponent implements OnInit, OnChanges {
 			  this.aliquotSpectralCountLoadError = "Loading data took too long, please, close the overlay gene summary window and open it again.";
 			  this.loadingAliquotRecords = false; //If loading data takes too much time and fails, need to stop spinning wheel
 		  });
-	 
+
   }
-  
+
   getGeneStudySpectralCounts(){
 	  this.loading = true;
 	  console.log(this.newFilterSelected);
@@ -178,7 +178,7 @@ export class GenePageComponent implements OnInit, OnChanges {
 		  });
 	  }, 1000);
   }
-  
+
   getPTMData(){
 	  this.lodingPTMData = true;
 	  setTimeout(() => {
@@ -193,7 +193,7 @@ export class GenePageComponent implements OnInit, OnChanges {
 		  });
 	  }, 1000);
   }
-  
+
   loadNewPageAliquotSpectralCounts(event: any){
 	  this.aliquotOffset = event.first;
 	  this.aliquotLimit = event.rows;
@@ -208,9 +208,9 @@ export class GenePageComponent implements OnInit, OnChanges {
 			}
 			this.makeRowsSameHeight();
 			this.loadingAliquotRecords = false;
-		}); 
+		});
   }
-  
+
   loadNewPageStudySpectralCounts(event: any){
 	  if (this.headercheckbox && this.pageHeaderCheckBoxTrack.indexOf(this.studyOffset) === -1){
 		this.pageHeaderCheckBoxTrack.push(this.studyOffset);
@@ -225,7 +225,7 @@ export class GenePageComponent implements OnInit, OnChanges {
 			if (this.studyOffset == 0) {
 				this.studyTotalRecords = data.getPaginatedUIGeneStudySpectralCountFiltered.total;
 				this.studyOffset = data.getPaginatedUIGeneStudySpectralCountFiltered.pagination.from;
-				this.studyLimit = data.getPaginatedUIGeneStudySpectralCountFiltered.pagination.size; 
+				this.studyLimit = data.getPaginatedUIGeneStudySpectralCountFiltered.pagination.size;
 			}
 			//@@@PDC-3765: A 'S' symbol in Genes/ under checkbox of "Studies in Which the Gene Product Was Detected
 			//Page size should be available for all offsets
@@ -241,9 +241,9 @@ export class GenePageComponent implements OnInit, OnChanges {
 			this.handleCheckboxSelections();
 			this.makeRowsSameHeight();
 			this.loading = false;
-		}); 
+		});
   }
-  
+
   loadPTMData(event: any){
 	  this.ptmOffset = event.first;
 	  this.ptmLimit = event.rows;
@@ -258,13 +258,17 @@ export class GenePageComponent implements OnInit, OnChanges {
 			}
 			this.makeRowsSameHeight();
 			this.lodingPTMData = false;
-		}); 
+		});
   }
 
   onFilterSelected(filterValue: string) {
 		this.newFilterValue = filterValue;
 		console.log(this.newFilterValue);
-		var filter_field=this.newFilterValue.split(":"); //the structure is field_name: "value1;value2"
+		//var filter_field=this.newFilterValue.split(":"); //the structure is field_name: "value1;value2"
+	  //@@@PDC-5428 fix study name truncation issue
+	  var filter_field = [];
+	  filter_field.push(this.newFilterValue.substring(0, this.newFilterValue.indexOf(":")));
+	  filter_field.push(this.newFilterValue.substring(this.newFilterValue.indexOf(":")+1));
 		//If clear all filter selection button was pressed need to clear all filters
 		if (filter_field[0] === "Clear all selections"){
 			for (let filter_name in this.newFilterSelected){
@@ -310,7 +314,7 @@ export class GenePageComponent implements OnInit, OnChanges {
 		this.getGeneAliquotSpectralCounts();
 		this.getGeneStudySpectralCounts();
 		this.clearSelection();
-  }		
+  }
 
   //Helper function checking whether Assay data is available
   //checking for length > 1 since occasionally assays field seem to have an invisible character
@@ -320,13 +324,13 @@ export class GenePageComponent implements OnInit, OnChanges {
 		  result = false;
 	  }
 	  return result;
-  }	
+  }
 
   ngOnChanges(changes: SimpleChanges){
 	  console.log(this.newFilterValue);
 	  console.log(changes);
   }
-  
+
   ngOnInit() {
 	//Have to define this structure for Primeng CSV export to work properly (https://github.com/primefaces/primeng/issues/5114)
 	//@@@PDC-2874: Add download option for study table on gene summary page
@@ -403,16 +407,16 @@ export class GenePageComponent implements OnInit, OnChanges {
 		let checkboxVal = this.selectedHeaderCheckbox;
 		this.selectedStudies = this.currentPageSelectedStudy = [];
 		switch (checkboxVal) {
-	 		case 'Select all pages': 
+	 		case 'Select all pages':
 				this.downloadCompleteManifest();
 				break;
-			case 'Select this page': 
+			case 'Select this page':
 				this.headercheckbox = true;
 				this.onTableHeaderCheckboxToggle();
 				break;
-			case 'Select None': 
+			case 'Select None':
 				this.clearSelection();
-				break; 
+				break;
 		}
 	}
 
@@ -425,7 +429,7 @@ export class GenePageComponent implements OnInit, OnChanges {
 				if(this.currentPageSelectedStudy.indexOf(study.pdc_study_id) === -1){
 					localSelectedStudies.push(study);
 					this.currentPageSelectedStudy.push(study.pdc_study_id);
-				} 
+				}
 			}
 			this.selectedStudies = localSelectedStudies;
 		} else {
@@ -436,7 +440,7 @@ export class GenePageComponent implements OnInit, OnChanges {
 					localSelectedStudies.splice(index,1);
 				}
       		}
-			this.selectedStudies = localSelectedStudies; 
+			this.selectedStudies = localSelectedStudies;
 			this.currentPageSelectedStudy = [];
 			this.pageHeaderCheckBoxTrack = [];
 		}
@@ -508,7 +512,7 @@ export class GenePageComponent implements OnInit, OnChanges {
 			this.updateCurrentPageSelectedStudies(localSelectedGenes);
 			this.loading = false;
 			this.trackCurrentPageSelectedStudy(data.getPaginatedUIGeneStudySpectralCountFiltered.uiGeneStudySpectralCounts);
-		}); 
+		});
 	}
 
 	trackCurrentPageSelectedStudy(filteredStudiesData: GeneStudySpectralCountData[]){
@@ -536,21 +540,21 @@ export class GenePageComponent implements OnInit, OnChanges {
 					let unfrozen_header_row: any = w.querySelectorAll('.ui-table-unfrozen-view .ui-table-thead');
 					   if (frozen_header_row[0].clientHeight > unfrozen_header_row[0].clientHeight) {
 						unfrozen_header_row[0].style.height = frozen_header_row[0].clientHeight+"px";
-					  } 
+					  }
 					else if (frozen_header_row[0].clientHeight < unfrozen_header_row[0].clientHeight) {
 						frozen_header_row[0].style.height = unfrozen_header_row[0].clientHeight+"px";
-					} 				   
+					}
 					for (let i = 0; i < frozen_rows.length; i++) {
 						if (frozen_rows[i].clientHeight > unfrozen_rows[i].clientHeight) {
 							unfrozen_rows[i].style.height = frozen_rows[i].clientHeight+"px";
-						} 
-						else if (frozen_rows[i].clientHeight < unfrozen_rows[i].clientHeight) 
+						}
+						else if (frozen_rows[i].clientHeight < unfrozen_rows[i].clientHeight)
 						{
 							frozen_rows[i].style.height = unfrozen_rows[i].clientHeight+"px";
 						}
 					}
 					let frozen_header_div: any = w.querySelectorAll('.ui-table-unfrozen-view .ui-table-scrollable-header-box');
-					frozen_header_div[0].setAttribute('style', 'margin-right: 0px !important'); 
+					frozen_header_div[0].setAttribute('style', 'margin-right: 0px !important');
 				}
 			}
 		});

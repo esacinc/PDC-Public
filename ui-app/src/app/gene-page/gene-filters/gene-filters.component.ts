@@ -19,9 +19,9 @@ export class GeneFiltersComponent implements OnInit, OnChanges {
   allCategoryFilterData: FilterData; // Full list of all cases as returned by API
   allFilterCategoryMapData: Map<string, string[]>;
   loading: boolean = false; //Flag indicates that the data is still being loaded from server
-  
+
   loadingURLParams:boolean = false; //Loading page with filter values from URL parameters takes some time
-    
+
   selectedGeneNames: string = "";
 
   @Output() selectedFilters = new EventEmitter<string>(); //this variable will propagate filter selection changes to parent component //@@@PDC-221
@@ -112,10 +112,10 @@ export class GeneFiltersComponent implements OnInit, OnChanges {
 
     //@@@PDC-3779: Investigate the ability to only display the top 10 filters in each category
   // hidden by default
-  showPSite: boolean = false; 
+  showPSite: boolean = false;
   showProgram: boolean = false;
   showDType: boolean = false;
-  showAFraction: boolean = false; 
+  showAFraction: boolean = false;
   showExpType: boolean = false;
   showAcqType: boolean = false;
   showSampleType: boolean = false;
@@ -188,7 +188,7 @@ export class GeneFiltersComponent implements OnInit, OnChanges {
   /* Populate filters and their counters from cases data */
   //@@@PDC-379 stop incrementing study count if the study is already accounted for a filter value
   populateFilters() {
-	  
+
 	this.loading = true;
 	//Have to replace spaces with semicolon since that is the expected list delimiter for the API
 	let processedGeneNames = this.selectedGeneNames.toUpperCase().replace(/\s/g, ';');
@@ -212,7 +212,7 @@ export class GeneFiltersComponent implements OnInit, OnChanges {
 		this.raceFilter = [];
 		this.genderFilter = [];
 		this.tumorGradeFilter = [];
-		
+
 		console.log(data.uiGeneStudySpectralCount);
 		for(const item of data.uiGeneStudySpectralCount){
       studyList.push(item.study_submitter_id); //study id in format SXXXX-X
@@ -245,9 +245,9 @@ export class GeneFiltersComponent implements OnInit, OnChanges {
 			);
 		  }
 		}
-		
+
 		this.studyFilter = this.allStudyFilter;
-		
+
 		//sort filters after filters populate
 		this.projectsFilter.sort(this.compare);
 		this.primarySitesFilter.sort(this.compare);
@@ -279,7 +279,7 @@ export class GeneFiltersComponent implements OnInit, OnChanges {
   }
 
   /* Update filters counters when filter selection is changed */
-  /*if only one filter category has been selected, all filter 
+  /*if only one filter category has been selected, all filter
 	counts in that category shouldn't update*/
   updateFiltersCounters(studySelected: boolean = false) {
     let newFilterSelected = {
@@ -366,7 +366,7 @@ export class GeneFiltersComponent implements OnInit, OnChanges {
       }
       if (!studySelected) {
         this.studyFilter = studyList;
-      } 
+      }
     } else {
       if(newFilterSelected.submitter_id_name.length >0){
         newFilterSelected.study_name = newFilterSelected.submitter_id_name;
@@ -668,7 +668,7 @@ export class GeneFiltersComponent implements OnInit, OnChanges {
     if (checkboxClicked && index > 10 && filterSub) {
       setTimeout(() => {
         let eleID = sortedList[0].filterName + filterSub;
-        document.getElementById(eleID).scrollIntoView({ behavior: 'instant', block: 'center'});
+        document.getElementById(eleID).scrollIntoView({ behavior: 'smooth', block: 'center'});
       });
     }
     return sortedList;
@@ -840,10 +840,10 @@ export class GeneFiltersComponent implements OnInit, OnChanges {
     this.tumorGradeFilter.sort(this.compare);
     this.updateFiltersCounters();
   }
-	  
+
   ngOnInit() {
-	  
-	  
+
+
     //@@@PDC 613: As a user of PDC I want to be able to click on the counts in the Study tab table to see the data
     // Access values from browse.component.ts by subscribing to the click events in it. Filter by study, file type.
     this.genePageService.notifyObservable$.subscribe(res => {

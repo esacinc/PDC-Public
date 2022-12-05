@@ -428,7 +428,7 @@ required:
 title: Exposure
 type: object
 uniqueKeys:
-- id
-- project_id
-- submitter_id
+- exposure_id
+- exposure_submitter_id
+- study_id
 validators: null

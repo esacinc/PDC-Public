@@ -2313,7 +2313,7 @@ required:
 title: Follow-Up
 type: object
 uniqueKeys:
-- id
-- project_id
-- submitter_id
+- follow_up_id
+- follow_up_submitter_id
+- study_id
 validators: null

@@ -1,4 +1,5 @@
 //@@@PDC-262 link headers to data dictionary
+//@@@PDC-5770 get file using uuid
 
 export const environment = {
   production: true,
@@ -19,6 +20,7 @@ export const environment = {
   pdcapi_jwt_url: '/pdcapi/login',
   pdcapi_login_url: '/pdcapi/login/token',
   openfile_signedurl_url: '/pdcapi/file/signedURL/',
+  openfile_uuid_signedurl_url: '/pdcapi/file/signedURLFromUuid/',
   dcf_fence_login_url: 'https://nci-crdc-staging.datacommons.io/user/oauth2/authorize?client_id=%dcf_client_id%&response_type=code&redirect_uri=https%3A%2F%2Fpdc.esacinc.com%2Fpdc%2Ffence&scope=openid+data+user',
   dcf_redirect_url: 'https://pdc.esacinc.com/pdc/fence',
   dcf_client_id:'%dcf_client_id%',

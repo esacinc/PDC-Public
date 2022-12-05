@@ -7,8 +7,8 @@ import {HttpClient} from '@angular/common/http';
 
 import { Apollo } from 'apollo-angular';
 import { Observable } from 'rxjs';
+
 import { map } from 'rxjs/operators';
-import "rxjs/add/operator/map";
 
 
 const DATA_DICTIONARY = 'assets/data-folder/data-dictionary-json/dictionary.json';

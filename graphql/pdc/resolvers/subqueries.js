@@ -17,6 +17,9 @@ const labelQuery = "select distinct bin_to_uuid(aliquot_id) as aliquot_id, bin_t
 //@@@PDC-952 remove hard-coded schema name
 //@@@PDC-1340 remove authorization code
 //@@@PDC-1874 add pdc_study_id to all study-related APIs
+//@@@PDC-5257 add case_id and case_submitter_id to all clinbio objects
+//@@@PDC-5037 track api parent
+//@@@PDC-5630 log base/sub relationship
 export const resolvers = {
 	//Definition of the type of Date
 	Date: new GraphQLScalarType({
@@ -39,6 +42,7 @@ export const resolvers = {
     //@@@PDC-1430 link program/project/study using uuid
 	Program: {
 		projects(obj, args, context) {
+			logger.info("projects is called via "+context.parent);
 			let comboQuery = "";
 			let replacements = { };
 			if (context.noFilter != null) {
@@ -74,6 +78,7 @@ export const resolvers = {
     //@@@PDC-1430 link program/project/study using uuid
 	Project: {
 		studies(obj, args, context) {
+			logger.info("studies is called via "+context.parent);
 			let comboQuery = "";
 			let replacements = { };
 			//@@@PDC-3839 get current version of study
@@ -114,6 +119,7 @@ export const resolvers = {
 	//@@@PDC-2979 add external reference.
 	PublicCase: {
 		externalReferences(obj, args, context) {
+			logger.info("externalReferences is called via "+context.parent);
 			let refQuery = "SELECT reference_resource_shortname, trim(both '\r' from reference_entity_location) as reference_entity_location, " +
 				" reference_entity_alias as external_reference_id, reference_resource_name " +
 				" FROM reference r where entity_type = 'case' and reference_type = 'external' " +
@@ -129,35 +135,43 @@ export const resolvers = {
 	//@@@PDC-4391 add new columns
 	Case: {
 		externalReferences(obj, args, context) {
+			logger.info("externalReferences is called via "+context.parent);
 			var refQuery = "SELECT reference_resource_shortname, trim(both '\r' from reference_entity_location) as reference_entity_location, reference_entity_alias as external_reference_id, reference_resource_name FROM reference r where entity_type = 'case' and reference_type = 'external' and entity_id = uuid_to_bin('"+ obj.case_id + "')";
 			return db.getSequelize().query(refQuery, { model: db.getModelByName('ModelEntityReference') });
 		},
 		//@@@PDC-4293 add new clinbio entities
 		//@@@PDC-4639 remove bmi, height and weight columns from exposure
 		exposures(obj, args, context) {
-				var refQuery = "SELECT bin_to_uuid(exposure_id) as exposure_id, exposure_submitter_id, alcohol_days_per_week, alcohol_drinks_per_day, alcohol_history, alcohol_intensity, asbestos_exposure, cigarettes_per_day, coal_dust_exposure, environmental_tobacco_smoke_exposure, pack_years_smoked, radon_exposure, respirable_crystalline_silica_exposure, smoking_frequency, time_between_waking_and_first_smoke, tobacco_smoking_onset_year, tobacco_smoking_quit_year, tobacco_smoking_status, type_of_smoke_exposure, type_of_tobacco_used, years_smoked, age_at_onset, alcohol_type, exposure_duration, exposure_duration_years, exposure_type, marijuana_use_per_week, parent_with_radiation_exposure, secondhand_smoke_as_child, smokeless_tobacco_quit_age, tobacco_use_per_day FROM exposure where case_id = uuid_to_bin('"+ obj.case_id + "')";
+				logger.info("exposures is called via "+context.parent);
+				var refQuery = "SELECT bin_to_uuid(exposure_id) as exposure_id, exposure_submitter_id, bin_to_uuid(case_id) as case_id, case_submitter_id, alcohol_days_per_week, alcohol_drinks_per_day, alcohol_history, alcohol_intensity, asbestos_exposure, cigarettes_per_day, coal_dust_exposure, environmental_tobacco_smoke_exposure, pack_years_smoked, radon_exposure, respirable_crystalline_silica_exposure, smoking_frequency, time_between_waking_and_first_smoke, tobacco_smoking_onset_year, tobacco_smoking_quit_year, tobacco_smoking_status, type_of_smoke_exposure, type_of_tobacco_used, years_smoked, age_at_onset, alcohol_type, exposure_duration, exposure_duration_years, exposure_type, marijuana_use_per_week, parent_with_radiation_exposure, secondhand_smoke_as_child, smokeless_tobacco_quit_age, tobacco_use_per_day FROM exposure where case_id = uuid_to_bin('"+ obj.case_id + "')";
 				return db.getSequelize().query(refQuery, { model: db.getModelByName('ModelExposure') });
 		},
 		family_histories(obj, args, context) {
-				var refQuery = "SELECT bin_to_uuid(family_history_id) as family_history_id, family_history_submitter_id, relationship_type, relationship_gender, relationship_age_at_diagnosis, relationship_primary_diagnosis, relative_with_cancer_history, relatives_with_cancer_history_count FROM family_history where case_id = uuid_to_bin('"+ obj.case_id + "')";
-				return db.getSequelize().query(refQuery, { model: db.getModelByName('ModelFamilyHistory') });
+			logger.info("family_histories is called via "+context.parent);
+			var refQuery = "SELECT bin_to_uuid(family_history_id) as family_history_id, family_history_submitter_id, bin_to_uuid(case_id) as case_id, case_submitter_id, relationship_type, relationship_gender, relationship_age_at_diagnosis, relationship_primary_diagnosis, relative_with_cancer_history, relatives_with_cancer_history_count FROM family_history where case_id = uuid_to_bin('"+ obj.case_id + "')";
+			return db.getSequelize().query(refQuery, { model: db.getModelByName('ModelFamilyHistory') });
 		},
 		follow_ups(obj, args, context) {
-				var refQuery = "SELECT bin_to_uuid(follow_up_id) as follow_up_id, follow_up_submitter_id, adverse_event, barretts_esophagus_goblet_cells_present, bmi, cause_of_response, comorbidity, comorbidity_method_of_diagnosis, days_to_adverse_event, days_to_comorbidity, days_to_follow_up, days_to_progression, days_to_progression_free, days_to_recurrence, diabetes_treatment_type, disease_response, dlco_ref_predictive_percent, ecog_performance_status, fev1_ref_post_bronch_percent, fev1_ref_pre_bronch_percent, fev1_fvc_pre_bronch_percent, fev1_fvc_post_bronch_percent, height, hepatitis_sustained_virological_response, hpv_positive_type, karnofsky_performance_status, menopause_status, pancreatitis_onset_year, progression_or_recurrence, progression_or_recurrence_anatomic_site, progression_or_recurrence_type, reflux_treatment_type, risk_factor, risk_factor_treatment, viral_hepatitis_serologies, weight, adverse_event_grade, aids_risk_factors, body_surface_area, cd4_count, cdc_hiv_risk_factors, days_to_imaging, evidence_of_recurrence_type, eye_color, haart_treatment_indicator, history_of_tumor, history_of_tumor_type, hiv_viral_load, hormonal_contraceptive_type, hormonal_contraceptive_use, hormone_replacement_therapy_type, hysterectomy_margins_involved, hysterectomy_type, imaging_result, imaging_type, immunosuppressive_treatment_type, nadir_cd4_count, pregnancy_outcome, procedures_performed, recist_targeted_regions_number, recist_targeted_regions_sum, scan_tracer_used, undescended_testis_corrected, undescended_testis_corrected_age, undescended_testis_corrected_laterality, undescended_testis_corrected_method, undescended_testis_history, undescended_testis_history_laterality FROM follow_up where case_id = uuid_to_bin('"+ obj.case_id + "')";
-				return db.getSequelize().query(refQuery, { model: db.getModelByName('ModelFollowUp') });
+			logger.info("follow_ups is called via "+context.parent);
+			var refQuery = "SELECT bin_to_uuid(follow_up_id) as follow_up_id, follow_up_submitter_id, bin_to_uuid(case_id) as case_id, case_submitter_id, adverse_event, barretts_esophagus_goblet_cells_present, bmi, cause_of_response, comorbidity, comorbidity_method_of_diagnosis, days_to_adverse_event, days_to_comorbidity, days_to_follow_up, days_to_progression, days_to_progression_free, days_to_recurrence, diabetes_treatment_type, disease_response, dlco_ref_predictive_percent, ecog_performance_status, fev1_ref_post_bronch_percent, fev1_ref_pre_bronch_percent, fev1_fvc_pre_bronch_percent, fev1_fvc_post_bronch_percent, height, hepatitis_sustained_virological_response, hpv_positive_type, karnofsky_performance_status, menopause_status, pancreatitis_onset_year, progression_or_recurrence, progression_or_recurrence_anatomic_site, progression_or_recurrence_type, reflux_treatment_type, risk_factor, risk_factor_treatment, viral_hepatitis_serologies, weight, adverse_event_grade, aids_risk_factors, body_surface_area, cd4_count, cdc_hiv_risk_factors, days_to_imaging, evidence_of_recurrence_type, eye_color, haart_treatment_indicator, history_of_tumor, history_of_tumor_type, hiv_viral_load, hormonal_contraceptive_type, hormonal_contraceptive_use, hormone_replacement_therapy_type, hysterectomy_margins_involved, hysterectomy_type, imaging_result, imaging_type, immunosuppressive_treatment_type, nadir_cd4_count, pregnancy_outcome, procedures_performed, recist_targeted_regions_number, recist_targeted_regions_sum, scan_tracer_used, undescended_testis_corrected, undescended_testis_corrected_age, undescended_testis_corrected_laterality, undescended_testis_corrected_method, undescended_testis_history, undescended_testis_history_laterality FROM follow_up where case_id = uuid_to_bin('"+ obj.case_id + "')";
+			return db.getSequelize().query(refQuery, { model: db.getModelByName('ModelFollowUp') });
 		},
 		treatments(obj, args, context) {
-				var refQuery = "SELECT bin_to_uuid(treatment_id) as treatment_id, treatment_submitter_id, days_to_treatment_end, days_to_treatment_start, initial_disease_status, regimen_or_line_of_therapy, therapeutic_agents, treatment_anatomic_site, treatment_effect, treatment_intent_type, treatment_or_therapy, treatment_outcome, treatment_type, chemo_concurrent_to_radiation, number_of_cycles, reason_treatment_ended, route_of_administration, treatment_arm, treatment_dose, treatment_dose_units, treatment_effect_indicator, treatment_frequency FROM treatment where case_id = uuid_to_bin('"+ obj.case_id + "')";
-				return db.getSequelize().query(refQuery, { model: db.getModelByName('ModelTreatment') });
+			logger.info("treatments is called via "+context.parent);
+			var refQuery = "SELECT bin_to_uuid(treatment_id) as treatment_id, treatment_submitter_id, bin_to_uuid(case_id) as case_id, case_submitter_id, days_to_treatment_end, days_to_treatment_start, initial_disease_status, regimen_or_line_of_therapy, therapeutic_agents, treatment_anatomic_site, treatment_effect, treatment_intent_type, treatment_or_therapy, treatment_outcome, treatment_type, chemo_concurrent_to_radiation, number_of_cycles, reason_treatment_ended, route_of_administration, treatment_arm, treatment_dose, treatment_dose_units, treatment_effect_indicator, treatment_frequency FROM treatment where case_id = uuid_to_bin('"+ obj.case_id + "')";
+			return db.getSequelize().query(refQuery, { model: db.getModelByName('ModelTreatment') });
 		},
 		async demographics(obj, args, context) {
+			logger.info("demographics is called via "+context.parent);
 			var cacheFilterName = { name: '' };
 			//@@@PDC-2544 use case_id in cache key
 			cacheFilterName.name += "case_id:(" + obj.case_id + ");";
 			const res = await RedisCacheClient.redisCacheGetAsync(CacheName.getSummaryPageCaseSummary('CaseDemographic') + cacheFilterName['name']);
-			if (res === null) {
+			if (res === null) {				
 				var result = await db.getModelByName('Demographic').findAll({
 					attributes: [['bin_to_uuid(demographic_id)', 'demographic_id'], 'demographic_submitter_id',
+					['bin_to_uuid(case_id)', 'case_id'],
+					'case_submitter_id',
 						'ethnicity',
 						'gender',
 						'race',
@@ -191,7 +205,9 @@ export const resolvers = {
 		//@@@PDC-3266 add icd_10_code and synchronous_malignancy
 		//@@@PDC-3428 add tumor_largest_dimension_diameter
 		//@@@PDC-5205 add auxiliary_data and tumor_cell_content
+		//@@@PDC-5647 return N/A if null
 		async diagnoses(obj, args, context) {
+			logger.info("diagnoses is called via "+context.parent);
 			var cacheFilterName = {name:''};
 			cacheFilterName.name +="case_id:("+ obj.case_id + ");";
 			const res = await RedisCacheClient.redisCacheGetAsync(CacheName.getSummaryPageCaseSummary('CaseDiagnose')+cacheFilterName['name']);
@@ -199,11 +215,13 @@ export const resolvers = {
 				var result = await db.getModelByName('Diagnosis').findAll({
 					attributes: [['bin_to_uuid(diagnosis_id)', 'diagnosis_id'],
 						'diagnosis_submitter_id',
+						['bin_to_uuid(case_id)', 'case_id'],
+						'case_submitter_id',
 						'age_at_diagnosis',
 						'classification_of_tumor',
-						'days_to_last_follow_up',
-						'days_to_last_known_disease_status',
-						'days_to_recurrence',
+						['IFNULL(days_to_last_follow_up, "N/A")', 'days_to_last_follow_up'],
+						['IFNULL(days_to_last_known_disease_status, "N/A")', 'days_to_last_known_disease_status'],
+						['IFNULL(days_to_recurrence, "N/A")', 'days_to_recurrence'],
 						'last_known_disease_status',
 						'morphology',
 						'primary_diagnosis',
@@ -355,6 +373,7 @@ export const resolvers = {
 						//case_submitter_id: obj.case_submitter_id
 					}
 				});*/
+				logger.info("samples is called via "+context.parent);
 				//@@@PDC-5178 case-sample-aliquot across studies
 				let sampleQuery = "select distinct bin_to_uuid(sam.sample_id) as sample_id, sam.sample_submitter_id, sample_type, sample_type_id, gdc_sample_id, gdc_project_id, biospecimen_anatomic_site, composition, current_weight, days_to_collection, days_to_sample_procurement, sam.status, sam.pool, sample_is_ref, diagnosis_pathologically_confirmed, freezing_method, initial_weight, intermediate_dimension, longest_dimension, method_of_sample_procurement, pathology_report_uuid, preservation_method, shortest_dimension, time_between_clamping_and_freezing, time_between_excision_and_freezing, tissue_type, tumor_code, tumor_code_id, tumor_descriptor, biospecimen_laterality, catalog_reference, distance_normal_to_tumor, distributor_reference, growth_rate, passage_count, sample_ordinal, tissue_collection_type "+
 				"FROM study s, sample sam, aliquot_run_metadata alm, aliquot al, project proj, program prog "+
@@ -383,10 +402,12 @@ export const resolvers = {
 		}
 	},
 	//@@@PDC-5252 fetch diagnosis-sample association
+	//@@@PDC-5412 add diagnosis-sample annotation	
 	Diagnosis: {
 		samples(obj, args, context) {
+			logger.info("samples is called via "+context.parent);
 			let refQuery = "select bin_to_uuid(reference_entity_id) sample_id, "+
-			"reference_entity_alias as sample_submitter_id from reference where entity_id = "+
+			"reference_entity_alias as sample_submitter_id, annotation from reference where entity_id = "+
 			"uuid_to_bin(:diagnosis_id) and reference_entity_type = 'sample'"
 			let replacements = {};
 			replacements['diagnosis_id'] = obj.diagnosis_id;
@@ -402,13 +423,8 @@ export const resolvers = {
 	},
 	Sample: {
 		aliquots(obj, args, context) {
+			logger.info("aliquots is called via "+context.parent);
 			//@@@PDC-2755 add pool, status, aliquot_is_ref attribute
-			/*return db.getModelByName('Aliquot').findAll({ attributes: [['bin_to_uuid(aliquot_id)', 'aliquot_id'],'aliquot_submitter_id', 'analyte_type', 'aliquot_quantity', 'aliquot_volume', 'amount', 'concentration', 'pool', 'status', 'aliquot_is_ref'],
-			where: {
-				sample_id: Sequelize.fn('uuid_to_bin', obj.sample_id )
-				//sample_submitter_id: obj.sample_submitter_id
-			}
-			});*/
 			//@@@PDC-5178 case-sample-aliquot across studies
 			let aliquotQuery = "select distinct bin_to_uuid(al.aliquot_id) aliquot_id, al.aliquot_submitter_id, analyte_type, aliquot_quantity, aliquot_volume, amount, concentration, al.pool, al.status, aliquot_is_ref "+
 			"FROM study s, aliquot_run_metadata alm, aliquot al, project proj, program prog "+
@@ -429,8 +445,10 @@ export const resolvers = {
 				
 		},
 		//@@@PDC-5252 fetch diagnosis-sample association
+		//@@@PDC-5412 add diagnosis-sample annotation	
 		diagnoses(obj, args, context) {
-			let refQuery = "select bin_to_uuid(entity_id) diagnosis_id, "+
+			logger.info("diagnoses is called via "+context.parent);
+			let refQuery = "select bin_to_uuid(entity_id) diagnosis_id, annotation, "+
 			"entity_submitter_id as diagnosis_submitter_id from reference where reference_entity_id = "+
 			"uuid_to_bin(:sample_id) and entity_type = 'diagnosis'"
 			let replacements = {};
@@ -448,6 +466,7 @@ export const resolvers = {
 	//@@@PDC-2366 Add aliquot_run_metadata_id to aliquot_run_metadata API entity
 	Aliquot:{
 		aliquot_run_metadata(obj, args, context) {
+			logger.info("aliquot_run_metadata is called via "+context.parent);
 			// db.getModelByName('ModelAliquotRunMetadata').findAll({attributes: ['aliquot_submitter_id', ['bin_to_uuid(aliquot_run_metadata_id)','aliquot_run_metadata_id']],
 			// where: {aliquot_submitter_id: obj.aliquot_submitter_id}
 			// });
@@ -459,6 +478,7 @@ export const resolvers = {
 	//@@@PDC-3668 add project_id and study_id
 	Gene: {
 		spectral_counts(obj, args, context) {
+			logger.info("spectral_counts is called via "+context.parent);
 			var spQuery = "";
 			if (typeof context.arguments.dataset_alias != 'undefined'){
 				//@@@PDC-2638 enhance aliquotSpectralCount
@@ -475,6 +495,7 @@ export const resolvers = {
 	},
 	GeneSp: {
 		async spectral_counts(obj, args, context) {
+			logger.info("spectral_counts is called via "+context.parent);
 			var cacheFilterName = {name:''};
 			cacheFilterName.name +="sp_gene_name:("+ obj.gene_name + ");";
 			const res = await RedisCacheClient.redisCacheGetAsync(CacheName.getSummaryPageGeneSummary('GeneSpectralCount')+cacheFilterName['name']);
@@ -490,6 +511,7 @@ export const resolvers = {
 	},
 	FileMetadata: {
 		aliquots(obj, args, context) {
+			logger.info("aliquots is called via "+context.parent);
 			//@@@PDC-490 display label for all aliquot_ids in aliquot_run_metadata
 			//@@@PDC-898 new public APIs--fileMetadata
 			var aliquotQuery = "select distinct bin_to_uuid(arm.aliquot_id) as aliquot_id, "+
@@ -511,6 +533,7 @@ export const resolvers = {
 	//@@@PDC-3668 add study_run_metadata_id to output
 	ExperimentalMetadata: {
 		study_run_metadata(obj, args, context) {
+			logger.info("study_run_metadata is called via "+context.parent);
 			//@@@PDC-1120 StudyRunMetadata table change
 			return db.getModelByName('ModelStudyRunMetadata').findAll({attributes: [['bin_to_uuid(study_run_metadata_id)', 'study_run_metadata_id'],'study_run_metadata_submitter_id', 'fraction'],
 			where: {study_submitter_id: obj.study_submitter_id}
@@ -520,6 +543,7 @@ export const resolvers = {
 	//@@@PDC-3921 new studyCatalog api
 	StudyCatalogEntry: {
 		versions(obj, args, context) {
+			logger.info("versions is called via "+context.parent);
 			var verQuery = "SELECT bin_to_uuid(study_id) as study_id, study_submitter_id, "+
 			"study_shortname, submitter_id_name, study_version, if(is_latest_version, 'yes', 'no') as is_latest_version FROM study WHERE pdc_study_id = '" +obj.pdc_study_id+ "' order by study_version desc";
 			return db.getSequelize().query(verQuery, { model: db.getModelByName('ModelStudy') });
@@ -529,6 +553,7 @@ export const resolvers = {
 	//@@@PDC-3668 add aliquot_id to output
 	StudyRunMetadata: {
 		aliquot_run_metadata(obj, args, context) {
+			logger.info("aliquot_run_metadata is called via "+context.parent);
 			let aliquotQuery = "select bin_to_uuid(aliquot_id) as aliquot_id, aliquot_submitter_id , bin_to_uuid(aliquot_run_metadata_id) as aliquot_run_metadata_id FROM aliquot_run_metadata where study_run_metadata_submitter_id = '"+ obj.study_run_metadata_submitter_id +"'";
 			return db.getSequelize().query(aliquotQuery, { model: db.getModelByName('ModelAliquotRunMetadata') });
 			// db.getModelByName('ModelAliquotRunMetadata').findAll({attributes: ['aliquot_submitter_id'],
@@ -537,6 +562,7 @@ export const resolvers = {
 		},
 		//@@@PDC-774 add downloadable
 		files(obj, args, context) {
+			logger.info("files is called via "+context.parent);
 			var fileQuery = "SELECT file.file_type as file_type, file.data_category, file.downloadable, file.file_location "+
 			"FROM file AS file, study AS study, study_file AS sf "+
 			"WHERE file.file_id = sf.file_id and study.study_id = sf.study_id "+
@@ -550,6 +576,7 @@ export const resolvers = {
 	//@@@PDC-4391 add new columns
 	UIClinical: {
 		async externalReferences(obj, args, context) {
+			logger.info("externalReferences is called via "+context.parent);
 			var refCacheName = context.dataCacheName + ':'+obj.case_id;
 			const res = await RedisCacheClient.redisCacheGetAsync(refCacheName);
 			if (res === null) {
@@ -561,6 +588,7 @@ export const resolvers = {
 			return JSON.parse(res);
 		},
 		async exposures(obj, args, context) {
+			logger.info("exposures is called via "+context.parent);
 			var refCacheName = context.dataCacheName + ':Exposure:'+obj.case_id;
 			const res = await RedisCacheClient.redisCacheGetAsync(refCacheName);
 			//@@@PDC-4639 remove bmi, height and weight columns from exposure
@@ -573,6 +601,7 @@ export const resolvers = {
 			return JSON.parse(res);
 		},
 		async family_histories(obj, args, context) {
+			logger.info("family_histories is called via "+context.parent);
 			var refCacheName = context.dataCacheName + ':FamilyHistory:'+obj.case_id;
 			const res = await RedisCacheClient.redisCacheGetAsync(refCacheName);
 			if (res === null) {
@@ -584,6 +613,7 @@ export const resolvers = {
 			return JSON.parse(res);
 		},
 		async follow_ups(obj, args, context) {
+			logger.info("follow_ups is called via "+context.parent);
 			var refCacheName = context.dataCacheName + ':FollowUp:'+obj.case_id;
 			const res = await RedisCacheClient.redisCacheGetAsync(refCacheName);
 			if (res === null) {
@@ -595,6 +625,7 @@ export const resolvers = {
 			return JSON.parse(res);
 		},
 		async treatments(obj, args, context) {
+			logger.info("treatments is called via "+context.parent);
 			var refCacheName = context.dataCacheName + ':Treatment:'+obj.case_id;
 			const res = await RedisCacheClient.redisCacheGetAsync(refCacheName);
 			if (res === null) {
@@ -606,8 +637,10 @@ export const resolvers = {
 			return JSON.parse(res);
 		},
 		//@@@PDC-5252 fetch diagnosis-sample association
+		//@@@PDC-5412 add diagnosis-sample annotation	
 		samples(obj, args, context) {
-			let refQuery = "select bin_to_uuid(reference_entity_id) sample_id, "+
+			logger.info("samples is called via "+context.parent);
+			let refQuery = "select bin_to_uuid(reference_entity_id) sample_id, annotation, "+
 			"reference_entity_alias as sample_submitter_id from reference where entity_id = "+
 			"uuid_to_bin(:diagnosis_id) and reference_entity_type = 'sample'"
 			let replacements = {};
@@ -624,34 +657,57 @@ export const resolvers = {
 	},
 	//@@@PDC-2978 add case external reference
 	//@@@PDC-4391 add new columns
+	//@@@PDC-5329 add samples associated with diagnosis
+	//@@@PDC-5412 add diagnosis-sample annotation	
 	Clinical: {
+		samples(obj, args, context) {
+			logger.info("samples is called via "+context.parent);
+			let refQuery = "select bin_to_uuid(reference_entity_id) sample_id, annotation, "+
+			"reference_entity_alias as sample_submitter_id from reference where entity_id = "+
+			"uuid_to_bin(:diagnosis_id) and reference_entity_type = 'sample'"
+			let replacements = {};
+			replacements['diagnosis_id'] = obj.diagnosis_id;
+			return db.getSequelize().query(
+					refQuery,
+					{
+						replacements: replacements,
+						model: db.getModelByName('Sample')
+					}
+			);
+							
+		},
 		externalReferences(obj, args, context) {
+			logger.info("externalReferences is called via "+context.parent);
 			//var refQuery = "SELECT reference_resource_shortname, trim(both '\r' from reference_entity_location) as reference_entity_location FROM reference r where entity_type = 'case' and reference_type = 'external' and entity_id = uuid_to_bin('"+ obj.case_id + "')";
 			var refQuery = "SELECT reference_resource_shortname, trim(both '\r' from reference_entity_location) as reference_entity_location, reference_entity_alias as external_reference_id, reference_resource_name FROM reference r where entity_type = 'case' and reference_type = 'external' and entity_id = uuid_to_bin('"+ obj.case_id + "')";
 			return db.getSequelize().query(refQuery, { model: db.getModelByName('ModelEntityReference') });
 		},
 		//@@@PDC-4293 add new clinbio entities
 		exposures(obj, args, context) {
+			logger.info("exposures is called via "+context.parent);
 				//@@@PDC-4639 remove bmi, height and weight columns from exposure
 				var refQuery = "SELECT bin_to_uuid(exposure_id) as exposure_id, exposure_submitter_id, alcohol_days_per_week, alcohol_drinks_per_day, alcohol_history, alcohol_intensity, asbestos_exposure, cigarettes_per_day, coal_dust_exposure, environmental_tobacco_smoke_exposure, pack_years_smoked, radon_exposure, respirable_crystalline_silica_exposure, smoking_frequency, time_between_waking_and_first_smoke, tobacco_smoking_onset_year, tobacco_smoking_quit_year, tobacco_smoking_status, type_of_smoke_exposure, type_of_tobacco_used, years_smoked, age_at_onset, alcohol_type, exposure_duration, exposure_duration_years, exposure_type, marijuana_use_per_week, parent_with_radiation_exposure, secondhand_smoke_as_child, smokeless_tobacco_quit_age, tobacco_use_per_day FROM exposure where case_id = uuid_to_bin('"+ obj.case_id + "')";
 				return db.getSequelize().query(refQuery, { model: db.getModelByName('ModelExposure') });
 		},
 		family_histories(obj, args, context) {
+			logger.info("family_histories is called via "+context.parent);
 				var refQuery = "SELECT bin_to_uuid(family_history_id) as family_history_id, family_history_submitter_id, relationship_type, relationship_gender, relationship_age_at_diagnosis, relationship_primary_diagnosis, relative_with_cancer_history, relatives_with_cancer_history_count FROM family_history where case_id = uuid_to_bin('"+ obj.case_id + "')";
 				return db.getSequelize().query(refQuery, { model: db.getModelByName('ModelFamilyHistory') });
 		},
 		follow_ups(obj, args, context) {
+			logger.info("follow_ups is called via "+context.parent);
 				var refQuery = "SELECT bin_to_uuid(follow_up_id) as follow_up_id, follow_up_submitter_id, adverse_event, barretts_esophagus_goblet_cells_present, bmi, cause_of_response, comorbidity, comorbidity_method_of_diagnosis, days_to_adverse_event, days_to_comorbidity, days_to_follow_up, days_to_progression, days_to_progression_free, days_to_recurrence, diabetes_treatment_type, disease_response, dlco_ref_predictive_percent, ecog_performance_status, fev1_ref_post_bronch_percent, fev1_ref_pre_bronch_percent, fev1_fvc_pre_bronch_percent, fev1_fvc_post_bronch_percent, height, hepatitis_sustained_virological_response, hpv_positive_type, karnofsky_performance_status, menopause_status, pancreatitis_onset_year, progression_or_recurrence, progression_or_recurrence_anatomic_site, progression_or_recurrence_type, reflux_treatment_type, risk_factor, risk_factor_treatment, viral_hepatitis_serologies, weight, adverse_event_grade, aids_risk_factors, body_surface_area, cd4_count, cdc_hiv_risk_factors, days_to_imaging, evidence_of_recurrence_type, eye_color, haart_treatment_indicator, history_of_tumor, history_of_tumor_type, hiv_viral_load, hormonal_contraceptive_type, hormonal_contraceptive_use, hormone_replacement_therapy_type, hysterectomy_margins_involved, hysterectomy_type, imaging_result, imaging_type, immunosuppressive_treatment_type, nadir_cd4_count, pregnancy_outcome, procedures_performed, recist_targeted_regions_number, recist_targeted_regions_sum, scan_tracer_used, undescended_testis_corrected, undescended_testis_corrected_age, undescended_testis_corrected_laterality, undescended_testis_corrected_method, undescended_testis_history, undescended_testis_history_laterality FROM follow_up where case_id = uuid_to_bin('"+ obj.case_id + "')";
 				return db.getSequelize().query(refQuery, { model: db.getModelByName('ModelFollowUp') });
 		},
 		treatments(obj, args, context) {
+			logger.info("treatments is called via "+context.parent);
 				var refQuery = "SELECT bin_to_uuid(treatment_id) as treatment_id, treatment_submitter_id, days_to_treatment_end, days_to_treatment_start, initial_disease_status, regimen_or_line_of_therapy, therapeutic_agents, treatment_anatomic_site, treatment_effect, treatment_intent_type, treatment_or_therapy, treatment_outcome, treatment_type, chemo_concurrent_to_radiation, number_of_cycles, reason_treatment_ended, route_of_administration, treatment_arm, treatment_dose, treatment_dose_units, treatment_effect_indicator, treatment_frequency  FROM treatment where case_id = uuid_to_bin('"+ obj.case_id + "')";
 				return db.getSequelize().query(refQuery, { model: db.getModelByName('ModelTreatment') });
 		}
 	},
 	Biospecimen: {
 		externalReferences(obj, args, context) {
-			//var refQuery = "SELECT reference_resource_shortname, trim(both '\r' from reference_entity_location) as reference_entity_location FROM reference r where entity_type = 'case' and reference_type = 'external' and entity_id = uuid_to_bin('"+ obj.case_id + "')";
+			logger.info("externalReferences is called via "+context.parent);
 			var refQuery = "SELECT reference_resource_shortname, trim(both '\r' from reference_entity_location) as reference_entity_location, reference_entity_alias as external_reference_id, reference_resource_name FROM reference r where entity_type = 'case' and reference_type = 'external' and entity_id = uuid_to_bin('"+ obj.case_id + "')";
 			return db.getSequelize().query(refQuery, { model: db.getModelByName('ModelEntityReference') });
 		}
@@ -660,6 +716,7 @@ export const resolvers = {
 	//@@@PDC-2377 add supplementary file counts
 	UIStudy: {
 		async filesCount(obj, args, context) {
+			logger.info("filesCount is called via "+context.parent);
 			var fileCacheName = context.dataCacheName + ':'+obj.study_submitter_id;
 			const res = await RedisCacheClient.redisCacheGetAsync(fileCacheName);
 			if (res === null) {
@@ -677,6 +734,7 @@ export const resolvers = {
 		},
 		//@@@PDC-2435 add contacts to study
 		async contacts(obj, args, context) {
+			logger.info("contacts is called via "+context.parent);
 			var contactCacheName = context.dataCacheName + ':contact:'+obj.study_submitter_id;
 			const res = await RedisCacheClient.redisCacheGetAsync(contactCacheName);
 			if (res === null) {
@@ -692,6 +750,7 @@ export const resolvers = {
 		},
 		//@@@PDC-2938 add versions to study summary
 		async versions(obj, args, context) {
+			logger.info("versions is called via "+context.parent);
 			var contactCacheName = context.dataCacheName + ':version:'+obj.study_submitter_id;
 			const res = await RedisCacheClient.redisCacheGetAsync(contactCacheName);
 			if (res === null) {
@@ -705,6 +764,7 @@ export const resolvers = {
 			return JSON.parse(res);
 		},
 		async supplementaryFilesCount(obj, args, context) {
+			logger.info("supplementaryFilesCount is called via "+context.parent);
 			var suppFileCacheName = context.dataCacheName + ':supp:'+obj.study_submitter_id;
 			const res = await RedisCacheClient.redisCacheGetAsync(suppFileCacheName);
 			if (res === null) {
@@ -721,6 +781,7 @@ export const resolvers = {
 			return JSON.parse(res);
 		},
 		async nonSupplementaryFilesCount(obj, args, context) {
+			logger.info("nonSupplementaryFilesCount is called via "+context.parent);
 			var nonSuppFileCacheName = context.dataCacheName + ':nonSupp:'+obj.study_submitter_id;
 			const res = await RedisCacheClient.redisCacheGetAsync(nonSuppFileCacheName);
 			if (res === null) {
@@ -741,6 +802,7 @@ export const resolvers = {
 	Study: {
 		//@@@PDC-3966 add more study fields per CDA request
 		async disease_types(obj, args, context) {
+			logger.info("disease_types is called via "+context.parent);
 			var diseaseQuery = "SELECT distinct c.disease_type as disease_type FROM study s, `case` c, sample sam, aliquot al, "+
 			"aliquot_run_metadata alm WHERE alm.study_id = s.study_id and al.aliquot_id "+
 			" = alm.aliquot_id and al.sample_id=sam.sample_id and sam.case_id=c.case_id and s.study_id = uuid_to_bin('"+
@@ -751,6 +813,7 @@ export const resolvers = {
 			return diseaseTypes;
 		},
 		async primary_sites(obj, args, context) {
+			logger.info("primary_sites is called via "+context.parent);
 			var siteQuery = "SELECT distinct c.primary_site as primary_site FROM study s, `case` c, sample sam, aliquot al, "+
 			"aliquot_run_metadata alm WHERE alm.study_id = s.study_id and al.aliquot_id "+
 			" = alm.aliquot_id and al.sample_id=sam.sample_id and sam.case_id=c.case_id and s.study_id = uuid_to_bin('"+
@@ -762,6 +825,7 @@ export const resolvers = {
 		},
 		//@@@PDC-2435 add contacts to study
 		contacts(obj, args, context) {
+			logger.info("contacts is called via "+context.parent);
 			var contactQuery = "SELECT c.name, c.institution, c.email, c.url "+
 			"FROM contact c, study s, study_contact sc "+
 			"WHERE c.contact_id = sc.contact_id and s.study_id = sc.study_id "+
@@ -769,6 +833,7 @@ export const resolvers = {
 			return db.getSequelize().query(contactQuery, { model: db.getModelByName('Contact') });
 		},
 		filesCount(obj, args, context) {
+			logger.info("filesCount is called via "+context.parent);
 			var fileQuery = "SELECT f.data_category, f.file_type, count(f.file_id) as files_count "+
 			"FROM file f, study s, study_file sf "+
 			"WHERE f.file_id = sf.file_id and s.study_id = sf.study_id "+
@@ -780,6 +845,7 @@ export const resolvers = {
 	//@@@PDC-3847 get aliquot info per label
 	StudyExperimentalDesign: {
 		label_free(obj, args, context) {
+			logger.info("label_free is called via "+context.parent);
 			//logger.info("label free: "+JSON.stringify(obj));
 			if (obj.label_free_asi != null && obj.label_free_asi.length > 0){
 				let lfQuery = labelQuery + " where aliquot_submitter_id = '"+
@@ -790,6 +856,7 @@ export const resolvers = {
 				return null;
 		},
 		itraq_113(obj, args, context) {
+			logger.info("itraq_113 is called via "+context.parent);
 			if (obj.itraq_113_asi != null && obj.itraq_113_asi.length > 0){
 				let itraq_113Query = labelQuery + " where aliquot_submitter_id = '"+
 				obj.itraq_113_asi+"' and label = 'itraq_113' and study_run_metadata_id = uuid_to_bin('"+obj.study_run_metadata_id+"')";
@@ -799,6 +866,7 @@ export const resolvers = {
 				return null;
 		},
 		itraq_114(obj, args, context) {
+			logger.info("itraq_114 is called via "+context.parent);
 			if (obj.itraq_114_asi != null && obj.itraq_114_asi.length > 0){
 				let itraq_114Query = labelQuery + " where aliquot_submitter_id = '"+
 				obj.itraq_114_asi+"' and label = 'itraq_114' and study_run_metadata_id = uuid_to_bin('"+obj.study_run_metadata_id+"')";
@@ -808,6 +876,7 @@ export const resolvers = {
 				return null;
 		},
 		itraq_115(obj, args, context) {
+			logger.info("itraq_115 is called via "+context.parent);
 			if (obj.itraq_115_asi != null && obj.itraq_115_asi.length > 0){
 				let itraq_115Query = labelQuery + " where aliquot_submitter_id = '"+
 				obj.itraq_115_asi+"' and label = 'itraq_115' and study_run_metadata_id = uuid_to_bin('"+obj.study_run_metadata_id+"')";
@@ -817,6 +886,7 @@ export const resolvers = {
 				return null;
 		},
 		itraq_116(obj, args, context) {
+			logger.info("itraq_116 is called via "+context.parent);
 			if (obj.itraq_116_asi != null && obj.itraq_116_asi.length > 0){
 				let itraq_116Query = labelQuery + " where aliquot_submitter_id = '"+
 				obj.itraq_116_asi+"' and label = 'itraq_116' and study_run_metadata_id = uuid_to_bin('"+obj.study_run_metadata_id+"')";
@@ -826,6 +896,7 @@ export const resolvers = {
 				return null;
 		},
 		itraq_117(obj, args, context) {
+			logger.info("itraq_117 is called via "+context.parent);
 			if (obj.itraq_117_asi != null && obj.itraq_117_asi.length > 0){
 				let itraq_117Query = labelQuery + " where aliquot_submitter_id = '"+
 				obj.itraq_117_asi+"' and label = 'itraq_117' and study_run_metadata_id = uuid_to_bin('"+obj.study_run_metadata_id+"')";
@@ -835,6 +906,7 @@ export const resolvers = {
 				return null;
 		},
 		itraq_118(obj, args, context) {
+			logger.info("itraq_118 is called via "+context.parent);
 			if (obj.itraq_118_asi != null && obj.itraq_118_asi.length > 0){
 				let itraq_118Query = labelQuery + " where aliquot_submitter_id = '"+
 				obj.itraq_118_asi+"' and label = 'itraq_118' and study_run_metadata_id = uuid_to_bin('"+obj.study_run_metadata_id+"')";
@@ -844,6 +916,7 @@ export const resolvers = {
 				return null;
 		},
 		itraq_119(obj, args, context) {
+			logger.info("itraq_119 is called via "+context.parent);
 			if (obj.itraq_119_asi != null && obj.itraq_119_asi.length > 0){
 				let itraq_119Query = labelQuery + " where aliquot_submitter_id = '"+
 				obj.itraq_119_asi+"' and label = 'itraq_119' and study_run_metadata_id = uuid_to_bin('"+obj.study_run_metadata_id+"')";
@@ -853,6 +926,7 @@ export const resolvers = {
 				return null;
 		},
 		itraq_121(obj, args, context) {
+			logger.info("itraq_121 is called via "+context.parent);
 			if (obj.itraq_121_asi != null && obj.itraq_121_asi.length > 0){
 				let itraq_121Query = labelQuery + " where aliquot_submitter_id = '"+
 				obj.itraq_121_asi+"' and label = 'itraq_121' and study_run_metadata_id = uuid_to_bin('"+obj.study_run_metadata_id+"')";
@@ -862,6 +936,7 @@ export const resolvers = {
 				return null;
 		},
 		tmt_126(obj, args, context) {
+			logger.info("tmt_126 is called via "+context.parent);
 			if (obj.tmt_126_asi != null && obj.tmt_126_asi.length > 0){
 				let tmt_126Query = labelQuery + " where aliquot_submitter_id = '"+
 				obj.tmt_126_asi+"' and label = 'tmt_126' and study_run_metadata_id = uuid_to_bin('"+obj.study_run_metadata_id+"')";
@@ -871,6 +946,7 @@ export const resolvers = {
 				return null;
 		},
 		tmt_127n(obj, args, context) {
+			logger.info("tmt_127n is called via "+context.parent);
 			if (obj.tmt_127n_asi != null && obj.tmt_127n_asi.length > 0){
 				let tmt_127nQuery = labelQuery + " where aliquot_submitter_id = '"+
 				obj.tmt_127n_asi+"' and label = 'tmt_127n' and study_run_metadata_id = uuid_to_bin('"+obj.study_run_metadata_id+"')";
@@ -880,6 +956,7 @@ export const resolvers = {
 				return null;
 		},
 		tmt_127c(obj, args, context) {
+			logger.info("tmt_127c is called via "+context.parent);
 			if (obj.tmt_127c_asi != null && obj.tmt_127c_asi.length > 0){
 				let tmt_127cQuery = labelQuery + " where aliquot_submitter_id = '"+
 				obj.tmt_127c_asi+"' and label = 'tmt_127c' and study_run_metadata_id = uuid_to_bin('"+obj.study_run_metadata_id+"')";
@@ -889,6 +966,7 @@ export const resolvers = {
 				return null;
 		},
 		tmt_128n(obj, args, context) {
+			logger.info("tmt_128n is called via "+context.parent);
 			if (obj.tmt_128n_asi != null && obj.tmt_128n_asi.length > 0){
 				let tmt_128nQuery = labelQuery + " where aliquot_submitter_id = '"+
 				obj.tmt_128n_asi+"' and label = 'tmt_128n' and study_run_metadata_id = uuid_to_bin('"+obj.study_run_metadata_id+"')";
@@ -898,6 +976,7 @@ export const resolvers = {
 				return null;
 		},
 		tmt_128c(obj, args, context) {
+			logger.info("tmt_128c is called via "+context.parent);
 			if (obj.tmt_128c_asi != null && obj.tmt_128c_asi.length > 0){
 				let tmt_128cQuery = labelQuery + " where aliquot_submitter_id = '"+
 				obj.tmt_128c_asi+"' and label = 'tmt_128c' and study_run_metadata_id = uuid_to_bin('"+obj.study_run_metadata_id+"')";
@@ -907,6 +986,7 @@ export const resolvers = {
 				return null;
 		},
 		tmt_129n(obj, args, context) {
+			logger.info("tmt_129n is called via "+context.parent);
 			if (obj.tmt_129n_asi != null && obj.tmt_129n_asi.length > 0){
 				let tmt_129nQuery = labelQuery + " where aliquot_submitter_id = '"+
 				obj.tmt_129n_asi+"' and label = 'tmt_129n' and study_run_metadata_id = uuid_to_bin('"+obj.study_run_metadata_id+"')";
@@ -916,6 +996,7 @@ export const resolvers = {
 				return null;
 		},
 		tmt_129c(obj, args, context) {
+			logger.info("tmt_129c is called via "+context.parent);
 			if (obj.tmt_129c_asi != null && obj.tmt_129c_asi.length > 0){
 				let tmt_129cQuery = labelQuery + " where aliquot_submitter_id = '"+
 				obj.tmt_129c_asi+"' and label = 'tmt_129c' and study_run_metadata_id = uuid_to_bin('"+obj.study_run_metadata_id+"')";
@@ -925,6 +1006,7 @@ export const resolvers = {
 				return null;
 		},
 		tmt_130c(obj, args, context) {
+			logger.info("tmt_130c is called via "+context.parent);
 			if (obj.tmt_130c_asi != null && obj.tmt_130c_asi.length > 0){
 				let tmt_130cQuery = labelQuery + " where aliquot_submitter_id = '"+
 				obj.tmt_130c_asi+"' and label = 'tmt_130c' and study_run_metadata_id = uuid_to_bin('"+obj.study_run_metadata_id+"')";
@@ -934,6 +1016,7 @@ export const resolvers = {
 				return null;
 		},
 		tmt_130n(obj, args, context) {
+			logger.info("tmt_130n is called via "+context.parent);
 			if (obj.tmt_130n_asi != null && obj.tmt_130n_asi.length > 0){
 				let tmt_130nQuery = labelQuery + " where aliquot_submitter_id = '"+
 				obj.tmt_130n_asi+"' and label = 'tmt_130n' and study_run_metadata_id = uuid_to_bin('"+obj.study_run_metadata_id+"')";
@@ -943,6 +1026,7 @@ export const resolvers = {
 				return null;
 		},
 		tmt_131(obj, args, context) {
+			logger.info("tmt_131 is called via "+context.parent);
 			if (obj.tmt_131_asi != null && obj.tmt_131_asi.length > 0){
 				let tmt_131Query = labelQuery + " where aliquot_submitter_id = '"+
 				obj.tmt_131_asi+"' and label = 'tmt_131' and study_run_metadata_id = uuid_to_bin('"+obj.study_run_metadata_id+"')";
@@ -952,6 +1036,7 @@ export const resolvers = {
 				return null;
 		},
 		tmt_131c(obj, args, context) {
+			logger.info("tmt_131c is called via "+context.parent);
 			if (obj.tmt_131c_asi != null && obj.tmt_131c_asi.length > 0){
 				let tmt_131cQuery = labelQuery + " where aliquot_submitter_id = '"+
 				obj.tmt_131c_asi+"' and label = 'tmt_131c' and study_run_metadata_id = uuid_to_bin('"+obj.study_run_metadata_id+"')";
@@ -962,6 +1047,7 @@ export const resolvers = {
 		},
 		//@@@PDC-5290 add experiment types of TMT16 and TMT18
 		tmt_132n(obj, args, context) {
+			logger.info("tmt_132n is called via "+context.parent);
 			if (obj.tmt_132n_asi != null && obj.tmt_132n_asi.length > 0){
 				let tmt_132nQuery = labelQuery + " where aliquot_submitter_id = '"+
 				obj.tmt_132n_asi+"' and label = 'tmt_132n' and study_run_metadata_id = uuid_to_bin('"+obj.study_run_metadata_id+"')";
@@ -971,6 +1057,7 @@ export const resolvers = {
 				return null;
 		},
 		tmt_132c(obj, args, context) {
+			logger.info("tmt_132c is called via "+context.parent);
 			if (obj.tmt_132c_asi != null && obj.tmt_132c_asi.length > 0){
 				let tmt_132cQuery = labelQuery + " where aliquot_submitter_id = '"+
 				obj.tmt_132c_asi+"' and label = 'tmt_132c' and study_run_metadata_id = uuid_to_bin('"+obj.study_run_metadata_id+"')";
@@ -980,6 +1067,7 @@ export const resolvers = {
 				return null;
 		},
 		tmt_133n(obj, args, context) {
+			logger.info("tmt_133n is called via "+context.parent);
 			if (obj.tmt_133n_asi != null && obj.tmt_133n_asi.length > 0){
 				let tmt_133nQuery = labelQuery + " where aliquot_submitter_id = '"+
 				obj.tmt_133n_asi+"' and label = 'tmt_133n' and study_run_metadata_id = uuid_to_bin('"+obj.study_run_metadata_id+"')";
@@ -989,6 +1077,7 @@ export const resolvers = {
 				return null;
 		},
 		tmt_133c(obj, args, context) {
+			logger.info("tmt_133c is called via "+context.parent);
 			if (obj.tmt_133c_asi != null && obj.tmt_133c_asi.length > 0){
 				let tmt_133cQuery = labelQuery + " where aliquot_submitter_id = '"+
 				obj.tmt_133c_asi+"' and label = 'tmt_133c' and study_run_metadata_id = uuid_to_bin('"+obj.study_run_metadata_id+"')";
@@ -998,6 +1087,7 @@ export const resolvers = {
 				return null;
 		},
 		tmt_134n(obj, args, context) {
+			logger.info("tmt_134n is called via "+context.parent);
 			if (obj.tmt_134n_asi != null && obj.tmt_134n_asi.length > 0){
 				let tmt_134nQuery = labelQuery + " where aliquot_submitter_id = '"+
 				obj.tmt_134n_asi+"' and label = 'tmt_134n' and study_run_metadata_id = uuid_to_bin('"+obj.study_run_metadata_id+"')";
@@ -1007,6 +1097,7 @@ export const resolvers = {
 				return null;
 		},
 		tmt_134c(obj, args, context) {
+			logger.info("tmt_134c is called via "+context.parent);
 			if (obj.tmt_134c_asi != null && obj.tmt_134c_asi.length > 0){
 				let tmt_134cQuery = labelQuery + " where aliquot_submitter_id = '"+
 				obj.tmt_134c_asi+"' and label = 'tmt_134c' and study_run_metadata_id = uuid_to_bin('"+obj.study_run_metadata_id+"')";
@@ -1016,6 +1107,7 @@ export const resolvers = {
 				return null;
 		},
 		tmt_135n(obj, args, context) {
+			logger.info("tmt_135n is called via "+context.parent);
 			if (obj.tmt_135n_asi != null && obj.tmt_135n_asi.length > 0){
 				let tmt_135nQuery = labelQuery + " where aliquot_submitter_id = '"+
 				obj.tmt_135n_asi+"' and label = 'tmt_135n' and study_run_metadata_id = uuid_to_bin('"+obj.study_run_metadata_id+"')";
@@ -1028,6 +1120,7 @@ export const resolvers = {
 	//@@@PDC-3362 handle legacy studies
 	LegacyStudy: {
 		async supplementaryFilesCount(obj, args, context) {
+			logger.info("supplementaryFilesCount is called via "+context.parent);
 			var suppFileCacheName = 'legacy:supp:'+obj.study_id;
 			const res = await RedisCacheClient.redisCacheGetAsync(suppFileCacheName);
 			//@@@PDC-3878 use data_category to decide supple or not
@@ -1045,6 +1138,7 @@ export const resolvers = {
 			return JSON.parse(res);
 		},
 		async nonSupplementaryFilesCount(obj, args, context) {
+			logger.info("nonSupplementaryFilesCount is called via "+context.parent);
 			var nonSuppFileCacheName = 'legacy:nonSupp:'+obj.study_id;
 			const res = await RedisCacheClient.redisCacheGetAsync(nonSuppFileCacheName);
 			if (res === null) {
@@ -1061,6 +1155,7 @@ export const resolvers = {
 			return JSON.parse(res);
 		},
 		publications(obj, args, context) {
+			logger.info("publications is called via "+context.parent);
 			var pubQuery = "SELECT distinct bin_to_uuid(pub.publication_id) as publication_id, "+
 			"pub.pubmed_id, pub.doi, pub.author, pub.title, pub.journal, pub.journal_url, pub.year, "+
 			"pub.abstract, pub.citation FROM legacy_publication pub, legacy_study_publication sp "+
@@ -1072,6 +1167,7 @@ export const resolvers = {
 	//@@@PDC-3803 get sup data for legacy publication.
 	LegacyPublication: {
 		async supplementary_data(obj, args, context) {
+			logger.info("supplementary_data is called via "+context.parent);
 			var suppleQuery = "SELECT distinct f.file_name as file_name FROM legacy_file f, legacy_study s, legacy_study_file sf, legacy_study_publication sp WHERE s.study_id = sf.study_id and sf.file_id = f.file_id and sp.study_id = s.study_id and f.data_category = 'Publication Supplementary Material' and sp.publication_id = uuid_to_bin('"+
 			obj.publication_id + "') ";
 			var supples = await db.getSequelize().query(suppleQuery, { raw: true });
@@ -1083,6 +1179,7 @@ export const resolvers = {
 	//@@@PDC-3446 API for new publication screen
 	Publication: {
 		studies(obj, args, context) {
+			logger.info("studies is called via "+context.parent);
 			var studyQuery = "SELECT bin_to_uuid(s.study_id) as study_id, s.pdc_study_id, s.submitter_id_name "+
 			"from study s, study_publication sp "+
 			"where sp.study_id = s.study_id and sp.publication_id = uuid_to_bin('"+
@@ -1090,6 +1187,7 @@ export const resolvers = {
 			return db.getSequelize().query(studyQuery, { model: db.getModelByName('ModelUIStudy') });
 		},
 		async disease_types(obj, args, context) {
+			logger.info("disease_types is called via "+context.parent);
 			var diseaseQuery = "SELECT distinct c.disease_type as disease_type FROM study s, `case` c, sample sam, aliquot al, "+
 			"aliquot_run_metadata alm, study_publication sp WHERE alm.study_id = s.study_id and al.aliquot_id "+
 			" = alm.aliquot_id and al.sample_id=sam.sample_id and sam.case_id=c.case_id and sp.study_id = s.study_id and sp.publication_id = uuid_to_bin('"+
@@ -1101,6 +1199,7 @@ export const resolvers = {
 		},
 		//@@@PDC-3671 get publication file from file table
 		async supplementary_data(obj, args, context) {
+			logger.info("supplementary_data is called via "+context.parent);
 			var suppleQuery = "SELECT distinct f.file_name as file_name FROM file f WHERE  f.publication_id = uuid_to_bin('"+
 			obj.publication_id + "') ";
 			var supples = await db.getSequelize().query(suppleQuery, { raw: true });
@@ -1112,21 +1211,25 @@ export const resolvers = {
 	//@@@PDC-3640 new pdc metrics api
 	PDCMetrics: {
 		async programs(obj, args, context) {
+			logger.info("programs is called via "+context.parent);
 			let myQuery = "SELECT count(*) as programs FROM program";
 			var result = await db.getSequelize().query(myQuery, { raw: true });
 			return parseInt(result[0][0].programs);
 		},
 		async projects(obj, args, context) {
+			logger.info("projects is called via "+context.parent);
 			let myQuery = "SELECT count(*) as projects FROM project";
 			var result = await db.getSequelize().query(myQuery, { raw: true });
 			return parseInt(result[0][0].projects);
 		},
 		async studies(obj, args, context) {
+			logger.info("studies is called via "+context.parent);
 			let myQuery = "SELECT count(*) as studies FROM study WHERE is_latest_version = 1";
 			var result = await db.getSequelize().query(myQuery, { raw: true });
 			return parseInt(result[0][0].studies);
 		},
 		async cases(obj, args, context) {
+			logger.info("cases is called via "+context.parent);
 			let myQuery = "SELECT  COUNT(DISTINCT dia.diagnosis_id) AS cases FROM study s, aliquot al, "+
 			"aliquot_run_metadata alm, `case` c, sample sam, demographic dem, diagnosis dia "+
 			"WHERE alm.study_id = s.study_id AND al.aliquot_id = alm.aliquot_id "+
@@ -1136,12 +1239,14 @@ export const resolvers = {
 			return parseInt(result[0][0].cases);
 		},
 		async files(obj, args, context) {
+			logger.info("files is called via "+context.parent);
 			let myQuery = "SELECT count(*) as files FROM file f, study_file sf, study s "+
 			"WHERE f.file_id = sf.file_id and sf.study_id = s.study_id and s.is_latest_version = 1";
 			var result = await db.getSequelize().query(myQuery, { raw: true });
 			return parseInt(result[0][0].files);
 		},
 		async data_size_TB(obj, args, context) {
+			logger.info("data_size_TB is called via "+context.parent);
 			let myQuery = "select round(((sum(file_size))/POWER(1024,4)), 0) as data_size from file";
 			var result = await db.getSequelize().query(myQuery, { raw: true });
 			return parseInt(result[0][0].data_size);
@@ -1149,6 +1254,7 @@ export const resolvers = {
 	},
 	PublicationFilters: {
 		async disease_types(obj, args, context) {
+			logger.info("disease_types is called via "+context.parent);
 			var diseaseQuery = "SELECT distinct c.disease_type as disease_type FROM study s, `case` c, sample sam, aliquot al, "+
 			"aliquot_run_metadata alm, study_publication sp WHERE alm.study_id = s.study_id and al.aliquot_id "+
 			" = alm.aliquot_id and al.sample_id=sam.sample_id and sam.case_id=c.case_id and sp.study_id = s.study_id and s.is_latest_version = 1 and c.disease_type != 'Other' order by c.disease_type";
@@ -1158,6 +1264,7 @@ export const resolvers = {
 			return diseaseTypes;
 		},
 		async years(obj, args, context) {
+			logger.info("years is called via "+context.parent);
 			var yearQuery = "SELECT distinct pub.year FROM publication pub order by pub.year desc";
 			var years = await db.getSequelize().query(yearQuery, { raw: true });
 			var yearsPub = [];
@@ -1165,6 +1272,7 @@ export const resolvers = {
 			return yearsPub;
 		},
 		async programs(obj, args, context) {
+			logger.info("programs is called via "+context.parent);
 			var programQuery = "SELECT distinct prog.name FROM study s, project proj, program prog, "+
 			"study_publication sp, publication pub WHERE sp.study_id = s.study_id and s.is_latest_version = 1 "+
 			"and s.project_id = proj.project_id and proj.program_id = prog.program_id order by prog.name";
@@ -1177,6 +1285,7 @@ export const resolvers = {
 	//@@@PDC-3597 heatmap study api
 	HeatmapFilters: {
 		async disease_types(obj, args, context) {
+			logger.info("disease_types is called via "+context.parent);
 			var diseaseQuery = "SELECT distinct c.disease_type as disease_type FROM study s, `case` c, sample sam, aliquot al, "+
 			"aliquot_run_metadata alm WHERE alm.study_id = s.study_id and al.aliquot_id "+
 			"= alm.aliquot_id and al.sample_id=sam.sample_id and sam.case_id=c.case_id and "+
@@ -1189,6 +1298,7 @@ export const resolvers = {
 			return diseaseTypes;
 		},
 		async primary_sites(obj, args, context) {
+			logger.info("primary_sites is called via "+context.parent);
 			var siteQuery = "SELECT distinct c.primary_site as primary_site FROM study s, `case` c, sample sam, aliquot al, "+
 			"aliquot_run_metadata alm WHERE alm.study_id = s.study_id and al.aliquot_id "+
 			"= alm.aliquot_id and al.sample_id=sam.sample_id and sam.case_id=c.case_id and "+
@@ -1201,6 +1311,7 @@ export const resolvers = {
 			return siteTypes;
 		},
 		async analytical_fractions(obj, args, context) {
+			logger.info("analytical_fractions is called via "+context.parent);
 			var fractionQuery = "SELECT distinct s.analytical_fraction FROM study s WHERE s.study_id IN (UUID_TO_BIN('"+getHeatMapStudies()+"')) "+
 			"order by s.analytical_fraction";
 			var fractions = await db.getSequelize().query(fractionQuery, { raw: true });
@@ -1240,10 +1351,12 @@ export const resolvers = {
 	//@@@PDC-650 implement elasticache for API
 	Paginated: {
 		total(obj, args, context) {
+			logger.info("total is called via "+context.parent);
 			context['total'] = obj[0].total;
 			return obj[0].total;
 		},
 		async uiFiles(obj, args, context) {
+			logger.info("uiFiles is called via "+context.parent);
 			const res = await RedisCacheClient.redisCacheGetAsync(context.dataCacheName);
 			if(res === null){
 				let result =await db.getSequelize().query(
@@ -1260,6 +1373,7 @@ export const resolvers = {
 			}
 		},
 		async uiLegacyFiles(obj, args, context) {
+			logger.info("uiLegacyFiles is called via "+context.parent);
 			const res = await RedisCacheClient.redisCacheGetAsync(context.dataCacheName);
 			if(res === null){
 				let result =await db.getSequelize().query(
@@ -1276,6 +1390,7 @@ export const resolvers = {
 			}
 		},
 		async uiCases(obj, args, context) {
+			logger.info("uiCases is called via "+context.parent);
 			logger.info("getPaginatedUICaseDetail: "+ context.dataCacheName);
 			const res = await RedisCacheClient.redisCacheGetAsync(context.dataCacheName);
 			if(res === null){
@@ -1296,6 +1411,7 @@ export const resolvers = {
 		},
 		//@@@PDC-255 API for UI clinical tab
 		async uiClinical(obj, args, context) {
+			logger.info("uiClinical is called via "+context.parent);
 			logger.info("getPaginatedUIClinical "+ context.dataCacheName);
 			const res = await RedisCacheClient.redisCacheGetAsync(context.dataCacheName);
 			if(res === null){
@@ -1315,6 +1431,7 @@ export const resolvers = {
 		},
 		//@@@PDC-579 gene tabe pagination
 		async uiGenes(obj, args, context) {
+			logger.info("uiGenes is called via "+context.parent);
 			const res = await RedisCacheClient.redisCacheGetAsync(context.dataCacheName);
 			if (res === null) {
 				let replacements = context.replacements;
@@ -1354,6 +1471,7 @@ export const resolvers = {
 		},
 		//@@@PDC-681 ui ptm data API
 		async uiPtm(obj, args, context) {
+			logger.info("uiPtm is called via "+context.parent);
 			const res = await RedisCacheClient.redisCacheGetAsync(context.dataCacheName);
 			if(res === null){
 				var result =await db.getSequelize().query(
@@ -1371,6 +1489,7 @@ export const resolvers = {
 		},
 		//@@@PDC-3446 API for new publication screen
 		async uiPublication(obj, args, context) {
+			logger.info("uiPublication is called via "+context.parent);
 			//console.log("cacheName: "+context.dataCacheName);
 			const res = await RedisCacheClient.redisCacheGetAsync(context.dataCacheName);
 			if(res === null){
@@ -1413,6 +1532,7 @@ export const resolvers = {
 		//@@@PDC-333 gene/spectral count API pagination
 		//@@@PDC-391 gene/spectral count query change
 		async uiGeneStudySpectralCounts(obj, args, context) {
+			logger.info("uiGeneStudySpectralCounts is called via "+context.parent);
 			const res = await RedisCacheClient.redisCacheGetAsync(context.dataCacheName);
 			if(res === null){
 				var initialStudies = await db.getSequelize().query(
@@ -1452,6 +1572,7 @@ export const resolvers = {
 			}
 		},
 		async uiGeneAliquotSpectralCounts(obj, args, context) {
+			logger.info("uiGeneAliquotSpectralCounts is called via "+context.parent);
 			const res = await RedisCacheClient.redisCacheGetAsync(context.dataCacheName);
 			if(res === null){
 				var result =await db.getSequelize().query(
@@ -1469,6 +1590,7 @@ export const resolvers = {
 		},
 		//@@@PDC-485 spectral count per study/aliquot API
 		spectralCounts(obj, args, context) {
+			logger.info("spectralCounts is called via "+context.parent);
 			return db.getSequelize().query(
 					context.query,
 					{
@@ -1479,6 +1601,7 @@ export const resolvers = {
 		},
 		//@@@PDC-2690 api returns gene info without spectral count
 		genesProper(obj, args, context) {
+			logger.info("genesProper is called via "+context.parent);
 			return db.getSequelize().query(
 					context.query,
 					{
@@ -1491,6 +1614,7 @@ export const resolvers = {
 		//@@@PDC-788 remove hard-coded file types
 		//@@@PDC-1291 Redesign Browse Page data tabs
 		async uiStudies(obj, args, context) {
+			logger.info("uiStudies is called via "+context.parent);
 			//console.log("studyQuery: "+context.query);
 			const res = await RedisCacheClient.redisCacheGetAsync(context.dataCacheName);
 			if(res === null){
@@ -1508,6 +1632,7 @@ export const resolvers = {
 			}
 		},
 		files(obj, args, context) {
+			logger.info("files is called via "+context.parent);
 			return db.getSequelize().query(
 					context.query,
 					{
@@ -1518,6 +1643,7 @@ export const resolvers = {
 		},
 		//PDC-3022 enhance getPaginatedCase API
 		cases(obj, args, context) {
+			logger.info("cases is called via "+context.parent);
 			return db.getModelByName('Case').findAll({
 					attributes: [['bin_to_uuid(case_id)', 'case_id'],
 						'case_submitter_id',
@@ -1537,6 +1663,7 @@ export const resolvers = {
 		},
 		//@@@PDC-472 casesSamplesAliquots API
 		casesSamplesAliquots(obj, args, context) {
+			logger.info("casesSamplesAliquots is called via "+context.parent);
 			return db.getSequelize().query(
 					context.query,
 					{
@@ -1547,6 +1674,7 @@ export const resolvers = {
 		},
 		//@@@PDC-475 caseDiagnosesPerStudy API
 		caseDiagnosesPerStudy(obj, args, context) {
+			logger.info("caseDiagnosesPerStudy is called via "+context.parent);
 			return db.getSequelize().query(
 					context.query,
 					{
@@ -1557,6 +1685,7 @@ export const resolvers = {
 		},
 		//@@@PDC-473 caseDemographicsPerStudy API
 		caseDemographicsPerStudy(obj, args, context) {
+			logger.info("caseDemographicsPerStudy is called via "+context.parent);
 			return db.getSequelize().query(
 					context.query,
 					{
@@ -1567,6 +1696,7 @@ export const resolvers = {
 		},
 		//@@@PDC-4547 public apis for new clinbio entities
 		caseExposuresPerStudy(obj, args, context) {
+			logger.info("caseExposuresPerStudy is called via "+context.parent);
 			return db.getSequelize().query(
 					context.query,
 					{
@@ -1576,6 +1706,7 @@ export const resolvers = {
 				);
 		},
 		caseFamilyHistoriesPerStudy(obj, args, context) {
+			logger.info("caseFamilyHistoriesPerStudy is called via "+context.parent);
 			return db.getSequelize().query(
 					context.query,
 					{
@@ -1585,6 +1716,7 @@ export const resolvers = {
 				);
 		},
 		caseFollowUpsPerStudy(obj, args, context) {
+			logger.info("caseFollowUpsPerStudy is called via "+context.parent);
 			return db.getSequelize().query(
 					context.query,
 					{
@@ -1594,6 +1726,7 @@ export const resolvers = {
 				);
 		},
 		caseTreatmentsPerStudy(obj, args, context) {
+			logger.info("caseTreatmentsPerStudy is called via "+context.parent);
 			return db.getSequelize().query(
 					context.query,
 					{
@@ -1603,6 +1736,7 @@ export const resolvers = {
 				);
 		},
 		searchCases(obj, args, context) {
+			logger.info("searchCases is called via "+context.parent);
 			return db.getSequelize().query(
 					context.query,
 					{
@@ -1612,6 +1746,7 @@ export const resolvers = {
 				);
 		},
 		genes(obj, args, context) {
+			logger.info("genes is called via "+context.parent);
 			return db.getSequelize().query(
 					context.query,
 					{
@@ -1622,6 +1757,7 @@ export const resolvers = {
 		},
 		//@@@PDC-380 gene search by proteins
 		genesWithProtein(obj, args, context) {
+			logger.info("genesWithProtein is called via "+context.parent);
 			return db.getSequelize().query(
 				context.query,
 				{
@@ -1631,6 +1767,7 @@ export const resolvers = {
 			);
 		},
 		searchAliquots(obj, args, context) {
+			logger.info("searchAliquots is called via "+context.parent);
 			return db.getSequelize().query(
 				context.query,
 				{
@@ -1640,6 +1777,7 @@ export const resolvers = {
 			);
 		},
 		studies(obj, args, context) {
+			logger.info("studies is called via "+context.parent);
 			return db.getSequelize().query(
 					context.query,
 					{
@@ -1651,6 +1789,7 @@ export const resolvers = {
 		//@@@PDC-486 data matrix API
 		//@@@PDC-562 quant data matrix API
 		async dataMatrix(obj, args, context) {
+			logger.info("dataMatrix is called via "+context.parent);
 			var matrix = [];
 			var matrixCountQuery = '';
 			switch (context.arguments.data_type) {
@@ -1757,6 +1896,7 @@ export const resolvers = {
 		},
 		//@@@PDC-678 ptm data matrix API
 		async ptmDataMatrix(obj, args, context) {
+			logger.info("ptmDataMatrix is called via "+context.parent);
 			var matrix = [];
 			if (typeof context.error != 'undefined' ) {
 				var error = [context.error];
@@ -1805,6 +1945,7 @@ export const resolvers = {
 			return matrix;
 		},
 		pagination(obj, args, context) {
+			logger.info("pagination is called via "+context.parent);
 			logger.info("Paginated total: "+JSON.stringify(context.total));
 			return context.total;
 		}
@@ -1812,6 +1953,7 @@ export const resolvers = {
 	//@@@PDC-1122 add signed url
 	FilePerStudy: {
 		signedUrl(obj, args, context) {
+			logger.info("signedUrl is called via "+context.parent);
 			//@@@PDC-3837 use s3 key for large files
 			//logger.info("File Size: "+obj.file_size);
 			if (obj.file_size >= 32212254720)
@@ -1823,6 +1965,7 @@ export const resolvers = {
 	//@@@PDC-2167 group files by data source
 	StudyFileSource: {
 		async fileCounts(obj, args, context) {
+			logger.info("fileCounts is called via "+context.parent);
 			//@@@PDC-3839 get current version of study
 			var fileQuery = "SELECT f.file_type, f.data_category, COUNT(f.file_id) AS files_count FROM file f, study s, study_file sf WHERE f.file_id = sf.file_id and s.study_id = sf.study_id "+
 			"and s.study_id = uuid_to_bin('"+obj.study_id+"') and f.data_source = '"+
@@ -1843,6 +1986,7 @@ export const resolvers = {
 	//@@@PDC-2020 use major primary site
 	UIHumanBody: {
 		async primarySites(obj, args, context) {
+			logger.info("primarySites is called via "+context.parent);
 			var getPSQuery = 'select distinct primary_site from `case` c where ';
 			getPSQuery += " major_primary_site = '" + obj.major_primary_site + "'";
 			var pss = await db.getSequelize().query(getPSQuery, { raw: true });
@@ -1852,9 +1996,11 @@ export const resolvers = {
 		}
 	},
 	//@@@PDC-5252 fetch diagnosis-sample association
+	//@@@PDC-5412 add diagnosis-sample annotation	
 	UICase: {
 		diagnoses(obj, args, context) {
-			let refQuery = "select bin_to_uuid(entity_id) diagnosis_id, "+
+			logger.info("diagnoses is called via "+context.parent);
+			let refQuery = "select bin_to_uuid(entity_id) diagnosis_id, annotation, "+
 			"entity_submitter_id as diagnosis_submitter_id from reference where reference_entity_id = "+
 			"uuid_to_bin(:sample_id) and entity_type = 'diagnosis'"
 			let replacements = {};
