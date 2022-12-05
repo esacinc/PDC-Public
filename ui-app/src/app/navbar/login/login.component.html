@@ -21,19 +21,29 @@
 <mat-dialog-actions align="middle">
   <div class="container">
     <div class="row">
-      <div class="col">
+      <div class="col" style="padding-top: 16px;">
         <div class="social-login-container">
-          <button mat-raised-button (click)="socialSignIn('google')" class="social-login-item"><img
-              src="assets/css/images/google_icon.png" width="25" height="25" alt="google login" />&nbsp; Sign in with
-            Google
-            &nbsp;</button>
-          <br />
-          <br />
           <button mat-raised-button (click)="nihSignIn()" class="social-login-item"><img
-              src="assets/css/images/era_icon.png" width="25" height="23" alt="eRA login" />&nbsp; Sign in with
-            NIH/eRA</button>
+                src="assets/css/images/nih_login_icon.png" width="55" height="30" alt="NIH login" />&nbsp;&nbsp;&nbsp; Login</button>
         </div>
+        <span>
+          <div class="nihLoginText">You may login with the following identity providers:</div>
+          <div class="nihLoginText">
+            <ul style="padding-left: 10px;font-size: 13px;">
+              <li>NIH login or PIV</li>
+              <li>eRA Commons</li>
+              <li>HHS AMS</li>
+              <li>Google</li>
+              <li>Microsoft</li>
+              <li>PayPal</li>
+              <li>Research Organizations participating in InCommon.org</li>
+            </ul>
+          </div>
+        </span>
       </div>
+     <div class="wrapper">
+      <div class="text">or</div>
+    </div>
       <div class="col">
         <div class="user-login-container">
           <form [formGroup]="loginForm" (ngSubmit)="emailLogin()" class="form" name="pdcLoginForm" novalidate>

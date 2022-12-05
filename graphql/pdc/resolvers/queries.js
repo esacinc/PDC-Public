@@ -13,9 +13,12 @@ import {fetchDataMatrix} from '../util/fetchDataMatrix';
 import {getAliquotId} from '../util/getAliquotId';
 //@@@PDC-1215 use winston logger
 import { logger } from '../util/logger';
-import { aLogger } from '../util/aLogger';
+import { 
+	filterLogger,
+	searchLogger 
+	} from '../util/aLogger';
 //@@@PDC-4865 extra logging for analytic data
-import { analyticLog } from '../util/analyticLog';
+//import { analyticLog } from '../util/analyticLog';
 //@@@PDC-1437 db connect for public APIs
 import { pubDb } from '../util/pubDbconnect';
 import fs from 'fs';
@@ -582,10 +585,10 @@ export const resolvers = {
 		*/
 		async case(_, args, context) {
 			//@@@PDC-4726 log search query
-			if (args.source != 'undefined' && args.source === 'search') {
+			/*if (args.source != 'undefined' && args.source === 'search') {
 				//logger.info("SEARCH QUERY to case:  "+ JSON.stringify(args));
 				analyticLog.info("SEARCH QUERY to case:  "+ JSON.stringify(args));
-			}
+			}*/
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/case").send();
 				context['parent']= "case";
@@ -820,12 +823,12 @@ export const resolvers = {
 		async uiGeneSpectralCount(_, args, context) {
 			context['parent']= "uiGeneSpectralCount";
 			//@@@PDC-4726 log search query
-			if (args.source != 'undefined' && args.source === 'search') {
+			/*if (args.source != 'undefined' && args.source === 'search') {
 				//logger.info("SEARCH QUERY to uiGeneSpectralCount:  "+ JSON.stringify(args));
 				analyticLog.info("SEARCH QUERY to uiGeneSpectralCount:  "+ JSON.stringify(args));
 			}
-			else
-				logger.info("uiGeneSpectralCount is called with "+ JSON.stringify(args));
+			else*/
+			logger.info("uiGeneSpectralCount is called with "+ JSON.stringify(args));
 			var cacheFilterName = {name:''};
 			if (typeof args.gene_name != 'undefined') {
 				cacheFilterName.name +="gene_name:("+ args.gene_name + ");";
@@ -1304,10 +1307,10 @@ export const resolvers = {
 		*/
 		async workflowMetadata (_, args, context) {
 			//@@@PDC-4726 log search query
-			if (args.source != 'undefined' && args.source === 'search') {
+			/*if (args.source != 'undefined' && args.source === 'search') {
 				//logger.info("SEARCH QUERY to workflowMetadata:  "+ JSON.stringify(args));
 				analyticLog.info("SEARCH QUERY to workflowMetadata:  "+ JSON.stringify(args));
-			}
+			}*/
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/workflowMetadata").send();
 				context['parent']= "workflowMetadata";
@@ -1437,6 +1440,167 @@ export const resolvers = {
 			return result;
 
 		},
+		objectSearched(_, args, context) {
+			let entry = '';
+			for(var i in args) {
+				if (args[i] != undefined && args[i].length > 0) {
+					entry += i + ':' + args[i] + ';'					
+				}
+			}
+			entry = '['+entry+']';
+			searchLogger.info(entry);
+			return null;
+		},
+		//@@@PDC-5626 get search usage statistics
+		searchStats (obj, args, context){
+			let logFile = 'logs/search.log';
+			let logError = 'log file not found!';
+			let geneMap = new Map();
+			let studyMap = new Map();
+			let caseMap = new Map();
+			let sampleMap = new Map();
+			let aliquotMap = new Map();
+			let rankingReq = 10;
+			if (typeof args.ranking != 'undefined')
+				rankingReq = args.ranking;
+				
+			if (fs.existsSync(logFile)) {
+				let rawData = fs.readFileSync(logFile, 'utf8');
+				rawData.split(/\r?\n/).forEach(line =>  {
+					if (line.indexOf('[') >= 0) {
+						let sData = line.substring(line.indexOf('[')+1, line.indexOf(']')-1);
+						let sArray = sData.split(";");
+						let sValue = sArray[2].substr(sArray[2].indexOf(':')+1);
+						if (sArray[0].indexOf('gene') >= 0) {
+							if (geneMap.has(sValue)) {
+								geneMap.set(sValue, geneMap.get(sValue)+1);
+							}
+							else {
+								geneMap.set(sValue, 1);
+							}
+								
+						}
+						else if (sArray[0].indexOf('study') >= 0) {
+							if (studyMap.has(sValue)) {
+								studyMap.set(sValue, studyMap.get(sValue)+1);
+							}
+							else {
+								studyMap.set(sValue, 1);
+							}
+								
+						}
+						else if (sArray[0].indexOf('case') >= 0) {
+							if (caseMap.has(sValue)) {
+								caseMap.set(sValue, caseMap.get(sValue)+1);
+							}
+							else {
+								caseMap.set(sValue, 1);
+							}
+								
+						}
+						else if (sArray[0].indexOf('sample') >= 0) {
+							if (sampleMap.has(sValue)) {
+								sampleMap.set(sValue, sampleMap.get(sValue)+1);
+							}
+							else {
+								sampleMap.set(sValue, 1);
+							}
+								
+						}
+						else if (sArray[0].indexOf('aliquot') >= 0) {
+							if (aliquotMap.has(sValue)) {
+								aliquotMap.set(sValue, aliquotMap.get(sValue)+1);
+							}
+							else {
+								aliquotMap.set(sValue, 1);
+							}
+								
+						}
+						//console.log("Filter Pair: "+ fPair +':'+ fPairMap.get(fPair));
+					}
+				});	
+				let geneMapSorted = new Map([...geneMap.entries()].sort((a, b) => b[1] - a[1]));
+				let studyMapSorted = new Map([...studyMap.entries()].sort((a, b) => b[1] - a[1]));
+				let caseMapSorted = new Map([...caseMap.entries()].sort((a, b) => b[1] - a[1]));
+				let sampleMapSorted = new Map([...sampleMap.entries()].sort((a, b) => b[1] - a[1]));
+				let aliquotMapSorted = new Map([...aliquotMap.entries()].sort((a, b) => b[1] - a[1]));
+				
+				//console.log(mapSort1);
+				let result = [];
+				const geneIterator = geneMapSorted[Symbol.iterator]();
+				const studyIterator = studyMapSorted[Symbol.iterator]();
+				const caseIterator = caseMapSorted[Symbol.iterator]();
+				const sampleIterator = sampleMapSorted[Symbol.iterator]();
+				const aliquotIterator = aliquotMapSorted[Symbol.iterator]();
+
+				let ranking = 0;
+				for (const item of geneIterator) {
+					if (ranking >= rankingReq)
+						break;
+					let obj = {
+						type: 'gene',
+						value: item[0],
+						count: item[1]
+					 };
+					 result.push(obj);
+					 ranking++;				  
+				}
+				ranking = 0;
+				for (const item of studyIterator) {
+					if (ranking >= rankingReq)
+						break;
+					let obj = {
+						type: 'study',
+						value: item[0],
+						count: item[1]
+					 };
+					 result.push(obj);
+					 ranking++;				  
+				}
+				ranking = 0;
+				for (const item of caseIterator) {
+					if (ranking >= rankingReq)
+						break;
+					let obj = {
+						type: 'case',
+						value: item[0],
+						count: item[1]
+					 };
+					 result.push(obj);
+					 ranking++;				  
+				}
+				ranking = 0;
+				for (const item of sampleIterator) {
+					if (ranking >= rankingReq)
+						break;
+					let obj = {
+						type: 'sample',
+						value: item[0],
+						count: item[1]
+					 };
+					 result.push(obj);
+					 ranking++;				  
+				}
+				ranking = 0;
+				for (const item of aliquotIterator) {
+					if (ranking >= rankingReq)
+						break;
+					let obj = {
+						type: 'aliquot',
+						value: item[0],
+						count: item[1]
+					 };
+					 result.push(obj);
+					 ranking++;				  
+				}
+				return result;
+			}
+			else {
+				  throw new ApolloError(logError);
+			}
+			return null;
+			
+		},
 		//@@@PDC-1216 redesign filter api
 		//The filter query was divided into 2 queries. Query1 joining study, aliquot, aliquot_run_metadata,
 		//case, sample, demographic, diagnosis tables. Query2 joining study, study_file, file tables.
@@ -1471,13 +1635,14 @@ export const resolvers = {
 		async uiFilters (_, args, context) {
 			context['parent']= "uiFilters";
 			//@@@PDC-4727 log filled filters only
-			var filled = {};
+			//@@@PDC-5625 get filter usage statistics			
 			for(var i in args) {
-				if (args[i] != undefined && args[i].length > 0)
-					filled[i]=args[i];				
+				if (args[i] != undefined && args[i].length > 0) {
+					let filterValue = args[i].split(";");
+					filterValue.forEach(element => filterLogger.info("FILTER["+i+":"+element+"]")
+					)
+				}
 			}
-			//logger.info("FILTERED QUERY: "+ JSON.stringify(filled));
-			aLogger.info("FILTERED QUERY: "+ JSON.stringify(filled));
 			//apply global project submitter id filter
 			//let projectSubmitterIdValue = context.value.join("','")
 			//let projectSubmitterIdCondition = ` and s.project_submitter_id IN ('${projectSubmitterIdValue}')`;
@@ -1573,12 +1738,12 @@ export const resolvers = {
 		uiCase (_, args, context) {
 			context['parent']= "uiCase";
 			//@@@PDC-4726 log search query
-			if (args.source != 'undefined' && args.source === 'search') {
+			/*if (args.source != 'undefined' && args.source === 'search') {
 				//logger.info("SEARCH QUERY to uiCase:  "+ JSON.stringify(args));
 				analyticLog.info("SEARCH QUERY to uiCase:  "+ JSON.stringify(args));
 			}
-			else
-				logger.info("uiCase is called with "+ JSON.stringify(args));
+			else*/
+			logger.info("uiCase is called with "+ JSON.stringify(args));
 		    //@@@PDC-203 correct query for UI cases page
 			//@@@PDC-337 add program name
 			var uiCaseQuery = "SELECT distinct bin_to_uuid(al.aliquot_id) as aliquot_id, "+
@@ -1642,12 +1807,12 @@ export const resolvers = {
 		async uiProtocol (_, args, context) {
 			context['parent']= "uiProtocol";
 			//@@@PDC-4726 log search query
-			if (args.source != 'undefined' && args.source === 'search') {
+			/*if (args.source != 'undefined' && args.source === 'search') {
 				//logger.info("SEARCH QUERY to uiProtocol:  "+ JSON.stringify(args));
 				analyticLog.info("SEARCH QUERY to uiProtocol:  "+ JSON.stringify(args));
 			}
-			else
-				logger.info("uiProtocol is called with "+ JSON.stringify(args));
+			else*/
+			logger.info("uiProtocol is called with "+ JSON.stringify(args));
 			//@@@PDC-652 new protocol structure
 			//@@@PDC-1154 column name correction: fractions_analyzed_count
 			let protoQuery = "SELECT distinct bin_to_uuid(prot.protocol_id) as protocol_id, "+
@@ -1714,14 +1879,15 @@ export const resolvers = {
 		async uiPublication (_, args, context) {
 			context['parent']= "uiPublication";
 			//@@@PDC-4726 log search query
-			if (args.source != 'undefined' && args.source === 'search') {
+			/*if (args.source != 'undefined' && args.source === 'search') {
 				//logger.info("SEARCH QUERY to uiPublication:  "+ JSON.stringify(args));
 				analyticLog.info("SEARCH QUERY to uiPublication:  "+ JSON.stringify(args));
 			}
-			else
-				logger.info("uiPublication is called with "+ JSON.stringify(args));
+			else*/
+			logger.info("uiPublication is called with "+ JSON.stringify(args));
 			//@@@PDC-3446 new publication data for PDC UI
-			let pubQuery = "SELECT bin_to_uuid(pub.publication_id) as publication_id, concat('https://www.ncbi.nlm.nih.gov/pubmed/', pub.pubmed_id) as pubmed_id, pub.citation as title "+
+			//@@@PDC-5768 add group_name
+			let pubQuery = "SELECT bin_to_uuid(pub.publication_id) as publication_id, concat('https://www.ncbi.nlm.nih.gov/pubmed/', pub.pubmed_id) as pubmed_id, pub.citation as title, pub.group_name "+
 			" from publication pub, study_publication sp, study s "+
 			" where pub.publication_id = sp.publication_id and s.study_id = sp.study_id ";
 			//" and s.project_submitter_id IN ('" + context.value.join("','") + "')";
@@ -1865,11 +2031,11 @@ export const resolvers = {
 		async getPaginatedUIStudy (_, args, context) {
 			context['parent']= "getPaginatedUIStudy";
 			//@@@PDC-4726 log search query
-			if (args.source != 'undefined' && args.source === 'search') {
+			/*if (args.source != 'undefined' && args.source === 'search') {
 				//logger.info("SEARCH QUERY to getPaginatedUIStudy:  "+ JSON.stringify(args));
 				analyticLog.info("SEARCH QUERY to getPaginatedUIStudy:  "+ JSON.stringify(args));
 			}
-			else
+			else*/
 				logger.info("getPaginatedUIStudy is called with "+ JSON.stringify(args));
 			//apply global project submitter id filter
 			//let projectSubmitterIdValue = context.value.join("','")
@@ -2228,11 +2394,11 @@ export const resolvers = {
 		async getPaginatedUIClinical(_, args, context) {
 			context['parent']= "getPaginatedUIClinical";
 			//@@@PDC-4726 log search query
-			if (args.source != 'undefined' && args.source === 'search') {
+			/*if (args.source != 'undefined' && args.source === 'search') {
 				//logger.info("SEARCH QUERY to getPaginatedUIClinical:  "+ JSON.stringify(args));
 				analyticLog.info("SEARCH QUERY to getPaginatedUIClinical:  "+ JSON.stringify(args));
 			}
-			else
+			else*/
 				logger.info("getPaginatedUIClinical is called with "+ JSON.stringify(args));
 			//apply global project submitter id filter
 			//let projectSubmitterIdValue = context.value.join("','")
@@ -2373,11 +2539,11 @@ export const resolvers = {
 		async getPaginatedUICase (_, args, context) {
 			context['parent']= "getPaginatedUICase";
 			//@@@PDC-4726 log search query
-			if (args.source != 'undefined' && args.source === 'search') {
+			/*if (args.source != 'undefined' && args.source === 'search') {
 				//logger.info("SEARCH QUERY to getPaginatedUICase:  "+ JSON.stringify(args));
 				analyticLog.info("SEARCH QUERY to getPaginatedUICase:  "+ JSON.stringify(args));
 			}
-			else
+			else*/
 				logger.info("getPaginatedUICase is called with "+ JSON.stringify(args));
 			//apply global project submitter id filter
 			//let projectSubmitterIdValue = context.value.join("','")
@@ -3325,11 +3491,11 @@ export const resolvers = {
 		async uiExperimentFileCount (_, args, context) {
 			context['parent']= "uiExperimentFileCount";
 			//@@@PDC-4726 log search query
-			if (args.source != 'undefined' && args.source === 'search') {
+			/*if (args.source != 'undefined' && args.source === 'search') {
 				//logger.info("SEARCH QUERY to uiExperimentFileCount:  "+ JSON.stringify(args));
 				analyticLog.info("SEARCH QUERY to uiExperimentFileCount:  "+ JSON.stringify(args));
 			}
-			else
+			else*/
 				logger.info("uiExperimentFileCount is called with "+ JSON.stringify(args));
 			//@@@PDC-337 add study name to file count table
 			//@@@PDC-3188 get file counts for latest version only
@@ -3384,11 +3550,11 @@ export const resolvers = {
 		async uiDataCategoryFileCount (_, args, context) {
 			context['parent']= "uiDataCategoryFileCount";
 			//@@@PDC-4726 log search query
-			if (args.source != 'undefined' && args.source === 'search') {
+			/*if (args.source != 'undefined' && args.source === 'search') {
 				//logger.info("SEARCH QUERY to uiDataCategoryFileCount:  "+ JSON.stringify(args));
 				analyticLog.info("SEARCH QUERY to uiDataCategoryFileCount:  "+ JSON.stringify(args));
 			}
-			else
+			else*/
 				logger.info("uiDataCategoryFileCount is called with "+ JSON.stringify(args));
 			//@@@PDC-759 add data_category to file count group
 			//@@@PDC-3188 get file counts for latest version only
@@ -3915,7 +4081,7 @@ export const resolvers = {
 		caseSearch(_, args, context) {
 			context['parent']= "caseSearch";
 			//logger.info("SEARCH QUERY to caseSearch: "+ JSON.stringify(args));
-			analyticLog.info("SEARCH QUERY to caseSearch:  "+ JSON.stringify(args));
+			//analyticLog.info("SEARCH QUERY to caseSearch:  "+ JSON.stringify(args));
 			context['arguments'] = args;
 			let nameToSearch = 'xxxxxx';
 			//@@@PDC-514 escape wildcard characters
@@ -3971,7 +4137,7 @@ export const resolvers = {
 		geneSearch(_, args, context) {
 			context['parent']= "geneSearch";
 			//logger.info("SEARCH QUERY to geneSearch: "+ JSON.stringify(args));
-			analyticLog.info("SEARCH QUERY to geneSearch:  "+ JSON.stringify(args));
+			//analyticLog.info("SEARCH QUERY to geneSearch:  "+ JSON.stringify(args));
 			context['arguments'] = args;
 			let nameToSearch = 'xxxxxx';
 			let replacements = { };
@@ -4025,7 +4191,7 @@ export const resolvers = {
 		proteinSearch(_, args, context) {
 			context['parent']= "proteinSearch";
 			//logger.info("SEARCH QUERY to proteinSearch: "+ JSON.stringify(args));
-			analyticLog.info("SEARCH QUERY to proteinSearch:  "+ JSON.stringify(args));
+			//analyticLog.info("SEARCH QUERY to proteinSearch:  "+ JSON.stringify(args));
 			context['arguments'] = args;
 			let nameToSearch = 'xxxxxx';
 			let replacements = { };
@@ -4077,7 +4243,7 @@ export const resolvers = {
 		studySearch(_, args, context) {
 			context['parent']= "studySearch";
 			//logger.info("SEARCH QUERY to studySearch: "+ JSON.stringify(args));
-			analyticLog.info("SEARCH QUERY to studySearch:  "+ JSON.stringify(args));
+			//analyticLog.info("SEARCH QUERY to studySearch:  "+ JSON.stringify(args));
 			context['arguments'] = args;
 			let nameToSearch = 'xxxxxx';
 			let replacements = { };
@@ -4123,7 +4289,7 @@ export const resolvers = {
 		studySearchByPDCStudyId(_, args, context) {
 			context['parent']= "studySearchByPDCStudyId";
 			//logger.info("SEARCH QUERY to studySearchByPDCStudyId: "+ JSON.stringify(args));
-			analyticLog.info("SEARCH QUERY to studySearchByPDCStudyId:  "+ JSON.stringify(args));
+			//analyticLog.info("SEARCH QUERY to studySearchByPDCStudyId:  "+ JSON.stringify(args));
 			context['arguments'] = args;
 			let idToSearch = 'xxxxxx';
 			let replacements = { };
@@ -4170,7 +4336,7 @@ export const resolvers = {
 		studySearchByExternalId(_, args, context) {
 			context['parent']= "studySearchByExternalId";
 			//logger.info("SEARCH QUERY to studySearchByExternalId: "+ JSON.stringify(args));
-			analyticLog.info("SEARCH QUERY to studySearchByExternalId:  "+ JSON.stringify(args));
+			//analyticLog.info("SEARCH QUERY to studySearchByExternalId:  "+ JSON.stringify(args));
 			context['arguments'] = args;
 			let idToSearch = 'xxxxxx';
 			let replacements = { };
@@ -4216,7 +4382,7 @@ export const resolvers = {
 		aliquotSearch(_, args, context) {
 			context['parent']= "aliquotSearch";
 			//logger.info("SEARCH QUERY to aliquotSearch: "+ JSON.stringify(args));
-			analyticLog.info("SEARCH QUERY to aliquotSearch:  "+ JSON.stringify(args));
+			//analyticLog.info("SEARCH QUERY to aliquotSearch:  "+ JSON.stringify(args));
 			context['arguments'] = args;
 			let nameToSearch = 'xxxxxx';
 			let replacements = { };
@@ -4948,7 +5114,8 @@ export const resolvers = {
 			cacheFilterName['dataFilterName'] = cacheFilterName.name;
 
 			let uiPubCountQuery = "select count(distinct pub.publication_id) as total ";
-			let uiPubBaseQuery = "SELECT distinct bin_to_uuid(pub.publication_id) as publication_id, prog.name as program_name, pub.pubmed_id, pub.doi, pub.author, pub.title, pub.journal, pub.journal_url, pub.year, pub.abstract, pub.citation ";
+			//@@@PDC-5768 add group_name
+			let uiPubBaseQuery = "SELECT distinct bin_to_uuid(pub.publication_id) as publication_id, prog.name as program_name, pub.pubmed_id, pub.group_name, pub.doi, pub.author, pub.title, pub.journal, pub.journal_url, pub.year, pub.abstract, pub.citation ";
 			let uiPubQuery = "FROM publication pub, study s, `case` c, sample sam, aliquot al, "+
 			"aliquot_run_metadata alm, study_publication sp, project proj, program prog "+
 			"WHERE alm.study_id = s.study_id and al.aliquot_id = alm.aliquot_id "+
@@ -5025,10 +5192,10 @@ export const resolvers = {
 		//@@@PDC-5053 handle multiple genes in one call
 		async getUIPtmMultiGenes (_, args, context) {			
 			context['parent']= "getUIPtmMultiGenes";
-			if (args.source != 'undefined' && args.source === 'search') {
+			/*if (args.source != 'undefined' && args.source === 'search') {
 				analyticLog.info("SEARCH QUERY to getUIPtmMultiGenes:  "+ JSON.stringify(args));
 			}
-			else
+			else*/
 				logger.info("getUIPtmMultiGenes is called from UI with "+ JSON.stringify(args));
 			
 			let uiPtmHeaderQuery = "SELECT distinct pq.gene_name, pq.ptm_type, pq.site, pq.peptide FROM ";
@@ -5086,11 +5253,11 @@ export const resolvers = {
 		async getPaginatedUIPtm (_, args, context) {
 			context['parent']= "getPaginatedUIPtm";
 			//@@@PDC-4726 log search query
-			if (args.source != 'undefined' && args.source === 'search') {
+			/*if (args.source != 'undefined' && args.source === 'search') {
 				//logger.info("SEARCH QUERY to getPaginatedUIPtm:  "+ JSON.stringify(args));
 				analyticLog.info("SEARCH QUERY to getPaginatedUIPtm:  "+ JSON.stringify(args));
 			}
-			else
+			else*/
 				logger.info("getPaginatedUIPtm is called from UI with "+ JSON.stringify(args));
 			context['arguments'] = args;
 			//@@@PDC-3171 new ptm abundance tables
@@ -5240,10 +5407,10 @@ export const resolvers = {
 		async study (_, args, context) {
 			context['parent']= "study";
 			//@@@PDC-4726 log search query
-			if (args.source != 'undefined' && args.source === 'search') {
+			/*if (args.source != 'undefined' && args.source === 'search') {
 				//logger.info("SEARCH QUERY to study:  "+ JSON.stringify(args));
 				analyticLog.info("SEARCH QUERY to study:  "+ JSON.stringify(args));
-			}
+			}*/
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/study").send();
 				logger.info("study is called with "+ JSON.stringify(args));
@@ -5372,10 +5539,10 @@ export const resolvers = {
 		sample(_, args, context) {
 			context['parent']= "sample";
 			//@@@PDC-4726 log search query
-			if (args.source != 'undefined' && args.source === 'search') {
+			/*if (args.source != 'undefined' && args.source === 'search') {
 				//logger.info("SEARCH QUERY to sample:  "+ JSON.stringify(args));
 				analyticLog.info("SEARCH QUERY to sample:  "+ JSON.stringify(args));
-			}
+			}*/
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/sample").send();
 				logger.info("sample is called with "+ JSON.stringify(args));
@@ -5421,10 +5588,10 @@ export const resolvers = {
 		aliquot(_, args, context) {
 			context['parent']= "aliquot";
 			//@@@PDC-4726 log search query
-			if (args.source != 'undefined' && args.source === 'search') {
+			/*if (args.source != 'undefined' && args.source === 'search') {
 				//logger.info("SEARCH QUERY to aliquot:  "+ JSON.stringify(args));
 				analyticLog.info("SEARCH QUERY to aliquot:  "+ JSON.stringify(args));
-			}
+			}*/
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/aliquot").send();
 				
@@ -5534,6 +5701,7 @@ export const resolvers = {
 		//@@@PDC-3428 add tumor_largest_dimension_diameter
 		//@@@PDC-4391 add new columns
 		//@@@PDC-5205 add auxiliary_data and tumor_cell_content
+		//@@@PDC-5647 return N/A if null
 		clinicalPerStudy(_, args, context) {
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/clinicalPerStudy").send();
@@ -5554,10 +5722,12 @@ export const resolvers = {
 			"dem.occupation_duration_years, dem.country_of_residence_at_enrollment, "+
 			"bin_to_uuid(dia.diagnosis_id) as diagnosis_id, dia.diagnosis_submitter_id, "+
 			"dia.morphology, dia.primary_diagnosis, dia.site_of_resection_or_biopsy, "+
-			"dia.tissue_or_organ_of_origin, dia.tumor_grade, dia.tumor_stage, dia.age_at_diagnosis, "+
-			"dia.classification_of_tumor, dia.days_to_last_follow_up, "+
-			"dia.days_to_last_known_disease_status, dia.days_to_recurrence,  "+
-			"dia.last_known_disease_status, dia.progression_or_recurrence, "+
+			"dia.tissue_or_organ_of_origin, dia.tumor_grade, dia.tumor_stage, "+
+			"dia.age_at_diagnosis, dia.classification_of_tumor, "+
+			"IFNULL(dia.days_to_last_follow_up, 'N/A') as days_to_last_follow_up, "+
+			/*"dia.days_to_last_known_disease_status, dia.days_to_recurrence,  "+
+			"dia.last_known_disease_status, dia.progression_or_recurrence, "+*/
+			"IFNULL(dia.days_to_last_known_disease_status, 'N/A') as days_to_last_known_disease_status, "+"IFNULL(dia.days_to_recurrence, 'N/A') as days_to_recurrence,"+
 			"dia.tumor_cell_content, dia.tumor_largest_dimension_diameter, "+
 			"dia.prior_malignancy, dia.ajcc_clinical_m, "+
 			"dia.ajcc_clinical_n, dia.ajcc_clinical_stage, dia. ajcc_clinical_t, "+
@@ -5651,10 +5821,10 @@ export const resolvers = {
 		biospecimenPerStudy(_, args, context) {
 			context['parent']= "biospecimenPerStudy";
 			//@@@PDC-4726 log search query
-			if (args.source != 'undefined' && args.source === 'search') {
+			/*if (args.source != 'undefined' && args.source === 'search') {
 				//logger.info("SEARCH QUERY to biospecimenPerStudy:  "+ JSON.stringify(args));
 				analyticLog.info("SEARCH QUERY to biospecimenPerStudy:  "+ JSON.stringify(args));
-			}
+			}*/
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/biospecimenPerStudy").send();
 				logger.info("biospecimenPerStudy is called with "+ JSON.stringify(args));
@@ -5735,10 +5905,10 @@ export const resolvers = {
 		//@@@PDC-3847 get aliquot info per label
 		studyExperimentalDesign(_, args, context) {
 			//@@@PDC-4726 log search query
-			if (args.source != 'undefined' && args.source === 'search') {
+			/*if (args.source != 'undefined' && args.source === 'search') {
 				//logger.info("SEARCH QUERY to studyExperimentalDesign:  "+ JSON.stringify(args));
 				analyticLog.info("SEARCH QUERY to studyExperimentalDesign:  "+ JSON.stringify(args));
-			}
+			}*/
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/studyExperimentalDesign").send();
 				context['parent']= "studyExperimentalDesign";
@@ -5888,30 +6058,70 @@ export const resolvers = {
 			}
 			return matrix;
 		},
+		//@@@PDC-5625 get filter usage statistics
 		filterStats (obj, args, context){
-			let logFile = 'logs/ana.log';
+			let logFile = 'logs/filter.log';
 			let logError = 'log file not found!';
+			let fPairMap = new Map();
+			let fNameMap = new Map();
+			let rankingReq = 10;
+			if (typeof args.ranking != 'undefined')
+				rankingReq = args.ranking;
+				
 			if (fs.existsSync(logFile)) {
-				console.log("file found");
 				let rawData = fs.readFileSync(logFile, 'utf8');
-				console.log("Full file:"+JSON.stringify(rawData));
-				console.log("ANA:"+rawData.message);
-				//rawData.forEach((element) => { console.log("ANA:"+JSON.stringify(element)) })
+				rawData.split(/\r?\n/).forEach(line =>  {
+					if (line.indexOf('FILTER') >= 0) {
+						let fPair = line.substring(line.indexOf('[')+1, line.indexOf(']'));
+						if (fPairMap.has(fPair)){
+							fPairMap.set(fPair, fPairMap.get(fPair)+1);
+						}
+						else {
+							fPairMap.set(fPair, 1);
+						}
+						console.log("Filter Pair: "+ fPair +':'+ fPairMap.get(fPair));
+						let fName = fPair.substring(0, fPair.indexOf(':'));
+						if (fNameMap.has(fName)){
+							fNameMap.set(fName, fNameMap.get(fName)+1);
+						}
+						else {
+							fNameMap.set(fName, 1);
+						}
+						console.log("Filter Name: "+ fName +':'+ fNameMap.get(fName));
+					}
+				});	
+				let mapSort1 = new Map([...fPairMap.entries()].sort((a, b) => b[1] - a[1]));
+				console.log(mapSort1);
+				let result = [];
+				let ranking = 0;
+				const iterator1 = mapSort1[Symbol.iterator]();
+
+				for (const item of iterator1) {
+					if (ranking >= rankingReq)
+						break;
+					let obj = {
+						filterUsed: item[0],
+						filterAppCount: item[1]
+					 };
+					 result.push(obj);
+					 ranking++;				  
+				}
+				return result;
 			}
 			else {
-				  console.log('log file not found! ');
 				  throw new ApolloError(logError);
 			}
 			return null;
 			
 		},
 		//@@@PDC-1882 pdcEntityReference api
+		//@@@PDC-5511 add annotation
 		pdcEntityReference(obj, args, context) {
 			//@@@PDC-4726 log search query
-			if (args.source != 'undefined' && args.source === 'search') {
+			/*if (args.source != 'undefined' && args.source === 'search') {
 				//logger.info("SEARCH QUERY to pdcEntityReference:  "+ JSON.stringify(args));
 				analyticLog.info("SEARCH QUERY to pdcEntityReference:  "+ JSON.stringify(args));
-			}
+			}*/
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/pdcEntityReference").send();
 				context['parent']= "pdcEntityReference";
@@ -5927,7 +6137,7 @@ export const resolvers = {
 			//@@@PDC-3090 join on study_id
 			//@@@PDC-3132 dynamic join based on reference_type
 			//@@@PDC-3528 remove duplicates across versions
-			let entityReferenceQuery = "SELECT distinct bin_to_uuid(reference_id) as reference_id, entity_type, bin_to_uuid(entity_id) as entity_id, reference_type, reference_entity_type, reference_entity_alias, reference_resource_name, reference_resource_shortname, reference_entity_location, s.submitter_id_name ";
+			let entityReferenceQuery = "SELECT distinct bin_to_uuid(reference_id) as reference_id, entity_type, bin_to_uuid(entity_id) as entity_id, reference_type, reference_entity_type, reference_entity_alias, reference_resource_name, reference_resource_shortname, reference_entity_location, annotation, s.submitter_id_name ";
 			if (typeof args.reference_type == 'undefined' || args.reference_type.length <= 0) {
 				return null;
 			}
@@ -5955,6 +6165,38 @@ export const resolvers = {
 			/*if (typeof args.reference_type != 'undefined' && args.reference_type.length > 0) {
 				entityReferenceQuery += " and reference_type ='" + args.reference_type + "'";
 			}*/
+			return db.getSequelize().query(
+					entityReferenceQuery,
+					{
+						replacements: replacements,
+						model: db.getModelByName('ModelEntityReference')
+					}
+				);
+
+		},
+		//@@@PDC-5511 generic API for reference
+		reference(obj, args, context) {
+			gaVisitor.pageview("/graphqlAPI/reference").send();
+			context['parent']= "reference";
+			logger.info("reference is called with "+ JSON.stringify(args));
+			if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+				throw new ApolloError(duaMsg);
+			
+			let entityReferenceQuery = "SELECT distinct bin_to_uuid(reference_id) as reference_id, entity_type, bin_to_uuid(entity_id) as entity_id, entity_submitter_id, reference_type, reference_entity_type, reference_entity_alias, bin_to_uuid(reference_entity_id) as reference_entity_id, reference_resource_name, reference_resource_shortname, reference_entity_location, annotation FROM reference WHERE reference_id IS NOT NULL ";
+			
+			let replacements = { };
+
+			if (typeof args.entity_id != 'undefined' && args.entity_id.length > 0) {
+				entityReferenceQuery += " and entity_id = uuid_to_bin(:entity_id)";
+				replacements['entity_id'] = args.entity_id;
+			}
+			if (typeof args.entity_type != 'undefined' && args.entity_type.length > 0) {
+				entityReferenceQuery += " and entity_type = :entity_type";
+				replacements['entity_type'] = args.entity_type;
+			}
+			if (typeof args.reference_type != 'undefined' && args.reference_type.length > 0) {
+				entityReferenceQuery += " and reference_type ='" + args.reference_type + "'";
+			}
 			return db.getSequelize().query(
 					entityReferenceQuery,
 					{

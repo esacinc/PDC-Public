@@ -4,7 +4,7 @@ import {Http, Response, Headers, RequestOptions} from '@angular/http';
 
 import { Apollo } from 'apollo-angular';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+
 import gql from 'graphql-tag';
 
 import { QueryDiseases, ExperimentTypeCount, AnalyticFractionCount } from '../types';
@@ -27,6 +27,6 @@ constructor(private http: HttpClient) {
 
     // Given a manifest file, get the contents as a JSON object
     getManifestFile(manifest_file: string) {
-        
+
     }
 }

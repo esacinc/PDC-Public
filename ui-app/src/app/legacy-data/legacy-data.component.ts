@@ -3,11 +3,10 @@ import { NgModule } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { Apollo, SelectPipe } from 'apollo-angular';
 import { Observable, Subject } from 'rxjs';
-import { map ,  switchMap } from 'rxjs/operators';
+import { map ,  switchMap ,  take } from 'rxjs/operators';
 import gql from 'graphql-tag';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { FormControl, FormGroup } from '@angular/forms';
-import { take } from 'rxjs/operators';
 
 import { DataViewModule } from 'primeng/dataview';
 import { MatExpansionModule } from '@angular/material/expansion';

@@ -25,7 +25,33 @@
                 <div><a href="https://www.youtube.com/watch?v=aRNXAaWckrg&t=483s" target="_blank">8:03</a> Create a study </div>
                 <div><a href="https://www.youtube.com/watch?v=aRNXAaWckrg&t=683s" target="_blank">11:23</a> Biospecimen data submission overview</div>
             </div>
-            <br><div class="submissionTemplate importantNote">Please click <a href="https://docs.google.com/spreadsheets/d/1wgCaEwLHYlfbjUZDUjc8o-u66vHAaMSs/edit?usp=sharing&ouid=102791987143514485948&rtpof=true&sd=true" target="_blank">here</a> to download the PDC submission template in spreadsheet format.</div>
+            <br>
+            <!-- @@@PDC-5949-add-content-how-to-submit -->
+            <div class="submissionTemplate importantNote">
+              <strong style="font-weight: bolder;">Please click <a href="https://docs.google.com/spreadsheets/d/1wgCaEwLHYlfbjUZDUjc8o-u66vHAaMSs/edit?usp=sharing&ouid=102791987143514485948&rtpof=true&sd=true" target="_blank">here</a> to download the PDC submission template in spreadsheet format.</strong>
+            </div>
+            <br>
+            <div class="submissionTemplate importantNote">
+             PDC is a open access resource, meaning there are no restrictions to access the data. To ensure HIPAA compliance, PDC does not collect protected health information (PHI) and data submitters must ensure data have been de-identified before submission.
+            </div>
+            <br>
+            <div class="submissionTemplate importantNote"><strong style="font-weight: bolder;">PDC release process and timelines:</strong>
+              <br><br>
+              <p>
+                Data can be submitted up to a year before the release, but PDC will only begin processing after the submitting authors asked us to prioritize their data for release.
+                <strong style="font-weight: bolder;"><i>It takes approximately six to eight weeks to process the data for public release. To begin processing, the data should be completely uploaded and validated as per PDC data submission requirements.</i></strong>
+                Please note that gathering data and metadata as per the PDC submission requirements may take some time. To avoid delays, you should plan early even if the manuscript is still being prepared. Any data changes made during the processing period may result in delays because of the need to resubmit and reprocess the data.
+              </p>
+              <p>
+                Once a dataset is fully processed and marked for release, no further changes are possible except for some minor modifications on a case-by-case basis. However, authors may choose to delay the release until revisions have been made or request not to be released.
+              </p>
+              <p>
+                PDC releases the data when requested by the authors, either when the corresponding paper is published, or on a particular date. Once a release is requested, the dataset will be added to the closest scheduled release, but we make every effort to release as close as possible to the date requested. Data will normally be available on the PDC portal after business hours on the release date.
+              </p>
+              <p>
+                If the citation details of the publication are not available at the release time, they will be added later. It is the responsibility of the authors to notify us of the citation details. Any revision of the data following the release will be managed under the PDC versioning process. Contact PDCHelpDesk@mail.nih.gov and see the FAQ <a href="/pdc/faq/Study_Version">'What is a study version?'</a> for more details.
+              </p>
+            </div>
             <h3>How to submit data:</h3>
             <ol>
                 <li><b><a href="javascript:void(0);" (click)="scrollToElement(Register_Program)">Register your Program Name</a></b></li>
@@ -37,7 +63,11 @@
                 <li><b><a href="javascript:void(0);" (click)="scrollToElement(Upload_Additional)">Upload additional supplementary files</a></b></li>
             </ol>
             <div>
-                <br><div #Register_Program><b><span class="subDivHeading">Register your Program Name:</span></b><br><br><p>To register your program, please send an email to <a href="mailto:PDCHelpDesk@mail.nih.gov?Subject=PDC Help" target="_blank">PDCHelpDesk@mail.nih.gov</a>.</p></div>
+                <!-- @@PDC-5758-update-how-to-submit-page -->
+                <br><div #Register_Program><b><span class="subDivHeading">Register your Program Name:</span></b><br><br>
+                  <p>To register your program, first you need to make a data submission request by filling out the <a href="assets/ProteomicsDataCommonsDataSubmissionRequestForm.docx" download="Proteomics Data Commons Data (PDC) Submission Request Form.docx">submission request form</a> and send it to <a href="mailto:PDCHelpDesk@mail.nih.gov?Subject=PDC Help" target="_blank">PDCHelpDesk@mail.nih.gov</a>.
+                     Once approved by the NCI, we will set up a program for you to which you may submit data.
+                  </p></div>
                 <br><div #Register_PDC><b><span class="subDivHeading">Register with PDC:</span></b><br><br><p>Go to <a href="https://pdc.cancer.gov" target="_blank">https://pdc.cancer.gov</a>, click Login at the top right corner. You may use a Google or eRA commons account, or NIH email to register with PDC. If you do not have any of these, you may create an account by clicking 'Click here to sign up' and by following the instructions. You will receive an email; click the provided link to confirm your registration. </p><br><br>
                     <div style="text-align:center"><img mat-card-image style="align-content: center" src="assets/W-Register-1.png" alt="Register with PDC"></div>
                 </div>
@@ -51,7 +81,7 @@
                 </div>
                 <br><div #Submission_Process><b><span class="subDivHeading">Submission process:</span></b><br><br>
                     <p><b>Note: Before you begin the submission, we strongly recommend you use the PDC submission template to collect the information required for a successful submission.</b></p>
-              <p>Now you are ready to begin the submission process. <b>You need to follow the steps in the order given in the Submission Overview (image) at the top of this document to avoid duplicating steps</b></p>
+                    <p>Now you are ready to begin the submission process. <b>You need to follow the steps in the order given in the Submission Overview (image) at the top of this document to avoid duplicating steps</b></p>
                     <p>The submission process involves the following major activities,</p>
                     <ul>
                       <li>Creating an <b>instrument</b> to upload raw data</li>
@@ -125,7 +155,8 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-5 col-lg-5 col-md-5 col-sm-5 col-xs-5 submitDataImg sticky-nav fixed-class" style="margin-top: 11%">
+        <!-- PDC-5781-menu-items-not-accessible -->
+        <div class="col-xl-5 col-lg-5 col-md-5 col-sm-5 col-xs-5 submitDataImg sticky-nav fixed-class" style="margin-top: 11%; pointer-events: none;">
             <img id="submitDataArchitectureimg" mat-card-image src="assets/SubmitDataArchitecture.png" alt="PDC Workspace Architecture diagram">
         </div>
     </div>

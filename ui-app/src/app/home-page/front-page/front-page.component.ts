@@ -37,6 +37,8 @@ export class FrontPageComponent implements OnInit {
   casesData: Observable<SunburstData[]>;
   diseasesTotalCounts: Disease[] = [];
   newsItems: any[];
+  //@@PDC-5628 - release json
+  releaseItems: any[];
   dictionary_url = '/pdc/data-dictionary';
   //harmonization_url = environment.dictionary_base_url + 'harmonization.html';
   pepquery_url = environment.pepquery_url;
@@ -59,6 +61,7 @@ export class FrontPageComponent implements OnInit {
 	this.getDiseasesData();
 	//this.getSunburstChart();
 	this.readNewsItems();
+  this.readReleaseItems();
 	//this.humanBodyComp.createHumanBody();
   }
   getSubmissionPortalDocsURL() {
@@ -66,8 +69,28 @@ export class FrontPageComponent implements OnInit {
   }
   private readNewsItems() {
     this.frontPageService.getNewsItems().subscribe((data: any) => {
-	  //PDC-447 - new Angular 6 GET returns data in JSON format automatically, so no need for JSON.parse
-      this.newsItems = data['news'];
+	    //PDC-447 - new Angular 6 GET returns data in JSON format automatically, so no need for JSON.parse
+      //PDC-5628 - news json apply display value in order to limit what is displayed as more values added over time
+      var newsItemsArray = [];
+      for (let i = 0; i < data['news'].length; i++){
+        if(data['news'][i]['visible']){
+          newsItemsArray.push(data['news'][i]);
+        }
+      }
+      this.newsItems = newsItemsArray;
+    });
+
+  }
+  private readReleaseItems() {
+    this.frontPageService.getReleaseItems().subscribe((data: any) => {
+	    //PDC-5628 - add values from new release json file
+      var releaseItemsArray = [];
+      for (let i = 0; i < data['releases'].length; i++){
+        if(data['releases'][i]['visible']){
+           releaseItemsArray.push(data['releases'][i]);
+        }
+      }
+      this.releaseItems = releaseItemsArray;
     });
 
   }

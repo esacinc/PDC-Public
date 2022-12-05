@@ -3,9 +3,9 @@ import { ActivatedRoute, Router, NavigationStart } from "@angular/router";
 import { Apollo } from 'apollo-angular';
 import { Location } from '@angular/common';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+
 import gql from 'graphql-tag';
-import "rxjs/add/operator/map";
+import { map } from 'rxjs/operators';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import { CaseSummaryService } from "./case-summary.service";
 import { Filter, FilesCountsPerStudyData, CaseData, AllCasesData, ExperimentFileByCaseCount, DataCategoryFileByCaseCount,

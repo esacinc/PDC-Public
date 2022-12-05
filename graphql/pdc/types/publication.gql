@@ -2,6 +2,7 @@ type Publication {
 	publication_id: String
 	program_name: String
 	pubmed_id: String
+	group_name: String
 	doi: String
 	author: String
 	title_legacy: String
