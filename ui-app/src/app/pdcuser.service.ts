@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpErrorResponse} from '@angular/common/http';
-import {BehaviorSubject} from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 import {Md5} from 'ts-md5/dist/md5';
 import {
   ChorusUserUpdateResponse,
@@ -11,7 +11,6 @@ import {
   PDCUserData,
   LoginUserResponse
 } from './types';
-import {Observable} from 'rxjs';
 import {environment} from '../environments/environment';
 
 //@@@PDC-477 - add organization field to registration form

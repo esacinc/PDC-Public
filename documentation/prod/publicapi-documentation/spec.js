@@ -2197,6 +2197,53 @@ var spec = {
                     }
                   }
                 },
+                '?query={ reference(entity_type:"{entity_type}", entity_id: "{entity_id}", reference_type: "{reference_type}", acceptDUA: {acceptDUA}) { reference_id entity_type entity_id reference_type reference_entity_type reference_entity_alias reference_resource_name reference_resource_shortname reference_entity_location } }': {
+                  "get": {
+                    "tags": ["General"],
+                    "summary": "Find Entity References",
+                    "description": "<b>Returns details of a study<br><br>Fields:</b><ul><li>reference</li></ul>",
+                    "operationId": "reference",
+                    "produces": [
+                      "application/json"
+                    ],
+                    "parameters": [{
+                        "name": "entity_type",
+                        "in": "path",
+                        "description": "Entity type, example: diagnosis",
+                        "required": true,
+                        "type": "string"
+                      }, {
+                        "name": "entity_id",
+                        "in": "path",
+                        "description": "Entity ID: example: diagnosis ID:d0913803-ff5e-11e9-9a07-0a80fada099c",
+                        "required": true,
+                        "type": "string"
+                      }, {
+                        "name": "reference_type",
+                        "in": "path",
+                        "description": "Reference type, example: internal",
+                        "type": "string"
+                      } , {
+                        "name": "acceptDUA",
+                        "in": "path",
+                        "description": "Accept DUA variable, example: true/false",
+                        "required": true,
+                        "type": "boolean"
+                      }                        
+                    ],
+                    "responses": {
+                      "200": {
+                        "description": "successful operation",
+                        "schema": {
+                          "$ref": "#/definitions/reference"
+                        }
+                      },
+                      "401": {
+                        "description": "Unauthorized"
+                      }
+                    }
+                  }
+                },
                 '?query={ getPaginatedGenes(offset: {offset} limit: {limit} acceptDUA: {acceptDUA}) { total genesProper { gene_id gene_name NCBI_gene_id authority description organism chromosome locus proteins assays } pagination { count sort from page total pages size } } }': {
                   "get": {
                     "tags": ["Gene"],
@@ -4961,6 +5008,49 @@ var spec = {
                "name":"pdcEntityReferenceDetails"
             }
          },
+         "referenceDetails":{
+            "type":"object",
+            "properties":{
+               "reference_id":{
+                  "type":"string",
+                  "example":"25b2ff66-88bc-11ea-bc9a-0a16d369a41f"
+               },
+               "entity_type":{
+                  "type":"string",
+                  "example":"diagnosis"
+               },
+               "entity_id":{
+                  "type":"string",
+                  "example":"d0913803-ff5e-11e9-9a07-0a80fada099c"
+               },
+               "reference_type":{
+                  "type":"string",
+                  "example":"internal"
+               },
+               "reference_entity_type":{
+                 "type":"string",
+                 "example":"sample"
+              },
+               "reference_entity_alias":{
+                 "type":"string",
+                 "example":"7316-496"
+              },
+              "reference_resource_name":{
+               "type":"string",
+               "example":"Proteomic Data Commons"
+               },
+               "reference_resource_shortname":{
+                  "type":"string",
+                  "example":"PDC"
+               },
+               "reference_entity_location":{
+               "type":"string"
+            }
+            },
+            "xml":{
+               "name":"referenceDetails"
+            }
+         },
           "File":{
              "type":"object",
              "required":[
@@ -7059,6 +7149,37 @@ var spec = {
             },
             "xml":{
                "name":"pdcEntityReferenceDef"
+            }
+         },
+         "reference":{
+            "type":"object",
+            "required":[
+   
+            ],
+            "properties":{
+               "data":{
+                  "type":"string",
+                  "$ref":"#/definitions/referenceDef"
+               }
+            },
+            "xml":{
+               "name":"reference"
+            }
+         },
+         "referenceDef":{
+            "type":"object",
+            "required":[  
+            ],
+            "properties":{
+               "reference":{
+                  "type":"array",
+                  "items":{
+                     "$ref":"#/definitions/referenceDetails"
+                  }
+               }
+            },
+            "xml":{
+               "name":"referenceDef"
             }
          },
          "studySearchByExternalId":{

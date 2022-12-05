@@ -1176,6 +1176,12 @@ export type TableTotalRecordCount = {
 	totalRecords: number
 }
 
+export type ObjectSearched = {
+	type: any;
+	parameterType: any;
+	parameterValue: any;
+}
+
 //@@@PDC-621 sunburst chart
 export type SunburstData = {
 	project_submitter_id : string;

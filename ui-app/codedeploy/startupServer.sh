@@ -10,3 +10,4 @@ sudo rm -rf /var/www/html/API_documentation
 sudo cp -r /home/ec2-user/PDC_Build/pdc/API_documentation /var/www/html/
 sudo rm -f /var/www/html/view_heatmap.html
 sudo cp /home/ec2-user/PDC_Build/pdc/dist/assets/js/view_heatmap.html /var/www/html/
+sudo cp /home/ec2-user/PDC_Build/pdc/dist/assets/data-folder/dataDownloadDocumentation.json /var/www/html/

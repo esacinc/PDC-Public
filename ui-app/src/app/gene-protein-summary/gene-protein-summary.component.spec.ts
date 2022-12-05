@@ -1,5 +1,4 @@
-import { of } from 'rxjs';
-import { Observable } from 'rxjs';
+import { of ,  Observable } from 'rxjs';
 import { MatDialogRef } from "@angular/material/dialog";
 import { MAT_DIALOG_DATA } from "@angular/material";
 import { GeneProteinSummaryService } from "./gene-protein-summary.service";

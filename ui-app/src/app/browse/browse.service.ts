@@ -4,10 +4,9 @@ import {Response, Headers, RequestOptions} from '@angular/http';
 
 
 import { Apollo } from 'apollo-angular';
-import { Observable } from 'rxjs';
+import { Observable ,  Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import gql from 'graphql-tag';
-import { Subject }    from 'rxjs/Subject';
 
 import { QueryDiseases, ExperimentTypeCount, AnalyticFractionCount } from '../types';
 

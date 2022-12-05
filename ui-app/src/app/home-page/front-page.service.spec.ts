@@ -32,11 +32,29 @@ describe("FrontPageService", () => {
       expect(data.length).toBe(3);
     });
 
+
+
     const op = httpController.expectOne("assets/data-folder/news.json");
 
     expect(op.request.method).toEqual("GET");
 
     op.flush([1, 2, 3]);
+
+    httpController.verify();
+  }));
+
+  //@@PDC-5628 - create json for releases
+  it("test getReleaseItems", inject([FrontPageService], (service: FrontPageService) => {
+    service.getReleaseItems().subscribe(data => {
+      expect(data).toBeDefined();
+      expect(data.length).toBe(4);
+    });
+
+    const op = httpController.expectOne("assets/data-folder/release.json");
+
+    expect(op.request.method).toEqual("GET");
+
+    op.flush([1, 2, 3, 4]);
 
     httpController.verify();
   }));

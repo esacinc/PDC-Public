@@ -17,6 +17,12 @@ export class ChorusauthService {
 
     email = sessionStorage.getItem('loginUser');
 
+    // @@@PDC-5894: NIH Federated Login creates a new username with user type id NIH which is not in WS table
+    // Validate the username, if it's not email then get loginEmail
+    if (!this.validateEmail(email)) {
+      email = sessionStorage.getItem('loginEmail');
+    }
+
     const url = environment.chorus_jwt_url + '/user/' + email;
     let response: ChorusUserUpdateResponse;
 
@@ -182,5 +188,13 @@ export class ChorusauthService {
       });
 
     return labsObservable;
+  }
+
+  private validateEmail(email) {
+    return String(email)
+      .toLowerCase()
+      .match(
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      );
   }
 }

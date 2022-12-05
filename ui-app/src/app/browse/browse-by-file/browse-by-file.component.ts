@@ -684,7 +684,10 @@ export class BrowseByFileComponent implements OnInit {
       var downloadLink = "";
       for (let file of this.individualFileData) {
         if (file.downloadable.toLowerCase() === 'yes') {
-          let urlResponse = await this.browseByFileService.getOpenFileSignedUrl(file.file_name);
+          //let urlResponse = await this.browseByFileService.getOpenFileSignedUrl(file.file_name);
+		  //@@@PDC-5770 get file using uuid
+		  console.log("Current file id0926: "+file.file_id);
+          let urlResponse = await this.browseByFileService.getOpenFileUuidSignedUrl(file.file_id);
           if (!urlResponse.error) {
             downloadLink = urlResponse.data;
           } else {
@@ -1213,8 +1216,11 @@ getFilesDataObj(fileNameStr) {
           //@@@PDC-1940: File manifest download is very slow
           //This code should be changed to use 'getFilesData' API which accepts upto 1000 file names per request. 
           //Not changing now as we don't have sufficient data to test. 
-          let urlResponse = await this.browseByFileService.getOpenFileSignedUrl(exportFile.file_name);
-          if(!urlResponse.error){
+          //let urlResponse = await this.browseByFileService.getOpenFileSignedUrl(exportFile.file_name);
+ 		  //@@@PDC-5770 get file using uuid
+		  console.log("Export file id 0928: "+exportFile.file_id);
+          let urlResponse = await this.browseByFileService.getOpenFileUuidSignedUrl(exportFile.file_id);
+         if(!urlResponse.error){
             if (individualFileDownload) {
               //@@@PDC-1303: Add a download column and button for downloading individual files to the file tab
               //If its an individual file download, assign the download link to a variable.

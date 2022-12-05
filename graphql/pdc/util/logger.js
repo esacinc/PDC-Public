@@ -11,7 +11,7 @@ const logger = winston.createLogger({
   format: winston.format.json(),
   defaultMeta: { service: 'GraphQL' },
   transports: [
-	//new winston.transports.Console({format: winston.format.simple()}),
+	new winston.transports.Console({format: winston.format.simple()}),
 	//@@@PDC-2689 add timestamp to logs
     new winston.transports.File({ filename: 'logs/pdc-graphql-error.log', level: 'error', maxsize: 1000000, maxFiles: 10, 
 	format: winston.format.combine(

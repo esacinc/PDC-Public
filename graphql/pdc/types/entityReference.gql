@@ -10,4 +10,5 @@ type EntityReference {
 	reference_resource_name: String
 	reference_resource_shortname: String
 	reference_entity_location: String
+	annotation: String
 }

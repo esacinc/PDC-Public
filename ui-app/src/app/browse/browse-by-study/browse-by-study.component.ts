@@ -861,6 +861,10 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
       return value;
     }
 	}
+
+	versionCheck(studyVersions) {
+		return (studyVersions.length > 1) || (studyVersions.length == 1 && Number(studyVersions[0].number) > 1);
+	}
 	
 	//@@@PDC-848 Fix headercheckbox issue for data tables on browse page
 	onTableHeaderCheckboxToggle() {

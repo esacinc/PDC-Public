@@ -205,6 +205,7 @@ export const resolvers = {
 		//@@@PDC-3266 add icd_10_code and synchronous_malignancy
 		//@@@PDC-3428 add tumor_largest_dimension_diameter
 		//@@@PDC-5205 add auxiliary_data and tumor_cell_content
+		//@@@PDC-5647 return N/A if null
 		async diagnoses(obj, args, context) {
 			logger.info("diagnoses is called via "+context.parent);
 			var cacheFilterName = {name:''};
@@ -218,9 +219,9 @@ export const resolvers = {
 						'case_submitter_id',
 						'age_at_diagnosis',
 						'classification_of_tumor',
-						'days_to_last_follow_up',
-						'days_to_last_known_disease_status',
-						'days_to_recurrence',
+						['IFNULL(days_to_last_follow_up, "N/A")', 'days_to_last_follow_up'],
+						['IFNULL(days_to_last_known_disease_status, "N/A")', 'days_to_last_known_disease_status'],
+						['IFNULL(days_to_recurrence, "N/A")', 'days_to_recurrence'],
 						'last_known_disease_status',
 						'morphology',
 						'primary_diagnosis',

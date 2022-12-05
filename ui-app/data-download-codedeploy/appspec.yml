@@ -1,0 +1,14 @@
+version: 0.0
+os: linux
+
+files:
+  - source: /ui-app/src/assets/data-folder
+    destination: /home/ec2-user/PDC_Build/pdc/data-download-folder
+
+hooks:
+  BeforeInstall:
+    - location: /ui-app/data-download-codedeploy/cleanupScript.sh
+      timeout: 300
+  ApplicationStart:
+    - location: /ui-app/data-download-codedeploy/startupServer.sh
+      timeout: 300           

@@ -1,0 +1,14 @@
+type Reference {
+	reference_id: String
+	entity_type: String
+	entity_id: String
+	entity_submitter_id: String
+	reference_type: String
+	reference_entity_type: String
+	reference_entity_alias: String
+	reference_entity_id: String
+	reference_resource_name: String
+	reference_resource_shortname: String
+	reference_entity_location: String
+	annotation: String
+}
