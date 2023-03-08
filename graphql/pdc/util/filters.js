@@ -62,6 +62,7 @@ const filters = function (args, cache = {name:''}) {
 		cache.name += " pdc_study_id:("+ studySub.join(",") + ");";
 	}
 	//@@@PDC-533 additional filters
+	//@@@PDC-6105 use collation to get case insensitive search
 	if (typeof args.ethnicity != 'undefined' && args.ethnicity.length > 0) {
 		let ethniSub = args.ethnicity.split(";");
 		uiFileQuery += " and dem.ethnicity IN ('" + ethniSub.join("','") + "')";
@@ -238,6 +239,8 @@ const filtersView = function (args,  cache = {name:''}) {
 		cache.name += "experiment_type:("+ experiment.join(",") + ");";
 	}
 	//@@@PDC-581 Add clinical filters
+	//@@@PDC-6105 use collation to get case insensitive search\
+	//@@@PDC-6285 adjust charset/collation
 	if (typeof args.ethnicity != 'undefined' && args.ethnicity.length > 0) {
 		let ethniSub = args.ethnicity.split(";");
 		uiViewQuery += " and ethnicity IN ('" + ethniSub.join("','") + "')";

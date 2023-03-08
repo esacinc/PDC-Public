@@ -60,7 +60,7 @@ properties:
     column_inner_diameter:
         description: Approximate diameter with units
         required: 'False'
-        type: cm
+        type: Number
     column_inner_diameter_uom:
         description: "Unit of Measure of column_inner_diameter, \xC2\xB5m"
         required: 'False'

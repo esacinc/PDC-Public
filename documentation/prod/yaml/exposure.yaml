@@ -430,5 +430,4 @@ type: object
 uniqueKeys:
 - exposure_id
 - exposure_submitter_id
-- study_id
 validators: null

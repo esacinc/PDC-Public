@@ -5151,5 +5151,4 @@ type: object
 uniqueKeys:
 - treatment_id
 - treatment_submitter_id
-- study_id
 validators: null

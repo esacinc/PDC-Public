@@ -12,9 +12,20 @@ export class SearchStylePipe implements PipeTransform {
 	//Need to check that enteredValue is actually a string or an object.
 	//When it is a typeof string it is a search vallue otherwise the user already chose a search term
 	if (typeof enteredValue === 'string') {
+		console.log('value formatted: '+value);
+		console.log('value entered: '+enteredValue);
 		let re = new RegExp(enteredValue, 'gi'); //create new regular expression to highlight the entered search string
 		let values = value.split(" (");
-		if (enteredValue.length < 30) {
+		console.log('gene value formatted: '+enteredValue);
+		//@@@PDC-6325 keep original case of search result
+		if (values[0].startsWith("GN:")) {
+			let findMatch = re.exec(values[0]);
+			if (findMatch != null && findMatch.length > 0) {
+				enteredValue = findMatch[0];	
+				console.log('gene value entered: '+enteredValue);
+			}
+		}
+		else if (enteredValue.length < 30) {
 			//do not capitalize long strings like UUID 
 			enteredValue = enteredValue.toUpperCase();
 		}
@@ -80,6 +91,7 @@ export class SearchStylePipe implements PipeTransform {
 			}
 		}
 	}
+	console.log('value returned: '+return_value);
 	return return_value;
   }
 }

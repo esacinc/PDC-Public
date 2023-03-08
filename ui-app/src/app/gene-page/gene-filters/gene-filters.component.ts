@@ -191,7 +191,9 @@ export class GeneFiltersComponent implements OnInit, OnChanges {
 
 	this.loading = true;
 	//Have to replace spaces with semicolon since that is the expected list delimiter for the API
-	let processedGeneNames = this.selectedGeneNames.toUpperCase().replace(/\s/g, ';');
+	//let processedGeneNames = this.selectedGeneNames.toUpperCase().replace(/\s/g, ';');
+	//@@@PDC-6288 gene name is case sensitive
+	let processedGeneNames = this.selectedGeneNames.replace(/\s/g, ';');
 	console.log(processedGeneNames);
 	this.geneFiltersService.getStudyByGeneName(processedGeneNames).subscribe((data: any) => {
     let studyList = [];

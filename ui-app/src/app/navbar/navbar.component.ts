@@ -168,6 +168,7 @@ export class NavbarComponent implements OnInit {
   showGeneProteinSummary(gene_name: string, type = '') {
     //@@@PDC-5778: UI call logging API for search statistics
     //Call the API only when searched through search box
+	console.log('Gene name to search: ', gene_name);
     if (type != "") {
       if (type == 'protein') {
         this.callObjectSearchedAPI(type, 'protein_name', gene_name);
@@ -427,11 +428,13 @@ export class NavbarComponent implements OnInit {
     this.searchService.getGeneSearchResults(search_term).subscribe((data: any) => {
       this.geneSearchResults = data.geneSearch.genes;
       for (let returnValue of this.geneSearchResults) {
+		  console.log('Search Gene Name: ', returnValue.name);
         let display_name = 'GN: ' + returnValue.name;
         //PDC-440 adding description to gene display value in dropdown list
         if (returnValue.description != '') {
           display_name = display_name.concat(' (' + returnValue.description + ')');
         }
+		  console.log('Search Display Gene Name: ', display_name);
         this.options.push({name: display_name, value: returnValue.name});
       }
       this.loading = false;

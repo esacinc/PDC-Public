@@ -54,7 +54,7 @@ properties:
     file_size:
         description: Size of the file in bytes
         required: 'True'
-        type: String
+        type: Number
     file_type:
         description: Specific kind of file to denote raw or processed
         required: 'True'

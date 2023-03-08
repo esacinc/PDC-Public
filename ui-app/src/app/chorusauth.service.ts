@@ -7,7 +7,7 @@ import { environment } from "../environments/environment";
 @Injectable()
 export class ChorusauthService {
 
-  password = 'PDCus3r6'; // Dummy password to use for all chorus users
+  password = ''; // Dummy password to use for all chorus users
 
   constructor(private http: HttpClient) { }
 
@@ -40,6 +40,7 @@ export class ChorusauthService {
             if ((!response.error) && (response.data.length > 0)) {
               const user: ChorusUser = response.data[0];
               if (user.userLabMemberships.length > 0) {
+                sessionStorage.setItem('chorusKey', response.chorusKey);
                 observer.next(true);
               } else {
                 observer.next(false);
@@ -122,12 +123,19 @@ export class ChorusauthService {
   public authenticateUser(email: string): Observable<boolean> {
 
     email = sessionStorage.getItem('loginUser');
+    const password = sessionStorage.getItem('chorusKey');
+
+    // @@@PDC-5894: NIH Federated Login creates a new username with user type id NIH which is not in WS table
+    // Validate the username, if it's not email then get loginEmail
+    if (!this.validateEmail(email)) {
+      email = sessionStorage.getItem('loginEmail');
+    }
 
     const url = '/workspace/j_spring_security_check';
     const payload = new FormData();
 
     payload.append('j_username', email);
-    payload.append('j_password', this.password);
+    payload.append('j_password', password);
 
     const successObservable = new Observable<boolean>((observer) => {
     this.http.post(url, payload).subscribe(data => {

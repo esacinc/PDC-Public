@@ -65,9 +65,10 @@ var spec = {
                "parameters": [{
                   "name": "acceptDUA",
                   "in": "path",
-                  "description": "Accept DUA variable, example: true/false",
-                  "required": true,
-                  "type": "boolean"
+                  "description": "Accept DUA  is no longer required",
+                  "required": false,
+                  "type": "boolean",
+				  "defaultValue": true
                }],
                "responses": {
                  "200": {
@@ -94,9 +95,10 @@ var spec = {
                parameters: [{
                   "name": "acceptDUA",
                   "in": "path",
-                  "description": "Accept DUA variable, example: true/false",
-                  "required": true,
-                  "type": "boolean"
+                  "description": "Accept DUA  is no longer required",
+                  "required": false,
+                  "type": "boolean",
+				  "defaultValue": true
                }],
                "responses": {
                  "200": {
@@ -123,9 +125,10 @@ var spec = {
                parameters: [{
                   "name": "acceptDUA",
                   "in": "path",
-                  "description": "Accept DUA variable, example: true/false",
-                  "required": true,
-                  "type": "boolean"
+                  "description": "Accept DUA  is no longer required",
+                  "required": false,
+                  "type": "boolean",
+				  "defaultValue": true
                 }],
                "responses": {
                  "200": {
@@ -165,9 +168,10 @@ var spec = {
                      }, {
                         "name": "acceptDUA",
                         "in": "path",
-                        "description": "Accept DUA variable, example: true/false",
-                        "required": true,
-                        "type": "boolean"
+                        "description": "Accept DUA  is no longer required",
+                        "required": false,
+                        "type": "boolean",
+						"defaultValue": true
                       }
                    ],
                    "responses": {
@@ -201,9 +205,10 @@ var spec = {
                      }, {
                         "name": "acceptDUA",
                         "in": "path",
-                        "description": "Accept DUA variable, example: true/false",
-                        "required": true,
-                        "type": "boolean"
+                        "description": "Accept DUA  is no longer required",
+                        "required": false,
+                        "type": "boolean",
+						"defaultValue": true
                       }
                    ],
                    "responses": {
@@ -237,9 +242,10 @@ var spec = {
                      }, {
                         "name": "acceptDUA",
                         "in": "path",
-                        "description": "Accept DUA variable, example: true/false",
-                        "required": true,
-                        "type": "boolean"
+                        "description": "Accept DUA  is no longer required",
+                        "required": false,
+                        "type": "boolean",
+						"defaultValue": true
                       }
                    ],
                    "responses": {
@@ -298,9 +304,10 @@ var spec = {
                    parameters: [{
                      "name": "acceptDUA",
                      "in": "path",
-                     "description": "Accept DUA variable, example: true/false",
-                     "required": true,
-                     "type": "boolean"
+                     "description": "Accept DUA  is no longer required",
+                     "required": false,
+                     "type": "boolean",
+					 "defaultValue": true
                    }],
                    "responses": {
                      "200": {
@@ -327,9 +334,10 @@ var spec = {
                    parameters: [{
                      "name": "acceptDUA",
                      "in": "path",
-                     "description": "Accept DUA variable, example: true/false",
-                     "required": true,
-                     "type": "boolean"
+                     "description": "Accept DUA  is no longer required",
+                     "required": false,
+                     "type": "boolean",
+						"defaultValue": true
                    }],
                    "responses": {
                      "200": {
@@ -356,9 +364,10 @@ var spec = {
                    parameters: [{
                      "name": "acceptDUA",
                      "in": "path",
-                     "description": "Accept DUA variable, example: true/false",
-                     "required": true,
-                     "type": "boolean"
+                     "description": "Accept DUA  is no longer required",
+                     "required": false,
+                     "type": "boolean",
+						"defaultValue": true
                    }],
                    "responses": {
                      "200": {
@@ -443,9 +452,10 @@ var spec = {
                      }, {
                         "name": "acceptDUA",
                         "in": "path",
-                        "description": "Accept DUA variable, example: true/false",
-                        "required": true,
-                        "type": "boolean"
+                        "description": "Accept DUA  is no longer required",
+                        "required": false,
+                        "type": "boolean",
+						"defaultValue": true
                      }
                    ],
                    "responses": {
@@ -486,9 +496,10 @@ var spec = {
                                }, {
                         "name": "acceptDUA",
                         "in": "path",
-                        "description": "Accept DUA variable, example: true/false",
-                        "required": true,
-                        "type": "boolean"
+                        "description": "Accept DUA  is no longer required",
+                        "required": false,
+                        "type": "boolean",
+						"defaultValue": true
                      }
                    ],
                    "responses": {
@@ -522,9 +533,10 @@ var spec = {
                      }, {
                         "name": "acceptDUA",
                         "in": "path",
-                        "description": "Accept DUA variable, example: true/false",
-                        "required": true,
-                        "type": "boolean"
+                        "description": "Accept DUA  is no longer required",
+                        "required": false,
+                        "type": "boolean",
+						"defaultValue": true
                      }
                    ],
                    "responses": {
@@ -558,9 +570,10 @@ var spec = {
                      }, {
                         "name": "acceptDUA",
                         "in": "path",
-                        "description": "Accept DUA variable, example: true/false",
-                        "required": true,
-                        "type": "boolean"
+                        "description": "Accept DUA  is no longer required",
+                        "required": false,
+                        "type": "boolean",
+						"defaultValue": true
                      }
                    ],
                    "responses": {
@@ -600,9 +613,10 @@ var spec = {
                      }, {
                         "name": "acceptDUA",
                         "in": "path",
-                        "description": "Accept DUA variable, example: true/false",
-                        "required": true,
-                        "type": "boolean"
+                        "description": "Accept DUA  is no longer required",
+                        "required": false,
+                        "type": "boolean",
+						"defaultValue": true
                       }
                    ],
                    "responses": {
@@ -642,9 +656,10 @@ var spec = {
                      }, {
                         "name": "acceptDUA",
                         "in": "path",
-                        "description": "Accept DUA variable, example: true/false",
-                        "required": true,
-                        "type": "boolean"
+                        "description": "Accept DUA  is no longer required",
+                        "required": false,
+                        "type": "boolean",
+						"defaultValue": true
                       }
                    ],
                    "responses": {
@@ -690,9 +705,10 @@ var spec = {
                       }, {
                         "name": "acceptDUA",
                         "in": "path",
-                        "description": "Accept DUA variable, example: true/false",
-                        "required": true,
-                        "type": "boolean"
+                        "description": "Accept DUA  is no longer required",
+                        "required": false,
+                        "type": "boolean",
+						"defaultValue": true
                       }       
                       ],
                     "responses": {
@@ -738,9 +754,10 @@ var spec = {
                      }, {
                         "name": "acceptDUA",
                         "in": "path",
-                        "description": "Accept DUA variable, example: true/false",
-                        "required": true,
-                        "type": "boolean"
+                        "description": "Accept DUA  is no longer required",
+                        "required": false,
+                        "type": "boolean",
+						"defaultValue": true
                       }        
                      ],
                    "responses": {
@@ -786,9 +803,10 @@ var spec = {
                       }, {
                         "name": "acceptDUA",
                         "in": "path",
-                        "description": "Accept DUA variable, example: true/false",
-                        "required": true,
-                        "type": "boolean"
+                        "description": "Accept DUA  is no longer required",
+                        "required": false,
+                        "type": "boolean",
+						"defaultValue": true
                       }       
                       ],
                     "responses": {
@@ -834,9 +852,10 @@ var spec = {
                       }, {
                         "name": "acceptDUA",
                         "in": "path",
-                        "description": "Accept DUA variable, example: true/false",
-                        "required": true,
-                        "type": "boolean"
+                        "description": "Accept DUA  is no longer required",
+                        "required": false,
+                        "type": "boolean",
+						"defaultValue": true
                       }       
                       ],
                     "responses": {
@@ -882,9 +901,10 @@ var spec = {
                      }, {
                         "name": "acceptDUA",
                         "in": "path",
-                        "description": "Accept DUA variable, example: true/false",
-                        "required": true,
-                        "type": "boolean"
+                        "description": "Accept DUA  is no longer required",
+                        "required": false,
+                        "type": "boolean",
+						"defaultValue": true
                       }        
                      ],
                    "responses": {
@@ -930,9 +950,10 @@ var spec = {
                       }, {
                         "name": "acceptDUA",
                         "in": "path",
-                        "description": "Accept DUA variable, example: true/false",
-                        "required": true,
-                        "type": "boolean"
+                        "description": "Accept DUA  is no longer required",
+                        "required": false,
+                        "type": "boolean",
+						"defaultValue": true
                       }       
                       ],
                     "responses": {
@@ -978,9 +999,10 @@ var spec = {
                       }, {
                         "name": "acceptDUA",
                         "in": "path",
-                        "description": "Accept DUA variable, example: true/false",
-                        "required": true,
-                        "type": "boolean"
+                        "description": "Accept DUA  is no longer required",
+                        "required": false,
+                        "type": "boolean",
+						"defaultValue": true
                       }       
                       ],
                     "responses": {
@@ -1026,9 +1048,10 @@ var spec = {
                      }, {
                         "name": "acceptDUA",
                         "in": "path",
-                        "description": "Accept DUA variable, example: true/false",
-                        "required": true,
-                        "type": "boolean"
+                        "description": "Accept DUA  is no longer required",
+                        "required": false,
+                        "type": "boolean",
+						"defaultValue": true
                       }        
                      ],
                    "responses": {
@@ -1074,9 +1097,10 @@ var spec = {
                       }, {
                         "name": "acceptDUA",
                         "in": "path",
-                        "description": "Accept DUA variable, example: true/false",
-                        "required": true,
-                        "type": "boolean"
+                        "description": "Accept DUA  is no longer required",
+                        "required": false,
+                        "type": "boolean",
+						"defaultValue": true
                       }       
                       ],
                     "responses": {
@@ -1134,9 +1158,10 @@ var spec = {
                      }, {
                         "name": "acceptDUA",
                         "in": "path",
-                        "description": "Accept DUA variable, example: true/false",
-                        "required": true,
-                        "type": "boolean"
+                        "description": "Accept DUA  is no longer required",
+                        "required": false,
+                        "type": "boolean",
+						"defaultValue": true
                       }       
                      ],
                    "responses": {
@@ -1194,9 +1219,10 @@ var spec = {
                      }, {
                         "name": "acceptDUA",
                         "in": "path",
-                        "description": "Accept DUA variable, example: true/false",
-                        "required": true,
-                        "type": "boolean"
+                        "description": "Accept DUA  is no longer required",
+                        "required": false,
+                        "type": "boolean",
+						"defaultValue": true
                       }       
                      ],
                    "responses": {
@@ -1248,9 +1274,10 @@ var spec = {
                          }, {
                            "name": "acceptDUA",
                            "in": "path",
-                           "description": "Accept DUA variable, example: true/false",
-                           "required": true,
-                           "type": "boolean"
+                           "description": "Accept DUA  is no longer required",
+                           "required": false,
+                           "type": "boolean",
+						"defaultValue": true
                          }       
                          ],
                        "responses": {
@@ -1278,9 +1305,10 @@ var spec = {
                    parameters: [{
                      "name": "acceptDUA",
                      "in": "path",
-                     "description": "Accept DUA variable, example: true/false",
-                     "required": true,
-                     "type": "boolean"
+                     "description": "Accept DUA  is no longer required",
+                     "required": false,
+                     "type": "boolean",
+						"defaultValue": true
                    }],
                    "responses": {
                      "200": {
@@ -1307,9 +1335,10 @@ var spec = {
                    parameters: [{
                      "name": "acceptDUA",
                      "in": "path",
-                     "description": "Accept DUA variable, example: true/false",
-                     "required": true,
-                     "type": "boolean"
+                     "description": "Accept DUA  is no longer required",
+                     "required": false,
+                     "type": "boolean",
+						"defaultValue": true
                    }],
                    "responses": {
                      "200": {
@@ -1342,9 +1371,10 @@ var spec = {
                     }, {
                      "name": "acceptDUA",
                      "in": "path",
-                     "description": "Accept DUA variable, example: true/false",
-                     "required": true,
-                     "type": "boolean"
+                     "description": "Accept DUA  is no longer required",
+                     "required": false,
+                     "type": "boolean",
+						"defaultValue": true
                    }],
                    "responses": {
                      "200": {
@@ -1377,9 +1407,10 @@ var spec = {
                      }, {
                         "name": "acceptDUA",
                         "in": "path",
-                        "description": "Accept DUA variable, example: true/false",
-                        "required": true,
-                        "type": "boolean"
+                        "description": "Accept DUA  is no longer required",
+                        "required": false,
+                        "type": "boolean",
+						"defaultValue": true
                       }],
                     "responses": {
                       "200": {
@@ -1412,9 +1443,10 @@ var spec = {
                     }, {
                      "name": "acceptDUA",
                      "in": "path",
-                     "description": "Accept DUA variable, example: true/false",
-                     "required": true,
-                     "type": "boolean"
+                     "description": "Accept DUA  is no longer required",
+                     "required": false,
+                     "type": "boolean",
+						"defaultValue": true
                    }],
                    "responses": {
                      "200": {
@@ -1447,9 +1479,10 @@ var spec = {
                      }, {
                         "name": "acceptDUA",
                         "in": "path",
-                        "description": "Accept DUA variable, example: true/false",
-                        "required": true,
-                        "type": "boolean"
+                        "description": "Accept DUA  is no longer required",
+                        "required": false,
+                        "type": "boolean",
+						"defaultValue": true
                       }],
                     "responses": {
                       "200": {
@@ -1482,9 +1515,10 @@ var spec = {
                     }, {
                      "name": "acceptDUA",
                      "in": "path",
-                     "description": "Accept DUA variable, example: true/false",
-                     "required": true,
-                     "type": "boolean"
+                     "description": "Accept DUA  is no longer required",
+                     "required": false,
+                     "type": "boolean",
+						"defaultValue": true
                    }],
                    "responses": {
                      "200": {
@@ -1517,9 +1551,10 @@ var spec = {
                     }, {
                      "name": "acceptDUA",
                      "in": "path",
-                     "description": "Accept DUA variable, example: true/false",
-                     "required": true,
-                     "type": "boolean"
+                     "description": "Accept DUA  is no longer required",
+                     "required": false,
+                     "type": "boolean",
+						"defaultValue": true
                    }],
                    "responses": {
                      "200": {
@@ -1552,9 +1587,10 @@ var spec = {
                      }, {
                         "name": "acceptDUA",
                         "in": "path",
-                        "description": "Accept DUA variable, example: true/false",
-                        "required": true,
-                        "type": "boolean"
+                        "description": "Accept DUA  is no longer required",
+                        "required": false,
+                        "type": "boolean",
+						"defaultValue": true
                      }],
                     "responses": {
                       "200": {
@@ -1587,9 +1623,10 @@ var spec = {
                      }, {
                         "name": "acceptDUA",
                         "in": "path",
-                        "description": "Accept DUA variable, example: true/false",
-                        "required": true,
-                        "type": "boolean"
+                        "description": "Accept DUA  is no longer required",
+                        "required": false,
+                        "type": "boolean",
+						"defaultValue": true
                       }],
                     "responses": {
                       "200": {
@@ -1622,9 +1659,10 @@ var spec = {
                      }, {
                         "name": "acceptDUA",
                         "in": "path",
-                        "description": "Accept DUA variable, example: true/false",
-                        "required": true,
-                        "type": "boolean"
+                        "description": "Accept DUA  is no longer required",
+                        "required": false,
+                        "type": "boolean",
+						"defaultValue": true
                       }],
                     "responses": {
                       "200": {
@@ -1657,9 +1695,10 @@ var spec = {
                     }, {
                      "name": "acceptDUA",
                      "in": "path",
-                     "description": "Accept DUA variable, example: true/false",
-                     "required": true,
-                     "type": "boolean"
+                     "description": "Accept DUA  is no longer required",
+                     "required": false,
+                     "type": "boolean",
+						"defaultValue": true
                    }],
                    "responses": {
                      "200": {
@@ -1692,9 +1731,10 @@ var spec = {
                     },{
                      "name": "acceptDUA",
                      "in": "path",
-                     "description": "Accept DUA variable, example: true/false",
-                     "required": true,
-                     "type": "boolean"
+                     "description": "Accept DUA  is no longer required",
+                     "required": false,
+                     "type": "boolean",
+						"defaultValue": true
                   }],
                    "responses": {
                      "200": {
@@ -1727,9 +1767,10 @@ var spec = {
                      },{
                         "name": "acceptDUA",
                         "in": "path",
-                        "description": "Accept DUA variable, example: true/false",
-                        "required": true,
-                        "type": "boolean"
+                        "description": "Accept DUA  is no longer required",
+                        "required": false,
+                        "type": "boolean",
+						"defaultValue": true
                      }],
                     "responses": {
                       "200": {
@@ -1756,9 +1797,10 @@ var spec = {
                    "parameters": [{
                      "name": "acceptDUA",
                      "in": "path",
-                     "description": "Accept DUA variable, example: true/false",
-                     "required": true,
-                     "type": "boolean"
+                     "description": "Accept DUA  is no longer required",
+                     "required": false,
+                     "type": "boolean",
+						"defaultValue": true
                   }],
                    "responses": {
                      "200": {
@@ -1791,9 +1833,10 @@ var spec = {
                       },{
                      "name": "acceptDUA",
                      "in": "path",
-                     "description": "Accept DUA variable, example: true/false",
-                     "required": true,
-                     "type": "boolean"
+                     "description": "Accept DUA  is no longer required",
+                     "required": false,
+                     "type": "boolean",
+						"defaultValue": true
                   }],
                    "responses": {
                      "200": {
@@ -1826,9 +1869,10 @@ var spec = {
                     },{
                      "name": "acceptDUA",
                      "in": "path",
-                     "description": "Accept DUA variable, example: true/false",
-                     "required": true,
-                     "type": "boolean"
+                     "description": "Accept DUA  is no longer required",
+                     "required": false,
+                     "type": "boolean",
+						"defaultValue": true
                    }],
                    "responses": {
                      "200": {
@@ -1861,9 +1905,10 @@ var spec = {
                      }, {
                         "name": "acceptDUA",
                         "in": "path",
-                        "description": "Accept DUA variable, example: true/false",
-                        "required": true,
-                        "type": "boolean"
+                        "description": "Accept DUA  is no longer required",
+                        "required": false,
+                        "type": "boolean",
+						"defaultValue": true
                      }],
                     "responses": {
                       "200": {
@@ -1896,9 +1941,10 @@ var spec = {
                      }, {
                         "name": "acceptDUA",
                         "in": "path",
-                        "description": "Accept DUA variable, example: true/false",
-                        "required": true,
-                        "type": "boolean"
+                        "description": "Accept DUA  is no longer required",
+                        "required": false,
+                        "type": "boolean",
+						"defaultValue": true
                       }
                    ],
                    "responses": {
@@ -1932,9 +1978,10 @@ var spec = {
                      }, {
                         "name": "acceptDUA",
                         "in": "path",
-                        "description": "Accept DUA variable, example: true/false",
-                        "required": true,
-                        "type": "boolean"
+                        "description": "Accept DUA  is no longer required",
+                        "required": false,
+                        "type": "boolean",
+						"defaultValue": true
                       }
                    ],
                    "responses": {
@@ -1962,9 +2009,10 @@ var spec = {
                    "parameters": [{
                      "name": "acceptDUA",
                      "in": "path",
-                     "description": "Accept DUA variable, example: true/false",
-                     "required": true,
-                     "type": "boolean"
+                     "description": "Accept DUA  is no longer required",
+                     "required": false,
+                     "type": "boolean",
+						"defaultValue": true
                    }],
                    "responses": {
                      "200": {
@@ -2071,9 +2119,10 @@ var spec = {
                      }, {
                         "name": "acceptDUA",
                         "in": "path",
-                        "description": "Accept DUA variable, example: true/false",
-                        "required": true,
-                        "type": "boolean"
+                        "description": "Accept DUA  is no longer required",
+                        "required": false,
+                        "type": "boolean",
+						"defaultValue": true
                       }
                    ],
                    "responses": {
@@ -2179,9 +2228,10 @@ var spec = {
                       } , {
                         "name": "acceptDUA",
                         "in": "path",
-                        "description": "Accept DUA variable, example: true/false",
-                        "required": true,
-                        "type": "boolean"
+                        "description": "Accept DUA  is no longer required",
+                        "required": false,
+                        "type": "boolean",
+						"defaultValue": true
                       }                        
                     ],
                     "responses": {
@@ -2226,9 +2276,10 @@ var spec = {
                       } , {
                         "name": "acceptDUA",
                         "in": "path",
-                        "description": "Accept DUA variable, example: true/false",
-                        "required": true,
-                        "type": "boolean"
+                        "description": "Accept DUA  is no longer required",
+                        "required": false,
+                        "type": "boolean",
+						"defaultValue": true
                       }                        
                     ],
                     "responses": {
@@ -2268,9 +2319,10 @@ var spec = {
                       }, {
                         "name": "acceptDUA",
                         "in": "path",
-                        "description": "Accept DUA variable, example: true/false",
-                        "required": true,
-                        "type": "boolean"
+                        "description": "Accept DUA  is no longer required",
+                        "required": false,
+                        "type": "boolean",
+						"defaultValue": true
                       }                        
                     ],
                     "responses": {
@@ -2316,9 +2368,10 @@ var spec = {
                       }, {
                         "name": "acceptDUA",
                         "in": "path",
-                        "description": "Accept DUA variable, example: true/false",
-                        "required": true,
-                        "type": "boolean"
+                        "description": "Accept DUA  is no longer required",
+                        "required": false,
+                        "type": "boolean",
+						"defaultValue": true
                       }                       
                     ],
                     "responses": {
@@ -2394,9 +2447,10 @@ var spec = {
                        }, {
                         "name": "acceptDUA",
                         "in": "path",
-                        "description": "Accept DUA variable, example: true/false",
-                        "required": true,
-                        "type": "boolean"
+                        "description": "Accept DUA  is no longer required",
+                        "required": false,
+                        "type": "boolean",
+						"defaultValue": true
                        }        
                        ],
                    "responses": {
@@ -2442,9 +2496,10 @@ var spec = {
                          }, {
                            "name": "acceptDUA",
                            "in": "path",
-                           "description": "Accept DUA variable, example: true/false",
-                           "required": true,
-                           "type": "boolean"
+                           "description": "Accept DUA  is no longer required",
+                           "required": false,
+                           "type": "boolean",
+						"defaultValue": true
                          }       
                          ],
                      "responses": {
@@ -2490,9 +2545,10 @@ var spec = {
                        }, {
                         "name": "acceptDUA",
                         "in": "path",
-                        "description": "Accept DUA variable, example: true/false",
-                        "required": true,
-                        "type": "boolean"
+                        "description": "Accept DUA  is no longer required",
+                        "required": false,
+                        "type": "boolean",
+						"defaultValue": true
                        }        
                        ],
                    "responses": {
@@ -2520,9 +2576,10 @@ var spec = {
                    "parameters": [ {
                      "name": "acceptDUA",
                      "in": "path",
-                     "description": "Accept DUA variable, example: true/false",
-                     "required": true,
-                     "type": "boolean"
+                     "description": "Accept DUA  is no longer required",
+                     "required": false,
+                     "type": "boolean",
+						"defaultValue": true
                    }],
                    "responses": {
                      "200": {
@@ -2549,9 +2606,10 @@ var spec = {
                    parameters: [{
                      "name": "acceptDUA",
                      "in": "path",
-                     "description": "Accept DUA variable, example: true/false",
-                     "required": true,
-                     "type": "boolean"
+                     "description": "Accept DUA  is no longer required",
+                     "required": false,
+                     "type": "boolean",
+						"defaultValue": true
                    }],
                    "responses": {
                      "200": {
@@ -2584,9 +2642,10 @@ var spec = {
                       }, {
                         "name": "acceptDUA",
                         "in": "path",
-                        "description": "Accept DUA variable, example: true/false",
-                        "required": true,
-                        "type": "boolean"
+                        "description": "Accept DUA  is no longer required",
+                        "required": false,
+                        "type": "boolean",
+						"defaultValue": true
                       }
                     ],
                        "responses": {
@@ -2620,9 +2679,10 @@ var spec = {
                       }, {
                         "name": "acceptDUA",
                         "in": "path",
-                        "description": "Accept DUA variable, example: true/false",
-                        "required": true,
-                        "type": "boolean"
+                        "description": "Accept DUA  is no longer required",
+                        "required": false,
+                        "type": "boolean",
+						"defaultValue": true
                       }
                     ],
                        "responses": {
@@ -2656,9 +2716,10 @@ var spec = {
                      },{
                         "name": "acceptDUA",
                         "in": "path",
-                        "description": "Accept DUA variable, example: true/false",
-                        "required": true,
-                        "type": "boolean"
+                        "description": "Accept DUA  is no longer required",
+                        "required": false,
+                        "type": "boolean",
+						"defaultValue": true
                       }
                    ],
                    "responses": {
@@ -2692,9 +2753,10 @@ var spec = {
                      }, {
                         "name": "acceptDUA",
                         "in": "path",
-                        "description": "Accept DUA variable, example: true/false",
-                        "required": true,
-                        "type": "boolean"
+                        "description": "Accept DUA  is no longer required",
+                        "required": false,
+                        "type": "boolean",
+						"defaultValue": true
                       }
                    ],
                    "responses": {
@@ -2728,9 +2790,10 @@ var spec = {
                          }, {
                            "name": "acceptDUA",
                            "in": "path",
-                           "description": "Accept DUA variable, example: true/false",
-                           "required": true,
-                           "type": "boolean"
+                           "description": "Accept DUA  is no longer required",
+                           "required": false,
+                           "type": "boolean",
+						"defaultValue": true
                          }
                        ],
                        "responses": {
@@ -2764,9 +2827,10 @@ var spec = {
                      }, {
                         "name": "acceptDUA",
                         "in": "path",
-                        "description": "Accept DUA variable, example: true/false",
-                        "required": true,
-                        "type": "boolean"
+                        "description": "Accept DUA  is no longer required",
+                        "required": false,
+                        "type": "boolean",
+						"defaultValue": true
                      }
                    ],
                    "responses": {
@@ -2800,9 +2864,10 @@ var spec = {
                      }, {
                         "name": "acceptDUA",
                         "in": "path",
-                        "description": "Accept DUA variable, example: true/false",
-                        "required": true,
-                        "type": "boolean"
+                        "description": "Accept DUA  is no longer required",
+                        "required": false,
+                        "type": "boolean",
+						"defaultValue": true
                      }
                    ],
                    "responses": {
@@ -2836,9 +2901,10 @@ var spec = {
                          }, {
                            "name": "acceptDUA",
                            "in": "path",
-                           "description": "Accept DUA variable, example: true/false",
-                           "required": true,
-                           "type": "boolean"
+                           "description": "Accept DUA  is no longer required",
+                           "required": false,
+                           "type": "boolean",
+						"defaultValue": true
                         }
                        ],
                        "responses": {
@@ -2878,9 +2944,10 @@ var spec = {
                            }, {
                               "name": "acceptDUA",
                               "in": "path",
-                              "description": "Accept DUA variable, example: true/false",
-                              "required": true,
-                              "type": "boolean"
+                              "description": "Accept DUA  is no longer required",
+                              "required": false,
+                              "type": "boolean",
+						"defaultValue": true
                             }
                        ],
                    "responses": {
@@ -2927,9 +2994,10 @@ var spec = {
                                }, {
                                  "name": "acceptDUA",
                                  "in": "path",
-                                 "description": "Accept DUA variable, example: true/false",
-                                 "required": true,
-                                 "type": "boolean"
+                                 "description": "Accept DUA  is no longer required",
+                                 "required": false,
+                                 "type": "boolean",
+						"defaultValue": true
                               }
                            ],
                        "responses": {
@@ -2976,9 +3044,10 @@ var spec = {
                                }, {
                                  "name": "acceptDUA",
                                  "in": "path",
-                                 "description": "Accept DUA variable, example: true/false",
-                                 "required": true,
-                                 "type": "boolean"
+                                 "description": "Accept DUA  is no longer required",
+                                 "required": false,
+                                 "type": "boolean",
+								 "defaultValue": true
                               }
                            ],
                        "responses": {
@@ -3027,7 +3096,7 @@ var spec = {
                  "get": {
                            "tags": ["Quantitative"],
                    "summary": "Returns quant data matrix for a PDC Study ID",
-                   "description": "Returns quant data matrix for a PDC Study ID.<br/><b>Fields:<ul><li>pdc_study_id:</b> PDC Study ID, example: PDC000127</li><li><b>data_type: </b>Data type, example: log2_ratio/unshared_log2_ratio</li><li><b>acceptDUA: </b>Accept DUA variable, example: true/false</li></ul>This API also works with the following parameters:<br><br><b>?query= { quantDataMatrix(study_id: '{study_id}'  data_type: '{data_type}' acceptDUA: {acceptDUA}) }</b><br><br><b>Fields:<ul><li>study_id:</b> Study ID, example: dbe94609-1fb3-11e9-b7f8-0a80fada099c</li><li><b>data_type: </b>Data type, example: log2_ratio/unshared_log2_ratio</li><li><b>acceptDUA: </b>Accept DUA variable, example: true/false</li></ul><br>Please click <a href='/API_documentation/PDC_clustergram.html' target='_blank'><b>here</b></a> to know more on how to test this API.",
+                   "description": "Returns quant data matrix for a PDC Study ID.<br/><b>Fields:<ul><li>pdc_study_id:</b> PDC Study ID, example: PDC000127</li><li><b>data_type: </b>Data type, example: log2_ratio/unshared_log2_ratio</li><li><b>acceptDUA: </b>Accept DUA , example: true/false</li></ul>This API also works with the following parameters:<br><br><b>?query= { quantDataMatrix(study_id: '{study_id}'  data_type: '{data_type}' acceptDUA: {acceptDUA}) }</b><br><br><b>Fields:<ul><li>study_id:</b> Study ID, example: dbe94609-1fb3-11e9-b7f8-0a80fada099c</li><li><b>data_type: </b>Data type, example: log2_ratio/unshared_log2_ratio</li><li><b>acceptDUA: </b>Accept DUA , example: true/false</li></ul><br>Please click <a href='/API_documentation/PDC_clustergram.html' target='_blank'><b>here</b></a> to know more on how to test this API.",
                    "operationId": "quantDataMatrix",
                    "produces": [
                      "application/json"

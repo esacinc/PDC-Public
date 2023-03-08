@@ -121,4 +121,3 @@ type: object
 uniqueKeys:
 - - aliquot_id
   - aliquot_submitter_id
-  - study_id

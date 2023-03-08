@@ -69,6 +69,7 @@ const appRoutes: Routes = [
   //@@@PDC-5758 - update how to submit page
   { path: 'request-data-submission', component: RequestDataSubmissionComponent},
   { path: 'data-use-guidelines', component: DataUseGuidelinesComponent},
+  { path: 'data-use-guidelines/:id', component: DataUseGuidelinesComponent},
   { path: 'explore-quantitation-data', component: HeatmapsComponent},
   //@@@PDC-374 - adding auxiliary urls to overlay windows
   { path: 'gene-summary/:gene_id', component: GeneProteinSummaryComponent, outlet: 'geneSummary'},

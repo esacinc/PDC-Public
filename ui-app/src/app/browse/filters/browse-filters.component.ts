@@ -1481,7 +1481,9 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
 		//emit new gene name to selectedFilters
 		this.loading = true;
 		//Have to replace spaces with semicolon since that is the expected list delimiter for the API
-		let processedGeneNames = this.selectedGeneNames.trim().toUpperCase().replace(/\s+|\n+/g, ';');
+		//@@@PDC-6288 gene name is case sensitive
+		//let processedGeneNames = this.selectedGeneNames.trim().toUpperCase().replace(/\s+|\n+/g, ';');
+		let processedGeneNames = this.selectedGeneNames.trim().replace(/\s+|\n+/g, ';');
 		console.log(processedGeneNames);
 		//Genes data tab will be filtered directly by gene names
 		var newFilterValue = "gene_name:" + processedGeneNames;

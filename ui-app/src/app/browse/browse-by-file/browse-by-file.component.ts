@@ -55,7 +55,7 @@ import { SizeUnitsPipe } from '../../sizeUnitsPipe.pipe';
 //@@@PDC-1416 add unit to file size in file manifest
 //@@@PDC-2795: add embargo date to file tab on Browse page and file manifest
 //@@@PDC-3265: Add TSV format manifest download for Files tab on Browse page
-//@@@PDC-3268: Browse File selection check box in does not select all 
+//@@@PDC-3268: Browse File selection check box in does not select all
 //@@@PDC-3283: Allow showing files for different versions of the study on Browse page
 //@@@PDC-3307: add study version to file manifest
 //@@@PDC-3482: TSV Manifest is not correct for Files tab
@@ -80,7 +80,7 @@ export class BrowseByFileComponent implements OnInit {
   @Output() fileTotalRecordChanged: EventEmitter<any> = new EventEmitter<any>();
   fenceRequest:boolean = false;
   //keep a full list of filter category
-  // Array which holds filter names. Must be updated when new filters are added to browse page. 
+  // Array which holds filter names. Must be updated when new filters are added to browse page.
   allFilterCategory: string[] = ["project_name","primary_site","program_name","disease_type","analytical_fraction","experiment_type","acquisition_type","study_name","submitter_id_name","sample_type","ethnicity","race","gender","tumor_grade","data_category","file_type","access","downloadable","studyName_genes_tab", "biospecimen_status", "case_status"];
 
   notDownloadable: string = 'not available for download';
@@ -115,9 +115,9 @@ export class BrowseByFileComponent implements OnInit {
   //@@@PDC-1303: Add a download column and button for downloading individual files to the file tab
   individualFileData: AllFilesData[] = [];
   manifestFormat = "csv";
-  
+
   studyVersion: string = "";
-  
+
   allStudiesVersions: any[] = [];
   frozenColumns = [];
   @Input() childTabChanged: string;
@@ -131,7 +131,7 @@ export class BrowseByFileComponent implements OnInit {
     private activeRoute: ActivatedRoute,
     private userService: PDCUserService
   ) {
-    // Array which holds filter names. Must be updated when new filters are added to browse page. 
+    // Array which holds filter names. Must be updated when new filters are added to browse page.
     this.newFilterSelected = {
       program_name: "",
       project_name: "",
@@ -152,7 +152,7 @@ export class BrowseByFileComponent implements OnInit {
       access: "",
       downloadable: "",
       studyName_genes_tab: "",
-      biospecimen_status: "", 
+      biospecimen_status: "",
       case_status: ""
     };
     this.offset = 0; //Initialize values for pagination
@@ -189,7 +189,7 @@ export class BrowseByFileComponent implements OnInit {
         if(this.currentPageSelectedFile.indexOf(file.file_id + "-" + file.pdc_study_id) === -1){
           localSelectedFiles.push(file);
           this.currentPageSelectedFile.push(file.file_id + "-" + file.pdc_study_id);
-        } 
+        }
       }
       this.selectedFiles = localSelectedFiles;
     } else {
@@ -200,7 +200,7 @@ export class BrowseByFileComponent implements OnInit {
           localSelectedFiles.splice(index,1);
         }
       }
-      this.selectedFiles = localSelectedFiles; 
+      this.selectedFiles = localSelectedFiles;
       this.currentPageSelectedFile = [];
       this.pageHeaderCheckBoxTrack = [];
       this.selectedHeaderCheckbox = '';
@@ -247,14 +247,14 @@ export class BrowseByFileComponent implements OnInit {
     let checkboxVal = this.selectedHeaderCheckbox;
     this.selectedFiles = this.currentPageSelectedFile = [];
     switch (checkboxVal) {
-      case 'Select all pages': 
+      case 'Select all pages':
             this.fileExportCompleteManifest();
             break;
-      case 'Select this page': 
+      case 'Select this page':
             this.headercheckbox = true;
             this.onTableHeaderCheckboxToggle();
             break;
-      case 'Select None': 
+      case 'Select None':
             this.clearSelection();
             break;
     }
@@ -358,7 +358,7 @@ export class BrowseByFileComponent implements OnInit {
 	  filter_field.push(this.newFilterValue.substring(this.newFilterValue.indexOf(":")+1));
       console.log("Filter Name: "+ filter_field[0]);
       console.log("Filter Value: "+ filter_field[1]);
-	  
+
       //If clear all filter selection button was pressed need to clear all filters
       if (filter_field[0] === "Clear all selections") {
         for (let filter_name in this.newFilterSelected) {
@@ -398,7 +398,7 @@ export class BrowseByFileComponent implements OnInit {
       } else {
         this.newFilterSelected[filter_field[0]] = filter_field[1];
       }
-	  
+
 	  //@@@PDC-3328 setting a variable that indicates that the current table shows files for older version of a study
 	  if (this.newFilterSelected["study_name"]){
 		  if (this.newFilterSelected["study_name"].length > 0 && sessionStorage.getItem('currentVersion')) {
@@ -407,7 +407,7 @@ export class BrowseByFileComponent implements OnInit {
 			  }
 		  }
 	  }
-	  
+
       //@@@PDC-799: Redirecting to the NIH login page for the file authorization loses PDC state
       //If its a fence request, set filters from local storage
       var selectedFiltersForBrowse = JSON.parse(localStorage.getItem("selectedFiltersForBrowse"));
@@ -597,7 +597,7 @@ export class BrowseByFileComponent implements OnInit {
 	  this.clearSelection();
     }, 10);
   }
-  
+
   displayLoading(decisionFlag, loadFlagName, loadFlag){
     if (!decisionFlag) {
       this.loading = loadFlag;
@@ -631,15 +631,15 @@ export class BrowseByFileComponent implements OnInit {
         .pipe(take(1)).subscribe((data: any) => {
           if (buttonClick) {
             this.completeFileManifest = data.getPaginatedUIFile.uiFiles;
-            this.fileTableExportCSV(true, false, this.manifestFormat);               
+            this.fileTableExportCSV(true, false, this.manifestFormat);
             this.loading = false;
           } else {
             this.selectedFiles = data.getPaginatedUIFile.uiFiles;
             this.headercheckbox = true;
             //@@@PDC-3667: "Select all pages" option issue
-            this.updateCurrentPageSelectedFiles(data.getPaginatedUIFile.uiFiles);   
+            this.updateCurrentPageSelectedFiles(data.getPaginatedUIFile.uiFiles);
           }
-          this.displayLoading(buttonClick, "file", false); 
+          this.displayLoading(buttonClick, "file", false);
         });
       }, 1000);
     }
@@ -662,7 +662,7 @@ export class BrowseByFileComponent implements OnInit {
         hasBackdrop: true,
         data: { message: "Data volume for Files data is high. Please select files < 10000 to download." }
       });
-    }, 10); 
+    }, 10);
   }
 
   //@@@PDC-1303: Add a download column and button for downloading individual files to the file tab
@@ -695,7 +695,7 @@ export class BrowseByFileComponent implements OnInit {
           }
         } else{
           this.displayMessageForNotDownloadable();
-        }  
+        }
       }
       if (downloadLink) {
         //If the download file link is available, open the download link and start file download.
@@ -722,7 +722,7 @@ export class BrowseByFileComponent implements OnInit {
   //@@@PDC-784 Improve download controlled files feature
   //@@@PDC-801 For files that are marked downloadable call API to get signed URL and include in manifest
   //@@@PDC-869 if controlled file is not downloadable, it will not ask user to login eRA and authorize
-  //@@@PDC-3206 fix ddownload manifest even if there are zero records  
+  //@@@PDC-3206 fix ddownload manifest even if there are zero records
   async fileTableExportCSV(iscompleteFileDownload:boolean = false, individualFileDownload:boolean = false, exportFormat = "csv") {
     let dataForExport;
     if (iscompleteFileDownload) {
@@ -743,14 +743,14 @@ export class BrowseByFileComponent implements OnInit {
     //login as eRA/NIH
     if (this.userService.isUserLoggedIn() && this.userService.getUID().length > 0) {
       confirmationMessage = `
-			You are trying to generate a file manifest that includes controlled data files. 
-			This will require you to authorize DCF to access your NIH profile. 
+			You are trying to generate a file manifest that includes controlled data files.
+			This will require you to authorize DCF to access your NIH profile.
       Do you want to continue?`;
       eRALogIn = "loginNotRequired";
     } else {
       confirmationMessage = `
-			You are trying to generate a file manifest that includes controlled data files. 
-			This will require you to log in through eRA and authorize DCF to access your NIH profile. 
+			You are trying to generate a file manifest that includes controlled data files.
+			This will require you to log in through eRA and authorize DCF to access your NIH profile.
 			Do you want to continue?`;
       eRALogIn = "loginRequired";
     }
@@ -772,7 +772,7 @@ export class BrowseByFileComponent implements OnInit {
 		  file["pdc_study_version"] = this.allStudiesVersions[file["submitter_id_name"]];
 	  }
     }
-	
+    //@@PDC-6300 - remove embargo date from manifest
     if (controlledFileFlag) {
       localStorage.setItem(
         "controlledFileTableExportCsv",
@@ -784,7 +784,6 @@ export class BrowseByFileComponent implements OnInit {
           "pdc_study_id",
 		  "pdc_study_version",
           "study_id",
-		  "embargo_date",
           "project_name",
           "data_category",
           "file_type",
@@ -832,12 +831,13 @@ export class BrowseByFileComponent implements OnInit {
               }
             }
           }
-        }); 
+        });
       }
     } else {
       this.displayLoading(iscompleteFileDownload, "file1", true);
-      //retrieve open file link 
+      //retrieve open file link
       //@@@PDC-1789: Add study_submitter_id and study_id to exported study manifests
+      //@@PDC-6300 - remove embargo date from manifest
       let csvOptions = {
         headers: [
           "File ID",
@@ -847,7 +847,6 @@ export class BrowseByFileComponent implements OnInit {
           "PDC Study ID",
 		  "PDC Study Version",
           "Study ID",
-		  "Embargo Date",
           "Project Name",
           "Data Category",
           "File Type",
@@ -867,7 +866,6 @@ export class BrowseByFileComponent implements OnInit {
         "pdc_study_id",
 		"pdc_study_version",
         "study_id",
-		"embargo_date",
         "project_name",
         "data_category",
         "file_type",
@@ -908,7 +906,7 @@ export class BrowseByFileComponent implements OnInit {
 				  }
 			  }
             }
-          }); 
+          });
           loop++;
         }
       } else {
@@ -957,7 +955,7 @@ export class BrowseByFileComponent implements OnInit {
       }
     }
   }
-  
+
   //@@@PDC-1765 add download prompt
   setDownloadBatch() {
 	let dataForExport =  this.selectedFiles;
@@ -977,7 +975,7 @@ export class BrowseByFileComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe(result => {
           if (!result) {
-          } 
+          }
 		  else {
 			console.log("Let's download.");
 			this.downloadBatch();
@@ -992,9 +990,9 @@ export class BrowseByFileComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe(result => {
 		  });
-	} 
+	}
   }
-  
+
   async downloadBatch() {
 	let dataForExport =  this.selectedFiles;
 	let urls: string = "";
@@ -1023,7 +1021,7 @@ export class BrowseByFileComponent implements OnInit {
 
 //@@@PDC-4781: Use filesPerStudy API to return signed urls for multiple files
 getFilesDataObj(fileNameStr) {
-  this.browseByFileService.getFilesData(fileNameStr, "").pipe(take(1)).subscribe((fileData: any) => { 
+  this.browseByFileService.getFilesData(fileNameStr, "").pipe(take(1)).subscribe((fileData: any) => {
     for (var fileItem of fileData.uiFilesPerStudy) {
       if (fileItem.signedUrl) {
         let confirmationMessage = 'Finished downloading: '+ fileItem.file_name;
@@ -1046,7 +1044,7 @@ getFilesDataObj(fileNameStr) {
     //@@@PDC-3452: Some Quality Metrics Web files open in the same tab
     return window.open(url, '_blank');
   }
-  
+
   sleep(milliseconds) {
 	  const date = Date.now();
 	  let currentDate = null;
@@ -1058,7 +1056,7 @@ getFilesDataObj(fileNameStr) {
   private getOpenFileSignedUrl(openFileSignUrlMap){
     let fileIdList : string[] = Object.keys(openFileSignUrlMap);
   }
-  
+
   //Help function that returns true if parameter date is in the future, otherwise false
 	private isDateLater(embargo_date: string):boolean{
 		var now = new Date;
@@ -1069,7 +1067,7 @@ getFilesDataObj(fileNameStr) {
 			return false;
 		}
 	}
-  
+
 	//If the date is in the future the value should be bold and in italics
 	getStyleClass(embargo_date: string){
 		if (this.isDateLater(embargo_date) )
@@ -1214,8 +1212,8 @@ getFilesDataObj(fileNameStr) {
         exportFile["case_submitter_id"] = "";
         if(exportFile.downloadable.toLowerCase() === 'yes'){
           //@@@PDC-1940: File manifest download is very slow
-          //This code should be changed to use 'getFilesData' API which accepts upto 1000 file names per request. 
-          //Not changing now as we don't have sufficient data to test. 
+          //This code should be changed to use 'getFilesData' API which accepts upto 1000 file names per request.
+          //Not changing now as we don't have sufficient data to test.
           //let urlResponse = await this.browseByFileService.getOpenFileSignedUrl(exportFile.file_name);
  		  //@@@PDC-5770 get file using uuid
 		  console.log("Export file id 0928: "+exportFile.file_id);
@@ -1312,7 +1310,7 @@ getFilesDataObj(fileNameStr) {
     });
     //delete csvOptions.headers;
   }
-  
+
   //help function preparing a string containing the data for TSV manifest file (PDC-3265)
 	prepareTSVExportManifestData(manifestData, headers){
 		let result = "";
@@ -1378,7 +1376,7 @@ getFilesDataObj(fileNameStr) {
     this.cols = [
 	  {field: "pdc_study_id", header: "PDC Study ID"},
       { field: "submitter_id_name", header: "Study" },
-	  {field: "embargo_date", header: "Embargo Date"},
+      { field: "embargo_date", header: "Embargo Date"},
       { field: "file_name", header: "File Name" },
       { field: "study_run_metadata_submitter_id", header: "Run Metadata ID" },
       { field: "project_name", header: "Project" },
@@ -1413,7 +1411,7 @@ getFilesDataObj(fileNameStr) {
         if (controlFilesIndividualFileDownload) {
           //@@@PDC-1303: Add a download column and button for downloading individual files to the file tab
           localStorage.removeItem("controlFilesIndividualFileDownload");
-          this.exportControlledCSV(queryParams.code, null, true, true);         
+          this.exportControlledCSV(queryParams.code, null, true, true);
         } else {
           this.exportControlledCSV(queryParams.code, null, true);
         }
@@ -1458,20 +1456,20 @@ getFilesDataObj(fileNameStr) {
             let unfrozen_header_row: any = w.querySelectorAll('.ui-table-unfrozen-view .ui-table-thead');
             if (frozen_header_row[0].clientHeight > unfrozen_header_row[0].clientHeight) {
 						  unfrozen_header_row[0].style.height = frozen_header_row[0].clientHeight+"px";
-				    } 
+				    }
             else if (frozen_header_row[0].clientHeight < unfrozen_header_row[0].clientHeight) {
               frozen_header_row[0].style.height = unfrozen_header_row[0].clientHeight+"px";
-            }          
+            }
             for (let i = 0; i < frozen_rows.length; i++) {
               if (frozen_rows[i].clientHeight > unfrozen_rows[i].clientHeight) {
                 unfrozen_rows[i].style.height = frozen_rows[i].clientHeight+"px";
-              } 
+              }
               else if (frozen_rows[i].clientHeight < unfrozen_rows[i].clientHeight) {
                 frozen_rows[i].style.height = unfrozen_rows[i].clientHeight+"px";
               }
             }
             let frozen_header_div: any = w.querySelectorAll('.ui-table-unfrozen-view .ui-table-scrollable-header-box');
-            frozen_header_div[0].setAttribute('style', 'margin-right: 0px !important'); 
+            frozen_header_div[0].setAttribute('style', 'margin-right: 0px !important');
           }
         }
        });

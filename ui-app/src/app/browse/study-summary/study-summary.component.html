@@ -12,10 +12,10 @@
 		<mat-card style="background:#21b5f0;font-family: 'Lato';font-weight: 400;color:#ffffff;text-align: center;">
 			<mat-card-content>
 				<span style="font-size: 20px;">
-				<!--@@@PDC-5068 sync up case/aliquot counts with browse table-->
-					{{studySummaryData.cases_count}}
-				<!--@@@PDC-1427  sync up case/aliquot counts
-					{{totalRecordsClinical}}-->
+				<!--@@@PDC-5068 sync up case/aliquot counts with browse table
+					{{studySummaryData.cases_count}}-->
+				<!--@@@PDC-6357  case count w/o filter -->
+					{{totalRecordsClinical}}
 				</span><br>
 				Cases
 			</mat-card-content>
@@ -43,11 +43,13 @@
 					<!--@@@PDC-1358  add study uuid-->
 					<tr><td class="summary-card-name-left-cell">PDC Study Identifier</td>
 						<td class="summary-card-value-left-cell">{{pdcStudyID}}</td>
-						<td class="summary-card-name-right-cell" [matTooltip]="getTooltip(studySummaryData.embargo_date)" matTooltipClass="custom-tooltip" matTooltipPosition="above">Embargo Release Date</td>
+						<td class="summary-card-name-right-cell">Analytical Fraction</td>
+						<td class="summary-card-value-right-cell">{{studySummaryData.analytical_fraction}}</td>
+<!-- 						<td class="summary-card-name-right-cell" [matTooltip]="getTooltip(studySummaryData.embargo_date)" matTooltipClass="custom-tooltip" matTooltipPosition="above">Embargo Release Date</td>
 						<td class="summary-card-value-right-cell" [ngClass]="getStyleClass(studySummaryData.embargo_date)" [matTooltip]="getTooltip(studySummaryData.embargo_date)" matTooltipClass="custom-tooltip" matTooltipPosition="above">
 							<div *ngIf="studySummaryData.embargo_date != 'N/A'">{{studySummaryData.embargo_date | date :  "MMMM d, y"}}</div>
 							<div *ngIf="studySummaryData.embargo_date == 'N/A'">{{studySummaryData.embargo_date}}</div>
-						</td>
+						</td> -->
 					</tr>
 					<tr *ngIf="versionCheck()">
 						<td class="summary-card-name-left-cell">Version</td>
@@ -55,18 +57,16 @@
 					</tr>
 					<tr><td class="summary-card-name-left-cell">Study ID</td>
 						<td class="summary-card-value-left-cell">{{studySummaryData.study_id}}</td>
-						<td class="summary-card-name-right-cell">Analytical Fraction</td>
-						<td class="summary-card-value-right-cell">{{studySummaryData.analytical_fraction}}</td>
-					</tr>
-					<tr><td class="summary-card-name-left-cell">Study Name</td>
-						<td class="summary-card-value-left-cell">{{studySummaryData.submitter_id_name}}</td>
 						<td class="summary-card-name-right-cell">Disease Types</td>
 						<td class="summary-card-value-right-cell">{{studySummaryData.disease_type}}</td>
 					</tr>
-					<tr><td class="summary-card-name-left-cell">Experimental Strategy</td>
-						<td class="summary-card-value-left-cell">{{studySummaryData.experiment_type}}</td>
+					<tr><td class="summary-card-name-left-cell">Study Name</td>
+						<td class="summary-card-value-left-cell">{{studySummaryData.submitter_id_name}}</td>
 						<td class="summary-card-name-right-cell">Project ID</td>
 						<td class="summary-card-value-right-cell">{{studySummaryData.project_name}}</td>
+					</tr>
+					<tr><td class="summary-card-name-left-cell">Experimental Strategy</td>
+						<td class="summary-card-value-left-cell">{{studySummaryData.experiment_type}}</td>
 					</tr>
 					</tbody>
 				</table>
@@ -533,9 +533,9 @@
 				<p>Under the following terms:</p>
 				<p>&nbsp;&nbsp;&nbsp;&nbsp;Attribution — You must give <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">appropriate credit</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">Exit Disclaimer</span></a>, provide a link to the license, and <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">indicate if changes were made</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">Exit Disclaimer</span></a>. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.</p>
 				<p>&nbsp;&nbsp;&nbsp;&nbsp;No additional restrictions — You may not apply legal terms or <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">technological measures</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">Exit Disclaimer</span></a> that legally restrict others from doing anything the license permits.</p>
-				<br/>
+<!-- 				<br/>
 				<p><span style="color:#333333;"><strong>Note: </strong></span></p>
-				<p>PDC may impose an embargo on certain datasets at the request of data submitters. In PDC, an <b>embargo</b> is the release of data on the PDC portal with the condition that users who access these datasets from the PDC portal cannot published or disseminated before a certain <b>date</b>. The embargo date is displayed on the study summary page of each dataset as applicable.</p>
+				<p>PDC may impose an embargo on certain datasets at the request of data submitters. In PDC, an <b>embargo</b> is the release of data on the PDC portal with the condition that users who access these datasets from the PDC portal cannot published or disseminated before a certain <b>date</b>. The embargo date is displayed on the study summary page of each dataset as applicable.</p> -->
 			</div>
 		</mat-tab>
 	</mat-tab-group>

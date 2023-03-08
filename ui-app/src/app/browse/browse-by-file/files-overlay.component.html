@@ -70,11 +70,12 @@
 						</div>
 					</div>
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding-right: 0px;">
-							<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="color:#de350b; padding-left: 0!important;">
+<!-- 							<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="color:#de350b; padding-left: 0!important;">
 								Some data are under an <a href="/pdc/faq#Embargo_Date" target="_" style="color:#de350b !important;">EMBARGO</a> for publication and/or citation.
 								For more details, visit the summary page for the study of interest.
 							</div>
-							<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+							<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div> -->
+							<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9"></div>
 							<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 faqLink" style="text-align: right;">
 								<a href="/pdc/faq/Multiple_Files" target="_blank" style="font-size: 13px;">More ways to download&nbsp;<mat-icon matTooltip="More ways to download" class="help-icon" style="font-size: 14px !important;height: 0px !important;vertical-align: sub;">help</mat-icon></a>
 							</div>
@@ -109,10 +110,10 @@
 								href="/pdc/data-dictionary/Study" target="_blank" style="color:white">Study</a>
 							<p-sortIcon [field]="cols[1].field" ariaLabel="Sort Study column in ascending/descending order"></p-sortIcon>
 						</th>
-						<th *ngIf="publicationsFiles.length === 0" class="ui-datatable-tableheader" [pSortableColumn]="cols[2].field"><a
+<!-- 						<th *ngIf="publicationsFiles.length === 0" class="ui-datatable-tableheader" [pSortableColumn]="cols[2].field"><a
 								href="/pdc/faq#Embargo_Date" target="_blank" style="color:white">Embargo Date</a>
 							<p-sortIcon [field]="cols[2].field" ariaLabel="Sort embargo date column in ascending/descending order"></p-sortIcon>
-						</th>
+						</th> -->
 						<th class="ui-datatable-tableheader" [pSortableColumn]="cols[3].field"><a
 								href="/pdc/data-dictionary/File#file_name" target="_blank" style="color:white">File
 								Name</a>
@@ -177,10 +178,10 @@
 				<ng-template pTemplate="body" let-fileData let-rowIndex="rowIndex">
 					<tr [pSelectableRow]="fileData">
 						<td *ngIf="publicationsFiles.length === 0" style="word-wrap: break-word; white-space: normal;">{{fileData.submitter_id_name }}</td>
-						<td *ngIf="publicationsFiles.length === 0" [ngClass]="getStyleClass(fileData.embargo_date)" style="word-wrap: break-word; white-space: normal;">
+<!-- 						<td *ngIf="publicationsFiles.length === 0" [ngClass]="getStyleClass(fileData.embargo_date)" style="word-wrap: break-word; white-space: normal;">
 							<div *ngIf="fileData.embargo_date == '' || fileData.embargo_date == null">N/A</div>
 							{{fileData.embargo_date }}
-						</td>
+						</td> -->
 						<td style="word-wrap: break-word; white-space: normal;">{{fileData.file_name}}</td>
 						<td *ngIf="publicationsFiles.length === 0" style="word-wrap: break-word; white-space: normal;">{{fileData.study_run_metadata_submitter_id}}</td>
 						<td style="word-wrap: break-word; white-space: normal;">{{fileData.project_name}}</td>

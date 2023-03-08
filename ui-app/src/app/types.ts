@@ -974,6 +974,7 @@ export type GitHubTagResponse = {
 export type ChorusUserUpdateResponse = {
   error: boolean;
   data: ChorusUser[];
+  chorusKey: string;
 };
 
 export type ChorusUser = {

@@ -133,8 +133,11 @@ export class GenePageComponent implements OnInit, OnChanges {
   getGeneSummaryData(){
 	  this.loadingGeneSummary = true;
     //@@@PDC-1123 call ui wrapper API
+	//@@@PDC-6288 gene name is case sensitive
+	console.log("Orginal Gene: "+this.gene_id);
 	  setTimeout(() => {
-		  this.genePageService.getGeneDetails(this.gene_id.toUpperCase()).subscribe((data: any) =>{
+		  //this.genePageService.getGeneDetails(this.gene_id.toUpperCase()).subscribe((data: any) =>{
+		  this.genePageService.getGeneDetails(this.gene_id).subscribe((data: any) =>{
 			this.geneSummaryData = data.uiGeneSpectralCount;
 			this.loadingGeneSummary = false;
 		  });

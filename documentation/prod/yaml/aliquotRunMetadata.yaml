@@ -48,6 +48,10 @@ properties:
         description: General strategy used for differential analysis
         required: 'False'
         type: String
+    folder_name:
+        description: 'Name used to group the files generated in single experimental run'
+        required: 'False'
+        type: String
     fraction:
         description: Number of fractions in the experimental run
         required: 'False'

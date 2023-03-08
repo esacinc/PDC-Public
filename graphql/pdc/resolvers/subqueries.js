@@ -482,12 +482,14 @@ export const resolvers = {
 			var spQuery = "";
 			if (typeof context.arguments.dataset_alias != 'undefined'){
 				//@@@PDC-2638 enhance aliquotSpectralCount
+				//@@@PDC-6285 force case insenetive on gene_name
 				spQuery = "SELECT bin_to_uuid(s.project_id) as project_id, s.project_submitter_id, bin_to_uuid(s.study_id) as study_id, s.study_submitter_id, pdc_study_id, dataset_alias as plex, spectral_count, distinct_peptide, unshared_peptide from spectral_count sp left join study s on sp.study_id = s.study_id where dataset_alias like '%"+context.arguments.dataset_alias+"%' and gene_name = '"+
-				obj.gene_name+"'";
+				obj.gene_name+"' COLLATE utf8mb4_general_ci";
 
 			}
 			else {
-				spQuery = "SELECT bin_to_uuid(s.project_id) as project_id, s.project_submitter_id, bin_to_uuid(s.study_id) as study_id, s.study_submitter_id, pdc_study_id, dataset_alias as plex, spectral_count, distinct_peptide, unshared_peptide from spectral_count sp left join study s on sp.study_id = s.study_id where plex_name = 'All' and gene_name = '"+obj.gene_name+"'";
+				spQuery = "SELECT bin_to_uuid(s.project_id) as project_id, s.project_submitter_id, bin_to_uuid(s.study_id) as study_id, s.study_submitter_id, pdc_study_id, dataset_alias as plex, spectral_count, distinct_peptide, unshared_peptide from spectral_count sp left join study s on sp.study_id = s.study_id where plex_name = 'All' and gene_name = '"+
+				obj.gene_name+"'  COLLATE utf8mb4_general_ci";
 
 			}
 			return db.getSequelize().query(spQuery, { model: db.getModelByName('Spectral') });

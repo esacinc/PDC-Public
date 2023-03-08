@@ -2315,5 +2315,4 @@ type: object
 uniqueKeys:
 - follow_up_id
 - follow_up_submitter_id
-- study_id
 validators: null

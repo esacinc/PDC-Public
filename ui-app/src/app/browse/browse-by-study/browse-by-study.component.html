@@ -66,7 +66,7 @@
         <ng-template pTemplate="header" let-columns>
             <tr>
 				<th rowspan=3 class="ui-datatable-tableheader" [pSortableColumn]="cols[3].field"><a href="/pdc/data-dictionary/Study" target="_blank" style="color:white">Study</a><p-sortIcon [field]="cols[3].field" ariaLabel="Sort Study in ascending/descending order"></p-sortIcon></th>
-				<th rowspan=3 class="ui-datatable-tableheader" [pSortableColumn]="cols[4].field"><a href="/pdc/faq#Embargo_Date" target="_blank" style="color:white">Embargo Date</a><p-sortIcon [field]="cols[4].field" ariaLabel="Sort Embargo Date in ascending/descending order"></p-sortIcon></th>
+				<!-- <th rowspan=3 class="ui-datatable-tableheader" [pSortableColumn]="cols[4].field"><a href="/pdc/faq#Embargo_Date" target="_blank" style="color:white">Embargo Date</a><p-sortIcon [field]="cols[4].field" ariaLabel="Sort Embargo Date in ascending/descending order"></p-sortIcon></th> -->
 				<th rowspan=3 class="ui-datatable-tableheader" [pSortableColumn]="cols[5].field"><a href="/pdc/data-dictionary/Project" target="_blank" style="color:white">Project</a><p-sortIcon [field]="cols[5].field" ariaLabel="Sort Project in ascending/descending order"></p-sortIcon></th>
 				<th rowspan=3 class="ui-datatable-tableheader" [pSortableColumn]="cols[6].field"><a href="/pdc/data-dictionary/Program" target="_blank" style="color:white">Program</a><p-sortIcon [field]="cols[6].field" ariaLabel="Sort Program in ascending/descending order"></p-sortIcon></th>
 				<th rowspan=3 class="ui-datatable-tableheader" [pSortableColumn]="cols[7].field">
@@ -147,9 +147,9 @@
         <ng-template pTemplate="body" let-studyData let-columns="columns">
             <tr style="font-size: 11px"[pSelectableRow]="studyData">
 			  <td id="{{studyData.submitter_id_name}}" style="word-wrap: break-word; white-space: normal;"><a href="javascript:void(0);" (click)="showStudySummary(studyData.study_submitter_id)">{{studyData.submitter_id_name}}</a></td>
-			  <td [ngClass]="getStyleClass(studyData.embargo_date)" style="word-wrap: break-word; white-space: normal;" [matTooltip]="getTooltip(studyData.embargo_date)" matTooltipClass="custom-tooltip" matTooltipPosition="right" >
+<!-- 			  <td [ngClass]="getStyleClass(studyData.embargo_date)" style="word-wrap: break-word; white-space: normal;" [matTooltip]="getTooltip(studyData.embargo_date)" matTooltipClass="custom-tooltip" matTooltipPosition="right" >
 					<div *ngIf="studyData.embargo_date == '' || studyData.embargo_date == null">N/A</div>
-					{{studyData.embargo_date}}</td>
+					{{studyData.embargo_date}}</td> -->
               <td style="word-wrap: break-word; white-space: normal;">{{studyData.project_name}}</td>
               <td style="word-wrap: break-word; white-space: normal;">{{studyData.program_name}}</td>
               <td style="word-wrap: break-word; white-space: normal;">{{studyData.disease_type}}</td>

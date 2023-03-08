@@ -94,6 +94,7 @@ properties:
     - Nerve Sheath Tumors
     - Neuroepitheliomatous Neoplasms
     - Nevi and Melanomas
+    - Non-Clear Cell Renal Cell Carcinoma
     - Odontogenic Tumors
     - Osseous and Chondromatous Neoplasms
     - Other Hematologic Disorders
@@ -371,4 +372,3 @@ type: object
 uniqueKeys:
 - - case_id
   - case_submitter_id
-  - study_id

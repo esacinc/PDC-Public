@@ -17,6 +17,14 @@ links:
     name: Study Run Metadata
     required: 'True'
 properties:
+    aliquot_id:
+        description: Aliquot Identifier
+        required: 'False'
+        type: String
+    aliquot_submitter_id:
+        description: Aliquot Submitter ID
+        required: 'False'
+        type: String
     gene_abundance_id:
         key: 'yes'
         required: 'False'
@@ -54,4 +62,4 @@ properties:
 title: Gene Abundance
 type: object
 uniqueKeys:
--   - spectral_count_id
+-   - gene_abundance_id

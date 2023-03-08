@@ -44,7 +44,7 @@ import {environment} from '../../../environments/environment';
 //@@@PDC-3788 fix issues found with Files overlay in legacy data page
 //@@@PDC-3928 No links to download files in Export File Manifest for Version 1 Studies
 export class FilesOverlayComponent implements OnInit {
-	
+
 	filteredFilesData: AllFilesData[]; //Filtered list of cases
   loading: boolean = false; //Flag indicates that the data is still being loaded from server
   filterChangedFlag: boolean = true; //Flag indicates that filter selection was changed
@@ -63,7 +63,7 @@ export class FilesOverlayComponent implements OnInit {
   @Output() fileTotalRecordChanged: EventEmitter<any> = new EventEmitter<any>();
   fenceRequest:boolean = false;
   //keep a full list of filter category
-  // Array which holds filter names. Must be updated when new filters are added to browse page. 
+  // Array which holds filter names. Must be updated when new filters are added to browse page.
   allFilterCategory: string[] = ["project_name","primary_site","program_name","disease_type","analytical_fraction","experiment_type","acquisition_type","study_name","submitter_id_name","sample_type","ethnicity","race","gender","tumor_grade","data_category","file_type","access","downloadable","studyName_genes_tab", "biospecimen_status", "case_status"];
 
   notDownloadable: string = 'not available for download';
@@ -95,12 +95,12 @@ export class FilesOverlayComponent implements OnInit {
   //@@@PDC-1303: Add a download column and button for downloading individual files to the file tab
   individualFileData: AllFilesData[] = [];
   manifestFormat = "csv";
-  
+
   studyVersion: string = "";
   allStudiesVersions: any[] = [];
   study_names_param = [];
   origin_study_id: string = "";
-  
+
   publicationsFiles = [];
   isLegacyData = false;
   frozenCols = [];
@@ -109,10 +109,10 @@ export class FilesOverlayComponent implements OnInit {
 				private browseByFileService: BrowseByFileService, private loc:Location,
 				private dialogRef: MatDialogRef<FilesOverlayComponent>, private sizeUnitsPipe: SizeUnitsPipe,
 				@Inject(MAT_DIALOG_DATA) public studyData: any, private dialog: MatDialog,  private userService: PDCUserService) {
-	     console.log(studyData);				
+	     console.log(studyData);
 		 let study_names = studyData.summaryData.study_name.split('|').join(';')
 		 this.study_names_param = studyData.summaryData.study_name.split('|');
-		// Array which holds filter names. Must be updated when new filters are added to browse page. 
+		// Array which holds filter names. Must be updated when new filters are added to browse page.
 		this.newFilterSelected = {
 		  program_name: "",
 		  project_name: "",
@@ -133,7 +133,7 @@ export class FilesOverlayComponent implements OnInit {
 		  access: "",
 		  downloadable: "",
 		  studyName_genes_tab: "",
-		  biospecimen_status: "", 
+		  biospecimen_status: "",
 		  case_status: "",
 		};
 		this.offset = 0; //Initialize values for pagination
@@ -176,7 +176,7 @@ export class FilesOverlayComponent implements OnInit {
 		this.sort = "";
 		FilesOverlayComponent.urlBase = environment.dictionary_base_url;
 	}
-	
+
 	onTableHeaderCheckboxToggle() {
 		let emptyArray = [];
 		let localSelectedFiles = emptyArray.concat(this.selectedFiles);
@@ -187,7 +187,7 @@ export class FilesOverlayComponent implements OnInit {
 			if(this.currentPageSelectedFile.indexOf(file.file_id + "-" + file.pdc_study_id) === -1){
 				localSelectedFiles.push(file);
 				this.currentPageSelectedFile.push(file.file_id + "-" + file.pdc_study_id);
-			} 
+			}
 		  }
 		  this.selectedFiles = localSelectedFiles;
 		} else {
@@ -198,7 +198,7 @@ export class FilesOverlayComponent implements OnInit {
 			  localSelectedFiles.splice(index,1);
 			}
 		  }
-		  this.selectedFiles = localSelectedFiles; 
+		  this.selectedFiles = localSelectedFiles;
 		  this.currentPageSelectedFile = [];
 		  this.pageHeaderCheckBoxTrack = [];
 		  this.selectedHeaderCheckbox = '';
@@ -228,14 +228,14 @@ export class FilesOverlayComponent implements OnInit {
     let checkboxVal = this.selectedHeaderCheckbox;
     //this.selectedFiles = this.currentPageSelectedFile = []; // no need to reinitialize all selected files.
     switch (checkboxVal) {
-      case 'Select all pages': 
+      case 'Select all pages':
             this.fileExportCompleteManifest();
             break;
-      case 'Select this page': 
+      case 'Select this page':
             this.headercheckbox = true;
             this.onTableHeaderCheckboxToggle();
             break;
-      case 'Select None': 
+      case 'Select None':
             this.clearSelection();
             break;
     }
@@ -265,7 +265,7 @@ export class FilesOverlayComponent implements OnInit {
 		  this.filteredFilesData = uniqueFiles;
 	 // }
   }
-	
+
 	getAllFilesData() {
 		this.loading = true;
 		if (this.publicationsFiles.length > 0) {
@@ -332,8 +332,8 @@ export class FilesOverlayComponent implements OnInit {
 			}
 		}, 1000);
   }
-  
-  
+
+
   //@@@PDC-497 (onLazyLoad)="loadFiles($event)" will be invoked when sort event fires
   loadFiles(event: any) {
     if(this.headercheckbox && this.pageHeaderCheckBoxTrack.indexOf(this.offset) === -1){
@@ -353,7 +353,7 @@ export class FilesOverlayComponent implements OnInit {
     this.offset = event.first;
     this.limit = event.rows;
     this.loading = true;
-	//@@@PDC-4017 
+	//@@@PDC-4017
 	this.selectedHeaderCheckbox = ''; //reinitialize selected checkbox, so that a new page could be selected as well
 	if (this.publicationsFiles.length > 0) {
 				  this.limit = 100;
@@ -488,7 +488,7 @@ export class FilesOverlayComponent implements OnInit {
       this.downloadWholeManifestFlag.emit({downloadAllManifest:this.totalRecords, format: exportFormat});
     }, 10);
   }
-  
+
   displayLoading(decisionFlag, loadFlagName, loadFlag){
     if (!decisionFlag) {
       this.loading = loadFlag;
@@ -533,7 +533,7 @@ export class FilesOverlayComponent implements OnInit {
 				this.updateCurrentPageSelectedFiles(this.selectedFiles);
 			  }
         this.makeRowsSameHeight();
-			  this.displayLoading(buttonClick, "file", false); 
+			  this.displayLoading(buttonClick, "file", false);
 			});
 		 } else {
 			this.browseByFileService
@@ -555,9 +555,9 @@ export class FilesOverlayComponent implements OnInit {
 				//this.updateCurrentPageSelectedFiles(this.selectedFiles);
 			  }
         this.makeRowsSameHeight();
-			  this.displayLoading(buttonClick, "file", false); 
+			  this.displayLoading(buttonClick, "file", false);
 			});
-		 }			
+		 }
       }, 1000);
     }
   }
@@ -579,7 +579,7 @@ export class FilesOverlayComponent implements OnInit {
         hasBackdrop: true,
         data: { message: "Data volume for Files data is high. Please select files < 10000 to download." }
       });
-    }, 10); 
+    }, 10);
   }
 
   //@@@PDC-1303: Add a download column and button for downloading individual files to the file tab
@@ -629,7 +629,7 @@ export class FilesOverlayComponent implements OnInit {
 					} else {
 						this.displayMessageForNotDownloadable();
 					}
-					
+
 					if (downloadLink) {
 						//If the download file link is available, open the download link and start file download.
 						if (this.checkFilenameExtentions(file.file_name)) {
@@ -643,12 +643,12 @@ export class FilesOverlayComponent implements OnInit {
 			}
         } else{
           this.displayMessageForNotDownloadable();
-        }  
+        }
       }
     }
   }
-  
-  //@@@PDC-3871 Some files open on the same browser page 
+
+  //@@@PDC-3871 Some files open on the same browser page
   //This helper function will check file extention and return true if extension is a document that usually opens in the browser
   // the function will return false if the file type is usually automatically downloaded by the browsers
   private checkFilenameExtentions (filename: string): boolean{
@@ -676,7 +676,7 @@ export class FilesOverlayComponent implements OnInit {
   //@@@PDC-784 Improve download controlled files feature
   //@@@PDC-801 For files that are marked downloadable call API to get signed URL and include in manifest
   //@@@PDC-869 if controlled file is not downloadable, it will not ask user to login eRA and authorize
-  //@@@PDC-3206 fix ddownload manifest even if there are zero records  
+  //@@@PDC-3206 fix ddownload manifest even if there are zero records
   async fileTableExportCSV(iscompleteFileDownload:boolean = false, individualFileDownload:boolean = false, exportFormat = "csv") {
     let dataForExport;
     if (iscompleteFileDownload) {
@@ -697,14 +697,14 @@ export class FilesOverlayComponent implements OnInit {
     //login as eRA/NIH
     if (this.userService.isUserLoggedIn() && this.userService.getUID().length > 0) {
       confirmationMessage = `
-			You are trying to generate a file manifest that includes controlled data files. 
-			This will require you to authorize DCF to access your NIH profile. 
+			You are trying to generate a file manifest that includes controlled data files.
+			This will require you to authorize DCF to access your NIH profile.
       Do you want to continue?`;
       eRALogIn = "loginNotRequired";
     } else {
       confirmationMessage = `
-			You are trying to generate a file manifest that includes controlled data files. 
-			This will require you to log in through eRA and authorize DCF to access your NIH profile. 
+			You are trying to generate a file manifest that includes controlled data files.
+			This will require you to log in through eRA and authorize DCF to access your NIH profile.
 			Do you want to continue?`;
       eRALogIn = "loginRequired";
     }
@@ -729,7 +729,7 @@ export class FilesOverlayComponent implements OnInit {
 		  file["pdc_study_version"] = this.allStudiesVersions[file["submitter_id_name"]];
 	  }
     }
-	
+
     if (controlledFileFlag) {
       localStorage.setItem(
         "controlledFileTableExportCsv",
@@ -789,12 +789,13 @@ export class FilesOverlayComponent implements OnInit {
               }
             }
           }
-        }); 
+        });
       }
     } else {
       this.displayLoading(iscompleteFileDownload, "file1", true);
-      //retrieve open file link 
+      //retrieve open file link
       //@@@PDC-1789: Add study_submitter_id and study_id to exported study manifests
+      //@@PDC-6308 - remove embargo date tech advancement studies manifest 
       let csvOptions = {
         headers: [
           "File ID",
@@ -804,7 +805,6 @@ export class FilesOverlayComponent implements OnInit {
           "PDC Study ID",
 		  "PDC Study Version",
           "Study ID",
-		  "Embargo Date",
           "Project Name",
           "Data Category",
           "File Type",
@@ -824,7 +824,6 @@ export class FilesOverlayComponent implements OnInit {
         "pdc_study_id",
 		"pdc_study_version",
         "study_id",
-		"embargo_date",
         "project_name",
         "data_category",
         "file_type",
@@ -889,7 +888,7 @@ export class FilesOverlayComponent implements OnInit {
 				  }
 				}
 			  });
-		  }			  
+		  }
           loop++;
         }
       } else {
@@ -960,7 +959,7 @@ export class FilesOverlayComponent implements OnInit {
   }
 	console.log(exportFileObject);
   }
-  
+
   //@@@PDC-3937 Use new APIs for downloading legacy studies' files
   setLegacyFileExportObject(fileData, exportFileObject) {
     for (var fileItem of fileData.uiLegacyFilesPerStudy) {
@@ -986,7 +985,7 @@ export class FilesOverlayComponent implements OnInit {
 	}
 	console.log(exportFileObject);
   }
-  
+
   //@@@PDC-1765 add download prompt
   setDownloadBatch() {
 	let dataForExport =  this.selectedFiles;
@@ -1006,7 +1005,7 @@ export class FilesOverlayComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe(result => {
           if (!result) {
-          } 
+          }
 		  else {
 			console.log("Let's download.");
 			this.downloadBatch();
@@ -1023,7 +1022,7 @@ export class FilesOverlayComponent implements OnInit {
 		  });
 	}
   }
-  
+
   async downloadBatch() {
     let dataForExport =  this.selectedFiles;
     let urls: string = "";
@@ -1057,11 +1056,11 @@ export class FilesOverlayComponent implements OnInit {
             let fileNameStr =  tempArray.join(";");
             //@@@PDC-3937 Use new APIs for downloading legacy studies' files
             this.getLegacyFilesDataObj(fileNameStr);
-        } 
+        }
       } else {
         let fileNameStr = fileNameList.join(";")
         this.getLegacyFilesDataObj(fileNameStr);
-      }       
+      }
       }
     }
   }
@@ -1084,7 +1083,7 @@ export class FilesOverlayComponent implements OnInit {
 
   //@@@PDC-4781: Use filesPerStudy API to return signed urls for multiple files
   getFilesDataObj(fileNameStr) {
-    this.browseByFileService.getFilesData(fileNameStr, "").pipe(take(1)).subscribe((fileData: any) => { 
+    this.browseByFileService.getFilesData(fileNameStr, "").pipe(take(1)).subscribe((fileData: any) => {
       for (var fileItem of fileData.uiFilesPerStudy) {
         if (fileItem.signedUrl) {
           let confirmationMessage = 'Finished downloading: '+ fileItem.file_name;
@@ -1108,9 +1107,9 @@ export class FilesOverlayComponent implements OnInit {
 		return window.open(url, "_blank");
 	  } else {
 		return window.open(url, "_self");
-	  }  
+	  }
   }
-  
+
   sleep(milliseconds) {
 	  const date = Date.now();
 	  let currentDate = null;
@@ -1122,7 +1121,7 @@ export class FilesOverlayComponent implements OnInit {
   private getOpenFileSignedUrl(openFileSignUrlMap){
     let fileIdList : string[] = Object.keys(openFileSignUrlMap);
   }
-  
+
   //Help function that returns true if parameter date is in the future, otherwise false
 	private isDateLater(embargo_date: string):boolean{
 		var now = new Date;
@@ -1133,7 +1132,7 @@ export class FilesOverlayComponent implements OnInit {
 			return false;
 		}
 	}
-  
+
 	//If the date is in the future the value should be bold and in italics
 	getStyleClass(embargo_date: string){
 		if (this.isDateLater(embargo_date) )
@@ -1278,8 +1277,8 @@ export class FilesOverlayComponent implements OnInit {
         exportFile["case_submitter_id"] = "";
         if(exportFile.downloadable.toLowerCase() === 'yes'){
           //@@@PDC-1940: File manifest download is very slow
-          //This code should be changed to use 'getFilesData' API which accepts upto 1000 file names per request. 
-          //Not changing now as we don't have sufficient data to test. 
+          //This code should be changed to use 'getFilesData' API which accepts upto 1000 file names per request.
+          //Not changing now as we don't have sufficient data to test.
           //let urlResponse = await this.browseByFileService.getOpenFileSignedUrl(exportFile.file_name);
 		  //@@@PDC-5770 get file using uuid
 		  console.log("Export file id 0929: "+exportFile.file_id);
@@ -1376,7 +1375,7 @@ export class FilesOverlayComponent implements OnInit {
     });
     //delete csvOptions.headers;
   }
-  
+
   //help function preparing a string containing the data for TSV manifest file (PDC-3265)
 	prepareTSVExportManifestData(manifestData, headers){
 		let result = "";
@@ -1436,7 +1435,7 @@ export class FilesOverlayComponent implements OnInit {
       return null;
     }
   }
-	
+
 	ngOnInit() {// Have to define this structure for Primeng CSV export to work properly
     this.cols = [
 	  {field: "pdc_study_id", header: "PDC Study ID"},
@@ -1476,7 +1475,7 @@ export class FilesOverlayComponent implements OnInit {
         if (controlFilesIndividualFileDownload) {
           //@@@PDC-1303: Add a download column and button for downloading individual files to the file tab
           localStorage.removeItem("controlFilesIndividualFileDownload");
-          this.exportControlledCSV(queryParams.code, null, true, true);         
+          this.exportControlledCSV(queryParams.code, null, true, true);
         } else {
           this.exportControlledCSV(queryParams.code, null, true);
         }
@@ -1503,7 +1502,7 @@ export class FilesOverlayComponent implements OnInit {
       this.currentPageSelectedFile.push(item.file_id + "-" + item.pdc_study_id);
     }});
   }
-	
+
 	close() {
 	//this.router.navigate([{outlets: {'studySummary': null}}], { replaceUrl: true });
 	//this.loc.replaceState(this.router.url);
@@ -1516,7 +1515,7 @@ export class FilesOverlayComponent implements OnInit {
 	//					'StudyName': study_name,
 	//			}
 	//		};
-	//	  this.router.navigate([]).then( result => { var url= "/pdc/analysis/" + this.pdcStudyID + "?StudyName=" + study_name; 
+	//	  this.router.navigate([]).then( result => { var url= "/pdc/analysis/" + this.pdcStudyID + "?StudyName=" + study_name;
 	//																   window.open(url, '_blank'); });
 	//  }
 		this.router.navigate([{outlets: {filesOverlay : null}}], { replaceUrl: true });
@@ -1540,20 +1539,20 @@ makeRowsSameHeight() {
           let unfrozen_header_row: any = w.querySelectorAll('.ui-table-unfrozen-view .ui-table-thead');
           if (frozen_header_row[0].clientHeight > unfrozen_header_row[0].clientHeight) {
             unfrozen_header_row[0].style.height = frozen_header_row[0].clientHeight+"px";
-          } 
+          }
           else if (frozen_header_row[0].clientHeight < unfrozen_header_row[0].clientHeight) {
             frozen_header_row[0].style.height = unfrozen_header_row[0].clientHeight+"px";
-          }          
+          }
           for (let i = 0; i < frozen_rows.length; i++) {
             if (frozen_rows[i].clientHeight > unfrozen_rows[i].clientHeight) {
               unfrozen_rows[i].style.height = frozen_rows[i].clientHeight+"px";
-            } 
+            }
             else if (frozen_rows[i].clientHeight < unfrozen_rows[i].clientHeight) {
               frozen_rows[i].style.height = unfrozen_rows[i].clientHeight+"px";
             }
           }
           let frozen_header_div: any = w.querySelectorAll('.ui-table-unfrozen-view .ui-table-scrollable-header-box');
-          frozen_header_div[0].setAttribute('style', 'margin-right: 0px !important'); 
+          frozen_header_div[0].setAttribute('style', 'margin-right: 0px !important');
         }
       }
      });

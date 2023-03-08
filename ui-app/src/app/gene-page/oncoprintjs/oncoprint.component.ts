@@ -74,6 +74,7 @@ export class OncoprintComponent implements OnInit, OnChanges {
 	  //reinitialize array that holds the data
 	  this.dataForViz = [];
 	  this.dataByStudy = [];
+	  console.log("Gene name used to get aliquot: "+this.gene_id);
 	  this.genePageService.getAliquotSpectralCount(this.gene_id, 0, 10000, "", this.newFilterSelected).subscribe((data: any) =>{
 			this.aliquotSpectralCountsList = data.getPaginatedUIGeneAliquotSpectralCountFiltered.uiGeneAliquotSpectralCounts;
 			console.log(this.aliquotSpectralCountsList);

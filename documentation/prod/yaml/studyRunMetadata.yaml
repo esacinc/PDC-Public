@@ -21,7 +21,7 @@ properties:
     date:
         description: Date of the data acquired from the mass spectrometry instrument
         required: 'False'
-        type: String
+        type: Date
     experiment_number:
         description: Number associated with a specific run of the experiment
         required: 'False'
@@ -94,7 +94,7 @@ properties:
     replicate_number:
         description: Replicate number, if applicable
         required: 'False'
-        type: String
+        type: Integer
     study_id:
         key: 'yes'
         required: 'False'

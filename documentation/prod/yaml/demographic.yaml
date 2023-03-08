@@ -462,4 +462,3 @@ type: object
 uniqueKeys:
 - - demographic_id
   - demographic_submitter_id
-  - study_id

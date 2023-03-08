@@ -263,5 +263,4 @@ type: object
 uniqueKeys:
 - family_history_id
 - family_history_submitter_id
-- study_id
 validators: null

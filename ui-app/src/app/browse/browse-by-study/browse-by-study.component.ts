@@ -42,9 +42,9 @@ import * as _ from 'lodash';
 //@@@PDC-937: Add a button to allow download all manifests with a single click
 //@@@PDC-1063: Implement select all, select page, select none for all tabs
 //@@@PDC-1252: Add data category as a filter for the "file counts" section of the Study table
-//@@@PDC-1609: URL structure for permanent links to PDC 
+//@@@PDC-1609: URL structure for permanent links to PDC
 //@@@PDC-1851: Quality Metrics with TSV file format are not considered in files count
-//@@@PDC-1902: Peptide Spectral Matches with Text file format are not considered in files count 
+//@@@PDC-1902: Peptide Spectral Matches with Text file format are not considered in files count
 //@@@PDC-2460: Add new data category/file type: Alternate Processing Pipeline/Archive
 //@@@PDC-2584: Add Embargo date to the study table on Browse page
 export class BrowseByStudyComponent implements OnInit, OnChanges {
@@ -72,7 +72,7 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
   //keep a full list of filter category
   // Array which holds filter names. Must be updated when new filters are added to browse page.
   allFilterCategory: string[] = ["project_name","primary_site","program_name","disease_type","analytical_fraction","experiment_type","acquisition_type","study_name","submitter_id_name","sample_type","ethnicity","race","gender","tumor_grade","data_category","file_type","access","downloadable","studyName_genes_tab", "biospecimen_status", "case_status"];
-	
+
 	//@@@PDC-848 Fix headercheckbox issue for data tables on browse page
 	headercheckbox:boolean = false;
   currentPageSelectedStudy = [];
@@ -90,13 +90,13 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 	manifestFormat = "csv";
 	frozenColumns = [];
 	@Input() childTabChanged: string;
-	
+
   constructor(private apollo: Apollo,
 				private router: Router,
 				private browseByStudyService : BrowseByStudyService,
 				private filterService: BrowseFiltersService,
 				private dialog: MatDialog,
-				private activatedRoute:ActivatedRoute) { 
+				private activatedRoute:ActivatedRoute) {
 	// Array which holds filter names. Must be updated when new filters are added to browse page.
 	this.newFilterSelected = {"program_name" : "", "project_name": "", "study_name": "", "studyName_genes_tab": "", "submitter_id_name": "", "disease_type":"", "primary_site":"", "analytical_fraction":"", "experiment_type":"",
 								"ethnicity": "", "race": "", "gender": "", "tumor_grade": "", "sample_type": "", "acquisition_type": "", "data_category": "", "file_type": "", "access": "", "downloadable": "", "biospecimen_status": "", "case_status": ""};
@@ -108,11 +108,11 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 	this.sort = "";
 	BrowseByStudyComponent.urlBase = environment.dictionary_base_url;
   }
-  
+
   get staticUrlBase() {
     return BrowseByStudyComponent.urlBase;
   }
-  
+
   showStudySummary(study_id: string){
 	const dialogConfig = new MatDialogConfig();
 
@@ -133,11 +133,11 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 		console.log("Dialog output:", val);
 		//@@@PDC-4806: Alignment issue in some resolutions
 		//When a user clicks on study name/study id in the Study table, the rows get misasligned.
-		//Solution: Scroll the study name/id into viewport 
+		//Solution: Scroll the study name/id into viewport
 		document.getElementById(study_id).scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
-	});	
+	});
   }
-  
+
   findStudyByID(study_id: string) {
 	  for (let idx = 0; idx < this.filteredStudiesData.length; idx++ ){
 		  if (this.filteredStudiesData[idx].study_submitter_id === study_id) {
@@ -146,7 +146,7 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 	  }
 	  return -1;
   }
-  
+
   /*API call to get all cases data */
   getAllStudiesData(){
 	  this.loading = true;
@@ -172,7 +172,7 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 		  });
 	  }, 1000);
 	}
-	
+
 	//@@@PDC-937: Add a button to allow download all manifests with a single click
 	//PDC-3073: Add TSV format to manifests
 	downloadAllManifest(exportFormat = "csv") {
@@ -183,7 +183,7 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 
   //@@@PDC-764: Update UI as per the changes in PDC-763
   //@@@PDC-1851: Quality Metrics with TSV file format are not considered in files count
-  //@@@PDC-1902: Peptide Spectral Matches with Text file format are not considered in files count 
+  //@@@PDC-1902: Peptide Spectral Matches with Text file format are not considered in files count
   //This function is used to set file counts.
   setFileCountsForDisplay(studyData=[]) {
 	if (studyData && studyData.length == 0) {
@@ -200,11 +200,11 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 					var currentFileType = this.fileTypes[j].file_type;
 					var currentDataCategory = this.fileTypes[j].data_category;
 					var currentFileCount = this.fileTypes[j].files_count;
-					switch(currentDataCategory) { 
-						case 'Raw Mass Spectra' : 
+					switch(currentDataCategory) {
+						case 'Raw Mass Spectra' :
 							studyData[i]['raw_count'] = currentFileCount;
-							break;					
-						case 'Processed Mass Spectra' : 
+							break;
+						case 'Processed Mass Spectra' :
 							studyData[i]['mzml_count'] = currentFileCount;
 							break;
 						case 'Other Metadata' :
@@ -216,7 +216,7 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 								studyData[i]['metadata_count'] = currentFileCount;
 							}
 							break;
-						case 'Peptide Spectral Matches' : 
+						case 'Peptide Spectral Matches' :
 							if (currentFileType == 'Open Standard' || currentFileType == 'Text') {
 								if (typesOfPSM == 0 ) {
 									studyData[i]['psm_count'] = currentFileCount;
@@ -226,13 +226,13 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 								typesOfPSM++;
 							}
 							break;
-						case 'Protein Assembly' : 
+						case 'Protein Assembly' :
 							studyData[i]['protein_assembly_count'] = currentFileCount;
 							break;
-						case 'Protein Databases' : 
+						case 'Protein Databases' :
 							studyData[i]['protein_databases_count'] = currentFileCount;
 							break;
-						case 'Quality Metrics' : 
+						case 'Quality Metrics' :
 							//There can be more than one file type for quality metrics: txt, csv, html
 							if (typesOfQualityMetrics > 0){
 								studyData[i]['quality_metrics_count'] += currentFileCount;
@@ -266,14 +266,14 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 								studyData[i]['metadata_count'] = currentFileCount;
 							}
 							break;
-							
+
 					}
-				} 
+				}
 			}
 		}
 	}
   }
-  
+
   ngOnChanges(changes: SimpleChanges){
 	  if (changes && changes['childTabChanged']) {
 		this.makeRowsSameHeight();
@@ -375,7 +375,7 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 			this.clearSelection();
 		});
 		}
-		
+
 		//@@@PDC-937: Add a button to allow download all manifests with a single click
 		//PDC-3073: Add TSV format to manifests
 		setTimeout(() => {
@@ -398,7 +398,7 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 		}
 
 	}
-	
+
 	//@@@PDC-937: Add a button to allow download all manifests with a single click
 	//@@@PDC-1063: Implement select all, select page, select none for all tabs
 	downloadCompleteManifest(buttonClick = false) {
@@ -426,11 +426,11 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 				  if (!study[colValues[i]]) {
 						study[colValues[i]] = '';
 				  }
-				  //PDC-2617 - Set "N/A" value if embargo date column value is empty	
+				  //PDC-2617 - Set "N/A" value if embargo date column value is empty
 				  if (headerCols[i] == "Embargo date" && study[colValues[i]] == '') {
 					  study[colValues[i]] = "N/A";
 				  }
-				   //PDC-5245 init file count to 0 
+				   //PDC-5245 init file count to 0
 				  if (headerCols[i] == "RAW" && study[colValues[i]] == '') {
 					  study[colValues[i]] = "0";
 				  }
@@ -450,7 +450,7 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 					  study[colValues[i]] = "0";
 				  }
 
-					  
+
 				}
 				localSelectedStudies.push(study);
 			}
@@ -466,19 +466,19 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 					let csvOptions = {
 						headers: headerCols
 					};
-					new ngxCsv(exportFileObject, this.getCsvFileName("csv"), csvOptions);	
+					new ngxCsv(exportFileObject, this.getCsvFileName("csv"), csvOptions);
 				}else {
 					//For TSV format have to preprocess and use different function than CSV
 					let exportTSVData = this.prepareTSVExportManifestData(exportFileObject);
 					var blob = new Blob([exportTSVData], { type: 'text/csv;charset=utf-8;' });
 					FileSaver.saveAs(blob, this.getCsvFileName("tsv"));
-				}	
+				}
 				this.isTableLoading.emit({isTableLoading:"study:false"});
 			}
 			});
 		}, 10);
 	}
-	//PDC-2617 - Set "N/A" value if embargo date column value is empty	
+	//PDC-2617 - Set "N/A" value if embargo date column value is empty
 	setEmptyEmbargoDate(idx: number){
 		if (this.filteredStudiesData[idx].embargo_date === null || this.filteredStudiesData[idx].embargo_date === ""){
 			this.filteredStudiesData[idx].embargo_date = "N/A";
@@ -505,7 +505,7 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 		  return true;
 	  }
 	}
-  
+
   //@@@PDC-260
   /* Small helper function to determine whether the download button should be disabled or not */
   isDownloadDisabled(){
@@ -521,28 +521,28 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 		  return true;
 	  }
 	}
-	
+
 	//@@@PDC-1063: Implement select all, select page, select none for all tabs
 	changeHeaderCheckbox($event) {
 		let checkboxVal = this.selectedHeaderCheckbox;
 		this.selectedStudies = this.currentPageSelectedStudy = [];
 		switch (checkboxVal) {
-			case 'Select all pages': 
+			case 'Select all pages':
 						this.downloadCompleteManifest(true);
 						break;
-			case 'Select this page': 
+			case 'Select this page':
 						this.headercheckbox = true;
 						this.onTableHeaderCheckboxToggle();
 						break;
-			case 'Select None': 
+			case 'Select None':
 						this.clearSelection();
 						break;
 		}
 	}
-  
+
   // This function is a callback for pagination controls
-  // It is called when a new page needs to be loaded from the DB  
-	//@@@PDC-497 (onLazyLoad)="loadNewPage($event)" will be invoked when sort event fires  
+  // It is called when a new page needs to be loaded from the DB
+	//@@@PDC-497 (onLazyLoad)="loadNewPage($event)" will be invoked when sort event fires
 	//@@@PDC-848 Fix headercheckbox issue for data tables on browse page
   loadNewPage(event: any){
 	if(this.headercheckbox && this.pageHeaderCheckBoxTrack.indexOf(this.offset) === -1){
@@ -610,10 +610,10 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 			}
 		}
 	}
-	
-	//@@@PDC-2534 - Concatinate 'Not Reported' primary site at the end of the primary sites list 
+
+	//@@@PDC-2534 - Concatinate 'Not Reported' primary site at the end of the primary sites list
 	concatinateDataEnd(index: number){
-		
+
 		//Primary Site column on Browse page
 		if (this.filteredStudiesData[index].primary_site && this.filteredStudiesData[index].primary_site.indexOf("Not Reported") == 0){
 			var temp = this.filteredStudiesData[index].primary_site.split(";");
@@ -633,7 +633,7 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 				this.filteredStudiesData[index].primary_site = temp.join("; ");
 			}
 		}
-		
+
 		//Disease Type column
 		if (this.filteredStudiesData[index].disease_type && this.filteredStudiesData[index].disease_type.indexOf("Not Reported") == 0){
 			var temp = this.filteredStudiesData[index].disease_type.split(";");
@@ -654,7 +654,7 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 			}
 		}
 	}
-	
+
 	//@@@PDC-2598 - Apply conditional formatting to embargo date on the study summary pages
 	//If the date is in the future the value should be bold and in italics
 	getStyleClass(embargo_date: string){
@@ -682,7 +682,7 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 			return false;
 		}
 	}
-	
+
   ngOnInit() {
 	  //@@@PDC-799: Redirecting to the NIH login page for the file authorization loses PDC state
 	  this.activatedRoute.queryParams.subscribe(queryParams => {
@@ -694,11 +694,11 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 		//@@@PDC-1789: Add study_submitter_id and study_id to exported study manifests
 		this.cols = [
 		//@@@PDC-1930: Add the new PDC id on the study tab table and in all the manifests
+    //@@@PDC-6300: remove embargo date from manifests {field: 'embargo_date', header: 'Embargo date'},
 		{field: 'pdc_study_id', header: 'PDC Study ID'},
 		{field: 'study_id', header: 'Study ID'},
 		{field: 'study_submitter_id', header: 'Study Submitter ID'},
 		{field: 'submitter_id_name', header:'Study Name' },
-		{field: 'embargo_date', header: 'Embargo date'},
 		{field: 'project_name', header: 'Project Name'},
 		{field: 'program_name', header: 'Program Name'},
 		{field: 'disease_type', header: 'Disease Type'},
@@ -729,7 +729,7 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 	  studyName = studies[0].submitter_id_name;
 	 }
 	  var tempStudy = Object.assign({}, studies[0]);
-  
+
 	  for (let idx = 1; idx < studies.length; idx++ ){
 		if (studies[idx].submitter_id_name === studyName) {
 			tempStudy.disease_type = tempStudy.disease_type + ', '+ studies[idx].disease_type;
@@ -739,18 +739,18 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 		else {
 			mergedStudies.push(tempStudy);
 			studyName = studies[idx].submitter_id_name;
-			tempStudy = Object.assign({}, studies[idx]);;			
+			tempStudy = Object.assign({}, studies[idx]);;
 		}
 	  }
 	  mergedStudies.push(tempStudy);
 	  return mergedStudies;
-		
+
   }
 
   //@@@PDC 613: As a user of PDC I want to be able to click on the counts in the Study tab table to see the data
-  // Send relevant data such as study name, file type to parent. 
+  // Send relevant data such as study name, file type to parent.
   changeTabForCaseCount(study_name: any) {
-  	this.selectedTabChangeForCaseCount.emit({tabVal:2,studyName:study_name}); 
+  	this.selectedTabChangeForCaseCount.emit({tabVal:2,studyName:study_name});
   }
 
 	//@@@PDC-1252: Add data category as a filter for the "file counts" section of the Study table
@@ -762,13 +762,13 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 	this.makeRowsSameHeight();
   }
 
-	//@@@PDC-795 Change manifest download file name include timestamp 
+	//@@@PDC-795 Change manifest download file name include timestamp
 	studyTableExportCSV(dt){
 		this.validateStudyField();
 		dt.exportFilename = this.getCsvFileName("csv");
 		dt.exportCSV({ selectionOnly: true });
 	}
-	
+
 	//PDC-3073, PDC-3074 Add TSV format for manifests
 	studyTableExportTSV(dt){
 		this.validateStudyField();
@@ -803,7 +803,7 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 			}
 			if(!study['quality_metrics_count']){
 				study['quality_metrics_count']=0
-			}			
+			}
 		}
 	}
 
@@ -853,7 +853,7 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 		}
 		return csvFileName;
 	}
-	
+
 	private convertDateString(value: string): string {
     if (value.length === 1) {
       return "0" + value;
@@ -865,7 +865,7 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 	versionCheck(studyVersions) {
 		return (studyVersions.length > 1) || (studyVersions.length == 1 && Number(studyVersions[0].number) > 1);
 	}
-	
+
 	//@@@PDC-848 Fix headercheckbox issue for data tables on browse page
 	onTableHeaderCheckboxToggle() {
     console.log(this.headercheckbox);
@@ -876,7 +876,7 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
         if(this.currentPageSelectedStudy.indexOf(study.study_submitter_id) === -1){
           localSelectedStudyies.push(study);
           this.currentPageSelectedStudy.push(study.study_submitter_id);
-        } 
+        }
       }
       this.selectedStudies = localSelectedStudyies;
     } else {
@@ -887,7 +887,7 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 					localSelectedStudyies.splice(index,1);
 				}
       }
-			this.selectedStudies = localSelectedStudyies; 
+			this.selectedStudies = localSelectedStudyies;
 			this.currentPageSelectedStudy = [];
 			this.pageHeaderCheckBoxTrack = [];
     }
@@ -941,7 +941,7 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 				let unfrozen_header_row: any = w.querySelectorAll('.ui-table-unfrozen-view .ui-table-thead');
 			   	if (frozen_header_row[0].clientHeight > unfrozen_header_row[0].clientHeight) {
 					unfrozen_header_row[0].style.height = frozen_header_row[0].clientHeight+"px";
-				} 
+				}
 				else if (frozen_header_row[0].clientHeight < unfrozen_header_row[0].clientHeight) {
 					frozen_header_row[0].style.height = unfrozen_header_row[0].clientHeight+"px";
 				}
@@ -954,15 +954,12 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 					}
 				}
 				//PDC-4806: Alignment issue in some resolutions
-				//Scroll the unfrozen div to the left through a few columns, switch to another tab. 
+				//Scroll the unfrozen div to the left through a few columns, switch to another tab.
 				//Navigate back to the parent tab -> columns should not be misaligned
  				let frozen_header_div: any = w.querySelectorAll('.ui-table-unfrozen-view .ui-table-scrollable-header-box');
-				frozen_header_div[0].setAttribute('style', 'margin-right: 0px !important'); 
+				frozen_header_div[0].setAttribute('style', 'margin-right: 0px !important');
 			  }
 			}
 		 });
 	   }
 }
-
-
-

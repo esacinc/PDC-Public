@@ -25,10 +25,13 @@ const SERVER = new ApolloServer({
   context:({ req }) => ({
 	isUI: false  
   }),
+  //@@@PDC-6344 disable introspection
+  introspection: false,
   playground: {
     endpoint: currentEnd,
     settings: {
-      'editor.theme': 'light'
+      'editor.theme': 'light',
+	  'schema.enablePolling': false
     }
   }
 });

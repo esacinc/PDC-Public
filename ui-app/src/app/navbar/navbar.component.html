@@ -8,7 +8,7 @@
 		<!-- @@@PDC-1474: Make recent releases area a bit larger to handle responsiveness -->
 		<div *ngIf='navDisplayFlag' class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 		<!-- PDC-428 - search field style changes -->
-			<div class="row">
+			<div class="row" style="margin-top: 2%;"> 
 				<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5"></div>
 				<div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
 					<div *ngIf='!userLoggedInFlag' class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:right; padding-right: 0!important; padding-top: 10px;">
@@ -39,9 +39,14 @@
 			<div class="row">
 				<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5"></div>
 				<div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" id="searchBarLabel">
-					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="font-size: small; word-break: keep-all !important; color:#de350b; padding-top:7px; font-weight:600">
+<!-- 				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="font-size: small; word-break: keep-all !important; color:#de350b; padding-top:7px; font-weight:600">
 						NCI is pleased to release these data to the public. Some data are under an <a href="/pdc/faq#Embargo_Date" target="_" style="color:#de350b !important;">EMBARGO</a> for publication and/or citation.
-					</div>
+					</div> -->
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="word-break: keep-all !important; padding-top: 1%; font-weight:600; padding-right: 0px;">
+						<a href="/pdc/data-use-guidelines#Cite_PDC" target="_blank" style="color: #337ab7 !important;float:right; font-size: 15px !important;">Citing PDC&nbsp;
+							<!-- <fa name="external-link"></fa> -->
+						</a>
+					</div> 
 				</div>
 			</div>
 		</div>

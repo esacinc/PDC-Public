@@ -69,6 +69,7 @@ export const resolvers = {
 	//@@@PDC-3278 log all api calls
 	//@@@PDC-5037 log api parent
 	//@@@PDC-4812 add more ui wrappers of public APIs
+	//@@@PDC-6137 make acceptDUA optional
 	
 	Query: {
 		uiFileMetadata(_, args, context) {
@@ -189,8 +190,8 @@ export const resolvers = {
 			context['parent']= "studyCatalog";
 			gaVisitor.pageview("/graphqlAPI/studyCatalog").send();
 			logger.info("studyCatalog is called with "+ JSON.stringify(args));
-			if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
-				throw new ApolloError(duaMsg);
+			//if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+				//throw new ApolloError(duaMsg);
 			var scQuery = "SELECT distinct pdc_study_id from study ";
 			if (typeof args.pdc_study_id != 'undefined') {
 				scQuery += " WHERE pdc_study_id = :pdc_study_id ";
@@ -212,8 +213,8 @@ export const resolvers = {
 				gaVisitor.pageview("/graphqlAPI/clinicalMetadata").send();
 				logger.info("clinicalMetadata is called with "+ JSON.stringify(args));
 				context['parent']= "clinicalMetadata";
-				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
-					throw new ApolloError(duaMsg);
+				//if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					//throw new ApolloError(duaMsg);
 			}
 			else
 				logger.info("clinicalMetadata is called from UI with "+ JSON.stringify(args));
@@ -260,8 +261,8 @@ export const resolvers = {
 				gaVisitor.pageview("/graphqlAPI/experimentalMetadata").send();
 				logger.info("experimentalMetadata is called with "+ JSON.stringify(args));
 				context['parent']= "experimentalMetadata";
-				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
-					throw new ApolloError(duaMsg);
+				//if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					//throw new ApolloError(duaMsg);
 			}
 			else
 				logger.info("experimentalMetadata is called from UI with "+ JSON.stringify(args));
@@ -317,8 +318,8 @@ export const resolvers = {
 				gaVisitor.pageview("/graphqlAPI/tissueSitesAvailable").send();
 				logger.info("tissueSitesAvailable is called with "+ JSON.stringify(args));
 				context['parent']= "tissueSitesAvailable";
-				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
-					throw new ApolloError(duaMsg);
+				//if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					//throw new ApolloError(duaMsg);
 			}
 			else
 				logger.info("tissueSitesAvailable is called from UI with "+ JSON.stringify(args));
@@ -373,8 +374,8 @@ export const resolvers = {
 				gaVisitor.pageview("/graphqlAPI/diseasesAvailable").send();
 				logger.info("diseasesAvailable is called with "+ JSON.stringify(args));
 				context['parent']= "diseasesAvailable";
-				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
-					throw new ApolloError(duaMsg);
+				//if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					//throw new ApolloError(duaMsg);
 			}
 			else
 				logger.info("diseasesAvailable is called from UI with "+ JSON.stringify(args));
@@ -467,8 +468,8 @@ export const resolvers = {
 				gaVisitor.pageview("/graphqlAPI/allExperimentTypes").send();
 				context['parent']= "allExperimentTypes";
 				logger.info("allExperimentTypes is called with "+ JSON.stringify(args));
-				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
-					throw new ApolloError(duaMsg);
+				//if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					//throw new ApolloError(duaMsg);
 			}
 			else
 				logger.info("allExperimentTypes is called from UI with "+ JSON.stringify(args));
@@ -518,8 +519,8 @@ export const resolvers = {
 				gaVisitor.pageview("/graphqlAPI/diseaseTypesPerProject").send();
 				context['parent']= "diseaseTypesPerProject";
 				logger.info("diseaseTypesPerProject is called with "+ JSON.stringify(args));
-				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
-					throw new ApolloError(duaMsg);
+				//if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					//throw new ApolloError(duaMsg);
 			}
 			else
 				logger.info("diseaseTypesPerProject is called from UI with "+ JSON.stringify(args));
@@ -593,8 +594,8 @@ export const resolvers = {
 				gaVisitor.pageview("/graphqlAPI/case").send();
 				context['parent']= "case";
 				logger.info("case is called with "+ JSON.stringify(args));
-				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
-					throw new ApolloError(duaMsg);
+				//if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					//throw new ApolloError(duaMsg);
 			}
 			else
 				logger.info("case is called from UI with "+ JSON.stringify(args));
@@ -669,8 +670,8 @@ export const resolvers = {
 				gaVisitor.pageview("/graphqlAPI/casePerFile").send();
 				context['parent']= "casePerFile";
 				logger.info("casePerFile is called with "+ JSON.stringify(args));
-				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
-					throw new ApolloError(duaMsg);
+				//if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					//throw new ApolloError(duaMsg);
 			}
 			else
 				logger.info("casePerFile is called from UI with "+ JSON.stringify(args));
@@ -703,8 +704,8 @@ export const resolvers = {
 				gaVisitor.pageview("/graphqlAPI/allCases").send();
 				context['parent']= "allCases";
 				logger.info("allCases is called with "+ JSON.stringify(args));
-				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
-					throw new ApolloError(duaMsg);
+				//if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					//throw new ApolloError(duaMsg);
 			}
 			else
 				logger.info("allCases is called from UI with "+ JSON.stringify(args));
@@ -740,8 +741,8 @@ export const resolvers = {
 				gaVisitor.pageview("/graphqlAPI/program").send();
 				context['parent']= "program";
 				logger.info("program is called with "+ JSON.stringify(args));
-				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
-					throw new ApolloError(duaMsg);
+				//if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					//throw new ApolloError(duaMsg);
 			}
 			else
 				logger.info("program is called from UI with "+ JSON.stringify(args));
@@ -790,8 +791,8 @@ export const resolvers = {
 				gaVisitor.pageview("/graphqlAPI/allPrograms").send();
 				context['parent']= "allPrograms";
 				logger.info("allPrograms is called with "+ JSON.stringify(args));
-				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
-					throw new ApolloError(duaMsg);
+				//if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					//throw new ApolloError(duaMsg);
 			}
 			else
 				logger.info("allPrograms is called from UI with "+ JSON.stringify(args));
@@ -828,15 +829,30 @@ export const resolvers = {
 				analyticLog.info("SEARCH QUERY to uiGeneSpectralCount:  "+ JSON.stringify(args));
 			}
 			else*/
-			logger.info("uiGeneSpectralCount is called with "+ JSON.stringify(args));
+			logger.info("uiGeneSpectralCount is called with CS: "+ JSON.stringify(args));
 			var cacheFilterName = {name:''};
 			if (typeof args.gene_name != 'undefined') {
 				cacheFilterName.name +="gene_name:("+ args.gene_name + ");";
 			}
+			//@@@PDC-6287 case sensitive search
+			/*let geneQuery = "SELECT bin_to_uuid(gene_id) as gene_id, gene_name, " +
+								" ncbi_gene_id, authority, description, organism, chromosome, " +
+								" locus, assays, proteins FROM gene " +
+								" where BINARY gene_name = :gene_name ";*/
 			const res = await RedisCacheClient.redisCacheGetAsync(CacheName.getSummaryPageGeneSummary('GeneSpectralCount')+cacheFilterName['name']);
 			//@@@PDC-4755 stop using all args in where clause
 			if(res === null){
-				var result = await db.getModelByName('Gene').findOne({ where: { gene_name: args.gene_name}});
+				/*var result = await db.getSequelize().query(
+					geneQuery,
+					{
+						replacements: { gene_name: args.gene_name },
+						model: db.getModelByName('Gene')
+					}
+				);*/
+				//logger.info("Gene Result: "+ JSON.stringify(result));
+				var result = await db.getModelByName('Gene').findOne(
+				{where: Sequelize.where(Sequelize.fn('BINARY', Sequelize.col('gene_name')), args.gene_name)});
+				//db.getModelByName('Gene').findOne({ where: { gene_name: args.gene_name}});
 				RedisCacheClient.redisCacheSetExAsync(CacheName.getSummaryPageGeneSummary('GeneSpectralCount')+cacheFilterName['name'], JSON.stringify(result));
 				//console.log("gene result: "+ JSON.stringify(result))
 				return result;
@@ -850,16 +866,17 @@ export const resolvers = {
 				gaVisitor.pageview("/graphqlAPI/geneSpectralCount").send();
 				context['parent']= "geneSpectralCount";
 				logger.info("geneSpectralCount is called with "+ JSON.stringify(args));
-				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
-					throw new ApolloError(duaMsg);
+				//if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					//throw new ApolloError(duaMsg);
 			}
 			else
 				logger.info("geneSpectralCount is called from UI with "+ JSON.stringify(args));
 			context['arguments'] = args;
+			//@@@PDC-6285 force case insenetive on gene_name
 			let geneQuery = "SELECT gene_name, bin_to_uuid(gene_id) as gene_id, chromosome, " +
 								" ncbi_gene_id as NCBI_gene_id, authority, description, organism, " +
 								" locus, proteins, trim(both '\r' from assays) as assays FROM gene " +
-								" where gene_name = :gene_name ";
+								" where gene_name = :gene_name COLLATE utf8mb4_general_ci";
 
 			return db.getSequelize().query(
 					geneQuery,
@@ -883,17 +900,19 @@ export const resolvers = {
 				gaVisitor.pageview("/graphqlAPI/aliquotSpectralCount").send();
 				context['parent']= "aliquotSpectralCount";
 				logger.info("aliquotSpectralCount is called with "+ JSON.stringify(args));
-				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
-					throw new ApolloError(duaMsg);
+				//if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					//throw new ApolloError(duaMsg);
 			}
 			else
 				logger.info("aliquotSpectralCount is called from UI with "+ JSON.stringify(args));
 			//@@@PDC-2638 enhance aliquotSpectralCount
 			context['arguments'] = args;
+			//@@@PDC-2638 enhance aliquotSpectralCount
+			//@@@PDC-6285 force case insenetive on gene_name
 			let aliquotQuery = "SELECT gene_name, bin_to_uuid(gene_id) as gene_id, chromosome, " +
 									" ncbi_gene_id as NCBI_gene_id, authority, description, organism, " +
 									" locus, proteins, trim(both '\r' from assays) as assays FROM gene " +
-									" where gene_name = :gene_name ";
+									" where gene_name = :gene_name COLLATE utf8mb4_general_ci";
 
 			return db.getSequelize().query(
 					aliquotQuery,
@@ -915,8 +934,8 @@ export const resolvers = {
 				gaVisitor.pageview("/graphqlAPI/protein").send();
 				context['parent']= "protein";
 				logger.info("protein is called with "+ JSON.stringify(args));
-				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
-					throw new ApolloError(duaMsg);
+				//if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					//throw new ApolloError(duaMsg);
 			}
 			else
 				logger.info("protein is called from UI with "+ JSON.stringify(args));
@@ -948,8 +967,8 @@ export const resolvers = {
 				gaVisitor.pageview("/graphqlAPI/projectsPerExperimentType").send();
 				context['parent']= "projectsPerExperimentType";
 				logger.info("projectsPerExperimentType is called with "+ JSON.stringify(args));
-				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
-					throw new ApolloError(duaMsg);
+				//if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					//throw new ApolloError(duaMsg);
 			}
 			else
 				logger.info("projectsPerExperimentType is called from UI with "+ JSON.stringify(args));
@@ -992,8 +1011,8 @@ export const resolvers = {
 				gaVisitor.pageview("/graphqlAPI/filesCountPerStudy").send();
 				context['parent']= "filesCountPerStudy";
 				logger.info("filesCountPerStudy is called with "+ JSON.stringify(args));
-				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
-					throw new ApolloError(duaMsg);
+				//if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					//throw new ApolloError(duaMsg);
 			}
 			else
 				logger.info("filesCountPerStudy is called from UI with "+ JSON.stringify(args));
@@ -1117,8 +1136,8 @@ export const resolvers = {
 				gaVisitor.pageview("/graphqlAPI/filesPerStudy").send();
 				context['parent']= "filesPerStudy";
 				logger.info("filesPerStudy is called with "+ JSON.stringify(args));
-				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
-					throw new ApolloError(duaMsg);
+				//if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					//throw new ApolloError(duaMsg);
 			}
 			else
 				logger.info("filesPerStudy is called from UI with "+ JSON.stringify(args));
@@ -1251,8 +1270,8 @@ export const resolvers = {
 				gaVisitor.pageview("/graphqlAPI/projectsPerInstrument").send();
 				context['parent']= "projectsPerInstrument";
 				logger.info("filesPerStudy is called with "+ JSON.stringify(args));
-				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
-					throw new ApolloError(duaMsg);
+				//if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					//throw new ApolloError(duaMsg);
 			}
 			else
 				logger.info("filesPerStudy is called from UI with "+ JSON.stringify(args));
@@ -1287,8 +1306,8 @@ export const resolvers = {
 				gaVisitor.pageview("/graphqlAPI/pdcDataStats").send();
 				context['parent']= "pdcDataStats";
 				logger.info("pdcDataStats is called with "+ JSON.stringify(args));
-				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
-					throw new ApolloError(duaMsg);
+				//if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					//throw new ApolloError(duaMsg);
 			}
 			else
 				logger.info("pdcDataStats is called from UI with "+ JSON.stringify(args));
@@ -1315,8 +1334,8 @@ export const resolvers = {
 				gaVisitor.pageview("/graphqlAPI/workflowMetadata").send();
 				context['parent']= "workflowMetadata";
 				logger.info("workflowMetadata is called with "+ JSON.stringify(args));
-				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
-					throw new ApolloError(duaMsg);
+				//if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					//throw new ApolloError(duaMsg);
 			}
 			else
 				logger.info("workflowMetadata is called from UI with "+ JSON.stringify(args));
@@ -2919,8 +2938,8 @@ export const resolvers = {
 				gaVisitor.pageview("/graphqlAPI/getPaginatedFiles").send();
 				context['parent']= "getPaginatedFiles";
 				logger.info("getPaginatedFiles is called with "+ JSON.stringify(args));
-				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
-					throw new ApolloError(duaMsg);
+				//if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					//throw new ApolloError(duaMsg);
 			}
 			else
 				logger.info("getPaginatedFiles is called from UI with "+ JSON.stringify(args));
@@ -3001,8 +3020,8 @@ export const resolvers = {
 				gaVisitor.pageview("/graphqlAPI/getPaginatedCases").send();
 				context['parent']= "getPaginatedCases";
 				logger.info("getPaginatedCases is called with "+ JSON.stringify(args));
-				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
-					throw new ApolloError(duaMsg);
+				//if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					//throw new ApolloError(duaMsg);
 			}
 			else
 				logger.info("getPaginatedCases is called from UI with "+ JSON.stringify(args));
@@ -3043,8 +3062,8 @@ export const resolvers = {
 				gaVisitor.pageview("/graphqlAPI/getPaginatedGenes").send();
 				context['parent']= "getPaginatedGenes";
 				logger.info("getPaginatedGenes is called with "+ JSON.stringify(args));
-				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
-					throw new ApolloError(duaMsg);
+				//if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					//throw new ApolloError(duaMsg);
 			}
 			else
 				logger.info("getPaginatedGenes is called from UI with "+ JSON.stringify(args));
@@ -3057,8 +3076,9 @@ export const resolvers = {
 			let replacements = { };
 
 			if (typeof args.gene_name != 'undefined') {
-				geneCountQuery += "where gene_name like :gene_name ";
-				geneQuery += "where gene_name like :gene_name";
+				//@@@PDC-6285 force case insenetive on gene_name
+				geneCountQuery += "where gene_name like :gene_name COLLATE utf8mb4_general_ci";
+				geneQuery += "where gene_name like :gene_name COLLATE utf8mb4_general_ci";
 				replacements['gene_name'] = "%" + args.gene_name + "%";
 			}
 
@@ -3933,11 +3953,8 @@ export const resolvers = {
 				let gene_names = args.gene_name.split(';');
 				generalGeneQuery = " and sc.gene_name IN (:gene_names)";
 				gaGeneQuery = " and ga.gene_name IN (:gene_names)";
-				//@@@PDC-769 access ptm_abundance
 				paGeneQuery = " and pa.gene_name IN (:gene_names)";
-
 				replacements['gene_names'] = gene_names;
-
 				cacheFilterName.name +="gene_name:("+ gene_names.join(",") + ");";
 			}
 			let unionQuery = generalSelectQuery+gaSelectQuery+generalFromQuery+
@@ -3993,8 +4010,8 @@ export const resolvers = {
 				gaVisitor.pageview("/graphqlAPI/paginatedSpectralCountPerStudyAliquot").send();
 				context['parent']= "paginatedSpectralCountPerStudyAliquot";
 				logger.info("paginatedSpectralCountPerStudyAliquot is called with "+ JSON.stringify(args));
-				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
-					throw new ApolloError(duaMsg);
+				//if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					//throw new ApolloError(duaMsg);
 			}
 			else
 				logger.info("paginatedSpectralCountPerStudyAliquot is called from UI with "+ JSON.stringify(args));
@@ -4150,7 +4167,9 @@ export const resolvers = {
 			//@@@PDC-398 Add description to the APIs for search
 			let searchBaseQuery = "SELECT g.gene_name as name, g.description, 'gene' as record_type ";
 			//@@@PDC-682 make search case insensitive for utf8 char set
-			let searchQuery = " FROM gene g WHERE g.gene_name COLLATE UTF8_GENERAL_CI like :nameToSearch OR g.description like :nameToSearch";
+			//@@@PDC-6285 adjust gene_name charset/collation
+			//@@@PDC-6287 conduct case inseasitive search on gene_name
+			let searchQuery = " FROM gene g WHERE g.gene_name like :nameToSearch COLLATE utf8mb4_general_ci OR g.description like :nameToSearch";
 			let myOffset = 0;
 			let myLimit = 100;
 			let paginated = false;
@@ -4439,8 +4458,8 @@ export const resolvers = {
 				gaVisitor.pageview("/graphqlAPI/fileMetadata").send();
 				context['parent']= "fileMetadata";
 				logger.info("fileMetadata is called with "+ JSON.stringify(args));
-				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
-					throw new ApolloError(duaMsg);
+				//if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					//throw new ApolloError(duaMsg);
 			}
 			else
 				logger.info("fileMetadata is called from UI with "+ JSON.stringify(args));
@@ -4535,8 +4554,8 @@ export const resolvers = {
 				gaVisitor.pageview("/graphqlAPI/quantitiveDataCPTAC2").send();
 				context['parent']= "quantitiveDataCPTAC2";
 				logger.info("quantitiveDataCPTAC2 is called with "+ JSON.stringify(args));
-				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
-					throw new ApolloError(duaMsg);
+				//if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					//throw new ApolloError(duaMsg);
 			}
 			else
 				logger.info("quantitiveDataCPTAC2 is called from UI with "+ JSON.stringify(args));
@@ -4590,8 +4609,8 @@ export const resolvers = {
 				gaVisitor.pageview("/graphqlAPI/programsProjectsStudies").send();
 				context['parent']= "programsProjectsStudies";
 				logger.info("programsProjectsStudies is called with "+ JSON.stringify(args));
-				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
-					throw new ApolloError(duaMsg);
+				//if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					//throw new ApolloError(duaMsg);
 			}
 			else
 				logger.info("programsProjectsStudies is called from UI with "+ JSON.stringify(args));
@@ -4623,8 +4642,8 @@ export const resolvers = {
 				gaVisitor.pageview("/graphqlAPI/paginatedCasesSamplesAliquots").send();
 				context['parent']= "paginatedCasesSamplesAliquots";
 				logger.info("paginatedCasesSamplesAliquots is called with "+ JSON.stringify(args));
-				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
-					throw new ApolloError(duaMsg);
+				//if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					//throw new ApolloError(duaMsg);
 			}
 			else
 				logger.info("paginatedCasesSamplesAliquots is called from UI with "+ JSON.stringify(args));
@@ -4684,8 +4703,8 @@ export const resolvers = {
 				gaVisitor.pageview("/graphqlAPI/paginatedCaseDiagnosesPerStudy").send();
 				context['parent']= "paginatedCaseDiagnosesPerStudy";
 				logger.info("paginatedCaseDiagnosesPerStudy is called with "+ JSON.stringify(args));
-				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
-					throw new ApolloError(duaMsg);
+				//if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					//throw new ApolloError(duaMsg);
 			}
 			else
 				logger.info("paginatedCaseDiagnosesPerStudy is called from UI with "+ JSON.stringify(args));
@@ -4739,8 +4758,8 @@ export const resolvers = {
 				gaVisitor.pageview("/graphqlAPI/paginatedCaseDemographicsPerStudy").send();
 				context['parent']= "paginatedCaseDemographicsPerStudy";
 				logger.info("paginatedCaseDemographicsPerStudy is called with "+ JSON.stringify(args));
-				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
-					throw new ApolloError(duaMsg);
+				//if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					//throw new ApolloError(duaMsg);
 			}
 			else
 				logger.info("paginatedCaseDemographicsPerStudy is called from UI with "+ JSON.stringify(args));
@@ -4796,8 +4815,8 @@ export const resolvers = {
 				gaVisitor.pageview("/graphqlAPI/paginatedCaseExposuresPerStudy").send();
 				context['parent']= "paginatedCaseExposuresPerStudy";
 				logger.info("paginatedCaseExposuresPerStudy is called with "+ JSON.stringify(args));
-				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
-					throw new ApolloError(duaMsg);
+				//if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					//throw new ApolloError(duaMsg);
 			}
 			else
 				logger.info("paginatedCaseExposuresPerStudy is called from UI with "+ JSON.stringify(args));
@@ -4852,8 +4871,8 @@ export const resolvers = {
 				gaVisitor.pageview("/graphqlAPI/paginatedCaseFollowUpsPerStudy").send();
 				context['parent']= "paginatedCaseFollowUpsPerStudy";
 				logger.info("paginatedCaseFollowUpsPerStudy is called with "+ JSON.stringify(args));
-				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
-					throw new ApolloError(duaMsg);
+				//if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					//throw new ApolloError(duaMsg);
 			}
 			else
 				logger.info("paginatedCaseFollowUpsPerStudy is called from UI with "+ JSON.stringify(args));
@@ -4908,8 +4927,8 @@ export const resolvers = {
 				gaVisitor.pageview("/graphqlAPI/paginatedCaseFamilyHistoriesPerStudy").send();
 				context['parent']= "paginatedCaseFamilyHistoriesPerStudy";
 				logger.info("paginatedCaseFamilyHistoriesPerStudy is called with "+ JSON.stringify(args));
-				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
-					throw new ApolloError(duaMsg);
+				//if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					//throw new ApolloError(duaMsg);
 			}
 			else
 				logger.info("paginatedCaseFamilyHistoriesPerStudy is called from UI with "+ JSON.stringify(args));
@@ -4964,8 +4983,8 @@ export const resolvers = {
 				gaVisitor.pageview("/graphqlAPI/paginatedCaseTreatmentsPerStudy").send();
 				context['parent']= "paginatedCaseTreatmentsPerStudy";
 				logger.info("paginatedCaseTreatmentsPerStudy is called with "+ JSON.stringify(args));
-				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
-					throw new ApolloError(duaMsg);
+				//if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					//throw new ApolloError(duaMsg);
 			}
 			else
 				logger.info("paginatedCaseTreatmentsPerStudy is called from UI with "+ JSON.stringify(args));
@@ -5022,8 +5041,8 @@ export const resolvers = {
 				gaVisitor.pageview("/graphqlAPI/paginatedDataMatrix").send();
 				context['parent']= "paginatedDataMatrix";
 				logger.info("paginatedDataMatrix is called with "+ JSON.stringify(args));
-				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
-					throw new ApolloError(duaMsg);
+				//if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					//throw new ApolloError(duaMsg);
 			}
 			else
 				logger.info("paginatedDataMatrix is called from UI with "+ JSON.stringify(args));
@@ -5093,8 +5112,8 @@ export const resolvers = {
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/getPDCMetrics").send();
 				context['parent']= "getPDCMetrics";
-				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
-					throw new ApolloError(duaMsg);
+				//if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					//throw new ApolloError(duaMsg);
 			}
 			return "pdcMetrics";
 		},
@@ -5258,7 +5277,7 @@ export const resolvers = {
 				analyticLog.info("SEARCH QUERY to getPaginatedUIPtm:  "+ JSON.stringify(args));
 			}
 			else*/
-				logger.info("getPaginatedUIPtm is called from UI with "+ JSON.stringify(args));
+			logger.info("getPaginatedUIPtm is called from UI with CS: "+ JSON.stringify(args));
 			context['arguments'] = args;
 			//@@@PDC-3171 new ptm abundance tables
 			let ptmTableName = "ptm_abundance";
@@ -5269,6 +5288,7 @@ export const resolvers = {
 			let uiPtmCountQuery = "select count(distinct pq.ptm_type, pq.site, pq.peptide) as total ";
 			let uiPtmBaseQuery = "SELECT distinct pq.ptm_type, pq.site, pq.peptide ";
 			//var uiPtmQuery = "FROM ptm_abundance pq"+
+			//@@@PDC-6287 case sensitive search
 			let uiPtmQuery = "FROM " + ptmTableName + " pq"+
 			" WHERE pq.gene_name = :gene_name ";
 			//"and pq.project_submitter_id IN ('" + context.value.join("','") + "')";
@@ -5350,8 +5370,8 @@ export const resolvers = {
 				gaVisitor.pageview("/graphqlAPI/paginatedPtmDataMatrix").send();
 				context['parent']= "paginatedPtmDataMatrix";
 				logger.info("visitor pageview sent for paginatedPtmDataMatrix");
-				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
-					throw new ApolloError(duaMsg);
+				//if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					//throw new ApolloError(duaMsg);
 			}
 			context['arguments'] = args;
 			let checkPtmQuery = "select study_submitter_id from study s"+
@@ -5414,8 +5434,8 @@ export const resolvers = {
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/study").send();
 				logger.info("study is called with "+ JSON.stringify(args));
-				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
-					throw new ApolloError(duaMsg);
+				//if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					//throw new ApolloError(duaMsg);
 			}
 			else
 				logger.info("study is called from UI with "+ JSON.stringify(args));
@@ -5546,8 +5566,8 @@ export const resolvers = {
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/sample").send();
 				logger.info("sample is called with "+ JSON.stringify(args));
-				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
-					throw new ApolloError(duaMsg);
+				//if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					//throw new ApolloError(duaMsg);
 			}
 			else
 				logger.info("sample is called from UI with "+ JSON.stringify(args));
@@ -5595,8 +5615,8 @@ export const resolvers = {
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/aliquot").send();
 				
-				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
-					throw new ApolloError(duaMsg);
+				//if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					//throw new ApolloError(duaMsg);
 			}
 			else
 				logger.info("aliquot is called from UI with "+ JSON.stringify(args));
@@ -5633,8 +5653,8 @@ export const resolvers = {
 				gaVisitor.pageview("/graphqlAPI/protocolPerStudy").send();
 				context['parent']= "protocolPerStudy";
 				logger.info("protocolPerStudy is called with "+ JSON.stringify(args));
-				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
-					throw new ApolloError(duaMsg);
+				//if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					//throw new ApolloError(duaMsg);
 			}
 			else
 				logger.info("protocolPerStudy is called from UI with "+ JSON.stringify(args));
@@ -5707,8 +5727,8 @@ export const resolvers = {
 				gaVisitor.pageview("/graphqlAPI/clinicalPerStudy").send();
 				context['parent']= "clinicalPerStudy";
 				logger.info("clinicalPerStudy is called with "+ JSON.stringify(args));
-				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
-					throw new ApolloError(duaMsg);
+				//if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					//throw new ApolloError(duaMsg);
 			}
 			else
 				logger.info("clinicalPerStudy is called from UI with "+ JSON.stringify(args));
@@ -5828,8 +5848,8 @@ export const resolvers = {
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/biospecimenPerStudy").send();
 				logger.info("biospecimenPerStudy is called with "+ JSON.stringify(args));
-				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
-					throw new ApolloError(duaMsg);
+				//if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					//throw new ApolloError(duaMsg);
 			}
 			else
 				logger.info("biospecimenPerStudy is called from UI with "+ JSON.stringify(args));
@@ -5913,8 +5933,8 @@ export const resolvers = {
 				gaVisitor.pageview("/graphqlAPI/studyExperimentalDesign").send();
 				context['parent']= "studyExperimentalDesign";
 				logger.info("studyExperimentalDesign is called with "+ JSON.stringify(args));
-				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
-					throw new ApolloError(duaMsg);
+				//if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					//throw new ApolloError(duaMsg);
 			}
 			else
 				logger.info("studyExperimentalDesign is called from UI with "+ JSON.stringify(args));
@@ -5978,8 +5998,8 @@ export const resolvers = {
 				gaVisitor.pageview("/graphqlAPI/quantDataMatrix").send();
 				context['parent']= "quantDataMatrix";
 				logger.info("quantDataMatrix is called with "+ JSON.stringify(args));
-				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
-					throw new ApolloError(duaMsg);
+				//if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					//throw new ApolloError(duaMsg);
 			}
 			else
 				logger.info("quantDataMatrix is called from UI with "+ JSON.stringify(args));
@@ -6126,8 +6146,8 @@ export const resolvers = {
 				gaVisitor.pageview("/graphqlAPI/pdcEntityReference").send();
 				context['parent']= "pdcEntityReference";
 				logger.info("pdcEntityReference is called with "+ JSON.stringify(args));
-				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
-					throw new ApolloError(duaMsg);
+				//if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					//throw new ApolloError(duaMsg);
 			}
 			else
 				logger.info("pdcEntityReference is called from UI with "+ JSON.stringify(args));
@@ -6179,8 +6199,8 @@ export const resolvers = {
 			gaVisitor.pageview("/graphqlAPI/reference").send();
 			context['parent']= "reference";
 			logger.info("reference is called with "+ JSON.stringify(args));
-			if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
-				throw new ApolloError(duaMsg);
+			//if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+				//throw new ApolloError(duaMsg);
 			
 			let entityReferenceQuery = "SELECT distinct bin_to_uuid(reference_id) as reference_id, entity_type, bin_to_uuid(entity_id) as entity_id, entity_submitter_id, reference_type, reference_entity_type, reference_entity_alias, bin_to_uuid(reference_entity_id) as reference_entity_id, reference_resource_name, reference_resource_shortname, reference_entity_location, annotation FROM reference WHERE reference_id IS NOT NULL ";
 			
@@ -6248,8 +6268,8 @@ export const resolvers = {
 				gaVisitor.pageview("/graphqlAPI/quantDataMatrixDb").send();
 				context['parent']= "quantDataMatrixDb";
 				logger.info("quantDataMatrixDb is called with "+ JSON.stringify(args));
-				if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
-					throw new ApolloError(duaMsg);
+				//if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
+					//throw new ApolloError(duaMsg);
 			}
 			else
 				logger.info("quantDataMatrixDb is called from UI with "+ JSON.stringify(args));
