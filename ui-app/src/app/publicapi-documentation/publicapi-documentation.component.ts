@@ -47,9 +47,10 @@ export class PublicapiDocumentationComponent implements AfterViewInit  {
 
   ngAfterViewInit() {
 
-
+	// @@@PDC-6401 get proper document url
+	let swUrl = '/pdc/publicapi-documentation';
     const ui = new SwaggerUi({
-        url: 'swagger.json',
+        url: swUrl,
 
         dom_id: 'swagger-ui-container',
         spec: spec,
@@ -75,6 +76,7 @@ export class PublicapiDocumentationComponent implements AfterViewInit  {
 
 
             if (swaggerUi.options.url) {
+				console.log("swagger url: "+ swaggerUi.options.url);
                 $('#input_baseUrl').val(swaggerUi.options.url);
             }
             if (swaggerUi.options.apiKey) {

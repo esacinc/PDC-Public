@@ -61,6 +61,8 @@
             } else {
                 url = window.location.toString().replace(/\/*#?.*/, '/swagger.json');
             }
+			// @@@PDC-6401 get proper document url
+			url = "/pdc/publicapi-documentation";
             // @@PDC 565: PDC API Documentation. Generate Swagger UI
             // spec.js should be updated to add new API details as spec is passed below to render the documententation. swagger.json is only for reference.
             window.swaggerUi = new SwaggerUi({

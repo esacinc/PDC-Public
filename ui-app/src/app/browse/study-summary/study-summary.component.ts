@@ -496,6 +496,8 @@ getAllClinicalData(){
 	setTimeout(() => {
 		this.studySummaryService.getFilteredClinicalDataPaginated(this.offset, this.limit, this.sort, this.newFilterSelected, this.source).subscribe((data: any) =>{
 		this.totalRecordsClinical = data.getPaginatedUIClinical.total;
+		//@@@PDC-6357  case count w/o filter
+		console.log("Total cases: "+this.totalRecordsClinical);
 		setTimeout(() => {
 			this.studySummaryService.getFilteredClinicalDataPaginated(this.offset, this.totalRecordsClinical, this.sort, this.newFilterSelected, this.source).subscribe((data: any) =>{
 				this.filteredClinicalData = data.getPaginatedUIClinical.uiClinical;

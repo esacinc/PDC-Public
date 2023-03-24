@@ -289,7 +289,8 @@
 					</div>
 				</table>
 		    </mat-tab>
-		    <mat-tab label="ALIQUOTS">
+        <!-- PDC-6392 - number of aliquots should display case summary -->
+		    <mat-tab label="ALIQUOTS ({{aliquots.length}})">
 				<div *ngIf="loading">
 					<mat-spinner></mat-spinner>
 				</div>

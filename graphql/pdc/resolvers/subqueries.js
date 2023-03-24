@@ -642,8 +642,15 @@ export const resolvers = {
 		//@@@PDC-5412 add diagnosis-sample annotation	
 		samples(obj, args, context) {
 			logger.info("samples is called via "+context.parent);
-			let refQuery = "select bin_to_uuid(reference_entity_id) sample_id, annotation, "+
+			/*let refQuery = "select bin_to_uuid(reference_entity_id) sample_id, annotation, "+
 			"reference_entity_alias as sample_submitter_id from reference where entity_id = "+
+			"uuid_to_bin(:diagnosis_id) and reference_entity_type = 'sample'"*/
+			//@@@PDC-6397 concat sample info
+			let refQuery = "select "+
+			"GROUP_CONCAT(DISTINCT bin_to_uuid(reference_entity_id) SEPARATOR '|') AS sample_id, "+
+			"GROUP_CONCAT(DISTINCT annotation SEPARATOR '|') AS annotation, "+
+			"GROUP_CONCAT(DISTINCT reference_entity_alias  SEPARATOR '|') as sample_submitter_id "+
+			"from reference where entity_id = "+
 			"uuid_to_bin(:diagnosis_id) and reference_entity_type = 'sample'"
 			let replacements = {};
 			replacements['diagnosis_id'] = obj.diagnosis_id;

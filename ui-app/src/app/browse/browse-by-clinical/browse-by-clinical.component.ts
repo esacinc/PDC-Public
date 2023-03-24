@@ -504,25 +504,46 @@ isDownloadDisabled(){
 	populateAssociatedSampleInfo(filteredClinicalData) {
 		if (filteredClinicalData.length > 0) {
 			for (var i in filteredClinicalData) {
-				if (filteredClinicalData[i].samples && typeof(filteredClinicalData[i].samples) != 'string' && filteredClinicalData[i].samples.length > 0) {
+				if (filteredClinicalData[i].samples && filteredClinicalData[i].samples.length > 0) {
+					//@@@PDC-6397 handle multiple samples
+					if (filteredClinicalData[i].samples[0].sample_submitter_id == null) {
+						console.log("No Sample associated");
+						filteredClinicalData[i].samples = null;
+					}
+					else if (filteredClinicalData[i].samples[0].sample_submitter_id.includes('|')){
+						console.log("Multi Samples found: "+filteredClinicalData[i].samples[0].sample_submitter_id);
+						let tempSamples = filteredClinicalData[i].samples[0].sample_submitter_id.split("|");
+						let newAnnotation = "Samples of "+ tempSamples.join(" and ") + " are associated with this clinical record. "
+						console.log("Annotation for multi samples: "+newAnnotation);
+						filteredClinicalData[i].samples[0].annotation = newAnnotation;
+					}
+					else if (!filteredClinicalData[i].samples[0].annotation) {
+						console.log("Add annotation for "+filteredClinicalData[i].samples[0].sample_submitter_id);
+						filteredClinicalData[i].samples[0].annotation = "The sample "+filteredClinicalData[i].samples[0].sample_submitter_id+" is associated with this clinical record.";
+					}
+				}
+				/*if (filteredClinicalData[i].samples && typeof(filteredClinicalData[i].samples) != 'string' && filteredClinicalData[i].samples.length > 0) {
 					let associatedSamples = filteredClinicalData[i]['samples'];
 					let arr = [];
-          let arr_test = [];
-          //@@PDC-5414-add-annotation-information
+					let arr_test = [];
+					//@@PDC-5414-add-annotation-information
 					for(let key in associatedSamples){
-            let associatedsampleIds_test = {};
-            associatedsampleIds_test['sample_submitter_id'] = associatedSamples[key]['sample_submitter_id'];
-            if(!associatedSamples[key]['annotation']){
-              associatedsampleIds_test['annotation'] = "The sample "+associatedSamples[key]['sample_submitter_id']+" is associated with this clinical record.";
-            } else {
-              associatedsampleIds_test['annotation'] = associatedSamples[key]['annotation'];
-            }
-            arr_test.push(associatedsampleIds_test);
+						let associatedsampleIds_test = {};
+						associatedsampleIds_test['sample_submitter_id'] = associatedSamples[key]['sample_submitter_id'];
+						if(!associatedSamples[key]['annotation']){
+							associatedsampleIds_test['annotation'] = "The sample "+associatedSamples[key]['sample_submitter_id']+" is associated with this clinical record.";
+						} else {
+							associatedsampleIds_test['annotation'] = associatedSamples[key]['annotation'];
+						}
+						arr_test.push(associatedsampleIds_test);
+						console.log("samples to display 523: "+associatedSamples[key]['sample_submitter_id']);
 						arr.push(associatedSamples[key]['sample_submitter_id']);
 					}
 					let associatedsampleIds = arr.join(", ");
+					console.log("sample IDs to display: "+associatedsampleIds);
 					filteredClinicalData[i]['samples'] = arr_test;
-				}
+					console.log("sample IDs formatted: "+filteredClinicalData[i]['samples']);
+				}*/
 			}
 		}
 	}
@@ -1064,7 +1085,8 @@ isDownloadDisabled(){
 				}
 				exportData[i]["genomicImagingData"] = genomicImagingData;
 				let associatedSamples = exportData[i]["samples"];
-				if (associatedSamples != '') {
+        //@@PDC-6542 - clinical manifest download broken
+				if (associatedSamples != null) {
           //@@PDC-5414-add-annotation-information
 					exportData[i]["samples"] = "Samples: " + associatedSamples[0]['sample_submitter_id'];
           exportData[i]["sample_annotation"] = associatedSamples[0]['annotation'];

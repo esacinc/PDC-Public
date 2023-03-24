@@ -13,9 +13,9 @@ import {fetchDataMatrix} from '../util/fetchDataMatrix';
 import {getAliquotId} from '../util/getAliquotId';
 //@@@PDC-1215 use winston logger
 import { logger } from '../util/logger';
-import { 
+import {
 	filterLogger,
-	searchLogger 
+	searchLogger
 	} from '../util/aLogger';
 //@@@PDC-4865 extra logging for analytic data
 //import { analyticLog } from '../util/analyticLog';
@@ -70,52 +70,52 @@ export const resolvers = {
 	//@@@PDC-5037 log api parent
 	//@@@PDC-4812 add more ui wrappers of public APIs
 	//@@@PDC-6137 make acceptDUA optional
-	
+
 	Query: {
 		uiFileMetadata(_, args, context) {
-			logger.info("The Wrapper: uiFileMetadata is called with "+ JSON.stringify(args));			
+			logger.info("The Wrapper: uiFileMetadata is called with "+ JSON.stringify(args));
 			context['isUI']= true;
 			context['parent']= "uiFileMetadata";
 			return resolvers.Query.fileMetadata(_, args, context);
 		},
 		uiCaseSummary(_, args, context) {
-			logger.info("The Wrapper: uiCaseSummary is called with "+ JSON.stringify(args));			
+			logger.info("The Wrapper: uiCaseSummary is called with "+ JSON.stringify(args));
 			context['isUI']= true;
 			context['parent']= "uiCaseSummary";
 			return resolvers.Query.case(_, args, context);
 		},
 		uiStudySummary(_, args, context) {
-			logger.info("The Wrapper: uiStudySummary is called with "+ JSON.stringify(args));			
+			logger.info("The Wrapper: uiStudySummary is called with "+ JSON.stringify(args));
 			context['isUI']= true;
 			context['parent']= "uiStudySummary";
 			return resolvers.Query.study(_, args, context);
 		},
 		uiSampleSummary(_, args, context) {
-			logger.info("The Wrapper: uiSampleSummary is called with "+ JSON.stringify(args));			
+			logger.info("The Wrapper: uiSampleSummary is called with "+ JSON.stringify(args));
 			context['isUI']= true;
 			context['parent']= "uiSampleSummary";
 			return resolvers.Query.sample(_, args, context);
 		},
 		uiAliquotSummary(_, args, context) {
-			logger.info("The Wrapper: uiAliquotSummary is called with "+ JSON.stringify(args));			
+			logger.info("The Wrapper: uiAliquotSummary is called with "+ JSON.stringify(args));
 			context['isUI']= true;
 			context['parent']= "uiAliquotSummary";
 			return resolvers.Query.aliquot(_, args, context);
 		},
 		uiCasePerFile(_, args, context) {
-			logger.info("The Wrapper: uiCasePerFile is called with "+ JSON.stringify(args));			
+			logger.info("The Wrapper: uiCasePerFile is called with "+ JSON.stringify(args));
 			context['isUI']= true;
 			context['parent']= "uiCasePerFile";
 			return resolvers.Query.casePerFile(_, args, context);
 		},
 		uiAllPrograms(_, args, context) {
-			logger.info("The Wrapper: uiAllPrograms is called with "+ JSON.stringify(args));			
+			logger.info("The Wrapper: uiAllPrograms is called with "+ JSON.stringify(args));
 			context['isUI']= true;
 			context['parent']= "uiAllPrograms";
 			return resolvers.Query.allPrograms(_, args, context);
 		},
 		uiFilesCountPerStudy(_, args, context) {
-			logger.info("The Wrapper: uiFilesCountPerStudy is called with "+ JSON.stringify(args));			
+			logger.info("The Wrapper: uiFilesCountPerStudy is called with "+ JSON.stringify(args));
 			context['isUI']= true;
 			context['parent']= "uiFilesCountPerStudy";
 			return resolvers.Query.filesCountPerStudy(_, args, context);
@@ -132,55 +132,55 @@ export const resolvers = {
 			});
 		},
 		uiDiseasesAvailable(_, args, context) {
-			logger.info("The Wrapper: uiDiseasesAvailable is called with "+ JSON.stringify(args));			
+			logger.info("The Wrapper: uiDiseasesAvailable is called with "+ JSON.stringify(args));
 			context['isUI']= true;
 			context['parent']= "uiDiseasesAvailable";
 			return resolvers.Query.diseasesAvailable(_, args, context);
 		},
 		uiTissueSitesAvailable(_, args, context) {
-			logger.info("The Wrapper: uiTissueSitesAvailable is called with "+ JSON.stringify(args));			
+			logger.info("The Wrapper: uiTissueSitesAvailable is called with "+ JSON.stringify(args));
 			context['isUI']= true;
 			context['parent']= "uiTissueSitesAvailable";
 			return resolvers.Query.tissueSitesAvailable(_, args, context);
 		},
 		uiPdcDataStats(_, args, context) {
-			logger.info("The Wrapper: uiPdcDataStats is called with "+ JSON.stringify(args));			
+			logger.info("The Wrapper: uiPdcDataStats is called with "+ JSON.stringify(args));
 			context['isUI']= true;
 			context['parent']= "uiPdcDataStats";
 			return resolvers.Query.pdcDataStats(_, args, context);
 		},
 		uiWorkflowMetadata(_, args, context) {
-			logger.info("The Wrapper: uiWorkflowMetadata is called with "+ JSON.stringify(args));			
+			logger.info("The Wrapper: uiWorkflowMetadata is called with "+ JSON.stringify(args));
 			context['isUI']= true;
 			context['parent']= "uiWorkflowMetadata";
 			return resolvers.Query.workflowMetadata(_, args, context);
 		},
 		uiProgramsProjectsStudies(_, args, context) {
-			logger.info("The Wrapper: uiProgramsProjectsStudies is called with "+ JSON.stringify(args));			
+			logger.info("The Wrapper: uiProgramsProjectsStudies is called with "+ JSON.stringify(args));
 			context['isUI']= true;
 			context['parent']= "uiProgramsProjectsStudies";
 			return resolvers.Query.programsProjectsStudies(_, args, context);
 		},
 		uiBiospecimenPerStudy(_, args, context) {
-			logger.info("The Wrapper: uiBiospecimenPerStudy is called with "+ JSON.stringify(args));			
+			logger.info("The Wrapper: uiBiospecimenPerStudy is called with "+ JSON.stringify(args));
 			context['isUI']= true;
 			context['parent']= "uiBiospecimenPerStudy";
 			return resolvers.Query.biospecimenPerStudy(_, args, context);
 		},
 		uiPdcEntityReference(_, args, context) {
-			logger.info("The Wrapper: uiPdcEntityReference is called with "+ JSON.stringify(args));			
+			logger.info("The Wrapper: uiPdcEntityReference is called with "+ JSON.stringify(args));
 			context['isUI']= true;
 			context['parent']= "uiPdcEntityReference";
 			return resolvers.Query.pdcEntityReference(_, args, context);
 		},
 		uiStudyExperimentalDesign(_, args, context) {
-			logger.info("The Wrapper: uiStudyExperimentalDesign is called with "+ JSON.stringify(args));			
+			logger.info("The Wrapper: uiStudyExperimentalDesign is called with "+ JSON.stringify(args));
 			context['isUI']= true;
 			context['parent']= "uiStudyExperimentalDesign";
 			return resolvers.Query.studyExperimentalDesign(_, args, context);
 		},
 		uiFilesPerStudy(_, args, context) {
-			logger.info("The Wrapper: uiFilesPerStudy is called with "+ JSON.stringify(args));			
+			logger.info("The Wrapper: uiFilesPerStudy is called with "+ JSON.stringify(args));
 			context['isUI']= true;
 			context['parent']= "uiFilesPerStudy";
 			return resolvers.Query.filesPerStudy(_, args, context);
@@ -616,8 +616,8 @@ export const resolvers = {
 			if (typeof args.pdc_study_id != 'undefined') {
 				studyFilters['pdc_study_id'] = args.pdc_study_id
 			}
-			context['arguments'] = studyFilters; 
-			
+			context['arguments'] = studyFilters;
+
 			const res = await RedisCacheClient.redisCacheGetAsync(CacheName.getSummaryPageCaseSummary('Case')+cacheFilterName['name']);
 			if(res === null){
 				//@@@PDC-2335 get ext id from reference
@@ -1463,7 +1463,7 @@ export const resolvers = {
 			let entry = '';
 			for(var i in args) {
 				if (args[i] != undefined && args[i].length > 0) {
-					entry += i + ':' + args[i] + ';'					
+					entry += i + ':' + args[i] + ';'
 				}
 			}
 			entry = '['+entry+']';
@@ -1482,7 +1482,7 @@ export const resolvers = {
 			let rankingReq = 10;
 			if (typeof args.ranking != 'undefined')
 				rankingReq = args.ranking;
-				
+
 			if (fs.existsSync(logFile)) {
 				let rawData = fs.readFileSync(logFile, 'utf8');
 				rawData.split(/\r?\n/).forEach(line =>  {
@@ -1497,7 +1497,7 @@ export const resolvers = {
 							else {
 								geneMap.set(sValue, 1);
 							}
-								
+
 						}
 						else if (sArray[0].indexOf('study') >= 0) {
 							if (studyMap.has(sValue)) {
@@ -1506,7 +1506,7 @@ export const resolvers = {
 							else {
 								studyMap.set(sValue, 1);
 							}
-								
+
 						}
 						else if (sArray[0].indexOf('case') >= 0) {
 							if (caseMap.has(sValue)) {
@@ -1515,7 +1515,7 @@ export const resolvers = {
 							else {
 								caseMap.set(sValue, 1);
 							}
-								
+
 						}
 						else if (sArray[0].indexOf('sample') >= 0) {
 							if (sampleMap.has(sValue)) {
@@ -1524,7 +1524,7 @@ export const resolvers = {
 							else {
 								sampleMap.set(sValue, 1);
 							}
-								
+
 						}
 						else if (sArray[0].indexOf('aliquot') >= 0) {
 							if (aliquotMap.has(sValue)) {
@@ -1533,17 +1533,17 @@ export const resolvers = {
 							else {
 								aliquotMap.set(sValue, 1);
 							}
-								
+
 						}
 						//console.log("Filter Pair: "+ fPair +':'+ fPairMap.get(fPair));
 					}
-				});	
+				});
 				let geneMapSorted = new Map([...geneMap.entries()].sort((a, b) => b[1] - a[1]));
 				let studyMapSorted = new Map([...studyMap.entries()].sort((a, b) => b[1] - a[1]));
 				let caseMapSorted = new Map([...caseMap.entries()].sort((a, b) => b[1] - a[1]));
 				let sampleMapSorted = new Map([...sampleMap.entries()].sort((a, b) => b[1] - a[1]));
 				let aliquotMapSorted = new Map([...aliquotMap.entries()].sort((a, b) => b[1] - a[1]));
-				
+
 				//console.log(mapSort1);
 				let result = [];
 				const geneIterator = geneMapSorted[Symbol.iterator]();
@@ -1562,7 +1562,7 @@ export const resolvers = {
 						count: item[1]
 					 };
 					 result.push(obj);
-					 ranking++;				  
+					 ranking++;
 				}
 				ranking = 0;
 				for (const item of studyIterator) {
@@ -1574,7 +1574,7 @@ export const resolvers = {
 						count: item[1]
 					 };
 					 result.push(obj);
-					 ranking++;				  
+					 ranking++;
 				}
 				ranking = 0;
 				for (const item of caseIterator) {
@@ -1586,7 +1586,7 @@ export const resolvers = {
 						count: item[1]
 					 };
 					 result.push(obj);
-					 ranking++;				  
+					 ranking++;
 				}
 				ranking = 0;
 				for (const item of sampleIterator) {
@@ -1598,7 +1598,7 @@ export const resolvers = {
 						count: item[1]
 					 };
 					 result.push(obj);
-					 ranking++;				  
+					 ranking++;
 				}
 				ranking = 0;
 				for (const item of aliquotIterator) {
@@ -1610,7 +1610,7 @@ export const resolvers = {
 						count: item[1]
 					 };
 					 result.push(obj);
-					 ranking++;				  
+					 ranking++;
 				}
 				return result;
 			}
@@ -1618,7 +1618,7 @@ export const resolvers = {
 				  throw new ApolloError(logError);
 			}
 			return null;
-			
+
 		},
 		//@@@PDC-1216 redesign filter api
 		//The filter query was divided into 2 queries. Query1 joining study, aliquot, aliquot_run_metadata,
@@ -1654,7 +1654,7 @@ export const resolvers = {
 		async uiFilters (_, args, context) {
 			context['parent']= "uiFilters";
 			//@@@PDC-4727 log filled filters only
-			//@@@PDC-5625 get filter usage statistics			
+			//@@@PDC-5625 get filter usage statistics
 			for(var i in args) {
 				if (args[i] != undefined && args[i].length > 0) {
 					let filterValue = args[i].split(";");
@@ -2516,7 +2516,7 @@ export const resolvers = {
 				logger.info("getPaginatedUIClinicalGetAll: "+ CacheName.getBrowsePagePaginatedDataTabCacheKey('ClinicalAllCount')+cacheFilterName.name);
 				const res = await RedisCacheClient.redisCacheGetAsync(CacheName.getBrowsePagePaginatedDataTabCacheKey('ClinicalAllCount')+cacheFilterName.name);
 				if(res === null){
-					logger.info("getAll Clinicals query: "+ clinicalCountQuery);					
+					logger.info("getAll Clinicals query: "+ clinicalCountQuery);
 					let rawData = await db.getSequelize().query(
 							clinicalCountQuery,
 							{
@@ -2530,7 +2530,7 @@ export const resolvers = {
 				}else{
 					return [{total: res}];
 				}
-				
+
 			}
 			else if (myOffset == 0 && paginated) {
 				const res = await RedisCacheClient.redisCacheGetAsync(CacheName.getBrowsePagePaginatedDataTabCacheKey('ClinicalTotalCount')+cacheFilterName.name);
@@ -2663,7 +2663,7 @@ export const resolvers = {
 				logger.info("getPaginatedUICaseGetAll: "+ CacheName.getBrowsePagePaginatedDataTabCacheKey('CaseAllCount')+cacheFilterName.name);
 				const res = await RedisCacheClient.redisCacheGetAsync(CacheName.getBrowsePagePaginatedDataTabCacheKey('CaseAllCount')+cacheFilterName.name);
 				if(res === null){
-					logger.info("getAll cases query: "+ caseCountQuery);					
+					logger.info("getAll cases query: "+ caseCountQuery);
 					let rawData = await db.getSequelize().query(
 							caseCountQuery,
 							{
@@ -2677,7 +2677,7 @@ export const resolvers = {
 				}else{
 					return [{total: res}];
 				}
-				
+
 			}
 			else if (myOffset == 0 && paginated) {
 				const res = await RedisCacheClient.redisCacheGetAsync(CacheName.getBrowsePagePaginatedDataTabCacheKey('CaseTotalCount')+cacheFilterName.name);
@@ -2748,7 +2748,7 @@ export const resolvers = {
 			FROM
 				study s,
 				project proj,
-				program prog,	
+				program prog,
 				aliquot al,
 				aliquot_run_metadata alm,
 				\`case\` c,
@@ -2875,7 +2875,7 @@ export const resolvers = {
 				else {
 					res = await RedisCacheClient.redisCacheGetAsync(CacheName.getBrowsePagePaginatedDataTabCacheKey('GeneTotalCount')+cacheFilterName.name);
 				}
-				
+
 				if(res === null){
 					//console.time('gene_cache_study');
 					//get gene count
@@ -2887,7 +2887,7 @@ export const resolvers = {
 						let studyGeneArray = [];
 						if(studyGeneListRes == null){
 							let studyQuery = `
-							SELECT 
+							SELECT
 								distinct ge.gene_name
 							FROM
 								gene AS ge,
@@ -3159,7 +3159,7 @@ export const resolvers = {
 			let cacheFilterName = { name: '' };
 			let fileStudyQuery = queryList.file_study;
 			let experimentBarQuery = `
-					SELECT 
+					SELECT
 					s.experiment_type,
 					COUNT(DISTINCT c.case_submitter_id) AS cases_count
 				FROM
@@ -3181,7 +3181,7 @@ export const resolvers = {
 						AND c.case_id = dia.case_id
 						AND proj.project_id = s.project_id
 						AND proj.program_id = prog.program_id
-						AND proj.project_submitter_id IS NOT NULL			
+						AND proj.project_submitter_id IS NOT NULL
 			`;
 
 			let replacements = { };
@@ -3291,7 +3291,7 @@ export const resolvers = {
 						AND c.case_id = dia.case_id
 						AND proj.project_id = s.project_id
 						AND proj.program_id = prog.program_id
-						AND proj.project_submitter_id IS NOT NULL					
+						AND proj.project_submitter_id IS NOT NULL
 			`;
 
 			let replacements = { };
@@ -3381,7 +3381,7 @@ export const resolvers = {
 			let cacheFilterName = { name: '' };
 			let fileStudyQuery = queryList.file_study;
 			let experimentPieQuery = `
-					SELECT 
+					SELECT
 					c.disease_type,
 					COUNT(DISTINCT dia.diagnosis_id) AS cases_count
 				FROM
@@ -3394,7 +3394,7 @@ export const resolvers = {
 					diagnosis dia,
 					project proj,
 					program prog
-				WHERE						
+				WHERE
 						alm.study_id = s.study_id
 						AND al.aliquot_id = alm.aliquot_id
 						AND al.sample_id = sam.sample_id
@@ -3403,7 +3403,7 @@ export const resolvers = {
 						AND c.case_id = dia.case_id
 						AND proj.project_id = s.project_id
 						AND proj.program_id = prog.program_id
-						AND proj.project_submitter_id IS NOT NULL				
+						AND proj.project_submitter_id IS NOT NULL
 			`;
 
 			let replacements = { };
@@ -3850,7 +3850,7 @@ export const resolvers = {
 			" and ga.aliquot_submitter_id = arm.aliquot_submitter_id and s.is_latest_version = 1 ";
 			let cacheFilterName = { name: '' };
 			let replacements = { };
-			//@@@PDC-4755 fix named parameter 
+			//@@@PDC-4755 fix named parameter
 			if (typeof args.gene_name != 'undefined') {
 				let gene_names = args.gene_name.split(';');
 				//console.log("gene_names:"+gene_names);
@@ -3906,7 +3906,16 @@ export const resolvers = {
 			logger.info("getPaginatedUIGeneAliquotSpectralCountFiltered is called with "+ JSON.stringify(args));
 			context['arguments'] = args;
 			//@@@PDC-3171 new ptm abundance tables
-			const ptmTableName = "ptm_abundance_"+ args.gene_name.substr(0, 1);
+      let ptmTableName = "ptm_abundance";
+			//@@PDC-6361 - gene summary page issues - check if first character of gene is number if so then use num table
+			if(isNaN(args.gene_name.substr(0, 1))){
+				ptmTableName = "ptm_abundance_"+ args.gene_name.substr(0, 1);
+			} else {
+			  ptmTableName = "ptm_abundance_num";
+			}
+
+
+
 			let generalOpenCountQuery = "SELECT count(*) as total from (";
 			let generalCloseCountQuery = ") x";
 			//@@@PDC-2873 add pdc_study_id
@@ -5209,14 +5218,14 @@ export const resolvers = {
 			}
 		},
 		//@@@PDC-5053 handle multiple genes in one call
-		async getUIPtmMultiGenes (_, args, context) {			
+		async getUIPtmMultiGenes (_, args, context) {
 			context['parent']= "getUIPtmMultiGenes";
 			/*if (args.source != 'undefined' && args.source === 'search') {
 				analyticLog.info("SEARCH QUERY to getUIPtmMultiGenes:  "+ JSON.stringify(args));
 			}
 			else*/
 				logger.info("getUIPtmMultiGenes is called from UI with "+ JSON.stringify(args));
-			
+
 			let uiPtmHeaderQuery = "SELECT distinct pq.gene_name, pq.ptm_type, pq.site, pq.peptide FROM ";
 			let uiPtmtrailerQuery = " WHERE pq.gene_name IN (:batch) ";
 			let ptmTableName = "ptm_abundance";
@@ -5228,29 +5237,58 @@ export const resolvers = {
 			let resPerGene = null;
 			let replacements = { };
 			for (let i = 0; i < genes.length; i++) {
-				if (genes[i].substr(0, 1) === alpha) {
-					batch.push(genes[i]);
-				}
-				else {
-					if (batch.length > 0) {
-						ptmTableName = "ptm_abundance_"+alpha;
-						let queryPerGene = uiPtmHeaderQuery + ptmTableName + " pq " + uiPtmtrailerQuery;
-						replacements['batch'] = batch;
-						resPerGene = await db.getSequelize().query(	queryPerGene,
-							{
-								replacements: replacements,
-								model: db.getModelByName('ModelUIPtm')
-							}
-						);
-						if (resPerGene != null && resPerGene.length > 0) {
-							result = [...result, ...resPerGene];
-						}
+				//@@@PDC-6405 handle numeric gene name
+				if(isNaN(genes[i].substr(0, 1))){
+					if (genes[i].substr(0, 1) === alpha) {
+						batch.push(genes[i]);
 					}
-					alpha = genes[i].substr(0, 1);
-					batch = [];
-					batch.push(genes[i]);
+					else {
+						if (batch.length > 0) {
+							ptmTableName = "ptm_abundance_"+alpha;
+							let queryPerGene = uiPtmHeaderQuery + ptmTableName + " pq " + uiPtmtrailerQuery;
+							replacements['batch'] = batch;
+							resPerGene = await db.getSequelize().query(	queryPerGene,
+								{
+									replacements: replacements,
+									model: db.getModelByName('ModelUIPtm')
+								}
+							);
+							if (resPerGene != null && resPerGene.length > 0) {
+								result = [...result, ...resPerGene];
+							}
+						}
+						alpha = genes[i].substr(0, 1);
+						batch = [];
+						batch.push(genes[i]);
+					}
+				}				
+				else{
+					if (alpha === "num"){
+						batch.push(genes[i]);
+					}
+					else {
+						if (batch.length > 0) {
+							ptmTableName = "ptm_abundance_num";
+							let queryPerGene = uiPtmHeaderQuery + ptmTableName + " pq " + uiPtmtrailerQuery;
+							replacements['batch'] = batch;
+							resPerGene = await db.getSequelize().query(	queryPerGene,
+								{
+									replacements: replacements,
+									model: db.getModelByName('ModelUIPtm')
+								}
+							);
+							if (resPerGene != null && resPerGene.length > 0) {
+								result = [...result, ...resPerGene];
+							}
+						}
+						alpha = "num";
+						batch = [];
+						batch.push(genes[i]);
+					}
 				}
+				
 			}
+			console.log("gene batch: "+ batch);
 			if (batch.length > 0) {
 				ptmTableName = "ptm_abundance_"+alpha;
 				let queryPerGene = uiPtmHeaderQuery + ptmTableName + " pq " + uiPtmtrailerQuery;
@@ -5282,7 +5320,12 @@ export const resolvers = {
 			//@@@PDC-3171 new ptm abundance tables
 			let ptmTableName = "ptm_abundance";
 			if (typeof args.gene_name != 'undefined') {
-				ptmTableName = "ptm_abundance_"+ args.gene_name.substr(0, 1);
+				  //@@PDC-6361 - gene summary page issues - check if first character of gene is number if so then use num table
+					if(isNaN(args.gene_name.substr(0, 1))){
+						ptmTableName = "ptm_abundance_"+ args.gene_name.substr(0, 1);
+					} else {
+					  ptmTableName = "ptm_abundance_num";
+					}
 			}
 
 			let uiPtmCountQuery = "select count(distinct pq.ptm_type, pq.site, pq.peptide) as total ";
@@ -5498,7 +5541,7 @@ export const resolvers = {
 			}
 
 			let studyGroupQuery = ") group by s.submitter_id_name, c.disease_type";
-			
+
 			//@@@PDC-5178 case-sample-aliquot across studies
 			context['replacements'] = replacements;
 			let studies = await db.getSequelize().query(
@@ -5528,7 +5571,7 @@ export const resolvers = {
 		//@@@PDC-5048 data stats per program
 		async dataStatsPerProgram(_, args, context) {
 			context['parent']= "dataStatsPerProgram";
-			let programs = await db.getModelByName('Program').findAll({ 
+			let programs = await db.getModelByName('Program').findAll({
 				attributes: [['bin_to_uuid(program_id)', 'program_id'],
 						'program_submitter_id',
 						'name'
@@ -5579,7 +5622,7 @@ export const resolvers = {
 			"method_of_sample_procurement, pathology_report_uuid, preservation_method, "+
 			"time_between_clamping_and_freezing, time_between_excision_and_freezing, "+
 			"shortest_dimension, tissue_type, tumor_code, tumor_code_id, tumor_descriptor, "+
-			"biospecimen_laterality, catalog_reference, distance_normal_to_tumor, distributor_reference, "+ 
+			"biospecimen_laterality, catalog_reference, distance_normal_to_tumor, distributor_reference, "+
 			"growth_rate, passage_count, sample_ordinal, tissue_collection_type, case_submitter_id from sample ";
 
 			let replacements = { };
@@ -5614,7 +5657,7 @@ export const resolvers = {
 			}*/
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/aliquot").send();
-				
+
 				//if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
 					//throw new ApolloError(duaMsg);
 			}
@@ -5765,11 +5808,11 @@ export const resolvers = {
 			"dia.progression_free_survival, dia.progression_free_survival_event, "+
 			"dia.residual_disease, dia.vascular_invasion_present, dia.year_of_diagnosis, "+
 			"dia.anaplasia_present, dia.anaplasia_present_type, dia.child_pugh_classification, "+
-			"dia.cog_liver_stage, dia.cog_neuroblastoma_risk_group, dia.cog_renal_stage, "+ 
-			"dia.cog_rhabdomyosarcoma_risk_group, dia.enneking_msts_grade, dia.enneking_msts_metastasis, "+ 
-			"dia.enneking_msts_stage, dia.enneking_msts_tumor_site, dia.esophageal_columnar_dysplasia_degree, "+ "dia.esophageal_columnar_metaplasia_present, dia.first_symptom_prior_to_diagnosis, "+ 
+			"dia.cog_liver_stage, dia.cog_neuroblastoma_risk_group, dia.cog_renal_stage, "+
+			"dia.cog_rhabdomyosarcoma_risk_group, dia.enneking_msts_grade, dia.enneking_msts_metastasis, "+
+			"dia.enneking_msts_stage, dia.enneking_msts_tumor_site, dia.esophageal_columnar_dysplasia_degree, "+ "dia.esophageal_columnar_metaplasia_present, dia.first_symptom_prior_to_diagnosis, "+
 			"dia.gastric_esophageal_junction_involvement, dia.goblet_cells_columnar_mucosa_present, "+
-			"dia.gross_tumor_weight, dia.inpc_grade, dia.inpc_histologic_group, dia.inrg_stage, dia.inss_stage,"+ 
+			"dia.gross_tumor_weight, dia.inpc_grade, dia.inpc_histologic_group, dia.inrg_stage, dia.inss_stage,"+
 			"dia.irs_group, dia.irs_stage, dia.ishak_fibrosis_score, dia.lymph_nodes_tested, "+
 			"dia.medulloblastoma_molecular_classification, dia.metastasis_at_diagnosis, "+
 			"dia.metastasis_at_diagnosis_site, dia.mitosis_karyorrhexis_index, "+
@@ -5784,7 +5827,7 @@ export const resolvers = {
 			"dia.gleason_grade_tertiary, dia.gleason_patterns_percent, dia.margin_distance, "+
 			"dia.margins_involved_site, dia.pregnant_at_diagnosis, dia.satellite_nodule_present, "+
 			"dia.sites_of_involvement, dia.tumor_depth, dia.who_cns_grade, dia.who_nte_grade, dia.diagnosis_uuid, "+
-			"dia.auxiliary_data, dia.tumor_cell_content "+  
+			"dia.auxiliary_data, dia.tumor_cell_content "+
 			"FROM study s, `case` c, demographic dem, diagnosis dia, "+
 			"sample sam, aliquot al, aliquot_run_metadata alm "+
 			"where alm.study_id=s.study_id and al.aliquot_id= alm.aliquot_id "+
@@ -6022,7 +6065,7 @@ export const resolvers = {
 				throw new ApolloError('ID missing! Please enter one of the following: study_id or study_submitter_id or pdc_study_id');
 				//return [['ID missing! Please enter one of the following: ']['study_id or study_submitter_id or pdc_study_id']];
 			}
-			
+
 			let studyQuery = "select bin_to_uuid(study_id) as study_id from study where  is_latest_version = 1 and ";
 			let study = null;
 			if (idType === 'study_id') {
@@ -6055,7 +6098,7 @@ export const resolvers = {
 						}
 					);
 			}
-			
+
 			if (study[0].length > 0) {
 				studyIdValidated = study[0][0].study_id;
 			}
@@ -6064,13 +6107,13 @@ export const resolvers = {
 				throw new ApolloError('Study not found! '+idType +': '+sid);
 				//return [['Study not found! '][idType +': '+sid]];
 			}
-				
+
 			let matrixFile = 'matrixFiles/'+studyIdValidated+ '_'+args.data_type+'.json';
 			let matrix = null;
 			let matrixError = 'Matrix data not found! '+idType +': '+sid+ ': '+args.data_type;
 			if (fs.existsSync(matrixFile)) {
 				let rawData = fs.readFileSync(matrixFile);
-				return JSON.parse(rawData);				
+				return JSON.parse(rawData);
 			}
 			else {
 				  logger.error('quantDataMatrix: Matrix data not found! '+ idType +': '+sid+ ': '+args.data_type);
@@ -6087,7 +6130,7 @@ export const resolvers = {
 			let rankingReq = 10;
 			if (typeof args.ranking != 'undefined')
 				rankingReq = args.ranking;
-				
+
 			if (fs.existsSync(logFile)) {
 				let rawData = fs.readFileSync(logFile, 'utf8');
 				rawData.split(/\r?\n/).forEach(line =>  {
@@ -6109,7 +6152,7 @@ export const resolvers = {
 						}
 						console.log("Filter Name: "+ fName +':'+ fNameMap.get(fName));
 					}
-				});	
+				});
 				let mapSort1 = new Map([...fPairMap.entries()].sort((a, b) => b[1] - a[1]));
 				console.log(mapSort1);
 				let result = [];
@@ -6124,7 +6167,7 @@ export const resolvers = {
 						filterAppCount: item[1]
 					 };
 					 result.push(obj);
-					 ranking++;				  
+					 ranking++;
 				}
 				return result;
 			}
@@ -6132,7 +6175,7 @@ export const resolvers = {
 				  throw new ApolloError(logError);
 			}
 			return null;
-			
+
 		},
 		//@@@PDC-1882 pdcEntityReference api
 		//@@@PDC-5511 add annotation
@@ -6201,9 +6244,9 @@ export const resolvers = {
 			logger.info("reference is called with "+ JSON.stringify(args));
 			//if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
 				//throw new ApolloError(duaMsg);
-			
+
 			let entityReferenceQuery = "SELECT distinct bin_to_uuid(reference_id) as reference_id, entity_type, bin_to_uuid(entity_id) as entity_id, entity_submitter_id, reference_type, reference_entity_type, reference_entity_alias, bin_to_uuid(reference_entity_id) as reference_entity_id, reference_resource_name, reference_resource_shortname, reference_entity_location, annotation FROM reference WHERE reference_id IS NOT NULL ";
-			
+
 			let replacements = { };
 
 			if (typeof args.entity_id != 'undefined' && args.entity_id.length > 0) {
