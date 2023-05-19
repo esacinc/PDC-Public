@@ -724,6 +724,24 @@ export type PublicationsData = {
     supplementary_data: string[];
 }
 
+export type UIPublicationsData = {
+	publication_id: string;
+	program_name: string;
+	pubmed_id: string;
+	doi: string;
+	author: string;
+	title: string;
+	journal: string;
+	journal_url: string;
+	year: string;
+	//abstract: string;
+	citation: string;
+	studies: publicationsStudyData[];
+	disease_types: string[];
+    supplementary_data: string[];
+	files: string[];
+}
+
 export type QueryPublicationsData = {
 	total: number;
 	uiPublication: PublicationsData;

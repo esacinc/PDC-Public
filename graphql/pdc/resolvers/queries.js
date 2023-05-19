@@ -1834,10 +1834,13 @@ export const resolvers = {
 			logger.info("uiProtocol is called with "+ JSON.stringify(args));
 			//@@@PDC-652 new protocol structure
 			//@@@PDC-1154 column name correction: fractions_analyzed_count
+			//@@@PDC-6690 add new columns for metabolomics
 			let protoQuery = "SELECT distinct bin_to_uuid(prot.protocol_id) as protocol_id, "+
-			"prot.protocol_submitter_id, prot.experiment_type, protocol_name, "+ "protocol_date, document_name, quantitation_strategy, "+
+			"prot.protocol_submitter_id, prot.experiment_type, protocol_name, "+ 
+			"protocol_date, document_name, quantitation_strategy, "+
 			"label_free_quantitation, labeled_quantitation,  isobaric_labeling_reagent, "+
-			"reporter_ion_ms_level, starting_amount, starting_amount_uom, "+ "digestion_reagent, alkylation_reagent, enrichment_strategy, enrichment, "+
+			"reporter_ion_ms_level, starting_amount, starting_amount_uom, "+ 
+			"digestion_reagent, alkylation_reagent, enrichment_strategy, enrichment, "+
 			"chromatography_dimensions_count, 1d_chromatography_type as one_d_chromatography_type, "+
 			"2d_chromatography_type as two_d_chromatography_type, "+
 			"fractions_analyzed_count, column_type, amount_on_column, "+
@@ -1847,7 +1850,9 @@ export const resolvers = {
 			"gradient_length_uom, instrument_make, instrument_model, "+
 			"dissociation_type, ms1_resolution, ms2_resolution, "+
 			"dda_topn, normalized_collision_energy, acquistion_type, "+
-			"dia_multiplexing, dia_ims, auxiliary_data, prot.cud_label "+
+			"dia_multiplexing, dia_ims, analytical_technique, "+
+			"chromatography_instrument_make, chromatography_instrument_model, "+
+			"trim(both '\r' from acquisition_mode) as acquisition_mode, auxiliary_data, prot.cud_label "+
 			" from study s, project proj, protocol prot "+
 			" where prot.study_id = s.study_id ";
 			//" and s.project_submitter_id IN ('" + context.value.join("','") + "')";
@@ -2297,6 +2302,78 @@ export const resolvers = {
 				return myJson;
 			}
 
+		},
+		//@@@PDC-6601 Add paginate API for pancancer related files
+		async getPaginatedUIPancancerFiles(_, args, context) {
+			context['parent']= "getPaginatedUIFile";
+			logger.info("getPaginatedUIFile is called with "+ JSON.stringify(args));
+			context['arguments'] = args;
+			let replacements = { };	
+			
+			let fileTotalQuery  = "SELECT count(distinct f.file_id) as total from file f, publication_file pf "+
+			"where f.file_id = pf.file_id and pf.publication_id = uuid_to_bin(:publication_id) "+
+			"and data_category = 'Publication Supplementary Material'";
+			let fileQuery  = "SELECT distinct bin_to_uuid(f.file_id) as file_id, file_name, downloadable, data_category, annotation "+
+			"from file f, publication_file pf "+
+			"where f.file_id = pf.file_id and pf.publication_id = uuid_to_bin(:publication_id) "+
+			"and data_category = 'Publication Supplementary Material'";			
+			replacements['publication_id'] = args.publication_id;
+			
+			let myOffset = 0;
+			let myLimit = 100;
+			let paginated = false;
+			if (typeof args.offset != 'undefined' && typeof args.limit != 'undefined') {
+				if (args.offset >= 0)
+					myOffset = args.offset;
+				if (args.limit >= 0)
+					myLimit = args.limit;
+				else
+					myLimit = 0;
+				paginated = true;
+			}
+			let uiFileLimitQuery = " LIMIT " + myOffset + ", " + myLimit;
+			
+			context['query'] = fileQuery + uiFileLimitQuery;
+			context['replacements'] = replacements;
+			if (myOffset == 0 && paginated) {
+				let rawData = await db.getSequelize().query(
+						fileTotalQuery,
+						{
+							replacements: replacements,
+							model: db.getModelByName('ModelPagination')
+						}
+					);
+				let totalCount = rawData[0].total;
+				return [{total: totalCount}];
+			}
+			else {
+				let myJson = [{total: args.limit}];
+				return myJson;
+			}
+		},
+		//@@@PDC-6680 Add API to get all pancancer related files
+		async getAllUIPancancerFiles(_, args, context) {
+			context['parent']= "getAllUIPancancerFiles";
+			logger.info("getAllUIPancancerFiles is called");
+			let fileQuery  = "SELECT bin_to_uuid(f.file_id) as file_id, file_name, downloadable, "+
+			"data_category, annotation from file f "+
+			"where f.annotation is not null ";
+			
+			let rawData = await db.getSequelize().query(
+							fileQuery,
+							{
+								model: db.getModelByName('ModelUIFile')
+							}
+						);
+			rawData.forEach(row => {
+				let parsed = JSON.parse(row['annotation']);
+				row['description'] = parsed['description'];
+				row['characterization'] = parsed['related characterizations'];
+				row['cohorts'] = parsed['related cohorts'].toString();
+				row['related_publications'] = parsed['related publications (pubmed ids)'].toString();
+				row['related_studies'] = parsed['related studies'].toString();
+			});
+			return rawData;
 		},
 		//@@@PDC-1291 Redesign Browse Page data tabs
 		async getPaginatedUIFile(_, args, context) {
@@ -5132,6 +5209,46 @@ export const resolvers = {
 			logger.info("getUIPublicationFilters is called from UI with "+ JSON.stringify(args));
 			return "3";
 		},
+		//@@@PDC-6513 API for new pancancer publication page
+		getUIPancancerPublications(_, args, context) {
+			context['parent']= "getUIPancancerPublications";
+			let replacements = { };			
+			let uiPubQuery = "SELECT bin_to_uuid(pub.publication_id) as publication_id,  pub.pubmed_id, pub.group_name, pub.doi, pub.author, pub.title, pub.journal, pub.journal_url, pub.year, pub.abstract, pub.citation from publication pub where group_name = :group_name ";
+			replacements['group_name'] = "Pancancer";
+			return db.getSequelize().query(
+					uiPubQuery,
+					{
+						replacements: replacements,
+						model: db.getModelByName('ModelUIPublication')
+					}
+				);			
+		},
+		//@@@PDC-6708 get pancancer file data
+		pancancerFileMetadata(_, args, context) {
+			let fileNameQuery = "";
+			let replacements = { };
+			if (typeof args.file_name != 'undefined' && args.file_name.length > 0) {
+				fileNameQuery = "and f.file_name = :file_name ";
+				replacements['file_name'] = args.file_name;
+			}
+
+			let fileQuery = "select bin_to_uuid(file_id) as file_id, data_source, data_category, file_type, file_format, "+
+			"file_size, file_location, file_name, downloadable from file f "+
+			"where data_category = 'Supplementary Data' and annotation is not null "+
+			fileNameQuery + " union "+
+			"select bin_to_uuid(f.file_id) as file_id, data_source, data_category, file_type, file_format, "+ 
+			"file_size, file_location, file_name, downloadable from file f, publication_file pf, publication p "+ 
+			"where f.file_id = pf.file_id and pf.publication_id = p.publication_id and  "+
+			"p.group_name = 'Pancancer' and f.data_category = 'Publication Supplementary Material' "+
+			fileNameQuery;
+			return db.getSequelize().query(
+					fileQuery,
+					{
+						replacements: replacements,
+						model: db.getModelByName('ModelFileMetadata')
+					}
+				);		
+		},
 		async getPaginatedUIPublication (_, args, context) {
 			context['parent']= "getPaginatedUIPublication";
 			logger.info("getPaginatedUIPublication is called from UI with "+ JSON.stringify(args));
@@ -5691,6 +5808,7 @@ export const resolvers = {
 				);
 		},
 		//@@@PDC-898 new public APIs--protocolPerStudy
+		//@@@PDC-6690 add new columns for metabolomics
 		protocolPerStudy (_, args, context) {
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/protocolPerStudy").send();
@@ -5719,7 +5837,9 @@ export const resolvers = {
 			"gradient_length_uom, instrument_make, instrument_model, "+
 			"dissociation_type, ms1_resolution, ms2_resolution, "+
 			"dda_topn, normalized_collision_energy, acquistion_type, "+
-			"dia_multiplexing, dia_ims, auxiliary_data, prot.cud_label "+
+			"dia_multiplexing, dia_ims, analytical_technique, "+
+			"chromatography_instrument_make, chromatography_instrument_model, "+
+			"trim(both '\r' from acquisition_mode) as acquisition_mode, auxiliary_data, auxiliary_data, prot.cud_label "+
 			" from study s, program prog, project proj, protocol prot "+
 			" where prot.study_id = s.study_id and s.project_id = proj.project_id "+
 			" and proj.program_id = prog.program_id ";
@@ -5983,11 +6103,12 @@ export const resolvers = {
 				logger.info("studyExperimentalDesign is called from UI with "+ JSON.stringify(args));
 
 			//@@@PDC-5290 add experiment types of TMT16 and TMT18
+			//@@@PDC-6691 add acquisition_mode
 			let experimentalQuery = "SELECT distinct bin_to_uuid(srm.study_run_metadata_id) as study_run_metadata_id, "+
 			" bin_to_uuid(s.study_id) as study_id, srm.study_run_metadata_submitter_id,"+
 			" s.study_submitter_id, s.pdc_study_id, "+
 			" srm.analyte, s.acquisition_type, s.experiment_type,"+
-			" srm.folder_name as plex_dataset_name, srm.experiment_number,"+
+			" srm.folder_name as plex_dataset_name, srm.experiment_number, srm.acquisition_mode, "+
 			" p.fractions_analyzed_count as number_of_fractions, label_free as label_free_asi, itraq_113 as itraq_113_asi,"+
 			" itraq_114 as itraq_114_asi, itraq_115 as itraq_115_asi, itraq_116 as itraq_116_asi, itraq_117 as itraq_117_asi,"+
 			" itraq_118 as itraq_118_asi, itraq_119 as itraq_119_asi, itraq_121 as itraq_121_asi,"+

@@ -10,6 +10,7 @@ type Paginated {
 	uiGeneAliquotSpectralCounts:[UIGeneStudySpectralCount]
 	uiPtm: [UIPtm]
 	uiPublication: [Publication]
+	uiPancancerFiles: [UIPancancerFile]
 	files: [File]
 	cases: [Case]
 	genesProper: [Gene]

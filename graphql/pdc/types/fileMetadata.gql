@@ -7,6 +7,8 @@ type FileMetadata {
 	aliquots: [Aliquot]
 	file_submitter_id: String 
 	data_category: String
+	data_source: String
+	downloadable: String
 	file_type: String
 	file_format: String
 	analyte: String 

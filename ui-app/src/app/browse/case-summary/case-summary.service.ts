@@ -573,6 +573,7 @@ constructor(private apollo: Apollo) {
 	}
 
 	//@@@PDC-5045: Convert the GET requests to the getPaginatedUIClinical API of "Clinical" tab to POST
+	//@@@PDC-6543: external ref case summary
 	caseDataDetailedPostQuery = gql`
 	query FilteredStudiesData($case_id: String!, $source: String!){
 		  uiCaseSummary(case_id: $case_id, source: $source) {
@@ -585,6 +586,12 @@ constructor(private apollo: Apollo) {
 			  index_date
 			  lost_to_followup
 			  primary_site
+				externalReferences {
+					reference_resource_shortname
+					reference_entity_location
+					reference_resource_name
+					external_reference_id
+				}
 				demographics {
 					ethnicity
 					gender

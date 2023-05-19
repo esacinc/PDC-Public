@@ -1,0 +1,17 @@
+type UIPancancerFile {
+	file_id: String
+	file_name: String
+	data_category: String
+	data_source: String
+	file_type: String
+	downloadable: String
+	access: String
+	md5sum: String
+	file_size: String
+	description: String
+	characterization: String
+	cohorts: String
+	related_publications: String
+	related_studies:String
+}
+

@@ -1,0 +1,223 @@
+
+.ui-widget-header {
+  display:none !important;
+}
+
+:host ::ng-deep .mat-row:nth-child(even){
+    background-color: red;
+}
+
+:host ::ng-deep .mat-row:nth-child(odd){
+    background-color: black;
+}
+
+.suppData {
+  padding-left: 20px;
+}
+
+:host ::ng-deep .suppData:nth-child(odd){
+  padding-top: 10px;
+}
+
+:host ::ng-deep .suppData:nth-child(3), :host ::ng-deep .suppData:nth-child(4), :host ::ng-deep .suppData:nth-child(7), :host ::ng-deep .suppData:nth-child(8){
+  background-color: rgb(239, 239, 239);
+}
+
+.gray { background-color: #f5f5f5 }
+
+
+.supplHeader, .supplementaryDataLink {
+  color: rgb(0, 80, 131) !important;
+  font-weight: bold;
+  padding-top: 10px;
+}
+
+/deep/ .abstract .mat-expansion-panel-body, /deep/ .relatedStudies .mat-expansion-panel-body {
+  padding-top: 10px !important;
+}
+
+.abstract-text-truncate {
+   display: inline-block;
+   word-wrap: break-word;
+   white-space: nowrap;
+   overflow: hidden;
+   text-overflow: ellipsis;
+   max-width: 400px;
+   max-height: 3.6em;
+   line-height: 1.8em;
+}
+
+.mat-button.mat-small {
+  min-width: 1%;
+}
+
+.toolbar-second-row {
+    background-image: linear-gradient(-133deg, #246A92 0%, #245571 100%);
+  }
+
+.example-additional-selection {
+  opacity: 0.75;
+  font-size: 0.75em;
+}
+
+.ui-datatable-odd {
+    background: rgb(225, 239, 252);
+
+}
+.ui-datatable-even {
+    background: none repeat scroll 0 0 rgb(154, 181, 204);
+
+}
+.ui-datatable-tableheader {
+    background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%) !important;
+    border:0px !important;
+    color: white !important;
+}
+
+.ui-datatable-tableheader-collapsed {
+    background-image: linear-gradient(-180deg, #3A8BB7 0%, #347da5 100%) !important;
+    border:0px !important;
+    color: white !important;
+}
+.ui-datatable-tableheader-continue {
+    background-image: linear-gradient(-180deg, #347da5 0%, #245672 100%) !important;
+    border:0px !important;
+    color: white !important;
+}
+.ui-grid-render-container.ui-grid-render-container-body {
+    left: 30px;
+    top: 0;
+    position: absolute;
+  }
+
+.ui-datatable-tableheader-flex-container{
+    display:-webkit-flex;
+    display:flex;
+    float: left;
+    align-items: center;
+ }
+
+
+.ui-dataview-tableheader {
+    background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%) !important;
+    border:0px !important;
+    color: white !important;
+}
+
+.ui-dataview-tableheader-collapsed {
+    background-image: linear-gradient(-180deg, #3A8BB7 0%, #347da5 100%) !important;
+    border:0px !important;
+    color: white !important;
+}
+.ui-dataview-tableheader-continue {
+    background-image: linear-gradient(-180deg, #347da5 0%, #245672 100%) !important;
+    border:0px !important;
+    color: white !important;
+}
+
+.ui-dataview-tableheader-flex-container{
+    display:-webkit-flex;
+    display:flex;
+    float: left;
+    align-items: center;
+ }
+
+.ui-dataview-header .ui-widget-header .ui-corner-top {
+	display: block;
+	min-height: 40px!important;
+}
+
+.browse-filter-header-image {
+  background-image: url('../../assets/css/images/Triangle.png');
+}
+
+/* @@@PDC-277: Add a filter crumb bar at the top that explains the filter criteria selected */
+.breadCrumbButtons {
+  cursor: pointer;
+  margin-bottom: 10px;
+  padding: 3px;
+}
+
+/deep/ .mat-expansion-indicator {
+  margin-left: 1%;
+}
+
+/deep/ #browsePageExpansionPanel .mat-expansion-panel-header {
+  //height: 36px !important;
+}
+
+/deep/ .mat-expansion-panel-header {
+	height:25px!important;
+}
+
+/deep/ {
+	@media not all and (min-resolution:.001dpcm)
+	{ @supports (-webkit-appearance:none) and (stroke-color:transparent) {
+
+		.safari_only {
+		  height: 68px !important;
+		}
+	}}
+}
+
+/deep/ #publicationsDataTable .ui-dataview .ui-dataview-header, 
+/deep/ #suppDataTable .ui-dataview .ui-dataview-header ,
+/deep/ #additionalResourcesTable .ui-dataview .ui-dataview-header {
+  padding: 0px !important;
+}
+
+/deep/ #publicationsDataTable .ui-dataview .ui-widget-content, 
+/deep/ #suppDataTable .ui-dataview .ui-widget-content,
+/deep/ #additionalResourcesTable .ui-dataview .ui-widget-content {
+  max-height: 1500px;
+  overflow-y: scroll;
+}
+
+
+.pancancer-page .title-card {
+  padding-left: 40px !important;
+  margin-bottom: 0px !important;
+}
+
+ @media only screen and (min-width: 1470px) {
+  .introduction {
+    padding-top: 1%;
+  }
+} 
+
+@media only screen and (min-width: 777px) and (max-width: 1470px) {
+  .introduction {
+    padding-left: 6%;
+  }
+} 
+
+@media only screen and (min-width: 1900px) and (max-width: 2300px) {
+  .extraSpace {
+    display: none !important;
+  } 
+  .introduction {
+    padding-left: 6%;
+  }
+}
+
+@media only screen and (min-width: 2300px) {
+  .extraSpace {
+    display: none !important;
+  }
+  .introduction {
+    padding-left: 3%;
+  }
+}
+
+@media only screen and (max-width: 1100px) {
+  .introduction {
+    min-width: 1000px !important;
+    max-width: 1000px !important;
+    padding-top: 2%;
+  }
+}
+
+/deep/ .publLink {
+  color:rgb(0, 80, 131) !important;
+  cursor: pointer !important;
+} 

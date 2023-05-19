@@ -212,3 +212,13 @@ div.container.front-page-figures-row{
 .bottom-card-bullet-icon {
   margin-right: 5px;
 }
+
+.pan-cancer {
+  text-align: justify;
+}
+
+@media only screen and (min-width: 2600px) {
+  .pan-cancer {
+    padding-top: 5px;
+  }
+}

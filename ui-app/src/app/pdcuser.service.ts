@@ -145,7 +145,8 @@ export class PDCUserService {
     // @@@PDC-633: Need to make calls to pdcapi more secure.
     // Get a JWT from PDC API by a post call and use the token as authorization header while making the GET request.
     //this.getJWTTokenFromPDCAPI();
-
+    //@@@PDC-6665 - registration broken federated login
+    localStorage.setItem('jwtToken', token);
     const existsObservable = new Observable<number>((observer) => {
       setTimeout(() => {
         this.http.get(url, {headers: new HttpHeaders({'authorization': 'bearer ' + localStorage.getItem('jwtToken')})}).subscribe(data => {
@@ -163,6 +164,8 @@ export class PDCUserService {
                 observer.next(0);
               } else {
                 //if user's registered flag is not set 1 is returned
+                //@@@PDC-6665 - registration broken federated login
+                localStorage.setItem('jwtToken', token);
                 observer.next(1);
               }
             } else {

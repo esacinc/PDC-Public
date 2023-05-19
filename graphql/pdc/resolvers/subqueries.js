@@ -1217,6 +1217,56 @@ export const resolvers = {
 			return suppleTypes;
 		}
 	},
+	//@@@PDC-6513 API for new pancancer publication page
+	UIPancancerPublication: {
+		files(obj, args, context) {
+			let replacements = { };
+			let fileQuery  = "SELECT bin_to_uuid(f.file_id) as file_id, file_name, downloadable, data_category, annotation from file f, publication_file pf "+
+			"where f.file_id = pf.file_id and data_category = 'Publication Supplementary Material' "+
+			" and pf.publication_id = uuid_to_bin(:publication_id) ";
+			replacements['publication_id'] = obj.publication_id;
+			return db.getSequelize().query(
+							fileQuery,
+							{
+								replacements: replacements,
+								model: db.getModelByName('ModelUIFile')
+							}
+						);
+			/*let rawData = await db.getSequelize().query(
+							fileQuery,
+							{
+								replacements: replacements,
+								model: db.getModelByName('ModelUIFile')
+							}
+						);
+			console.log(JSON.stringify(rawData));
+			rawData.forEach(row => {
+				let parsed = JSON.parse(row['annotation']);
+				row['description'] = parsed['description'];
+				row['characterization'] = parsed['related characterizations'];
+				row['cohorts'] = parsed['related cohorts'].toString();
+				row['related_publications'] = parsed['related publications (pubmed ids)'].toString();
+				row['related_studies'] = parsed['related studies'].toString();
+			}
+			);
+			return rawData;*/
+		},
+		//@@@PDC-6575 add related studies to pancancer publication
+		studies(obj, args, context) {
+			let replacements = { };
+			let studyQuery  = "SELECT bin_to_uuid(s.study_id) as study_id, s.study_submitter_id, s.pdc_study_id, s.submitter_id_name "+
+			"from study s, study_publication sp "+
+			"where s.study_id = sp.study_id and sp.publication_id = uuid_to_bin(:publication_id) ";
+			replacements['publication_id'] = obj.publication_id;
+			return db.getSequelize().query(
+							studyQuery,
+							{
+								replacements: replacements,
+								model: db.getModelByName('ModelUIStudy')
+							}
+						);
+		}
+	},
 	//@@@PDC-3640 new pdc metrics api
 	PDCMetrics: {
 		async programs(obj, args, context) {
@@ -1380,6 +1430,34 @@ export const resolvers = {
 			}else{
 				return JSON.parse(res);
 			}
+		},
+		//@@@PDC-6601 Add paginate API for pancancer related files
+		uiPancancerFiles(obj, args, context) {
+			logger.info("uiPancancerFiles is called via "+context.parent);
+			return db.getSequelize().query(
+					context.query,
+					{
+						replacements: context.replacements,
+						model: db.getModelByName('ModelUIFile')
+					}
+				);
+			/*let rawData =await db.getSequelize().query(
+					context.query,
+					{
+						replacements: context.replacements,
+						model: db.getModelByName('ModelUIFile')
+					}
+				);			
+			rawData.forEach(row => {
+				let parsed = JSON.parse(row['annotation']);
+				row['description'] = parsed['description'];
+				row['characterization'] = parsed['related characterizations'];
+				row['cohorts'] = parsed['related cohorts'].toString();
+				row['related_publications'] = parsed['related publications (pubmed ids)'].toString();
+				row['related_studies'] = parsed['related studies'].toString();
+			}
+			);
+			return rawData;*/
 		},
 		async uiLegacyFiles(obj, args, context) {
 			logger.info("uiLegacyFiles is called via "+context.parent);

@@ -170,7 +170,7 @@ export class BrowseByFileService {
           submitter_id_name
           study_id
           pdc_study_id
-		  embargo_date 
+		      embargo_date 
           file_name
           study_run_metadata_submitter_id
           project_name
@@ -497,5 +497,58 @@ export class BrowseByFileService {
         })
       );
   }
+
+  paginatedFilesForPublicationQuery = gql`
+  query PaginatedFilesForPublication(
+    $offset_value: Int
+    $limit_value: Int
+    $publication_id: String!
+  ) {
+    getPaginatedUIPancancerFiles(
+      offset: $offset_value
+      limit: $limit_value
+      publication_id: $publication_id
+    ) {
+      total
+      uiPancancerFiles {
+        file_id
+        file_name
+        description
+        characterization
+        cohorts
+        related_publications
+        related_studies
+        downloadable
+      }
+      pagination {
+        count
+        sort
+        from
+        page
+        total
+        pages
+        size
+      }
+    }
+  }
+`;
+
+getPaginatedFilesForPublication(publication_id: string, offset: number, limit: number) {
+  return this.apollo
+    .watchQuery<QueryAllFilesDataPaginated>({
+      query: this.paginatedFilesForPublicationQuery,
+      variables: {
+        offset_value: offset,
+        limit_value: limit,
+        publication_id: publication_id,
+      }
+    })
+    .valueChanges.pipe(
+      map(result => {
+        console.log(result.data);
+        return result.data;
+      })
+    );
+}
 
 }

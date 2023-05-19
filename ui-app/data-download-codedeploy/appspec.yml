@@ -2,7 +2,7 @@ version: 0.0
 os: linux
 
 files:
-  - source: /ui-app/src/assets/data-folder
+  - source: /ui-app/src/assets
     destination: /home/ec2-user/PDC_Build/pdc/data-download-folder
 
 hooks:

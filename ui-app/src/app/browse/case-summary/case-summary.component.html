@@ -312,5 +312,30 @@
 		  </mat-tab-group>
 		</mat-card-content>
 	  </mat-card>
+    <!--PDC-6543-external-ref-case-summary-->
+    <div *ngIf="externalReferences_length > 0" class="row" style="width:60%; padding-top: 20px;">
+    <mat-card style="width:100%">
+      <mat-card-header class="case-summary">
+      <mat-card-title  class="case-summary">GENOMIC AND IMAGING DATA RESOURCES</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content style="overflow-y: auto;max-height: 200px; width:100%; padding-left:20px;">
+      <table class="table table-striped" style="width:100%" id="entityReferenceExternalTable">
+        <thead>
+          <tr style="font-size: 12px;background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%);">
+            <th colspan="2" class="ui-datatable-tableheader" style="width:80%;">External References</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="font-size: 12px;" *ngFor="let externalRef of externalReferences">
+            <td style="word-wrap: break-word;white-space: normal;width:40%">{{externalRef.reference_resource_name}}</td>
+            <td style="word-wrap: break-word;white-space: normal;text-align:right;"><a href="{{externalRef.reference_entity_location}}" target="_blank">{{externalRef.external_reference_id}}</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </mat-card-content>
+    </mat-card>
+   </div>
+
 	</div>
 </mat-dialog-content>

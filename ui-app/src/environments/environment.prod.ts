@@ -14,7 +14,7 @@ export const environment = {
   PDC_CLUSTER_NAME: 'PDC-CDAP',
   BUILD_TAG: '1.0.23',
   idle_session_timeout_seconds: 1800,
-  GA_TRACKING_ID: 'UA-124894982-1',
+  GA_TRACKING_ID: 'G-FCJVZGSR42',
   gdc_case_id_url: 'https://portal.gdc.cancer.gov/cases/',
   chorus_jwt_url: '/chorusapi',
   pdcapi_jwt_url: '/pdcapi/login',

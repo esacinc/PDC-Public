@@ -14,6 +14,7 @@ import { GeneProteinSummaryComponent } from './gene-protein-summary/gene-protein
 import { CaseSummaryComponent } from './browse/case-summary/case-summary.component';
 import { StudySummaryComponent } from './browse/study-summary/study-summary.component';
 import { FilesOverlayComponent } from './browse/browse-by-file/files-overlay.component';
+import { PublicationFilesOverlayComponent } from './browse/browse-by-file/publication-files-overlay.component';
 import { GenePageComponent } from './gene-page/gene-page.component';
 import { UserAccountComponent } from './user-account/user-account.component';
 import { AuthGuardService as AuthGuard } from './auth-guard.service';
@@ -36,6 +37,8 @@ import { ApiDocumentationComponent } from './api-documentation/api-documentation
 
 //@@@PDC-4426 migrate publicapi-documentation
 import { PublicapiDocumentationComponent } from './publicapi-documentation/publicapi-documentation.component';
+//@@@PDC-5896-build pancancer page
+import { PancancerComponent } from './pancancer/pancancer.component';
 
 const appRoutes: Routes = [
   //pdc url will be lazy loading when route redirect to 'pdc'.
@@ -76,6 +79,7 @@ const appRoutes: Routes = [
   { path: 'case-summary/:case_id', component: CaseSummaryComponent, outlet: 'caseSummary'},
   { path: 'study-summary/:study_id', component: StudySummaryComponent, outlet: 'studySummary'},
   { path: 'files-overlay/:study_id', component: FilesOverlayComponent, outlet: 'filesOverlay'},
+  { path: 'publication-files-overlay/:publication_id', component: PublicationFilesOverlayComponent, outlet: 'publicationFilesOverlay'},
   { path: 'case/:case_uuid', loadChildren: './lazybrowse.module#LazyBrowseModule'},
   { path: 'study/:study_uuid', loadChildren: './lazybrowse.module#LazyBrowseModule'},
   { path: 'data-dictionary', loadChildren:'./lazydictionary.module#LazyDataDictionaryModule'},
@@ -92,6 +96,7 @@ const appRoutes: Routes = [
   { path: 'api-documentation', component: ApiDocumentationComponent},
   //@@@PDC-4426 migrate publicapi-documentation
   { path: 'publicapi-documentation', component: PublicapiDocumentationComponent},
+  { path: 'cptac-pancancer', component: PancancerComponent},
   { path: '**', component: PageNotFoundComponent,  canActivate: [AuthGuard]},
 
   ];

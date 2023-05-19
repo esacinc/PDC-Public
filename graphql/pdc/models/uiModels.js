@@ -341,6 +341,7 @@ const defineUiModels = (db) => {
 	//@@@PDC-827 Add md5sum  and StudyId
 	//@@@PDC-2815 add embargo_date to getPaginatedUIFile API
 	//@@@PDC-3909 add data_source to getPaginatedUILegacyFile API
+	//@@@PDC-6513 API for new pancancer publication page
 	/**
 	* ModelUIFile is used in uiFile query.
 	*/
@@ -360,6 +361,7 @@ const defineUiModels = (db) => {
 		access: { type: Sequelize.STRING},
 		md5sum: { type: Sequelize.STRING},
 		file_size:  { type: Sequelize.STRING},
+		annotation:  { type: Sequelize.STRING},
 	}, {
 		timestamps: false,
 		underscored: true,

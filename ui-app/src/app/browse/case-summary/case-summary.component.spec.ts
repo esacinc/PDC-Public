@@ -39,6 +39,7 @@ class MockCaseSummaryService {
   }
 
   //@@@PDC-1123 add ui wrappers public APIs
+  //@@@PDC-6543 external ref case summary
   getDetailedCaseSummaryData(): Observable<any> {
     return of({
       uiCaseSummary: [
@@ -52,6 +53,13 @@ class MockCaseSummaryService {
           index_date: "",
           lost_to_followup: "No",
           primary_site: "Bronchus and lung",
+          externalRef: [{
+            external_reference_id: "14b0b2d5-46a1-426c-aec2-9b6520f92347",
+            reference_entity_location: "https://portal.gdc.cancer.gov/cases/14b0b2d5-46a1-426c-aec2-9b6520f92347",
+            reference_resource_name:"Genomic Data Commns",
+            reference_resource_shortname: "GDC"
+          }
+          ],
           demographics: [
             {
               ethnicity: "Not Hispanic or Latino",
@@ -648,8 +656,8 @@ describe("CaseSummaryComponent", () => {
       fixture.detectChanges();
     });
   }));
-  
-  
+
+
   it("Show Files data test", () => {
 	let router = TestBed.get(Router);
     spyOn(router, "navigate");

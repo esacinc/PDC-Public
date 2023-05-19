@@ -21,6 +21,7 @@ type Query {
   filterStats(filter_name: String, ranking: Int): [FilterItem]
   geneSearch(name: String! offset: Int, limit: Int): Paginated	
   geneSpectralCount(gene_name: String!, source: String, acceptDUA: Boolean): [Gene]	
+  getAllUIPancancerFiles: [UIPancancerFile]	
   getPaginatedCases(offset: Int, limit: Int, acceptDUA: Boolean): Paginated	
   getPaginatedFiles(study_id: String, study_submitter_id: String,  pdc_study_id: String, file_type: String, file_name: String, offset: Int, limit: Int, acceptDUA: Boolean): Paginated	
   getPaginatedGenes(gene_name: String offset: Int, limit: Int, acceptDUA: Boolean): Paginated  	
@@ -34,10 +35,12 @@ type Query {
   getPaginatedUIGeneStudySpectralCountFiltered(program_name: String, project_name: String, study_name: String, disease_type: String, primary_site: String, analytical_fraction: String, experiment_type: String, ethnicity: String, race: String, gender: String, morphology: String, primary_diagnosis: String,  site_of_resection_or_biopsy: String, tissue_or_organ_of_origin: String, tumor_grade: String, tumor_stage: String, sample_type: String, acquisition_type: String, gene_name: String!, sort: String, source: String, offset: Int, limit: Int): Paginated	
   getPaginatedUILegacyFile(study_id: String, file_type: String, data_source: String, data_category: String, sort: String, offset: Int, limit: Int): Paginated	
   getPaginatedUIPtm(gene_name: String!, source: String, offset: Int, limit: Int): Paginated
+  getPaginatedUIPancancerFiles(publication_id: String!, offset: Int, limit: Int): Paginated	
   getPaginatedUIPublication(disease_type: String, year: String, program: String, pubmed_id: String, offset: Int, limit: Int): Paginated	
   getPaginatedUIStudy(program_name: String, project_name: String, study_name: String, study_version: String, disease_type: String, primary_site: String, analytical_fraction: String, experiment_type: String, study_submitter_id: String,  pdc_study_id: String, ethnicity: String, race: String, gender: String, morphology: String, primary_diagnosis: String,  site_of_resection_or_biopsy: String, tissue_or_organ_of_origin: String, tumor_grade: String, tumor_stage: String, data_category: String, file_type: String, downloadable: String, access: String, sample_type: String, acquisition_type: String, gene_name: String, biospecimen_status: String, case_status: String, source: String, sort: String, offset: Int, limit: Int, getAll: Boolean): Paginated	
   getPDCMetrics(acceptDUA: Boolean): PDCMetrics	
-  getUIHeatmapFilters: HeatmapFilters  	
+  getUIHeatmapFilters: HeatmapFilters 
+  getUIPancancerPublications: [UIPancancerPublication]  
   getUIPtmMultiGenes(genes: String!, source: String): [UIPtm]	    
   getUIPtmAlphabetically(gene: String!):[UIPtm]	
   getUIPublicationFilters: PublicationFilters
@@ -54,6 +57,7 @@ type Query {
   paginatedSpectralCountPerStudyAliquot(study_id: String, study_submitter_id: String,  pdc_study_id: String, plex_name: String, gene_name: String, offset: Int, limit: Int, acceptDUA: Boolean): Paginated	
   pdcDataStats(acceptDUA: Boolean): [PdcDataStats]	
   pdcEntityReference(entity_type: String, entity_id: String, reference_type: String!, source: String, acceptDUA: Boolean): [EntityReference]	
+  pancancerFileMetadata(file_name: String):[FileMetadata]
   program(program_submitter_id: String, program_id: String, acceptDUA: Boolean): Program	
   programsProjectsStudies(disease_type: String, instrument_model: String, analytical_fraction: String, experiment_type: String, acceptDUA: Boolean): [Program]	
   projectsPerExperimentType(experiment_type: String, acceptDUA: Boolean): [ExperimentProjects] 	

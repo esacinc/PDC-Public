@@ -38,6 +38,16 @@ $header-height: 10.8rem;
     width:45%;
   }
 
+  .sticky-nav-2 {
+    z-index: 1;
+    top: 0;
+    right: 0;
+    overflow-x: hidden;
+    padding-top: 160px;
+    padding-right: 40px;
+    width:45%;
+  }
+
   .fixed-class, .absolute-class {
     position: fixed;
   }

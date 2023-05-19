@@ -48,6 +48,10 @@ type Protocol {
 	acquistion_type: String
 	dia_multiplexing: String
 	dia_ims: String
+	analytical_technique: String
+	chromatography_instrument_make: String
+	chromatography_instrument_model: String
+	acquisition_mode: String
 	auxiliary_data: String
 	cud_label: String
 	study: Study

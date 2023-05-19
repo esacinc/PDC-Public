@@ -66,6 +66,7 @@ import { environment } from '../environments/environment';
 import { AuthGuardService } from './auth-guard.service';
 import { StudySummaryComponent } from './browse/study-summary/study-summary.component';
 import { FilesOverlayComponent } from './browse/browse-by-file/files-overlay.component';
+import { PublicationFilesOverlayComponent } from './browse/browse-by-file/publication-files-overlay.component';
 import { OverlayWindowComponent } from './overlay-window/overlay-window.component';
 import { OverlayWindowService } from './overlay-window/overlay-window.service';
 import { StudySummaryOverlayWindowComponent } from './browse/study-summary/study-summary-overlay-window/study-summary-overlay-window.component';
@@ -94,6 +95,9 @@ import { DataDictionaryModule } from './data-dictionary/data-dictionary.module';
 import { ApiDocumentationComponent } from './api-documentation/api-documentation.component';
 import { PublicapiDocumentationComponent } from './publicapi-documentation/publicapi-documentation.component';
 import { InputDialogComponent } from './dialog/input-dialog/input-dialog.component';
+//@@PDC-5896-build pancancer page
+import { PancancerComponent } from './pancancer/pancancer.component';
+import { PancancerService } from './pancancer/pancancer.service';
 
 
 export function getAuthServiceConfigs() {
@@ -128,6 +132,7 @@ const RECAPTCHA_V3_PDC_KEY = environment.recaptcha_site_key;
 	CaseSummaryComponent,
 	StudySummaryComponent,
 	FilesOverlayComponent,
+	PublicationFilesOverlayComponent,
 	OverlayWindowComponent,
 	ConfirmationDialogComponent,
   InputDialogComponent,
@@ -150,7 +155,8 @@ const RECAPTCHA_V3_PDC_KEY = environment.recaptcha_site_key;
 	HarmonizationComponent,
 	ApiDocumentationComponent,
 	PublicapiDocumentationComponent,
-	DataDownloadDocComponent
+	DataDownloadDocComponent,
+	PancancerComponent
 
 
   ],
@@ -203,7 +209,7 @@ const RECAPTCHA_V3_PDC_KEY = environment.recaptcha_site_key;
   RecaptchaV3Module
   ],
 
-  providers: [ChorusauthService, FrontPageService, SearchService, PDCUserService, OverlayWindowService, PublicationsService,
+  providers: [ChorusauthService, FrontPageService, SearchService, PDCUserService, OverlayWindowService, PublicationsService,PancancerService,
 				LegacyDataService, HeatmapsService, StudySummaryOverlayService, AuthGuardService,
 				{ provide: AuthServiceConfig,	useFactory: getAuthServiceConfigs },
 				{ provide: APP_BASE_HREF, useValue: window['_app_base'] || '/' },

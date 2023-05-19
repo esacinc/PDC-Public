@@ -1,0 +1,35 @@
+<title>Files</title>
+<button mat-icon-button style="float: right; flex: 0 0 auto;" (click)="close()" aria-label="Close">
+	<fa name="times" style="light"></fa>
+</button>
+<div id="FilesOvelrayTitle" mat-dialog-title>
+<h2  style="color:#245672" >Publication Files</h2>
+
+<div *ngIf="totalRecords > 0 && !loading" class="container-fluid ui-helper-clearfix button-container-fluid" style="padding-left: 0px">
+	<h3 style="font-size:14px;margin-top:10px!important; float:left">{{totalRecords > 1 ? 'Total files: ' + totalRecords : 'Total file: ' + totalRecords }}</h3>
+</div>
+
+<p-table class="table-striped ui-datatable-odd" #dt [columns]="cols" [value]="filteredFilesData" [lazy]="true" [paginator]="true" [(first)]="offset"
+			[rows]="10" [pageLinks]="5" [rowsPerPageOptions]="[10,20,50,100]" [totalRecords]="totalRecords"
+			[loading]="loading" [resizableColumns]="true" columnResizeMode="expand" [ngStyle]="{'font-size':'14px'}"
+				(onLazyLoad)="loadFiles($event)" id="pancancerFileDataTable" paginatorPosition="both"
+			scrollHeight="500px" [autoLayout]="true" [scrollable]="true">
+	<ng-template pTemplate="header" let-columns>
+		<tr>
+			<th class="ui-datatable-tableheader">
+				<a href="/pdc/data-dictionary/File#file_name" target="_blank" style="color:white">File Name</a>
+			</th>
+			<th class="ui-datatable-tableheader" style="text-align: center;">
+				<a href="/pdc/data-dictionary/File#downloadable" target="_blank" style="color:white">Downloadable</a>
+			</th>
+		</tr>
+	</ng-template>
+	<ng-template pTemplate="body" let-fileData let-rowIndex="rowIndex">
+		<tr>
+			<td style="word-wrap: break-word; white-space: normal;">{{fileData.file_name }}</td>
+			<td style="word-wrap: break-word; white-space: normal;text-align: center;"><span *ngIf="fileData.downloadable == 'No'">{{fileData.downloadable}}</span><span *ngIf="fileData.downloadable == 'Yes'"><button class="downloadBtn" matTooltip="Some data are under an embargo for publication and/or citation. For more details, visit the summary page for the study of interest for the data use agreement." matTooltipPosition = "left" mat-raised-button mat-primary label="Download Selection" (click)="downloadFile(fileData)" style="font-family:'Lato';background-color: lightgray;color: black;" aria-label="Download">Download&nbsp;&nbsp;&nbsp;<i class="fas fa-download"></i></button></span></td>
+		</tr>
+	</ng-template>
+	</p-table>
+
+</div>

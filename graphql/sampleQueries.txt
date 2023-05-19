@@ -2222,7 +2222,7 @@ PDC-136, 774, 827, 787, 1960, 2815
 	}
 }
 {
-	getPaginatedUIClinical(study_name: "Prospective Breast BI Proteome" offset: 0 limit: 10) {
+	getPaginatedUIClinical(study_name: "AML Ex Vivo Drug Response" offset: 0 limit: 10) {
 		total
 		uiClinical{
 			case_id
@@ -2335,7 +2335,7 @@ PDC-136, 774, 827, 787, 1960, 2815
 	}
 }
 {
-	getPaginatedUIClinical(project_name: "CPTAC-Retrospective;CPTAC-Confirmatory" offset: 0 limit: 10) {
+	getPaginatedUIClinical(project_name: "Proteogenomic Translational Research Centers (PTRC)" offset: 0 limit: 10) {
 		total
 		uiClinical{
 			case_id
@@ -2349,6 +2349,11 @@ PDC-136, 774, 827, 787, 1960, 2815
 			tissue_or_organ_of_origin
 			tumor_grade
 			tumor_stage
+		samples {
+			sample_id			
+			sample_submitter_id
+			annotation
+			}		
 		}
 		pagination {
 			count
@@ -2444,9 +2449,9 @@ PDC-265
 	cases_count	
 	}
 }
-//PDC-271 PDC-652
+//PDC-271 PDC-652, 6690
 {
-	uiProtocol {
+	uiProtocol (pdc_study_id: "PDC000526") {
 		protocol_id
 		protocol_submitter_id
 		program_id
@@ -2492,6 +2497,10 @@ PDC-265
 		acquistion_type
 		dia_multiplexing
 		dia_ims
+		analytical_technique
+		chromatography_instrument_make
+		chromatography_instrument_model
+		acquisition_mode		
 		auxiliary_data
 		cud_label
 	}
@@ -2654,8 +2663,9 @@ PDC-265
 		dia_ims
 	}
 }
+//pdc-6690
 {
-	protocolPerStudy(pdc_study_id: "PDC000206"  acceptDUA: true){
+	protocolPerStudy(pdc_study_id: "PDC000526"  acceptDUA: true){
 		protocol_id
 		protocol_submitter_id
 		study_id
@@ -2704,7 +2714,11 @@ PDC-265
 		acquistion_type
 		dia_multiplexing
 		dia_ims
-	}
+		analytical_technique
+		chromatography_instrument_make
+		chromatography_instrument_model
+		acquisition_mode	
+		}
 }
 //PDC-273
 {
@@ -2723,15 +2737,80 @@ PDC-265
 	}
 
 }
-//PDC-1874
+//PDC-1874 5768
 {
 	uiPublication (pdc_study_id: "PDC000173" ){
 		publication_id
 		pubmed_id
+		publication_group
 		title
 	}
 
 }
+//pdc-6680
+{
+	getAllUIPancancerFiles {
+			file_name
+			description
+			characterization
+			cohorts
+			related_publications
+			related_studies
+	}
+}
+//pdc-6601
+{
+	getPaginatedUIPancancerFiles(publication_id: "bef019a4-50b1-11ed-a6f8-0a79dd92157b" offset: 0 limit: 10){
+		total
+		uiPancancerFiles {
+			file_name
+			description
+			characterization
+			cohorts
+			related_publications
+			related_studies
+		}
+		pagination {
+			count
+			sort
+			from
+			page
+			total
+			pages
+			size
+		}	
+	}		
+}
+//pdc-6513
+{
+	getUIPancancerPublication {
+		publication_id
+		pubmed_id
+		doi
+		author
+		title
+		journal
+		journal_url
+		year
+		abstract
+		citation
+		studies {
+			study_id
+			study_submitter_id
+			pdc_study_id
+			submitter_id_name
+		}
+		files {
+			file_name
+			description
+			characterization
+			cohorts
+			related_publications
+			related_studies
+		}
+	}
+}
+
 //PDC-3446
 {
 	getPaginatedUIPublication(offset: 0 limit: 10) {
@@ -3634,6 +3713,19 @@ PDC-2979
       sample_id
       sample_submitter_id
     }
+  }
+}
+//pdc-6708
+{
+  pancancerFileMetadata(file_name: "Phosphoproteome_UMich_GENCODE34_v1.zip") {
+    file_name
+    file_location
+    file_size
+   	data_category
+	data_source
+	file_type
+	file_format
+	downloadable
   }
 }
 //PDC-333 391
@@ -4924,6 +5016,27 @@ sample_type)
 	acquisition_type
 }
 }
+//PDC-5625
+{
+filterStats(ranking: 1) {
+	filterUsed
+	filterAppCount
+}
+}
+//PDC-5626
+{
+searchStats(ranking: 1) {
+	type
+	value
+	count
+}
+}
+//PDC-5774
+{
+objectSearched(type: "case", parameterType: "case_submitter_id", parameterValue: "OSCC_56")
+{
+}
+}
 {
   uiFilters (sample_type: "Primary Tumor"){
 	project_name {
@@ -6080,7 +6193,7 @@ limit: 10) {
 }
 
 {
-	getPaginatedUIGene(race: "asian" offset: 0 limit: 10) {
+	getPaginatedUIGene(study_name:"AML Ex Vivo Drug Response" offset: 0 limit: 10) {
 	total
 	uiGenes {
 		gene_name
@@ -6272,7 +6385,7 @@ limit: 10) {
 	}
 }
 {
-	getUIPtmMultiGenes(genes: "CDC42EP1;AFF4;ZNF217;AADAC"){
+	getUIPtmMultiGenes(genes: "CDC42EP1;1110059G10Rik;AFF4;ZNF217;AADAC"){
 			gene_name
 			ptm_type 
 			site
@@ -7023,7 +7136,7 @@ PDC-2978 4293
 		}
 	}
 }
-//PDC-1120 1316 1874 3847
+//PDC-1120 1316 1874 3847 6691
 {
 	studyExperimentalDesign (study_id: "dbe94609-1fb3-11e9-b7f8-0a80fada099c" acceptDUA: true){
 		study_run_metadata_id,
@@ -7034,6 +7147,7 @@ PDC-2978 4293
 		aliquot_is_ref
 		analyte,
 		acquisition_type,
+		acquisition_mode
 		experiment_type,
 		plex_dataset_name,
 		experiment_number,
@@ -7140,6 +7254,7 @@ PDC-2978 4293
 		}
 	}
 }
+study_run_metadata_id, study_run_metadata_submitter_id, study_id, study_submitter_id, protocol_id, protocol_submitter_id, experiment_number, experiment_type, folder_name, analyte, fraction, date, alias, replicate_number, label_free, itraq_113, itraq_114, itraq_115, itraq_116, itraq_117, itraq_118, itraq_119, itraq_121, tmt_126, tmt_127n, tmt_127c, tmt_128n, tmt_128c, tmt_129n, tmt_129c, tmt_130n, tmt_130c, tmt_131, tmt_131c, tmt_132n, tmt_132c, tmt_133n, tmt_133c, tmt_134n, tmt_134c, tmt_135n, cud_label, updated
 //PDC-936
 {
 	getPaginatedUIStudy(biospecimen_status: "Disqualified" offset: 0 limit: 10) {
@@ -7486,6 +7601,26 @@ PDC-1467
 	reference_entity_location
 	}
 }
+//PDC-5511
+{
+	reference(entity_type: "diagnosis", 
+	reference_type: "internal" acceptDUA: true) 
+	{
+	reference_id
+	entity_type
+	entity_id
+	entity_submitter_id
+	reference_type
+	reference_entity_type
+	reference_entity_alias
+	reference_entity_id
+	reference_resource_name
+	reference_resource_shortname
+	reference_entity_location
+	annotation
+	}
+}
+
 
 //PDC-1882
 {

@@ -63,6 +63,9 @@ export class CaseSummaryComponent implements OnInit {
 	showMoreExposure: boolean = false;
 	showMoreFollowUp: boolean = false;
 	source: string = "";
+	externalReferences: any;
+	externalReferences_length: number = 0;
+
   constructor(private activatedRoute: ActivatedRoute, private router: Router, private apollo: Apollo,
 				private loc:Location,
 				private caseSummaryService: CaseSummaryService,
@@ -243,6 +246,11 @@ export class CaseSummaryComponent implements OnInit {
 			//@@@PDC-2335 uiCaseSummary returns an array instead of a single obj
 			console.log(data);
 			this.caseDetailedSummaryData = data.uiCaseSummary[0];
+			//@@PDC-6543 external ref case summary
+			this.externalReferences = data.uiCaseSummary[0].externalReferences;
+			if (this.externalReferences){
+			  this.externalReferences_length = this.externalReferences.length;
+		  }
 			//@@@PDC-2956: issue with opening case summary via direct URL
 			if (this.case_submitter_id === "" && data.uiCaseSummary[0].case_submitter_id != "") {
 				this.case_submitter_id = data.uiCaseSummary[0].case_submitter_id;

@@ -259,6 +259,7 @@ const defineCustomModels = (db) => {
 	  //@@@PDC-652 new protocol structure
 	  //@@@PDC-898 new public APIs--protocolPerStudy
 	  //@@@PDC-1154 column name correction: fractions_analyzed_count
+	  //@@@PDC-6690 add new columns for metabolomics
 	  /**
 	  * ModelProtocol is a utility and used in 
 	  * projectsPerInstrument and uiProtocol queries.
@@ -312,6 +313,10 @@ const defineCustomModels = (db) => {
 		  acquistion_type: { type: Sequelize.STRING },
 		  dia_multiplexing: { type: Sequelize.STRING },
 		  dia_ims: { type: Sequelize.STRING },
+		  analytical_technique: { type: Sequelize.STRING },
+		  chromatography_instrument_make: { type: Sequelize.STRING },
+		  chromatography_instrument_model: { type: Sequelize.STRING },
+		  acquisition_mode: { type: Sequelize.STRING },		  
 		  auxiliary_data: { type: Sequelize.STRING },
 		  cud_label: { type: Sequelize.STRING },
 		  project_submitter_id: { type: Sequelize.STRING },
@@ -430,7 +435,8 @@ const defineCustomModels = (db) => {
 	  //@@@PDC-332 API for file metadata--add more fields
 	  //@@@PDC-1257 replace fraction with fraction_number	  
 	  //@@@PDC-2642 add file_id	
-	  //@@@PDC-3668 add study_id	  
+	  //@@@PDC-3668 add study_id
+	  //@@@PDC-6708 get pancancer file data	  
 	  /**
 	  * ModelFileMetadata is a utility and used in 
 	  *   getFileMetadata query.
@@ -441,12 +447,14 @@ const defineCustomModels = (db) => {
 		  file_location: { type: Sequelize.STRING },
 		  md5sum: { type: Sequelize.STRING },
 		  file_size: { type: Sequelize.STRING },
+		  downloadable: { type: Sequelize.STRING },
 		  sample_id: { type: Sequelize.STRING }, 
 		  sample_submitter_id: { type: Sequelize.STRING },
 		  aliquot_id: { type: Sequelize.STRING }, 
 		  aliquot_submitter_id: { type: Sequelize.STRING },
 		  file_submitter_id: { type: Sequelize.STRING }, 
 		  data_category: { type: Sequelize.STRING},
+		  data_source : { type: Sequelize.STRING },
 		  file_type: { type: Sequelize.STRING},
 		  file_format: { type: Sequelize.STRING},
 		  analyte: { type: Sequelize.STRING }, 
@@ -646,6 +654,7 @@ const defineCustomModels = (db) => {
 	  //@@@PDC-1316 remove itraq_120
 	  //@@@PDC-3847 get aliquot info per label
 	  //@@@PDC-5290 add experiment types of TMT16 and TMT18
+	  //@@@PDC-6691 add acquisition_mode
 	  const ModelStudyExperimentalDesign = db.getSequelize().define('dummy', {
 		  study_run_metadata_id: { type: Sequelize.STRING,
 					  primaryKey: true },
@@ -659,6 +668,7 @@ const defineCustomModels = (db) => {
 		  plex_dataset_name:  { type: Sequelize.STRING},
 		  experiment_number:  { type: Sequelize.STRING},
 		  experiment_type:  { type: Sequelize.STRING},
+		  acquisition_mode: { type: Sequelize.STRING },		  
 		  number_of_fractions:  { type: Sequelize.STRING},
 		  label_free_asi:  { type: Sequelize.STRING},
 		  itraq_113_asi:  { type: Sequelize.STRING},

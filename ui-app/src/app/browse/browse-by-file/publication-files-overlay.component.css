@@ -1,0 +1,16 @@
+#pancancerFileDataTable .ui-table table, .ui-table table {
+    border-collapse: collapse !important;
+    width: 100% !important;
+    table-layout: fixed !important;
+}
+
+
+#pancancerFileDataTable .ui-datatable-tableheader {
+    background-color: #3A8BAF !important;
+    border:0px !important;
+    color: white !important;
+}
+
+#pancancerFileDataTable .downloadBtn {
+    line-height: 20px;
+}
