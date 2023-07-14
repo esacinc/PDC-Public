@@ -19,7 +19,11 @@
   padding-top: 10px;
 }
 
-:host ::ng-deep .suppData:nth-child(3), :host ::ng-deep .suppData:nth-child(4), :host ::ng-deep .suppData:nth-child(7), :host ::ng-deep .suppData:nth-child(8){
+/* :host ::ng-deep .suppData:nth-child(3), :host ::ng-deep .suppData:nth-child(4), :host ::ng-deep .suppData:nth-child(7), :host ::ng-deep .suppData:nth-child(8){
+  background-color: rgb(239, 239, 239);
+} */
+
+:host ::ng-deep .colorTheme {
   background-color: rgb(239, 239, 239);
 }
 

@@ -552,7 +552,7 @@ describe("StudySummaryService", () => {
       service.getFilteredCasesPaginated(0, 10, "", [], "").subscribe(data => {
         expect(data["getPaginatedUICase"]).toBeDefined();
         expect(data["getPaginatedUICase"].total).toBe(4000);
-        expect(data["getPaginatedUICase"]["uiCases"][0].aliquot_submitter_id).toBe("PDAC233");
+        expect(data["getPaginatedUICase"]["uiCases"][0].aliquot_submitter_id).toBe("SAMN05341218_N");
       });
 
       const op = controller.expectOne(service.filteredCasesPaginatedQuery);
@@ -563,18 +563,50 @@ describe("StudySummaryService", () => {
             total: 4000,
             uiCases: [
             {
-              aliquot_submitter_id: "PDAC233",
-              sample_submitter_id: "PDAC233",
-              case_id: "02dcc58d-656d-49af-a5bc-154bf2e86dee",
-              case_submitter_id: "PDAC233",
-              project_name: "Proteogenomics Analysis and Mechanism Study to Develop Precision Medicine for Treatment-Resistant Pa",
-              program_name: "Korea University",
-              sample_type: "Primary Tumor",
-              disease_type: "Pancreatic Adenocarcinoma",
-              primary_site: "Pancreas",
+              aliquot_id: "9c36e4e9-a971-4ee3-9e2b-4e25a0bb6191",
+              sample_id: "ba497617-aba1-4037-90f7-fc2c66ad10dd",
+              case_id: "ea7c9fbd-8353-4f3c-9fea-2fba79140536",
+              aliquot_submitter_id: "SAMN05341218_N",
+              aliquot_is_ref: "no",
               aliquot_status: "Qualified",
+              aliquot_quantity: null,
+              aliquot_volume: null,
+              amount: null,
+              analyte_type: "protein",
+              concentration: null,
               case_status: "Qualified",
               sample_status: "Qualified",
+              sample_submitter_id: "OSCC_56_N",
+              sample_is_ref: "no",
+              biospecimen_anatomic_site: null,
+              composition: "Not Reported",
+              current_weight: null,
+              days_to_collection: null,
+              days_to_sample_procurement: null,
+              diagnosis_pathologically_confirmed: null,
+              freezing_method: null,
+              initial_weight: null,
+              intermediate_dimension: null,
+              longest_dimension: null,
+              method_of_sample_procurement: null,
+              pathology_report_uuid: null,
+              preservation_method: null,
+              sample_type_id: null,
+              shortest_dimension: null,
+              time_between_clamping_and_freezing: null,
+              time_between_excision_and_freezing: null,
+              tissue_type: "Normal",
+              tumor_code: null,
+              tumor_code_id: null,
+              tumor_descriptor: null,
+              case_submitter_id: "OSCC_56",
+              program_name: "International Cancer Proteogenome Consortium",
+              project_name: "Oral Squamous Cell Carcinoma - Chang Gung University",
+              sample_type: "Solid Tissue Normal",
+              disease_type: "Oral Squamous Cell Carcinoma",
+              primary_site: "Head and Neck",
+              tissue_collection_type: null,
+              sample_ordinal: null
             }
           ],
           pagination: {

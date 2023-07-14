@@ -824,7 +824,7 @@ properties:
     - Wrist Fracture
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3125302&version=1.1
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3125302%20and%20ver_nr=1.1
     type: Enumeration
   adverse_event_grade:
     cde_id: 2944515
@@ -838,7 +838,7 @@ properties:
     - Grade 5
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2944515&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=2944515%20and%20ver_nr=1.0
     type: Enumeration
   aids_risk_factors:
     description: The text term used to describe a risk factor of  the acquired immunodeficiency
@@ -879,7 +879,7 @@ properties:
     - Not Reported
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3440216&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3440216%20and%20ver_nr=1.0
     type: Enumeration
   bmi:
     cde_id: 2006410
@@ -889,7 +889,7 @@ properties:
       '
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2006410&version=3.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=2006410%20and%20ver_nr=3.0
     type: Number
   body_surface_area:
     cde_id: 653
@@ -897,7 +897,7 @@ properties:
       surface relating height to weight.
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=653&version=6.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=653%20and%20ver_nr=6.0
     type: Number
   cause_of_response:
     cde_id: 6161025
@@ -907,7 +907,7 @@ properties:
       '
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6161025&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6161025%20and%20ver_nr=1.0
     type: String
   cd4_count:
     cde_id: 4182751
@@ -915,7 +915,7 @@ properties:
       the amount of the CD4 expressing cells in a sample.
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=4182751&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=4182751%20and%20ver_nr=1.0
     type: Number
   cdc_hiv_risk_factors:
     description: The text term used to describe a risk factor for human immunodeficiency
@@ -1109,7 +1109,7 @@ properties:
     - Fibromyalgia
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2970715&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=2970715%20and%20ver_nr=1.0
     type: Enumeration
   comorbidity_method_of_diagnosis:
     cde_id: 6142386
@@ -1125,7 +1125,7 @@ properties:
     - Not Reported
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6142386&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6142386%20and%20ver_nr=1.0
     type: Enumeration
   days_to_adverse_event:
     cde_id: 6154728
@@ -1137,7 +1137,7 @@ properties:
     minimum: -32872
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6154728&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6154728%20and%20ver_nr=1.0
     type: Integer
   days_to_comorbidity:
     cde_id: 6154729
@@ -1149,7 +1149,7 @@ properties:
     minimum: -32872
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6154729&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6154729%20and%20ver_nr=1.0
     type: Integer
   days_to_follow_up:
     cde_id: 6154727
@@ -1166,7 +1166,7 @@ properties:
     - type: 'null'
     required: 'True'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6154727&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6154727%20and%20ver_nr=1.0
     type: Integer
   days_to_imaging:
     description: Number of days between the date used for index and the date the imaging
@@ -1183,7 +1183,7 @@ properties:
     minimum: -32872
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6154730&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6154730%20and%20ver_nr=1.0
     type: Integer
   days_to_progression_free:
     description: 'Number of days between the date used for index and the date the
@@ -1205,7 +1205,7 @@ properties:
     minimum: -32872
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6154731&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6154731%20and%20ver_nr=1.0
     type: Integer
   diabetes_treatment_type:
     cde_id: 3587247
@@ -1227,7 +1227,7 @@ properties:
     - Not Reported
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3587247&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3587247%20and%20ver_nr=1.0
     type: Enumeration
   disease_response:
     cde_id: 5750671
@@ -1271,7 +1271,7 @@ properties:
     - Not Reported
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5750671&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=5750671%20and%20ver_nr=1.0
     type: Enumeration
   dlco_ref_predictive_percent:
     cde_id: 2180255
@@ -1281,7 +1281,7 @@ properties:
       '
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2180255&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=2180255%20and%20ver_nr=1.0
     type: Number
   ecog_performance_status:
     cde_id: 88
@@ -1299,7 +1299,7 @@ properties:
     - Not Reported
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=88&version=5.1
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=88%20and%20ver_nr=5.1
     type: Enumeration
   evidence_of_recurrence_type:
     description: The text term used to describe the type of evidence used to determine
@@ -1336,7 +1336,7 @@ properties:
       '
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3302956&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3302956%20and%20ver_nr=1.0
     type: Number
   fev1_fvc_pre_bronch_percent:
     cde_id: 3302955
@@ -1346,7 +1346,7 @@ properties:
       '
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3302955&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3302955%20and%20ver_nr=1.0
     type: Number
   fev1_ref_post_bronch_percent:
     cde_id: 3302948
@@ -1357,7 +1357,7 @@ properties:
       '
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3302948&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3302948%20and%20ver_nr=1.0
     type: Number
   fev1_ref_pre_bronch_percent:
     cde_id: 3302947
@@ -1368,7 +1368,7 @@ properties:
       '
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3302947&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3302947%20and%20ver_nr=1.0
     type: Number
   haart_treatment_indicator:
     description: The text term used to indicate whether the patient received Highly
@@ -1387,7 +1387,7 @@ properties:
       '
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=649&version=4.1
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=649%20and%20ver_nr=4.1
     type: Number
   hepatitis_sustained_virological_response:
     cde_id: 6423783
@@ -1403,7 +1403,7 @@ properties:
     - Not Reported
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6423783&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6423783%20and%20ver_nr=1.0
     type: Enumeration
   history_of_tumor:
     description: Indicates whether patient has a history of tumors.
@@ -1426,7 +1426,7 @@ properties:
       per milliliter.
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2649682&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=2649682%20and%20ver_nr=1.0
     type: Number
   hormonal_contraceptive_type:
     description: The specific type of hormonal contraceptives used by the subject.
@@ -1491,7 +1491,7 @@ properties:
     - Not Reported
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2922649&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=2922649%20and%20ver_nr=1.0
     type: Enumeration
   hysterectomy_margins_involved:
     description: The text term used to indicate whether the patient's disease was
@@ -1576,7 +1576,7 @@ properties:
     - Not Reported
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2003853&version=4.2
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=2003853%20and%20ver_nr=4.2
     type: Enumeration
   menopause_status:
     cde_id: 2434914
@@ -1591,7 +1591,7 @@ properties:
     - Not Reported
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2434914&version=1.1
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=2434914%20and%20ver_nr=1.1
     type: Enumeration
   nadir_cd4_count:
     description: Numeric value that represents the lowest point to which the CD4 count
@@ -1606,7 +1606,7 @@ properties:
       '
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3457763&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3457763%20and%20ver_nr=1.0
     type: Integer
   pregnancy_outcome:
     description: The text term used to describe the type of pregnancy the patient
@@ -1643,7 +1643,7 @@ properties:
     - Not Reported
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3121376&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3121376%20and%20ver_nr=1.0
     type: Enumeration
   progression_or_recurrence_anatomic_site:
     cde_id: 6161026
@@ -1986,7 +1986,7 @@ properties:
     - Not Reported
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6161026&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6161026%20and%20ver_nr=1.0
     type: Enumeration
   progression_or_recurrence_type:
     cde_id: 6142385
@@ -2003,7 +2003,7 @@ properties:
     - Not Reported
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6142385&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6142385%20and%20ver_nr=1.0
     type: Enumeration
   recist_targeted_regions_number:
     description: Numeric value that represents the number of baseline target lesions,
@@ -2033,7 +2033,7 @@ properties:
     - Unknown
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3440206&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3440206%20and%20ver_nr=1.0
     type: Enumeration
   risk_factor:
     cde_id: 6142389
@@ -2194,7 +2194,7 @@ properties:
     - Succinate Dehydrogenase-Deficient Renal Cell Carcinoma
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6142389&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6142389%20and%20ver_nr=1.0
     type: Enumeration
   risk_factor_treatment:
     cde_id: 6514356
@@ -2210,7 +2210,7 @@ properties:
     - Not Reported
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6514356&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6514356%20and%20ver_nr=1.0
     type: Enumeration
   scan_tracer_used:
     description: The text term used to describe the type of tracer used during the
@@ -2295,7 +2295,7 @@ properties:
     - Not Reported
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=4395982&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=4395982%20and%20ver_nr=1.0
     type: Enumeration
   weight:
     cde_id: 651
@@ -2304,7 +2304,7 @@ properties:
       '
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=651&version=4.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=651%20and%20ver_nr=4.0
     type: Number
 required:
 - submitter_id

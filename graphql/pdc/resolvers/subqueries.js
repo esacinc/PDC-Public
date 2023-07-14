@@ -118,14 +118,25 @@ export const resolvers = {
 	},
 	//@@@PDC-2979 add external reference.
 	PublicCase: {
-		externalReferences(obj, args, context) {
+		async externalReferences(obj, args, context) {
 			logger.info("externalReferences is called via "+context.parent);
-			let refQuery = "SELECT reference_resource_shortname, trim(both '\r' from reference_entity_location) as reference_entity_location, " +
-				" reference_entity_alias as external_reference_id, reference_resource_name " +
-				" FROM reference r where entity_type = 'case' and reference_type = 'external' " +
-				" and entity_id = uuid_to_bin('"+ obj.case_id + "')";
-			return db.getSequelize().query(refQuery,
-				{ model: db.getModelByName('ModelEntityReference') });
+			//@@@PDC-6930 add cache
+			let cacheKey = "PDCPUB:allCases:externalRef:"+obj.case_id;
+			const res = await RedisCacheClient.redisCacheGetAsync(cacheKey);
+			if (res === null){
+				let result = null;
+				let refQuery = "SELECT reference_resource_shortname, trim(both '\r' from reference_entity_location) as reference_entity_location, " +
+					" reference_entity_alias as external_reference_id, reference_resource_name " +
+					" FROM reference r where entity_type = 'case' and reference_type = 'external' " +
+					" and entity_id = uuid_to_bin('"+ obj.case_id + "')";
+				result = await db.getSequelize().query(refQuery,
+					{ model: db.getModelByName('ModelEntityReference') });
+				RedisCacheClient.redisCacheSetExAsync(cacheKey, JSON.stringify(result));
+				return result;
+			} else {
+				//logger.info("allCases:external found in cache "+cacheKey);
+				return JSON.parse(res);
+			}
 		}
 	},
 	//@@@PDC-180 Case API for UI case summary
@@ -477,23 +488,36 @@ export const resolvers = {
 	//@@@PDC-2614 rearrange geneSpectralCount
 	//@@@PDC-3668 add project_id and study_id
 	Gene: {
-		spectral_counts(obj, args, context) {
+		async spectral_counts(obj, args, context) {
 			logger.info("spectral_counts is called via "+context.parent);
-			var spQuery = "";
-			if (typeof context.arguments.dataset_alias != 'undefined'){
-				//@@@PDC-2638 enhance aliquotSpectralCount
-				//@@@PDC-6285 force case insenetive on gene_name
-				spQuery = "SELECT bin_to_uuid(s.project_id) as project_id, s.project_submitter_id, bin_to_uuid(s.study_id) as study_id, s.study_submitter_id, pdc_study_id, dataset_alias as plex, spectral_count, distinct_peptide, unshared_peptide from spectral_count sp left join study s on sp.study_id = s.study_id where dataset_alias like '%"+context.arguments.dataset_alias+"%' and gene_name = '"+
-				obj.gene_name+"' COLLATE utf8mb4_general_ci";
-
+			//@@@PDC-6860 cache search result
+			let cacheKey = "";
+			if (context['cacheKey']) {
+				cacheKey = context['cacheKey']+"sub";
+				logger.info("cacheKey"+cacheKey);
 			}
-			else {
-				spQuery = "SELECT bin_to_uuid(s.project_id) as project_id, s.project_submitter_id, bin_to_uuid(s.study_id) as study_id, s.study_submitter_id, pdc_study_id, dataset_alias as plex, spectral_count, distinct_peptide, unshared_peptide from spectral_count sp left join study s on sp.study_id = s.study_id where plex_name = 'All' and gene_name = '"+
-				obj.gene_name+"'  COLLATE utf8mb4_general_ci";
+			const res = await RedisCacheClient.redisCacheGetAsync(cacheKey);
+			if (res === null){
+				var spQuery = "";
+				if (typeof context.arguments.dataset_alias != 'undefined'){
+					//@@@PDC-2638 enhance aliquotSpectralCount
+					//@@@PDC-6285 force case insenetive on gene_name
+					spQuery = "SELECT bin_to_uuid(s.project_id) as project_id, s.project_submitter_id, bin_to_uuid(s.study_id) as study_id, s.study_submitter_id, pdc_study_id, dataset_alias as plex, spectral_count, distinct_peptide, unshared_peptide from spectral_count sp left join study s on sp.study_id = s.study_id where dataset_alias like '%"+context.arguments.dataset_alias+"%' and gene_name = '"+
+					obj.gene_name+"' COLLATE utf8mb4_general_ci";
 
+				}
+				else {
+					spQuery = "SELECT bin_to_uuid(s.project_id) as project_id, s.project_submitter_id, bin_to_uuid(s.study_id) as study_id, s.study_submitter_id, pdc_study_id, dataset_alias as plex, spectral_count, distinct_peptide, unshared_peptide from spectral_count sp left join study s on sp.study_id = s.study_id where plex_name = 'All' and gene_name = '"+
+					obj.gene_name+"'  COLLATE utf8mb4_general_ci";
+
+				}
+				var result = await db.getSequelize().query(spQuery, { model: db.getModelByName('Spectral') });
+				RedisCacheClient.redisCacheSetExAsync(cacheKey, JSON.stringify(result));
+				return result;
+			} else {
+				return JSON.parse(res);
 			}
-			return db.getSequelize().query(spQuery, { model: db.getModelByName('Spectral') });
-		}
+		}			
 	},
 	GeneSp: {
 		async spectral_counts(obj, args, context) {
@@ -512,34 +536,54 @@ export const resolvers = {
 		}
 	},
 	FileMetadata: {
-		aliquots(obj, args, context) {
+		async aliquots(obj, args, context) {
 			logger.info("aliquots is called via "+context.parent);
-			//@@@PDC-490 display label for all aliquot_ids in aliquot_run_metadata
-			//@@@PDC-898 new public APIs--fileMetadata
-			var aliquotQuery = "select distinct bin_to_uuid(arm.aliquot_id) as aliquot_id, "+
-			"arm.aliquot_submitter_id, arm.label, bin_to_uuid(a.sample_id) as sample_id, "+
-			"a.sample_submitter_id, bin_to_uuid(c.case_id) as case_id, c.case_submitter_id from file f "+
-			"join study_file sf on f.file_id = sf.file_id "+
-			"left join study_run_metadata srm on sf.study_run_metadata_id = srm.study_run_metadata_id "+
-			//"join study_run_metadata srm on sf.study_id = srm.study_id "+
-            "join aliquot_run_metadata arm on srm.study_run_metadata_id = arm.study_run_metadata_id "+
-            "left join aliquot a on arm.aliquot_id = a.aliquot_id "+
-            "left join sample sam on a.sample_id = sam.sample_id "+
-            "left join `case` c on sam.case_id = c.case_id "+
-			"where f.file_name = '"+ obj.file_name + "'";
+			//@@@PDC-6930 add cache
+			let cacheKey = "PDCPUB:fileMetadata:aliquot:"+obj.file_name;
+			const res = await RedisCacheClient.redisCacheGetAsync(cacheKey);
+			if (res === null) {
+				//@@@PDC-490 display label for all aliquot_ids in aliquot_run_metadata
+				//@@@PDC-898 new public APIs--fileMetadata
+				var aliquotQuery = "select distinct bin_to_uuid(arm.aliquot_id) as aliquot_id, "+
+				"arm.aliquot_submitter_id, arm.label, bin_to_uuid(a.sample_id) as sample_id, "+
+				"a.sample_submitter_id, bin_to_uuid(c.case_id) as case_id, c.case_submitter_id from file f "+
+				"join study_file sf on f.file_id = sf.file_id "+
+				"left join study_run_metadata srm on sf.study_run_metadata_id = srm.study_run_metadata_id "+
+				//"join study_run_metadata srm on sf.study_id = srm.study_id "+
+				"join aliquot_run_metadata arm on srm.study_run_metadata_id = arm.study_run_metadata_id "+
+				"left join aliquot a on arm.aliquot_id = a.aliquot_id "+
+				"left join sample sam on a.sample_id = sam.sample_id "+
+				"left join `case` c on sam.case_id = c.case_id "+
+				"where f.file_name = '"+ obj.file_name + "'";
 
-			return db.getSequelize().query(aliquotQuery, { model: db.getModelByName('Aliquot') });
+				let result = await db.getSequelize().query(aliquotQuery, { model: db.getModelByName('Aliquot') });
+				RedisCacheClient.redisCacheSetExAsync(cacheKey, JSON.stringify(result));
+				return result;
+			} else {
+				logger.info("aliquots found in cache "+cacheKey);
+				return JSON.parse(res);
+			}
 		}
 	},
 	//@@@PDC-191 experimental metadata API
 	//@@@PDC-3668 add study_run_metadata_id to output
 	ExperimentalMetadata: {
-		study_run_metadata(obj, args, context) {
+		async study_run_metadata(obj, args, context) {
 			logger.info("study_run_metadata is called via "+context.parent);
-			//@@@PDC-1120 StudyRunMetadata table change
-			return db.getModelByName('ModelStudyRunMetadata').findAll({attributes: [['bin_to_uuid(study_run_metadata_id)', 'study_run_metadata_id'],'study_run_metadata_submitter_id', 'fraction'],
-			where: {study_submitter_id: obj.study_submitter_id}
-			});
+			//@@@PDC-6930 add cache
+			let cacheKey = "PDCPUB:experimentalMetadata:srm:"+obj.study_submitter_id;
+			const res = await RedisCacheClient.redisCacheGetAsync(cacheKey);
+			if (res === null) {
+				logger.info("fileMetadata.srm not found in cache "+cacheKey);
+				let result = await db.getModelByName('ModelStudyRunMetadata').findAll({attributes: [['bin_to_uuid(study_run_metadata_id)', 'study_run_metadata_id'],'study_run_metadata_submitter_id', 'fraction'],
+					where: {study_submitter_id: obj.study_submitter_id}
+					});
+				RedisCacheClient.redisCacheSetExAsync(cacheKey, JSON.stringify(result));
+				return result;
+			} else {
+				logger.info("fileMetadata.srm found in cache "+cacheKey);
+				return JSON.parse(res);
+			}
 		}
 	},
 	//@@@PDC-3921 new studyCatalog api
@@ -2043,6 +2087,7 @@ export const resolvers = {
 			logger.info("signedUrl is called via "+context.parent);
 			//@@@PDC-3837 use s3 key for large files
 			//logger.info("File Size: "+obj.file_size);
+			//logger.info("file_location for "+ obj.file_name +": "+obj.file_location);
 			if (obj.file_size >= 32212254720)
 				return getSignedUrl(obj.file_location, false);
 			else

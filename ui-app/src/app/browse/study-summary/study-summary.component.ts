@@ -20,6 +20,8 @@ import { CaseSummaryComponent } from '../case-summary/case-summary.component';
 import { FilesOverlayComponent } from '../browse-by-file/files-overlay.component';
 import * as _ from 'lodash';
 import { ngxCsv } from "ngx-csv/ngx-csv";
+import * as FileSaver from 'file-saver';
+import * as JSZip from 'jszip';
 
 
 //const fileExists = require('file-exists');
@@ -127,6 +129,10 @@ export class StudySummaryComponent implements OnInit {
 	frozenClinicalColumns = [];
 	studyExperimentDesignTableFrozenCols = [];
 	biospecimenFrozenCols = [];
+	biospecimenExportCols = [];
+	clinicalExportCols = [];
+	exposureCols = [];
+	followUpCols = [];
 
     constructor(private route: ActivatedRoute, private router: Router, private apollo: Apollo, private http: HttpClient,
 				private studySummaryService: StudySummaryService, private loc:Location,
@@ -164,6 +170,8 @@ export class StudySummaryComponent implements OnInit {
 			this.studySummaryData.embargo_date = "N/A";
 		}
 	}
+	
+	
 	console.log(this.studySummaryData);
 	if (this.studySummaryData.versions.length === 0 || this.oldVersionFlag) {
 		this.studyVersion = "1";
@@ -171,6 +179,10 @@ export class StudySummaryComponent implements OnInit {
 		this.studyVersion = this.studySummaryData.versions[0].number;
 		console.log("Setting versions to " + this.studyVersion);
 	}
+	//@@@PDC-6794 get unfiltered cases count
+	this.getUnfilteredCaseCount(this.pdcStudyID, this.studyVersion);
+	console.log("Total cases: " + this.studySummaryData.cases_count);
+	console.log("Total aliquots: " + this.studySummaryData.aliquots_count);
 	this.workflowData = {
 		workflow_metadata_submitter_id: '',
 		study_submitter_id: '',
@@ -483,6 +495,26 @@ populateAssociatedSampleInfo(filteredClinicalData) {
 				}
 				let associatedsampleIds = arr.join(", ");
 				filteredClinicalData[i]['samples'] = associatedsampleIds;
+			} else if (filteredClinicalData[i].samples) {
+				filteredClinicalData[i]['samples'] = null;
+			}
+		}
+
+		for (var i in filteredClinicalData) {
+			if (filteredClinicalData[i].samples && filteredClinicalData[i].samples.length > 0
+				&& typeof(filteredClinicalData[i].samples) == 'string') {
+				//@@@PDC-6397 handle multiple samples
+				if (filteredClinicalData[i].samples.includes(',')){
+					console.log("Multi Samples found: "+filteredClinicalData[i].samples);
+					let tempSamples = filteredClinicalData[i].samples;
+					let newAnnotation = "Samples of "+ tempSamples + " are associated with this clinical record. "
+					console.log("Annotation for multi samples: "+newAnnotation);
+					filteredClinicalData[i]['annotation'] = newAnnotation;
+				}
+				else if (!filteredClinicalData[i].samples.includes(',')) {
+					console.log("Add annotation for "+filteredClinicalData[i].samples);
+					filteredClinicalData[i]['annotation'] = "The sample "+filteredClinicalData[i].samples+" is associated with this clinical record.";
+				}
 			}
 		}
 	}
@@ -496,10 +528,8 @@ getAllClinicalData(){
 	setTimeout(() => {
 		this.studySummaryService.getFilteredClinicalDataPaginated(this.offset, this.limit, this.sort, this.newFilterSelected, this.source).subscribe((data: any) =>{
 		this.totalRecordsClinical = data.getPaginatedUIClinical.total;
-		//@@@PDC-6357  case count w/o filter
-		console.log("Total cases: "+this.totalRecordsClinical);
 		setTimeout(() => {
-			this.studySummaryService.getFilteredClinicalDataPaginated(this.offset, this.totalRecordsClinical, this.sort, this.newFilterSelected, this.source).subscribe((data: any) =>{
+			this.studySummaryService.getFilteredClinicalDataPaginatedPost(this.offset, this.totalRecordsClinical, this.sort, this.newFilterSelected, this.source).pipe(take(1)).subscribe((data: any) =>{
 				this.filteredClinicalData = data.getPaginatedUIClinical.uiClinical;
 				this.populateAssociatedSampleInfo(this.filteredClinicalData);
 				this.totalRecordsClinical = data.getPaginatedUIClinical.total;
@@ -507,6 +537,16 @@ getAllClinicalData(){
 				//this.makeRowsSameHeight();
 			});
 		}, 1000);
+		});
+	}, 1000);
+}
+
+//@@@PDC-6794 get unfiltered cases count
+getUnfilteredCaseCount(pdcStudyID, version) {
+	setTimeout(() => {
+	this.studySummaryService.getFilteredStudyData('', pdcStudyID, version, this.source).pipe(take(1)).subscribe((data: any) =>{
+		this.studySummaryData.cases_count = data.getPaginatedUIStudy.uiStudies[0].cases_count;
+		this.studySummaryData.aliquots_count = data.getPaginatedUIStudy.uiStudies[0].aliquots_count;
 		});
 	}, 1000);
 }
@@ -777,6 +817,318 @@ openHeatMap(study_name: string){
 		{field: 'number_of_fractions', header: 'Number of Fractions'}
 		// {field: 'analyte', header: 'Analyte'}
 	  ];
+	  this.biospecimenExportCols = [
+		{field: 'aliquot_id', header: 'Aliquot ID'},
+		{field: 'aliquot_submitter_id', header: 'Aliquot Submitter ID'},
+		{field: 'sample_id', header: 'Sample ID'},
+		{field: 'sample_submitter_id', header: 'Sample Submitter ID'},
+		{field: 'case_id', header: 'Case ID'},
+		{field: 'case_submitter_id', header: 'Case Submitter ID'},
+		{field: 'project_name', header: 'Project Name'},
+		{field: 'sample_type', header: 'Sample Type'},
+		{field: 'primary_site', header: 'Primary Site' },
+		{field: 'disease_type', header: 'Disease Type'},
+		{field: 'aliquot_is_ref', header: 'Aliquot Is Ref'},
+		{field: 'aliquot_status', header: 'Aliquot Status'},
+		{field: 'aliquot_quantity', header: 'Aliquot Quantity'},
+		{field: 'aliquot_volume', header: 'Aliquot Volume'},
+		{field: 'amount', header: 'Amount'},
+		{field: 'analyte_type', header: 'Analyte Type'},
+		{field: 'concentration', header: 'Concentration'},
+		{field: 'case_status', header: 'Case Status'},
+		{field: 'sample_status', header: 'Sample Status'},
+		{field: 'sample_is_ref', header: 'Sample Is Ref'},
+		{field: 'biospecimen_anatomic_site', header: 'Biospecimen Anatomic Site'},
+		{field: 'composition', header: 'Composition'},
+		{field: 'current_weight', header: 'Current Weight'},
+		{field: 'days_to_collection', header: 'Days To Collection'},
+		{field: 'days_to_sample_procurement', header: 'Days To Sample Procurement'},
+		{field: 'diagnosis_pathologically_confirmed', header: 'Diagnosis Pathologically Confirmed'},
+		{field: 'freezing_method', header: 'Freezing Method'},
+		{field: 'initial_weight', header: 'Initial Weight'},
+		{field: 'intermediate_dimension', header: 'Intermediate Dimension'},
+		{field: 'longest_dimension', header: 'Longest Dimension'},
+		{field: 'method_of_sample_procurement', header: 'Method Of Sample Procurement'},
+    //@@@PDC-5174: misspelled property pathology_report_uuid
+		{field: 'pathology_report_uuid', header: 'Pathology Report UUID'},
+		{field: 'preservation_method', header: 'Preservation Method'},
+		{field: 'sample_type_id', header: 'Sample Type id'},
+    	//@@@PDC-4601: Two New Sample properties cannot be viewed on the Case summary modal window
+    	{field: 'sample_ordinal', header: 'Sample Ordinal'},
+		{field: 'shortest_dimension', header: 'Shortest Dimension'},
+		{field: 'time_between_clamping_and_freezing', header: 'Time Between Clamping And Freezing'},
+		{field: 'time_between_excision_and_freezing', header: 'Time Between Excision and Freezing'},
+    	//@@@PDC-4601: Two New Sample properties cannot be viewed on the Case summary modal window
+    	{field: 'tissue_collection_type', header: 'Tissue Collection Type'},
+		{field: 'tissue_type', header: 'Tissue Type'},
+		{field: 'tumor_code', header: 'Tumor Code'},
+		{field: 'tumor_code_id', header: 'Tumor Code ID'},
+		{field: 'tumor_descriptor', header: 'Tumor Descriptor'},
+		{field: 'program_name', header: 'Program Name'},
+	  ];
+	  this.clinicalExportCols = [
+		{field: 'case_id', header: 'Case ID'},
+		{field: 'case_submitter_id', header: 'Cases Submitter ID'},
+		{field: 'samples', header: 'Related Entities'},
+    {field: 'sample_annotation', header: 'Annotation'},
+		{field: 'genomicImagingData', header: 'Genomic and Imaging Data Resource'},
+		{field: 'ethnicity', header: 'Ethnicity'},
+		{field: 'gender', header: 'Gender'},
+		{field: 'race', header: 'Race'},
+		{field: 'morphology', header: 'Morphology'},
+		{field: 'primary_diagnosis', header: 'Primary Diagnosis'},
+		{field: 'site_of_resection_or_biopsy', header: 'Site of Resection or Biopsy'},
+		{field: 'tissue_or_organ_of_origin', header: 'Tissue or Organ of Origin'},
+		{field: 'tumor_grade', header: 'Tumor Grade'},
+		{field: 'tumor_stage', header: 'Tumor Stage'},
+		{field: 'age_at_diagnosis', header: 'Age at Diagnosis'},
+		{field: 'classification_of_tumor', header: 'Classification of Tumor'},
+		{field: 'days_to_recurrence', header: 'Days to Recurrence'},
+		{field: 'disease_type', header: 'Disease Type'},
+		{field: 'primary_site', header: 'Primary Site'},
+		{field: 'program_name', header: 'Program Name'},
+		{field: 'project_name', header: 'Project Name'},
+		{field: 'status', header: 'Status'},
+		{field: 'cause_of_death', header: 'Cause of Death'},
+		{field: 'days_to_birth', header: 'Days to Birth'},
+		{field: 'days_to_death', header: 'Days to Death'},
+		{field: 'vital_status', header: 'Vital Status'},
+		{field: 'year_of_birth', header: 'Year of Birth'},
+		{field: 'year_of_death', header: 'Year of Death'},
+		{field: 'days_to_last_follow_up', header: 'Days to Last Follow Up'},
+		{field: 'days_to_last_known_disease_status', header: 'Days to Last Known Disease Status'},
+		{field: 'last_known_disease_status', header: 'Last Known Disease Status'},
+		{field: 'progression_or_recurrence', header: 'Progression or Recurrence'},
+		{field: 'prior_malignancy', header: 'Prior Malignancy'},
+		{field: 'ajcc_clinical_m', header: 'AJCC Clinical M'},
+		{field: 'ajcc_clinical_n', header: 'AJCC Clinical N'},
+		{field: 'ajcc_clinical_stage', header: 'AJCC Clinical Stage'},
+		{field: 'ajcc_clinical_t', header: 'AJCC Clinical T'},
+		{field: 'ajcc_pathologic_m', header: 'AJCC Pathologic M'},
+		{field: 'ajcc_pathologic_n', header: 'AJCC Pathologic N'},
+		{field: 'ajcc_pathologic_stage', header: 'AJCC Pathologic Stage'},
+		{field: 'ajcc_pathologic_t', header: 'AJCC Pathologic T'},
+		{field: 'ajcc_staging_system_edition', header: 'AJCC Staging System Edition'},
+		{field: 'ann_arbor_b_symptoms', header: 'Ann Arbor B Symptoms'},
+		{field: 'ann_arbor_clinical_stage', header: 'Ann Arbor Clinical Stage'},
+		{field: 'ann_arbor_extranodal_involvement', header: 'Ann Arbor Extranodal Involvement'},
+		{field: 'ann_arbor_pathologic_stage', header: 'Ann Arbor Pathologic Stage'},
+		{field: 'best_overall_response', header: 'Best Overall Response'},
+		{field: 'burkitt_lymphoma_clinical_variant', header: 'Burkitt Lymphoma Clinical Variant'},
+		{field: 'circumferential_resection_margin', header: 'Circumferential Resection Margin'},
+		{field: 'colon_polyps_history', header: 'Colon Polups History'},
+		{field: 'days_to_best_overall_response', header: 'Days to Best Overall'},
+		{field: 'days_to_diagnosis', header: 'Days to Diagnosis'},
+		{field: 'days_to_hiv_diagnosis', header: 'Days to HIV Diagnosis'},
+		{field: 'days_to_new_event', header: 'Days to New Event'},
+		{field: 'figo_stage', header: 'Figo Stage'},
+		{field: 'hiv_positive', header: 'HIV Positive'},
+		{field: 'hpv_positive_type', header: 'HPV Positive Type'},
+		{field: 'hpv_status', header: 'HPV Status'},
+		{field: 'iss_stage', header: 'ISS Stage'},
+		{field: 'laterality', header: 'Laterality'},
+		{field: 'ldh_level_at_diagnosis', header: 'LDH Level at Diagnosis'},
+		{field: 'ldh_normal_range_upper', header: 'LDH Normal Range Upper'},
+		{field: 'lymph_nodes_positive', header: 'Lymph Nodes Positive'},
+		{field: 'lymphatic_invasion_present', header: 'Lymphatic Invasion Present'},
+		{field: 'method_of_diagnosis', header: 'Method of Diagnosis'},
+		{field: 'new_event_anatomic_site', header: 'New Event Anatomic Site'},
+		{field: 'new_event_type', header: 'New Event Type'},
+		{field: 'overall_survival', header: 'Overall Survival'},
+		{field: 'perineural_invasion_present', header: 'Perineural Invasion Present'},
+		{field: 'prior_treatment', header: 'Prior Treatment'},
+		{field: 'progression_free_survival', header: 'Progression Free Survival'},
+		{field: 'progression_free_survival_event', header: 'Progression Free Survival Event'},
+		{field: 'residual_disease', header: 'Residual Disease'},
+		{field: 'vascular_invasion_present', header: 'Vascular Invasion Present'},
+		{field: 'year_of_diagnosis', header: 'Year of Diagnosis'},
+		{field: "age_at_index",header: "Age At Index"},
+		{field: "premature_at_birth",header: "Premature At Birth"},
+		{field: "weeks_gestation_at_birth",header: "Weeks Gestation At Birth"},
+		{field: "age_is_obfuscated",header: "Age Is Obfuscated"},
+		{field: "cause_of_death_source",header: "Cause Of Death Source"},
+		{field: "occupation_duration_years",header: "Occupation Duration Years"},
+		{field: "country_of_residence_at_enrollment",header: "Country Of Residence At Enrollment"},
+		{field: "icd_10_code",header: "Icd 10 Code"},
+		{field: "synchronous_malignancy",header: "Synchronous Malignancy"},
+		{field: "anaplasia_present",header: "Anaplasia Present"},
+		{field: "anaplasia_present_type",header: "Anaplasia Present Type"},
+		{field: "child_pugh_classification",header: "Child Pugh Classification"},
+		{field: "cog_liver_stage",header: "Cog Liver Stage"},
+		{field: "cog_neuroblastoma_risk_group",header: "Cog Neuroblastoma Risk Group"},
+		{field: "cog_renal_stage",header: "Cog Renal Stage"},
+		{field: "cog_rhabdomyosarcoma_risk_group",header: "Cog Rhabdomyosarcoma Risk Group"},
+		{field: "enneking_msts_grade",header: "Enneking Msts Grade"},
+		{field: "enneking_msts_metastasis",header: "Enneking Msts Metastasis"},
+		{field: "enneking_msts_stage",header: "Enneking Msts Stage"},
+		{field: "enneking_msts_tumor_site",header: "Enneking Msts Tumor Site"},
+		{field: "esophageal_columnar_dysplasia_degree",header: "Esophageal Columnar Dysplasia Degree"},
+		{field: "esophageal_columnar_metaplasia_present",header: "Esophageal Columnar Metaplasia Present"},
+		{field: "first_symptom_prior_to_diagnosis",header: "First Symptom Prior To Diagnosis"},
+		{field: "gastric_esophageal_junction_involvement",header: "Gastric Esophageal Junction Involvement"},
+		{field: "goblet_cells_columnar_mucosa_present",header: "Goblet Cells Columnar Mucosa Present"},
+		{field: "gross_tumor_weight",header: "Gross Tumor Weight"},
+		{field: "inpc_grade",header: "Inpc Grade"},
+		{field: "inpc_histologic_group",header: "Inpc Histologic Group"},
+		{field: "inrg_stage",header: "Inrg Stage"},
+		{field: "inss_stage",header: "Inss Stage"},
+		{field: "irs_group",header: "Irs Group"},
+		{field: "irs_stage",header: "Irs Stage"},
+		{field: "ishak_fibrosis_score",header: "Ishak Fibrosis Score"},
+		{field: "lymph_nodes_tested",header: "Lymph Nodes Tested"},
+		{field: "medulloblastoma_molecular_classification",header: "Medulloblastoma Molecular Classification"},
+		{field: "metastasis_at_diagnosis",header: "Metastasis At Diagnosis"},
+		{field: "metastasis_at_diagnosis_site",header: "Metastasis At Diagnosis Site"},
+		{field: "mitosis_karyorrhexis_index",header: "Mitosis Karyorrhexis Index"},
+		{field: "peripancreatic_lymph_nodes_positive",header: "Peripancreatic Lymph Nodes Positive"},
+		{field: "peripancreatic_lymph_nodes_tested",header: "Peripancreatic Lymph Nodes Tested"},
+		{field: "supratentorial_localization",header: "Supratentorial Localization"},
+		{field: "tumor_confined_to_organ_of_origin",header: "Tumor Confined To Organ Of Origin"},
+		{field: "tumor_focality",header: "Tumor Focality"},
+		{field: "tumor_regression_grade",header: "Tumor Regression Grade"},
+		{field: "vascular_invasion_type",header: "Vascular Invasion Type"},
+		{field: "wilms_tumor_histologic_subtype",header: "Wilms Tumor Histologic Subtype"},
+		{field: "breslow_thickness",header: "Breslow Thickness"},
+		{field: "gleason_grade_group",header: "Gleason Grade Group"},
+		{field: "igcccg_stage",header: "Igcccg Stage"},
+		{field: "international_prognostic_index",header: "International Prognostic Index"},
+		{field: "largest_extrapelvic_peritoneal_focus",header: "Largest Extrapelvic Peritoneal Focus"},
+		{field: "masaoka_stage",header: "Masaoka Stage"},
+		{field: "non_nodal_regional_disease",header: "Non Nodal Regional Disease"},
+		{field: "non_nodal_tumor_deposits",header: "Non Nodal Tumor Deposits"},
+		{field: "ovarian_specimen_status",header: "Ovarian Specimen Status"},
+		{field: "ovarian_surface_involvement",header: "Ovarian Surface Involvement"},
+		{field: "percent_tumor_invasion",header: "Percent Tumor Invasion"},
+		{field: "peritoneal_fluid_cytological_status",header: "Peritoneal Fluid Cytological Status"},
+		{field: "primary_gleason_grade",header: "Primary Gleason Grade"},
+		{field: "secondary_gleason_grade",header: "Secondary Gleason Grade"},
+		{field: "weiss_assessment_score",header: "Weiss Assessment Score"},
+		{field: "adrenal_hormone",header: "Adrenal Hormone"},
+		{field: "ann_arbor_b_symptoms_described",header: "Ann Arbor B Symptoms Described"},
+		{field: "diagnosis_is_primary_disease",header: "Diagnosis Is Primary Disease"},
+		{field: "eln_risk_classification",header: "Eln Risk Classification"},
+		{field: "figo_staging_edition_year",header: "Figo Staging Edition Year"},
+		{field: "gleason_grade_tertiary",header: "Gleason Grade Tertiary"},
+		{field: "gleason_patterns_percent",header: "Gleason Patterns Percent"},
+		{field: "margin_distance",header: "Margin Distance"},
+		{field: "margins_involved_site",header: "Margins Involved Site"},
+		{field: "pregnant_at_diagnosis",header: "Pregnant At Diagnosis"},
+		{field: "satellite_nodule_present",header: "Satellite Nodule Present"},
+		{field: "sites_of_involvement",header: "Sites Of Involvement"},
+		{field: "tumor_depth",header: "Tumor Depth"},
+		{field: "who_cns_grade",header: "Who Cns Grade"},
+		{field: "who_nte_grade",header: "Who Nte Grade"},
+		{field: "diagnosis_uuid",header: "Diagnosis Uuid"}
+	  ];
+	  this.exposureCols = [
+		{field: 'case_id', header: 'Case ID'},
+		{field: 'case_submitter_id', header: 'Case Submitter ID'},
+		{field: 'exposure_id', header: 'Exposure ID'},
+		{field: 'exposure_submitter_id', header: 'Exposure Submitter ID'},
+		{field: 'alcohol_days_per_week', header: 'Alcohol Days Per Week'},
+		{field: 'alcohol_drinks_per_day', header: 'Alcohol Drinks Per Day'},
+		{field: 'alcohol_history', header: 'Alcohol History'},
+		{field: 'alcohol_intensity', header: 'Alcohol Intensity'},
+		{field: 'asbestos_exposure', header: 'Asbestos Exposure'},
+		{field: 'cigarettes_per_day', header: 'Cigarettes Per Day'},
+		{field: 'coal_dust_exposure', header: 'Coal Dust Exposure'},
+		{field: 'environmental_tobacco_smoke_exposure', header: 'Environmental Tobacco Smoke Exposure'},
+		{field: 'pack_years_smoked', header: 'Pack Years Smoked'},
+		{field: 'radon_exposure', header: 'Radon Exposure'},
+		{field: 'respirable_crystalline_silica_exposure', header: 'Respirable Crystalline Silica Exposure'},
+		{field: 'smoking_frequency', header: 'Smoking Frequency'},
+		{field: 'time_between_waking_and_first_smoke', header: 'Time Between Waking And First Smoke'},
+		{field: 'tobacco_smoking_onset_year', header: 'Tobacco Smoking Onset Year'},
+		{field: 'tobacco_smoking_quit_year', header: 'Tobacco Smoking Quit Year'},
+		{field: 'tobacco_smoking_status', header: 'Tobacco Smoking Status'},
+		{field: 'type_of_smoke_exposure', header: 'Type Of Smoke Exposure'},
+		{field: 'type_of_tobacco_used', header: 'Type Of Tobacco Used'},
+		{field: 'years_smoked', header: 'Years Smoked'},
+		{field: "age_at_onset", header: "Age At Onset"},
+		{field: "alcohol_type", header: "Alcohol Type"},
+		{field: "exposure_duration", header: "Exposure Duration"},
+		{field: "exposure_duration_years", header: "Exposure Duration Years"},
+		{field: "exposure_type", header: "Exposure Type"},
+		{field: "marijuana_use_per_week", header: "Marijuana Use Per Week"},
+		{field: "parent_with_radiation_exposure", header: "Parent With Radiation Exposure"},
+		{field: "secondhand_smoke_as_child", header: "Secondhand Smoke As Child"},
+		{field: "smokeless_tobacco_quit_age", header: "Smokeless Tobacco Quit Age"},
+		{field: "tobacco_use_per_day", header: "Tobacco Use Per Day" }
+	  ];
+	//@@@PDC-4490: Update Clinical manifest and Case summary pages for GDC Sync
+  //@@@PDC-4568: Deprecated Properties of Sample and Exposure should not show up in the export manifests
+	this.followUpCols = [
+		{field: 'case_id', header: 'Case Id'},
+		{field: 'case_submitter_id', header: 'Case Submitter Id'},
+		{field: 'follow_up_id', header: 'Follow Up Id'},
+		{field: 'follow_up_submitter_id', header: 'Follow Up Submitter Id'},
+		{field: 'adverse_event', header: 'Adverse Event'},
+		{field: 'adverse_event_grade', header: 'Adverse Event Grade'},
+		{field: 'aids_risk_factors', header: 'Aids Risk Factors'},
+		{field: 'barretts_esophagus_goblet_cells_present', header: 'Barretts Esophagus Goblet Cells Present'},
+		{field: 'bmi', header: 'Bmi'},
+		{field: 'body_surface_area', header: 'Body Surface Area'},
+		{field: 'cause_of_response', header: 'Cause Of Response'},
+		{field: 'cd4_count', header: 'Cd4 Count'},
+		{field: 'cdc_hiv_risk_factors', header: 'Cdc Hiv Risk Factors'},
+		{field: 'comorbidity', header: 'Comorbidity'},
+		{field: 'comorbidity_method_of_diagnosis', header: 'Comorbidity Method Of Diagnosis'},
+		{field: 'days_to_adverse_event', header: 'Days To Adverse Event'},
+		{field: 'days_to_comorbidity', header: 'Days To Comorbidity'},
+		{field: 'days_to_follow_up', header: 'Days To Follow Up'},
+		{field: 'days_to_imaging', header: 'Days To Imaging'},
+		{field: 'days_to_progression', header: 'Days To Progression'},
+		{field: 'days_to_progression_free', header: 'Days To Progression Free'},
+		{field: 'days_to_recurrence', header: 'Days To Recurrence'},
+		{field: 'diabetes_treatment_type', header: 'Diabetes Treatment Type'},
+		{field: 'disease_response', header: 'Disease Response'},
+		{field: 'dlco_ref_predictive_percent', header: 'Dlco Ref Predictive Percent'},
+		{field: 'ecog_performance_status', header: 'Ecog Performance Status'},
+		{field: 'evidence_of_recurrence_type', header: 'Evidence Of Recurrence Type'},
+		{field: 'eye_color', header: 'Eye Color'},
+		{field: 'fev1_ref_post_bronch_percent', header: 'Fev1 Ref Post Bronch Percent'},
+		{field: 'fev1_ref_pre_bronch_percent', header: 'Fev1 Ref Pre Bronch Percent'},
+		{field: 'fev1_fvc_pre_bronch_percent', header: 'Fev1 Fvc Pre Bronch Percent'},
+		{field: 'fev1_fvc_post_bronch_percent', header: 'Fev1 Fvc Post Bronch Percent'},
+		{field: 'haart_treatment_indicator', header: 'Haart Treatment Indicator'},
+		{field: 'height', header: 'Height'},
+		{field: 'hepatitis_sustained_virological_response', header: 'Hepatitis Sustained Virological Response'},
+		{field: 'history_of_tumor', header: 'History Of Tumor'},
+		{field: 'history_of_tumor_type', header: 'History Of Tumor Type'},
+		{field: 'hiv_viral_load', header: 'Hiv Viral Load'},
+		{field: 'hormonal_contraceptive_type', header: 'Hormonal Contraceptive Type'},
+		{field: 'hormonal_contraceptive_use', header: 'Hormonal Contraceptive Use'},
+		{field: 'hormone_replacement_therapy_type', header: 'Hormone Replacement Therapy Type'},
+		{field: 'hpv_positive_type', header: 'Hpv Positive Type'},
+		{field: 'hysterectomy_margins_involved', header: 'Hysterectomy Margins Involved'},
+		{field: 'hysterectomy_type', header: 'Hysterectomy Type'},
+		{field: 'imaging_result', header: 'Imaging Result'},
+		{field: 'imaging_type', header: 'Imaging Type'},
+		{field: 'immunosuppressive_treatment_type', header: 'Immunosuppressive Treatment Type'},
+		{field: 'karnofsky_performance_status', header: 'Karnofsky Performance Status'},
+		{field: 'menopause_status', header: 'Menopause Status'},
+		{field: 'nadir_cd4_count', header: 'Nadir Cd4 Count'},
+		{field: 'pancreatitis_onset_year', header: 'Pancreatitis Onset Year'},
+		{field: 'pregnancy_outcome', header: 'Pregnancy Outcome'},
+		{field: 'procedures_performed', header: 'Procedures Performed'},
+		{field: 'progression_or_recurrence', header: 'Progression Or Recurrence'},
+		{field: 'progression_or_recurrence_anatomic_site', header: 'Progression Or Recurrence Anatomic Site'},
+		{field: 'progression_or_recurrence_type', header: 'Progression Or Recurrence Type'},
+		{field: 'recist_targeted_regions_number', header: 'Recist Targeted Regions Number'},
+		{field: 'recist_targeted_regions_sum', header: 'Recist Targeted Regions Sum'},
+		{field: 'reflux_treatment_type', header: 'Reflux Treatment Type'},
+		{field: 'risk_factor', header: 'Risk Factor'},
+		{field: 'risk_factor_treatment', header: 'Risk Factor Treatment'},
+		{field: 'scan_tracer_used', header: 'Scan Tracer Used'},
+		{field: 'undescended_testis_corrected', header: 'Undescended Testis Corrected'},
+		{field: 'undescended_testis_corrected_age', header: 'Undescended Testis Corrected Age'},
+		{field: 'undescended_testis_corrected_laterality', header: 'Undescended Testis Corrected Laterality'},
+		{field: 'undescended_testis_corrected_method', header: 'Undescended Testis Corrected Method'},
+		{field: 'undescended_testis_history', header: 'Undescended Testis History'},
+		{field: 'undescended_testis_history_laterality', header: 'Undescended Testis History Laterality'},
+		{field: 'viral_hepatitis_serologies', header: 'Viral Hepatitis Serologies'},
+		{field: 'weight', header: 'Weight'}
+	];
   }
 
 
@@ -836,7 +1188,7 @@ isDownloadDisabled(){
 }
 
 //@@@PDC-1219: Add a new experimental design tab on the study summary page
-studyTableExportCSV(dt) {
+studyTableExportCSV(format) {
 	let headerCols = [];
 	let colValues = [];
 	for (var i=0; i< this.studyExperimentDesignTableCols.length; i++) {
@@ -862,11 +1214,279 @@ studyTableExportCSV(dt) {
 		headers: headerCols
 	};
 	let exportFileObject = JSON.parse(JSON.stringify(exportValues, colValues));
-	new ngxCsv(exportFileObject, this.getCsvFileName(), csvOptions);
+	if (format == "csv") {
+		new ngxCsv(exportFileObject, this.getCsvFileName('experimental-design'), csvOptions);
+	} else if (format == "tsv") {
+		let exportTSVData = this.prepareTSVExportManifestData(exportFileObject, headerCols);
+		var blob = new Blob([exportTSVData], { type: 'text/csv;charset=utf-8;' });
+		FileSaver.saveAs(blob, this.getCsvFileName("experimental-design", "tsv"));
+	}
 }
 
-private getCsvFileName(): string {
-	let csvFileName = "PDC_study_experimental_";
+//helper function preparing a string containing the data for TSV manifest file
+prepareTSVExportManifestData(manifestData, cols){
+	let result = "";
+	let separator = '\t';
+	let EOL = "\r\n";
+	for (var i=0; i< cols.length; i++) {
+		//@@@PDC-3482 headers in TSV file should match headers in CSV
+		result += cols[i] + separator;
+	}
+	result = result.slice(0, -1);
+	result += EOL;
+	for (var i=0; i < manifestData.length; i++){
+		for (const index in manifestData[i]) {
+			if (manifestData[i][index] == null) {
+				result += separator;
+			} else {
+				let value = manifestData[i][index];
+				value = this.replaceAll(value, "\t", "");
+				value = this.replaceAll(value, "\r\n", ", ");
+				result +=  value + separator;
+			}
+		}
+		result = result.slice(0, -1).trim();
+		result += EOL;
+	}
+	return result;
+}
+
+biospecimenTableExportCSV(format) {
+	let headerCols = [];
+	let colValues = [];
+	let allBiospecimenCols = this.biospecimenExportCols;
+	for (var i=0; i< allBiospecimenCols.length; i++) {
+		headerCols.push(allBiospecimenCols[i]['header']);
+		colValues.push(allBiospecimenCols[i]['field']);
+	}
+	let exportValues =  _.cloneDeep(this.filteredCasesData);
+ 	let csvOptions = {
+		headers: headerCols
+	};
+	let exportFileObject = JSON.parse(JSON.stringify(exportValues, colValues));
+	if (format == "csv") {
+		//@@@PDC-6971: Biospecimen CSV files from Study Summary have 'null' values in empty columns, unlike other manifests from Explore or Study Summary
+		let exportCSVData = this.prepareCSVExportManifestData(exportFileObject, headerCols);
+		var csvblob = new Blob([exportCSVData], { type: 'text/csv' });
+		FileSaver.saveAs(csvblob, this.getCsvFileName("biospecimen", "csv"));
+	} else if (format == "tsv") {
+		let exportTSVData = this.prepareTSVExportManifestData(exportFileObject, headerCols);
+		var blob = new Blob([exportTSVData], { type: 'text/csv;charset=utf-8;' });
+		FileSaver.saveAs(blob, this.getCsvFileName("biospecimen", "tsv"));
+	}
+}
+
+prepareExposureDataforExport(exportData, format) {
+	let exposureDataArr = [];
+	exposureDataArr = this.populateExposureData(exportData);
+	let exposureColValues = [];
+	let headerCols = [];
+	var exposureBlob = new Blob();
+	for (var i=0; i< this.exposureCols.length; i++) {
+		exposureColValues.push(this.exposureCols[i]['field']);
+		headerCols.push(this.exposureCols[i]['header']);
+	}
+	let exportFileExposureObject = JSON.parse(JSON.stringify(exposureDataArr, exposureColValues));
+	if (format == "tsv") {
+		let exportExposureTSVData = this.prepareTSVExportManifestData(exportFileExposureObject, headerCols);
+		exposureBlob = new Blob([exportExposureTSVData], { type: 'text/csv;charset=utf-8;' });
+	} else if (format == "csv") {
+		let exportExposureCSVData = this.prepareCSVExportManifestData(exportFileExposureObject, headerCols);
+        exposureBlob = new Blob([exportExposureCSVData], { type: 'text/csv;' });
+	}
+	return exposureBlob;
+}
+
+//@@@PDC-4490: Update Clinical manifest and Case summary pages for GDC Sync
+populateFollowUpDataForExport(exportData) {
+	let followUpDataArr = [];
+	for (var obj in exportData) {
+		let case_id_val = exportData[obj]['case_id'];
+		let case_submitter_id_val = exportData[obj]['case_submitter_id'];
+		let followUps = exportData[obj]['follow_ups'];
+		if (followUps && followUps.length > 0) {
+			for (var exp in followUps) {
+				exportData[obj]['follow_ups'][exp]['case_id'] = case_id_val;
+				exportData[obj]['follow_ups'][exp]['case_submitter_id']	= case_submitter_id_val;
+				followUpDataArr.push(exportData[obj]['follow_ups'][exp]);
+			}
+		}
+	}
+	return followUpDataArr;
+}
+
+//@@@PDC-4490: Update Clinical manifest and Case summary pages for GDC Sync
+prepareFollowUpDataforExport(exportData, format) {
+    let dataArray = [];
+    dataArray = this.populateFollowUpDataForExport(exportData);
+    let colVals = [];
+	let headerCols = [];
+    var dataBlob = new Blob();
+    for (var i=0; i< this.followUpCols.length; i++) {
+		colVals.push(this.followUpCols[i]['field']);
+		headerCols.push(this.followUpCols[i]['header']);
+    }
+    let exportFileObject = JSON.parse(JSON.stringify(dataArray, colVals));
+    if (format == "tsv") {
+        let exportTSVData = this.prepareTSVExportManifestData(exportFileObject, headerCols);
+        dataBlob = new Blob([exportTSVData], { type: 'text/csv;charset=utf-8;' });
+    } else if (format == "csv") {
+        let exportCSVData = this.prepareCSVExportManifestData(exportFileObject, headerCols);
+		dataBlob = new Blob([exportCSVData], { type: 'text/csv;' });
+    }
+    return dataBlob;
+}
+
+prepareDownloadData(format, exportData, exportFileObject) {
+	this.loading = true;
+	//Prepare exposure Data
+	//For TSV format have to preprocess and use different function than CSV
+	let colVals = [];
+	for (var i=0; i< this.clinicalExportCols.length; i++) {
+		colVals.push(this.clinicalExportCols[i]['header']);
+    }
+	if (format == "tsv") {
+		let exportTSVData = this.prepareTSVExportManifestData(exportFileObject, colVals);
+		var blob = new Blob([exportTSVData], { type: 'text/csv;charset=utf-8;' });
+	} else if (format == "csv") {
+		let exportCSVData = this.prepareCSVExportManifestData(exportFileObject, colVals);
+		var blob = new Blob([exportCSVData], { type: 'text/csv' });
+	}
+	var exposureBlob = this.prepareExposureDataforExport(exportData, format);
+	var followUpBlob = this.prepareFollowUpDataforExport(exportData, format);
+	//Zip the files to tar.gz
+	const jszip = new JSZip();
+	jszip.file(this.getExportFileName(format), blob);
+	jszip.file(this.getExportFileName(format, "exposure"), exposureBlob);
+	//@@@PDC-4490: Update Clinical manifest and Case summary pages for GDC Sync
+	jszip.file(this.getExportFileName(format, "followup"), followUpBlob);
+	//eg: PDC_clinical_data_manifests_<timestamp>
+	let folderName = this.getExportFileName(format, "", "true").replace("." + format, "") + ".tar.gz";
+	//Download files
+	jszip.generateAsync({ type: 'blob' }).then(function(content) {
+		FileSaver.saveAs(content, folderName);
+	});
+	this.loading = false;
+}
+
+clinicalTableExportCSV(dt){
+	dt.exportFilename = this.getExportFileName("csv");
+	//@@@PDC-2950: External case id missing in clinical manifest
+	let colValues = [];
+	for (var i=0; i< this.clinicalExportCols.length; i++) {
+		colValues.push(this.clinicalExportCols[i]['field']);
+	}
+	let exportData = [];
+	exportData = this.addGenomicImagingDataToExportManifest(this.filteredClinicalData);
+	let exportFileObject = JSON.parse(JSON.stringify(exportData, colValues));
+	//@@@PDC-4260: Update clinical manifest to include new clinical data fields
+	this.prepareDownloadData("csv", exportData, exportFileObject);
+}
+
+//PDC-3073, PDC-3074 Add TSV format for manifests
+clinicalTableExportTSV(dt){
+	let exportData = [];
+	let colValues = [];
+	for (var i=0; i< this.clinicalExportCols.length; i++) {
+		colValues.push(this.clinicalExportCols[i]['field']);
+	}
+	exportData = this.addGenomicImagingDataToExportManifest(this.filteredClinicalData);
+	let exportFileObject = JSON.parse(JSON.stringify(exportData, colValues));
+	//@@@PDC-4260: Update clinical manifest to include new clinical data fields
+	this.prepareDownloadData("tsv", exportData, exportFileObject);
+}
+
+//@@@PDC-4260: Update clinical manifest to include new clinical data fields
+//Populate exposure data
+populateExposureData(exportData) {
+	let exposureDataArr = [];
+	for (var obj in exportData) {
+		let case_id_val = exportData[obj]['case_id'];
+		let case_submitter_id_val = exportData[obj]['case_submitter_id'];
+		let exposures = exportData[obj]['exposures'];
+		if (exposures && exposures.length > 0) {
+			for (var exp in exposures) {
+				exportData[obj]['exposures'][exp]['case_id'] = case_id_val;
+				exportData[obj]['exposures'][exp]['case_submitter_id']	= case_submitter_id_val;
+				exposureDataArr.push(exportData[obj]['exposures'][exp]);
+			}
+		}
+	}
+	return exposureDataArr;
+}
+
+//@@@PDC-4260: Update clinical manifest to include new clinical data fields
+//help function preparing a string containing the data for CSV manifest file
+prepareCSVExportManifestData(manifestData, columns){
+	let result = "";
+	let separator = ',';
+	let EOL = "\r\n";
+	for (var i=0; i< columns.length; i++) {
+		//@@@PDC-3482 headers in TSV file should match headers in CSV
+		result += columns[i] + separator;
+	}
+	result = result.slice(0, -1);
+	result += EOL;
+	for (var i=0; i < manifestData.length; i++){
+		for (const index in manifestData[i]) {
+			if (manifestData[i][index] == null) {
+				result += separator;
+			} else {
+				result += '"'+ manifestData[i][index] + '"'+ separator;
+			}
+		}
+		result = result.slice(0, -1);
+		result += EOL;
+	}
+	return result;
+}
+
+//@@@PDC-2950: External case id missing in clinical manifest
+addGenomicImagingDataToExportManifest(manifestData) {
+	let exportData = [];
+	exportData = _.cloneDeep(manifestData);
+	for (var i = 0; i < exportData.length; i++) {
+		let externalResources = exportData[i]["externalReferences"];
+		let genomicImagingData = "";
+		if (externalResources.length > 0) {
+			//Sort the external references as per reference_resource_shortname
+			externalResources = externalResources.sort((a, b) => a.reference_resource_shortname < b.reference_resource_shortname ? -1 : a.reference_resource_shortname > b.reference_resource_shortname ? 1 : 0);
+			for (var j = 0; j < externalResources.length; j++) {
+				genomicImagingData += externalResources[j]["reference_resource_shortname"] + ": " + externalResources[j]["reference_entity_location"].trim() + ";";
+			}
+			genomicImagingData = genomicImagingData.slice(0, -1);
+		}
+		exportData[i]["genomicImagingData"] = genomicImagingData;
+		let associatedSamples = exportData[i]["samples"];
+		//@@PDC-6542 - clinical manifest download broken
+		if (associatedSamples != null && associatedSamples.length > 0 && typeof(associatedSamples) != 'string' ) {
+  		//@@PDC-5414-add-annotation-information
+			exportData[i]["samples"] = "Samples: " + associatedSamples[0]['sample_submitter_id'];
+ 			exportData[i]["sample_annotation"] = associatedSamples[0]['annotation'];
+		} else if (associatedSamples != null && associatedSamples.length > 0 && typeof(associatedSamples) == 'string') {
+			//@@@PDC-6973: Undefined value for Related entities- Sample if manifest pulled from Study Summary
+			exportData[i]["samples"] = "Samples: " + associatedSamples;
+			exportData[i]["sample_annotation"] = exportData[i]['annotation'];
+		} else {
+			exportData[i]["samples"] = "null";
+  			//@@PDC-5519 - if no sample annotation values in manifest shift left
+  			exportData[i]["sample_annotation"] = null;
+
+		}
+	}
+	return exportData;
+}
+
+private getExportFileName(format = "csv", subType="", folder=""): string {
+	let csvFileName = "";
+	if (subType == "") {
+		csvFileName = "PDC_study_clinical_";
+	} else {
+		csvFileName = "PDC_study_clinical_" + subType + "_";
+	}
+	if (folder == "true") {
+		csvFileName = "PDC_study_clinical_data_";
+	}
 	const currentDate: Date = new Date();
 	let month: string = "" + (currentDate.getMonth() + 1);
 	csvFileName += this.convertDateString(month);
@@ -879,6 +1499,38 @@ private getCsvFileName(): string {
 	csvFileName += this.convertDateString(minute);
 	let second: string = "" + currentDate.getSeconds();
 	csvFileName += this.convertDateString(second);
+	if (format === "tsv") {
+		csvFileName += ".tsv";
+	} else if (format === "csv") {
+		csvFileName += ".csv";
+	}
+	return csvFileName;
+}
+
+private getCsvFileName(tab = '', format = "csv"): string {
+	let csvFileName = "PDC_study_experimental_";
+	if (tab == 'experimental-design') {
+		csvFileName = "PDC_study_experimental_";
+	} else if (tab == 'clinical') {
+		csvFileName = "PDC_study-clinical_";
+	} else if (tab == 'biospecimen') {
+		csvFileName = "PDC_study_biospecimen_";
+	}
+	const currentDate: Date = new Date();
+	let month: string = "" + (currentDate.getMonth() + 1);
+	csvFileName += this.convertDateString(month);
+	let date: string = "" + currentDate.getDate();
+	csvFileName += this.convertDateString(date);
+	csvFileName += "" + currentDate.getFullYear();
+	let hour: string = "" + currentDate.getHours();
+	csvFileName += "_" + this.convertDateString(hour);
+	let minute: string = "" + currentDate.getMinutes();
+	csvFileName += this.convertDateString(minute);
+	let second: string = "" + currentDate.getSeconds();
+	csvFileName += this.convertDateString(second);
+	if (format === "tsv"){
+		csvFileName += ".tsv";
+	}
 	return csvFileName;
 }
 

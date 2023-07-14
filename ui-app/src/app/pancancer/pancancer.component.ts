@@ -24,6 +24,7 @@ import { PancancerService } from './pancancer.service';
 import { stratify } from 'd3';
 import { take } from 'rxjs/operators';
 import { MessageDialogComponent } from "../dialog/message-dialog/message-dialog.component";
+import * as _ from 'lodash';
 
 //import supplementary_data from '../assets/data-folder/pancancer-supplementary.json';
 
@@ -64,7 +65,9 @@ export class PancancerComponent {
   	supplementaryData: any;
   	additionalResources = [];
 	publicationFileIDS = [];
-
+	allCharacterizations = [];
+	cssClassIndices = [];
+	characterizationOrder = [];
 
 
 	@ViewChild('sidenav') myNav: MatSidenav;
@@ -77,7 +80,6 @@ export class PancancerComponent {
 		//@@@PDC-6667: Updates to the Pancancer page
 		this.getAdditionalResources();
   }
-
 
   showStudySummary(pdc_study_id: string, study_uuid: string, study_name: string){
 		let study_data: AllStudiesData = {
@@ -225,27 +227,51 @@ export class PancancerComponent {
 		this.publicationFileIDS = allFilesArr.map(({ file_id }) => file_id);
 		//@@@PDC-6667: Updates to the Pancancer page
 		let arr2 = this.groupBy(allFilesArr, (c) => c.characterization);
-		let predefinedOrder = ["Proteome", "Phosphoproteome", "Glycoproteome", "Acetylome", "Ubiquitylome"];
+		let predefinedOrder = ["Proteome", "Phosphoproteome", "Glycoproteome", "Acetylome", "Ubiquitylome", "WXS", "RNA-Seq", "miRNA-Seq", "Methylation Array", "Clinical and Other Metadata"];
 		let characterizationArr = allFilesArr.map(({ characterization }) => characterization);
 		//Remove duplicates
 		let characterizationFinalArr = characterizationArr.filter(function(item, pos) {
 			return characterizationArr.indexOf(item) == pos;
 		})
-		//If the characterizations returned by the API are the same as elements of predefined order.
-		if (predefinedOrder.sort().join(',') === characterizationFinalArr.sort().join(',')) {
-			//Sorting the arr changes the order 
-			predefinedOrder = ["Proteome", "Phosphoproteome", "Glycoproteome", "Acetylome", "Ubiquitylome"];
-			for (let key in predefinedOrder) {
-				let orderKey = predefinedOrder[key];
-				this.publSupplementaryData.push(orderKey);
-				this.publSupplementaryData.push(arr2[orderKey]);
-			}
-		} else {
-			for (var i in arr2) {
-				this.publSupplementaryData.push(i);
-				this.publSupplementaryData.push(arr2[i]);
+		this.allCharacterizations = characterizationFinalArr;
+		let characterizationDiff = this.arrDiff(characterizationFinalArr, predefinedOrder);
+		this.characterizationOrder = [];
+		//Push elements in predefined order
+		for (let key in predefinedOrder) {
+			let orderKey = predefinedOrder[key];
+			this.publSupplementaryData.push(orderKey);
+			this.publSupplementaryData.push(arr2[orderKey]);
+			this.characterizationOrder.push(orderKey);
+		}
+		//Append the rest to the list
+		for (var i in characterizationDiff) {
+			let ele = characterizationDiff[i];
+			this.publSupplementaryData.push(ele);
+			this.publSupplementaryData.push(arr2[ele]);
+			this.characterizationOrder.push(ele);
+		}
+		//CSS styling for rows
+		let totalCount = this.publSupplementaryData.length;
+		this.cssClassIndices = [];
+		if (totalCount > 0) {
+			for (let c = 2; c <= totalCount; c++) {
+				if (c % 2 == 0) {
+					this.cssClassIndices.push(c);
+					this.cssClassIndices.push(c+1);
+				}
+				c = c+3;
 			}
 		}
+		//console.log(this.publSupplementaryData);
+	}
+
+	getBackgroundColor(rowIndex) {
+		if (this.cssClassIndices.includes(rowIndex))  return {colorTheme: true};
+    }
+
+	arrDiff(arr1, arr2) {
+		let difference = arr1.filter(x => !arr2.includes(x));
+		return difference;
 	}
 
 	isEmpty(value){
@@ -308,5 +334,10 @@ export class PancancerComponent {
           data: { message: "This file is not available for download." }
         });
       }
+
+	//Scroll to a particular section of the page.
+	scrollToElement(eleID = ''): void {
+		document.getElementById(eleID).scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest"});
+	}
 
 }

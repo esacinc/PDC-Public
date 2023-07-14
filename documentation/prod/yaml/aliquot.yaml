@@ -55,7 +55,7 @@ properties:
     - Protein
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2513915&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=2513915%20and%20ver_nr=2.0
     type: Enumeration
   analyte_type_id:
     cde_id: 5432508
@@ -72,7 +72,7 @@ properties:
     - X
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432508&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=5432508%20and%20ver_nr=1.0
     type: Enumeration
   concentration:
     cde_id: 5432594
@@ -81,7 +81,7 @@ properties:
       per milliliter.
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432594&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=5432594%20and%20ver_nr=1.0
     type: Number
   pool:
     description: Any biospecimen entity where multiple cases, samples or aliquots

@@ -83,6 +83,8 @@ pdcuiBrowsePageChart.set('HumanBody','PDCUI:BrowsePage:Chart:HumanBody:');
 
 const pdcuiSummaryPageGeneSummary = new Map();
 pdcuiSummaryPageGeneSummary.set('AliquotSpectralCount','PDCUI:SummaryPage:GeneSummaryPaginatedData:AliquotSpectralCount:');
+//PDC-6860 cache search result of protein
+pdcuiSummaryPageGeneSummary.set('Protein','PDCUI:SummaryPage:GeneSummaryPaginatedData:Protein:');
 pdcuiSummaryPageGeneSummary.set('AliquotSpectralCountTotalCount','PDCUI:SummaryPage:GeneSummary:AliquotSpectralCountTotalCount:');
 //@@@PDC-737 GeneAliquotSpectralCount supports filters
 pdcuiSummaryPageGeneSummary.set('AliquotSpectralCountFiltered','PDCUI:SummaryPage:GeneSummaryPaginatedData:AliquotSpectralCountFiltered:');

@@ -34,7 +34,7 @@ properties:
     - type: 'null'
     required: 'True'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3225640&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3225640%20and%20ver_nr=2.0
     type: Integer
   ajcc_clinical_m:
     cde_id: 3440331
@@ -53,7 +53,7 @@ properties:
     - Not Allowed To Collect
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3440331&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3440331%20and%20ver_nr=2.0
     type: Enumeration
   ajcc_clinical_n:
     cde_id: 3440330
@@ -90,7 +90,7 @@ properties:
     - Not Allowed To Collect
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3440330&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3440330%20and%20ver_nr=2.0
     type: Enumeration
   ajcc_clinical_stage:
     cde_id: 3440332
@@ -138,7 +138,7 @@ properties:
     - Stage IA3
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3440332&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3440332%20and%20ver_nr=2.0
     type: Enumeration
   ajcc_clinical_t:
     cde_id: 3440328
@@ -184,7 +184,7 @@ properties:
     - Not Allowed To Collect
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3440328&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3440328%20and%20ver_nr=2.0
     type: Enumeration
   ajcc_pathologic_m:
     cde_id: 3045439
@@ -207,7 +207,7 @@ properties:
     - M1d
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3045439&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3045439%20and%20ver_nr=2.0
     type: Enumeration
   ajcc_pathologic_n:
     cde_id: 3203106
@@ -244,7 +244,7 @@ properties:
     - Not Allowed To Collect
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3203106&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3203106%20and%20ver_nr=2.0
     type: Enumeration
   ajcc_pathologic_stage:
     cde_id: 3203222
@@ -289,7 +289,7 @@ properties:
     - Stage IIIA2
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3203222&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3203222%20and%20ver_nr=2.0
     type: Enumeration
   ajcc_pathologic_t:
     cde_id: 3045435
@@ -336,7 +336,7 @@ properties:
     - Not Allowed To Collect
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3045435&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3045435%20and%20ver_nr=2.0
     type: Enumeration
   ajcc_staging_system_edition:
     cde_id: 2722309
@@ -357,7 +357,7 @@ properties:
     - Not Reported
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2722309&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=2722309%20and%20ver_nr=2.0
     type: Enumeration
   anaplasia_present:
     cde_id: 6059599
@@ -370,7 +370,7 @@ properties:
     - Not Reported
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6059599&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6059599%20and%20ver_nr=2.0
     type: Enumeration
   anaplasia_present_type:
     cde_id: 4925534
@@ -389,7 +389,7 @@ properties:
     - Not Reported
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=4925534&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=4925534%20and%20ver_nr=2.0
     type: Enumeration
   ann_arbor_b_symptoms:
     cde_id: 2902402
@@ -403,7 +403,7 @@ properties:
     - Not Allowed To Collect
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2902402&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=2902402%20and%20ver_nr=2.0
     type: Enumeration
   ann_arbor_b_symptoms_described:
     description: Text descibing the specific lymphoma B-symptoms present.
@@ -427,7 +427,7 @@ properties:
     - Not Reported
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5615604&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=5615604%20and%20ver_nr=2.0
     type: Enumeration
   ann_arbor_extranodal_involvement:
     cde_id: 3364582
@@ -441,7 +441,7 @@ properties:
     - Not Allowed To Collect
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3364582&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3364582%20and%20ver_nr=2.0
     type: Enumeration
   ann_arbor_pathologic_stage:
     cde_id: 5615605
@@ -456,7 +456,7 @@ properties:
     - Not Reported
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5615605&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=5615605%20and%20ver_nr=2.0
     type: Enumeration
   best_overall_response:
     cde_id: 2003324
@@ -491,7 +491,7 @@ properties:
     - VGPR-Very Good Partial Response
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2003324&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=2003324%20and%20ver_nr=2.0
     type: Enumeration
   breslow_thickness:
     cde_id: 64809
@@ -501,7 +501,7 @@ properties:
       '
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=64809&version=3.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=64809%20and%20ver_nr=3.0
     type: Integer
   burkitt_lymphoma_clinical_variant:
     cde_id: 3770421
@@ -518,7 +518,7 @@ properties:
     - Not Allowed To Collect
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=37704216&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=37704216%20and%20ver_nr=2.0
     type: Enumeration
   case_id:
     key: 'yes'
@@ -548,7 +548,7 @@ properties:
     - Not Reported
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2931791&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=2931791%20and%20ver_nr=2.0
     type: Enumeration
   circumferential_resection_margin:
     cde_id: 6161030
@@ -557,7 +557,7 @@ properties:
       specimen resulting from excision of cancer of the rectum.
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6161030&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6161030%20and%20ver_nr=2.0
     type: Integer
   classification_of_tumor:
     cde_id: 3288124
@@ -575,7 +575,7 @@ properties:
     - Premalignant
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3288124&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3288124%20and%20ver_nr=2.0
     type: Enumeration
   cog_liver_stage:
     cde_id: 6013618
@@ -591,7 +591,7 @@ properties:
     - Not Reported
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6013618&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6013618%20and%20ver_nr=2.0
     type: Enumeration
   cog_neuroblastoma_risk_group:
     cde_id: 4616452
@@ -606,7 +606,7 @@ properties:
     - Not Reported
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=4616452&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=4616452%20and%20ver_nr=2.0
     type: Enumeration
   cog_renal_stage:
     cde_id: 6013641
@@ -621,7 +621,7 @@ properties:
     - Not Reported
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6013641&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6013641%20and%20ver_nr=2.0
     type: Enumeration
   cog_rhabdomyosarcoma_risk_group:
     cde_id: 6133604
@@ -635,7 +635,7 @@ properties:
     - Not Reported
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6133604&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6133604%20and%20ver_nr=2.0
     type: Enumeration
   colon_polyps_history:
     description: Yes/No indicator to describe if the subject had a previous history
@@ -649,7 +649,7 @@ properties:
       patient was thought to have the best overall response to their disease.
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6154732&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6154732%20and%20ver_nr=2.0
     type: Integer
   days_to_diagnosis:
     cde_id: 6154733
@@ -657,7 +657,7 @@ properties:
       was diagnosed with the malignant disease.
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6154733&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6154733%20and%20ver_nr=2.0
     type: Integer
   days_to_hiv_diagnosis:
     description: Time interval from the date of the initial pathologic diagnosis to
@@ -676,7 +676,7 @@ properties:
     - type: 'null'
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3008273&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3008273%20and%20ver_nr=2.0
     type: Number
   days_to_last_known_disease_status:
     cde_id: 3008273
@@ -689,7 +689,7 @@ properties:
     - type: 'null'
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3008273&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3008273%20and%20ver_nr=2.0
     type: Number
   days_to_new_event:
     description: Time interval from the date of new tumor event including progression,
@@ -708,7 +708,7 @@ properties:
     - type: 'null'
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6154731&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6154731%20and%20ver_nr=2.0
     type: Number
   diagnosis_id:
     key: 'yes'
@@ -752,7 +752,7 @@ properties:
     - Not Reported
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6003955&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6003955%20and%20ver_nr=2.0
     type: Enumeration
   enneking_msts_metastasis:
     cde_id: 6003958
@@ -766,7 +766,7 @@ properties:
     - Not Reported
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6003958&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6003958%20and%20ver_nr=2.0
     type: Enumeration
   enneking_msts_stage:
     cde_id: 6060045
@@ -783,7 +783,7 @@ properties:
     - Not Reported
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6060045&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6060045%20and%20ver_nr=2.0
     type: Enumeration
   enneking_msts_tumor_site:
     cde_id: 6003957
@@ -797,7 +797,7 @@ properties:
     - Not Reported
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6003957&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6003957%20and%20ver_nr=2.0
     type: Enumeration
   esophageal_columnar_dysplasia_degree:
     cde_id: 3440917
@@ -812,7 +812,7 @@ properties:
     - Not Reported
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3440917&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3440917%20and%20ver_nr=2.0
     type: Enumeration
   esophageal_columnar_metaplasia_present:
     cde_id: 3440218
@@ -825,7 +825,7 @@ properties:
     - Not Reported
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3440218&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3440218%20and%20ver_nr=2.0
     type: Enumeration
   figo_stage:
     cde_id: 3225684
@@ -870,7 +870,7 @@ properties:
     - Stage IC3
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3225684&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3225684%20and%20ver_nr=2.0
     type: Enumeration
   figo_staging_edition_year:
     description: The text term used to describe the edition year of the FIGO staging
@@ -896,7 +896,7 @@ properties:
     - Not Reported
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6133605&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6133605%20and%20ver_nr=2.0
     type: Enumeration
   gastric_esophageal_junction_involvement:
     cde_id: 6059632
@@ -909,7 +909,7 @@ properties:
     - Not Reported
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6059632&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6059632%20and%20ver_nr=2.0
     type: Enumeration
   gleason_grade_group:
     cde_id: 5918370
@@ -928,7 +928,7 @@ properties:
     - Not Reported
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5918370&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=5918370%20and%20ver_nr=1.0
     type: Enumeration
   gleason_grade_tertiary:
     description: The text term used to describe the tertiary pattern as described
@@ -956,7 +956,7 @@ properties:
     - Not Reported
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3440219&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3440219%20and%20ver_nr=2.0
     type: Enumeration
   gross_tumor_weight:
     cde_id: 6133606
@@ -964,7 +964,7 @@ properties:
       measured in grams.
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6133606&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6133606%20and%20ver_nr=2.0
     type: Integer
   hiv_positive:
     description: Text term to signify whether a physician has diagnosed HIV infection
@@ -986,7 +986,7 @@ properties:
       version of the International Classification of Disease (ICD-10).
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3226287&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3226287%20and%20ver_nr=2.0
     type: String
   igcccg_stage:
     description: 'The text term used to describe the International Germ Cell Cancer
@@ -1015,7 +1015,7 @@ properties:
     - Not Reported
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6133602&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6133602%20and%20ver_nr=2.0
     type: Enumeration
   inpc_histologic_group:
     cde_id: 4616372
@@ -1031,7 +1031,7 @@ properties:
     - Not Reported
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=4616372&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=4616372%20and%20ver_nr=2.0
     type: Enumeration
   inrg_stage:
     cde_id: 5777238
@@ -1046,7 +1046,7 @@ properties:
     - Not Reported
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5777238&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=5777238%20and%20ver_nr=2.0
     type: Enumeration
   inss_stage:
     cde_id: 6133603
@@ -1063,7 +1063,7 @@ properties:
     - Not Reported
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6133603&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6133603%20and%20ver_nr=2.0
     type: Enumeration
   international_prognostic_index:
     cde_id: 2500234
@@ -1078,7 +1078,7 @@ properties:
     - High Risk
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2500234&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=2500234%20and%20ver_nr=1.0
     type: Enumeration
   irs_group:
     cde_id: 6141658
@@ -1100,7 +1100,7 @@ properties:
     - Not Reported
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6141658&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6141658%20and%20ver_nr=2.0
     type: Enumeration
   irs_stage:
     cde_id: 5162089
@@ -1115,7 +1115,7 @@ properties:
     - Not Reported
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5162089&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=5162089%20and%20ver_nr=2.0
     type: Enumeration
   ishak_fibrosis_score:
     cde_id: 3182621
@@ -1131,7 +1131,7 @@ properties:
     - Not Reported
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3182621&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3182621%20and%20ver_nr=2.0
     type: Enumeration
   iss_stage:
     cde_id: 2465385
@@ -1144,7 +1144,7 @@ properties:
     - Unknown
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2465385&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=2465385%20and%20ver_nr=2.0
     type: Enumeration
   largest_extrapelvic_peritoneal_focus:
     cde_id: 6690680
@@ -1160,7 +1160,7 @@ properties:
     - Not Reported
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6690680&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6690680%20and%20ver_nr=1.0
     type: Enumeration
   last_known_disease_status:
     cde_id: 5424231
@@ -1177,7 +1177,7 @@ properties:
     - Not Allowed To Collect
     required: 'True'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5424231&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=5424231%20and%20ver_nr=2.0
     type: Enumeration
   laterality:
     cde_id: 827
@@ -1193,7 +1193,7 @@ properties:
     - Not Reported
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=827&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=827%20and%20ver_nr=2.0
     type: Enumeration
   ldh_level_at_diagnosis:
     cde_id: 2798766
@@ -1201,7 +1201,7 @@ properties:
       computed related to the assessment of lactate dehydrogenase in a specimen.
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2798766&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=2798766%20and%20ver_nr=2.0
     type: String
   ldh_normal_range_upper:
     cde_id: 89
@@ -1210,7 +1210,7 @@ properties:
       dehydrogenase (units not specified).
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=89&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=89%20and%20ver_nr=2.0
     type: String
   lymph_nodes_positive:
     cde_id: 89
@@ -1218,7 +1218,7 @@ properties:
       pathologic examination.
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=89&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=89%20and%20ver_nr=2.0
     type: Integer
   lymph_nodes_tested:
     cde_id: 3
@@ -1226,7 +1226,7 @@ properties:
       were involved with disease as determined by a pathologic examination.
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3%20and%20ver_nr=2.0
     type: Integer
   lymphatic_invasion_present:
     cde_id: 64171
@@ -1239,7 +1239,7 @@ properties:
     - Not Reported
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=64171&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=64171%20and%20ver_nr=2.0
     type: Enumeration
   margin_distance:
     description: Numeric value that represents the distance between the tumor and
@@ -1278,7 +1278,7 @@ properties:
     - Stage IVb
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3952848&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3952848%20and%20ver_nr=1.0
     type: Enumeration
   medulloblastoma_molecular_classification:
     cde_id: 6002209
@@ -1293,7 +1293,7 @@ properties:
     - Not Reported
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6002209&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6002209%20and%20ver_nr=2.0
     type: Enumeration
   metastasis_at_diagnosis:
     cde_id: 6133614
@@ -1308,7 +1308,7 @@ properties:
     - Not Reported
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6133614&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6133614%20and%20ver_nr=2.0
     type: Enumeration
   metastasis_at_diagnosis_site:
     cde_id: 3029815
@@ -1364,7 +1364,7 @@ properties:
     - Head, Face or Neck, NOS
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3029815&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3029815%20and%20ver_nr=2.0
     type: Enumeration
   method_of_diagnosis:
     cde_id: 6161031
@@ -1401,7 +1401,7 @@ properties:
     - Exoresection
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6161031&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6161031%20and%20ver_nr=2.0
     type: Enumeration
   micropapillary_features:
     cde_id: 6068784
@@ -1414,7 +1414,7 @@ properties:
     - Not Reported
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6068784&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6068784%20and%20ver_nr=2.0
     type: Enumeration
   mitosis_karyorrhexis_index:
     cde_id: 4616412
@@ -1428,7 +1428,7 @@ properties:
     - Not Reported
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=4616412&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=4616412%20and%20ver_nr=2.0
     type: Enumeration
   mitotic_count:
     description: 'The number of mitoses identified under the microscope in tumors.
@@ -2604,7 +2604,7 @@ properties:
     - 8311/6
     required: 'True'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3226275&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3226275%20and%20ver_nr=2.0
     type: Enumeration
   new_event_anatomic_site:
     description: Text term to specify the anatomic location of the return of tumor
@@ -2643,7 +2643,7 @@ properties:
     - Not Reported
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3107051&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3107051%20and%20ver_nr=1.0
     type: Enumeration
   ovarian_specimen_status:
     cde_id: 6690671
@@ -2659,7 +2659,7 @@ properties:
     - Not Reported
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6690671&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6690671%20and%20ver_nr=1.0
     type: Enumeration
   ovarian_surface_involvement:
     cde_id: 6690674
@@ -2675,7 +2675,7 @@ properties:
     - Not Reported
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6690674&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6690674%20and%20ver_nr=1.0
     type: Enumeration
   overall_survival:
     description: Number of days between the date used for index and the patient's
@@ -2701,7 +2701,7 @@ properties:
     - Not Reported
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=64181&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=64181%20and%20ver_nr=2.0
     type: Enumeration
   peripancreatic_lymph_nodes_positive:
     cde_id: 5983082
@@ -2715,7 +2715,7 @@ properties:
     - Not Reported
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5983082&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=5983082%20and%20ver_nr=2.0
     type: Enumeration
   peripancreatic_lymph_nodes_tested:
     cde_id: 6050944
@@ -2723,7 +2723,7 @@ properties:
       of pancreatic cancer cells.
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6050944&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6050944%20and%20ver_nr=2.0
     type: Integer
   peritoneal_fluid_cytological_status:
     cde_id: 6690681
@@ -2740,7 +2740,7 @@ properties:
     - Not Reported
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6690681&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6690681%20and%20ver_nr=1.0
     type: Enumeration
   pregnant_at_diagnosis:
     description: The text term used to indicate whether the patient was pregnant at
@@ -2780,12 +2780,12 @@ properties:
     - Acquired tufted hemangioma
     - Acral lentiginous melanoma, malignant
     - ACTH-producing tumor
-    - Acute basophilic leukaemia
+    - Acute basophilic leukemia
     - Acute bilineal leukemia
     - Acute biphenotypic leukemia
     - Acute erythremia
     - Acute erythremic myelosis
-    - Acute erythroid leukaemia
+    - Acute erythroid leukemia
     - Acute granulocytic leukemia
     - Acute leukemia, Burkitt type
     - Acute leukemia, NOS
@@ -2797,7 +2797,7 @@ properties:
     - Acute lymphoblastic leukemia, precursor cell type
     - Acute lymphocytic leukemia
     - Acute lymphoid leukemia
-    - Acute megakaryoblastic leukaemia
+    - Acute megakaryoblastic leukemia
     - Acute mixed lineage leukemia
     - Acute monoblastic and monocytic leukemia
     - Acute monoblastic leukemia
@@ -2839,8 +2839,8 @@ properties:
     - Acute panmyelosis with myelofibrosis
     - Acute panmyelosis, NOS
     - Acute progressive histiocytosis X
-    - Acute promyelocytic leukaemia, PML-RAR-alpha
-    - Acute promyelocytic leukaemia, t(15;17)(q22;q11-12)
+    - Acute promyelocytic leukemia, PML-RAR-alpha
+    - Acute promyelocytic leukemia, t(15;17)(q22;q11-12)
     - Acute promyelocytic leukemia, NOS
     - Adamantinoma of long bones
     - Adamantinoma, malignant
@@ -2931,7 +2931,7 @@ properties:
     - Aggressive angiomyxoma
     - Aggressive digital papillary adenoma
     - Aggressive fibromatosis
-    - Aggressive NK-cell leukaemia
+    - Aggressive NK-cell leukemia
     - Aggressive osteoblastoma
     - Aggressive systemic mastocytosis
     - Agnogenic myeloid metaplasia
@@ -3771,7 +3771,7 @@ properties:
     - Gynandroblastoma
     - Haemangioblastoma
     - Haemangiosarcoma
-    - Hairy cell leukaemia variant
+    - Hairy cell leukemia variant
     - Hairy cell leukemia
     - Hairy cell leukemia variant
     - Hairy nevus
@@ -4260,7 +4260,7 @@ properties:
     - Marginal zone B-cell lymphoma, NOS
     - Marginal zone lymphoma, NOS
     - Masculinovoblastoma
-    - Mast cell leukaemia
+    - Mast cell leukemia
     - Mast cell sarcoma
     - Mast cell tumor, NOS
     - Mastocytoma, NOS
@@ -5344,7 +5344,7 @@ properties:
     - Unclassified tumor, malignant
     - Unclassified tumor, malignant, uncertain whether primary or metastatic
     - Unclassified tumor, uncertain whether benign or malignant
-    - Undifferentiated leukaemia
+    - Undifferentiated leukemia
     - Undifferentiated sarcoma
     - Unknown
     - Urachal carcinoma
@@ -5391,7 +5391,7 @@ properties:
     - Yolk sac tumor
     required: 'True'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6161032&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6161032%20and%20ver_nr=2.0
     type: Enumeration
   primary_gleason_grade:
     cde_id: 5936800
@@ -5411,7 +5411,7 @@ properties:
     - Pattern 5
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5936800&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=5936800%20and%20ver_nr=1.0
     type: Enumeration
   prior_malignancy:
     cde_id: 3382736
@@ -5425,7 +5425,7 @@ properties:
     - Not Allowed To Collect
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3382736&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3382736%20and%20ver_nr=2.0
     type: Enumeration
   prior_treatment:
     cde_id: 4231463
@@ -5439,7 +5439,7 @@ properties:
     - Not Allowed To Collect
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=4231463&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=4231463%20and%20ver_nr=2.0
     type: Enumeration
   progression_free_survival:
     description: Number of days between the date used for index and the first date
@@ -5462,7 +5462,7 @@ properties:
     - Not Allowed To Collect
     required: 'True'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3121376&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3121376%20and%20ver_nr=2.0
     type: Enumeration
   project_id:
     key: 'yes'
@@ -5485,7 +5485,7 @@ properties:
     - Not Reported
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2608702&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=2608702%20and%20ver_nr=2.0
     type: Enumeration
   satellite_nodule_present:
     description: Indicator noting whether a nodule or tumor is located within a small
@@ -5516,7 +5516,7 @@ properties:
     - Pattern 5
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5936802&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=5936802%20and%20ver_nr=1.0
     type: Enumeration
   site_of_resection_or_biopsy:
     cde_id: 6161034
@@ -5859,7 +5859,7 @@ properties:
     - Pancreatic neck
     required: 'True'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6161034&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6161034%20and%20ver_nr=2.0
     type: Enumeration
   sites_of_involvement:
     description: The anatomic sites of disease involvement in addition to the primary
@@ -5882,7 +5882,7 @@ properties:
     - Temporal lobe
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3133891&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3133891%20and%20ver_nr=2.0
     type: Enumeration
   synchronous_malignancy:
     cde_id: 6142390
@@ -5898,7 +5898,7 @@ properties:
     - Not Allowed To Collect
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6142390&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6142390%20and%20ver_nr=2.0
     type: Enumeration
   tissue_or_organ_of_origin:
     cde_id: 6161035
@@ -6241,7 +6241,7 @@ properties:
     - Laryngeal commissure
     required: 'True'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6161035&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6161035%20and%20ver_nr=2.0
     type: Enumeration
   tumor_cell_content:
     description: Tumor Cell Content
@@ -6260,7 +6260,7 @@ properties:
     - Not Allowed To Collect
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=4925494&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=4925494%20and%20ver_nr=2.0
     type: Enumeration
   tumor_depth:
     description: Numeric value that represents the depth of  tumor invasion, measured
@@ -6278,7 +6278,7 @@ properties:
     - Not Reported
     required: 'False'
     source: caDSR
-    term_url: https://https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3174022&version=2.0
+    term_url: https://https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3174022%20and%20ver_nr=2.0
     type: Enumeration
   tumor_grade:
     cde_id: 2785839
@@ -6298,7 +6298,7 @@ properties:
     - Not Reported
     required: 'True'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2785839&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=2785839%20and%20ver_nr=2.0
     type: Enumeration
   tumor_largest_dimension_diameter:
     cde_id: 64215
@@ -6306,7 +6306,7 @@ properties:
       of the primary tumor, measured in centimeters.
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=64215&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=64215%20and%20ver_nr=2.0
     type: Double
   tumor_regression_grade:
     cde_id: 6471217
@@ -6322,7 +6322,7 @@ properties:
     - Not Reported
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6471217&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6471217%20and%20ver_nr=2.0
     type: Enumeration
   tumor_stage:
     cde_id: C16899
@@ -6348,7 +6348,7 @@ properties:
     - Not Allowed To Collect
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=64358&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=64358%20and%20ver_nr=2.0
     type: Enumeration
   vascular_invasion_type:
     cde_id: 3168001
@@ -6363,7 +6363,7 @@ properties:
     - Not Reported
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3168001&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3168001%20and%20ver_nr=2.0
     type: Enumeration
   weiss_assessment_score:
     cde_id: 3648744
@@ -6389,7 +6389,7 @@ properties:
     - '9'
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3648744&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3648744%20and%20ver_nr=1.0
     type: Enumeration
   who_cns_grade:
     description: The WHO (World Health Organization) grading classification of CNS
@@ -6428,7 +6428,7 @@ properties:
     - Not Reported
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=4358735&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=4358735%20and%20ver_nr=2.0
     type: Enumeration
   year_of_diagnosis:
     cde_id: 2896960
@@ -6441,7 +6441,7 @@ properties:
     - type: 'null'
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2896960&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=2896960%20and%20ver_nr=2.0
     type: Integer
 title: Diagnosis
 type: object

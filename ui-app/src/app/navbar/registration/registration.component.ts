@@ -253,12 +253,13 @@ export class RegistrationComponent implements OnInit {
               this.dialogRef.close('user registered');
               return;
             case 5:
-              message = 'User with this email disabled their account. If you want to enable your account again, please contact site administrators by email pdc-admin@esacinc.com.';
+			  //@@@PDC-6917 get helpdesk_email from env
+              message = 'User with this email disabled their account. If you want to enable your account again, please contact site administrators by email '+environment.helpdesk_email+'.';
               continueRegistration = false;
               //this.dialogRef.close('user registered');
               break;
             case 7:
-              message = 'User with this email tried to login more than 6 times with wrong password and was blocked. To unblock your account please contact site administrators by email pdc-admin@esacinc.com.';
+              message = 'User with this email tried to login more than 6 times with wrong password and was blocked. To unblock your account please contact site administrators by email '+environment.helpdesk_email+'.';
               continueRegistration = false;
               //this.dialogRef.close('user registered');
               break;

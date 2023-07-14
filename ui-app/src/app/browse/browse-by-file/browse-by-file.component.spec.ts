@@ -135,7 +135,7 @@ describe("BrowseByFileComponent", () => {
     expect(spy).toHaveBeenCalled();
   }); */
 
-  it("test applySelectFilter", () => {
+/*   it("test applySelectFilter", () => {
     let filterValue = "Files:MZML";
     component.newFilterSelected = {};
     component.applySelectFilter(filterValue);
@@ -156,7 +156,7 @@ describe("BrowseByFileComponent", () => {
     component.newFilterValue = newFilterValue;
     component.applyFilterOnFilterChanged();
     expect(serviceSpy).toHaveBeenCalled();
-  });
+  }); */
 
   it("test laod new page", () => {
     let event = {

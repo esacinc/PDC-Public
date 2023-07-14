@@ -17,7 +17,7 @@ properties:
     - type: 'null'
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6028530&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6028530%20and%20ver_nr=1.0
     type: Integer
   age_is_obfuscated:
     description: 'The age of the patient has been modified for compliance reasons.
@@ -52,7 +52,7 @@ properties:
     - Unknown
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2554674&version=3.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=2554674%20and%20ver_nr=3.0
     type: Enumeration
   cause_of_death_source:
     description: 'The text term used to describe the source used to determine the
@@ -307,7 +307,7 @@ properties:
     - Zimbabwe
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=7050286&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=7050286%20and%20ver_nr=1.0
     type: Enumeration
   days_to_birth:
     cde_id: 6154723
@@ -315,7 +315,7 @@ properties:
       a person's date of birth represented as a calculated negative number of days.
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6154723&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6154723%20and%20ver_nr=1.0
     type: Integer
   days_to_death:
     cde_id: 6154724
@@ -323,7 +323,7 @@ properties:
       a person's date of death represented as a calculated number of days.
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6154724&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6154724%20and%20ver_nr=1.0
     type: Integer
   demographic_id:
     key: 'yes'
@@ -347,7 +347,7 @@ properties:
     - Unknown
     required: 'True'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2192217&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=2192217%20and%20ver_nr=2.0
     type: Enumeration
   gender:
     cde_id: 2200604
@@ -363,7 +363,7 @@ properties:
     - not reported
     required: 'True'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2200604&version=3.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=2200604%20and%20ver_nr=3.0
     type: Enumeration
   occupation_duration_years:
     cde_id: 2435424
@@ -372,7 +372,7 @@ properties:
       '
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2435424&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=2435424%20and%20ver_nr=1.0
     type: Integer
   premature_at_birth:
     cde_id: 6010765
@@ -385,7 +385,7 @@ properties:
     - Not Reported
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6010765&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6010765%20and%20ver_nr=1.0
     type: Enumeration
   project_id:
     key: 'yes'
@@ -415,7 +415,7 @@ properties:
     - Unknown
     required: 'True'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2192199&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=2192199%20and%20ver_nr=1.0
     type: Enumeration
   vital_status:
     cde_id: 5
@@ -427,7 +427,7 @@ properties:
     - Not Reported
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5&version=5.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=5%20and%20ver_nr=5.0
     type: Enumeration
   weeks_gestation_at_birth:
     cde_id: 2737369
@@ -436,7 +436,7 @@ properties:
       with the birth of the patient.
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2737369&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=2737369%20and%20ver_nr=1.0
     type: Number
   year_of_birth:
     cde_id: 2896954
@@ -448,14 +448,14 @@ properties:
     - type: 'null'
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2896954&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=2896954%20and%20ver_nr=1.0
     type: Integer
   year_of_death:
     cde_id: 2897030
     description: Numeric value to represent the year of the death of an individual.
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2897030&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=2897030%20and%20ver_nr=1.0
     type: Integer
 title: Demographic
 type: object

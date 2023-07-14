@@ -101,7 +101,7 @@ properties:
         - 'No'
         required: 'True'
         source: PSI MS
-        term_url: http://purl.obolibrary.org/obo/MS_1000501
+        term_url: https://www.ebi.ac.uk/ols4/ontologies/ms/classes/http%253A%252F%252Fpurl.obolibrary.org%252Fobo%252FMS_1000501
         type: Enumeration
     digestion_reagent:
         cde_id: MS:1001045
@@ -130,7 +130,7 @@ properties:
         - Trypsin
         required: 'True'
         source: PSI MS
-        term_url: http://purl.obolibrary.org/obo/MS_1001045
+        term_url: https://www.ebi.ac.uk/ols4/ontologies/ms/classes/http%253A%252F%252Fpurl.obolibrary.org%252Fobo%252FMS_1001045
         type: Enumeration
     dissociation_type:
         cde_id: MS:1000044
@@ -142,7 +142,7 @@ properties:
         - ECD
         required: 'True'
         source: PSI MS
-        term_url: http://purl.obolibrary.org/obo/MS_1000044
+        term_url: https://www.ebi.ac.uk/ols4/ontologies/ms/classes/http%253A%252F%252Fpurl.obolibrary.org%252Fobo%252FMS_1000044
         type: Enumeration
     document_name:
         description: Name of protocol document
@@ -492,7 +492,7 @@ properties:
         - Thermo Orbitrap Q Exactive HF-X
         - Thermo Orbitrap Fusion Lumos
         required: 'True'
-        term_url: http://purl.obolibrary.org/obo/MS_1001045
+        term_url: https://www.ebi.ac.uk/ols4/ontologies/ms/classes/http%253A%252F%252Fpurl.obolibrary.org%252Fobo%252FMS_1000031
         type: Enumeration
     isobaric_labeling_reagent:
         description: Reagent set used for isobaric labeling
@@ -520,7 +520,7 @@ properties:
         - Label-free gene level quantitation
         required: 'True'
         source: PSI MS
-        term_url: http://www.ontobee.org/ontology/MS?iri=http://purl.obolibrary.org/obo/MS_1001834
+        term_url: http://www.ontobee.org/ontology/MS?iri=https://www.ebi.ac.uk/ols4/ontologies/ms/classes/http%253A%252F%252Fpurl.obolibrary.org%252Fobo%252FMS_1001834
         type: Enumeration
     labeled_quantitation:
         cde_id: MS:1002009
@@ -538,28 +538,28 @@ properties:
         - TMT
         required: 'True'
         source: PSI MS
-        term_url: http://www.ontobee.org/ontology/MS?iri=http://purl.obolibrary.org/obo/MS_1002009
+        term_url: http://www.ontobee.org/ontology/MS?iri=https://www.ebi.ac.uk/ols4/ontologies/ms/classes/http%253A%252F%252Fpurl.obolibrary.org%252Fobo%252FMS_1002009
         type: Enumeration
     ms1_resolution:
         cde_id: MS:1000011
         description: MS1 resolution, typically at 400 m/z
         required: 'False'
         source: PSI MS
-        term_url: http://purl.obolibrary.org/obo/MS_1000011
+        term_url: https://www.ebi.ac.uk/ols4/ontologies/ms/classes/http%253A%252F%252Fpurl.obolibrary.org%252Fobo%252FMS_1000011
         type: Integer
     ms2_resolution:
         cde_id: MS:1000011
         description: MS2 resolution, typically at 400 m/z
         required: 'False'
         source: PSI MS
-        term_url: http://purl.obolibrary.org/obo/MS_1000011
+        term_url: https://www.ebi.ac.uk/ols4/ontologies/ms/classes/http%253A%252F%252Fpurl.obolibrary.org%252Fobo%252FMS_1000011
         type: Integer
     normalized_collision_energy:
         cde_id: MS:1000138
         description: Normalized collisions energy (%)
         required: 'False'
         source: PSI MS
-        term_url: http://purl.obolibrary.org/obo/MS_1000138
+        term_url: https://www.ebi.ac.uk/ols4/ontologies/ms/classes/http%253A%252F%252Fpurl.obolibrary.org%252Fobo%252FMS_1000138
         type: Integer
     particle_size:
         description: Approximate size with units
@@ -609,7 +609,7 @@ properties:
         - MS2-based label-free quantitation
         required: 'True'
         source: PSI MS
-        term_url: http://www.ontobee.org/ontology/MS?iri=http://purl.obolibrary.org/obo/MS_1001833
+        term_url: http://www.ontobee.org/ontology/MS?iri=https://www.ebi.ac.uk/ols4/ontologies/ms/classes/http%253A%252F%252Fpurl.obolibrary.org%252Fobo%252FMS_1001833
         type: Enumeration
     reporter_ion_ms_level:
         description: MS level at which fragmentation spectra should be analyzed for

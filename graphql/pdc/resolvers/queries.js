@@ -274,32 +274,46 @@ export const resolvers = {
 			"where s.study_id = p.study_id ";
 
 			let replacements = { };
+			let cacheFilterName = {name:''};
 
 			if (typeof args.study_submitter_id != 'undefined') {
 				isCurrent = false;
 				studyQuery += "and s.study_submitter_id = :study_submitter_id ";
 				replacements['study_submitter_id'] = args.study_submitter_id;
+				cacheFilterName.name +="study_submitter_id:("+ args.study_submitter_id + ");";
 			}
 			if (typeof args.pdc_study_id != 'undefined') {
 				studyQuery += "and s.pdc_study_id = :pdc_study_id ";
 				replacements['pdc_study_id'] = args.pdc_study_id;
+				cacheFilterName.name +="study_submitter_id:("+ args.study_submitter_id + ");";
 			}
 			if (typeof args.study_id != 'undefined') {
 				isCurrent = false;
 				studyQuery += " and s.study_id = uuid_to_bin(:study_id) ";
 				replacements['study_id'] = args.study_id;
+				cacheFilterName.name +="study_submitter_id:("+ args.study_submitter_id + ");";
 			}
 			if (isCurrent) {
 				studyQuery += " and s.is_latest_version = 1 ";
 			}
-			var result = await pubDb.getSequelize().query(
+			//@@@PDC-6930 add cache
+			let cacheKey = "PDCPUB:experimentalMetadata:"+cacheFilterName['name'];
+			const res = await RedisCacheClient.redisCacheGetAsync(cacheKey);
+			if (res === null) {
+				//logger.info("experimentalMetadata not found in cache "+cacheKey);
+				let result = await pubDb.getSequelize().query(
 					studyQuery,
 					{
 						replacements: replacements,
 						model: pubDb.getModelByName('ModelExperimentalMetadata')
 					}
 				);
-			return result;
+				RedisCacheClient.redisCacheSetExAsync(cacheKey, JSON.stringify(result));
+				return result;
+			} else {
+				//logger.info("experimentalMetadata found in cache "+cacheKey);
+				return JSON.parse(res);
+			}
 		},
 		//@@@PDC-109
 		//@@@PDC-153 change count to cases_count
@@ -324,6 +338,7 @@ export const resolvers = {
 			else
 				logger.info("tissueSitesAvailable is called from UI with "+ JSON.stringify(args));
 			//@@@PDC-3840 get current version of study
+			//@@@PDC-6794 use case_id count as case count
 			let tissueQuery = "SELECT bin_to_uuid(d.project_id) as project_id, d.project_submitter_id, "+
 			"d.tissue_or_organ_of_origin, count(distinct d.case_id) as cases_count "+
 			"FROM study s, diagnosis d, `case` c, sample sam, aliquot a, aliquot_run_metadata arm "+
@@ -391,6 +406,7 @@ export const resolvers = {
 				}
 			}*/
 			//@@@PDC-5168 count case_id instead of diagnosis_id
+			//@@@PDC-6794 use case_id count as case count
 			let diseaseQuery = "SELECT bin_to_uuid(dia.project_id) as project_id, dia.project_submitter_id,  dia.tissue_or_organ_of_origin, "+
 			" c.disease_type, count(distinct c.case_id) as cases_count "+
 			" FROM study s, `case` c, diagnosis dia "+
@@ -434,6 +450,7 @@ export const resolvers = {
 			logger.info("uiSunburstChart is called with "+ JSON.stringify(args));
 			context['parent']= "uiSunburstChart";
 			//@@@PDC-3840 get current version of study
+			//@@@PDC-6794 use case_id count as case count
 			let diseaseQuery = "SELECT diag.project_submitter_id,  diag.tissue_or_organ_of_origin, "+
 			" c.disease_type, sam.sample_type, count(distinct diag.case_id) as cases_count "+
 			" FROM diagnosis diag, `case` c, sample sam , study s "+
@@ -699,35 +716,37 @@ export const resolvers = {
 		*
 		* @return {Array}
 		*/
-		allCases(_, args, context) {
+		async allCases(_, args, context) {
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/allCases").send();
 				context['parent']= "allCases";
 				logger.info("allCases is called with "+ JSON.stringify(args));
-				//if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
-					//throw new ApolloError(duaMsg);
 			}
 			else
 				logger.info("allCases is called from UI with "+ JSON.stringify(args));
-			//@@@PDC-3840 get current version of study
-			let caseQuery = "SELECT distinct bin_to_uuid(c.case_id) as case_id,  c.case_submitter_id, "+
-			" bin_to_uuid(c.project_id) as project_id, c.project_submitter_id, "+
-			" c.disease_type, c.primary_site "+
-			"FROM study s, `case` c, sample sam, aliquot a, aliquot_run_metadata arm "+
-			"WHERE c.case_id=sam.case_id AND "+
-			"sam.sample_id=a.sample_id AND arm.aliquot_id = a.aliquot_id "+
-			"AND arm.study_id = s.study_id and s.is_latest_version = 1 ";
-			return db.getSequelize().query(caseQuery, { model: db.getModelByName('Case') });
+			//@@@PDC-6930 add cache
+			let cacheKey = "PDCPUB:allCases";
+			const res = await RedisCacheClient.redisCacheGetAsync(cacheKey);
+			if (res === null){
+				//logger.info("allCases not cached ");
+				let result = null;
+				//@@@PDC-3840 get current version of study
+				let caseQuery = "SELECT distinct bin_to_uuid(c.case_id) as case_id,  c.case_submitter_id, "+
+				" bin_to_uuid(c.project_id) as project_id, c.project_submitter_id, "+
+				" c.disease_type, c.primary_site "+
+				"FROM study s, `case` c, sample sam, aliquot a, aliquot_run_metadata arm "+
+				"WHERE c.case_id=sam.case_id AND "+
+				"sam.sample_id=a.sample_id AND arm.aliquot_id = a.aliquot_id "+
+				"AND arm.study_id = s.study_id and s.is_latest_version = 1 ";
+				result = await db.getSequelize().query(caseQuery, { model: db.getModelByName('Case') });
+				RedisCacheClient.redisCacheSetExAsync(cacheKey, JSON.stringify(result));
+				return result;
+			} else {
+				//logger.info("allCases found in cache"+ cacheKey);
+				return JSON.parse(res);
+			}
 
 
-			/*return pubDb.getModelByName('Case').findAll({ attributes: [['bin_to_uuid(case_id)', 'case_id'],
-						'case_submitter_id',
-						['bin_to_uuid(project_id)', 'project_id'],
-						'project_submitter_id',
-						'disease_type',
-						'primary_site'
-					]
-			});*/
 		},
 		/**
 		* program gets one specific program with all its projects
@@ -861,7 +880,7 @@ export const resolvers = {
 			}
 		},
 		//@@@PDC-2614 rearrange geneSpectralCount
-		geneSpectralCount(_, args, context) {
+		async geneSpectralCount(_, args, context) {
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/geneSpectralCount").send();
 				context['parent']= "geneSpectralCount";
@@ -872,19 +891,35 @@ export const resolvers = {
 			else
 				logger.info("geneSpectralCount is called from UI with "+ JSON.stringify(args));
 			context['arguments'] = args;
-			//@@@PDC-6285 force case insenetive on gene_name
-			let geneQuery = "SELECT gene_name, bin_to_uuid(gene_id) as gene_id, chromosome, " +
+			//@@@PDC-6860 cache search result
+			var cacheFilterName = {name:''};
+			if (typeof args.gene_name != 'undefined') {
+				cacheFilterName.name +="gene_name:("+ args.gene_name + ");";
+			}
+			let cacheKey = CacheName.getSummaryPageGeneSummary('GeneSpectralCount')+"pub:"+cacheFilterName['name'];
+			context['cacheKey'] = cacheKey;
+			logger.info("cacheKey"+cacheKey);
+			const res = await RedisCacheClient.redisCacheGetAsync(cacheKey);
+			if(res === null){
+				//@@@PDC-2638 enhance aliquotSpectralCount
+				//@@@PDC-6285 force case insenetive on gene_name
+				let genQuery = "SELECT gene_name, bin_to_uuid(gene_id) as gene_id, chromosome, " +
 								" ncbi_gene_id as NCBI_gene_id, authority, description, organism, " +
 								" locus, proteins, trim(both '\r' from assays) as assays FROM gene " +
 								" where gene_name = :gene_name COLLATE utf8mb4_general_ci";
-
-			return db.getSequelize().query(
-					geneQuery,
-					{
-						replacements: { gene_name: args.gene_name },
-						model: db.getModelByName('ModelGene')
-					}
-				);
+										
+				var result = await db.getSequelize().query(
+						genQuery,
+						{
+							replacements: { gene_name: args.gene_name },
+							model: db.getModelByName('ModelGene')
+						}
+					); 								
+				RedisCacheClient.redisCacheSetExAsync(cacheKey, JSON.stringify(result));
+				return result;
+			} else {
+				return JSON.parse(res);
+			}				
 		},
 		//@@@PDC-164 plex-level spectral count
 		/**
@@ -895,7 +930,7 @@ export const resolvers = {
 		*
 		* @return {Gene}
 		*/
-		aliquotSpectralCount(_, args, context) {
+		async aliquotSpectralCount(_, args, context) {
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/aliquotSpectralCount").send();
 				context['parent']= "aliquotSpectralCount";
@@ -905,22 +940,41 @@ export const resolvers = {
 			}
 			else
 				logger.info("aliquotSpectralCount is called from UI with "+ JSON.stringify(args));
+			
 			//@@@PDC-2638 enhance aliquotSpectralCount
 			context['arguments'] = args;
-			//@@@PDC-2638 enhance aliquotSpectralCount
-			//@@@PDC-6285 force case insenetive on gene_name
-			let aliquotQuery = "SELECT gene_name, bin_to_uuid(gene_id) as gene_id, chromosome, " +
-									" ncbi_gene_id as NCBI_gene_id, authority, description, organism, " +
-									" locus, proteins, trim(both '\r' from assays) as assays FROM gene " +
-									" where gene_name = :gene_name COLLATE utf8mb4_general_ci";
-
-			return db.getSequelize().query(
-					aliquotQuery,
-					{
-						replacements: { gene_name: args.gene_name },
-						model: db.getModelByName('ModelGene')
-					}
-				);
+			//@@@PDC-6860 cache search result
+			var cacheFilterName = {name:''};
+			if (typeof args.gene_name != 'undefined') {
+				cacheFilterName.name +="gene_name:("+ args.gene_name + ");";
+			}
+			if (typeof args.dataset_alias != 'undefined') {
+				cacheFilterName.name +="dataset_alias:("+ args.dataset_alias + ");";
+			}
+			let cacheKey = CacheName.getSummaryPageGeneSummary('AliquotSpectralCount')+"pub:"+cacheFilterName['name'];
+			context['cacheKey'] = cacheKey;
+			logger.info("cacheKey"+cacheKey);
+			const res = await RedisCacheClient.redisCacheGetAsync(cacheKey);
+			if(res === null){
+				//@@@PDC-2638 enhance aliquotSpectralCount
+				//@@@PDC-6285 force case insenetive on gene_name
+				let aliquotQuery = "SELECT gene_name, bin_to_uuid(gene_id) as gene_id, chromosome, " +
+										" ncbi_gene_id as NCBI_gene_id, authority, description, organism, " +
+										" locus, proteins, trim(both '\r' from assays) as assays FROM gene " +
+										" where gene_name = :gene_name COLLATE utf8mb4_general_ci";
+										
+				var result = await db.getSequelize().query(
+						aliquotQuery,
+						{
+							replacements: { gene_name: args.gene_name },
+							model: db.getModelByName('ModelGene')
+						}
+					); 								
+				RedisCacheClient.redisCacheSetExAsync(cacheKey, JSON.stringify(result));
+				return result;
+			} else {
+				return JSON.parse(res);
+			}				
 		},
 		/**
 		* protein gets one specific gene with all its spectral counts
@@ -929,7 +983,7 @@ export const resolvers = {
 		*
 		* @return {Gene}
 		*/
-		protein(_, args, context) {
+		async protein(_, args, context) {
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/protein").send();
 				context['parent']= "protein";
@@ -941,18 +995,33 @@ export const resolvers = {
 				logger.info("protein is called from UI with "+ JSON.stringify(args));
 			//@@@PDC-2642 gene-related apis enhancement
 			context['arguments'] = args;
-			let proteinQuery = "SELECT gene_name, bin_to_uuid(gene_id) as gene_id, chromosome, " +
-									" ncbi_gene_id as NCBI_gene_id, authority, description, organism, " +
-									" locus, proteins, trim(both '\r' from assays) as assays FROM gene " +
-									" where proteins like :protein ";
+			//@@@PDC-6860 cache search result
+			var cacheFilterName = {name:''};
+			if (typeof args.protein != 'undefined') {
+				cacheFilterName.name +="protein:("+ args.protein + ");";
+			}
+			let cacheKey = CacheName.getSummaryPageGeneSummary('Protein')+"pub:"+cacheFilterName['name'];
+			context['cacheKey'] = cacheKey;
+			logger.info("cacheKey"+cacheKey);
+			const res = await RedisCacheClient.redisCacheGetAsync(cacheKey);
+			if(res === null){
+				let proteinQuery = "SELECT gene_name, bin_to_uuid(gene_id) as gene_id, chromosome, " +
+										" ncbi_gene_id as NCBI_gene_id, authority, description, organism, " +
+										" locus, proteins, trim(both '\r' from assays) as assays FROM gene " +
+										" where proteins like :protein ";
 
-			return db.getSequelize().query(
-					proteinQuery,
-					{
-						replacements: { protein: "%" + args.protein + "%" },
-						model: db.getModelByName('ModelGene')
-					}
+				var result = await db.getSequelize().query(
+						proteinQuery,
+						{
+							replacements: { protein: "%" + args.protein + "%" },
+							model: db.getModelByName('ModelGene')
+						}
 				);
+				RedisCacheClient.redisCacheSetExAsync(cacheKey, JSON.stringify(result));
+				return result;
+			} else {
+				return JSON.parse(res);
+			}				
 		},
 		//@@@PDC-133 projects per experiment_type
 		/**
@@ -1131,7 +1200,7 @@ export const resolvers = {
 		*
 		* @return {FilePerStudy}
 		*/
-		filesPerStudy (_, args, context) {
+		async filesPerStudy (_, args, context) {
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/filesPerStudy").send();
 				context['parent']= "filesPerStudy";
@@ -1149,6 +1218,7 @@ export const resolvers = {
 								" WHERE f.file_id = sf.file_id and s.study_id = sf.study_id";
 
 			let replacements = { };
+			let cacheFilterName = {name:''};
 
 			//@@@PDC-3529 check for current version if not query by id
 			let queryById = false;
@@ -1156,46 +1226,62 @@ export const resolvers = {
 				fileQuery += " and s.study_id = uuid_to_bin(:study_id) ";
 				replacements['study_id'] = args.study_id;
 				queryById = true;
+				cacheFilterName.name +="study_id:("+ args.study_id + ");";
 			}
 			if (typeof args.study_submitter_id != 'undefined') {
 				fileQuery += " and s.study_submitter_id = :study_submitter_id ";
 				replacements['study_submitter_id'] = args.study_submitter_id;
 				queryById = true;
+				cacheFilterName.name +="study_submitter_id:("+ args.study_submitter_id + ");";
 			}
 			if (typeof args.pdc_study_id != 'undefined') {
 				fileQuery += " and s.pdc_study_id = :pdc_study_id ";
 				replacements['pdc_study_id'] = args.pdc_study_id;
+				cacheFilterName.name +="pdc_study_id:("+ args.pdc_study_id + ");";
 			}
 			if (typeof args.file_type != 'undefined') {
 				fileQuery += " and f.file_type = :file_type ";
 				replacements['file_type'] = args.file_type;
+				cacheFilterName.name +="file_type:("+ args.file_type + ");";
 			}
 			if (typeof args.file_name != 'undefined' && args.file_name.length > 0) {
 				let fns = args.file_name.split(";");
 				fileQuery += " and f.file_name IN (:fns) ";
 				replacements['fns'] = fns;
+				cacheFilterName.name +="file_name:("+ args.file_name + ");";
 			}
 			if (typeof args.file_format != 'undefined') {
 				fileQuery += " and f.file_format = :file_format ";
 				replacements['file_format'] = args.file_format;
+				cacheFilterName.name +="file_format:("+ args.file_format + ");";
 			}
 			if (typeof args.data_category != 'undefined') {
 				fileQuery += " and f.data_category = :data_category ";
 				replacements['data_category'] = args.data_category;
+				cacheFilterName.name +="data_category:("+ args.data_category + ");";
 			}
 			if (!queryById) {
 				fileQuery += " and s.is_latest_version = 1 ";
 			}
-			//fileQuery += " and s.project_submitter_id IN ('" + context.value.join("','") + "')";
 			fileQuery += " LIMIT 0, 5000";
-
-			return db.getSequelize().query(
+			//@@@PDC-6930 add cache
+			let cacheKey = "PDCPUB:filesPerStudy:"+cacheFilterName['name'];
+			const res = await RedisCacheClient.redisCacheGetAsync(cacheKey);
+			if (res === null) {
+				//logger.info("filesPerStudy not found in cache "+cacheKey);
+				let result = await db.getSequelize().query(
 					fileQuery,
 					{
 						replacements: replacements,
 						model: db.getModelByName('ModelStudyFile')
 					}
 				);
+				RedisCacheClient.redisCacheSetExAsync(cacheKey, JSON.stringify(result));
+				return result;
+			} else {
+				//logger.info("filesPerStudy found in cache "+cacheKey);
+				return JSON.parse(res);
+			}
 		},
 		//@@@PDC-3935 get legacy file info for download
 		uiLegacyFilesPerStudy(_, args, context) {
@@ -3235,10 +3321,11 @@ export const resolvers = {
 			let groupByExperimentType = 'GROUP BY experiment_type';
 			let cacheFilterName = { name: '' };
 			let fileStudyQuery = queryList.file_study;
+			//@@@PDC-6794 use case_id count as case count
 			let experimentBarQuery = `
 					SELECT
 					s.experiment_type,
-					COUNT(DISTINCT c.case_submitter_id) AS cases_count
+					COUNT(DISTINCT c.case_id) AS cases_count
 				FROM
 					study s,
 					\`case\` c,
@@ -3345,10 +3432,11 @@ export const resolvers = {
 			let groupByAnalyticalFraction =  " group by s.analytical_fraction";
 			let cacheFilterName = { name: '' };
 			let fileStudyQuery = queryList.file_study;
+			//@@@PDC-6794 use case_id count as case count
 			let uiAnalyticalFractionQuery = `
 					SELECT DISTINCT
 					s.analytical_fraction,
-					COUNT(DISTINCT c.case_submitter_id) AS cases_count
+					COUNT(DISTINCT c.case_id) AS cases_count
 				FROM
 					study s,
 					\`case\` c,
@@ -3457,10 +3545,11 @@ export const resolvers = {
 			let groupByDiseaseType = " group by disease_type";
 			let cacheFilterName = { name: '' };
 			let fileStudyQuery = queryList.file_study;
+			//@@@PDC-6794 use case_id count as case count
 			let experimentPieQuery = `
 					SELECT
 					c.disease_type,
-					COUNT(DISTINCT dia.diagnosis_id) AS cases_count
+					COUNT(DISTINCT c.case_id) AS cases_count
 				FROM
 					study s,
 					\`case\` c,
@@ -3531,12 +3620,41 @@ export const resolvers = {
 			context['parent']= "uiTissueSiteCaseCount";
 			logger.info("uiTissueSiteCaseCount is called with "+ JSON.stringify(args));
 			//@@@PDC-2968 get case counts of studies of latest version
+			//@@@PDC-6794 use case_id count as case count
 			let tscQuery = "SELECT d.tissue_or_organ_of_origin, count(distinct d.case_id)" +
 			" as cases_count FROM diagnosis d, `case` c, sample sam, aliquot a, aliquot_run_metadata arm, study s"+
 			" where c.case_id = d.case_id and sam.case_id = c.case_id and a.sample_id = sam.sample_id and arm.aliquot_id = a.aliquot_id and arm.study_id = s.study_id and s.is_latest_version = 1 ";
 			//"where d.project_submitter_id in ('" + context.value.join("','") + "')";
 			tscQuery += " group by d.tissue_or_organ_of_origin";
 			return db.getSequelize().query(tscQuery, { model: db.getModelByName('Diagnosis') });
+		},
+		//@@@PDC-6794 use case_id count as case count
+		getUICaseCountPerStudy(_, args, context) {
+			let caseCountQuery = "SELECT count(distinct d.case_id) " +
+			"as cases_count FROM diagnosis d, `case` c, sample sam, aliquot a, aliquot_run_metadata arm, study s"+
+			" where c.case_id = d.case_id and sam.case_id = c.case_id and a.sample_id = sam.sample_id and arm.aliquot_id = a.aliquot_id and arm.study_id = s.study_id and s.is_latest_version = 1 ";
+			
+			let replacements = { };
+
+			if (typeof args.study_submitter_id != 'undefined') {
+				caseCountQuery += " and s.study_submitter_id = :study_submitter_id ";
+				replacements['study_submitter_id'] = args.study_submitter_id;
+			}
+			if (typeof args.pdc_study_id != 'undefined') {
+				caseCountQuery += " and s.pdc_study_id = :pdc_study_id ";
+				replacements['pdc_study_id'] = args.pdc_study_id;
+			}
+			if (typeof args.study_id != 'undefined') {
+				caseCountQuery += " and s.study_id = uuid_to_bin(:study_id) ";
+				replacements['study_id'] = args.study_id;
+			}
+			return db.getSequelize().query(
+					caseCountQuery,
+					{
+						replacements: replacements,
+						model: db.getModelByName('ModelUIStudy')
+					}
+				);
 		},
 		//@@@PDC-1220 add uiPrimarySiteCaseCount
 		//@@@PDC-1243 fix case count per primary site
@@ -3545,25 +3663,11 @@ export const resolvers = {
 			context['parent']= "uiPrimarySiteCaseCount";
 			logger.info("uiPrimarySiteCaseCount is called with "+ JSON.stringify(args));
 			//@@@PDC-2968 get case counts of studies of latest version
+			//@@@PDC-6794 use case_id count as case count
 			let pscQuery = "select major_primary_site, count(distinct dia.case_id) as cases_count"+
 			" from `case` c,  pdc.diagnosis dia, sample sam, aliquot a, aliquot_run_metadata arm, study s"+
             " where c.case_id = dia.case_id and sam.case_id = c.case_id and a.sample_id = sam.sample_id and arm.aliquot_id = a.aliquot_id and arm.study_id = s.study_id and s.is_latest_version = 1"+
 			" group by major_primary_site";
-			/*var pscQuery = "select primary_site, count(*) as cases_count "+" from (SELECT distinct bin_to_uuid(al.aliquot_id) as aliquot_id, "+
-			" bin_to_uuid(sam.sample_id) as sample_id, al.aliquot_submitter_id,"+
-			" al.status as aliquot_status, sam.sample_submitter_id, "+
-			" c.status as case_status, sam.status as sample_status, "+
-			" bin_to_uuid(c.case_id) as case_id, c.case_submitter_id, "+
-			" proj.name as project_name, sam.sample_type, c.disease_type, "+
-			" c.primary_site, prog.name as program_name "+
-			"from study s, `case` c, sample sam, aliquot al,"+
-			" aliquot_run_metadata alm, project proj, program prog,"+
-			" demographic dem, diagnosis dia, study_file sf, file f "+
-			" where alm.study_id=s.study_id and "+
-			" al.aliquot_id= alm.aliquot_id and al.sample_id=sam.sample_id and sam.case_id=c.case_id"+
-			" and c.case_id = dem.case_id and c.case_id = dia.case_id and s.study_id = sf.study_id and sf.file_id = f.file_id"+
-			" and proj.project_id = s.project_id and proj.program_id = prog.program_id and "+
-			" s.project_submitter_id IN ('" + context.value.join("','") + "'))as mytable group by primary_site ";*/
 			let cacheFilterName = {name:''};
 
 			const res = await RedisCacheClient.redisCacheGetAsync(CacheName.getBrowsePageChartCacheKey('HumanBody'));
@@ -4539,7 +4643,7 @@ export const resolvers = {
 		*
 		* @return {FileMetadata}
 		*/
-		fileMetadata(_, args, context) {
+		async fileMetadata(_, args, context) {
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/fileMetadata").send();
 				context['parent']= "fileMetadata";
@@ -4576,39 +4680,46 @@ export const resolvers = {
 			" where sf.study_run_metadata_id is null and s.is_latest_version = 1 ";
 
 			let replacements = { };
+			let cacheFilterName = {name:''};
 
 			//@@@PDC-884 fileMetadata API search by UUID
 			if (typeof args.file_id != 'undefined') {
 				gasQuery += " and f.file_id = uuid_to_bin(:file_id)";
 				gas2Query += " and f.file_id = uuid_to_bin(:file_id)";
 				replacements['file_id'] = args.file_id;
+				cacheFilterName.name +="file_id:("+ args.file_id + ");";
 			}
 			//@@@PDC-898 new public APIs--fileMetadata
 			if (typeof args.file_submitter_id != 'undefined') {
 				gasQuery += " and f.file_submitter_id = uuid_to_bin(:file_submitter_id)";
 				gas2Query += " and f.file_submitter_id = uuid_to_bin(:file_submitter_id)";
 				replacements['file_submitter_id'] = args.file_submitter_id;
+				cacheFilterName.name +="file_submitter_id:("+ args.file_submitter_id + ");";
 			}
-			if (typeof args.data_catefory != 'undefined') {
-				gasQuery += " and f.data_catefory = :data_catefory ";
-				gas2Query += " and f.data_catefory = :data_catefory ";
-				replacements['data_catefory'] = args.data_catefory;
+			if (typeof args.data_category != 'undefined') {
+				gasQuery += " and f.data_category = :data_category ";
+				gas2Query += " and f.data_category = :data_category ";
+				replacements['data_category'] = args.data_category;
+				cacheFilterName.name +="data_category:("+ args.data_category + ");";
 			}
 			if (typeof args.file_type != 'undefined') {
 				gasQuery += " and f.file_type = :file_type ";
 				gas2Query += " and f.file_type = :file_type ";
 				replacements['file_type'] = args.file_type;
+				cacheFilterName.name +="study_submitter_id:("+ args.study_submitter_id + ");";
 			}
 			if (typeof args.file_format != 'undefined') {
 				gasQuery += " and f.file_format = :file_format ";
 				gas2Query += " and f.file_format = :file_format ";
 				replacements['file_format'] = args.file_format;
+				cacheFilterName.name +="file_type:("+ args.file_type + ");";
 			}
 			if (typeof args.file_name != 'undefined') {
 				let file_names = args.file_name.split(';');
 				gasQuery += " and f.file_name IN (:file_names) ";
 				gas2Query += " and f.file_name IN (:file_names) ";
 				replacements['file_names'] = file_names;
+				cacheFilterName.name +="file_names:("+ args.file_names + ");";
 			}
 			//@@@PDC-3529 check for current version
 			gasQuery += " and s.is_latest_version = 1 ";
@@ -4616,23 +4727,37 @@ export const resolvers = {
 			var myLimit = 500;
 			var paginated = false;
 			if (typeof args.offset != 'undefined' && typeof args.limit != 'undefined') {
-				if (args.offset >= 0)
+				if (args.offset >= 0) {
 					myOffset = args.offset;
-				if (args.limit >= 0)
+					cacheFilterName.name +="offset:("+ args.offset + ");";
+				}
+				if (args.limit >= 0) {
 					myLimit = args.limit;
+					cacheFilterName.name +="limit:("+ args.limit + ");";
+				}
 				else
 					myLimit = 0;
 				paginated = true;
 			}
 			var gasLimitQuery = " LIMIT "+ myOffset+ ", "+ myLimit;
-			return db.getSequelize().query(
-					gasQuery + " union "+ gas2Query + gasLimitQuery,
-					{
-						replacements: replacements,
-						model: db.getModelByName('ModelFileMetadata')
-					}
+			//@@@PDC-6930 add cache
+			let cacheKey = "PDCPUB:fileMetadata:"+cacheFilterName['name'];
+			const res = await RedisCacheClient.redisCacheGetAsync(cacheKey);
+			if (res === null) {
+				//logger.info("fileMetadata not found in cache "+cacheKey);
+				let result = await db.getSequelize().query(
+						gasQuery + " union "+ gas2Query + gasLimitQuery,
+						{
+							replacements: replacements,
+							model: db.getModelByName('ModelFileMetadata')
+						}
 				);
-
+				RedisCacheClient.redisCacheSetExAsync(cacheKey, JSON.stringify(result));
+				return result;
+			} else {
+				//logger.info("fileMetadata found in cache "+cacheKey);
+				return JSON.parse(res);
+			}
 		},
 		//@@@PDC-503 quantitiveDataCPTAC2 API
 		quantitiveDataCPTAC2(_, args, context) {
@@ -5614,6 +5739,7 @@ export const resolvers = {
 			" and sam.case_id=c.case_id and proj.project_id = s.project_id"+
 			" and proj.program_id = prog.program_id and s.study_id in "+
 			" (select s.study_id ";
+			//@@@PDC-6794 use case_id count as case count
 			let studyCaseAliquotQuery = "SELECT count(distinct c.case_id) as cases_count, "+
 			" count(distinct al.aliquot_id) as aliquots_count ";
 
@@ -5885,7 +6011,7 @@ export const resolvers = {
 		//@@@PDC-4391 add new columns
 		//@@@PDC-5205 add auxiliary_data and tumor_cell_content
 		//@@@PDC-5647 return N/A if null
-		clinicalPerStudy(_, args, context) {
+		async clinicalPerStudy(_, args, context) {
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/clinicalPerStudy").send();
 				context['parent']= "clinicalPerStudy";
@@ -5908,8 +6034,6 @@ export const resolvers = {
 			"dia.tissue_or_organ_of_origin, dia.tumor_grade, dia.tumor_stage, "+
 			"dia.age_at_diagnosis, dia.classification_of_tumor, "+
 			"IFNULL(dia.days_to_last_follow_up, 'N/A') as days_to_last_follow_up, "+
-			/*"dia.days_to_last_known_disease_status, dia.days_to_recurrence,  "+
-			"dia.last_known_disease_status, dia.progression_or_recurrence, "+*/
 			"IFNULL(dia.days_to_last_known_disease_status, 'N/A') as days_to_last_known_disease_status, "+"IFNULL(dia.days_to_recurrence, 'N/A') as days_to_recurrence,"+
 			"dia.tumor_cell_content, dia.tumor_largest_dimension_diameter, "+
 			"dia.prior_malignancy, dia.ajcc_clinical_m, "+
@@ -5953,25 +6077,30 @@ export const resolvers = {
 			"where alm.study_id=s.study_id and al.aliquot_id= alm.aliquot_id "+
 			"and al.sample_id=sam.sample_id and sam.case_id=c.case_id and "+
 			"c.case_id = dem.case_id and c.case_id=dia.case_id ";
-			//" and s.project_submitter_id IN ('" + context.value.join("','") + "')";
 			let replacements = { };
 			//@@@PDC-3839 get current version of study
 			let isCurrent = true;
+			let cacheFilterName = {name:''};
+
+			//@@@PDC-3529 check for current version if not query by id
 			if (typeof args.study_id != 'undefined' && args.study_id.length > 0) {
 				isCurrent = false;
 				let studySub = args.study_id.split(";");
 				clinicalQuery += " and s.study_id IN (uuid_to_bin('" + studySub.join("'),uuid_to_bin('") + "'))";
+				cacheFilterName.name +="study_id:("+ args.study_id + ");";
 			}
 			if (typeof args.study_submitter_id != 'undefined' && args.study_submitter_id.length > 0) {
 				isCurrent = false;
 				let study_submitter_ids = args.study_submitter_id.split(";");
 				clinicalQuery += " and s.study_submitter_id IN (:study_submitter_ids)";
 				replacements['study_submitter_ids'] = study_submitter_ids;
+				cacheFilterName.name +="study_submitter_id:("+ args.study_submitter_id + ");";
 			}
 			if (typeof args.pdc_study_id != 'undefined' && args.pdc_study_id.length > 0) {
 				let pdc_study_ids = args.pdc_study_id.split(";");
 				clinicalQuery += " and s.pdc_study_id IN (:pdc_study_ids)";
 				replacements['pdc_study_ids'] = pdc_study_ids;
+				cacheFilterName.name +="pdc_study_id:("+ args.pdc_study_id + ");";
 			}
 			if (isCurrent) {
 				clinicalQuery += " and s.is_latest_version = 1 ";
@@ -5981,22 +6110,37 @@ export const resolvers = {
 			let myLimit = 1000;
 			let paginated = false;
 			if (typeof args.offset != 'undefined' && typeof args.limit != 'undefined') {
-				if (args.offset >= 0)
+				if (args.offset >= 0) {
 					myOffset = args.offset;
-				if (args.limit >= 0)
+					cacheFilterName.name +="offset:("+ args.offset + ");";
+				}
+				if (args.limit >= 0) {
 					myLimit = args.limit;
+					cacheFilterName.name +="limit:("+ args.limit + ");";
+				}
 				else
 					myLimit = 0;
 				paginated = true;
 			}
 			clinicalQuery +=" LIMIT "+ myOffset+ ", "+ myLimit;
-			return db.getSequelize().query(
+			//@@@PDC-6930 add cache
+			let cacheKey = "PDCPUB:filesPerStudy:"+cacheFilterName['name'];
+			const res = await RedisCacheClient.redisCacheGetAsync(cacheKey);
+			if (res === null) {
+				//logger.info("filesPerStudy not found in cache "+cacheKey);
+				let result = await db.getSequelize().query(
 					clinicalQuery,
 					{
 						replacements: replacements,
 						model: db.getModelByName('ModelUIClinical')
 					}
 				);
+				RedisCacheClient.redisCacheSetExAsync(cacheKey, JSON.stringify(result));
+				return result;
+			} else {
+				//logger.info("filesPerStudy found in cache "+cacheKey);
+				return JSON.parse(res);
+			}
 		},
 		//@@@PDC-898 new public APIs--biospecimenPerStudy
 		//@@@PDC-1156 add is_ref

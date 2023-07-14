@@ -843,7 +843,7 @@ export class NavbarComponent implements OnInit {
                   this.userEmailConfirmed = true;
                 } else {
                   //@@@PDC-5892 - update-help-email
-                  message = 'Could not confirm user email. User record was not found, or blocked, or already confirmed. For further assistance contact site administrators by email PDCHelpDesk@mail.nih.gov.';
+                  message = 'Could not confirm user email. User record was not found, or blocked, or already confirmed. For further assistance contact site administrators by email '+environment.helpdesk_email+'.';
                 }
                 var currentUrl = this.loc.path();
                 //Generate new url that does not contain email-confirmed parameters

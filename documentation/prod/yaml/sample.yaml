@@ -311,7 +311,7 @@ properties:
     - Glottis
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=4742851&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=4742851%20and%20ver_nr=1.0
     type: Enumeration
   biospecimen_laterality:
     cde_id: 2007875
@@ -325,7 +325,7 @@ properties:
     - Not Reported
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2007875&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=2007875%20and%20ver_nr=1.0
     type: Enumeration
   case_id:
     key: 'yes'
@@ -379,7 +379,7 @@ properties:
     - Mixed Adherent Suspension
     required: 'True'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432591&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=5432591%20and%20ver_nr=1.0
     type: Enumeration
   current_weight:
     cde_id: 5432606
@@ -387,7 +387,7 @@ properties:
       in milligrams.
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432606&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=5432606%20and%20ver_nr=1.0
     type: Number
   days_to_collection:
     cde_id: 3008340
@@ -395,7 +395,7 @@ properties:
       of initial pathologic diagnosis, represented as a calculated number of days.
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3008340&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3008340%20and%20ver_nr=1.0
     type: Integer
   days_to_sample_procurement:
     description: The number of days from the date the patient was diagnosed to the
@@ -425,21 +425,21 @@ properties:
     - Not Reported
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3088708&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3088708%20and%20ver_nr=1.0
     type: Enumeration
   distributor_reference:
     cde_id: 3088708
     description: Distributor reference number for cancer model.
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3088708&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3088708%20and%20ver_nr=1.0
     type: String
   freezing_method:
     cde_id: 5432607
     description: Text term that represents the method used for freezing the sample.
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432607&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=5432607%20and%20ver_nr=1.0
     type: String
   gdc_project_id:
     description: Project identifier associated with the sample at the genomic data
@@ -461,7 +461,7 @@ properties:
       in milligrams.
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432605&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=5432605%20and%20ver_nr=1.0
     type: Number
   intermediate_dimension:
     description: Intermediate dimension of the sample, in millimeters.
@@ -476,7 +476,7 @@ properties:
     - 'false'
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=4170557&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=4170557%20and%20ver_nr=1.0
     type: Enumeration
   longest_dimension:
     cde_id: 5432602
@@ -484,7 +484,7 @@ properties:
       measured in millimeters.
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432602&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=5432602%20and%20ver_nr=1.0
     type: Number
   method_of_sample_procurement:
     description: The method used to procure the sample used to extract analyte(s).
@@ -600,7 +600,7 @@ properties:
       Temperature (OCT) compound.
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432538&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=5432538%20and%20ver_nr=1.0
     type: String
   passage_count:
     description: Number of passages (splits) between the original tissue and this
@@ -635,7 +635,7 @@ properties:
     - Not Allowed To Collect
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432521&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=5432521%20and%20ver_nr=1.0
     type: Enumeration
   project_id:
     key: 'yes'
@@ -726,7 +726,7 @@ properties:
     - Saliva
     required: 'True'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3111302&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3111302%20and%20ver_nr=2.0
     type: Enumeration
   sample_type_id:
     description: The accompanying sample type id for the sample type.
@@ -771,7 +771,7 @@ properties:
       measured in millimeters.
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432603&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=5432603%20and%20ver_nr=1.0
     type: Number
   status:
     description: Specifies if the sample is qualified or disqualified for any reason.
@@ -783,7 +783,7 @@ properties:
       of blood supply and freezing of the sample, measured in minutes.
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432611&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=5432611%20and%20ver_nr=1.0
     type: Number
   time_between_excision_and_freezing:
     cde_id: 5432612
@@ -791,7 +791,7 @@ properties:
       freezing of the sample, measured in minutes.
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432612&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=5432612%20and%20ver_nr=1.0
     type: Number
   tissue_collection_type:
     description: The text term used to describe the tyoe of collection used to obtain
@@ -815,7 +815,7 @@ properties:
     - Not Allowed To Collect
     required: 'True'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432687&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=5432687%20and%20ver_nr=1.0
     type: Enumeration
   tumor_code:
     description: Diagnostic tumor code of the tissue sample source.
@@ -894,7 +894,7 @@ properties:
     - Premalignant
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3288124&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3288124%20and%20ver_nr=1.0
     type: Enumeration
 title: Sample
 type: object

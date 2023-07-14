@@ -12,10 +12,11 @@
 		<mat-card style="background:#21b5f0;font-family: 'Lato';font-weight: 400;color:#ffffff;text-align: center;">
 			<mat-card-content>
 				<span style="font-size: 20px;">
-				<!--@@@PDC-5068 sync up case/aliquot counts with browse table
-					{{studySummaryData.cases_count}}-->
-				<!--@@@PDC-6357  case count w/o filter -->
-					{{totalRecordsClinical}}
+				<!--@@@PDC-5068 sync up case/aliquot counts with browse table-->
+				<!--@@@PDC-6794 use case id count as case count-->
+					{{studySummaryData.cases_count}}
+				<!--@@@PDC-6357  case count w/o filter 
+					{{totalRecordsClinical}}-->
 				</span><br>
 				Cases
 			</mat-card-content>
@@ -203,9 +204,16 @@
 				id="studyExperimentalDesignTable" [(selection)]="selectedExperimentalStudies" scrollHeight="300px" [autoLayout]="true" [frozenColumns]="studyExperimentDesignTableFrozenCols" [scrollable]="true"
 				frozenWidth="500px" [ngStyle]="{'width':'100%'}">
 				<ng-template pTemplate="caption">
-					<div class="ui-helper-clearfix">
-						<button id="downloadStudyExpDesignManifest" mat-raised-button mat-primary label="Download Selection"
-						(click)="studyTableExportCSV(dt)" style="font-family:'Lato';float:right;margin-right: 1%;" [disabled]="isDownloadDisabled()" aria-label="Download Data">Export</button>
+					<div class="row">
+					  <div class="col-6"></div>
+					  <div class="col-6">
+						<div class="col-3"></div>
+						<div style="text-align:right">
+							<span>Export</span>&nbsp;
+							<button id="downloadStudyExpDesignManifestCSV" mat-raised-button mat-primary label="Download Selection" (click)="studyTableExportCSV('csv')" style="font-family:'Lato';margin-right: 1%;" [disabled]="isDownloadDisabled()" aria-label="Download Data">CSV</button>&nbsp;
+							<button id="downloadStudyExpDesignManifestTSV" mat-raised-button mat-primary label="Download Selection" (click)="studyTableExportCSV('tsv')" style="font-family:'Lato';margin-right: 1.5%;" [disabled]="isDownloadDisabled()" aria-label="Download Data">TSV</button>&nbsp;
+						</div>
+					  </div>
 					</div>
 				</ng-template>
 				<ng-template pTemplate="frozenheader" let-studyExperimentDesignTableFrozenCols>
@@ -270,7 +278,20 @@
 				  <p-table class="table-striped ui-datatable-odd" #dt [columns]="clinicalCols" [value]="filteredClinicalData" [totalRecords]="totalRecordsClinical"
 							[loading]="loading" [resizableColumns]="true" columnResizeMode="expand" responsive="true"
 							dataKey="case_submitter_id" id="clinicalDataTable" scrollHeight="300px" [autoLayout]="true" [frozenColumns]="frozenClinicalColumns" [scrollable]="true" frozenWidth="150px" [ngStyle]="{'width':'100%'}">
-					<ng-template pTemplate="frozenheader" let-frozenClinicalColumns>
+						<ng-template pTemplate="caption">
+							<div class="row">
+								<div class="col-6"></div>
+								<div class="col-6">
+								<div class="col-3"></div>
+								<div style="text-align:right">
+									<span>Export</span>&nbsp;
+									<button id="downloadClinicalManifestCSV" mat-raised-button mat-primary label="Download Selection" (click)="clinicalTableExportCSV(dt)" style="font-family:'Lato';margin-right: 1%;" [disabled]="isDownloadDisabled()" aria-label="Download Data">CSV</button>&nbsp;
+									<button id="downloadClinicalManifestTSV" mat-raised-button mat-primary label="Download Selection" (click)="clinicalTableExportTSV(dt)" style="font-family:'Lato';margin-right: 1.5%;" [disabled]="isDownloadDisabled()" aria-label="Download Data">TSV</button>&nbsp;
+								</div>
+								</div>
+							</div>
+						</ng-template>
+						<ng-template pTemplate="frozenheader" let-frozenClinicalColumns>
 						<tr>
 							<th class="ui-datatable-tableheader" style="word-break: break-all;" [pSortableColumn]="clinicalCols[0].field"><a href="/pdc/data-dictionary/Case" target="_blank" style="color:white">Case Submitter ID</a><p-sortIcon [field]="clinicalCols[0].field" ariaLabel="Sort Case submitter ID in ascending/descending order"></p-sortIcon></th>
 						</tr>
@@ -377,7 +398,20 @@
 					<p-table class="table-striped ui-datatable-odd" #dt [columns]="biospecimenCols"  [value]="filteredCasesData" [totalRecords]="totalRecordsBiospecimens"
 								[loading]="loading" [resizableColumns]="true" columnResizeMode="expand" responsive="true"
 								dataKey="aliquot_submitter_id" id="biospecimensDataTable" scrollHeight="300px" [autoLayout]="true" [frozenColumns]="biospecimenFrozenCols" [scrollable]="true" frozenWidth="150px" [ngStyle]="{'width':'100%'}">
-						<ng-template pTemplate="frozenheader" let-biospecimenFrozenCols style="min-height: 69.19px !important;">
+							<ng-template pTemplate="caption">
+								<div class="row">
+								  <div class="col-6"></div>
+								  <div class="col-6">
+									<div class="col-3"></div>
+									<div style="text-align:right">
+										<span>Export</span>&nbsp;
+										<button id="downloadBiospecimenManifestCSV" mat-raised-button mat-primary label="Download Selection" (click)="biospecimenTableExportCSV('csv')" style="font-family:'Lato';margin-right: 1%;" [disabled]="isDownloadDisabled()" aria-label="Download Data">CSV</button>&nbsp;
+										<button id="downloadBiospecimenManifestTSV" mat-raised-button mat-primary label="Download Selection" (click)="biospecimenTableExportCSV('tsv')" style="font-family:'Lato';margin-right: 1.5%;" [disabled]="isDownloadDisabled()" aria-label="Download Data">TSV</button>&nbsp;
+									</div>
+								  </div>
+								</div>
+							</ng-template>
+							<ng-template pTemplate="frozenheader" let-biospecimenFrozenCols style="min-height: 69.19px !important;">
 							<tr>
 								<th class="ui-datatable-tableheader" style="word-break: break-all;" [pSortableColumn]="biospecimenCols[0].field"><a href="/pdc/data-dictionary/Aliquot" target="_blank" style="color:white">Aliquot</a><p-sortIcon [field]="biospecimenCols[0].field" ariaLabel="Sort Aliquot column in ascending/descending order"></p-sortIcon></th>
 							</tr>

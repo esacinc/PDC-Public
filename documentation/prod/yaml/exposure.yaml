@@ -34,7 +34,7 @@ properties:
       '
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3114013&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3114013%20and%20ver_nr=1.0
     type: Number
   alcohol_drinks_per_day:
     cde_id: 3124961
@@ -44,7 +44,7 @@ properties:
       '
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3124961&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3124961%20and%20ver_nr=1.0
     type: Number
   alcohol_history:
     cde_id: 2201918
@@ -62,7 +62,7 @@ properties:
     - 'Yes'
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2201918&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=2201918%20and%20ver_nr=1.0
     type: Enumeration
   alcohol_intensity:
     cde_id: 3457767
@@ -80,7 +80,7 @@ properties:
     - Not Reported
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3457767&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3457767%20and%20ver_nr=1.0
     type: Enumeration
   alcohol_type:
     description: A specific type of alcohol.
@@ -106,7 +106,7 @@ properties:
     - Not Reported
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=1253&version=3.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=1253%20and%20ver_nr=3.0
     type: Enumeration
   bmi:
     cde_id: 2006410
@@ -116,7 +116,7 @@ properties:
       '
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2006410&version=3.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=2006410%20and%20ver_nr=3.0
     type: Integer
   cigarettes_per_day:
     cde_id: 2001716
@@ -125,7 +125,7 @@ properties:
       '
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2001716&version=4.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=2001716%20and%20ver_nr=4.0
     type: Number
   coal_dust_exposure:
     description: 'The yes/no/unknown indicator used to describe whether a patient
@@ -185,7 +185,7 @@ properties:
       '
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=649&version=4.1
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=649%20and%20ver_nr=4.1
     type: Integer
   marijuana_use_per_week:
     description: Numeric value that represents the number of times the patient uses
@@ -200,7 +200,7 @@ properties:
       '
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2955385&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=2955385%20and%20ver_nr=1.0
     type: Number
   parent_with_radiation_exposure:
     description: Indicates whether the patient's parent(s) were exposed to radiation
@@ -223,7 +223,7 @@ properties:
     - Not Reported
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2816352&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=2816352%20and%20ver_nr=1.0
     type: Enumeration
   respirable_crystalline_silica_exposure:
     description: 'The yes/no/unknown indicator used to describe whether a patient
@@ -250,7 +250,7 @@ properties:
     - Not Reported
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6841888&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6841888%20and%20ver_nr=1.0
     type: Enumeration
   smokeless_tobacco_quit_age:
     description: The age the subject quit smoking tobacco.
@@ -282,7 +282,7 @@ properties:
     - Unknown
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3279220&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3279220%20and%20ver_nr=1.0
     type: Enumeration
   tobacco_smoking_onset_year:
     cde_id: 2228604
@@ -291,7 +291,7 @@ properties:
       '
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2228604&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=2228604%20and%20ver_nr=1.0
     type: Integer
   tobacco_smoking_quit_year:
     cde_id: 2228610
@@ -300,7 +300,7 @@ properties:
       '
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2228610&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=2228610%20and%20ver_nr=1.0
     type: Integer
   tobacco_smoking_status:
     cde_id: 2181650
@@ -323,7 +323,7 @@ properties:
     - '6'
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2181650&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=2181650%20and%20ver_nr=1.0
     type: Enumeration
   tobacco_use_per_day:
     description: Numeric value that represents the number of times the patient uses
@@ -411,7 +411,7 @@ properties:
       '
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=651&version=4.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=651%20and%20ver_nr=4.0
     type: Integer
   years_smoked:
     cde_id: 3137957
@@ -421,7 +421,7 @@ properties:
       '
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3137957&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3137957%20and%20ver_nr=1.0
     type: Number
 required:
 - submitter_id

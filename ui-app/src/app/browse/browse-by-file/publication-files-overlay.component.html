@@ -27,7 +27,8 @@
 	<ng-template pTemplate="body" let-fileData let-rowIndex="rowIndex">
 		<tr>
 			<td style="word-wrap: break-word; white-space: normal;">{{fileData.file_name }}</td>
-			<td style="word-wrap: break-word; white-space: normal;text-align: center;"><span *ngIf="fileData.downloadable == 'No'">{{fileData.downloadable}}</span><span *ngIf="fileData.downloadable == 'Yes'"><button class="downloadBtn" matTooltip="Some data are under an embargo for publication and/or citation. For more details, visit the summary page for the study of interest for the data use agreement." matTooltipPosition = "left" mat-raised-button mat-primary label="Download Selection" (click)="downloadFile(fileData)" style="font-family:'Lato';background-color: lightgray;color: black;" aria-label="Download">Download&nbsp;&nbsp;&nbsp;<i class="fas fa-download"></i></button></span></td>
+			<!-- PDC-6728 remove embargo info publication -->
+			<td style="word-wrap: break-word; white-space: normal;text-align: center;"><span *ngIf="fileData.downloadable == 'No'">{{fileData.downloadable}}</span><span *ngIf="fileData.downloadable == 'Yes'"><button class="downloadBtn" mat-raised-button mat-primary label="Download Selection" (click)="downloadFile(fileData)" style="font-family:'Lato';background-color: lightgray;color: black;" aria-label="Download">Download&nbsp;&nbsp;&nbsp;<i class="fas fa-download"></i></button></span></td>
 		</tr>
 	</ng-template>
 	</p-table>

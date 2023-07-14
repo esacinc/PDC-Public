@@ -97,6 +97,7 @@ const appRoutes: Routes = [
   //@@@PDC-4426 migrate publicapi-documentation
   { path: 'publicapi-documentation', component: PublicapiDocumentationComponent},
   { path: 'cptac-pancancer', component: PancancerComponent},
+  { path: 'cptac-pancancer/:id', component: PancancerComponent},
   { path: '**', component: PageNotFoundComponent,  canActivate: [AuthGuard]},
 
   ];

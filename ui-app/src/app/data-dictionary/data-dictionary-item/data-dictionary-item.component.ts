@@ -45,7 +45,7 @@ export class DataDictionaryItemComponent implements OnInit {
   constructor(private dataDictionaryService: DataDictionaryService, private dataDictionaryItemService: DataDictionaryItemService, private _Activatedroute:ActivatedRoute, private viewportScroller:ViewportScroller, private router: Router) {
     this.caDSRURL = "https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=IDENTITY&version=2.0";
     this.NCItURL = "https://ncit.nci.nih.gov/ncitbrowser/pages/concept_details.jsf?dictionary=NCI%20Thesaurus&code=IDENTITY";
-    this.PSIMSURL = "http://purl.obolibrary.org/obo/IDENTITY";
+    this.PSIMSURL = "https://www.ebi.ac.uk/ols4/ontologies/ms/classes/http%253A%252F%252Fpurl.obolibrary.org%252Fobo%252FIDENTITY";
     this.hasExamples = false;
     this.linkback = "/pdc/data-dictionary";
     this.curEntity=this._Activatedroute.snapshot.paramMap.get("eName");

@@ -145,7 +145,8 @@ export class LoginComponent implements OnInit {
             break;
 		  case 5:
 			//this.systemErrorMessage = "User Cancelled their account";
-			this.systemErrorMessage = "User deactivated their account. To reactivate account please contact site administrators by email pdc-admin@esacinc.com.";
+			//@@@PDC-6917 get helpdesk_email from env
+			this.systemErrorMessage = "User deactivated their account. To reactivate account please contact site administrators by email "+environment.helpdesk_email+".";
 			//this.userService.setLoginUsername(username);
             //this.userService.setEmail(username);
             //this.router.navigate(["registration"]);
@@ -245,7 +246,7 @@ export class LoginComponent implements OnInit {
 			console.log("Wrong password, " + attempts + " login attempts remaining");
 			break;
 		  case 5:
-			this.systemErrorMessage = "User deactivated their account. To reactivate account please contact site administrators by email pdc-admin@esacinc.com.";
+			this.systemErrorMessage = "User deactivated their account. To reactivate account please contact site administrators by email "+environment.helpdesk_email+".";
 			//this.userService.setLoginUsername(username);
             //this.userService.setEmail(username);
             //this.router.navigate(["registration"]);
@@ -260,9 +261,9 @@ export class LoginComponent implements OnInit {
             this.dialogRef.close("User deactivated their account");
 			break;
 		  case 7:
-			this.systemErrorMessage = "User " + username + " is blocked due to too many unsuccessful logins. Please contact website administrator by email pdc-admin@esacinc.com to unlock the account.";
+			this.systemErrorMessage = "User " + username + " is blocked due to too many unsuccessful logins. Please contact website administrator by email "+environment.helpdesk_email+" to unlock the account.";
 			console.log("User was blocked due to too many unsuccessful logins.");
-			//alert("User " + username + " is blocked due to too many unsuccessful logins. Please contact website administrator by email pdc-admin@esacinc.com to unlock the account.");
+			//alert("User " + username + " is blocked due to too many unsuccessful logins. Please contact website administrator by email '+environment.helpdesk_email+' to unlock the account.");
 			this.dialog.open(MessageDialogComponent, {
 				width: "400px",
 				height: "170px",

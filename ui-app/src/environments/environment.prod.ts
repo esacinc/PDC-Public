@@ -1,5 +1,6 @@
 //@@@PDC-262 link headers to data dictionary
 //@@@PDC-5770 get file using uuid
+//@@@PDC-6917 add helpdesk_email
 
 export const environment = {
   production: true,
@@ -16,6 +17,7 @@ export const environment = {
   idle_session_timeout_seconds: 1800,
   GA_TRACKING_ID: 'G-FCJVZGSR42',
   gdc_case_id_url: 'https://portal.gdc.cancer.gov/cases/',
+  helpdesk_email: 'PDCHelpDesk@mail.nih.gov',
   chorus_jwt_url: '/chorusapi',
   pdcapi_jwt_url: '/pdcapi/login',
   pdcapi_login_url: '/pdcapi/login/token',

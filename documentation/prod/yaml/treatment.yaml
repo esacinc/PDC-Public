@@ -36,7 +36,7 @@ properties:
     minimum: -32872
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6154725&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6154725%20and%20ver_nr=1.0
     type: Integer
   days_to_treatment_start:
     cde_id: 6154726
@@ -48,7 +48,7 @@ properties:
     minimum: -32872
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6154726&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6154726%20and%20ver_nr=1.0
     type: Integer
   initial_disease_status:
     description: 'The text term used to describe the status of the patient''s malignancy
@@ -89,7 +89,7 @@ properties:
       '
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6161024&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6161024%20and%20ver_nr=1.0
     type: String
   route_of_administration:
     cde_id: C38114
@@ -112,7 +112,7 @@ properties:
       '
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2975232&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=2975232%20and%20ver_nr=1.0
     type: Enumeration
     enum:
     - 10-Deacetyltaxol
@@ -4931,7 +4931,7 @@ properties:
     - Not Reported
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5615611&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=5615611%20and%20ver_nr=1.0
     type: Enumeration
   treatment_arm:
     cde_id: 7068995
@@ -4944,7 +4944,7 @@ properties:
     - EA5142
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=7068995&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=7068995%20and%20ver_nr=1.0
     type: Enumeration
   treatment_dose:
     cde_id: 2182728
@@ -4952,7 +4952,7 @@ properties:
       received.
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2182728&version=3.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=2182728%20and%20ver_nr=3.0
     type: Integer
   treatment_dose_units:
     description: The text term used to describe the dose units of an agent the patient
@@ -4978,7 +4978,7 @@ properties:
     - No Known Treatment Effect
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6514354&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6514354%20and%20ver_nr=1.0
     type: Enumeration
   treatment_effect_indicator:
     description: The text term used to indicate whether the treatment had an effect
@@ -5026,7 +5026,7 @@ properties:
     - Maintenance Therapy
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2793511&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=2793511%20and%20ver_nr=1.0
     type: Enumeration
   treatment_or_therapy:
     cde_id: 4231463
@@ -5041,7 +5041,7 @@ properties:
     - not reported
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=4231463&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=4231463%20and%20ver_nr=1.0
     type: Enumeration
   treatment_outcome:
     cde_id: 5102383
@@ -5065,7 +5065,7 @@ properties:
     - Not Reported
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5102383&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=5102383%20and%20ver_nr=1.0
     type: Enumeration
   treatment_type:
     cde_id: 5102381
@@ -5143,7 +5143,7 @@ properties:
     - Radiation, Mixed Photon Beam
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5102381&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=5102381%20and%20ver_nr=1.0
 required:
 - submitter_id
 title: Treatment

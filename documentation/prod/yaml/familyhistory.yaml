@@ -22,7 +22,7 @@ properties:
     minimum: 0
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5300571&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=5300571%20and%20ver_nr=1.0
     type: Number
   relationship_gender:
     cde_id: 6161021
@@ -38,7 +38,7 @@ properties:
     - not reported
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6161021&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6161021%20and%20ver_nr=1.0
     type: Enumeration
   relationship_primary_diagnosis:
     cde_id: 6161022
@@ -101,7 +101,7 @@ properties:
     - Pediatric Liver Cancer
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6161022&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6161022%20and%20ver_nr=1.0
     type: Enumeration
   relationship_type:
     cde_id: 2690165
@@ -232,7 +232,7 @@ properties:
     - Male Sibling of Adopted Child
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2690165&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=2690165%20and%20ver_nr=2.0
     type: Enumeration
   relative_with_cancer_history:
     cde_id: 6161023
@@ -247,7 +247,7 @@ properties:
     - not reported
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6161023&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6161023%20and%20ver_nr=1.0
     type: Enumeration
   relatives_with_cancer_history_count:
     description: 'The number of relatives the patient has with a known history of

@@ -11,3 +11,9 @@ sudo cp -r /home/ec2-user/PDC_Build/pdc/API_documentation /var/www/html/
 sudo rm -f /var/www/html/view_heatmap.html
 sudo cp /home/ec2-user/PDC_Build/pdc/dist/assets/js/view_heatmap.html /var/www/html/
 sudo cp /home/ec2-user/PDC_Build/pdc/dist/assets/data-folder/dataDownloadDocumentation.json /var/www/html/
+
+sudo cp /home/ec2-user/PDC_Build/pdc/data-download-archival-folder/dataDownloadDocumentation.json /var/www/html
+sudo cp /home/ec2-user/PDC_Build/pdc/data-download-archival-folder/UI_Screen_Shot_1.png  /var/www/html/pdc/assets
+sudo cp /home/ec2-user/PDC_Build/pdc/data-download-archival-folder/UI_Screen_Shot_2.png  /var/www/html/pdc/assets
+sudo cp /home/ec2-user/PDC_Build/pdc/data-download-archival-folder/UI_Screen_Shot_3.png  /var/www/html/pdc/assets
+sudo cp /home/ec2-user/PDC_Build/pdc/data-download-archival-folder/data-download-1.png  /var/www/html/pdc/assets

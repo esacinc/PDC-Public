@@ -44,7 +44,7 @@ properties:
     description: The number of days between the date used for index and to the date
       the patient was lost to follow-up.
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6154721&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6154721%20and%20ver_nr=1.0
     type: Integer
   disease_type:
     cde_id: 6161017
@@ -168,7 +168,7 @@ properties:
     - Pancreatic Ductal Adenocarcinoma
     required: 'True'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6161017&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6161017%20and%20ver_nr=1.0
     type: Enumeration
   external_case_id:
     description: Identifier from other resources for this case
@@ -189,7 +189,7 @@ properties:
     - Recurrence
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6154722&version=1.
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6154722%20and%20ver_nr=1.
     type: Enumeration
   lost_to_followup:
     cde_id: 6161018
@@ -200,7 +200,7 @@ properties:
     - 'No'
     - Unknown
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6161018&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6161018%20and%20ver_nr=1.0
     type: Enumeration
   pool:
     description: Any biospecimen entity where multiple cases, samples or aliquots
@@ -307,7 +307,7 @@ properties:
     - Lymph nodes
     required: 'True'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6161019&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6161019%20and%20ver_nr=1.0
     type: Enumeration
   project_id:
     key: 'yes'

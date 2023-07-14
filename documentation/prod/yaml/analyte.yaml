@@ -15,7 +15,7 @@ properties:
       at 260 nm and 280 nm, used to determine a measure of DNA purity.
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432595&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=5432595%20and%20ver_nr=1.0
     type: Number
   amount:
     description: Weight in grams or volume in mL
@@ -52,7 +52,7 @@ properties:
     - Nuclei RNA
     required: 'True'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2513915&version=2.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=2513915%20and%20ver_nr=2.0
     type: Enumeration
   analyte_type_id:
     cde_id: 5432508
@@ -70,7 +70,7 @@ properties:
     - Y
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432508&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=5432508%20and%20ver_nr=1.0
     type: Enumeration
   analyte_volume:
     description: The volume in microliters (ml) of the aliquot(s) derived from the
@@ -84,7 +84,7 @@ properties:
       per milliliter.
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432594&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=5432594%20and%20ver_nr=1.0
     type: Number
   experimental_protocol_type:
     description: The type of experiment used to extract the analyte.
@@ -115,7 +115,7 @@ properties:
     - Not Allowed To Collect
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=4588156&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=4588156%20and%20ver_nr=1.0
     type: Enumeration
   portion_id:
     key: 'yes'
@@ -160,7 +160,7 @@ properties:
       nucleic acid within a solution.
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3008378&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3008378%20and%20ver_nr=1.0
     type: String
   well_number:
     cde_id: 5432613
@@ -168,7 +168,7 @@ properties:
       for the analyte or aliquot from the sample.
     required: 'False'
     source: caDSR
-    term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432613&version=1.0
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=5432613%20and%20ver_nr=1.0
     type: String
 title: Analyte
 type: object

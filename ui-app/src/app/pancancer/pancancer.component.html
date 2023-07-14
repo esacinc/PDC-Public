@@ -90,22 +90,30 @@
 
 	<mat-card *ngIf="publSupplementaryData != null">
 		<mat-card-title class="title-card">
-		  <div style="font-size:20px;font-family: 'LatoBold';">Supplementary Information</div>
+		  <div id="SupplementaryInformation" style="font-size:20px;font-family: 'LatoBold';">Supplementary Information</div>
 		</mat-card-title>
-		<mat-card-content class="card card-body" style="border: none; padding-left: 40px">
+		<mat-card-content class="card card-body" style="border: none; padding-left: 20px">
+			<div *ngIf="characterizationOrder.length > 0" style="padding-top: 5px; font-size: 16px;">
+				<ul style="list-style-type:circle">
+					<li *ngFor="let characterization of characterizationOrder; let i=index">
+							<span><a href="javascript:void(0);" (click)="scrollToElement(characterization)" class="faqs publLink">{{characterization}}</a></span>
+					</li>
+				</ul>
+			</div>
 		  <p-dataView [value]="publSupplementaryData" [lazy]="true" [paginator]="false" [(first)]="offset"
 					   [rows]="50" [pageLinks]="5" [totalRecords]="totalRecords"
 					   [loading]="loading" [ngClass]="{gray: even}"
 					   id="suppDataTable" > <!--(onLazyLoad)="loadPublications($event)"  -->
 			   <ng-template pTemplate="listItem" let-suppData let-suppDataAlt let-rowIndex="rowIndex">
-				<div class="suppData"> 
-				   <div *ngIf="(suppData != null && isString(suppData) && (suppData == 'Acetylome' || suppData == 'Proteome' || suppData == 'Glycoproteome' || suppData == 'Phosphoproteome' || suppData == 'Ubiquitylome'));else other_content" style="word-wrap: break-word; white-space: normal;font-size: 20px!important;font-family: 'LatoBold'">
+				<div class="suppData" [ngClass]="getBackgroundColor(rowIndex)"> 
+				   <div id="{{suppData}}" *ngIf="rowIndex%2 == 0" style = "font-size: 16px; text-decoration: underline;"><a href="javascript:void(0);" (click)="scrollToElement('SupplementaryInformation')" class="faqs publLink">Go Back</a></div>
+				   <div *ngIf="(suppData != null && isString(suppData) && (allCharacterizations.includes(suppData)));else other_content" style="word-wrap: break-word; white-space: normal;font-size: 20px!important;font-family: 'LatoBold'">
 						   {{suppData}}
 						 <br>
 				   </div>	
-				   <div *ngIf="(suppData != null && !isString(suppData))">
+				   <div *ngIf="(suppData != null && !isString(suppData))" >
 						<ng-template #other_content ngFor let-supp [ngForOf]="suppDataAlt">
-							<div *ngIf="supp.characterization == publSupplementaryData[rowIndex-1]" >
+							<div #suppData *ngIf="supp.characterization == publSupplementaryData[rowIndex-1]" >
 								<div style="padding-top: 10px;" *ngIf="supp.file_name != null"><span class="supplHeader">File:&nbsp;&nbsp;</span>
 									<span *ngIf="supp.downloadable == 'Yes'"><a (click)="downloadFile(supp)" class='publLink'>{{supp.file_name}}</a></span>
 									<span *ngIf="supp.downloadable == 'No'">{{supp.file_name}}</span>

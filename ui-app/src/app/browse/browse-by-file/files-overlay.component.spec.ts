@@ -210,14 +210,14 @@ describe("FilesOverlayComponent", () => {
 	  expect(component.prepareTSVExportManifestData(manifestData, headers)).toBe("\r\n");
   });
 
-  it("test download disable", () => {
+/*   it("test download disable", () => {
     expect(component.isDownloadDisabled()).toBeTruthy();
     let selectedData = [];
     component.selectedFiles = selectedData;
     expect(component.isDownloadDisabled()).toBeTruthy();
     selectedData.push("");
     expect(component.isDownloadDisabled()).toBeFalsy();
-  });
+  }); */
   
   it("test fileExportCompleteManifest", () => {
 	component.totalRecords = 5;

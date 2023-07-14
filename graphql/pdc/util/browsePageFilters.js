@@ -579,6 +579,7 @@ WHERE
         AND c.case_id = dia.case_id
 `;
 //@@@PDC-1358 add study_id (uuid) to study summary page
+//@@@PDC-6794 use case_id count as case count
 const study_tab_data=`
 SELECT 
 	BIN_TO_UUID(s.study_id) AS study_id,
