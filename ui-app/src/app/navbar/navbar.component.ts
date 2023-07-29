@@ -843,6 +843,7 @@ export class NavbarComponent implements OnInit {
                   this.userEmailConfirmed = true;
                 } else {
                   //@@@PDC-5892 - update-help-email
+				  //@@@PDC-6917 get helpdesk_email from env
                   message = 'Could not confirm user email. User record was not found, or blocked, or already confirmed. For further assistance contact site administrators by email '+environment.helpdesk_email+'.';
                 }
                 var currentUrl = this.loc.path();

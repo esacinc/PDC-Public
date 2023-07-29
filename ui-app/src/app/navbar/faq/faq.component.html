@@ -58,7 +58,7 @@
           <ul>
             <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(PDC_CDAP, 'PDC_CDAP')">What is PDC Common Data Analysis pipeline?</a></b>
             <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(PDC_CDAP, 'PDC_CDAP')">What is the PDC harmonization process?</a></b>
-            <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Run_Resource, 'Run_Resource')">Can I use PDC data from NCI Cloud Resource to run my own analyses?</a></b>
+            <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Run_Resource, 'Run_Resource')">Can I analyze PDC data on the NCI cloud resources?</a></b>
             <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Custom_Cohort, 'Custom_Cohort')">Can I create a custom cohort to download?</a></b>
           </ul>
       </ol>
@@ -370,9 +370,9 @@
       <div #PDC_CDAP id="PDC_CDAP" class="faq-question">What is PDC Common Data Analysis pipeline?<br>What is the PDC harmonization process?</div>
       <p class="faq-response">Learn more about the PDC harmonization process <a href="/pdc/harmonization" target="_blank">here</a>.</p>
 
-      <div #Run_Resource id="Run_Resource" class="faq-question">Can I use PDC data from NCI Cloud Resource to run my own analyses?</div>
-      <p class="faq-response">PDC data is located on Amazon Web Services S3 cloud buckets. All of the PDC data and metadata is accessible through APIs. There is an ongoing effort within the NCI Cancer Research Data Commons for the <a href="https://datacommons.cancer.gov/analytical-tools" target="_blank">Cloud Resources</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">External Link</span></a> to run analysis pipelines on PDC data.
-        <br>The <a href="http://www.cancergenomicscloud.org/" target="_blank">Seven Bridges Cancer Genomic Cloud (CGC)</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">External Link</span></a>, one of the NCI’s Cloud Resources, has a <a href="https://docs.cancergenomicscloud.org/docs/import-from-the-pdc" target="_blank">tutorial on how to access PDC data</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">External Link</span></a> from their platform and run an analysis pipeline. Other NCI Cloud Resources include the Broad Institute’s FireCloud and the Institute for Systems Biology’s Cancer Genomics Cloud.
+      <div #Run_Resource id="Run_Resource" class="faq-question">Can I analyze PDC data on the NCI cloud resources?</div>
+      <p class="faq-response">
+        Yes, PDC data is accessible through the CRDC Cloud Resources for further analysis. Refer to <a href="/pdc/cloud-data-analysis" target="_blank">Analyze PDC Data in the Cloud</a> for more details.
       </p>
 
       <div #Custom_Cohort id="Custom_Cohort" class="faq-question">Can I create a custom cohort to download?</div>

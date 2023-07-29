@@ -53,10 +53,11 @@
 		<ng-template pTemplate="frozenheader" let-frozenColumns>
 			<tr>
 				<th class="ui-datatable-tableheader" style="width:50px;overflow: unset;">
-					<label><p-checkbox  id="clinicalDataChk" [(ngModel)]="headercheckbox" binary="true" (onChange)="onTableHeaderCheckboxToggle()" ></p-checkbox></label>
-					<mat-select id="dataForManifestExport" class="card-body card-list" [(ngModel)]="selectedHeaderCheckbox"
+					<!-- @@@PDC-7012 -improve-checkbox intuitiveness -->
+					<label><p-checkbox #clinicalDataChk  id="clinicalDataChk" [(ngModel)]="headercheckbox" binary="true" (onChange)="triggerchangeHeaderCheckbox($event)" ></p-checkbox></label>
+					<mat-select #dataForManifestExport id="dataForManifestExport" class="card-body card-list" [(ngModel)]="selectedHeaderCheckbox"
 					(selectionChange)="changeHeaderCheckbox($event)">
-						<mat-option *ngFor="let checkboxOption of checkboxOptions" [value]="checkboxOption">
+						<mat-option *ngFor="let checkboxOption of checkboxOptions" [value]="checkboxOption" (onSelectionChange)="chkBoxSelectionCheck(checkboxOption)">
 							{{checkboxOption}}
 						</mat-option>
 					</mat-select>
@@ -152,7 +153,8 @@
 		</ng-template>
 		<ng-template pTemplate="frozenbody" let-clinicalData let-frozenColumns>
 			<tr style="font-size: 11px;"[pSelectableRow]="clinicalData">
-				<td style="width:50px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"><p-tableCheckbox id="clinicalData{{clinicalData.case_submitter_id}}" [value]="clinicalData" class="browsePageCheckboxes"></p-tableCheckbox></td>
+				<!-- @@PDC-7110 - fix checkbox updates -->
+				<td style="width:50px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"><p-tableCheckbox #browsePageCheckboxes id="clinicalData{{clinicalData.case_submitter_id}}" [value]="clinicalData" class="browsePageCheckboxes"></p-tableCheckbox></td>
 				<!-- @@@PDC-462 show submitter id -->
 				<td style="width:150px;word-wrap: break-word; white-space: normal;">
 					 {{clinicalData.project_name}}

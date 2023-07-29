@@ -39,6 +39,7 @@ import { ApiDocumentationComponent } from './api-documentation/api-documentation
 import { PublicapiDocumentationComponent } from './publicapi-documentation/publicapi-documentation.component';
 //@@@PDC-5896-build pancancer page
 import { PancancerComponent } from './pancancer/pancancer.component';
+import { DataCloudAnalysisComponent } from './analysis/data-cloud-analysis/data-cloud-analysis.component';
 
 const appRoutes: Routes = [
   //pdc url will be lazy loading when route redirect to 'pdc'.
@@ -98,6 +99,8 @@ const appRoutes: Routes = [
   { path: 'publicapi-documentation', component: PublicapiDocumentationComponent},
   { path: 'cptac-pancancer', component: PancancerComponent},
   { path: 'cptac-pancancer/:id', component: PancancerComponent},
+  { path: 'cloud-data-analysis', component: DataCloudAnalysisComponent},
+  { path: 'cloud-data-analysis/:id', component: DataCloudAnalysisComponent},
   { path: '**', component: PageNotFoundComponent,  canActivate: [AuthGuard]},
 
   ];

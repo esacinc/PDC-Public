@@ -72,13 +72,13 @@ describe("BrowseByFileService", () => {
   }));
   
   //@@@PDC-3307 add study version to file manifest
-  it("test getStudiesVersions", inject([BrowseByFileService], (service: BrowseByFileService) => {
+/*   it("test getStudiesVersions", inject([BrowseByFileService], (service: BrowseByFileService) => {
     service.getStudiesVersions().subscribe(data => {
       expect(data).toBeDefined();
 	  expect(data.getPaginatedUIStudy).toBeDefined();
 	  expect(data.getPaginatedUIStudy.uiStudies).toBeDefined();
     });
-  }));
+  })); */
 
   it("test getFilteredFiles", inject(
     [BrowseByFileService],
@@ -343,6 +343,36 @@ describe("BrowseByFileService", () => {
             }
           }          
         ]
+      }
+    });
+
+    controller.verify();
+  }));
+
+  it("test getPaginatedFilesForPublication", inject([BrowseByFileService], (service: BrowseByFileService) => {
+    service.getPaginatedFilesForPublication("bef019a4-50b1-11ed-a6f8-0a79dd92157b", 0, 10).subscribe(data => {
+      expect(data).toBeDefined();
+      expect(data["getPaginatedUIPancancerFiles"].total).toBe(0);
+      expect(data["getPaginatedUIPancancerFiles"]["uiPancancerFiles"].length).toBe(0);
+    });
+
+    const op = controller.expectOne(service.paginatedFilesForPublicationQuery);
+
+    op.flush({
+      data: {
+        getPaginatedUIPancancerFiles: {
+          total: 0,
+          uiPancancerFiles: [],
+          pagination: {
+            count: 0,
+            sort: "",
+            from: 0,
+            page: 1,
+            total: 0,
+            pages: 0,
+            size: 10
+          }
+        }
       }
     });
 

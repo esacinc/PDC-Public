@@ -2,7 +2,7 @@ import {of as observableOf,  Observable } from 'rxjs';
 
 import { FormControl } from "@angular/forms";
 import { catchError,  take } from 'rxjs/operators';
-import { Component, OnInit, Inject,  EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Inject,  EventEmitter, Input, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { formatDate } from '@angular/common';
 import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
 import { Apollo } from 'apollo-angular';
@@ -104,6 +104,11 @@ export class FilesOverlayComponent implements OnInit {
   publicationsFiles = [];
   isLegacyData = false;
   frozenCols = [];
+  @ViewChild('dataForManifestExport') dataForManifestExport;
+  //@@@PDC-7109 - updates to browse checkbox
+  @ViewChild('fileDataChk') fileDataChk;
+  //@@@PDC-7110 fix checkbox update
+  @ViewChild('browsePageCheckboxes') browsePageCheckboxes;
 
 	constructor(private activeRoute: ActivatedRoute, private router: Router, private apollo: Apollo, private http: HttpClient,
 				private browseByFileService: BrowseByFileService, private loc:Location,
@@ -227,6 +232,8 @@ export class FilesOverlayComponent implements OnInit {
   changeHeaderCheckbox($event) {
     let checkboxVal = this.selectedHeaderCheckbox;
     //this.selectedFiles = this.currentPageSelectedFile = []; // no need to reinitialize all selected files.
+    //@@@PDC-7012 - reinitializing in order to be able to switch between page selection in intiutive dropdown checkbox
+    this.selectedFiles = this.currentPageSelectedFile = [];
     switch (checkboxVal) {
       case 'Select all pages':
             this.fileExportCompleteManifest();
@@ -239,6 +246,26 @@ export class FilesOverlayComponent implements OnInit {
             this.clearSelection();
             break;
     }
+  }
+  //@@@PDC-7012 improve browse checkbox intuitiveness
+  triggerchangeHeaderCheckbox() {
+      //@@@PDC-7110 - fix checkbox update
+      if(this.browsePageCheckboxes.checked){
+        this.fileDataChk.checked = true;
+      } else {
+        this.fileDataChk.checked = false;
+      }
+      this.dataForManifestExport.open();
+  }
+
+  //@@@PDC-7109 improve browse checkbox intuitiveness - bug where 'Select None' remained checked when selected
+  chkBoxSelectionCheck(selectedOption) {
+      if(selectedOption == 'Select None'){
+        this.fileDataChk.checked = false;
+        this.dataForManifestExport.close();
+      } else {
+        this.fileDataChk.checked = true;
+      }
   }
 
   get staticUrlBase() {
@@ -795,7 +822,7 @@ export class FilesOverlayComponent implements OnInit {
       this.displayLoading(iscompleteFileDownload, "file1", true);
       //retrieve open file link
       //@@@PDC-1789: Add study_submitter_id and study_id to exported study manifests
-      //@@PDC-6308 - remove embargo date tech advancement studies manifest 
+      //@@PDC-6308 - remove embargo date tech advancement studies manifest
       let csvOptions = {
         headers: [
           "File ID",
@@ -858,7 +885,12 @@ export class FilesOverlayComponent implements OnInit {
 				  if (count > 0) {
 					  if (exportFormat == "csv"){
 						new ngxCsv(exportFileObject, this.getCsvFileName("csv"), csvOptions);
-					  } else {
+					  } else if (exportFormat == "pfb") {
+              //@@@PDC-7018: Add PFB export option to Files Overlay Window
+              this.loading = true;
+              this.exportPFBFileManifest(exportFileObject);
+              this.loading = false;
+            } else {
 						let exportTSVData = this.prepareTSVExportManifestData(exportFileObject, csvOptions.headers);
 						var blob = new Blob([exportTSVData], { type: 'text/csv;charset=utf-8;' });
 						FileSaver.saveAs(blob, this.getCsvFileName("tsv"));
@@ -880,7 +912,12 @@ export class FilesOverlayComponent implements OnInit {
 				  if (count > 0) {
 					  if (exportFormat == "csv"){
 						new ngxCsv(exportFileObject, this.getCsvFileName("csv"), csvOptions);
-					  } else {
+					  } else if (exportFormat == "pfb") {
+              //@@@PDC-7018: Add PFB export option to Files Overlay Window
+              this.loading = true;
+              this.exportPFBFileManifest(exportFileObject);
+              this.loading = false;
+            } else {
 						let exportTSVData = this.prepareTSVExportManifestData(exportFileObject, csvOptions.headers);
 						var blob = new Blob([exportTSVData], { type: 'text/csv;charset=utf-8;' });
 						FileSaver.saveAs(blob, this.getCsvFileName("tsv"));
@@ -902,7 +939,12 @@ export class FilesOverlayComponent implements OnInit {
 				if (fileNameList.length > 0) {
 					if (exportFormat == "csv"){
 						new ngxCsv(exportFileObject, this.getCsvFileName("csv"), csvOptions);
-					} else {
+					} else if (exportFormat == "pfb") {
+            //@@@PDC-7018: Add PFB export option to Files Overlay Window
+            this.loading = true;
+            this.exportPFBFileManifest(exportFileObject);
+            this.loading = false;
+          } else {
 						let exportTSVData = this.prepareTSVExportManifestData(exportFileObject, csvOptions.headers);
 						var blob = new Blob([exportTSVData], { type: 'text/csv;charset=utf-8;' });
 						FileSaver.saveAs(blob, this.getCsvFileName("tsv"));
@@ -920,7 +962,12 @@ export class FilesOverlayComponent implements OnInit {
 				if (fileNameList.length > 0) {
 					if (exportFormat == "csv"){
 						new ngxCsv(exportFileObject, this.getCsvFileName("csv"), csvOptions);
-					} else {
+					} else if (exportFormat == "pfb") {
+            //@@@PDC-7018: Add PFB export option to Files Overlay Window
+            this.loading = true;
+            this.exportPFBFileManifest(exportFileObject);
+            this.loading = false;
+          } else {
 						let exportTSVData = this.prepareTSVExportManifestData(exportFileObject, csvOptions.headers);
 						var blob = new Blob([exportTSVData], { type: 'text/csv;charset=utf-8;' });
 						FileSaver.saveAs(blob, this.getCsvFileName("tsv"));
@@ -930,6 +977,55 @@ export class FilesOverlayComponent implements OnInit {
 		  }
       }
     }
+  }
+
+  //@@@PDC-3419: Add PFB option to File Manifest download
+  //@@@PDC-7018: Add PFB export option to Files Overlay Window
+  //Prepare TSV data and send it to the Flask API for generating PFB files.
+  async exportPFBFileManifest(exportFileObject) {
+    let fileManifestName = this.getCsvFileName("csv")
+    let exportfileobjectTSV = _.clone(exportFileObject);
+    //Add 'submitter_id' to the TSV file. This field is required for generating a PFB file from TSV.
+    for (var obj in exportfileobjectTSV) {
+      let file_id = exportfileobjectTSV[obj]["file_id"];
+      //Generate a random number and append it to the "submitter_id" field
+      let randomNumber = Math.random();
+      let randomNumberArr = randomNumber.toString().split(".");
+      //The submitter_id should be unique. Else, the PFB object cannot be loaded in Terra server.
+      exportfileobjectTSV[obj]["submitter_id"] = file_id + "_" + randomNumberArr[1];
+      //@@@PDC-3509: Add DRS URL to files in the PFB manifest
+      exportfileobjectTSV[obj]["object_id"] = "dg.4DFC:" + file_id;
+      //The following are only test fields and are required for the PFB file generation
+      exportfileobjectTSV[obj]["gh4gh_drs_uri"] = "drs://dg.4DFC:" + file_id;
+      exportfileobjectTSV[obj]["a"] = "file";
+      exportfileobjectTSV[obj]["ab"] = file_id;
+    }
+    //Rename "file_download_link", "md5sum" and "submitter_id_name" to match the PDC schema built for PFB
+    Object.keys(exportfileobjectTSV).forEach(function (key) {
+      exportfileobjectTSV[key].file_location = exportfileobjectTSV[key].file_download_link;
+      delete exportfileobjectTSV[key].file_download_link;
+      exportfileobjectTSV[key].study_name = exportfileobjectTSV[key].submitter_id_name;
+      delete exportfileobjectTSV[key].submitter_id_name;
+      exportfileobjectTSV[key].file_md5sum = exportfileobjectTSV[key].md5sum;
+      delete exportfileobjectTSV[key].md5sum;
+    });
+    //console.log(exportfileobjectTSV);
+    let data = {'fileManifestName': fileManifestName}
+    exportfileobjectTSV.push(data);
+    //console.log(exportfileobjectTSV);
+    let exportTSVData = JSON.stringify(exportfileobjectTSV);
+    //let request = this.http.post("http://127.0.0.1:5000", exportTSVData);
+    let request = this.http.post(environment.flask_api_url, exportTSVData);
+    request.subscribe((response) => {
+      if (response) {
+        window.open(response.toString(), "_blank");
+      } else {
+        console.log("Something went wrong!");
+      }
+    },
+    (error) =>  {
+      console.log("Something went wrong!", error);
+    })
   }
 
   //@@@PDC-1940: File manifest download is very slow

@@ -49,11 +49,12 @@
 		</ng-template>
 		<ng-template pTemplate="frozenheader" let-frozenColumns>
 			<tr>
+				<!-- @@@PDC-7109 - update checkbox intuitiveness -->
 				<th class="ui-datatable-tableheader" style="width:50px;overflow: unset;">
-					<label><p-checkbox  id="geneDataChk" [(ngModel)]="headercheckbox" binary="true" (onChange)="onTableHeaderCheckboxToggle()" ></p-checkbox></label>
-					<mat-select id="dataForManifestExport" class="card-body card-list" [(ngModel)]="selectedHeaderCheckbox"
+					<label><p-checkbox #geneDataChk id="geneDataChk" [(ngModel)]="headercheckbox" binary="true" (onChange)="triggerchangeHeaderCheckbox()" ></p-checkbox></label>
+					<mat-select #dataForManifestExport id="dataForManifestExport" class="card-body card-list" [(ngModel)]="selectedHeaderCheckbox"
 					(selectionChange)="changeHeaderCheckbox($event)">
-						<mat-option *ngFor="let checkboxOption of checkboxOptions" [value]="checkboxOption">
+						<mat-option *ngFor="let checkboxOption of checkboxOptions" [value]="checkboxOption" (onSelectionChange)="chkBoxSelectionCheck(checkboxOption)">
 							{{checkboxOption}}
 						</mat-option>
 					</mat-select>
@@ -74,7 +75,8 @@
 				</ng-template>
 				<ng-template pTemplate="frozenbody" let-geneData let-frozenColumns>
 					<tr style="font-size: 11px;"[pSelectableRow]="geneData">
-						<td style="width:50px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"><p-tableCheckbox id="geneData{{geneData.gene_name}}" [value]="geneData" class="browsePageCheckboxes"></p-tableCheckbox></td>
+						<!-- @@@PDC-7110 - fix checkbox updates -->
+						<td style="width:50px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"><p-tableCheckbox #browsePageCheckboxes id="geneData{{geneData.gene_name}}" [value]="geneData" class="browsePageCheckboxes"></p-tableCheckbox></td>
 						<td style="width:100px;word-wrap: break-word; white-space: normal;"><a href="javascript:void(0);" (click)="showGeneSummary(geneData.gene_name)">{{geneData.gene_name }}</a></td>
 					</tr>
 				</ng-template>

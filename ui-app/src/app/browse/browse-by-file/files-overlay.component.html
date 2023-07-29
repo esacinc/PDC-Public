@@ -53,17 +53,18 @@
 			<div class="container-fluid ui-helper-clearfix button-container-fluid">
 				<div class="row">
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-						<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+						<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
 							<mat-menu #menu="matMenu">
 									<button mat-menu-item (click)="showStudySummary()" aria-label="Show Study Summary">CDAP</button>
 									<button mat-menu-item>Other</button>
 							</mat-menu>
 							<div id="selectedFilesDataCount" *ngIf="!isDownloadDisabled()" style="float:left;padding-top:5px;">Files data selected for download: {{selectedFiles.length}}</div>
 						</div>
-						<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 manifestDownload">
+						<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 manifestDownload">
 							Export File Manifest
 							<button matTooltip="Exports all selected rows for the current data table" id="downloadFileManifest" mat-raised-button mat-primary label="Download Selection" (click)="fileTableExportCSV(false, false, 'csv')" [disabled]="isDownloadDisabled()" style="font-family:'Lato';min-width:1%;" aria-label="Download File Manifest">CSV</button>&nbsp;
-							<button matTooltip="Exports all selected rows for the current data table" id="downloadFileManifest" mat-raised-button mat-primary label="Download Selection" (click)="fileTableExportCSV(false, false, 'tsv')" [disabled]="isDownloadDisabled()" style="font-family:'Lato';min-width:1%;" aria-label="Download File Manifest">TSV</button>
+							<button matTooltip="Exports all selected rows for the current data table" id="downloadFileManifest" mat-raised-button mat-primary label="Download Selection" (click)="fileTableExportCSV(false, false, 'tsv')" [disabled]="isDownloadDisabled()" style="font-family:'Lato';min-width:1%;" aria-label="Download File Manifest">TSV</button>&nbsp;
+							<button matTooltip="Exports all selected rows for the current data tab" id="downloadFileManifest" mat-raised-button mat-primary label="Download Selection" (click)="fileTableExportCSV(false, false, 'pfb')" [disabled]="isDownloadDisabled()" style="font-family:'Lato';min-width:1%;" aria-label="Download File Manifest">PFB</button><a href="/pdc/cloud-data-analysis" target="_blank" style="font-size: 13px;"><mat-icon matTooltip="Data exchange format with FireCloud" class="help-icon" style="font-size: 14px !important;height: 0px !important;width: 15px;vertical-align:sub;">help</mat-icon></a>
 						</div>
 						<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 manifestDownload">
 							<button matTooltip="Please use local download manager to download the files" id="downloadFiles" mat-raised-button mat-primary label="Download Files" (click)="setDownloadBatch()" [disabled]="isDownloadDisabled()" style="font-family:'Lato';" aria-label="Download Files">Download Files</button>
@@ -86,10 +87,12 @@
 		<ng-template pTemplate="frozenheader" let-frozenCols>
 			<tr>
 				<th class="ui-datatable-tableheader" style="width:50px;overflow: unset;">
-					<label><p-checkbox  id="fileDataChk" [(ngModel)]="headercheckbox" binary="true" (onChange)="onTableHeaderCheckboxToggle()"></p-checkbox></label>
-					<mat-select id="dataForManifestExport" class="card-body card-list" [(ngModel)]="selectedHeaderCheckbox"
+					<!-- @@@PDC-7012 - improve checkbox intuitiveness -->
+					<!-- @@@PDC-7109 - improve checkbox intuitiveness -->
+					<label><p-checkbox #fileDataChk id="fileDataChk" [(ngModel)]="headercheckbox" binary="true" (onChange)="triggerchangeHeaderCheckbox()"></p-checkbox></label>
+					<mat-select #dataForManifestExport id="dataForManifestExport" class="card-body card-list" [(ngModel)]="selectedHeaderCheckbox"
 					(selectionChange)="changeHeaderCheckbox($event)">
-						<mat-option *ngFor="let checkboxOption of checkboxOptions" [value]="checkboxOption">
+						<mat-option *ngFor="let checkboxOption of checkboxOptions" [value]="checkboxOption" (onSelectionChange)="chkBoxSelectionCheck(checkboxOption)">
 							{{checkboxOption}}
 						</mat-option>
 					</mat-select>
@@ -170,7 +173,8 @@
 				<ng-template pTemplate="frozenbody" let-fileData let-frozenCols>
 					<tr [pSelectableRow]="fileData">
 						<td style="width:50px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">
-							<p-tableCheckbox id="fileData-{{rowIndex}}-{{fileData.submitter_id_name}}" [value]="fileData" class="browsePageCheckboxes"></p-tableCheckbox>
+							<!-- @@@PDC-7110 - fix checkbox updates -->
+							<p-tableCheckbox id="fileData-{{rowIndex}}-{{fileData.submitter_id_name}}" [value]="fileData" #browsePageCheckboxes class="browsePageCheckboxes"></p-tableCheckbox>
 						</td>
 						<td *ngIf="publicationsFiles.length === 0" style="width:100px;word-wrap: break-word; white-space: normal;">{{fileData.pdc_study_id }}</td>
 					</tr>

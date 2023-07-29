@@ -98,6 +98,7 @@ import { InputDialogComponent } from './dialog/input-dialog/input-dialog.compone
 //@@PDC-5896-build pancancer page
 import { PancancerComponent } from './pancancer/pancancer.component';
 import { PancancerService } from './pancancer/pancancer.service';
+import { DataCloudAnalysisComponent } from './analysis/data-cloud-analysis/data-cloud-analysis.component';
 
 
 export function getAuthServiceConfigs() {
@@ -156,9 +157,8 @@ const RECAPTCHA_V3_PDC_KEY = environment.recaptcha_site_key;
 	ApiDocumentationComponent,
 	PublicapiDocumentationComponent,
 	DataDownloadDocComponent,
-	PancancerComponent
-
-
+	PancancerComponent,
+	DataCloudAnalysisComponent
   ],
   imports: [
 	AngularFontAwesomeModule,

@@ -5,7 +5,9 @@ import {
   Input,
   OnInit,
   Output,
-  SimpleChanges
+  SimpleChanges,
+  ViewChild,
+  ViewChildren
 } from "@angular/core";
 import { FormControl } from "@angular/forms";
 import { MatDialog, MatDialogConfig } from "@angular/material";
@@ -121,6 +123,11 @@ export class BrowseByFileComponent implements OnInit {
   allStudiesVersions: any[] = [];
   frozenColumns = [];
   @Input() childTabChanged: string;
+  @ViewChild('dataForManifestExport') dataForManifestExport;
+  //@@@PDC-7109 - browse checkbox update bug
+  @ViewChild('fileDataChk') fileDataChk;
+  //@@@PDC-7110 fix checkbox update
+  @ViewChildren('browsePageCheckboxes') browsePageCheckboxes;
 
   constructor(
     private apollo: Apollo,
@@ -179,7 +186,6 @@ export class BrowseByFileComponent implements OnInit {
   }
 
   onTableHeaderCheckboxToggle() {
-    console.log(this.headercheckbox);
     let emptyArray = [];
     let localSelectedFiles = emptyArray.concat(this.selectedFiles);
     if(this.headercheckbox){
@@ -204,7 +210,9 @@ export class BrowseByFileComponent implements OnInit {
       this.currentPageSelectedFile = [];
       this.pageHeaderCheckBoxTrack = [];
       this.selectedHeaderCheckbox = '';
+      console.log(this.selectedFiles);
     }
+
   }
 
   //@@@PDC-820 row selections cross pagination
@@ -252,13 +260,66 @@ export class BrowseByFileComponent implements OnInit {
             break;
       case 'Select this page':
             this.headercheckbox = true;
+            setTimeout(() => {
+              this.fileDataChk.checked = true;
+            }, 500);
             this.onTableHeaderCheckboxToggle();
             break;
       case 'Select None':
             this.clearSelection();
+            this.clearCheckboxSelection();
             break;
     }
   }
+  //@@@PDC-7012 improve browse checkbox intuitiveness
+  triggerchangeHeaderCheckbox() {
+      //@@@PDC-7110 - fix checkbox update
+      //@@@PDC-7110 - fix checkbox update - check the selection and then set checkbox accordingly
+      let checkboxVal = this.selectedHeaderCheckbox;
+      this.selectedFiles = this.currentPageSelectedFile = [];
+      switch (this.selectedHeaderCheckbox) {
+        case 'Select all pages':
+              setTimeout(() => {
+                this.fileDataChk.checked = true;
+              }, 500);
+              this.fileExportCompleteManifest();
+              break;
+        case 'Select this page':
+              this.headercheckbox = true;
+              setTimeout(() => {
+                this.fileDataChk.checked = true;
+              }, 500);
+              this.onTableHeaderCheckboxToggle();
+              break;
+        case 'Select None':
+              this.clearSelection();
+              this.clearCheckboxSelection();
+              break;
+      }
+      //@@@PDC-7110 - check if there are unchecked checkboxes in table - if so then deselect checkbox
+      var found = this.browsePageCheckboxes._results.some(el => el.checked === false);
+      if(found == false){
+        this.fileDataChk.checked = true;
+        this.headercheckbox = true;
+      } else {
+        this.fileDataChk.checked = false;
+        this.headercheckbox = false;
+      }
+      this.dataForManifestExport.open();
+  }
+
+  //@@@PDC-7109 improve browse checkbox intuitiveness - bug where 'Select None' remained checked when selected
+  chkBoxSelectionCheck(selectedOption) {
+      if(selectedOption == 'Select None'){
+        this.fileDataChk.checked = false;
+        this.headercheckbox = false;
+        this.dataForManifestExport.close();
+      } else {
+        this.fileDataChk.checked = true;
+        this.headercheckbox = true;
+      }
+  }
+
 
   get staticUrlBase() {
     return BrowseByFileComponent.urlBase;
@@ -342,6 +403,7 @@ export class BrowseByFileComponent implements OnInit {
         this.pageSize = data.getPaginatedUIFile.pagination.size;
         this.loading = false;
         this.clearSelection();
+        this.clearCheckboxSelection();
         this.makeRowsSameHeight();
       });
     //	 this.getAllFilesData();
@@ -431,7 +493,7 @@ export class BrowseByFileComponent implements OnInit {
       this.offset = 0; //Reinitialize offset for each new filter value
       this.loading = true;
 	  //@@@PDC-3366 selection of files was cleared since this API call was made more than once
-	  // adding pipe(take(1)) prevents from getting back to this API call repeated;y
+	  // adding pipe(take(1)) prevents from getting back to this API call repeated;
       this.browseByFileService
         .getFilteredFilesPaginated(
 		  this.studyVersion,
@@ -443,6 +505,8 @@ export class BrowseByFileComponent implements OnInit {
 		.pipe(take(1))
         .subscribe((data: any) => {
           this.filteredFilesData = data.getPaginatedUIFile.uiFiles;
+          console.log(this.filteredFilesData);
+
           if (this.offset === 0) {
             this.totalRecords = data.getPaginatedUIFile.total;
             this.fileTotalRecordChanged.emit({
@@ -464,11 +528,14 @@ export class BrowseByFileComponent implements OnInit {
             this.isFenceReloaded = true;
           } else {
             this.clearSelection();
+            this.clearCheckboxSelection();
           }
           this.makeRowsSameHeight();
           this.loading = false;
         });
     }
+
+
   }
   //@@@PDC-522 handle two type of events 1 general filters event 2 files filters
   ngOnChanges(changes: SimpleChanges) {
@@ -654,6 +721,10 @@ export class BrowseByFileComponent implements OnInit {
   }
 
   dialogueForHugeDataVolume() {
+    //@@@PDC-7110 - fix checkbox update
+    setTimeout(() => {
+      this.fileDataChk.checked = false;
+    }, 500);
     setTimeout(() => {
       this.dialog.open(MessageDialogComponent, {
         width: "300px",
@@ -899,7 +970,12 @@ export class BrowseByFileComponent implements OnInit {
 			  if (count > 0) {
 				  if (exportFormat == "csv"){
 					new ngxCsv(exportFileObject, this.getCsvFileName("csv"), csvOptions);
-				  } else {
+				  } else if (exportFormat == "pfb") {
+            //@@@PDC-3419: Add PFB option to File Manifest download
+            this.loading = true;
+            this.exportPFBFileManifest(exportFileObject);
+            this.loading = false;
+          } else {
 					let exportTSVData = this.prepareTSVExportManifestData(exportFileObject, csvOptions.headers);
 					var blob = new Blob([exportTSVData], { type: 'text/csv;charset=utf-8;' });
 					FileSaver.saveAs(blob, this.getCsvFileName("tsv"));
@@ -922,7 +998,12 @@ export class BrowseByFileComponent implements OnInit {
 			if (fileNameList.length > 0) {
 				if (exportFormat == "csv"){
 					new ngxCsv(exportFileObject, this.getCsvFileName("csv"), csvOptions);
-				} else {
+				} else if (exportFormat == "pfb") {
+          //@@@PDC-3419: Add PFB option to File Manifest download
+          this.loading = true;
+          this.exportPFBFileManifest(exportFileObject);
+          this.loading = false;
+        } else {
 					let exportTSVData = this.prepareTSVExportManifestData(exportFileObject, csvOptions.headers);
 					var blob = new Blob([exportTSVData], { type: 'text/csv;charset=utf-8;' });
 					FileSaver.saveAs(blob, this.getCsvFileName("tsv"));
@@ -931,6 +1012,54 @@ export class BrowseByFileComponent implements OnInit {
           });
       }
     }
+  }
+
+    //@@@PDC-3419: Add PFB option to File Manifest download
+  //Prepare TSV data and send it to the Flask API for generating PFB files.
+  async exportPFBFileManifest(exportFileObject) {
+    let fileManifestName = this.getCsvFileName("csv")
+    let exportfileobjectTSV = _.clone(exportFileObject);
+    //Add 'submitter_id' to the TSV file. This field is required for generating a PFB file from TSV.
+    for (var obj in exportfileobjectTSV) {
+      let file_id = exportfileobjectTSV[obj]["file_id"];
+      //Generate a random number and append it to the "submitter_id" field
+      let randomNumber = Math.random();
+      let randomNumberArr = randomNumber.toString().split(".");
+      //The submitter_id should be unique. Else, the PFB object cannot be loaded in Terra server.
+      exportfileobjectTSV[obj]["submitter_id"] = file_id + "_" + randomNumberArr[1];
+      //@@@PDC-3509: Add DRS URL to files in the PFB manifest
+      exportfileobjectTSV[obj]["object_id"] = "dg.4DFC:" + file_id;
+      //The following are only test fields and are required for the PFB file generation
+      exportfileobjectTSV[obj]["gh4gh_drs_uri"] = "drs://dg.4DFC:" + file_id;
+      exportfileobjectTSV[obj]["a"] = "file";
+      exportfileobjectTSV[obj]["ab"] = file_id;
+    }
+    //Rename "file_download_link", "md5sum" and "submitter_id_name" to match the PDC schema built for PFB
+    Object.keys(exportfileobjectTSV).forEach(function (key) {
+      exportfileobjectTSV[key].file_location = exportfileobjectTSV[key].file_download_link;
+      delete exportfileobjectTSV[key].file_download_link;
+      exportfileobjectTSV[key].study_name = exportfileobjectTSV[key].submitter_id_name;
+      delete exportfileobjectTSV[key].submitter_id_name;
+      exportfileobjectTSV[key].file_md5sum = exportfileobjectTSV[key].md5sum;
+      delete exportfileobjectTSV[key].md5sum;
+    });
+    //console.log(exportfileobjectTSV);
+    let data = {'fileManifestName': fileManifestName}
+    exportfileobjectTSV.push(data);
+    //console.log(exportfileobjectTSV);
+    let exportTSVData = JSON.stringify(exportfileobjectTSV);
+    //let request = this.http.post("http://127.0.0.1:5000", exportTSVData);
+    let request = this.http.post(environment.flask_api_url, exportTSVData);
+    request.subscribe((response) => {
+      if (response) {
+        window.open(response.toString(), "_blank");
+      } else {
+        console.log("Something went wrong!");
+      }
+    },
+    (error) =>  {
+      console.log("Something went wrong!", error);
+    })
   }
 
   //@@@PDC-1940: File manifest download is very slow
@@ -1429,6 +1558,12 @@ getFilesDataObj(fileNameStr) {
     this.selectedHeaderCheckbox = '';
   }
 
+  private clearCheckboxSelection(){
+    setTimeout(() => {
+       this.fileDataChk.checked = false;
+    },1000);
+  }
+
   private trackCurrentPageSelectedFile(filteredFilesData: AllFilesData[]){
     let fileIdList = [];
     this.currentPageSelectedFile = [];
@@ -1472,6 +1607,7 @@ getFilesDataObj(fileNameStr) {
             frozen_header_div[0].setAttribute('style', 'margin-right: 0px !important');
           }
         }
+
        });
     }
 }

@@ -1,3 +1,8 @@
+/* @@@PDC-7012 - improve checkbox intuitiveness */
+#dataForManifestExport {
+  visibility: hidden;
+}
+
 .browse-study {
     font-family: 'Lato';
     font-size: 12px;
@@ -5,7 +10,7 @@
 
 .ui-datatable-odd {
     background: rgb(225, 239, 252);
-    
+
 }
 .ui-datatable-even {
     /* background: none repeat scroll 0 0 rgb(154, 181, 204); */
@@ -35,9 +40,9 @@
     top: 0;
     position: absolute;
   }
- 
+
  .ui-datatable-tableheader-flex-container{
-    display:-webkit-flex; 
+    display:-webkit-flex;
     display:flex;
     float: left;
     align-items: center;
@@ -55,8 +60,8 @@
 }
 
  /* @@@PDC-551: Need smaller font for paginator pages on Browse page tables to fit 3 digit numbers */
- :host /deep/ .ui-paginator .ui-paginator-pages .ui-paginator-page{ 
-    min-width: 2.5em !important; 
+ :host /deep/ .ui-paginator .ui-paginator-pages .ui-paginator-page{
+    min-width: 2.5em !important;
  }
 
  /* @@@PDC-1063: Implement select all, select page, select none for all tabs */
@@ -99,30 +104,30 @@
 
 /* @@@PDC-4995: Alignment issues
    Scrollbar adds extra width which causes columns to be misaligned
-   Add scrollbar with a defined width and height. Works on most browsers except Firefox 
+   Add scrollbar with a defined width and height. Works on most browsers except Firefox
    For future reference */
 /* :host /deep/ ::-webkit-scrollbar {
    -webkit-appearance: none;
    width: 10px;
    height: 12px;
  }
- 
+
  :host /deep/ ::-webkit-scrollbar-thumb:vertical {
    border-radius: 1px;
    background-color: lightgray;
    box-shadow: 0 0 1px rgba(255, 255, 255, .5);
  }
- 
+
  :host /deep/ ::-webkit-scrollbar-thumb:horizontal {
    border-radius: 1px;
    background-color:lightgray;
    box-shadow: 0 0 1px rgba(255, 255, 255, .5);
  }
- 
+
  :host /deep/ .ui-table-unfrozen-view .ui-table-scrollable-header-box {
    padding-right: 10px !important;
  }
- 
+
  @supports (-moz-appearance:none) {
    :host /deep/ .ui-table-unfrozen-view .ui-table-scrollable-header-box {
      padding-right: 15px !important;
@@ -150,7 +155,7 @@
       max-width: 73px !important;
       width: 73px !important;
    }
-} 
+}
 
 @media only screen  and (max-width: 1700px) {
   :host /deep/ .ui-table-unfrozen-view .ui-table-thead .fixedWidthCol,
@@ -178,5 +183,3 @@
       width: 83px !important;
    }
 }*/
-
-

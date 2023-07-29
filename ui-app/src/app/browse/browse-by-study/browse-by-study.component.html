@@ -50,10 +50,13 @@
 		</ng-template>
 		<ng-template pTemplate="frozenheader" let-frozenColumns>
 			<tr>
+        <!-- @@@PDC-7012 improve browse checkbox intuitiveness -->
 				<th rowspan=3 class="ui-datatable-tableheader" style="width: 50px; align-content: center !important; overflow: unset;" alt="Check All checkboxes in the table">
-					<label><p-checkbox  id="studyDataChk" [(ngModel)]="headercheckbox" binary="true" (onChange)="onTableHeaderCheckboxToggle()"></p-checkbox></label>
-					<mat-select id="dataForManifestExport" class="card-body card-list" [(ngModel)]="selectedHeaderCheckbox" (selectionChange)="changeHeaderCheckbox($event)">
-						<mat-option *ngFor="let checkboxOption of checkboxOptions" [value]="checkboxOption">
+          <!-- @@@PDC-7012 improve browse checkbox intuitiveness -->
+          <!-- @@@PDC-7109 improve browse checkbox intuitiveness -->
+          <label><p-checkbox #studyDataChk id="studyDataChk" [(ngModel)]="headercheckbox" binary="true" (onChange)="triggerchangeHeaderCheckbox($event)"></p-checkbox></label>
+					<mat-select #dataForManifestExport id="dataForManifestExport" class="card-body card-list" [(ngModel)]="selectedHeaderCheckbox" (selectionChange)="changeHeaderCheckbox($event)">
+						<mat-option *ngFor="let checkboxOption of checkboxOptions" [value]="checkboxOption" (selectionChange)="chkBoxSelectionCheck(checkboxOption)">
 							{{checkboxOption}}
 						</mat-option>
 					</mat-select>
@@ -137,7 +140,7 @@
 		</ng-template>
 		<ng-template pTemplate="frozenbody" let-studyData let-frozenColumns>
 			<tr style="font-size: 11px;"[pSelectableRow]="studyData">
-				<td style="width:50px; align-content: center !important"><p-tableCheckbox id="studyData{{studyData.submitter_id_name}}" [value]="studyData" class="browsePageCheckboxes"></p-tableCheckbox></td>
+				<td style="width:50px; align-content: center !important"><p-tableCheckbox #browsePageCheckboxes id="studyData{{studyData.submitter_id_name}}" [value]="studyData" class="browsePageCheckboxes"></p-tableCheckbox></td>
 				<td style="width:100px; word-wrap: break-word; white-space: normal;"><a href="javascript:void(0);" (click)="showStudySummary(studyData.study_submitter_id)">{{studyData.pdc_study_id}}</a>
 				<span *ngIf="versionCheck(studyData.versions)"><br><a href="javascript:void(0);" class="btn btn-primary breadCrumbButtons" style="padding: 0px; cursor:default!important;" disabled="true" matTooltip="This study has multiple versions. Additional versions (updates) of a study are created when the underlying data changes substantially. This may involve changes to the raw data, processed data, and/or metadata. When a new version is created, it may fall out of sync with the original publication of this data. Use of the latest version is strongly encouraged, as it commonly represents an update directly from the submitter." matTooltipPosition="right">
 					version {{studyData.versions[0].number}}</a></span>

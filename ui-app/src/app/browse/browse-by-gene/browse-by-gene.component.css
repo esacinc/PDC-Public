@@ -1,3 +1,8 @@
+/* @@@PDC-7012 - improve checkbox intuitiveness */
+#dataForManifestExport {
+  visibility: hidden;
+}
+
 .browse-file {
     font-family: 'Lato';
     font-size: 12px;
@@ -18,15 +23,15 @@
 }
 
 .ui-datatable-tableheader-flex-container{
-    display:-webkit-flex; 
+    display:-webkit-flex;
     display:flex;
     float: left;
     align-items: center;
  }
 
  /* @@@PDC-551: Need smaller font for paginator pages on Browse page tables to fit 3 digit numbers */
- :host /deep/ .ui-paginator .ui-paginator-pages .ui-paginator-page{ 
-    min-width: 2.5em !important; 
+ :host /deep/ .ui-paginator .ui-paginator-pages .ui-paginator-page{
+    min-width: 2.5em !important;
  }
 
  /* @@@PDC-1000: Column header for Gene list tab needs to be expanded */
@@ -50,13 +55,13 @@
    min-width: 100px !important;
    max-width: 100px !important;
    width: 100px !important;
-} 
+}
 
  :host /deep/ .ui-table table {
    table-layout: unset !important;
 }
 
- /* @media only screen  and (max-width: 2500px) { 
+ /* @media only screen  and (max-width: 2500px) {
    :host /deep/ .ui-table-unfrozen-view .ui-table-thead .fixedMaxWidthCol,
    :host /deep/ .ui-table-unfrozen-view .ui-table-tbody .fixedMaxWidthCol {
       min-width: 200px !important;
@@ -74,6 +79,5 @@
       min-width: 208px !important;
       max-width: 208px !important;
       width: 208px !important;
-   } 
+   }
  } */
- 

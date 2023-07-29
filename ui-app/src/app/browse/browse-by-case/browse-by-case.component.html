@@ -53,10 +53,10 @@
 		<ng-template pTemplate="frozenheader" let-frozenColumns>
 			<tr>
 				<th class="ui-datatable-tableheader" style="width:50px;overflow: unset;">
-					<label><p-checkbox  id="caseDataChk" [(ngModel)]="headercheckbox" binary="true" (onChange)="onTableHeaderCheckboxToggle()"></p-checkbox></label>
-						<mat-select id="dataForManifestExport" class="card-body card-list" [(ngModel)]="selectedHeaderCheckbox"
+					<label><p-checkbox #caseDataChk id="caseDataChk" [(ngModel)]="headercheckbox" binary="true" (onChange)="triggerchangeHeaderCheckbox()"></p-checkbox></label>
+						<mat-select #dataForManifestExport id="dataForManifestExport" class="card-body card-list" [(ngModel)]="selectedHeaderCheckbox"
 						(selectionChange)="changeHeaderCheckbox($event)">
-							<mat-option *ngFor="let checkboxOption of checkboxOptions" [value]="checkboxOption">
+							<mat-option *ngFor="let checkboxOption of checkboxOptions" [value]="checkboxOption" (onSelectionChange)="chkBoxSelectionCheck(checkboxOption)">
 								{{checkboxOption}}
 							</mat-option>
 						</mat-select>
@@ -113,7 +113,8 @@
 		</ng-template>
 		<ng-template pTemplate="frozenbody" let-caseData let-frozenColumns>
 			<tr style="font-size: 11px;"[pSelectableRow]="caseData">
-				<td style="width:50px;word-wrap: break-word; white-space: normal;"><p-tableCheckbox id="caseData{{caseData.aliquot_submitter_id}}" [value]="caseData" class="browsePageCheckboxes"></p-tableCheckbox></td>
+				<!-- @@@PDC-7110 = fix checkbox update -->
+				<td style="width:50px;word-wrap: break-word; white-space: normal;"><p-tableCheckbox #browsePageCheckboxes id="caseData{{caseData.aliquot_submitter_id}}" [value]="caseData" class="browsePageCheckboxes"></p-tableCheckbox></td>
 				<!-- @@@PDC-462 show submitter ids -->
                 <td style="width:150px; white-space: normal;">{{caseData.aliquot_submitter_id }}&nbsp;&nbsp;<span style='color:red' *ngIf="caseData.aliquot_status == 'Disqualified'">{{caseData.aliquot_status}}</span></td>
 			</tr>

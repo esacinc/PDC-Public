@@ -1,7 +1,7 @@
 import { Apollo } from 'apollo-angular';
 
 import {
-    Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges
+    Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild, ViewChildren
 } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
@@ -78,6 +78,12 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
   manifestFormat = "csv";
   @Input() childTabChanged: string;
   frozenColumns = [];
+  @ViewChild('dataForManifestExport') dataForManifestExport;
+  //@@@PDC-7109 - browse checkbox update bug
+  @ViewChild('caseDataChk') caseDataChk;
+  //@@@PDC-7110 fix checkbox update
+  @ViewChildren('browsePageCheckboxes') browsePageCheckboxes;
+
 
   constructor(private apollo: Apollo,
 				private router: Router,
@@ -478,19 +484,74 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
 	changeHeaderCheckbox($event) {
 		let checkboxVal = this.selectedHeaderCheckbox;
 		this.selectedCases =  this.currentPageSelectedCase =  [];
-		switch (checkboxVal) {
+    //@@@PDC-7110 - fix checkbox update
+    switch (checkboxVal) {
 			case 'Select all pages':
+        setTimeout(() => {
+          this.caseDataChk.checked = true;
+        }, 500);
 				this.downloadCompleteManifest(true);
 				break;
 			case 'Select this page':
 				this.headercheckbox = true;
+        setTimeout(() => {
+          this.caseDataChk.checked = true;
+        }, 500);
 				this.onTableHeaderCheckboxToggle();
 				break;
 			case 'Select None':
 				this.clearSelection();
+        this.clearCheckboxSelection();
 				break;
 		}
 	}
+
+   //@@@PDC-7012 improve browse checkbox intuitiveness
+   triggerchangeHeaderCheckbox($event) {
+      //@@@PDC-7110 - fix checkbox update
+      let checkboxVal = this.selectedHeaderCheckbox;
+  		this.selectedCases =  this.currentPageSelectedCase =  [];
+      switch (checkboxVal) {
+        case 'Select all pages':
+              setTimeout(() => {
+                this.caseDataChk.checked = true;
+              }, 500);
+              this.downloadCompleteManifest(true);
+              break;
+        case 'Select this page':
+              this.headercheckbox = true;
+              setTimeout(() => {
+                this.caseDataChk.checked = true;
+              }, 500);
+              this.onTableHeaderCheckboxToggle();
+              break;
+        case 'Select None':
+            this.clearSelection();
+            this.clearCheckboxSelection();
+            break;
+      }
+      //@@@PDC-7110 - check if there are unchecked checkboxes in table - if so then deselect checkbox
+      let found = this.browsePageCheckboxes._results.some(el => el.checked === false);
+      if(found == false){
+        this.caseDataChk.checked = true;
+        this.headercheckbox = true;
+      } else {
+        this.caseDataChk.checked = false;
+        this.headercheckbox = false;
+      }
+      this.dataForManifestExport.open();
+   }
+
+   //@@@PDC-7109 improve browse checkbox intuitiveness - bug where 'Select None' remained checked when selected
+   chkBoxSelectionCheck(selectedOption) {
+       if(selectedOption == 'Select None'){
+         this.headercheckbox = false;
+         this.caseDataChk.checked = false;
+         this.dataForManifestExport.close();
+       } else {
+         this.caseDataChk.checked = true;
+       }
+   }
 
 		//@@@PDC-795 Change manifest download file name include timestamp
 		biospecimenTableExportCSV(dt){
@@ -566,7 +627,6 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
 	//@@@PDC-848 Fix headercheckbox issue for data tables on browse page
 	//@@@PDC-1431 fix biospecimens table row selection issue
 	onTableHeaderCheckboxToggle() {
-    console.log(this.headercheckbox);
     let emptyArray = [];
     let localSelectedCases = emptyArray.concat(this.selectedCases);
     if(this.headercheckbox){
@@ -634,6 +694,12 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
     this.headercheckbox = false;
     this.currentPageSelectedCase = [];
     this.pageHeaderCheckBoxTrack = [];
+  }
+
+  private clearCheckboxSelection(){
+    setTimeout(() => {
+       this.caseDataChk.checked = false;
+    },1000);
   }
 
   //@@@PDC-848 Fix headercheckbox issue for data tables on browse page

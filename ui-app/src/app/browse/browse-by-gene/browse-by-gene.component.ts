@@ -1,6 +1,6 @@
 import { Apollo } from 'apollo-angular';
 
-import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild, ViewChildren } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
@@ -51,7 +51,7 @@ export class BrowseByGeneComponent implements OnInit {
 	//keep a full list of filter category
 	// Array whichs hold filter names. Must be updated when new filters are added to browse page.
 	allFilterCategory: string[] = ["project_name","primary_site","program_name","disease_type","analytical_fraction","experiment_type","acquisition_type","study_name","submitter_id_name","sample_type","ethnicity","race","gender","tumor_grade","data_category","file_type","access","downloadable","studyName_genes_tab","gene_name","biospecimen_status", "case_status"];
-	
+
   //@@@PDC-848 Fix headercheckbox issue for data tables on browse page
 	headercheckbox:boolean = false;
   currentPageSelectedGene = [];
@@ -70,12 +70,17 @@ export class BrowseByGeneComponent implements OnInit {
   manifestFormat = "csv";
   @Input() childTabChanged: string;
   frozenColumns = [];
+  @ViewChild('dataForManifestExport') dataForManifestExport;
+  //@@@PDC-7109 improve browse checkbox intuitiveness
+  @ViewChild('geneDataChk') geneDataChk;
+  //@@@PDC-7110 fix checkbox update
+  @ViewChildren('browsePageCheckboxes') browsePageCheckboxes;
 
   constructor(private apollo: Apollo, private router: Router,  private dialog: MatDialog,
 				private browseByGeneService : BrowseByGeneService, private activatedRoute:ActivatedRoute) {
-	// Array which holds filter names. Must be updated when new filters are added to browse page. 
+	// Array which holds filter names. Must be updated when new filters are added to browse page.
 	this.newFilterSelected = {"program_name" : "", "project_name": "", "study_name": "", "disease_type":"", "primary_site":"", "analytical_fraction":"", "experiment_type":"",
-								"ethnicity": "", "race": "", "gender": "", "tumor_grade": "", "sample_type": "", "acquisition_type": "", "data_category": "", "file_type": "", "access": "", "gene_name": "", "downloadable": "", "biospecimen_status": "", "case_status": ""};	
+								"ethnicity": "", "race": "", "gender": "", "tumor_grade": "", "sample_type": "", "acquisition_type": "", "data_category": "", "file_type": "", "access": "", "gene_name": "", "downloadable": "", "biospecimen_status": "", "case_status": ""};
 	this.offset = 0; //Initialize values for pagination
 	this.limit = 10;
 	this.totalRecords = 0;
@@ -84,12 +89,12 @@ export class BrowseByGeneComponent implements OnInit {
 	this.sort = '';
 	BrowseByGeneComponent.urlBase = environment.dictionary_base_url;
   }
-  
+
   get staticUrlBase() {
     return BrowseByGeneComponent.urlBase;
   }
 
-  
+
   /*API call to get all gene data */
   getAllGenesData(){
 	  this.loading = true;
@@ -112,7 +117,7 @@ export class BrowseByGeneComponent implements OnInit {
 			});
 	  }, 1000);
   }
- 
+
   ngOnChanges(changes: SimpleChanges){
 	if (changes && changes['childTabChanged']) {
 		this.makeRowsSameHeight();
@@ -184,7 +189,7 @@ export class BrowseByGeneComponent implements OnInit {
 					selectedFiltersForBrowse["study_name"] = filterVal.join(";");
 			  }  else if (filterName == "studyName_genes_tab") {
 					selectedFiltersForBrowse["study_name"] = filterVal;
-			  } else if (filterName == "gene_name") { 
+			  } else if (filterName == "gene_name") {
 					selectedFiltersForBrowse[filterName] = filterVal.replace(/ /g, ";");
 			  }	else {
 					selectedFiltersForBrowse[filterName] = filterVal.join(";");
@@ -212,7 +217,7 @@ export class BrowseByGeneComponent implements OnInit {
 			this.makeRowsSameHeight();
 		});
 		//@@@PDC-799: Redirecting to the NIH login page for the file authorization loses PDC state
-		// Important: This code has to be present in the last tab of the browse page. 
+		// Important: This code has to be present in the last tab of the browse page.
 		//'Genes' is the last tab in Browse page at the time of coding and hence deleting the local storage element after the last data table is loaded.
 		if (this.fenceRequest && selectedFiltersForBrowse) {
 			localStorage.removeItem("selectedFiltersForBrowse");
@@ -280,7 +285,7 @@ downloadCompleteManifest(buttonClick = false) {
 				let csvOptions = {
 					headers: headerCols
 				};
-				//PDC-3206 fix ddownload manifest even if there are zero records  
+				//PDC-3206 fix ddownload manifest even if there are zero records
 				if (this.totalRecords > 0) {
 					let exportFileObject = JSON.parse(JSON.stringify(localSelectedGenes, colValues));
 					if (this.manifestFormat == "csv") {
@@ -305,7 +310,7 @@ updateCurrentPageSelectedGenes(localSelectedGenes) {
 	this.currentPageSelectedGene = [];
 	cloneData.forEach(item => {this.currentPageSelectedGene.push(item.gene_name)});
 }
-  
+
 /* Helper function to determine whether the download all button should be disabled or not */
 iscompleteManifestDisabled() {
 	if (this.filtersSelected) {
@@ -333,7 +338,7 @@ isDownloadDisabled(){
 }
 
   // This function is a callback for pagination controls
-	// It is called when a new page needs to be loaded from the DB  
+	// It is called when a new page needs to be loaded from the DB
 	loadNewPage(event: any) {
 		if(this.headercheckbox && this.pageHeaderCheckBoxTrack.indexOf(this.offset) === -1){
 			this.pageHeaderCheckBoxTrack.push(this.offset);
@@ -397,16 +402,16 @@ isDownloadDisabled(){
 			}
 		}
 	}
-	
+
 	showGeneSummary(gene_name: string){
 		const dialogConfig = new MatDialogConfig();
-		
+
 		dialogConfig.disableClose = true;
 		dialogConfig.autoFocus = false;
 		dialogConfig.hasBackdrop = true;
 		dialogConfig.width = '80%';
 		dialogConfig.height = '70%';
-		
+
 		dialogConfig.data = {
 			summaryData: gene_name
 		};
@@ -416,7 +421,7 @@ isDownloadDisabled(){
 			val => console.log('Dialog output:', val)
 		);
 	}
-	
+
 	getPTMSitesData(gene_id:any){
 		this.browseByGeneService.getGenePTMData(gene_id, 0, this.ptmLimit).subscribe((data: any) =>{
 			this.ptmData = data.getPaginatedUIPtm.uiPtm;
@@ -427,7 +432,7 @@ isDownloadDisabled(){
 			console.log(this.ptmSitesData);
 		});
 	}
-	
+
 	getPTMData(gene_id:any){
 		this.browseByGeneService.getGenePTMData(gene_id, 0, 200).subscribe((data: any) =>{
 			this.ptmData = data.getPaginatedUIPtm.uiPtm;
@@ -445,14 +450,14 @@ isDownloadDisabled(){
 					ptm_type_counters[index].counter++;
 				} else {
 					ptm_type_counters.push( {ptm_type: ptmType, counter: 1} );
-				} 
+				}
 			}
 			console.log(sites_list);
 			//this.ptmStatsData[gene_id] = {"ptm_type_counter": ptm_type_counters, "sites_list": sites_list.join("\r\n")};
 			this.ptmStatsData[gene_id] = {"ptm_type_counter": ptm_type_counters, "sites_list": sites_list};
 		});
 	}
-	
+
   ngOnInit() {
 	  //Have to define this structure for Primeng CSV export to work properly
 	  this.cols = [
@@ -479,21 +484,76 @@ isDownloadDisabled(){
 	changeHeaderCheckbox($event) {
 		let checkboxVal = this.selectedHeaderCheckbox;
 		this.selectedGenesData =  this.currentPageSelectedGene = [];
+
 		switch (checkboxVal) {
-			case 'Select all pages': 
+			case 'Select all pages':
+        setTimeout(() => {
+          this.geneDataChk.checked = true;
+        }, 1000);
 				this.downloadCompleteManifest(true);
 				break;
-			case 'Select this page': 
+			case 'Select this page':
+         setTimeout(() => {
+           this.geneDataChk.checked = true;
+        }, 1000);
 				this.headercheckbox = true;
 				this.onTableHeaderCheckboxToggle();
 				break;
-			case 'Select None': 
+			case 'Select None':
 				this.clearSelection();
 				break;
 		}
-	}
 
-  	//@@@PDC-795 Change manifest download file name include timestamp 
+	}
+  //@@@PDC-7012 improve browse checkbox intuitiveness
+  triggerchangeHeaderCheckbox($event) {
+      //@@@PDC-7110 - fix checkbox update
+      let checkboxVal = this.selectedHeaderCheckbox;
+  		this.selectedGenesData =  this.currentPageSelectedGene = [];
+
+  		switch (checkboxVal) {
+  			case 'Select all pages':
+          setTimeout(() => {
+            this.geneDataChk.checked = true;
+          }, 1000);
+  				this.downloadCompleteManifest(true);
+  				break;
+  			case 'Select this page':
+           setTimeout(() => {
+             this.geneDataChk.checked = true;
+          }, 1000);
+  				this.headercheckbox = true;
+  				this.onTableHeaderCheckboxToggle();
+  				break;
+  			case 'Select None':
+  				this.clearSelection();
+  				break;
+  		}
+      //@@@PDC-7110 - check if there are unchecked checkboxes in table - if so then deselect checkbox
+      let found = this.browsePageCheckboxes._results.some(el => el.checked === false);
+      if(found == false){
+        this.geneDataChk.checked = true;
+        this.headercheckbox = true;
+      } else {
+        this.geneDataChk.checked = false;
+        this.headercheckbox = false;
+      }
+      this.dataForManifestExport.open();
+  }
+
+  //@@@PDC-7109 improve browse checkbox intuitiveness - bug where 'Select None' remained checked when selected
+  chkBoxSelectionCheck(selectedOption) {
+      if(selectedOption == 'Select None'){
+        setTimeout(() => {
+          this.geneDataChk.checked = false;
+        }, 500);
+        this.dataForManifestExport.close();
+      } else {
+        this.geneDataChk.checked = true;
+      }
+  }
+
+  	//@@@PDC-795 Change manifest download file name include timestamp
 	geneTableExportCSV(dt){
 		dt.exportFilename = this.getCsvFileName("csv");
 		dt.exportCSV({ selectionOnly: true });
@@ -507,9 +567,9 @@ isDownloadDisabled(){
 		let exportFileObject = JSON.parse(JSON.stringify(this.selectedGenesData, colValues));
 		let exportTSVData = this.prepareTSVExportManifestData(exportFileObject);
 		var blob = new Blob([exportTSVData], { type: 'text/csv;charset=utf-8;' });
-		FileSaver.saveAs(blob, this.getCsvFileName("tsv"));		
+		FileSaver.saveAs(blob, this.getCsvFileName("tsv"));
 	}
-	//help function preparing a string containing the data for TSV manifest file	
+	//help function preparing a string containing the data for TSV manifest file
 	prepareTSVExportManifestData(manifestData){
 		let result = "";
 		let separator = '\t';
@@ -553,7 +613,7 @@ isDownloadDisabled(){
 		}
 		return csvFileName;
 	}
-	
+
 	private convertDateString(value: string): string {
     if (value.length === 1) {
       return "0" + value;
@@ -561,10 +621,9 @@ isDownloadDisabled(){
       return value;
     }
 	}
-	
+
 	//@@@PDC-848 Fix headercheckbox issue for data tables on browse page
 	onTableHeaderCheckboxToggle() {
-		console.log(this.headercheckbox);
 		let emptyArray = [];
 		let localSelectedCases = emptyArray.concat(this.selectedGenesData);
 		if(this.headercheckbox){
@@ -572,7 +631,7 @@ isDownloadDisabled(){
 				if(this.currentPageSelectedGene.indexOf(item.gene_name) === -1){
 					localSelectedCases.push(item);
 					this.currentPageSelectedGene.push(item.gene_name);
-				} 
+				}
 			}
 			this.selectedGenesData = localSelectedCases;
 		} else {
@@ -583,7 +642,7 @@ isDownloadDisabled(){
 					localSelectedCases.splice(index,1);
 				}
       		}
-			this.selectedGenesData = localSelectedCases; 
+			this.selectedGenesData = localSelectedCases;
 			this.currentPageSelectedGene = [];
 			this.pageHeaderCheckBoxTrack = [];
 		}
@@ -614,6 +673,12 @@ isDownloadDisabled(){
 		this.pageHeaderCheckBoxTrack = [];
 	}
 
+  private clearCheckboxSelection(){
+    setTimeout(() => {
+       this.geneDataChk.checked = false;
+    },1000);
+  }
+
 	//@@@PDC-848 Fix headercheckbox issue for data tables on browse page
 	private trackCurrentPageSelectedCase(filteredFilesData: AllGeneData[]){
 		let fileIdList = [];
@@ -641,20 +706,20 @@ isDownloadDisabled(){
 				    let unfrozen_header_row: any = w.querySelectorAll('.ui-table-unfrozen-view .ui-table-thead');
 				   	if (frozen_header_row[0].clientHeight > unfrozen_header_row[0].clientHeight) {
 						unfrozen_header_row[0].style.height = frozen_header_row[0].clientHeight+"px";
-				    } 
+				    }
 					else if (frozen_header_row[0].clientHeight < unfrozen_header_row[0].clientHeight) {
 						frozen_header_row[0].style.height = unfrozen_header_row[0].clientHeight+"px";
-					}				   
+					}
 				    for (let i = 0; i < frozen_rows.length; i++) {
 						if (frozen_rows[i].clientHeight > unfrozen_rows[i].clientHeight) {
 						 	unfrozen_rows[i].style.height = frozen_rows[i].clientHeight+"px";
-						} 
+						}
 						else if (frozen_rows[i].clientHeight < unfrozen_rows[i].clientHeight) {
 							frozen_rows[i].style.height = unfrozen_rows[i].clientHeight+"px";
 						}
 					}
 					let frozen_header_div: any = w.querySelectorAll('.ui-table-unfrozen-view .ui-table-scrollable-header-box');
-					frozen_header_div[0].setAttribute('style', 'margin-right: 0px !important'); 
+					frozen_header_div[0].setAttribute('style', 'margin-right: 0px !important');
 				}
 			}
 		});

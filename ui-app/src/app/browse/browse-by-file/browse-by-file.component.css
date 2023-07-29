@@ -1,3 +1,8 @@
+/* @@@PDC-7012 - improve checkbox intuitiveness */
+#dataForManifestExport {
+  visibility: hidden;
+}
+
 .browse-file {
     font-family: 'Lato';
     font-size: 12px;
@@ -38,12 +43,12 @@
 }
 
 .ui-datatable-tableheader-flex-container{
-    display:-webkit-flex; 
+    display:-webkit-flex;
     display:flex;
     float: left;
     align-items: center;
  }
- 
+
  /*PDC-2795 Add embargo date to Files tab on Browse page and files manifest*/
  .future_embargo_date {
 	color: #de350b;
@@ -55,8 +60,8 @@
   }
 
  /* @@@PDC-551: Need smaller font for paginator pages on Browse page tables to fit 3 digit numbers */
- :host /deep/ .ui-paginator .ui-paginator-pages .ui-paginator-page{ 
-    min-width: 2.5em !important; 
+ :host /deep/ .ui-paginator .ui-paginator-pages .ui-paginator-page{
+    min-width: 2.5em !important;
  }
 
   /* @@@PDC-1063: Implement select all, select page, select none for all tabs */
@@ -86,7 +91,7 @@
 
 :host /deep/ .ui-table table {
     table-layout: unset !important;
-} 
+}
 
 :host /deep/ #fileDataTable .ui-table-unfrozen-view .ui-table-scrollable-header-box {
     padding-right: 17px !important;

@@ -1,0 +1,35 @@
+$header-height: 10.8rem;
+.about-page .card .card-body {
+      padding: 0;
+      margin-left: 2px;
+      margin: -$header-height auto 0;
+      width: 100%;
+  }
+
+.mat-card {
+	font-family: 'Lato';
+}
+
+//@@@PDC-1628: Update the FAQ page on the data portal
+table {
+    border: 1px solid black;
+}
+
+td, th {
+    border: 1px solid black;
+    text-align: left;
+    padding: 8px;
+}
+
+.headers {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.code-panel {
+    background-color: #f5f5f5;
+}
+
+pre {
+    font-size: 15px !important;
+}

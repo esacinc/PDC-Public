@@ -41,6 +41,7 @@ export const environment = {
   pepquery_url: 'http://pepquery2.pepquery.org/',
   // workspace_url:'/workspace/pages/dashboard.html#/projects/all',
   google_oauth_client_id: '212255068929-mj6ci0pt0271h8n1a2hs7kmbfc8tqjmm.apps.googleusercontent.com',
-  recaptcha_site_key: '6LdF5KwdAAAAAKJcWGMb4NNjy5mtFW6Of1YhG81B'
+  recaptcha_site_key: '6LdF5KwdAAAAAKJcWGMb4NNjy5mtFW6Of1YhG81B',
+  flask_api_url: '/pfbapi'
 };
 

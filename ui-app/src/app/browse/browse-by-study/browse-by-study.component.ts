@@ -1,7 +1,7 @@
 import { Apollo } from 'apollo-angular';
 
 import {
-    Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, Renderer
+    Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, Renderer, ViewChild, ViewChildren
 } from '@angular/core';
 import { MatDialog, MatDialogConfig, MatTooltipModule } from '@angular/material';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
@@ -90,6 +90,11 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 	manifestFormat = "csv";
 	frozenColumns = [];
 	@Input() childTabChanged: string;
+  @ViewChild('dataForManifestExport') dataForManifestExport;
+  //@@@PDC-7109 improve browse checkbox intuitiveness
+  @ViewChild('studyDataChk') studyDataChk;
+  //@@@PDC-7110 fix checkbox update
+  @ViewChildren('browsePageCheckboxes') browsePageCheckboxes;
 
   constructor(private apollo: Apollo,
 				private router: Router,
@@ -167,6 +172,7 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 				this.limit = data.getPaginatedUIStudy.pagination.size;
 			}
 			this.loading = false;
+      this.clearCheckboxSelection();
 			this.clearSelection();
 			this.makeRowsSameHeight();
 		  });
@@ -372,6 +378,7 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 				this.makeRowsSameHeight();
 			}
 			this.loading = false;
+      this.clearCheckboxSelection();
 			this.clearSelection();
 		});
 		}
@@ -527,18 +534,74 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 		let checkboxVal = this.selectedHeaderCheckbox;
 		this.selectedStudies = this.currentPageSelectedStudy = [];
 		switch (checkboxVal) {
+      //@@@PDC-7110 - fix checkbox update - check the selection and then set checkbox accordingly
 			case 'Select all pages':
+            setTimeout(() => {
+              this.studyDataChk.checked = true;
+            }, 1000);
 						this.downloadCompleteManifest(true);
 						break;
 			case 'Select this page':
 						this.headercheckbox = true;
+            setTimeout(() => {
+              this.studyDataChk.checked = true;
+            }, 1000);
 						this.onTableHeaderCheckboxToggle();
 						break;
 			case 'Select None':
 						this.clearSelection();
+            this.clearCheckboxSelection();
 						break;
 		}
 	}
+  //@@@PDC-7012 improve browse checkbox intuitiveness -
+  triggerchangeHeaderCheckbox($event) {
+      //@@@PDC-7110 - fix checkbox update - check the selection and then set checkbox accordingly
+      let checkboxVal = this.selectedHeaderCheckbox;
+      this.selectedStudies = this.currentPageSelectedStudy = [];
+      switch (this.selectedHeaderCheckbox) {
+        case 'Select all pages':
+              setTimeout(() => {
+                this.studyDataChk.checked = true;
+              }, 1000);
+              this.downloadCompleteManifest(true);
+              break;
+        case 'Select this page':
+              this.headercheckbox = true;
+              setTimeout(() => {
+                this.studyDataChk.checked = true;
+              }, 1000);
+              this.onTableHeaderCheckboxToggle();
+              break;
+        case 'Select None':
+              this.clearSelection();
+              this.clearCheckboxSelection();
+              break;
+      }
+      //@@@PDC-7110 - check if there are unchecked checkboxes in table - if so then deselect checkbox
+      let found = this.browsePageCheckboxes._results.some(el => el.checked === false);
+      if(found == false){
+        this.studyDataChk.checked = true;
+        this.headercheckbox = true;
+      } else {
+        this.studyDataChk.checked = false;
+        this.headercheckbox = false;
+      }
+      this.dataForManifestExport.open();
+  }
+  //@@@PDC-7109 improve browse checkbox intuitiveness - bug where 'Select None' remained checked when selected
+  chkBoxSelectionCheck(selectedOption) {
+      console.log("inside checkbox selection");
+      if(selectedOption == 'Select None'){
+        this.studyDataChk.checked = false;
+        this.headercheckbox = false;
+        this.dataForManifestExport.close();
+      } else {
+        this.studyDataChk.checked = true;
+        this.headercheckbox = true;
+      }
+
+  }
 
   // This function is a callback for pagination controls
   // It is called when a new page needs to be loaded from the DB
@@ -868,7 +931,6 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 
 	//@@@PDC-848 Fix headercheckbox issue for data tables on browse page
 	onTableHeaderCheckboxToggle() {
-    console.log(this.headercheckbox);
     let emptyArray = [];
     let localSelectedStudyies = emptyArray.concat(this.selectedStudies);
     if(this.headercheckbox){
@@ -916,6 +978,12 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
     this.headercheckbox = false;
     this.currentPageSelectedStudy = [];
     this.pageHeaderCheckBoxTrack = [];
+  }
+
+  private clearCheckboxSelection(){
+    setTimeout(() => {
+       this.studyDataChk.checked = false;
+    },500);
   }
 
   //@@@PDC-848 Fix headercheckbox issue for data tables on browse page
