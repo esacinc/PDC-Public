@@ -171,10 +171,20 @@ export class PancancerComponent {
 	}
 
 	getPublicationsData() {
+    console.log("inside getPublications");
 		this.loading = true;
 		this.publicationsService.getPublicationsResults().pipe(take(1)).subscribe((data: any) => {
 			if (data && data.getUIPancancerPublications) {
 				this.allPublicationsData = data.getUIPancancerPublications;
+        //@@@PDC-7267 - update order of publications so that publication_id "eae0a229-3ade-11ee-b8fc-0aaebe6fe27b" is always first
+        for (let data of this.allPublicationsData){
+          if(data.publication_id == "eae0a229-3ade-11ee-b8fc-0aaebe6fe27b"){
+            this.allPublicationsData.splice(this.allPublicationsData.indexOf(data));
+            this.allPublicationsData.unshift(data);
+          }
+        }
+        console.log(this.allPublicationsData);
+
 				this.totalRecords =  data.getUIPancancerPublications.length;
 				//Add spaces to comma separated data (cohorts)
 				//Calculate publication supplementary files for a publication
@@ -188,7 +198,7 @@ export class PancancerComponent {
 							   pubSupplementaryFileCount++;
 							}
 						}
-					 } 
+					 }
 					 publication['publicationSupplementaryFiles'] = pubSupplementaryFileCount;
 				}
 				//@@@PDC-6681: Update the Supplementary Information section to populate Pancancer files
@@ -198,7 +208,7 @@ export class PancancerComponent {
 						allFilesArr = data.getAllUIPancancerFiles;
 						this.groupSupplementaryData(allFilesArr);
 					}
-				});	
+				});
 
 				this.loading = false;
 			}
@@ -223,7 +233,7 @@ export class PancancerComponent {
 			  let relatedPublStr = relatedPublArr.join(", ");
 			  allFilesArr[k]['related_publications_str'] = relatedPublStr;
 		  }
-	   } 
+	   }
 		this.publicationFileIDS = allFilesArr.map(({ file_id }) => file_id);
 		//@@@PDC-6667: Updates to the Pancancer page
 		let arr2 = this.groupBy(allFilesArr, (c) => c.characterization);
@@ -322,7 +332,7 @@ export class PancancerComponent {
           return false;
         }
       }
-    
+
       //@@@PDC-1303: Add a download column and button for downloading individual files to the file tab
       //Opens a dialog window with the message that the file is not downloadable.
       async displayMessageForNotDownloadable() {

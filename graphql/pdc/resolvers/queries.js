@@ -1921,6 +1921,7 @@ export const resolvers = {
 			//@@@PDC-652 new protocol structure
 			//@@@PDC-1154 column name correction: fractions_analyzed_count
 			//@@@PDC-6690 add new columns for metabolomics
+			//@@@PDC-7235 add new columns for metabolomics
 			let protoQuery = "SELECT distinct bin_to_uuid(prot.protocol_id) as protocol_id, "+
 			"prot.protocol_submitter_id, prot.experiment_type, protocol_name, "+ 
 			"protocol_date, document_name, quantitation_strategy, "+
@@ -1938,7 +1939,9 @@ export const resolvers = {
 			"dda_topn, normalized_collision_energy, acquistion_type, "+
 			"dia_multiplexing, dia_ims, analytical_technique, "+
 			"chromatography_instrument_make, chromatography_instrument_model, "+
-			"trim(both '\r' from acquisition_mode) as acquisition_mode, auxiliary_data, prot.cud_label "+
+			"trim(both '\r' from acquisition_mode) as acquisition_mode, "+
+			"reconstitution_solvent, reconstitution_volume, reconstitution_volume_uom, "+
+			"internal_standards, auxiliary_data, prot.cud_label "+
 			" from study s, project proj, protocol prot "+
 			" where prot.study_id = s.study_id ";
 			//" and s.project_submitter_id IN ('" + context.value.join("','") + "')";
@@ -5935,6 +5938,7 @@ export const resolvers = {
 		},
 		//@@@PDC-898 new public APIs--protocolPerStudy
 		//@@@PDC-6690 add new columns for metabolomics
+		//@@@PDC-7235 add new columns for metabolomics
 		protocolPerStudy (_, args, context) {
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/protocolPerStudy").send();
@@ -5965,7 +5969,9 @@ export const resolvers = {
 			"dda_topn, normalized_collision_energy, acquistion_type, "+
 			"dia_multiplexing, dia_ims, analytical_technique, "+
 			"chromatography_instrument_make, chromatography_instrument_model, "+
-			"trim(both '\r' from acquisition_mode) as acquisition_mode, auxiliary_data, auxiliary_data, prot.cud_label "+
+			"trim(both '\r' from acquisition_mode) as acquisition_mode, "+
+			"reconstitution_solvent, reconstitution_volume, reconstitution_volume_uom, "+
+			"internal_standards, auxiliary_data, prot.cud_label "+
 			" from study s, program prog, project proj, protocol prot "+
 			" where prot.study_id = s.study_id and s.project_id = proj.project_id "+
 			" and proj.program_id = prog.program_id ";

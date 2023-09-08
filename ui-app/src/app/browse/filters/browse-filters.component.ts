@@ -368,6 +368,12 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
           item.filterValue
         );
       }
+      //@@@PDC-6692: UI Changes for the Experimental Design tab of Study Summary Page
+      //Hide N/A for Metabolomics
+      if (filterCategoryName == "acquisition_type"){
+        filterList = filterList.filter(item => item.filterName !== "N/A");
+        this.acquisitionFilter = filterList;
+      }
 	  // Generate a map between study name and study id for study id URL filter
 	  if (filterCategoryName == "submitter_id_name"){
 		for (let study of filterListData) {

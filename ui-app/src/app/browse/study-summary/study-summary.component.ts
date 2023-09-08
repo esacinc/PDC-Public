@@ -133,6 +133,7 @@ export class StudySummaryComponent implements OnInit {
 	clinicalExportCols = [];
 	exposureCols = [];
 	followUpCols = [];
+	isMetabolomics = false;
 
     constructor(private route: ActivatedRoute, private router: Router, private apollo: Apollo, private http: HttpClient,
 				private studySummaryService: StudySummaryService, private loc:Location,
@@ -170,8 +171,8 @@ export class StudySummaryComponent implements OnInit {
 			this.studySummaryData.embargo_date = "N/A";
 		}
 	}
-	
-	
+
+
 	console.log(this.studySummaryData);
 	if (this.studySummaryData.versions.length === 0 || this.oldVersionFlag) {
 		this.studyVersion = "1";
@@ -399,7 +400,7 @@ export class StudySummaryComponent implements OnInit {
 			}
 			//@@@PDC-3404 Search box and Browse page pulled different versions of a versioned study summary
 			//Making sure here that the correct study version is set when the study summary opens from a search box
-			if ((this.studySummaryData.versions.length > 1) || 
+			if ((this.studySummaryData.versions.length > 1) ||
 			(this.studySummaryData.versions.length == 1 && Number(this.studySummaryData.versions[0].number) > 1)) {
 				this.studyVersion = this.studySummaryData.versions[0].number;
 				console.log("Setting versions to " + this.studyVersion);
@@ -484,13 +485,13 @@ versionCheck() {
 }
 
 //@@@PDC-5206: Present Diagnosis to Sample relationship on PDC Browser
-populateAssociatedSampleInfo(filteredClinicalData) {	
+populateAssociatedSampleInfo(filteredClinicalData) {
 	if (filteredClinicalData.length > 0) {
 		for (var i in filteredClinicalData) {
 			if (filteredClinicalData[i].samples && typeof(filteredClinicalData[i].samples) != 'string' && filteredClinicalData[i].samples.length > 0) {
 				let associatedSamples = filteredClinicalData[i]['samples'];
-				let arr = [];  
-				for(let key in associatedSamples){  
+				let arr = [];
+				for(let key in associatedSamples){
 					arr.push(associatedSamples[key]['sample_submitter_id']);
 				}
 				let associatedsampleIds = arr.join(", ");
@@ -1551,7 +1552,7 @@ getStudyExperimentalDesign() {
 		//'aliquot_is_ref = Yes' denotes if a aliquot is the reference. Fetch the aliquot submitter ID from biospecimenPerStudy table
 		//for which 'aliquot_is_ref = Yes'.
 		//Use this as a reference and map it with the data in studyExperimentDesignMap API and extract the denominator for the "Ratio" column.
-		this.studySummaryService.getBiospecimenPerStudy(this.study_id, this.source).subscribe((biospecimenData: any) =>{
+		this.studySummaryService.getBiospecimenPerStudy(this.study_id, this.source).pipe(take(1)).subscribe((biospecimenData: any) =>{
 			this.biospecimenPerStudy = biospecimenData.uiBiospecimenPerStudy;
 			for(let biospecimen of biospecimenData.uiBiospecimenPerStudy){
 				if (biospecimen["aliquot_is_ref"] == "yes") {
@@ -1559,7 +1560,7 @@ getStudyExperimentalDesign() {
 				}
 			}
 			setTimeout(() => {
-				this.studySummaryService.getStudyExperimentalDesign(this.study_id, this.source).subscribe((data: any) =>{
+				this.studySummaryService.getStudyExperimentalDesign(this.study_id, this.source).pipe(take(1)).subscribe((data: any) =>{
 					this.studyExperimentalDesign = data.uiStudyExperimentalDesign;
 					let localSelectedExpStudies = [];
 					let colValues = [];
@@ -1627,6 +1628,12 @@ getStudyExperimentalDesign() {
 						}
 					}
 					this.studyExperimentDesignTableExtraCols = colsSpecificToExpType;
+					//@@@PDC-6692: UI Changes for the Experimental Design tab of Study Summary Page
+					if (this.studySummaryData && (this.studySummaryData['analytical_fraction'] == 'Metabolome' || this.studySummaryData['analytical_fraction'] == 'Lipidome')) {
+						if (!("acquisition_mode" in this.studyExperimentDesignTableCommonCols)) {
+							this.studyExperimentDesignTableCommonCols.push({field: "acquisition_mode", header: "Acquisition Mode"});
+						}
+					}
 					if (colsSpecificToExpType.length > 0) {
 						this.studyExperimentDesignTableCols = _.concat(this.studyExperimentDesignTableCommonCols, colsSpecificToExpType);
 					} else {
@@ -1656,21 +1663,21 @@ makeRowsSameHeight() {
 				let unfrozen_header_row: any = w.querySelectorAll('.ui-table-unfrozen-view .ui-table-thead');
 				   if (frozen_header_row[0].clientHeight > unfrozen_header_row[0].clientHeight) {
 					unfrozen_header_row[0].style.height = frozen_header_row[0].clientHeight+"px";
-				  } 
+				  }
 				else if (frozen_header_row[0].clientHeight < unfrozen_header_row[0].clientHeight) {
 					frozen_header_row[0].style.height = unfrozen_header_row[0].clientHeight+"px";
-				} 				   
+				}
 				for (let i = 0; i < frozen_rows.length; i++) {
 					if (frozen_rows[i].clientHeight > unfrozen_rows[i].clientHeight) {
 						unfrozen_rows[i].style.height = frozen_rows[i].clientHeight+"px";
-					} 
-					else if (frozen_rows[i].clientHeight < unfrozen_rows[i].clientHeight) 
+					}
+					else if (frozen_rows[i].clientHeight < unfrozen_rows[i].clientHeight)
 					{
 						frozen_rows[i].style.height = unfrozen_rows[i].clientHeight+"px";
 					}
 				}
 				let frozen_header_div: any = w.querySelectorAll('.ui-table-unfrozen-view .ui-table-scrollable-header-box');
-				frozen_header_div[0].setAttribute('style', 'margin-right: 0px !important'); 
+				frozen_header_div[0].setAttribute('style', 'margin-right: 0px !important');
 			}
 		}
 	});

@@ -98,6 +98,11 @@
     width: 100%;
 }
 
+.no_count {
+   font-style: italic;
+   color: gray;
+}
+
 /* :host /deep/ .ui-table-unfrozen-view .ui-table-scrollable-header-box {
    padding-right: 17px !important;
 } */

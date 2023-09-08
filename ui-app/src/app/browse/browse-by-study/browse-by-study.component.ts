@@ -441,20 +441,26 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 				  if (headerCols[i] == "RAW" && study[colValues[i]] == '') {
 					  study[colValues[i]] = "0";
 				  }
-				  if (headerCols[i] == "MZML" && study[colValues[i]] == '') {
+				  if (headerCols[i] == "Processed Mass Spectra" && study[colValues[i]] == '') {
 					  study[colValues[i]] = "0";
 				  }
 				  if (headerCols[i] == "METADATA" && study[colValues[i]] == '') {
 					  study[colValues[i]] = "0";
 				  }
-				  if (headerCols[i] == "PSM" && study[colValues[i]] == '') {
+				  if (headerCols[i] == "PSM" && study[colValues[i]] == '' && study.analytical_fraction != 'Metabolome' && study.analytical_fraction != 'Lipidome') {
 					  study[colValues[i]] = "0";
+				  } else if (headerCols[i] == "PSM" && study[colValues[i]] == '' && (study.analytical_fraction == 'Metabolome' || study.analytical_fraction == 'Lipidome')) {
+					study[colValues[i]] = "N/A";
 				  }
-				  if (headerCols[i] == "Protein Assembly" && study[colValues[i]] == '') {
+				  if (headerCols[i] == "Protein Assembly" && study[colValues[i]] == '' && study.analytical_fraction != 'Metabolome' && study.analytical_fraction != 'Lipidome') {
 					  study[colValues[i]] = "0";
+				  } else if (headerCols[i] == "Protein Assembly" && study[colValues[i]] == '' && (study.analytical_fraction == 'Metabolome' || study.analytical_fraction == 'Lipidome')) {
+					study[colValues[i]] = "N/A";
 				  }
-				  if (headerCols[i] == "Quality Metrics" && study[colValues[i]] == '') {
+				  if (headerCols[i] == "Quality Metrics" && study[colValues[i]] == '' && study.analytical_fraction != 'Metabolome' && study.analytical_fraction != 'Lipidome') {
 					  study[colValues[i]] = "0";
+				  } else if (headerCols[i] == "Quality Metrics" && study[colValues[i]] == '' && (study.analytical_fraction == 'Metabolome'  || study.analytical_fraction == 'Lipidome')) {
+					study[colValues[i]] = "N/A";
 				  }
 
 
@@ -535,17 +541,18 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 		this.selectedStudies = this.currentPageSelectedStudy = [];
 		switch (checkboxVal) {
       //@@@PDC-7110 - fix checkbox update - check the selection and then set checkbox accordingly
+      //@@@PDC-7127 - fix study select checkbox to respond in same amount of time as other entities
 			case 'Select all pages':
             setTimeout(() => {
               this.studyDataChk.checked = true;
-            }, 1000);
+            }, 50);
 						this.downloadCompleteManifest(true);
 						break;
 			case 'Select this page':
 						this.headercheckbox = true;
             setTimeout(() => {
               this.studyDataChk.checked = true;
-            }, 1000);
+            }, 50);
 						this.onTableHeaderCheckboxToggle();
 						break;
 			case 'Select None':
@@ -557,20 +564,21 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
   //@@@PDC-7012 improve browse checkbox intuitiveness -
   triggerchangeHeaderCheckbox($event) {
       //@@@PDC-7110 - fix checkbox update - check the selection and then set checkbox accordingly
+      //@@@PDC-7127 - fix study select checkbox to respond in same amount of time as other entities
       let checkboxVal = this.selectedHeaderCheckbox;
       this.selectedStudies = this.currentPageSelectedStudy = [];
       switch (this.selectedHeaderCheckbox) {
         case 'Select all pages':
               setTimeout(() => {
                 this.studyDataChk.checked = true;
-              }, 1000);
+              }, 50);
               this.downloadCompleteManifest(true);
               break;
         case 'Select this page':
               this.headercheckbox = true;
               setTimeout(() => {
                 this.studyDataChk.checked = true;
-              }, 1000);
+              }, 50);
               this.onTableHeaderCheckboxToggle();
               break;
         case 'Select None':
@@ -769,7 +777,7 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 		{field: 'analytical_fraction', header: 'Analytical Fraction'},
 		{field: 'experiment_type', header: 'Experiment Type'},
 		{field: 'raw_count', header: 'RAW'},
-		{field: 'mzml_count', header: 'MZML'},
+		{field: 'mzml_count', header: 'Processed Mass Spectra'},
 		{field: 'metadata_count', header: 'METADATA'},
 		{field: 'psm_count', header: 'PSM'},
 		{field: 'protein_assembly_count', header: 'Protein Assembly'},
@@ -858,14 +866,20 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 			if(!study['metadata_count']){
 				study['metadata_count']=0
 			}
-			if(!study['psm_count']){
+			if(!study['psm_count'] && study['analytical_fraction'] != "Metabolome" && study['analytical_fraction'] != "Lipidome"){
 				study['psm_count']=0
+			} else if(!study['psm_count'] && (study['analytical_fraction'] == "Metabolome" || study['analytical_fraction'] == "Lipidome")){
+				study['psm_count'] = "N/A";
 			}
-			if(!study['protein_assembly_count']){
+			if(!study['protein_assembly_count'] && study['analytical_fraction'] != "Metabolome" && study['analytical_fraction'] != "Lipidome"){
 				study['protein_assembly_count']=0
+			} else if(!study['protein_assembly_count'] && (study['analytical_fraction'] == "Metabolome" || study['analytical_fraction'] == "Lipidome")){
+				study['protein_assembly_count'] = "N/A";
 			}
-			if(!study['quality_metrics_count']){
+			if(!study['quality_metrics_count'] && study['analytical_fraction'] != "Metabolome" && study['analytical_fraction'] != "Lipidome"){
 				study['quality_metrics_count']=0
+			} else if(!study['quality_metrics_count'] && (study['analytical_fraction'] == "Metabolome" || study['analytical_fraction'] == "Lipidome")){
+				study['quality_metrics_count'] = "N/A";
 			}
 		}
 	}

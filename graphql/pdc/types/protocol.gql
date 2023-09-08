@@ -52,6 +52,10 @@ type Protocol {
 	chromatography_instrument_make: String
 	chromatography_instrument_model: String
 	acquisition_mode: String
+	reconstitution_solvent: String 
+	reconstitution_volume: String 
+	reconstitution_volume_uom: String 
+	internal_standards: String
 	auxiliary_data: String
 	cud_label: String
 	study: Study

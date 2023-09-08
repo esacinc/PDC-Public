@@ -15,7 +15,7 @@
 				<!--@@@PDC-5068 sync up case/aliquot counts with browse table-->
 				<!--@@@PDC-6794 use case id count as case count-->
 					{{studySummaryData.cases_count}}
-				<!--@@@PDC-6357  case count w/o filter 
+				<!--@@@PDC-6357  case count w/o filter
 					{{totalRecordsClinical}}-->
 				</span><br>
 				Cases
@@ -121,17 +121,19 @@
 					<tr><td class="tab-table-field-name">Label Free Quantitation</td>
 					<!--@@@PDC-3367 typo in label_free_quantitaion -->
 						<td class="tab-table-field-value">{{protocol.label_free_quantitation}}</td></tr>
-					<tr><td class="tab-table-field-name">Labeled Quantitation</td>
+					<tr *ngIf="studySummaryData.analytical_fraction != 'Metabolome' && studySummaryData.analytical_fraction != 'Lipidome'"><td class="tab-table-field-name">Labeled Quantitation</td>
 						<td class="tab-table-field-value">{{protocol.labeled_quantitation}}</td></tr>
-					<tr><td class="tab-table-field-name">Isobaric Labeling Reagent</td>
+					<tr *ngIf="studySummaryData.analytical_fraction != 'Metabolome' && studySummaryData.analytical_fraction != 'Lipidome'"><td class="tab-table-field-name">Isobaric Labeling Reagent</td>
 						<td class="tab-table-field-value">{{protocol.isobaric_labeling_reagent}}</td></tr>
-					<tr><td class="tab-table-field-name">Reporter Ion MS Level</td>
+					<tr *ngIf="studySummaryData.analytical_fraction != 'Metabolome' && studySummaryData.analytical_fraction != 'Lipidome'"><td class="tab-table-field-name">Reporter Ion MS Level</td>
 						<td class="tab-table-field-value">{{protocol.reporter_ion_ms_level}}</td></tr>
+					<tr *ngIf="studySummaryData.analytical_fraction == 'Metabolome' || studySummaryData.analytical_fraction == 'Lipidome'"><td class="tab-table-field-name">Analytical Technique</td>
+							<td class="tab-table-field-value">{{protocol.analytical_technique}}</td></tr>
 					<tr style="background-color: rgba(0,0,0,.05);">
 						<td style="text-align: center;" colspan="2"><b>Analytical Sample Preparation</b></td></tr>
-					<tr><td class="tab-table-field-name">Digestion Reagent</td>
+					<tr *ngIf="studySummaryData.analytical_fraction != 'Metabolome' && studySummaryData.analytical_fraction != 'Lipidome'"><td class="tab-table-field-name">Digestion Reagent</td>
 						<td class="tab-table-field-value">{{protocol.digestion_reagent}}</td></tr>
-					<tr><td class="tab-table-field-name">Alkylation Reagent</td>
+					<tr *ngIf="studySummaryData.analytical_fraction != 'Metabolome' && studySummaryData.analytical_fraction != 'Lipidome'"><td class="tab-table-field-name">Alkylation Reagent</td>
 						<td class="tab-table-field-value">{{protocol.alkylation_reagent}}</td></tr>
 					<tr><td class="tab-table-field-name">Enrichment Strategy</td>
 						<td class="tab-table-field-value">{{protocol.enrichment_strategy}}</td></tr>
@@ -143,8 +145,14 @@
 						<td class="tab-table-field-value">{{protocol.one_d_chromatography_type}}</td></tr>
 					<tr><td class="tab-table-field-name">2D Chromatography Type</td>
 						<td class="tab-table-field-value">{{protocol.two_d_chromatography_type}}</td></tr>
+					<!-- @@@PDC-7323 -add fractions analyzed back to protocol properties -->	
 					<tr><td class="tab-table-field-name">Fractions Analyzed Count</td>
 						<td class="tab-table-field-value">{{protocol.fractions_analyzed_count}}</td></tr>
+					<!-- @@@PDC-7248 - additional metabolomic properties -->
+					<tr *ngIf="studySummaryData.analytical_fraction == 'Metabolome' || studySummaryData.analytical_fraction == 'Lipidome'"><td class="tab-table-field-name">Reconstitution Solvent</td>
+						<td class="tab-table-field-value">{{protocol.reconstitution_solvent}}</td></tr>
+					<tr *ngIf="studySummaryData.analytical_fraction == 'Metabolome' || studySummaryData.analytical_fraction == 'Lipidome'"><td class="tab-table-field-name">Reconstitution Volume</td>
+						<td class="tab-table-field-value">{{protocol.reconstitution_volume}} {{protocol.reconstitution_volume_uom}}</td></tr>
 					<tr style="background-color: rgba(0,0,0,.05);">
 						<td style="text-align: center;" colspan="2"><b>Liquid Chromatography</b></td></tr>
 					<tr><td class="tab-table-field-name">Column Type</td>
@@ -161,6 +169,13 @@
 						<td class="tab-table-field-value">{{protocol.particle_type}}</td></tr>
 					<tr><td class="tab-table-field-name">Gradient Length</td>
 						<td class="tab-table-field-value">{{protocol.gradient_length}} {{protocol.gradient_length_uom}}</td></tr>
+					<tr *ngIf="studySummaryData.analytical_fraction == 'Metabolome' || studySummaryData.analytical_fraction == 'Lipidome'"><td class="tab-table-field-name">Chromatography Instrument Make</td>
+						<td class="tab-table-field-value">{{protocol.chromatography_instrument_make}}</td></tr>
+					<tr *ngIf="studySummaryData.analytical_fraction == 'Metabolome' || studySummaryData.analytical_fraction == 'Lipidome'"><td class="tab-table-field-name">Chromatography Instrument Model</td>
+						<td class="tab-table-field-value">{{protocol.chromatography_instrument_model}}</td></tr>
+					<!-- @@@PDC-7248 - additional metabolomic properties -->
+					<tr *ngIf="studySummaryData.analytical_fraction == 'Metabolome' || studySummaryData.analytical_fraction == 'Lipidome'"><td class="tab-table-field-name">Internal Standards</td>
+						<td class="tab-table-field-value">{{protocol.internal_standards}}</td></tr>
 					<tr style="background-color: rgba(0,0,0,.05);">
 						<td style="text-align: center;" colspan="2"><b>Mass Spectrometry</b></td></tr>
 					<tr><td class="tab-table-field-name">Instrument Make</td>
@@ -177,12 +192,14 @@
 						<td class="tab-table-field-value">{{protocol.dda_topn}}</td></tr>
 					<tr><td class="tab-table-field-name">Normalized Collision Energy (%)</td>
 						<td class="tab-table-field-value">{{protocol.normalized_collision_energy}}</td></tr>
-					<tr><td class="tab-table-field-name">Acquistion Type</td>
+					<tr *ngIf="studySummaryData.analytical_fraction != 'Metabolome' && studySummaryData.analytical_fraction != 'Lipidome'"><td class="tab-table-field-name">Acquistion Type</td>
 						<td class="tab-table-field-value">{{protocol.acquistion_type}}</td></tr>
-					<tr><td class="tab-table-field-name">DIA Multiplexing</td>
+					<tr *ngIf="studySummaryData.analytical_fraction != 'Metabolome' && studySummaryData.analytical_fraction != 'Lipidome'"><td class="tab-table-field-name">DIA Multiplexing</td>
 						<td class="tab-table-field-value">{{protocol.dia_multiplexing}}</td></tr>
-					<tr><td class="tab-table-field-name">DIA IMS</td>
+					<tr *ngIf="studySummaryData.analytical_fraction != 'Metabolome' && studySummaryData.analytical_fraction != 'Lipidome'"><td class="tab-table-field-name">DIA IMS</td>
 						<td class="tab-table-field-value">{{protocol.dia_ims}}</td></tr>
+					<tr *ngIf="studySummaryData.analytical_fraction == 'Metabolome' || studySummaryData.analytical_fraction == 'Lipidome'"><td class="tab-table-field-name">Acquisition Mode</td>
+						<td class="tab-table-field-value">{{protocol.acquisition_mode}}</td></tr>
 				</table>
 			</div>
 		</mat-tab>
@@ -482,7 +499,7 @@
 				  </div>
 				  <br>
 		</mat-tab>
-		<mat-tab label="WORKFLOW">
+		<mat-tab label="WORKFLOW" *ngIf="studySummaryData.analytical_fraction != 'Metabolome' && studySummaryData.analytical_fraction != 'Lipidome'">
 			<span><ng-template mat-tab-label>
 					Workflow<a href={{workflow_help_url}} target="_">
 					<mat-icon matTooltip="View Workflow" class="help-icon">help</mat-icon></a>
@@ -579,8 +596,10 @@
 			<mat-card class="data-categories-table">
 				<mat-card-content>
 				<table class="table table-striped" style="width:100%" id="dataCategoryStudyTable">
-					<caption style="caption-side:top;background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%);color:white!important; padding:0!important;text-align: center;" ><b>Common Data Analysis Pipeline (PDC Harmonization) data</b>
+					<caption *ngIf="studySummaryData.analytical_fraction != 'Metabolome' && studySummaryData.analytical_fraction != 'Lipidome'" style="caption-side:top;background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%);color:white!important; padding:0!important;text-align: center;" ><b>Common Data Analysis Pipeline (PDC Harmonization) data</b>
 								<a href={{files_download_faq_help_url}} target="_"><mat-icon matTooltip="Types of files available for download from PDC" class="help-icon" style="color:#e5e5e5!important">help</mat-icon></a></caption>
+					<caption *ngIf="studySummaryData.analytical_fraction == 'Metabolome' || studySummaryData.analytical_fraction == 'Lipidome'" style="caption-side:top;background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%);color:white!important; padding:0!important;text-align: center;" ><b>Raw Mass Spectra</b>
+						<a href={{files_download_faq_help_url}} target="_"><mat-icon matTooltip="Types of files available for download from PDC" class="help-icon" style="color:#e5e5e5!important">help</mat-icon></a></caption>
 					<thead>
 						<tr style="font-size: 12px;background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%);">
 							<th class="ui-datatable-tableheader" style="width:80%;">Data Category</th>
@@ -678,7 +697,7 @@
 			</mat-card>
 		  </div>
 		<!--@@@PDC-1313 use heatmap thumbnail-->
-		 <div style="padding-bottom:3px">
+		 <div style="padding-bottom:3px" *ngIf="studySummaryData.analytical_fraction != 'Metabolome' && studySummaryData.analytical_fraction != 'Lipidome'">
 			<mat-card style="padding:10px">
 				<mat-card-content>
 				<div *ngIf="!heatmapAvailable">
@@ -703,7 +722,7 @@
 					<mat-card-title  class="study-summary" >PUBLICATIONS</mat-card-title>
 				</mat-card-header>
 				<mat-card-content>
-					<div *ngIf="!loading && publications && publications.length===0">
+					<div *ngIf="!loading && publications && publications.length===0" style="padding-left: 18px">
 						No publications
 					</div>
 					<p-table [value]="publications" [loading]="loading" [resizableColumns]="true" responsive="true" id="publicationsStudyTable">

@@ -52,6 +52,7 @@
 	
   }
   //@@@PDC-1078 show color-coded annotations
+  //@@@PDC-7146 add sample_type to color-coded annotations
   var options = {
       el: $('#vis'),
       dataset: {
@@ -77,6 +78,9 @@
 				display: ["color"]
 			}, {
 				field: "tumor_stage",
+				display: ["color"]
+			}, {
+				field: "sample_type",
 				display: ["color"]
 			}
 		]      
