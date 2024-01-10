@@ -41,14 +41,14 @@ downloadOrganize() {
             if [[ "$index" == 5 ]]; then
                 studyVersion=$(parseValue "$index" "${array[@]}")
             fi
-            if [[ "$index" == 9 ]]; then
+            if [[ "$index" == 8 ]]; then
                 dataCategory=$(parseValue "$index" "${array[@]}")
             fi
-            if [[ "$index" == 10 ]]; then
+            if [[ "$index" == 9 ]]; then
                 fileType=$(parseValue "$index" "${array[@]}")
             fi
             #Extracting file URL from Column 15
-            if [[ "$index" == 15 ]]; then
+            if [[ "$index" == 14 ]]; then
                 url=$(parseValue "$index" "${array[@]}")
                 #Used for removing carriage return %0D characters from URL
                 urlLink=$(echo -n "${url%$'\r'}")
@@ -103,10 +103,10 @@ reorganizeFiles(){
             if [[ "$index" == 5 ]]; then
                 studyVersion=$(parseValue "$index" "${array[@]}")
             fi
-            if [[ "$index" == 9 ]]; then
+            if [[ "$index" == 8 ]]; then
                 dataCategory=$(parseValue "$index" "${array[@]}")
             fi
-            if [[ "$index" == 10 ]]; then
+            if [[ "$index" == 9 ]]; then
                 fileType=$(parseValue "$index" "${array[@]}")
                 #Expected directory structure: #Expected file structure: PDC Study ID/ PDC Study Version/Data category/Run Metadata ID/File Type/File
                 if [ "$folder" == "null" ]
