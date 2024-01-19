@@ -113,7 +113,7 @@
 	//width:78%;
 }
 
-/deep/ {
+::ng-deep {
 	.ui-table table {
 		table-layout: unset !important;
 	} 

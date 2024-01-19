@@ -24,7 +24,8 @@ constructor(private apollo: Apollo) {
                                      'Accept': 'q=0.8;application/json;q=0.9' });
         this.options = new RequestOptions({ headers: this.headers });
 	}
-
+	
+	//@@@PDC-7688 add gene_id and ncbi_gene_id
 	filteredGenesDataPaginatedQuery = gql`
 				query FilteredGenesDataPaginated($offset_value: Int, $limit_value: Int, $sort_value: String, $program_name_filter: String!, $project_name_filter: String!, $study_name_filter: String!, $disease_filter: String!, $filterValue: String!, $analytical_frac_filter: String!, $exp_type_filter: String!, $ethnicity_filter: String!, $race_filter: String!, $gender_filter: String!, $tumor_grade_filter: String!, $sample_type_filter: String!, $acquisition_type_filter: String!, $data_category_filter: String!, $file_type_filter: String!, $access_filter: String!, $gene_names_filter: String!, $downloadable_filter: String!, $biospecimen_status_filter: String!, $case_status_filter: String!, $getAll: Boolean!){
 					getPaginatedUIGene(offset: $offset_value, limit: $limit_value, sort: $sort_value, program_name: $program_name_filter , project_name: $project_name_filter, 
@@ -34,6 +35,8 @@ constructor(private apollo: Apollo) {
 						total
 						uiGenes {
 						  gene_name
+						  gene_id
+						  ncbi_gene_id
 						  chromosome
 						  locus
 						  num_study
@@ -96,8 +99,8 @@ constructor(private apollo: Apollo) {
 	}
 	
 	genePTMDataQuery = gql`
-		query PTMDataByGeneQuery($gene_name:String!, $offset_param: Int, $limit_param: Int){
-			getPaginatedUIPtm(gene_name: $gene_name offset: $offset_param limit: $limit_param){
+		query PTMDataByGeneQuery($gene_name:String, $gene_id:String, $offset_param: Int, $limit_param: Int){
+			getPaginatedUIPtm(gene_name: $gene_name gene_id: $gene_id offset: $offset_param limit: $limit_param){
 				total
 				uiPtm {
 					ptm_type 
@@ -116,11 +119,12 @@ constructor(private apollo: Apollo) {
 			}
 		}`;
 		
-	getGenePTMData(gene:any, offset:number, limit:number){
+	getGenePTMData(gene:any, uuid:any, offset:number, limit:number){
 		return this.apollo.watchQuery<ptmDataPaginated>({
 			query: this.genePTMDataQuery,
 			variables: {
 				gene_name: gene,
+				gene_id: uuid,
 				offset_param: offset,
 				limit_param: limit
 			}

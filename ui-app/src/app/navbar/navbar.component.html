@@ -8,7 +8,7 @@
 		<!-- @@@PDC-1474: Make recent releases area a bit larger to handle responsiveness -->
 		<div *ngIf='navDisplayFlag' class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 		<!-- PDC-428 - search field style changes -->
-			<div class="row" style="margin-top: 2%;"> 
+			<div class="row" style="margin-top: 2%;">
 				<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5"></div>
 				<div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
 					<div *ngIf='!userLoggedInFlag' class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:right; padding-right: 0!important; padding-top: 10px;">
@@ -46,7 +46,7 @@
 						<a href="/pdc/data-use-guidelines#Cite_PDC" target="_blank" style="color: #337ab7 !important;float:right; font-size: 15px !important;">Citing PDC&nbsp;
 							<!-- <fa name="external-link"></fa> -->
 						</a>
-					</div> 
+					</div>
 				</div>
 			</div>
 		</div>
@@ -88,6 +88,8 @@
 				<a mat-menu-item  class="custom-menu-item"  id="submitDataMenu" target="_blank"  href='/pdc/submit-data'>How to Submit Data</a>
 				<!-- PDC-5758 - update how to submit page -->
 				<a mat-menu-item  class="custom-menu-item"  id="dataSubmissionMenu" target="_blank"  href='/pdc/request-data-submission'>Request Data Submission</a>
+				<!-- @@@PDC-7346-update-data-sharing-policy-text -->
+				<a mat-menu-item  class="custom-menu-item"  id="dataSubmissionMenu" target="_blank"  href='/pdc/submit-data#data-submission-and-release'>Data Submission Policies</a>
 			</mat-menu>
 			<!-- <a mat-button class="custom-navbar-menu-item" id="newsNavbar" routerLink='news'>NEWS</a> -->
 
@@ -110,7 +112,8 @@
 				<a mat-menu-item class="custom-menu-item" href="https://list.nih.gov/cgi-bin/wa.exe?SUBED1=PDC-ANNOUNCE-L&A=1" target="_blank">Subscribe to PDC mailing list</a>
 				<a mat-menu-item class="custom-menu-item" id="releaseNotesSubmenu" href="https://pdc-release-notes.s3.amazonaws.com/PDC_Software_Release_Notes.htm" target="_blank">Software Release Notes</a>
 				<a mat-menu-item class="custom-menu-item" id="dataReleaseNotesSubmenu" href="https://pdc-release-notes.s3.amazonaws.com/PDC_Data_Release_Notes.htm" target="_blank">Data Release Notes</a>
-        <a mat-menu-item class="custom-menu-item" id="WSReleaseNotes" href="https://pdc-release-notes.s3.amazonaws.com/PDC_WS_Release_Notes.htm" target="_blank">Workspace Release Notes</a>
+		<!-- @@@PDC-7494 move ws notes to ws ui -->
+        <!--a mat-menu-item class="custom-menu-item" id="WSReleaseNotes" href="https://pdc-release-notes.s3.amazonaws.com/PDC_WS_Release_Notes.htm" target="_blank">Workspace Release Notes</a-->
         <a mat-menu-item class="custom-menu-item" href='mailto:PDCHelpDesk@mail.nih.gov?Subject=PDC Help' id="emailNavbar" target="_">Contact Us</a>
         <!--@@PDC-5972-remove discussion link-->
 				<!--<a mat-menu-item class="custom-menu-item" href='https://groups.google.com/a/esacinc.com/forum/#!forum/pdc-mvp-feedback' id="discussionNavbar" target="_" >Discussion Forum</a>-->

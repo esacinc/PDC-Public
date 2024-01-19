@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ChartModule } from 'angular-highcharts';
 import { BrowseByCaseComponent } from './browse-by-case/browse-by-case.component';
 import { BrowseByStudyComponent } from './browse-by-study/browse-by-study.component';
 import { BrowseByFileComponent } from './browse-by-file/browse-by-file.component';
@@ -18,7 +17,6 @@ import { TableModule } from 'primeng/table';
 import { AboutComponent } from './about/about.component';
 import { NewsComponent } from './news/news.component';
 import { NewsService} from './news.service';
-import { Chart } from 'angular-highcharts';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { PaginatorModule } from 'primeng/paginator';
 import { DropdownModule} from 'primeng/dropdown';
@@ -43,7 +41,7 @@ import { AngularFontAwesomeModule } from 'angular-font-awesome';
 
 @NgModule({
   imports: [
-    AngularFontAwesomeModule, CommonModule, ChartModule, MatCardModule, MatExpansionModule, PaginatorModule,
+    AngularFontAwesomeModule, CommonModule, MatCardModule, MatExpansionModule, PaginatorModule,
     FormsModule, CheckboxModule, RadioButtonModule, TableModule, TabsModule.forRoot(),
     MatCardModule, MatToolbarModule, MatCheckboxModule, MatListModule, MatTabsModule, MatButtonModule,
     MatSidenavModule, MatButtonModule, MatTooltipModule, DropdownModule, MatSelectModule,

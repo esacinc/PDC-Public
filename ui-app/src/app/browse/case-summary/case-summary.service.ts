@@ -102,6 +102,7 @@ constructor(private apollo: Apollo) {
 								pool
 								sample_is_ref
 								biospecimen_anatomic_site
+								biospecimen_laterality
 								composition
 								current_weight
 								days_to_collection
@@ -755,6 +756,7 @@ constructor(private apollo: Apollo) {
 					pool
 					sample_is_ref
 					biospecimen_anatomic_site
+					biospecimen_laterality
 					composition
 					current_weight
 					days_to_collection

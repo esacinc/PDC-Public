@@ -1109,9 +1109,11 @@ describe("BrowseFiltersService", () => {
         query GeneSearchQuery($gene_name: String!) {
           geneSearch(name: $gene_name) {
             genes {
+              gene_id
               record_type
               name
               description
+              ncbi_gene_id
             }
           }
         }
@@ -1122,14 +1124,18 @@ describe("BrowseFiltersService", () => {
           geneSearch: {
             genes: [
               {
+                gene_id: "ALG3",
                 record_type: "gene",
                 name: "ALG3",
-                description: "ALG3, alpha-1,3- mannosyltransferase"
+                description: "ALG3, alpha-1,3- mannosyltransferase",
+                ncbi_gene_id: "ALG3"
               },
               {
+                gene_id: "ALG10",
                 record_type: "gene",
                 name: "ALG10",
-                description: "ALG10, alpha-1,2-glucosyltransferase"
+                description: "ALG10, alpha-1,2-glucosyltransferase",
+                ncbi_gene_id: "ALG10"
               }
             ]
           }

@@ -173,25 +173,25 @@
   background-image: url('../../assets/css/images/Triangle.png');
 }
 
-.side-bar-tabs /deep/.mat-tab-label{
+.side-bar-tabs ::ng-deep .mat-tab-label{
 	min-width: 110px!important;
 	padding: 10px!important;
 	justify-content: left!important;
    }
 
-/deep/ .sidenavFiltersPanel .mat-expansion-panel-body {
+::ng-deep .sidenavFiltersPanel .mat-expansion-panel-body {
 	padding-left: 0px!important;
 	padding-right: 0px!important;
 	padding-bottom: 0px!important;
 }
 
-/deep/ .sidenavFiltersPanel .mat-list-item {
+::ng-deep .sidenavFiltersPanel .mat-list-item {
 	padding-right: 0px!important;
 	height: 35px!important;
 	line-height: 100%;
 }
 
-/deep/.mat-expansion-indicator {
+::ng-deep .mat-expansion-indicator {
     position: absolute!important;
 	left: 7.5px!important;
   }
@@ -205,21 +205,21 @@
 	margin-right:0px!important;
 }
 
-/deep/ .ui-table .ui-table-tbody > tr:nth-child(even).ui-state-highlight,
-/deep/ .ui-table .ui-table-tbody .ui-state-highlight {
+::ng-deep .ui-table .ui-table-tbody > tr:nth-child(even).ui-state-highlight,
+::ng-deep .ui-table .ui-table-tbody .ui-state-highlight {
    background-color: #aac1d4 !important;
    color: #000 !important;
 } 
 
-/deep/ .table-striped tbody tr:nth-of-type(odd) {
+::ng-deep .table-striped tbody tr:nth-of-type(odd) {
 	background: linear-gradient(to bottom, #f6f7f9 0%, #ebedf0 100%) !important;
 }
 
-/deep/ .ui-table table {
+::ng-deep .ui-table table {
     table-layout: unset !important;
 } 
 
-/deep/ {
+::ng-deep {
 	.ui-table tr td, .ui-table-thead tr, .table, .table tr td, .table tr th {
 		font-size: 14px !important;
 	} 
@@ -262,12 +262,12 @@
 }
 
 //@@@PDC-4995: Alignment issues
-:host /deep/ .ui-table-unfrozen-view .ui-table-scrollable-header-box {
+:host ::ng-deep .ui-table-unfrozen-view .ui-table-scrollable-header-box {
 	padding-right: 17px !important;
 }
 
 // PDC-620: Make the filter selection tabs along the left side of the window
-/deep/ {
+::ng-deep {
 	/* .sideBarNavigation .mat-tab-label-container {
 		display: flex;
 		flex-grow: 1;

@@ -12,7 +12,7 @@ import { DropdownModule} from 'primeng/dropdown';
 import {MatCardModule, MatExpansionModule, MatToolbarModule, MatCheckboxModule, MatListModule,
   MatTabsModule, MatButtonModule, MatSidenavModule, MatTooltipModule, MatSelectModule, MatDialogModule, MatProgressSpinnerModule} from '@angular/material';
 import { GenePageService } from "./gene-page.service";
-import { Filter, GeneProteinData, GeneStudySpectralCountData, GeneAliquotSpectralCountData,
+import { Filter, GeneProteinDataWithId, GeneStudySpectralCountData, GeneAliquotSpectralCountData,
 		GeneStudySpectralCountDataPaginated, GeneAliquotSpectralCountDataPaginated, ptmData, AllStudiesData } from '../types';
 import { ngxCsv } from "ngx-csv/ngx-csv";
 import * as _ from 'lodash';
@@ -27,15 +27,18 @@ import * as _ from 'lodash';
 //@@@PDC-770 Add a gene page with filters
 //@@@PDC-2450 gene/protein summary missing NCBI gene id
 //@@@PDC-2665 show N/A if Assay data is not available
+//@@@PDC-7690 use gene_id to get gene info
 export class GenePageComponent implements OnInit, OnChanges {
 
   gene_id: string;
+  uuid: string;
   loading: boolean = false; //data is loaded from 3 different APIs asynchroniosly, so need 3 different flags for when data is finished loading
   loadingAliquotRecords: boolean = false;
   loadingGeneSummary: boolean = false;
   lodingPTMData: boolean = false;
-  geneSummaryData: GeneProteinData = {
+  geneSummaryData: GeneProteinDataWithId = {
 		gene_name: "",
+		gene_id: "",
 		ncbi_gene_id: "",
 		authority: "",
 		description: "",
@@ -98,6 +101,7 @@ export class GenePageComponent implements OnInit, OnChanges {
 	//Initializing gene summary data structure
 	this.geneSummaryData = {
 		gene_name: "",
+		gene_id: "",
 		ncbi_gene_id: "",
 		authority: "",
 		description: "",
@@ -112,11 +116,14 @@ export class GenePageComponent implements OnInit, OnChanges {
 								"ethnicity": "", "race": "", "gender": "", "tumor_grade": "", "sample_type": "", "acquisition_type": ""};
 	this.route.paramMap.subscribe(params => {
 		let gene = params.get("gene_id");
-		console.log(params);
-		console.log(gene);
-		this.gene_id = gene || "";
-		console.log(this.gene_id);
-		if (this.gene_id.length > 0){
+		//this.gene_id = gene || "";
+		//console.log(this.gene_id);
+		if (gene != null && gene.length > 0){
+			let tempGene = gene.split('#');
+			this.gene_id = tempGene[0];
+			this.uuid = tempGene[1];
+			console.log("current gene_name: "+this.gene_id);
+			console.log("current gene_id: "+this.uuid);
 			this.getGeneSummaryData();
 			this.getGeneAliquotSpectralCounts();
 			this.getGeneStudySpectralCounts();
@@ -137,7 +144,7 @@ export class GenePageComponent implements OnInit, OnChanges {
 	console.log("Orginal Gene: "+this.gene_id);
 	  setTimeout(() => {
 		  //this.genePageService.getGeneDetails(this.gene_id.toUpperCase()).subscribe((data: any) =>{
-		  this.genePageService.getGeneDetails(this.gene_id).subscribe((data: any) =>{
+		  this.genePageService.getGeneDetails(this.gene_id, this.uuid).subscribe((data: any) =>{
 			this.geneSummaryData = data.uiGeneSpectralCount;
 			this.loadingGeneSummary = false;
 		  });
@@ -148,7 +155,7 @@ export class GenePageComponent implements OnInit, OnChanges {
 	  this.loadingAliquotRecords = true;
 	  this.aliquotSpectralCountLoadError = '';
 		  //removed timout settings since this query sometimes takes a lot of time
-		  this.genePageService.getAliquotSpectralCount(this.gene_id, this.aliquotOffset, this.aliquotLimit, "", this.newFilterSelected).subscribe((data: any) =>{
+		  this.genePageService.getAliquotSpectralCount(this.gene_id, this.uuid, this.aliquotOffset, this.aliquotLimit, "", this.newFilterSelected).subscribe((data: any) =>{
 			this.aliquotSpectralCountsList = data.getPaginatedUIGeneAliquotSpectralCountFiltered.uiGeneAliquotSpectralCounts;
 			this.aliquotTotalRecords = data.getPaginatedUIGeneAliquotSpectralCountFiltered.total;
 			this.aliquotOffset = data.getPaginatedUIGeneAliquotSpectralCountFiltered.pagination.from;
@@ -169,7 +176,7 @@ export class GenePageComponent implements OnInit, OnChanges {
 	  this.loading = true;
 	  console.log(this.newFilterSelected);
 	  setTimeout(() => {
-		  this.genePageService.getStudySpectralCount(this.gene_id, this.studyOffset, this.studyLimit, "", this.newFilterSelected).subscribe((data: any) =>{
+		  this.genePageService.getStudySpectralCount(this.gene_id, this.uuid, this.studyOffset, this.studyLimit, "", this.newFilterSelected).subscribe((data: any) =>{
 			this.studySpectralCountsList = data.getPaginatedUIGeneStudySpectralCountFiltered.uiGeneStudySpectralCounts;
 			this.studyTotalRecords = data.getPaginatedUIGeneStudySpectralCountFiltered.total;
 			this.studyOffset = data.getPaginatedUIGeneStudySpectralCountFiltered.pagination.from;
@@ -185,7 +192,7 @@ export class GenePageComponent implements OnInit, OnChanges {
   getPTMData(){
 	  this.lodingPTMData = true;
 	  setTimeout(() => {
-		  this.genePageService.getGenePTMData(this.gene_id, this.ptmOffset, this.ptmLimit).subscribe((data: any) =>{
+		  this.genePageService.getGenePTMData(this.gene_id, this.uuid, this.ptmOffset, this.ptmLimit).subscribe((data: any) =>{
 			this.genePTMData = data.getPaginatedUIPtm.uiPtm;
 			this.ptmTotalRecords = data.getPaginatedUIPtm.total;
 			this.ptmOffset = data.getPaginatedUIPtm.pagination.from;
@@ -201,7 +208,7 @@ export class GenePageComponent implements OnInit, OnChanges {
 	  this.aliquotOffset = event.first;
 	  this.aliquotLimit = event.rows;
 	  this.loadingAliquotRecords = true;
-	  this.genePageService.getAliquotSpectralCount(this.gene_id, this.aliquotOffset, this.aliquotLimit, "", this.newFilterSelected).subscribe((data: any) =>{
+	  this.genePageService.getAliquotSpectralCount(this.gene_id, this.uuid, this.aliquotOffset, this.aliquotLimit, "", this.newFilterSelected).subscribe((data: any) =>{
 			this.aliquotSpectralCountsList = data.getPaginatedUIGeneAliquotSpectralCountFiltered.uiGeneAliquotSpectralCounts;
 			if (this.aliquotOffset == 0) {
 				this.aliquotTotalRecords = data.getPaginatedUIGeneAliquotSpectralCountFiltered.total;
@@ -223,7 +230,7 @@ export class GenePageComponent implements OnInit, OnChanges {
 	  this.studyOffset = event.first;
 	  this.studyLimit = event.rows;
 	  this.loading = true;
-	  this.genePageService.getStudySpectralCount(this.gene_id, this.studyOffset, this.studyLimit, "", this.newFilterSelected).subscribe((data: any) =>{
+	  this.genePageService.getStudySpectralCount(this.gene_id, this.uuid, this.studyOffset, this.studyLimit, "", this.newFilterSelected).subscribe((data: any) =>{
 			this.studySpectralCountsList = data.getPaginatedUIGeneStudySpectralCountFiltered.uiGeneStudySpectralCounts;
 			if (this.studyOffset == 0) {
 				this.studyTotalRecords = data.getPaginatedUIGeneStudySpectralCountFiltered.total;
@@ -251,7 +258,7 @@ export class GenePageComponent implements OnInit, OnChanges {
 	  this.ptmOffset = event.first;
 	  this.ptmLimit = event.rows;
 	  this.lodingPTMData = true;
-	  this.genePageService.getGenePTMData(this.gene_id, this.ptmOffset, this.ptmLimit).subscribe((data: any) =>{
+	  this.genePageService.getGenePTMData(this.gene_id, this.uuid, this.ptmOffset, this.ptmLimit).subscribe((data: any) =>{
 			this.genePTMData = data.getPaginatedUIPtm.uiPtm;
 			if (this.ptmOffset == 0) {
 				this.ptmTotalRecords = data.getPaginatedUIPtm.total;
@@ -503,7 +510,7 @@ export class GenePageComponent implements OnInit, OnChanges {
 	//@@@PDC-2874: Add download option for study table on gene summary page
 	downloadCompleteManifest() {
 		this.loading = true;
-		this.genePageService.getStudySpectralCount(this.gene_id, 0, this.studyTotalRecords, "", this.newFilterSelected).subscribe((data: any) =>{
+		this.genePageService.getStudySpectralCount(this.gene_id, this.uuid, 0, this.studyTotalRecords, "", this.newFilterSelected).subscribe((data: any) =>{
 			let filteredResults = data.getPaginatedUIGeneStudySpectralCountFiltered.uiGeneStudySpectralCounts;
 			let localSelectedGenes = [];
 			for(let item of filteredResults){

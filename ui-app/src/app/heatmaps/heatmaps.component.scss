@@ -103,19 +103,19 @@
   padding: 3px;
 }
 
-/deep/ .mat-expansion-indicator {
+::ng-deep .mat-expansion-indicator {
   margin-left: 1%;
 }
 
-/deep/ #browsePageExpansionPanel .mat-expansion-panel-header {
+::ng-deep #browsePageExpansionPanel .mat-expansion-panel-header {
   //height: 36px !important;
 }
 
-/deep/ .mat-expansion-panel-header {
+::ng-deep .mat-expansion-panel-header {
 	height:25px!important;
 }
 
-/deep/ {
+::ng-deep {
   .ui-table table {
     table-layout: unset !important;
   } 

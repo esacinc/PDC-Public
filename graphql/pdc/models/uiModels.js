@@ -119,6 +119,7 @@ const defineUiModels = (db) => {
 	//@@@PDC-1156 add is_ref
 	//@@@PDC-1396 add external_case_id
 	//@@@PDC-4968 expose case_is_ref
+	//@@@PDC-7899 add biospecimen_laterality
 	/**
 	* ModelUICase is used in uiCase query.
 	*/
@@ -130,9 +131,39 @@ const defineUiModels = (db) => {
 		aliquot_submitter_id: { type: Sequelize.STRING},
 		aliquot_is_ref: { type: Sequelize.STRING },
 		aliquot_status:  { type: Sequelize.STRING},
+		aliquot_quantity:  { type: Sequelize.STRING},
+		aliquot_volume:  { type: Sequelize.STRING},
+		amount:  { type: Sequelize.STRING},
+		analyte_type:  { type: Sequelize.STRING},
+		concentration:  { type: Sequelize.STRING},
 		case_status:  { type: Sequelize.STRING},
 		sample_status:  { type: Sequelize.STRING},
 		sample_submitter_id:  { type: Sequelize.STRING},
+		sample_is_ref:  { type: Sequelize.STRING},
+		biospecimen_anatomic_site:  { type: Sequelize.STRING},
+		biospecimen_laterality:  { type: Sequelize.STRING},
+		composition:  { type: Sequelize.STRING},
+		current_weight:  { type: Sequelize.STRING},
+		days_to_collection:  { type: Sequelize.STRING},
+		days_to_sample_procurement:  { type: Sequelize.STRING},
+		diagnosis_pathologically_confirmed:  { type: Sequelize.STRING},
+		freezing_method:  { type: Sequelize.STRING},
+		initial_weight :  { type: Sequelize.STRING},
+		intermediate_dimension:  { type: Sequelize.STRING},
+		tissue_collection_type :  { type: Sequelize.STRING},
+		sample_ordinal:  { type: Sequelize.STRING},
+		longest_dimension:  { type: Sequelize.STRING},
+		method_of_sample_procurement:  { type: Sequelize.STRING},
+		pathology_report_uuid:  { type: Sequelize.STRING},
+		preservation_method:  { type: Sequelize.STRING},
+		sample_type_id:  { type: Sequelize.STRING},
+		shortest_dimension:  { type: Sequelize.STRING},
+		time_between_clamping_and_freezing:  { type: Sequelize.STRING},
+		time_between_excision_and_freezing:  { type: Sequelize.STRING},
+		tissue_type:  { type: Sequelize.STRING},
+		tumor_code:  { type: Sequelize.STRING},
+		tumor_code_id:  { type: Sequelize.STRING},
+		tumor_descriptor:  { type: Sequelize.STRING},
 		case_submitter_id:  { type: Sequelize.STRING},
 		external_case_id:  { type: Sequelize.STRING},
 		program_name:  { type: Sequelize.STRING},
@@ -371,8 +402,11 @@ const defineUiModels = (db) => {
 	ModelUIFile.removeAttribute('id');
 	
 	//@@@PDC-579 gene tabe pagination
+	//@@@PDC-7629 add gene_id and ncbi_gene_id to output
 	const ModelUIGene = db.getSequelize().define('dummy', {
 		gene_name: { type: Sequelize.STRING},
+		gene_id: { type: Sequelize.STRING},
+		ncbi_gene_id: { type: Sequelize.STRING},
 		chromosome:  { type: Sequelize.STRING},
 		locus:  { type: Sequelize.STRING},
 		num_study:  { type: Sequelize.INTEGER},
@@ -388,6 +422,7 @@ const defineUiModels = (db) => {
 	//@@@PDC-1291 Redesign Browse Page data tabs
 	const ModelUIGeneName = db.getSequelize().define('dummy', {
 		gene_name:  { type: Sequelize.STRING},
+		gene_id: { type: Sequelize.STRING},
 		num_study: {type: Sequelize.INTEGER}
 	}, {
 		timestamps: false,

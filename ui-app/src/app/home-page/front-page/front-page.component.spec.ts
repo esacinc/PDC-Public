@@ -24,10 +24,6 @@ class MockFrontPageService {
   getDiseases(): Observable<any> {
     return of([]);
   }
-
-  getSunburstChartData(): Observable<any> {
-    return of([]);
-  }
 }
 
 describe("FrontPageComponent", () => {

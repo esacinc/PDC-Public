@@ -59,6 +59,8 @@ describe("BrowseByGeneService", () => {
             uiGenes: [
               {
                 gene_name: "ABCA9",
+				gene_id: "f6ba4bc5-b814-11e8-907f-0a2705229b82",
+				ncbi_gene_id: "1",
                 chromosome: "17",
                 locus: "17q24.2",
                 num_study: 1,
@@ -67,6 +69,8 @@ describe("BrowseByGeneService", () => {
               },
               {
                 gene_name: "ANO8",
+				gene_id: "f6ba4bc5-b814-11e8-907f-0a2705229b82",
+				ncbi_gene_id: "1",
                 chromosome: "19",
                 locus: "19p13.11",
                 num_study: 7,
@@ -74,6 +78,8 @@ describe("BrowseByGeneService", () => {
               },
               {
                 gene_name: "ARX",
+				gene_id: "f6ba4bc5-b814-11e8-907f-0a2705229b82",
+				ncbi_gene_id: "1",
                 chromosome: "X",
                 locus: "Xp21.3",
                 num_study: 4,
@@ -81,6 +87,8 @@ describe("BrowseByGeneService", () => {
               },
               {
                 gene_name: "BEST4",
+				gene_id: "f6ba4bc5-b814-11e8-907f-0a2705229b82",
+				ncbi_gene_id: "1",
                 chromosome: "1",
                 locus: "1p34.1",
                 num_study: 1,
@@ -88,6 +96,8 @@ describe("BrowseByGeneService", () => {
               },
               {
                 gene_name: "BVES",
+				gene_id: "f6ba4bc5-b814-11e8-907f-0a2705229b82",
+				ncbi_gene_id: "1",
                 chromosome: "6",
                 locus: "6q21",
                 num_study: 1,
@@ -95,6 +105,8 @@ describe("BrowseByGeneService", () => {
               },
               {
                 gene_name: "CACNA1H",
+				gene_id: "f6ba4bc5-b814-11e8-907f-0a2705229b82",
+				ncbi_gene_id: "1",
                 chromosome: "16",
                 locus: "16p13.3",
                 num_study: 2,
@@ -103,6 +115,8 @@ describe("BrowseByGeneService", () => {
               },
               {
                 gene_name: "CACNB2",
+				gene_id: "f6ba4bc5-b814-11e8-907f-0a2705229b82",
+				ncbi_gene_id: "1",
                 chromosome: "10",
                 locus: "10p12.33-p12.31",
                 num_study: 3,
@@ -111,6 +125,8 @@ describe("BrowseByGeneService", () => {
               },
               {
                 gene_name: "CCDC136",
+				gene_id: "f6ba4bc5-b814-11e8-907f-0a2705229b82",
+				ncbi_gene_id: "1",
                 chromosome: "7",
                 locus: "7q32.1",
                 num_study: 2,
@@ -119,6 +135,8 @@ describe("BrowseByGeneService", () => {
               },
               {
                 gene_name: "CCDC69",
+				gene_id: "f6ba4bc5-b814-11e8-907f-0a2705229b82",
+				ncbi_gene_id: "1",
                 chromosome: "5",
                 locus: "5q33.1",
                 num_study: 4,
@@ -126,6 +144,8 @@ describe("BrowseByGeneService", () => {
               },
               {
                 gene_name: "CCND2",
+				gene_id: "f6ba4bc5-b814-11e8-907f-0a2705229b82",
+				ncbi_gene_id: "1",
                 chromosome: "12",
                 locus: "12p13.32",
                 num_study: 4,

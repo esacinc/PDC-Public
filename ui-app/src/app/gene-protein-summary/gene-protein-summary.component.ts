@@ -13,7 +13,7 @@ import { DropdownModule} from 'primeng/dropdown';
 import {MatCardModule, MatExpansionModule, MatToolbarModule, MatCheckboxModule, MatListModule,
   MatTabsModule, MatButtonModule, MatSidenavModule, MatTooltipModule, MatSelectModule, MatDialogModule, MatProgressSpinnerModule} from '@angular/material';
 import { GeneProteinSummaryService } from "./gene-protein-summary.service";
-import { Filter, GeneProteinData, GeneStudySpectralCountData, GeneAliquotSpectralCountData,
+import { Filter, GeneProteinDataWithId, GeneStudySpectralCountData, GeneAliquotSpectralCountData,
 		GeneStudySpectralCountDataPaginated, GeneAliquotSpectralCountDataPaginated, ptmData } from '../types';
 
 
@@ -31,14 +31,17 @@ import { Filter, GeneProteinData, GeneStudySpectralCountData, GeneAliquotSpectra
 //@@@PDC-772 - remove study and aliquot counts table, add button to gene full page
 //@@@PDC-2450 gene/protein summary missing NCBI gene id
 //@@@PDC-2665 show N/A if Assay data is not available
+//@@@PDC-7657 use ncbi_gene_id in getting gene
 export class GeneProteinSummaryComponent implements OnInit {
 
   gene_id: string;
+  uuid: string;
+  ncbi_gene_id: string
   loading: boolean = false; //data is loaded from 3 different APIs asynchroniosly, so need 3 different flags for when data is finished loading
   loadingAliquotRecords: boolean = false;
   loadingGeneSummary: boolean = false;
   lodingPTMData: boolean = false;
-  geneSummaryData: GeneProteinData;
+  geneSummaryData: GeneProteinDataWithId;
   studySpectralCountsList: GeneStudySpectralCountData[];
   aliquotSpectralCountsList: GeneAliquotSpectralCountData[];
   aliquotSpectralCountLoadError: string = '';
@@ -58,6 +61,7 @@ export class GeneProteinSummaryComponent implements OnInit {
   ptmPageSize: number;
   source = "";
   frozenColumns = [];
+  displayGeneNotFoundInStudyMsg = false;
 
   constructor(private activeRoute: ActivatedRoute, private router:Router, private apollo: Apollo,
 				private geneProteinSummaryService: GeneProteinSummaryService,
@@ -67,6 +71,17 @@ export class GeneProteinSummaryComponent implements OnInit {
 	console.log(geneProteinData);
 
 	this.gene_id = geneProteinData.summaryData;
+	this.ncbi_gene_id = geneProteinData.ncbi;
+	this.uuid = geneProteinData.uuid;
+	console.log("ncbi: "+this.ncbi_gene_id);
+	console.log("uuid: "+this.uuid);
+	//@@@PDC-7786: UI change to report error for genes not used in studies
+	this.geneProteinSummaryService.getGeneStudyCountResults(this.uuid).subscribe((geneData: any) => {
+        let geneStudyCount = geneData.geneStudyCount;
+        if (geneStudyCount == 0) {
+			this.displayGeneNotFoundInStudyMsg = true;
+		}
+	});
 	//@@@PDC-4725: Set the source parameter in the UI calls to fetch details of a search result
 	if (geneProteinData && geneProteinData.source) {
 		this.source = geneProteinData.source;
@@ -86,6 +101,7 @@ export class GeneProteinSummaryComponent implements OnInit {
     this.ptmPageSize = 10;
 	//Initializing gene summary data structure
 	this.geneSummaryData = {
+		gene_id: "",
 		gene_name: "",
 		ncbi_gene_id: "",
 		authority: "",
@@ -106,9 +122,14 @@ export class GeneProteinSummaryComponent implements OnInit {
   getGeneSummaryData(){
 	  this.loadingGeneSummary = true;
     //@@@PDC-1123 call ui wrapper API
+	//@@@PDC-7657 use ncbi_gene_id to get gene detail
 	  setTimeout(() => {
-		  this.geneProteinSummaryService.getGeneDetails(this.gene_id, this.source).subscribe((data: any) =>{
+		  this.geneProteinSummaryService.getGeneDetailsNcbi(this.gene_id, this.uuid, this.source).subscribe((data: any) =>{
+		  //this.geneProteinSummaryService.getGeneDetails(this.gene_id, this.source).subscribe((data: any) =>{
 			this.geneSummaryData = data.uiGeneSpectralCount;
+			console.log("gene detail: "+ this.geneSummaryData);
+			this.uuid = this.geneSummaryData.gene_id;
+			console.log("gene uuid: "+ this.uuid);
 			this.makeRowsSameHeight();
 			this.loadingGeneSummary = false;
 		  });
@@ -154,7 +175,8 @@ export class GeneProteinSummaryComponent implements OnInit {
   getPTMData(){
 	  this.lodingPTMData = true;
 	  setTimeout(() => {
-		  this.geneProteinSummaryService.getGenePTMData(this.gene_id, this.ptmOffset, this.ptmLimit, this.source).subscribe((data: any) =>{
+		  //this.geneProteinSummaryService.getGenePTMData(this.gene_id, this.ptmOffset, this.ptmLimit, this.source).subscribe((data: any) =>{
+		  this.geneProteinSummaryService.getGeneUuidPTMData(this.gene_id, this.uuid, this.ptmOffset, this.ptmLimit, this.source).subscribe((data: any) =>{
 			this.genePTMData = data.getPaginatedUIPtm.uiPtm;
 			this.ptmTotalRecords = data.getPaginatedUIPtm.total;
 			this.ptmOffset = data.getPaginatedUIPtm.pagination.from;
@@ -202,7 +224,9 @@ export class GeneProteinSummaryComponent implements OnInit {
 	  this.ptmOffset = event.first;
 	  this.ptmLimit = event.rows;
 	  this.lodingPTMData = true;
-	  this.geneProteinSummaryService.getGenePTMData(this.gene_id, this.ptmOffset, this.ptmLimit, this.source).subscribe((data: any) =>{
+	  //this.geneProteinSummaryService.getGenePTMData(this.gene_id, this.ptmOffset, this.ptmLimit, this.source).subscribe((data: any) =>{
+	  console.log("loadPTM: "+ this.uuid);	  
+	  this.geneProteinSummaryService.getGeneUuidPTMData(this.gene_id, this.uuid, this.ptmOffset, this.ptmLimit, this.source).subscribe((data: any) =>{
 			this.genePTMData = data.getPaginatedUIPtm.uiPtm;
 			if (this.ptmOffset == 0) {
 				this.ptmTotalRecords = data.getPaginatedUIPtm.total;
@@ -232,7 +256,8 @@ export class GeneProteinSummaryComponent implements OnInit {
   }
 
   navigateFullPage(){
-	  var geneFullPageRoute = 'gene/' + this.geneSummaryData.gene_name;
+	  //@@@PDC-7690 pass gene_id together with gene_name
+	  var geneFullPageRoute = 'gene/' + this.geneSummaryData.gene_name + '#' + this.uuid;
 	  this.router.navigate([{outlets: {'primary': geneFullPageRoute, 'geneSummary': null}}]);
 	  this.dialogRef.close();
   }

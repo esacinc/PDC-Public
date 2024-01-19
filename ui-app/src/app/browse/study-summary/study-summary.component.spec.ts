@@ -394,6 +394,7 @@ class MockStudySummaryService {
             sample_submitter_id: "OSCC_56_N",
             sample_is_ref: "no",
             biospecimen_anatomic_site: null,
+            biospecimen_laterality: null,
             composition: "Not Reported",
             current_weight: null,
             days_to_collection: null,

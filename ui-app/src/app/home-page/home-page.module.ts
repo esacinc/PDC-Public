@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FrontPageComponent } from './front-page/front-page.component';
-import { ChartModule, HIGHCHARTS_MODULES } from 'angular-highcharts';
-//import * as highchartsSunburst from 'highcharts/modules/sunburst.src';
 import { FormsModule } from '@angular/forms';
 import { CheckboxModule } from 'primeng/checkbox';
 import { TableModule } from 'primeng/table';
@@ -16,7 +14,6 @@ import { MatToolbarModule, MatCardModule, MatGridListModule, MatListModule, MatI
   ],	
   imports: [
     CommonModule,
-    ChartModule,
     FormsModule,
     CheckboxModule,
     TableModule,

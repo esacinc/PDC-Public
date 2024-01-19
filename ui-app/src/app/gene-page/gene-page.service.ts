@@ -68,9 +68,11 @@ constructor(private apollo: Apollo) {
 
     //@@@PDC-1123 call ui wrapper API
 	//@@@PDC-2450 gene/protein summary missing NCBI gene id
+	//@@@PDC-7690 use gene_id to get gene info
 	geneDetailsQuery = gql`
-				query ProteinQuery($gene_name: String!){
-					uiGeneSpectralCount(gene_name: $gene_name){
+				query ProteinQuery($gene_name: String, $gene_id: String){
+					uiGeneSpectralCount(gene_name: $gene_name, gene_id: $gene_id){
+					  gene_id	
 					  gene_name
 					  ncbi_gene_id
 					  authority
@@ -82,7 +84,7 @@ constructor(private apollo: Apollo) {
 					  assays
 					  spectral_counts {
 						  project_submitter_id
-								  study_submitter_id
+						  study_submitter_id
 						  plex
 						  spectral_count
 						  distinct_peptide
@@ -91,11 +93,12 @@ constructor(private apollo: Apollo) {
 					}
 				}`;
 	
-	getGeneDetails(gene:any){
+	getGeneDetails(gene:any, uuid:any){
 		return this.apollo.watchQuery<GeneProteinData>({
 			query: this.geneDetailsQuery,
 			variables: {
-				gene_name: gene
+				gene_name: gene,
+				gene_id: uuid
 			}
 		})
 		.valueChanges
@@ -106,11 +109,11 @@ constructor(private apollo: Apollo) {
 	// Updated query for @@@PDC-557: Add the protein abundance data to the Gene Summary screen
 	//@@@PDC-669 gene_abundance table change
 	geneAliquotSpectralCountQuery = gql`
-				query aliquotSpectralCountQuery($gene_name:String!, $offset_param: Int, $limit_param: Int, $program_name_filter: String!, 
+				query aliquotSpectralCountQuery($gene_name:String, $gene_id:String, $offset_param: Int, $limit_param: Int, $program_name_filter: String!, 
 											$project_name_filter: String!, $study_name_filter: String!, $disease_filter: String!, $filterValue: String!,
 											$analytical_frac_filter: String!, $exp_type_filter: String!, $ethnicity_filter: String!, $race_filter: String!,
 											$gender_filter: String!, $tumor_grade_filter: String!, $sample_type_filter: String!, $acquisition_type_filter: String!){
-					getPaginatedUIGeneAliquotSpectralCountFiltered(gene_name: $gene_name, offset: $offset_param, limit: $limit_param, program_name: $program_name_filter , 
+					getPaginatedUIGeneAliquotSpectralCountFiltered(gene_name: $gene_name, gene_id:  $gene_id, offset: $offset_param, limit: $limit_param, program_name: $program_name_filter , 
 										project_name: $project_name_filter, study_name: $study_name_filter, disease_type: $disease_filter, primary_site: $filterValue, 
 										analytical_fraction: $analytical_frac_filter, experiment_type: $exp_type_filter, ethnicity: $ethnicity_filter, race: $race_filter, 
 										gender: $gender_filter, tumor_grade: $tumor_grade_filter, sample_type: $sample_type_filter, acquisition_type: $acquisition_type_filter){
@@ -143,11 +146,12 @@ constructor(private apollo: Apollo) {
 				}`;
 				
 	
-	getAliquotSpectralCount(gene:any, offset:number, limit:number, sort: string, filters: any){
+	getAliquotSpectralCount(gene:any, uuid:any, offset:number, limit:number, sort: string, filters: any){
 		return this.apollo.watchQuery<GeneAliquotSpectralCountDataPaginated>({
 			query: this.geneAliquotSpectralCountQuery,
 			variables: {
 				gene_name: gene,
+				gene_id: uuid,
 				offset_param:offset,
 				limit_param: limit,
 				sort_value: sort,
@@ -174,11 +178,11 @@ constructor(private apollo: Apollo) {
 	
 	
 	geneStudySpectralCountQuery = gql`
-		query studySpectralCountQuery($gene_name:String!, $offset_param: Int, $limit_param: Int, $program_name_filter: String!, 
+		query studySpectralCountQuery($gene_name:String, $gene_id:String, $offset_param: Int, $limit_param: Int, $program_name_filter: String!, 
 											$project_name_filter: String!, $study_name_filter: String!, $disease_filter: String!, $filterValue: String!,
 											$analytical_frac_filter: String!, $exp_type_filter: String!, $ethnicity_filter: String!, $race_filter: String!,
 											$gender_filter: String!, $tumor_grade_filter: String!, $sample_type_filter: String!, $acquisition_type_filter: String!){
-			getPaginatedUIGeneStudySpectralCountFiltered(gene_name: $gene_name, offset: $offset_param, limit: $limit_param, program_name: $program_name_filter , 
+			getPaginatedUIGeneStudySpectralCountFiltered(gene_name: $gene_name, gene_id: $gene_id, offset: $offset_param, limit: $limit_param, program_name: $program_name_filter , 
 										project_name: $project_name_filter, study_name: $study_name_filter, disease_type: $disease_filter, primary_site: $filterValue, 
 										analytical_fraction: $analytical_frac_filter, experiment_type: $exp_type_filter, ethnicity: $ethnicity_filter, race: $race_filter, 
 										gender: $gender_filter, tumor_grade: $tumor_grade_filter, sample_type: $sample_type_filter, acquisition_type: $acquisition_type_filter){
@@ -205,12 +209,13 @@ constructor(private apollo: Apollo) {
 			}
 		}`;
 		
-	getStudySpectralCount(gene:any, offset:number, limit:number, sort: string, filters: any){
+	getStudySpectralCount(gene:any, uuid:any, offset:number, limit:number, sort: string, filters: any){
 		console.log(filters);
 		return this.apollo.watchQuery<GeneStudySpectralCountDataPaginated>({
 			query: this.geneStudySpectralCountQuery,
 			variables: {
 				gene_name: gene,
+				gene_id: uuid,
 				offset_param:offset,
 				limit_param: limit,
 				sort_value: sort,
@@ -237,8 +242,8 @@ constructor(private apollo: Apollo) {
 	
 	//PDC-716 Add PTM data
 	genePTMDataQuery = gql`
-		query PTMDataByGeneQuery($gene_name:String!, $offset_param: Int, $limit_param: Int){
-			getPaginatedUIPtm(gene_name: $gene_name offset: $offset_param limit: $limit_param){
+		query PTMDataByGeneQuery($gene_name:String!, $gene_id:String, $offset_param: Int, $limit_param: Int){
+			getPaginatedUIPtm(gene_name: $gene_name gene_id: $gene_id offset: $offset_param limit: $limit_param){
 				total
 				uiPtm {
 					ptm_type 
@@ -257,11 +262,12 @@ constructor(private apollo: Apollo) {
 			}
 		}`;
 		
-	getGenePTMData(gene:any, offset:number, limit:number){
+	getGenePTMData(gene:any, uuid:any, offset:number, limit:number){
 		return this.apollo.watchQuery<ptmDataPaginated>({
 			query: this.genePTMDataQuery,
 			variables: {
 				gene_name: gene,
+				gene_id: uuid,
 				offset_param: offset,
 				limit_param: limit
 			}

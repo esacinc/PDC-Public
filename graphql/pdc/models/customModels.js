@@ -97,12 +97,19 @@ const defineCustomModels = (db) => {
 	  */
 	  //@@@PDC-191 experimental metadata API
 	  //@@@PDC-3668 add aliquot_id to output
+	  //@@@PDC-7491 add more aliquot_run_metadata fields
 	  const ModelAliquotRunMetadata = db.getSequelize().define('aliquot_run_metadata', {
 		aliquot_run_metadata_id: { type: Sequelize.STRING,
 					  primaryKey: true   },
 		aliquot_submitter_id: { type: Sequelize.STRING },
 		aliquot_id: { type: Sequelize.STRING },
 		fraction: { type: Sequelize.STRING },
+		label: { type: Sequelize.STRING },
+		experiment_number: { type: Sequelize.STRING },
+		replicate_number: { type: Sequelize.STRING },
+		date: { type: Sequelize.STRING },
+		alias: { type: Sequelize.STRING },
+		analyte: { type: Sequelize.STRING },
 	  }, {
 		  timestamps: false,
 		  underscored: true,
@@ -201,17 +208,20 @@ const defineCustomModels = (db) => {
 	  
 	  //@@@PDC-162 file manifest
 	  //@@@PDC-774 add downloadable
+	  //@@@PDC-7907 add file_id and file_format
 	  /**
 	  * ModelFile is a utility and used in 
 	  *   filesCountPerStudy query.
 	  */
 	  const ModelFile = db.getSequelize().define('dummy', {
+		  file_id: { type: Sequelize.STRING },
 		  file_name: { type: Sequelize.STRING },
 		  file_type: { type: Sequelize.STRING },
 		  data_category : { type: Sequelize.STRING },
 		  file_location: { type: Sequelize.STRING },
 		  downloadable: { type: Sequelize.STRING },
 		  md5sum: { type: Sequelize.STRING },
+		  file_format: { type: Sequelize.STRING },
 		  study_id: { type: Sequelize.STRING },
 		  study_submitter_id: { type: Sequelize.STRING },
 		  pdc_study_id: { type: Sequelize.STRING },
@@ -261,6 +271,7 @@ const defineCustomModels = (db) => {
 	  //@@@PDC-1154 column name correction: fractions_analyzed_count
 	  //@@@PDC-6690 add new columns for metabolomics
 	  //@@@PDC-7235 add new columns for metabolomics
+	  //@@@PDC-7386 add new columns for metabolomics
 	  /**
 	  * ModelProtocol is a utility and used in 
 	  * projectsPerInstrument and uiProtocol queries.
@@ -317,11 +328,13 @@ const defineCustomModels = (db) => {
 		  analytical_technique: { type: Sequelize.STRING },
 		  chromatography_instrument_make: { type: Sequelize.STRING },
 		  chromatography_instrument_model: { type: Sequelize.STRING },
-		  acquisition_mode: { type: Sequelize.STRING },
+		  polarity: { type: Sequelize.STRING },
 		  reconstitution_solvent: { type: Sequelize.STRING },
 		  reconstitution_volume: { type: Sequelize.STRING },
 		  reconstitution_volume_uom: { type: Sequelize.STRING },
 		  internal_standards: { type: Sequelize.STRING },
+		  extraction_method: { type: Sequelize.STRING },
+		  ionization_mode: { type: Sequelize.STRING },
 		  auxiliary_data: { type: Sequelize.STRING },
 		  cud_label: { type: Sequelize.STRING },
 		  project_submitter_id: { type: Sequelize.STRING },
@@ -481,6 +494,7 @@ const defineCustomModels = (db) => {
 	  //@@@PDC-372 add submitter_id_name for study type
 	  //@@@PDC-398 Add description to the APIs for search
 	  //@@@PDC-468 Add proteins to protein search
+	  //@@@PDC-7628 add ncbi_gene_id to the APIs for search
 	  /**
 	  * ModelSearchRecord is a utility and used in 
 	  *   caseSearch, geneSearch and studySearch queries.
@@ -490,6 +504,8 @@ const defineCustomModels = (db) => {
 		  name: { type: Sequelize.STRING },
 		  submitter_id_name: { type: Sequelize.STRING },
 		  description: { type: Sequelize.STRING },
+		  gene_id: { type: Sequelize.STRING },
+		  ncbi_gene_id: { type: Sequelize.STRING },
 		  proteins: { type: Sequelize.STRING },
 	  }, {
 		  timestamps: false,
@@ -606,6 +622,7 @@ const defineCustomModels = (db) => {
 	  //@@@PDC-768 clinical metadata API
 	  //@@@PDC-3428 add tumor_largest_dimension_diameter
 	  //@@@PDC-3668 add aliquot_id to output
+	  //@@@PDC-7491 add new clinical fields
 	  const ModelClinicalMetadata = db.getSequelize().define('dummy', {
 		aliquot_id: { type: Sequelize.STRING},
 		aliquot_submitter_id: { type: Sequelize.STRING},
@@ -614,6 +631,11 @@ const defineCustomModels = (db) => {
 		tumor_grade: { type: Sequelize.STRING },
 		tumor_stage: { type: Sequelize.STRING },
 		tumor_largest_dimension_diameter : { type: Sequelize.STRING },
+		age_at_diagnosis: { type: Sequelize.STRING },
+		classification_of_tumor: { type: Sequelize.STRING },
+		site_of_resection_or_biopsy: { type: Sequelize.STRING },
+		tissue_or_organ_of_origin: { type: Sequelize.STRING },
+		days_to_recurrence: { type: Sequelize.STRING },
 	  }, {
 		  timestamps: false,
 		  underscored: true,
@@ -660,6 +682,7 @@ const defineCustomModels = (db) => {
 	  //@@@PDC-3847 get aliquot info per label
 	  //@@@PDC-5290 add experiment types of TMT16 and TMT18
 	  //@@@PDC-6691 add acquisition_mode
+	  //@@@PDC-7386 change acquisition_mode to polarity
 	  const ModelStudyExperimentalDesign = db.getSequelize().define('dummy', {
 		  study_run_metadata_id: { type: Sequelize.STRING,
 					  primaryKey: true },
@@ -673,7 +696,7 @@ const defineCustomModels = (db) => {
 		  plex_dataset_name:  { type: Sequelize.STRING},
 		  experiment_number:  { type: Sequelize.STRING},
 		  experiment_type:  { type: Sequelize.STRING},
-		  acquisition_mode: { type: Sequelize.STRING },		  
+		  polarity: { type: Sequelize.STRING },		  
 		  number_of_fractions:  { type: Sequelize.STRING},
 		  label_free_asi:  { type: Sequelize.STRING},
 		  itraq_113_asi:  { type: Sequelize.STRING},

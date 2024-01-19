@@ -9,7 +9,7 @@ type StudyExperimentalDesign {
 	experiment_type: String
 	plex_dataset_name: String
 	acquisition_type: String
-	acquisition_mode: String
+	polarity: String
 	number_of_fractions: String
 	analyte: String
 	label_free_asi: String

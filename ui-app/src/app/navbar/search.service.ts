@@ -49,7 +49,7 @@ constructor(private apollo: Apollo) {
 				return result.data;})
 		); 
 	}
-	
+	//@@@PDC-7657 add ncbi_gene_id
 	searchGeneQuery = gql`
 			query GeneSearchQuery($gene_name: String!){
 					geneSearch(name: $gene_name){
@@ -57,6 +57,8 @@ constructor(private apollo: Apollo) {
 							record_type
 							name
 							description
+							gene_id
+							ncbi_gene_id
 						}
 					}
 			}`;
@@ -78,6 +80,7 @@ constructor(private apollo: Apollo) {
 
 	//@@@PDC-438
 	//@@@PDC-465
+	//@@@PDC-7657 add ncbi_gene_id and gene_id
 	searchProteinQuery = gql`
 			query ProteinSearchQuery($protein_name: String!){
 					proteinSearch(name: $protein_name){
@@ -85,6 +88,8 @@ constructor(private apollo: Apollo) {
 							record_type
 							name
 							description
+							gene_id
+							ncbi_gene_id
 							proteins
 						}
 					}

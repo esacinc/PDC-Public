@@ -133,19 +133,25 @@ export class NavbarComponent implements OnInit {
   openSearchTermSummary(test: any) {
     //console.log(this.selectedSearchTerm);
     this.searchButtonFlag = true;
+	console.log("selected gene name: "+this.selectedSearchTerm.name);
+	console.log("selected gene ID: "+this.selectedSearchTerm.value);
     if (this.selectedSearchTerm.name) {
       let term = this.selectedSearchTerm.name.split(': ');
+	  //@@@PDC-7657 use ncbi_gene_id in getting gene
       if (term[0] === 'GN') {
         //Display value looks like this: GN: <gene name> (<gene description>)
         //We need to extract only the gene name, that is why another split is needed
         let gene_term = term[1].split(' (');
-        this.showGeneProteinSummary(gene_term[0].replace(/[^a-zA-Z0-9-]/g, ''), 'gene');
+		let ncbiGeneId = term[2];
+		let geneUuid = this.selectedSearchTerm.value;
+		console.log("selected ncbiGeneId:"+ncbiGeneId);
+        this.showGeneProteinSummary(gene_term[0].replace(/[^a-zA-Z0-9-]/g, ''), geneUuid, ncbiGeneId, 'gene');
         this.searchButtonFlag = false;
       }
-      if (term[0] === 'PT') {
+      /*if (term[0] === 'PT') {
         this.showGeneProteinSummary(term[1].replace(/[^a-zA-Z0-9-]/g, ''), 'protein');
         this.searchButtonFlag = false;
-      }
+      }*/
       if (term[0] === 'CA') {
         this.showCaseSummary(term[1], term[0], '', 'case');
         this.searchButtonFlag = false;
@@ -165,7 +171,8 @@ export class NavbarComponent implements OnInit {
     }
   }
 
-  showGeneProteinSummary(gene_name: string, type = '') {
+  //@@@PDC-7657 use ncbi_gene_id in getting gene
+  showGeneProteinSummary(gene_name: string, geneUuid: string, ncbiGeneId: string, type = '') {
     //@@@PDC-5778: UI call logging API for search statistics
     //Call the API only when searched through search box
 	console.log('Gene name to search: ', gene_name);
@@ -189,6 +196,8 @@ export class NavbarComponent implements OnInit {
     //@@@PDC-4725: Set the source parameter in the UI calls to fetch details of a search result
     dialogConfig.data = {
       summaryData: gene_name,
+	  uuid: geneUuid,
+	  ncbi: ncbiGeneId,
       source: 'search'
     };
     this.router.navigate([{outlets: {geneSummary: ['gene-summary', gene_name]}}]);
@@ -429,13 +438,17 @@ export class NavbarComponent implements OnInit {
       this.geneSearchResults = data.geneSearch.genes;
       for (let returnValue of this.geneSearchResults) {
 		  console.log('Search Gene Name: ', returnValue.name);
+		  console.log('Search  gene id: ', returnValue.gene_id);
+		  console.log('Search ncbi gene id: ', returnValue.ncbi_gene_id);
         let display_name = 'GN: ' + returnValue.name;
         //PDC-440 adding description to gene display value in dropdown list
+		//@@@PDC-7657 display ncbi_gene_id
         if (returnValue.description != '') {
-          display_name = display_name.concat(' (' + returnValue.description + ')');
+          display_name = display_name.concat(' (' + returnValue.description +') ncbiGeneId: ' + returnValue.ncbi_gene_id);
         }
 		  console.log('Search Display Gene Name: ', display_name);
-        this.options.push({name: display_name, value: returnValue.name});
+        //this.options.push({name: display_name, value: returnValue.name});
+        this.options.push({name: display_name, value: returnValue.gene_id});
       }
       this.loading = false;
     });
@@ -457,15 +470,16 @@ export class NavbarComponent implements OnInit {
           let proteins = returnValue.proteins.split(';');
           for (let protein of proteins) {
             if (protein.includes(search_term)) {
-              display_name = display_name.concat(' (' + protein + ')');
-              this.options.push({name: display_name, value: returnValue.name});
+			  //@@@PDC-7657 display ncbi_gene_id	
+              display_name = display_name.concat(' (' + protein + ') ncbiGeneId: ' + returnValue.ncbi_gene_id);
+              this.options.push({name: display_name, value: returnValue.gene_id});
               //need reinitialize display value with GN: XXXX format if there are additional matching proteins
               display_name = 'GN: ' + returnValue.name;
             }
           }
 
         } else {
-          this.options.push({name: display_name, value: returnValue.name});
+          this.options.push({name: display_name, value: returnValue.gene_id});
         }
       }
       this.loading = false;

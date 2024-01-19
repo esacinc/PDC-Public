@@ -139,6 +139,8 @@
 						<td class="tab-table-field-value">{{protocol.enrichment_strategy}}</td></tr>
 					<tr><td class="tab-table-field-name">Enrichment</td>
 						<td class="tab-table-field-value">{{protocol.enrichment}}</td></tr>
+					<tr *ngIf="studySummaryData.analytical_fraction == 'Metabolome' || studySummaryData.analytical_fraction == 'Lipidome'"><td class="tab-table-field-name">Extraction Method</td>
+						<td class="tab-table-field-value">{{protocol.extraction_method}}</td></tr>
 					<tr><td class="tab-table-field-name">Chromatography Dimensions Count</td>
 						<td class="tab-table-field-value">{{protocol.chromatography_dimensions_count}}</td></tr>
 					<tr><td class="tab-table-field-name">1D Chromatography Type</td>
@@ -182,6 +184,8 @@
 						<td class="tab-table-field-value">{{protocol.instrument_make}}</td></tr>
 					<tr><td class="tab-table-field-name">Instrument Model</td>
 						<td class="tab-table-field-value">{{protocol.instrument_model}}</td></tr>
+					<tr *ngIf="studySummaryData.analytical_fraction == 'Metabolome' || studySummaryData.analytical_fraction == 'Lipidome'"><td class="tab-table-field-name">Ionization Mode</td>
+						<td class="tab-table-field-value">{{protocol.ionization_mode}}</td></tr>
 					<tr><td class="tab-table-field-name">Dissociation Type</td>
 						<td class="tab-table-field-value">{{protocol.dissociation_type}}</td></tr>
 					<tr><td class="tab-table-field-name">MS1 Resolution</td>
@@ -198,8 +202,9 @@
 						<td class="tab-table-field-value">{{protocol.dia_multiplexing}}</td></tr>
 					<tr *ngIf="studySummaryData.analytical_fraction != 'Metabolome' && studySummaryData.analytical_fraction != 'Lipidome'"><td class="tab-table-field-name">DIA IMS</td>
 						<td class="tab-table-field-value">{{protocol.dia_ims}}</td></tr>
-					<tr *ngIf="studySummaryData.analytical_fraction == 'Metabolome' || studySummaryData.analytical_fraction == 'Lipidome'"><td class="tab-table-field-name">Acquisition Mode</td>
-						<td class="tab-table-field-value">{{protocol.acquisition_mode}}</td></tr>
+					<!--@@@PDC-7399 change acquisition_mode to polarity-->
+					<tr *ngIf="studySummaryData.analytical_fraction == 'Metabolome' || studySummaryData.analytical_fraction == 'Lipidome'"><td class="tab-table-field-name">Polarity</td>
+						<td class="tab-table-field-value">{{protocol.polarity}}</td></tr>
 				</table>
 			</div>
 		</mat-tab>
@@ -237,7 +242,8 @@
 					<tr>
 						<th rowspan=3 *ngFor="let col of studyExperimentDesignTableCommonCols" class="ui-datatable-tableheader" style="word-wrap: break-word; white-space: normal;">
               <!-- @@@PDC-4978 update links to migrated documentation pages -->
-							<a href="/pdc/data-dictionary/Study Run Metadata" target="_blank" style="color:white">{{col.header}}</a>
+							<span *ngIf="col.header == 'Run Metadata ID'"><a href="/pdc/data-dictionary/Study Run Metadata" target="_blank" style="color:white" data-toggle = "tooltip" title = "Also called as plex name, plex dataset name, folder name, etc., in labeled experiments">{{col.header}}</a></span>
+							<span *ngIf="col.header != 'Run Metadata ID'"><a href="/pdc/data-dictionary/Study Run Metadata" target="_blank" style="color:white">{{col.header}}</a></span>
 						</th>
 					</tr>
 				</ng-template>
@@ -264,7 +270,8 @@
 						<tr *ngIf="studyExperimentDesignTableCommonCols" [pSelectableRow]="clinicalData">
 							<!-- @@@PDC-462 show submitter id -->
 							<td *ngFor="let col of studyExperimentDesignTableCommonCols" style="word-wrap: break-word; white-space: normal;">
-								<span class="colValue" [innerHtml] = "studyExperimentalDesign[col.field]"></span>
+								<span *ngIf="col.header == 'Run Metadata ID'" class="colValue" data-toggle = "tooltip" title = "Also called as plex name, plex dataset name, folder name, etc., in labeled experiments" [innerHtml] = "studyExperimentalDesign[col.field]"></span>
+								<span *ngIf="col.header != 'Run Metadata ID'" class="colValue" [innerHtml] = "studyExperimentalDesign[col.field]"></span>
 							</td>
 						</tr>
 					</ng-template>

@@ -31,32 +31,32 @@
  }
 
  //@@@PDC-551: Need smaller font for paginator pages on Browse page tables to fit 3 digit numbers
- :host /deep/ .ui-paginator .ui-paginator-pages .ui-paginator-page{
+ :host ::ng-deep .ui-paginator .ui-paginator-pages .ui-paginator-page{
     min-width: 2.5em !important;
  }
 
   /* @@@PDC-1063: Implement select all, select page, select none for all tabs */
-  :host /deep/ #dataForManifestExport .mat-select-value {
+  :host ::ng-deep #dataForManifestExport .mat-select-value {
     display: none !important;
  }
 
- :host /deep/ .ui-table th {
+ :host ::ng-deep .ui-table th {
     word-wrap: break-word;
  }
 
  /* @@@PDC-1419: Fix the tooltip position for "Export Full Manifest" feature on Browse Page */
- :host /deep/ .ui-table-caption {
+ :host ::ng-deep .ui-table-caption {
     padding-left: 0px;
     text-align: unset !important;
  }
 
-:host /deep/ .ui-table-unfrozen-view .ui-table-thead th,
-:host /deep/ .ui-table-unfrozen-view .ui-table-tbody td {
+:host ::ng-deep .ui-table-unfrozen-view .ui-table-thead th,
+:host ::ng-deep .ui-table-unfrozen-view .ui-table-tbody td {
     min-width: 100px !important;
     max-width: 100px !important;
     width: 100px !important;
 }
 
-:host /deep/ .ui-table table {
+:host ::ng-deep .ui-table table {
     table-layout: unset !important;
 }

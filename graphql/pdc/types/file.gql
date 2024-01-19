@@ -5,6 +5,7 @@ type File {
 	pdc_study_id: String
 	file_name: String
 	file_type: String
+	file_format: String
 	data_category : String
 	md5sum: String
 	file_size: Int

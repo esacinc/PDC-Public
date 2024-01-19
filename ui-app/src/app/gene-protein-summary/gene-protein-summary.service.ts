@@ -9,7 +9,7 @@ import { map } from 'rxjs/operators';
 import gql from 'graphql-tag';
 
 import { GeneProteinData, GeneStudySpectralCountData, GeneAliquotSpectralCountData, 
-		GeneStudySpectralCountDataPaginated, GeneAliquotSpectralCountDataPaginated, ptmDataPaginated } from '../types';
+		GeneStudySpectralCountDataPaginated, GeneAliquotSpectralCountDataPaginated, ptmDataPaginated, GeneStudyCount } from '../types';
 
 /*This is a service class used for the API queries */ 
 
@@ -68,6 +68,7 @@ constructor(private apollo: Apollo) {
 	geneDetailsQuery = gql`
 				query ProteinQuery($gene_name: String!, $source: String!){
 					uiGeneSpectralCount(gene_name: $gene_name, source: $source){
+					  gene_id	
 					  gene_name
 					  ncbi_gene_id
 					  authority
@@ -93,6 +94,46 @@ constructor(private apollo: Apollo) {
 			query: this.geneDetailsQuery,
 			variables: {
 				gene_name: gene,
+				source: source
+			}
+		})
+		.valueChanges
+		.pipe(
+        map(result => { console.log(result.data); return result.data;})
+      ); 
+	}
+
+	//@@@PDC-7657 get gene detail with NCBI gene id
+	geneDetailsNcbiQuery = gql`
+				query ProteinQuery($gene_name: String, $gene_id: String $source: String!){
+					uiGeneSpectralCount(gene_name: $gene_name, gene_id: $gene_id, source: $source){
+					  gene_id	
+					  gene_name
+					  ncbi_gene_id
+					  authority
+					  description
+					  organism
+					  chromosome
+					  locus
+					  proteins
+					  assays
+					  spectral_counts {
+						  project_submitter_id
+								  study_submitter_id
+						  plex
+						  spectral_count
+						  distinct_peptide
+						  unshared_peptide
+					  }
+					}
+				}`;
+	
+	getGeneDetailsNcbi(gene:any, uuid:any, source = ''){
+		return this.apollo.watchQuery<GeneProteinData>({
+			query: this.geneDetailsNcbiQuery,
+			variables: {
+				gene_name: gene,
+				gene_id: uuid,
 				source: source
 			}
 		})
@@ -228,5 +269,65 @@ constructor(private apollo: Apollo) {
 		.pipe(
         map(result => { console.log(result.data); return result.data;})
       ); 
+	}
+
+	//@@@PDC-7657 use gene_id instead of gene_name
+	geneUuidPTMDataQuery = gql`
+		query PTMDataByGeneQuery($gene_name: String, $gene_id:String, $offset_param: Int, $limit_param: Int, $source: String!){
+			getPaginatedUIPtm(gene_name: $gene_name gene_id: $gene_id offset: $offset_param limit: $limit_param, source: $source){
+				total
+				uiPtm {
+					ptm_type 
+					site
+					peptide
+				}
+				pagination {
+					count
+					sort
+					from
+					page
+					total
+					pages
+					size
+				}
+			}
+		}`;
+		
+	getGeneUuidPTMData(gene:any, uuid:any, offset:number, limit:number, source = ''){
+		return this.apollo.watchQuery<ptmDataPaginated>({
+			query: this.geneUuidPTMDataQuery,
+			variables: {
+				gene_name: gene,
+				gene_id: uuid,
+				offset_param: offset,
+				limit_param: limit,
+				source: source
+			}
+		})
+		.valueChanges
+		.pipe(
+        map(result => { console.log(result.data); return result.data;})
+      ); 
+	}
+
+	GeneStudyCountQuery = gql`
+	query GeneStudyCountQuery($gene_id: String!){
+		geneStudyCount(gene_id: $gene_id)
+	}`;
+	
+	//@@@PDC-7786: UI change to report error for genes not used in studies
+	getGeneStudyCountResults(gene_id:any){
+		return this.apollo.watchQuery<GeneStudyCount>({
+			query: this.GeneStudyCountQuery,
+			variables: {
+				gene_id: gene_id,
+			}
+		})
+		.valueChanges
+		.pipe(
+			map(result => {
+				console.log(result.data);
+				return result.data;})
+		); 
 	}
 }

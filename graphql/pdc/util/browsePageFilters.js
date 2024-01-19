@@ -276,6 +276,7 @@ WHERE
 //@@@PDC-4569 remove is_ffpe and oct_embedded
 //@@@PDC-4687 add tissue_collection_type and sample_ordinal
 //@@@PDC-4968 expose case_is_ref
+//@@@PDC-7899 add biospecimen_laterality
 const case_tab_data = `
 SELECT DISTINCT
     proj.name AS project_name,
@@ -300,6 +301,7 @@ SELECT DISTINCT
     sam.status AS sample_status,
 	sam.sample_is_ref,
 	sam.biospecimen_anatomic_site,
+	sam.biospecimen_laterality,
 	sam.composition,
 	sam.current_weight,
 	sam.days_to_collection,

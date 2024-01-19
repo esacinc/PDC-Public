@@ -10,12 +10,10 @@ import {MatCardModule, MatExpansionModule, MatToolbarModule, MatCheckboxModule, 
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 
 import { ReactiveFormsModule} from '@angular/forms';
-import { Chart } from 'angular-highcharts';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { PaginatorModule } from 'primeng/paginator';
 import { DropdownModule} from 'primeng/dropdown';
 import { RadioButtonModule } from 'primeng/radiobutton';
-import { ChartModule } from 'angular-highcharts';
 import { FormsModule } from '@angular/forms';
 import { CheckboxModule } from 'primeng/checkbox';
 import { TableModule } from 'primeng/table';
@@ -25,7 +23,7 @@ import { ActivatedRoute, ParamMap, RouterModule } from '@angular/router';
 
 @NgModule({
   imports: [
-    AngularFontAwesomeModule, CommonModule, ChartModule, MatCardModule, MatExpansionModule, PaginatorModule,
+    AngularFontAwesomeModule, CommonModule, MatCardModule, MatExpansionModule, PaginatorModule,
     FormsModule, CheckboxModule, RadioButtonModule, TableModule, TabsModule.forRoot(),
     MatCardModule, MatToolbarModule, MatCheckboxModule, MatListModule, MatTabsModule, MatButtonModule,
     MatSidenavModule, MatButtonModule, MatTooltipModule, DropdownModule, MatSelectModule,

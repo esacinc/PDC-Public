@@ -16,17 +16,17 @@
       <div [innerHTML]="system_requirements"></div>
     <br><h4>Downloading the PDC Data Download Client</h4>
     <div>
-      Binary Distributions
+      <div style="margin-bottom: 10px">
+        Binary Distributions: The following zip folders contain both the Command Line & UI versions for each OS.
+      </div>
       <table>
         <tr>
           <th>Platform</th>
-          <th>PDC Data Download Client Command Line</th>
-          <th>PDC Data Download Client User Interface</th>
+          <th>PDC Data Download Client Command Line & User Interface</th>
         </tr>
         <tr *ngFor="let item of binaryDistributions">
             <td>{{item.platform}}</td>
-            <td><i class="fa fa-file-zip-o"></i>&nbsp;&nbsp;<a href="{{item.command_line_url}}">{{item.command_line_title}}</a></td>
-            <td><i class="fa fa-file-zip-o"></i>&nbsp;&nbsp;<a href="{{item.ui_version_url}}">{{item.ui_version_title}}</a></td>
+            <td><i class="fa fa-file-zip-o"></i>&nbsp;&nbsp;<a href="{{item.command_line_ui_url}}">{{item.command_line_ui_title}}</a></td>
         </tr>
       </table>
       <br>

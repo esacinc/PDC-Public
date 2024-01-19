@@ -37,6 +37,7 @@ describe("GeneProteinSummaryService", () => {
       op.flush({
         data: {
           uiProtein: {
+			gene_id: "2e700669-85b0-43fa-a9c7-3eaf5a_D2",  
             gene_name: "A1BG",
             NCBI_gene_id: 1,
             authority: "HGNC:5",
@@ -86,6 +87,7 @@ describe("GeneProteinSummaryService", () => {
       op.flush({
         data: {
           uiGeneSpectralCount: {
+			gene_id: "2e700669-85b0-43fa-a9c7-3eaf5a_D2",  
             gene_name: "A1BG",
             ncbi_gene_id: "1",
             authority: "HGNC:5",
@@ -297,4 +299,24 @@ describe("GeneProteinSummaryService", () => {
       controller.verify();
     }
   ));
+
+/*   it("test getGeneStudyCountResults", inject(
+    [GeneProteinSummaryService],
+    (service: GeneProteinSummaryService) => {
+      service.getGeneStudyCountResults("da6f2e6b-da51-4f18-abe5-fbe34f1669c6").subscribe(data => {
+        expect(data).toBeDefined();
+        expect(data.geneStudyCount).toBe(0);
+      });
+
+      const op = controller.expectOne(service.GeneStudyCountQuery);
+
+      op.flush({
+        data: {
+          geneStudyCount: 0
+        }
+      });
+
+      controller.verify();
+    }
+  )); */
 });

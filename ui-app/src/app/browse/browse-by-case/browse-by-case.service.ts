@@ -122,6 +122,7 @@ constructor(private apollo: Apollo) {
 							sample_submitter_id
 							sample_is_ref
 							biospecimen_anatomic_site
+							biospecimen_laterality
 							composition
 							current_weight
 							days_to_collection

@@ -6,4 +6,9 @@ type ClinicalMetadata {
 	tumor_grade:  String
 	tumor_stage:  String
 	tumor_largest_dimension_diameter: String
+	age_at_diagnosis: String
+	classification_of_tumor: String
+	site_of_resection_or_biopsy: String
+	tissue_or_organ_of_origin: String
+	days_to_recurrence: String
 }

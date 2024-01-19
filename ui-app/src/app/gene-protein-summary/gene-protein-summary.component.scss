@@ -107,14 +107,14 @@
     background: linear-gradient(to bottom, #f6f7f9 0%, #ebedf0 100%) !important;
 }
 
-:host /deep/ .ui-table-unfrozen-view .ui-table-thead th,
-:host /deep/ .ui-table-unfrozen-view .ui-table-tbody td  {
+:host ::ng-deep .ui-table-unfrozen-view .ui-table-thead th,
+:host ::ng-deep .ui-table-unfrozen-view .ui-table-tbody td  {
 	width: 100px !important;
 	min-width: 100px !important;
 	max-width: 100px !important;
 }
 
 //@@@PDC-4995: Alignment issues
-:host /deep/ .ui-table-unfrozen-view .ui-table-scrollable-header-box {
+:host ::ng-deep .ui-table-unfrozen-view .ui-table-scrollable-header-box {
 	padding-right: 17px !important;
 }

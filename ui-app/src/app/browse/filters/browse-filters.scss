@@ -115,25 +115,25 @@ $stateActiveBgColor: #3baae3;
 	border-top: 0px;
 }
 
-//.side-bar-tabs /deep/.mat-tab-label{
+//.side-bar-tabs ::ng-deep.mat-tab-label{
 //	min-width: 110px!important;
 //	padding: 10px!important;
 	//justify-content: left!important;
 //   }
 
-/deep/ .sidenavFiltersPanel .mat-expansion-panel-body {
+::ng-deep .sidenavFiltersPanel .mat-expansion-panel-body {
 	padding-left: 0px!important;
 	padding-right: 0px!important;
 	padding-bottom: 0px!important;
 }
 
- /deep/ .sidenavFiltersPanel .mat-list-item {
+ ::ng-deep .sidenavFiltersPanel .mat-list-item {
 	padding-right: 0px!important;
 	height: 35px!important;
 	line-height: 100%;
 }
 
-/deep/.mat-expansion-indicator {
+::ng-deep.mat-expansion-indicator {
     position: absolute!important;
 	left: 7.5px!important;
   }
@@ -147,13 +147,13 @@ $stateActiveBgColor: #3baae3;
 	margin-right:0px!important;
 }
 
-/deep/ div.mat-tab-label-content button#clearBiospecimenDataCategory.mat-icon-button {
+::ng-deep div.mat-tab-label-content button#clearBiospecimenDataCategory.mat-icon-button {
 		width: 20px;
 }
 
 //@@@PDC-4625: Implement the UI-UX changes to the filter sidebar
 //@@@PDC-4871: UI-UX changes for stacking filters & improvements to the menu section
-/deep/ {
+::ng-deep {
 	.side-bar-tabs .mat-tab-labels {
 		display: block !important;
 	}
@@ -233,7 +233,21 @@ $stateActiveBgColor: #3baae3;
 	width: 30% !important;
 }
 
-/deep/ {
+.invalidGeneBreadCrumb {
+	padding: 4px;
+	background-color: gray;
+}
+
+.invalidGeneBreadCrumbs, .validButNotInPDCStudyGeneBreadCrumbs {
+	margin-bottom: 10px;
+}
+
+.invalidGenes {
+	display: inline-block;
+	margin-bottom: 10px;
+}
+
+::ng-deep {
 	@media not all and (min-resolution:.001dpcm)
 	{ @supports (-webkit-appearance:none) and (stroke-color:transparent) {
 
@@ -255,7 +269,7 @@ $stateActiveBgColor: #3baae3;
 // }
 
 // PDC-620: Make the filter selection tabs along the left side of the window
-/* /deep/ {
+/* ::ng-deep {
 	.sideBarNavigation .mat-tab-label-container {
 		display: flex;
 		flex-grow: 1;

@@ -72,10 +72,11 @@ describe("GenePageService", () => {
   ));
 
     //@@@PDC-1123 call ui wrapper API
+	//@@@PDC-7690 use gene_id to get gene info
   it("test getGeneDetails", inject(
     [GenePageService],
     (service: GenePageService) => {
-      service.getGeneDetails("A1BG").subscribe(data => {
+      service.getGeneDetails("A1BG", "f6ba4bc5-b814-11e8-907f-0a2705229b82").subscribe(data => {
         expect(data).toBeDefined();
         expect(data["uiGeneSpectralCount"].spectral_counts.length).toBe(3);
         expect(data["uiGeneSpectralCount"].authority).toBe("HGNC:5");
@@ -87,6 +88,7 @@ describe("GenePageService", () => {
         data: {
           uiGeneSpectralCount: {
             gene_name: "A1BG",
+			gene_id: "f6ba4bc5-b814-11e8-907f-0a2705229b82",
             ncbi_gene_id: "1",
             authority: "HGNC:5",
             description: "alpha-1-B glycoprotein",
@@ -132,7 +134,7 @@ describe("GenePageService", () => {
   it("test getGenePTMData", inject(
     [GenePageService],
     (service: GenePageService) => {
-      service.getGenePTMData("A1BG", 0, 2).subscribe(data => {
+      service.getGenePTMData("A1BG", "f6ba4bc5-b814-11e8-907f-0a2705229b82", 0, 2).subscribe(data => {
         expect(data).toBeDefined();
         expect(
           data["getPaginatedUIPtm"].uiGeneStudySpectralCounts.length
@@ -187,7 +189,7 @@ describe("GenePageService", () => {
   it("test getStudySpectralCount", inject(
     [GenePageService],
     (service: GenePageService) => {
-      service.getStudySpectralCount("A1BG", 0, 1, "", []).subscribe(data => {
+      service.getStudySpectralCount("A1BG", "f6ba4bc5-b814-11e8-907f-0a2705229b82", 0, 1, "", []).subscribe(data => {
         expect(data).toBeDefined();
         expect(
           data["getPaginatedUIGeneStudySpectralCountFiltered"].uiGeneStudySpectralCounts.length
@@ -242,7 +244,7 @@ describe("GenePageService", () => {
   it("test getAliquotSpectralCount", inject(
     [GenePageService],
     (service: GenePageService) => {
-      service.getAliquotSpectralCount("A1BG", 0, 1, "", []).subscribe(data => {
+      service.getAliquotSpectralCount("A1BG", "f6ba4bc5-b814-11e8-907f-0a2705229b82", 0, 1, "", []).subscribe(data => {
         expect(data).toBeDefined();
         expect(
           data["getPaginatedUIGeneAliquotSpectralCountFiltered"].uiGeneAliquotSpectralCounts.length

@@ -3,5 +3,7 @@ type SearchRecord {
 	name: String
 	submitter_id_name: String
 	description: String
+	gene_id: String
+	ncbi_gene_id: String
 	proteins: String
 }

@@ -22,7 +22,7 @@
                   </tr>
                   <tr>
                       <td class='itemCollCol1'>Description</td>
-                      <td class='itemCollCol2'>{{currentDescription}}
+                      <td class='itemCollCol2'><div [innerHtml] = "currentDescription"></div>
                          <a href={{descriptionUrl}} *ngIf='descriptionUrl' target='_blank'>({{carCDESource}} - {{catCDEID}})</a>
                       </td>
                   </tr>

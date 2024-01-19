@@ -17,6 +17,7 @@ type UICase {
 	sample_submitter_id: String
 	sample_is_ref: String
 	biospecimen_anatomic_site: String
+	biospecimen_laterality: String
 	composition: String
 	current_weight: String
 	days_to_collection: String

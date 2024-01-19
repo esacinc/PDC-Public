@@ -85,6 +85,7 @@ const defineSequelizeModels = (db) => {
 	  //@@@PDC-4486 add new columns for sample
 	  //@@@PDC-4569 remove is_ffpe and oct_embedded
 	  //@@@PDC-5412 add diagnosis-sample annotation
+	  //@@@PDC-7899 add biospecimen_laterality
 	  const SampleModel = db.getSequelize().define('sample', {
 		  sample_id: { type: Sequelize.STRING,
 					  primaryKey: true   },
@@ -99,6 +100,7 @@ const defineSequelizeModels = (db) => {
 		  status: { type: Sequelize.STRING },
 		  pool: { type: Sequelize.STRING },
 		  biospecimen_anatomic_site: { type: Sequelize.STRING },
+		  biospecimen_laterality: { type: Sequelize.STRING },
 		  composition: { type: Sequelize.STRING },
 		  current_weight: { type: Sequelize.FLOAT },
 		  days_to_collection: { type: Sequelize.INTEGER },

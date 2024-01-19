@@ -8,7 +8,7 @@ import { Apollo } from 'apollo-angular';
 import { map } from 'rxjs/operators';
 import gql from 'graphql-tag';
 
-import { AllStudiesData, QueryAllStudiesData, QueryAllFiltersData, SearchResultsGenesProteins, QueryPrograms, dataCategory2FileTypeMapping} from '../../types';
+import { AllStudiesData, QueryAllStudiesData, QueryAllFiltersData, SearchResultsGenesProteins, QueryPrograms, dataCategory2FileTypeMapping, GeneStudyCount} from '../../types';
 
 /*This is a service class used for the API queries */
 
@@ -174,9 +174,11 @@ constructor(private apollo: Apollo) {
 			query GeneSearchQuery($gene_name: String!){
 					geneSearch(name: $gene_name){
 						genes {
+							gene_id
 							record_type
 							name
 							description
+							ncbi_gene_id
 						}
 					}
 			}`;
@@ -186,6 +188,28 @@ constructor(private apollo: Apollo) {
 			query: this.GeneQuery,
 			variables: {
 				gene_name: gene_param,
+			}
+		})
+		.valueChanges
+		.pipe(
+			map(result => {
+				console.log(result.data);
+				return result.data;})
+		); 
+	}
+
+
+	GeneStudyCountQuery = gql`
+		query GeneStudyCountQuery($gene_name: String!){
+			geneStudyCount(gene_name: $gene_name)
+		}`;
+	
+	//@@@PDC-7786: UI change to report error for genes not used in studies
+	getGeneStudyCountResults(gene_name:any){
+		return this.apollo.watchQuery<GeneStudyCount>({
+			query: this.GeneStudyCountQuery,
+			variables: {
+				gene_name: gene_name,
 			}
 		})
 		.valueChanges

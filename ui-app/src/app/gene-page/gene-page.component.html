@@ -82,8 +82,9 @@
 				</ng-template>
 			</p-table>
 		</div><br>
+		<!--@@@PDC-7690 use gene_id to get gene info-->
 		<div class="row" style="width: 100%; height:100%" >
-			<app-oncoprint style="width:100%" [gene_id]="geneSummaryData?.gene_name" [newFilterValue]="newFilterValue"></app-oncoprint>
+			<app-oncoprint style="width:100%" [gene_id]="geneSummaryData?.gene_name" [uuid]="geneSummaryData?.gene_id" [newFilterValue]="newFilterValue"></app-oncoprint>
 		</div>
 		<div class="row" style="width: 100%;">
 			<p-table #dt class="table-striped ui-datatable-odd" id="geneSummaryDataTable" [value]="studySpectralCountsList" [lazy]="true" [paginator]="true" [(first)]="studyOffset"

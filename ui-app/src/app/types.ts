@@ -498,8 +498,11 @@ export type FollowUps = {
 }
 
 //@@@PDC-614 add gene data tab to browse page
+//@@@PDC-7629 add gene_id and ncbi_gene_id
 export type AllGeneData = {
 	gene_name: string;
+	gene_id: string;
+	ncbi_gene_id: string;
     chromosome: string;
     locus: string;
     num_study: number;
@@ -1046,6 +1049,21 @@ export type GeneProteinData = {
 	spectral_counts: SpectralCounts[];
 }
 
+//@@@PDC-7688 add gene_id
+export type GeneProteinDataWithId = {
+	gene_id: string;
+	gene_name: string;
+	ncbi_gene_id: string;
+	authority: string;
+	description: string;
+	organism: string;
+	chromosome: string;
+	locus: string;
+	proteins: string;
+	assays: string;
+	spectral_counts: SpectralCounts[];
+}
+
 //@@@PDC-3163: Add data release version to the UI
 export type ReleaseVersionData = {
 	data_release: string;
@@ -1142,6 +1160,10 @@ export type SearchResultsGenesProteins = {
 	record_type: string;
 	name: string;
 	description: string;
+}
+
+export type GeneStudyCount = {
+	geneStudyCount: number;
 }
 
 //@@@PDC-465

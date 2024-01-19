@@ -228,6 +228,7 @@ constructor(private apollo: Apollo) {
 
 	//PDC-674 - UI changes to accomodate new protocol structure
 	//@@@PDC-7248 - additional metabolomic properties
+	//@@@PDC-7399 change acquisition_mode to polarity
 	protocolQuery = gql`
 		query ProtocolQuery($study_id: String!, $source: String!){
 		  uiProtocol (study_id: $study_id, source: $source ){
@@ -281,11 +282,13 @@ constructor(private apollo: Apollo) {
 			analytical_technique
 			chromatography_instrument_make
 			chromatography_instrument_model
-			acquisition_mode
+			polarity
 			reconstitution_solvent
 			reconstitution_volume
 			reconstitution_volume_uom
 			internal_standards
+			extraction_method
+			ionization_mode
 		}
 	}`;
 
@@ -470,6 +473,7 @@ constructor(private apollo: Apollo) {
 				sample_submitter_id
 				sample_is_ref
 				biospecimen_anatomic_site
+				biospecimen_laterality
 				composition
 				current_weight
 				days_to_collection
@@ -557,6 +561,7 @@ constructor(private apollo: Apollo) {
 	//@@@PDC-1219: Add a new experimental design tab on the study summary page
 	//@@@PDC-3253 call api with acceptDUA
 	//@@@PDC-3900 new studyExperimentalDesign API
+	//@@@PDC-7399 change acquisition_mode to polarity
 	studyExperimentalDesignQuery = gql`
 	query StudyExperimentalDesign($study_id_value: String, $source: String!) {
 		uiStudyExperimentalDesign(study_id: $study_id_value, source: $source) {
@@ -570,7 +575,7 @@ constructor(private apollo: Apollo) {
 			acquisition_type
 			number_of_fractions
 			analyte
-			acquisition_mode
+			polarity
 			label_free {
 				aliquot_id,
 				aliquot_run_metadata_id,
@@ -667,6 +672,31 @@ constructor(private apollo: Apollo) {
 				aliquot_submitter_id
 			},
 			tmt_131c {
+				aliquot_id,
+				aliquot_run_metadata_id,
+				aliquot_submitter_id
+			},
+			tmt_132n {
+				aliquot_id,
+				aliquot_run_metadata_id,
+				aliquot_submitter_id
+			},
+			tmt_132c {
+				aliquot_id,
+				aliquot_run_metadata_id,
+				aliquot_submitter_id
+			},
+			tmt_133n {
+				aliquot_id,
+				aliquot_run_metadata_id,
+				aliquot_submitter_id
+			},
+			tmt_133c {
+				aliquot_id,
+				aliquot_run_metadata_id,
+				aliquot_submitter_id
+			},
+			tmt_134n {
 				aliquot_id,
 				aliquot_run_metadata_id,
 				aliquot_submitter_id

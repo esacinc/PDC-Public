@@ -437,7 +437,12 @@ describe("StudySummaryService", () => {
               tmt_130n: "CPT0081990003",
               tmt_130c: "CPT0086890003",
               tmt_131: "Pooled Sample",
-              tmt_131c: "null"             
+              tmt_131c: "null",
+              tmt_132n: "null",
+              tmt_132c: "null",
+              tmt_133n: "null",
+              tmt_133c: "null",
+              tmt_134n: "null",
             }
           ]
         }
@@ -579,6 +584,7 @@ describe("StudySummaryService", () => {
               sample_submitter_id: "OSCC_56_N",
               sample_is_ref: "no",
               biospecimen_anatomic_site: null,
+              biospecimen_laterality: null,
               composition: "Not Reported",
               current_weight: null,
               days_to_collection: null,
@@ -680,6 +686,48 @@ describe("StudySummaryService", () => {
         }
       });
 
+      controller.verify();
+    }
+  ));
+
+  it("test getFilteredStudyData", inject(
+    [StudySummaryService],
+    (service: StudySummaryService) => {
+      service
+        .getFilteredStudyData(
+            "CPTAC GBM Confirmatory Study - Lipidome", "", "", ""
+        )
+        .subscribe(data => {
+          expect(data["uiStudies"]).toBeDefined();
+          expect(data["uiStudies"].length).toBe(1);
+          expect(
+            data["uiStudies"][0].study_id
+          ).toBe("12c3993f-8dc2-4e9c-9ac9-3b4acae7ea9d");
+          expect(data["uiStudies"][0].analytical_fraction).toBe("Lipidome");
+        });
+
+      const op = controller.expectOne(service.filteredStudyDataQuery);
+
+      op.flush({
+        data: {
+          uiStudies: [
+            {
+              study_id:"12c3993f-8dc2-4e9c-9ac9-3b4acae7ea9d",
+              pdc_study_id: "PDC000561",
+              submitter_id_name: "CPTAC GBM Confirmatory Study - Lipidome",
+              program_name:"MVP TEST PROGRAM 1",
+              project_name: "Metabolomics Test Project AP0323",
+              disease_type: "Glioblastoma;Gliomas;Other",
+              primary_site: "Brain;Not Reported",
+              analytical_fraction: "Lipidome",
+              experiment_type: "Label Free",
+              embargo_date: null,
+              aliquots_count: 85,
+              cases_count: 82
+            }
+          ]
+        }
+      });
       controller.verify();
     }
   ));

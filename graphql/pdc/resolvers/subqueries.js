@@ -83,9 +83,10 @@ export const resolvers = {
 			let replacements = { };
 			//@@@PDC-3839 get current version of study
 			//@@@PDC-3966 add more study fields per CDA request
+			//@@@PDC-7463 use submitter_id_name as study_name
 			if (context.noFilter != null) {
-				comboQuery = "SELECT distinct bin_to_uuid(s.study_id) as study_id, s.study_submitter_id, s.submitter_id_name, "+
-				" s.submitter_id_name, s.embargo_date, s.study_shortname as study_name,"+
+				comboQuery = "SELECT distinct bin_to_uuid(s.study_id) as study_id, s.study_submitter_id,"+
+				" s.submitter_id_name, s.embargo_date, s.submitter_id_name as study_name,"+
 				" s.analytical_fraction, s.experiment_type, s.acquisition_type, s.pdc_study_id"+
 				" FROM study s"+
 				" WHERE s.is_latest_version = 1 and s.project_id = uuid_to_bin('"+
@@ -94,7 +95,7 @@ export const resolvers = {
 			}
 			else {
 				comboQuery = "SELECT distinct bin_to_uuid(s.study_id) as study_id, s.study_submitter_id,"+
-				" s.submitter_id_name, s.embargo_date, s.study_shortname as study_name,"+
+				" s.submitter_id_name, s.embargo_date, s.submitter_id_name as study_name,"+
 				" s.analytical_fraction, s.experiment_type, s.acquisition_type, s.pdc_study_id"+
 				" FROM study s, `case` c, sample sam, aliquot_run_metadata alm, "+
 				" aliquot al, project proj, program prog, protocol ptc "+
@@ -413,12 +414,20 @@ export const resolvers = {
 		}
 	},
 	//@@@PDC-5252 fetch diagnosis-sample association
-	//@@@PDC-5412 add diagnosis-sample annotation	
+	//@@@PDC-5412 add diagnosis-sample annotation
+	//@@@PDC-7493 return full sample	
 	Diagnosis: {
 		samples(obj, args, context) {
 			logger.info("samples is called via "+context.parent);
 			let refQuery = "select bin_to_uuid(reference_entity_id) sample_id, "+
-			"reference_entity_alias as sample_submitter_id, annotation from reference where entity_id = "+
+			"reference_entity_alias as sample_submitter_id, annotation, sample_type, sample_type_id, gdc_sample_id, "+ 
+			"gdc_project_id, biospecimen_anatomic_site, composition, current_weight, days_to_collection, days_to_sample_procurement, "+
+			"sam.status, sam.pool, sample_is_ref, diagnosis_pathologically_confirmed, freezing_method, initial_weight, "+
+			"intermediate_dimension, longest_dimension, method_of_sample_procurement, pathology_report_uuid, "+
+			"preservation_method, shortest_dimension, time_between_clamping_and_freezing, time_between_excision_and_freezing, "+
+			"tissue_type, tumor_code, tumor_code_id, tumor_descriptor, biospecimen_laterality, catalog_reference, "+
+			"distance_normal_to_tumor, distributor_reference, growth_rate, passage_count, sample_ordinal, tissue_collection_type "+
+			"from reference ref, sample sam where ref.reference_entity_id = sam.sample_id and entity_id = "+
 			"uuid_to_bin(:diagnosis_id) and reference_entity_type = 'sample'"
 			let replacements = {};
 			replacements['diagnosis_id'] = obj.diagnosis_id;
@@ -456,11 +465,34 @@ export const resolvers = {
 				
 		},
 		//@@@PDC-5252 fetch diagnosis-sample association
-		//@@@PDC-5412 add diagnosis-sample annotation	
+		//@@@PDC-5412 add diagnosis-sample annotation
+		//@@@PDC-7493 return full diagnosis
 		diagnoses(obj, args, context) {
 			logger.info("diagnoses is called via "+context.parent);
 			let refQuery = "select bin_to_uuid(entity_id) diagnosis_id, annotation, "+
-			"entity_submitter_id as diagnosis_submitter_id from reference where reference_entity_id = "+
+			"entity_submitter_id as diagnosis_submitter_id, tissue_or_organ_of_origin, age_at_diagnosis, primary_diagnosis, tumor_grade, tumor_stage, "+
+			"classification_of_tumor, days_to_last_follow_up, days_to_last_known_disease_status, days_to_recurrence, last_known_disease_status, morphology, "+
+			"progression_or_recurrence, site_of_resection_or_biopsy, prior_malignancy, ajcc_clinical_m, ajcc_clinical_n, ajcc_clinical_stage, ajcc_clinical_t, "+
+			"ajcc_pathologic_m, ajcc_pathologic_n, ajcc_pathologic_stage, ajcc_pathologic_t, ann_arbor_b_symptoms, ann_arbor_clinical_stage, "+
+			"ann_arbor_extranodal_involvement, ann_arbor_pathologic_stage, best_overall_response, burkitt_lymphoma_clinical_variant, "+
+			"circumferential_resection_margin, colon_polyps_history, days_to_best_overall_response, days_to_diagnosis, days_to_hiv_diagnosis, "+
+			"days_to_new_event, figo_stage, hiv_positive, hpv_positive_type, hpv_status, iss_stage, laterality, ldh_level_at_diagnosis, "+
+			"ldh_normal_range_upper, lymph_nodes_positive, lymphatic_invasion_present, method_of_diagnosis, new_event_anatomic_site, "+
+			"+new_event_type, overall_survival, perineural_invasion_present, prior_treatment, progression_free_survival, progression_free_survival_event, "+
+			"residual_disease, vascular_invasion_present, year_of_diagnosis, icd_10_code, synchronous_malignancy, anaplasia_present, anaplasia_present_type, "+ 
+			"child_pugh_classification, cog_liver_stage, cog_neuroblastoma_risk_group, cog_renal_stage, cog_rhabdomyosarcoma_risk_group, enneking_msts_grade, "+
+			"enneking_msts_metastasis, enneking_msts_stage, enneking_msts_tumor_site, esophageal_columnar_dysplasia_degree, esophageal_columnar_metaplasia_present, "+
+			"first_symptom_prior_to_diagnosis, gastric_esophageal_junction_involvement, goblet_cells_columnar_mucosa_present, gross_tumor_weight, inpc_grade, "+
+			"inpc_histologic_group, inrg_stage, inss_stage, irs_group, irs_stage, ishak_fibrosis_score, lymph_nodes_tested, medulloblastoma_molecular_classification, "+
+			"metastasis_at_diagnosis, metastasis_at_diagnosis_site, mitosis_karyorrhexis_index, peripancreatic_lymph_nodes_positive, peripancreatic_lymph_nodes_tested, "+
+			"supratentorial_localization, tumor_confined_to_organ_of_origin, tumor_focality, tumor_regression_grade, vascular_invasion_type, wilms_tumor_histologic_subtype, "+
+			"breslow_thickness, gleason_grade_group, igcccg_stage, international_prognostic_index, largest_extrapelvic_peritoneal_focus, masaoka_stage, "+
+			"non_nodal_regional_disease, non_nodal_tumor_deposits, ovarian_specimen_status, ovarian_surface_involvement, percent_tumor_invasion, "+
+			"peritoneal_fluid_cytological_status, primary_gleason_grade, secondary_gleason_grade, weiss_assessment_score, adrenal_hormone, "+
+			"ann_arbor_b_symptoms_described, diagnosis_is_primary_disease, eln_risk_classification, figo_staging_edition_year, gleason_grade_tertiary, "+
+			"gleason_patterns_percent, margin_distance, margins_involved_site, pregnant_at_diagnosis, satellite_nodule_present, sites_of_involvement, "+
+			"tumor_depth, who_cns_grade, who_nte_grade, diagnosis_uuid "+ 
+			"from reference ref, diagnosis diag where ref.entity_id = diag.diagnosis_id and reference_entity_id = "+
 			"uuid_to_bin(:sample_id) and entity_type = 'diagnosis'"
 			let replacements = {};
 			replacements['sample_id'] = obj.sample_id;
@@ -481,7 +513,9 @@ export const resolvers = {
 			// db.getModelByName('ModelAliquotRunMetadata').findAll({attributes: ['aliquot_submitter_id', ['bin_to_uuid(aliquot_run_metadata_id)','aliquot_run_metadata_id']],
 			// where: {aliquot_submitter_id: obj.aliquot_submitter_id}
 			// });
-			let aliquotQuery = "select aliquot_submitter_id , bin_to_uuid(aliquot_run_metadata_id) as aliquot_run_metadata_id FROM aliquot_run_metadata where bin_to_uuid(aliquot_id) = '"+ obj.aliquot_id +"'";
+			//@@@PDC-7493 return full aliquot_run_metadata
+			let aliquotQuery = "select aliquot_submitter_id , bin_to_uuid(aliquot_run_metadata_id) as aliquot_run_metadata_id, label, experiment_number, "+
+			"fraction, replicate_number, date, alias, analyte FROM aliquot_run_metadata where bin_to_uuid(aliquot_id) = '"+ obj.aliquot_id +"'";
 			return db.getSequelize().query(aliquotQuery, { model: db.getModelByName('ModelAliquotRunMetadata') });
 		}
 	},
@@ -519,14 +553,16 @@ export const resolvers = {
 			}
 		}			
 	},
+	//@@@PDC-7628 use gene_id instead of gene_name
 	GeneSp: {
 		async spectral_counts(obj, args, context) {
 			logger.info("spectral_counts is called via "+context.parent);
 			var cacheFilterName = {name:''};
-			cacheFilterName.name +="sp_gene_name:("+ obj.gene_name + ");";
+			cacheFilterName.name +="sp_gene_name:("+ obj.gene_name +"-"+ obj.ncbi_gene_id+");";
 			const res = await RedisCacheClient.redisCacheGetAsync(CacheName.getSummaryPageGeneSummary('GeneSpectralCount')+cacheFilterName['name']);
 			if(res === null){
-				var spQuery = "SELECT project_submitter_id, study_submitter_id, dataset_alias as plex, spectral_count, distinct_peptide, unshared_peptide from spectral_count where plex_name = 'All' and gene_name = '"+obj.gene_name+"'";
+				/*var spQuery = "SELECT project_submitter_id, study_submitter_id, dataset_alias as plex, spectral_count, distinct_peptide, unshared_peptide from spectral_count where plex_name = 'All' and gene_name = '"+obj.gene_name+"'";*/
+				var spQuery = "SELECT project_submitter_id, study_submitter_id, dataset_alias as plex, spectral_count, distinct_peptide, unshared_peptide from spectral_count where plex_name = 'All' and gene_id = uuid_to_bin('"+obj.gene_id+"')";
 				var result = await db.getSequelize().query(spQuery, { model: db.getModelByName('Spectral') });
 				RedisCacheClient.redisCacheSetExAsync(CacheName.getSummaryPageGeneSummary('GeneSpectralCount')+cacheFilterName['name'], JSON.stringify(result));
 				return result;
@@ -600,7 +636,10 @@ export const resolvers = {
 	StudyRunMetadata: {
 		aliquot_run_metadata(obj, args, context) {
 			logger.info("aliquot_run_metadata is called via "+context.parent);
-			let aliquotQuery = "select bin_to_uuid(aliquot_id) as aliquot_id, aliquot_submitter_id , bin_to_uuid(aliquot_run_metadata_id) as aliquot_run_metadata_id FROM aliquot_run_metadata where study_run_metadata_submitter_id = '"+ obj.study_run_metadata_submitter_id +"'";
+			//@@@PDC-7493 return full aliquot_run_metadata
+			let aliquotQuery = "select bin_to_uuid(aliquot_id) as aliquot_id, aliquot_submitter_id, "+ "bin_to_uuid(aliquot_run_metadata_id) as aliquot_run_metadata_id, label, experiment_number, "+
+			"fraction, replicate_number, date, alias, analyte FROM aliquot_run_metadata "+
+			"where study_run_metadata_submitter_id = '"+ obj.study_run_metadata_submitter_id +"'";
 			return db.getSequelize().query(aliquotQuery, { model: db.getModelByName('ModelAliquotRunMetadata') });
 			// db.getModelByName('ModelAliquotRunMetadata').findAll({attributes: ['aliquot_submitter_id'],
 			// 	where: {study_run_metadata_submitter_id: obj.study_run_metadata_submitter_id}
@@ -713,10 +752,21 @@ export const resolvers = {
 	//@@@PDC-5329 add samples associated with diagnosis
 	//@@@PDC-5412 add diagnosis-sample annotation	
 	Clinical: {
+		//@@@PDC-7493 return full sample
 		samples(obj, args, context) {
 			logger.info("samples is called via "+context.parent);
-			let refQuery = "select bin_to_uuid(reference_entity_id) sample_id, annotation, "+
+			/*let refQuery = "select bin_to_uuid(reference_entity_id) sample_id, annotation, "+
 			"reference_entity_alias as sample_submitter_id from reference where entity_id = "+
+			"uuid_to_bin(:diagnosis_id) and reference_entity_type = 'sample'"*/
+			let refQuery = "select bin_to_uuid(reference_entity_id) sample_id, "+
+			"reference_entity_alias as sample_submitter_id, annotation, sample_type, sample_type_id, gdc_sample_id, "+ 
+			"gdc_project_id, biospecimen_anatomic_site, composition, current_weight, days_to_collection, days_to_sample_procurement, "+
+			"sam.status, sam.pool, sample_is_ref, diagnosis_pathologically_confirmed, freezing_method, initial_weight, "+
+			"intermediate_dimension, longest_dimension, method_of_sample_procurement, pathology_report_uuid, "+
+			"preservation_method, shortest_dimension, time_between_clamping_and_freezing, time_between_excision_and_freezing, "+
+			"tissue_type, tumor_code, tumor_code_id, tumor_descriptor, biospecimen_laterality, catalog_reference, "+
+			"distance_normal_to_tumor, distributor_reference, growth_rate, passage_count, sample_ordinal, tissue_collection_type "+
+			"from reference ref, sample sam where ref.reference_entity_id = sam.sample_id and entity_id = "+
 			"uuid_to_bin(:diagnosis_id) and reference_entity_type = 'sample'"
 			let replacements = {};
 			replacements['diagnosis_id'] = obj.diagnosis_id;
@@ -1573,7 +1623,25 @@ export const resolvers = {
 							model: db.getModelByName('ModelUIGene')
 						}
 					);
-				let geneNameArray = [];
+				//@@@PDC-7629 use gene_id to get study count
+				let geneIdArray = [];
+				result.forEach(element => geneIdArray.push(element.gene_id));
+				let geneStudyCountQuery = context.geneStudyCountQuery;
+				if (geneIdArray.length > 0) {
+					geneStudyCountQuery = geneStudyCountQuery + " AND sc.gene_id in (uuid_to_bin('" + geneIdArray.join("'),uuid_to_bin('") + "')) GROUP BY sc.gene_id";
+				}
+				let geneStudyCount = await db.getSequelize().query(
+						geneStudyCountQuery,
+						{
+							model: db.getModelByName('ModelUIGeneName')
+						}
+					);
+				let geneStudyCountMap = new Map();
+				geneStudyCount.forEach(element => geneStudyCountMap.set(element.gene_id, element.num_study));
+
+				result.forEach(element => element.num_study= geneStudyCountMap.get(element.gene_id));
+				RedisCacheClient.redisCacheSetExAsync(context.dataCacheName, JSON.stringify(result));
+				/*let geneNameArray = [];
 				result.forEach(element => geneNameArray.push(element.gene_name));
 				let geneStudyCountQuery = context.geneStudyCountQuery;
 				if (geneNameArray.length > 0) {
@@ -1594,7 +1662,7 @@ export const resolvers = {
 				geneStudyCount.forEach(element => geneStudyCountMap.set(element.gene_name, element.num_study));
 
 				result.forEach(element => element.num_study= geneStudyCountMap.get(element.gene_name));
-				RedisCacheClient.redisCacheSetExAsync(context.dataCacheName, JSON.stringify(result));
+				RedisCacheClient.redisCacheSetExAsync(context.dataCacheName, JSON.stringify(result));*/
 				return result;
 			}else{
 				return JSON.parse(res);
@@ -1680,7 +1748,11 @@ export const resolvers = {
 				 " FROM spectral_count sc, aliquot al, aliquot_run_metadata alm, study s "+
 				" WHERE sc.study_id = alm.study_id and alm.aliquot_id = al.aliquot_id "+
 				" and sc.study_id = s.study_id and s.is_latest_version = 1 ";
-				if (typeof context.arguments.gene_name != 'undefined') {
+				//@@@PDC-7631 use gene_id to study/spectral_count
+				if (typeof context.arguments.gene_id != 'undefined') {
+					gssQuery += " and sc.gene_id = uuid_to_bin('"+context.arguments.gene_id+"')";
+				}
+				else if (typeof context.arguments.gene_name != 'undefined') {
 					let gene_names = context.arguments.gene_name.split(';');
 					gssQuery += " and sc.gene_name IN ('" + gene_names.join("','") + "')";
 				}
@@ -1772,7 +1844,8 @@ export const resolvers = {
 					}
 				);
 		},
-		//PDC-3022 enhance getPaginatedCase API
+		//@@@PDC-3022 enhance getPaginatedCase API
+		//@@@PDC-7493 sync up case output among APIs
 		cases(obj, args, context) {
 			logger.info("cases is called via "+context.parent);
 			return db.getModelByName('Case').findAll({
@@ -1781,7 +1854,14 @@ export const resolvers = {
 						['bin_to_uuid(project_id)', 'project_id'],
 						'project_submitter_id',
 						'disease_type',
-						'primary_site'
+						'primary_site',
+						'case_is_ref',
+						'tissue_source_site_code',
+						'days_to_lost_to_followup',
+						'index_date',
+						'lost_to_followup',
+						'consent_type',
+						'days_to_consent'
 					],
 					//@@@PDC-2619 change to accommodate calling from documentation
 					/*where: {
@@ -1878,6 +1958,8 @@ export const resolvers = {
 		},
 		genes(obj, args, context) {
 			logger.info("genes is called via "+context.parent);
+			logger.info("genes query: "+context.query);
+			logger.info("genes para: "+context.replacements);
 			return db.getSequelize().query(
 					context.query,
 					{

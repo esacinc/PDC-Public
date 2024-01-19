@@ -4,7 +4,7 @@
   padding-left: 0px !important;
 }
 
-/deep/ .overlay-screen-backdrop {
+::ng-deep .overlay-screen-backdrop {
   position: fixed;
   top: 0px;
   left: 0px;

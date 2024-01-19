@@ -268,6 +268,9 @@ export class StudySummaryComponent implements OnInit {
 		'id': "TMT11",
 		'cols': "tmt_126,tmt_127n,tmt_127c,tmt_128n,tmt_128c,tmt_129n,tmt_129c,tmt_130n,tmt_130c,tmt_131,tmt_131c"
 	}, {
+		'id': "TMT16",
+		'cols': "tmt_126,tmt_127n,tmt_127c,tmt_128n,tmt_128c,tmt_129n,tmt_129c,tmt_130n,tmt_130c,tmt_131,tmt_131c,tmt_132n,tmt_132c,tmt_133n,tmt_133c,tmt_134n"
+	}, {
 		'id': "N/A",
 		'cols': ""
 	}];
@@ -810,7 +813,6 @@ openHeatMap(study_name: string){
 	  ];
 	  this.studyExperimentDesignTableFrozenCols = this.studyExperimentDesignTableCommonCols = [
 		// {field: 'study_run_metadata_id', header: 'Study Run Metadata ID'},
-		{field: 'plex_dataset_name', header: 'Plex Dataset Name'},
 		{field: 'study_run_metadata_submitter_id', header: 'Run Metadata ID'},
 /* 		{field: 'experiment_number', header: 'Experiment Number'},
 		{field: 'experiment_type', header: 'Experiment Type'}, */
@@ -840,6 +842,7 @@ openHeatMap(study_name: string){
 		{field: 'sample_status', header: 'Sample Status'},
 		{field: 'sample_is_ref', header: 'Sample Is Ref'},
 		{field: 'biospecimen_anatomic_site', header: 'Biospecimen Anatomic Site'},
+		{field: 'biospecimen_laterality', header: 'Biospecimen Laterality'},
 		{field: 'composition', header: 'Composition'},
 		{field: 'current_weight', header: 'Current Weight'},
 		{field: 'days_to_collection', header: 'Days To Collection'},
@@ -1629,9 +1632,10 @@ getStudyExperimentalDesign() {
 					}
 					this.studyExperimentDesignTableExtraCols = colsSpecificToExpType;
 					//@@@PDC-6692: UI Changes for the Experimental Design tab of Study Summary Page
+					//@@@PDC-7399 change acquisition_mode to polarity
 					if (this.studySummaryData && (this.studySummaryData['analytical_fraction'] == 'Metabolome' || this.studySummaryData['analytical_fraction'] == 'Lipidome')) {
-						if (!("acquisition_mode" in this.studyExperimentDesignTableCommonCols)) {
-							this.studyExperimentDesignTableCommonCols.push({field: "acquisition_mode", header: "Acquisition Mode"});
+						if (!("polarity" in this.studyExperimentDesignTableCommonCols)) {
+							this.studyExperimentDesignTableCommonCols.push({field: "polarity", header: "Polarity"});
 						}
 					}
 					if (colsSpecificToExpType.length > 0) {

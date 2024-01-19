@@ -813,15 +813,33 @@
 				<br>
 				<div *ngIf="selectedGeneNames.length == 0">
 					<button mat-button style="color:#a71111; font-weight:400; width:180px">Please enter one<br> or more gene symbols.</button></div>
-				<div *ngIf="!loadingGeneSymbolValidation && allGeneNamesValid && selectedGeneNames.length > 0">
-					<button mat-button style="background-color:#11a747; color:white; font-weight:400">All gene symbols are valid.</button></div>
-				<div *ngIf="!loadingGeneSymbolValidation && !allGeneNamesValid && selectedGeneNames.length > 0">
-					<button mat-button style="background-color:#f44336; color:white; font-weight:400" >Invalid gene symbols.</button></div>
+				<div *ngIf="!loadingGeneSymbolValidation && allGeneNamesValid && selectedGeneNames.length > 0 && this.validGenesNotUsedInPDCStudies.length == 0">
+					<button mat-button style="background-color:#11a747; color:white; font-weight:400; margin-bottom: 10px;">All gene symbols are valid.</button></div>
+				<div *ngIf="!loadingGeneSymbolValidation && !allGeneNamesValid && selectedGeneNames.length > 0" style="margin-bottom: 5px;">
+					<button mat-button style="background-color:#f44336; color:white; font-weight:400" >Gene name is invalid or not found in PDC.</button></div>
 				<div *ngIf="loadingGeneSymbolValidation">
 					<button mat-button><i class="pi pi-spin pi-spinner"></i> Validating gene symbols...</button></div>
-				<br>
-				<button pButton id="queryGeneNamesFilter" (click)="filterDataByGeneName()" [disabled]="(loadingGeneSymbolValidation == true) ? 'disabled': null"
-						style="margin:auto; display:block;">Submit Query</button>
+				<!-- <br> -->
+        <div *ngIf="invalidGenesEnteredByUser.length > 0" class="invalidGeneBreadCrumbs">
+          <span *ngFor="let invalidGene of invalidGenesEnteredByUser; index as i" class="invalidGenes invalidGenes-{{invalidGene}}">
+              <button class="btn btn-primary invalidGeneBreadCrumb" (click)="deleteInvalidGeneBreadcrumb(invalidGene)">
+                {{invalidGene}}&nbsp;<i class="fa fa-close" style="font-size:10px"></i>
+              </button> &nbsp;
+            </span>
+          <br>
+        </div>
+        <div *ngIf="!loadingGeneSymbolValidation && selectedGeneNames.length > 0 && this.validGenesNotUsedInPDCStudies.length > 0">
+        <button mat-button style="background-color:#f44336; color:white; font-weight:400; margin-bottom: 5px;" >Some genes are not found in PDC Studies.</button></div>
+        <div *ngIf="validGenesNotUsedInPDCStudies.length > 0" class="validButNotInPDCStudyGeneBreadCrumbs">
+          <span *ngFor="let invalidGene of validGenesNotUsedInPDCStudies; index as i" class="invalidGenes invalidGenes-{{invalidGene}}">
+              <button class="btn btn-primary invalidGeneBreadCrumb" (click)="deleteGeneNotEnteredInStudyBreadcrumb(invalidGene)">
+                {{invalidGene}}&nbsp;<i class="fa fa-close" style="font-size:10px"></i>
+              </button> &nbsp;
+            </span>
+          <br>
+        </div>
+				<button pButton id="queryGeneNamesFilter" (click)="filterDataByGeneName()" [disabled]="(loadingGeneSymbolValidation == true || !allGeneNamesValid || this.validGenesNotUsedInPDCStudies.length > 0) ? 'disabled': null"
+						style="margin:auto; display:block;margin-top:5px;">Submit Query</button>
 				<br>
           </mat-expansion-panel>
       </mat-tab>

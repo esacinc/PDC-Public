@@ -5,6 +5,10 @@
     <fa name="times" style="light"></fa>
 </button>
 
+<div *ngIf="displayGeneNotFoundInStudyMsg" style="min-width: 600px; min-height: 70px; margin-top: 50px; padding-bottom: 0px; font-size: 16px">
+	Gene symbol is valid but not expressed in the studies currently available in PDC.
+</div>
+<div *ngIf="!displayGeneNotFoundInStudyMsg">
 <!--//@@@PDC-461  Make all summary dialog windows headers sticky-->
 <h2 mat-dialog-title style="color:#245672" id="geneName">GENE/PROTEIN SUMMARY: {{geneSummaryData.gene_name}}</h2>
 
@@ -140,3 +144,4 @@
 		</p-table>
 	</div> -->
 </mat-dialog-content>
+</div>

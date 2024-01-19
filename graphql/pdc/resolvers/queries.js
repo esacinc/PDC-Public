@@ -220,7 +220,9 @@ export const resolvers = {
 				logger.info("clinicalMetadata is called from UI with "+ JSON.stringify(args));
 			//@@@PDC-3840 get current version of study unless specific id is given
 			let isCurrent = true;
-			var cmQuery = "SELECT bin_to_uuid(a.aliquot_id) as aliquot_id, a.aliquot_submitter_id, d.primary_diagnosis, d.tumor_stage, d.tumor_grade, d.morphology, d.tumor_largest_dimension_diameter "+
+			//@@@PDC-7491 add new clinical fields
+			var cmQuery = "SELECT bin_to_uuid(a.aliquot_id) as aliquot_id, a.aliquot_submitter_id, d.primary_diagnosis, d.tumor_stage, d.tumor_grade, d.morphology, "+
+			"d.tumor_largest_dimension_diameter, d.age_at_diagnosis, d.classification_of_tumor, d.site_of_resection_or_biopsy, d.tissue_or_organ_of_origin, d.days_to_recurrence "+
 			"FROM study s, diagnosis d, `case` c, sample sam, aliquot a, aliquot_run_metadata arm "+
 			"WHERE d.case_id=c.case_id AND c.case_id=sam.case_id AND "+
 			"sam.sample_id=a.sample_id AND arm.aliquot_id = a.aliquot_id "+
@@ -833,6 +835,7 @@ export const resolvers = {
 		//@@@PDC-164 plex-level spectral count
 		//@@@PDC-333 gene/spectral count API change
 		//@@@PDC-650 implement elasticache for API
+		//@@@PDC-7628 use ncbi_gene_id in gene query
 		/**
 		* geneSpectralCount gets one specific gene with all its spectral * counts
 		*
@@ -853,6 +856,12 @@ export const resolvers = {
 			if (typeof args.gene_name != 'undefined') {
 				cacheFilterName.name +="gene_name:("+ args.gene_name + ");";
 			}
+			if (typeof args.ncbi_gene_id != 'undefined') {
+				cacheFilterName.name +="ncbi_gene_id:("+ args.ncbi_gene_id + ");";
+			}
+			if (typeof args.gene_id != 'undefined') {
+				cacheFilterName.name +="gene_id:("+ args.gene_id + ");";
+			}
 			//@@@PDC-6287 case sensitive search
 			/*let geneQuery = "SELECT bin_to_uuid(gene_id) as gene_id, gene_name, " +
 								" ncbi_gene_id, authority, description, organism, chromosome, " +
@@ -869,8 +878,32 @@ export const resolvers = {
 					}
 				);*/
 				//logger.info("Gene Result: "+ JSON.stringify(result));
-				var result = await db.getModelByName('Gene').findOne(
-				{where: Sequelize.where(Sequelize.fn('BINARY', Sequelize.col('gene_name')), args.gene_name)});
+				let result = null;
+				if (typeof args.gene_id != 'undefined') {
+					result = await db.getModelByName('Gene').findOne(					
+					{
+						attributes: [[db.getSequelize().fn('bin_to_uuid', db.getSequelize().col('gene_id')), 'gene_id'], 'gene_name', 'ncbi_gene_id', 'authority', 'description', 'organism', 'chromosome', 'locus', 'assays', 'proteins'],
+						where: {
+								gene_id: Sequelize.fn('uuid_to_bin', args.gene_id)
+						}
+						
+					});
+				}
+				else if (typeof args.ncbi_gene_id != 'undefined') {
+					result = await db.getModelByName('Gene').findOne(					
+					{
+						attributes: [[db.getSequelize().fn('bin_to_uuid', db.getSequelize().col('gene_id')), 'gene_id'], 'gene_name', 'ncbi_gene_id', 'authority', 'description', 'organism', 'chromosome', 'locus', 'assays', 'proteins'],
+						where: {
+								ncbi_gene_id: args.ncbi_gene_id,						
+								gene_name: Sequelize.where(Sequelize.fn('BINARY', Sequelize.col('gene_name')), args.gene_name)
+						}
+						
+					});
+				}
+				else {
+					result = await db.getModelByName('Gene').findOne(
+					{where: Sequelize.where(Sequelize.fn('BINARY', Sequelize.col('gene_name')), args.gene_name)});
+				}
 				//db.getModelByName('Gene').findOne({ where: { gene_name: args.gene_name}});
 				RedisCacheClient.redisCacheSetExAsync(CacheName.getSummaryPageGeneSummary('GeneSpectralCount')+cacheFilterName['name'], JSON.stringify(result));
 				//console.log("gene result: "+ JSON.stringify(result))
@@ -878,6 +911,34 @@ export const resolvers = {
 			}else{
 				return JSON.parse(res);
 			}
+		},
+		//@@@PDC-7785 get study count of a gene
+		async geneStudyCount(_, args, context) {
+			var cacheFilterName = {name:''};
+			let genQuery = "";
+			if (typeof args.gene_id != 'undefined') {
+				cacheFilterName.name +="gene_id:("+ args.gene_id + ");";
+				genQuery = "SELECT count(distinct study_id) as total FROM pdc.spectral_count where gene_id = uuid_to_bin('"+ args.gene_id +"')";
+			}
+			else if (typeof args.gene_name != 'undefined') {
+				cacheFilterName.name +="gene_name:("+ args.gene_name + ");";
+				genQuery = "SELECT count(distinct study_id) as total FROM pdc.spectral_count where gene_name = '"+ args.gene_name +"'";
+			}
+			let cacheKey = "geneStudyCount:"+cacheFilterName['name'];
+			const res = await RedisCacheClient.redisCacheGetAsync(cacheKey);
+			logger.info("cached: "+ res)
+			if(res === null){										
+				var result = await db.getSequelize().query(
+						genQuery,
+						{
+							raw: true
+						}
+					); 								
+				RedisCacheClient.redisCacheSetExAsync(cacheKey, result[0][0].total);
+				return result[0][0].total;
+			} else {
+				return res;
+			}				
 		},
 		//@@@PDC-2614 rearrange geneSpectralCount
 		async geneSpectralCount(_, args, context) {
@@ -1117,6 +1178,17 @@ export const resolvers = {
 				fileQuery += " and file.file_type = :file_type ";
 				replacements['file_type'] = args.file_type;
 				cacheFilterName.name +="file_type:("+ args.file_type + ");";
+			}
+			/*if (typeof args.file_format != 'undefined') {
+				fileQuery += " and file.file_format = :file_format ";
+				replacements['file_format'] = args.file_format;
+				cacheFilterName.name +="file_format:("+ args.file_format + ");";
+			}*/
+			//@@@PDC-7907 add data_category to filter
+			if (typeof args.data_category != 'undefined') {
+				fileQuery += " and file.data_category = :data_category ";
+				replacements['data_category'] = args.data_category;
+				cacheFilterName.name +="data_category:("+ args.data_category + ");";
 			}
 			if (isCurrent) {
 				fileQuery += " and study.is_latest_version = 1 ";
@@ -1922,6 +1994,7 @@ export const resolvers = {
 			//@@@PDC-1154 column name correction: fractions_analyzed_count
 			//@@@PDC-6690 add new columns for metabolomics
 			//@@@PDC-7235 add new columns for metabolomics
+			//@@@PDC-7386 change acquisition_mode to polarity
 			let protoQuery = "SELECT distinct bin_to_uuid(prot.protocol_id) as protocol_id, "+
 			"prot.protocol_submitter_id, prot.experiment_type, protocol_name, "+ 
 			"protocol_date, document_name, quantitation_strategy, "+
@@ -1939,9 +2012,9 @@ export const resolvers = {
 			"dda_topn, normalized_collision_energy, acquistion_type, "+
 			"dia_multiplexing, dia_ims, analytical_technique, "+
 			"chromatography_instrument_make, chromatography_instrument_model, "+
-			"trim(both '\r' from acquisition_mode) as acquisition_mode, "+
+			"trim(both '\r' from polarity) as polarity, "+
 			"reconstitution_solvent, reconstitution_volume, reconstitution_volume_uom, "+
-			"internal_standards, auxiliary_data, prot.cud_label "+
+			"internal_standards, extraction_method, ionization_mode, auxiliary_data, prot.cud_label "+
 			" from study s, project proj, protocol prot "+
 			" where prot.study_id = s.study_id ";
 			//" and s.project_submitter_id IN ('" + context.value.join("','") + "')";
@@ -2967,9 +3040,10 @@ export const resolvers = {
 			let studyIdQueryCondition = ` sc.study_id IN (UUID_TO_BIN('${filterValue}')) `;
 
 			//@@@PDC-5056 use gene_id instead of gene_name to join gene and spectral_count
+			//@@@PDC-7629 add ncbi_gene_id to output
 			let geneDataQuery = `
 					SELECT DISTINCT
-					ge.gene_name, ge.gene_id, chromosome, locus, proteins
+					ge.gene_name, bin_to_uuid(ge.gene_id) as gene_id, ncbi_gene_id, chromosome, locus, proteins
 				FROM
 					pdc.gene AS ge,
 					(select distinct gene_id from pdc.spectral_count AS sc where ${studyIdQueryCondition}  ) sca
@@ -2978,20 +3052,28 @@ export const resolvers = {
 
 			//@@@PDC-4236 add study versioning
 			let geneStudyCountQuery = `
-				SELECT sc.gene_name, COUNT(distinct sc.study_id) AS num_study
+				SELECT bin_to_uuid(sc.gene_id) as gene_id, COUNT(distinct sc.study_id) AS num_study
 				FROM
 					pdc.spectral_count AS sc, pdc.study AS s
 				WHERE
 					sc.study_id = s.study_id and sc.plex_name = 'All' and s.is_latest_version = 1 and
 					${studyIdQueryCondition}
 			`;
+			/*let geneStudyCountQuery = `
+				SELECT sc.gene_name, COUNT(distinct sc.study_id) AS num_study
+				FROM
+					pdc.spectral_count AS sc, pdc.study AS s
+				WHERE
+					sc.study_id = s.study_id and sc.plex_name = 'All' and s.is_latest_version = 1 and
+					${studyIdQueryCondition}
+			`;*/
 
-			//proteins
+			//@@@PDC-7662 case insensitive search of gene name
 			let geneNameSub;
 			if (typeof args.gene_name != 'undefined' && args.gene_name.length > 0) {
 				geneNameSub = args.gene_name.split(";");
 				cacheFilterName.name += "geneNameSub:("+ geneNameSub.join(",") + ")";
-				geneDataQuery += " and ge.gene_name IN (:geneNameSub) ";
+				geneDataQuery += " and ge.gene_name IN (:geneNameSub COLLATE utf8mb4_general_ci) ";
 				replacements['geneNameSub'] = geneNameSub;
 			}
 
@@ -3029,8 +3111,34 @@ export const resolvers = {
 			}
 			context['geneStudyCountQuery'] = geneStudyCountQuery;
 			context['replacements'] = replacements;
+			
 			if (typeof geneNameSub != 'undefined' && geneNameSub.length > 0){
-				return [{ total: geneNameSub.length }];
+				//@@@PDC-7662 case insensitive search of gene name
+				let geneNames = {};
+				//@@@PDC-7896 count only genes used in studies
+				let geneCountQuery = `
+				SELECT
+					count(distinct ge.gene_id) as total
+				FROM
+					gene ge, spectral_count sp
+				WHERE
+					ge.gene_id = sp.gene_id and
+					ge.gene_name IN (:geneNameSub COLLATE utf8mb4_general_ci)
+				`;
+				
+				geneNames['geneNameSub'] = geneNameSub;
+
+				let geneCountResult = await db.getSequelize().query(
+						geneCountQuery,
+						{
+							replacements: geneNames,
+							model: db.getModelByName('ModelPagination')
+						}
+					);
+				let totalCount = geneCountResult[0].total;
+				logger.info('total gene count: '+geneCountResult[0].total);
+				
+				return [{ total: totalCount }];
 			}
 			else if((myOffset == 0 && paginated) || args.getAll) {
 				//gene count query is slow, so cache genes mapping to each study
@@ -3071,17 +3179,20 @@ export const resolvers = {
 										model: db.getModelByName('ModelUIGeneName')
 									}
 								);
-							studyResult.forEach(element => {studyGeneArray.push(element.dataValues.gene_name);
+							studyResult.forEach(element => {
+
+							studyGeneArray.push(element.dataValues.gene_name);
 							finalSet.add(element.dataValues.gene_name);} );
 							RedisCacheClient.redisCacheSetExAsync(studyCacheName, JSON.stringify(studyGeneArray));
 						}else{
 							studyGeneArray = JSON.parse(studyGeneListRes);
 							studyGeneArray.forEach(element => finalSet.add(element));
 						}
+						//logger.info("gene count after "+studyName+": "+finalSet.size);
 						//studyMap.set(studyName, studyArray);
 					}
 					var totalCount = finalSet.size;
-					console.log('total gene count: '+finalSet.size);
+					logger.info('total gene count: '+finalSet.size);
 					//console.timeEnd('gene_cache_study');
 					if (args.getAll){
 						RedisCacheClient.redisCacheSetExAsync(CacheName.getBrowsePagePaginatedDataTabCacheKey('GeneAllCount')+cacheFilterName.name, totalCount);
@@ -3115,9 +3226,10 @@ export const resolvers = {
 			//@@@PDC-3668 add study_id
 			//@@@PDC-3839 get current version of study unless specific id is given
 			let isCurrent = true;
+			//@@@PDC-7907 add file_id, data_category and file_format to output
 			let fileBaseQuery = 'SELECT bin_to_uuid(study.study_id) as study_id, study.study_submitter_id as study_submitter_id,' +
-									' study.pdc_study_id as pdc_study_id, file.file_type as file_type, ' +
-									' file.downloadable as downloadable, file.file_name as file_name, file.md5sum as md5sum ';
+									' study.pdc_study_id as pdc_study_id, bin_to_uuid(file.file_id) as file_id, file.file_type as file_type, ' +
+									' file.downloadable as downloadable, file.file_name as file_name, file.md5sum as md5sum, file.data_category, file.file_format ';
 			let fileQuery = 'FROM file AS file, study AS study, study_file AS sf '+
 			'WHERE file.file_id = sf.file_id and study.study_id = sf.study_id';
 
@@ -3144,6 +3256,15 @@ export const resolvers = {
 			if (typeof args.file_name != 'undefined') {
 				fileQuery += " and file.file_name = :file_name ";
 				replacements['file_name'] = args.file_name;
+			}
+			//@@@PDC-7907 add data_category and file_format to filter
+			if (typeof args.data_category != 'undefined') {
+				fileQuery += " and file.data_category = :data_category ";
+				replacements['data_category'] = args.data_category;
+			}
+			if (typeof args.file_format != 'undefined') {
+				fileQuery += " and file.file_format = :file_format ";
+				replacements['file_format'] = args.file_format;
 			}
 			if (isCurrent) {
 				fileQuery += " and study.is_latest_version = 1 ";
@@ -3858,6 +3979,11 @@ export const resolvers = {
 			" WHERE sc.study_id = s.study_id and sc.plex_name = 'All' and s.is_latest_version = 1 ";
 			let cacheFilterName = {name:''};
 			let replacements = { };
+			if (typeof args.gene_id != 'undefined') {
+				gssQuery += " and sc.gene_id = uuid_to_bin (:gene_id)";
+				replacements['gene_id'] = args.gene_id;
+				cacheFilterName.name +="gene_id:("+ args.gene_id + ");";
+			}
 			if (typeof args.gene_name != 'undefined') {
 				let gene_names = args.gene_name.split(';');
 				gssQuery += " and sc.gene_name IN (:gene_names)";
@@ -3929,7 +4055,13 @@ export const resolvers = {
 			let replacements = { };
 
 			gssQuery += replacementFilters(args, cacheFilterName, replacements);
-			if (typeof args.gene_name != 'undefined') {
+			//@@@PDC-7631 use gene_id to study/spectral_count
+			if (typeof args.gene_id != 'undefined') {
+				gssQuery += " and sc.gene_id = uuid_to_bin(:gene_id)";
+				replacements['gene_id'] = args.gene_id;
+				cacheFilterName.name +="gene_id:("+ args.gene_id + ");";
+			}
+			else if (typeof args.gene_name != 'undefined') {
 				let gene_names = args.gene_name.split(';');
 				gssQuery += " and sc.gene_name IN (:gene_names)";
 				replacements['gene_names'] = gene_names;
@@ -4035,7 +4167,14 @@ export const resolvers = {
 			let cacheFilterName = { name: '' };
 			let replacements = { };
 			//@@@PDC-4755 fix named parameter
-			if (typeof args.gene_name != 'undefined') {
+			//@@@PDC-7631 use gene_id instead of gene_name
+			if (typeof args.gene_id != 'undefined') {
+				gssQuery += " and sc.gene_id = uuid_to_bin(:gene_id)"+
+				" and ga.gene_id = uuid_to_bin(:gene_id)";
+				replacements['gene_id'] = args.gene_id;
+				cacheFilterName.name +="gene_id:("+ args.gene_id + ");";
+			}
+			else if (typeof args.gene_name != 'undefined') {
 				let gene_names = args.gene_name.split(';');
 				//console.log("gene_names:"+gene_names);
 				gssQuery += " and sc.gene_name IN (:gene_names)"+
@@ -4090,7 +4229,7 @@ export const resolvers = {
 			logger.info("getPaginatedUIGeneAliquotSpectralCountFiltered is called with "+ JSON.stringify(args));
 			context['arguments'] = args;
 			//@@@PDC-3171 new ptm abundance tables
-      let ptmTableName = "ptm_abundance";
+			let ptmTableName = "ptm_abundance";
 			//@@PDC-6361 - gene summary page issues - check if first character of gene is number if so then use num table
 			if(isNaN(args.gene_name.substr(0, 1))){
 				ptmTableName = "ptm_abundance_"+ args.gene_name.substr(0, 1);
@@ -4142,7 +4281,15 @@ export const resolvers = {
 			let replacements = { };
 			let filterQuery = replacementFilters(args, cacheFilterName, replacements);
 			let generalGeneQuery = '', gaGeneQuery = '', paGeneQuery = '';
-			if (typeof args.gene_name != 'undefined') {
+			//@@@PDC-7631 use gene_id instead of gene_name
+			if (typeof args.gene_id != 'undefined') {
+				generalGeneQuery = " and sc.gene_id = uuid_to_bin(:gene_id)";
+				gaGeneQuery = " and ga.gene_id = uuid_to_bin(:gene_id)";
+				paGeneQuery = " and pa.gene_id = uuid_to_bin(:gene_id)";
+				replacements['gene_id'] = args.gene_id;
+				cacheFilterName.name +="gene_id:("+ args.gene_id + ");";
+			}
+			else if (typeof args.gene_name != 'undefined') {
 				let gene_names = args.gene_name.split(';');
 				generalGeneQuery = " and sc.gene_name IN (:gene_names)";
 				gaGeneQuery = " and ga.gene_name IN (:gene_names)";
@@ -4346,7 +4493,7 @@ export const resolvers = {
 		*/
 		geneSearch(_, args, context) {
 			context['parent']= "geneSearch";
-			//logger.info("SEARCH QUERY to geneSearch: "+ JSON.stringify(args));
+			logger.info("SEARCH QUERY to geneSearch: "+ JSON.stringify(args));
 			//analyticLog.info("SEARCH QUERY to geneSearch:  "+ JSON.stringify(args));
 			context['arguments'] = args;
 			let nameToSearch = 'xxxxxx';
@@ -4358,7 +4505,8 @@ export const resolvers = {
 			}
 			let searchCountQuery = "SELECT count(g.gene_name) as total ";
 			//@@@PDC-398 Add description to the APIs for search
-			let searchBaseQuery = "SELECT g.gene_name as name, g.description, 'gene' as record_type ";
+			//@@@PDC-7628 add gene_id and ncbi_gene_id to the APIs for search
+			let searchBaseQuery = "SELECT g.gene_name as name, g.description, bin_to_uuid(gene_id) as gene_id, g.ncbi_gene_id, 'gene' as record_type ";
 			//@@@PDC-682 make search case insensitive for utf8 char set
 			//@@@PDC-6285 adjust gene_name charset/collation
 			//@@@PDC-6287 conduct case inseasitive search on gene_name
@@ -4415,7 +4563,8 @@ export const resolvers = {
 			let searchCountQuery = "SELECT count(g.gene_name) as total ";
 			//@@@PDC-398 Add description to the APIs for search
 			//@@@PDC-468 Add proteins to protein search
-			let searchBaseQuery = "SELECT g.gene_name as name, g.description, g.proteins, 'protein' as record_type ";
+			//@@@PDC-7628 add ncbi_gene_id to the APIs for search
+			let searchBaseQuery = "SELECT g.gene_name as name, g.description, bin_to_uuid(gene_id) as gene_id, g.ncbi_gene_id, g.proteins, 'protein' as record_type ";
 			let searchQuery = " FROM gene g WHERE g.proteins like :nameToSearch";
 			let myOffset = 0;
 			let myLimit = 100;
@@ -4464,11 +4613,12 @@ export const resolvers = {
 				nameToSearch = args.name.replace(/%/g, "\\%").replace(/_/g, "\\_");
 				replacements['nameToSearch'] = "%" + nameToSearch + "%";
 			}
-			let searchCountQuery = "SELECT count(s.study_shortname) as total ";
+			//@@@PDC-7463 use submitter_id_name as study_name
+			let searchCountQuery = "SELECT count(s.submitter_id_name) as total ";
 			//@@@PDC-372 add submitter_id_name for study type
-			let searchBaseQuery = "SELECT s.study_shortname as name, s.submitter_id_name, s.pdc_study_id, bin_to_uuid(s.study_id) as study_id, s.study_submitter_id, 'study' as record_type ";
+			let searchBaseQuery = "SELECT s.submitter_id_name as name, s.submitter_id_name, s.pdc_study_id, bin_to_uuid(s.study_id) as study_id, s.study_submitter_id, 'study' as record_type ";
 			//@@@PDC-2973 get the latest version of study
-			let searchQuery = " FROM study s WHERE s.is_latest_version = 1 and s.study_shortname like :nameToSearch order by s.pdc_study_id";
+			let searchQuery = " FROM study s WHERE s.is_latest_version = 1 and s.submitter_id_name like :nameToSearch order by s.pdc_study_id";
 			//" AND s.project_submitter_id IN ('" + context.value.join("','") + "')";
 			let myOffset = 0;
 			let myLimit = 100;
@@ -4510,9 +4660,10 @@ export const resolvers = {
 				idToSearch = args.pdc_study_id.replace(/%/g, "\\%").replace(/_/g, "\\_");
 				replacements['idToSearch'] = "%" + idToSearch + "%";
 			}
-			let searchCountQuery = "SELECT count(s.study_shortname) as total ";
+			//@@@PDC-7463 use submitter_id_name as study_name
+			let searchCountQuery = "SELECT count(s.submitter_id_name) as total ";
 			//@@@PDC-372 add submitter_id_name for study type
-			let searchBaseQuery = "SELECT s.study_shortname as name, s.submitter_id_name, s.pdc_study_id, bin_to_uuid(s.study_id) as study_id, s.study_submitter_id, 'study' as record_type ";
+			let searchBaseQuery = "SELECT s.submitter_id_name as name, s.submitter_id_name, s.pdc_study_id, bin_to_uuid(s.study_id) as study_id, s.study_submitter_id, 'study' as record_type ";
 			//@@@PDC-2973 get the latest version of study
 			let searchQuery = " FROM study s WHERE s.is_latest_version = 1 and s.pdc_study_id like :idToSearch order by s.pdc_study_id";
 			//" AND s.project_submitter_id IN ('" + context.value.join("','") + "')";
@@ -4556,9 +4707,10 @@ export const resolvers = {
 				idToSearch = args.reference_entity_alias.replace(/%/g, "\\%").replace(/_/g, "\\_");
 				replacements['idToSearch'] = "%" + idToSearch + "%";
 			}
-			let searchCountQuery = "SELECT count(s.study_shortname) as total ";
+			//@@@PDC-7463 use submitter_id_name as study_name
+			let searchCountQuery = "SELECT count(s.submitter_id_name) as total ";
 			//@@@PDC-372 add submitter_id_name for study type
-			let searchBaseQuery = "SELECT s.study_shortname as name, s.submitter_id_name, s.pdc_study_id, bin_to_uuid(s.study_id) as study_id, s.study_submitter_id, 'study' as record_type ";
+			let searchBaseQuery = "SELECT s.submitter_id_name as name, s.submitter_id_name, s.pdc_study_id, bin_to_uuid(s.study_id) as study_id, s.study_submitter_id, 'study' as record_type ";
 			//@@@PDC-2973 get the latest version of study
 			let searchQuery = " FROM study s, reference r WHERE s.is_latest_version = 1 and s.study_id = r.entity_id and r.reference_entity_alias like :idToSearch order by s.pdc_study_id";
 			//" AND s.project_submitter_id IN ('" + context.value.join("','") + "')";
@@ -4718,12 +4870,15 @@ export const resolvers = {
 				cacheFilterName.name +="file_type:("+ args.file_type + ");";
 			}
 			if (typeof args.file_name != 'undefined') {
+				//logger.info("file name entered: "+args.file_name);
 				let file_names = args.file_name.split(';');
 				gasQuery += " and f.file_name IN (:file_names) ";
 				gas2Query += " and f.file_name IN (:file_names) ";
 				replacements['file_names'] = file_names;
-				cacheFilterName.name +="file_names:("+ args.file_names + ");";
+				//@@@PDC-7770 cache name fix
+				cacheFilterName.name +="file_names:("+ args.file_name + ");";
 			}
+				//logger.info("file name in cache key: "+cacheFilterName.name);
 			//@@@PDC-3529 check for current version
 			gasQuery += " and s.is_latest_version = 1 ";
 			var myOffset = 0;
@@ -4763,7 +4918,8 @@ export const resolvers = {
 			}
 		},
 		//@@@PDC-503 quantitiveDataCPTAC2 API
-		quantitiveDataCPTAC2(_, args, context) {
+		//@@@PDC-7440 remove obsolete APIs
+		/*quantitiveDataCPTAC2(_, args, context) {
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/quantitiveDataCPTAC2").send();
 				context['parent']= "quantitiveDataCPTAC2";
@@ -4816,7 +4972,7 @@ export const resolvers = {
 						model: db.getModelByName('ModelQuantitativeData')
 					}
 				);
-		},
+		},*/
 		//@@@PDC-474 programs-projects-studies API
 		programsProjectsStudies(_, args, context) {
 			if(!context.isUI) {
@@ -5250,7 +5406,8 @@ export const resolvers = {
 		},
 		//@@@PDC-486 data matrix API
 		//@@@PDC-562 quant data matrix API
-		paginatedDataMatrix (_, args, context) {
+		//@@@PDC-7440 remove obsolete APIs
+		/*paginatedDataMatrix (_, args, context) {
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/paginatedDataMatrix").send();
 				context['parent']= "paginatedDataMatrix";
@@ -5285,12 +5442,12 @@ export const resolvers = {
 					replacements['study_submitter_id'] = args.study_submitter_id;
 					//"' and ga.project_submitter_id IN ('" + context.value.join("','") + "')";
 					break;
-				/*case 'log_ratio':
+				case 'log_ratio':
 					matrixCountQuery = "select count(distinct pq.aliquot_submitter_id) as total" +
 					" FROM phosphosite_quant pq"+
 					" WHERE pq.study_submitter_id = '"+ args.study_submitter_id + "'";
 					"' and pq.project_submitter_id IN ('" + context.value.join("','") + "')";
-					break;*/
+					break;
 			}
 
 			let myOffset = 0;
@@ -5319,7 +5476,7 @@ export const resolvers = {
 			else {
 				return [{total: 0}];
 			}
-		},
+		},*/
 		//@@@PDC-3640 new pdc metrics api
 		getPDCMetrics(_, args, context) {
 			logger.info("getPDCMetrics is called with "+ JSON.stringify(args));
@@ -5552,6 +5709,7 @@ export const resolvers = {
 		},
 
 		//@@@PDC-681 ui ptm data API
+		//@@@PDC-7628 use gene_id instead of gene_name
 		async getPaginatedUIPtm (_, args, context) {
 			context['parent']= "getPaginatedUIPtm";
 			//@@@PDC-4726 log search query
@@ -5577,13 +5735,24 @@ export const resolvers = {
 			let uiPtmBaseQuery = "SELECT distinct pq.ptm_type, pq.site, pq.peptide ";
 			//var uiPtmQuery = "FROM ptm_abundance pq"+
 			//@@@PDC-6287 case sensitive search
-			let uiPtmQuery = "FROM " + ptmTableName + " pq"+
-			" WHERE pq.gene_name = :gene_name ";
+			let uiPtmQuery = "FROM " + ptmTableName + " pq";
+			let replacements = null;
+			let cacheFilterName = { name:'' };
+			if (typeof args.gene_id != 'undefined') {
+				uiPtmQuery +=" WHERE pq.gene_id = uuid_to_bin(:gene_id) ";
+				replacements = { gene_id: args.gene_id };
+				cacheFilterName.name +="gene_id: ("+args.gene_id+");";
+			}
+			else {
+				uiPtmQuery +=" WHERE pq.gene_name = :gene_name ";
+				replacements = { gene_name: args.gene_name };
+				cacheFilterName.name +="gene_name: ("+args.gene_name+");";
+			}
 			//"and pq.project_submitter_id IN ('" + context.value.join("','") + "')";
 
-			let replacements = { gene_name: args.gene_name };
-			let cacheFilterName = { name:'' };
-			cacheFilterName.name +="gene_name: ("+args.gene_name+");";
+			//let replacements = { gene_name: args.gene_name };
+			//let cacheFilterName = { name:'' };
+			//cacheFilterName.name +="gene_name: ("+args.gene_name+");";
 
 			cacheFilterName['dataFilterName'] = cacheFilterName.name;
 			let myOffset = 0;
@@ -5652,7 +5821,8 @@ export const resolvers = {
 			}
 		},
 		//@@@PDC-678 ptm data matrix API
-		async paginatedPtmDataMatrix (_, args, context) {
+		//@@@PDC-7440 remove obsolete APIs
+		/*async paginatedPtmDataMatrix (_, args, context) {
 			logger.info("paginatedPtmDataMatrix is called with "+ JSON.stringify(args));
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/paginatedPtmDataMatrix").send();
@@ -5710,7 +5880,7 @@ export const resolvers = {
 			else {
 				return [{total: 0}];
 			}
-		},
+		},*/
 		//@@@PDC-898 new public APIs--study
 		async study (_, args, context) {
 			context['parent']= "study";
@@ -5951,6 +6121,7 @@ export const resolvers = {
 				logger.info("protocolPerStudy is called from UI with "+ JSON.stringify(args));
 			//@@@PDC-1154 column name correction: fractions_analyzed_count
 			//@@@PDC-1251 remove duplicates
+			//@@@PDC-7386 change acquisition_mode to polarity
 			let protoQuery = "SELECT distinct bin_to_uuid(prot.protocol_id) as protocol_id, "+
 			"prot.protocol_submitter_id, prot.experiment_type, protocol_name, "+
 			"bin_to_uuid(s.study_id) as study_id, s.study_submitter_id, s.pdc_study_id, "+
@@ -5969,9 +6140,9 @@ export const resolvers = {
 			"dda_topn, normalized_collision_energy, acquistion_type, "+
 			"dia_multiplexing, dia_ims, analytical_technique, "+
 			"chromatography_instrument_make, chromatography_instrument_model, "+
-			"trim(both '\r' from acquisition_mode) as acquisition_mode, "+
+			"trim(both '\r' from polarity) as polarity, "+
 			"reconstitution_solvent, reconstitution_volume, reconstitution_volume_uom, "+
-			"internal_standards, auxiliary_data, prot.cud_label "+
+			"internal_standards, extraction_method, ionization_mode, auxiliary_data, prot.cud_label "+
 			" from study s, program prog, project proj, protocol prot "+
 			" where prot.study_id = s.study_id and s.project_id = proj.project_id "+
 			" and proj.program_id = prog.program_id ";
@@ -6254,11 +6425,12 @@ export const resolvers = {
 
 			//@@@PDC-5290 add experiment types of TMT16 and TMT18
 			//@@@PDC-6691 add acquisition_mode
+			//@@@PDC-7386 change acquisition_mode to polarity
 			let experimentalQuery = "SELECT distinct bin_to_uuid(srm.study_run_metadata_id) as study_run_metadata_id, "+
 			" bin_to_uuid(s.study_id) as study_id, srm.study_run_metadata_submitter_id,"+
 			" s.study_submitter_id, s.pdc_study_id, "+
 			" srm.analyte, s.acquisition_type, s.experiment_type,"+
-			" srm.folder_name as plex_dataset_name, srm.experiment_number, srm.acquisition_mode, "+
+			" srm.folder_name as plex_dataset_name, srm.experiment_number, srm.polarity, "+
 			" p.fractions_analyzed_count as number_of_fractions, label_free as label_free_asi, itraq_113 as itraq_113_asi,"+
 			" itraq_114 as itraq_114_asi, itraq_115 as itraq_115_asi, itraq_116 as itraq_116_asi, itraq_117 as itraq_117_asi,"+
 			" itraq_118 as itraq_118_asi, itraq_119 as itraq_119_asi, itraq_121 as itraq_121_asi,"+
@@ -6574,10 +6746,11 @@ export const resolvers = {
 					}
 				);
 
-		},
+		}
 		//@@@PDC-964 async api for data matrix
 		//@@@PDC-1772 take quantDataMatrixDb offline
-		async quantDataMatrixDb(obj, args, context) {
+		//@@@PDC-7440 remove obsolete APIs
+		/*async quantDataMatrixDb(obj, args, context) {
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/quantDataMatrixDb").send();
 				context['parent']= "quantDataMatrixDb";
@@ -6606,7 +6779,7 @@ export const resolvers = {
 			matrix.push(row8);
 			return matrix;
 
-		}
+		}*/
 	}
 };
 

@@ -5,8 +5,6 @@ import { Apollo, SelectPipe } from 'apollo-angular';
 import { Observable, Subject } from 'rxjs';
 import { map ,  switchMap } from 'rxjs/operators';
 import gql from 'graphql-tag';
-
-import { Chart } from 'angular-highcharts';
 import {AnalyticFractionCount} from '../types';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
@@ -17,6 +15,8 @@ import { MatSidenav } from '@angular/material';
 
 import {TableTotalRecordCount} from '../types';
 import { MatTabChangeEvent } from '@angular/material';
+import * as d3 from 'd3';
+import { take } from 'rxjs/operators';
 
 declare var window: any;
 
@@ -73,9 +73,14 @@ export class BrowseComponent implements OnInit{
 	showBookmarkFlag = false;
 	disablePanelsFlag = false;
 	captureTabChange = "";
-	
 
 	@ViewChild('sidenav') myNav: MatSidenav;
+
+	analyticalFractionschartDataArr;
+	experimentStrategyChartDataArr;
+	analyticalFractionTypes;
+	experimentTypes;
+
 	constructor(private apollo: Apollo, private browseService: BrowseService, 
 		private route: ActivatedRoute,
 		private router: Router,
@@ -93,122 +98,260 @@ export class BrowseComponent implements OnInit{
 		this.bookmarkURL = this.baseUrl + this.loc.path() + "/filters/";
 		this.route.params.subscribe(params => this.browseStudy(params));
 	}
-	
-	/* This function creates empty pie chart */
-	createPieChart(): any {
-		return new Chart({
-		chart: {
-			type: 'pie',
-			height: '68%'
-		},
-		title: {
-			text: ''
-		},
-		credits: {
-			enabled: false
-		},
-		plotOptions: {
-			pie: {
-			allowPointSelect: true,
-			cursor: 'pointer',
-			point: {
-				events: {
-					click: event => {
-						this.parentCharts.next('disease type:'+event['point']['name']);
-						return true;
-					}
-				}
-			},
-			dataLabels: {
-					enabled: true,
-					//allowOverlap: true,
-					padding: -2,
-					format: '<b>{point.name}</b>:<br> {point.percentage:.1f} %',
-					style: {
-						fontFamily:'Lato',
-						fontSize: '10px',
-						color: '#585858'
-					}
-			},
-			innerSize: '50%',
-			colors: ['#FF9F31', '#FFD03C', '#407185', '#588897',
-					'#7BA2AF', '#F9EB36', '#65A5C8', '#67C4E2', '#71E2E8',  '#72E0C0',
-					'#91F7AB', '#A1F5F2', '#C3F968'  ]
-				},
-		},
-		series: [{
-			name: 'Case count',
-			type: 'pie',
-			data: []
-			}]
-		});
-	}
-	/* This function creates empty bar chart */
-	createBarChart(yAxisLable: string, chartName: string): any {
-		return new Chart({
-		chart: {
-			type: 'bar',
-			height: '68%'
-		},
-		colors: [  '#5888A5'],
-		title: {
-			text: ''
-		},
-		credits: {
-			enabled: false
-		},
-		legend: {
-			enabled: false,
-		},
-		xAxis: {
-			categories: []
-		},
-		yAxis: {
-			title: {
-				text: yAxisLable,
-			}
-		},
-		//@@@PDC-1731: Browse page - Analytical Fractions - Spacing in between numbers for Case Count
-		tooltip: {
-			pointFormat: '<span style="color:{series.color}">●</span> Case count: <b>{point.y:.f}</b><br/>'
-		},
-		plotOptions: {
-			//bar: {
-			series: {
-				cursor: 'pointer',
-				point: {
-					events: {
-						click: event => {
-							this.parentCharts.next(chartName+':'+event['point']['name']);
-							return true;
-						}
-					}
-				}
-			},
-		//},
-		},
-		series: [{
-			name: 'Case count',
-			type: 'bar',
-			data: []
-			}]
-		});
-		
-	}
+
 	/* API call to get disease types data for the pie chart */
 	// @@@PDC-221 - new API for disease counts
 getDiseasesData() {
-	this.browseService.getDiseases().subscribe((data: any) => {
+	this.browseService.getDiseases().pipe(take(1)).subscribe((data: any) => {
 		this.diseasesData = data.uiExperimentPie;
-		this.diseaseTypesChart = this.createPieChart();
-		// Put disease types data into pie chart
-		for (let idx = 0; idx < data.uiExperimentPie.length; idx ++){
-			this.diseaseTypesChart.options.series[0].data.push({
-				name: this.diseasesData[idx].disease_type,
-				y: this.diseasesData[idx].cases_count});
+		//@@@PDC-7596: Duplicate D3 Charts occur on the UI when Case URL is pasted in a new tab
+		d3.select("#diseaseTypes").remove();
+		this.createD3PieChart(data.uiExperimentPie);
+	});
+}
+
+//@@@PDC-7344: Replace highcharts with D3 in PDC chart implementation - Pie chart
+createD3PieChart(data) {
+	var that = this;
+	var chartId;
+	var svg;
+	var margin = 50;
+	var width = 375;
+	var height = 225;
+	var radius = Math.min(width, height) / 2 - margin;
+	const total = data.reduce((prev, next) => prev + next.cases_count, 0);
+	for (var i in data) {
+		let casesCount = data[i]['cases_count'];
+		let pcent = (casesCount/total)*100;
+		pcent = Number(pcent.toFixed(1));
+		data[i]['cases_count_pcent'] = pcent;
+	}
+	data = data.sort((a,b) => a.cases_count_pcent - b.cases_count_pcent);
+	data.reverse();
+	var chartID = '#diseaseTypesChart';
+	var tooltip = d3
+	.select(chartID)
+	.append('div')
+	.style('white-space', 'nowrap')
+	.style('position', 'absolute')
+	.style('class', 'charts-tooltip')
+	.style('opacity', 0)
+	.style('background-color', 'white')
+	.style('font-size', '12px')
+	.style('padding', '5px')
+	.style('color', 'black')
+	.style('box-shadow', '0 2px 5px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12)')
+	.style('border-radius', '5px')
+	.style('border', '1px solid rgba(40, 40, 40)')
+	.style('pointer-events', 'none');
+
+	var colors = d3
+	.scaleOrdinal()
+	.domain(data.map(d => d.cases_count_pcent.toString()))
+	.range([
+		'#FF9F31', '#FFD03C', '#407185', '#588897',
+		'#7BA2AF', '#FFD03C', '#407185', '#67C4E2', '#71E2E8',  '#72E0C0',
+		'#91F7AB', '#FF9F31', '#088F8F'
+	]);
+	svg =  d3
+	.select(chartID)
+	.append("svg")
+	.attr("id", 'diseaseTypes')
+	.attr('preserveAspectRatio','xMinYMin')
+	.attr("viewBox", `0 0 ${width} ${height}`)
+	.append("g")
+	.attr(
+		"transform",
+		"translate(" + width / 2 + "," + height / 2 + ")"
+	);
+	// Compute the position of each group on the pie
+	const pieChart = d3.pie<any>().value((d: any) => Number(d.cases_count_pcent));
+	const data_ready = pieChart(data);
+	//Define radius
+	var cRadius = 3;  
+	var iRadius = radius * 0.25;
+	var oRadius = radius * 0.75;
+	//Create an arc function   
+	var arc = d3
+	.arc()
+	.innerRadius(iRadius) // This is the size of the donut hole
+	.outerRadius(oRadius); 
+
+	//Turn the pie chart 90 degrees counter clockwise, so it starts at the left	
+/* 	var pie = d3.pie()
+		.startAngle(-90 * Math.PI/180)
+		.endAngle(-90 * Math.PI/180 + 2*Math.PI)
+		.value(function(d) { return d.cases_count_pcent; })
+		.padAngle(.01)
+		.sort(null); */
+
+	//Draw the arcs
+	svg.selectAll(".donutArcs")
+	.data(data_ready)
+	.enter().append("path")
+	.attr("class", "donutArcs")
+	.attr("id", d => `donutArc-${d.data.disease_type}`)
+	.attr("d", arc)
+	.attr("fill", (d, i) => (d.data.color ? d.data.color : colors(i)))
+	.attr("stroke", "white")
+	.style("stroke-width", "2px")
+	.style("opacity", 1)
+	.style('cursor', 'pointer')
+	.attr('onload', function (d,i) {
+		tooltip.style('opacity', 0);
+	})
+	.on('mouseover', function (i, d) { 
+		var offsetTop= 300;
+		var offsetRight = 0;
+		// display tooltip
+		tooltip.style('opacity', 0);
+		tooltip.style('opacity', 1);
+		tooltip.html(`${d.data.disease_type}<br><span style="color:${colors(i)}">●</span>&nbsp;Case count: <span>${d.data.cases_count}</span>`)
+		.style('top', `${i['pageY'] - offsetTop}px`)
+		.style('right', `${offsetRight}px`)
+		.style('transform', 'translateX(-50%)')
+		.style('transform', 'translateX(-50%)');
+		//Reduce opacity of arcs
+		var elements = document.getElementsByClassName('donutArcs');
+		for (var j = 0; j < elements.length; j++) {
+			if (elements[j].id != `donutArc-${d.data.disease_type}`) {
+				elements[j]["style"].opacity = '0.3';
+			}
+		}
+		//Reduce opacity of polylines
+		var elements = document.getElementsByClassName('polyLines');
+		for (var k = 0; k < elements.length; k++) {
+			if (elements[k].id != `polyLine-${d.data.disease_type}`) {
+				elements[k]["style"].opacity = '0.3';
+			}
+		}
+	})
+	.on('mouseout', function (i, d) {  
+		tooltip.style('opacity', 0);
+		d3.select(".charts-tooltip").remove();
+		//Set opacity back to normal
+		var elements = document.getElementsByClassName('donutArcs');
+		for (var j = 0; j < elements.length; j++) {
+			if (elements[j].id != `donutArc-${d.data.disease_type}`) {
+				elements[j]["style"].opacity = '1';
+			}
+		}
+		//Set opacity back to normal
+		var elements = document.getElementsByClassName('polyLines');
+		for (var k = 0; k < elements.length; k++) {
+			if (elements[k].id != `polyLine-${d.data.disease_type}`) {
+				elements[k]["style"].opacity = '1';
+			}
+		}
+	})
+	.on('click', (i, d) => {  
+		tooltip.style('opacity', 0);
+		this.parentCharts.next('disease type:'+d.data.disease_type);
+   	});
+
+	svg
+	.selectAll('allPolylines')
+	.data(data_ready)
+	.enter()
+	.append('polyline')
+	.attr("class", "polyLines")
+	.attr("id", d => `polyLine-${d.data.disease_type}`)
+	//.attr('x', 4)
+    //.attr('y', 5)
+	//.attr("stroke", "black")
+	.attr("stroke", (d, i) => (d.data.color ? d.data.color : colors(i)))
+	.style("fill", "none")
+	.attr("stroke-width", 1)
+	.attr('points', function(d, i) {
+		if (d.data.cases_count_pcent > 4) {
+			var myArcMaker= d3.arc().outerRadius(oRadius).innerRadius(iRadius).cornerRadius(cRadius);
+			var bigArcMaker=  d3.arc().outerRadius(95).innerRadius(oRadius).cornerRadius(cRadius);
+			var p = "";
+      		p += myArcMaker.centroid(d)[0] + ',' + myArcMaker.centroid(d)[1] + ',' + bigArcMaker.centroid(d)[0] + ',' + bigArcMaker.centroid(d)[1];
+      		return p;
+		}
+	})
+
+	// Add the polylines between chart and labels:
+	svg
+	.selectAll('allLabels')
+	.data(data_ready)
+	.enter()
+	.append('text')
+	.attr('dy', function (d,i) {
+		//For future reference
+		if ((i % 2) == 0) {
+			//return 2;
+		} else {
+			//return 10;
+		}
+	})
+	.text( function(d) { 
+		if (d.data.cases_count_pcent > 4) {
+			let displayLabel = that.trimText(d.data.disease_type, 15) + ': ' + d.data.cases_count_pcent + '%'
+			//return displayLabel;
+			return d.data.disease_type + ': ' + d.data.cases_count_pcent + '%';
+		}
+	}) 
+	.call(that.lineBreak, 30)
+	.attr('transform', function(d, i) {
+		if (d.data.cases_count_pcent > 4) {
+			var bigArcMaker = d3.arc().outerRadius(96).innerRadius(oRadius).cornerRadius(cRadius);
+			var pos = "";
+			//@@@PDC-7508: Improvements to the D3 charts
+			// Add padding to avoid overlapping of text near the mid arc of donut chart
+			if (d.startAngle < 3.0  && d.endAngle > 3.0) {
+				pos += bigArcMaker.centroid(d)[0] + ',' + (bigArcMaker.centroid(d)[1] + 10);
+			} else {
+				pos += bigArcMaker.centroid(d)[0] + ',' + (bigArcMaker.centroid(d)[1]);
+			}
+			return 'translate(' + pos + ')';
+		}
+	})
+	.style("color", "#585858")
+	.style("fill", "#585858")
+	.style("font-family", '"Lucida Grande", "Lucida Sans Unicode", Arial, Helvetica, sans-serif')
+	.style('text-anchor', function(d) {
+		var midangle = d.startAngle + (d.endAngle - d.startAngle) / 2
+		return (midangle < Math.PI ? 'start' : 'end')
+	});
+	
+}
+
+//@@@PDC-7508: Improvements to the D3 charts
+lineBreak(text, width) {
+	text.each(function () {
+		var el = d3.select(this);
+		let words = el.text().split(' ');
+		let wordsFormatted = [];
+
+		let string = '';
+		for (let i = 0; i < words.length; i++) {
+			if (words[i].length + string.length <= width) {
+			string = string + words[i] + ' ';
+			}
+			else {
+			wordsFormatted.push(string);
+			string = words[i] + ' ';
+			}
+		}
+		wordsFormatted.push(string);
+
+		el.text('');
+		for (var i = 0; i < wordsFormatted.length; i++) {
+			var tspan = el.append('tspan').text(wordsFormatted[i]);
+			if (i > 0)
+			tspan.attr('x', 0).attr('dy', '8');
 		}
 	});
 }
+
+//@@@PDC-7344: Replace highcharts with D3 in PDC chart implementation - Pie chart
+trimText(text, threshold) {
+    if (text.length <= threshold) return text;
+    return text.substr(0, threshold).concat("...");
+}
+
 
 /* Check if a specific diseases type is already an element in disease types array 
 		Parameters: array, disease
@@ -225,61 +368,244 @@ private isDiseaseInArray(array, disease: string): number{
 }
 
 getCasesByAnalyticFraction() {
-	this.browseService.getAnalyticFractionTypeCasesCount().subscribe((data: any) => {
-		this.analyticalFractionsChart = this.createBarChart('Cases','analytical fractions');
-		// initialize data in the chart
-		this.analyticalFractionsChart.options.series[0].data.splice(0, this.analyticalFractionsChart.options.series[0].data.length);
-		this.analyticalFractionsChart.options.xAxis.categories.splice(0, this.analyticalFractionsChart.options.xAxis.categories.length);
-		for ( let idx = 0; idx < data.uiAnalyticalFractionsCount.length; idx++) {
-			const j = this.isExperimentTypeInArray(this.analyticalFractionsCounts, data.uiAnalyticalFractionsCount[idx].analytical_fraction);
-			if (j > -1) {
-				this.analyticalFractionsCounts[j].count = data.uiAnalyticalFractionsCount[idx].cases_count;
-			} else {
-				this.analyticalFractionsCounts.push({
-					analytical_fraction: data.uiAnalyticalFractionsCount[idx].analytical_fraction,
-					count: data.uiAnalyticalFractionsCount[idx].cases_count});
-			}
+	this.browseService.getAnalyticFractionTypeCasesCount().pipe(take(1)).subscribe((analyticalFractionsData: any) => {
+		this.analyticalFractionschartDataArr = analyticalFractionsData.uiAnalyticalFractionsCount;
+		if ( this.analyticalFractionschartDataArr.length > 0) {
+			this.analyticalFractionTypes = this.analyticalFractionschartDataArr.map(a => a.analytical_fraction);
 		}
-		for (let idx = 0; idx < this.analyticalFractionsCounts.length; idx++) {
-			// push data to bar chart
-			this.analyticalFractionsChart.options.series[0].data.push({
-				name: this.analyticalFractionsCounts[idx].analytical_fraction,
-				y: this.analyticalFractionsCounts[idx].count});
-			// push categories to bar chart
-			this.analyticalFractionsChart.options.xAxis.categories.push(
-				this.analyticalFractionsCounts[idx].analytical_fraction);
+		//@@@PDC-7278: Replace highcharts with D3 in PDC chart implementation
+		var dataJSON = {
+			chartName: "analytical fractions",
+			chartDataArr: this.analyticalFractionschartDataArr,
+			chartID : "analyticalFractions",
+			chartIDValue : "#analyticalFractionChart",
+			caseCountKey : "cases_count",
+			filterKey : "analytical_fraction",
+			offsetLeft: 200,
+			offsetTop: 300,
+			offsetRight: 0
 		}
-	
+		//@@@PDC-7596: Duplicate D3 Charts occur on the UI when Case URL is pasted in a new tab
+		d3.select("#analyticalFractions").remove();
+		this.createD3BarChart(dataJSON);
 	});
 }
+
+
+//@@@PDC-7278: Replace highcharts with D3 in PDC chart implementation
+createD3BarChart(dataJSON) {
+	var chartName = dataJSON["chartName"];
+	var chartDataArr = dataJSON["chartDataArr"];
+	var chartID = dataJSON["chartID"];
+	var chartIDValue = dataJSON["chartIDValue"];
+	var caseCountKey = dataJSON["caseCountKey"];
+	var filterKey = dataJSON["filterKey"];
+	var offsetLeft = dataJSON["offsetLeft"];
+	var offsetTop = dataJSON["offsetTop"];
+	var offsetRight = dataJSON["offsetRight"];	
+
+	let highestCurrentValue = 0;
+	var highestValue;
+    var svg;
+    var margin = 100;
+    var width = 750 - margin * 2;
+    var height = 600 - margin * 2;
+	let tableLength = chartDataArr.length;
+
+	//define tooltip
+	var tooltip = d3
+	.select(chartIDValue)
+	.append('div')
+	.style('white-space', 'nowrap')
+	.style('position', 'absolute')
+	.style('class', 'charts-tooltip')
+	//.style('opacity', 0)
+	.style('background-color', 'white')
+	.style('font-size', '12px')
+	.style('padding', '5px')
+	.style('color', 'black')
+	.style('box-shadow', '0 2px 5px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12)')
+	.style('border-radius', '5px')
+	.style('border', '1px solid rgba(40, 40, 40)')
+	.style('pointer-events', 'none');
+
+	chartDataArr.forEach((data, i) => {
+	  const barValue = Number(data[caseCountKey]);
+	  if (barValue > highestCurrentValue) {
+		highestCurrentValue = barValue;
+	  }
+	  if (tableLength == i + 1) {
+		highestValue = highestCurrentValue.toString();
+	  }
+	});
+
+	//Creating SVG for the chart
+	svg = d3
+	  .select(chartIDValue)
+	  .append("svg")
+	  .attr(
+		"viewBox",
+		`-105 30 ${width + margin * 2} ${height + margin * 2}`
+	  )
+	  .attr("id", chartID)
+	  .append("g")
+	  .attr("transform", "translate(" + margin + "," + margin + ")");
+
+
+	let rangeValue = 50;
+	if (chartID == 'analyticalFractions') {
+		rangeValue =  500;
+	}
+
+	// Create X-axis band scale
+	var x = d3
+	.scaleLinear()
+	.range([0, width])
+	.domain([0, Number(highestValue)]);
+	   
+    var data = chartDataArr;
+	var xaxisID = chartID + '-xaxis';
+	var yaxisID = chartID + '-yaxis';
+
+    //Drawing X-axis on the DOM
+     svg
+	   .append("g")
+	   .attr("transform", "translate(0," + height + ")")
+	   .style('class', 'xaxis')
+		.attr("id", xaxisID)
+	   .classed('tick', true)
+	   .call(d3.axisBottom(x).ticks(4).tickFormat(d3.format('d')))
+	   .selectAll("text")
+	   // .attr('transform', 'translate(-10, 0)rotate(-45)')
+	   // .style('text-anchor', 'end')
+	   .style("font-size", "24px")
+	   .style("padding", "0.2"); 
+   
+	//Creaate Y-axis band scale
+	const y = d3
+	.scaleBand()
+	.range([0, height])
+	.domain(data.map(d => d[filterKey]))
+	.padding(0.2);
+   
+   svg
+	   .append("g")
+	   .attr("id", yaxisID)
+	   .call(d3.axisLeft(y))
+	   .selectAll("text");
+
+   //@@@PDC-7508: Improvements to the D3 charts
+   svg.append("text")
+    .attr("class", "casesLabel")
+    .attr("text-anchor", "end")
+    .attr("x", width/2)
+    .attr("y", height + 75)
+    .text("Cases");
+
+
+  let xaxis_ticks = d3.selectAll(`${chartIDValue} #${xaxisID} .tick>text`)
+	.nodes()
+	.map(function(t) {
+		var response = JSON.stringify(t);
+		let res = response.split(":");
+		let tickVal  = Number(res[1].replace("}", ""));
+		return tickVal;
+		//return t.innerHTML;
+	})
+ 
+	// Vertical lines
+  	for (let i = 0; i <= xaxis_ticks.length; i++) {
+		svg
+		.append('line')
+		.attr('stroke', `#e6e6e6`)
+		.attr('stroke-width', `2`)
+		.attr('stroke-dasharray', 'none')
+		.attr('data-z-index', '1')
+		.attr('x1', (x(xaxis_ticks[i])))
+		.attr('x2', (x(xaxis_ticks[i])))
+		.attr('y1', 0)
+		.attr('y2', height);
+	} 
+
+	//@@@PDC-7508: Improvements to the D3 charts
+	let barWidthDiff = 20;
+	if (tableLength <= 5) barWidthDiff = 30;
+
+   //Create horizontal bars
+   svg.append("g")
+	.attr("fill", "rgb(88, 136, 165)")
+	.selectAll()
+	.data(data)
+	.join("rect")
+	.attr("x", x(0))
+	.attr("y", (d) => y(d[filterKey]))
+	.attr("width", (d) => x(d[caseCountKey]) - x(0))
+	.attr("height", y.bandwidth() - barWidthDiff) 
+	.attr('cursor', 'pointer')
+	.attr('title', (d) =>  d[filterKey])
+	.attr("id", (d) =>  d[filterKey])
+	.attr('class', d => `bar-${d[filterKey]}`)
+	.attr('onload', function (d,i) {
+		tooltip.style('opacity', 0);
+	})
+	.on('mouseover', function (i, d) { 
+		tooltip.style('opacity', 0);
+		tooltip.style("opacity", 1);
+		// create a tooltip
+		tooltip.html(`${d[filterKey]}<br><span style="color:rgb(88, 136, 165)">●</span>&nbsp;Case count: <span>${d[caseCountKey]}</span>`)
+		.style('top', `${i['pageY'] - offsetTop}px`)
+		.style('right', `${offsetRight}px`)
+		.style('transform', 'translateX(-50%)')
+		.style('transform', 'translateX(-50%)');
+		if (chartIDValue == "analyticalFractionChart") {
+			tooltip.style('left', `${i['pageX'] - offsetLeft}px`)
+		}
+		//@@@PDC-7508: Improvements to the D3 charts
+		d3.select(`.bar-${d[filterKey]}`)
+		.attr('fill', f => {
+			return 'rgb(113, 161, 190)';
+		});
+		//d3.select(".charts-tooltip").remove();
+	  })
+	.on('mouseout', function (i, d) {  
+		tooltip.style('opacity', 0);
+		d3.select(".charts-tooltip").remove();
+		//@@@PDC-7508: Improvements to the D3 charts
+		d3.select(`.bar-${d[filterKey]}`)
+  		.attr('fill', 'rgb(88, 136, 165)')
+		})
+	.on('click', (i, d) => {  
+		tooltip.style('opacity', 0);
+		this.parentCharts.next(chartName+':'+d[filterKey]);
+	}); 
+}
+
 /* API call to get all experiment types for the bar chart */
 // @@@PDC-221 - new API for experiment types counts
 getCasesByExperimentalStrategy(){
-	this.browseService.getExperimentTypeCasesCount().subscribe((data: any) => {
-		this.expCountChart = this.createBarChart('Cases','experiment types');
-		// this.analyticalFractionsChart = this.createBarChart('Ca');
-			
-			//initialize data in the chart
-			this.expCountChart.options.series[0].data.splice(0, this.expCountChart.options.series[0].data.length);
-			this.expCountChart.options.xAxis.categories.splice(0, this.expCountChart.options.xAxis.categories.length);
-	// map data.uiExperimentBar to this.expTypesCounts variable of type ExperimentTypeCount
-			for (let idx = 0; idx < data.uiExperimentBar.length; idx++) {
-				let j = this.isExperimentTypeInArray(this.expTypesCounts, data.uiExperimentBar[idx].experiment_type);
-				if (j > -1){
-					this.expTypesCounts[j].count = data.uiExperimentBar[idx].cases_count;
-				} else {
-					this.expTypesCounts.push({experiment_type: data.uiExperimentBar[idx].experiment_type, count: data.uiExperimentBar[idx].cases_count});
-				}
-			}
-			for(let idx = 0; idx < this.expTypesCounts.length; idx++) {
-					//push data to bar chart
-					this.expCountChart.options.series[0].data.push({name:this.expTypesCounts[idx].experiment_type,
-															y:this.expTypesCounts[idx].count})
-					//push categories to bar chart
-					this.expCountChart.options.xAxis.categories.push(this.expTypesCounts[idx].experiment_type);
-				}
-		});
-	}
+	this.browseService.getExperimentTypeCasesCount().pipe(take(1)).subscribe((experimentalStrategyData: any) => {
+		this.experimentStrategyChartDataArr = experimentalStrategyData.uiExperimentBar;
+		if ( this.experimentStrategyChartDataArr.length > 0) {
+			this.experimentTypes = this.experimentStrategyChartDataArr.map(a => a.experiment_type);
+		}
+		//@@@PDC-7278: Replace highcharts with D3 in PDC chart implementation
+		var dataJSON = {
+			chartName: "experiment types",
+			chartDataArr: this.experimentStrategyChartDataArr,
+			chartID : "experimentalStrategy",
+			chartIDValue : "#expCountChart",
+			caseCountKey : "cases_count",
+			filterKey : "experiment_type",
+			offsetLeft: 0,
+			offsetTop: 300,
+			offsetRight: 50
+		}
+		//@@@PDC-7596: Duplicate D3 Charts occur on the UI when Case URL is pasted in a new tab
+		d3.select("#experimentalStrategy").remove();
+		this.createD3BarChart(dataJSON);
+	});
+}
+
 	  /* Check if a specific experiment type is already an element in experiment types array 
 		Parameters: array, experiment_type
 		Return value: if the experiment type element is found in the array 
@@ -412,65 +738,72 @@ getCasesByExperimentalStrategy(){
 		      
 		//console.log("Filter Value of study name: "+ this.newFilterSelected['study_name']);
 
-		this.browseService.getFilteredAnalyticFractionTypeCasesCount(this.newFilterSelected).subscribe((data: any) => {
-			this.analyticalFractionsChart = this.createBarChart('Cases','analytical fractions');
-			// initialize data in the chart
-			this.analyticalFractionsChart.options.series[0].data.splice(0, this.analyticalFractionsChart.options.series[0].data.length);
-			this.analyticalFractionsChart.options.xAxis.categories.splice(0, this.analyticalFractionsChart.options.xAxis.categories.length);
-			console.log(this.analyticalFractionsCounts);
-			console.log(data);
-			// map data.uiExperimentBar to this.expTypesCounts variable of type ExperimentTypeCount
-			for ( let idx = 0; idx < this.analyticalFractionsCounts.length; idx++) {
-				let j = this.isInArray(data.uiAnalyticalFractionsCount, this.analyticalFractionsCounts[idx].analytical_fraction);
-				if (j !== -1) {
-					this.analyticalFractionsCounts[idx].count = data.uiAnalyticalFractionsCount[j].cases_count;
-				} else {
-					this.analyticalFractionsCounts[idx].count = 0;
-				}
+		this.browseService.getFilteredAnalyticFractionTypeCasesCount(this.newFilterSelected).pipe(take(1)).subscribe((data: any) => {
+			//@@@PDC-7278: Replace highcharts with D3 in PDC chart implementation
+			var chartDataArr = data.uiAnalyticalFractionsCount;
+			if (chartDataArr.length > 0) {
+				this.displayAllFractionsAndSort(this.analyticalFractionTypes, chartDataArr, 'analytical_fraction', 'cases_count');
 			}
-			for (let idx = 0; idx < this.analyticalFractionsCounts.length; idx++) {
-				// push data to bar chart
-				this.analyticalFractionsChart.options.series[0].data.push({
-					name: this.analyticalFractionsCounts[idx].analytical_fraction,
-					y: this.analyticalFractionsCounts[idx].count});
-				// push categories to bar chart
-				this.analyticalFractionsChart.options.xAxis.categories.push(
-					this.analyticalFractionsCounts[idx].analytical_fraction);
+			d3.select("#analyticalFractions").remove();
+			var dataJSON = {
+				chartName: "analytical fractions",
+				chartDataArr: chartDataArr,
+				chartID : "analyticalFractions",
+				chartIDValue : "#analyticalFractionChart",
+				caseCountKey : "cases_count",
+				filterKey : "analytical_fraction",
+				offsetLeft: 200,
+				offsetTop: 300,
+				offsetRight: 0
 			}
-			});
+			this.createD3BarChart(dataJSON);
+		});
 		// Update experiment types bar chart
-		this.browseService.getFilteredExperimentTypeCasesCount(this.newFilterSelected).subscribe((data: any) => {
-			this.expCountChart = this.createBarChart('Cases','experiment types');
-			// initialize data in the chart
-			this.expCountChart.options.series[0].data.splice(0, this.expCountChart.options.series[0].data.length);
-			this.expCountChart.options.xAxis.categories.splice(0, this.expCountChart.options.xAxis.categories.length);
-			// map data.uiExperimentBar to this.expTypesCounts variable of type ExperimentTypeCount
-			for (let idx = 0; idx < this.expTypesCounts.length; idx++) {
-				let j = this.isExperimentTypeInArray(data.uiExperimentBar, this.expTypesCounts[idx].experiment_type);
-				if (j > -1) {
-					this.expTypesCounts[idx].count = data.uiExperimentBar[j].cases_count;
-				} else {
-					this.expTypesCounts[idx].count = 0;
-				}
+		this.browseService.getFilteredExperimentTypeCasesCount(this.newFilterSelected).pipe(take(1)).subscribe((data: any) => {
+			//@@@PDC-7278: Replace highcharts with D3 in PDC chart implementation
+			var chartDataArr = data.uiExperimentBar;
+			if (chartDataArr.length > 0) {
+				this.displayAllFractionsAndSort(this.experimentTypes, chartDataArr, 'experiment_type', 'cases_count');
 			}
-			for (let idx = 0; idx < this.expTypesCounts.length; idx++) {
-				// push data to bar chart
-				this.expCountChart.options.series[0].data.push({name: this.expTypesCounts[idx].experiment_type,
-																	y: this.expTypesCounts[idx].count})
-				// push categories to bar chart
-				this.expCountChart.options.xAxis.categories.push(this.expTypesCounts[idx].experiment_type);
+			d3.select("#experimentalStrategy").remove();
+			var dataJSON = {
+				chartName: "experiment types",
+				chartDataArr: chartDataArr,
+				chartID : "experimentalStrategy",
+				chartIDValue : "#expCountChart",
+				caseCountKey : "cases_count",
+				filterKey : "experiment_type",
+				offsetLeft: 0,
+				offsetTop: 300,
+				offsetRight: 50
 			}
+			this.createD3BarChart(dataJSON);
 		});
 		// Update disease types pie chart
-		this.browseService.getFilteredDiseases(this.newFilterSelected).subscribe((data: any) => {
+		this.browseService.getFilteredDiseases(this.newFilterSelected).pipe(take(1)).subscribe((data: any) => {
 			this.diseasesData = data.uiExperimentPie;
-			this.diseaseTypesChart = this.createPieChart();
-			// Put disease types data into pie chart
-			for (let idx = 0; idx < data.uiExperimentPie.length; idx ++) {
-				this.diseaseTypesChart.options.series[0].data.push({ name: this.diseasesData[idx].disease_type,
-																		y: this.diseasesData[idx].cases_count});
-			}
+			d3.select("#diseaseTypes").remove();
+			this.createD3PieChart(data.uiExperimentPie);
 		});
+	}
+
+	displayAllFractionsAndSort(types, chartDataArr, sortField, countField) {
+		for (var i in types) {
+			if (!chartDataArr.includes(types[i])) {
+				let typeData = {};
+				typeData[sortField] = types[i];
+				typeData[countField] = 0;
+				chartDataArr.push(typeData);
+			}
+		}
+		chartDataArr.sort((a, b) => {
+			if (a[sortField] < b[sortField])
+				return -1;
+			if (a[sortField] > b[sortField])
+				return 1;
+			return 0;
+		});
+		return chartDataArr;
 	}
 
 	//@@@PDC-277: Add a filter crumb bar at the top that explains the filter criteria selected
@@ -807,11 +1140,7 @@ getCasesByExperimentalStrategy(){
 	}
 
 	ngOnInit() {
-	// this.diseaseTypesChart = this.createPieChart();
-	// this.onFilterSelected('');
 	this.getDiseasesData();
-	this.expCountChart = this.createBarChart('Cases','experiment types');
-	this.analyticalFractionsChart = this.createBarChart('Cases', 'analytical fractions');
 	this.getCasesByExperimentalStrategy();
 	this.getCasesByAnalyticFraction();
 	}

@@ -29,6 +29,7 @@ export class OncoprintComponent implements OnInit, OnChanges {
 	dataByStudy: any = [];
 	fullTrackCount = 0;
 	@Input() gene_id:string;
+	@Input() uuid:string;
 	loading = false;
 	vizHeight:number = 180;
 	vizWidth = 2000;
@@ -74,8 +75,9 @@ export class OncoprintComponent implements OnInit, OnChanges {
 	  //reinitialize array that holds the data
 	  this.dataForViz = [];
 	  this.dataByStudy = [];
-	  console.log("Gene name used to get aliquot: "+this.gene_id);
-	  this.genePageService.getAliquotSpectralCount(this.gene_id, 0, 10000, "", this.newFilterSelected).subscribe((data: any) =>{
+	  console.log("Gene name/id used to get aliquot: "+this.gene_id+"-"+this.uuid);
+	  //@@@PDC-7690 use gene_id to get gene info
+	  this.genePageService.getAliquotSpectralCount(this.gene_id, this.uuid, 0, 10000, "", this.newFilterSelected).subscribe((data: any) =>{
 			this.aliquotSpectralCountsList = data.getPaginatedUIGeneAliquotSpectralCountFiltered.uiGeneAliquotSpectralCounts;
 			console.log(this.aliquotSpectralCountsList);
 			this.aliquotTotalRecords = data.getPaginatedUIGeneAliquotSpectralCountFiltered.total;

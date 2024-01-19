@@ -75,7 +75,7 @@ describe("SearchService", () => {
       });
 
       const op = controller.expectOne(service.searchGeneQuery);
-
+	  //@@@PDC-7657 add ncbi_gene_id
       op.flush({
         data: {
           geneSearch: {
@@ -84,11 +84,15 @@ describe("SearchService", () => {
                 record_type: "gene",
                 name: "CDC42EP1",
                 description: "CDC42 effector protein 1",
+				gene_id: "f71517d5-b814-11e8-907f-0a2705229b82",
+				ncbi_gene_id: "1"
               },
               {
                 record_type: "gene",
                 name: "CDC42EP2",
                 description: "CDC42 effector protein 2",
+				gene_id: "f71117d5-b814-11e8-907f-0a2705229b82",
+				ncbi_gene_id: "2"
               },
             ],
           },
@@ -118,7 +122,9 @@ describe("SearchService", () => {
                 record_type: "protein",
                 name: "A1BG",
                 description: "alpha-1-B glycoprotein",
-                proteins: "M0R009;NP_570602.2;P04217;P04217-2",
+				gene_id: "f71117d5-b814-11e8-907f-0a2705229b82",
+				ncbi_gene_id: "2",
+                proteins: "M0R009;NP_570602.2;P04217;P04217-2"
               },
             ],
           },

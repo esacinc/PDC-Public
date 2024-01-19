@@ -142,19 +142,19 @@ a.disabled {
 }
 
 /* @@@PDC-1160: Add cases and aliquots to the study summary page */
-:host /deep/ .ui-table th {
+:host ::ng-deep .ui-table th {
     word-wrap: break-word !important;
 }
 
 //@@@PDC-1219: Add a new experimental design tab on the study summary page
-:host /deep/ .ui-table tr td .colValue div {
+:host ::ng-deep .ui-table tr td .colValue div {
 	font-weight: bold;
 	font-style: italic;
 	color: #3A8BB7;
 }
 
 //@@@PDC-3719 include disqualified in study summary Experimental Design table
-:host /deep/ .ui-table tr td  .colValue .colValueDisqualified {
+:host ::ng-deep .ui-table tr td  .colValue .colValueDisqualified {
 	font-weight: normal;
     font-style: normal;
 	color: red;
@@ -165,7 +165,7 @@ a.disabled {
 }
 
 //@@@PDC-1420: Cannot sort the columns in "Clinical" table of the Study summary page
-/* :host /deep/ .ui-table table {
+/* :host ::ng-deep .ui-table table {
 	width: 100% !important;
 } */
 
@@ -197,7 +197,7 @@ a.disabled {
 	font-weight: 800;
 }
 
-/deep/ {
+::ng-deep {
 
 	.ui-table tr td, .ui-table-thead tr, .table, .table tr td, .table tr th {
 		font-size: 14px !important;
@@ -268,6 +268,6 @@ a.disabled {
 }
 
 //@@@PDC-4995: Alignment issues
-:host /deep/ .ui-table-unfrozen-view .ui-table-scrollable-header-box {
+:host ::ng-deep .ui-table-unfrozen-view .ui-table-scrollable-header-box {
 	padding-right: 17px !important;
 }

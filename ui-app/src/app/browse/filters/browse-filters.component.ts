@@ -247,6 +247,8 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
   showAccess: boolean = false;
   showDownloadable: boolean = false;
   showStudyName: boolean = false;
+  invalidGenesEnteredByUser = [];
+  validGenesNotUsedInPDCStudies = [];
 
   @ViewChild("primarySiteLists") primarySiteLists: ElementRef;
 
@@ -1785,37 +1787,128 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
     this.studyNameForGenesTab = [];
     this.allStudyIDsForGenes = [];
     this.updateFiltersCounters();
+    this.invalidGenesEnteredByUser = [];
+    this.validGenesNotUsedInPDCStudies = [];
   }
 
   //Search for a gene name to validate that such gene exists in our system
-  searchGeneNames(search_term:string){
+  searchGeneNames(search_term:string) {
 	this.loadingGeneSymbolValidation = true;
-	this.browseFiltersService.getGeneSearchResults(search_term).subscribe((data: any) =>{
-		this.geneSearchResults = data.geneSearch.genes;
-		this.geneNameValid = false;
-		for (let returnValue of this.geneSearchResults){
-			if (returnValue.name.toLowerCase() === search_term.toLowerCase()){
-				this.geneNameValid = true;
-				this.options += returnValue.name + " ";
-			}
-		}
-		if (this.geneNameValid) {
-			this.allGeneNamesValid = this.allGeneNamesValid && true;
-		}
-		else {
-			this.allGeneNamesValid = this.allGeneNamesValid && false;
-		}
-		console.log(this.allGeneNamesValid);
-		console.log(this.options);
-		//Change loading to false only after finished checking all genes in the list
-		if ( this.allGeneNamesValid && this.validatingGeneNamesCounter == this.valudatedGeneNamesList.length) {
-			this.loadingGeneSymbolValidation = false;
-		}
-		else {
-			this.validatingGeneNamesCounter++;
-		}
+  this.validGenesNotUsedInPDCStudies = [];
+	this.browseFiltersService.getGeneSearchResults(search_term).subscribe((data: any) => {
+    //@@@PDC-7786: UI change to report error for genes not used in studies
+    this.browseFiltersService.getGeneStudyCountResults(search_term).subscribe((geneData: any) => {
+      let geneStudyCount = geneData.geneStudyCount;
+      this.geneSearchResults = data.geneSearch.genes;
+      this.geneNameValid = false;
+      for (let returnValue of this.geneSearchResults){
+        if (returnValue.name.toLowerCase() === search_term.toLowerCase()){
+          this.geneNameValid = true;
+          this.options += returnValue.name + " ";
+        }
+      }
+      if (this.geneNameValid) {
+        this.allGeneNamesValid = this.allGeneNamesValid && true;
+      }
+      else {
+        //@@@PDC-7447: Add a message to inform users when a Gene symbol cannot be searched
+        this.selectedGeneNames = this.selectedGeneNames.replace(/\n/g, " ");
+        var geneNamesArray = this.selectedGeneNames.trim().split(" ");
+        this.allGeneNamesValid = this.allGeneNamesValid && false;
+        if (!this.invalidGenesEnteredByUser.includes(search_term) && geneNamesArray.includes(search_term)) {
+          this.invalidGenesEnteredByUser.push(search_term);
+        }
+      }
+      if (geneStudyCount == 0) {
+        if (!this.validGenesNotUsedInPDCStudies.includes(search_term) && !this.invalidGenesEnteredByUser.includes(search_term)) {
+          //this.allGeneNamesValid = this.allGeneNamesValid && false;
+          this.validGenesNotUsedInPDCStudies.push(search_term);
+        }
+      }
+      //Change loading to false only after finished checking all genes in the list
+      if ( this.validatingGeneNamesCounter == this.valudatedGeneNamesList.length) {
+        this.loadingGeneSymbolValidation = false;
+      }
+      else {
+        this.validatingGeneNamesCounter++;
+      }
+    });
 	});
   }
+
+  //@@@PDC-7447: Add a message to inform users when a Gene symbol cannot be searched
+  deleteInvalidGeneBreadcrumb(invalidGene) {
+    if (invalidGene.length > 0) {
+      let isPresent = this.containsInvalidGene(invalidGene);
+      if (isPresent != -1) {
+        this.invalidGenesEnteredByUser.splice(isPresent, 1);
+        this.selectedGeneNames = this.selectedGeneNames.replace(/\n/g, " ");
+        var geneNamesArray = this.selectedGeneNames.split(" ");
+        for (var i=0; i < geneNamesArray.length; i++) {
+          if (geneNamesArray[i] == invalidGene) {
+            delete geneNamesArray[i];
+          }
+        } 
+        this.selectedGeneNames = "";
+        this.selectedGeneNames = geneNamesArray.join(' ');
+        this.selectedGeneNames = this.selectedGeneNames.trim();
+        if (this.selectedGeneNames.length > 0) {
+          this._validate(this.selectedGeneNames);
+        } else {
+          this.loadingGeneSymbolValidation = false;
+        }
+      }
+    }
+  }
+
+  //@@@PDC-7786: UI change to report error for genes not used in studies
+  deleteGeneNotEnteredInStudyBreadcrumb(invalidGene) {
+    if (invalidGene.length > 0) {
+      let isPresent = this.containsGeneEnteredInStudy(invalidGene);
+      if (isPresent != -1) {
+        this.validGenesNotUsedInPDCStudies.splice(isPresent, 1);
+        this.selectedGeneNames = this.selectedGeneNames.replace(/\n/g, " ");
+        var geneNamesArray = this.selectedGeneNames.split(" ");
+        for (var i=0; i < geneNamesArray.length; i++) {
+          if (geneNamesArray[i] == invalidGene) {
+            delete geneNamesArray[i];
+          }
+        } 
+        this.selectedGeneNames = "";
+        this.selectedGeneNames = geneNamesArray.join(' ');
+        this.selectedGeneNames = this.selectedGeneNames.trim();
+        if (this.selectedGeneNames.length > 0) {
+          this._validate(this.selectedGeneNames);
+        } else {
+          this.loadingGeneSymbolValidation = false;
+        }
+      }
+    }
+  }
+
+  //@@@PDC-7447: Add a message to inform users when a Gene symbol cannot be searched
+  containsInvalidGene(invalidGene) {
+		var isPresent = -1;
+		for (var i=0; i <this.invalidGenesEnteredByUser.length; i++) {
+			if (this.invalidGenesEnteredByUser[i] == invalidGene) {
+				isPresent = i;
+				break;
+			}
+		}
+		return isPresent;
+	}
+
+  //@@@PDC-7786: UI change to report error for genes not used in studies
+  containsGeneEnteredInStudy(invalidGene) {
+		var isPresent = -1;
+		for (var i=0; i <this.validGenesNotUsedInPDCStudies.length; i++) {
+			if (this.validGenesNotUsedInPDCStudies[i] == invalidGene) {
+				isPresent = i;
+				break;
+			}
+		}
+		return isPresent;
+	}
 
   //This function validates all gene names entered in text area
   private _validate(value: string): string {
@@ -1834,6 +1927,45 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
   //helper function to update Subject variable with current value
   triggerInputEvent(event){
 	  this.genesNamesInputField.next(event);
+    //@@@PDC-7447: Add a message to inform users when a Gene symbol cannot be searched
+    this.clearInvalidGeneBreadcrumbs();
+    this.clearGenesNotUsedInStudyBreadcrumbs();
+  }
+
+  //@@@PDC-7447: Add a message to inform users when a Gene symbol cannot be searched
+  clearInvalidGeneBreadcrumbs() {
+    if (this.selectedGeneNames.length == 0) {
+      this.invalidGenesEnteredByUser = [];
+    } else {
+      this.selectedGeneNames = this.selectedGeneNames.replace(/\n/g, " ");
+      var geneNamesArray = this.selectedGeneNames.trim().split(" ");
+      for (var i=0; i < this.invalidGenesEnteredByUser.length; i++) {
+        if (!geneNamesArray.includes(this.invalidGenesEnteredByUser[i])) {
+          const elem = document.querySelectorAll(`.invalidGenes-${this.invalidGenesEnteredByUser[i]}`);
+          elem.forEach(e => e.remove());
+          this.invalidGenesEnteredByUser.splice(i, 1);
+          i--;
+        }
+      }
+    }
+  }
+
+  //@@@PDC-7786: UI change to report error for genes not used in studies
+  clearGenesNotUsedInStudyBreadcrumbs() {
+    if (this.selectedGeneNames.length == 0) {
+      this.validGenesNotUsedInPDCStudies = [];
+    } else {
+      this.selectedGeneNames = this.selectedGeneNames.replace(/\n/g, " ");
+      var geneNamesArray = this.selectedGeneNames.trim().split(" ");
+      for (var i=0; i < this.validGenesNotUsedInPDCStudies.length; i++) {
+        if (!geneNamesArray.includes(this.validGenesNotUsedInPDCStudies[i])) {
+          const elem = document.querySelectorAll(`.invalidGenes-${this.validGenesNotUsedInPDCStudies[i]}`);
+          elem.forEach(e => e.remove());
+          this.validGenesNotUsedInPDCStudies.splice(i, 1);
+          i--;
+        }
+      }
+    }
   }
 
   ngOnInit() {

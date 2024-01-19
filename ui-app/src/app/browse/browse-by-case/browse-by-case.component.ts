@@ -443,6 +443,7 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
 		{field: 'sample_status', header: 'Sample Status'},
 		{field: 'sample_is_ref', header: 'Sample Is Ref'},
 		{field: 'biospecimen_anatomic_site', header: 'Biospecimen Anatomic Site'},
+		{field: 'biospecimen_laterality', header: 'Biospecimen Laterality'},
 		{field: 'composition', header: 'Composition'},
 		{field: 'current_weight', header: 'Current Weight'},
 		{field: 'days_to_collection', header: 'Days To Collection'},

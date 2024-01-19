@@ -107,8 +107,10 @@ export class BrowseByGeneComponent implements OnInit {
 				this.offset = data.getPaginatedUIGene.pagination.from;
 				this.pageSize = data.getPaginatedUIGene.pagination.size;
 				this.limit = data.getPaginatedUIGene.pagination.size;
+				//@@@PDC-7688 add gene_id 
 				for (let gene of this.filteredGenesData) {
-					this.getPTMData(gene.gene_name);
+					console.log("GeneId: "+gene.gene_id);
+					this.getPTMData(gene.gene_name, gene.gene_id);
 				}
 				console.log(this.ptmStatsData);
 				this.loading = false;
@@ -210,7 +212,7 @@ export class BrowseByGeneComponent implements OnInit {
 				this.limit = data.getPaginatedUIGene.pagination.size;
 			}
 			for (let gene of this.filteredGenesData) {
-					this.getPTMData(gene.gene_name);
+					this.getPTMData(gene.gene_name, gene.gene_id);
 			}
 			this.loading = false;
 			this.clearSelection();
@@ -361,7 +363,7 @@ isDownloadDisabled(){
 			this.filteredGenesData = data.getPaginatedUIGene.uiGenes ;
 			this.ptmStatsData = [];
 			for (let gene of this.filteredGenesData) {
-					this.getPTMData(gene.gene_name);
+					this.getPTMData(gene.gene_name, gene.gene_id);
 			}
 			if (this.offset == 0) {
 				this.totalRecords = data.getPaginatedUIGene.total;
@@ -403,7 +405,7 @@ isDownloadDisabled(){
 		}
 	}
 
-	showGeneSummary(gene_name: string){
+	showGeneSummary(gene_name: string, gene_id: string){
 		const dialogConfig = new MatDialogConfig();
 
 		dialogConfig.disableClose = true;
@@ -413,7 +415,8 @@ isDownloadDisabled(){
 		dialogConfig.height = '70%';
 
 		dialogConfig.data = {
-			summaryData: gene_name
+			summaryData: gene_name,
+			uuid: gene_id
 		};
 		this.router.navigate([{outlets: {geneSummary: ['gene-summary', gene_name]}}]);
 		const dialogRef = this.dialog.open(GeneProteinSummaryComponent, dialogConfig);
@@ -422,8 +425,8 @@ isDownloadDisabled(){
 		);
 	}
 
-	getPTMSitesData(gene_id:any){
-		this.browseByGeneService.getGenePTMData(gene_id, 0, this.ptmLimit).subscribe((data: any) =>{
+	getPTMSitesData(gene_id:any, uuid:any){
+		this.browseByGeneService.getGenePTMData(gene_id, uuid, 0, this.ptmLimit).subscribe((data: any) =>{
 			this.ptmData = data.getPaginatedUIPtm.uiPtm;
 			for (let data of this.ptmData){
 				this.ptmSitesData.push(data.site);
@@ -433,8 +436,8 @@ isDownloadDisabled(){
 		});
 	}
 
-	getPTMData(gene_id:any){
-		this.browseByGeneService.getGenePTMData(gene_id, 0, 200).subscribe((data: any) =>{
+	getPTMData(gene_id:any, uuid:any){
+		this.browseByGeneService.getGenePTMData(gene_id, uuid, 0, 200).subscribe((data: any) =>{
 			this.ptmData = data.getPaginatedUIPtm.uiPtm;
 			let sites_list: string[] = [];
 			let ptm_type_counters = [];
