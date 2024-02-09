@@ -463,8 +463,10 @@ isDownloadDisabled(){
 
   ngOnInit() {
 	  //Have to define this structure for Primeng CSV export to work properly
+	  //@@@PDC-7898 add ncbi gene id to manifest
 	  this.cols = [
 		{field: 'gene_name', header: 'Gene'},
+		{field: 'ncbi_gene_id', header: 'NCBI gene ID'},
 		{field: 'chromosome', header: 'Chromosome'},
 		{field: 'locus', header: 'Locus'},
 		{field: 'num_study', header: 'No of Studies'},

@@ -53,23 +53,16 @@ var spec = {
         },
      ],
    "paths": {
-         "?query={allCases (acceptDUA: {acceptDUA}) {case_id case_submitter_id project_id project_submitter_id disease_type primary_site externalReferences { external_reference_id reference_resource_shortname reference_resource_name reference_entity_location }}}": {
+         "?query={allCases {case_id case_submitter_id project_id project_submitter_id disease_type primary_site externalReferences { external_reference_id reference_resource_shortname reference_resource_name reference_entity_location }}}": {
              "get": {
                        "tags": ["Case"],
                "summary": "Gets all cases",
-               "description": "<b>Returns case details.<br><br>Fields:</b><ul><li>case_id</li><li>case_submitter_id</li><li>project_id</li><li>project_submitter_id</li><li>disease_type</li><li>primary_site</li><li>externalReferences { external_reference_id reference_resource_shortname reference_resource_name reference_entity_location }</li></ul>",
+               "description": "<b>Returns case details.<br><br>Fields:</b><ul><li>case_id</li><li>case_submitter_id</li><li>project_id</li><li>project_submitter_id</li><li>disease_type</li><li>primary_site</li><li>externalReferences { external_reference_id reference_resource_shortname reference_resource_name reference_entity_location }</li></ul><b>Click on the Try button to issue a test call:</b>",
                "operationId": "allCases",
                "produces": [
                            "application/json"
                ],
-               "parameters": [{
-                  "name": "acceptDUA",
-                  "in": "path",
-                  "description": "Accept DUA  is no longer required",
-                  "required": false,
-                  "type": "boolean",
-				  "defaultValue": true
-               }],
+               "parameters": [],
                "responses": {
                  "200": {
                    "description": "successful operation",
@@ -83,23 +76,22 @@ var spec = {
                }
              }
          },
-         "?query={allExperimentTypes (acceptDUA: {acceptDUA}) {experiment_type tissue_or_organ_of_origin disease_type}}": {
+         '?query={allExperimentTypes (experiment_type: "{experiment_type}") {experiment_type tissue_or_organ_of_origin disease_type}}': {
              "get": {
                        "tags": ["Case"],
                "summary": "Get info of experiment types",
-                       "description": "<b>Returns a list of experiment types, example: Label Free, iTRAQ4, TMT10.<br><br>Fields:<ul><li>experiment_type:</b> Name of experiment type </li><li><b>tissue_or_organ_of_origin:</b> Text term that describes the anatomic site of the tumor or disease. caDSR: 3427536, example: Breast</li><li><b>disease_type</b></li></ul>",
+                       "description": "Input Parameters (multiple parameters can be passed in one call):</b><ul><li>experiment_type (example: Label Free)</li><li>tissue_or_organ_of_origin (example: Cheek mucosa)</li><li>disease_type (example: Clear Cell Renal Cell Carcinoma)</li></ul><b>Returns a list of experiment types<br><br>Fields:<ul><li>experiment_type:</b> Name of experiment type </li><li><b>tissue_or_organ_of_origin:</b> Text term that describes the anatomic site of the tumor or disease</li><li><b>disease_type</b></li></ul><b>A test call can be issued with the following parameters:</b>",
                "operationId": "allExperimentTypes",
                "produces": [
                  "application/json"
                ],
                parameters: [{
-                  "name": "acceptDUA",
-                  "in": "path",
-                  "description": "Accept DUA  is no longer required",
-                  "required": false,
-                  "type": "boolean",
-				  "defaultValue": true
-               }],
+                       "name": "experiment_type",
+                       "in": "path",
+                       "description": "Experiment Type, example: Label Free",
+                       "required": true,
+                       "type": "string"
+                     }],
                "responses": {
                  "200": {
                    "description": "successful operation",
@@ -113,23 +105,16 @@ var spec = {
                }
              }
                },
-               "?query={allPrograms (acceptDUA: {acceptDUA})  {program_id  program_submitter_id  name projects  {project_id  project_submitter_id  name  studies  {pdc_study_id study_id study_submitter_id submitter_id_name analytical_fraction study_name disease_types primary_sites embargo_date experiment_type acquisition_type} }}}": {
+               "?query={allPrograms {program_id  program_submitter_id  name projects  {project_id  project_submitter_id  name  studies  {pdc_study_id study_id study_submitter_id submitter_id_name analytical_fraction study_name disease_types primary_sites embargo_date experiment_type acquisition_type} }}}": {
              "get": {
                        "tags": ["Program"],
                "summary": "Gets all programs",
-               "description": "<b>Returns all available programs.<br><br>Fields:<ul><li>program_id:</b> Program ID, example : 10251935-5540-11e8-b664-00a098d917f8</li><li><b>program_submitter_id:</b> Program Submitter ID, example : Clinical Proteomic Tumor Analysis Consortium</li><li><b>name:</b> Name of the program, example: Clinical Proteomic Tumor Analysis Consortium</li><li><b>projects</b></li></ul>",
+               "description": "<b>Returns all available programs.<br><br>Fields:<ul><li>program_id:</b> Program ID, example : 10251935-5540-11e8-b664-00a098d917f8</li><li><b>program_submitter_id:</b> Program Submitter ID, example : Clinical Proteomic Tumor Analysis Consortium</li><li><b>name:</b> Name of the program, example: Clinical Proteomic Tumor Analysis Consortium</li><li><b>projects</b></li></ul><b>Click on the Try button to issue a test call:</b>",
                "operationId": "allPrograms",
                "produces": [
                  "application/json"
                        ],
-               parameters: [{
-                  "name": "acceptDUA",
-                  "in": "path",
-                  "description": "Accept DUA  is no longer required",
-                  "required": false,
-                  "type": "boolean",
-				  "defaultValue": true
-                }],
+               parameters: [],
                "responses": {
                  "200": {
                    "description": "successful operation",
@@ -187,11 +172,11 @@ var spec = {
                    }
                  }
                },
-               '?query={case (case_submitter_id: "{case_submitter_id}" acceptDUA: {acceptDUA}) { case_id case_submitter_id project_submitter_id days_to_lost_to_followup disease_type index_date lost_to_followup primary_site consent_type days_to_consent externalReferences { external_reference_id reference_resource_shortname reference_resource_name reference_entity_location } demographics{ demographic_id ethnicity gender demographic_submitter_id race cause_of_death days_to_birth days_to_death vital_status year_of_birth year_of_death age_at_index premature_at_birth weeks_gestation_at_birth age_is_obfuscated cause_of_death_source occupation_duration_years country_of_residence_at_enrollment } samples { sample_id sample_submitter_id sample_type sample_type_id gdc_sample_id gdc_project_id biospecimen_anatomic_site composition current_weight days_to_collection days_to_sample_procurement diagnosis_pathologically_confirmed freezing_method initial_weight intermediate_dimension longest_dimension method_of_sample_procurement pathology_report_uuid preservation_method sample_type_id shortest_dimension time_between_clamping_and_freezing time_between_excision_and_freezing tissue_type tumor_code tumor_code_id tumor_descriptor biospecimen_laterality catalog_reference distance_normal_to_tumor distributor_reference growth_rate passage_count sample_ordinal tissue_collection_type diagnoses{ diagnosis_id diagnosis_submitter_id annotation} aliquots { aliquot_id aliquot_submitter_id analyte_type aliquot_run_metadata {aliquot_run_metadata_id label experiment_number fraction replicate_number date alias analyte} } } diagnoses{ diagnosis_id tissue_or_organ_of_origin age_at_diagnosis primary_diagnosis tumor_grade tumor_stage diagnosis_submitter_id classification_of_tumor days_to_last_follow_up days_to_last_known_disease_status days_to_recurrence last_known_disease_status morphology progression_or_recurrence site_of_resection_or_biopsy prior_malignancy ajcc_clinical_m ajcc_clinical_n ajcc_clinical_stage ajcc_clinical_t ajcc_pathologic_m ajcc_pathologic_n ajcc_pathologic_stage ajcc_pathologic_t ann_arbor_b_symptoms ann_arbor_clinical_stage ann_arbor_extranodal_involvement ann_arbor_pathologic_stage best_overall_response burkitt_lymphoma_clinical_variant circumferential_resection_margin colon_polyps_history days_to_best_overall_response days_to_diagnosis days_to_hiv_diagnosis days_to_new_event figo_stage hiv_positive hpv_positive_type hpv_status iss_stage laterality ldh_level_at_diagnosis ldh_normal_range_upper lymph_nodes_positive lymphatic_invasion_present method_of_diagnosis new_event_anatomic_site new_event_type overall_survival perineural_invasion_present prior_treatment progression_free_survival progression_free_survival_event residual_disease vascular_invasion_present year_of_diagnosis icd_10_code synchronous_malignancy tumor_largest_dimension_diameter anaplasia_present anaplasia_present_type child_pugh_classification cog_liver_stage cog_neuroblastoma_risk_group cog_renal_stage cog_rhabdomyosarcoma_risk_group enneking_msts_grade enneking_msts_metastasis enneking_msts_stage enneking_msts_tumor_site esophageal_columnar_dysplasia_degree esophageal_columnar_metaplasia_present first_symptom_prior_to_diagnosis gastric_esophageal_junction_involvement goblet_cells_columnar_mucosa_present gross_tumor_weight inpc_grade inpc_histologic_group inrg_stage inss_stage irs_group irs_stage ishak_fibrosis_score lymph_nodes_tested medulloblastoma_molecular_classification metastasis_at_diagnosis metastasis_at_diagnosis_site mitosis_karyorrhexis_index peripancreatic_lymph_nodes_positive peripancreatic_lymph_nodes_tested supratentorial_localization tumor_confined_to_organ_of_origin tumor_focality tumor_regression_grade vascular_invasion_type wilms_tumor_histologic_subtype breslow_thickness gleason_grade_group igcccg_stage international_prognostic_index largest_extrapelvic_peritoneal_focus masaoka_stage non_nodal_regional_disease non_nodal_tumor_deposits ovarian_specimen_status ovarian_surface_involvement percent_tumor_invasion peritoneal_fluid_cytological_status primary_gleason_grade secondary_gleason_grade weiss_assessment_score adrenal_hormone ann_arbor_b_symptoms_described diagnosis_is_primary_disease eln_risk_classification figo_staging_edition_year gleason_grade_tertiary gleason_patterns_percent margin_distance margins_involved_site pregnant_at_diagnosis satellite_nodule_present sites_of_involvement tumor_depth who_cns_grade who_nte_grade samples { sample_id sample_submitter_id annotation}} exposures { exposure_id exposure_submitter_id alcohol_days_per_week alcohol_drinks_per_day alcohol_history alcohol_intensity asbestos_exposure cigarettes_per_day coal_dust_exposure environmental_tobacco_smoke_exposure pack_years_smoked radon_exposure respirable_crystalline_silica_exposure smoking_frequency time_between_waking_and_first_smoke tobacco_smoking_onset_year tobacco_smoking_quit_year tobacco_smoking_status type_of_smoke_exposure type_of_tobacco_used years_smoked age_at_onset, alcohol_type, exposure_duration, exposure_duration_years, exposure_type, marijuana_use_per_week, parent_with_radiation_exposure, secondhand_smoke_as_child, smokeless_tobacco_quit_age, tobacco_use_per_day} follow_ups {follow_up_id, follow_up_submitter_id, adverse_event, barretts_esophagus_goblet_cells_present, bmi, cause_of_response, comorbidity, comorbidity_method_of_diagnosis, days_to_adverse_event, days_to_comorbidity, days_to_follow_up, days_to_progression, days_to_progression_free, days_to_recurrence, diabetes_treatment_type, disease_response, dlco_ref_predictive_percent, ecog_performance_status, fev1_ref_post_bronch_percent, fev1_ref_pre_bronch_percent, fev1_fvc_pre_bronch_percent, fev1_fvc_post_bronch_percent, height, hepatitis_sustained_virological_response, hpv_positive_type, karnofsky_performance_status, menopause_status, pancreatitis_onset_year, progression_or_recurrence, progression_or_recurrence_anatomic_site, progression_or_recurrence_type, reflux_treatment_type, risk_factor, risk_factor_treatment, viral_hepatitis_serologies, weight, adverse_event_grade, aids_risk_factors, body_surface_area, cd4_count, cdc_hiv_risk_factors, days_to_imaging, evidence_of_recurrence_type, eye_color, haart_treatment_indicator, history_of_tumor, history_of_tumor_type, hiv_viral_load, hormonal_contraceptive_type, hormonal_contraceptive_use, hormone_replacement_therapy_type, hysterectomy_margins_involved, hysterectomy_type, imaging_result, imaging_type, immunosuppressive_treatment_type, nadir_cd4_count, pregnancy_outcome, procedures_performed, recist_targeted_regions_number, recist_targeted_regions_sum, scan_tracer_used, undescended_testis_corrected, undescended_testis_corrected_age, undescended_testis_corrected_laterality, undescended_testis_corrected_method, undescended_testis_history, undescended_testis_history_laterality}}}': {
+               '?query={case (case_submitter_id: "{case_submitter_id}") { case_id case_submitter_id project_submitter_id days_to_lost_to_followup disease_type index_date lost_to_followup primary_site consent_type days_to_consent externalReferences { external_reference_id reference_resource_shortname reference_resource_name reference_entity_location } demographics{ demographic_id ethnicity gender demographic_submitter_id race cause_of_death days_to_birth days_to_death vital_status year_of_birth year_of_death age_at_index premature_at_birth weeks_gestation_at_birth age_is_obfuscated cause_of_death_source occupation_duration_years country_of_residence_at_enrollment } samples { sample_id sample_submitter_id sample_type sample_type_id gdc_sample_id gdc_project_id biospecimen_anatomic_site composition current_weight days_to_collection days_to_sample_procurement diagnosis_pathologically_confirmed freezing_method initial_weight intermediate_dimension longest_dimension method_of_sample_procurement pathology_report_uuid preservation_method sample_type_id shortest_dimension time_between_clamping_and_freezing time_between_excision_and_freezing tissue_type tumor_code tumor_code_id tumor_descriptor biospecimen_laterality catalog_reference distance_normal_to_tumor distributor_reference growth_rate passage_count sample_ordinal tissue_collection_type diagnoses{ diagnosis_id diagnosis_submitter_id annotation} aliquots { aliquot_id aliquot_submitter_id analyte_type aliquot_run_metadata {aliquot_run_metadata_id label experiment_number fraction replicate_number date alias analyte} } } diagnoses{ diagnosis_id tissue_or_organ_of_origin age_at_diagnosis primary_diagnosis tumor_grade tumor_stage diagnosis_submitter_id classification_of_tumor days_to_last_follow_up days_to_last_known_disease_status days_to_recurrence last_known_disease_status morphology progression_or_recurrence site_of_resection_or_biopsy prior_malignancy ajcc_clinical_m ajcc_clinical_n ajcc_clinical_stage ajcc_clinical_t ajcc_pathologic_m ajcc_pathologic_n ajcc_pathologic_stage ajcc_pathologic_t ann_arbor_b_symptoms ann_arbor_clinical_stage ann_arbor_extranodal_involvement ann_arbor_pathologic_stage best_overall_response burkitt_lymphoma_clinical_variant circumferential_resection_margin colon_polyps_history days_to_best_overall_response days_to_diagnosis days_to_hiv_diagnosis days_to_new_event figo_stage hiv_positive hpv_positive_type hpv_status iss_stage laterality ldh_level_at_diagnosis ldh_normal_range_upper lymph_nodes_positive lymphatic_invasion_present method_of_diagnosis new_event_anatomic_site new_event_type overall_survival perineural_invasion_present prior_treatment progression_free_survival progression_free_survival_event residual_disease vascular_invasion_present year_of_diagnosis icd_10_code synchronous_malignancy tumor_largest_dimension_diameter anaplasia_present anaplasia_present_type child_pugh_classification cog_liver_stage cog_neuroblastoma_risk_group cog_renal_stage cog_rhabdomyosarcoma_risk_group enneking_msts_grade enneking_msts_metastasis enneking_msts_stage enneking_msts_tumor_site esophageal_columnar_dysplasia_degree esophageal_columnar_metaplasia_present first_symptom_prior_to_diagnosis gastric_esophageal_junction_involvement goblet_cells_columnar_mucosa_present gross_tumor_weight inpc_grade inpc_histologic_group inrg_stage inss_stage irs_group irs_stage ishak_fibrosis_score lymph_nodes_tested medulloblastoma_molecular_classification metastasis_at_diagnosis metastasis_at_diagnosis_site mitosis_karyorrhexis_index peripancreatic_lymph_nodes_positive peripancreatic_lymph_nodes_tested supratentorial_localization tumor_confined_to_organ_of_origin tumor_focality tumor_regression_grade vascular_invasion_type wilms_tumor_histologic_subtype breslow_thickness gleason_grade_group igcccg_stage international_prognostic_index largest_extrapelvic_peritoneal_focus masaoka_stage non_nodal_regional_disease non_nodal_tumor_deposits ovarian_specimen_status ovarian_surface_involvement percent_tumor_invasion peritoneal_fluid_cytological_status primary_gleason_grade secondary_gleason_grade weiss_assessment_score adrenal_hormone ann_arbor_b_symptoms_described diagnosis_is_primary_disease eln_risk_classification figo_staging_edition_year gleason_grade_tertiary gleason_patterns_percent margin_distance margins_involved_site pregnant_at_diagnosis satellite_nodule_present sites_of_involvement tumor_depth who_cns_grade who_nte_grade samples { sample_id sample_submitter_id annotation}} exposures { exposure_id exposure_submitter_id alcohol_days_per_week alcohol_drinks_per_day alcohol_history alcohol_intensity asbestos_exposure cigarettes_per_day coal_dust_exposure environmental_tobacco_smoke_exposure pack_years_smoked radon_exposure respirable_crystalline_silica_exposure smoking_frequency time_between_waking_and_first_smoke tobacco_smoking_onset_year tobacco_smoking_quit_year tobacco_smoking_status type_of_smoke_exposure type_of_tobacco_used years_smoked age_at_onset, alcohol_type, exposure_duration, exposure_duration_years, exposure_type, marijuana_use_per_week, parent_with_radiation_exposure, secondhand_smoke_as_child, smokeless_tobacco_quit_age, tobacco_use_per_day} follow_ups {follow_up_id, follow_up_submitter_id, adverse_event, barretts_esophagus_goblet_cells_present, bmi, cause_of_response, comorbidity, comorbidity_method_of_diagnosis, days_to_adverse_event, days_to_comorbidity, days_to_follow_up, days_to_progression, days_to_progression_free, days_to_recurrence, diabetes_treatment_type, disease_response, dlco_ref_predictive_percent, ecog_performance_status, fev1_ref_post_bronch_percent, fev1_ref_pre_bronch_percent, fev1_fvc_pre_bronch_percent, fev1_fvc_post_bronch_percent, height, hepatitis_sustained_virological_response, hpv_positive_type, karnofsky_performance_status, menopause_status, pancreatitis_onset_year, progression_or_recurrence, progression_or_recurrence_anatomic_site, progression_or_recurrence_type, reflux_treatment_type, risk_factor, risk_factor_treatment, viral_hepatitis_serologies, weight, adverse_event_grade, aids_risk_factors, body_surface_area, cd4_count, cdc_hiv_risk_factors, days_to_imaging, evidence_of_recurrence_type, eye_color, haart_treatment_indicator, history_of_tumor, history_of_tumor_type, hiv_viral_load, hormonal_contraceptive_type, hormonal_contraceptive_use, hormone_replacement_therapy_type, hysterectomy_margins_involved, hysterectomy_type, imaging_result, imaging_type, immunosuppressive_treatment_type, nadir_cd4_count, pregnancy_outcome, procedures_performed, recist_targeted_regions_number, recist_targeted_regions_sum, scan_tracer_used, undescended_testis_corrected, undescended_testis_corrected_age, undescended_testis_corrected_laterality, undescended_testis_corrected_method, undescended_testis_history, undescended_testis_history_laterality}}}': {
                  "get": {
                            "tags": ["Case"],
-                   "summary": "Find case by Case Submitter ID",
-                   "description": "<b>Returns a single case<br>",
+                   "summary": "Find case(s) ",
+                   "description": "<b>Input Parameters (multiple parameters can be passed in one call):</b><ul><li>case_submitter_id (example: C3N-00386)</li><li>case_id (example: a023e964-118a-11e9-afb9-0a9c39d33490)</li><li>pdc_study_id (example: PDC000431)</li><li>study_id (example: 0fe15489-1381-4864-8b17-6159e14a65a8)</li></ul><b>A test call can be issued with the following parameters:</b>",
                    "operationId": "case",
                    "produces": [
                      "application/json"
@@ -202,14 +187,7 @@ var spec = {
                        "description": "Case Submitter ID, example: C3N-00386",
                        "required": true,
                        "type": "string"
-                     }, {
-                        "name": "acceptDUA",
-                        "in": "path",
-                        "description": "Accept DUA  is no longer required",
-                        "required": false,
-                        "type": "boolean",
-						"defaultValue": true
-                      }
+                     }
                    ],
                    "responses": {
                      "200": {
@@ -223,75 +201,8 @@ var spec = {
                      }
                    }
                  }
-                   },
-               '?query={case (case_id: "{case_id}" acceptDUA: {acceptDUA}) { case_id case_submitter_id project_submitter_id days_to_lost_to_followup disease_type index_date lost_to_followup primary_site consent_type days_to_consent externalReferences { external_reference_id reference_resource_shortname reference_resource_name reference_entity_location } demographics{ demographic_id ethnicity gender demographic_submitter_id race cause_of_death days_to_birth days_to_death vital_status year_of_birth year_of_death age_at_index premature_at_birth weeks_gestation_at_birth age_is_obfuscated cause_of_death_source occupation_duration_years country_of_residence_at_enrollment } samples { sample_id sample_submitter_id sample_type sample_type_id gdc_sample_id gdc_project_id biospecimen_anatomic_site composition current_weight days_to_collection days_to_sample_procurement diagnosis_pathologically_confirmed freezing_method initial_weight intermediate_dimension longest_dimension method_of_sample_procurement pathology_report_uuid preservation_method sample_type_id shortest_dimension time_between_clamping_and_freezing time_between_excision_and_freezing tissue_type tumor_code tumor_code_id tumor_descriptor biospecimen_laterality catalog_reference distance_normal_to_tumor distributor_reference growth_rate passage_count sample_ordinal tissue_collection_type diagnoses{ diagnosis_id diagnosis_submitter_id annotation} aliquots { aliquot_id aliquot_submitter_id analyte_type aliquot_run_metadata {aliquot_run_metadata_id label experiment_number fraction replicate_number date alias analyte} } } diagnoses{ diagnosis_id tissue_or_organ_of_origin age_at_diagnosis primary_diagnosis tumor_grade tumor_stage diagnosis_submitter_id classification_of_tumor days_to_last_follow_up days_to_last_known_disease_status days_to_recurrence last_known_disease_status morphology progression_or_recurrence site_of_resection_or_biopsy prior_malignancy ajcc_clinical_m ajcc_clinical_n ajcc_clinical_stage ajcc_clinical_t ajcc_pathologic_m ajcc_pathologic_n ajcc_pathologic_stage ajcc_pathologic_t ann_arbor_b_symptoms ann_arbor_clinical_stage ann_arbor_extranodal_involvement ann_arbor_pathologic_stage best_overall_response burkitt_lymphoma_clinical_variant circumferential_resection_margin colon_polyps_history days_to_best_overall_response days_to_diagnosis days_to_hiv_diagnosis days_to_new_event figo_stage hiv_positive hpv_positive_type hpv_status iss_stage laterality ldh_level_at_diagnosis ldh_normal_range_upper lymph_nodes_positive lymphatic_invasion_present method_of_diagnosis new_event_anatomic_site new_event_type overall_survival perineural_invasion_present prior_treatment progression_free_survival progression_free_survival_event residual_disease vascular_invasion_present year_of_diagnosis icd_10_code synchronous_malignancy tumor_largest_dimension_diameter anaplasia_present anaplasia_present_type child_pugh_classification cog_liver_stage cog_neuroblastoma_risk_group cog_renal_stage cog_rhabdomyosarcoma_risk_group enneking_msts_grade enneking_msts_metastasis enneking_msts_stage enneking_msts_tumor_site esophageal_columnar_dysplasia_degree esophageal_columnar_metaplasia_present first_symptom_prior_to_diagnosis gastric_esophageal_junction_involvement goblet_cells_columnar_mucosa_present gross_tumor_weight inpc_grade inpc_histologic_group inrg_stage inss_stage irs_group irs_stage ishak_fibrosis_score lymph_nodes_tested medulloblastoma_molecular_classification metastasis_at_diagnosis metastasis_at_diagnosis_site mitosis_karyorrhexis_index peripancreatic_lymph_nodes_positive peripancreatic_lymph_nodes_tested supratentorial_localization tumor_confined_to_organ_of_origin tumor_focality tumor_regression_grade vascular_invasion_type wilms_tumor_histologic_subtype breslow_thickness gleason_grade_group igcccg_stage international_prognostic_index largest_extrapelvic_peritoneal_focus masaoka_stage non_nodal_regional_disease non_nodal_tumor_deposits ovarian_specimen_status ovarian_surface_involvement percent_tumor_invasion peritoneal_fluid_cytological_status primary_gleason_grade secondary_gleason_grade weiss_assessment_score adrenal_hormone ann_arbor_b_symptoms_described diagnosis_is_primary_disease eln_risk_classification figo_staging_edition_year gleason_grade_tertiary gleason_patterns_percent margin_distance margins_involved_site pregnant_at_diagnosis satellite_nodule_present sites_of_involvement tumor_depth who_cns_grade who_nte_grade samples { sample_id sample_submitter_id annotation}} exposures { exposure_id exposure_submitter_id alcohol_days_per_week alcohol_drinks_per_day alcohol_history alcohol_intensity asbestos_exposure cigarettes_per_day coal_dust_exposure environmental_tobacco_smoke_exposure pack_years_smoked radon_exposure respirable_crystalline_silica_exposure smoking_frequency time_between_waking_and_first_smoke tobacco_smoking_onset_year tobacco_smoking_quit_year tobacco_smoking_status type_of_smoke_exposure type_of_tobacco_used years_smoked age_at_onset, alcohol_type, exposure_duration, exposure_duration_years, exposure_type, marijuana_use_per_week, parent_with_radiation_exposure, secondhand_smoke_as_child, smokeless_tobacco_quit_age, tobacco_use_per_day} follow_ups {follow_up_id, follow_up_submitter_id, adverse_event, barretts_esophagus_goblet_cells_present, bmi, cause_of_response, comorbidity, comorbidity_method_of_diagnosis, days_to_adverse_event, days_to_comorbidity, days_to_follow_up, days_to_progression, days_to_progression_free, days_to_recurrence, diabetes_treatment_type, disease_response, dlco_ref_predictive_percent, ecog_performance_status, fev1_ref_post_bronch_percent, fev1_ref_pre_bronch_percent, fev1_fvc_pre_bronch_percent, fev1_fvc_post_bronch_percent, height, hepatitis_sustained_virological_response, hpv_positive_type, karnofsky_performance_status, menopause_status, pancreatitis_onset_year, progression_or_recurrence, progression_or_recurrence_anatomic_site, progression_or_recurrence_type, reflux_treatment_type, risk_factor, risk_factor_treatment, viral_hepatitis_serologies, weight, adverse_event_grade, aids_risk_factors, body_surface_area, cd4_count, cdc_hiv_risk_factors, days_to_imaging, evidence_of_recurrence_type, eye_color, haart_treatment_indicator, history_of_tumor, history_of_tumor_type, hiv_viral_load, hormonal_contraceptive_type, hormonal_contraceptive_use, hormone_replacement_therapy_type, hysterectomy_margins_involved, hysterectomy_type, imaging_result, imaging_type, immunosuppressive_treatment_type, nadir_cd4_count, pregnancy_outcome, procedures_performed, recist_targeted_regions_number, recist_targeted_regions_sum, scan_tracer_used, undescended_testis_corrected, undescended_testis_corrected_age, undescended_testis_corrected_laterality, undescended_testis_corrected_method, undescended_testis_history, undescended_testis_history_laterality}}}': {
-                 "get": {
-                           "tags": ["Case"],
-                   "summary": "Find case by Case ID",
-                   "description": "<b>Returns a single case<br>",
-                   "operationId": "case",
-                   "produces": [
-                     "application/json"
-                   ],
-                   "parameters": [{
-                       "name": "case_id",
-                       "in": "path",
-                       "description": "Case ID, example: a023e964-118a-11e9-afb9-0a9c39d33490",
-                       "required": true,
-                       "type": "string"
-                     }, {
-                        "name": "acceptDUA",
-                        "in": "path",
-                        "description": "Accept DUA  is no longer required",
-                        "required": false,
-                        "type": "boolean",
-						"defaultValue": true
-                      }
-                   ],
-                   "responses": {
-                     "200": {
-                       "description": "successful operation",
-                       "schema": {
-                         "$ref": "#/definitions/findCase"
-                       }
-                     },
-                     "401": {
-                       "description": "Unauthorized"
-                     }
-                   }
-                 }
-                   },
+                },
 
-/*                    '?query={caseSearch(name: "{name}"){searchCases {record_type name submitter_id_name case_id description proteins}}}': {
-                 "get": {
-                   "tags": ["Case"],
-                   "summary": "Find cases by partial case_submitter_id",
-                   "description": "<b>Returns a list of search records<br><br>Fields:</b><ul><li>record_type</li><li>name</li><li>submitter_id_name</li><li>case_id</li><li>description</li><li>proteins</li></ul>",
-                   "operationId": "caseSearch",
-                   "produces": [
-                     "application/json"
-                   ],
-                   "parameters": [{
-                       "name": "name",
-                       "in": "path",
-                       "description": "Partial case_submitter_id to search cases with, example: TCGA-61",
-                       "required": true,
-                       "type": "string"
-                     }
-                   ],
-                   "responses": {
-                     "200": {
-                       "description": "successful operation",
-                       "schema": {
-                         "$ref": "#/definitions/caseSearch"
-                       }
-                     },
-                     "401": {
-                       "description": "Unauthorized"
-                     }
-                   }
-                 }
-               }, */
                "?query={diseasesAvailable (acceptDUA: {acceptDUA}) {disease_type project_id project_submitter_id cases_count tissue_or_organ_of_origin}}": {
                  "get": {
                            "tags": ["Disease"],
@@ -352,22 +263,21 @@ var spec = {
                    }
                  }
                },
-               "?query={filesCountPerStudy (acceptDUA: {acceptDUA}) {study_id pdc_study_id study_submitter_id file_type files_count data_category}}": {
+               '?query={filesCountPerStudy (pdc_study_id: "{pdc_study_id}") {study_id pdc_study_id study_submitter_id file_type files_count data_category}}': {
                  "get": {
                            "tags": ["Files"],
                    "summary": "Get file count per study",
-                   "description": "<strong>Returns all records with counts of files per study per file type.<br/><br/>Fields:<ul><li>study_id</li><li>pdc_study_id</li><li>study_submitter_id:</strong> ID of a study</li><li><b>file_type</li><li>files_count</li><li>data_category</li></b></ul>",
+                   "description": "<b>Input Parameters (multiple parameters can be passed in one call):</b><ul><li>study_id (example: 0fe15489-1381-4864-8b17-6159e14a65a8)</li><li>study_submitter_id (example: Broad Institute - Medulloblastoma - Phospho-tyrosine-enrichments)</li><li>pdc_study_id (example: PDC000431)</li><li>file_type (example: Proprietary)</li><li>data_category (example: Raw Mass Spectra)</li></ul><strong>Returns all records with counts of files per study per file type.<br/><br/>Fields:<ul><li>study_id</li><li>pdc_study_id</li><li>study_submitter_id:</strong> ID of a study</li><li><b>file_type</li><li>files_count</li><li>data_category</li></b></ul><b>A test call can be issued with the following parameters:</b>",
                    "operationId": "filesCountPerStudy",
                    "produces": [
                      "application/json"
                    ],
-                   parameters: [{
-                     "name": "acceptDUA",
+                   "parameters": [{
+                     "name": "pdc_study_id",
                      "in": "path",
-                     "description": "Accept DUA  is no longer required",
-                     "required": false,
-                     "type": "boolean",
-						"defaultValue": true
+					 "description": "PDC Study ID, example: PDC000431",
+                     "required": true,
+                     "type": "string"
                    }],
                    "responses": {
                      "200": {
@@ -382,58 +292,6 @@ var spec = {
                    }
                  }
                    },
-/*                    "?query={filesPerStudy {study_id pdc_study_id study_submitter_id study_name file_id file_name file_submitter_id file_type md5sum file_location file_size data_category file_format signedUrl {url} }}": {
-                 "get": {
-                           "tags": ["Files"],
-                   "summary": "Get files per study",
-                   "description": "<b>Returns a list of files per study. This API can also be used with multiple input parameters.</b><br>Takes a long time to execute because of the huge volume of data.<b><br><br>Fields:</b><ul><li>study_id</li><li>pdc_study_id</li><li>study_submitter_id</li><li>study_name</li><li>file_id</li><li>file_name</li><li>file_submitter_id</li><li>file_type</li><li>md5sum</li><li>file_location</li><li>file_size</li><li>file_format</li><li>signedUrl {url}</li></ul>",
-                   "operationId": "filesPerStudy",
-                   "produces": [
-                     "application/json"
-                   ],
-                   "responses": {
-                     "200": {
-                       "description": "successful operation",
-                       "schema": {
-                         "$ref": "#/definitions/filesPerStudy"
-                       }
-                     },
-                     "401": {
-                       "description": "Unauthorized"
-                     }
-                   }
-                 }
-               }, */
-               /* '?query={geneSearch (name: "{name}") {genes {record_type name submitter_id_name description proteins}}}': {
-                 "get": {
-                           "tags": ["Gene"],
-                   "summary": "Find genes by partial gene_name",
-                   "description": "<b>Returns a list of search records<br><br>Fields:</b><ul><li>genes</li></ul>",
-                   "operationId": "geneSearch",
-                   "produces": [
-                     "application/json"
-                   ],
-                   "parameters": [{
-                       "name": "name",
-                       "in": "path",
-                       "description": "Partial gene_name to search genes with, example: A1BG",
-                       "required": true,
-                       "type": "string"
-                     }
-                   ],
-                   "responses": {
-                     "200": {
-                       "description": "successful operation",
-                       "schema": {
-                         "$ref": "#/definitions/geneSearch"
-                       }
-                     },
-                     "401": {
-                       "description": "Unauthorized"
-                     }
-                   }
-                 }
-                   }, */
                    '?query={geneSpectralCount (gene_name: "{gene_name}" acceptDUA: {acceptDUA}){gene_id gene_name NCBI_gene_id authority description organism chromosome locus proteins assays spectral_counts { project_submitter_id plex spectral_count distinct_peptide unshared_peptide study_submitter_id} }}': {
                  "get": {
                            "tags": ["Gene"],
@@ -589,11 +447,11 @@ var spec = {
                    }
                  }
                    },
-                   '?query={getPaginatedCases(offset: {offset} limit: {limit} acceptDUA: {acceptDUA}) {total cases {case_submitter_id project_id project_submitter_id disease_type} pagination {count sort from page total pages size}}}': {
+                   '?query={getPaginatedCases(offset: {offset} limit: {limit}) {total cases {case_submitter_id project_id project_submitter_id disease_type} pagination {count sort from page total pages size}}}': {
                  "get": {
                            "tags": ["Case"],
                    "summary": "Get paginated case records",
-                   "description": "<b>Returns a list of cases and a pagination record<br/><br/>Fields:</b><ul><li>total</li><li>cases</li><li>pagination</li></ul>",
+                   "description": "<b>Returns a list of cases and a pagination record<br/><br/>Fields:</b><ul><li>total</li><li>cases</li><li>pagination</li></ul><b>A test call can be issued with the following parameters:</b>",
                    "operationId": "getPaginatedCases",
                    "produces": [
                      "application/json"
@@ -610,14 +468,7 @@ var spec = {
                        "description": "Limit of records, example: 10",
                        "required": true,
                        "type": "integer"
-                     }, {
-                        "name": "acceptDUA",
-                        "in": "path",
-                        "description": "Accept DUA  is no longer required",
-                        "required": false,
-                        "type": "boolean",
-						"defaultValue": true
-                      }
+                     }
                    ],
                    "responses": {
                      "200": {
@@ -632,35 +483,34 @@ var spec = {
                    }
                  }
                    },
-                   '?query={getPaginatedFiles(offset: {offset} limit: {limit} acceptDUA: {acceptDUA}) {total files {study_id pdc_study_id study_submitter_id file_name file_type md5sum} pagination {count sort from page total pages size}}}': {
+                   '?query={getPaginatedFiles(study_id: "{study_id}" offset: {offset} limit: {limit}) {total files {study_id pdc_study_id study_submitter_id file_id file_name file_type file_format data_category md5sum} pagination {count sort from page total pages size}}}': {
                  "get": {
                            "tags": ["Files"],
                    "summary": "Get paginated file records",
-                   "description": "<b>Returns a list of files and a pagination record<br/><br/>Fields:</b><ul><li>total</li><li>files</li><li>pagination</li></ul>",
+                   "description": "<b>Input Parameters (multiple parameters can be passed in one call):</b><ul><li>study_id (example: 0fe15489-1381-4864-8b17-6159e14a65a8)</li><li>study_submitter_id (example: Broad Institute - Medulloblastoma - Phospho-tyrosine-enrichments)</li><li>pdc_study_id (example: PDC000431)</li><li>file_type (example: Proprietary)</li><li>file_name (example: BL20161004_BI_FM_Medullo_pY_Plex02_Fxn1.raw)</li><li>file_format (example: vendor-specific)</li><li>data_category (example: Raw Mass Spectra)</li><li>offset (required for pagination, example: 0)</li><li>limit (required for pagination, example: 10)</li></ul><b>Returns a list of files and a pagination record<br/><br/>Fields:</b><ul><li>total</li><li>files</li><li>pagination</li></ul><b>A test call can be issued with the following parameters:</b>",
                    "operationId": "getPaginatedFiles",
                    "produces": [
                      "application/json"
                    ],
                    "parameters": [{
+                        "name": "study_id",
+                        "in": "path",
+                        "description": "Study ID, example: 0fe15489-1381-4864-8b17-6159e14a65a8",
+                        "required": true,
+                        "type": "string",
+                    }, {
                        "name": "offset",
                        "in": "path",
                        "description": "Offset of records, example: 0",
                        "required": true,
-                       "type": "integer"
+                       "type": "integer",
                      }, {
                        "name": "limit",
                        "in": "path",
                        "description": "Limit of records, example: 10",
                        "required": true,
-                       "type": "integer"
-                     }, {
-                        "name": "acceptDUA",
-                        "in": "path",
-                        "description": "Accept DUA  is no longer required",
-                        "required": false,
-                        "type": "boolean",
-						"defaultValue": true
-                      }
+                       "type": "integer",
+                     }
                    ],
                    "responses": {
                      "200": {
@@ -675,11 +525,11 @@ var spec = {
                    }
                  }
                },
-               '?query={paginatedCaseDemographicsPerStudy (study_id: "{study_id}" offset: {offset} limit: {limit} acceptDUA: {acceptDUA}) { total caseDemographicsPerStudy { case_id case_submitter_id disease_type primary_site demographics { demographic_id ethnicity gender demographic_submitter_id race cause_of_death days_to_birth days_to_death vital_status year_of_birth year_of_death age_at_index premature_at_birth weeks_gestation_at_birth age_is_obfuscated cause_of_death_source occupation_duration_years country_of_residence_at_enrollment} } pagination { count sort from page total pages size } }}': {
+               '?query={paginatedCaseDemographicsPerStudy (study_id: "{study_id}" offset: {offset} limit: {limit}) { total caseDemographicsPerStudy { case_id case_submitter_id disease_type primary_site demographics { demographic_id ethnicity gender demographic_submitter_id race cause_of_death days_to_birth days_to_death vital_status year_of_birth year_of_death age_at_index premature_at_birth weeks_gestation_at_birth age_is_obfuscated cause_of_death_source occupation_duration_years country_of_residence_at_enrollment} } pagination { count sort from page total pages size } }}': {
                   "get": {
                             "tags": ["Case"],
-                    "summary": "Get Cases/Demographics for Study ID",
-                    "description": "<b>Returns cases/demographics per study. This API can also be used with multiple input parameters.</b><br>Takes a long time to execute because of the huge volume of data.<br><br><b>Fields:</b><ul><li>total</li><li>caseDemographicsPerStudy</li><li>pagination</li></ul>",
+                    "summary": "Get Cases/Demographics Per Study",
+                    "description": "<b>Input Parameters (multiple parameters can be passed in one call):</b><ul><li>study_id (example: 0fe15489-1381-4864-8b17-6159e14a65a8)</li><li>study_submitter_id (example: Broad Institute - Medulloblastoma - Phospho-tyrosine-enrichments)</li><li>pdc_study_id (example: PDC000431)</li><li>study_name (example: Broad Institute - Medulloblastoma - Phospho-tyrosine-enrichments)</li><li>offset (required for pagination, example: 0)</li><li>limit (required for pagination, example: 10)</li></ul><b>Returns cases/demographics per study</b><br>It may take a long time to execute because of the huge volume of data.<br><br><b>Fields:</b><ul><li>total</li><li>caseDemographicsPerStudy</li><li>pagination</li></ul><b>A test call can be issued with the following parameters:</b>",
                     "operationId": "paginatedCaseDemographicsPerStudy",
                     "produces": [
                       "application/json"
@@ -702,14 +552,7 @@ var spec = {
                         "description": "Limit of records, example: 10",
                         "required": true,
                         "type": "integer"
-                      }, {
-                        "name": "acceptDUA",
-                        "in": "path",
-                        "description": "Accept DUA  is no longer required",
-                        "required": false,
-                        "type": "boolean",
-						"defaultValue": true
-                      }       
+                      } 
                       ],
                     "responses": {
                       "200": {
@@ -724,158 +567,11 @@ var spec = {
                     }
                   }
                 },
-               '?query={paginatedCaseDemographicsPerStudy (study_submitter_id: "{study_submitter_id}" offset: {offset} limit: {limit} acceptDUA: {acceptDUA}) { total caseDemographicsPerStudy { case_id case_submitter_id disease_type primary_site demographics { demographic_id ethnicity gender demographic_submitter_id race cause_of_death days_to_birth days_to_death vital_status year_of_birth year_of_death age_at_index premature_at_birth weeks_gestation_at_birth age_is_obfuscated cause_of_death_source occupation_duration_years country_of_residence_at_enrollment} } pagination { count sort from page total pages size } }}': {
+               '?query={paginatedCaseExposuresPerStudy (study_submitter_id: "{study_submitter_id}" offset: {offset} limit: {limit}) { total caseExposuresPerStudy { case_id case_submitter_id disease_type primary_site exposures { exposure_id exposure_submitter_id alcohol_days_per_week alcohol_drinks_per_day alcohol_history alcohol_intensity asbestos_exposure cigarettes_per_day coal_dust_exposure environmental_tobacco_smoke_exposure pack_years_smoked radon_exposure respirable_crystalline_silica_exposure smoking_frequency time_between_waking_and_first_smoke tobacco_smoking_onset_year tobacco_smoking_quit_year tobacco_smoking_status type_of_smoke_exposure type_of_tobacco_used years_smoked age_at_onset, alcohol_type exposure_duration exposure_duration_years exposure_type marijuana_use_per_week parent_with_radiation_exposure secondhand_smoke_as_child smokeless_tobacco_quit_age tobacco_use_per_day } } pagination { count sort from page total pages size } }}': {
                  "get": {
                            "tags": ["Case"],
-                   "summary": "Get Cases/Demographics",
-                   "description": "<b>Returns cases/demographics per study. This API can also be used with multiple input parameters.</b><br>Takes a long time to execute because of the huge volume of data.<br><br><b>Fields:</b><ul><li>total</li><li>caseDemographicsPerStudy</li><li>pagination</li></ul>",
-                   "operationId": "paginatedCaseDemographicsPerStudy",
-                   "produces": [
-                     "application/json"
-                   ],
-                   "parameters": [{
-                       "name": "study_submitter_id",
-                       "in": "path",
-                       "description": "Study Submitter ID, example: CPTAC UCEC Discovery Study - Acetylome",
-                       "required": true,
-                       "type": "string"
-                     }, {
-                       "name": "offset",
-                       "in": "path",
-                       "description": "Offset of records, example: 0",
-                       "required": true,
-                       "type": "integer"
-                     }, {
-                       "name": "limit",
-                       "in": "path",
-                       "description": "Limit of records, example: 10",
-                       "required": true,
-                       "type": "integer"
-                     }, {
-                        "name": "acceptDUA",
-                        "in": "path",
-                        "description": "Accept DUA  is no longer required",
-                        "required": false,
-                        "type": "boolean",
-						"defaultValue": true
-                      }        
-                     ],
-                   "responses": {
-                     "200": {
-                       "description": "successful operation",
-                       "schema": {
-                         "$ref": "#/definitions/paginatedCaseDemographicsPerStudy"
-                       }
-                     },
-                     "401": {
-                       "description": "Unauthorized"
-                     }
-                   }
-                 }
-               },
-               '?query={paginatedCaseDemographicsPerStudy (pdc_study_id: "{pdc_study_id}" offset: {offset} limit: {limit} acceptDUA: {acceptDUA}) { total caseDemographicsPerStudy { case_id case_submitter_id disease_type primary_site demographics { demographic_id ethnicity gender demographic_submitter_id race cause_of_death days_to_birth days_to_death vital_status year_of_birth year_of_death age_at_index premature_at_birth weeks_gestation_at_birth age_is_obfuscated cause_of_death_source occupation_duration_years country_of_residence_at_enrollment} } pagination { count sort from page total pages size } }}': {
-                  "get": {
-                            "tags": ["Case"],
-                    "summary": "Get Cases/Demographics for PDC Study ID",
-                    "description": "<b>Returns cases/demographics per study. This API can also be used with multiple input parameters.</b><br>Takes a long time to execute because of the huge volume of data.<br><br><b>Fields:</b><ul><li>total</li><li>caseDemographicsPerStudy</li><li>pagination</li></ul>",
-                    "operationId": "paginatedCaseDemographicsPerStudy",
-                    "produces": [
-                      "application/json"
-                    ],
-                    "parameters": [{
-                        "name": "pdc_study_id",
-                        "in": "path",
-                        "description": "PDC Study ID, example: PDC000226",
-                        "required": true,
-                        "type": "string"
-                      }, {
-                        "name": "offset",
-                        "in": "path",
-                        "description": "Offset of records, example: 0",
-                        "required": true,
-                        "type": "integer"
-                      }, {
-                        "name": "limit",
-                        "in": "path",
-                        "description": "Limit of records, example: 10",
-                        "required": true,
-                        "type": "integer"
-                      }, {
-                        "name": "acceptDUA",
-                        "in": "path",
-                        "description": "Accept DUA  is no longer required",
-                        "required": false,
-                        "type": "boolean",
-						"defaultValue": true
-                      }       
-                      ],
-                    "responses": {
-                      "200": {
-                        "description": "successful operation",
-                        "schema": {
-                          "$ref": "#/definitions/paginatedCaseDemographicsPerStudy"
-                        }
-                      },
-                      "401": {
-                        "description": "Unauthorized"
-                      }
-                    }
-                  }
-                },
-               '?query={paginatedCaseExposuresPerStudy (study_id: "{study_id}" offset: {offset} limit: {limit} acceptDUA: {acceptDUA}) { total caseExposuresPerStudy { case_id case_submitter_id disease_type primary_site exposures { exposure_id exposure_submitter_id alcohol_days_per_week alcohol_drinks_per_day alcohol_history alcohol_intensity asbestos_exposure cigarettes_per_day coal_dust_exposure environmental_tobacco_smoke_exposure pack_years_smoked radon_exposure respirable_crystalline_silica_exposure smoking_frequency time_between_waking_and_first_smoke tobacco_smoking_onset_year tobacco_smoking_quit_year tobacco_smoking_status type_of_smoke_exposure type_of_tobacco_used years_smoked age_at_onset, alcohol_type exposure_duration exposure_duration_years exposure_type marijuana_use_per_week parent_with_radiation_exposure secondhand_smoke_as_child smokeless_tobacco_quit_age tobacco_use_per_day } } pagination { count sort from page total pages size } }}': {
-                  "get": {
-                            "tags": ["Case"],
-                    "summary": "Get Cases/Exposures for Study ID",
-                    "description": "<b>Returns cases/exposures per study. This API can also be used with multiple input parameters.</b><br>Takes a long time to execute because of the huge volume of data.<br><br><b>Fields:</b><ul><li>total</li><li>caseExposuresPerStudy</li><li>pagination</li></ul>",
-                    "operationId": "paginatedCaseExposuresPerStudy",
-                    "produces": [
-                      "application/json"
-                    ],
-                    "parameters": [{
-                        "name": "study_id",
-                        "in": "path",
-                        "description": "Study ID, example: b93bb1e9-57b8-11e8-b07a-00a098d917f8",
-                        "required": true,
-                        "type": "string"
-                      }, {
-                        "name": "offset",
-                        "in": "path",
-                        "description": "Offset of records, example: 0",
-                        "required": true,
-                        "type": "integer"
-                      }, {
-                        "name": "limit",
-                        "in": "path",
-                        "description": "Limit of records, example: 10",
-                        "required": true,
-                        "type": "integer"
-                      }, {
-                        "name": "acceptDUA",
-                        "in": "path",
-                        "description": "Accept DUA  is no longer required",
-                        "required": false,
-                        "type": "boolean",
-						"defaultValue": true
-                      }       
-                      ],
-                    "responses": {
-                      "200": {
-                        "description": "successful operation",
-                        "schema": {
-                          "$ref": "#/definitions/paginatedCaseExposuresPerStudy"
-                        }
-                      },
-                      "401": {
-                        "description": "Unauthorized"
-                      }
-                    }
-                  }
-                },
-               '?query={paginatedCaseExposuresPerStudy (study_submitter_id: "{study_submitter_id}" offset: {offset} limit: {limit} acceptDUA: {acceptDUA}) { total caseExposuresPerStudy { case_id case_submitter_id disease_type primary_site exposures { exposure_id exposure_submitter_id alcohol_days_per_week alcohol_drinks_per_day alcohol_history alcohol_intensity asbestos_exposure cigarettes_per_day coal_dust_exposure environmental_tobacco_smoke_exposure pack_years_smoked radon_exposure respirable_crystalline_silica_exposure smoking_frequency time_between_waking_and_first_smoke tobacco_smoking_onset_year tobacco_smoking_quit_year tobacco_smoking_status type_of_smoke_exposure type_of_tobacco_used years_smoked age_at_onset, alcohol_type exposure_duration exposure_duration_years exposure_type marijuana_use_per_week parent_with_radiation_exposure secondhand_smoke_as_child smokeless_tobacco_quit_age tobacco_use_per_day } } pagination { count sort from page total pages size } }}': {
-                 "get": {
-                           "tags": ["Case"],
-                   "summary": "Get Cases/Exposures",
-                   "description": "<b>Returns cases/exposures per study. This API can also be used with multiple input parameters.</b><br>Takes a long time to execute because of the huge volume of data.<br><br><b>Fields:</b><ul><li>total</li><li>caseExposuresPerStudy</li><li>pagination</li></ul>",
+                   "summary": "Get Cases/Exposures Per Study",
+                   "description": "<b>Input Parameters (multiple parameters can be passed in one call):</b><ul><li>study_id (example: 0fe15489-1381-4864-8b17-6159e14a65a8)</li><li>study_submitter_id (example: Broad Institute - Medulloblastoma - Phospho-tyrosine-enrichments)</li><li>pdc_study_id (example: PDC000431)</li><li>study_name (example: Broad Institute - Medulloblastoma - Phospho-tyrosine-enrichments)</li><li>offset (required for pagination, example: 0)</li><li>limit (required for pagination, example: 10)</li></ul><b>Returns cases/exposures per study.</b><br>It may take a long time to execute because of the huge volume of data.<br><br><b>Fields:</b><ul><li>total</li><li>caseExposuresPerStudy</li><li>pagination</li></ul><b>A test call can be issued with the following parameters:</b>",
                    "operationId": "paginatedCaseExposuresPerStudy",
                    "produces": [
                      "application/json"
@@ -898,14 +594,7 @@ var spec = {
                        "description": "Limit of records, example: 10",
                        "required": true,
                        "type": "integer"
-                     }, {
-                        "name": "acceptDUA",
-                        "in": "path",
-                        "description": "Accept DUA  is no longer required",
-                        "required": false,
-                        "type": "boolean",
-						"defaultValue": true
-                      }        
+                     }  
                      ],
                    "responses": {
                      "200": {
@@ -920,158 +609,11 @@ var spec = {
                    }
                  }
                },
-               '?query={paginatedCaseExposuresPerStudy (pdc_study_id: "{pdc_study_id}" offset: {offset} limit: {limit} acceptDUA: {acceptDUA}) { total caseExposuresPerStudy { case_id case_submitter_id disease_type primary_site exposures { exposure_id exposure_submitter_id alcohol_days_per_week alcohol_drinks_per_day alcohol_history alcohol_intensity asbestos_exposure cigarettes_per_day coal_dust_exposure environmental_tobacco_smoke_exposure pack_years_smoked radon_exposure respirable_crystalline_silica_exposure smoking_frequency time_between_waking_and_first_smoke tobacco_smoking_onset_year tobacco_smoking_quit_year tobacco_smoking_status type_of_smoke_exposure type_of_tobacco_used years_smoked age_at_onset, alcohol_type exposure_duration exposure_duration_years exposure_type marijuana_use_per_week parent_with_radiation_exposure secondhand_smoke_as_child smokeless_tobacco_quit_age tobacco_use_per_day } } pagination { count sort from page total pages size } }}': {
+               '?query={paginatedCaseFollowUpsPerStudy (pdc_study_id: "{pdc_study_id}" offset: {offset} limit: {limit}) { total caseFollowUpsPerStudy { case_id case_submitter_id disease_type primary_site follow_ups { follow_up_id follow_up_submitter_id adverse_event barretts_esophagus_goblet_cells_present bmi cause_of_response comorbidity comorbidity_method_of_diagnosis days_to_adverse_event days_to_comorbidity days_to_follow_up days_to_progression days_to_progression_free days_to_recurrence diabetes_treatment_type disease_response dlco_ref_predictive_percent ecog_performance_status fev1_ref_post_bronch_percent fev1_ref_pre_bronch_percent fev1_fvc_pre_bronch_percent fev1_fvc_post_bronch_percent height hepatitis_sustained_virological_response hpv_positive_type karnofsky_performance_status menopause_status pancreatitis_onset_year progression_or_recurrence progression_or_recurrence_anatomic_site progression_or_recurrence_type reflux_treatment_type risk_factor risk_factor_treatment viral_hepatitis_serologies weight adverse_event_grade aids_risk_factors body_surface_area cd4_count cdc_hiv_risk_factors days_to_imaging evidence_of_recurrence_type eye_color haart_treatment_indicator history_of_tumor history_of_tumor_type hiv_viral_load hormonal_contraceptive_type hormonal_contraceptive_use hormone_replacement_therapy_type hysterectomy_margins_involved hysterectomy_type imaging_result imaging_type immunosuppressive_treatment_type nadir_cd4_count pregnancy_outcome procedures_performed recist_targeted_regions_number recist_targeted_regions_sum scan_tracer_used undescended_testis_corrected undescended_testis_corrected_age undescended_testis_corrected_laterality undescended_testis_corrected_method undescended_testis_history undescended_testis_history_laterality } } pagination { count sort from page total pages size } }}': {
                   "get": {
                             "tags": ["Case"],
-                    "summary": "Get Cases/Exposures for PDC Study ID",
-                    "description": "<b>Returns cases/exposures per study. This API can also be used with multiple input parameters.</b><br>Takes a long time to execute because of the huge volume of data.<br><br><b>Fields:</b><ul><li>total</li><li>caseExposuresPerStudy</li><li>pagination</li></ul>",
-                    "operationId": "paginatedCaseExposuresPerStudy",
-                    "produces": [
-                      "application/json"
-                    ],
-                    "parameters": [{
-                        "name": "pdc_study_id",
-                        "in": "path",
-                        "description": "PDC Study ID, example: PDC000226",
-                        "required": true,
-                        "type": "string"
-                      }, {
-                        "name": "offset",
-                        "in": "path",
-                        "description": "Offset of records, example: 0",
-                        "required": true,
-                        "type": "integer"
-                      }, {
-                        "name": "limit",
-                        "in": "path",
-                        "description": "Limit of records, example: 10",
-                        "required": true,
-                        "type": "integer"
-                      }, {
-                        "name": "acceptDUA",
-                        "in": "path",
-                        "description": "Accept DUA  is no longer required",
-                        "required": false,
-                        "type": "boolean",
-						"defaultValue": true
-                      }       
-                      ],
-                    "responses": {
-                      "200": {
-                        "description": "successful operation",
-                        "schema": {
-                          "$ref": "#/definitions/paginatedCaseExposuresPerStudy"
-                        }
-                      },
-                      "401": {
-                        "description": "Unauthorized"
-                      }
-                    }
-                  }
-                },
-               '?query={paginatedCaseFollowUpsPerStudy (study_id: "{study_id}" offset: {offset} limit: {limit} acceptDUA: {acceptDUA}) { total caseFollowUpsPerStudy { case_id case_submitter_id disease_type primary_site follow_ups { follow_up_id follow_up_submitter_id adverse_event barretts_esophagus_goblet_cells_present bmi cause_of_response comorbidity comorbidity_method_of_diagnosis days_to_adverse_event days_to_comorbidity days_to_follow_up days_to_progression days_to_progression_free days_to_recurrence diabetes_treatment_type disease_response dlco_ref_predictive_percent ecog_performance_status fev1_ref_post_bronch_percent fev1_ref_pre_bronch_percent fev1_fvc_pre_bronch_percent fev1_fvc_post_bronch_percent height hepatitis_sustained_virological_response hpv_positive_type karnofsky_performance_status menopause_status pancreatitis_onset_year progression_or_recurrence progression_or_recurrence_anatomic_site progression_or_recurrence_type reflux_treatment_type risk_factor risk_factor_treatment viral_hepatitis_serologies weight adverse_event_grade aids_risk_factors body_surface_area cd4_count cdc_hiv_risk_factors days_to_imaging evidence_of_recurrence_type eye_color haart_treatment_indicator history_of_tumor history_of_tumor_type hiv_viral_load hormonal_contraceptive_type hormonal_contraceptive_use hormone_replacement_therapy_type hysterectomy_margins_involved hysterectomy_type imaging_result imaging_type immunosuppressive_treatment_type nadir_cd4_count pregnancy_outcome procedures_performed recist_targeted_regions_number recist_targeted_regions_sum scan_tracer_used undescended_testis_corrected undescended_testis_corrected_age undescended_testis_corrected_laterality undescended_testis_corrected_method undescended_testis_history undescended_testis_history_laterality } } pagination { count sort from page total pages size } }}': {
-                  "get": {
-                            "tags": ["Case"],
-                    "summary": "Get Cases/FollowUps for Study ID",
-                    "description": "<b>Returns cases/followUps per study. This API can also be used with multiple input parameters.</b><br>Takes a long time to execute because of the huge volume of data.<br><br><b>Fields:</b><ul><li>total</li><li>caseFollowUpsPerStudy</li><li>pagination</li></ul>",
-                    "operationId": "paginatedCaseFollowUpsPerStudy",
-                    "produces": [
-                      "application/json"
-                    ],
-                    "parameters": [{
-                        "name": "study_id",
-                        "in": "path",
-                        "description": "Study ID, example: b93bb1e9-57b8-11e8-b07a-00a098d917f8",
-                        "required": true,
-                        "type": "string"
-                      }, {
-                        "name": "offset",
-                        "in": "path",
-                        "description": "Offset of records, example: 0",
-                        "required": true,
-                        "type": "integer"
-                      }, {
-                        "name": "limit",
-                        "in": "path",
-                        "description": "Limit of records, example: 10",
-                        "required": true,
-                        "type": "integer"
-                      }, {
-                        "name": "acceptDUA",
-                        "in": "path",
-                        "description": "Accept DUA  is no longer required",
-                        "required": false,
-                        "type": "boolean",
-						"defaultValue": true
-                      }       
-                      ],
-                    "responses": {
-                      "200": {
-                        "description": "successful operation",
-                        "schema": {
-                          "$ref": "#/definitions/paginatedCaseFollowUpsPerStudy"
-                        }
-                      },
-                      "401": {
-                        "description": "Unauthorized"
-                      }
-                    }
-                  }
-                },
-               '?query={paginatedCaseFollowUpsPerStudy (study_submitter_id: "{study_submitter_id}" offset: {offset} limit: {limit} acceptDUA: {acceptDUA}) { total caseFollowUpsPerStudy { case_id case_submitter_id disease_type primary_site follow_ups { follow_up_id follow_up_submitter_id adverse_event barretts_esophagus_goblet_cells_present bmi cause_of_response comorbidity comorbidity_method_of_diagnosis days_to_adverse_event days_to_comorbidity days_to_follow_up days_to_progression days_to_progression_free days_to_recurrence diabetes_treatment_type disease_response dlco_ref_predictive_percent ecog_performance_status fev1_ref_post_bronch_percent fev1_ref_pre_bronch_percent fev1_fvc_pre_bronch_percent fev1_fvc_post_bronch_percent height hepatitis_sustained_virological_response hpv_positive_type karnofsky_performance_status menopause_status pancreatitis_onset_year progression_or_recurrence progression_or_recurrence_anatomic_site progression_or_recurrence_type reflux_treatment_type risk_factor risk_factor_treatment viral_hepatitis_serologies weight adverse_event_grade aids_risk_factors body_surface_area cd4_count cdc_hiv_risk_factors days_to_imaging evidence_of_recurrence_type eye_color haart_treatment_indicator history_of_tumor history_of_tumor_type hiv_viral_load hormonal_contraceptive_type hormonal_contraceptive_use hormone_replacement_therapy_type hysterectomy_margins_involved hysterectomy_type imaging_result imaging_type immunosuppressive_treatment_type nadir_cd4_count pregnancy_outcome procedures_performed recist_targeted_regions_number recist_targeted_regions_sum scan_tracer_used undescended_testis_corrected undescended_testis_corrected_age undescended_testis_corrected_laterality undescended_testis_corrected_method undescended_testis_history undescended_testis_history_laterality } } pagination { count sort from page total pages size } }}': {
-                 "get": {
-                           "tags": ["Case"],
-                   "summary": "Get Cases/FollowUps",
-                   "description": "<b>Returns cases/followUps per study. This API can also be used with multiple input parameters.</b><br>Takes a long time to execute because of the huge volume of data.<br><br><b>Fields:</b><ul><li>total</li><li>caseFollowUpsPerStudy</li><li>pagination</li></ul>",
-                   "operationId": "paginatedCaseFollowUpsPerStudy",
-                   "produces": [
-                     "application/json"
-                   ],
-                   "parameters": [{
-                       "name": "study_submitter_id",
-                       "in": "path",
-                       "description": "Study Submitter ID, example: CPTAC UCEC Discovery Study - Acetylome",
-                       "required": true,
-                       "type": "string"
-                     }, {
-                       "name": "offset",
-                       "in": "path",
-                       "description": "Offset of records, example: 0",
-                       "required": true,
-                       "type": "integer"
-                     }, {
-                       "name": "limit",
-                       "in": "path",
-                       "description": "Limit of records, example: 10",
-                       "required": true,
-                       "type": "integer"
-                     }, {
-                        "name": "acceptDUA",
-                        "in": "path",
-                        "description": "Accept DUA  is no longer required",
-                        "required": false,
-                        "type": "boolean",
-						"defaultValue": true
-                      }        
-                     ],
-                   "responses": {
-                     "200": {
-                       "description": "successful operation",
-                       "schema": {
-                         "$ref": "#/definitions/paginatedCaseFollowUpsPerStudy"
-                       }
-                     },
-                     "401": {
-                       "description": "Unauthorized"
-                     }
-                   }
-                 }
-               },
-               '?query={paginatedCaseFollowUpsPerStudy (pdc_study_id: "{pdc_study_id}" offset: {offset} limit: {limit} acceptDUA: {acceptDUA}) { total caseFollowUpsPerStudy { case_id case_submitter_id disease_type primary_site follow_ups { follow_up_id follow_up_submitter_id adverse_event barretts_esophagus_goblet_cells_present bmi cause_of_response comorbidity comorbidity_method_of_diagnosis days_to_adverse_event days_to_comorbidity days_to_follow_up days_to_progression days_to_progression_free days_to_recurrence diabetes_treatment_type disease_response dlco_ref_predictive_percent ecog_performance_status fev1_ref_post_bronch_percent fev1_ref_pre_bronch_percent fev1_fvc_pre_bronch_percent fev1_fvc_post_bronch_percent height hepatitis_sustained_virological_response hpv_positive_type karnofsky_performance_status menopause_status pancreatitis_onset_year progression_or_recurrence progression_or_recurrence_anatomic_site progression_or_recurrence_type reflux_treatment_type risk_factor risk_factor_treatment viral_hepatitis_serologies weight adverse_event_grade aids_risk_factors body_surface_area cd4_count cdc_hiv_risk_factors days_to_imaging evidence_of_recurrence_type eye_color haart_treatment_indicator history_of_tumor history_of_tumor_type hiv_viral_load hormonal_contraceptive_type hormonal_contraceptive_use hormone_replacement_therapy_type hysterectomy_margins_involved hysterectomy_type imaging_result imaging_type immunosuppressive_treatment_type nadir_cd4_count pregnancy_outcome procedures_performed recist_targeted_regions_number recist_targeted_regions_sum scan_tracer_used undescended_testis_corrected undescended_testis_corrected_age undescended_testis_corrected_laterality undescended_testis_corrected_method undescended_testis_history undescended_testis_history_laterality } } pagination { count sort from page total pages size } }}': {
-                  "get": {
-                            "tags": ["Case"],
-                    "summary": "Get Cases/FollowUps for PDC Study ID",
-                    "description": "<b>Returns cases/followUps per study. This API can also be used with multiple input parameters.</b><br>Takes a long time to execute because of the huge volume of data.<br><br><b>Fields:</b><ul><li>total</li><li>caseFollowUpsPerStudy</li><li>pagination</li></ul>",
+                    "summary": "Get Cases/FollowUps Per Study",
+                    "description": "<b>Input Parameters (multiple parameters can be passed in one call):</b><ul><li>study_id (example: 0fe15489-1381-4864-8b17-6159e14a65a8)</li><li>study_submitter_id (example: Broad Institute - Medulloblastoma - Phospho-tyrosine-enrichments)</li><li>pdc_study_id (example: PDC000431)</li><li>study_name (example: Broad Institute - Medulloblastoma - Phospho-tyrosine-enrichments)</li><li>offset (required for pagination, example: 0)</li><li>limit (required for pagination, example: 10)</li></ul><b>Returns cases/followUps per study.</b><br>It may take a long time to execute because of the huge volume of data.<br><br><b>Fields:</b><ul><li>total</li><li>caseFollowUpsPerStudy</li><li>pagination</li></ul><b>A test call can be issued with the following parameters:</b>",
                     "operationId": "paginatedCaseFollowUpsPerStudy",
                     "produces": [
                       "application/json"
@@ -1094,14 +636,7 @@ var spec = {
                         "description": "Limit of records, example: 10",
                         "required": true,
                         "type": "integer"
-                      }, {
-                        "name": "acceptDUA",
-                        "in": "path",
-                        "description": "Accept DUA  is no longer required",
-                        "required": false,
-                        "type": "boolean",
-						"defaultValue": true
-                      }       
+                      }  
                       ],
                     "responses": {
                       "200": {
@@ -2027,80 +1562,6 @@ var spec = {
                    }
                  }
                    },
-/*                    "?query={projectsPerExperimentType{experiment_type project_submitter_id name}}": {
-                 "get": {
-                           "tags": ["Project"],
-                   "summary": "Get projects per experiment types",
-                   "description": "<b>Returns a list of projects per experiment types - Label Free, iTRAQ4, TMT10.<br><br>Fields:</b><ul><li>experiment_type</li><li>project_submitter_id</li><li>name</li></ul>",
-                   "operationId": "projectsPerExperimentType",
-                   "produces": [
-                     "application/json"
-                   ],
-                   "responses": {
-                     "200": {
-                       "description": "successful operation",
-                       "schema": {
-                         "$ref": "#/definitions/projectsPerExperimentType"
-                       }
-                     },
-                     "401": {
-                       "description": "Unauthorized"
-                     }
-                   }
-                 }
-               },
-               '?query={projectsPerInstrument  {project_submitter_id instrument_model }}': {
-                 "get": {
-                           "tags": ["Project"],
-                   "summary": "Get projects per instrument",
-                   "description": "<b>Returns a list of projects and mass spectrometry instruments. This API can also be used with multiple input parameters.<br><br>Fields:</b><ul><li>project_submitter_id</li><li>instrument_model</li></ul>",
-                   "operationId": "projectsPerInstrument",
-                   "produces": [
-                     "application/json"
-                   ],
-                   "responses": {
-                     "200": {
-                       "description": "successful operation",
-                       "schema": {
-                         "$ref": "#/definitions/projectsPerInstrument"
-                       }
-                     },
-                     "401": {
-                       "description": "Unauthorized"
-                     }
-                   }
-                 }
-               },
-               '?query={projectsPerInstrument(instrument: "{instrument}")  {project_submitter_id instrument_model }}': {
-                  "get": {
-                            "tags": ["Project"],
-                    "summary": "Get projects per instrument",
-                    "description": "<b>Returns project and mass spectrometry instruments. This API can also be used with multiple input parameters.<br><br>Fields:</b><ul><li>project_submitter_id</li><li>instrument_model</li></ul>",
-                    "operationId": "projectsPerInstrument",
-                    "produces": [
-                      "application/json"
-                    ],
-                  "parameters": [{
-                      "name": "instrument",
-                      "in": "path",
-                      "description": "Instrument, example: Q Exactive HF",
-                      "required": true,
-                      "type": "string"
-                    }
-                   ], 
-                    "responses": {
-                      "200": {
-                        "description": "successful operation",
-                        "schema": {
-                          "$ref": "#/definitions/projectsPerInstrument"
-                        }
-                      },
-                      "401": {
-                        "description": "Unauthorized"
-                      }
-                    }
-                  }
-                }, */
                '?query={protein(protein: "{protein}" acceptDUA: {acceptDUA}){gene_name NCBI_gene_id authority description organism chromosome locus proteins assays spectral_counts {project_id project_submitter_id plex spectral_count distinct_peptide unshared_peptide study_id study_submitter_id pdc_study_id}}}': {
                  "get": {
                            "tags": ["Quantitative"],
@@ -2138,66 +1599,6 @@ var spec = {
                    }
                  }
                    },
-               /*'?query={studySearch(name: "{name}"){ studies { record_type name submitter_id_name pdc_study_id} }}': {
-                 "get": {
-                   "tags": ["Study"],
-                   "summary": "Find studies by partial study_shortname",
-                   "description": "<b>Returns a list of search records<br><br>Fields:</b><ul><li>studies</li></ul>",
-                   "operationId": "studySearch",
-                   "produces": [
-                     "application/json"
-                   ],
-                   "parameters": [{
-                       "name": "name",
-                       "in": "path",
-                       "description": "Partial study_shortname to search studies with, example: TCGA",
-                       "required": true,
-                       "type": "string"
-                     }
-                   ],
-                   "responses": {
-                     "200": {
-                       "description": "successful operation",
-                       "schema": {
-                         "$ref": "#/definitions/studySearch"
-                       }
-                     },
-                     "401": {
-                       "description": "Unauthorized"
-                     }
-                   }
-                 }
-               },
-               '?query={studySearchByPDCStudyId(pdc_study_id:"{pdc_study_id}"){studies{record_type name submitter_id_name study_id study_submitter_id pdc_study_id}}}': {
-                  "get": {
-                    "tags": ["Study"],
-                    "summary": "Find studies by PDC Study ID",
-                    "description": "<b>Returns details of a study<br><br>Fields:</b><ul><li>studies</li></ul>",
-                    "operationId": "studySearchByPDCStudyId",
-                    "produces": [
-                      "application/json"
-                    ],
-                    "parameters": [{
-                        "name": "pdc_study_id",
-                        "in": "path",
-                        "description": "PDC Study ID to search studies with, example: PDC000173",
-                        "required": true,
-                        "type": "string"
-                      }
-                    ],
-                    "responses": {
-                      "200": {
-                        "description": "successful operation",
-                        "schema": {
-                          "$ref": "#/definitions/studySearchByPDCStudyId"
-                        }
-                      },
-                      "401": {
-                        "description": "Unauthorized"
-                      }
-                    }
-                  }
-                },*/
                 '?query={ pdcEntityReference(entity_type:"{entity_type}", entity_id: "{entity_id}", reference_type: "{reference_type}", acceptDUA: {acceptDUA}) { reference_id entity_type entity_id reference_type reference_entity_type reference_entity_alias reference_resource_name reference_resource_shortname reference_entity_location } }': {
                   "get": {
                     "tags": ["General"],
@@ -2387,41 +1788,11 @@ var spec = {
                     }
                   }
                 },
-                /*'?query={studySearchByExternalId(reference_entity_alias:"{reference_entity_alias}"){studies{record_type name submitter_id_name study_id study_submitter_id pdc_study_id}}}': {
-                  "get": {
-                    "tags": ["Study"],
-                    "summary": "Find studies by External ID",
-                    "description": "<b>Returns details of a study<br><br>Fields:</b><ul><li>studies</li></ul>",
-                    "operationId": "studySearchByExternalId",
-                    "produces": [
-                      "application/json"
-                    ],
-                    "parameters": [{
-                        "name": "reference_entity_alias",
-                        "in": "path",
-                        "description": "External ID to search studies with, example: CPTAC-CCRCC",
-                        "required": true,
-                        "type": "string"
-                      }
-                    ],
-                    "responses": {
-                      "200": {
-                        "description": "successful operation",
-                        "schema": {
-                          "$ref": "#/definitions/studySearchByExternalId"
-                        }
-                      },
-                      "401": {
-                        "description": "Unauthorized"
-                      }
-                    }
-                  }
-                },*/
-             '?query={paginatedCaseDiagnosesPerStudy (study_id: "{study_id}" offset: {offset} limit: {limit} acceptDUA: {acceptDUA}) { total caseDiagnosesPerStudy { case_id case_submitter_id disease_type primary_site diagnoses{ diagnosis_id tissue_or_organ_of_origin age_at_diagnosis primary_diagnosis tumor_grade tumor_stage diagnosis_submitter_id classification_of_tumor days_to_last_follow_up days_to_last_known_disease_status days_to_recurrence last_known_disease_status morphology progression_or_recurrence site_of_resection_or_biopsy prior_malignancy ajcc_clinical_m ajcc_clinical_n ajcc_clinical_stage ajcc_clinical_t ajcc_pathologic_m ajcc_pathologic_n ajcc_pathologic_stage ajcc_pathologic_t ann_arbor_b_symptoms ann_arbor_clinical_stage ann_arbor_extranodal_involvement ann_arbor_pathologic_stage best_overall_response burkitt_lymphoma_clinical_variant circumferential_resection_margin colon_polyps_history days_to_best_overall_response days_to_diagnosis days_to_hiv_diagnosis days_to_new_event figo_stage hiv_positive hpv_positive_type hpv_status iss_stage laterality ldh_level_at_diagnosis ldh_normal_range_upper lymph_nodes_positive lymphatic_invasion_present method_of_diagnosis new_event_anatomic_site new_event_type overall_survival perineural_invasion_present prior_treatment progression_free_survival progression_free_survival_event residual_disease vascular_invasion_present year_of_diagnosis icd_10_code synchronous_malignancy tumor_largest_dimension_diameter anaplasia_present anaplasia_present_type child_pugh_classification cog_liver_stage cog_neuroblastoma_risk_group cog_renal_stage cog_rhabdomyosarcoma_risk_group enneking_msts_grade enneking_msts_metastasis enneking_msts_stage enneking_msts_tumor_site esophageal_columnar_dysplasia_degree esophageal_columnar_metaplasia_present first_symptom_prior_to_diagnosis gastric_esophageal_junction_involvement goblet_cells_columnar_mucosa_present gross_tumor_weight inpc_grade inpc_histologic_group inrg_stage inss_stage irs_group irs_stage ishak_fibrosis_score lymph_nodes_tested medulloblastoma_molecular_classification metastasis_at_diagnosis metastasis_at_diagnosis_site mitosis_karyorrhexis_index peripancreatic_lymph_nodes_positive peripancreatic_lymph_nodes_tested supratentorial_localization tumor_confined_to_organ_of_origin tumor_focality tumor_regression_grade vascular_invasion_type wilms_tumor_histologic_subtype breslow_thickness gleason_grade_group igcccg_stage international_prognostic_index largest_extrapelvic_peritoneal_focus masaoka_stage non_nodal_regional_disease non_nodal_tumor_deposits ovarian_specimen_status ovarian_surface_involvement percent_tumor_invasion peritoneal_fluid_cytological_status primary_gleason_grade secondary_gleason_grade weiss_assessment_score adrenal_hormone ann_arbor_b_symptoms_described diagnosis_is_primary_disease eln_risk_classification figo_staging_edition_year gleason_grade_tertiary gleason_patterns_percent margin_distance margins_involved_site pregnant_at_diagnosis satellite_nodule_present sites_of_involvement tumor_depth who_cns_grade who_nte_grade samples { sample_id sample_submitter_id annotation}} } pagination { count sort from page total pages size } }} ': {
+             '?query={paginatedCaseDiagnosesPerStudy (study_id: "{study_id}" offset: {offset} limit: {limit}) { total caseDiagnosesPerStudy { case_id case_submitter_id disease_type primary_site diagnoses{ diagnosis_id tissue_or_organ_of_origin age_at_diagnosis primary_diagnosis tumor_grade tumor_stage diagnosis_submitter_id classification_of_tumor days_to_last_follow_up days_to_last_known_disease_status days_to_recurrence last_known_disease_status morphology progression_or_recurrence site_of_resection_or_biopsy prior_malignancy ajcc_clinical_m ajcc_clinical_n ajcc_clinical_stage ajcc_clinical_t ajcc_pathologic_m ajcc_pathologic_n ajcc_pathologic_stage ajcc_pathologic_t ann_arbor_b_symptoms ann_arbor_clinical_stage ann_arbor_extranodal_involvement ann_arbor_pathologic_stage best_overall_response burkitt_lymphoma_clinical_variant circumferential_resection_margin colon_polyps_history days_to_best_overall_response days_to_diagnosis days_to_hiv_diagnosis days_to_new_event figo_stage hiv_positive hpv_positive_type hpv_status iss_stage laterality ldh_level_at_diagnosis ldh_normal_range_upper lymph_nodes_positive lymphatic_invasion_present method_of_diagnosis new_event_anatomic_site new_event_type overall_survival perineural_invasion_present prior_treatment progression_free_survival progression_free_survival_event residual_disease vascular_invasion_present year_of_diagnosis icd_10_code synchronous_malignancy tumor_largest_dimension_diameter anaplasia_present anaplasia_present_type child_pugh_classification cog_liver_stage cog_neuroblastoma_risk_group cog_renal_stage cog_rhabdomyosarcoma_risk_group enneking_msts_grade enneking_msts_metastasis enneking_msts_stage enneking_msts_tumor_site esophageal_columnar_dysplasia_degree esophageal_columnar_metaplasia_present first_symptom_prior_to_diagnosis gastric_esophageal_junction_involvement goblet_cells_columnar_mucosa_present gross_tumor_weight inpc_grade inpc_histologic_group inrg_stage inss_stage irs_group irs_stage ishak_fibrosis_score lymph_nodes_tested medulloblastoma_molecular_classification metastasis_at_diagnosis metastasis_at_diagnosis_site mitosis_karyorrhexis_index peripancreatic_lymph_nodes_positive peripancreatic_lymph_nodes_tested supratentorial_localization tumor_confined_to_organ_of_origin tumor_focality tumor_regression_grade vascular_invasion_type wilms_tumor_histologic_subtype breslow_thickness gleason_grade_group igcccg_stage international_prognostic_index largest_extrapelvic_peritoneal_focus masaoka_stage non_nodal_regional_disease non_nodal_tumor_deposits ovarian_specimen_status ovarian_surface_involvement percent_tumor_invasion peritoneal_fluid_cytological_status primary_gleason_grade secondary_gleason_grade weiss_assessment_score adrenal_hormone ann_arbor_b_symptoms_described diagnosis_is_primary_disease eln_risk_classification figo_staging_edition_year gleason_grade_tertiary gleason_patterns_percent margin_distance margins_involved_site pregnant_at_diagnosis satellite_nodule_present sites_of_involvement tumor_depth who_cns_grade who_nte_grade samples { sample_id sample_submitter_id annotation}} } pagination { count sort from page total pages size } }} ': {
                "get": {
                    "tags": ["Case"],
-                   "summary": "Get Cases/Diagnoses for PDC Study ID",
-                   "description": "<b>Returns cases/diagnoses for PDC Study ID. This API can also be used with multiple input parameters.<br><br>Fields:</b><ul><li>total</li><li>caseDiagnosesPerStudy</li><li>pagination</li></ul>",
+                   "summary": "Get Cases/Diagnoses Per Study",
+                   "description": "<b>Input Parameters (multiple parameters can be passed in one call):</b><ul><li>study_id (example: 0fe15489-1381-4864-8b17-6159e14a65a8)</li><li>study_submitter_id (example: Broad Institute - Medulloblastoma - Phospho-tyrosine-enrichments)</li><li>pdc_study_id (example: PDC000431)</li><li>study_name (example: Broad Institute - Medulloblastoma - Phospho-tyrosine-enrichments)</li><li>offset (required for pagination, example: 0)</li><li>limit (required for pagination, example: 10)</li></ul><b>Returns cases/diagnoses per study <br><br>Fields:</b><ul><li>total</li><li>caseDiagnosesPerStudy</li><li>pagination</li></ul><b>A test call can be issued with the following parameters:</b>",
                    "operationId": "paginatedCaseDiagnosesPerStudy",
                    "produces": [
                        "application/json"
@@ -2444,112 +1815,7 @@ var spec = {
                            "description": "Limit of records, example: 10",
                            "required": true,
                            "type": "integer"
-                       }, {
-                        "name": "acceptDUA",
-                        "in": "path",
-                        "description": "Accept DUA  is no longer required",
-                        "required": false,
-                        "type": "boolean",
-						"defaultValue": true
-                       }        
-                       ],
-                   "responses": {
-                       "200": {
-                           "description": "successful operation",
-                           "schema": {
-                               "$ref": "#/definitions/paginatedCaseDiagnosesPerStudy"
-                           }
-                       },
-                       "401": {
-                           "description": "Unauthorized"
-                       }
-                   }
-               }
-           },
-               '?query={paginatedCaseDiagnosesPerStudy (study_name: "{study_name}" offset: {offset} limit: {limit} acceptDUA: {acceptDUA}) { total caseDiagnosesPerStudy { case_id case_submitter_id disease_type primary_site diagnoses{ diagnosis_id tissue_or_organ_of_origin age_at_diagnosis primary_diagnosis tumor_grade tumor_stage diagnosis_submitter_id classification_of_tumor days_to_last_follow_up days_to_last_known_disease_status days_to_recurrence last_known_disease_status morphology progression_or_recurrence site_of_resection_or_biopsy prior_malignancy ajcc_clinical_m ajcc_clinical_n ajcc_clinical_stage ajcc_clinical_t ajcc_pathologic_m ajcc_pathologic_n ajcc_pathologic_stage ajcc_pathologic_t ann_arbor_b_symptoms ann_arbor_clinical_stage ann_arbor_extranodal_involvement ann_arbor_pathologic_stage best_overall_response burkitt_lymphoma_clinical_variant circumferential_resection_margin colon_polyps_history days_to_best_overall_response days_to_diagnosis days_to_hiv_diagnosis days_to_new_event figo_stage hiv_positive hpv_positive_type hpv_status iss_stage laterality ldh_level_at_diagnosis ldh_normal_range_upper lymph_nodes_positive lymphatic_invasion_present method_of_diagnosis new_event_anatomic_site new_event_type overall_survival perineural_invasion_present prior_treatment progression_free_survival progression_free_survival_event residual_disease vascular_invasion_present year_of_diagnosis icd_10_code synchronous_malignancy tumor_largest_dimension_diameter anaplasia_present anaplasia_present_type child_pugh_classification cog_liver_stage cog_neuroblastoma_risk_group cog_renal_stage cog_rhabdomyosarcoma_risk_group enneking_msts_grade enneking_msts_metastasis enneking_msts_stage enneking_msts_tumor_site esophageal_columnar_dysplasia_degree esophageal_columnar_metaplasia_present first_symptom_prior_to_diagnosis gastric_esophageal_junction_involvement goblet_cells_columnar_mucosa_present gross_tumor_weight inpc_grade inpc_histologic_group inrg_stage inss_stage irs_group irs_stage ishak_fibrosis_score lymph_nodes_tested medulloblastoma_molecular_classification metastasis_at_diagnosis metastasis_at_diagnosis_site mitosis_karyorrhexis_index peripancreatic_lymph_nodes_positive peripancreatic_lymph_nodes_tested supratentorial_localization tumor_confined_to_organ_of_origin tumor_focality tumor_regression_grade vascular_invasion_type wilms_tumor_histologic_subtype breslow_thickness gleason_grade_group igcccg_stage international_prognostic_index largest_extrapelvic_peritoneal_focus masaoka_stage non_nodal_regional_disease non_nodal_tumor_deposits ovarian_specimen_status ovarian_surface_involvement percent_tumor_invasion peritoneal_fluid_cytological_status primary_gleason_grade secondary_gleason_grade weiss_assessment_score adrenal_hormone ann_arbor_b_symptoms_described diagnosis_is_primary_disease eln_risk_classification figo_staging_edition_year gleason_grade_tertiary gleason_patterns_percent margin_distance margins_involved_site pregnant_at_diagnosis satellite_nodule_present sites_of_involvement tumor_depth who_cns_grade who_nte_grade samples { sample_id sample_submitter_id annotation}} } pagination { count sort from page total pages size } }} ': {
-                 "get": {
-                     "tags": ["Case"],
-                     "summary": "Get Cases/Diagnoses",
-                     "description": "<b>Returns cases/diagnoses per study. This API can also be used with multiple input parameters.<br><br>Fields:</b><ul><li>total</li><li>caseDiagnosesPerStudy</li><li>pagination</li></ul>",
-                     "operationId": "paginatedCaseDiagnosesPerStudy",
-                     "produces": [
-                         "application/json"
-                     ],
-                     "parameters": [{
-                             "name": "study_name",
-                             "in": "path",
-                             "description": "Name of study, example: CPTAC UCEC Discovery Study - Acetylome",
-                             "required": true,
-                             "type": "string"
-                         }, {
-                             "name": "offset",
-                             "in": "path",
-                             "description": "Offset of records, example: 0",
-                             "required": true,
-                             "type": "integer"
-                         }, {
-                             "name": "limit",
-                             "in": "path",
-                             "description": "Limit of records, example: 10",
-                             "required": true,
-                             "type": "integer"
-                         }, {
-                           "name": "acceptDUA",
-                           "in": "path",
-                           "description": "Accept DUA  is no longer required",
-                           "required": false,
-                           "type": "boolean",
-						"defaultValue": true
-                         }       
-                         ],
-                     "responses": {
-                         "200": {
-                             "description": "successful operation",
-                             "schema": {
-                                 "$ref": "#/definitions/paginatedCaseDiagnosesPerStudy"
-                             }
-                         },
-                         "401": {
-                             "description": "Unauthorized"
-                         }
-                     }
-                 }
-             },
-             '?query={paginatedCaseDiagnosesPerStudy (pdc_study_id: "{pdc_study_id}" offset: {offset} limit: {limit} acceptDUA: {acceptDUA}) { total caseDiagnosesPerStudy { case_id case_submitter_id disease_type primary_site diagnoses{ diagnosis_id tissue_or_organ_of_origin age_at_diagnosis primary_diagnosis tumor_grade tumor_stage diagnosis_submitter_id classification_of_tumor days_to_last_follow_up days_to_last_known_disease_status days_to_recurrence last_known_disease_status morphology progression_or_recurrence site_of_resection_or_biopsy prior_malignancy ajcc_clinical_m ajcc_clinical_n ajcc_clinical_stage ajcc_clinical_t ajcc_pathologic_m ajcc_pathologic_n ajcc_pathologic_stage ajcc_pathologic_t ann_arbor_b_symptoms ann_arbor_clinical_stage ann_arbor_extranodal_involvement ann_arbor_pathologic_stage best_overall_response burkitt_lymphoma_clinical_variant circumferential_resection_margin colon_polyps_history days_to_best_overall_response days_to_diagnosis days_to_hiv_diagnosis days_to_new_event figo_stage hiv_positive hpv_positive_type hpv_status iss_stage laterality ldh_level_at_diagnosis ldh_normal_range_upper lymph_nodes_positive lymphatic_invasion_present method_of_diagnosis new_event_anatomic_site new_event_type overall_survival perineural_invasion_present prior_treatment progression_free_survival progression_free_survival_event residual_disease vascular_invasion_present year_of_diagnosis icd_10_code synchronous_malignancy tumor_largest_dimension_diameter anaplasia_present anaplasia_present_type child_pugh_classification cog_liver_stage cog_neuroblastoma_risk_group cog_renal_stage cog_rhabdomyosarcoma_risk_group enneking_msts_grade enneking_msts_metastasis enneking_msts_stage enneking_msts_tumor_site esophageal_columnar_dysplasia_degree esophageal_columnar_metaplasia_present first_symptom_prior_to_diagnosis gastric_esophageal_junction_involvement goblet_cells_columnar_mucosa_present gross_tumor_weight inpc_grade inpc_histologic_group inrg_stage inss_stage irs_group irs_stage ishak_fibrosis_score lymph_nodes_tested medulloblastoma_molecular_classification metastasis_at_diagnosis metastasis_at_diagnosis_site mitosis_karyorrhexis_index peripancreatic_lymph_nodes_positive peripancreatic_lymph_nodes_tested supratentorial_localization tumor_confined_to_organ_of_origin tumor_focality tumor_regression_grade vascular_invasion_type wilms_tumor_histologic_subtype breslow_thickness gleason_grade_group igcccg_stage international_prognostic_index largest_extrapelvic_peritoneal_focus masaoka_stage non_nodal_regional_disease non_nodal_tumor_deposits ovarian_specimen_status ovarian_surface_involvement percent_tumor_invasion peritoneal_fluid_cytological_status primary_gleason_grade secondary_gleason_grade weiss_assessment_score adrenal_hormone ann_arbor_b_symptoms_described diagnosis_is_primary_disease eln_risk_classification figo_staging_edition_year gleason_grade_tertiary gleason_patterns_percent margin_distance margins_involved_site pregnant_at_diagnosis satellite_nodule_present sites_of_involvement tumor_depth who_cns_grade who_nte_grade samples { sample_id sample_submitter_id annotation}} } pagination { count sort from page total pages size } }} ': {
-               "get": {
-                   "tags": ["Case"],
-                   "summary": "Get Cases/Diagnoses for PDC Study ID",
-                   "description": "<b>Returns cases/diagnoses for PDC Study ID. This API can also be used with multiple input parameters.<br><br>Fields:</b><ul><li>total</li><li>caseDiagnosesPerStudy</li><li>pagination</li></ul>",
-                   "operationId": "paginatedCaseDiagnosesPerStudy",
-                   "produces": [
-                       "application/json"
-                   ],
-                   "parameters": [{
-                           "name": "pdc_study_id",
-                           "in": "path",
-                           "description": "PDC Study ID, example: PDC000226",
-                           "required": true,
-                           "type": "string"
-                       }, {
-                           "name": "offset",
-                           "in": "path",
-                           "description": "Offset of records, example: 0",
-                           "required": true,
-                           "type": "integer"
-                       }, {
-                           "name": "limit",
-                           "in": "path",
-                           "description": "Limit of records, example: 10",
-                           "required": true,
-                           "type": "integer"
-                       }, {
-                        "name": "acceptDUA",
-                        "in": "path",
-                        "description": "Accept DUA  is no longer required",
-                        "required": false,
-                        "type": "boolean",
-						"defaultValue": true
-                       }        
+                       } 
                        ],
                    "responses": {
                        "200": {
@@ -2920,104 +2186,11 @@ var spec = {
                        }
                      }
                        },
-                   '?query={ paginatedCasesSamplesAliquots(offset:{offset} limit: {limit} acceptDUA: {acceptDUA}) { total casesSamplesAliquots { case_id case_submitter_id days_to_lost_to_followup disease_type index_date lost_to_followup primary_site samples { sample_id sample_submitter_id sample_type sample_type_id gdc_sample_id gdc_project_id biospecimen_anatomic_site composition current_weight days_to_collection days_to_sample_procurement diagnosis_pathologically_confirmed freezing_method initial_weight intermediate_dimension longest_dimension method_of_sample_procurement pathology_report_uuid preservation_method sample_type_id shortest_dimension time_between_clamping_and_freezing time_between_excision_and_freezing tissue_type tumor_code tumor_code_id tumor_descriptor diagnoses{ diagnosis_id diagnosis_submitter_id annotation} aliquots { aliquot_id aliquot_submitter_id analyte_type aliquot_run_metadata { aliquot_run_metadata_id label experiment_number fraction replicate_number date alias analyte} } } } pagination { count sort from page total pages size } } }': {
-                 "get": {
-                           "tags": ["Case"],
-                   "summary": "Get paginated case records",
-                   "description": "<b>Returns a list of cases, samples amd aliquot records. This API can also be used with multiple input parameters.<br/><br/>Fields:</b><ul><li>total</li><li>casesSamplesAliquots</li><li>pagination</li></ul>",
-                   "operationId": "paginatedCasesSamplesAliquots",
-                   "produces": [
-                     "application/json"
-                   ],
-                   "parameters": [{
-                               "name": "offset",
-                               "in": "path",
-                               "description": "Offset of records, example : 0",
-                               "required": true,
-                               "type": "integer"
-                           }, {
-                               "name": "limit",
-                               "in": "path",
-                               "description": "Limit of records, example: 10",
-                               "required": true,
-                               "type": "integer"
-                           }, {
-                              "name": "acceptDUA",
-                              "in": "path",
-                              "description": "Accept DUA  is no longer required",
-                              "required": false,
-                              "type": "boolean",
-						"defaultValue": true
-                            }
-                       ],
-                   "responses": {
-                     "200": {
-                       "description": "successful operation",
-                       "schema": {
-                         "$ref": "#/definitions/paginatedCasesSamplesAliquots"
-                       }
-                     },
-                     "401": {
-                       "description": "Unauthorized"
-                     }
-                   }
-                 }
-                   },
-                   '?query={ paginatedCasesSamplesAliquots(study_id:"{study_id}" offset:{offset} limit: {limit} acceptDUA: {acceptDUA}) { total casesSamplesAliquots { case_id case_submitter_id days_to_lost_to_followup disease_type index_date lost_to_followup primary_site samples { sample_id sample_submitter_id sample_type sample_type_id gdc_sample_id gdc_project_id biospecimen_anatomic_site composition current_weight days_to_collection days_to_sample_procurement diagnosis_pathologically_confirmed freezing_method initial_weight intermediate_dimension longest_dimension method_of_sample_procurement pathology_report_uuid preservation_method sample_type_id shortest_dimension time_between_clamping_and_freezing time_between_excision_and_freezing tissue_type tumor_code tumor_code_id tumor_descriptor diagnoses{ diagnosis_id diagnosis_submitter_id annotation} aliquots { aliquot_id aliquot_submitter_id analyte_type aliquot_run_metadata { aliquot_run_metadata_id label experiment_number fraction replicate_number date alias analyte} } } } pagination { count sort from page total pages size } } }': {
+                   '?query={ paginatedCasesSamplesAliquots(pdc_study_id:"{pdc_study_id}" offset:{offset} limit: {limit}) { total casesSamplesAliquots { case_id case_submitter_id days_to_lost_to_followup disease_type index_date lost_to_followup primary_site samples { sample_id sample_submitter_id sample_type sample_type_id gdc_sample_id gdc_project_id biospecimen_anatomic_site composition current_weight days_to_collection days_to_sample_procurement diagnosis_pathologically_confirmed freezing_method initial_weight intermediate_dimension longest_dimension method_of_sample_procurement pathology_report_uuid preservation_method sample_type_id shortest_dimension time_between_clamping_and_freezing time_between_excision_and_freezing tissue_type tumor_code tumor_code_id tumor_descriptor diagnoses{ diagnosis_id diagnosis_submitter_id annotation} aliquots { aliquot_id aliquot_submitter_id analyte_type aliquot_run_metadata { aliquot_run_metadata_id label experiment_number fraction replicate_number date alias analyte} } } } pagination { count sort from page total pages size } } }': {
                      "get": {
                                "tags": ["Case"],
-                       "summary": "Get paginated case records for Study ID",
-                       "description": "<b>Returns a list of cases, samples amd aliquot records. This API can also be used with multiple input parameters.<br/><br/>Fields:</b><ul><li>total</li><li>casesSamplesAliquots</li><li>pagination</li></ul>",
-                       "operationId": "paginatedCasesSamplesAliquots",
-                       "produces": [
-                         "application/json"
-                       ],
-                       "parameters": [{
-                                   "name": "study_id",
-                                   "in": "path",
-                                   "description": "Study ID, example : b93bb1e9-57b8-11e8-b07a-00a098d917f8",
-                                   "required": true,
-                                   "type": "integer"
-                               }, {
-                                 "name": "offset",
-                                 "in": "path",
-                                 "description": "Offset of records, example : 0",
-                                 "required": true,
-                                 "type": "integer"
-                              },
-                               {
-                                   "name": "limit",
-                                   "in": "path",
-                                   "description": "Limit of records, example: 10",
-                                   "required": true,
-                                   "type": "integer"
-                               }, {
-                                 "name": "acceptDUA",
-                                 "in": "path",
-                                 "description": "Accept DUA  is no longer required",
-                                 "required": false,
-                                 "type": "boolean",
-						"defaultValue": true
-                              }
-                           ],
-                       "responses": {
-                         "200": {
-                           "description": "successful operation",
-                           "schema": {
-                             "$ref": "#/definitions/paginatedCasesSamplesAliquots"
-                           }
-                         },
-                         "401": {
-                           "description": "Unauthorized"
-                         }
-                       }
-                     }
-                       },
-                   '?query={ paginatedCasesSamplesAliquots(pdc_study_id:"{pdc_study_id}" offset:{offset} limit: {limit} acceptDUA: {acceptDUA}) { total casesSamplesAliquots { case_id case_submitter_id days_to_lost_to_followup disease_type index_date lost_to_followup primary_site samples { sample_id sample_submitter_id sample_type sample_type_id gdc_sample_id gdc_project_id biospecimen_anatomic_site composition current_weight days_to_collection days_to_sample_procurement diagnosis_pathologically_confirmed freezing_method initial_weight intermediate_dimension longest_dimension method_of_sample_procurement pathology_report_uuid preservation_method sample_type_id shortest_dimension time_between_clamping_and_freezing time_between_excision_and_freezing tissue_type tumor_code tumor_code_id tumor_descriptor diagnoses{ diagnosis_id diagnosis_submitter_id annotation} aliquots { aliquot_id aliquot_submitter_id analyte_type aliquot_run_metadata { aliquot_run_metadata_id label experiment_number fraction replicate_number date alias analyte} } } } pagination { count sort from page total pages size } } }': {
-                     "get": {
-                               "tags": ["Case"],
-                       "summary": "Get paginated case records for PDC Study ID",
-                       "description": "<b>Returns a list of cases, samples amd aliquot records. This API can also be used with multiple input parameters.<br/><br/>Fields:</b><ul><li>total</li><li>casesSamplesAliquots</li><li>pagination</li></ul>",
+                       "summary": "Get paginated case records",
+                       "description": "Input Parameters (multiple parameters can be passed in one call):</b><ul><li>program_name (example: Clinical Proteomic Tumor Analysis Consortium)</li><li>project_name (example: CPTAC3 Discovery and Confirmatory)</li><li>program_submitter_id (example: Clinical Proteomic Tumor Analysis Consortium)</li><li>project_submitter_id (example: CPTAC3 Discovery and Confirmatory)</li><li>study_id (example: 0fe15489-1381-4864-8b17-6159e14a65a8)</li><li>study_submitter_id (example: Broad Institute - Medulloblastoma - Phospho-tyrosine-enrichments)</li><li>pdc_study_id (example: PDC000431)</li><li>study_name (example: Broad Institute - Medulloblastoma - Phospho-tyrosine-enrichments)</li><li>offset (required for pagination, example: 0)</li><li>limit (required for pagination, example: 10)</li></ul><b>Returns a list of cases, samples amd aliquot records.<br/><br/>Fields:</b><ul><li>total</li><li>casesSamplesAliquots</li><li>pagination</li></ul><b>A test call can be issued with the following parameters:</b>",
                        "operationId": "paginatedCasesSamplesAliquots",
                        "produces": [
                          "application/json"
@@ -3041,14 +2214,7 @@ var spec = {
                                    "description": "Limit of records, example: 10",
                                    "required": true,
                                    "type": "integer"
-                               }, {
-                                 "name": "acceptDUA",
-                                 "in": "path",
-                                 "description": "Accept DUA  is no longer required",
-                                 "required": false,
-                                 "type": "boolean",
-								 "defaultValue": true
-                              }
+                               }
                            ],
                        "responses": {
                          "200": {
@@ -3063,35 +2229,6 @@ var spec = {
                        }
                      }
                        },
-/*                    '?query={casePerFile(file_id:"{file_id}") { file_id case_id case_submitter_id }}': {
-                 "get": {
-                           "tags": ["Files"],
-                   "summary": "Get cases for a file",
-                   "description": "<strong>Returns all cases for a file.<br/><br/>Fields:<ul><li>file_id:</strong> ID of a File</li><li><b>case_id</li><li>case_submitter_id</b></li></ul>",
-                   "operationId": "casePerFile",
-                   "produces": [
-                     "application/json"
-                   ],
-                   "parameters": [{
-                               "name": "file_id",
-                               "in": "path",
-                               "description": "File ID, example: 10ffa258-14c2-4c74-861e-91ed02fb4cf6",
-                               "required": "true",
-                               "type": "string"
-                           }],
-                   "responses": {
-                     "200": {
-                       "description": "successful operation",
-                       "schema": {
-                         "$ref": "#/definitions/casePerFile"
-                       }
-                     },
-                     "401": {
-                       "description": "Unauthorized"
-                     }
-                   }
-                 }
-               }, */
                '?query={ quantDataMatrix(pdc_study_id: "{pdc_study_id}" data_type: "{data_type}" acceptDUA: {acceptDUA}) }': {
                  "get": {
                            "tags": ["Quantitative"],
@@ -6245,23 +5382,35 @@ var spec = {
              "properties":{
                "study_id":{
                   "type":"string",
-                  "example":"1c163e4c-e015-43e0-bd76-238eebd64e5a"
+                  "example":"0fe15489-1381-4864-8b17-6159e14a65a8"
                 },
                "pdc_study_id":{
                   "type":"string",
-                  "example":"PDC000206"
+                  "example":"PDC000431"
                 },
                 "study_submitter_id":{
                    "type":"string",
-                   "example":"CPTAC GBM Discovery Study - CompRef Phosphoproteome"
+                   "example":"Broad Institute - Medulloblastoma - Phospho-tyrosine-enrichments"
                 },
                 "file_name":{
                    "type":"string",
-                   "example":"02CPTAC_CompRef_GBM_P_PNNL_20190306_B2S5_f10.mzML.gz"
+                   "example":"BA20161122_BI_FM_Medullo_pY_Plex04_Fxn1.raw"
+                },
+                "file_id":{
+                   "type":"string",
+                   "example":"18ff9bcd-4e60-4949-9db0-b859c8d0b7bc"
                 },
                 "file_type":{
                    "type":"string",
-                   "example":"Open Standard"
+                   "example":"Proprietary"
+                },
+                "file_format":{
+                   "type":"string",
+                   "example":"vendor-specific"
+                },
+                "data_category":{
+                   "type":"string",
+                   "example":"Raw Mass Spectra"
                 },
                 "md5sum":{
                    "type":"string",

@@ -26,12 +26,18 @@ import { take } from 'rxjs/operators';
 import { MessageDialogComponent } from "../dialog/message-dialog/message-dialog.component";
 import * as _ from 'lodash';
 
+//@@@PDC-8012 - update pancancer page
+import { BrowseByFileService } from "../browse/browse-by-file/browse-by-file.service";
+import { AllFilesData } from "../types";
+
+
 //import supplementary_data from '../assets/data-folder/pancancer-supplementary.json';
 
 @Component({
   selector: 'app-pancancer',
   templateUrl: './pancancer.component.html',
-  styleUrls: ['./pancancer.component.css']
+  styleUrls: ['./pancancer.component.css'],
+  providers: [ BrowseByFileService]
 })
 //@@@PDC-6514: Build Pancancer page
 export class PancancerComponent {
@@ -69,13 +75,29 @@ export class PancancerComponent {
 	cssClassIndices = [];
 	characterizationOrder = [];
 
+  //@@@PDC-8012
+  filteredFilesData: AllFilesData[]; //Filtered list of cases
+  loading_sup: boolean = false; //Flag indicates that the data is still being loaded from server
+  cols_sup = [];
+  frozenCols = [];
+  publication_id = "";
+  filteredFilesData_obj = {};
+  //Pagination variables
+  totalRecords_sup: number;
+  offset_sup = 0;
+  limit_sup = 10;
+  pageSize_sup: number;
+
+
 
 	@ViewChild('sidenav') myNav: MatSidenav;
 
   constructor(private apollo: Apollo, private dialog: MatDialog, private publicationsService: PancancerService,
 		private route: ActivatedRoute,
 		private router: Router,
-		private loc: Location) {
+		private loc: Location,
+    private browseByFileService: BrowseByFileService //@@@PDC-8012 - updates pancancer page
+    ) {
 	  	this.getPublicationsData();
 		//@@@PDC-6667: Updates to the Pancancer page
 		this.getAdditionalResources();
@@ -158,6 +180,65 @@ export class PancancerComponent {
 				this.loc.replaceState("/publications");
 		});
 	}
+  ///@@@PDC-8012
+  showFilesTable(publication_id) {
+		const dialogConfig = new MatDialogConfig();
+		dialogConfig.disableClose = true;
+		dialogConfig.autoFocus = false;
+		dialogConfig.hasBackdrop = true;
+		dialogConfig.width = '70%';
+		dialogConfig.height = '85%';
+		dialogConfig.data = {
+				summaryData: {publication_id: publication_id}
+		};
+    console.log(publication_id);
+    this.publication_id = publication_id;
+    this.browseByFileService
+    .getPaginatedFilesForPublication(
+      this.publication_id,
+      this.offset_sup,
+      this.limit_sup,
+    )
+    .subscribe((data: any) => {
+      this.filteredFilesData = data.getPaginatedUIPancancerFiles.uiPancancerFiles;
+      //console.log(this.filteredFilesData);
+      this.totalRecords_sup = data.getPaginatedUIPancancerFiles.total;
+      this.offset_sup = data.getPaginatedUIPancancerFiles.pagination.from;
+      this.pageSize_sup = data.getPaginatedUIPancancerFiles.pagination.size;
+      this.limit_sup = data.getPaginatedUIPancancerFiles.pagination.size;
+      this.loading_sup = false;
+    });
+
+
+	}
+
+  test(event: any,publication_id){
+    console.log(event);
+    console.log(publication_id);
+  }
+
+  ///@@@PDC-8012
+  loadFiles(event: any, publication_id) {
+    this.offset = event.first;
+    this.limit = event.rows;
+    this.loading = true;
+    setTimeout(() => {
+      this.browseByFileService
+      .getPaginatedFilesForPublication(
+        publication_id,
+        this.offset,
+        this.limit,
+      )
+      .subscribe((data: any) => {
+        this.filteredFilesData = data.getPaginatedUIPancancerFiles.uiPancancerFiles;
+        this.filteredFilesData_obj[publication_id] = this.filteredFilesData;
+        this.totalRecords = data.getPaginatedUIPancancerFiles.total;
+      });
+    }, 1000);
+			this.loading = false;
+  }
+
+
 
 	isString (obj) {
 		return (Object.prototype.toString.call(obj) === '[object String]');
@@ -237,7 +318,7 @@ export class PancancerComponent {
 		this.publicationFileIDS = allFilesArr.map(({ file_id }) => file_id);
 		//@@@PDC-6667: Updates to the Pancancer page
 		let arr2 = this.groupBy(allFilesArr, (c) => c.characterization);
-		let predefinedOrder = ["Proteome", "Phosphoproteome", "Glycoproteome", "Acetylome", "Ubiquitylome", "WXS", "RNA-Seq", "miRNA-Seq", "Methylation Array", "Clinical and Other Metadata"];
+		let predefinedOrder = ["Proteome", "Phosphoproteome", "Glycoproteome", "Acetylome", "Ubiquitylome", "WGS", "WXS", "RNA-Seq", "miRNA-Seq", "Methylation Array", "Clinical and Other Metadata"];
 		let characterizationArr = allFilesArr.map(({ characterization }) => characterization);
 		//Remove duplicates
 		let characterizationFinalArr = characterizationArr.filter(function(item, pos) {
