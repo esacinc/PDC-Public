@@ -1,31 +1,31 @@
-<div style="padding-left: 5px; overflow-x: scroll;min-width:1200px">
+<div style="padding-left: 5px; overflow-x: scroll;min-width:1200px" class="browseOverlay">
     <mat-sidenav-container style="min-height: 1100px;padding-left:5px!important">
       <!-- @@@PDC-320 slightly changed the width of sidebar filters to make reset button always appear aligned to filter name -->
       <mat-sidenav #sidenav style=" margin-top: 3px; width:330px; padding-left:15px!important; overflow-y: scroll !important" mode="side" opened [(opened)]="opened" class="sideBarNavigation">
-        
+
         <mat-card class="card" style="padding:0px!important">
           <mat-card-header class="browse-filter">
-          <!-- <mat-card-title class="browse-filter"> 
+          <!-- <mat-card-title class="browse-filter">
             <img width="20px" height="20px" src="./assets/css/images/Triangle.png"/>
             &nbsp; FILTERS &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
             <button mat-icon-button style="padding-right:0px!important; padding-top: 0px"
-              matTooltip="Hide filters" (click)="sidenav.toggle()" id="hideFiltersOptionBottom"><fa name="angle-double-left"></fa></button>
+              matTooltip="Hide filters" (click)="sidenav.toggle()" id="hideFiltersOptionBottom"><fa-icon name="angle-double-left"></fa-icon></button>
           </mat-card-title> -->
           </mat-card-header>
-          <browse-filters [breadCrumbFilters]="filtersChangedInBreadcrumbBar" (selectedFilesDataCategoryFilters)=onFilesFiltersSelected($event) (selectedFilters)=onFilterSelected($event) [parentCharts]="parentCharts" 
+          <browse-filters [breadCrumbFilters]="filtersChangedInBreadcrumbBar" (selectedFilesDataCategoryFilters)=onFilesFiltersSelected($event) (selectedFilters)=onFilterSelected($event) [parentCharts]="parentCharts"
 							[selectedTab]="selectedTab" (selectedTabForStudySummary)="selectedTabChange($event)">
             Starting filters...
           </browse-filters>
         </mat-card>
         <button mat-icon-button style="padding-right:0px!important; padding-top: 0px"
-			matTooltip="Hide filters" (click)="sidenav.toggle()" [disabled]="disablePanelsFlag" ><fa name="angle-double-left"></fa><span style="display: none">Hide filters</span></button>
+			matTooltip="Hide filters" (click)="sidenav.toggle()" [disabled]="disablePanelsFlag" ><i class="fa fa-angle-double-left"></i><span style="display: none">Hide filters</span></button>
 
     </mat-sidenav>
     <mat-sidenav-content style="margin-top: 3px; overflow-x: scroll; ">  <!--overflow: hidden; -->
       <button *ngIf="opened"  mat-icon-button style="padding-right:0px!important; padding-top: 0px"
-        matTooltip="Hide filters" (click)="sidenav.toggle()" id="hideFiltersOptionTop"><fa name="angle-double-left"></fa><span style="display: none">Hide filters</span></button>
+        matTooltip="Hide filters" (click)="sidenav.toggle()" id="hideFiltersOptionTop"><i class="fa fa-angle-double-left"></i><span style="display: none">Hide filters</span></button>
       <button mat-icon-button matTooltip="Show filters"
-        *ngIf="!opened && !disablePanelsFlag" (click)="sidenav.toggle()" id="showFilters"><fa name="angle-double-right"></fa><span style="display: none">Show filters</span>
+        *ngIf="!opened && !disablePanelsFlag" (click)="sidenav.toggle()" id="showFilters"><i class="fa fa-angle-double-right"></i><span style="display: none">Show filters</span>
       </button>
       <span *ngIf="breadcrumbs.length == 0" style="font-size: 15px; font-weight : bold; margin-left: -10px !important;">
           Start searching by selecting a facet
@@ -45,10 +45,10 @@
 		  <br><button mat-raised-button label="Save query"  (click)="showBookmarkToggle()" *ngIf="!disablePanelsFlag" >
 			{{ showBookmarkFlag == false ? 'Show Query URL' : 'Hide Query URL' }}</button>
 		  <div *ngIf="showBookmarkFlag"><a href={{bookmarkURL}}>{{bookmarkURL}}</a>
-				<button  mat-icon-button id="copyURLQuery2Clipboard" (click)="copyTextToClipboard(bookmarkURL)" matTooltip="Copy to Clipboard"><fa name="clipboard"></fa><span style="display: none">Copy to Clipboard</span></button>
+				<button  mat-icon-button id="copyURLQuery2Clipboard" (click)="copyTextToClipboard(bookmarkURL)" matTooltip="Copy to Clipboard"><i class="fa fa-clipboard"></i><span style="display: none">Copy to Clipboard</span></button>
 		  </div>
       </div>
-      <div class="browsePageExpansionPanel" style="padding-left:10px; padding-right:15px" *ngIf="!disablePanelsFlag">  
+      <div class="browsePageExpansionPanel" style="padding-left:10px; padding-right:15px" *ngIf="!disablePanelsFlag">
         <mat-expansion-panel [expanded]="true">
             <mat-expansion-panel-header>
                 <mat-panel-title>Charts</mat-panel-title>
@@ -94,7 +94,7 @@
 			        <div style="padding-left:0px; margin-left: 15px; margin-right: 10px">
 				        <browse-by-clinical (isTableLoading)="handleTabLoading($event)" [handleTableLoading]="handleTableLoading" [enableDownloadAllManifests]="enableDownloadAllManifests" [newFilterValue]="newFilterValue" (clinicalTotalRecordChanged)="totalRecordChanged($event)" (downloadWholeManifestFlag)="downloadWholeManifest($event)" [downloadAllManifests]="downloadAllManifests" [childTabChanged]="captureTabChange">Starting browse by clinical data...</browse-by-clinical>
 			        </div>
-		    </mat-tab>            
+		    </mat-tab>
 		    <mat-tab label="{{fileTotalRecords > 1 ? 'Files ('+fileTotalRecords + ')' : 'File ('+fileTotalRecords + ')'  }}">
               <div style="padding-left:0px; margin-left: 15px; margin-right: 10px">
 			          <browse-by-file (isFileTableLoading)="handleTabLoading($event)" [handleTableLoading]="handleTableLoading" [enableDownloadAllManifests]="enableDownloadAllManifests" [otherTabsLoaded]="otherTabsLoaded" [newFilesFilterValue]="newFilesFilterValue" [newFilterValue]="newFilterValue" (fileTotalRecordChanged)="totalRecordChanged($event)" (downloadWholeManifestFlag)="downloadWholeManifest($event)" [downloadAllManifests]="downloadAllManifests" (oldStudyVersion)="setOldStudyVersion($event)" [childTabChanged]="captureTabChange">Starting browse by file...</browse-by-file>
@@ -104,10 +104,10 @@
 			        <div style="padding-left:0px; margin-left: 15px; margin-right: 10px" >
 				        <browse-by-gene (isTableLoading)="handleTabLoading($event)" [handleTableLoading]="handleTableLoading" [enableDownloadAllManifests]="enableDownloadAllManifests" [newFilterValue]="newFilterValue" (genesTotalRecordChanged)="totalRecordChanged($event)" (downloadWholeManifestFlag)="downloadWholeManifest($event)" [downloadAllManifests]="downloadAllManifests" [childTabChanged]="captureTabChange">Starting browse by genes data...</browse-by-gene>
 			        </div>
-		    </mat-tab>   
+		    </mat-tab>
 	        </mat-tab-group>
           <!-- </mat-card> -->
         </mat-sidenav-content>
    </mat-sidenav-container>
 </div>
-  
+

@@ -1,6 +1,6 @@
 <title>Files</title>
 <button mat-icon-button style="float: right; flex: 0 0 auto;" (click)="close()" aria-label="Close">
-	<fa name="times" style="light"></fa>
+	<i class="fa fa-close" style="light"></i>
 </button>
 <div id="FilesOvelrayTitle" mat-dialog-title>
 <h2  style="color:#245672" >Files</h2>
@@ -50,7 +50,7 @@
 				(onRowUnselect) ="onRowUnselected($event)" (onRowSelect)="onRowSelected($event)" [(selection)]="selectedFiles" (onLazyLoad)="loadFiles($event)" id="fileDataTable" id="{{publicationsFiles.length === 0 ? 'fileDataTable': 'publicationsFileDataTable'}}" paginatorPosition="both"
 				scrollHeight="500px" [autoLayout]="true" [frozenColumns]="frozenCols" [scrollable]="true" [frozenWidth]="publicationsFiles.length == 0 ? '150px': '50px'">
 		<ng-template pTemplate="caption">
-			<div class="container-fluid ui-helper-clearfix button-container-fluid">
+			<div class="container-fluid ui-helper-clearfix button-container-fluid downloadButtons">
 				<div class="row">
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 						<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
@@ -64,7 +64,9 @@
 							Export File Manifest
 							<button matTooltip="Exports all selected rows for the current data table" id="downloadFileManifest" mat-raised-button mat-primary label="Download Selection" (click)="fileTableExportCSV(false, false, 'csv')" [disabled]="isDownloadDisabled()" style="font-family:'Lato';min-width:1%;" aria-label="Download File Manifest">CSV</button>&nbsp;
 							<button matTooltip="Exports all selected rows for the current data table" id="downloadFileManifest" mat-raised-button mat-primary label="Download Selection" (click)="fileTableExportCSV(false, false, 'tsv')" [disabled]="isDownloadDisabled()" style="font-family:'Lato';min-width:1%;" aria-label="Download File Manifest">TSV</button>&nbsp;
-							<button matTooltip="Exports all selected rows for the current data tab" id="downloadFileManifest" mat-raised-button mat-primary label="Download Selection" (click)="fileTableExportCSV(false, false, 'pfb')" [disabled]="isDownloadDisabled()" style="font-family:'Lato';min-width:1%;" aria-label="Download File Manifest">PFB</button><a href="/pdc/cloud-data-analysis" target="_blank" style="font-size: 13px;"><mat-icon matTooltip="Data exchange format with FireCloud" class="help-icon" style="font-size: 14px !important;height: 0px !important;width: 15px;vertical-align:sub;">help</mat-icon></a>
+							<button matTooltip="Exports all selected rows for the current data tab" id="downloadFileManifest" mat-raised-button mat-primary label="Download Selection" (click)="fileTableExportCSV(false, false, 'pfb')" [disabled]="isDownloadDisabled()" style="font-family:'Lato';min-width:1%;" aria-label="Download File Manifest">PFB</button><a href="/pdc/cloud-data-analysis" target="_blank" style="font-size: 13px;">
+								<i class="fa fa-question-circle" aria-hidden="true" title="Data exchange format with FireCloud" style="font-size: 14px !important; padding-left: 4px"></i> 
+							</a>
 						</div>
 						<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 manifestDownload">
 							<button matTooltip="Please use local download manager to download the files" id="downloadFiles" mat-raised-button mat-primary label="Download Files" (click)="setDownloadBatch()" [disabled]="isDownloadDisabled()" style="font-family:'Lato';" aria-label="Download Files">Download Files</button>
@@ -78,40 +80,38 @@
 							<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div> -->
 							<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9"></div>
 							<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 faqLink" style="text-align: right;">
-								<a href="/pdc/faq/Multiple_Files" target="_blank" style="font-size: 13px;">More ways to download&nbsp;<mat-icon matTooltip="More ways to download" class="help-icon" style="font-size: 14px !important;height: 0px !important;vertical-align: sub;">help</mat-icon></a>
+								<a href="/pdc/faq/Multiple_Files" target="_blank" style="font-size: 13px; font-weight: bold">More ways to download&nbsp;
+									<i class="fa fa-question-circle" aria-hidden="true" title="More ways to download" style="font-size: 14px !important;"></i> 
+								</a>
 							</div>
 						</div>
 				</div>
 			</div>
 		</ng-template>
-		<ng-template pTemplate="frozenheader" let-frozenCols>
-			<tr>
-				<th class="ui-datatable-tableheader" style="width:50px;overflow: unset;">
-					<!-- @@@PDC-7012 - improve checkbox intuitiveness -->
-					<!-- @@@PDC-7109 - improve checkbox intuitiveness -->
-					<label><p-checkbox #fileDataChk id="fileDataChk" [(ngModel)]="headercheckbox" binary="true" (onChange)="triggerchangeHeaderCheckbox()"></p-checkbox></label>
-					<mat-select #dataForManifestExport id="dataForManifestExport" class="card-body card-list" [(ngModel)]="selectedHeaderCheckbox"
-					(selectionChange)="changeHeaderCheckbox($event)">
-						<mat-option *ngFor="let checkboxOption of checkboxOptions" [value]="checkboxOption" (onSelectionChange)="chkBoxSelectionCheck(checkboxOption)">
-							{{checkboxOption}}
-						</mat-option>
-					</mat-select>
-					<span style="display:none">Select this row</span>
-				</th>
-				<!-- PDC-2795 -->
-				<!-- @@@PDC-4978 update links to migrated documentation pages -->
-				<th *ngIf="publicationsFiles.length === 0" class="ui-datatable-tableheader" style="width:100px;" [pSortableColumn]="cols[0].field"><a
-						href="/pdc/data-dictionary/Study" target="_blank" style="color:white">PDC Study ID</a>
-					<p-sortIcon [field]="cols[0].field" ariaLabel="Sort PDC Study ID column in ascending/descending order"></p-sortIcon>
-				</th>
-			</tr>
-		  </ng-template>
 				<ng-template pTemplate="header" let-columns>
 					<tr class="safari_only">
+						<th class="ui-datatable-tableheader" style="width:50px;overflow: unset;" pFrozenColumn>
+							<!-- @@@PDC-7012 - improve checkbox intuitiveness -->
+							<!-- @@@PDC-7109 - improve checkbox intuitiveness -->
+							<label><p-checkbox id="fileDataChk" [(ngModel)]="headercheckbox" binary="true" (onChange)="triggerchangeHeaderCheckbox()"></p-checkbox>
+							<mat-select #dataForManifestExport id="dataForManifestExport" class="card-body card-list" [(ngModel)]="selectedHeaderCheckbox"
+							(selectionChange)="changeHeaderCheckbox($event)">
+								<mat-option *ngFor="let checkboxOption of checkboxOptions" [value]="checkboxOption" (onSelectionChange)="chkBoxSelectionCheck(checkboxOption)">
+									{{checkboxOption}}
+								</mat-option>
+							</mat-select>
+							<span style="display:none">Select this row</span></label>
+						</th>
+						<!-- PDC-2795 -->
+						<!-- @@@PDC-4978 update links to migrated documentation pages -->
+						<th *ngIf="publicationsFiles.length === 0" class="ui-datatable-tableheader" style="width:100px;" [pSortableColumn]="cols[0].field" pFrozenColumn><a
+								href="/pdc/data-dictionary/Study" target="_blank" style="color:white">PDC Study ID</a>
+							&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort PDC Study ID column in ascending/descending order"></i>
+						</th>
 						<!-- @@@PDC-262 link headers to data dictionary -->
 						<th *ngIf="publicationsFiles.length === 0" class="ui-datatable-tableheader" [pSortableColumn]="cols[1].field"><a
 								href="/pdc/data-dictionary/Study" target="_blank" style="color:white">Study</a>
-							<p-sortIcon [field]="cols[1].field" ariaLabel="Sort Study column in ascending/descending order"></p-sortIcon>
+							&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Study column in ascending/descending order"></i>
 						</th>
 <!-- 						<th *ngIf="publicationsFiles.length === 0" class="ui-datatable-tableheader" [pSortableColumn]="cols[2].field"><a
 								href="/pdc/faq#Embargo_Date" target="_blank" style="color:white">Embargo Date</a>
@@ -120,7 +120,7 @@
 						<th class="ui-datatable-tableheader" [pSortableColumn]="cols[3].field"><a
 								href="/pdc/data-dictionary/File#file_name" target="_blank" style="color:white">File
 								Name</a>
-							<p-sortIcon [field]="cols[3].field" ariaLabel="Sort File name column in ascending/descending order"></p-sortIcon>
+							&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort File name column in ascending/descending order"></i>
 						</th>
 						<th *ngIf="publicationsFiles.length === 0" class="ui-datatable-tableheader" [pSortableColumn]="cols[4].field">
 							<div class="ui-datatable-tableheader-flex-container">
@@ -131,22 +131,22 @@
 									</a>
 								</div>
 								<div>
-									<p-sortIcon [field]="cols[4].field" ariaLabel="Sort Run Metadata ID column in ascending/descending order"></p-sortIcon>
+									&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Run Metadata ID column in ascending/descending order"></i>
 								</div>
 							</div>
 						</th>
 						<th class="ui-datatable-tableheader" [pSortableColumn]="cols[5].field"><a
 								href="/pdc/data-dictionary/Project" target="_blank" style="color:white">Project</a>
-							<p-sortIcon [field]="cols[5].field" ariaLabel="Sort Project column in ascending/descending order"></p-sortIcon>
+							&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Project column in ascending/descending order"></i>
 						</th>
 						<th rowspan=3 class="ui-datatable-tableheader" [pSortableColumn]="cols[6].field"><a href="/pdc/faq/Files_Download" target="_blank" style="color:white">Data Category</a>
-							<p-sortIcon [field]="cols[6].field" ariaLabel="Sort Data Category column in ascending/descending order"></p-sortIcon>
+							&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Data Category column in ascending/descending order"></i>
 						</th>
 						<th rowspan=3 class="ui-datatable-tableheader" [pSortableColumn]="cols[7].field"><a href="/pdc/faq/Files_Download" target="_blank" style="color:white">File Type</a>
-							<p-sortIcon [field]="cols[7].field" ariaLabel="Sort File Type column in ascending/descending order"></p-sortIcon>
+							&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort File Type column in ascending/descending order"></i>
 						</th>
 						<th rowspan=3 class="ui-datatable-tableheader" [pSortableColumn]="cols[8].field">Access
-							<p-sortIcon [field]="cols[8].field" ariaLabel="Sort Access column in ascending/descending order"></p-sortIcon>
+							&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Access column in ascending/descending order"></i>
 						</th>
 						<th class="ui-datatable-tableheader" [pSortableColumn]="cols[9].field">
 							<div class="ui-datatable-tableheader-flex-container">
@@ -154,7 +154,7 @@
 									File<br>Size (MB)
 								</div>
 								<div class="ui-datatable-tableheader-flex-sorticon">
-									<p-sortIcon [field]="cols[9].field" ariaLabel="Sort Fize Size column in ascending/descending order"></p-sortIcon>
+									&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Fize Size column in ascending/descending order"></i>
 								</div>
 							</div>
 						</th>
@@ -164,23 +164,19 @@
 										Downloadable
 									</div>
 									<div class="ui-datatable-tableheader-flex-sorticon">
-										<p-sortIcon [field]="cols[11].field" ariaLabel="Sort Downloadable column in ascending/descending order"></p-sortIcon>
+										&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Downloadable column in ascending/descending order"></i>
 									</div>
 								</div>
 						</th>
 					</tr>
 				</ng-template>
-				<ng-template pTemplate="frozenbody" let-fileData let-frozenCols>
-					<tr [pSelectableRow]="fileData">
-						<td style="width:50px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">
-							<!-- @@@PDC-7110 - fix checkbox updates -->
-							<p-tableCheckbox id="fileData-{{rowIndex}}-{{fileData.submitter_id_name}}" [value]="fileData" #browsePageCheckboxes class="browsePageCheckboxes"></p-tableCheckbox>
-						</td>
-						<td *ngIf="publicationsFiles.length === 0" style="width:100px;word-wrap: break-word; white-space: normal;">{{fileData.pdc_study_id }}</td>
-					</tr>
-				</ng-template>
 				<ng-template pTemplate="body" let-fileData let-rowIndex="rowIndex">
 					<tr [pSelectableRow]="fileData">
+						<td style="width:50px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;" pFrozenColumn>
+							<!-- @@@PDC-7110 - fix checkbox updates -->
+							<label><p-checkbox #browsePageCheckboxes id="fileData-{{rowIndex}}-{{fileData.submitter_id_name}}" [value]="fileData" [(ngModel)]="selectedFiles" class="browsePageCheckboxes"></p-checkbox></label>
+						</td>
+						<td *ngIf="publicationsFiles.length === 0" style="width:100px;word-wrap: break-word; white-space: normal;" pFrozenColumn>{{fileData.pdc_study_id }}</td>
 						<td *ngIf="publicationsFiles.length === 0" style="word-wrap: break-word; white-space: normal;">{{fileData.submitter_id_name }}</td>
 <!-- 						<td *ngIf="publicationsFiles.length === 0" [ngClass]="getStyleClass(fileData.embargo_date)" style="word-wrap: break-word; white-space: normal;">
 							<div *ngIf="fileData.embargo_date == '' || fileData.embargo_date == null">N/A</div>

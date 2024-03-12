@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <base href="/">
+  <script>
+  //@@@PDC-709: User remains logged in forever if their session does not time out before they close the browser
+  //Implement session storage across multiple tabs. This code is added here to make sure that its called first
+  //Transfers sessionStorage from one tab to another
+  var sessionStorage_transfer = function(event) {
+    if(!event) { event = window.event; } // ie suq
+    if(!event.newValue) return;          // do nothing if no value to work with
+    if (event.key == 'getSessionStorage') {
+      // another tab asked for the sessionStorage -> send it
+      localStorage.setItem('sessionStorage', JSON.stringify(sessionStorage));
+      // the other tab should now have it, so we're done with it.
+      localStorage.removeItem('sessionStorage'); // <- could do short timeout as well.
+    } else if (event.key == 'sessionStorage' && !sessionStorage.length) {
+      // another tab sent data <- get it
+      var data = JSON.parse(event.newValue);
+      for (var key in data) {
+        sessionStorage.setItem(key, data[key]);
+      }
+    } else if (event.key == 'logout') {
+      sessionStorage.clear();
+    }
+  };
+
+  // listen for changes to localStorage
+  if(window.addEventListener) {
+    window.addEventListener("storage", sessionStorage_transfer, false);
+  } else {
+    window.addEventListener("onstorage", sessionStorage_transfer);
+  };
+
+  // Ask other tabs for session storage (this is ONLY to trigger 'storage' event)
+  if (!sessionStorage.length) {;
+    localStorage.setItem('getSessionStorage', 'foobar');
+    localStorage.removeItem('getSessionStorage');
+  };
+  
+  (function() {
+    window['_app_base'] = '/' + window.location.pathname.split('/')[1];
+  })();
+
+  //@@@PDC-839: Add HotJar tracking to all UI pages
+  //Hotjar Tracking Code for PDC - PROD
+  (function(h,o,t,j,a,r){
+          h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+          h._hjSettings={hjid:1320198,hjsv:6};
+          a=o.getElementsByTagName('head')[0];
+          r=o.createElement('script');r.async=1;
+          r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+          a.appendChild(r);
+      })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+  </script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FCJVZGSR42"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-FCJVZGSR42');
+  </script>
+  <title>Proteomic Data Commons</title>
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="assets/favicon-144x144.png">
+  <!-- @@@PDC-1689: Add additional analytics tag to PDC Data Browser -->
+  <!-- @@@PDC-1748: Change the analytics code -->
+  <script>
+      var hostName = window.location.hostname;
+      var head = document.getElementsByTagName('head')[0];
+      var js = document.createElement("script");
+      js.type = "text/javascript"; 
+      js.async = true;
+      //Dev and stage should use the stage code
+      if (hostName == "pdc-stage.esacinc.com")
+      {
+        js.src = "//assets.adobedtm.com/6a4249cd0a2c/073fd0859f8f/launch-3fc99dc39f0e-staging.min.js";
+      } else {
+        js.src = "//assets.adobedtm.com/6a4249cd0a2c/073fd0859f8f/launch-39d47c17b228.min.js";
+      }
+      head.appendChild(js); 
+ </script>
+</head>
+<body>
+  <app-root></app-root>
+</body>
+</html>

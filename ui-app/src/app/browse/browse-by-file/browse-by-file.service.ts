@@ -5,13 +5,12 @@ import {Response, Headers, RequestOptions} from '@angular/http';
 
 
 import { Apollo } from 'apollo-angular';
-import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import gql from 'graphql-tag';
 
 import { AllFilesData, QueryAllFilesData, QueryAllFilesDataPaginated } from '../../types';
 import { environment } from '../../../environments/environment';
-import { element } from '@angular/core/src/render3/instructions';
+
 
 /*This is a service class used for the API queries */
 
@@ -137,7 +136,7 @@ export class BrowseByFileService {
       $file_type_filter: String!
       $access_filter: String!
       $downloadable_filter: String!,
-      $biospecimen_status_filter: String!, 
+      $biospecimen_status_filter: String!,
       $case_status_filter: String!
     ) {
       getPaginatedUIFile(
@@ -162,7 +161,7 @@ export class BrowseByFileService {
         file_type: $file_type_filter
         access: $access_filter
         downloadable: $downloadable_filter,
-        biospecimen_status: $biospecimen_status_filter, 
+        biospecimen_status: $biospecimen_status_filter,
         case_status: $case_status_filter
       ) {
         total
@@ -170,7 +169,7 @@ export class BrowseByFileService {
           submitter_id_name
           study_id
           pdc_study_id
-		      embargo_date 
+		      embargo_date
           file_name
           study_run_metadata_submitter_id
           project_name
@@ -240,7 +239,7 @@ export class BrowseByFileService {
         })
       );
   }
-  
+
   //@@@PDC-3622 add legacy studies data
   //@@@PDC-3788 fix issues found with Files overlay in legacy data page
   //@@@PDC-3911 add data source field to distinquish files supplementary from non-supplementary data
@@ -290,8 +289,8 @@ export class BrowseByFileService {
 			}
 		  }
 	  }`;
-	  
-  
+
+
   getFilteredLegacyDataFilesPaginated( offset: number, limit: number, sort: string, filters: any) {
     return this.apollo
       .watchQuery<QueryAllFilesDataPaginated>({
@@ -312,7 +311,7 @@ export class BrowseByFileService {
           return result.data;
         })
       );
-	  
+
   }
 
   exchangeForAccessToken(authorizationCode: string): Promise<any> {
@@ -366,7 +365,7 @@ export class BrowseByFileService {
   }
 
   getControlledFilesDetails(fileIds: string): Promise<any> {
-	//@@@PDC-1123 call ui wrapper API    
+	//@@@PDC-1123 call ui wrapper API
 	return this.apollo
       .query<any>({
         query: gql`
@@ -433,7 +432,7 @@ export class BrowseByFileService {
         })
       );
   }
-  
+
   //@@@PDC-3937 Use new APIs for downloading legacy studies' files
   legacyFilesDataQuery = gql`
     query LegacyFilesDataQuery(
@@ -468,8 +467,8 @@ export class BrowseByFileService {
         })
       );
   }
-  
-  
+
+
   //@@@PDC-3307 Add study version to file manifest
   //@@@PDC-3928 need study UUID to download files for appropriate study version
   //This API will return all studies and their versions

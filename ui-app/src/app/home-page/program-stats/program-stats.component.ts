@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FrontPageService } from '../front-page.service';
 import { Apollo } from 'apollo-angular';
-import { MatButton } from '@angular/material';
+import { MatLegacyButton as MatButton } from '@angular/material/legacy-button';
 import {ViewEncapsulation} from '@angular/core';
 
 @Component({

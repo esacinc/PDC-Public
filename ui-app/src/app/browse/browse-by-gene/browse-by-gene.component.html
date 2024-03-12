@@ -24,7 +24,7 @@
 						</div>
 					</div>
 				</div>
-			<div class="container-fluid ui-helper-clearfix button-container-fluid" style="border-top: 1px solid #ddd;">
+			<div class="container-fluid ui-helper-clearfix button-container-fluid" style="border-top: 1px solid #ddd; font-weight: 700;">
 				<div class="row">
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 						<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
@@ -47,43 +47,37 @@
 				</div>
 			</div>
 		</ng-template>
-		<ng-template pTemplate="frozenheader" let-frozenColumns>
-			<tr>
-				<!-- @@@PDC-7109 - update checkbox intuitiveness -->
-				<th class="ui-datatable-tableheader" style="width:50px;overflow: unset;">
-					<label><p-checkbox #geneDataChk id="geneDataChk" [(ngModel)]="headercheckbox" binary="true" (onChange)="triggerchangeHeaderCheckbox()" ></p-checkbox></label>
-					<mat-select #dataForManifestExport id="dataForManifestExport" class="card-body card-list" [(ngModel)]="selectedHeaderCheckbox"
-					(selectionChange)="changeHeaderCheckbox($event)">
-						<mat-option *ngFor="let checkboxOption of checkboxOptions" [value]="checkboxOption" (onSelectionChange)="chkBoxSelectionCheck(checkboxOption)">
-							{{checkboxOption}}
-						</mat-option>
-					</mat-select>
-					<span style="display:none;">Check All</span>
-					</th>
-					<!-- @@@PDC-4978 update links to migrated documentation pages -->
-          <th class="ui-datatable-tableheader" style="width:100px;" [pSortableColumn]="cols[0].field"><a href="/pdc/data-dictionary/Gene#gene_name" target="_blank" style="color:white">Gene</a><p-sortIcon [field]="cols[0].field" ariaLabel="Sort Gene column in ascending/descending order"></p-sortIcon></th>
-			</tr>
-		</ng-template>
         <ng-template style="font-size: 12px; background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%);" pTemplate="header" let-columns>
             <tr class="safari_only">
-			    <th class="ui-datatable-tableheader fixedWidthCol" [pSortableColumn]="cols[1].field"><a href="/pdc/data-dictionary/Gene#chromosome" target="_blank" style="color:white">Chromosome</a><p-sortIcon [field]="cols[1].field" ariaLabel="Sort Chromosome column in ascending/descending order"></p-sortIcon></th>
-			    <th class="ui-datatable-tableheader fixedWidthCol" [pSortableColumn]="cols[2].field"><a href="/pdc/data-dictionary/Gene#locus" target="_blank" style="color:white">Locus</a><p-sortIcon [field]="cols[2].field" ariaLabel="Sort Locus column in ascending/descending order"></p-sortIcon></th>
+			<!-- @@@PDC-7109 - update checkbox intuitiveness -->
+			<th class="ui-datatable-tableheader" style="width:50px;overflow: unset;" pFrozenColumn>
+				<label><p-checkbox id="geneDataChk" [(ngModel)]="headercheckbox" binary="true" (onChange)="triggerchangeHeaderCheckbox()" ></p-checkbox>
+				<mat-select #dataForManifestExport id="dataForManifestExport" class="card-body card-list" [(ngModel)]="selectedHeaderCheckbox"
+				(selectionChange)="changeHeaderCheckbox($event)">
+					<mat-option *ngFor="let checkboxOption of checkboxOptions" [value]="checkboxOption" (onSelectionChange)="chkBoxSelectionCheck(checkboxOption)">
+						{{checkboxOption}}
+					</mat-option>
+				</mat-select>
+				<span style="display:none;">Check All</span></label>
+				</th>
+				<!-- @@@PDC-4978 update links to migrated documentation pages -->
+				<th class="ui-datatable-tableheader" style="width:100px;" [pSortableColumn]="cols[0].field" pFrozenColumn><a href="/pdc/data-dictionary/Gene#gene_name" target="_blank" style="color:white">Gene</a>&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Study in ascending/descending order"></i></th>
+			    <th class="ui-datatable-tableheader fixedWidthCol" [pSortableColumn]="cols[1].field"><a href="/pdc/data-dictionary/Gene#chromosome" target="_blank" style="color:white">Chromosome</a>&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Study in ascending/descending order"></i></th>
+			    <th class="ui-datatable-tableheader fixedWidthCol" [pSortableColumn]="cols[2].field"><a href="/pdc/data-dictionary/Gene#locus" target="_blank" style="color:white">Locus</a>&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Study in ascending/descending order"></i></th>
 			    <th class="ui-datatable-tableheader fixedWidthCol">No of Studies</th>
 			    <th class="ui-datatable-tableheader fixedWidthCol">PTM Sites</th>
 				<!-- @@@PDC-7635 display ncbi_gene_id -->
 			    <th class="ui-datatable-tableheader fixedWidthCol">NCBI gene ID</th>
-			    <th class="ui-datatable-tableheader fixedWidthCol" [pSortableColumn]="cols[4].field"><a href="/pdc/data-dictionary/Gene#proteins" target="_blank" style="color:white">Proteins</a><p-sortIcon [field]="cols[4].field" ariaLabel="Sort Proteins column in ascending/descending order"></p-sortIcon></th>
+			    <th class="ui-datatable-tableheader fixedWidthCol" [pSortableColumn]="cols[4].field"><a href="/pdc/data-dictionary/Gene#proteins" target="_blank" style="color:white">Proteins</a>&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Study in ascending/descending order"></i></th>
             </tr>
-				</ng-template>
-				<ng-template pTemplate="frozenbody" let-geneData let-frozenColumns>
-					<tr style="font-size: 11px;"[pSelectableRow]="geneData">
-						<!-- @@@PDC-7110 - fix checkbox updates -->
-						<td style="width:50px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"><p-tableCheckbox #browsePageCheckboxes id="geneData{{geneData.gene_name}}" [value]="geneData" class="browsePageCheckboxes"></p-tableCheckbox></td>
-						<td style="width:100px;word-wrap: break-word; white-space: normal;"><a href="javascript:void(0);" (click)="showGeneSummary(geneData.gene_name, geneData.gene_id)">{{geneData.gene_name }}</a></td>
-					</tr>
-				</ng-template>
+		</ng-template>
         <ng-template pTemplate="body" let-geneData>
             <tr style="font-size: 11px;" [pSelectableRow]="geneData" >
+				<!-- @@@PDC-7110 - fix checkbox updates -->
+				<td style="width:50px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;" pFrozenColumn>
+					<label><p-checkbox #browsePageCheckboxes id="geneData{{geneData.gene_name}}" [(ngModel)]="selectedGenesData" [value]="geneData" class="browsePageCheckboxes"></p-checkbox></label>
+				</td>
+				<td style="width:100px;word-wrap: break-word; white-space: normal; cursor: pointer" pFrozenColumn><a href="javascript:void(0);" (click)="showGeneSummary(geneData.gene_name, geneData.gene_id)">{{geneData.gene_name }}</a></td>
                 <td class="fixedWidthCol" style="word-wrap: break-word; white-space: normal;">{{geneData.chromosome}}</td>
                 <td class="fixedWidthCol" style="word-wrap: break-word; white-space: normal;">{{geneData.locus}}</td>
                 <td class="fixedWidthCol" style="word-wrap: break-word; white-space: normal;">{{geneData.num_study}}</td>

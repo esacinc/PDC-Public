@@ -2,10 +2,10 @@
 	<mat-card>
 	  <mat-card-title style="padding-left: 0!important;">
 		<div style="font-size:20px;font-family: 'LatoBold';padding-bottom: 10px">Technology Advancement Studies</div>
-		<p style="font-size:14px">Technology Advancement Studies include Technology Assessment Studies, System Suitability Studies, and Non-CPTAC Technology Advancement 
-		and Methodology studies that were conducted to advance Proteomic technologies. This page primarily lists studies from 
-		the Clinical Proteomic Tumor Analysis Consortium (CPTAC) program and their collaborators that do not conform to the PDC data model 
-		due to specialized experimental designs. The data available on this page are not actively maintained, or processed by the PDC, 
+		<p style="font-size:14px">Technology Advancement Studies include Technology Assessment Studies, System Suitability Studies, and Non-CPTAC Technology Advancement
+		and Methodology studies that were conducted to advance Proteomic technologies. This page primarily lists studies from
+		the Clinical Proteomic Tumor Analysis Consortium (CPTAC) program and their collaborators that do not conform to the PDC data model
+		due to specialized experimental designs. The data available on this page are not actively maintained, or processed by the PDC,
 		but are distributed here as a community resource.</p>
 	  </mat-card-title>
 	  <mat-card-content class="card card-body" style="border: none;">
@@ -16,39 +16,43 @@
 			<tr style="font-size: 14px; background-color: white;">
 				<td style="width:100%; word-wrap: break-word; white-space: normal; padding: 10px;">
 				  <div *ngIf="studyData.project_name=='CPTAC Phase I'" style="word-wrap: break-word; white-space: normal;">
-				    <span style="font-size:14px; font-weight:800">Technology Assessment Studies</span>
-					<p style="padding-top: 5px;font-size: 14px;" >The <a href="https://proteomics.cancer.gov/programs/completed#cptac" target="_blank">Clinical Proteomic Technologies for Cancer Initiative</a> (CPTC), 
-					launched in 2006, was developed to address the pre-analytical and analytical variability, issues seen as barriers to preclinical discovery at the time.  
-					These barriers were: (1) experimental design; (2) technological and technical aspects of protein identification; (3) variability related to biospecimens collection; 
-					(4) the processes of data acquisition, analysis, and reporting; (5) the lack of reproducible proteomic technologies; and 
-					(6) the lack of highly characterized and standardized reagents.  The initiative was composed of three integrated programs 
+					<!-- @@@PDC-8108 - fix font consistency -->
+					<h5>Technology Assessment Studies</h5>
+				  <!-- <span style="font-size:14px; font-weight:800">Technology Assessment Studies</span> -->
+					<p style="padding-top: 5px;font-size: 14px;" >The <a href="https://proteomics.cancer.gov/programs/completed#cptac" target="_blank">Clinical Proteomic Technologies for Cancer Initiative</a> (CPTC),
+					launched in 2006, was developed to address the pre-analytical and analytical variability, issues seen as barriers to preclinical discovery at the time.
+					These barriers were: (1) experimental design; (2) technological and technical aspects of protein identification; (3) variability related to biospecimens collection;
+					(4) the processes of data acquisition, analysis, and reporting; (5) the lack of reproducible proteomic technologies; and
+					(6) the lack of highly characterized and standardized reagents.  The initiative was composed of three integrated programs
 					that worked together to overcome these barriers:</p>
 						<ul style="font-size: 14px;">
-							<li>Clinical Proteomic Technology Assessment for Cancer network: Network of 5 multidisciplinary teams that collaborated on research projects to increase the understanding of experimental and analytical sources of error for existing technologies 
-							(<a href="https://pubmed.ncbi.nlm.nih.gov/19858499" target="_blank" >Mol Cell Proteomics. 2010 .PMID: 19858499</a>; <a href="https://pubmed.ncbi.nlm.nih.gov/19837981" target="_blank">Mol Cell Proteomics. 2010. PMID: 19837981</a>; 
-							<a href="https://pubmed.ncbi.nlm.nih.gov/19921851" target="_blank">J Proteome Res. 2010.PMID: 19921851</a>; <a href="https://pubmed.ncbi.nlm.nih.gov/19561596" target="_blank">Nat Biotechnol. 2009.PMID: 19561596</a>; 
+							<li>Clinical Proteomic Technology Assessment for Cancer network: Network of 5 multidisciplinary teams that collaborated on research projects to increase the understanding of experimental and analytical sources of error for existing technologies
+							(<a href="https://pubmed.ncbi.nlm.nih.gov/19858499" target="_blank" >Mol Cell Proteomics. 2010 .PMID: 19858499</a>; <a href="https://pubmed.ncbi.nlm.nih.gov/19837981" target="_blank">Mol Cell Proteomics. 2010. PMID: 19837981</a>;
+							<a href="https://pubmed.ncbi.nlm.nih.gov/19921851" target="_blank">J Proteome Res. 2010.PMID: 19921851</a>; <a href="https://pubmed.ncbi.nlm.nih.gov/19561596" target="_blank">Nat Biotechnol. 2009.PMID: 19561596</a>;
 							<a href="https://pubmed.ncbi.nlm.nih.gov/25693799" target="_blank">Mol Cell Proteomics. 2015. PMID: 25693799</a>)</li>
-							<li>Advanced Proteomic Platforms and Computational Sciences: Team of individual investigators that developed new analytical tools, technology, and software to improve the accuracy and reproducibility of proteomic measurement 
+							<li>Advanced Proteomic Platforms and Computational Sciences: Team of individual investigators that developed new analytical tools, technology, and software to improve the accuracy and reproducibility of proteomic measurement
 							(<a href="https://pubmed.ncbi.nlm.nih.gov/20147306" target="_blank">Bioinformatics. 2010, PMID: 20147306</a>; <a href="https://pubmed.ncbi.nlm.nih.gov/17269722" target="_blank">J Proteome Res. 2007.PMID: 17269722</a>).</li>
-							<li>Proteomic Reagents and Resources component: Provided high quality, well-characterized reagents (antibodies), data, and standard reference materials for the research community 
+							<li>Proteomic Reagents and Resources component: Provided high quality, well-characterized reagents (antibodies), data, and standard reference materials for the research community
 							(<a href="https://pubmed.ncbi.nlm.nih.gov/22522798" target="_blank">Proteomics. 2012 Apr;12(7):923-31. PMID: 22522798</a>).</li>
 						</ul>
 					<p>The data hosted here relates to the research projects focused on increasing the understanding of experimental and analytical sources of error for existing technologies.</p>
 				  </div>
 				  <div *ngIf="studyData.project_name=='CPTAC Phase II'" style="word-wrap: break-word; white-space: normal;">
-				    <span style="font-size:14px; font-weight:800">System Suitability Studies</span>
-					<p style="padding-top: 5px;font-size: 14px;">To begin the application of the technical outputs of the CPTC phase I, Clinical Proteomic Tumor Analysis Consortium (CPTAC) 
-					was launched in 2011 as a pilot program to utilize the developed state-of-the-art standardized proteomic workflows on genomically-characterized tumors 
-					(such as those from The Cancer Genome Atlas - TCGA) to add an additional layer of functional biology to cancer.  The goal was to determine 
+					<h5>System Suitability Studies</h5>
+				  <!-- <span style="font-size:14px; font-weight:800">System Suitability Studies</span> -->
+					<p style="padding-top: 5px;font-size: 14px;">To begin the application of the technical outputs of the CPTC phase I, Clinical Proteomic Tumor Analysis Consortium (CPTAC)
+					was launched in 2011 as a pilot program to utilize the developed state-of-the-art standardized proteomic workflows on genomically-characterized tumors
+					(such as those from The Cancer Genome Atlas - TCGA) to add an additional layer of functional biology to cancer.  The goal was to determine
 					if additional biological insights would be identified – biology that is difficult or impossible to obtain solely through genomics approaches.</p>
 					<p>The data hosted here is related to the following key research outputs:</p>
 						<ul style="font-size: 14px;">
 							<li>Understanding tumor preanalytical variables to help refine tumor collection protocols optimized for proteomic analyses by minimizing preanalytical variables such as ischemic time, etc. (<a href="https://www.ncbi.nlm.nih.gov/pubmed/24719451" target="_blank">Mol Cell Proteomics 2014; PMID 24719451</a>)</li>
 							<li>Development of a Comparative Reference Material (CompRef) for proteomics labs to benchmark analytical drift over the course of an analysis (<a href="https://www.ncbi.nlm.nih.gov/pubmed/26653538" target="_blank">J Proteome Res. 2016, PMID 26653538</a>)</li>
-						</ul>			
+						</ul>
 				  </div>
 				  <div *ngIf="studyData.project_name=='External'" style="word-wrap: break-word; white-space: normal;">
-				    <span style="font-size:14px; font-weight:800">Non-CPTAC Technology Advancement and Methodology Studies</span>
+					<h5>Non-CPTAC Technology Advancement and Methodology Studies</h5>
+				   <!-- <span style="font-size:14px; font-weight:800">Non-CPTAC Technology Advancement and Methodology Studies</span> -->
 					<p style="padding-top: 5px; font-size: 14px;">The data hosted under this section is from collaborators of the CPTAC program.</p>
 				  </div>
 				  <span class="align-text-bottom">
@@ -81,19 +85,19 @@
 									<a href="javascript:void(0);" (click)="showStudySummary(subStudy.subStudyName)">{{subStudy.subStudyName }}</a>
 									&nbsp;&nbsp; Analytical Fraction:&nbsp;<b>{{subStudy.analytical_fraction}}</b> &nbsp;&nbsp;Experiment Type:&nbsp;<b>{{subStudy.experiment_type}}</b><br>
 								</div>-->
-								<table class="table table-striped" style="width:80%">
+								<table class="table table-striped" style="width:80%;">
 									<thead> <tr>
 										<th>Name</th>
 										<th>Analytical Fraction</th>
 										<th>Experiment Type</th> </tr>
 									</thead>
 									<tbody>
-										<tr style="font-size: 14px;" *ngFor="let subStudy of study.studyNamesList"> 
-											<td style="word-wrap: break-word;white-space: normal;"> 
+										<tr style="font-size: 14px;" *ngFor="let subStudy of study.studyNamesList">
+											<td style="word-wrap: break-word;white-space: normal; border:0;">
 												<a href="javascript:void(0);" (click)="showStudySummary(subStudy.subStudyName)">{{subStudy.subStudyName }}</a>
 											</td>
-											<td style="word-wrap: break-word;white-space: normal;">{{subStudy.analytical_fraction}}</td>
-											<td style="word-wrap: break-word;white-space: normal;">{{subStudy.experiment_type}}</td>
+											<td style="word-wrap: break-word;white-space: normal; border:0;">{{subStudy.analytical_fraction}}</td>
+											<td style="word-wrap: break-word;white-space: normal; border:0;">{{subStudy.experiment_type}}</td>
 										</tr>
 									</tbody>
 								</table>
@@ -141,9 +145,9 @@
 						<th>Experiment Type</th> </tr>
 					</thead>
 					<tbody>
-						<tr style="font-size: 12px;" *ngFor="let subStudy of studyData.substudiesList"> 
+						<tr style="font-size: 12px;" *ngFor="let subStudy of studyData.substudiesList">
 							<td style="width: 3em"></td>
-							<td style="word-wrap: break-word;white-space: normal;"> 
+							<td style="word-wrap: break-word;white-space: normal;">
 								<a href="javascript:void(0);" (click)="showStudySummary(subStudy.subStudyName)">{{subStudy.subStudyName }}</a>
 							</td>
 							<td style="word-wrap: break-word;white-space: normal;">{{subStudy.analytical_fraction}}</td>
@@ -159,4 +163,3 @@
    </mat-card-content>
    </mat-card>
 </div>
-  

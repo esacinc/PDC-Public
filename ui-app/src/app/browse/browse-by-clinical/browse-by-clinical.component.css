@@ -18,7 +18,6 @@
 .ui-datatable-tableheader {
     /* background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%) !important; */
     background-color: #3A8BAF !important;
-    border:0px !important;
     color: white !important;
 }
 
@@ -29,27 +28,27 @@
     align-items: center;
  }
 
- :host /deep/ .ui-table table {
+ :host ::ng-deep .ui-table table {
     table-layout: unset !important;
  }
 
  /* @@@PDC-551: Need smaller font for paginator pages on Browse page tables to fit 3 digit numbers */
- :host /deep/ .ui-paginator .ui-paginator-pages .ui-paginator-page{
+ :host ::ng-deep .ui-paginator .ui-paginator-pages .ui-paginator-page{
     min-width: 2.5em !important;
  }
 
   /* @@@PDC-1012: Update UI for GDC Case ID becoming External Case ID */
-  :host /deep/ .ui-table th {
+  :host ::ng-deep .ui-table th {
     word-wrap: break-word;
  }
 
   /* @@@PDC-1063: Implement select all, select page, select none for all tabs */
-  :host /deep/ #dataForManifestExport .mat-select-value {
+  :host ::ng-deep #dataForManifestExport .mat-select-value {
     display:none !important;
  }
 
  /* @@@PDC-1419: Fix the tooltip position for "Export Full Manifest" feature on Browse Page */
- :host /deep/ .ui-table-caption {
+ :host ::ng-deep .ui-table-caption {
     padding-left: 0px;
     text-align: unset !important;
  }
@@ -65,13 +64,13 @@
      margin-top: 5%;
  }
 
- :host /deep/ .ui-table tr td,
- :host /deep/ .ui-table-thead tr {
+ :host ::ng-deep .ui-table tr td,
+ :host ::ng-deep .ui-table-thead tr {
    font-size: 14px !important;
  }
 
-:host /deep/ .ui-table-unfrozen-view .ui-table-thead th,
-:host /deep/ .ui-table-unfrozen-view .ui-table-tbody td {
+:host ::ng-deep .ui-table-unfrozen-view .ui-table-thead th,
+:host ::ng-deep .ui-table-unfrozen-view .ui-table-tbody td {
     min-width: 130px !important;
     max-width: 130px !important;
     width: 130px !important;

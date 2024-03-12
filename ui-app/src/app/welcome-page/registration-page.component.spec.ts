@@ -1,10 +1,10 @@
 import { OverlayWindowService } from './../overlay-window/overlay-window.service';
-import { AuthService } from 'angular-6-social-login';
+import { SocialAuthService } from 'angularx-social-login';
 import { of } from 'rxjs';
 
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -32,7 +32,7 @@ describe("RegistrationPageComponent", () => {
   let userSpy: jasmine.Spy;
   let routeSpy: jasmine.Spy;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [RegistrationPageComponent],
       imports: [HttpClientTestingModule, RouterTestingModule.withRoutes([])],
@@ -40,7 +40,7 @@ describe("RegistrationPageComponent", () => {
       providers: [
         ChorusauthService,
         PDCUserService,
-        { provide: AuthService, useClass: MockAuthService },
+        { provide: SocialAuthService, useClass: MockAuthService },
         { provide: OverlayWindowService, useClass: MockOverlayWindowService}
       ]
     }).compileComponents();

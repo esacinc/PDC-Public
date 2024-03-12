@@ -1,4 +1,4 @@
-.abstract-text {	
+.abstract-text {
 }
 
 .abstract-text-truncate {
@@ -27,15 +27,14 @@
 
 .ui-datatable-odd {
     background: rgb(225, 239, 252);
-    
+
 }
 .ui-datatable-even {
     background: none repeat scroll 0 0 rgb(154, 181, 204);
-    
+
 }
 .ui-datatable-tableheader {
     background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%) !important;
-    border:0px !important;
     color: white !important;
 }
 
@@ -54,9 +53,9 @@
     top: 0;
     position: absolute;
   }
- 
+
 .ui-datatable-tableheader-flex-container{
-    display:-webkit-flex; 
+    display:-webkit-flex;
     display:flex;
     float: left;
     align-items: center;
@@ -79,9 +78,9 @@
     border:0px !important;
     color: white !important;
 }
- 
+
 .ui-dataview-tableheader-flex-container{
-    display:-webkit-flex; 
+    display:-webkit-flex;
     display:flex;
     float: left;
     align-items: center;
@@ -118,8 +117,8 @@
 ::ng-deep {
   .ui-table table {
     table-layout: unset !important;
-  } 
-  
+  }
+
   .ui-table tr td, .ui-table-thead tr, .table, .table tr td, .table tr th {
         font-size: 14px !important;
         font-family: 'Lato' !important;
@@ -145,7 +144,7 @@
 	.ui-paginator .ui-paginator-page.ui-state-active {
 		background-color: #3A8BAF;
     }
-    
+
     //@@@PDC-4924: Fix UI issues on Heatmaps page & filter stacking feature
     .heatmaps-page .mat-card {
         font-family: 'Lato' !important;

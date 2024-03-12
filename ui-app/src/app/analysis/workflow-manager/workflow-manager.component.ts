@@ -1,7 +1,7 @@
 
 
 import {Component, ViewEncapsulation, OnInit, Inject, Injectable} from '@angular/core';
-import {MatSnackBar} from '@angular/material';
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 
 import { WorkflowManagerFileService } from './workflow-manager.service';
 
@@ -11,7 +11,7 @@ import { BehaviorSubject} from 'rxjs';
 import { TreeNode } from 'primeng/api';
 import { FileMetadata } from '../../types';
 
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
+import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 const CLUSTER_NAME = 'master: PDC-CDAP';
 const CLUSTER_LABEL = 'PDC-CDAP';
 

@@ -1,6 +1,6 @@
 <title>STUDY SUMMARY</title>
 <button mat-icon-button style="float: right; flex: 0 0 auto;" (click)="close(false)" aria-label="Close">
-	<fa name="times" style="light"></fa>
+	<i class="fa fa-close" style="light"></i>
 </button>
 
 <!--//@@@PDC-461  Make all summary dialog windows headers sticky-->
@@ -147,7 +147,7 @@
 						<td class="tab-table-field-value">{{protocol.one_d_chromatography_type}}</td></tr>
 					<tr><td class="tab-table-field-name">2D Chromatography Type</td>
 						<td class="tab-table-field-value">{{protocol.two_d_chromatography_type}}</td></tr>
-					<!-- @@@PDC-7323 -add fractions analyzed back to protocol properties -->	
+					<!-- @@@PDC-7323 -add fractions analyzed back to protocol properties -->
 					<tr><td class="tab-table-field-name">Fractions Analyzed Count</td>
 						<td class="tab-table-field-value">{{protocol.fractions_analyzed_count}}</td></tr>
 					<!-- @@@PDC-7248 - additional metabolomic properties -->
@@ -226,7 +226,7 @@
 				id="studyExperimentalDesignTable" [(selection)]="selectedExperimentalStudies" scrollHeight="300px" [autoLayout]="true" [frozenColumns]="studyExperimentDesignTableFrozenCols" [scrollable]="true"
 				frozenWidth="500px" [ngStyle]="{'width':'100%'}">
 				<ng-template pTemplate="caption">
-					<div class="row">
+					<div class="row downloadButtons">
 					  <div class="col-6"></div>
 					  <div class="col-6">
 						<div class="col-3"></div>
@@ -238,50 +238,36 @@
 					  </div>
 					</div>
 				</ng-template>
-				<ng-template pTemplate="frozenheader" let-studyExperimentDesignTableFrozenCols>
+				<ng-template pTemplate="header" let-studyExperimentDesignTableFrozenCols>
 					<tr>
-						<th rowspan=3 *ngFor="let col of studyExperimentDesignTableCommonCols" class="ui-datatable-tableheader" style="word-wrap: break-word; white-space: normal;">
-              <!-- @@@PDC-4978 update links to migrated documentation pages -->
+						<th rowspan=2 *ngFor="let col of studyExperimentDesignTableCommonCols" class="ui-datatable-tableheader" style="word-wrap: break-word; white-space: normal;" pFrozenColumn>
+              				<!-- @@@PDC-4978 update links to migrated documentation pages -->
 							<span *ngIf="col.header == 'Run Metadata ID'"><a href="/pdc/data-dictionary/Study Run Metadata" target="_blank" style="color:white" data-toggle = "tooltip" title = "Also called as plex name, plex dataset name, folder name, etc., in labeled experiments">{{col.header}}</a></span>
 							<span *ngIf="col.header != 'Run Metadata ID'"><a href="/pdc/data-dictionary/Study Run Metadata" target="_blank" style="color:white">{{col.header}}</a></span>
 						</th>
-					</tr>
-				</ng-template>
-				<ng-template style="background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%);" pTemplate="header" let-columns>
-<!-- 						<tr>
-							<th rowspan=3 *ngFor="let col of studyExperimentDesignTableCommonCols" class="ui-datatable-tableheader" style="word-wrap: break-word; white-space: normal;">
-								<a href="{{staticUrlBase}}dictionaryitem.html?eName=Study Run Metadata" target="_blank" style="color:white">{{col.header}}</a>
-							</th>
-						</tr> -->
-						<tr *ngIf="studyExperimentDesignTableExtraCols && studyExperimentDesignTableExtraCols.length > 0">
-							<th rowspan=1 [attr.colspan]="studyExperimentDesignTableExtraCols.length" class="ui-datatable-tableheader" style="word-wrap: break-word; white-space: normal;text-align: center;">
-								<a href="/pdc/data-dictionary/Study Run Metadata" target="_blank" style="color:white">
-									{{studyExperimentDesignTableHeaderCol}}
-								</a>
-							</th>
-						</tr>
-						<tr *ngIf="studyExperimentDesignTableExtraCols">
+						<th *ngIf="studyExperimentDesignTableExtraCols" rowspan=1 [attr.colspan]="studyExperimentDesignTableExtraCols.length" class="ui-datatable-tableheader" style="word-wrap: break-word; white-space: normal;text-align: center;">
+							<a href="/pdc/data-dictionary/Study Run Metadata" target="_blank" style="color:white">
+								{{studyExperimentDesignTableHeaderCol}}
+							</a>
+						</th>
+						<tr>
 							<th *ngFor="let column of studyExperimentDesignTableExtraCols" class="ui-datatable-tableheader fixedWidthCol" style="word-wrap: break-word; white-space: normal;">
 								<a href="/pdc/data-dictionary/Study Run Metadata" target="_blank" style="color:white">{{column.header}}</a>
 							</th>
 						</tr>
-					</ng-template>
-					<ng-template pTemplate="frozenbody" let-studyExperimentalDesign let-studyExperimentDesignTableFrozenCols>
-						<tr *ngIf="studyExperimentDesignTableCommonCols" [pSelectableRow]="clinicalData">
-							<!-- @@@PDC-462 show submitter id -->
-							<td *ngFor="let col of studyExperimentDesignTableCommonCols" style="word-wrap: break-word; white-space: normal;">
-								<span *ngIf="col.header == 'Run Metadata ID'" class="colValue" data-toggle = "tooltip" title = "Also called as plex name, plex dataset name, folder name, etc., in labeled experiments" [innerHtml] = "studyExperimentalDesign[col.field]"></span>
-								<span *ngIf="col.header != 'Run Metadata ID'" class="colValue" [innerHtml] = "studyExperimentalDesign[col.field]"></span>
-							</td>
-						</tr>
-					</ng-template>
-					<ng-template pTemplate="body" let-studyExperimentalDesign let-columns="studyExperimentDesignTableExtraCols">
-						<tr *ngIf="studyExperimentDesignTableExtraCols">
-							<td class="fixedWidthCol" *ngFor="let col of studyExperimentDesignTableExtraCols" style="word-wrap: break-word; white-space: normal;">
-								<span class="colValue" [innerHtml] = "studyExperimentalDesign[col.field]"></span>
-							</td>
-						</tr>
-					</ng-template>
+	
+				</ng-template>
+				<ng-template pTemplate="body" let-studyExperimentalDesign let-studyExperimentDesignTableFrozenCols>
+					<tr [pSelectableRow]="clinicalData">
+						<td *ngFor="let col of studyExperimentDesignTableCommonCols" style="word-wrap: break-word; white-space: normal;" pFrozenColumn>
+							<span *ngIf="col.header == 'Run Metadata ID'" class="colValue" data-toggle = "tooltip" title = "Also called as plex name, plex dataset name, folder name, etc., in labeled experiments" [innerHtml] = "studyExperimentalDesign[col.field]"></span>
+							<span *ngIf="col.header != 'Run Metadata ID'" class="colValue" [innerHtml] = "studyExperimentalDesign[col.field]"></span>
+						</td>		
+						<td class="fixedWidthCol" *ngFor="let col of studyExperimentDesignTableExtraCols" style="word-wrap: break-word; white-space: normal;">
+							<span class="colValue" [innerHtml] = "studyExperimentalDesign[col.field]"></span>
+						</td>	
+					</tr>	
+				</ng-template>
 				</p-table>
 			</div>
 			<br>
@@ -303,7 +289,7 @@
 							[loading]="loading" [resizableColumns]="true" columnResizeMode="expand" responsive="true"
 							dataKey="case_submitter_id" id="clinicalDataTable" scrollHeight="300px" [autoLayout]="true" [frozenColumns]="frozenClinicalColumns" [scrollable]="true" frozenWidth="150px" [ngStyle]="{'width':'100%'}">
 						<ng-template pTemplate="caption">
-							<div class="row">
+							<div class="row downloadButtons">
 								<div class="col-6"></div>
 								<div class="col-6">
 								<div class="col-3"></div>
@@ -315,15 +301,11 @@
 								</div>
 							</div>
 						</ng-template>
-						<ng-template pTemplate="frozenheader" let-frozenClinicalColumns>
-						<tr>
-							<th class="ui-datatable-tableheader" style="word-break: break-all;" [pSortableColumn]="clinicalCols[0].field"><a href="/pdc/data-dictionary/Case" target="_blank" style="color:white">Case Submitter ID</a><p-sortIcon [field]="clinicalCols[0].field" ariaLabel="Sort Case submitter ID in ascending/descending order"></p-sortIcon></th>
-						</tr>
-					</ng-template>
 					<ng-template style="font-size: 12px; background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%);" pTemplate="header" let-columns>
 						<tr>
 							<!-- @@@PDC-262 link headers to data dictionary -->
 							<!-- <th class="ui-datatable-tableheader" style="width:12%;word-break: break-all;" [pSortableColumn]="clinicalCols[0].field" ><a href="{{staticUrlBase}}dictionaryitem.html?eName=Case" target="_blank" style="color:white">Case Submitter ID</a><p-sortIcon [field]="clinicalCols[0].field" ariaLabel="Sort Case submitter ID in ascending/descending order"></p-sortIcon></th> -->
+							<th class="ui-datatable-tableheader" style="word-break: break-all;" [pSortableColumn]="clinicalCols[0].field" pFrozenColumn><a href="/pdc/data-dictionary/Case" target="_blank" style="color:white">Case Submitter ID</a>&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Case submitter ID column in ascending/descending order"></i></th>
 							<th class="ui-datatable-tableheader fixedWidthCol">
 								<div class="ui-datatable-tableheader-flex-container">
 									<div>
@@ -333,11 +315,11 @@
 									</div>
 								</div>
 							</th>
-							<th class="ui-datatable-tableheader"  [pSortableColumn]="clinicalCols[1].field"><a href="/pdc/data-dictionary/Demographic#ethnicity" target="_blank" style="color:white">Ethnicity</a><p-sortIcon [field]="clinicalCols[1].field" ariaLabel="Sort Ethinicity column in ascending/descending order"></p-sortIcon></th>
-							<th class="ui-datatable-tableheader"  [pSortableColumn]="clinicalCols[2].field"><a href="/pdc/data-dictionary/Demographic#gender" target="_blank" style="color:white">Gender</a><p-sortIcon [field]="clinicalCols[2].field" ariaLabel="Sort Gender column in ascending/descending order"></p-sortIcon></th>
-							<th class="ui-datatable-tableheader"  [pSortableColumn]="clinicalCols[3].field"><a href="/pdc/data-dictionary/Demographic#race" target="_blank" style="color:white">Race</a><p-sortIcon [field]="clinicalCols[3].field" ariaLabel="Sort Race column in ascending/descending order"></p-sortIcon></th>
-							<th class="ui-datatable-tableheader"  [pSortableColumn]="clinicalCols[4].field"><a href="/pdc/data-dictionary/Diagnosis#morphology" target="_blank" style="color:white">Morphology</a><p-sortIcon [field]="clinicalCols[4].field" ariaLabel="Sort Morphology column in ascending/descending order"></p-sortIcon></th>
-							<th class="ui-datatable-tableheader"  [pSortableColumn]="clinicalCols[5].field"><a href="/pdc/data-dictionary/Diagnosis#primary_diagnosis" target="_blank" style="color:white">Primary Diagnosis</a><p-sortIcon [field]="clinicalCols[5].field" ariaLabel="Sort Primary Diagnosis column in ascending/descending order"></p-sortIcon></th>
+							<th class="ui-datatable-tableheader"  [pSortableColumn]="clinicalCols[1].field"><a href="/pdc/data-dictionary/Demographic#ethnicity" target="_blank" style="color:white">Ethnicity</a>&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Ethinicity column in ascending/descending order"></i></th>
+							<th class="ui-datatable-tableheader"  [pSortableColumn]="clinicalCols[2].field"><a href="/pdc/data-dictionary/Demographic#gender" target="_blank" style="color:white">Gender</a>&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Gender column in ascending/descending order"></i></th>
+							<th class="ui-datatable-tableheader"  [pSortableColumn]="clinicalCols[3].field"><a href="/pdc/data-dictionary/Demographic#race" target="_blank" style="color:white">Race</a>&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Race column in ascending/descending order"></i></th>
+							<th class="ui-datatable-tableheader"  [pSortableColumn]="clinicalCols[4].field"><a href="/pdc/data-dictionary/Diagnosis#morphology" target="_blank" style="color:white">Morphology</a>&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Morphology column in ascending/descending order"></i></th>
+							<th class="ui-datatable-tableheader"  [pSortableColumn]="clinicalCols[5].field"><a href="/pdc/data-dictionary/Diagnosis#primary_diagnosis" target="_blank" style="color:white">Primary Diagnosis</a>&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Primary Diagnosis column in ascending/descending order"></i></th>
 							<th class="ui-datatable-tableheader"  [pSortableColumn]="clinicalCols[6].field">
 								<div class="ui-datatable-tableheader-flex-container">
 									<div>
@@ -346,7 +328,7 @@
 										</a>
 									</div>
 									<div class="ui-datatable-tableheader-flex-sorticon">
-										<p-sortIcon [field]="clinicalCols[6].field" ariaLabel="Sort Site of Resection column in ascending/descending order"></p-sortIcon>
+										&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Site of Resection column in ascending/descending order"></i>
 									</div>
 								</div>
 							</th>
@@ -358,27 +340,23 @@
 										</a>
 									</div>
 									<div class="ui-datatable-tableheader-flex-sorticon">
-										<p-sortIcon [field]="clinicalCols[7].field" ariaLabel="Sort Tissue column in ascending/descending order"></p-sortIcon>
+										&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Tissue column in ascending/descending order"></i>
 									</div>
 								</div>
 							</th>
-							<th class="ui-datatable-tableheader"  [pSortableColumn]="clinicalCols[8].field"><a href="/pdc/data-dictionary/Diagnosis#tumor_grade" target="_blank" style="color:white">Tumor Grade</a><p-sortIcon [field]="clinicalCols[8].field" ariaLabel="Sort Tumor Grade column in ascending/descending order"></p-sortIcon></th>
-							<th class="ui-datatable-tableheader" [pSortableColumn]="clinicalCols[9].field"><a href="/pdc/data-dictionary/Diagnosis#tumor_stage" target="_blank" style="color:white">Tumor Stage</a><p-sortIcon [field]="clinicalCols[9].field" ariaLabel="Sort Tumor Stage column in ascending/descending order"></p-sortIcon></th>
+							<th class="ui-datatable-tableheader"  [pSortableColumn]="clinicalCols[8].field"><a href="/pdc/data-dictionary/Diagnosis#tumor_grade" target="_blank" style="color:white">Tumor Grade</a>&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Tumor Grade column in ascending/descending order"></i></th>
+							<th class="ui-datatable-tableheader" [pSortableColumn]="clinicalCols[9].field"><a href="/pdc/data-dictionary/Diagnosis#tumor_stage" target="_blank" style="color:white">Tumor Stage</a>&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Tumor Stage column in ascending/descending order"></i></th>
 						</tr>
 					</ng-template>
-					<ng-template pTemplate="frozenbody" let-clinicalData let-frozenClinicalColumns>
-						<tr [pSelectableRow]="clinicalData">
-							<td style="word-wrap: break-word; white-space: normal;"><a href="javascript:void(0);" (click)="showCaseSummary(clinicalData.case_submitter_id, 'clinical')" [ngClass]="{'disabled': oldVersionFlag}" >{{clinicalData.case_submitter_id }}</a>
+					<ng-template pTemplate="body" let-clinicalData let-columns="columns">
+						<tr [pSelectableRow]="clinicalData" >
+							<td style="word-wrap: break-word; white-space: normal;" pFrozenColumn><a href="javascript:void(0);" (click)="showCaseSummary(clinicalData.case_submitter_id, 'clinical')" [ngClass]="{'disabled': oldVersionFlag}" >{{clinicalData.case_submitter_id }}</a>
 								<span *ngIf="clinicalData.samples && clinicalData.samples != ''"><br>
 									<span *ngIf="clinicalData.samples.includes(',')"><i class="fa fa-info-circle" aria-hidden="true" title="The samples {{clinicalData.samples}} are associated with this clinical record"></i>&nbsp;{{clinicalData.samples}}</span>
 									<span *ngIf="!clinicalData.samples.includes(',')"><i class="fa fa-info-circle" aria-hidden="true" title="The sample {{clinicalData.samples}} is associated with this clinical record"></i>&nbsp;{{clinicalData.samples}}</span>
 								</span>
 								<span style='color:red' *ngIf="clinicalData.status == 'Disqualified'"><br>{{clinicalData.status}}</span>
 							</td>
-						</tr>
-					</ng-template>
-					<ng-template pTemplate="body" let-clinicalData let-columns="columns">
-						<tr [pSelectableRow]="clinicalData" >
 							<!-- @@@PDC-462 show submitter id -->
 							<!-- <td style="width:12%;word-wrap: break-word; white-space: normal;"><a href="javascript:void(0);" (click)="showCaseSummary(clinicalData.case_submitter_id, 'clinical')" [ngClass]="{'disabled': oldVersionFlag}" >{{clinicalData.case_submitter_id }}</a>&nbsp;&nbsp;<span style='color:red' *ngIf="clinicalData.status == 'Disqualified'">{{clinicalData.status}}</span></td> -->
 							<td style="word-wrap: break-word; white-space: normal;text-align: center" class="fixedWidthCol">
@@ -423,7 +401,7 @@
 								[loading]="loading" [resizableColumns]="true" columnResizeMode="expand" responsive="true"
 								dataKey="aliquot_submitter_id" id="biospecimensDataTable" scrollHeight="300px" [autoLayout]="true" [frozenColumns]="biospecimenFrozenCols" [scrollable]="true" frozenWidth="150px" [ngStyle]="{'width':'100%'}">
 							<ng-template pTemplate="caption">
-								<div class="row">
+								<div class="row downloadButtons">
 								  <div class="col-6"></div>
 								  <div class="col-6">
 									<div class="col-3"></div>
@@ -435,18 +413,14 @@
 								  </div>
 								</div>
 							</ng-template>
-							<ng-template pTemplate="frozenheader" let-biospecimenFrozenCols style="min-height: 69.19px !important;">
-							<tr>
-								<th class="ui-datatable-tableheader" style="word-break: break-all;" [pSortableColumn]="biospecimenCols[0].field"><a href="/pdc/data-dictionary/Aliquot" target="_blank" style="color:white">Aliquot</a><p-sortIcon [field]="biospecimenCols[0].field" ariaLabel="Sort Aliquot column in ascending/descending order"></p-sortIcon></th>
-							</tr>
-						</ng-template>
 						<ng-template style="background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%);" pTemplate="header" let-columns>
 							<tr>
+								<th class="ui-datatable-tableheader" style="word-break: break-all;" [pSortableColumn]="biospecimenCols[0].field" pFrozenColumn><a href="/pdc/data-dictionary/Aliquot" target="_blank" style="color:white">Aliquot</a>&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Aliquot column in ascending/descending order"></i></th>
 								<!-- @@@PDC-262 link headers to data dictionary -->
 								<!-- <th class="ui-datatable-tableheader" style="width:18%;word-break: break-all;" [pSortableColumn]="biospecimenCols[0].field"><a href="{{staticUrlBase}}dictionaryitem.html?eName=Aliquot" target="_blank" style="color:white">Aliquot</a><p-sortIcon [field]="biospecimenCols[0].field" ariaLabel="Sort Aliquot column in ascending/descending order"></p-sortIcon></th> -->
-								<th class="ui-datatable-tableheader" [pSortableColumn]="biospecimenCols[1].field"><a href="/pdc/data-dictionary/Sample" target="_blank" style="color:white">Sample</a><p-sortIcon [field]="biospecimenCols[1].field" ariaLabel="Sort Sample column in ascending/descending order"></p-sortIcon></th>
-								<th class="ui-datatable-tableheader" [pSortableColumn]="biospecimenCols[2].field"><a href="/pdc/data-dictionary/Case" target="_blank" style="color:white">Case</a><p-sortIcon [field]="biospecimenCols[2].field" ariaLabel="Sort Case column in ascending/descending order"></p-sortIcon></th>
-								<th class="ui-datatable-tableheader" [pSortableColumn]="biospecimenCols[3].field"><a href="/pdc/data-dictionary/Project" target="_blank" style="color:white">Project</a><p-sortIcon [field]="biospecimenCols[3].field" ariaLabel="Sort Project column in ascending/descending order"></p-sortIcon></th>
+								<th class="ui-datatable-tableheader" [pSortableColumn]="biospecimenCols[1].field"><a href="/pdc/data-dictionary/Sample" target="_blank" style="color:white">Sample</a>&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Sample column in ascending/descending order"></i></th>
+								<th class="ui-datatable-tableheader" [pSortableColumn]="biospecimenCols[2].field"><a href="/pdc/data-dictionary/Case" target="_blank" style="color:white">Case</a>&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Case column in ascending/descending order"></i></th>
+								<th class="ui-datatable-tableheader" [pSortableColumn]="biospecimenCols[3].field"><a href="/pdc/data-dictionary/Project" target="_blank" style="color:white">Project</a>&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Project column in ascending/descending order"></i></th>
 								<th class="ui-datatable-tableheader"  [pSortableColumn]="biospecimenCols[4].field">
 									<div class="ui-datatable-tableheader-flex-container">
 										<div>
@@ -455,7 +429,7 @@
 											</a>
 										</div>
 										<div>
-											<p-sortIcon [field]="biospecimenCols[4].field" ariaLabel="Sort Sample Type column in ascending/descending order"></p-sortIcon>
+											&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Sample Type column in ascending/descending order"></i>
 										</div>
 									</div>
 								</th>
@@ -467,7 +441,7 @@
 											</a>
 										</div>
 										<div>
-											<p-sortIcon [field]="biospecimenCols[5].field" ariaLabel="Sort Primary Site column in ascending/descending order"></p-sortIcon>
+											&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Primary Site column in ascending/descending order"></i>
 										</div>
 									</div>
 								</th>
@@ -479,19 +453,15 @@
 											</a>
 										</div>
 										<div>
-											<p-sortIcon [field]="biospecimenCols[6].field" ariaLabel="Sort Disease Type column in ascending/descending order"></p-sortIcon>
+											&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Disease Type column in ascending/descending order"></i>
 										</div>
 									</div>
 								</th>
 							</tr>
 						</ng-template>
-						<ng-template pTemplate="frozenbody" let-caseData let-biospecimenFrozenCols>
-							<tr [pSelectableRow]="caseData">
-								<td style="white-space: normal;">{{caseData.aliquot_submitter_id }}&nbsp;&nbsp;<span style='color:red' *ngIf="caseData.aliquot_status == 'Disqualified'">{{caseData.aliquot_status}}</span></td>
-							</tr>
-						</ng-template>
 						<ng-template pTemplate="body" let-caseData let-columns="columns">
 							<tr [pSelectableRow]="caseData" >
+								<td style="white-space: normal;" pFrozenColumn>{{caseData.aliquot_submitter_id }}&nbsp;&nbsp;<span style='color:red' *ngIf="caseData.aliquot_status == 'Disqualified'">{{caseData.aliquot_status}}</span></td>
 								<!-- @@@PDC-462 show submitter ids -->
 								<!-- <td style="width:18%; white-space: normal;">{{caseData.aliquot_submitter_id }}&nbsp;&nbsp;<span style='color:red' *ngIf="caseData.aliquot_status == 'Disqualified'">{{caseData.aliquot_status}}</span></td> -->
 								<td style="word-wrap: break-word; white-space: normal;">{{caseData.sample_submitter_id}}&nbsp;&nbsp;<span style='color:red' *ngIf="caseData.sample_status == 'Disqualified'">{{caseData.sample_status}}</span></td>

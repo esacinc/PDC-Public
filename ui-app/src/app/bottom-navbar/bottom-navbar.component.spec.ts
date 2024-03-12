@@ -2,7 +2,7 @@ import { OverlayWindowService } from "./../overlay-window/overlay-window.service
 import { RouterTestingModule } from "@angular/router/testing";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 
 import { PDCUserService } from "../pdcuser.service";
 import { BottomNavbarComponent } from "./bottom-navbar.component";
@@ -33,7 +33,7 @@ describe("BottomNavbarComponent", () => {
   let fixture: ComponentFixture<BottomNavbarComponent>;
   let service: PDCUserService;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [BottomNavbarComponent],
       imports: [HttpClientTestingModule, RouterTestingModule],

@@ -1,20 +1,20 @@
 import { OverlayWindowService } from './../overlay-window/overlay-window.service';
 import { RegistrationPageComponent } from "./../welcome-page/registration-page.component";
-import { AuthService } from "angular-6-social-login";
+import { SocialAuthService } from "angularx-social-login";
 import { of } from "rxjs";
-import { MatDialogRef } from "@angular/material/dialog";
-import { MAT_DIALOG_DATA } from "@angular/material";
+import { MatLegacyDialogRef as MatDialogRef } from "@angular/material/legacy-dialog";
+import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from "@angular/material/legacy-dialog";
 
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { Router } from "@angular/router";
 import { RouterTestingModule } from "@angular/router/testing";
 
 import { ChorusauthService } from "../chorusauth.service";
 import { PDCUserService } from "../pdcuser.service";
 import { UserAccountComponent } from "./user-account.component";
-import { MatDialog } from '@angular/material';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 
 
 class MockAuthService {
@@ -44,7 +44,7 @@ describe("UserAccountComponent", () => {
   let userSpy: jasmine.Spy;
   let routeSpy: jasmine.Spy;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [UserAccountComponent],
       imports: [HttpClientTestingModule, RouterTestingModule.withRoutes([])],
@@ -52,7 +52,7 @@ describe("UserAccountComponent", () => {
       providers: [
         ChorusauthService,
         PDCUserService,
-        { provide: AuthService, useClass: MockAuthService },
+        { provide: SocialAuthService, useClass: MockAuthService },
         {
           provide: MAT_DIALOG_DATA,
           useValue: { data: "id" },

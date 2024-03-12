@@ -53,11 +53,11 @@ var spec = {
         },
      ],
    "paths": {
-         "?query={allCases {case_id case_submitter_id project_id project_submitter_id disease_type primary_site externalReferences { external_reference_id reference_resource_shortname reference_resource_name reference_entity_location }}}": {
+         "?query={allCases(offset: 0 limit: 10) {case_id case_submitter_id project_id project_submitter_id disease_type primary_site externalReferences { external_reference_id reference_resource_shortname reference_resource_name reference_entity_location }}}": {
              "get": {
                        "tags": ["Case"],
                "summary": "Gets all cases",
-               "description": "<b>Returns case details.<br><br>Fields:</b><ul><li>case_id</li><li>case_submitter_id</li><li>project_id</li><li>project_submitter_id</li><li>disease_type</li><li>primary_site</li><li>externalReferences { external_reference_id reference_resource_shortname reference_resource_name reference_entity_location }</li></ul><b>Click on the Try button to issue a test call:</b>",
+               "description": "<b>Returns case details.<br><br>Fields:</b><ul><li>case_id</li><li>case_submitter_id</li><li>project_id</li><li>project_submitter_id</li><li>disease_type</li><li>primary_site</li><li>externalReferences { external_reference_id reference_resource_shortname reference_resource_name reference_entity_location }</li></ul><b>Click on the Try button to issue a test call to get the first ten cases (you can call the API without any parameters to get all 4500+ cases ):</b>",
                "operationId": "allCases",
                "produces": [
                            "application/json"
@@ -128,11 +128,11 @@ var spec = {
                }
              }
                },
-               '?query={aliquotSpectralCount(gene_name: "{gene_name}" dataset_alias: "{dataset_alias}" acceptDUA: {acceptDUA}){gene_id gene_name NCBI_gene_id authority description organism chromosome locus proteins assays spectral_counts { project_submitter_id plex spectral_count distinct_peptide unshared_peptide study_submitter_id pdc_study_id}}}': {
+               '?query={aliquotSpectralCount(gene_name: "{gene_name}" dataset_alias: "{dataset_alias}" ){gene_id gene_name NCBI_gene_id authority description organism chromosome locus proteins assays spectral_counts { project_submitter_id plex spectral_count distinct_peptide unshared_peptide study_submitter_id pdc_study_id}}}': {
                  "get": {
                            "tags": ["Gene"],
                    "summary": "Returns the aliquot spectral counts",
-                   "description": "<b>Returns the aliquot spectral counts<br><br>Fields:</b><ul><li>gene_id</li><li>gene_name</li><li>NCBI_gene_id</li><li>authority</li><li>description</li><li>organism</li><li>chromosome</li><li>locus</li><li>proteins</li><li>assays</li><li>spectral_counts</li></ul>",
+                   "description": "<b>Input Parameters (multiple parameters can be passed in one call):</b><ul><li>gene_name (example: A1BG)</li><li>dataset_alias (example: A2-A0D0-01A)</li></ul><b>Returns the aliquot spectral counts<br><br>Fields:</b><ul><li>gene_id</li><li>gene_name</li><li>NCBI_gene_id</li><li>authority</li><li>description</li><li>organism</li><li>chromosome</li><li>locus</li><li>proteins</li><li>assays</li><li>spectral_counts</li></ul><b>A test call can be issued with the following parameters (it may return slowly, especially the first time, due to the data volume):</b>",
                    "operationId": "aliquotSpectralCount",
                    "produces": [
                      "application/json"
@@ -150,14 +150,7 @@ var spec = {
                        "description": "Dataset alias, example: A2-A0D0-01A",
                        "required": true,
                        "type": "string"
-                     }, {
-                        "name": "acceptDUA",
-                        "in": "path",
-                        "description": "Accept DUA  is no longer required",
-                        "required": false,
-                        "type": "boolean",
-						"defaultValue": true
-                      }
+                     }
                    ],
                    "responses": {
                      "200": {
@@ -292,11 +285,11 @@ var spec = {
                    }
                  }
                    },
-                   '?query={geneSpectralCount (gene_name: "{gene_name}" acceptDUA: {acceptDUA}){gene_id gene_name NCBI_gene_id authority description organism chromosome locus proteins assays spectral_counts { project_submitter_id plex spectral_count distinct_peptide unshared_peptide study_submitter_id} }}': {
+                   '?query={geneSpectralCount (gene_name: "{gene_name}"){gene_id gene_name NCBI_gene_id authority description organism chromosome locus proteins assays spectral_counts { project_submitter_id plex spectral_count distinct_peptide unshared_peptide study_submitter_id} }}': {
                  "get": {
                            "tags": ["Gene"],
                    "summary": "Returns the gene spectral counts",
-                   "description": "<b>Returns the gene spectral counts<br><br>Fields:</b><ul><li>gene_id</li><li>gene_name</li><li>NCBI_gene_id</li><li>authority</li><li>description</li><li>organism</li><li>chromosome</li><li>locus</li><li>proteins</li><li>assays</li><li>spectral_counts</li></ul>",
+                   "description": "<b>Input Parameter:</b><ul><li>gene_name (example: A1BG)</li></ul><b>Returns the gene spectral counts<br><br>Fields:</b><ul><li>gene_id</li><li>gene_name</li><li>NCBI_gene_id</li><li>authority</li><li>description</li><li>organism</li><li>chromosome</li><li>locus</li><li>proteins</li><li>assays</li><li>spectral_counts</li></ul><b>A test call can be issued with the following parameter:</b>",
                    "operationId": "geneSpectralCount",
                    "produces": [
                      "application/json"
@@ -307,13 +300,6 @@ var spec = {
                        "description": "Gene Name, example: A1BG",
                        "required": true,
                        "type": "string"
-                     }, {
-                        "name": "acceptDUA",
-                        "in": "path",
-                        "description": "Accept DUA  is no longer required",
-                        "required": false,
-                        "type": "boolean",
-						"defaultValue": true
                      }
                    ],
                    "responses": {
@@ -828,23 +814,16 @@ var spec = {
                        }
                      }
                   },
-                   "?query={getPDCMetrics (acceptDUA: {acceptDUA}) {programs projects studies cases files data_size_TB}}": {
+                   "?query={getPDCMetrics {programs projects studies cases files data_size_TB}}": {
                  "get": {
                            "tags": ["General"],
                    "summary": "Gets PDC metrics",
-                   "description": "<b>Gets the following PDC metrics.<br><br>Fields:</b><ul><li>programs</li><li>projects</li><li>studies</li><li>cases</li><li>files</li><li>data_size_TB</li></ul>",
+                   "description": "<b>Gets the following PDC metrics.<br><br>Fields:</b><ul><li>programs</li><li>projects</li><li>studies</li><li>cases</li><li>files</li><li>data_size_TB</li></ul><b>A test call can be issued by clicking the TRY button:</b>",
                    "operationId": "getPDCMetrics",
                    "produces": [
                      "application/json"
                    ],
-                   parameters: [{
-                     "name": "acceptDUA",
-                     "in": "path",
-                     "description": "Accept DUA  is no longer required",
-                     "required": false,
-                     "type": "boolean",
-						"defaultValue": true
-                   }],
+                   parameters: [],
                    "responses": {
                      "200": {
                        "description": "successful operation",
@@ -858,23 +837,16 @@ var spec = {
                    }
                  }
                },
-             "?query={dataStatsPerProgram (acceptDUA: {acceptDUA}) {program_id program_submitter_id name project_count study_count data_file_count data_size_TB}}": {
+             "?query={dataStatsPerProgram {program_id program_submitter_id name project_count study_count data_file_count data_size_TB}}": {
                  "get": {
                            "tags": ["General"],
                    "summary": "Gets PDC statistics per program",
-                   "description": "<b>Gets the following PDC statistics.<br><br>Fields:</b><ul><li>program_id</li><li>program_submitter_id</li><li>name</li><li>project_count</li><li>study_count</li><li>data_file_count</li><li>data_size_TB</li></ul>",
+                   "description": "<b>Gets the following PDC statistics.<br><br>Fields:</b><ul><li>program_id</li><li>program_submitter_id</li><li>name</li><li>project_count</li><li>study_count</li><li>data_file_count</li><li>data_size_TB</li></ul><b>A test call can be issued by clicking the TRY button:</b>",
                    "operationId": "dataStatsPerProgram",
                    "produces": [
                      "application/json"
                    ],
-                   parameters: [{
-                     "name": "acceptDUA",
-                     "in": "path",
-                     "description": "Accept DUA  is no longer required",
-                     "required": false,
-                     "type": "boolean",
-						"defaultValue": true
-                   }],
+                   parameters: [],
                    "responses": {
                      "200": {
                        "description": "successful operation",
@@ -960,47 +932,11 @@ var spec = {
                     }
                   }
                 },
-               '?query={ biospecimenPerStudy (study_id: "{study_id}" acceptDUA: {acceptDUA}){ aliquot_id sample_id case_id aliquot_submitter_id sample_submitter_id case_submitter_id aliquot_status case_status sample_status project_name sample_type disease_type primary_site pool taxon externalReferences { external_reference_id reference_resource_shortname reference_resource_name reference_entity_location }} }': {
-                 "get": {
-                           "tags": ["General"],
-                   "summary": "Returns biospecimen details per study",
-                   "description": "<b>Returns biospecimen details per study. This API can also be used with multiple input parameters.<br><br>Fields:</b><ul><li>aliquot_id</li><li>sample_id</li><li>case_id</li><li>aliquot_submitter_id</li><li>sample_submitter_id</li><li>case_submitter_id</li><li>aliquot_status</li><li>case_status</li><li>sample_status</li><li>project_name</li><li>sample_type</li><li>disease_type</li><li>primary_site</li><li>pool</li><li>taxon</li><li>externalReferences { external_reference_id reference_resource_shortname reference_resource_name reference_entity_location }</li></ul>",
-                   "operationId": "biospecimenPerStudy",
-                   "produces": [
-                     "application/json"
-                   ],
-                   "parameters": [{
-                       "name": "study_id",
-                       "in": "path",
-                       "description": "Study ID, example: dbe94609-1fb3-11e9-b7f8-0a80fada099c",
-                       "required": true,
-                       "type": "string"
-                    }, {
-                     "name": "acceptDUA",
-                     "in": "path",
-                     "description": "Accept DUA  is no longer required",
-                     "required": false,
-                     "type": "boolean",
-						"defaultValue": true
-                   }],
-                   "responses": {
-                     "200": {
-                       "description": "successful operation",
-                       "schema": {
-                         "$ref": "#/definitions/biospecimenPerStudy"
-                       }
-                     },
-                     "401": {
-                       "description": "Unauthorized"
-                     }
-                   }
-                 }
-               },
-               '?query={ biospecimenPerStudy (pdc_study_id: "{pdc_study_id}" acceptDUA: {acceptDUA}){ aliquot_id sample_id case_id aliquot_submitter_id sample_submitter_id case_submitter_id aliquot_status case_status sample_status project_name sample_type disease_type primary_site pool taxon externalReferences { external_reference_id reference_resource_shortname reference_resource_name reference_entity_location }} }': {
+               '?query={ biospecimenPerStudy (pdc_study_id: "{pdc_study_id}"){ aliquot_id sample_id case_id aliquot_submitter_id sample_submitter_id case_submitter_id aliquot_status case_status sample_status project_name sample_type disease_type primary_site pool taxon externalReferences { external_reference_id reference_resource_shortname reference_resource_name reference_entity_location }} }': {
                   "get": {
                      "tags": ["General"],
-                    "summary": "Returns biospecimen details for a PDC Study ID",
-                    "description": "<b>Returns biospecimen details per study. This API can also be used with multiple input parameters.<br><br>Fields:</b><ul><li>aliquot_id</li><li>sample_id</li><li>case_id</li><li>aliquot_submitter_id</li><li>sample_submitter_id</li><li>case_submitter_id</li><li>aliquot_status</li><li>case_status</li><li>sample_status</li><li>project_name</li><li>sample_type</li><li>disease_type</li><li>primary_site</li><li>pool</li><li>taxon</li><li>externalReferences { external_reference_id reference_resource_shortname reference_resource_name reference_entity_location }</li></ul>",
+                    "summary": "Returns biospecimen details per study",
+                    "description": "<b>Input Parameters (multiple parameters can be passed in one call):</b><ul><li>study_id (example: 0fe15489-1381-4864-8b17-6159e14a65a8)</li><li>study_submitter_id (example: Broad Institute - Medulloblastoma - Phospho-tyrosine-enrichments)</li><li>pdc_study_id (example: PDC000127)</li></ul><b>Returns biospecimen details per study. <br><br>Fields:</b><ul><li>aliquot_id</li><li>sample_id</li><li>case_id</li><li>aliquot_submitter_id</li><li>sample_submitter_id</li><li>case_submitter_id</li><li>aliquot_status</li><li>case_status</li><li>sample_status</li><li>project_name</li><li>sample_type</li><li>disease_type</li><li>primary_site</li><li>pool</li><li>taxon</li><li>externalReferences { external_reference_id reference_resource_shortname reference_resource_name reference_entity_location }</li></ul><b>A test call can be issued with the following parameter:</b>",
                     "operationId": "biospecimenPerStudy",
                     "produces": [
                       "application/json"
@@ -1011,14 +947,7 @@ var spec = {
                         "description": "PDC Study ID, example: PDC000127",
                         "required": true,
                         "type": "string"
-                     }, {
-                        "name": "acceptDUA",
-                        "in": "path",
-                        "description": "Accept DUA  is no longer required",
-                        "required": false,
-                        "type": "boolean",
-						"defaultValue": true
-                      }],
+                     }],
                     "responses": {
                       "200": {
                         "description": "successful operation",
@@ -1032,83 +961,11 @@ var spec = {
                     }
                   }
                 },
-               '?query={ clinicalPerStudy(study_id: "{study_id}" acceptDUA: {acceptDUA}){ case_id case_submitter_id status disease_type primary_site consent_type days_to_consent ethnicity gender race cause_of_death days_to_birth days_to_death year_of_birth year_of_death age_at_index premature_at_birth weeks_gestation_at_birth age_is_obfuscated cause_of_death_source occupation_duration_years country_of_residence_at_enrollment morphology primary_diagnosis site_of_resection_or_biopsy tissue_or_organ_of_origin tumor_grade tumor_stage icd_10_code synchronous_malignancy tumor_largest_dimension_diameter anaplasia_present anaplasia_present_type child_pugh_classification cog_liver_stage cog_neuroblastoma_risk_group cog_renal_stage cog_rhabdomyosarcoma_risk_group enneking_msts_grade enneking_msts_metastasis enneking_msts_stage enneking_msts_tumor_site esophageal_columnar_dysplasia_degree esophageal_columnar_metaplasia_present first_symptom_prior_to_diagnosis gastric_esophageal_junction_involvement goblet_cells_columnar_mucosa_present gross_tumor_weight inpc_grade inpc_histologic_group inrg_stage inss_stage irs_group irs_stage ishak_fibrosis_score lymph_nodes_tested medulloblastoma_molecular_classification metastasis_at_diagnosis metastasis_at_diagnosis_site mitosis_karyorrhexis_index peripancreatic_lymph_nodes_positive peripancreatic_lymph_nodes_tested supratentorial_localization tumor_confined_to_organ_of_origin tumor_focality tumor_regression_grade vascular_invasion_type wilms_tumor_histologic_subtype breslow_thickness gleason_grade_group igcccg_stage international_prognostic_index largest_extrapelvic_peritoneal_focus masaoka_stage non_nodal_regional_disease non_nodal_tumor_deposits ovarian_specimen_status ovarian_surface_involvement percent_tumor_invasion peritoneal_fluid_cytological_status primary_gleason_grade secondary_gleason_grade weiss_assessment_score adrenal_hormone ann_arbor_b_symptoms_described diagnosis_is_primary_disease eln_risk_classification figo_staging_edition_year gleason_grade_tertiary gleason_patterns_percent margin_distance margins_involved_site pregnant_at_diagnosis satellite_nodule_present sites_of_involvement tumor_depth who_cns_grade who_nte_grade exposures { exposure_id exposure_submitter_id alcohol_days_per_week alcohol_drinks_per_day alcohol_history alcohol_intensity asbestos_exposure cigarettes_per_day coal_dust_exposure environmental_tobacco_smoke_exposure pack_years_smoked radon_exposure respirable_crystalline_silica_exposure smoking_frequency time_between_waking_and_first_smoke tobacco_smoking_onset_year tobacco_smoking_quit_year tobacco_smoking_status type_of_smoke_exposure type_of_tobacco_used years_smoked  age_at_onset, alcohol_type, exposure_duration, exposure_duration_years, exposure_type, marijuana_use_per_week, parent_with_radiation_exposure, secondhand_smoke_as_child, smokeless_tobacco_quit_age, tobacco_use_per_day} follow_ups {follow_up_id, follow_up_submitter_id, adverse_event, barretts_esophagus_goblet_cells_present, bmi, cause_of_response, comorbidity, comorbidity_method_of_diagnosis, days_to_adverse_event, days_to_comorbidity, days_to_follow_up, days_to_progression, days_to_progression_free, days_to_recurrence, diabetes_treatment_type, disease_response, dlco_ref_predictive_percent, ecog_performance_status, fev1_ref_post_bronch_percent, fev1_ref_pre_bronch_percent, fev1_fvc_pre_bronch_percent, fev1_fvc_post_bronch_percent, height, hepatitis_sustained_virological_response, hpv_positive_type, karnofsky_performance_status, menopause_status, pancreatitis_onset_year, progression_or_recurrence, progression_or_recurrence_anatomic_site, progression_or_recurrence_type, reflux_treatment_type, risk_factor, risk_factor_treatment, viral_hepatitis_serologies, weight, adverse_event_grade, aids_risk_factors, body_surface_area, cd4_count, cdc_hiv_risk_factors, days_to_imaging, evidence_of_recurrence_type, eye_color, haart_treatment_indicator, history_of_tumor, history_of_tumor_type, hiv_viral_load, hormonal_contraceptive_type, hormonal_contraceptive_use, hormone_replacement_therapy_type, hysterectomy_margins_involved, hysterectomy_type, imaging_result, imaging_type, immunosuppressive_treatment_type, nadir_cd4_count, pregnancy_outcome, procedures_performed, recist_targeted_regions_number, recist_targeted_regions_sum, scan_tracer_used, undescended_testis_corrected, undescended_testis_corrected_age, undescended_testis_corrected_laterality, undescended_testis_corrected_method, undescended_testis_history, undescended_testis_history_laterality} samples { sample_id sample_submitter_id annotation} externalReferences { external_reference_id reference_resource_shortname reference_resource_name reference_entity_location}} }': {
-                 "get": {
-                           "tags": ["Clinical"],
-                   "summary": "Returns clinical details per study",
-                   "description": "<b>Returns clinical details per study. This API can also be used with multiple input parameters.",
-                   "operationId": "clinicalPerStudy",
-                   "produces": [
-                     "application/json"
-                   ],
-                   "parameters": [{
-                       "name": "study_id",
-                       "in": "path",
-                       "description": "ID of study, example: b93bb1e9-57b8-11e8-b07a-00a098d917f8",
-                       "required": true,
-                       "type": "string"
-                    }, {
-                     "name": "acceptDUA",
-                     "in": "path",
-                     "description": "Accept DUA  is no longer required",
-                     "required": false,
-                     "type": "boolean",
-						"defaultValue": true
-                   }],
-                   "responses": {
-                     "200": {
-                       "description": "successful operation",
-                       "schema": {
-                         "$ref": "#/definitions/clinicalPerStudy"
-                       }
-                     },
-                     "401": {
-                       "description": "Unauthorized"
-                     }
-                   }
-                 }
-               },
-               '?query={ clinicalPerStudy(study_submitter_id: "{study_submitter_id}" acceptDUA: {acceptDUA}){ case_id case_submitter_id status disease_type primary_site consent_type days_to_consent ethnicity gender race cause_of_death days_to_birth days_to_death year_of_birth year_of_death age_at_index premature_at_birth weeks_gestation_at_birth age_is_obfuscated cause_of_death_source occupation_duration_years country_of_residence_at_enrollment morphology primary_diagnosis site_of_resection_or_biopsy tissue_or_organ_of_origin tumor_grade tumor_stage icd_10_code synchronous_malignancy tumor_largest_dimension_diameter anaplasia_present anaplasia_present_type child_pugh_classification cog_liver_stage cog_neuroblastoma_risk_group cog_renal_stage cog_rhabdomyosarcoma_risk_group enneking_msts_grade enneking_msts_metastasis enneking_msts_stage enneking_msts_tumor_site esophageal_columnar_dysplasia_degree esophageal_columnar_metaplasia_present first_symptom_prior_to_diagnosis gastric_esophageal_junction_involvement goblet_cells_columnar_mucosa_present gross_tumor_weight inpc_grade inpc_histologic_group inrg_stage inss_stage irs_group irs_stage ishak_fibrosis_score lymph_nodes_tested medulloblastoma_molecular_classification metastasis_at_diagnosis metastasis_at_diagnosis_site mitosis_karyorrhexis_index peripancreatic_lymph_nodes_positive peripancreatic_lymph_nodes_tested supratentorial_localization tumor_confined_to_organ_of_origin tumor_focality tumor_regression_grade vascular_invasion_type wilms_tumor_histologic_subtype breslow_thickness gleason_grade_group igcccg_stage international_prognostic_index largest_extrapelvic_peritoneal_focus masaoka_stage non_nodal_regional_disease non_nodal_tumor_deposits ovarian_specimen_status ovarian_surface_involvement percent_tumor_invasion peritoneal_fluid_cytological_status primary_gleason_grade secondary_gleason_grade weiss_assessment_score adrenal_hormone ann_arbor_b_symptoms_described diagnosis_is_primary_disease eln_risk_classification figo_staging_edition_year gleason_grade_tertiary gleason_patterns_percent margin_distance margins_involved_site pregnant_at_diagnosis satellite_nodule_present sites_of_involvement tumor_depth who_cns_grade who_nte_grade exposures { exposure_id exposure_submitter_id alcohol_days_per_week alcohol_drinks_per_day alcohol_history alcohol_intensity asbestos_exposure cigarettes_per_day coal_dust_exposure environmental_tobacco_smoke_exposure pack_years_smoked radon_exposure respirable_crystalline_silica_exposure smoking_frequency time_between_waking_and_first_smoke tobacco_smoking_onset_year tobacco_smoking_quit_year tobacco_smoking_status type_of_smoke_exposure type_of_tobacco_used years_smoked  age_at_onset, alcohol_type, exposure_duration, exposure_duration_years, exposure_type, marijuana_use_per_week, parent_with_radiation_exposure, secondhand_smoke_as_child, smokeless_tobacco_quit_age, tobacco_use_per_day} follow_ups {follow_up_id, follow_up_submitter_id, adverse_event, barretts_esophagus_goblet_cells_present, bmi, cause_of_response, comorbidity, comorbidity_method_of_diagnosis, days_to_adverse_event, days_to_comorbidity, days_to_follow_up, days_to_progression, days_to_progression_free, days_to_recurrence, diabetes_treatment_type, disease_response, dlco_ref_predictive_percent, ecog_performance_status, fev1_ref_post_bronch_percent, fev1_ref_pre_bronch_percent, fev1_fvc_pre_bronch_percent, fev1_fvc_post_bronch_percent, height, hepatitis_sustained_virological_response, hpv_positive_type, karnofsky_performance_status, menopause_status, pancreatitis_onset_year, progression_or_recurrence, progression_or_recurrence_anatomic_site, progression_or_recurrence_type, reflux_treatment_type, risk_factor, risk_factor_treatment, viral_hepatitis_serologies, weight, adverse_event_grade, aids_risk_factors, body_surface_area, cd4_count, cdc_hiv_risk_factors, days_to_imaging, evidence_of_recurrence_type, eye_color, haart_treatment_indicator, history_of_tumor, history_of_tumor_type, hiv_viral_load, hormonal_contraceptive_type, hormonal_contraceptive_use, hormone_replacement_therapy_type, hysterectomy_margins_involved, hysterectomy_type, imaging_result, imaging_type, immunosuppressive_treatment_type, nadir_cd4_count, pregnancy_outcome, procedures_performed, recist_targeted_regions_number, recist_targeted_regions_sum, scan_tracer_used, undescended_testis_corrected, undescended_testis_corrected_age, undescended_testis_corrected_laterality, undescended_testis_corrected_method, undescended_testis_history, undescended_testis_history_laterality} samples { sample_id sample_submitter_id annotation} externalReferences { external_reference_id reference_resource_shortname reference_resource_name reference_entity_location}} }': {
-                 "get": {
-                           "tags": ["Clinical"],
-                   "summary": "Returns clinical details per study",
-                   "description": "<b>Returns clinical details per study. This API can also be used with multiple input parameters.",
-                   "operationId": "clinicalPerStudy",
-                   "produces": [
-                     "application/json"
-                   ],
-                   "parameters": [{
-                       "name": "study_submitter_id",
-                       "in": "path",
-                       "description": "Submitter ID of study, example: TCGA BRCA Phosphoproteome S015-2",
-                       "required": true,
-                       "type": "string"
-                    }, {
-                     "name": "acceptDUA",
-                     "in": "path",
-                     "description": "Accept DUA  is no longer required",
-                     "required": false,
-                     "type": "boolean",
-						"defaultValue": true
-                   }],
-                   "responses": {
-                     "200": {
-                       "description": "successful operation",
-                       "schema": {
-                         "$ref": "#/definitions/clinicalPerStudy"
-                       }
-                     },
-                     "401": {
-                       "description": "Unauthorized"
-                     }
-                   }
-                 }
-               },
-               '?query={ clinicalPerStudy(pdc_study_id: "{pdc_study_id}" acceptDUA: {acceptDUA}){ case_id case_submitter_id status disease_type primary_site consent_type days_to_consent ethnicity gender race cause_of_death days_to_birth days_to_death year_of_birth year_of_death age_at_index premature_at_birth weeks_gestation_at_birth age_is_obfuscated cause_of_death_source occupation_duration_years country_of_residence_at_enrollment morphology primary_diagnosis site_of_resection_or_biopsy tissue_or_organ_of_origin tumor_grade tumor_stage icd_10_code synchronous_malignancy tumor_largest_dimension_diameter anaplasia_present anaplasia_present_type child_pugh_classification cog_liver_stage cog_neuroblastoma_risk_group cog_renal_stage cog_rhabdomyosarcoma_risk_group enneking_msts_grade enneking_msts_metastasis enneking_msts_stage enneking_msts_tumor_site esophageal_columnar_dysplasia_degree esophageal_columnar_metaplasia_present first_symptom_prior_to_diagnosis gastric_esophageal_junction_involvement goblet_cells_columnar_mucosa_present gross_tumor_weight inpc_grade inpc_histologic_group inrg_stage inss_stage irs_group irs_stage ishak_fibrosis_score lymph_nodes_tested medulloblastoma_molecular_classification metastasis_at_diagnosis metastasis_at_diagnosis_site mitosis_karyorrhexis_index peripancreatic_lymph_nodes_positive peripancreatic_lymph_nodes_tested supratentorial_localization tumor_confined_to_organ_of_origin tumor_focality tumor_regression_grade vascular_invasion_type wilms_tumor_histologic_subtype breslow_thickness gleason_grade_group igcccg_stage international_prognostic_index largest_extrapelvic_peritoneal_focus masaoka_stage non_nodal_regional_disease non_nodal_tumor_deposits ovarian_specimen_status ovarian_surface_involvement percent_tumor_invasion peritoneal_fluid_cytological_status primary_gleason_grade secondary_gleason_grade weiss_assessment_score adrenal_hormone ann_arbor_b_symptoms_described diagnosis_is_primary_disease eln_risk_classification figo_staging_edition_year gleason_grade_tertiary gleason_patterns_percent margin_distance margins_involved_site pregnant_at_diagnosis satellite_nodule_present sites_of_involvement tumor_depth who_cns_grade who_nte_grade exposures { exposure_id exposure_submitter_id alcohol_days_per_week alcohol_drinks_per_day alcohol_history alcohol_intensity asbestos_exposure cigarettes_per_day coal_dust_exposure environmental_tobacco_smoke_exposure pack_years_smoked radon_exposure respirable_crystalline_silica_exposure smoking_frequency time_between_waking_and_first_smoke tobacco_smoking_onset_year tobacco_smoking_quit_year tobacco_smoking_status type_of_smoke_exposure type_of_tobacco_used years_smoked  age_at_onset, alcohol_type, exposure_duration, exposure_duration_years, exposure_type, marijuana_use_per_week, parent_with_radiation_exposure, secondhand_smoke_as_child, smokeless_tobacco_quit_age, tobacco_use_per_day} follow_ups {follow_up_id, follow_up_submitter_id, adverse_event, barretts_esophagus_goblet_cells_present, bmi, cause_of_response, comorbidity, comorbidity_method_of_diagnosis, days_to_adverse_event, days_to_comorbidity, days_to_follow_up, days_to_progression, days_to_progression_free, days_to_recurrence, diabetes_treatment_type, disease_response, dlco_ref_predictive_percent, ecog_performance_status, fev1_ref_post_bronch_percent, fev1_ref_pre_bronch_percent, fev1_fvc_pre_bronch_percent, fev1_fvc_post_bronch_percent, height, hepatitis_sustained_virological_response, hpv_positive_type, karnofsky_performance_status, menopause_status, pancreatitis_onset_year, progression_or_recurrence, progression_or_recurrence_anatomic_site, progression_or_recurrence_type, reflux_treatment_type, risk_factor, risk_factor_treatment, viral_hepatitis_serologies, weight, adverse_event_grade, aids_risk_factors, body_surface_area, cd4_count, cdc_hiv_risk_factors, days_to_imaging, evidence_of_recurrence_type, eye_color, haart_treatment_indicator, history_of_tumor, history_of_tumor_type, hiv_viral_load, hormonal_contraceptive_type, hormonal_contraceptive_use, hormone_replacement_therapy_type, hysterectomy_margins_involved, hysterectomy_type, imaging_result, imaging_type, immunosuppressive_treatment_type, nadir_cd4_count, pregnancy_outcome, procedures_performed, recist_targeted_regions_number, recist_targeted_regions_sum, scan_tracer_used, undescended_testis_corrected, undescended_testis_corrected_age, undescended_testis_corrected_laterality, undescended_testis_corrected_method, undescended_testis_history, undescended_testis_history_laterality} samples { sample_id sample_submitter_id annotation} externalReferences { external_reference_id reference_resource_shortname reference_resource_name reference_entity_location}} }': {
+               '?query={ clinicalPerStudy(pdc_study_id: "{pdc_study_id}"){ case_id case_submitter_id status disease_type primary_site consent_type days_to_consent ethnicity gender race cause_of_death days_to_birth days_to_death year_of_birth year_of_death age_at_index premature_at_birth weeks_gestation_at_birth age_is_obfuscated cause_of_death_source occupation_duration_years country_of_residence_at_enrollment morphology primary_diagnosis site_of_resection_or_biopsy tissue_or_organ_of_origin tumor_grade tumor_stage icd_10_code synchronous_malignancy tumor_largest_dimension_diameter anaplasia_present anaplasia_present_type child_pugh_classification cog_liver_stage cog_neuroblastoma_risk_group cog_renal_stage cog_rhabdomyosarcoma_risk_group enneking_msts_grade enneking_msts_metastasis enneking_msts_stage enneking_msts_tumor_site esophageal_columnar_dysplasia_degree esophageal_columnar_metaplasia_present first_symptom_prior_to_diagnosis gastric_esophageal_junction_involvement goblet_cells_columnar_mucosa_present gross_tumor_weight inpc_grade inpc_histologic_group inrg_stage inss_stage irs_group irs_stage ishak_fibrosis_score lymph_nodes_tested medulloblastoma_molecular_classification metastasis_at_diagnosis metastasis_at_diagnosis_site mitosis_karyorrhexis_index peripancreatic_lymph_nodes_positive peripancreatic_lymph_nodes_tested supratentorial_localization tumor_confined_to_organ_of_origin tumor_focality tumor_regression_grade vascular_invasion_type wilms_tumor_histologic_subtype breslow_thickness gleason_grade_group igcccg_stage international_prognostic_index largest_extrapelvic_peritoneal_focus masaoka_stage non_nodal_regional_disease non_nodal_tumor_deposits ovarian_specimen_status ovarian_surface_involvement percent_tumor_invasion peritoneal_fluid_cytological_status primary_gleason_grade secondary_gleason_grade weiss_assessment_score adrenal_hormone ann_arbor_b_symptoms_described diagnosis_is_primary_disease eln_risk_classification figo_staging_edition_year gleason_grade_tertiary gleason_patterns_percent margin_distance margins_involved_site pregnant_at_diagnosis satellite_nodule_present sites_of_involvement tumor_depth who_cns_grade who_nte_grade exposures { exposure_id exposure_submitter_id alcohol_days_per_week alcohol_drinks_per_day alcohol_history alcohol_intensity asbestos_exposure cigarettes_per_day coal_dust_exposure environmental_tobacco_smoke_exposure pack_years_smoked radon_exposure respirable_crystalline_silica_exposure smoking_frequency time_between_waking_and_first_smoke tobacco_smoking_onset_year tobacco_smoking_quit_year tobacco_smoking_status type_of_smoke_exposure type_of_tobacco_used years_smoked  age_at_onset, alcohol_type, exposure_duration, exposure_duration_years, exposure_type, marijuana_use_per_week, parent_with_radiation_exposure, secondhand_smoke_as_child, smokeless_tobacco_quit_age, tobacco_use_per_day} follow_ups {follow_up_id, follow_up_submitter_id, adverse_event, barretts_esophagus_goblet_cells_present, bmi, cause_of_response, comorbidity, comorbidity_method_of_diagnosis, days_to_adverse_event, days_to_comorbidity, days_to_follow_up, days_to_progression, days_to_progression_free, days_to_recurrence, diabetes_treatment_type, disease_response, dlco_ref_predictive_percent, ecog_performance_status, fev1_ref_post_bronch_percent, fev1_ref_pre_bronch_percent, fev1_fvc_pre_bronch_percent, fev1_fvc_post_bronch_percent, height, hepatitis_sustained_virological_response, hpv_positive_type, karnofsky_performance_status, menopause_status, pancreatitis_onset_year, progression_or_recurrence, progression_or_recurrence_anatomic_site, progression_or_recurrence_type, reflux_treatment_type, risk_factor, risk_factor_treatment, viral_hepatitis_serologies, weight, adverse_event_grade, aids_risk_factors, body_surface_area, cd4_count, cdc_hiv_risk_factors, days_to_imaging, evidence_of_recurrence_type, eye_color, haart_treatment_indicator, history_of_tumor, history_of_tumor_type, hiv_viral_load, hormonal_contraceptive_type, hormonal_contraceptive_use, hormone_replacement_therapy_type, hysterectomy_margins_involved, hysterectomy_type, imaging_result, imaging_type, immunosuppressive_treatment_type, nadir_cd4_count, pregnancy_outcome, procedures_performed, recist_targeted_regions_number, recist_targeted_regions_sum, scan_tracer_used, undescended_testis_corrected, undescended_testis_corrected_age, undescended_testis_corrected_laterality, undescended_testis_corrected_method, undescended_testis_history, undescended_testis_history_laterality} samples { sample_id sample_submitter_id annotation} externalReferences { external_reference_id reference_resource_shortname reference_resource_name reference_entity_location}} }': {
                   "get": {
                             "tags": ["Clinical"],
-                    "summary": "Returns clinical details for PDC Study ID",
-                    "description": "<b>Returns clinical details per study. This API can also be used with multiple input parameters.",
+                    "summary": "Returns clinical details per study",
+                    "description": "<b>Input Parameters (multiple parameters can be passed in one call):</b><ul><li>study_id (example: 0fe15489-1381-4864-8b17-6159e14a65a8)</li><li>study_submitter_id (example: Broad Institute - Medulloblastoma - Phospho-tyrosine-enrichments)</li><li>pdc_study_id (example: PDC000127)</li></ul><b>Returns clinical details per study.<br><br>A test call can be issued with the following parameter:</b>",
                     "operationId": "clinicalPerStudy",
                     "produces": [
                       "application/json"
@@ -1119,13 +976,6 @@ var spec = {
                         "description": "PDC Study ID of study, example: PDC000174",
                         "required": true,
                         "type": "string"
-                     }, {
-                        "name": "acceptDUA",
-                        "in": "path",
-                        "description": "Accept DUA  is no longer required",
-                        "required": false,
-                        "type": "boolean",
-						"defaultValue": true
                      }],
                     "responses": {
                       "200": {
@@ -1140,83 +990,11 @@ var spec = {
                     }
                   }
                 },
-                '?query={ protocolPerStudy(study_id: "{study_id}" acceptDUA: {acceptDUA}){protocol_id protocol_submitter_id study_id pdc_study_id study_submitter_id program_id program_submitter_id protocol_name protocol_date document_name quantitation_strategy experiment_type label_free_quantitation labeled_quantitation isobaric_labeling_reagent reporter_ion_ms_level starting_amount starting_amount_uom digestion_reagent alkylation_reagent enrichment_strategy enrichment chromatography_dimensions_count one_d_chromatography_type two_d_chromatography_type fractions_analyzed_count column_type amount_on_column amount_on_column_uom column_length column_length_uom column_inner_diameter column_inner_diameter_uom particle_size particle_size_uom particle_type gradient_length gradient_length_uom instrument_make instrument_model dissociation_type ms1_resolution ms2_resolution dda_topn normalized_collision_energy acquistion_type dia_multiplexing dia_ims analytical_technique chromatography_instrument_make chromatography_instrument_model polarity reconstitution_solvent reconstitution_volume reconstitution_volume_uom internal_standards extraction_method ionization_mode} }': {
-                  "get": {
-                            "tags": ["General"],
-                    "summary": "Gets all protocols for Study ID",
-                    "description": "<b>Gets all protocols per study. This API can also be used with multiple input parameters.<br><br>Fields:</b><ul><li>protocol_id</li><li>protocol_submitter_id</li><li>study_id</li><li>pdc_study_id</li><li>study_submitter_id</li><li>program_id</li><li>program_submitter_id</li><li>protocol_name</li><li>protocol_date</li><li>document_name</li><li>quantitation_strategy</li><li>experiment_type</li><li>label_free_quantitation</li><li>labeled_quantitation</li><li>isobaric_labeling_reagent</li><li>reporter_ion_ms_level</li><li>starting_amount</li><li>starting_amount_uom</li><li>digestion_reagent</li><li>alkylation_reagent</li><li>enrichment_strategy</li><li>enrichment</li><li>chromatography_dimensions_count</li><li>one_d_chromatography_type</li><li>two_d_chromatography_type</li><li>fractions_analyzed_count</li><li>column_type</li><li>amount_on_column</li><li>amount_on_column_uom</li><li>column_length</li><li>column_length_uom</li><li>column_inner_diameter</li><li>column_inner_diameter_uom</li><li>particle_size</li><li>particle_size_uom</li><li>particle_type</li><li>gradient_length</li><li>gradient_length_uom</li><li>instrument_make</li><li>instrument_model</li><li>dissociation_type</li><li>ms1_resolution</li><li>ms2_resolution</li><li>dda_topn</li><li>normalized_collision_energy</li><li>acquistion_type</li><li>dia_multiplexing</li><li>dia_ims</li><li>analytical_technique</li><li>chromatography_instrument_make</li><li>chromatography_instrument_model</li><li>polarity</li><li>reconstitution_solvent</li><li>reconstitution_volume</li><li>reconstitution_volume_uom</li><li>internal_standards</li><li>extraction_method</li><li>ionization_mode</li></ul>",
-                    "operationId": "protocolPerStudy",
-                    "produces": [
-                      "application/json"
-                    ],
-                    "parameters": [{
-                        "name": "study_id",
-                        "in": "path",
-                        "description": "Study ID, example: b93bb1e9-57b8-11e8-b07a-00a098d917f8",
-                        "required": true,
-                        "type": "string"
-                     }, {
-                        "name": "acceptDUA",
-                        "in": "path",
-                        "description": "Accept DUA  is no longer required",
-                        "required": false,
-                        "type": "boolean",
-						"defaultValue": true
-                      }],
-                    "responses": {
-                      "200": {
-                        "description": "successful operation",
-                        "schema": {
-                          "$ref": "#/definitions/protocolPerStudy"
-                        }
-                      },
-                      "401": {
-                        "description": "Unauthorized"
-                      }
-                    }
-                  }
-                },
-                '?query={ protocolPerStudy(pdc_study_id: "{pdc_study_id}" acceptDUA: {acceptDUA}){protocol_id protocol_submitter_id study_id pdc_study_id study_submitter_id program_id program_submitter_id protocol_name protocol_date document_name quantitation_strategy experiment_type label_free_quantitation labeled_quantitation isobaric_labeling_reagent reporter_ion_ms_level starting_amount starting_amount_uom digestion_reagent alkylation_reagent enrichment_strategy enrichment chromatography_dimensions_count one_d_chromatography_type two_d_chromatography_type fractions_analyzed_count column_type amount_on_column amount_on_column_uom column_length column_length_uom column_inner_diameter column_inner_diameter_uom particle_size particle_size_uom particle_type gradient_length gradient_length_uom instrument_make instrument_model dissociation_type ms1_resolution ms2_resolution dda_topn normalized_collision_energy acquistion_type dia_multiplexing dia_ims analytical_technique chromatography_instrument_make chromatography_instrument_model polarity reconstitution_solvent reconstitution_volume reconstitution_volume_uom internal_standards extraction_method ionization_mode } }': {
-                  "get": {
-                            "tags": ["General"],
-                    "summary": "Gets all protocols for PDC Study ID",
-                    "description": "<b>Gets all protocols per study. This API can also be used with multiple input parameters.<br><br>Fields:</b><ul><li>protocol_id</li><li>protocol_submitter_id</li><li>study_id</li><li>pdc_study_id</li><li>study_submitter_id</li><li>program_id</li><li>program_submitter_id</li><li>protocol_name</li><li>protocol_date</li><li>document_name</li><li>quantitation_strategy</li><li>experiment_type</li><li>label_free_quantitation</li><li>labeled_quantitation</li><li>isobaric_labeling_reagent</li><li>reporter_ion_ms_level</li><li>starting_amount</li><li>starting_amount_uom</li><li>digestion_reagent</li><li>alkylation_reagent</li><li>enrichment_strategy</li><li>enrichment</li><li>chromatography_dimensions_count</li><li>one_d_chromatography_type</li><li>two_d_chromatography_type</li><li>fractions_analyzed_count</li><li>column_type</li><li>amount_on_column</li><li>amount_on_column_uom</li><li>column_length</li><li>column_length_uom</li><li>column_inner_diameter</li><li>column_inner_diameter_uom</li><li>particle_size</li><li>particle_size_uom</li><li>particle_type</li><li>gradient_length</li><li>gradient_length_uom</li><li>instrument_make</li><li>instrument_model</li><li>dissociation_type</li><li>ms1_resolution</li><li>ms2_resolution</li><li>dda_topn</li><li>normalized_collision_energy</li><li>acquistion_type</li><li>dia_multiplexing</li><li>dia_ims</li><li>analytical_technique</li><li>chromatography_instrument_make</li><li>chromatography_instrument_model</li><li>polarity</li><li>reconstitution_solvent</li><li>reconstitution_volume</li><li>reconstitution_volume_uom</li><li>internal_standards</li><li>extraction_method</li><li>ionization_mode</li></ul>",
-                    "operationId": "protocolPerStudy",
-                    "produces": [
-                      "application/json"
-                    ],
-                    "parameters": [{
-                        "name": "pdc_study_id",
-                        "in": "path",
-                        "description": "PDC Study id of study, example: PDC000174",
-                        "required": true,
-                        "type": "string"
-                     }, {
-                        "name": "acceptDUA",
-                        "in": "path",
-                        "description": "Accept DUA  is no longer required",
-                        "required": false,
-                        "type": "boolean",
-						"defaultValue": true
-                      }],
-                    "responses": {
-                      "200": {
-                        "description": "successful operation",
-                        "schema": {
-                          "$ref": "#/definitions/protocolPerStudy"
-                        }
-                      },
-                      "401": {
-                        "description": "Unauthorized"
-                      }
-                    }
-                  }
-                },
-               '?query={ protocolPerStudy(study_submitter_id: "{study_submitter_id}" acceptDUA: {acceptDUA}){ protocol_id protocol_submitter_id study_id pdc_study_id study_submitter_id program_id program_submitter_id protocol_name protocol_date document_name quantitation_strategy experiment_type label_free_quantitation labeled_quantitation isobaric_labeling_reagent reporter_ion_ms_level starting_amount starting_amount_uom digestion_reagent alkylation_reagent enrichment_strategy enrichment chromatography_dimensions_count one_d_chromatography_type two_d_chromatography_type fractions_analyzed_count column_type amount_on_column amount_on_column_uom column_length column_length_uom column_inner_diameter column_inner_diameter_uom particle_size particle_size_uom particle_type gradient_length gradient_length_uom instrument_make instrument_model dissociation_type ms1_resolution ms2_resolution dda_topn normalized_collision_energy acquistion_type dia_multiplexing dia_ims analytical_technique chromatography_instrument_make chromatography_instrument_model polarity reconstitution_solvent reconstitution_volume reconstitution_volume_uom internal_standards extraction_method ionization_mode } }': {
+               '?query={ protocolPerStudy(study_submitter_id: "{study_submitter_id}"){ protocol_id protocol_submitter_id study_id pdc_study_id study_submitter_id program_id program_submitter_id protocol_name protocol_date document_name quantitation_strategy experiment_type label_free_quantitation labeled_quantitation isobaric_labeling_reagent reporter_ion_ms_level starting_amount starting_amount_uom digestion_reagent alkylation_reagent enrichment_strategy enrichment chromatography_dimensions_count one_d_chromatography_type two_d_chromatography_type fractions_analyzed_count column_type amount_on_column amount_on_column_uom column_length column_length_uom column_inner_diameter column_inner_diameter_uom particle_size particle_size_uom particle_type gradient_length gradient_length_uom instrument_make instrument_model dissociation_type ms1_resolution ms2_resolution dda_topn normalized_collision_energy acquistion_type dia_multiplexing dia_ims analytical_technique chromatography_instrument_make chromatography_instrument_model polarity reconstitution_solvent reconstitution_volume reconstitution_volume_uom internal_standards extraction_method ionization_mode } }': {
                  "get": {
                            "tags": ["General"],
-                   "summary": "Gets all protocols per Study",
-                   "description": "<b>Gets all protocols per study. This API can also be used with multiple input parameters.<br><br>Fields:</b><ul><li>protocol_id</li><li>protocol_submitter_id</li><li>study_id</li><li>pdc_study_id</li><li>study_submitter_id</li><li>program_id</li><li>program_submitter_id</li><li>protocol_name</li><li>protocol_date</li><li>document_name</li><li>quantitation_strategy</li><li>experiment_type</li><li>label_free_quantitation</li><li>labeled_quantitation</li><li>isobaric_labeling_reagent</li><li>reporter_ion_ms_level</li><li>starting_amount</li><li>starting_amount_uom</li><li>digestion_reagent</li><li>alkylation_reagent</li><li>enrichment_strategy</li><li>enrichment</li><li>chromatography_dimensions_count</li><li>one_d_chromatography_type</li><li>two_d_chromatography_type</li><li>fractions_analyzed_count</li><li>column_type</li><li>amount_on_column</li><li>amount_on_column_uom</li><li>column_length</li><li>column_length_uom</li><li>column_inner_diameter</li><li>column_inner_diameter_uom</li><li>particle_size</li><li>particle_size_uom</li><li>particle_type</li><li>gradient_length</li><li>gradient_length_uom</li><li>instrument_make</li><li>instrument_model</li><li>dissociation_type</li><li>ms1_resolution</li><li>ms2_resolution</li><li>dda_topn</li><li>normalized_collision_energy</li><li>acquistion_type</li><li>dia_multiplexing</li><li>dia_ims</li><li>analytical_technique</li><li>chromatography_instrument_make</li><li>chromatography_instrument_model</li><li>polarity</li><li>reconstitution_solvent</li><li>reconstitution_volume</li><li>reconstitution_volume_uom</li><li>internal_standards</li><li>extraction_method</li><li>ionization_mode</li></ul>",
+                   "summary": "Gets protocols per Study",
+                   "description": "<b>Input Parameters (multiple parameters can be passed in one call):</b><ul><li>study_id (example: 0fe15489-1381-4864-8b17-6159e14a65a8)</li><li>study_submitter_id (example: Broad Institute - Medulloblastoma - Phospho-tyrosine-enrichments)</li><li>pdc_study_id (example: PDC000127)</li></ul><b>Gets protocols per study. <br><br>Fields:</b><ul><li>protocol_id</li><li>protocol_submitter_id</li><li>study_id</li><li>pdc_study_id</li><li>study_submitter_id</li><li>program_id</li><li>program_submitter_id</li><li>protocol_name</li><li>protocol_date</li><li>document_name</li><li>quantitation_strategy</li><li>experiment_type</li><li>label_free_quantitation</li><li>labeled_quantitation</li><li>isobaric_labeling_reagent</li><li>reporter_ion_ms_level</li><li>starting_amount</li><li>starting_amount_uom</li><li>digestion_reagent</li><li>alkylation_reagent</li><li>enrichment_strategy</li><li>enrichment</li><li>chromatography_dimensions_count</li><li>one_d_chromatography_type</li><li>two_d_chromatography_type</li><li>fractions_analyzed_count</li><li>column_type</li><li>amount_on_column</li><li>amount_on_column_uom</li><li>column_length</li><li>column_length_uom</li><li>column_inner_diameter</li><li>column_inner_diameter_uom</li><li>particle_size</li><li>particle_size_uom</li><li>particle_type</li><li>gradient_length</li><li>gradient_length_uom</li><li>instrument_make</li><li>instrument_model</li><li>dissociation_type</li><li>ms1_resolution</li><li>ms2_resolution</li><li>dda_topn</li><li>normalized_collision_energy</li><li>acquistion_type</li><li>dia_multiplexing</li><li>dia_ims</li><li>analytical_technique</li><li>chromatography_instrument_make</li><li>chromatography_instrument_model</li><li>polarity</li><li>reconstitution_solvent</li><li>reconstitution_volume</li><li>reconstitution_volume_uom</li><li>internal_standards</li><li>extraction_method</li><li>ionization_mode</li></ul><b>A test call can be issued with the following parameter:</b>",
                    "operationId": "protocolPerStudy",
                    "produces": [
                      "application/json"
@@ -1227,14 +1005,7 @@ var spec = {
                        "description": "Submitter id of study, example: TCGA BRCA Phosphoproteome S015-2",
                        "required": true,
                        "type": "string"
-                    }, {
-                     "name": "acceptDUA",
-                     "in": "path",
-                     "description": "Accept DUA  is no longer required",
-                     "required": false,
-                     "type": "boolean",
-						"defaultValue": true
-                   }],
+                    }],
                    "responses": {
                      "200": {
                        "description": "successful operation",
@@ -1562,11 +1333,11 @@ var spec = {
                    }
                  }
                    },
-               '?query={protein(protein: "{protein}" acceptDUA: {acceptDUA}){gene_name NCBI_gene_id authority description organism chromosome locus proteins assays spectral_counts {project_id project_submitter_id plex spectral_count distinct_peptide unshared_peptide study_id study_submitter_id pdc_study_id}}}': {
+               '?query={protein(protein: "{protein}"){gene_name NCBI_gene_id authority description organism chromosome locus proteins assays spectral_counts {project_id project_submitter_id plex spectral_count distinct_peptide unshared_peptide study_id study_submitter_id pdc_study_id}}}': {
                  "get": {
                            "tags": ["Quantitative"],
                    "summary": "Get spectral counts and plex in available projects for a protein",
-                   "description": "<b>Returns spectral counts of available projects for gene to which the protein ID (Uniprot or Refseq) is mapped.<br><br>Fields:</b><ul><li>gene_name</li><li>NCBI_gene_id</li><li>authority</li><li>description</li><li>organism</li><li>chromosome</li><li>locus</li><li>proteins</li><li>assays</li><li>spectral_counts</li></ul>",
+                   "description": "<b>Input Parameter:</b><ul><li>protein (example: M0R009)</li></ul><b>Returns spectral counts of available projects for gene to which the protein ID (Uniprot or Refseq) is mapped.<br><br>Fields:</b><ul><li>gene_name</li><li>NCBI_gene_id</li><li>authority</li><li>description</li><li>organism</li><li>chromosome</li><li>locus</li><li>proteins</li><li>assays</li><li>spectral_counts</li></ul><b>A test call can be issued with the following parameter (it may return slowly, especially the first time, due to the data volume):</b>",
                    "operationId": "protein",
                    "produces": [
                      "application/json"
@@ -1577,14 +1348,7 @@ var spec = {
                        "description": "Name of protein to return, example: M0R009",
                        "required": true,
                        "type": "string"
-                     }, {
-                        "name": "acceptDUA",
-                        "in": "path",
-                        "description": "Accept DUA  is no longer required",
-                        "required": false,
-                        "type": "boolean",
-						"defaultValue": true
-                      }
+                     }
                    ],
                    "responses": {
                      "200": {
@@ -1599,11 +1363,11 @@ var spec = {
                    }
                  }
                    },
-                '?query={ pdcEntityReference(entity_type:"{entity_type}", entity_id: "{entity_id}", reference_type: "{reference_type}", acceptDUA: {acceptDUA}) { reference_id entity_type entity_id reference_type reference_entity_type reference_entity_alias reference_resource_name reference_resource_shortname reference_entity_location } }': {
+                '?query={ pdcEntityReference(entity_type:"{entity_type}", entity_id: "{entity_id}", reference_type: "{reference_type}") { reference_id entity_type entity_id reference_type reference_entity_type reference_entity_alias reference_resource_name reference_resource_shortname reference_entity_location } }': {
                   "get": {
                     "tags": ["General"],
                     "summary": "Find Entity References for a Study/Case",
-                    "description": "<b>Returns details of a study<br><br>Fields:</b><ul><li>pdcEntityReference</li></ul>",
+                    "description": "<b>Input Parameters (multiple parameters can be passed in one call):</b><ul><li>entity_type (example: study/case)</li><li>entity_id (must be the id of an object of the entity_type entered. example: dbe94609-1fb3-11e9-b7f8-0a80fada099c)</li><li>reference_type (example: internal/external)</li></ul><b>Returns details of a study<br><br>Fields:</b><ul><li>pdcEntityReference</li></ul><b>A test call can be issued with the following parameters:</b>",
                     "operationId": "pdcEntityReference",
                     "produces": [
                       "application/json"
@@ -1611,29 +1375,22 @@ var spec = {
                     "parameters": [{
                         "name": "entity_type",
                         "in": "path",
-                        "description": "Entity type, example: study/case",
+                        "description": "Entity type, example: study",
                         "required": true,
                         "type": "string"
                       }, {
                         "name": "entity_id",
                         "in": "path",
-                        "description": "Entity ID: Study/Case ID, example: Study ID:dbe94609-1fb3-11e9-b7f8-0a80fada099c/Case ID:a023e964-118a-11e9-afb9-0a9c39d33490",
+                        "description": "Entity ID, example: dbe94609-1fb3-11e9-b7f8-0a80fada099c",
                         "required": true,
                         "type": "string"
                       }, {
                         "name": "reference_type",
                         "in": "path",
-                        "description": "Reference type, example: external/internal",
+                        "description": "Reference type, example: internal",
                         "required": true,
                         "type": "string"
-                      } , {
-                        "name": "acceptDUA",
-                        "in": "path",
-                        "description": "Accept DUA  is no longer required",
-                        "required": false,
-                        "type": "boolean",
-						"defaultValue": true
-                      }                        
+                      }              
                     ],
                     "responses": {
                       "200": {
@@ -1648,11 +1405,11 @@ var spec = {
                     }
                   }
                 },
-                '?query={ reference(entity_type:"{entity_type}", entity_id: "{entity_id}", reference_type: "{reference_type}", acceptDUA: {acceptDUA}) { reference_id entity_type entity_id reference_type reference_entity_type reference_entity_alias reference_resource_name reference_resource_shortname reference_entity_location } }': {
+                '?query={ reference(entity_type:"{entity_type}", entity_id: "{entity_id}", reference_type: "{reference_type}") { reference_id entity_type entity_id reference_type reference_entity_type reference_entity_alias reference_resource_name reference_resource_shortname reference_entity_location } }': {
                   "get": {
                     "tags": ["General"],
                     "summary": "Find Entity References",
-                    "description": "<b>Returns details of a study<br><br>Fields:</b><ul><li>reference</li></ul>",
+                    "description": "<b>Input Parameters (multiple parameters can be passed in one call):</b><ul><li>entity_type (example: diagnosis)</li><li>entity_id (must be the id of an object of the entity_type entered. example: d0913803-ff5e-11e9-9a07-0a80fada099c)</li><li>reference_type (example: internal)</li></ul><b>Returns details of an entity  reference<br><br>Fields:</b><ul><li>reference</li></ul><b>A test call can be issued with the following parameters:</b>",
                     "operationId": "reference",
                     "produces": [
                       "application/json"
@@ -1674,14 +1431,7 @@ var spec = {
                         "in": "path",
                         "description": "Reference type, example: internal",
                         "type": "string"
-                      } , {
-                        "name": "acceptDUA",
-                        "in": "path",
-                        "description": "Accept DUA  is no longer required",
-                        "required": false,
-                        "type": "boolean",
-						"defaultValue": true
-                      }                        
+                      }                   
                     ],
                     "responses": {
                       "200": {
@@ -1696,84 +1446,34 @@ var spec = {
                     }
                   }
                 },
-                '?query={ getPaginatedGenes(offset: {offset} limit: {limit} acceptDUA: {acceptDUA}) { total genesProper { gene_id gene_name NCBI_gene_id authority description organism chromosome locus proteins assays } pagination { count sort from page total pages size } } }': {
+                '?query={ getPaginatedGenes(gene_name: "{gene_name}", offset: {offset}, limit: {limit}) { total genesProper { gene_id gene_name NCBI_gene_id authority description organism chromosome locus proteins assays } pagination { count sort from page total pages size } } }': {
                   "get": {
                     "tags": ["Gene"],
                     "summary": "Get paginated gene records",
-                    "description": "<b>Returns a list of genes and a pagination record. This API can also be used with multiple input parameters.<br/><br/>Fields:</b><ul><li>total</li><li>genesProper</li><li>pagination</li></ul>",
+                    "description": "<b>Input Parameters (multiple parameters can be passed in one call):</b><ul><li>gene_name (example: A1BG)</li><li>offset (example: 0)</li><li>limit (example: 10)</li></ul><b>Returns a list of genes and a pagination record<br/><br/>Fields:</b><ul><li>total</li><li>genesProper</li><li>pagination</li></ul><b>A test call can be issued with the following parameters:</b>",
                     "operationId": "getPaginatedGenes",
                     "produces": [
                       "application/json"
                     ],
                     "parameters": [{
-                        "name": "offset",
-                        "in": "path",
-                        "description": "Offset of records, example : 0",
-                        "required": true,
-                        "type": "string"
-                      }, {
-                        "name": "limit",
-                        "in": "path",
-                        "description": "Limit of records, example: 10",
-                        "required": true,
-                        "type": "string"
-                      }, {
-                        "name": "acceptDUA",
-                        "in": "path",
-                        "description": "Accept DUA  is no longer required",
-                        "required": false,
-                        "type": "boolean",
-						"defaultValue": true
-                      }                        
-                    ],
-                    "responses": {
-                      "200": {
-                        "description": "successful operation",
-                        "schema": {
-                          "$ref": "#/definitions/getPaginatedGenes"
-                        }
-                      },
-                      "401": {
-                        "description": "Unauthorized"
-                      }
-                    }
-                  }
-                },
-                '?query={ getPaginatedGenes(offset: {offset}, limit: {limit}, gene_name: "{gene_name}" acceptDUA: {acceptDUA}) { total genesProper { gene_id gene_name NCBI_gene_id authority description organism chromosome locus proteins assays } pagination { count sort from page total pages size } } }': {
-                  "get": {
-                    "tags": ["Gene"],
-                    "summary": "Get paginated gene records",
-                    "description": "<b>Returns a list of genes and a pagination record<br/><br/>Fields:</b><ul><li>total</li><li>genesProper</li><li>pagination</li></ul>",
-                    "operationId": "getPaginatedGenes",
-                    "produces": [
-                      "application/json"
-                    ],
-                    "parameters": [{
-                        "name": "offset",
-                        "in": "path",
-                        "description": "Offset of records, example : 0",
-                        "required": true,
-                        "type": "string"
-                      }, {
-                        "name": "limit",
-                        "in": "path",
-                        "description": "Limit of records, example: 10",
-                        "required": true,
-                        "type": "string"
-                      }, {
                         "name": "gene_name",
                         "in": "path",
-                        "description": "Gene Name, example: A2M",
+                        "description": "Gene Name, example: A1BG",
+                        "required": true,
+                        "type": "string"
+                      },{
+                        "name": "offset",
+                        "in": "path",
+                        "description": "Offset of records, example : 0",
                         "required": true,
                         "type": "string"
                       }, {
-                        "name": "acceptDUA",
+                        "name": "limit",
                         "in": "path",
-                        "description": "Accept DUA  is no longer required",
-                        "required": false,
-                        "type": "boolean",
-						"defaultValue": true
-                      }                       
+                        "description": "Limit of records, example: 10",
+                        "required": true,
+                        "type": "string"
+                      }          
                     ],
                     "responses": {
                       "200": {
@@ -1830,23 +1530,16 @@ var spec = {
                    }
                }
            },
-               "?query={tissueSitesAvailable (acceptDUA: {acceptDUA}) { tissue_or_organ_of_origin project_id project_submitter_id cases_count }}": {
+               "?query={tissueSitesAvailable { tissue_or_organ_of_origin project_id project_submitter_id cases_count }}": {
                  "get": {
                            "tags": ["General"],
                    "summary": "Get available Tissue Sites",
-                   "description": "<b>Returns a list of Tissue Sites.<br><br>Fields:<ul><li>tissue_or_organ_of_origin:</b>Text term that describes the anatomic site of the tumor or disease. caDSR: 3427536, example: Breast</li><li><b>project_id</li><li>project_submitter_id</li><li>cases_count</b></li></ul>",
+                   "description": "<b>Input Parameters (multiple parameters can be passed in one call):</b><ul><li>tissue_or_organ_of_origin (example: Breast)</li><li>project_submitter_id (example: CPTAC-2)</li><li>project_id (example: d78374f9-5fd5-4776-aa41-b1fe7ef338ab)</li></ul><b>Returns a list of Tissue Sites.<br><br>Fields:<ul><li>tissue_or_organ_of_origin:</b>Text term that describes the anatomic site of the tumor or disease. caDSR: 3427536, example: Breast</li><li><b>project_id</li><li>project_submitter_id</li><li>cases_count</b></li></ul><b>A test call can be issued by clicking the TRY button:</b>",
                    "operationId": "tissueSitesAvailable",
                    "produces": [
                      "application/json"
                    ],
-                   "parameters": [ {
-                     "name": "acceptDUA",
-                     "in": "path",
-                     "description": "Accept DUA  is no longer required",
-                     "required": false,
-                     "type": "boolean",
-						"defaultValue": true
-                   }],
+                   "parameters": [],
                    "responses": {
                      "200": {
                        "description": "successful operation",
@@ -1964,11 +1657,11 @@ var spec = {
                        }
                      }
                        },
-                   '?query={ clinicalMetadata(study_id: "{study_id}" acceptDUA: {acceptDUA}) { aliquot_id aliquot_submitter_id morphology primary_diagnosis tumor_grade tumor_stage tumor_largest_dimension_diameter} }': {
+                   '?query={ clinicalMetadata(study_id: "{study_id}") { aliquot_id aliquot_submitter_id morphology primary_diagnosis tumor_grade tumor_stage tumor_largest_dimension_diameter} }': {
                  "get": {
                            "tags": ["Clinical"],
                    "summary": "Find clinical metadata for a study",
-                   "description": "<b>Returns clinical metadata for a study. This API can also be used with multiple input parameters.<br><br>Fields:</b><ul><li>aliquot_id</li><li>aliquot_submitter_id</li><li>morphology</li><li>primary_diagnosis</li><li>tumor_grade</li><li>tumor_stage</li><li>tumor_largest_dimension_diameter</li></ul>",
+                   "description": "<b>Input Parameters (multiple parameters can be passed in one call):</b><ul><li>study_id (example: 0fe15489-1381-4864-8b17-6159e14a65a8)</li><li>study_submitter_id (example: Broad Institute - Medulloblastoma - Phospho-tyrosine-enrichments)</li><li>pdc_study_id (example: PDC000127)</li></ul><b>Returns clinical metadata for a study.<br><br>Fields:</b><ul><li>aliquot_id</li><li>aliquot_submitter_id</li><li>morphology</li><li>primary_diagnosis</li><li>tumor_grade</li><li>tumor_stage</li><li>tumor_largest_dimension_diameter</li></ul><b>A test call can be issued with the following parameter:</b>",
                    "operationId": "clinicalMetadata",
                    "produces": [
                      "application/json"
@@ -1979,14 +1672,7 @@ var spec = {
                        "description": "Study iD, example: 17d5c50c-d028-11ea-b1fd-0aad30af8a83",
                        "required": true,
                        "type": "string"
-                     },{
-                        "name": "acceptDUA",
-                        "in": "path",
-                        "description": "Accept DUA  is no longer required",
-                        "required": false,
-                        "type": "boolean",
-						"defaultValue": true
-                      }
+                     }
                    ],
                    "responses": {
                      "200": {
@@ -2001,80 +1687,6 @@ var spec = {
                    }
                  }
                    },
-                   '?query={ clinicalMetadata(study_submitter_id: "{study_submitter_id}" acceptDUA: {acceptDUA}) { aliquot_id aliquot_submitter_id morphology primary_diagnosis tumor_grade tumor_stage tumor_largest_dimension_diameter} }': {
-                 "get": {
-                           "tags": ["Clinical"],
-                   "summary": "Find clinical metadata for a study",
-                   "description": "<b>Returns clinical metadata for a study. This API can also be used with multiple input parameters.<br><br>Fields:</b><ul><li>aliquot_id</li><li>aliquot_submitter_id</li><li>morphology</li><li>primary_diagnosis</li><li>tumor_grade</li><li>tumor_stage</li><li>tumor_largest_dimension_diameter</li></ul>",
-                   "operationId": "clinicalMetadata",
-                   "produces": [
-                     "application/json"
-                   ],
-                   "parameters": [{
-                       "name": "study_submitter_id",
-                       "in": "path",
-                       "description": "Study submitter iD, example: TCGA BRCA Proteome S015-1",
-                       "required": true,
-                       "type": "string"
-                     }, {
-                        "name": "acceptDUA",
-                        "in": "path",
-                        "description": "Accept DUA  is no longer required",
-                        "required": false,
-                        "type": "boolean",
-						"defaultValue": true
-                      }
-                   ],
-                   "responses": {
-                     "200": {
-                       "description": "successful operation",
-                       "schema": {
-                         "$ref": "#/definitions/clinicalMetadata"
-                       }
-                     },
-                     "401": {
-                       "description": "Unauthorized"
-                     }
-                   }
-                 }
-                   },
-                   '?query={ clinicalMetadata(pdc_study_id: "{pdc_study_id}" acceptDUA: {acceptDUA}) { aliquot_id aliquot_submitter_id morphology primary_diagnosis tumor_grade tumor_stage tumor_largest_dimension_diameter} }': {
-                     "get": {
-                               "tags": ["Clinical"],
-                       "summary": "Find clinical metadata for PDC Study ID",
-                       "description": "<b>Returns clinical metadata for a study. This API can also be used with multiple input parameters.<br><br>Fields:</b><ul><li>aliquot_id</li><li>aliquot_submitter_id</li><li>morphology</li><li>primary_diagnosis</li><li>tumor_grade</li><li>tumor_stage</li><li>tumor_largest_dimension_diameter</li></ul>",
-                       "operationId": "clinicalMetadata",
-                       "produces": [
-                         "application/json"
-                       ],
-                       "parameters": [{
-                           "name": "pdc_study_id",
-                           "in": "path",
-                           "description": "Study submitter iD, example: PDC000173",
-                           "required": true,
-                           "type": "string"
-                         }, {
-                           "name": "acceptDUA",
-                           "in": "path",
-                           "description": "Accept DUA  is no longer required",
-                           "required": false,
-                           "type": "boolean",
-						"defaultValue": true
-                         }
-                       ],
-                       "responses": {
-                         "200": {
-                           "description": "successful operation",
-                           "schema": {
-                             "$ref": "#/definitions/clinicalMetadata"
-                           }
-                         },
-                         "401": {
-                           "description": "Unauthorized"
-                         }
-                       }
-                     }
-                       },
                    '?query={ experimentalMetadata(study_id: "{study_id}" acceptDUA: {acceptDUA}){ experiment_type analytical_fraction instrument study_run_metadata { study_run_metadata_id study_run_metadata_submitter_id fraction aliquot_run_metadata { aliquot_id aliquot_submitter_id aliquot_run_metadata_id label experiment_number fraction replicate_number date alias analyte} files { file_type data_category file_location } } } }': {
                  "get": {
                            "tags": ["Experimental"],

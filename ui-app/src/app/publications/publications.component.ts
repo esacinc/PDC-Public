@@ -6,7 +6,7 @@ import { Observable, Subject } from 'rxjs';
 import { map ,  switchMap, debounceTime,  startWith} from 'rxjs/operators';
 import gql from 'graphql-tag';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 
 import {DataViewModule} from 'primeng/dataview';
 import {MatExpansionModule} from '@angular/material/expansion'; 
@@ -14,7 +14,8 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import { publicationsStudyData, PublicationsData, QueryPublicationsData, publicationsFiltersData } from '../types';
 import { StudySummaryComponent } from '../browse/study-summary/study-summary.component';
 import { PublicationsService } from './publications.service';
-import { MatDialog, MatDialogConfig, MatSidenav } from '@angular/material';
+import { MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig } from '@angular/material/legacy-dialog';
+import { MatSidenav } from '@angular/material/sidenav';
 
 import {TableTotalRecordCount, AllStudiesData} from '../types';
 import { FilesOverlayComponent } from '../browse/browse-by-file/files-overlay.component';
@@ -55,7 +56,7 @@ export class PublicationsComponent implements OnInit{
 	newFilterSelected: any;
 	cols: any[];
 	loading = false;
-	publicationFiltersGroup:FormGroup;
+	publicationFiltersGroup:UntypedFormGroup;
 	isAbstractExpanded = false;
 	
 	filterSelected: any;
@@ -69,11 +70,11 @@ export class PublicationsComponent implements OnInit{
 		private router: Router,
 		private loc: Location) {
 		
-		this.publicationFiltersGroup = new FormGroup({
-				diseaseTypeFormControl: new FormControl(),
-				yearFormControl: new FormControl(),
-				programFormControl: new FormControl(),
-				searchFormControl: new FormControl()
+		this.publicationFiltersGroup = new UntypedFormGroup({
+				diseaseTypeFormControl: new UntypedFormControl(),
+				yearFormControl: new UntypedFormControl(),
+				programFormControl: new UntypedFormControl(),
+				searchFormControl: new UntypedFormControl()
 		});
 		  
 		this.publicationFiltersGroup.setValue({diseaseTypeFormControl: '', yearFormControl: '', programFormControl: '', searchFormControl: ''});
@@ -120,9 +121,8 @@ export class PublicationsComponent implements OnInit{
 	
 	getFilteredPublicationsData() {
 		this.loading = true;
-		this.publicationsService.getFilteredPaginatedPublications(this.offset, this.limit, []).subscribe((data: any) =>{
+ 		this.publicationsService.getFilteredPaginatedPublications(this.offset, this.limit, []).subscribe((data: any) =>{
 		  this.filteredPublicationsData = data.getPaginatedUIPublication.uiPublication;
-		  console.log(this.filteredPublicationsData);
 		  this.totalRecords = data.getPaginatedUIPublication.total;
 		  this.offset = data.getPaginatedUIPublication.pagination.from;
 		  this.pageSize = data.getPaginatedUIPublication.pagination.size;

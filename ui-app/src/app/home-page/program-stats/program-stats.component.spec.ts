@@ -2,7 +2,7 @@ import { Apollo } from 'apollo-angular';
 import { Observable, of } from 'rxjs';
 
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { FrontPageService } from '../front-page.service';
 import { ProgramStatsComponent } from './program-stats.component';
@@ -30,7 +30,7 @@ describe("ProgramStatsComponent", () => {
   let component: ProgramStatsComponent;
   let fixture: ComponentFixture<ProgramStatsComponent>;
   let service: FrontPageService;
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ProgramStatsComponent],
       schemas: [NO_ERRORS_SCHEMA],

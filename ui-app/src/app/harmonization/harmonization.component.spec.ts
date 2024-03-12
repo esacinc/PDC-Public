@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { HarmonizationComponent } from './harmonization.component';
@@ -7,7 +7,7 @@ describe('HarmonizationComponent', () => {
   let component: HarmonizationComponent;
   let fixture: ComponentFixture<HarmonizationComponent>;
   let originalTimeout;
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ HarmonizationComponent ],
       schemas: [NO_ERRORS_SCHEMA]

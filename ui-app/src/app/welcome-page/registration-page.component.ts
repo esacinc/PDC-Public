@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from "@angular/router";
-import { AuthService, GoogleLoginProvider } from 'angular-6-social-login';
+import { SocialAuthService, GoogleLoginProvider } from 'angularx-social-login';
 import { Md5 } from 'ts-md5/dist/md5';
 import { ChorusauthService } from '../chorusauth.service';
 import { PDCUserService } from '../pdcuser.service';
@@ -14,10 +14,10 @@ import { OverlayWindowService } from '../overlay-window/overlay-window.service';
   styleUrls: ['../../assets/css/global.css', './welcome-page.component.scss']
 })
 
-//@@@PDC-371 Develop PDC welcome screen 
+//@@@PDC-371 Develop PDC welcome screen
 //@@@PDC-477 - add organization field to registration
-//@@@PDC-516 angular lazy loading 
-//@@@PDC-824 allow registration and login with just email address and password 
+//@@@PDC-516 angular lazy loading
+//@@@PDC-824 allow registration and login with just email address and password
 //@@@PDC 707: Add privacy notice to user registration page and in footer of all pages
 //@@@PDC-885: registration form for google users did not validate properly
 //This component is responsible for registration form which opens if signed in user does not have PDC account
@@ -29,11 +29,11 @@ export class RegistrationPageComponent implements OnInit {
   formInvalidMessage:string = '';
   passwordInvalidMessage = '';
   idProvider = '';
-  
+
   // This structure is needed for defining field validatoin rules
-  registrationForm: FormGroup; 
+  registrationForm: UntypedFormGroup;
   //, Validators.pattern('(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).+')
-  constructor(private chorusService: ChorusauthService, private socialAuthService: AuthService, 
+  constructor(private chorusService: ChorusauthService, private socialAuthService: SocialAuthService,
 				private router: Router, private userService: PDCUserService,  private overlayWindow: OverlayWindowService) {
 	  let firstName = "";
 	  let lastName = "";
@@ -47,16 +47,16 @@ export class RegistrationPageComponent implements OnInit {
 		  if (username.length > 1) {
 			lastName = username[1];
 		  }
-	  }			
+	  }
 	  //PDC-885 - If user registers via PDC they need to have a password field which should be included in form validation
 	  if (this.idProvider === "PDC") {
-		  this.registrationForm= new FormGroup({
-			  first_name: new FormControl('', Validators.required),
-			  last_name: new FormControl('', Validators.required),
-			  email: new FormControl('', [Validators.required, Validators.email]),
-			  organization: new FormControl('', Validators.required),
-			  searchType: new FormControl('', Validators.required),
-			  user_pass: new FormControl('', [Validators.required, Validators.minLength(8), Validators.pattern('(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#\$%\^&\*]).+')]),
+		  this.registrationForm= new UntypedFormGroup({
+			  first_name: new UntypedFormControl('', Validators.required),
+			  last_name: new UntypedFormControl('', Validators.required),
+			  email: new UntypedFormControl('', [Validators.required, Validators.email]),
+			  organization: new UntypedFormControl('', Validators.required),
+			  searchType: new UntypedFormControl('', Validators.required),
+			  user_pass: new UntypedFormControl('', [Validators.required, Validators.minLength(8), Validators.pattern('(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#\$%\^&\*]).+')]),
 		  });
 		  this.registrationForm.setValue({
 			  first_name: firstName,
@@ -68,12 +68,12 @@ export class RegistrationPageComponent implements OnInit {
 		  });
 	  //In any other case the form should not include password field.
 	  } else {
-		  this.registrationForm= new FormGroup({
-			  first_name: new FormControl('', Validators.required),
-			  last_name: new FormControl('', Validators.required),
-			  email: new FormControl({value: '', disabled: true}, [Validators.required, Validators.email]),
-			  organization: new FormControl('', Validators.required),
-			  searchType: new FormControl('', Validators.required),
+		  this.registrationForm= new UntypedFormGroup({
+			  first_name: new UntypedFormControl('', Validators.required),
+			  last_name: new UntypedFormControl('', Validators.required),
+			  email: new UntypedFormControl({value: '', disabled: true}, [Validators.required, Validators.email]),
+			  organization: new UntypedFormControl('', Validators.required),
+			  searchType: new UntypedFormControl('', Validators.required),
 		  });
 		  this.registrationForm.setValue({
 			  first_name: firstName,
@@ -88,7 +88,7 @@ export class RegistrationPageComponent implements OnInit {
 		  this.registrationForm.get('email').enable();
 	  }
   }
-  
+
   get first_name(){
 	  return this.registrationForm.get('first_name');
   }
@@ -104,11 +104,11 @@ export class RegistrationPageComponent implements OnInit {
   get searchType(){
 	  return this.registrationForm.get('searchType');
   }
-  
+
   get user_pass() {
 	  return this.registrationForm.get('user_pass');
   }
-  
+
 	//Callback function for form submission, checks whether the form is valid and creates new user
   //@@@PDC-784 Improve download controlled files feature
   submitRegistration(){
@@ -138,7 +138,7 @@ export class RegistrationPageComponent implements OnInit {
 		console.log("Creating user with UID " + this.userService.getUID());
 		//PDC-421 - adding username to send to pdcapi
 		let username:string = this.registrationForm.value.first_name + ' ' + this.registrationForm.value.last_name;
-		this.userService.createPDCUser(this.userService.getUID(), this.registrationForm.get('email').value, 
+		this.userService.createPDCUser(this.userService.getUID(), this.registrationForm.get('email').value,
 										researcherType, id_provider, username, this.registrationForm.get('organization').value).subscribe(isRegistered => {
 			//User was successfully registered with PDC and now will be redirested to main dashboard
 			if (isRegistered) {
@@ -153,7 +153,7 @@ export class RegistrationPageComponent implements OnInit {
 				}
 			} else {
 			  console.log("Registration failed!");
-			}  
+			}
 		});
 	  }
 	  //If user does not have UID they signed in via google
@@ -163,39 +163,39 @@ export class RegistrationPageComponent implements OnInit {
 		if (this.idProvider === "PDC") {
 			secure_pass = Md5.hashAsciiStr(this.registrationForm.get('user_pass').value) as string;
 		}
-		this.userService.createPDCUserByEmail(this.registrationForm.value.first_name, this.registrationForm.value.last_name, 
+		this.userService.createPDCUserByEmail(this.registrationForm.value.first_name, this.registrationForm.value.last_name,
 												this.registrationForm.get('email').value, researcherType, id_provider, this.registrationForm.get('organization').value,
 												secure_pass).subscribe(isRegistered => {
-			//User was successfully registered with PDC and now will redirect to main dashboard page											
+			//User was successfully registered with PDC and now will redirect to main dashboard page
 			if (isRegistered) {
-			  if (this.userService.getUserIDType() === 'PDC' && this.userService.getIsRegistered() === 0 ){	
+			  if (this.userService.getUserIDType() === 'PDC' && this.userService.getIsRegistered() === 0 ){
 				alert("User registered successfully, waiting for email confirmation.");
 				console.log("User registered successfully, waiting for email confirmation.");
 				this.router.navigate(['pdc']);
 			  } else {
 				//'' route url will be welcome page to login. 'pdc' route url will be home page
-				this.router.navigate(['pdc']);	
+				this.router.navigate(['pdc']);
 			  }
 			} else {
 			  //Something went wrong with the registration
 			  console.log("Registration failed!");
-			}  
+			}
 		});
 	  }
-  } 
-  
+  }
+
    private _validate(value: string): string {
 	  let options = value;
 	  this.passwordInvalidMessage = "Invalid";
 	  return options;
-  }	
-	
+  }
+
 	//@@@PDC 707: Add privacy notice to user registration page and in footer of all pages
 	viewPrivacyPolicy() {
     this.overlayWindow.open('PrivacyPolicyOverlayWindowComponent');
   }
 
-  
+
   ngOnInit() {
 	  console.log(this.registrationForm);
 	  if (this.idProvider === "PDC") {

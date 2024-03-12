@@ -16,8 +16,8 @@
     margin-left: 0px;
    // box-sizing: border-box;
     // border-bottom: solid 1px rgba(0,0,0,0.12);
-    color: rgba(0,0,0,0.6);  
-  
+    color: rgba(0,0,0,0.6);
+
   }
   .browse-page .card {
     padding-right: 0px;
@@ -55,7 +55,7 @@
 }
 
 .browse-filter .card-header {
- 
+
   font-weight: 400;
  // padding-left: 1.0rem;
   font-size: 16px;
@@ -81,10 +81,6 @@
   padding: 3px;
 }
 
-::ng-deep .mat-expansion-indicator {
-  margin-left: 1%;
-}
-
 ::ng-deep #browsePageExpansionPanel .mat-expansion-panel-header {
   //height: 36px !important;
 }
@@ -98,18 +94,18 @@
   .table-panels mat-tab-header {
     border-bottom: 1px solid #e9e9e9;
   }
-  
+
 .table-panels .exportButtonsRow {
     border-left: 1px solid #e9e9e9;
     border-right: 1px solid #e9e9e9;
     background: linear-gradient(to bottom, #f6f7f9 0%, #ebedf0 100%);
   }
-  
+
   .table-panels .mat-tab-label {
     border: 1px solid rgba(0,0,0,.12);
     background: linear-gradient(to bottom, #f6f7f9 0%, #ebedf0 100%);
   }
-  
+
   .table-panels .ui-widget-header {
     background: linear-gradient(to bottom, #f6f7f9 0%, #ebedf0 100%);
   }
@@ -126,42 +122,40 @@
  .table-panels .ui-table .ui-table-tbody .ui-state-highlight {
     background-color: #aac1d4;
     color: #000;
-  } 
+  }
 
   .table-striped tbody tr:nth-of-type(odd) {
     background: linear-gradient(to bottom, #f6f7f9 0%, #ebedf0 100%);
   }
 
+  .table-striped tr:nth-of-type(even).p-highlight,
+  .table-striped tr.p-highlight {
+    background: #aac1d4 !important;
+    color: #000 !important;
+ }
+
   //TODO: Increase font-size to pass 508 compliance
-  .ui-table tr td,
-  .ui-table-thead tr {
+  .p-datatable tr td,
+  .p-datatable-thead tr {
     font-size: 14px !important;
-  }
-
-  .ui-table table {
-    table-layout: unset !important;
-  }
-
-  .ui-table-unfrozen-view .ui-table-thead th {
-    border: 1px solid #D5D5D5 !important;
   }
 
   .ui-chkbox .ui-state-active {
     background: #186ba0 !important;
-  } 
-
-  .ui-table-frozen-view {
-    padding-top: 1px !important;
   }
+
+  // .ui-table-frozen-view {
+  //   padding-top: 1px !important;
+  // }
 
   @media not all and (min-resolution:.001dpcm)
 	{ @supports (-webkit-appearance:none) and (stroke-color:transparent) {
 
-		.safari_only { 
+		.safari_only {
 			height: 68px !important;
 		}
 	}}
-  
+
 }
 
 //@@@PDC-4995: Alignment issues
@@ -190,7 +184,7 @@
     #analyticalFractions .tick text,
     #experimentalStrategy .tick text,
     .casesLabel {
-      font-size: 24px !important; 
+      font-size: 24px !important;
       font-family: "Lucida Grande", "Lucida Sans Unicode", Arial, Helvetica, sans-serif !important;
     }
 
@@ -198,36 +192,36 @@
       #analyticalFractions .tick text,
       #experimentalStrategy .tick text,
       .casesLabel {
-        font-size: 22px !important; 
+        font-size: 22px !important;
       }
     }
-    
+
     #diseaseTypes text {
       font-size: 9px;
     }
-    
+
     @media only screen  and (min-width: 1800px) and (max-width: 2400px) {
       #diseaseTypes text {
         font-size: 8px;
       }
     }
-    
+
     @media only screen  and (min-width: 2101px) and (max-width: 2400px) {
       #analyticalFractions .tick text,
       #experimentalStrategy .tick text,
       .casesLabel {
-        font-size: 18px !important; 
+        font-size: 18px !important;
       }
     }
-    
+
     @media only screen  and (min-width: 2401px) {
       #analyticalFractions .tick text,
       #experimentalStrategy .tick text,
       .casesLabel {
-        font-size: 14px !important; 
+        font-size: 14px !important;
       }
     }
-    
+
     @media only screen  and (min-width: 2401px) {
       #diseaseTypes text {
         font-size: 6px;
@@ -240,7 +234,12 @@
 }
 
 .charts-card {
-  padding-left:0px; 
-  padding-top:0px!important; 
+  padding-left:0px;
+  padding-top:0px!important;
   padding-bottom: 0px !important
+}
+
+.browseOverlay:has(div.p-datatable-loading-overlay) { 
+  background: #F1F1F1;
+  opacity: 0.6 !important;
 }

@@ -11,10 +11,10 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import {  QueryDiseases, Disease, ExperimentTypeCount, Filter } from '../types';
 
 import { BrowseService } from './browse.service';
-import { MatSidenav } from '@angular/material';
+import { MatSidenav } from '@angular/material/sidenav';
 
 import {TableTotalRecordCount} from '../types';
-import { MatTabChangeEvent } from '@angular/material';
+import { MatLegacyTabChangeEvent as MatTabChangeEvent } from '@angular/material/legacy-tabs';
 import * as d3 from 'd3';
 import { take } from 'rxjs/operators';
 

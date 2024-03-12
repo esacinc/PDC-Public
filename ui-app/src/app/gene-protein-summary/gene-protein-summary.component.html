@@ -2,7 +2,7 @@
 <title>Gene Summary</title>
 
 <button mat-icon-button style="float: right; flex: 0 0 auto;" (click)="close()" aria-label="Close">
-    <fa name="times" style="light"></fa>
+    <i class="fa fa-close" style="light"></i>
 </button>
 
 <div *ngIf="displayGeneNotFoundInStudyMsg" style="min-width: 600px; min-height: 70px; margin-top: 50px; padding-bottom: 0px; font-size: 16px">
@@ -38,8 +38,8 @@
 	</div>
 	<br>
 	<div class="row" style="width: 80%;">
-		<p-table class="table-striped ui-datatable-odd" id="geneSummaryPTMDataTable" [value]="genePTMData" [lazy]="true" 
-				[scrollable]="true" scrollHeight="200px" [virtualScroll]="true" [rows]="10" [totalRecords]="ptmTotalRecords"
+		<p-table class="table-striped ui-datatable-odd" id="geneSummaryPTMDataTable" [value]="genePTMData" [lazy]="true"
+				[scrollable]="true" scrollHeight="200px" [totalRecords]="ptmTotalRecords"
 				 [resizableColumns]="true" responsive="true" (onLazyLoad)="loadPTMData($event)" [ngStyle]="{'width':'100%'}"
 				 [autoLayout]="true" [frozenColumns]="frozenColumns" [scrollable]="true" frozenWidth="100px">
 			<ng-template pTemplate="caption">
@@ -47,25 +47,17 @@
 					<div style="float:right">Total data rows: {{ptmTotalRecords}}</div>
 				</div>
 			</ng-template>
-			<ng-template pTemplate="frozenheader" let-frozenColumns>
-				<tr>
-					<th class="ui-datatable-tableheader">PTM Type</th>
-				</tr>
-			</ng-template>
 			<!-- PDC-2664 PTM Data Table Alignment issue on Gene Summary overlay window -->
 			<ng-template pTemplate="header" let-columns>
 				<tr>
+					<th class="ui-datatable-tableheader" pFrozenColumn>PTM Type</th>
 					<th class="ui-datatable-tableheader">Site</th>
 					<th class="ui-datatable-tableheader">Peptide</th>
 				</tr>
 			</ng-template>
-			<ng-template pTemplate="frozenbody" let-ptmData let-frozenColumns>
-				<tr class="table-striped">
-					<td style="word-wrap: break-word; white-space: normal;">{{ptmData.ptm_type }}</td>
-				</tr>
-			</ng-template>
 			<ng-template pTemplate="body" let-ptmData>
 				<tr class="table-striped">
+					<td style="word-wrap: break-word; white-space: normal;" pFrozenColumn>{{ptmData.ptm_type }}</td>
 					<td style="word-wrap: break-word; white-space: normal;">{{ptmData.site}}</td>
 					<td style="word-wrap: break-word; white-space: normal;">{{ptmData.peptide}}</td>
 				</tr>
@@ -73,7 +65,7 @@
 		</p-table>
 	</div>
 	<br>
-	<button mat-primary (click)="navigateFullPage()"><b>Full summary for {{geneSummaryData.gene_name}}</b></button>
+	<button mat-primary (click)="navigateFullPage()" style="cursor: pointer"><b>Full summary for {{geneSummaryData.gene_name}}</b></button>
 	<!--
 	<div class="row" style="width: 100%;">
 		<p-table class="table-striped ui-datatable-odd" id="geneSummaryDataTable" [value]="studySpectralCountsList" [lazy]="true" [paginator]="studyTotalRecords > studyLimit" [(first)]="studyOffset"

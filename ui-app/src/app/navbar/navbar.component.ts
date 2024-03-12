@@ -1,7 +1,9 @@
 import {HttpClient} from '@angular/common/http';
 import {Component, OnInit, ViewChildren, HostListener, QueryList} from '@angular/core';
-import {FormControl} from '@angular/forms';
-import {MatDialog, MatDialogConfig, MatIconRegistry, MatMenuTrigger} from '@angular/material';
+import {UntypedFormControl} from '@angular/forms';
+import { MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig } from '@angular/material/legacy-dialog';
+import { MatIconRegistry } from '@angular/material/icon';
+import { MatLegacyMenuTrigger as MatMenuTrigger } from '@angular/material/legacy-menu';
 import {DomSanitizer} from '@angular/platform-browser';
 import {NavigationEnd, ActivationEnd, Router, ActivatedRoute, ParamMap, ActivationStart} from '@angular/router';
 import {DEFAULT_INTERRUPTSOURCES, Idle} from '@ng-idle/core';
@@ -60,7 +62,7 @@ import {environment} from '../../environments/environment';
 //@@@PDC-2956: issue with opening case summary via direct URL
 export class NavbarComponent implements OnInit {
   background = '';
-  searchFormControl = new FormControl();
+  searchFormControl = new UntypedFormControl();
   options: any[] = []; // will hold the display name and value of the search terms
   filteredOptions: Observable<string[]>;
   geneSearchResults;

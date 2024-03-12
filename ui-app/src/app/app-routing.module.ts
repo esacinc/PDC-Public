@@ -43,12 +43,12 @@ import { DataCloudAnalysisComponent } from './analysis/data-cloud-analysis/data-
 
 const appRoutes: Routes = [
   //pdc url will be lazy loading when route redirect to 'pdc'.
-  { path: 'pdc', loadChildren: './lazy.module#LazyModule'},
-  { path: 'email-confirmed/:email',  loadChildren: './lazy.module#LazyModule'},
-  { path: 'reset-password/:uuid',  loadChildren: './lazy.module#LazyModule'},
+  { path: 'pdc', loadChildren: () => import('./lazy.module').then(m => m.LazyModule)},
+  { path: 'email-confirmed/:email',  loadChildren: () => import('./lazy.module').then(m => m.LazyModule)},
+  { path: 'reset-password/:uuid',  loadChildren: () => import('./lazy.module').then(m => m.LazyModule)},
   //browse url will be lazy loading when route redirect to 'browse'
-  { path: 'browse', loadChildren: './lazybrowse.module#LazyBrowseModule'},
-  { path: 'fence', loadChildren: './lazybrowse.module#LazyBrowseModule'},
+  { path: 'browse', loadChildren: () => import('./lazybrowse.module').then(m => m.LazyBrowseModule)},
+  { path: 'fence', loadChildren: () => import('./lazybrowse.module').then(m => m.LazyBrowseModule)},
   //{ path: 'about', loadChildren: './lazyabout.module#LazyAboutModule'},
   //{ path: 'analysis', loadChildren: './lazyanalysis.module#LazyAnalysisModule'},
   // { path: 'browse', component: BrowseByStudyComponent },
@@ -66,7 +66,7 @@ const appRoutes: Routes = [
   //@@@PDC-1702: Add a button/help link to FAQ page multiple download section from Browse page
   { path: 'faq/:id', component: FaqComponent },
   { path: 'analysis/:id', component: HeatmapViewerComponent},
-  { path: '', loadChildren: './lazy.module#LazyModule'},
+  { path: '', loadChildren: () => import('./lazy.module').then(m => m.LazyModule)},
   { path: 'submit-data', component: SubmitDataFAQComponent},
   //@@PDC-5500 - FAQ page link to data download client documentation page is broken
   { path: 'data-download-documentation', component: DataDownloadDocComponent },
@@ -81,9 +81,9 @@ const appRoutes: Routes = [
   { path: 'study-summary/:study_id', component: StudySummaryComponent, outlet: 'studySummary'},
   { path: 'files-overlay/:study_id', component: FilesOverlayComponent, outlet: 'filesOverlay'},
   { path: 'publication-files-overlay/:publication_id', component: PublicationFilesOverlayComponent, outlet: 'publicationFilesOverlay'},
-  { path: 'case/:case_uuid', loadChildren: './lazybrowse.module#LazyBrowseModule'},
-  { path: 'study/:study_uuid', loadChildren: './lazybrowse.module#LazyBrowseModule'},
-  { path: 'data-dictionary', loadChildren:'./lazydictionary.module#LazyDataDictionaryModule'},
+  { path: 'case/:case_uuid', loadChildren: () => import('./lazybrowse.module').then(m => m.LazyBrowseModule)},
+  { path: 'study/:study_uuid', loadChildren: () => import('./lazybrowse.module').then(m => m.LazyBrowseModule)},
+  { path: 'data-dictionary', loadChildren:() => import('./lazydictionary.module').then(m => m.LazyDataDictionaryModule)},
   { path: 'publications', component: PublicationsComponent},
   { path: 'TechnologyAdvancementStudies', component: LegacyDataComponent },
   { path: 'legacy-study-summary/:study_id', component: LegacyStudySummaryComponent, outlet: 'studySummary'},
@@ -109,7 +109,10 @@ const appRoutes: Routes = [
     RouterModule.forRoot(
       appRoutes,
       //@@PDC-4743 experiment type link load issues - allow anchor scrolling to navigate to property div
-     { anchorScrolling: 'enabled'}
+     //@@PDC-4743 experiment type link load issues - allow anchor scrolling to navigate to property div
+//@@PDC-4743 experiment type link load issues - allow anchor scrolling to navigate to property div
+//@@PDC-4743 experiment type link load issues - allow anchor scrolling to navigate to property div
+{ anchorScrolling: 'enabled' }
      //  { enableTracing: true } // <-- debugging purposes only
     )
   ],

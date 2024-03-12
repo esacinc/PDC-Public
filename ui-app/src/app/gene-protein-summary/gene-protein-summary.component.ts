@@ -6,12 +6,22 @@ import { Observable } from 'rxjs';
 import gql from 'graphql-tag';
 import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
+import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { PaginatorModule } from 'primeng/paginator';
 import { DropdownModule} from 'primeng/dropdown';
-import {MatCardModule, MatExpansionModule, MatToolbarModule, MatCheckboxModule, MatListModule,
-  MatTabsModule, MatButtonModule, MatSidenavModule, MatTooltipModule, MatSelectModule, MatDialogModule, MatProgressSpinnerModule} from '@angular/material';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
+import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
+import { MatLegacyCheckboxModule as MatCheckboxModule } from '@angular/material/legacy-checkbox';
+import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatLegacyListModule as MatListModule } from '@angular/material/legacy-list';
+import { MatLegacyProgressSpinnerModule as MatProgressSpinnerModule } from '@angular/material/legacy-progress-spinner';
+import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatLegacyTabsModule as MatTabsModule } from '@angular/material/legacy-tabs';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatLegacyTooltipModule as MatTooltipModule } from '@angular/material/legacy-tooltip';
 import { GeneProteinSummaryService } from "./gene-protein-summary.service";
 import { Filter, GeneProteinDataWithId, GeneStudySpectralCountData, GeneAliquotSpectralCountData,
 		GeneStudySpectralCountDataPaginated, GeneAliquotSpectralCountDataPaginated, ptmData } from '../types';
@@ -130,7 +140,6 @@ export class GeneProteinSummaryComponent implements OnInit {
 			console.log("gene detail: "+ this.geneSummaryData);
 			this.uuid = this.geneSummaryData.gene_id;
 			console.log("gene uuid: "+ this.uuid);
-			this.makeRowsSameHeight();
 			this.loadingGeneSummary = false;
 		  });
 	  }, 1000);
@@ -182,7 +191,6 @@ export class GeneProteinSummaryComponent implements OnInit {
 			this.ptmOffset = data.getPaginatedUIPtm.pagination.from;
 			this.ptmPageSize = data.getPaginatedUIPtm.pagination.size;
 			this.ptmLimit = data.getPaginatedUIPtm.pagination.size;
-			this.makeRowsSameHeight();
 			this.lodingPTMData = false;
 		  });
 	  }, 1000);
@@ -222,7 +230,7 @@ export class GeneProteinSummaryComponent implements OnInit {
 
   loadPTMData(event: any){
 	  this.ptmOffset = event.first;
-	  this.ptmLimit = event.rows;
+	  //this.ptmLimit = event.rows;
 	  this.lodingPTMData = true;
 	  //this.geneProteinSummaryService.getGenePTMData(this.gene_id, this.ptmOffset, this.ptmLimit, this.source).subscribe((data: any) =>{
 	  console.log("loadPTM: "+ this.uuid);	  
@@ -232,9 +240,8 @@ export class GeneProteinSummaryComponent implements OnInit {
 				this.ptmTotalRecords = data.getPaginatedUIPtm.total;
 				this.ptmOffset = data.getPaginatedUIPtm.pagination.from;
 				this.ptmPageSize = data.getPaginatedUIPtm.pagination.size;
-				this.ptmLimit = data.getPaginatedUIPtm.pagination.size;
+				this.ptmLimit = data.getPaginatedUIPtm.total;
 			}
-			this.makeRowsSameHeight();
 			this.lodingPTMData = false;
 		});
   }

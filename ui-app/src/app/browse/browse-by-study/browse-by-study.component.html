@@ -1,10 +1,12 @@
-<div class="row browse-study" style="font-family:'Lato';" (window:resize)="onResize($event)">
+<div class="row browse-study" style="font-family:'Lato';">
       <p-table class="table-striped ui-datatable-odd" #dt [columns]="cols" [value]="filteredStudiesData" [lazy]="true" [paginator]="true" [(first)]="offset"
 				[rows]="10" [pageLinks]="5" [rowsPerPageOptions]="[10,20,50]" [totalRecords]="totalRecords"
 				[loading]="loading" [resizableColumns]="true" columnResizeMode="expand" [ngStyle]="{'width':'100%'}"
-				(onRowUnselect) ="onRowUnselected($event)" (onRowSelect)="onRowSelected($event)" [(selection)]="selectedStudies"
+		    [(selection)]="selectedStudies"
+        (selectionChange)="onSelectionChange($event)"
+
 				dataKey="submitter_id_name" (onLazyLoad)="loadNewPage($event)" id="studyDataTable" paginatorPosition="both"
-				scrollHeight="500px" [autoLayout]="true" [frozenColumns]="frozenColumns" [scrollable]="true" frozenWidth="150px">
+				scrollHeight="500px" [autoLayout]="true" [scrollable]="true" styleClass="p-datatable-gridlines" >
 		<ng-template pTemplate="caption">
 		<div class="container-fluid ui-helper-clearfix button-container-fluid exportButtonsRow">
 				<div class="row">
@@ -25,7 +27,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="container-fluid ui-helper-clearfix button-container-fluid" style="border-top: 1px solid #ddd;">
+			<div class="container-fluid ui-helper-clearfix button-container-fluid " style="border-top: 1px solid #ddd; font-weight: 700;">
 				<div class="row">
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 						<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
@@ -48,30 +50,26 @@
 				</div>
 			</div>
 		</ng-template>
-		<ng-template pTemplate="frozenheader" let-frozenColumns>
-			<tr>
-        <!-- @@@PDC-7012 improve browse checkbox intuitiveness -->
-				<th rowspan=3 class="ui-datatable-tableheader" style="width: 50px; align-content: center !important; overflow: unset;" alt="Check All checkboxes in the table">
-          <!-- @@@PDC-7012 improve browse checkbox intuitiveness -->
-          <!-- @@@PDC-7109 improve browse checkbox intuitiveness -->
-          <label><p-checkbox #studyDataChk id="studyDataChk" [(ngModel)]="headercheckbox" binary="true" (onChange)="triggerchangeHeaderCheckbox($event)"></p-checkbox></label>
-					<mat-select #dataForManifestExport id="dataForManifestExport" class="card-body card-list" [(ngModel)]="selectedHeaderCheckbox" (selectionChange)="changeHeaderCheckbox($event)">
-						<mat-option *ngFor="let checkboxOption of checkboxOptions" [value]="checkboxOption" (selectionChange)="chkBoxSelectionCheck(checkboxOption)">
-							{{checkboxOption}}
-						</mat-option>
-					</mat-select>
-					<span style="display:none;">Select All</span>
-				</th>
-				<!-- @@@PDC-262 link headers to data dictionary -->
-				<th rowspan=3 class="ui-datatable-tableheader" style="width: 100px;" [pSortableColumn]="cols[0].field"><a href="/pdc/data-dictionary/Study" target="_blank" style="color:white">PDC Study ID</a><p-sortIcon [field]="cols[0].field" ariaLabel="Sort Study in ascending/descending order"></p-sortIcon></th>
-			</tr>
-		  </ng-template>
         <ng-template pTemplate="header" let-columns>
             <tr>
-				<th rowspan=3 class="ui-datatable-tableheader" [pSortableColumn]="cols[3].field"><a href="/pdc/data-dictionary/Study" target="_blank" style="color:white">Study</a><p-sortIcon [field]="cols[3].field" ariaLabel="Sort Study in ascending/descending order"></p-sortIcon></th>
+				<th rowspan=3 class="ui-datatable-tableheader checkboxColumn" style="max-width: 50px !important; min-width: 50px !important; width: 50px !important; align-content: center !important; overflow: unset;" alt="Check All checkboxes in the table" pFrozenColumn>
+					<!-- @@@PDC-7012 improve browse checkbox intuitiveness -->
+					<!-- @@@PDC-7109 improve browse checkbox intuitiveness -->
+					<label><p-checkbox id="studyDataChk" [(ngModel)]="headercheckbox" binary="true" (onChange)="triggerchangeHeaderCheckbox($event)"></p-checkbox>
+							  <mat-select #dataForManifestExport id="dataForManifestExport" class="card-body card-list" [(ngModel)]="selectedHeaderCheckbox" (selectionChange)="changeHeaderCheckbox($event)">
+								  <mat-option *ngFor="let checkboxOption of checkboxOptions" [value]="checkboxOption" (selectionChange)="chkBoxSelectionCheck(checkboxOption)">
+									  {{checkboxOption}}
+								  </mat-option>
+							  </mat-select>
+							  <span style="display:none;">Select All</span></label>
+						  </th>
+				<th rowspan=3 class="ui-datatable-tableheader" style="width: 100px !important;" [pSortableColumn]="cols[0].field" pFrozenColumn><a href="/pdc/data-dictionary/Study" target="_blank" style="color:white">PDC Study ID</a>
+						&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Study in ascending/descending order"></i>
+				</th>
+				<th rowspan=3 class="ui-datatable-tableheader" [pSortableColumn]="cols[3].field"><a href="/pdc/data-dictionary/Study" target="_blank" style="color:white">Study</a>&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Study in ascending/descending order"></i></th>
 				<!-- <th rowspan=3 class="ui-datatable-tableheader" [pSortableColumn]="cols[4].field"><a href="/pdc/faq#Embargo_Date" target="_blank" style="color:white">Embargo Date</a><p-sortIcon [field]="cols[4].field" ariaLabel="Sort Embargo Date in ascending/descending order"></p-sortIcon></th> -->
-				<th rowspan=3 class="ui-datatable-tableheader" [pSortableColumn]="cols[5].field"><a href="/pdc/data-dictionary/Project" target="_blank" style="color:white">Project</a><p-sortIcon [field]="cols[5].field" ariaLabel="Sort Project in ascending/descending order"></p-sortIcon></th>
-				<th rowspan=3 class="ui-datatable-tableheader" [pSortableColumn]="cols[6].field"><a href="/pdc/data-dictionary/Program" target="_blank" style="color:white">Program</a><p-sortIcon [field]="cols[6].field" ariaLabel="Sort Program in ascending/descending order"></p-sortIcon></th>
+				<th rowspan=3 class="ui-datatable-tableheader" [pSortableColumn]="cols[5].field"><a href="/pdc/data-dictionary/Project" target="_blank" style="color:white">Project</a>&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Study in ascending/descending order"></i></th>
+				<th rowspan=3 class="ui-datatable-tableheader" [pSortableColumn]="cols[6].field"><a href="/pdc/data-dictionary/Program" target="_blank" style="color:white">Program</a>&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Study in ascending/descending order"></i></th>
 				<th rowspan=3 class="ui-datatable-tableheader" [pSortableColumn]="cols[7].field">
 					<div class="ui-datatable-tableheader-flex-container">
 						<div>
@@ -81,7 +79,7 @@
 							</a>
 						</div>
 						<div>
-							<p-sortIcon [field]="cols[7].field" ariaLabel="Sort Disease Type in ascending/descending order"></p-sortIcon>
+							&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Study in ascending/descending order"></i>
 						</div>
 					</div>
 				</th>
@@ -94,7 +92,7 @@
 							</a>
 						</div>
 						<div>
-							<p-sortIcon [field]="cols[8].field" ariaLabel="Sort Primary site in ascending/descending order"></p-sortIcon>
+							&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Study in ascending/descending order"></i>
 						</div>
 					</div>
 				</th>
@@ -108,7 +106,7 @@
 							</a>
 						</div>
 						<div>
-							<p-sortIcon [field]="cols[9].field" ariaLabel="Sort Analytical Fraction in ascending/descending order"></p-sortIcon>
+							&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Study in ascending/descending order"></i>
 						</div>
 					</div>
 				</th>
@@ -120,11 +118,11 @@
 
 						</div>
 						<div>
-							<p-sortIcon [field]="cols[10].field" ariaLabel="Sort Experiment Type in ascending/descending order"></p-sortIcon>
+							&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Study in ascending/descending order"></i>
 						</div>
 					</div>
 				</th>
-				<th rowspan=3 class="ui-datatable-tableheader">Cases #</th>
+				<th rowspan=3 class="ui-datatable-tableheader fixedWidthCol">Cases #</th>
 			</tr>
 			<tr>
 				<th colspan=6 class="ui-datatable-tableheader-collapsed" style="text-align: center"><a href="/pdc/faq/Files_Download" target="_blank" style="color:white">Available files for data category</a></th>
@@ -138,17 +136,16 @@
 				<th rowspan=2 class="ui-datatable-tableheader-continue fixedWidthCol"><a href="/pdc/faq/Files_Download" target="_blank" style="color:white"><div>Quality</div>Metrics</a></th>
             </tr>
 		</ng-template>
-		<ng-template pTemplate="frozenbody" let-studyData let-frozenColumns>
-			<tr style="font-size: 11px;"[pSelectableRow]="studyData">
-				<td style="width:50px; align-content: center !important"><p-tableCheckbox #browsePageCheckboxes id="studyData{{studyData.submitter_id_name}}" [value]="studyData" class="browsePageCheckboxes"></p-tableCheckbox></td>
-				<td style="width:100px; word-wrap: break-word; white-space: normal;"><a href="javascript:void(0);" (click)="showStudySummary(studyData.study_submitter_id)">{{studyData.pdc_study_id}}</a>
+        <ng-template pTemplate="body" let-studyData let-columns="columns">
+            <tr style="font-size: 11px" [pSelectableRow]="studyData">
+				<td style="max-width:50px; align-content: center !important;" class="checkboxColumn" pFrozenColumn>
+          <!-- @@@PDC-7818 - select all studies error -->
+					<label><p-tableCheckbox  [pSelectableRow]="studyData" #browsePageCheckboxes id="studyData{{studyData.submitter_id_name}}" [value]="studyData"  class="browsePageCheckboxes" style="cursor:pointer !important;"></p-tableCheckbox></label>
+				</td>
+				<td style="width:100px; word-wrap: break-word; white-space: normal;" pFrozenColumn><a href="javascript:void(0);" (click)="showStudySummary(studyData.study_submitter_id)">{{studyData.pdc_study_id}}</a>
 				<span *ngIf="versionCheck(studyData.versions)"><br><a href="javascript:void(0);" class="btn btn-primary breadCrumbButtons" style="padding: 0px; cursor:default!important;" disabled="true" matTooltip="This study has multiple versions. Additional versions (updates) of a study are created when the underlying data changes substantially. This may involve changes to the raw data, processed data, and/or metadata. When a new version is created, it may fall out of sync with the original publication of this data. Use of the latest version is strongly encouraged, as it commonly represents an update directly from the submitter." matTooltipPosition="right">
 					version {{studyData.versions[0].number}}</a></span>
 				</td>
-			</tr>
-		</ng-template>
-        <ng-template pTemplate="body" let-studyData let-columns="columns">
-            <tr style="font-size: 11px"[pSelectableRow]="studyData">
 			  <td id="{{studyData.submitter_id_name}}" style="word-wrap: break-word; white-space: normal;"><a href="javascript:void(0);" (click)="showStudySummary(studyData.study_submitter_id)">{{studyData.submitter_id_name}}</a></td>
 <!-- 			  <td [ngClass]="getStyleClass(studyData.embargo_date)" style="word-wrap: break-word; white-space: normal;" [matTooltip]="getTooltip(studyData.embargo_date)" matTooltipClass="custom-tooltip" matTooltipPosition="right" >
 					<div *ngIf="studyData.embargo_date == '' || studyData.embargo_date == null">N/A</div>

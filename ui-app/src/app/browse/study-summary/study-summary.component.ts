@@ -8,7 +8,7 @@ import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
 import { Apollo } from 'apollo-angular';
 import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import {MAT_DIALOG_DATA, MatDialogRef, MatDialogConfig, MatDialog} from '@angular/material';
+import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef, MatLegacyDialogConfig as MatDialogConfig, MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { StudySummaryService } from './study-summary.service';
 import { AllStudiesData, Filter, WorkflowMetadata, ProtocolData, PublicationData,
@@ -27,7 +27,6 @@ import * as JSZip from 'jszip';
 //const fileExists = require('file-exists');
 
 import {environment} from '../../../environments/environment';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 //@@@PDC-612 display all data categories
 enum FileTypes {

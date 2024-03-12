@@ -9,8 +9,8 @@ import {
   ViewChild,
   ViewChildren
 } from "@angular/core";
-import { FormControl } from "@angular/forms";
-import { MatDialog, MatDialogConfig } from "@angular/material";
+import { UntypedFormControl } from "@angular/forms";
+import { MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig } from "@angular/material/legacy-dialog";
 import { ActivatedRoute } from "@angular/router";
 import { Apollo } from "apollo-angular";
 import { ngxCsv } from "ngx-csv/ngx-csv";
@@ -78,7 +78,7 @@ export class BrowseByFileComponent implements OnInit {
   cols: any[];
   fileTypes = ["MZML", "PSM-MZID", "PSM-TSV", "PROT_ASSEM", "PROTOCOL", "RAW"];
   sort: string;
-  selectedFileFilters: FormControl = new FormControl();
+  selectedFileFilters: UntypedFormControl = new UntypedFormControl();
   @Output() fileTotalRecordChanged: EventEmitter<any> = new EventEmitter<any>();
   fenceRequest:boolean = false;
   //keep a full list of filter category
@@ -180,7 +180,7 @@ export class BrowseByFileComponent implements OnInit {
 			}
 		});
     this.getAllFilesData();
-    this.selectedFileFilters = new FormControl();
+    this.selectedFileFilters = new UntypedFormControl();
     this.sort = "";
     BrowseByFileComponent.urlBase = environment.dictionary_base_url;
   }
@@ -260,14 +260,10 @@ export class BrowseByFileComponent implements OnInit {
             break;
       case 'Select this page':
             this.headercheckbox = true;
-            setTimeout(() => {
-              this.fileDataChk.checked = true;
-            }, 500);
             this.onTableHeaderCheckboxToggle();
             break;
       case 'Select None':
             this.clearSelection();
-            this.clearCheckboxSelection();
             break;
     }
   }
@@ -279,30 +275,21 @@ export class BrowseByFileComponent implements OnInit {
       this.selectedFiles = this.currentPageSelectedFile = [];
       switch (this.selectedHeaderCheckbox) {
         case 'Select all pages':
-              setTimeout(() => {
-                this.fileDataChk.checked = true;
-              }, 500);
               this.fileExportCompleteManifest();
               break;
         case 'Select this page':
               this.headercheckbox = true;
-              setTimeout(() => {
-                this.fileDataChk.checked = true;
-              }, 500);
               this.onTableHeaderCheckboxToggle();
               break;
         case 'Select None':
               this.clearSelection();
-              this.clearCheckboxSelection();
               break;
       }
       //@@@PDC-7110 - check if there are unchecked checkboxes in table - if so then deselect checkbox
       var found = this.browsePageCheckboxes._results.some(el => el.checked === false);
       if(found == false){
-        this.fileDataChk.checked = true;
         this.headercheckbox = true;
       } else {
-        this.fileDataChk.checked = false;
         this.headercheckbox = false;
       }
       this.dataForManifestExport.open();
@@ -311,11 +298,9 @@ export class BrowseByFileComponent implements OnInit {
   //@@@PDC-7109 improve browse checkbox intuitiveness - bug where 'Select None' remained checked when selected
   chkBoxSelectionCheck(selectedOption) {
       if(selectedOption == 'Select None'){
-        this.fileDataChk.checked = false;
         this.headercheckbox = false;
         this.dataForManifestExport.close();
       } else {
-        this.fileDataChk.checked = true;
         this.headercheckbox = true;
       }
   }
@@ -368,7 +353,7 @@ export class BrowseByFileComponent implements OnInit {
             this.limit = data.getPaginatedUIFile.pagination.size;
           }
           this.pageSize = data.getPaginatedUIFile.pagination.size;
-          this.makeRowsSameHeight();
+          //this.makeRowsSameHeight();
           this.loading = false;
         });
     }, 1000);
@@ -403,8 +388,7 @@ export class BrowseByFileComponent implements OnInit {
         this.pageSize = data.getPaginatedUIFile.pagination.size;
         this.loading = false;
         this.clearSelection();
-        this.clearCheckboxSelection();
-        this.makeRowsSameHeight();
+        //this.makeRowsSameHeight();
       });
     //	 this.getAllFilesData();
   }
@@ -528,9 +512,8 @@ export class BrowseByFileComponent implements OnInit {
             this.isFenceReloaded = true;
           } else {
             this.clearSelection();
-            this.clearCheckboxSelection();
           }
-          this.makeRowsSameHeight();
+          //this.makeRowsSameHeight();
           this.loading = false;
         });
     }
@@ -540,7 +523,7 @@ export class BrowseByFileComponent implements OnInit {
   //@@@PDC-522 handle two type of events 1 general filters event 2 files filters
   ngOnChanges(changes: SimpleChanges) {
     if (changes && changes['childTabChanged']) {
-      this.makeRowsSameHeight();
+      //this.makeRowsSameHeight();
     }
     for (let propName in changes) {
       let change = changes[propName];
@@ -626,7 +609,7 @@ export class BrowseByFileComponent implements OnInit {
           this.headercheckbox = false;
         }
         this.handleCheckboxSelections();
-        this.makeRowsSameHeight();
+        //this.makeRowsSameHeight();
       });
   }
 
@@ -722,9 +705,6 @@ export class BrowseByFileComponent implements OnInit {
 
   dialogueForHugeDataVolume() {
     //@@@PDC-7110 - fix checkbox update
-    setTimeout(() => {
-      this.fileDataChk.checked = false;
-    }, 500);
     setTimeout(() => {
       this.dialog.open(MessageDialogComponent, {
         width: "300px",
@@ -1558,12 +1538,6 @@ getFilesDataObj(fileNameStr) {
     this.selectedHeaderCheckbox = '';
   }
 
-  private clearCheckboxSelection(){
-    setTimeout(() => {
-       this.fileDataChk.checked = false;
-    },1000);
-  }
-
   private trackCurrentPageSelectedFile(filteredFilesData: AllFilesData[]){
     let fileIdList = [];
     this.currentPageSelectedFile = [];
@@ -1575,7 +1549,7 @@ getFilesDataObj(fileNameStr) {
   }
 
   onResize(event) {
-    this.makeRowsSameHeight();
+    //this.makeRowsSameHeight();
   }
 
   //@@@PDC-4792: Increase font size in all tables to pass 508 compliance

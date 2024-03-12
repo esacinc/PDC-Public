@@ -1,4 +1,4 @@
-import { Inject, Component, OnInit, ViewChild, ElementRef, Input, AfterViewInit, 
+import { Inject, Component, OnInit, ViewChild, ElementRef, Input, AfterViewInit,
   OnChanges, SimpleChanges, SimpleChange } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
@@ -6,7 +6,7 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
-import { environment } from '../../../environments/environment.js';
+import { environment } from '../../../environments/environment';
 
 
 @Component({
@@ -44,7 +44,7 @@ constructor(@Inject(DOCUMENT) private document: any, private route: ActivatedRou
   public loadFiles(fileData) {
     console.log(fileData);
   }
-  
+
   getFileContent(fname: any, rowLabel: string, colLabel: string) {
 	  //PDC-4909 mitigate xss
 	  var myUrl = window.top.location.href;
@@ -76,7 +76,7 @@ constructor(@Inject(DOCUMENT) private document: any, private route: ActivatedRou
   }
 
   ngOnInit() {
-  
+
     this.getFileContent(this.map_file, this.rowName, this.colName);
 
     window.scroll(0, 0);

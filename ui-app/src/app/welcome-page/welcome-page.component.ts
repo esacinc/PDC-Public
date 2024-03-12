@@ -3,12 +3,13 @@ import { Router } from "@angular/router";
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient, HttpHeaders, HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import {map} from 'rxjs/operators';
-import { AuthService, GoogleLoginProvider } from 'angular-6-social-login';
+import { SocialAuthService, GoogleLoginProvider } from 'angularx-social-login';
 import { ChorusauthService } from '../chorusauth.service';
 import { environment } from '../../environments/environment';
 import { PDCUserService } from '../pdcuser.service';
 import { RegistrationComponent} from '../navbar/registration/registration.component';
-import { MatDialog, MatDialogConfig, MatIconRegistry } from '@angular/material';
+import { MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig } from '@angular/material/legacy-dialog';
+import { MatIconRegistry } from '@angular/material/icon';
 
 @Component({
   selector: 'welcome-page',
@@ -25,7 +26,7 @@ export class WelcomePageComponent implements OnInit {
   userEmail:string = '';
   systemErrorMessage:string = '';
 
-  constructor(private chorusService: ChorusauthService, private socialAuthService: AuthService,
+  constructor(private chorusService: ChorusauthService, private socialAuthService: SocialAuthService,
 				private router: Router, private http: HttpClient, private userService: PDCUserService,
 				private activeRoute: ActivatedRoute, private dialog: MatDialog) {
 					//@@@PDC-4898: Remove outdated Welcome page and redirect to home page

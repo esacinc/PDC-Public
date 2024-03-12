@@ -1,8 +1,8 @@
-import {MatDialog, MatDialogRef, MatDialogConfig, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import {MatLegacyDialog as MatDialog, MatLegacyDialogRef as MatDialogRef, MatLegacyDialogConfig as MatDialogConfig, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA} from '@angular/material/legacy-dialog';
 import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
-import {AuthService, GoogleLoginProvider} from 'angular-6-social-login';
+import {SocialAuthService, GoogleLoginProvider} from 'angularx-social-login';
 import {Md5} from 'ts-md5/dist/md5';
 import {ChorusauthService} from '../../chorusauth.service';
 import {PDCUserService} from '../../pdcuser.service';
@@ -31,12 +31,12 @@ export class RegistrationComponent implements OnInit {
   idProvider = '';
 
   // This structure is needed for defining field validatoin rules
-  registrationForm: FormGroup;
+  registrationForm: UntypedFormGroup;
 
   //, Validators.pattern('(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).+')
   constructor(
     private chorusService: ChorusauthService,
-    private socialAuthService: AuthService,
+    private socialAuthService: SocialAuthService,
     private router: Router,
     private userService: PDCUserService,
     private overlayWindow: OverlayWindowService,
@@ -59,14 +59,14 @@ export class RegistrationComponent implements OnInit {
     }
     //PDC-885 - If user registers via PDC they need to have a password field which should be included in form validation
     if (this.idProvider === 'PDC') {
-      this.registrationForm = new FormGroup({
-        first_name: new FormControl('', Validators.required),
-        last_name: new FormControl('', Validators.required),
-        email: new FormControl('', [Validators.required, Validators.email]),
-        organization: new FormControl('', Validators.required),
-        searchType: new FormControl('', Validators.required),
-        user_pass: new FormControl('', [Validators.required, Validators.minLength(8), Validators.pattern(/(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#\$%\^&\*\_\-\+\=\?\,\:\;\<\>\/\~\\]).+/)]),
-        confirm_password: new FormControl('', Validators.required),
+      this.registrationForm = new UntypedFormGroup({
+        first_name: new UntypedFormControl('', Validators.required),
+        last_name: new UntypedFormControl('', Validators.required),
+        email: new UntypedFormControl('', [Validators.required, Validators.email]),
+        organization: new UntypedFormControl('', Validators.required),
+        searchType: new UntypedFormControl('', Validators.required),
+        user_pass: new UntypedFormControl('', [Validators.required, Validators.minLength(8), Validators.pattern(/(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#\$%\^&\*\_\-\+\=\?\,\:\;\<\>\/\~\\]).+/)]),
+        confirm_password: new UntypedFormControl('', Validators.required),
       });
       this.registrationForm.setValue({
         first_name: firstName,
@@ -79,12 +79,12 @@ export class RegistrationComponent implements OnInit {
       });
       //In any other case the form should not include password field.
     } else {
-      this.registrationForm = new FormGroup({
-        first_name: new FormControl('', Validators.required),
-        last_name: new FormControl('', Validators.required),
-        email: new FormControl({value: '', disabled: true}, [Validators.required, Validators.email]),
-        organization: new FormControl('', Validators.required),
-        searchType: new FormControl('', Validators.required),
+      this.registrationForm = new UntypedFormGroup({
+        first_name: new UntypedFormControl('', Validators.required),
+        last_name: new UntypedFormControl('', Validators.required),
+        email: new UntypedFormControl({value: '', disabled: true}, [Validators.required, Validators.email]),
+        organization: new UntypedFormControl('', Validators.required),
+        searchType: new UntypedFormControl('', Validators.required),
       });
       this.registrationForm.setValue({
         first_name: firstName,

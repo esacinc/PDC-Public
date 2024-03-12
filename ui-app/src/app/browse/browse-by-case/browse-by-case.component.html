@@ -26,7 +26,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="container-fluid ui-helper-clearfix button-container-fluid" style="border-top: 1px solid #ddd;">
+			<div class="container-fluid ui-helper-clearfix button-container-fluid" style="border-top: 1px solid #ddd; font-weight: 700;">
 				<div class="row">
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 						<div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
@@ -50,28 +50,24 @@
 				</div>
 			</div>
 		</ng-template>
-		<ng-template pTemplate="frozenheader" let-frozenColumns>
-			<tr>
-				<th class="ui-datatable-tableheader" style="width:50px;overflow: unset;">
-					<label><p-checkbox #caseDataChk id="caseDataChk" [(ngModel)]="headercheckbox" binary="true" (onChange)="triggerchangeHeaderCheckbox()"></p-checkbox></label>
+        <ng-template style="font-size: 12px; background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%);" pTemplate="header" let-columns>
+            <tr>
+				<th class="ui-datatable-tableheader" style="width:50px;overflow: unset;" pFrozenColumn>
+					<label><p-checkbox id="caseDataChk" [(ngModel)]="headercheckbox" binary="true" (onChange)="triggerchangeHeaderCheckbox()"></p-checkbox>
 						<mat-select #dataForManifestExport id="dataForManifestExport" class="card-body card-list" [(ngModel)]="selectedHeaderCheckbox"
 						(selectionChange)="changeHeaderCheckbox($event)">
 							<mat-option *ngFor="let checkboxOption of checkboxOptions" [value]="checkboxOption" (onSelectionChange)="chkBoxSelectionCheck(checkboxOption)">
 								{{checkboxOption}}
 							</mat-option>
 						</mat-select>
-						<span style="display:none">Select all rows</span>
+						<span style="display:none">Select all rows</span></label>
 
 				</th>
 				<!-- @@@PDC-262 link headers to data dictionary -->
-				<th class="ui-datatable-tableheader" style="width:150px;word-break: break-all;" [pSortableColumn]="cols[1].field"><a href="/pdc/data-dictionary/Aliquot" target="_blank" style="color:white">Aliquot</a><p-sortIcon [field]="cols[1].field" ariaLabel="Sort Aliquot column in ascending/descending order"></p-sortIcon></th>
-			</tr>
-		</ng-template>
-        <ng-template style="font-size: 12px; background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%);" pTemplate="header" let-columns>
-            <tr class="safari_only">
-			    <th class="ui-datatable-tableheader" [pSortableColumn]="cols[3].field"><a href="/pdc/data-dictionary/Sample" target="_blank" style="color:white">Sample</a><p-sortIcon [field]="cols[3].field" ariaLabel="Sort Sample column in ascending/descending order"></p-sortIcon></th>
-			    <th class="ui-datatable-tableheader" [pSortableColumn]="cols[5].field"><a href="/pdc/data-dictionary/Case" target="_blank" style="color:white">Case</a><p-sortIcon [field]="cols[5].field" ariaLabel="Sort Case column in ascending/descending order"></p-sortIcon></th>
-			    <th class="ui-datatable-tableheader" [pSortableColumn]="cols[6].field"><a href="/pdc/data-dictionary/Project" target="_blank" style="color:white">Project</a><p-sortIcon [field]="cols[6].field" ariaLabel="Sort Project column in ascending/descending order"></p-sortIcon></th>
+				<th class="ui-datatable-tableheader" style="width:150px;word-break: break-all;" [pSortableColumn]="cols[1].field"><a href="/pdc/data-dictionary/Aliquot" target="_blank" style="color:white" pFrozenColumn>Aliquot</a>&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Study in ascending/descending order"></i></th>
+			    <th class="ui-datatable-tableheader" [pSortableColumn]="cols[3].field"><a href="/pdc/data-dictionary/Sample" target="_blank" style="color:white">Sample</a>&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Study in ascending/descending order"></i></th>
+			    <th class="ui-datatable-tableheader" [pSortableColumn]="cols[5].field"><a href="/pdc/data-dictionary/Case" target="_blank" style="color:white">Case</a>&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Study in ascending/descending order"></i></th>
+			    <th class="ui-datatable-tableheader" [pSortableColumn]="cols[6].field"><a href="/pdc/data-dictionary/Project" target="_blank" style="color:white">Project</a>&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Study in ascending/descending order"></i></th>
 				<th class="ui-datatable-tableheader" [pSortableColumn]="cols[7].field">
 					<div class="ui-datatable-tableheader-flex-container">
 						<div>
@@ -81,7 +77,7 @@
 							</a>
 						</div>
 						<div>
-							<p-sortIcon [field]="cols[7].field" ariaLabel="Sort Sample Type column in ascending/descending order"></p-sortIcon>
+							&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Study in ascending/descending order"></i>
 						</div>
 					</div>
 				</th>
@@ -93,7 +89,7 @@
 							</a>
 						</div>
 						<div>
-							<p-sortIcon [field]="cols[8].field" ariaLabel="Sort Primary Site column in ascending/descending order"></p-sortIcon>
+							&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Study in ascending/descending order"></i>
 						</div>
 					</div>
 				</th>
@@ -105,22 +101,19 @@
 							</a>
 						</div>
 						<div>
-							<p-sortIcon [field]="cols[9].field" ariaLabel="Sort Disease Type column in ascending/descending order"></p-sortIcon>
+							&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Study in ascending/descending order"></i>
 						</div>
 					</div>
 				</th>
             </tr>
 		</ng-template>
-		<ng-template pTemplate="frozenbody" let-caseData let-frozenColumns>
-			<tr style="font-size: 11px;"[pSelectableRow]="caseData">
-				<!-- @@@PDC-7110 = fix checkbox update -->
-				<td style="width:50px;word-wrap: break-word; white-space: normal;"><p-tableCheckbox #browsePageCheckboxes id="caseData{{caseData.aliquot_submitter_id}}" [value]="caseData" class="browsePageCheckboxes"></p-tableCheckbox></td>
-				<!-- @@@PDC-462 show submitter ids -->
-                <td style="width:150px; white-space: normal;">{{caseData.aliquot_submitter_id }}&nbsp;&nbsp;<span style='color:red' *ngIf="caseData.aliquot_status == 'Disqualified'">{{caseData.aliquot_status}}</span></td>
-			</tr>
-		</ng-template>
         <ng-template pTemplate="body" let-caseData let-columns="columns">
             <tr style="font-size: 11px;" [pSelectableRow]="caseData" >
+				<td style="width:50px;word-wrap: break-word; white-space: normal;" pFrozenColumn>
+					<label><p-checkbox #browsePageCheckboxes id="caseData{{caseData.aliquot_submitter_id}}" [value]="caseData" class="browsePageCheckboxes" [(ngModel)]="selectedCases"></p-checkbox></label>
+				</td>
+				<!-- @@@PDC-462 show submitter ids -->
+                <td style="width:150px; white-space: normal;" pFrozenColumn>{{caseData.aliquot_submitter_id }}&nbsp;&nbsp;<span style='color:red' *ngIf="caseData.aliquot_status == 'Disqualified'">{{caseData.aliquot_status}}</span></td>
                 <td style="word-wrap: break-word; white-space: normal;">{{caseData.sample_submitter_id}}&nbsp;&nbsp;<span style='color:red' *ngIf="caseData.sample_status == 'Disqualified'">{{caseData.sample_status}}</span></td>
                 <td style="word-wrap: break-word; white-space: normal;"><a href="javascript:void(0);" (click)="showCaseSummary(caseData.case_submitter_id)">{{caseData.case_submitter_id}}</a>&nbsp;&nbsp;<span style='color:red' *ngIf="caseData.case_status == 'Disqualified'">{{caseData.case_status}}</span></td>
                 <td style="word-wrap: break-word; white-space: normal;">{{caseData.project_name}}</td>

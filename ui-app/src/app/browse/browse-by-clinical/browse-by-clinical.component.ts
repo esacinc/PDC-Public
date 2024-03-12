@@ -1,7 +1,7 @@
 import { Apollo } from 'apollo-angular';
 
 import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild, ViewChildren } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material';
+import { MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig } from '@angular/material/legacy-dialog';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { AllClinicalData } from '../../types';
@@ -88,8 +88,6 @@ export class BrowseByClinicalComponent implements OnInit {
   frozenColumns = [];
   @Input() childTabChanged: string;
   @ViewChild('dataForManifestExport') dataForManifestExport;
-  //@@@PDC-7109 - fix bug in browse checkbox
-  @ViewChild('clinicalDataChk') clinicalDataChk;
   //@@@PDC-7110 fix checkbox update
   @ViewChildren('browsePageCheckboxes') browsePageCheckboxes;
 
@@ -206,7 +204,7 @@ export class BrowseByClinicalComponent implements OnInit {
 			this.pageSize = data.getPaginatedUIClinical.pagination.size;
 			this.limit = data.getPaginatedUIClinical.pagination.size;
 			this.clearSelection();
-			this.makeRowsSameHeight();
+			//this.makeRowsSameHeight();
 			this.loading = false;
 		});
 	}, 1000);
@@ -214,7 +212,7 @@ export class BrowseByClinicalComponent implements OnInit {
 
   ngOnChanges(changes: SimpleChanges){
 	if (changes && changes['childTabChanged']) {
-		this.makeRowsSameHeight();
+		//this.makeRowsSameHeight();
 	}
 	if (this.newFilterValue){
 		this.filteredClinicalData = [];
@@ -303,7 +301,7 @@ export class BrowseByClinicalComponent implements OnInit {
 				this.limit = data.getPaginatedUIClinical.pagination.size;
 			}
 			this.clearSelection();
-			this.makeRowsSameHeight();
+			//this.makeRowsSameHeight();
 			this.loading = false;
 		});
 	}
@@ -386,7 +384,7 @@ downloadCompleteManifest(buttonClick = false) {
 						this.prepareDownloadData(this.manifestFormat, exportData, exportFileObject);
 					}
 					this.isTableLoading.emit({isTableLoading:"clinical:false"});
-					this.makeRowsSameHeight();
+					//this.makeRowsSameHeight();
 				}
 			});
 		}, 1000);
@@ -500,7 +498,7 @@ isDownloadDisabled(){
 			}
 			//@@@PDC-3667: "Select all pages" option issue
 			this.handleCheckboxSelections();
-			this.makeRowsSameHeight();
+			//this.makeRowsSameHeight();
 			this.loading = false;
 		});
 	}
@@ -680,21 +678,14 @@ isDownloadDisabled(){
 		this.selectedClinicalData = this.currentPageSelectedClinical = [];
 		switch (checkboxVal) {
 			case 'Select all pages':
-        setTimeout(() => {
-          this.clinicalDataChk.checked = true;
-        }, 1000);
 				this.downloadCompleteManifest(true);
 				break;
 			case 'Select this page':
 				this.headercheckbox = true;
-        setTimeout(() => {
-          this.clinicalDataChk.checked = true;
-        }, 50);
 				this.onTableHeaderCheckboxToggle();
 				break;
 			case 'Select None':
 				this.clearSelection();
-        this.clearCheckboxSelection();
 				break;
 		}
 	}
@@ -705,30 +696,21 @@ isDownloadDisabled(){
       this.selectedClinicalData = this.currentPageSelectedClinical = [];
       switch (checkboxVal) {
         case 'Select all pages':
-              setTimeout(() => {
-                this.clinicalDataChk.checked = true;
-              }, 500);
               this.downloadCompleteManifest(true);
               break;
         case 'Select this page':
               this.headercheckbox = true;
-              setTimeout(() => {
-                this.clinicalDataChk.checked = true;
-              }, 500);
               this.onTableHeaderCheckboxToggle();
               break;
         case 'Select None':
             this.clearSelection();
-              this.clearCheckboxSelection();
             break;
       }
       //@@@PDC-7110 - check if there are unchecked checkboxes in table - if so then deselect checkbox
       let found = this.browsePageCheckboxes._results.some(el => el.checked === false);
       if(found == false){
-        this.clinicalDataChk.checked = true;
         this.headercheckbox = true;
       } else {
-        this.clinicalDataChk.checked = false;
         this.headercheckbox = false;
       }
       this.dataForManifestExport.open();
@@ -738,11 +720,9 @@ isDownloadDisabled(){
   chkBoxSelectionCheck(selectedOption) {
       if(selectedOption == 'Select None'){
         this.headercheckbox = false;
-        this.clinicalDataChk.checked = false;
         this.dataForManifestExport.close();
       } else {
         this.headercheckbox = true;
-        this.clinicalDataChk.checked = true;
       }
   }
 
@@ -1285,12 +1265,6 @@ isDownloadDisabled(){
 			this.pageHeaderCheckBoxTrack = [];
 		}
 
-    private clearCheckboxSelection(){
-      setTimeout(() => {
-         this.clinicalDataChk.checked = false;
-      },1000);
-    }
-
 		//@@@PDC-848 Fix headercheckbox issue for data tables on browse page
 		private trackCurrentPageSelectedCase(filteredFilesData: AllClinicalData[]){
 			let fileIdList = [];
@@ -1302,7 +1276,7 @@ isDownloadDisabled(){
 		}
 
 		onResize(event) {
-			this.makeRowsSameHeight();
+			//this.makeRowsSameHeight();
 		}
 
 		//@@@PDC-4792: Increase font size in all tables to pass 508 compliance

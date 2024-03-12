@@ -1,13 +1,13 @@
 import { RouterTestingModule } from '@angular/router/testing';
 import { PDCUserService } from './../../pdcuser.service';
-import { AuthService } from "angular-6-social-login";
+import { SocialAuthService } from "angularx-social-login";
 import { Observable, of } from "rxjs";
 
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from "@angular/core";
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
-import { MatDialogModule } from "@angular/material";
-import { MatDialog, MatDialogRef } from "@angular/material/dialog";
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
+import { MatLegacyDialogModule as MatDialogModule } from "@angular/material/legacy-dialog";
+import { MatLegacyDialog as MatDialog, MatLegacyDialogRef as MatDialogRef } from "@angular/material/legacy-dialog";
 
 import { ChorusauthService } from "../../chorusauth.service";
 import { LoginComponent } from "./login.component";
@@ -48,14 +48,14 @@ describe("LoginComponent", () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [LoginComponent],
       imports: [HttpClientTestingModule, MatDialogModule, RouterTestingModule],
       schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         ChorusauthService,
-        { provide: AuthService, useClass: MockAuthService },
+        { provide: SocialAuthService, useClass: MockAuthService },
         { provide: MatDialogRef, useClass: MockMatDialogRef },
         { provide: MatDialog, userClass: MockMatDialog },
         { provide: PDCUserService, userClass: MockPDCUserService}
@@ -74,7 +74,7 @@ describe("LoginComponent", () => {
   });
 
   it("social sign out", async () => {
-    let service = TestBed.get(AuthService);
+    let service = TestBed.get(SocialAuthService);
     let spy = spyOn(service, "signOut").and.callThrough();
     component.socialSignOut("google");
     expect(spy).toHaveBeenCalled();
@@ -85,7 +85,7 @@ describe("LoginComponent", () => {
   });
 
   it("test social sign in user exist", async () => {
-    let service = TestBed.get(AuthService);
+    let service = TestBed.get(SocialAuthService);
     let chorusSerrvice = TestBed.get(ChorusauthService);
     let dialogRef = TestBed.get(MatDialogRef);
     let spy = spyOn(service, "signIn").and.callThrough();
@@ -104,7 +104,7 @@ describe("LoginComponent", () => {
   });
 
   xit("test social sign in user exist", async () => {
-    let service = TestBed.get(AuthService);
+    let service = TestBed.get(SocialAuthService);
     let chorusSerrvice = TestBed.get(ChorusauthService);
     let spy = spyOn(service, "signIn").and.callThrough();
     let spy1 = spyOn(chorusSerrvice, "checkUser").and.returnValue(of(false));

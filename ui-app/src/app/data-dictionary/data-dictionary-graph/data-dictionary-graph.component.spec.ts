@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { DataDictionaryGraphComponent } from './data-dictionary-graph.component';
 import { Apollo } from "apollo-angular";
@@ -12,7 +12,7 @@ describe('DataDictionaryGraphComponent', () => {
   let component: DataDictionaryGraphComponent;
   let fixture: ComponentFixture<DataDictionaryGraphComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ DataDictionaryGraphComponent ],
       imports: [HttpClientTestingModule],

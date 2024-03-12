@@ -1,8 +1,8 @@
 <title>Gene {{geneSummaryData?.gene_name}}</title>
-<div style="padding-left: 5px; overflow-x:hidden" (window:resize)="onResize($event)">
+<div style="padding-left: 5px; overflow-x:hidden">
   <mat-sidenav-container style="min-height: 1100px; padding-left:5px!important">
       <mat-sidenav #sidenav style=" margin-top: 3px; width:330px; padding-left:15px!important; visibility:visible!important" mode="side" opened [(opened)]="opened" class="sideBarNavigation">
-        
+
         <mat-card class="card" style="padding:0px!important">
           <mat-card-header class="browse-filter">
           </mat-card-header>
@@ -11,17 +11,17 @@
           </gene-filters>
         </mat-card>
      <button mat-icon-button style="padding-right:0px!important; padding-top: 0px"
-      matTooltip="Hide filters" (click)="sidenav.toggle()" aria-label="Hide Filters"><fa name="angle-double-left"></fa></button>
+      matTooltip="Hide filters" (click)="sidenav.toggle()" aria-label="Hide Filters"><fa-icon name="angle-double-left"></fa-icon></button>
 
     </mat-sidenav>
-    
+
     <mat-sidenav-content style="margin-top: 3px; overflow: hidden;">
       <button *ngIf="opened"  mat-icon-button style="padding-right:0px!important; padding-top: 0px"
-        matTooltip="Hide filters" (click)="sidenav.toggle()" id="hideFiltersOptionTop" aria-label="Hide Filters"><fa name="angle-double-left"></fa></button>
+        matTooltip="Hide filters" (click)="sidenav.toggle()" id="hideFiltersOptionTop" aria-label="Hide Filters"><fa-icon name="angle-double-left"></fa-icon></button>
      <button mat-icon-button matTooltip="Show filters"
-        *ngIf="!opened" (click)="sidenav.toggle()" id="showFilters" aria-label="Show Filters"><fa name="angle-double-right"></fa>
+        *ngIf="!opened" (click)="sidenav.toggle()" id="showFilters" aria-label="Show Filters"><fa-icon name="angle-double-right"></fa-icon>
       </button>
-	  <div class="" style="padding-left:10px; padding-right:15px;  margin-left:10px!important">  
+	  <div class="" style="padding-left:10px; padding-right:15px;  margin-left:10px!important">
 		<h2 mat-dialog-title style="color:#245672" id="geneName">GENE: {{geneSummaryData?.gene_name}}</h2>
 		<div class="row" style="width: 100%;">
 			<mat-card style="width:100%">
@@ -58,15 +58,16 @@
 						<div style="float:right">Total PTM sites: {{ptmTotalRecords}}</div>
 					</div>
 				</ng-template>
-				<ng-template pTemplate="frozenheader" let-frozenPTMColumns>
+<!-- 				<ng-template pTemplate="frozenheader" let-frozenPTMColumns>
 					<tr>
 						<th class="ui-datatable-tableheader">PTM Type</th>
 					</tr>
-				</ng-template>
+				</ng-template> -->
 				<ng-template pTemplate="header" let-columns>
 					<tr>
-						<th class="ui-datatable-tableheader">Site</th>
-						<th class="ui-datatable-tableheader">Peptide</th>
+						<th class="ui-datatable-tableheader" pFrozenColumn>PTM Type</th>
+						<th class="ui-datatable-tableheader fixedWidthCol">Site</th>
+						<th class="ui-datatable-tableheader fixedWidthCol">Peptide</th>
 					</tr>
 				</ng-template>
 				<ng-template pTemplate="frozenbody" let-ptmData let-frozenPTMColumns>
@@ -76,6 +77,7 @@
 				</ng-template>
 				<ng-template pTemplate="body" let-ptmData>
 					<tr class="table-striped">
+						<td style="word-wrap: break-word; white-space: normal;" pFrozenColumn>{{ptmData.ptm_type }}</td>
 						<td style="word-wrap: break-word; white-space: normal;">{{ptmData.site}}</td>
 						<td style="word-wrap: break-word; white-space: normal;">{{ptmData.peptide}}</td>
 					</tr>
@@ -88,9 +90,9 @@
 		</div>
 		<div class="row" style="width: 100%;">
 			<p-table #dt class="table-striped ui-datatable-odd" id="geneSummaryDataTable" [value]="studySpectralCountsList" [lazy]="true" [paginator]="true" [(first)]="studyOffset"
-					[rows]="10" [pageLinks]="5" [totalRecords]="studyTotalRecords" (onRowUnselect) ="onRowUnselected($event)" (onRowSelect)="onRowSelected($event)" [(selection)]="selectedStudies" 
+					[rows]="10" [pageLinks]="5" [totalRecords]="studyTotalRecords"  [(selection)]="selectedStudies"
 					[loading]="loading" [resizableColumns]="true" responsive="true" (onLazyLoad)="loadNewPageStudySpectralCounts($event)" [columns]="cols"
-					[ngStyle]="{'width':'100%'}"  scrollHeight="500px" [autoLayout]="true" [frozenColumns]="frozenGeneStudiesColumns" [scrollable]="true" frozenWidth="200px">
+					[ngStyle]="{'width':'100%'}"  (selectionChange)="onSelectionChange($event)" scrollHeight="500px" [autoLayout]="true" [frozenColumns]="frozenGeneStudiesColumns" [scrollable]="true" frozenWidth="200px">
 				<ng-template pTemplate="caption">
 					<div style="float:left">Studies in Which the Gene Product Was Detected</div>
 					<div class="ui-helper-clearfix">
@@ -108,9 +110,9 @@
 						</div>
 					</div>
 				</ng-template>
-				<ng-template pTemplate="frozenheader" let-frozenGeneStudiesColumns>
-					<tr>
-						<th class="ui-datatable-tableheader" style="width:50px;align-content: center !important; overflow: unset;" alt="Check All checkboxes in the table">
+				<ng-template pTemplate="header" let-columns>
+					<tr class="safari_only">
+						<th class="ui-datatable-tableheader" style="width:50px;align-content: center !important; overflow: unset;" alt="Check All checkboxes in the table" pFrozenColumn>
 							<label><p-checkbox  id="studyDataChk" [(ngModel)]="headercheckbox" binary="true" (onChange)="onTableHeaderCheckboxToggle()" ></p-checkbox></label>
 							<mat-select id="dataForManifestExport" class="card-body card-list" [(ngModel)]="selectedHeaderCheckbox"
 							(selectionChange)="changeHeaderCheckbox($event)">
@@ -120,29 +122,21 @@
 							</mat-select>
 							<span style="display:none;">Select All</span>
 						</th>
-						<th class="ui-datatable-tableheader" style="width:150px;">PDC Study ID</th>
+						<th class="ui-datatable-tableheader fixedWidthCol" style="width:150px;" pFrozenColumn>PDC Study ID</th>
+						<th class="ui-datatable-tableheader fixedWidthCol">Study</th>
+						<th class="ui-datatable-tableheader fixedWidthCol">Experiment Type</th>
+						<th class="ui-datatable-tableheader cursorPointer fixedWidthCol" [matTooltip]="studyTotalRecords?'Total number of spectra matched to peptides associated with the gene in acquisitions over all analytical samples in the study':null">Spectral Counts</th>
+						<th class="ui-datatable-tableheader cursorPointer fixedWidthCol" [matTooltip]="studyTotalRecords?'Total number of distinct peptide sequences associated with the gene in acquisitions over all analytical samples in the study':null">Distinct Peptides</th>
+						<th class="ui-datatable-tableheader cursorPointer fixedWidthCol" [matTooltip]="studyTotalRecords?'Total number of unshared peptide sequences associated with the gene in acquisitions over all analytical samples in the study':null">Unshared Peptides</th>
+						<th class="ui-datatable-tableheader cursorPointer fixedWidthCol" [matTooltip]="studyTotalRecords?'Number of analytical samples in the study':null">No of Aliquots</th>
+						<th class="ui-datatable-tableheader cursorPointer fixedWidthCol" [matTooltip]="studyTotalRecords?'Number of experimental runs in the study':null" matTooltipPosition="left">No of Plexes</th>
 					</tr>
 				</ng-template>
-				<ng-template pTemplate="header" let-columns>
-					<tr class="safari_only">
-						<th class="ui-datatable-tableheader">Study</th>
-						<th class="ui-datatable-tableheader">Experiment Type</th>
-						<th class="ui-datatable-tableheader cursorPointer" [matTooltip]="studyTotalRecords?'Total number of spectra matched to peptides associated with the gene in acquisitions over all analytical samples in the study':null">Spectral Counts</th>
-						<th class="ui-datatable-tableheader cursorPointer" [matTooltip]="studyTotalRecords?'Total number of distinct peptide sequences associated with the gene in acquisitions over all analytical samples in the study':null">Distinct Peptides</th>
-						<th class="ui-datatable-tableheader cursorPointer" [matTooltip]="studyTotalRecords?'Total number of unshared peptide sequences associated with the gene in acquisitions over all analytical samples in the study':null">Unshared Peptides</th>
-						<th class="ui-datatable-tableheader cursorPointer" [matTooltip]="studyTotalRecords?'Number of analytical samples in the study':null">No of Aliquots</th>
-						<th class="ui-datatable-tableheader cursorPointer" [matTooltip]="studyTotalRecords?'Number of experimental runs in the study':null" matTooltipPosition="left">No of Plexes</th>
-					</tr>
-				</ng-template>
-				<ng-template pTemplate="frozenbody" let-studyCountData let-frozenGeneStudiesColumns>
-					<tr [pSelectableRow]="studyCountData">
-						<td style="width:50px;align-content: center !important"><p-tableCheckbox id="studyCountData{{studyCountData.submitter_id_name}}" [value]="studyCountData" class="browsePageCheckboxes"></p-tableCheckbox></td>
-						<td style="width:150px;word-wrap: break-word; white-space: normal;">{{studyCountData.pdc_study_id}}</td>
-					</tr>
-				</ng-template>
-		
 				<ng-template pTemplate="body" let-studyCountData>
-					<tr class="table-striped" [pSelectableRow]="studyCountData">
+					<tr [pSelectableRow]="studyCountData">
+            <!--	<label><p-tableCheckbox  [pSelectableRow]="studyData" #browsePageCheckboxes id="studyData{{studyData.submitter_id_name}}" [value]="studyData"  class="browsePageCheckboxes" style="cursor:pointer !important;"></p-tableCheckbox></label> -->
+						<td style="width:50px;align-content: center !important" pFrozenColumn><label><p-tableCheckbox #browsePageCheckboxes id="studyCountData{{studyCountData.submitter_id_name}}" [value]="studyCountData" class="browsePageCheckboxes" [pSelectableRow]="studyCountData"></p-tableCheckbox></label></td>
+						<td style="width:150px;word-wrap: break-word; white-space: normal;" pFrozenColumn>{{studyCountData.pdc_study_id}}</td>
 						<td style="word-wrap: break-word; white-space: normal;">{{studyCountData.submitter_id_name}}</td>
 						<td style="word-wrap: break-word; white-space: normal;">{{studyCountData.experiment_type}}</td>
 						<td style="word-wrap: break-word; white-space: normal;">{{studyCountData.spectral_count}}</td>
@@ -167,36 +161,38 @@
 						<div style="float:right">Total Biospecimens: {{aliquotTotalRecords}}</div>
 					</div>
 				</ng-template>
-				<ng-template pTemplate="frozenheader" let-frozenGeneBiospecimenColumns>
+<!-- 				<ng-template pTemplate="frozenheader" let-frozenGeneBiospecimenColumns>
 					<tr>
 						<th class="ui-datatable-tableheader">Aliquot</th>
 					</tr>
-				</ng-template>
+				</ng-template> -->
 				<ng-template pTemplate="header" let-columns>
 					<tr>
-						<th class="ui-datatable-tableheader">Plex (Dataset alias)</th>
-						<th class="ui-datatable-tableheader">Label</th>
-						<th class="ui-datatable-tableheader">Study</th>
-						<th class="ui-datatable-tableheader">Experiment Type</th>
-						<th class="ui-datatable-tableheader" [matTooltip]="aliquotTotalRecords?'Number of spectra matched to peptides associated with the gene in acquisitions from a specific analytical sample':null">Spectral Counts</th>
-						<th class="ui-datatable-tableheader" [matTooltip]="aliquotTotalRecords?'Number of distinct peptide sequences associated with the gene in acquisitions from a specific analytical sample':null">Distinct Peptides</th>
-						<th class="ui-datatable-tableheader" [matTooltip]="aliquotTotalRecords?'Number of unshared peptide sequences associated with the gene in acquisitions from a specific analytical sample':null">Unshared Peptides</th>
+						<th class="ui-datatable-tableheader" pFrozenColumn>Aliquot</th>
+						<th class="ui-datatable-tableheader fixedWidthCol">Plex (Dataset alias)</th>
+						<th class="ui-datatable-tableheader fixedWidthCol">Label</th>
+						<th class="ui-datatable-tableheader fixedWidthCol">Study</th>
+						<th class="ui-datatable-tableheader fixedWidthCol">Experiment Type</th>
+						<th class="ui-datatable-tableheader fixedWidthCol" [matTooltip]="aliquotTotalRecords?'Number of spectra matched to peptides associated with the gene in acquisitions from a specific analytical sample':null">Spectral Counts</th>
+						<th class="ui-datatable-tableheader fixedWidthCol" [matTooltip]="aliquotTotalRecords?'Number of distinct peptide sequences associated with the gene in acquisitions from a specific analytical sample':null">Distinct Peptides</th>
+						<th class="ui-datatable-tableheader fixedWidthCol" [matTooltip]="aliquotTotalRecords?'Number of unshared peptide sequences associated with the gene in acquisitions from a specific analytical sample':null">Unshared Peptides</th>
 						<!-- @@@PDC-557 -->
-						<th class="ui-datatable-tableheader" [matTooltip]="aliquotTotalRecords?'Total precursor area of peptide ions associated with the gene in acquisitions from a specific biological sample':null">Precursor Area</th>
+						<th class="ui-datatable-tableheader fixedWidthCol" [matTooltip]="aliquotTotalRecords?'Total precursor area of peptide ions associated with the gene in acquisitions from a specific biological sample':null">Precursor Area</th>
 						<!--th class="ui-datatable-tableheader">Unshared Precursor Area</th-->
-						<th class="ui-datatable-tableheader" [matTooltip]="aliquotTotalRecords?'Total precursor area of peptide ions of unshared peptides only associated with the gene in acquisitions from a specific biological sample':null">Unshared Area</th>
+						<th class="ui-datatable-tableheader fixedWidthCol" [matTooltip]="aliquotTotalRecords?'Total precursor area of peptide ions of unshared peptides only associated with the gene in acquisitions from a specific biological sample':null">Unshared Area</th>
 						<!-- @@@PDC-669 -->
-						<th class="ui-datatable-tableheader" [matTooltip]="aliquotTotalRecords?'Average log-ratio of sample reporter-ion to common reference of peptide ions associated with the gene in acquisitions from a specific biological sample':null" matTooltipPosition="left">Log2 Ratio</th>
-						<th class="ui-datatable-tableheader" [matTooltip]="aliquotTotalRecords?'Average log2ratio of sample reporter ion intensity to common reference ion intensity for peptides uniquely associated with the gene in acquisitions':null" matTooltipPosition="left">Unshared Log2 Ratio</th>
+						<th class="ui-datatable-tableheader fixedWidthCol" [matTooltip]="aliquotTotalRecords?'Average log-ratio of sample reporter-ion to common reference of peptide ions associated with the gene in acquisitions from a specific biological sample':null" matTooltipPosition="left">Log2 Ratio</th>
+						<th class="ui-datatable-tableheader fixedWidthCol" [matTooltip]="aliquotTotalRecords?'Average log2ratio of sample reporter ion intensity to common reference ion intensity for peptides uniquely associated with the gene in acquisitions':null" matTooltipPosition="left">Unshared Log2 Ratio</th>
 					</tr>
 				</ng-template>
-				<ng-template pTemplate="frozenbody" let-aliquotCountData let-frozenGeneBiospecimenColumns>
+<!-- 				<ng-template pTemplate="frozenbody" let-aliquotCountData let-frozenGeneBiospecimenColumns>
 					<tr>
-						<td style="word-wrap: break-word; white-space: normal;">{{aliquotCountData.aliquot_id}}</td> 
+						<td style="word-wrap: break-word; white-space: normal;">{{aliquotCountData.aliquot_id}}</td>
 					</tr>
-				</ng-template>
+				</ng-template> -->
 				<ng-template pTemplate="body" let-aliquotCountData>
 					<tr>
+						<td style="word-wrap: break-word; white-space: normal;" pFrozenColumn>{{aliquotCountData.aliquot_id}}</td>
 						<td style="word-wrap: break-word; white-space: normal;">{{aliquotCountData.plex}}</td>
 						<td style="word-wrap: break-word; white-space: normal;">{{aliquotCountData.label}}</td>
 						<td style="word-wrap: break-word; white-space: normal;">{{aliquotCountData.submitter_id_name}}</td>

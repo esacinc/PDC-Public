@@ -48,15 +48,15 @@ a.disabled {
 .data-categories-table, .entity-reference-table {
 	padding: 0 !important;
 }
- 
+
 .table-striped > tbody >  tr:nth-of-type(odd){
 	background-color: #ffffff;
 }
- 
+
 .table-striped > tbody >  tr:nth-of-type(even){
 	background-color: rgb(225, 239, 252);
 }
-  
+
 ::-webkit-scrollbar {
     width: 8px;
 	height: 8px
@@ -79,30 +79,30 @@ a.disabled {
 .table .summary-table{
 	border: 0;
 	overflow-y:auto;
-	
+
 }
 
 .summary-card-name-left-cell {
-	word-wrap:break-word; 
+	word-wrap:break-word;
 	white-space:normal;
-	padding-right:20px; 
+	padding-right:20px;
 	padding-bottom: 3px;
 	text-align: right;
 }
 
 .summary-card-value-left-cell {
-	word-wrap:break-word !important; 
+	word-wrap:break-word !important;
 	white-space:normal;
 	padding-bottom: 3px;
-	padding-right:10px; 
-	padding-left:10px; 
-	text-align: left; 
+	padding-right:10px;
+	padding-left:10px;
+	text-align: left;
 	border-right: 1px solid #ddd;
 }
 
 .summary-card-name-right-cell {
-	word-wrap:break-word; 
-	white-space:normal; 
+	word-wrap:break-word;
+	white-space:normal;
 	padding-bottom: 3px;
 	padding-right:20px;
 	padding-left:10px;
@@ -110,25 +110,25 @@ a.disabled {
 }
 
 .summary-card-value-right-cell {
-	word-wrap:break-word !important; 
+	word-wrap:break-word !important;
 	white-space:normal;
 	padding-bottom: 3px;
-	padding-right:10px; 
+	padding-right:10px;
 	text-align: left;
 }
 
 .tab-table-field-name {
 	padding-right:10px;
-	padding-bottom: 3px; 
+	padding-bottom: 3px;
 	white-space:normal;
 	text-align: right;
 }
 
 .tab-table-field-value {
 	padding-right:2px;
-	padding-bottom: 3px; 
-	word-wrap:break-word !important; 
-	white-space:normal; 
+	padding-bottom: 3px;
+	word-wrap:break-word !important;
+	white-space:normal;
 	text-align: left;
 }
 
@@ -183,7 +183,7 @@ a.disabled {
  .genomicLbl {
      margin-top: 5%;
  }
- 
+
  //@@@PDC-2598 conditional styling of Embargo date - future embargo date is bold red
 .future_embargo_date {
 	color: #de350b;

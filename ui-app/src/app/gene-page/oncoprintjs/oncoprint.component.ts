@@ -38,7 +38,10 @@ export class OncoprintComponent implements OnInit, OnChanges {
  
 	@Input() newFilterValue: any;
 	frozenStudyColumn = [{ field: 'study', header: 'Study' }];
-	cols = [{field:'aliquotData', header: 'Aliquots' }];
+	cols = [
+		{ field: 'study', header: 'Study' },
+		{field:'aliquotData', header: 'Aliquots' }
+		];
 	isScrollable:boolean = true;
 
   constructor(private genePageService: GenePageService ) {

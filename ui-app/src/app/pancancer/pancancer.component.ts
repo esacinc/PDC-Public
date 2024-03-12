@@ -6,7 +6,7 @@ import { Observable, Subject } from 'rxjs';
 import { map ,  switchMap, debounceTime,  startWith} from 'rxjs/operators';
 import gql from 'graphql-tag';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, UntypedFormGroup } from '@angular/forms';
 
 import {DataViewModule} from 'primeng/dataview';
 import {MatExpansionModule} from '@angular/material/expansion';
@@ -14,7 +14,8 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import { publicationsStudyData, PublicationsData, QueryPublicationsData, publicationsFiltersData, UIPublicationsData } from '../types';
 import { StudySummaryComponent } from '../browse/study-summary/study-summary.component';
 
-import { MatDialog, MatDialogConfig, MatSidenav } from '@angular/material';
+import { MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig } from '@angular/material/legacy-dialog';
+import { MatSidenav } from '@angular/material/sidenav';
 
 import {TableTotalRecordCount, AllStudiesData} from '../types';
 import { PublicationFilesOverlayComponent } from '../browse/browse-by-file/publication-files-overlay.component';
@@ -64,7 +65,7 @@ export class PancancerComponent {
 	newFilterSelected: any;
 	cols: any[];
 	loading = false;
-	publicationFiltersGroup:FormGroup;
+	publicationFiltersGroup:UntypedFormGroup;
 	isAbstractExpanded = false;
 	filterSelected: any;
 	searchErrorMessageFlag = false;
@@ -288,10 +289,9 @@ export class PancancerComponent {
 						let allFilesArr = [];
 						allFilesArr = data.getAllUIPancancerFiles;
 						this.groupSupplementaryData(allFilesArr);
+						this.loading = false;
 					}
 				});
-
-				this.loading = false;
 			}
 		});
 	}

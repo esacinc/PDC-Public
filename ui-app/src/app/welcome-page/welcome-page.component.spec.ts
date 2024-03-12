@@ -1,10 +1,11 @@
-import { MatDialog } from '@angular/material/dialog';
-import { AuthService } from 'angular-6-social-login';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { SocialAuthService } from 'angularx-social-login';
 import { of } from 'rxjs';
 
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatCardModule, MatToolbarModule } from '@angular/material';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -28,7 +29,7 @@ class MockAuthService {
 describe("WelcomePageComponent", () => {
   let component: WelcomePageComponent;
   let fixture: ComponentFixture<WelcomePageComponent>;
-  let socialAuthService: AuthService;
+  let socialAuthService: SocialAuthService;
   let userService: PDCUserService;
   let activeRoute: ActivatedRoute;
   let route: Router;
@@ -36,7 +37,7 @@ describe("WelcomePageComponent", () => {
   let socialSpy: jasmine.Spy;
   let routeSpy: jasmine.Spy;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [WelcomePageComponent],
       imports: [
@@ -48,7 +49,7 @@ describe("WelcomePageComponent", () => {
       providers: [
         ChorusauthService,
         PDCUserService,
-        { provide: AuthService, useClass: MockAuthService },
+        { provide: SocialAuthService, useClass: MockAuthService },
         { provide: MatDialog, useClass: MockDialog },
       ]
     }).compileComponents();
@@ -65,10 +66,10 @@ describe("WelcomePageComponent", () => {
   });
 
   it("test social sign in success, and navigate to pdc", done => {
-    socialAuthService = TestBed.get(AuthService);
+    socialAuthService = TestBed.get(SocialAuthService);
     userService = TestBed.get(PDCUserService);
     route = TestBed.get(Router);
-    userSpy = spyOn(userService, "checkPDCUserByEmail").and.returnValue(of(0));
+    userSpy = spyOn(userService, "checkPDCUserByEmail").and.returnValue(Promise.resolve(0));
     socialSpy = spyOn(socialAuthService, "signIn").and.callThrough();
     routeSpy = spyOn(route, "navigate");
     component.socialSignIn("google");
@@ -81,10 +82,10 @@ describe("WelcomePageComponent", () => {
   });
 
   it("test social sign in success with new user, and navigate to registration", done => {
-    socialAuthService = TestBed.get(AuthService);
+    socialAuthService = TestBed.get(SocialAuthService);
     userService = TestBed.get(PDCUserService);
     route = TestBed.get(Router);
-    userSpy = spyOn(userService, "checkPDCUserByEmail").and.returnValue(of(1));
+    userSpy = spyOn(userService, "checkPDCUserByEmail").and.returnValue(Promise.resolve(1));
     socialSpy = spyOn(socialAuthService, "signIn").and.callThrough();
     routeSpy = spyOn(route, "navigate");
     component.socialSignIn("google");
@@ -99,10 +100,10 @@ describe("WelcomePageComponent", () => {
   });
 
   it("test social sign in with error", done => {
-    socialAuthService = TestBed.get(AuthService);
+    socialAuthService = TestBed.get(SocialAuthService);
     userService = TestBed.get(PDCUserService);
     route = TestBed.get(Router);
-    userSpy = spyOn(userService, "checkPDCUserByEmail").and.returnValue(of(2));
+    userSpy = spyOn(userService, "checkPDCUserByEmail").and.returnValue(Promise.resolve(2));
     socialSpy = spyOn(socialAuthService, "signIn").and.callThrough();
     component.socialSignIn("google");
     expect(socialSpy).toHaveBeenCalled();
@@ -117,7 +118,7 @@ describe("WelcomePageComponent", () => {
   });
 
   //@@@PDC-4898: Remove outdated Welcome page and redirect to home page
-  //Commenting test cases related to checkPDCUser since this code is no longer being used and 
+  //Commenting test cases related to checkPDCUser since this code is no longer being used and
   //the welcome page is being redirected to home page
 /*   it("test nih sign in success, and navigate to pdc", done => {
     userService = TestBed.get(PDCUserService);

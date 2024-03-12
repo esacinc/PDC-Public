@@ -1,4 +1,4 @@
-#pancancerFileDataTable .ui-table table, .ui-table table {
+#pancancerFileDataTable .p-datatable-table {
     border-collapse: collapse !important;
     width: 100% !important;
     table-layout: fixed !important;
@@ -13,4 +13,32 @@
 
 #pancancerFileDataTable .downloadBtn {
     line-height: 20px;
+}
+
+:host ::ng-deep #pancancerFileDataTable .p-paginator-top, 
+:host ::ng-deep #pancancerFileDataTable .p-paginator-bottom {
+    border: 1px solid #ddd !important;
+    background: #e9e9e9;
+    color: #333;
+    font-weight: 700;
+  }
+  
+:host ::ng-deep #pancancerFileDataTable .p-paginator-top {
+    margin-bottom: 0px !important;
+}
+
+:host ::ng-deep #pancancerFileDataTable .p-paginator-bottom {
+    border: none;
+}
+
+:host ::ng-deep #pancancerFileDataTable .p-dropdown-trigger {
+    border: 1px solid #c5c5c5;
+}
+
+:host ::ng-deep #pancancerFileDataTable .p-dropdown-trigger chevrondownicon {
+    border: none !important;
+}
+
+:host ::ng-deep #pancancerFileDataTable .p-datatable table {
+    table-layout: fixed !important;
 }

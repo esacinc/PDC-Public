@@ -1,5 +1,5 @@
 import { StudySummaryOverlayRemoteRef } from "./study-summary-overlay-remote-ref";
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 
 import { StudySummaryOverlayWindowComponent } from "./study-summary-overlay-window.component";
 
@@ -11,7 +11,7 @@ describe("StudySummaryOverlayWindowComponent", () => {
   let component: StudySummaryOverlayWindowComponent;
   let fixture: ComponentFixture<StudySummaryOverlayWindowComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [StudySummaryOverlayWindowComponent],
       providers: [

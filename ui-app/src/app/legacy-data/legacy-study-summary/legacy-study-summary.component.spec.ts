@@ -1,7 +1,7 @@
 import { Observable, of } from "rxjs";
 import { LegacyStudySummaryService } from "./legacy-study-summary.service";
-import { MAT_DIALOG_DATA } from "@angular/material";
-import { MatDialogRef } from "@angular/material/dialog";
+import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from "@angular/material/legacy-dialog";
+import { MatLegacyDialogRef as MatDialogRef } from "@angular/material/legacy-dialog";
 import { Apollo } from "apollo-angular";
 import { Router } from '@angular/router';
 import { RouterTestingModule } from "@angular/router/testing";
@@ -10,10 +10,10 @@ import {
   HttpTestingController
 } from "@angular/common/http/testing";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
-import { async, ComponentFixture, TestBed, fakeAsync } from "@angular/core/testing";
+import { ComponentFixture, TestBed, fakeAsync, waitForAsync } from "@angular/core/testing";
 
 import { LegacyStudySummaryComponent } from "./legacy-study-summary.component";
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 
 class MockDialog {
   open(): any {
@@ -72,7 +72,7 @@ describe("LegacyStudySummaryComponent", () => {
   let router: Router;
 
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [LegacyStudySummaryComponent],
       imports: [HttpClientTestingModule, RouterTestingModule.withRoutes([])],

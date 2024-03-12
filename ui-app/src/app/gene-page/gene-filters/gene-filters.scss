@@ -8,7 +8,7 @@ $header-height: 128px;
 $stateActiveBgColor: #3baae3;
 
 .float-button-right {
-  // This fills the remaining space, by using flexbox. 
+  // This fills the remaining space, by using flexbox.
   flex: 1 1 auto;
 }
 
@@ -35,7 +35,7 @@ $stateActiveBgColor: #3baae3;
 	border: 1px;
 	color: #000000;
 	align-items: center;
-} 
+}
 
 .browse-filter .card-title {
 	font-weight: 'regular';
@@ -80,14 +80,14 @@ $stateActiveBgColor: #3baae3;
 	padding-bottom: 0px;
 	//color: #000000;
 	 flex:1 1 auto;
-} 
+}
 
 //@@@PDC-517 styling filter category title and align with reset button
 .browse-filter-title{
-	color:white; 
+	color:white;
 	font-weight:600;
-	font-size:15px; 
-	height:40px; 
+	font-size:15px;
+	height:40px;
 	line-height:40px;
 }
 

@@ -4,7 +4,7 @@ import { Apollo } from "apollo-angular";
 import { Observable, of, Subject } from "rxjs";
 
 import { NO_ERRORS_SCHEMA } from "@angular/core";
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 
 import { AllStudiesData, FilterData } from "../../types";
 import { BrowseFiltersComponent } from "./browse-filters.component";
@@ -350,7 +350,7 @@ describe("BrowseFiltersComponent", () => {
   let fixture: ComponentFixture<BrowseFiltersComponent>;
   let service: BrowseFiltersService;
   let browseSerivce: BrowseService;
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [BrowseFiltersComponent],
       schemas: [NO_ERRORS_SCHEMA],

@@ -2,7 +2,7 @@ import { of ,  Observable } from "rxjs";
 import { FrontPageService } from "./../../front-page.service";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { RouterTestingModule } from "@angular/router/testing";
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { HumanBodyChartComponent } from "./human-body-chart.component";
 
 class MockFrontPageService {
@@ -29,7 +29,7 @@ describe("HumanBodyChartComponent", () => {
   let fixture: ComponentFixture<HumanBodyChartComponent>;
   let serviceSpy: jasmine.Spy;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [HumanBodyChartComponent],
       imports: [RouterTestingModule],

@@ -6,11 +6,11 @@ import { Observable } from 'rxjs';
 
 import gql from 'graphql-tag';
 import { map } from 'rxjs/operators';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
+import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { CaseSummaryService } from "./case-summary.service";
 import { Filter, FilesCountsPerStudyData, CaseData, AllCasesData, ExperimentFileByCaseCount, DataCategoryFileByCaseCount,
 			SampleData, AliquotData, DiagnosesData, DemographicsData, AllStudiesData, Exposures, FollowUps} from '../../types';
-import { MatDialog, MatDialogConfig } from '@angular/material';
+import { MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig } from '@angular/material/legacy-dialog';
 import { FilesOverlayComponent } from '../browse-by-file/files-overlay.component';
 import { StudySummaryComponent } from '../study-summary/study-summary.component';
 

@@ -1,8 +1,37 @@
+/* @@@PDC-8108 - fix-font-consistency - homepage*/
+
+th#spectraLabel {
+  font-weight: 500 !important;
+}
+
+th#peptideLabel {
+  font-weight: 500 !important;
+}
+
+th#proteinLabel {
+  font-weight: 500 !important;
+}
+
+th#dataFilesLabel {
+  font-weight: 500 !important;
+}
+
+th#dataFilesLabel {
+  font-weight: 500 !important;
+}
+
+th#dataVolumeLabel {
+  font-weight: 500 !important;
+}
+
+th#studiesLabel {
+  font-weight: 500 !important;
+}
+
 .toolbar-second-row {
     background-image: linear-gradient(-133deg, #246A92 0%, #245571 100%);
   }
 
- 
  div.stats {
     display:table;
     width:100%;
@@ -14,8 +43,8 @@ div.stats span {
     border: 0px;
 }
 .stats-box-separator {
-   // opacity: 0.3; 
-    height: 35px; 
+   // opacity: 0.3;
+    height: 35px;
     border-right: 1px;
     border-left:0px;
     border-top: 0px;
@@ -43,7 +72,7 @@ div.stats .data-row {
 div.stats .label-row {
     text-align:left;
     font-family: 'Lato';
-    
+
     font-weight: 300;
     font-size: 16px;
     color: #96C7FF;
@@ -73,7 +102,7 @@ div.stats .label-row {
     display: inline-block;
     width: 10px;
     height: 10px;
-    background-position: -500px -500px; 
+    background-position: -500px -500px;
 }
 .icon.volume {
     background-position: -189px -83px;
@@ -164,7 +193,7 @@ div.stats .label-row {
 }
 
 @media (max-width: 900px){
-    .stats-icon { display: none; } 
+    .stats-icon { display: none; }
 }
 
 //@@@PDC-1635: Collapse "Program Stats" section for smaller layouts.

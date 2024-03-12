@@ -2,7 +2,7 @@ type Query {
   aliquot(aliquot_id: String, aliquot_submitter_id: String, source: String, acceptDUA: Boolean): [Aliquot]	
   aliquotSearch(name: String! offset: Int, limit: Int): Paginated	
   aliquotSpectralCount(gene_name: String!, dataset_alias: String!, source: String, acceptDUA: Boolean): [Gene]	
-  allCases(acceptDUA: Boolean): [PublicCase]	
+  allCases(offset: Int, limit: Int, acceptDUA: Boolean): [PublicCase]	
   allExperimentTypes(experiment_type: String, tissue_or_organ_of_origin: String, disease_type: String, acceptDUA: Boolean): [Experiment]	
   allPrograms(acceptDUA: Boolean): [Program]	
   biospecimenPerStudy(study_id: String, pdc_study_id: String, study_submitter_id: String, source: String, acceptDUA: Boolean): [Biospecimen]	

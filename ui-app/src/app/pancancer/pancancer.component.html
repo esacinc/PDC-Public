@@ -36,7 +36,7 @@
 			<ng-template pTemplate="listItem" let-pubData let-rowIndex="rowIndex">
 			<div style="border-bottom: 1px solid #c5c3c4;padding: 20px 25px;">
 				<div style="word-wrap: break-word; white-space: normal;font-size: 16px!important">
-						<a href={{pubData.journal_url}} target="_" style="color: rgb(0, 80, 131)"><b>{{pubData.title }}</b></a>&nbsp;&nbsp;
+						<a href={{pubData.journal_url}} target="_" style="color: rgb(0, 80, 131)">{{pubData.title }}</a>&nbsp;&nbsp;
 						<a href="https://www.ncbi.nlm.nih.gov/pubmed/{{pubData.pubmed_id}}" target="_" style="cursor: pointer;">
 							<img alt="Pubmed url" src="./assets/css/images/pubmedIcon.png" style="height: 30px;"></a>&nbsp;&nbsp;
 						<a href="http://doi.org/{{pubData.doi}}" target="_" style="cursor: pointer;"><img alt="Pubmed url" src="./assets/css/images/doi.png"></a>

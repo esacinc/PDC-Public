@@ -1,13 +1,13 @@
 import { of } from 'rxjs';
-import { MatDialogRef,MAT_DIALOG_DATA, MatDialog } from "@angular/material/dialog";
+import { MatLegacyDialogRef as MatDialogRef,MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialog as MatDialog } from "@angular/material/legacy-dialog";
 import { OverlayWindowService } from "./../../overlay-window/overlay-window.service";
 import { PDCUserService } from "./../../pdcuser.service";
-import { AuthService } from "angular-6-social-login";
+import { SocialAuthService } from "angularx-social-login";
 import { ChorusauthService } from "./../../chorusauth.service";
 import { RouterTestingModule } from "@angular/router/testing";
-import { MatFormFieldModule } from "@angular/material";
+import { MatLegacyFormFieldModule as MatFormFieldModule } from "@angular/material/legacy-form-field";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 
 import { ResetPasswordComponent } from "./reset-password.component";
 
@@ -41,7 +41,7 @@ describe("ResetPasswordComponent", () => {
   let component: ResetPasswordComponent;
   let fixture: ComponentFixture<ResetPasswordComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ResetPasswordComponent],
       imports: [
@@ -52,7 +52,7 @@ describe("ResetPasswordComponent", () => {
       ],
       providers: [
         { provide: ChorusauthService, useClass: MockChorusauthService },
-        { provide: AuthService, useClass: MockAuthService },
+        { provide: SocialAuthService, useClass: MockAuthService },
         { provide: PDCUserService, useClass: MockPDCUserService },
         { provide: OverlayWindowService, useClass: MockOverlayWindowService },
         { provide: MatDialogRef, useValue: {} },

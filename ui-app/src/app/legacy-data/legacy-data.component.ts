@@ -6,20 +6,23 @@ import { Observable, Subject } from 'rxjs';
 import { map ,  switchMap ,  take } from 'rxjs/operators';
 import gql from 'graphql-tag';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 
 import { DataViewModule } from 'primeng/dataview';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { ButtonModule } from 'primeng/button'; 
+import { ButtonModule } from 'primeng/button';
 
 import { QueryLegacyStudies, legacyStudyPublications } from '../types';
 import { StudySummaryComponent } from '../browse/study-summary/study-summary.component';
 import { LegacyStudySummaryComponent } from './legacy-study-summary/legacy-study-summary.component';
 import { LegacyDataService } from './legacy-data.service';
-import { MatDialog, MatDialogConfig, MatSidenav } from '@angular/material';
+import { MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig } from '@angular/material/legacy-dialog';
+import { MatSidenav } from '@angular/material/sidenav';
 
 import {TableTotalRecordCount, AllStudiesData} from '../types';
 import { FilesOverlayComponent } from '../browse/browse-by-file/files-overlay.component';
+
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 declare var window: any;
 
@@ -29,15 +32,15 @@ templateUrl: './legacy-data.component.html',
 styleUrls: ['../../assets/css/global.css', './legacy-data.component.scss'],
 })
 
-//@@@PDC-3363 Develop UI legacy data 
+//@@@PDC-3363 Develop UI legacy data
 //@@@PDC-3729 Change layout of the page, group studies with the same name, add analytical fraction and experiemnt type data
 //@@@PDC-3982 Create new layout for Legacy Data page - for now all this code is commented out
-export class LegacyDataComponent implements OnInit{ 
+export class LegacyDataComponent implements OnInit{
 
 	allStudies: QueryLegacyStudies[];
 	projects: any[] = [];
 	//studiesList: any[] = [];
-	
+
 	totalRecords = 0;
 	offset: number = 0;
 	limit: number = 50;
@@ -45,10 +48,10 @@ export class LegacyDataComponent implements OnInit{
 	cols: any[];
 	colsStudy: any[];
 	loading = false;
-	publicationFiltersGroup:FormGroup;
+	publicationFiltersGroup:UntypedFormGroup;
 	isAbstractExpanded = false;
 	isProjectExpanded = false;
-	
+
 	breadcrumbs = [];
 	newFilterValue: string;
 	public filtersChangedInBreadcrumbBar: Object;
@@ -58,46 +61,46 @@ export class LegacyDataComponent implements OnInit{
 	isFullDescription = false;
 	//projectsListView = true;
 
-	
-	constructor(private apollo: Apollo, private dialog: MatDialog, private legacyDataService: LegacyDataService, 
+
+	constructor(private apollo: Apollo, private dialog: MatDialog, private legacyDataService: LegacyDataService,
 		private route: ActivatedRoute,
 		private router: Router,
 		private loc: Location) {
-		
-		this.publicationFiltersGroup = new FormGroup({
-				diseaseTypeFormControl: new FormControl(),
-				yearFormControl: new FormControl(),
-				programFormControl: new FormControl()
+
+		this.publicationFiltersGroup = new UntypedFormGroup({
+				diseaseTypeFormControl: new UntypedFormControl(),
+				yearFormControl: new UntypedFormControl(),
+				programFormControl: new UntypedFormControl()
 		});
-		  
+
 		this.publicationFiltersGroup.setValue({diseaseTypeFormControl: '', yearFormControl: '', programFormControl: ''});
 		this.getStudiesData();
 		//this.getFilteredPublicationsData();
 	}
-	
+
 	/* //PDC-3982 Create new layout for Legacy Data page
 	changeView(){
 		this.projectsListView = ! this.projectsListView;
 	}*/
-	
+
 	showFullDescription(){
 		this.isFullDescription = !this.isFullDescription;
 	}
-	
+
 	isAbstractExpandedToggle() {
 		this.isAbstractExpanded = !this.isAbstractExpanded;
 	}
-	
+
 	isExpandedToggle(){
 		this.isProjectExpanded = !this.isProjectExpanded;
 	}
-	
+
 	/*private removeOtherFromDiseaseTypes(diseases:string[]){
 		diseases.forEach(( disease, index) => {
 			  if (disease == "other") diseases.splice(index, 1);
 		});
 	}*/
-	
+
 	getStudiesData(){
 		this.legacyDataService.getAllLegacyStudies().pipe(take(1)).subscribe((data: any) =>{
 		  this.allStudies = data.uiLegacyStudies ;
@@ -144,7 +147,7 @@ export class LegacyDataComponent implements OnInit{
 																					experiment_type: study.experiment_type});
 				  } else {
 					  //console.log("Study NOT found");
-					this.projects[index].studies.push( {study_name:  study.submitter_id_name, 
+					this.projects[index].studies.push( {study_name:  study.submitter_id_name,
 														studyNamesList: [{subStudyName: study.study_submitter_id,
 																		  analytical_fraction: study.analytical_fraction,
 																		  experiment_type: study.experiment_type}],
@@ -153,17 +156,17 @@ export class LegacyDataComponent implements OnInit{
 				  }
 			  } else {
 				  //this.projects.push({project_name: study.project_submitter_id, studies: [study]});
-				  this.projects.push({project_name: study.project_submitter_id, studies: [ 
-																					{study_name:  study.submitter_id_name, 
+				  this.projects.push({project_name: study.project_submitter_id, studies: [
+																					{study_name:  study.submitter_id_name,
 																					 studyNamesList: [{subStudyName: study.study_submitter_id,
 																									   analytical_fraction: study.analytical_fraction,
 																									   experiment_type: study.experiment_type}],
 																					 study_description: study.study_description
-																					}],							
+																					}],
 									});
 				  //console.log(this.projects);
 			  }
-			  
+
 		  }
 		  //PDC-3982 Create new layout for Legacy Data page
 		  /*console.log(this.studiesList);
@@ -183,10 +186,10 @@ export class LegacyDataComponent implements OnInit{
 		  }
 		   console.log(this.studiesList);*/
 		  console.log(this.projects);
-		  
+
 		});
 	}
-	
+
 	private findProjectInList(project_name: string){
 		for (var i = 0; i < this.projects.length; i++) {
 				if (this.projects[i].project_name == project_name) {
@@ -195,7 +198,7 @@ export class LegacyDataComponent implements OnInit{
 		}
 		return -1;
 	}
-	
+
 	//PDC-3982 Create new layout for Legacy Data page
 	/*private findStudyInList(study_name_param: string) {
 		for (var i = 0; i < this.studiesList.length; i++) {
@@ -205,7 +208,7 @@ export class LegacyDataComponent implements OnInit{
 		}
 		return -1;
 	}*/
-	
+
 	private findStudyByStudyName(study_name: string) {
 		for (var i = 0; i < this.allStudies.length; i++) {
 			if (this.allStudies[i].study_submitter_id == study_name) {
@@ -214,7 +217,7 @@ export class LegacyDataComponent implements OnInit{
 		}
 		return -1;
 	}
-					
+
 
 	showStudySummary(study_name: string){
 		var index = this.findStudyByStudyName(study_name);
@@ -262,7 +265,7 @@ export class LegacyDataComponent implements OnInit{
 		}
 
 	}
-  
+
 	showFilesOverlay(publication_id, data_category_val) {
 		let studies_names = "";
 		/*if (this.getPublicationDataByID(publication_id).studies && this.getPublicationDataByID(publication_id).studies.length > 0){
@@ -275,9 +278,9 @@ export class LegacyDataComponent implements OnInit{
 			}
 		}*/
 		console.log(studies_names);
-		const dialogConfig = new MatDialogConfig();	
+		const dialogConfig = new MatDialogConfig();
 		dialogConfig.disableClose = true;
-		dialogConfig.autoFocus = false; 
+		dialogConfig.autoFocus = false;
 		dialogConfig.hasBackdrop = true;
 		dialogConfig.width = '80%';
 		dialogConfig.height = '95%';
@@ -290,7 +293,7 @@ export class LegacyDataComponent implements OnInit{
 				console.log("Dialog output:", val);
 				//Generate alias URL to hide auxiliary URL details when the overlay window was closed and the focus returnes back
 				this.loc.replaceState("/TechnologyAdvancementStudies");
-		});	
+		});
 	}
 
 

@@ -1,6 +1,6 @@
-import { MAT_DIALOG_DATA } from '@angular/material';
-import { MatDialogModule } from '@angular/material';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
+import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { MessageDialogComponent } from './message-dialog.component';
 
@@ -8,7 +8,7 @@ describe('MessageDialogComponent', () => {
   let component: MessageDialogComponent;
   let fixture: ComponentFixture<MessageDialogComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ MessageDialogComponent ],
       imports: [MatDialogModule],

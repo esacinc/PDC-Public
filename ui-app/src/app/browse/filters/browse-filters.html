@@ -10,7 +10,7 @@
 		selectedAnFracs.length > 0 || selectedExpStarts.length > 0 || selectedAcquisitions.length > 0 || selectedStudyFilter.length > 0 ||
 		selectedSampleType.length > 0 || selectedEthnicity.length > 0 || selectedRace.length > 0 || selectedGender.length > 0 || selectedGeneStudyList.length > 0 ||
 		selectedTumorGrade.length > 0 || selectedDataCategory.length > 0 || selectedFileType.length > 0 || selectedAccess.length > 0 || selectedBiospecimenStatus.length > 0 || selectedCaseStatus.length > 0 || selectedDownloadable.length > 0 || selectedDownloadableRadiobuttonVal != ''" style="color:white">
-    <span>CLEAR&nbsp;</span><fa name="undo"></fa></button>
+    <span>CLEAR&nbsp;</span><i class="fa fa-undo"></i></button>
     </mat-card-header>
     <mat-tab-group animationDuration="0ms" class='side-bar-tabs' [selectedIndex]="selectedTab < 5 ? selectedTab : 0" disablePagination="true">
 	  <mat-tab>
@@ -19,14 +19,14 @@
             <span class="float-button-right"></span>
             <button mat-icon-button mat-primary label="Undo" id="clearGeneralSelections" (click)="clearAllGeneralSelections()" matTooltip="Clear all General selection"
             *ngIf="selectedProjects.length > 0 || selectedPrograms.length > 0 || selectedPrimarySites.length > 0 || selectedDiseases.length > 0 || selectedAnFracs.length > 0 || selectedExpStarts.length > 0 || selectedAcquisitions.length > 0" >
-            <fa name="undo"></fa></button>
+            <i class="fa fa-undo"></i></button>
         </ng-template>
         <!-- <mat-expansion-panel [expanded]="true" class="sidenavFiltersPanel">
         <mat-expansion-panel-header [collapsedHeight]="'40px'" [expandedHeight]="'40px'">
           <mat-panel-title>
           <a href="{{staticUrlBase}}dictionaryitem.html?eName=Project" target="_blank" class="browse-filter-title">Project</a>
           <span class="float-button-right"></span>
-          <button mat-icon-button mat-primary class="browse-filter-title" id="clearProjectSelections" *ngIf="selectedProjects.length > 0"  label="Undo" (click)="clearSelectionsProjects()" matTooltip="Clear projects selection"><fa name="undo"></fa></button>
+          <button mat-icon-button mat-primary class="browse-filter-title" id="clearProjectSelections" *ngIf="selectedProjects.length > 0"  label="Undo" (click)="clearSelectionsProjects()" matTooltip="Clear projects selection"><i class="fa fa-undo"></i></button>
           </mat-panel-title>
         </mat-expansion-panel-header>
           <mat-list class="card-body card-list"  style="padding-left:0px; padding-right:0px;" id="projectFiltersList">
@@ -53,7 +53,7 @@
                   <a href="/pdc/data-dictionary/Case#primary_site" class="browse-filter-title" target="_blank" >Primary Site</a>
                   <!-- @@@PDC-320 -->
                   <span class="float-button-right"></span>
-                  <button mat-icon-button mat-primary class="browse-filter-title browse-filter-clear" id="clearPrimarysites" *ngIf="selectedPrimarySites.length > 0" label="Undo" (click)="clearSelectionsPrimarySite()" matTooltip="Clear primary sites selection"><span>CLEAR&nbsp;</span><fa name="undo"></fa></button>
+                  <button mat-icon-button mat-primary class="browse-filter-title browse-filter-clear" id="clearPrimarysites" *ngIf="selectedPrimarySites.length > 0" label="Undo" (click)="clearSelectionsPrimarySite()" matTooltip="Clear primary sites selection"><span>CLEAR&nbsp;</span><i class="fa fa-undo"></i></button>
                 </mat-panel-title>
               </mat-expansion-panel-header>
               <div class="filter-section">
@@ -92,7 +92,7 @@
                   <a href="/pdc/data-dictionary/Program" class="browse-filter-title" target="_blank">Program</a>
                     <!-- @@@PDC-320 -->
                   <span class="float-button-right"></span>
-                  <button mat-icon-button mat-primary class="browse-filter-title browse-filter-clear" id="clearPrograms" *ngIf="selectedPrograms.length > 0" label="Undo" (click)="clearSelectionsPrograms()" matTooltip="Clear programs selection"><span>CLEAR&nbsp;</span><fa name="undo"></fa></button>
+                  <button mat-icon-button mat-primary class="browse-filter-title browse-filter-clear" id="clearPrograms" *ngIf="selectedPrograms.length > 0" label="Undo" (click)="clearSelectionsPrograms()" matTooltip="Clear programs selection"><span>CLEAR&nbsp;</span><i class="fa fa-undo"></i></button>
                 </mat-panel-title>
               </mat-expansion-panel-header>
               <div class="filter-section">
@@ -130,7 +130,7 @@
                     <a href="/pdc/data-dictionary/Case#disease_type" class="browse-filter-title" target="_blank">Disease Type</a>
                     <!-- @@@PDC-320 -->
                     <span class="float-button-right"></span>
-                    <button mat-icon-button mat-primary class="browse-filter-title browse-filter-clear" id="clearDiseaseTypes" *ngIf="selectedDiseases.length > 0" label="Undo" (click)="clearSelectionsDiseaseType()" matTooltip="Clear disease types selection"><span>CLEAR&nbsp;</span><fa name="undo"></fa></button>
+                    <button mat-icon-button mat-primary class="browse-filter-title browse-filter-clear" id="clearDiseaseTypes" *ngIf="selectedDiseases.length > 0" label="Undo" (click)="clearSelectionsDiseaseType()" matTooltip="Clear disease types selection"><span>CLEAR&nbsp;</span><i class="fa fa-undo"></i></button>
                 </mat-panel-title>
               </mat-expansion-panel-header>
               <div class="filter-section">
@@ -169,7 +169,7 @@
                     <a href="/pdc/data-dictionary/Study#analytical_fraction" class="browse-filter-title" target="_blank">Analytical Fraction</a>
                     <!-- @@@PDC-320 -->
                     <span class="float-button-right"></span>
-                    <button mat-icon-button mat-primary class="browse-filter-title browse-filter-clear" id="clearAnalyticalFractions" *ngIf="selectedAnFracs.length > 0" label="Undo" (click)="clearSelectionsAnalyticalFraction()" matTooltip="Clear analytical fractions selection"><span>CLEAR&nbsp;</span><fa name="undo"></fa></button>
+                    <button mat-icon-button mat-primary class="browse-filter-title browse-filter-clear" id="clearAnalyticalFractions" *ngIf="selectedAnFracs.length > 0" label="Undo" (click)="clearSelectionsAnalyticalFraction()" matTooltip="Clear analytical fractions selection"><span>CLEAR&nbsp;</span><i class="fa fa-undo"></i></button>
                   </mat-panel-title>
               </mat-expansion-panel-header>
               <div class="filter-section">
@@ -208,7 +208,7 @@
                     <a href="/pdc/data-dictionary/Study#experiment_type" class="browse-filter-title" target="_blank">Experiment Type</a>
                     <!-- @@@PDC-320 -->
                     <span class="float-button-right"></span>
-                    <button mat-icon-button mat-primary class="browse-filter-title browse-filter-clear" id="experimentTypes" *ngIf="selectedExpStarts.length > 0" label="Undo" (click)="clearSelectionsExperimentalStrategy()" matTooltip="Clear experiment types selection"><span>CLEAR&nbsp;</span><fa name="undo"></fa></button>
+                    <button mat-icon-button mat-primary class="browse-filter-title browse-filter-clear" id="experimentTypes" *ngIf="selectedExpStarts.length > 0" label="Undo" (click)="clearSelectionsExperimentalStrategy()" matTooltip="Clear experiment types selection"><span>CLEAR&nbsp;</span><i class="fa fa-undo"></i></button>
                 </mat-panel-title>
               </mat-expansion-panel-header>
               <div class="filter-section">
@@ -250,7 +250,7 @@
               <span class="float-button-right"></span>
               <button mat-icon-button mat-primary class="browse-filter-title browse-filter-clear" id="experimentTypes" *ngIf="selectedAcquisitions.length > 0"
                 label="Undo" (click)="clearSelectionsAcquisitions()" matTooltip="Clear acquisition types selection">
-                <span>CLEAR&nbsp;</span><fa name="undo"></fa>
+                <span>CLEAR&nbsp;</span><i class="fa fa-undo"></i>
               </button>
             </mat-panel-title>
           </mat-expansion-panel-header>
@@ -287,7 +287,7 @@
               <span style="font-size: 13px !important">Biospecimen</span>
               <button mat-icon-button mat-primary label="Undo" id="clearBioscpecimenDataCategory" (click)="clearAllBiospecimenSelections()" matTooltip="Clear all Biospecimen selections"
               *ngIf="selectedStudyFilter.length > 0 || selectedSampleType.length > 0 || selectedBiospecimenStatus.length > 0" >
-              <fa name="undo"></fa></button>
+              <i class="fa fa-undo"></i></button>
           </ng-template>
 		  <mat-expansion-panel [expanded]="true" class="sidenavFiltersPanel">
               <mat-expansion-panel-header [collapsedHeight]="'40px'" [expandedHeight]="'40px'">
@@ -296,7 +296,7 @@
                     <a href="/pdc/data-dictionary/Study" target="_blank" class="browse-filter-title">Study</a>
                   </span>
                   <span class="float-button-right"></span>
-                  <button mat-icon-button mat-primary class="browse-filter-title" id="clearStudyFilterSelections" *ngIf="selectedStudyFilter.length > 0" label="Undo" (click)="clearSelectionsStudyID()" matTooltip="Clear studies selection"><fa name="undo"></fa></button>
+                  <button mat-icon-button mat-primary class="browse-filter-title" id="clearStudyFilterSelections" *ngIf="selectedStudyFilter.length > 0" label="Undo" (click)="clearSelectionsStudyID()" matTooltip="Clear studies selection"><i class="fa fa-undo"></i></button>
                   </mat-panel-title>
                 </mat-expansion-panel-header>
 				<mat-select placeholder="Select one or more studies" class="card-body card-list" [(ngModel)]="selectedStudyFilter"  (selectionChange)="filterDataByStudy($event)" style="border: 1px solid #767676" multiple>
@@ -312,7 +312,7 @@
                     <a href="/pdc/data-dictionary/Sample#sample_type" target="_blank" class="browse-filter-title">Sample Type</a>
                   </span>
                   <span class="float-button-right"></span>
-                  <button mat-icon-button mat-primary class="browse-filter-title browse-filter-clear" id="clearDataCategorySelections" *ngIf="selectedSampleType.length > 0" label="Undo" (click)="clearSelectionsSampleType()" matTooltip="Clear sample types selection"><span>CLEAR&nbsp;</span><fa name="undo"></fa></button>
+                  <button mat-icon-button mat-primary class="browse-filter-title browse-filter-clear" id="clearDataCategorySelections" *ngIf="selectedSampleType.length > 0" label="Undo" (click)="clearSelectionsSampleType()" matTooltip="Clear sample types selection"><span>CLEAR&nbsp;</span><i class="fa fa-undo"></i></button>
                   </mat-panel-title>
                 </mat-expansion-panel-header>
                 <div class="filter-section">
@@ -355,7 +355,7 @@
                   <button mat-icon-button mat-primary class="browse-filter-title browse-filter-clear" id="clearSelectionsBiospecimenStatus"
                     *ngIf="selectedBiospecimenStatus.length > 0" label="Undo" (click)="clearSelectionsBiospecimenStatus()"
                     matTooltip="Clear biospecimen status selection">
-                    <span>CLEAR&nbsp;</span><fa name="undo"></fa>
+                    <span>CLEAR&nbsp;</span><i class="fa fa-undo"></i>
                   </button>
                 </mat-panel-title>
               </mat-expansion-panel-header>
@@ -394,14 +394,14 @@
             <span class="float-button-right"></span>
             <button mat-icon-button mat-primary label="Undo" id="clearClinicalSelections" (click)="clearAllClinicalSelections()" matTooltip="Clear all selection"
             *ngIf="selectedEthnicity.length > 0 || selectedRace.length > 0 || selectedGender.length > 0 || selectedTumorGrade.length > 0 || selectedCaseStatus.length > 0" >
-            <fa name="undo"></fa></button>
+            <i class="fa fa-undo"></i></button>
         </ng-template>
         <mat-expansion-panel [expanded]="true" class="sidenavFiltersPanel">
 			<mat-expansion-panel-header [collapsedHeight]="'40px'" [expandedHeight]="'40px'">
 			  <mat-panel-title>
 			  <a href="/pdc/data-dictionary/Demographic#ethnicity" target="_blank" class="browse-filter-title">Ethnicity</a>
 			  <span class="float-button-right"></span>
-			  <button mat-icon-button mat-primary class="browse-filter-title browse-filter-clear" id="clearEthnicitySelections" *ngIf="selectedEthnicity.length > 0"  label="Undo" (click)="clearSelectionsEthnicity()" matTooltip="Clear ethnicities selection"><span>CLEAR&nbsp;</span><fa name="undo"></fa></button>
+			  <button mat-icon-button mat-primary class="browse-filter-title browse-filter-clear" id="clearEthnicitySelections" *ngIf="selectedEthnicity.length > 0"  label="Undo" (click)="clearSelectionsEthnicity()" matTooltip="Clear ethnicities selection"><span>CLEAR&nbsp;</span><i class="fa fa-undo"></i></button>
 			  <!-- @@@PDC-320 -->
 			  </mat-panel-title>
       </mat-expansion-panel-header>
@@ -439,7 +439,7 @@
 			  <mat-panel-title>
 			  <a href="/pdc/data-dictionary/Demographic#race" target="_blank" class="browse-filter-title">Race</a>
 			  <span class="float-button-right"></span>
-			  <button mat-icon-button mat-primary class="browse-filter-title browse-filter-clear" id="clearRaceSelections" *ngIf="selectedRace.length > 0"  label="Undo" (click)="clearSelectionsRace()" matTooltip="Clear races selection"><span>CLEAR&nbsp;</span><fa name="undo"></fa></button>
+			  <button mat-icon-button mat-primary class="browse-filter-title browse-filter-clear" id="clearRaceSelections" *ngIf="selectedRace.length > 0"  label="Undo" (click)="clearSelectionsRace()" matTooltip="Clear races selection"><span>CLEAR&nbsp;</span><i class="fa fa-undo"></i></button>
 			  <!-- @@@PDC-320 -->
 			  </mat-panel-title>
       </mat-expansion-panel-header>
@@ -477,7 +477,7 @@
 			  <mat-panel-title>
 			  <a href="/pdc/data-dictionary/Demographic#gender" target="_blank" class="browse-filter-title">Gender</a>
 			  <span class="float-button-right"></span>
-			  <button mat-icon-button mat-primary class="browse-filter-title browse-filter-clear" id="clearGenderSelections" *ngIf="selectedGender.length > 0"  label="Undo" (click)="clearSelectionsGender()" matTooltip="Clear genders selection"><span>CLEAR&nbsp;</span><fa name="undo"></fa></button>
+			  <button mat-icon-button mat-primary class="browse-filter-title browse-filter-clear" id="clearGenderSelections" *ngIf="selectedGender.length > 0"  label="Undo" (click)="clearSelectionsGender()" matTooltip="Clear genders selection"><span>CLEAR&nbsp;</span><i class="fa fa-undo"></i></button>
 			  <!-- @@@PDC-320 -->
 			  </mat-panel-title>
       </mat-expansion-panel-header>
@@ -515,7 +515,7 @@
 			  <mat-panel-title>
 			  <a href="/pdc/data-dictionary/Diagnosis#tumor_grade" target="_blank" class="browse-filter-title">Tumor Grade</a>
 			  <span class="float-button-right"></span>
-			  <button mat-icon-button mat-primary class="browse-filter-title browse-filter-clear" id="clearProjectGradeSelections" *ngIf="selectedTumorGrade.length > 0"  label="Undo" (click)="clearSelectionsTumorGrade()" matTooltip="Clear tumor grades selection"><span>CLEAR&nbsp;</span><fa name="undo"></fa></button>
+			  <button mat-icon-button mat-primary class="browse-filter-title browse-filter-clear" id="clearProjectGradeSelections" *ngIf="selectedTumorGrade.length > 0"  label="Undo" (click)="clearSelectionsTumorGrade()" matTooltip="Clear tumor grades selection"><span>CLEAR&nbsp;</span><i class="fa fa-undo"></i></button>
 			  <!-- @@@PDC-320 -->
 			  </mat-panel-title>
       </mat-expansion-panel-header>
@@ -559,7 +559,7 @@
                 <button mat-icon-button mat-primary class="browse-filter-title browse-filter-clear" id="clearSelectionsCaseStatus"
                   *ngIf="selectedCaseStatus.length > 0" label="Undo" (click)="clearSelectionsCaseStatus()"
                   matTooltip="Clear case status selection">
-                  <span>CLEAR&nbsp;</span><fa name="undo"></fa>
+                  <span>CLEAR&nbsp;</span><i class="fa fa-undo"></i>
                 </button>
               </mat-panel-title>
             </mat-expansion-panel-header>
@@ -597,7 +597,7 @@
           <button mat-icon-button mat-primary label="Undo" id="clearFilesDataCategory" (click)="clearAllFileSelections()"
             matTooltip="Clear all selection"
             *ngIf="selectedDataCategory.length > 0 || selectedStudyFilter.length > 0 || selectedFileType.length > 0 || selectedAccess.length > 0 || selectedDownloadable.length > 0 || selectedDownloadableRadiobuttonVal != ''">
-            <fa name="undo"></fa>
+            <i class="fa fa-undo"></i>
           </button>
         </ng-template>
         <mat-expansion-panel [expanded]="true" class="sidenavFiltersPanel">
@@ -610,7 +610,7 @@
               <button mat-icon-button mat-primary class="browse-filter-title" id="clearStudyFilterSelections"
                 *ngIf="selectedStudyFilter.length > 0" label="Undo" (click)="clearSelectionsStudyID()"
                 matTooltip="Clear studies selection">
-                <fa name="undo"></fa>
+                <i class="fa fa-undo"></i>
               </button>
             </mat-panel-title>
           </mat-expansion-panel-header>
@@ -631,7 +631,7 @@
               <button mat-icon-button mat-primary class="browse-filter-title browse-filter-clear" id="clearDataCategorySelections"
                 *ngIf="selectedDataCategory.length > 0" label="Undo" (click)="clearSelectionsDataCategory()"
                 matTooltip="Clear data categories selection">
-                <span>CLEAR&nbsp;</span><fa name="undo"></fa>
+                <span>CLEAR&nbsp;</span><i class="fa fa-undo"></i>
               </button>
             </mat-panel-title>
           </mat-expansion-panel-header>
@@ -672,7 +672,7 @@
               <button mat-icon-button mat-primary class="browse-filter-title browse-filter-clear" id="clearFileTypeSelections"
                 *ngIf="selectedFileType.length > 0" label="Undo" (click)="clearSelectionsFileType()"
                 matTooltip="Clear file types selection">
-                <span>CLEAR&nbsp;</span><fa name="undo"></fa>
+                <span>CLEAR&nbsp;</span><i class="fa fa-undo"></i>
               </button>
             </mat-panel-title>
           </mat-expansion-panel-header>
@@ -712,7 +712,7 @@
               <button mat-icon-button mat-primary class="browse-filter-title browse-filter-clear" id="clearAccessSelections"
                 *ngIf="selectedAccess.length > 0" label="Undo" (click)="clearSelectionsAccess()"
                 matTooltip="Clear access selection">
-                <span>CLEAR&nbsp;</span><fa name="undo"></fa>
+                <span>CLEAR&nbsp;</span><i class="fa fa-undo"></i>
               </button>
             </mat-panel-title>
           </mat-expansion-panel-header>
@@ -752,7 +752,7 @@
                 <button mat-icon-button mat-primary class="browse-filter-title browse-filter-clear" id="clearDownloadableSelections"
                   *ngIf="selectedDownloadable.length > 0 || selectedDownloadableRadiobuttonVal != ''" label="Undo" (click)="clearSelectionsDownloadable()"
                   matTooltip="Clear downloadable selection">
-                  <span>CLEAR&nbsp;</span><fa name="undo"></fa>
+                  <span>CLEAR&nbsp;</span><i class="fa fa-undo"></i>
                 </button>
               </mat-panel-title>
             </mat-expansion-panel-header>
@@ -788,7 +788,7 @@
               Genes
               <button mat-icon-button mat-primary label="Undo" id="clearAllGenesSelections" (click)="clearAllGenesSelections()" matTooltip="Clear all Genes selections"
               *ngIf="selectedGeneStudyList.length > 0" >
-              <fa name="undo"></fa></button>
+              <i class="fa fa-undo"></i></button>
           </ng-template>
 		  <mat-expansion-panel [expanded]="true" class="sidenavFiltersPanel" >
 				<mat-expansion-panel-header [collapsedHeight]="'40px'" [expandedHeight]="'40px'">
@@ -798,7 +798,7 @@
                   </span>
                   <span class="float-button-right"></span>
                   <button mat-icon-button mat-primary class="browse-filter-title" id="clearGenesCategorySelection" label="Undo"
-						*ngIf="selectedGeneStudyList.length > 0" (click)="clearAllGenesSelections()" matTooltip="Clear all genes symbols selections"><fa name="undo"></fa></button>
+						*ngIf="selectedGeneStudyList.length > 0" (click)="clearAllGenesSelections()" matTooltip="Clear all genes symbols selections"><i class="fa fa-undo"></i></button>
                   </mat-panel-title>
                 </mat-expansion-panel-header>
 				<span>Prebuilt genes list</span>
@@ -850,7 +850,7 @@
               Study
               <button mat-icon-button mat-primary label="Undo" id="clearStudySelectionDataCategory" (click)="clearSelectionsStudyID()" matTooltip="Clear all Study data selections"
               *ngIf="selectedStudyFilter.length > 0" >
-              <fa name="undo"></fa></button>
+              <i class="fa fa-undo"></i></button>
           </ng-template>
 		  <mat-expansion-panel [expanded]="true" class="sidenavFiltersPanel">
               <mat-expansion-panel-header [collapsedHeight]="'40px'" [expandedHeight]="'40px'">
@@ -859,7 +859,7 @@
                     <a href="/pdc/data-dictionary/Study" target="_blank" class="browse-filter-title">Study</a>
                   </span>
                   <span class="float-button-right"></span>
-                  <button mat-icon-button mat-primary class="browse-filter-title browse-filter-clear" id="clearStudySelections" *ngIf="selectedStudyFilter.length > 0" label="Undo" (click)="clearSelectionsStudyID()" matTooltip="Clear study selection"><span>CLEAR&nbsp;</span><fa name="undo"></fa></button>
+                  <button mat-icon-button mat-primary class="browse-filter-title browse-filter-clear" id="clearStudySelections" *ngIf="selectedStudyFilter.length > 0" label="Undo" (click)="clearSelectionsStudyID()" matTooltip="Clear study selection"><span>CLEAR&nbsp;</span><i class="fa fa-undo"></i></button>
                   </mat-panel-title>
               </mat-expansion-panel-header>
               <div class="filter-section">

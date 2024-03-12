@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
-import {AuthService, GoogleLoginProvider} from 'angular-6-social-login';
-import {MatDialog, MatDialogConfig} from '@angular/material';
-import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import {SocialAuthService, GoogleLoginProvider} from 'angularx-social-login';
+import { MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig } from '@angular/material/legacy-dialog';
+import {MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA} from '@angular/material/legacy-dialog';
 import {Inject} from '@angular/core';
 import {ConfirmationDialogComponent} from './../dialog/confirmation-dialog/confirmation-dialog.component';
 import {MessageDialogComponent} from './../dialog/message-dialog/message-dialog.component';
@@ -39,18 +39,18 @@ export class UserAccountComponent implements OnInit {
   systemErrorMessage = '';
 
   // This structure is needed for defining field validatoin rules
-  registrationForm = new FormGroup({
-    first_name: new FormControl('', Validators.required),
-    last_name: new FormControl('', Validators.required),
-    login_username: new FormControl('', Validators.required),
-    email: new FormControl('', [Validators.required, Validators.email]),
-    organization: new FormControl('', Validators.required),
-    searchType: new FormControl('', Validators.required),
-    user_pass: new FormControl('', [Validators.minLength(8), Validators.pattern('(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#\$%\^&\*]).+')]),
+  registrationForm = new UntypedFormGroup({
+    first_name: new UntypedFormControl('', Validators.required),
+    last_name: new UntypedFormControl('', Validators.required),
+    login_username: new UntypedFormControl('', Validators.required),
+    email: new UntypedFormControl('', [Validators.required, Validators.email]),
+    organization: new UntypedFormControl('', Validators.required),
+    searchType: new UntypedFormControl('', Validators.required),
+    user_pass: new UntypedFormControl('', [Validators.minLength(8), Validators.pattern('(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#\$%\^&\*]).+')]),
   });
 
   //, Validators.pattern('(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).+')
-  constructor(private chorusService: ChorusauthService, private socialAuthService: AuthService, private dialog: MatDialog,
+  constructor(private chorusService: ChorusauthService, private socialAuthService: SocialAuthService, private dialog: MatDialog,
               private router: Router, private userService: PDCUserService,
               private overlayWindow: OverlayWindowService, private dialogRef: MatDialogRef<UserAccountComponent>,
               @Inject(MAT_DIALOG_DATA) data) {

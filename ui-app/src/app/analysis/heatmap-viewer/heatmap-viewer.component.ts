@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { Router, ActivatedRoute, ParamMap} from '@angular/router';
 import { DOCUMENT } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { MatList } from '@angular/material';
+import { MatLegacyList as MatList } from '@angular/material/legacy-list';
 import { Location } from '@angular/common';
 
 import { switchMap } from 'rxjs/operators';

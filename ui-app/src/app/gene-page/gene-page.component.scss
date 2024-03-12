@@ -15,6 +15,14 @@
 	font-size: 16px;
 }
 
+/*PDC-7831-select-all-issues */
+
+p-tableCheckbox{
+  width:20px;
+  height:20px;
+  border-width: 2px !important;
+}
+
 .ui-datatable-tableheader {
     background-color:  #3A8BAF !important;
     border:0px !important;
@@ -32,28 +40,33 @@
 .table-striped > tbody >  tr:nth-of-type(even){
 	background-color: rgb(225, 239, 252);
 }
-  
+
+.table-striped tr.p-highlight {
+    background: #aac1d4 !important;
+	color: #000 !important;
+}
+
 .summary-card-name-left-cell {
-	word-wrap:break-word; 
+	word-wrap:break-word;
 	white-space:normal;
-	padding-right:20px; 
+	padding-right:20px;
 	padding-bottom: 3px;
 	text-align: right;
 }
 
 .summary-card-value-left-cell {
-	word-wrap:break-word !important; 
+	word-wrap:break-word !important;
 	white-space:normal;
 	padding-bottom: 3px;
-	padding-right:10px; 
-	padding-left:10px; 
-	text-align: left; 
+	padding-right:10px;
+	padding-left:10px;
+	text-align: left;
 	border-right: 1px solid #ddd;
 }
 
 .summary-card-name-right-cell {
-	word-wrap:break-word; 
-	white-space:normal; 
+	word-wrap:break-word;
+	white-space:normal;
 	padding-bottom: 3px;
 	padding-right:20px;
 	padding-left:10px;
@@ -61,10 +74,10 @@
 }
 
 .summary-card-value-right-cell {
-	word-wrap:break-word !important; 
+	word-wrap:break-word !important;
 	white-space:normal;
 	padding-bottom: 3px;
-	padding-right:10px; 
+	padding-right:10px;
 	text-align: left;
 }
 
@@ -115,8 +128,8 @@
     margin-left: 0px;
    // box-sizing: border-box;
     // border-bottom: solid 1px rgba(0,0,0,0.12);
-    color: rgba(0,0,0,0.6);  
-  
+    color: rgba(0,0,0,0.6);
+
   }
   .browse-page .card {
     padding-right: 0px;
@@ -154,7 +167,7 @@
 }
 
 .browse-filter .card-header {
- 
+
   font-weight: 400;
  // padding-left: 1.0rem;
   font-size: 16px;
@@ -173,7 +186,7 @@
   background-image: url('../../assets/css/images/Triangle.png');
 }
 
-.side-bar-tabs ::ng-deep .mat-tab-label{
+.side-bar-tabs ::ng-deep.mat-tab-label{
 	min-width: 110px!important;
 	padding: 10px!important;
 	justify-content: left!important;
@@ -194,7 +207,7 @@
 ::ng-deep .mat-expansion-indicator {
     position: absolute!important;
 	left: 7.5px!important;
-  }
+}
 
 .mat-expansion-panel-header, .mat-expansion-panel-header:hover{
 	background: rgb(120, 167, 192)!important;
@@ -207,25 +220,37 @@
 
 ::ng-deep .ui-table .ui-table-tbody > tr:nth-child(even).ui-state-highlight,
 ::ng-deep .ui-table .ui-table-tbody .ui-state-highlight {
-   background-color: #aac1d4 !important;
-   color: #000 !important;
-} 
+   background-color: #aac1d4;
+   color: #000;
+}
 
 ::ng-deep .table-striped tbody tr:nth-of-type(odd) {
-	background: linear-gradient(to bottom, #f6f7f9 0%, #ebedf0 100%) !important;
+	background: linear-gradient(to bottom, #f6f7f9 0%, #ebedf0 100%);
 }
 
 ::ng-deep .ui-table table {
     table-layout: unset !important;
-} 
+}
 
 ::ng-deep {
 	.ui-table tr td, .ui-table-thead tr, .table, .table tr td, .table tr th {
 		font-size: 14px !important;
-	} 
+	}
 
-	#geneSummaryPTMDataTable .ui-table-unfrozen-view .ui-table-thead th,
-	#geneSummaryPTMDataTable .ui-table-unfrozen-view .ui-table-tbody td  {
+	.p-datatable-header {
+		border: 1px solid #ddd;
+    	background: #e9e9e9;
+    	color: #333;
+    	font-weight: 700;
+		padding: 0.25em 0.5em;
+	}
+
+	.table-striped .p-highlight {
+        background-color: #3A8BAF !important;
+        color: #fff !important;
+    }
+
+	#geneSummaryPTMDataTable .fixedWidthCol {
 		width: 200px !important;
 		min-width: 200px !important;
 		max-width: 200px !important;
@@ -236,8 +261,7 @@
 	}
 
 	#geneSummaryDataTable, #aliquotRecordTable {
-		.ui-table-unfrozen-view .ui-table-thead th,
-		.ui-table-unfrozen-view .ui-table-tbody td  {
+		.fixedWidthCol {
 			width: 150px !important;
 			min-width: 150px !important;
 			max-width: 150px !important;
@@ -254,8 +278,8 @@
 
 	@media not all and (min-resolution:.001dpcm)
 	{ @supports (-webkit-appearance:none) and (stroke-color:transparent) {
-  
-	  .safari_only { 
+
+	  .safari_only {
 		height: 67px !important;
 	  }
 	}}
@@ -264,6 +288,15 @@
 //@@@PDC-4995: Alignment issues
 :host ::ng-deep .ui-table-unfrozen-view .ui-table-scrollable-header-box {
 	padding-right: 17px !important;
+}
+
+:host ::ng-deep #geneSummaryPTMDataTable .p-paginator-bottom,
+:host ::ng-deep #geneSummaryDataTable .p-paginator-bottom,
+:host ::ng-deep #aliquotRecordTable .p-paginator-bottom {
+	padding-top: 5px;
+	border: 1px solid #ddd;
+	background: #e9e9e9;
+	color: #333;
 }
 
 // PDC-620: Make the filter selection tabs along the left side of the window

@@ -1,6 +1,6 @@
 import { StripHtmlTagsPipe } from './strip-html-tags.pipe';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { NewsComponent } from './news.component';
 import { NewsService } from '../news.service';
@@ -12,7 +12,7 @@ describe('NewsComponent', () => {
   let fixture: ComponentFixture<NewsComponent>;
   let service: NewsService;
   let serviceSpy: jasmine.Spy;
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ NewsComponent, StripHtmlTagsPipe],
       imports: [HttpClientTestingModule],

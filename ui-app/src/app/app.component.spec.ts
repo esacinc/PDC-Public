@@ -1,8 +1,9 @@
 import { OverlayWindowService } from "./overlay-window/overlay-window.service";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
-import { async, TestBed } from "@angular/core/testing";
-import { MatAutocompleteModule, MatMenuModule } from "@angular/material";
+import { TestBed, waitForAsync } from "@angular/core/testing";
+import { MatLegacyAutocompleteModule as MatAutocompleteModule } from "@angular/material/legacy-autocomplete";
+import { MatLegacyMenuModule as MatMenuModule } from "@angular/material/legacy-menu";
 import { RouterTestingModule } from "@angular/router/testing";
 
 import { AppComponent } from "./app.component";
@@ -13,7 +14,7 @@ class MockOverlayWindowService {
 }
 
 describe("AppComponent", () => {
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [AppComponent, SearchStylePipe],
       schemas: [NO_ERRORS_SCHEMA],

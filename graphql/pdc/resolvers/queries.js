@@ -728,18 +728,23 @@ export const resolvers = {
 				logger.info("allCases is called from UI with "+ JSON.stringify(args));
 			//@@@PDC-6930 add cache
 			let cacheKey = "PDCPUB:allCases";
+			let caseQuery = "SELECT distinct bin_to_uuid(c.case_id) as case_id,  c.case_submitter_id, "+
+			" bin_to_uuid(c.project_id) as project_id, c.project_submitter_id, "+
+			" c.disease_type, c.primary_site "+
+			"FROM study s, `case` c, sample sam, aliquot a, aliquot_run_metadata arm "+
+			"WHERE c.case_id=sam.case_id AND "+
+			"sam.sample_id=a.sample_id AND arm.aliquot_id = a.aliquot_id "+
+			"AND arm.study_id = s.study_id and s.is_latest_version = 1 ";
+			//@@@PDC-7965 add offset and limit for quick return
+			if (typeof args.offset != 'undefined' && typeof args.limit != 'undefined') {
+				cacheKey += ":offset:"+args.offset+":limit:"+args.limit;
+				caseQuery += " limit "+args.offset+", "+args.limit
+			}
 			const res = await RedisCacheClient.redisCacheGetAsync(cacheKey);
 			if (res === null){
 				//logger.info("allCases not cached ");
 				let result = null;
 				//@@@PDC-3840 get current version of study
-				let caseQuery = "SELECT distinct bin_to_uuid(c.case_id) as case_id,  c.case_submitter_id, "+
-				" bin_to_uuid(c.project_id) as project_id, c.project_submitter_id, "+
-				" c.disease_type, c.primary_site "+
-				"FROM study s, `case` c, sample sam, aliquot a, aliquot_run_metadata arm "+
-				"WHERE c.case_id=sam.case_id AND "+
-				"sam.sample_id=a.sample_id AND arm.aliquot_id = a.aliquot_id "+
-				"AND arm.study_id = s.study_id and s.is_latest_version = 1 ";
 				result = await db.getSequelize().query(caseQuery, { model: db.getModelByName('Case') });
 				RedisCacheClient.redisCacheSetExAsync(cacheKey, JSON.stringify(result));
 				return result;

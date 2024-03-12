@@ -64,26 +64,27 @@
               <td class='propCollCol5'>CDE</td>
           </tr>
           <!-- //@@PDC-4748-data-dictionary-load-issues -->
-          <ng-container *ngFor="let test of displayProperties | keyvalue: 0; trackBy: trackData;">  
+          <!-- //@@PDC-7717-data-dictionary-missing-properties -->
+          <ng-container *ngFor="let properties of displayProperties | keyvalue; trackBy: trackData;">
               <tr>
-                  <td class='propCollCol1' id={{test.key}}>{{test.key}}</td>
-                  <td class='propCollCol2'>{{test.value.description}}</td>
-                  <td class='propCollCol3'><div [innerHtml] = "test.value.type"></div>
+                  <td class='propCollCol1' id={{properties.key}}>{{properties.key}}</td>
+                  <td class='propCollCol2'>{{properties.value.description}}</td>
+                  <td class='propCollCol3'><div [innerHtml] = "properties.value.type"></div>
 
-                  <ng-container *ngIf='test.value.enum' >
+                  <ng-container *ngIf='properties.value.enum' >
 
-                  <ul [innerHTML]=enumValues[test.key].initial_load></ul>
-                  <ul id='{{test.key}}_enum' class='hide-list' [innerHTML]=enumValues[test.key].show_load></ul>
-                  <ng-container *ngIf='test.value.enum.length > 6'>
-                            <div class='showMoreOrLess' id="showMore_{{test.key}}_enum" (click)='showMoreOrLess(test.key)' style="margin-left:40px;">Show more items...</div>
+                  <ul [innerHTML]=enumValues[properties.key].initial_load></ul>
+                  <ul id='{{properties.key}}_enum' class='hide-list' [innerHTML]=enumValues[properties.key].show_load></ul>
+                  <ng-container *ngIf='properties.value.enum.length > 6'>
+                            <div class='showMoreOrLess' id="showMore_{{properties.key}}_enum" (click)='showMoreOrLess(properties.key)' style="margin-left:40px;">Show more items...</div>
                   </ng-container>
 
                    </ng-container>
 
                   </td>
-                  <td class='propCollCol4'>{{test.value.required}}</td>
+                  <td class='propCollCol4'>{{properties.value.required}}</td>
                   <td class='propCollCol5'>
-                       <ng-container *ngFor='let string of cdeIdValue[test.value.cde_id] | keyvalue'>
+                       <ng-container *ngFor='let string of cdeIdValue[properties.value.cde_id] | keyvalue'>
                            <div [innerHTML]=string.value></div>
                        </ng-container>
                   </td>

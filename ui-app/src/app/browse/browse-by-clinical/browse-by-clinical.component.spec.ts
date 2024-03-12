@@ -1,9 +1,9 @@
-import { MatDialog } from "@angular/material";
+import { MatLegacyDialog as MatDialog } from "@angular/material/legacy-dialog";
 import { Apollo } from "apollo-angular";
 import { Observable, of } from "rxjs";
 
 import { NO_ERRORS_SCHEMA } from "@angular/core";
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { RouterTestingModule } from "@angular/router/testing";
 
 import { BrowseByClinicalComponent } from "./browse-by-clinical.component";
@@ -723,7 +723,7 @@ describe("BrowseByClinicalComponent", () => {
   let component: BrowseByClinicalComponent;
   let fixture: ComponentFixture<BrowseByClinicalComponent>;
   let serviceSpy: jasmine.Spy;
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [BrowseByClinicalComponent],
       imports: [RouterTestingModule],

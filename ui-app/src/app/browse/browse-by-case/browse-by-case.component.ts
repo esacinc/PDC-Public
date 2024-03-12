@@ -3,7 +3,7 @@ import { Apollo } from 'apollo-angular';
 import {
     Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild, ViewChildren
 } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material';
+import { MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig } from '@angular/material/legacy-dialog';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { AllCasesData, AllUICasesData } from '../../types';
@@ -80,7 +80,6 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
   frozenColumns = [];
   @ViewChild('dataForManifestExport') dataForManifestExport;
   //@@@PDC-7109 - browse checkbox update bug
-  @ViewChild('caseDataChk') caseDataChk;
   //@@@PDC-7110 fix checkbox update
   @ViewChildren('browsePageCheckboxes') browsePageCheckboxes;
 
@@ -150,7 +149,7 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
 			this.limit = data.getPaginatedUICase.pagination.size;
 			this.loading = false;
 			this.clearSelection();
-			this.makeRowsSameHeight();
+			//this.makeRowsSameHeight();
 			});
 
 	  }, 1000);
@@ -158,7 +157,7 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges){
 	  if (changes && changes['childTabChanged']) {
-		this.makeRowsSameHeight();
+		//this.makeRowsSameHeight();
 	  }
 	  // ngOnChanges fires when the page loads, at that moment newFilterValue is not set yet
 	  if (this.newFilterValue){
@@ -246,7 +245,7 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
 			}
 			this.loading = false;
 			this.clearSelection();
-			this.makeRowsSameHeight();
+			//this.makeRowsSameHeight();
 		});
 		}
 
@@ -327,7 +326,7 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
 						}
 						this.isTableLoading.emit({isTableLoading:"case:false"});
 				  }
-				  this.makeRowsSameHeight();
+				  //this.makeRowsSameHeight();
 			});
 		}, 10);
 	}
@@ -380,7 +379,7 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
 			}
 			//@@@PDC-3667: "Select all pages" option issue
 			this.handleCheckboxSelections();
-			this.makeRowsSameHeight();
+			//this.makeRowsSameHeight();
 		});
 	}
 
@@ -485,59 +484,44 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
 	changeHeaderCheckbox($event) {
 		let checkboxVal = this.selectedHeaderCheckbox;
 		this.selectedCases =  this.currentPageSelectedCase =  [];
-    //@@@PDC-7110 - fix checkbox update
-    switch (checkboxVal) {
-			case 'Select all pages':
-        setTimeout(() => {
-          this.caseDataChk.checked = true;
-        }, 500);
-				this.downloadCompleteManifest(true);
-				break;
-			case 'Select this page':
-				this.headercheckbox = true;
-        setTimeout(() => {
-          this.caseDataChk.checked = true;
-        }, 500);
-				this.onTableHeaderCheckboxToggle();
-				break;
-			case 'Select None':
-				this.clearSelection();
-        this.clearCheckboxSelection();
-				break;
+		//@@@PDC-7110 - fix checkbox update
+		switch (checkboxVal) {
+				case 'Select all pages':
+					this.downloadCompleteManifest(true);
+					break;
+				case 'Select this page':
+					this.headercheckbox = true;
+					this.onTableHeaderCheckboxToggle();
+					break;
+				case 'Select None':
+					this.clearSelection();
+					break;
 		}
 	}
 
    //@@@PDC-7012 improve browse checkbox intuitiveness
    triggerchangeHeaderCheckbox($event) {
+	    //alert("CHECKBOX CHANGE")
       //@@@PDC-7110 - fix checkbox update
       let checkboxVal = this.selectedHeaderCheckbox;
-  		this.selectedCases =  this.currentPageSelectedCase =  [];
-      switch (checkboxVal) {
+  	  this.selectedCases =  this.currentPageSelectedCase =  [];
+       switch (checkboxVal) {
         case 'Select all pages':
-              setTimeout(() => {
-                this.caseDataChk.checked = true;
-              }, 500);
               this.downloadCompleteManifest(true);
               break;
         case 'Select this page':
               this.headercheckbox = true;
-              setTimeout(() => {
-                this.caseDataChk.checked = true;
-              }, 500);
               this.onTableHeaderCheckboxToggle();
               break;
         case 'Select None':
             this.clearSelection();
-            this.clearCheckboxSelection();
             break;
-      }
+      } 
       //@@@PDC-7110 - check if there are unchecked checkboxes in table - if so then deselect checkbox
       let found = this.browsePageCheckboxes._results.some(el => el.checked === false);
       if(found == false){
-        this.caseDataChk.checked = true;
         this.headercheckbox = true;
       } else {
-        this.caseDataChk.checked = false;
         this.headercheckbox = false;
       }
       this.dataForManifestExport.open();
@@ -547,10 +531,9 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
    chkBoxSelectionCheck(selectedOption) {
        if(selectedOption == 'Select None'){
          this.headercheckbox = false;
-         this.caseDataChk.checked = false;
          this.dataForManifestExport.close();
        } else {
-         this.caseDataChk.checked = true;
+		this.headercheckbox = true;
        }
    }
 
@@ -697,12 +680,6 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
     this.pageHeaderCheckBoxTrack = [];
   }
 
-  private clearCheckboxSelection(){
-    setTimeout(() => {
-       this.caseDataChk.checked = false;
-    },1000);
-  }
-
   //@@@PDC-848 Fix headercheckbox issue for data tables on browse page
   //@@@PDC-1431 fix biospecimens table row selection issue
   private trackCurrentPageSelectedCase(filteredFilesData: AllCasesData[]){
@@ -715,7 +692,7 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
   }
 
   onResize(event) {
-    this.makeRowsSameHeight();
+    //this.makeRowsSameHeight();
   }
 
   //@@@PDC-4792: Increase font size in all tables to pass 508 compliance

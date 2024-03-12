@@ -39,7 +39,6 @@ a.disabled {
 
 .ui-datatable-tableheader {
     background-color: #3A8BAF !important;
-    border:0px !important;
 	color: white !important;
 	word-break: break-all !important;
 	white-space: normal;
@@ -48,15 +47,15 @@ a.disabled {
 .data-categories-table, .entity-reference-table {
 	padding: 0 !important;
 }
- 
+
 .table-striped > tbody >  tr:nth-of-type(odd){
 	background: linear-gradient(to bottom, #f6f7f9 0%, #ebedf0 100%);
 }
- 
+
 .table-striped > tbody >  tr:nth-of-type(even){
 	background-color: #fafafb;
 }
-  
+
 ::-webkit-scrollbar {
     width: 8px;
 	height: 8px
@@ -79,30 +78,30 @@ a.disabled {
 .table .summary-table{
 	border: 0;
 	overflow-y:auto;
-	
+
 }
 
 .summary-card-name-left-cell {
-	word-wrap:break-word; 
+	word-wrap:break-word;
 	white-space:normal;
-	padding-right:20px; 
+	padding-right:20px;
 	padding-bottom: 3px;
 	text-align: right;
 }
 
 .summary-card-value-left-cell {
-	word-wrap:break-word !important; 
+	word-wrap:break-word !important;
 	white-space:normal;
 	padding-bottom: 3px;
-	padding-right:10px; 
-	padding-left:10px; 
-	text-align: left; 
+	padding-right:10px;
+	padding-left:10px;
+	text-align: left;
 	border-right: 1px solid #ddd;
 }
 
 .summary-card-name-right-cell {
-	word-wrap:break-word; 
-	white-space:normal; 
+	word-wrap:break-word;
+	white-space:normal;
 	padding-bottom: 3px;
 	padding-right:20px;
 	padding-left:10px;
@@ -110,25 +109,25 @@ a.disabled {
 }
 
 .summary-card-value-right-cell {
-	word-wrap:break-word !important; 
+	word-wrap:break-word !important;
 	white-space:normal;
 	padding-bottom: 3px;
-	padding-right:10px; 
+	padding-right:10px;
 	text-align: left;
 }
 
 .tab-table-field-name {
 	padding-right:10px;
-	padding-bottom: 3px; 
+	padding-bottom: 3px;
 	white-space:normal;
 	text-align: right;
 }
 
 .tab-table-field-value {
 	padding-right:2px;
-	padding-bottom: 3px; 
-	word-wrap:break-word !important; 
-	white-space:normal; 
+	padding-bottom: 3px;
+	word-wrap:break-word !important;
+	white-space:normal;
 	text-align: left;
 }
 
@@ -190,7 +189,7 @@ a.disabled {
  .genomicLbl {
      margin-top: 5%;
  }
- 
+
  //@@@PDC-2598 conditional styling of Embargo date - future embargo date is bold red
 .future_embargo_date {
 	color: #de350b;
@@ -201,12 +200,12 @@ a.disabled {
 
 	.ui-table tr td, .ui-table-thead tr, .table, .table tr td, .table tr th {
 		font-size: 14px !important;
-	} 
+	}
 
 	.ui-table table {
 		overflow-x: scroll !important;
 		table-layout: unset !important;
-	} 
+	}
 
 	.ui-paginator .ui-paginator-page.ui-state-active {
 		background-color: #3A8BAF;
@@ -226,10 +225,8 @@ a.disabled {
 		width: 150px !important;
 	}
 
-	.studyExperimentDesignTable .ui-table-frozen-view .ui-table-thead th,
-	.studyExperimentDesignTable .ui-table-frozen-view .ui-table-tbody td,
-	.studyExperimentDesignTable .ui-table-unfrozen-view .ui-table-thead .fixedWidthCol,
-	.studyExperimentDesignTable .ui-table-unfrozen-view .ui-table-tbody .fixedWidthCol {
+	.studyExperimentDesignTable .p-frozen-column,
+	.studyExperimentDesignTable .fixedWidthCol {
 		min-width: 100px !important;
 		max-width: 100px !important;
 		width: 100px !important;
@@ -261,7 +258,7 @@ a.disabled {
 	@media not all and (min-resolution:.001dpcm)
 	{ @supports (-webkit-appearance:none) and (stroke-color:transparent) {
 
-		.safari_only { 
+		.safari_only {
 			height: 68px !important;
 		}
 	}}
@@ -271,3 +268,15 @@ a.disabled {
 :host ::ng-deep .ui-table-unfrozen-view .ui-table-scrollable-header-box {
 	padding-right: 17px !important;
 }
+
+.downloadButtons {
+	border: 1px solid #ddd;
+    background: #e9e9e9;
+    color: #333;
+	padding: 0.25em 0.5em;
+}
+
+.downloadButtons button {
+    font-weight: 700;
+}
+

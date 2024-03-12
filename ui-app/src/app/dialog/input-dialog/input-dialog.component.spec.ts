@@ -1,5 +1,5 @@
-import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { InputDialogComponent } from './input-dialog.component';
 import { FormsModule } from '@angular/forms';
@@ -8,7 +8,7 @@ describe('InputDialogComponent', () => {
   let component: InputDialogComponent;
   let fixture: ComponentFixture<InputDialogComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ InputDialogComponent ],
       imports: [MatDialogModule, FormsModule],

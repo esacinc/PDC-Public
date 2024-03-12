@@ -5,51 +5,51 @@
 		  <div style="font-size:20px;font-family: 'LatoBold';">Biological interpretation of PDC protein expression data through heatmaps</div>
 	    </mat-card-title>
 	    <mat-card-content class="card card-body" style="border: none;font-size: 15px !important">
-			<p>The PDC processes the submitted raw mass spectrometry data through a common data analysis pipeline (CDAP) to produce derived analysis 
-			results which can be used to identify patterns of protein and post-translational modifications (PTMs) abundance. On the PDC portal, 
+			<p>The PDC processes the submitted raw mass spectrometry data through a common data analysis pipeline (CDAP) to produce derived analysis
+			results which can be used to identify patterns of protein and post-translational modifications (PTMs) abundance. On the PDC portal,
 			these results can be visualized as a heatmap, useful for identifying correlated clusters of proteins (or PTMs) and/or samples.</p>
-			<p>This page provides a listing of all the studies with links to heatmaps for quick access. The heatmaps can also be accessed 
-			from the individual study summary pages (e.g., <a href="https://pdc.cancer.gov/pdc/study/PDC000120" target="_blank">PDC000120</a>). 
-			Clicking on a heatmap link automatically loads the quantitative data and displays it through 
-			<a href="https://software.broadinstitute.org/morpheus/" target="_blank">Morpheus</a>, developed at the Broad Institute. 
-			The Mopheus site offers <a href="https://software.broadinstitute.org/morpheus/documentation.html" target="_blank">documentation</a>, 
-			a <a href="https://software.broadinstitute.org/morpheus/tutorial.html" target="_blank">tutorial</a>, 
+			<p>This page provides a listing of all the studies with links to heatmaps for quick access. The heatmaps can also be accessed
+			from the individual study summary pages (e.g., <a href="https://pdc.cancer.gov/pdc/study/PDC000120" target="_blank">PDC000120</a>).
+			Clicking on a heatmap link automatically loads the quantitative data and displays it through
+			<a href="https://software.broadinstitute.org/morpheus/" target="_blank">Morpheus</a>, developed at the Broad Institute.
+			The Mopheus site offers <a href="https://software.broadinstitute.org/morpheus/documentation.html" target="_blank">documentation</a>,
+			a <a href="https://software.broadinstitute.org/morpheus/tutorial.html" target="_blank">tutorial</a>,
 			notes on <a href="https://software.broadinstitute.org/morpheus/configuration.html" target="_blank">configuration</a>, and other resources.</p>
 			<h3>Data</h3>
 			<img src="assets/hierarchialClustering.png" alt="Hierarchical clustering" style="float:right">
-			<p>The source data for heatmap visualizations are organized in .gct file format. Gct  is essentially a data frame or matrix where 
-			the rows correspond to genes (or proteins) and columns correspond to samples (or aliquots.)  Additional row (e.g., genes accessions) 
+			<p>The source data for heatmap visualizations are organized in .gct file format. Gct  is essentially a data frame or matrix where
+			the rows correspond to genes (or proteins) and columns correspond to samples (or aliquots.)  Additional row (e.g., genes accessions)
 			and column (e.g., clinical attributes) annotations can be embedded in the input file, read by Morpheus. Please note that the proteins
 			(i.e., isoforms) are rolled up to gene level.</p>
-			<p>For label-free workflows, proteins are quantitated by spectral count and integrated precursor peak areas. For iTRAQ and TMT workflows, 
-			peptides are quantitated using the reporter ions, and the values rolled-up to the gene-level. For iTRAQ or TMT experiments 
-			each cell represents the normalized log2 ratio, where the numerator is the value for that gene/protein in that aliquot 
-			and the denominator is the expression value of whatever control channel was used in the study.  Control channels are typically 
-			pooled samples from many tumor samples. All isotopic-labeling studies, including PTM studies, have  log2 ratios available for visualization. 
+			<p>For label-free workflows, proteins are quantitated by spectral count and integrated precursor peak areas. For iTRAQ and TMT workflows,
+			peptides are quantitated using the reporter ions, and the values rolled-up to the gene-level. For iTRAQ or TMT experiments
+			each cell represents the normalized log2 ratio, where the numerator is the value for that gene/protein in that aliquot
+			and the denominator is the expression value of whatever control channel was used in the study.  Control channels are typically
+			pooled samples from many tumor samples. All isotopic-labeling studies, including PTM studies, have  log2 ratios available for visualization.
 			In addition, whole proteome studies have unshared_log2_ratio, where data from shared peptides has been excluded.</p>
 			<h3>Hierarchical clustering</h3>
-			<p>The main purpose of heatmap visualization, in the context of the PDC, is to examine 
-			<a href="https://en.wikipedia.org/wiki/Hierarchical_clustering" target="_blank">clustering</a> of samples according to protein abundances. 
-			When a study heatmap is loaded, the data have not been clustered by either row or column.  Clustering can be performed 
-			according to the method of your choice by accessing the Tools menu.  You will know your data have been clustered 
-			if above the column annotations is displayed a dendogram, linking the samples.  In addition, the ordering of the columns will have changed 
-			according to the clustering calculations.  Morpheus allows for a large variety of data analysis methods.  If you are 
-			unfamiliar with the statistical methods available in the application, you may wish to visit the Morpheus site 
+			<p>The main purpose of heatmap visualization, in the context of the PDC, is to examine
+			<a href="https://en.wikipedia.org/wiki/Hierarchical_clustering" target="_blank">clustering</a> of samples according to protein abundances.
+			When a study heatmap is loaded, the data have not been clustered by either row or column.  Clustering can be performed
+			according to the method of your choice by accessing the Tools menu.  You will know your data have been clustered
+			if above the column annotations is displayed a dendogram, linking the samples.  In addition, the ordering of the columns will have changed
+			according to the clustering calculations.  Morpheus allows for a large variety of data analysis methods.  If you are
+			unfamiliar with the statistical methods available in the application, you may wish to visit the Morpheus site
 			or consult with bioinformatics colleagues.</p>
-			<p>In addition to downloading publication-quality images from Morpheus, you may also export the data in .gct format for use 
-			with statistical analysis tools and packages (e.g., in R or Python.)  Exports are available from the File menu.  We encourage you 
-			to try the available tools available from the Morpheus menu, including those under View->Options to help you identify 
+			<p>In addition to downloading publication-quality images from Morpheus, you may also export the data in .gct format for use
+			with statistical analysis tools and packages (e.g., in R or Python.)  Exports are available from the File menu.  We encourage you
+			to try the available tools available from the Morpheus menu, including those under View->Options to help you identify
 			potential correlations between annotation variables and the protein expression data.</p>
 	    </mat-card-content>
 	  </mat-card>
-	
+
 	<mat-card>
 	  <mat-card-content class="card card-body" style="border: none;">
 	    <div class="row" style="align-items: center;">
 			<div [formGroup] = "heatmapsFilterGroup" style="padding-top: 15px;">
 			  <mat-form-field appearance="fill">
 				<mat-label>Disease Type</mat-label>
-					<mat-select formControlName="diseaseTypeFormControl" [(ngModel)]="filterSelected.disease_type" (selectionChange)="filterHeatmaps('disease_type')" multiple> 
+					<mat-select formControlName="diseaseTypeFormControl" [(ngModel)]="filterSelected.disease_type" (selectionChange)="filterHeatmaps('disease_type')" multiple>
 					<mat-option *ngFor="let diseaseType of diseaseTypesFilterVals" [value]="diseaseType">{{diseaseType}}</mat-option>
 				  </mat-select>
 			  </mat-form-field>&nbsp;&nbsp;
@@ -73,35 +73,43 @@
 
 	<p-table class="table-striped ui-datatable-odd" #dt [columns]="cols"  [value]="filteredHeatmapsData" [lazy]="true" [totalRecords]="totalRecords"
 				[loading]="loading" [resizableColumns]="true" columnResizeMode="expand" [style]="{'width':'100%', 'min-width':'1000px'}"
-				(onLazyLoad)="loadHeatmaps($event)" (sortFunction)="heatmapsSortTable($event)" id="heatmapsDataTable" 
+				(onLazyLoad)="loadHeatmaps($event)" (sortFunction)="heatmapsSortTable($event)" id="heatmapsDataTable"
 				scrollHeight="500px" [autoLayout]="true" [frozenColumns]="frozenColumns" [scrollable]="true" frozenWidth="150px">
 		<ng-template pTemplate="caption">
 		</ng-template>
-		<ng-template pTemplate="frozenheader" let-frozenColumns>
-			<tr>
-				<th class="ui-datatable-tableheader" style="word-break: break-all;" [pSortableColumn]="cols[0].field">Study ID<p-sortIcon [field]="cols[0].field" ariaLabel="Sort Study ID in ascending/descending order"></p-sortIcon></th>
-			</tr>
-		</ng-template>
+	
         <ng-template pTemplate="header" let-columns>
-            <tr>
-			    <th class="ui-datatable-tableheader" [pSortableColumn]="cols[1].field">Study Name<p-sortIcon [field]="cols[1].field" ariaLabel="Sort Study Name in ascending/descending order"></p-sortIcon></th>
-			    <th class="ui-datatable-tableheader" [pSortableColumn]="cols[2].field">Disease Type<p-sortIcon [field]="cols[2].field" ariaLabel="Sort Disease Type in ascending/descending order"></p-sortIcon></th>
-			    <th class="ui-datatable-tableheader" [pSortableColumn]="cols[3].field">Primary Site<p-sortIcon [field]="cols[3].field" ariaLabel="Sort Primary Site in ascending/descending order"></p-sortIcon></th>
-				<th class="ui-datatable-tableheader" [pSortableColumn]="cols[4].field">Analytical Fraction<p-sortIcon [field]="cols[4].field" ariaLabel="Sort Analytical Fraction in ascending/descending order"></p-sortIcon></th>
-				<th class="ui-datatable-tableheader" [pSortableColumn]="cols[5].field">Experiment Type<p-sortIcon [field]="cols[5].field" ariaLabel="Sort Experiment Type in ascending/descending order"></p-sortIcon></th>
+				  <tr>
+					<!-- @@@PDC-7906 - study id column not displaying -->
+					<th class="ui-datatable-tableheader" style="word-break: break-all;" [pSortableColumn]="cols[0].field">Study ID
+					<i class="fas fa-sort" [field]="cols[0].field" ariaLabel="Sort Study ID in ascending/descending order"></i></th>
+
+			    <th class="ui-datatable-tableheader" [pSortableColumn]="cols[1].field">Study Name
+					&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Study Name in ascending/descending order"></i>
+				</th>
+			    <th class="ui-datatable-tableheader" [pSortableColumn]="cols[2].field">Disease Type
+					&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Disease Type in ascending/descending order"></i>
+				</th>
+			    <th class="ui-datatable-tableheader" [pSortableColumn]="cols[3].field">Primary Site
+					&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Primary Site in ascending/descending order"></i>
+				</th>
+				<th class="ui-datatable-tableheader" [pSortableColumn]="cols[4].field">Analytical Fraction
+					&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Analytical Fraction in ascending/descending order"></i>
+				</th>
+				<th class="ui-datatable-tableheader" [pSortableColumn]="cols[5].field">Experiment Type
+					&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Experiment Type in ascending/descending order"></i>
+				</th>
 				<th class="ui-datatable-tableheader" >Available Heatmap</th>
-            </tr>
-        </ng-template>
-		<ng-template pTemplate="frozenbody" let-heatmapData let-frozenColumns>
-            <tr [pSelectableRow]="heatmapData">
-                <td style="white-space: normal;">
-					<a href="javascript:void(0);" (click)="showStudySummary(heatmapData.pdc_study_id, heatmapData.study_id, heatmapData.submitter_id_name)">{{heatmapData.pdc_study_id }}</a>
-				</td> 
             </tr>
         </ng-template>
 
         <ng-template pTemplate="body" let-heatmapData let-columns="columns">
-            <tr [pSelectableRow]="caseData" >           
+
+            <tr [pSelectableRow]="caseData" >
+				<!-- @@@PDC-7906 - study id column not displaying -->
+				<td style="white-space: normal;">
+				   <a href="javascript:void(0);" (click)="showStudySummary(heatmapData.pdc_study_id, heatmapData.study_id, heatmapData.submitter_id_name)">{{heatmapData.pdc_study_id }}</a>
+			  </td>
                 <td id="{{heatmapData.submitter_id_name}}" style="word-wrap: break-word; white-space: normal;">{{heatmapData.submitter_id_name}}</td>
 				<td style="word-wrap: break-word; white-space: normal;">
 					<span *ngIf="disease != 'Other'">{{heatmapData.disease_type}}<br></span>

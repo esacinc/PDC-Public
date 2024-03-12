@@ -1,8 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HeatMapComponent } from './heat-map/heat-map.component';
-import { MatCardMdImage, MatCardModule, MatTabsModule, MatListModule, MatProgressSpinnerModule, 
-        MatTooltipModule, MatSelectModule } from '@angular/material';
+import { MatLegacyCardMdImage as MatCardMdImage, MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
+import { MatLegacyListModule as MatListModule } from '@angular/material/legacy-list';
+import { MatLegacyProgressSpinnerModule as MatProgressSpinnerModule } from '@angular/material/legacy-progress-spinner';
+import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
+import { MatLegacyTabsModule as MatTabsModule } from '@angular/material/legacy-tabs';
+import { MatLegacyTooltipModule as MatTooltipModule } from '@angular/material/legacy-tooltip';
 import { SafeHtmlPipe } from './heat-map/safe-html-pipe';
 import { HttpClientModule } from '@angular/common/http';
 import { ActivatedRoute, ParamMap, RouterModule } from '@angular/router';

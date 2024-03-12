@@ -8,7 +8,7 @@ $header-height: 128px;
 $stateActiveBgColor: #3baae3;
 
 .float-button-right {
-  // This fills the remaining space, by using flexbox. 
+  // This fills the remaining space, by using flexbox.
   flex: 1 1 auto;
 }
 
@@ -35,7 +35,7 @@ $stateActiveBgColor: #3baae3;
 	border: 1px;
 	color: #000000;
 	align-items: center;
-} 
+}
 
 .browse-filter .card-title {
 	font-weight: 'regular';
@@ -80,14 +80,14 @@ $stateActiveBgColor: #3baae3;
 	padding-bottom: 0px;
 	//color: #000000;
 	 flex:1 1 auto;
-} 
+}
 
 //@@@PDC-517 styling filter category title and align with reset button
 .browse-filter-title{
-	color:white; 
+	color:white;
 	font-weight:600;
-	font-size:15px; 
-	height:40px; 
+	font-size:15px;
+	height:40px;
 	line-height:40px;
 }
 
@@ -218,7 +218,7 @@ $stateActiveBgColor: #3baae3;
 }
 
 .select-gene {
-	border: 1px solid rgb(118, 118, 118); 
+	border: 1px solid rgb(118, 118, 118);
 	width: 97%;
 }
 
@@ -251,7 +251,7 @@ $stateActiveBgColor: #3baae3;
 	@media not all and (min-resolution:.001dpcm)
 	{ @supports (-webkit-appearance:none) and (stroke-color:transparent) {
 
-		.safari_only { 
+		.safari_only {
 		height: 67px !important;
 
 		}
@@ -259,7 +259,7 @@ $stateActiveBgColor: #3baae3;
 }
 
 // ::ng-deep .mat-tab-labels {
-// 	/* display: flex; */
+// 	__<<ngThemingMigrationEscapedComment0>>__
 // 	display: block !important;
 // }
 
@@ -302,7 +302,7 @@ $stateActiveBgColor: #3baae3;
 		height: 100%;
 		left: 98% !important;
 	}
-	
+
 	.sideBarNavigation .mat-ripple {
 		overflow: visible;
 	}
@@ -336,8 +336,8 @@ $stateActiveBgColor: #3baae3;
 //		min-width: 150px !important;
 //		padding-top: 50px !important;
 //	}
-	
-//	div#mat-tab-label-1-1{ 
+
+//	div#mat-tab-label-1-1{
 //		justify-content: center !important;
 //		padding-left: 45px !important;
 //	}
@@ -349,12 +349,12 @@ $stateActiveBgColor: #3baae3;
 //	}
 
 	// PDC-3776 Make study filtering a primary filter tab
-//	div#mat-tab-label-1-5{ 
+//	div#mat-tab-label-1-5{
 //		justify-content: center !important;
 //		padding-left: 30px !important;
 //	}
-	
-//	div#mat-tab-label-1-3{ 
+
+//	div#mat-tab-label-1-3{
 //		padding-left: 45px !important;
 //	}
 

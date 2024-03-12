@@ -1,12 +1,12 @@
 import { PDCUserService } from './../../pdcuser.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { MatDialog, MatDialogRef, MatDialogConfig, MAT_DIALOG_DATA } from '@angular/material';
-import { AuthService, GoogleLoginProvider } from 'angular-6-social-login';
+import { MatLegacyDialog as MatDialog, MatLegacyDialogRef as MatDialogRef, MatLegacyDialogConfig as MatDialogConfig, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
+import { SocialAuthService, GoogleLoginProvider } from 'angularx-social-login';
 import { ChorusauthService } from '../../chorusauth.service';
 import { LabSelectionComponent } from '../lab-selection/lab-selection.component';
 import { Router } from '@angular/router';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { environment } from '../../../environments/environment';
 import { RegistrationComponent} from '../registration/registration.component';
 import { ConfirmationDialogComponent } from "./../../dialog/confirmation-dialog/confirmation-dialog.component";
@@ -32,16 +32,16 @@ export class LoginComponent implements OnInit {
   isValidFormSubmitted: boolean = true;
   //rememberMeCheckbox = false;
 
-  loginForm = new FormGroup({
-		  email: new FormControl('', [Validators.required, Validators.email]),
-		  userPass: new FormControl(''),
-		  rememberMeCheckbox: new FormControl('')
+  loginForm = new UntypedFormGroup({
+		  email: new UntypedFormControl('', [Validators.required, Validators.email]),
+		  userPass: new UntypedFormControl(''),
+		  rememberMeCheckbox: new UntypedFormControl('')
 		  //searchType: new FormControl('', Validators.required),
    });
 
   constructor(
     private chorusService: ChorusauthService,
-    private socialAuthService: AuthService,
+    private socialAuthService: SocialAuthService,
     private dialogRef: MatDialogRef<LoginComponent>,
     private dialog: MatDialog,
     private userService: PDCUserService,

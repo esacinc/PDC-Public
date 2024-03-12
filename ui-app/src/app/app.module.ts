@@ -15,17 +15,30 @@ import { DataViewModule } from 'primeng/dataview';
 import { ButtonModule } from 'primeng/button';
 import { HttpClientModule} from '@angular/common/http';
 import { APP_BASE_HREF } from '@angular/common';
-import { MatButtonModule, MatToolbarModule, MatGridListModule, MatFormFieldModule,
-	MatIconModule, MatTabsModule, MatInputModule, MatMenuModule, MatTooltipModule,
-	MatCardModule, MatAutocompleteModule, MatRadioModule, MatProgressSpinnerModule,
-	MatCheckboxModule, MatListModule, MatExpansionModule, MatSelectModule  } from '@angular/material';
-import { AngularFontAwesomeModule } from 'angular-font-awesome';
+import { MatLegacyAutocompleteModule as MatAutocompleteModule } from '@angular/material/legacy-autocomplete';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
+import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
+import { MatLegacyCheckboxModule as MatCheckboxModule } from '@angular/material/legacy-checkbox';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatIconModule } from '@angular/material/icon';
+import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
+import { MatLegacyListModule as MatListModule } from '@angular/material/legacy-list';
+import { MatLegacyMenuModule as MatMenuModule } from '@angular/material/legacy-menu';
+import { MatLegacyProgressSpinnerModule as MatProgressSpinnerModule } from '@angular/material/legacy-progress-spinner';
+import { MatLegacyRadioModule as MatRadioModule } from '@angular/material/legacy-radio';
+import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
+import { MatLegacyTabsModule as MatTabsModule } from '@angular/material/legacy-tabs';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatLegacyTooltipModule as MatTooltipModule } from '@angular/material/legacy-tooltip';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FormsModule } from '@angular/forms';
 import {
     SocialLoginModule,
-    AuthServiceConfig,
+    SocialAuthServiceConfig,
     GoogleLoginProvider,
-} from 'angular-6-social-login';
+} from 'angularx-social-login';
 import { ApolloModule, Apollo } from 'apollo-angular';
 import { HttpLinkModule, HttpLink } from 'apollo-angular-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
@@ -103,14 +116,20 @@ import { DataCloudAnalysisComponent } from './analysis/data-cloud-analysis/data-
 
 export function getAuthServiceConfigs() {
 
-  const config = new AuthServiceConfig(
-      [
-        {
-          id: GoogleLoginProvider.PROVIDER_ID,
-          provider: new GoogleLoginProvider(environment.google_oauth_client_id)
-        }
-      ]
-  );
+  const config = {
+    autoLogin: false,
+    providers: [
+      {
+        id: GoogleLoginProvider.PROVIDER_ID,
+        provider: new GoogleLoginProvider(
+          environment.google_oauth_client_id
+        )
+      }
+    ],
+    onError: (err) => {
+      console.error(err);
+    }
+  } as SocialAuthServiceConfig;
 
   return config;
 }
@@ -118,110 +137,106 @@ export function getAuthServiceConfigs() {
 const RECAPTCHA_V3_PDC_KEY = environment.recaptcha_site_key;
 
 @NgModule({
-  declarations: [
-    NavbarComponent,
-	AppComponent,
-	BottomNavbarComponent,
-	PageNotFoundComponent,
-	LabSelectionComponent,
-	LoginComponent,
-	GeneProteinSummaryComponent,
-	WelcomePageComponent,
-	RegistrationPageComponent,
-	SearchStylePipe,
-	AboutComponent,
-	CaseSummaryComponent,
-	StudySummaryComponent,
-	FilesOverlayComponent,
-	PublicationFilesOverlayComponent,
-	OverlayWindowComponent,
-	ConfirmationDialogComponent,
-  InputDialogComponent,
-	SizeUnitsPipe,
-	MessageDialogComponent,
-	StudySummaryOverlayWindowComponent,
-	PrivacyPolicyOverlayWindowComponent,
-	DUAForOtherProgramsOverlayWindow,
-	UserAccountComponent,
-	FaqComponent,
-	RegistrationComponent,
-	ResetPasswordComponent,
-	SubmitDataFAQComponent,
-	RequestDataSubmissionComponent,
-	DataUseGuidelinesComponent,
-	PublicationsComponent,
-	ExploreQuantitationData,
-	HeatmapsComponent,
-	ForwardingComponent,
-	HarmonizationComponent,
-	ApiDocumentationComponent,
-	PublicapiDocumentationComponent,
-	DataDownloadDocComponent,
-	PancancerComponent,
-	DataCloudAnalysisComponent
-  ],
-  imports: [
-	AngularFontAwesomeModule,
-	TableModule,
-	OverlayPanelModule,
-	ButtonModule,
-	BrowserModule,
-	LegacyDataModule,
-	BrowserAnimationsModule,
-	DataDictionaryModule,
-	HttpClientModule,
-	ApolloModule,
-	HttpLinkModule,
-	// HttpModule,
-	CheckboxModule,
-	PaginatorModule,
-	DataViewModule,
-	MatButtonModule,
-	MatToolbarModule,
-	MatGridListModule,
-	MatFormFieldModule,
-	MatIconModule,
-	MatTabsModule,
-	MatInputModule,
-	MatMenuModule,
-	MatTooltipModule,
-	AppRoutingModule,
-    SocialLoginModule,
-    FormsModule,
-    MatCardModule,
-	MatAutocompleteModule,
-	ReactiveFormsModule,
-	MatRadioModule,
-	NgIdleModule.forRoot(),
-	MaterialModule,
-	MatProgressSpinnerModule,
-	AnalysisModule,
-	//AnalysisRoutingModule,
-	DataSubmissionModule,
-	OverlayModule,
-	GenePageModule,
-	MatCheckboxModule,
-	MatListModule,
-	MatExpansionModule,
-	MatSelectModule,
-  RecaptchaModule,
-  RecaptchaFormsModule,
-  RecaptchaV3Module
-  ],
-
-  providers: [ChorusauthService, FrontPageService, SearchService, PDCUserService, OverlayWindowService, PublicationsService,PancancerService,
-				LegacyDataService, HeatmapsService, StudySummaryOverlayService, AuthGuardService,
-				{ provide: AuthServiceConfig,	useFactory: getAuthServiceConfigs },
-				{ provide: APP_BASE_HREF, useValue: window['_app_base'] || '/' },
+    declarations: [
+        NavbarComponent,
+        AppComponent,
+        BottomNavbarComponent,
+        PageNotFoundComponent,
+        LabSelectionComponent,
+        LoginComponent,
+        GeneProteinSummaryComponent,
+        WelcomePageComponent,
+        RegistrationPageComponent,
+        SearchStylePipe,
+        AboutComponent,
+        CaseSummaryComponent,
+        StudySummaryComponent,
+        FilesOverlayComponent,
+        PublicationFilesOverlayComponent,
+        OverlayWindowComponent,
+        ConfirmationDialogComponent,
+        InputDialogComponent,
+        SizeUnitsPipe,
+        MessageDialogComponent,
+        StudySummaryOverlayWindowComponent,
+        PrivacyPolicyOverlayWindowComponent,
+        DUAForOtherProgramsOverlayWindow,
+        UserAccountComponent,
+        FaqComponent,
+        RegistrationComponent,
+        ResetPasswordComponent,
+        SubmitDataFAQComponent,
+        RequestDataSubmissionComponent,
+        DataUseGuidelinesComponent,
+        PublicationsComponent,
+        ExploreQuantitationData,
+        HeatmapsComponent,
+        ForwardingComponent,
+        HarmonizationComponent,
+        ApiDocumentationComponent,
+        PublicapiDocumentationComponent,
+        DataDownloadDocComponent,
+        PancancerComponent,
+        DataCloudAnalysisComponent
+    ],
+    imports: [
+        FontAwesomeModule,
+        TableModule,
+        OverlayPanelModule,
+        ButtonModule,
+        BrowserModule,
+        LegacyDataModule,
+        BrowserAnimationsModule,
+        DataDictionaryModule,
+        HttpClientModule,
+        ApolloModule,
+        HttpLinkModule,
+        // HttpModule,
+        CheckboxModule,
+        PaginatorModule,
+        DataViewModule,
+        MatButtonModule,
+        MatToolbarModule,
+        MatGridListModule,
+        MatFormFieldModule,
+        MatIconModule,
+        MatTabsModule,
+        MatInputModule,
+        MatMenuModule,
+        MatTooltipModule,
+        AppRoutingModule,
+        SocialLoginModule,
+        FormsModule,
+        MatCardModule,
+        MatAutocompleteModule,
+        ReactiveFormsModule,
+        MatRadioModule,
+        NgIdleModule.forRoot(),
+        MaterialModule,
+        MatProgressSpinnerModule,
+        AnalysisModule,
+        //AnalysisRoutingModule,
+        DataSubmissionModule,
+        OverlayModule,
+        GenePageModule,
+        MatCheckboxModule,
+        MatListModule,
+        MatExpansionModule,
+        MatSelectModule,
+        RecaptchaModule,
+        RecaptchaFormsModule,
+        RecaptchaV3Module
+    ],
+    providers: [ChorusauthService, FrontPageService, SearchService, PDCUserService, OverlayWindowService, PublicationsService, PancancerService,
+        LegacyDataService, HeatmapsService, StudySummaryOverlayService, AuthGuardService,
+        { provide: 'SocialAuthServiceConfig', useFactory: getAuthServiceConfigs },
+        { provide: APP_BASE_HREF, useValue: window['_app_base'] || '/' },
         {
-          provide: RECAPTCHA_V3_SITE_KEY,
-          useValue: RECAPTCHA_V3_PDC_KEY
+            provide: RECAPTCHA_V3_SITE_KEY,
+            useValue: RECAPTCHA_V3_PDC_KEY
         }
-			 ],
-  bootstrap: [AppComponent],
-  entryComponents: [LabSelectionComponent, LoginComponent, RegistrationComponent, GeneProteinSummaryComponent,
-					OverlayWindowComponent, ConfirmationDialogComponent, InputDialogComponent, MessageDialogComponent, StudySummaryOverlayWindowComponent,
-					PrivacyPolicyOverlayWindowComponent, DUAForOtherProgramsOverlayWindow, ResetPasswordComponent]
+    ],
+    bootstrap: [AppComponent]
 })
 // @@@PDC-168 The landing page for the PDC Node provides a summary view of the data that is in the PDC database.
 // @@@PDC-169 The user should be able to browse data by Case

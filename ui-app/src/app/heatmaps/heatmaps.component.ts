@@ -6,7 +6,7 @@ import { Observable, Subject } from 'rxjs';
 import { map ,  switchMap } from 'rxjs/operators';
 import gql from 'graphql-tag';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 
 import {DataViewModule} from 'primeng/dataview';
 import {MatExpansionModule} from '@angular/material/expansion'; 
@@ -14,7 +14,8 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import { QueryHeatmapsData, HeatmapsFiltersData } from '../types';
 import { StudySummaryComponent } from '../browse/study-summary/study-summary.component';
 import { HeatmapsService } from './heatmaps.service';
-import { MatDialog, MatDialogConfig, MatSidenav } from '@angular/material';
+import { MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig } from '@angular/material/legacy-dialog';
+import { MatSidenav } from '@angular/material/sidenav';
 
 import {TableTotalRecordCount, AllStudiesData} from '../types';
 import { FilesOverlayComponent } from '../browse/browse-by-file/files-overlay.component';
@@ -47,7 +48,7 @@ export class HeatmapsComponent implements OnInit{
 	newFilterSelected: any;
 	cols: any[];
 	loading = false;
-	heatmapsFilterGroup:FormGroup;
+	heatmapsFilterGroup:UntypedFormGroup;
 	isAbstractExpanded = false;
 	
 	filterSelected: any;
@@ -65,10 +66,10 @@ export class HeatmapsComponent implements OnInit{
 		private router: Router,
 		private loc: Location) {
 		
-		this.heatmapsFilterGroup = new FormGroup({
-				diseaseTypeFormControl: new FormControl(),
-				primarySitesFormControl: new FormControl(),
-				analyticalFractionsFormControl: new FormControl()
+		this.heatmapsFilterGroup = new UntypedFormGroup({
+				diseaseTypeFormControl: new UntypedFormControl(),
+				primarySitesFormControl: new UntypedFormControl(),
+				analyticalFractionsFormControl: new UntypedFormControl()
 		});  
 		this.heatmapsFilterGroup.setValue({diseaseTypeFormControl: '', primarySitesFormControl: '', analyticalFractionsFormControl: ''});
 		this.getFiltersData();

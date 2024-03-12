@@ -2,15 +2,15 @@ import {of as observableOf,  Observable } from 'rxjs';
 
 import { FormControl } from "@angular/forms";
 import { catchError,  take } from 'rxjs/operators';
-import { Component, OnInit, Inject,  EventEmitter, Input, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, OnInit, Inject,  EventEmitter, Input, Output, SimpleChanges, ViewChild, ViewChildren } from '@angular/core';
 import { formatDate } from '@angular/common';
 import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
 import { Apollo } from 'apollo-angular';
 import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { MAT_DIALOG_DATA, MatDialogRef, MatDialogConfig, MatDialog } from '@angular/material';
+import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef, MatLegacyDialogConfig as MatDialogConfig, MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { MatSelectModule } from '@angular/material/select';
+import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
 import { CaseSummaryComponent } from '../case-summary/case-summary.component';
 import { PDCUserService } from "../../pdcuser.service";
 import { AllFilesData } from "../../types";
@@ -105,10 +105,8 @@ export class FilesOverlayComponent implements OnInit {
   isLegacyData = false;
   frozenCols = [];
   @ViewChild('dataForManifestExport') dataForManifestExport;
-  //@@@PDC-7109 - updates to browse checkbox
-  @ViewChild('fileDataChk') fileDataChk;
   //@@@PDC-7110 fix checkbox update
-  @ViewChild('browsePageCheckboxes') browsePageCheckboxes;
+  @ViewChildren('browsePageCheckboxes') browsePageCheckboxes;
 
 	constructor(private activeRoute: ActivatedRoute, private router: Router, private apollo: Apollo, private http: HttpClient,
 				private browseByFileService: BrowseByFileService, private loc:Location,
@@ -225,47 +223,6 @@ export class FilesOverlayComponent implements OnInit {
     }
     //@@@PDC-3748: "Select all pages" issue on the Study Summary page
     this.handleCheckboxSelections();
-  }
-
-  //@@@PDC-918: Add button to allow download of full file manifest
-  //@@@PDC-4017: Issues with "Select this page" when sorting of column is performed
-  changeHeaderCheckbox($event) {
-    let checkboxVal = this.selectedHeaderCheckbox;
-    //this.selectedFiles = this.currentPageSelectedFile = []; // no need to reinitialize all selected files.
-    //@@@PDC-7012 - reinitializing in order to be able to switch between page selection in intiutive dropdown checkbox
-    this.selectedFiles = this.currentPageSelectedFile = [];
-    switch (checkboxVal) {
-      case 'Select all pages':
-            this.fileExportCompleteManifest();
-            break;
-      case 'Select this page':
-            this.headercheckbox = true;
-            this.onTableHeaderCheckboxToggle();
-            break;
-      case 'Select None':
-            this.clearSelection();
-            break;
-    }
-  }
-  //@@@PDC-7012 improve browse checkbox intuitiveness
-  triggerchangeHeaderCheckbox() {
-      //@@@PDC-7110 - fix checkbox update
-      if(this.browsePageCheckboxes.checked){
-        this.fileDataChk.checked = true;
-      } else {
-        this.fileDataChk.checked = false;
-      }
-      this.dataForManifestExport.open();
-  }
-
-  //@@@PDC-7109 improve browse checkbox intuitiveness - bug where 'Select None' remained checked when selected
-  chkBoxSelectionCheck(selectedOption) {
-      if(selectedOption == 'Select None'){
-        this.fileDataChk.checked = false;
-        this.dataForManifestExport.close();
-      } else {
-        this.fileDataChk.checked = true;
-      }
   }
 
   get staticUrlBase() {
@@ -464,13 +421,13 @@ export class FilesOverlayComponent implements OnInit {
 	}
   }
 
-  //@@@PDC-3748: "Select all pages" issue on the Study Summary page
-	handleCheckboxSelections() {
+  //@@@PDC-3667: "Select all pages" option issue
+  handleCheckboxSelections() {
 		if (this.currentPageSelectedFile.length === this.pageSize) {
 			this.headercheckbox = true;
 		} else {
+			//For the last page
 			if (this.totalRecords - this.offset < this.pageSize) {
-				//For the last page
 				if (this.currentPageSelectedFile.length === this.totalRecords - this.offset) {
 					this.headercheckbox = true;
 				} else {
@@ -481,6 +438,61 @@ export class FilesOverlayComponent implements OnInit {
 			}
 		}
 	}
+
+  //@@@PDC-918: Add button to allow download of full file manifest
+  changeHeaderCheckbox($event) {
+    let checkboxVal = this.selectedHeaderCheckbox;
+    this.selectedFiles = this.currentPageSelectedFile = [];
+    switch (checkboxVal) {
+      case 'Select all pages':
+            this.fileExportCompleteManifest();
+            break;
+      case 'Select this page':
+            this.headercheckbox = true;
+            this.onTableHeaderCheckboxToggle();
+            break;
+      case 'Select None':
+            this.clearSelection();
+            break;
+    }
+  }
+  //@@@PDC-7012 improve browse checkbox intuitiveness
+  triggerchangeHeaderCheckbox() {
+      //@@@PDC-7110 - fix checkbox update
+      //@@@PDC-7110 - fix checkbox update - check the selection and then set checkbox accordingly
+      let checkboxVal = this.selectedHeaderCheckbox;
+      this.selectedFiles = this.currentPageSelectedFile = [];
+      switch (this.selectedHeaderCheckbox) {
+        case 'Select all pages':
+              this.fileExportCompleteManifest();
+              break;
+        case 'Select this page':
+              this.headercheckbox = true;
+              this.onTableHeaderCheckboxToggle();
+              break;
+        case 'Select None':
+              this.clearSelection();
+              break;
+      }
+      //@@@PDC-7110 - check if there are unchecked checkboxes in table - if so then deselect checkbox
+      var found = this.browsePageCheckboxes._results.some(el => el.checked === false);
+      if(found == false){
+        this.headercheckbox = true;
+      } else {
+        this.headercheckbox = false;
+      }
+      this.dataForManifestExport.open();
+  }
+
+  //@@@PDC-7109 improve browse checkbox intuitiveness - bug where 'Select None' remained checked when selected
+  chkBoxSelectionCheck(selectedOption) {
+      if(selectedOption == 'Select None'){
+        this.headercheckbox = false;
+        this.dataForManifestExport.close();
+      } else {
+        this.headercheckbox = true;
+      }
+  }
 
   	/* Helper function to determine whether the download all button should be disabled or not */
 	iscompleteManifestDisabled() {

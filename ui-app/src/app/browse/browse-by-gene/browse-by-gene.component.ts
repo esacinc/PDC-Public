@@ -1,7 +1,7 @@
 import { Apollo } from 'apollo-angular';
 
 import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild, ViewChildren } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material';
+import { MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig } from '@angular/material/legacy-dialog';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
 import { environment } from '../../../environments/environment';
@@ -71,8 +71,6 @@ export class BrowseByGeneComponent implements OnInit {
   @Input() childTabChanged: string;
   frozenColumns = [];
   @ViewChild('dataForManifestExport') dataForManifestExport;
-  //@@@PDC-7109 improve browse checkbox intuitiveness
-  @ViewChild('geneDataChk') geneDataChk;
   //@@@PDC-7110 fix checkbox update
   @ViewChildren('browsePageCheckboxes') browsePageCheckboxes;
 
@@ -115,14 +113,14 @@ export class BrowseByGeneComponent implements OnInit {
 				console.log(this.ptmStatsData);
 				this.loading = false;
 				this.clearSelection();
-				this.makeRowsSameHeight();
+				//this.makeRowsSameHeight();
 			});
 	  }, 1000);
   }
 
   ngOnChanges(changes: SimpleChanges){
 	if (changes && changes['childTabChanged']) {
-		this.makeRowsSameHeight();
+		//this.makeRowsSameHeight();
 	}
 	if (this.newFilterValue){
 		this.filteredGenesData = [];
@@ -216,7 +214,7 @@ export class BrowseByGeneComponent implements OnInit {
 			}
 			this.loading = false;
 			this.clearSelection();
-			this.makeRowsSameHeight();
+			//this.makeRowsSameHeight();
 		});
 		//@@@PDC-799: Redirecting to the NIH login page for the file authorization loses PDC state
 		// Important: This code has to be present in the last tab of the browse page.
@@ -383,7 +381,7 @@ isDownloadDisabled(){
 			}
 			//@@@PDC-3667: "Select all pages" option issue
 			this.handleCheckboxSelections();
-			this.makeRowsSameHeight();
+			//this.makeRowsSameHeight();
 		});
 	}
 
@@ -492,15 +490,9 @@ isDownloadDisabled(){
 
 		switch (checkboxVal) {
 			case 'Select all pages':
-        setTimeout(() => {
-          this.geneDataChk.checked = true;
-        }, 1000);
 				this.downloadCompleteManifest(true);
 				break;
 			case 'Select this page':
-         setTimeout(() => {
-           this.geneDataChk.checked = true;
-        }, 1000);
 				this.headercheckbox = true;
 				this.onTableHeaderCheckboxToggle();
 				break;
@@ -518,15 +510,9 @@ isDownloadDisabled(){
 
   		switch (checkboxVal) {
   			case 'Select all pages':
-          setTimeout(() => {
-            this.geneDataChk.checked = true;
-          }, 1000);
   				this.downloadCompleteManifest(true);
   				break;
   			case 'Select this page':
-           setTimeout(() => {
-             this.geneDataChk.checked = true;
-          }, 1000);
   				this.headercheckbox = true;
   				this.onTableHeaderCheckboxToggle();
   				break;
@@ -537,10 +523,8 @@ isDownloadDisabled(){
       //@@@PDC-7110 - check if there are unchecked checkboxes in table - if so then deselect checkbox
       let found = this.browsePageCheckboxes._results.some(el => el.checked === false);
       if(found == false){
-        this.geneDataChk.checked = true;
         this.headercheckbox = true;
       } else {
-        this.geneDataChk.checked = false;
         this.headercheckbox = false;
       }
       this.dataForManifestExport.open();
@@ -549,12 +533,10 @@ isDownloadDisabled(){
   //@@@PDC-7109 improve browse checkbox intuitiveness - bug where 'Select None' remained checked when selected
   chkBoxSelectionCheck(selectedOption) {
       if(selectedOption == 'Select None'){
-        setTimeout(() => {
-          this.geneDataChk.checked = false;
-        }, 500);
+		this.headercheckbox = false;
         this.dataForManifestExport.close();
       } else {
-        this.geneDataChk.checked = true;
+		this.headercheckbox = true;
       }
   }
 
@@ -678,12 +660,6 @@ isDownloadDisabled(){
 		this.pageHeaderCheckBoxTrack = [];
 	}
 
-  private clearCheckboxSelection(){
-    setTimeout(() => {
-       this.geneDataChk.checked = false;
-    },1000);
-  }
-
 	//@@@PDC-848 Fix headercheckbox issue for data tables on browse page
 	private trackCurrentPageSelectedCase(filteredFilesData: AllGeneData[]){
 		let fileIdList = [];
@@ -695,7 +671,7 @@ isDownloadDisabled(){
 	}
 
 	onResize(event) {
-		this.makeRowsSameHeight();
+		//this.makeRowsSameHeight();
 	}
 
 	//@@@PDC-4792: Increase font size in all tables to pass 508 compliance

@@ -1,9 +1,9 @@
-import {MatDialogRef, MAT_DIALOG_DATA, MatDialog} from '@angular/material/dialog';
+import {MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialog as MatDialog} from '@angular/material/legacy-dialog';
 import {Inject} from '@angular/core';
 import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
-import {AuthService, GoogleLoginProvider} from 'angular-6-social-login';
+import {SocialAuthService, GoogleLoginProvider} from 'angularx-social-login';
 import {Md5} from 'ts-md5/dist/md5';
 import {PDCUserService} from '../../pdcuser.service';
 import {environment} from '../../../environments/environment';
@@ -27,10 +27,10 @@ export class ResetPasswordComponent implements OnInit {
   uid = '';
 
   // This structure is needed for defining field validatoin rules
-  resetPasswordForm: FormGroup;
+  resetPasswordForm: UntypedFormGroup;
 
   //, Validators.pattern('(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).+')
-  constructor(private socialAuthService: AuthService,
+  constructor(private socialAuthService: SocialAuthService,
               private router: Router,
               private userService: PDCUserService,
               private overlayWindow: OverlayWindowService,
@@ -39,11 +39,11 @@ export class ResetPasswordComponent implements OnInit {
               @Inject(MAT_DIALOG_DATA) data) {
     this.uid = data.uuid;
     //console.log(this.uid);
-    this.resetPasswordForm = new FormGroup({
-      user_pass: new FormControl('', [Validators.required,
+    this.resetPasswordForm = new UntypedFormGroup({
+      user_pass: new UntypedFormControl('', [Validators.required,
         Validators.minLength(8),
         Validators.pattern(/(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#\$%\^&\*\_\+\=\?\,\:\;\<\>\/\~\\\-]).+/)]),
-      confirm_password: new FormControl('', [Validators.required])
+      confirm_password: new UntypedFormControl('', [Validators.required])
     });
     this.resetPasswordForm.setValue({
       user_pass: '',

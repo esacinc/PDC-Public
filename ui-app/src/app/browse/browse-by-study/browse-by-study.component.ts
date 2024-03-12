@@ -1,9 +1,10 @@
 import { Apollo } from 'apollo-angular';
 
 import {
-    Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, Renderer, ViewChild, ViewChildren
+    Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild, ViewChildren
 } from '@angular/core';
-import { MatDialog, MatDialogConfig, MatTooltipModule } from '@angular/material';
+import { MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig } from '@angular/material/legacy-dialog';
+import { MatLegacyTooltipModule as MatTooltipModule } from '@angular/material/legacy-tooltip';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { AllStudiesData, FileCountsForStudyPage } from '../../types';
@@ -13,6 +14,7 @@ import { BrowseByStudyService } from './browse-by-study.service';
 import { ngxCsv } from "ngx-csv/ngx-csv";
 import * as FileSaver from 'file-saver';
 import * as _ from 'lodash';
+import { TableModule } from 'primeng/table';
 
 @Component({
   selector: 'browse-by-study',
@@ -49,6 +51,8 @@ import * as _ from 'lodash';
 //@@@PDC-2584: Add Embargo date to the study table on Browse page
 export class BrowseByStudyComponent implements OnInit, OnChanges {
 
+  selectedDate: Date;
+  keepSelectedStudies: AllStudiesData[] = [];
   filteredStudiesData: AllStudiesData[]; //Filtered list of Studies
   loading: boolean = false; //Flag indicates that the data is still being loaded from server
   filterChangedFlag: boolean = true; //Flag indicates that filter selection was changed
@@ -89,10 +93,11 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 	selectedHeaderCheckbox = '';
 	manifestFormat = "csv";
 	frozenColumns = [];
+
+  selectAll: boolean = false;
+
 	@Input() childTabChanged: string;
   @ViewChild('dataForManifestExport') dataForManifestExport;
-  //@@@PDC-7109 improve browse checkbox intuitiveness
-  @ViewChild('studyDataChk') studyDataChk;
   //@@@PDC-7110 fix checkbox update
   @ViewChildren('browsePageCheckboxes') browsePageCheckboxes;
 
@@ -111,11 +116,36 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 	this.pageSize = 10;
 	this.getAllStudiesData();
 	this.sort = "";
+
 	BrowseByStudyComponent.urlBase = environment.dictionary_base_url;
   }
 
+
+
   get staticUrlBase() {
     return BrowseByStudyComponent.urlBase;
+  }
+
+  //@PDC-8153 fix study delection
+  onSelectionChange(event){
+	let currentDate = new Date();
+    console.log("selection change");
+	console.log(Math.floor(currentDate.getTime()/1000));
+    console.log(event);
+	
+	if(this.selectedDate && Math.floor(this.selectedDate.getTime()/1000) === Math.floor(currentDate.getTime()/1000)){
+		setTimeout(() => {this.selectedStudies = [...this.keepSelectedStudies]},500);
+	}else{
+		this.keepSelectedStudies = [...event];
+	}
+	this.selectedDate = currentDate; 
+
+    if(this.selectedStudies.length === this.totalRecords){
+      console.log("equal");
+      this.headercheckbox = true;
+    } else {
+      this.headercheckbox = false;
+    }
   }
 
   showStudySummary(study_id: string){
@@ -172,9 +202,8 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 				this.limit = data.getPaginatedUIStudy.pagination.size;
 			}
 			this.loading = false;
-      this.clearCheckboxSelection();
 			this.clearSelection();
-			this.makeRowsSameHeight();
+			//this.makeRowsSameHeight();
 		  });
 	  }, 1000);
 	}
@@ -282,7 +311,7 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges){
 	  if (changes && changes['childTabChanged']) {
-		this.makeRowsSameHeight();
+		//this.makeRowsSameHeight();
 	  }
 	  // ngOnChanges fires when the page loads, at that moment newFilterValue is not set yet
 	  if (this.newFilterValue){
@@ -375,10 +404,9 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 				this.offset = data.getPaginatedUIStudy.pagination.from;
 				this.pageSize = data.getPaginatedUIStudy.pagination.size;
 				this.limit = data.getPaginatedUIStudy.pagination.size;
-				this.makeRowsSameHeight();
+				//this.makeRowsSameHeight();
 			}
 			this.loading = false;
-      this.clearCheckboxSelection();
 			this.clearSelection();
 		});
 		}
@@ -426,6 +454,7 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 				headerCols.push(this.cols[i]['header']);
 				colValues.push(this.cols[i]['field']);
 			}
+			let localSelectedStudyies = [];
 			let localSelectedStudies = [];
 			for(let study of filteredStudiesData) {
 				//if the export column column does not value, set it to empty
@@ -469,10 +498,19 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 			}
 			if (buttonClick) {
 				//@@@PDC-1063: Implement select all, select page, select none for all tabs
-				this.selectedStudies = localSelectedStudies;
 				this.headercheckbox = true;
+				let emptyArray = [];
+				this.selectedStudies = [];
+				let localSelectedStudyies = emptyArray.concat(this.selectedStudies);
+				for(let study of data.getPaginatedUIStudy.uiStudies){
+					localSelectedStudyies.push(study);
+				}
+      	this.selectedStudies = localSelectedStudyies;
+
 				//@@@PDC-3667: "Select all pages" option issue
-				this.updateCurrentPageSelectedStudy(localSelectedStudies);
+				this.updateCurrentPageSelectedStudy(localSelectedStudyies);
+				//@@@PDC-3667: "Select all pages" option issue
+				//this.updateCurrentPageSelectedStudy(localSelectedStudyies);
 			} else {
 				let exportFileObject = JSON.parse(JSON.stringify(localSelectedStudies, colValues));
 				if (this.manifestFormat == "csv") {
@@ -488,6 +526,9 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 				}
 				this.isTableLoading.emit({isTableLoading:"study:false"});
 			}
+			console.log("======IN STUDY==");
+			console.log(localSelectedStudies);
+			console.log(this.selectedStudies);
 			});
 		}, 10);
 	}
@@ -543,22 +584,15 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
       //@@@PDC-7110 - fix checkbox update - check the selection and then set checkbox accordingly
       //@@@PDC-7127 - fix study select checkbox to respond in same amount of time as other entities
 			case 'Select all pages':
-            setTimeout(() => {
-              this.studyDataChk.checked = true;
-            }, 50);
-						this.downloadCompleteManifest(true);
-						break;
+				this.downloadCompleteManifest(true);
+				break;
 			case 'Select this page':
-						this.headercheckbox = true;
-            setTimeout(() => {
-              this.studyDataChk.checked = true;
-            }, 50);
-						this.onTableHeaderCheckboxToggle();
-						break;
+				this.headercheckbox = true;
+				this.onTableHeaderCheckboxToggle();
+				break;
 			case 'Select None':
-						this.clearSelection();
-            this.clearCheckboxSelection();
-						break;
+				this.clearSelection();
+				break;
 		}
 	}
   //@@@PDC-7012 improve browse checkbox intuitiveness -
@@ -569,46 +603,35 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
       this.selectedStudies = this.currentPageSelectedStudy = [];
       switch (this.selectedHeaderCheckbox) {
         case 'Select all pages':
-              setTimeout(() => {
-                this.studyDataChk.checked = true;
-              }, 50);
               this.downloadCompleteManifest(true);
               break;
         case 'Select this page':
               this.headercheckbox = true;
-              setTimeout(() => {
-                this.studyDataChk.checked = true;
-              }, 50);
               this.onTableHeaderCheckboxToggle();
               break;
         case 'Select None':
               this.clearSelection();
-              this.clearCheckboxSelection();
               break;
       }
       //@@@PDC-7110 - check if there are unchecked checkboxes in table - if so then deselect checkbox
       let found = this.browsePageCheckboxes._results.some(el => el.checked === false);
-      if(found == false){
-        this.studyDataChk.checked = true;
+      if (found == false){
         this.headercheckbox = true;
       } else {
-        this.studyDataChk.checked = false;
         this.headercheckbox = false;
       }
       this.dataForManifestExport.open();
   }
+
   //@@@PDC-7109 improve browse checkbox intuitiveness - bug where 'Select None' remained checked when selected
   chkBoxSelectionCheck(selectedOption) {
       console.log("inside checkbox selection");
-      if(selectedOption == 'Select None'){
-        this.studyDataChk.checked = false;
+      if (selectedOption == 'Select None'){
         this.headercheckbox = false;
         this.dataForManifestExport.close();
       } else {
-        this.studyDataChk.checked = true;
         this.headercheckbox = true;
       }
-
   }
 
   // This function is a callback for pagination controls
@@ -660,15 +683,18 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 			}
 			//@@@PDC-3667: "Select all pages" option issue
 			this.handleCheckboxSelections();
-			this.makeRowsSameHeight();
+			//this.makeRowsSameHeight();
 		});
 	}
 
 	//@@@PDC-3667: "Select all pages" option issue
 	handleCheckboxSelections() {
+    console.log(this.currentPageSelectedStudy);
 		if (this.currentPageSelectedStudy.length === this.pageSize) {
+      console.log("line 688");
 			this.headercheckbox = true;
 		} else {
+      console.log("line 691");
 			if (this.totalRecords - this.offset < this.pageSize) {
 				//For the last page
 				if (this.currentPageSelectedStudy.length === this.totalRecords - this.offset) {
@@ -830,7 +856,7 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
   }
 
   onResize(event) {
-	this.makeRowsSameHeight();
+	//this.makeRowsSameHeight();
   }
 
 	//@@@PDC-795 Change manifest download file name include timestamp
@@ -947,7 +973,7 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 	onTableHeaderCheckboxToggle() {
     let emptyArray = [];
     let localSelectedStudyies = emptyArray.concat(this.selectedStudies);
-    if(this.headercheckbox){
+    if (this.headercheckbox){
       for(let study of this.filteredStudiesData){
         if(this.currentPageSelectedStudy.indexOf(study.study_submitter_id) === -1){
           localSelectedStudyies.push(study);
@@ -967,23 +993,31 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 			this.currentPageSelectedStudy = [];
 			this.pageHeaderCheckBoxTrack = [];
     }
+	console.log("=====THIS PAGE ====");
+	console.log(this.selectedStudies);
   }
 
 	//@@@PDC-848 Fix headercheckbox issue for data tables on browse page
-  onRowSelected(event:any){
+  onRowSelected(event){
+    if(event.originalEvent.pointerId === -1 ){
 		this.currentPageSelectedStudy.push(event.data.study_submitter_id);
+    this.selectedStudies.push(event.data);
 		//@@@PDC-3667: "Select all pages" option issue
 		this.handleCheckboxSelections();
+    }
   }
 
 	//@@@PDC-848 Fix headercheckbox issue for data tables on browse page
   onRowUnselected(event){
     let index = this.currentPageSelectedStudy.indexOf(event.data.study_submitter_id);
+
     if(index >-1){
       this.currentPageSelectedStudy.splice(index,1);
 		}
+
 		//@@@PDC-3667: "Select all pages" option issue
 		this.handleCheckboxSelections();
+
   }
 
 	//@@@PDC-848 Fix headercheckbox issue for data tables on browse page
@@ -992,12 +1026,6 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
     this.headercheckbox = false;
     this.currentPageSelectedStudy = [];
     this.pageHeaderCheckBoxTrack = [];
-  }
-
-  private clearCheckboxSelection(){
-    setTimeout(() => {
-       this.studyDataChk.checked = false;
-    },500);
   }
 
   //@@@PDC-848 Fix headercheckbox issue for data tables on browse page

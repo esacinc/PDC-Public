@@ -21,7 +21,6 @@ declare var $ : any;
   "../../assets/css/publicapi-documentation/standalone.css",
   "../../assets/css/publicapi-documentation/api-explorer.css",
   "../../assets/css/publicapi-documentation/screen.css",
-  "../../assets/css/publicapi-documentation/favicon-144x144.png",
   "../../assets/css/publicapi-documentation/search.css",
   './publicapi-documentation.component.css'],
   providers: [
@@ -264,7 +263,7 @@ export class PublicapiDocumentationComponent implements AfterViewInit  {
         });
 
     });
-  
+
 
   }
 

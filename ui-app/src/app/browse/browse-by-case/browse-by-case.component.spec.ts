@@ -2,8 +2,8 @@ import { Apollo } from 'apollo-angular';
 import { Observable, of } from 'rxjs';
 
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatDialog } from '@angular/material';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -56,7 +56,7 @@ describe("BrowseByCaseComponent", () => {
   let component: BrowseByCaseComponent;
   let fixture: ComponentFixture<BrowseByCaseComponent>;
   let serviceSpy: jasmine.Spy;
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [BrowseByCaseComponent, CaseSummaryComponent],
       imports: [RouterTestingModule],

@@ -2,15 +2,16 @@ import { of } from 'rxjs';
 import { OverlayWindowService } from "./../../overlay-window/overlay-window.service";
 import { PDCUserService } from "./../../pdcuser.service";
 import { RouterTestingModule } from "@angular/router/testing";
-import { AuthService } from "angular-6-social-login";
+import { SocialAuthService } from "angularx-social-login";
 import { ChorusauthService } from "./../../chorusauth.service";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
-import { MatDialogRef } from '@angular/material/dialog';
-import { MatDialog } from '@angular/material';
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
+import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 
 import { RegistrationComponent } from "./registration.component";
-import { MatRadioModule, MatFormFieldModule } from "@angular/material";
+import { MatLegacyFormFieldModule as MatFormFieldModule } from "@angular/material/legacy-form-field";
+import { MatLegacyRadioModule as MatRadioModule } from "@angular/material/legacy-radio";
 
 import {
   RecaptchaModule,
@@ -53,7 +54,7 @@ describe("RegistrationComponent", () => {
   let component: RegistrationComponent;
   let fixture: ComponentFixture<RegistrationComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [RegistrationComponent],
       imports: [
@@ -69,7 +70,7 @@ describe("RegistrationComponent", () => {
       ],
       providers: [
         { provide: ChorusauthService, useClass: MockChorusauthService },
-        { provide: AuthService, useClass: MockAuthService },
+        { provide: SocialAuthService, useClass: MockAuthService },
         { provide: PDCUserService, useClass: MockPDCUserService },
         { provide: OverlayWindowService, useClass: MockOverlayWindowService },
         { provide: MatDialogRef, useValue: {} },
