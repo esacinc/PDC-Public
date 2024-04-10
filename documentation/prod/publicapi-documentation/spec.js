@@ -5555,7 +5555,7 @@ var spec = {
             "properties":{
                "url":{
                   "type":"string",
-                  "example":"https://pdcdatastore.s3.amazonaws.com/studies/206/mzml/02CPTAC_CompRef_GBM_P_PNNL_20190306_B2S5_f10.mzML.gz?AWSAccessKeyId=AKIAQPWI5WIU7M4BLQXG&Expires=1602261172&Signature=W2wF3metuSJUtoZQQFkrfVX0dek%3D"
+                  "example":"https://pdcdatastore.s3.amazonaws.com/studies/206/mzml/02CPTAC_CompRef_GBM_P_PNNL_20190306_B2S5_f10.mzML.gz?"
                }
               },
             "xml":{
