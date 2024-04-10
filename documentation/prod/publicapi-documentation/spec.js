@@ -132,7 +132,7 @@ var spec = {
                  "get": {
                            "tags": ["Gene"],
                    "summary": "Returns the aliquot spectral counts",
-                   "description": "<b>Input Parameters (multiple parameters can be passed in one call):</b><ul><li>gene_name (example: A1BG)</li><li>dataset_alias (example: A2-A0D0-01A)</li></ul><b>Returns the aliquot spectral counts<br><br>Fields:</b><ul><li>gene_id</li><li>gene_name</li><li>NCBI_gene_id</li><li>authority</li><li>description</li><li>organism</li><li>chromosome</li><li>locus</li><li>proteins</li><li>assays</li><li>spectral_counts</li></ul><b>A test call can be issued with the following parameters (it may return slowly, especially the first time, due to the data volume):</b>",
+                   "description": "<b>Input Parameters (multiple parameters can be passed in one call):</b><ul><li>gene_name (example: MYBBP1A)</li><li>dataset_alias (example: FFPE_Discovery_Phospho_TMT_Gr12)</li></ul><b>Returns the aliquot spectral counts<br><br>Fields:</b><ul><li>gene_id</li><li>gene_name</li><li>NCBI_gene_id</li><li>authority</li><li>description</li><li>organism</li><li>chromosome</li><li>locus</li><li>proteins</li><li>assays</li><li>spectral_counts</li></ul><b>A test call can be issued with the following parameters (it may return slowly, especially the first time, due to the data volume):</b>",
                    "operationId": "aliquotSpectralCount",
                    "produces": [
                      "application/json"
@@ -140,14 +140,14 @@ var spec = {
                    "parameters": [{
                        "name": "gene_name",
                        "in": "path",
-                       "description": "Gene Name, example: A1BG",
+                       "description": "Gene Name, example: MYBBP1A",
                        "required": true,
                        "type": "string"
                      },
                      {
                        "name": "dataset_alias",
                        "in": "path",
-                       "description": "Dataset alias, example: A2-A0D0-01A",
+                       "description": "Dataset alias, example: FFPE_Discovery_Phospho_TMT_Gr12",
                        "required": true,
                        "type": "string"
                      }

@@ -597,7 +597,7 @@ export class FilesOverlayComponent implements OnInit {
 			  this.displayLoading(buttonClick, "file", false);
 			});
 		 }
-      }, 1000);
+      }, 100);
     }
   }
 

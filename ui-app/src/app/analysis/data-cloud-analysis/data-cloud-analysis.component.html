@@ -48,11 +48,11 @@
           <li>
             <span style="font-weight: bold;">From the Explore page</span>: Apply filters to isolate the study or group of studies you want to download files from. Use the left-hand filter menu to select the data category of files (e.g., Raw Mass Spectra or Processed Mass Spectra) you're searching for. Navigate to the files tab and choose all or specific files of interest by selecting the checkboxes on the left side of the table. Once you've selected the desired files, click one of the options next to "Export File Manifest".
             <br><br>
-            <div style="text-align:center"><img style="width: 60%;margin-left: 9%;" src="assets/css/images/explore-select-files-pfb.png" alt="Select files on the Explore page"></div>    
+            <div style="text-align:center"><img style="width: 60%;margin-left: 9%;" src="assets/css/images/explore-select-files-pfb.png" alt="Select files on the Explore page"></div>
           </li>
           <br>
-          The metadata contained in the manifest files (CSV, TSV, or PFB) can be used to organize the data for downstream analysis.  
-          <br>Identify the following metadata available in the PDC file manifest: 
+          The metadata contained in the manifest files (CSV, TSV, or PFB) can be used to organize the data for downstream analysis.
+          <br>Identify the following metadata available in the PDC file manifest:
           <ul>
             <li>PDC Study ID, e.g., PDC000319</li>
             <li>PDC Study Version, e.g., 1 </li>
@@ -61,15 +61,15 @@
             <li>File Type, e.g., Open Standard </li>
             <li>File, e.g., PTRC_exp12_plex_01_P_f06.mzML.gz</li>
           </ul>
-          <br>Understand what the Run Metadata ID represents: 
+          <br>Understand what the Run Metadata ID represents:
           <ul>
             <li>The Run Metadata ID refers to a specific experimental run or "plex" within the dataset. In proteomic experiments, researchers often perform multiple runs or experiments with different conditions or treatments. </li>
             <li>Each of these runs is assigned a unique Run Metadata ID to distinguish it from other runs within the same study. </li>
             <li>The Run Metadata ID helps in grouping all files associated with a particular experimental run, making it easier to access and analyze data specific to that run. </li>
           </ul>
-          <br>For instance, you can use the following pattern to organize the data into the following folder structure: 
+          <br>For instance, you can use the following pattern to organize the data into the following folder structure:
 
-          <br>PDC Study ID / PDC Study Version / Data Category / Run Metadata ID / File Type / File 
+          <br>PDC Study ID / PDC Study Version / Data Category / Run Metadata ID / File Type / File
 
           <br>PDC000319 / 1 / Processed Mass Spectra / AML Gilteritinib TimeCourse - Phosphoproteome-1 / Open Standard / PTRC_exp12_plex_01_P_f06.mzML.gz
           <br><br>
@@ -82,7 +82,8 @@
 
       <div #Broad_Firecloud id="Broad_Firecloud" class="headers">Data handoff to Broad Institute FireCloud</div>
       <div>
-        Firecloud is a Broad Institute project that provides access to data along with a suite of applications and tools for data analysis and visualization, powered by the Terra cloud platform. To import and analyze data from the PDC on this platform, you will need to first create an account with Terra, link that account to a Google Cloud billing account, then create a workspace on Terra. Information on each of these steps can be found here: <a href="https://terra.bio/resources/getting-started/" target="_blank">Getting Started - Terra.Bio</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">External Link</span></a>
+        <!-- PDC-8109 -update Terra bio -->
+        Firecloud is a Broad Institute project that provides access to data along with a suite of applications and tools for data analysis and visualization, powered by the Terra cloud platform. To import and analyze data from the PDC on this platform, you will need to first create an account with Terra, link that account to a Google Cloud billing account, then create a workspace on Terra. Information on each of these steps can be found here: <a href="https://terra.bio/" target="_blank">Getting Started - Terra.Bio</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">External Link</span></a>
         <br><br>
         Once you have set up your account and workspace, selecting the PFB option on a selection of files will direct you to a Terra session, and the files you selected will be made available in the chosen Terra workspace. You may view information regarding the files you have selected under the 'Data' tab in that workspace.
       </div>
@@ -126,14 +127,14 @@ def query_pdc(query):
     return pdc_response.raise_for_status()
 
 # First, we will retrieve the experimental design for this study using the 'studyExperimentalDesign' API
-experimental_design_query = '{{ '{' }} studyExperimentalDesign(pdc_study_id: "' + pdc_study_id + '" acceptDUA: true) {{ '{' }} pdc_study_id, study_run_metadata_id, study_run_metadata_submitter_id, study_id, study_submitter_id, analyte, 
-acquisition_type, experiment_type, plex_dataset_name, experiment_number, number_of_fractions, label_free{{ '{' }}aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id{{ '}' }}, itraq_113{{ '{' }}aliquot_id, aliquot_run_metadata_id, 
-aliquot_submitter_id{{ '}' }}, itraq_114{{ '{' }}aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id{{ '}' }}, itraq_115{{ '{' }}aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, itraq_116{{ '{' }}aliquot_id, aliquot_run_metadata_id, 
-aliquot_submitter_id{{ '}' }}, itraq_117{{ '{' }}aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id{{ '}' }}, itraq_118{{ '{' }}aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id{{ '}' }}, itraq_119{{ '{' }}aliquot_id, aliquot_run_metadata_id, 
-aliquot_submitter_id{{ '}' }}, itraq_121{{ '{' }}aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id{{ '}' }}, tmt_126{{ '{' }}aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id{{ '}' }}, tmt_127n{{ '{' }}aliquot_id, aliquot_run_metadata_id, 
-aliquot_submitter_id{{ '}' }}, tmt_127cd{{ '{' }}aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id{{ '}' }}, tmt_128nd{{ '{' }}aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id{{ '}' }}, tmt_128cd{{ '{' }}aliquot_id, aliquot_run_metadata_id, 
-aliquot_submitter_id{{ '}' }}, tmt_129n{{ '{' }}aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id{{ '}' }}, tmt_129c{{ '{' }}aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id{{ '}' }}, tmt_130n{{ '{' }}aliquot_id, aliquot_run_metadata_id, 
-aliquot_submitter_id{{ '}' }}, tmt_130c{{ '{' }}aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id{{ '}' }}, tmt_131{{ '{' }}aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id{{ '}' }}, tmt_131c{{ '{' }}aliquot_id, aliquot_run_metadata_id, 
+experimental_design_query = '{{ '{' }} studyExperimentalDesign(pdc_study_id: "' + pdc_study_id + '" acceptDUA: true) {{ '{' }} pdc_study_id, study_run_metadata_id, study_run_metadata_submitter_id, study_id, study_submitter_id, analyte,
+acquisition_type, experiment_type, plex_dataset_name, experiment_number, number_of_fractions, label_free{{ '{' }}aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id{{ '}' }}, itraq_113{{ '{' }}aliquot_id, aliquot_run_metadata_id,
+aliquot_submitter_id{{ '}' }}, itraq_114{{ '{' }}aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id{{ '}' }}, itraq_115{{ '{' }}aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, itraq_116{{ '{' }}aliquot_id, aliquot_run_metadata_id,
+aliquot_submitter_id{{ '}' }}, itraq_117{{ '{' }}aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id{{ '}' }}, itraq_118{{ '{' }}aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id{{ '}' }}, itraq_119{{ '{' }}aliquot_id, aliquot_run_metadata_id,
+aliquot_submitter_id{{ '}' }}, itraq_121{{ '{' }}aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id{{ '}' }}, tmt_126{{ '{' }}aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id{{ '}' }}, tmt_127n{{ '{' }}aliquot_id, aliquot_run_metadata_id,
+aliquot_submitter_id{{ '}' }}, tmt_127cd{{ '{' }}aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id{{ '}' }}, tmt_128nd{{ '{' }}aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id{{ '}' }}, tmt_128cd{{ '{' }}aliquot_id, aliquot_run_metadata_id,
+aliquot_submitter_id{{ '}' }}, tmt_129n{{ '{' }}aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id{{ '}' }}, tmt_129c{{ '{' }}aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id{{ '}' }}, tmt_130n{{ '{' }}aliquot_id, aliquot_run_metadata_id,
+aliquot_submitter_id{{ '}' }}, tmt_130c{{ '{' }}aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id{{ '}' }}, tmt_131{{ '{' }}aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id{{ '}' }}, tmt_131c{{ '{' }}aliquot_id, aliquot_run_metadata_id,
 aliquot_submitter_id{{ '}' }} {{ '}' }} {{ '}' }}'
 
 decoded = query_pdc(experimental_design_query)
@@ -148,7 +149,7 @@ experimental_design = decoded['data']['studyExperimentalDesign']
 # 3. aliquot_submitter_id: the submitter's name/identifier for that aliquot
 
 experimental_design_frame.loc[0, "tmt_127n"]
-             
+
               </pre>
         </mat-expansion-panel>
         <br>
@@ -222,13 +223,13 @@ OUTPUT for one plex:
               </mat-panel-title>
             </mat-expansion-panel-header>
 <pre>
-  # Next, we will retrieve the clinical data for each participant in the study. This requires that we first retrieve the list of case identifiers for those involved in this study. 
+  # Next, we will retrieve the clinical data for each participant in the study. This requires that we first retrieve the list of case identifiers for those involved in this study.
   # For this, we will use the biospecimenPerStudy API. This will also provide the case:sample:aliquot mapping for the study.
 
-  biospecimen_query = '{{ '{' }} biospecimenPerStudy (pdc_study_id: "' + pdc_study_id + '"' +  'acceptDUA: true){{ '{' }} aliquot_id sample_id case_id aliquot_submitter_id sample_submitter_id case_submitter_id aliquot_status case_status 
+  biospecimen_query = '{{ '{' }} biospecimenPerStudy (pdc_study_id: "' + pdc_study_id + '"' +  'acceptDUA: true){{ '{' }} aliquot_id sample_id case_id aliquot_submitter_id sample_submitter_id case_submitter_id aliquot_status case_status
   sample_status project_name sample_type disease_type primary_site pool taxon externalReferences {{ '{' }} external_reference_id reference_resource_shortname reference_resource_name reference_entity_location {{ '}' }}}{{ '}' }}{{ '}' }}'
   decoded = query_pdc(biospecimen_query)
-  
+
   #can check for errors here
   biospecimen_data = decoded['data']['biospecimenPerStudy']
   biospecimen_data[0]
@@ -267,7 +268,7 @@ OUTPUT for one plex:
       {{ '{' }}'external_reference_id': 'CPTAC-CCRCC',
       'reference_resource_shortname': 'TCIA',
       'reference_resource_name': 'The Cancer Imaging Archive',
-      'reference_entity_location': 'https://doi.org/10.7937/K9/TCIA.2018.OBLAMN27'{{ '}' }}]{{ '}' }} 
+      'reference_entity_location': 'https://doi.org/10.7937/K9/TCIA.2018.OBLAMN27'{{ '}' }}]{{ '}' }}
   </pre>
               </mat-expansion-panel>
               <br>
@@ -291,7 +292,7 @@ OUTPUT for one plex:
       ' follow_ups {{ '{' }} case_submitter_id, adverse_event, barretts_esophagus_goblet_cells_present, bmi, cause_of_response, comorbidity, comorbidity_method_of_diagnosis, days_to_adverse_event, days_to_comorbidity, days_to_follow_up, days_to_progression, days_to_progression_free, days_to_recurrence, diabetes_treatment_type, disease_response, dlco_ref_predictive_percent, ecog_performance_status, fev1_ref_post_bronch_percent, fev1_ref_pre_bronch_percent, fev1_fvc_pre_bronch_percent, fev1_fvc_post_bronch_percent, height, hepatitis_sustained_virological_response, hpv_positive_type, karnofsky_performance_status, menopause_status, pancreatitis_onset_year, progression_or_recurrence, progression_or_recurrence_anatomic_site, progression_or_recurrence_type, reflux_treatment_type, risk_factor, risk_factor_treatment, viral_hepatitis_serologies, weight, adverse_event_grade, aids_risk_factors, body_surface_area, cd4_count, cdc_hiv_risk_factors, days_to_imaging, evidence_of_recurrence_type, eye_color, haart_treatment_indicator, history_of_tumor, history_of_tumor_type, hiv_viral_load, hormonal_contraceptive_type, hormonal_contraceptive_use, hormone_replacement_therapy_type, hysterectomy_margins_involved, hysterectomy_type, imaging_result, imaging_type, immunosuppressive_treatment_type, nadir_cd4_count, pregnancy_outcome, procedures_performed, recist_targeted_regions_number, recist_targeted_regions_sum, scan_tracer_used, undescended_testis_corrected, undescended_testis_corrected_age, undescended_testis_corrected_laterality, undescended_testis_corrected_method, undescended_testis_history, undescended_testis_history_laterality {{ '}' }}' + \
       ' samples {{ '{' }} sample_submitter_id sample_id sample_type sample_type_id gdc_sample_id gdc_project_id biospecimen_anatomic_site composition current_weight days_to_collection days_to_sample_procurement diagnosis_pathologically_confirmed freezing_method initial_weight intermediate_dimension longest_dimension method_of_sample_procurement pathology_report_uuid preservation_method sample_type_id shortest_dimension time_between_clamping_and_freezing time_between_excision_and_freezing tissue_type tumor_code tumor_code_id tumor_descriptor biospecimen_laterality catalog_reference distance_normal_to_tumor distributor_reference growth_rate passage_count sample_ordinal tissue_collection_type diagnoses{{ '{' }}diagnosis_id, annotation{{ '}' }}' + \
       ' aliquots {{ '{' }} aliquot_submitter_id aliquot_id analyte_type aliquot_is_ref pool status aliquot_quantity aliquot_volume amount concentration {{ '}' }} {{ '}' }} {{ '}' }} {{ '}' }}'
-    
+
   decoded = query_pdc(case_query)
   #you can check the output for errors here
 

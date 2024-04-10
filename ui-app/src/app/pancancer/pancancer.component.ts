@@ -301,6 +301,7 @@ export class PancancerComponent {
 		//Remove duplicates
 		allFilesArr = allFilesArr.filter((v,i,a)=>a.findIndex(v2=>(v2.file_id===v.file_id))===i);
 		for (let k in allFilesArr) {
+		  console.log("pancan file: "+allFilesArr[k]['characterization']);
 		  if (allFilesArr[k]['cohorts'] && !this.isEmpty(allFilesArr[k]['cohorts'])) {
 			allFilesArr[k]['cohorts'] = this.addSpacesToField(allFilesArr[k]['cohorts']);
 		  }
