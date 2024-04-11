@@ -1,3 +1,423 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:26dc6288882505702b009fc0b178949b012c2d23b0371501d318e69ffdcb692c
-size 17189
+{
+    "title": "Exposure",
+    "type": "object",
+    "additionalProperties": false,
+    "downloadable": false,
+    "previous_version_downloadable": false,
+    "validators": null,
+    "required": [
+        "submitter_id"
+    ],
+    "preferred": [
+        "pack_years_smoked",
+        "years_smoked"
+    ],
+    "deprecated": [
+        "bmi",
+        "height",
+        "weight"
+    ],
+    "properties": {
+        "age_at_onset": {
+            "type": "Integer",
+            "required": "False",
+            "description": "Numeric value used to represent the age of the patient when exposure to a specific environmental factor began."
+        },
+        "alcohol_days_per_week": {
+            "description": "Numeric value used to describe the average number of days each week that a person consumes an alcoholic beverage.\n",
+            "cde_id": 3114013,
+            "source": "caDSR",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3114013%20and%20ver_nr=1.0",
+            "required": "False",
+            "type": "Number"
+        },
+        "alcohol_drinks_per_day": {
+            "description": "Numeric value used to describe the average number of alcoholic beverages  a person consumes per day.\n",
+            "cde_id": 3124961,
+            "source": "caDSR",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3124961%20and%20ver_nr=1.0",
+            "required": "False",
+            "type": "Number"
+        },
+        "alcohol_history": {
+            "deprecated_enum": [
+                "no",
+                "yes"
+            ],
+            "description": "A response to a question that asks whether the participant has consumed at least 12 drinks of any kind of alcoholic beverage in their lifetime.\n",
+            "cde_id": 2201918,
+            "source": "caDSR",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=2201918%20and%20ver_nr=1.0",
+            "required": "False",
+            "enum": [
+                "Unknown",
+                "Not Reported",
+                "No",
+                "Yes"
+            ],
+            "type": "Enumeration"
+        },
+        "alcohol_intensity": {
+            "description": "Category to describe the patient's current level of alcohol use as self-reported by the patient.\n",
+            "cde_id": 3457767,
+            "source": "caDSR",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3457767%20and%20ver_nr=1.0",
+            "required": "False",
+            "enum": [
+                "Drinker",
+                "Heavy Drinker",
+                "Lifelong Non-Drinker",
+                "Non-Drinker",
+                "Occasional Drinker",
+                "Unknown",
+                "Not Reported"
+            ],
+            "type": "Enumeration"
+        },
+        "alcohol_type": {
+            "enum": [
+                "Beer",
+                "Liquor",
+                "Other",
+                "Wine",
+                "Unknown",
+                "Not Reported"
+            ],
+            "type": "Enumeration",
+            "required": "False",
+            "description": "A specific type of alcohol."
+        },
+        "asbestos_exposure": {
+            "description": "The yes/no/unknown indicator used to describe whether the patient was exposed to asbestos.\n",
+            "cde_id": 1253,
+            "source": "caDSR",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=1253%20and%20ver_nr=3.0",
+            "required": "False",
+            "enum": [
+                "Yes",
+                "No",
+                "Unknown",
+                "Not Reported"
+            ],
+            "type": "Enumeration"
+        },
+        "bmi": {
+            "description": "A calculated numerical quantity that represents an individual's weight to height ratio.\n",
+            "cde_id": 2006410,
+            "source": "caDSR",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=2006410%20and%20ver_nr=3.0",
+            "required": "False",
+            "type": "Integer"
+        },
+        "cigarettes_per_day": {
+            "description": "The average number of cigarettes smoked per day.\n",
+            "cde_id": 2001716,
+            "source": "caDSR",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=2001716%20and%20ver_nr=4.0",
+            "required": "False",
+            "type": "Number"
+        },
+        "coal_dust_exposure": {
+            "description": "The yes/no/unknown indicator used to describe whether a patient was exposed to fine powder derived by the crushing of coal.\n",
+            "source": "caDSR",
+            "required": "False",
+            "enum": [
+                "Yes",
+                "No",
+                "Unknown"
+            ],
+            "type": "Enumeration"
+        },
+        "environmental_tobacco_smoke_exposure": {
+            "description": "The yes/no/unknown indicator used to describe whether a patient was exposed to smoke that is emitted from burning tobacco, including cigarettes, pipes, and cigars. This includes tobacco smoke exhaled by smokers.\n",
+            "source": "caDSR",
+            "required": "False",
+            "enum": [
+                "Yes",
+                "No",
+                "Unknown"
+            ],
+            "type": "Enumeration"
+        },
+        "exposure_duration": {
+            "enum": [
+                "Six Weeks or More",
+                "Unknown",
+                "Not Reported"
+            ],
+            "type": "Enumeration",
+            "required": "False",
+            "description": "Text term used to describe the length of time the patient was exposed to an environmental factor."
+        },
+        "exposure_duration_years": {
+            "type": "Integer",
+            "required": "False",
+            "description": "The period of time from start to finish of exposure, in years.",
+            "cde_id": "C83280",
+            "term_url": "https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&ns=ncit&code=C83280",
+            "source": "NCIt"
+        },
+        "exposure_type": {
+            "enum": [
+                "Marijuana",
+                "Radiation",
+                "Smoke",
+                "Tobacco",
+                "Wood Dust"
+            ],
+            "type": "Enumeration",
+            "required": "False",
+            "description": "The text term used to describe the type of environmental exposure."
+        },
+        "height": {
+            "description": "The height of the patient in centimeters.\n",
+            "cde_id": 649,
+            "source": "caDSR",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=649%20and%20ver_nr=4.1",
+            "required": "False",
+            "type": "Integer"
+        },
+        "marijuana_use_per_week": {
+            "type": "Number",
+            "required": "False",
+            "description": "Numeric value that represents the number of times the patient uses marijuana each day."
+        },
+        "pack_years_smoked": {
+            "description": "Numeric computed value to represent lifetime tobacco exposure defined as number of cigarettes smoked per day x number of years smoked divided by 20.\n",
+            "cde_id": 2955385,
+            "source": "caDSR",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=2955385%20and%20ver_nr=1.0",
+            "required": "False",
+            "type": "Number"
+        },
+        "parent_with_radiation_exposure": {
+            "enum": [
+                "Yes",
+                "No",
+                "Not Reported"
+            ],
+            "type": "Enumeration",
+            "required": "False",
+            "description": "Indicates whether the patient's parent(s) were exposed to radiation"
+        },
+        "radon_exposure": {
+            "description": "The yes/no/unknown indicator used to describe whether the patient was exposed to radon.\n",
+            "cde_id": 2816352,
+            "source": "caDSR",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=2816352%20and%20ver_nr=1.0",
+            "required": "False",
+            "enum": [
+                "Yes",
+                "No",
+                "Unknown",
+                "Not Reported"
+            ],
+            "type": "Enumeration"
+        },
+        "respirable_crystalline_silica_exposure": {
+            "description": "The yes/no/unknown indicator used to describe whether a patient was exposured to respirable crystalline silica, a widespread, naturally occurring, crystalline metal oxide that consists of different forms including quartz, cristobalite, tridymite, tripoli, ganister, chert and novaculite.\n",
+            "source": "caDSR",
+            "required": "False",
+            "enum": [
+                "Yes",
+                "No",
+                "Unknown"
+            ],
+            "type": "Enumeration"
+        },
+        "secondhand_smoke_as_child": {
+            "enum": [
+                "Yes",
+                "No",
+                "Unknown",
+                "Not Reported"
+            ],
+            "type": "Enumeration",
+            "required": "False",
+            "description": "The text term used to indicate whether the patient was exposed to secondhand smoke as a child.",
+            "cde_id": 6841888,
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6841888%20and%20ver_nr=1.0",
+            "source": "caDSR"
+        },
+        "smokeless_tobacco_quit_age": {
+            "type": "Integer",
+            "required": "False",
+            "description": "The age the subject quit smoking tobacco."
+        },
+        "smoking_frequency": {
+            "description": "The text term used to generally decribe how often the patient smokes.\n",
+            "source": "caDSR",
+            "required": "False",
+            "enum": [
+                "Every day",
+                "Some days",
+                "Unknown"
+            ],
+            "type": "Enumeration"
+        },
+        "time_between_waking_and_first_smoke": {
+            "description": "The text term used to describe the approximate amount of time elapsed between the time the patient wakes up in the morning to the time they smoke their first cigarette.\n",
+            "cde_id": 3279220,
+            "source": "caDSR",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3279220%20and%20ver_nr=1.0",
+            "required": "False",
+            "enum": [
+                "Within 5 Minutes",
+                "6-30 Minutes",
+                "31-60 Minutes",
+                "After 60 Minutes",
+                "Unknown"
+            ],
+            "type": "Enumeration"
+        },
+        "tobacco_smoking_onset_year": {
+            "description": "The year in which the participant began smoking.\n",
+            "cde_id": 2228604,
+            "source": "caDSR",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=2228604%20and%20ver_nr=1.0",
+            "required": "False",
+            "type": "Integer"
+        },
+        "tobacco_smoking_quit_year": {
+            "description": "The year in which the participant quit smoking.\n",
+            "cde_id": 2228610,
+            "source": "caDSR",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=2228610%20and%20ver_nr=1.0",
+            "required": "False",
+            "type": "Integer"
+        },
+        "tobacco_smoking_status": {
+            "deprecated_enum": [
+                "Not Allowed To Collect"
+            ],
+            "description": "Category describing current smoking status and smoking history as self-reported by a patient.\n",
+            "cde_id": 2181650,
+            "source": "caDSR",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=2181650%20and%20ver_nr=1.0",
+            "required": "False",
+            "enum": [
+                "1",
+                "2",
+                "3",
+                "4",
+                "5",
+                "7",
+                "Unknown",
+                "Not Reported",
+                "Not Allowed To Collect",
+                "6"
+            ],
+            "type": "Enumeration"
+        },
+        "tobacco_use_per_day": {
+            "type": "Number",
+            "required": "False",
+            "description": "Numeric value that represents the number of times the patient uses tobacco each day."
+        },
+        "type_of_smoke_exposure": {
+            "description": "The text term used to describe the patient's specific type of smoke exposure.\n",
+            "source": "caDSR",
+            "required": "False",
+            "enum": [
+                "Accidental building fire smoke",
+                "Accidental fire smoke, grass",
+                "Accidental fire smoke, NOS",
+                "Accidental forest fire smoke",
+                "Accidental vehicle fire smoke",
+                "Aircraft smoke",
+                "Burning tree smoke",
+                "Coal smoke, NOS",
+                "Cooking-related smoke, NOS",
+                "Electronic cigarette smoke, NOS",
+                "Electrical fire smoke",
+                "Environmental tobacco smoke",
+                "Factory smokestack smoke",
+                "Field burning smoke",
+                "Fire smoke, NOS",
+                "Furnace or boiler smoke",
+                "Gas burning smoke, propane",
+                "Grease fire smoke",
+                "Grilling smoke",
+                "Hashish smoke",
+                "Indoor stove or fireplace smoke, coal burning",
+                "Indoor stove or fireplace smoke, NOS",
+                "Indoor stove or fireplace smoke, wood burning",
+                "Machine smoke",
+                "Marijuana smoke",
+                "No Smoke Exposure",
+                "Oil burning smoke, Kerosene",
+                "Oil burning smoke, NOS",
+                "Recreational fire smoke",
+                "Smoke exposure, NOS",
+                "Smokehouse smoke",
+                "Tobacco smoke, cigar",
+                "Tobacco smoke, cigarettes",
+                "Tobacco smoke, pipe",
+                "Unknown",
+                "Volcanic smoke",
+                "Waste burning smoke",
+                "Wood burning smoke, factory",
+                "Wood burning smoke, NOS",
+                "Work-related smoke, artificial smoke machines",
+                "Work-related smoke, fire fighting",
+                "Work-related smoke, foundry",
+                "Work-related smoke, generators",
+                "Work-related smoke, military",
+                "Work-related smoke, NOS",
+                "Work-related smoke, paint baking",
+                "Work-related smoke, plastics factory",
+                "Work-related smoke, plumbing",
+                "Work-related smoke, soldering/welding",
+                "Tobacco smoke, NOS"
+            ],
+            "type": "Enumeration"
+        },
+        "type_of_tobacco_used": {
+            "description": "The text term used to describe the specific type of tobacco used by the patient.\n",
+            "source": "caDSR",
+            "required": "False",
+            "enum": [
+                "Cigarette",
+                "Cigar",
+                "Electronic Cigarette",
+                "Other",
+                "Pipe",
+                "Smokeless Tobacco"
+            ],
+            "type": "Enumeration"
+        },
+        "weight": {
+            "description": "The weight of the patient measured in kilograms.\n",
+            "cde_id": 651,
+            "source": "caDSR",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=651%20and%20ver_nr=4.0",
+            "required": "False",
+            "type": "Integer"
+        },
+        "years_smoked": {
+            "description": "Numeric value (or unknown) to represent the number of years a person has been smoking.\n",
+            "cde_id": 3137957,
+            "source": "caDSR",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3137957%20and%20ver_nr=1.0",
+            "required": "False",
+            "type": "Number"
+        }
+    },
+    "category": "clinical",
+    "description": "Clinically relevant patient information not immediately resulting from genetic predispositions.\n",
+    "uniqueKeys": [
+        "id",
+        "project_id",
+        "submitter_id"
+    ],
+    "links": [
+        {
+            "backref": "exposures",
+            "label": "Exposure references the Case it is derived from.",
+            "multiplicity": "many_to_one",
+            "name": "Case",
+            "required": true,
+            "target_type": "case"
+        }
+    ]
+}

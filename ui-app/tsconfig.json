@@ -1,3 +1,27 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:82f899bf89af19be571b27a89ddc72ad23573ef7571e2a4bc493148852ad48aa
-size 586
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "downlevelIteration": true,
+    "importHelpers": true,
+    "module": "es2020",
+    "skipLibCheck": true,
+    "allowJs": true,
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "target": "ES2022",
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "lib": [
+      "es2017",
+      "dom",
+      "dom.iterable",
+      "esnext.asynciterable"
+    ],
+    "useDefineForClassFields": false
+  }
+}

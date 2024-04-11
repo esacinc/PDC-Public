@@ -1,3 +1,95 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:bf01186c7ac05e900b5c1b442302417ad98dd9a64f5300cec58e8e91d0809f03
-size 4190
+{
+  "news": [
+    {
+      "label": "Catch the video of NCI CBIIT Data Science Webinar on \"Proteomic Data Commons in Cancer Research\" on November 15th, 2023, with speakers Dr. Ratna Rajesh Thangudu (ICF) and Dr. Bing Zhang (Baylor College of Medicine).",
+      "link": "https://nci.rev.vbrick.com/sharevideo/ecc3ebe1-31ba-4117-816e-4b896883f205",
+      "exit_disclaimer":false,
+      "visible": true,
+      "date_added":"2024-01-11"
+    },
+    {
+      "label": "Join the Data Science Webinar to learn how to effectively use the Proteomic Data Commons, November 15, 2023  11-12 p.m. ET",
+      "link": "https://datascience.cancer.gov/news-events/events/proteomic-data-commons-cancer-research",
+      "exit_disclaimer":false,
+      "visible": true,
+      "date_added":"2023-11-06"
+    },
+    {
+      "label": "Proteomic Data Commons, serving as a data resource for CPTAC’s Pan-Cancer effort",
+      "link": "https://doi.org/10.1016/j.ccell.2023.06.009",
+      "exit_disclaimer":false,
+      "visible": true,
+      "date_added":"2023-08-31"
+    },
+    {
+      "label": "Illuminating Endometrial Carcinoma through Proteogenomics and Deep Learning",
+      "link": "https://proteomics.cancer.gov/news_and_announcements/illuminating-endometrial-carcinoma-through-proteogenomics-and-deep-learning",
+      "exit_disclaimer":false,
+      "visible": true,
+      "date_added":"2023-08-31"
+    },
+    {
+      "label": "Introducing a Suite of Pan-Cancer Multi-omic Papers from CPTAC",
+      "link": "https://proteomics.cancer.gov/news_and_announcements/introducing-suite-pan-cancer-multi-omic-papers-cptac",
+      "exit_disclaimer":false,
+      "visible": false,
+      "date_added":"2023-08-31"
+    },
+    {
+      "label": "Novel 64-Protein Signature Predicts Treatment Response in High-Grade Serous Ovarian Cancer",
+      "link": "https://proteomics.cancer.gov/news_and_announcements/novel-64-protein-signature-predicts-treatment-response-high-grade-serous",
+      "exit_disclaimer":false,
+      "visible": false,
+      "date_added":"2023-08-31"
+    },
+    {
+      "label": "Paving the way for PDAC Precision Medicine",
+      "link": "https://proteomics.cancer.gov/news_and_announcements/paving-way-pdac-precision-medicine",
+      "exit_disclaimer":false,
+      "visible": false,
+      "date_added":"2023-04-06"
+    },
+    {
+      "label": "APOLLO Researchers Uncover Novel Proteogenomic Features of Lung Cancer",
+      "link": "https://proteomics.cancer.gov/news_and_announcements/apollo-researchers-uncover-novel-proteogenomic-features-lung-cancer",
+      "exit_disclaimer":false,
+      "visible": false,
+      "date_added":"2023-04-06"
+    },
+    {
+      "label": "NCI's CPTAC and PDC Recognized by FedHealthIT for Outstanding Commitment to Excellence and Innovation",
+      "link": "https://proteomics.cancer.gov/news_and_announcements/ncis-cptac-and-pdc-recognized-fedhealthit-outstanding-commitment-excellence",
+      "exit_disclaimer":false,
+      "visible": false,
+      "date_added":"2022-09-26"
+    },
+    {
+      "label": "CPTAC Announces New PCC, PGDAC, and PTRC Teams",
+      "link": "https://proteomics.cancer.gov/news_and_announcements/cptac-announces-new-pcc-pgdac-and-ptrc-teams",
+      "exit_disclaimer":false,
+      "visible": false,
+      "date_added":"2022-09-26"
+    },
+    {
+      "label": "A More Complete Molecular Picture of Lung Squamous Cell Carcinoma Comes into View",
+      "link": "https://proteomics.cancer.gov/news_and_announcements/more-complete-molecular-picture-lung-squamous-cell-carcinoma-comes-view",
+      "exit_disclaimer":false,
+      "visible": false,
+      "date_added":"2022-09-12"
+    },
+    {
+      "label": "The Next Horizon in Precision Oncology",
+      "link": "https://proteomics.cancer.gov/news_and_announcements/next-horizon-precision-oncology",
+      "exit_disclaimer":false,
+      "visible": false,
+      "date_added":"2022-09-12"
+    },
+    {
+      "label": "Aggressive Brain Tumor Mapped in Genetic, Molecular Detail",
+      "link": "https://proteomics.cancer.gov/news_and_announcements/aggressive-brain-tumor-mapped-genetic-molecular-detail",
+      "exit_disclaimer":false,
+      "visible": false,
+      "date_added":"2022-09-12"
+    }
+  ]
+}

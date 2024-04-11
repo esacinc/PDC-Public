@@ -1,3 +1,59 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:e1d303d2f5f0c85b56e19bf03f23d034af85a5e459c1906993107ad32abfdf95
-size 2476
+{
+    "styleClass": ".ui-tree",
+    "data":
+    [
+        {
+            "label": "File: 0013936b-5a56-466f-8844-237d46e60a1f.raw",
+            "data": "0013936b-5a56-466f-8844-237d46e60a1f.raw",
+            "expandedIcon": "fa fa-file-open",
+            "collapsedIcon": "fa fa-file",
+            "style": "font-family:Lato; width:800px !important",
+            "styleClass": ".ui-tree",
+            "children": [{
+                    "label": "Location: s3://pdcdatastore/0013936b-5a56-466f-8844-237d46e60a1f.raw",
+                    "data": "s3://pdcdatastore/0013936b-5a56-466f-8844-237d46e60a1f.raw",
+                    "expandedIcon": "fa fa-folder-open",
+                    "collapsedIcon": "fa fa-file"
+                },
+                {
+                    "label": "Analyte: Proteome",
+                    "data": "Proteome"
+                },
+                {
+                    "label": "Instrument: QExactive",
+                    "data": "QExactive"
+                },
+                {
+                    "label": "Fraction: 6",
+                    "data": "6"
+                }
+            ]
+        },
+        {
+            "label": "Pictures",
+            "data": "Pictures Folder",
+            "expandedIcon": "fa fa-folder-open",
+            "collapsedIcon": "fa fa-folder",
+            "children": [
+                {"label": "barcelona.jpg", "icon": "fa fa-file-image-o", "data": "Barcelona Photo"},
+                {"label": "logo.jpg", "icon": "fa fa-file-image-o", "data": "PrimeFaces Logo"},
+                {"label": "primeui.png", "icon": "fa fa-file-image-o", "data": "PrimeUI Logo"}]
+        },
+        {
+            "label": "Movies",
+            "data": "Movies Folder",
+            "expandedIcon": "fa fa-folder-open",
+            "collapsedIcon": "fa fa-folder",
+            "children": [{
+                    "label": "Al Pacino",
+                    "data": "Pacino Movies",
+                    "children": [{"label": "Scarface", "icon": "fa fa-file-video-o", "data": "Scarface Movie"}, {"label": "Serpico", "icon": "fa fa-file-video-o", "data": "Serpico Movie"}]
+                },
+                {
+                    "label": "Robert De Niro",
+                    "data": "De Niro Movies",
+                    "children": [{"label": "Goodfellas", "icon": "fa fa-file-video-o", "data": "Goodfellas Movie"}, {"label": "Untouchables", "icon": "fa fa-file-video-o", "data": "Untouchables Movie"}]
+                }]
+        }
+    ]
+}

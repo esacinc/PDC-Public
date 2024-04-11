@@ -1,3 +1,171 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:f0e0a251a6637ab5c03441e1c9fa0c1db1d9eaed57be24c70dd2c37d1039a533
-size 6104
+{
+    "title": "Workflow Metadata",
+    "type": "object",
+    "properties": {
+        "cptac_study_id": {
+            "key": "yes",
+            "required": "False",
+            "type": "String"
+        },
+        "protocol_id": {
+            "key": "yes",
+            "required": "False",
+            "type": "String"
+        },
+        "protocol_submitter_id": {
+            "key": "yes",
+            "required": "False",
+            "type": "String"
+        },
+        "study_id": {
+            "key": "yes",
+            "required": "False",
+            "type": "String"
+        },
+        "study_submitter_id": {
+            "key": "yes",
+            "required": "False",
+            "type": "String"
+        },
+        "submitter_id_name": {
+            "key": "yes",
+            "required": "False",
+            "type": "String"
+        },
+        "workflow_metadata_id": {
+            "key": "yes",
+            "required": "False",
+            "type": "String"
+        },
+        "workflow_metadata_submitter_id": {
+            "key": "yes",
+            "required": "False",
+            "type": "String"
+        },
+        "analytical_fraction": {
+            "description": "Type of peptide or protein enrichment",
+            "required": "False",
+            "type": "String"
+        },
+        "cdap_reports": {
+            "description": "Name and version of the tool used to generate protein summary reports",
+            "required": "False",
+            "type": "String"
+        },
+        "cptac_dcc_mzidentml": {
+            "description": "Name and version of the tool used to generate mzIdentML from the peptide spectral match report",
+            "required": "False",
+            "type": "String"
+        },
+        "cptac_dcc_tools": {
+            "description": "Name and version of the custom scripts used in the data analysis pipeline",
+            "required": "False",
+            "type": "String"
+        },
+        "cptac_galaxy_tools": {
+            "description": "Name and version of the custom scripts used in the data analysis pipeline",
+            "required": "False",
+            "type": "String"
+        },
+        "cptac_galaxy_workflows": {
+            "description": "Name and version of the workflow of data analysis pipeline",
+            "required": "False",
+            "type": "String"
+        },
+        "experiment_type": {
+            "description": "General strategy used for differential analysis",
+            "required": "False",
+            "type": "String"
+        },
+        "gene_to_prot": {
+            "description": "Name and version of the tool used to map gene to protein in the data analysis pipeline",
+            "required": "False",
+            "type": "String"
+        },
+        "hgnc_version": {
+            "description": "Name and version of HGNC database of human gene names used in the data analysis pipeline",
+            "required": "False",
+            "type": "String"
+        },
+        "instrument": {
+            "description": "Make and model of the mass spectrometry instrument",
+            "required": "False",
+            "type": "String"
+        },
+        "ms1_data_analysis": {
+            "description": "Name and version of the tool used for MS1 data analysis",
+            "required": "False",
+            "type": "String"
+        },
+        "mzidentml_refseq": {
+            "description": "Name and version of the NCBI Refseq database used in mzIdentML",
+            "required": "False",
+            "type": "String"
+        },
+        "mzidentml_uniprot": {
+            "description": "Name and version of the Uniprot Refseq database used in mzIdentiML",
+            "required": "False",
+            "type": "String"
+        },
+        "phosphosite_localization": {
+            "description": "Name and version of the tool used for phosphosite localization",
+            "required": "False",
+            "type": "String"
+        },
+        "psm_report_generation": {
+            "description": "Name and version of the tool used to peptide spectral match report generation",
+            "required": "False",
+            "type": "String"
+        },
+        "raw_data_conversion": {
+            "description": "Name and version of the tool used to convert the proprietary data into open format",
+            "required": "False",
+            "type": "String"
+        },
+        "raw_data_processing": {
+            "description": "Name and version of the tool used to process the proprietary raw data",
+            "required": "False",
+            "type": "String"
+        },
+        "refseq_database_version": {
+            "description": "Name and version of the NCBI Refseq database used in the data analysis pipeline",
+            "required": "False",
+            "type": "String"
+        },
+        "search_database_parameters": {
+            "description": "Parameters used in the peptide identification database search",
+            "required": "False",
+            "type": "String"
+        },
+        "sequence_database_search": {
+            "description": "Name and version of the tool used in peptide identification by scoring MS/MS spectra against peptides derived from a protein sequence database",
+            "required": "False",
+            "type": "String"
+        },
+        "study_submitter_name": {
+            "key": "yes",
+            "required": "False",
+            "type": "String"
+        },
+        "uniport_database_version": {
+            "description": "Name and version of the Uniprot Refseq database used in the data analysis pipeline",
+            "required": "False",
+            "type": "String"
+        }
+    },
+    "category": "Metadata",
+    "description": "Tools, versions and parameters used in data analysis pipeline/workflow for analyzing study data.",
+    "uniqueKeys": [
+        [
+            "workflow_metadata_id",
+            "workflow_metadata_submitter_id"
+        ]
+    ],
+    "links": [
+        {
+            "label": "Workflow Metadata references the pipeline used to analyze the Study.",
+            "name": "Study",
+            "required": "True"
+        }
+    ]
+}

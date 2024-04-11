@@ -1,3 +1,157 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:317b632e1bbcc5ea902a906432a8bb5efe5ba668cdd487b7feeeecba7d3d541d
-size 4528
+{
+    "data": {
+      "cases": {
+        "aggregations": {
+          "primary_site": {
+            "buckets": [
+                {
+                    "doc_count": 3997,
+                    "key": "Adrenal Gland",
+                    "filecount": 100
+                },
+                {
+                    "doc_count": 197,
+                    "key": "Bile Duct",
+                    "filecount": 100
+                },
+                {
+                    "doc_count": 977,
+                    "key": "Bladder",
+                    "filecount": 100
+                },
+                {
+                    "doc_count": 4977,
+                    "key": "Blood",
+                    "filecount": 100
+                },
+                {
+                    "doc_count": 399,
+                    "key": "Bone",
+                    "filecount": 100
+                },
+                {
+                    "doc_count": 377,
+                    "key": "Bone Marrow",
+                    "filecount": 100
+                },
+                {
+                    "doc_count": 1135,
+                    "key": "Brain",
+                    "filecount": 100
+                },
+                {
+                    "doc_count": 678,
+                    "key": "Breast",
+                    "filecount": 100
+                },
+                {
+                    "doc_count": 77,
+                    "key": "Cervix",
+                    "filecount": 100
+                },
+                {
+                    "doc_count": 12,
+                    "key": "Colorectal",
+                    "filecount": 100
+                },
+                {
+                    "doc_count": 577,
+                    "key": "Esophagus",
+                    "filecount": 100
+                },
+                {
+                    "doc_count": 89,
+                    "key": "Eye",
+                    "filecount": 100
+                },
+                {
+                    "doc_count": 55,
+                    "key": "Head and Neck",
+                    "filecount": 100
+                },
+                {
+                    "doc_count": 3456,
+                    "key": "Kidney",
+                    "filecount": 100
+                },
+                {
+                    "doc_count": 789,
+                    "key": "Liver",
+                    "filecount": 100
+                },
+                {
+                    "doc_count": 98,
+                    "key": "Lung",
+                    "filecount": 100
+                },
+                {
+                    "doc_count": 55,
+                    "key": "Lymph Nodes",
+                    "filecount": 100
+                },
+                {
+                    "doc_count": 44,
+                    "key": "Nervous System",
+                    "filecount": 100
+                },
+                {
+                    "doc_count": 888,
+                    "key": "Ovary",
+                    "filecount": 100
+                },
+                {
+                    "doc_count": 923,
+                    "key": "Pancreas",
+                    "filecount": 100
+                },
+                {
+                    "doc_count": 445,
+                    "key": "Pleura",
+                    "filecount": 100
+                },
+                {
+                    "doc_count": 674,
+                    "key": "Prostate",
+                    "filecount": 100
+                },
+                {
+                    "doc_count": 782,
+                    "key": "Skin",
+                    "filecount": 100
+                },
+                {
+                    "doc_count": 1455,
+                    "key": "Soft Tissue",
+                    "filecount": 100
+                },
+                {
+                    "doc_count": 3456,
+                    "key": "Stomach",
+                    "filecount": 100
+                },
+                {
+                    "doc_count": 3000,
+                    "key": "Testis",
+                    "filecount": 100
+                },
+                {
+                    "doc_count": 1500,
+                    "key": "Thymus",
+                    "filecount": 100
+                },
+                {
+                    "doc_count": 800,
+                    "key": "Thyroid",
+                    "filecount": 100
+                },
+                {
+                    "doc_count": 1016,
+                    "key": "Uterus",
+                    "filecount": 100
+                }
+            ]
+          }
+        }
+      }
+    }
+  }

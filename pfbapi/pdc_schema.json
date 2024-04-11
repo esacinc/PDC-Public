@@ -1,3 +1,456 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:18a8115014782a5a580d85529329ef6b5bc2dee1ef7a0ef404250906f59c533c
-size 11474
+{
+    "file.yaml": {
+      "description": "File",
+      "links": [],
+      "uniqueKeys": [
+        [
+          "file_id"
+        ]
+      ],
+      "validators": null,
+      "id": "file",
+      "properties": {
+        "access": {
+          "term": {
+            "$ref": "_definitions.yaml#/access"
+          },
+          "enum": [
+            "open",
+            "controlled",
+            "Open",
+            "Controlled"
+          ]
+        },
+        "data_category": {
+          "term": {
+            "$ref": "_definitions.yaml#data_category"
+          },
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "downloadable": {
+          "term": {
+            "$ref": "_definitions.yaml#downloadable"
+          },
+          "enum": [
+            "Yes",
+            "No",
+            "yes",
+            "no"
+          ]
+        },
+        "embargo_date": {
+          "term": {
+            "$ref": "_definitions.yaml#embargo_date"
+          },
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "object_id": {
+          "term": {
+            "$ref": "_definitions.yaml#object_id"
+          },
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "file_format": {
+          "term": {
+            "$ref": "_definitions.yaml#file_format"
+          },
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "file_id": {
+          "term": {
+            "$ref": "_definitions.yaml#file_id"
+          },
+          "type": "string"
+        },
+        "file_location": {
+          "term": {
+            "$ref": "_definitions.yaml#file_location"
+          },
+          "type": "string"
+        },
+        "file_name": {
+          "term": {
+            "$ref": "_definitions.yaml#file_name"
+          },
+          "type": "string"
+        },
+        "file_size": {
+          "term": {
+            "$ref": "_definitions.yaml#file_size"
+          },
+          "type": "integer"
+        },
+        "file_type": {
+          "term": {
+            "$ref": "_definitions.yaml#file_type"
+          },
+          "type": "string"
+        },
+        "fraction_number": {
+          "term": {
+            "$ref": "_definitions.yaml#fraction_number"
+          },
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "md5sum": {
+          "term": {
+            "$ref": "_definitions.yaml#md5sum"
+          },
+          "type": "string"
+        },
+        "project_name": {
+          "term": {
+            "$ref": "_definitions.yaml#project_name"
+          },
+          "type": "string"
+        },
+        "study_id": {
+          "term": {
+            "$ref": "_definitions.yaml#study_id"
+          },
+          "type": "string"
+        },
+        "pdc_study_id": {
+          "term": {
+            "$ref": "_definitions.yaml#pdc_study_id"
+          },
+          "type": "string"
+        },
+        "pdc_study_version": {
+          "term": {
+            "$ref": "_definitions.yaml#pdc_study_version"
+          },
+          "type": "integer"
+        },
+        "study_name": {
+          "term": {
+            "$ref": "_definitions.yaml#study_name"
+          },
+          "type": "string"
+        },
+        "study_run_metadata_submitter_id": {
+          "term": {
+            "$ref": "_definitions.yaml#study_run_metadata_submitter_id"
+          },
+          "type": "string"
+        }
+      },
+      "category": "data_file",
+      "title": "File",
+      "required": [
+        "access",
+        "data_category",
+        "file_format",
+        "file_id",
+        "file_location",
+        "file_name",
+        "file_size",
+        "file_type",
+        "fraction_number",
+        "md5sum",
+        "study_id",
+        "pdc_study_id",
+        "project_name",
+	      "study_name",
+        "study_run_metadata_submitter_id",
+        "object_id"
+      ],
+      "submittable": true,
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "_definitions.yaml": {
+      "ubiquitous_properties": {
+        "state": {
+          "$ref": "#/state"
+        },
+        "updated_datetime": {
+          "$ref": "#/datetime"
+        },
+        "created_datetime": {
+          "$ref": "#/datetime"
+        },
+        "project_id": {
+          "$ref": "#/project_id"
+        },
+        "type": {
+          "type": "string"
+        },
+        "id": {
+          "systemAlias": "node_id",
+          "$ref": "#/UUID"
+        }
+      },
+      "file_name": {
+        "term": {
+          "$ref": "_terms.yaml#/file_name"
+        },
+        "type": "string"
+      },
+      "foreign_key": {
+        "additionalProperties": true,
+        "type": "object",
+        "properties": {
+          "id": {
+            "$ref": "#/UUID"
+          },
+          "submitter_id": {
+            "type": "string"
+          }
+        }
+      },
+      "UUID": {
+        "pattern": "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$",
+        "term": {
+          "$ref": "_terms.yaml#/UUID"
+        },
+        "type": "string"
+      },
+      "datetime": {
+        "oneOf": [
+          {
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "term": {
+          "$ref": "_terms.yaml#/datetime"
+        }
+      },
+      "to_one": {
+        "anyOf": [
+          {
+            "items": {
+              "minItems": 1,
+              "maxItems": 1,
+              "$ref": "#/foreign_key"
+            },
+            "type": "array"
+          },
+          {
+            "$ref": "#/foreign_key"
+          }
+        ]
+      },
+      "file_size": {
+        "term": {
+          "$ref": "_terms.yaml#/file_size"
+        },
+        "type": "integer"
+      },
+      "file_id": {
+        "term": {
+          "$ref": "_terms.yaml#file_id"
+        },
+        "type": "string"
+      },
+      "file_type": {
+        "term": {
+          "$ref": "_terms.yaml#file_type"
+        },
+        "type": "string"
+      },
+      "file_location": {
+        "term": {
+          "$ref": "_terms.yaml#file_location"
+        },
+        "type": "string"
+      },
+      "access": {
+        "term": {
+          "$ref": "_terms.yaml#/access"
+        },
+        "enum": [
+          "open",
+          "controlled",
+          "Open",
+          "Controlled"
+        ]
+      },
+      "file_format": {
+        "term": {
+          "$ref": "_terms.yaml#file_format"
+        },
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "fraction_number": {
+        "term": {
+          "$ref": "_terms.yaml#fraction_number"
+        },
+        "type": [
+          "integer",
+          "null"
+        ]
+      },
+      "downloadable": {
+        "term": {
+          "$ref": "_terms.yaml#downloadable"
+        },
+        "enum": [
+          "Yes",
+          "No",
+          "yes",
+          "no"
+        ]
+      },
+      "md5sum": {
+        "term": {
+          "$ref": "_terms.yaml#md5sum"
+        },
+        "type": "string"
+      },
+      "data_category": {
+        "term": {
+          "$ref": "_terms.yaml#data_category"
+        },
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "study_id": {
+        "term": {
+          "$ref": "_terms.yaml#study_id"
+        },
+        "type": "string"
+      },
+      "pdc_study_id": {
+        "term": {
+          "$ref": "_terms.yaml#pdc_study_id"
+        },
+        "type": "string"
+      },
+      "pdc_study_version": {
+        "term": {
+          "$ref": "_terms.yaml#pdc_study_version"
+        },
+        "type": "integer"
+      },
+      "study_name": {
+        "term": {
+          "$ref": "_terms.yaml#study_name"
+        },
+        "type": "string"
+      },
+      "study_run_metadata_submitter_id": {
+        "term": {
+          "$ref": "_terms.yaml#study_run_metadata_submitter_id"
+        },
+        "type": "string"
+      },
+      "embargo_date": {
+        "term": {
+          "$ref": "_terms.yaml#embargo_date"
+        },
+        "type": "string"
+      },
+      "project_name": {
+        "term": {
+          "$ref": "_terms.yaml#project_name"
+        },
+        "type": "string"
+      },
+      "object_id": {
+        "term": {
+          "$ref": "_terms.yaml#object_id"
+        },
+        "type": [
+          "string",
+          "null"
+        ]
+      }
+    },
+    "_terms.yaml": {
+      "UUID": {
+        "termDef": {
+          "term_url": "https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100",
+          "source": "NCIt",
+          "term": "Universally Unique Identifier",
+          "cde_version": null,
+          "cde_id": "C54100"
+        },
+        "description": "A 128-bit identifier. Depending on the mechanism used to generate it, it is either guaranteed to be different from all other UUIDs/GUIDs generated until 3400 AD or extremely likely to be different. Its relatively small size lends itself well to sorting, ordering, and hashing of all sorts, storing in databases, simple allocation, and ease of programming in general.\n"
+      },
+      "datetime": {
+        "description": "A combination of date and time of day in the form [-]CCYY-MM-DDThh:mm:ss[Z|(+|-)hh:mm]\n"
+      },
+      "file_id": {
+        "description": "File ID"
+      },
+      "file_type": {
+        "description": "Specific kind of file to denote raw or processed"
+      },
+      "file_location": {
+        "description": "Physical location of the file on the server"
+      },
+      "access": {
+        "description": "The Open Access data tier comprises public data not unique to an individual. The Open Access data tier does not require authorization. The Controlled Access data tier contains data that may be unique to an individual. All data types are stripped of direct identifiers. The Controlled Access data tier requires authorization."
+      },
+      "fraction_number": {
+        "description": "Chromatography fraction number of the file"
+      },
+      "downloadable": {
+        "description": "Indicates if the file is downloadable from PDC data portal"
+      },
+      "md5sum": {
+        "description": "The 128-bit hash value expressed as a 32 digit hexadecimal number used as a file's digital fingerprint.\n"
+      },
+      "file_size": {
+        "description": "The size of the data file (object) in bytes.\n"
+      },
+      "file_name": {
+        "description": "Assigned file name"
+      },
+      "file_format": {
+        "description": "Format of the file"
+      },
+      "data_category": {
+        "description": "Broad categorization of the contents of the data file.\n"
+      },
+      "study_id": {
+        "description": "Study ID"
+      },
+      "pdc_study_id": {
+        "description": "PDC Study ID"
+      },
+      "pdc_study_version": {
+        "description": "Study Version"
+      },
+      "study_name": {
+        "description": "Name of the study as described by the data submitter"
+      },
+      "study_run_metadata_submitter_id": {
+        "description": "Study Run Metadata Submitter Id"
+      },
+      "embargo_date": {
+        "description": "Specifies the embargo date, i.e., the release of information with the condition that it cannot be published or disseminated before a certain date."
+      },
+      "project_name": {
+        "description": "Name of the project"
+      },
+      "object_id": {
+        "description": "The GUID of the object in the index service."
+      }
+    }
+  }

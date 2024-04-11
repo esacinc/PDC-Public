@@ -1,3 +1,8 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:bd57c249cb6ac7ce97ceebf937c5bbf08c1f013a0af1b7f67c5daa9ae1626238
-size 161
+{
+ "additional_resources":[
+     {"type":"CDS",
+      "description":["<FIle>", "<FIle>"]},
+     {"type": "Tools",
+      "description":["<Link>","<Link>"]} 
+ ]
+}

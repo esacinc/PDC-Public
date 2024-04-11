@@ -1,3 +1,75 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:e84564ed2cbd6f9cb35b4aab05bab7279311d93956157d175d48b09be5bce5bc
-size 2773
+{
+    "title": "Gene Abundance",
+    "type": "object",
+    "properties": {
+        "aliquot_id": {
+            "description": "Aliquot Identifier",
+            "required": "False",
+            "type": "String"
+        },
+        "aliquot_submitter_id": {
+            "description": "Aliquot Submitter ID",
+            "required": "False",
+            "type": "String"
+        },
+        "gene_abundance_id": {
+            "key": "yes",
+            "required": "False",
+            "type": "String"
+        },
+        "gene_id": {
+            "description": "Gene Identifier",
+            "required": "True",
+            "type": "String"
+        },
+        "gene_name": {
+            "description": "NCBI Gene name",
+            "required": "True",
+            "type": "String"
+        },
+        "log2_ratio": {
+            "description": "Average log-ratio of sample reporter-ion to common reference of peptide ions associated with the gene in acquisitions from a specific biological sample.",
+            "required": "False",
+            "type": "Double"
+        },
+        "precursor_area": {
+            "description": "Total precursor area of peptide ions associated with the gene in acquisitions from a specific biological sample.",
+            "required": "False",
+            "type": "Double"
+        },
+        "unshared_log2_ratio": {
+            "description": "Average log-ratio of sample reporter-ion to common reference of peptide ions of unshared peptides only associated with the gene in acquisitions from a specific biological sample.",
+            "required": "False",
+            "type": "Double"
+        },
+        "unshared_precursor_area": {
+            "description": "Total precursor area of peptide ions of unshared peptides only associated with the gene in acquisitions from a specific biological sample.",
+            "required": "False",
+            "type": "Double"
+        }
+    },
+    "category": "Processed",
+    "description": "Derived results intended to approximate protein abundance for a given\ngene product. Units of measurement include peptide-spectrum-matches (spectral\ncounts), precursor or reporter ion abundance.",
+    "uniqueKeys": [
+        [
+            "gene_abundance_id"
+        ]
+    ],
+    "links": [
+        {
+            "label": "Gene Abundance references measurements for a Gene.",
+            "name": "Gene",
+            "required": "True"
+        },
+        {
+            "label": "Gene Abundance references the Study it is derived from.",
+            "name": "Study",
+            "required": "True"
+        },
+        {
+            "label": "Gene Abundance references an experimental run of the Study it is derived\nfrom.",
+            "name": "Study Run Metadata",
+            "required": "True"
+        }
+    ]
+}

@@ -1,3 +1,24 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:ccdee87fafa42fc943e5e3f59038eba50a74ea8479527db3bfd90afc4e3fd300
-size 1436
+{
+  "supplementary_data":[
+    {
+      "type": "Proteome",
+      "description": "This simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+      "file": "<Proteome_Data_freeze_1.1.zip>"
+    },
+    {
+      "type": "Phosphoproteome",
+      "description": "This simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+      "file": "<Phosphoproteome_Data_freeze_1.1.zip>"
+    },
+    {
+      "type":"Glycoproteome",
+      "description":"This simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+      "file":"<Glycoproteome_Data_freeze_1.1.zip>"
+    },
+    {
+      "type":"Acetylome",
+      "description":"This simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+      "file":"<Acetylome_Data_freeze_1.1.zip>"
+    }
+  ]
+}

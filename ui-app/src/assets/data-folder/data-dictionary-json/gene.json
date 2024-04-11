@@ -1,3 +1,63 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:2dd0e608a728a367efdd587183a402a493b81e2765421b8e40f727760b43383f
-size 1898
+{
+    "title": "Gene",
+    "type": "object",
+    "properties": {
+        "gene_id": {
+            "key": "yes",
+            "required": "False",
+            "type": "String"
+        },
+        "ncbi_gene_id": {
+            "description": "NCBI Gene Identifier",
+            "required": "True",
+            "type": "Integer"
+        },
+        "authority": {
+            "description": "HGNC Identifier",
+            "required": "True",
+            "type": "String"
+        },
+        "chromosome": {
+            "description": "NCBI Gene chromosome",
+            "required": "True",
+            "type": "String"
+        },
+        "description": {
+            "description": "NCBI Gene description",
+            "required": "True",
+            "type": "String"
+        },
+        "gene_name": {
+            "description": "NCBI Gene name",
+            "required": "True",
+            "type": "String"
+        },
+        "locus": {
+            "description": "NCBI Gene cytoband",
+            "required": "True",
+            "type": "String"
+        },
+        "organism": {
+            "description": "NCBI Gene organism",
+            "required": "True",
+            "type": "String"
+        },
+        "proteins": {
+            "description": "Semi-colon separated list of protein accessions associated with the gene",
+            "required": "True",
+            "type": "String"
+        },
+        "assays": {
+            "description": "CPTAC Assay accessions for the peptides associated with the gene",
+            "required": "False",
+            "type": "String"
+        }
+    },
+    "category": "Biological",
+    "description": "A functional unit of heredity which occupies a specific position on a particular chromosome and serves as the template for a product that contributes to a phenotype or a biological function.",
+    "uniqueKeys": [
+        [
+            "gene_id"
+        ]
+    ]
+}

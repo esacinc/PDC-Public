@@ -1,3 +1,54 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:ab455dcad5002ce1405d0adceb737681c5bf2acaa26e3d516dd37842ee9965ee
-size 1459
+{
+    "title": "Program",
+    "type": "object",
+    "properties": {
+        "program_id": {
+            "key": "yes",
+            "required": "False",
+            "type": "String"
+        },
+        "program_submitter_id": {
+            "key": "yes",
+            "required": "False",
+            "type": "String"
+        },
+        "name": {
+            "description": "Name of the program",
+            "required": "True",
+            "type": "String"
+        },
+        "program_manager": {
+            "description": "Name of the program manager from the sponsoring agency",
+            "required": "True",
+            "type": "String"
+        },
+        "program_shortname": {
+            "description": "Short name for the program",
+            "required": "True",
+            "type": "String"
+        },
+        "start_date": {
+            "description": "Start date of the program",
+            "required": "True",
+            "type": "Date"
+        },
+        "end_date": {
+            "description": "End date of the program",
+            "required": "False",
+            "type": "Date"
+        },
+        "sponsor": {
+            "description": "Funding agency",
+            "required": "False",
+            "type": "String"
+        }
+    },
+    "category": "Administrative",
+    "description": "A broad framework of goals to be achieved.",
+    "uniqueKeys": [
+        [
+            "program_id",
+            "program_submitter_id"
+        ]
+    ]
+}

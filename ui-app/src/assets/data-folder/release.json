@@ -1,3 +1,104 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:2557762b121f295e94116805c448e42971e312b75f8ca5d2edfa6f3656a12132
-size 4472
+{
+  "releases": [
+    {
+      "label": "Explore the latest in CPTAC Clinical Data: The CPTAC follow-up Clinical data, highlighting patient outcomes, has been refreshed for 2023",
+      "link": "https://pdc-release-notes.s3.amazonaws.com/PDC_Data_Release_Notes.htm",
+      "visible": true,
+      "date_added": "2024-01-11"
+    },
+    {
+      "label": "First five papers from Suite of Pan-Cancer Multi-omic Papers from CPTAC added to the PDC’s Pan-Cancer page (August 15, 2023)",
+      "link": "https://pdc.cancer.gov/pdc/cptac-pancancer",
+      "visible": true,
+      "date_added": "2023-08-31"
+    },
+    {
+      "label": "Release of CPTAC Endometrial carcinoma confirmatory studies (August 10, 2023)",
+      "link": "https://pdc.cancer.gov/pdc/browse/filters/pdc_study_id:PDC000439%7CPDC000440%7CPDC000441%7CPDC000442%7CPDC000443%7CPDC000444%7CPDC000445",
+      "visible": true,
+      "date_added": "2023-08-31"
+    },
+    {
+      "label": "Release of CPTAC PTRC High-Grade Serous Ovarian Cancer studies (August 3, 2023)",
+      "link": "https://pdc.cancer.gov/pdc/browse/filters/pdc_study_id:PDC000357%7CPDC000358%7CPDC000359%7CPDC000360%7CPDC000361%7CPDC000362",
+      "visible": true,
+      "date_added": "2023-08-31"
+    },
+    {
+      "label": "Release of CPTAC Pan-Cancer publications and data (April 2023)",
+      "link": "https://pdc.cancer.gov/pdc/cptac-pancancer",
+      "visible": false,
+      "date_added": "2023-04-06"
+    },
+    {
+      "label": "Outcome related clinical data updated for CPTAC cohorts (February 2023)",
+      "link": "",
+      "visible": false,
+      "date_added": "2023-04-06"
+    },
+    {
+      "label": "Release of CPTAC clear cell Renal Cell Carcinoma (ccRCC) confirmatory studies (December 2022)",
+      "link": "https://www.cell.com/cancer-cell/fulltext/S1535-6108(22)00565-7",
+      "visible": false,
+      "date_added": "(December 2022)"
+    },
+    {
+      "label": "The Applied Proteogenomics OrganizationaL Learning and Outcomes (APOLLO) network, a collaboration between NCI, DoD, and VA releases the data of their proteogenomic profiling study of lung adenocarcinoma (LUAD) tumors (November 2022)",
+      "link": "https://proteomics.cancer.gov/programs/apollo-network",
+      "visible": false,
+      "date_added": "2022-11-15"
+    },
+    {
+      "label": "Release of CPTAC neoplastic cell enrichment study of pancreatic ductal adenocarcinoma (October 2022)",
+      "link": "https://clinicalproteomicsjournal.biomedcentral.com/articles/10.1186/s12014-022-09373-x",
+      "visible": false,
+      "date_added": "2022-11-15"
+    },
+    {
+      "label": "Ex Vivo Drug Sensitivity Testing in AML: Improving Response Predictability Using Proteomic Measurements",
+      "visible": false,
+      "link": "https://proteomics.cancer.gov/news_and_announcements/ex-vivo-drug-sensitivity-testing-aml-improving-response-predictability-using",
+      "exit_disclaimer": false,
+      "date_released": "(September 2022)",
+      "date_added": "2022-09-26"
+    },
+    {
+      "label": "CPTAC Investigators Analyze Proteogenomic Markers of Chemotherapy Resistance and Response in Triple Negative Breast Cancer",
+      "visible": false,
+      "link": "https://proteomics.cancer.gov/news_and_announcements/cptac-investigators-analyze-proteogenomic-markers-chemotherapy-resistance-and",
+      "exit_disclaimer": false,
+      "date_released": "(August 2022)",
+      "date_added": "2022-09-12"
+    },
+    {
+      "label": "PDC Clinical data dictionaries updated",
+      "visible": false,
+      "link": "/pdc/data-dictionary",
+      "exit_disclaimer": false,
+      "date_released": "(January 2022)",
+      "date_added": "2022-09-12"
+    },
+    {
+      "label": "Additional Clinical follow-up outcome data added for the CPTAC cohorts - LSCC, LUAD, PDA, UCEC, GBM, ccRCC, HNSCC",
+      "visible": false,
+      "link": "/pdc/browse",
+      "exit_disclaimer": false,
+      "date_released": "(January 2022)",
+      "date_added": "2022-09-12"
+    },
+    {
+      "label": "Clinical outcome data updated for the CPTAC cohorts - LSCC, LUAD, PDA, UCEC, GBM, ccRCC, HNSCC",
+      "visible": false,
+      "exit_disclaimer": false,
+      "date_released": "(October 2021)",
+      "date_added": "2022-09-12"
+    },
+    {
+      "label": "Embargo lifted and publication added to the CPTAC Lung Squamous Cell Carcinoma studies",
+      "visible": false,
+      "exit_disclaimer": false,
+      "date_released": "(September 2021)",
+      "date_added": "2022-09-12"
+    }
+  ]
+}

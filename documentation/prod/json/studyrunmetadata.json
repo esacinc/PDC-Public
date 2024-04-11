@@ -1,3 +1,206 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:65b4975486a791d5e02d7df700dc5e34dc96c180842ee799636816d313494846
-size 6745
+{
+    "title": "Study Run Metadata",
+    "type": "object",
+    "properties": {
+        "protocol_id": {
+            "key": "yes",
+            "required": "False",
+            "type": "String"
+        },
+        "protocol_submitter_id": {
+            "key": "yes",
+            "required": "False",
+            "type": "String"
+        },
+        "study_id": {
+            "key": "yes",
+            "required": "False",
+            "type": "String"
+        },
+        "study_run_metadata_id": {
+            "key": "yes",
+            "required": "False",
+            "type": "String"
+        },
+        "study_run_metadata_submitter_id": {
+            "key": "yes",
+            "required": "False",
+            "type": "String"
+        },
+        "study_submitter_id": {
+            "key": "yes",
+            "required": "False",
+            "type": "String"
+        },
+        "experiment_type": {
+            "description": "General strategy used for differential analysis",
+            "required": "True",
+            "type": "String"
+        },
+        "fraction": {
+            "description": "Number of fractions in the experimental run",
+            "required": "True",
+            "type": "String"
+        },
+        "itraq_113": {
+            "description": "The sample tagged with this isobaric label reagent",
+            "required": "True",
+            "type": "String"
+        },
+        "itraq_114": {
+            "description": "The sample tagged with this isobaric label reagent",
+            "required": "True",
+            "type": "String"
+        },
+        "itraq_115": {
+            "description": "The sample tagged with this isobaric label reagent",
+            "required": "True",
+            "type": "String"
+        },
+        "itraq_116": {
+            "description": "The sample tagged with this isobaric label reagent",
+            "required": "True",
+            "type": "String"
+        },
+        "itraq_117": {
+            "description": "The sample tagged with this isobaric label reagent",
+            "required": "True",
+            "type": "String"
+        },
+        "itraq_118": {
+            "description": "The sample tagged with this isobaric label reagent",
+            "required": "True",
+            "type": "String"
+        },
+        "itraq_119": {
+            "description": "The sample tagged with this isobaric label reagent",
+            "required": "True",
+            "type": "String"
+        },
+        "itraq_121": {
+            "description": "The sample tagged with this isobaric label reagent",
+            "required": "True",
+            "type": "String"
+        },
+        "label_free": {
+            "description": "The sample tagged with this isobaric label reagent",
+            "required": "True",
+            "type": "String"
+        },
+        "plex_or_folder_name": {
+            "description": "Name used to group the files generated in single experimental run",
+            "required": "True",
+            "type": "String"
+        },
+        "tmt_126": {
+            "description": "The sample tagged with this isobaric label reagent",
+            "required": "True",
+            "type": "String"
+        },
+        "tmt_127c": {
+            "description": "The sample tagged with this isobaric label reagent",
+            "required": "True",
+            "type": "String"
+        },
+        "tmt_127n": {
+            "description": "The sample tagged with this isobaric label reagent",
+            "required": "True",
+            "type": "String"
+        },
+        "tmt_128c": {
+            "description": "The sample tagged with this isobaric label reagent",
+            "required": "True",
+            "type": "String"
+        },
+        "tmt_128n": {
+            "description": "The sample tagged with this isobaric label reagent",
+            "required": "True",
+            "type": "String"
+        },
+        "tmt_129c": {
+            "description": "The sample tagged with this isobaric label reagent",
+            "required": "True",
+            "type": "String"
+        },
+        "tmt_129n": {
+            "description": "The sample tagged with this isobaric label reagent",
+            "required": "True",
+            "type": "String"
+        },
+        "tmt_130c": {
+            "description": "The sample tagged with this isobaric label reagent",
+            "required": "True",
+            "type": "String"
+        },
+        "tmt_130n": {
+            "description": "The sample tagged with this isobaric label reagent",
+            "required": "True",
+            "type": "String"
+        },
+        "tmt_131": {
+            "description": "The sample tagged with this isobaric label reagent",
+            "required": "True",
+            "type": "String"
+        },
+        "tmt_131c": {
+            "description": "The sample tagged with this isobaric label reagent",
+            "required": "True",
+            "type": "String"
+        },
+        "alias": {
+            "description": "A plex or dataset name used by the submitters",
+            "required": "False",
+            "type": "String"
+        },
+        "analyte": {
+            "description": "Type of peptide or protein enrichment",
+            "required": "False",
+            "type": "String"
+        },
+        "condition": {
+            "description": "Biological condition (ex: disease state) of the cases(patients) from which the aliquots derived.",
+            "required": "False",
+            "type": "String"
+        },
+        "date": {
+            "description": "Date of the data acquired from the mass spectrometry instrument",
+            "required": "False",
+            "type": "Date"
+        },
+        "experiment_number": {
+            "description": "Number associated with a specific run of the experiment",
+            "required": "False",
+            "type": "Integer"
+        },
+        "folder_name": {
+            "key": "yes",
+            "required": "False",
+            "type": "String"
+        },
+        "operator": {
+            "description": "Mass Spectrometry instrument operator",
+            "required": "False",
+            "type": "String"
+        },
+        "replicate_number": {
+            "description": "Replicate number, if applicable",
+            "required": "False",
+            "type": "Integer"
+        }
+    },
+    "category": "Metadata",
+    "description": "General experimental metadata describing study design.",
+    "uniqueKeys": [
+        [
+            "study_run_metadata_id",
+            "study_run_metadata_submitter_id"
+        ]
+    ],
+    "links": [
+        {
+            "label": "Study Run Metadata references the Study that used the experimental design.",
+            "name": "Study",
+            "required": "True"
+        }
+    ]
+}

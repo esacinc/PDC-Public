@@ -1,3 +1,76 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:91882df4edcddd358f05326cbc45a57a9fb4b71aacf71d4486b3057d41ea5d41
-size 2317
+{
+    "title": "Study",
+    "type": "object",
+    "properties": {
+        "project_id": {
+            "key": "yes",
+            "required": "False",
+            "type": "String"
+        },
+        "project_submitter_id": {
+            "key": "yes",
+            "required": "False",
+            "type": "String"
+        },
+        "study_id": {
+            "key": "yes",
+            "required": "False",
+            "type": "String"
+        },
+        "study_submitter_id": {
+            "key": "yes",
+            "required": "False",
+            "type": "String"
+        },
+        "submitter_id_name": {
+            "description": "Name of the study as described by the data submitter",
+            "required": "False",
+            "type": "String"
+        },
+        "acquisition_type": {
+            "description": "The modes of acquisition used in the LC-MS/MS experiments: data dependent acquisition (DDA), data independent acquisition (DIA).",
+            "required": "True",
+            "type": "String"
+        },
+        "study_description": {
+            "description": "Describes the objective of the study, data collection, or compilation, etc. ",
+            "required": "True",
+            "type": "String"
+        },
+        "analytical_fraction": {
+            "description": "Type of peptide or protein enrichment",
+            "required": "False",
+            "type": "String"
+        },
+        "experiment_type": {
+            "description": "General strategy used for differential analysis",
+            "required": "False",
+            "type": "String"
+        },
+        "study_short_name": {
+            "description": "A short name for the study",
+            "required": "False",
+            "type": "String"
+        },
+        "study_shortname": {
+            "key": "yes",
+            "required": "False",
+            "type": "String"
+        }
+    },
+    "category": "Administrative",
+    "description": "A detailed examination, analysis, or critical inspection of a subject designed to discover facts about it.",
+    "uniqueKeys": [
+        [
+            "study_id",
+            "study_submitter_id"
+        ]
+    ],
+    "links": [
+        {
+            "label": "Study references the Project it is part of.",
+            "name": "Project",
+            "required": true
+        }
+    ]
+}

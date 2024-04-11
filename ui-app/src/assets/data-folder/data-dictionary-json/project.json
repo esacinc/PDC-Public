@@ -1,3 +1,52 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:e9563bae83d88d4e371723bac0c76eebd4daec88d8d3d2b3e5d8a5a85d8d6fcb
-size 1387
+{
+    "title": "Project",
+    "type": "object",
+    "properties": {
+        "program_id": {
+            "key": "yes",
+            "type": "string"
+        },
+        "program_submitter_id": {
+            "key": "yes",
+            "type": "string"
+        },
+        "project_id": {
+            "key": "yes",
+            "type": "string"
+        },
+        "project_submitter_id": {
+            "key": "yes",
+            "type": "string"
+        },
+        "name": {
+            "description": "Display name for the project",
+            "required": "True",
+            "type": "String"
+        },
+        "description": {
+            "type": "String",
+            "required": "False",
+            "description": "Project description"
+        },
+        "program": {
+            "description": "Indicates that the project is logically part of the indicated program.\n",
+            "required": "False",
+            "type": "String"
+        }
+    },
+    "category": "Administrative",
+    "description": "Any specifically defined piece of work that is undertaken or attempted to meet a single requirement.",
+    "uniqueKeys": [
+        [
+            "project_id",
+            "project_submitter_id"
+        ]
+    ],
+    "links": [
+        {
+            "label": "Project references the Program it is part of.",
+            "name": "Program",
+            "required": "True"
+        }
+    ]
+}

@@ -1,3 +1,87 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:1b40581e03b49d0236f28bbd7cd960a94fc65a992e572cae9fe2487b23e599f0
-size 2936
+{
+    "title": "Portion",
+    "type": "object",
+    "properties": {
+        "portion_id": {
+            "key": "yes",
+            "required": "False",
+            "type": "String"
+        },
+        "portion_submitter_id": {
+            "key": "yes",
+            "required": "False",
+            "type": "String"
+        },
+        "project_id": {
+            "key": "yes",
+            "required": "False",
+            "type": "String"
+        },
+        "project_submitter_id": {
+            "key": "yes",
+            "required": "False",
+            "type": "String"
+        },
+        "sample_id": {
+            "key": "yes",
+            "required": "False",
+            "type": "String"
+        },
+        "sample_submitter_id": {
+            "key": "yes",
+            "required": "False",
+            "type": "String"
+        },
+        "creation_datetime": {
+            "description": "The datetime of portion creation encoded as seconds from epoch.",
+            "cde_id": 5432592,
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=5432592%20and%20ver_nr=1.0",
+            "source": "caDSR",
+            "required": "False",
+            "type": "Integer"
+        },
+        "is_ffpe": {
+            "description": "Indicator to signify whether or not the tissue sample was fixed in formalin and embedded in paraffin (FFPE).",
+            "cde_id": 4170557,
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=4170557%20and%20ver_nr=1.0",
+            "source": "caDSR",
+            "required": "False",
+            "enum": [
+                "true",
+                "false"
+            ],
+            "type": "Enumeration"
+        },
+        "portion_number": {
+            "description": "Numeric value that represents the sequential number assigned to a portion of the sample.",
+            "cde_id": 5432711,
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=5432711%20and%20ver_nr=1.0",
+            "source": "caDSR",
+            "required": "False",
+            "type": "Integer"
+        },
+        "weight": {
+            "description": "Numeric value that represents the sample portion weight, measured in milligrams.",
+            "cde_id": 651,
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=651%20and%20ver_nr=4.0",
+            "source": "caDSR",
+            "required": "False",
+            "type": "Number"
+        }
+    },
+    "category": "Biospecimen",
+    "description": "A physical sub-part of any sample.",
+    "uniqueKeys": [
+        [
+            "portion_id",
+            "portion_submitter_id"
+        ]
+    ],
+    "links": [
+        {
+            "label": "Portion references the Sample it is derived from.",
+            "name": "Sample",
+            "required": "True"
+        }
+    ]
+}
