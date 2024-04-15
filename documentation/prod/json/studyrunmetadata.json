@@ -88,7 +88,7 @@
             "type": "String"
         },
         "plex_or_folder_name": {
-            "description": "Name used to group the files generated in single experimental run",
+            "description": "Name used to group the files generated in single experimental run. This is same as the study_run_metadata_submitter_id and referred simply as 'Run Metadata Id'.",
             "required": "True",
             "type": "String"
         },
@@ -147,6 +147,41 @@
             "required": "True",
             "type": "String"
         },
+        "tmt_132n": {
+            "description": "The sample tagged with this isobaric label reagent",
+            "required": "True",
+            "type": "String"
+        },
+        "tmt_132c": {
+            "description": "The sample tagged with this isobaric label reagent",
+            "required": "True",
+            "type": "String"
+        },
+        "tmt_133n": {
+            "description": "The sample tagged with this isobaric label reagent",
+            "required": "True",
+            "type": "String"
+        },
+        "tmt_133c": {
+            "description": "The sample tagged with this isobaric label reagent",
+            "required": "True",
+            "type": "String"
+        },
+        "tmt_134n": {
+            "description": "The sample tagged with this isobaric label reagent",
+            "required": "True",
+            "type": "String"
+        },
+        "tmt_134c": {
+            "description": "The sample tagged with this isobaric label reagent",
+            "required": "True",
+            "type": "String"
+        },
+        "tmt_135n": {
+            "description": "The sample tagged with this isobaric label reagent",
+            "required": "True",
+            "type": "String"
+        },
         "alias": {
             "description": "A plex or dataset name used by the submitters",
             "required": "False",
@@ -186,10 +221,16 @@
             "description": "Replicate number, if applicable",
             "required": "False",
             "type": "Integer"
+        },
+        "polarity": {
+          "description": "Ion polarity for the experimental run",
+          "required": "False (Required for metabolomics only)",
+          "enum" : ["positive", "negative"],
+          "type": "Enumeration"
         }
     },
     "category": "Metadata",
-    "description": "General experimental metadata describing study design.",
+    "description": "General experimental metadata describing one part of a study. It serves two purposes: <br>(1) to group files (e.g., RPLC fractions) containing data on one or more samples, and <br>(2) to document the individual sample-to-channel assignments for a multiplexed run.<br> On the PDC portal, we simplify this property's human-readable identifier (study_run_metadata_submitter_id) to 'Run Metadata Id'. Synonyms include plex name, plex dataset name, folder name, and more in labeled experiments.",
     "uniqueKeys": [
         [
             "study_run_metadata_id",

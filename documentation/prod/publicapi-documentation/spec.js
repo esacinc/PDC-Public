@@ -132,7 +132,7 @@ var spec = {
                  "get": {
                            "tags": ["Gene"],
                    "summary": "Returns the aliquot spectral counts",
-                   "description": "<b>Input Parameters (multiple parameters can be passed in one call):</b><ul><li>gene_name (example: MYBBP1A)</li><li>dataset_alias (example: FFPE_Discovery_Phospho_TMT_Gr12)</li></ul><b>Returns the aliquot spectral counts<br><br>Fields:</b><ul><li>gene_id</li><li>gene_name</li><li>NCBI_gene_id</li><li>authority</li><li>description</li><li>organism</li><li>chromosome</li><li>locus</li><li>proteins</li><li>assays</li><li>spectral_counts</li></ul><b>A test call can be issued with the following parameters (it may return slowly, especially the first time, due to the data volume):</b>",
+                   "description": "<b>Input Parameters (multiple parameters can be passed in one call):</b><ul><li>gene_name (example: MYBBP1A)</li><li>dataset_alias (example: FFPE_Discovery_Phospho_TMT_Gr12)</li></ul><b>Returns the aliquot spectral counts<br><br>Fields:</b><ul><li>gene_id</li><li>gene_name</li><li>NCBI_gene_id</li><li>authority</li><li>description</li><li>organism</li><li>chromosome</li><li>locus</li><li>proteins</li><li>assays</li><li>spectral_counts</li></ul><b>A test call can be issued with the following parameters (it may return slowly or even time out the first time due to the data volume. However, the result is cached and will be returned promptly if you try with the same parameters again):</b>",
                    "operationId": "aliquotSpectralCount",
                    "produces": [
                      "application/json"
@@ -289,7 +289,7 @@ var spec = {
                  "get": {
                            "tags": ["Gene"],
                    "summary": "Returns the gene spectral counts",
-                   "description": "<b>Input Parameter:</b><ul><li>gene_name (example: A1BG)</li></ul><b>Returns the gene spectral counts<br><br>Fields:</b><ul><li>gene_id</li><li>gene_name</li><li>NCBI_gene_id</li><li>authority</li><li>description</li><li>organism</li><li>chromosome</li><li>locus</li><li>proteins</li><li>assays</li><li>spectral_counts</li></ul><b>A test call can be issued with the following parameter:</b>",
+                   "description": "<b>Input Parameter:</b><ul><li>gene_name (example: A1BG)</li></ul><b>Returns the gene spectral counts<br><br>Fields:</b><ul><li>gene_id</li><li>gene_name</li><li>NCBI_gene_id</li><li>authority</li><li>description</li><li>organism</li><li>chromosome</li><li>locus</li><li>proteins</li><li>assays</li><li>spectral_counts</li></ul><b>A test call can be issued with the following parameter (it may return slowly or even time out the first time due to the data volume. However, the result is cached and will be returned promptly if you try with the same parameter again):</b>",
                    "operationId": "geneSpectralCount",
                    "produces": [
                      "application/json"
@@ -315,11 +315,11 @@ var spec = {
                    }
                  }
                },
-               '?query={ fileMetadata(offset: {offset} limit: {limit} acceptDUA: {acceptDUA}) {file_id file_name file_size md5sum file_location file_submitter_id fraction_number experiment_type data_category file_type file_format plex_or_dataset_name analyte instrument study_run_metadata_submitter_id study_run_metadata_id aliquots { aliquot_id aliquot_submitter_id sample_id sample_submitter_id case_id case_submitter_id} } }': {
+               '?query={ fileMetadata(offset: {offset} limit: {limit}) {file_id file_name file_size md5sum file_location file_submitter_id fraction_number experiment_type data_category file_type file_format plex_or_dataset_name analyte instrument study_run_metadata_submitter_id study_run_metadata_id aliquots { aliquot_id aliquot_submitter_id sample_id sample_submitter_id case_id case_submitter_id} } }': {
                  "get": {
                            "tags": ["Files"],
                    "summary": "Get a list of file metadata",
-                   "description": "<b>Returns a list of file metadata<br><br>Fields:</b><ul><li>file_id</li><li>file_name</li><li>file_size</li><li>md5sum</li><li>file_location</li><li>file_submitter_id</li><li>fraction_number</li><li>experiment_type</li><li>data_category</li><li>file_type</li><li>file_format</li><li>plex_or_dataset_name</li><li>analyte</li><li>instrument</li><li>study_run_metadata_submitter_id</li><li>study_run_metadata_id</li><li>aliquots</li></ul>",
+                   "description": "Input Parameters (multiple parameters can be passed in one call):</b><ul><li>file_id (example: 00046804-1b57-11e9-9ac1-005056921935)</li><li>file_name (example: 20151104-P50-20ug-s35.mzML.gz)</li><li>file_submitter_id (example: 20190125_30ug_OCb5_T_p_s40.raw)</li><li>data_category (example: Raw Mass Spectra)</li><li>file_type (example: Proprietary)</li><li>file_format (example: vendor-specific)</li><li>offset (example: 0)</li><li>limit (example: 10 cannot exceed 25000)</li></ul><b>Returns a list of file metadata<br><br>Fields:</b><ul><li>file_id</li><li>file_name</li><li>file_size</li><li>md5sum</li><li>file_location</li><li>file_submitter_id</li><li>fraction_number</li><li>experiment_type</li><li>data_category</li><li>file_type</li><li>file_format</li><li>plex_or_dataset_name</li><li>analyte</li><li>instrument</li><li>study_run_metadata_submitter_id</li><li>study_run_metadata_id</li><li>aliquots</li></ul><b>A test call can be issued with the following parameters:</b>",
                    "operationId": "fileMetadata",
                    "produces": [
                      "application/json"
@@ -337,88 +337,7 @@ var spec = {
                                    "description": "Limit of records, example: 10",
                                    "required": true,
                                    "type": "integer"
-                               }, {
-                        "name": "acceptDUA",
-                        "in": "path",
-                        "description": "Accept DUA  is no longer required",
-                        "required": false,
-                        "type": "boolean",
-						"defaultValue": true
-                     }
-                   ],
-                   "responses": {
-                     "200": {
-                       "description": "successful operation",
-                       "schema": {
-                         "$ref": "#/definitions/fileMetadata"
-                       }
-                     },
-                     "401": {
-                       "description": "Unauthorized"
-                     }
-                   }
-                 }
-                   },
-               '?query={ fileMetadata(file_id: "{file_id}" acceptDUA: {acceptDUA}) {file_id file_name file_size md5sum file_location file_submitter_id fraction_number experiment_type data_category file_type file_format plex_or_dataset_name analyte instrument study_run_metadata_submitter_id study_run_metadata_id aliquots { aliquot_id aliquot_submitter_id sample_id sample_submitter_id case_id case_submitter_id} } }': {
-                 "get": {
-                           "tags": ["Files"],
-                   "summary": "Get file metadata",
-                   "description": "<b>Returns a file metadata<br><br>Fields:</b><ul><li>file_id</li><li>file_name</li><li>file_size</li><li>md5sum</li><li>file_location</li><li>file_submitter_id</li><li>fraction_number</li><li>experiment_type</li><li>data_category</li><li>file_type</li><li>file_format</li><li>plex_or_dataset_name</li><li>analyte</li><li>instrument</li><li>study_run_metadata_submitter_id</li><li>study_run_metadata_id</li><li>aliquots</li></ul>",
-                   "operationId": "fileMetadata",
-                   "produces": [
-                     "application/json"
-                   ],
-                   "parameters": [{
-                       "name": "file_id",
-                       "in": "path",
-                       "description": "File ID, example: 00046804-1b57-11e9-9ac1-005056921935",
-                       "required": true,
-                       "type": "string"
-                     }, {
-                        "name": "acceptDUA",
-                        "in": "path",
-                        "description": "Accept DUA  is no longer required",
-                        "required": false,
-                        "type": "boolean",
-						"defaultValue": true
-                     }
-                   ],
-                   "responses": {
-                     "200": {
-                       "description": "successful operation",
-                       "schema": {
-                         "$ref": "#/definitions/fileMetadata"
-                       }
-                     },
-                     "401": {
-                       "description": "Unauthorized"
-                     }
-                   }
-                 }
-                   },
-               '?query={ fileMetadata(file_name: "{file_name}" acceptDUA: {acceptDUA}) {file_id file_name file_size md5sum file_location file_submitter_id fraction_number experiment_type data_category file_type file_format plex_or_dataset_name analyte instrument study_run_metadata_submitter_id study_run_metadata_id aliquots { aliquot_id aliquot_submitter_id sample_id sample_submitter_id case_id case_submitter_id} } }': {
-                 "get": {
-                           "tags": ["Files"],
-                   "summary": "Get file metadata",
-                   "description": "<b>Returns a file metadata<br><br>Fields:</b><ul><li>file_id</li><li>file_name</li><li>file_size</li><li>md5sum</li><li>file_location</li><li>file_submitter_id</li><li>fraction_number</li><li>experiment_type</li><li>data_category</li><li>file_type</li><li>file_format</li><li>plex_or_dataset_name</li><li>analyte</li><li>instrument</li><li>study_run_metadata_submitter_id</li><li>study_run_metadata_id</li><li>aliquots</li></ul>",
-                   "operationId": "fileMetadata",
-                   "produces": [
-                     "application/json"
-                   ],
-                   "parameters": [{
-                       "name": "file_name",
-                       "in": "path",
-                       "description": "File Name, example: 20151104-P50-20ug-s35.mzML.gz",
-                       "required": true,
-                       "type": "string"
-                     }, {
-                        "name": "acceptDUA",
-                        "in": "path",
-                        "description": "Accept DUA  is no longer required",
-                        "required": false,
-                        "type": "boolean",
-						"defaultValue": true
-                     }
+                               }
                    ],
                    "responses": {
                      "200": {
@@ -1157,11 +1076,11 @@ var spec = {
                    }
                  }
                },
-              '?query={ filesPerStudy (study_id: "{study_id}" acceptDUA: {acceptDUA}) {study_id pdc_study_id study_submitter_id study_name file_id file_name file_submitter_id file_type md5sum file_location file_size data_category file_format signedUrl {url}} }': {
+              '?query={ filesPerStudy (study_id: "{study_id}") {study_id pdc_study_id study_submitter_id study_name file_id file_name file_submitter_id file_type md5sum file_location file_size data_category file_format signedUrl {url}} }': {
                  "get": {
                            "tags": ["Files"],
                    "summary": "Get files per Study ID",
-                   "description": "<b>Returns a list of files per study. This API can also be used with multiple input parameters.</b><br>Takes a long time to execute because of the huge volume of data.<b><br><br>Fields:</b><ul><li>study_id</li><li>pdc_study_id</li><li>study_submitter_id</li><li>study_name</li><li>file_id</li><li>file_name</li><li>file_submitter_id</li><li>file_type</li><li>md5sum</li><li>file_location</li><li>file_size</li><li>data_category</li><li>file_format</li><li>signedUrl {url}</li></ul>",
+                   "description": "Input Parameters (multiple parameters can be passed in one call):</b><ul><li>study_id (example: 0fe15489-1381-4864-8b17-6159e14a65a8)</li><li>study_submitter_id (example: Broad Institute - Medulloblastoma - Phospho-tyrosine-enrichments)</li><li>pdc_study_id (example: PDC000431)</li><li>file_name (example: 20151104-P50-20ug-s35.mzML.gz)</li><li>file_type (example: Proprietary)</li><li>data_category (example: Raw Mass Spectra)</li><li>file_format (example: vendor-specific)</li></ul><b>Returns a list of files per study. This API can also be used with multiple input parameters.</b><br>It may take a long time to execute because of the huge volume of data.<b><br><br>Fields:</b><ul><li>study_id</li><li>pdc_study_id</li><li>study_submitter_id</li><li>study_name</li><li>file_id</li><li>file_name</li><li>file_submitter_id</li><li>file_type</li><li>md5sum</li><li>file_location</li><li>file_size</li><li>data_category</li><li>file_format</li><li>signedUrl {url}</li></ul><b>A test call can be issued with the following parameter:</b>",
                    "operationId": "filesPerStudy",
                    "produces": [
                      "application/json"
@@ -1172,14 +1091,7 @@ var spec = {
                        "description": "Study ID, example: 0fe15489-1381-4864-8b17-6159e14a65a8",
                        "required": true,
                        "type": "string"
-                    },{
-                     "name": "acceptDUA",
-                     "in": "path",
-                     "description": "Accept DUA  is no longer required",
-                     "required": false,
-                     "type": "boolean",
-						"defaultValue": true
-                   }],
+                    }],
                    "responses": {
                      "200": {
                        "description": "successful operation",
@@ -1193,42 +1105,6 @@ var spec = {
                    }
                  }
                },
-               '?query={ filesPerStudy (pdc_study_id: "{pdc_study_id}" acceptDUA: {acceptDUA}) {study_id pdc_study_id study_submitter_id study_name file_id file_name file_submitter_id file_type md5sum file_location file_size data_category file_format signedUrl {url}} }': {
-                  "get": {
-                            "tags": ["Files"],
-                    "summary": "Get files per PDC Study ID",
-                    "description": "<b>Returns a list of files per study. This API can also be used with multiple input parameters.</b><br>Takes a long time to execute because of the huge volume of data.<b><br><br>Fields:</b><ul><li>study_id</li><li>pdc_study_id</li><li>study_submitter_id</li><li>study_name</li><li>file_id</li><li>file_name</li><li>file_submitter_id</li><li>file_type</li><li>md5sum</li><li>file_location</li><li>file_size</li><li>data_category</li><li>file_format</li><li>signedUrl {url}</li></ul>",
-                    "operationId": "filesPerStudy",
-                    "produces": [
-                      "application/json"
-                    ],
-                    "parameters": [{
-                        "name": "pdc_study_id",
-                        "in": "path",
-                        "description": "PDC Study ID, example: PDC000431",
-                        "required": true,
-                        "type": "string"
-                     }, {
-                        "name": "acceptDUA",
-                        "in": "path",
-                        "description": "Accept DUA  is no longer required",
-                        "required": false,
-                        "type": "boolean",
-						"defaultValue": true
-                     }],
-                    "responses": {
-                      "200": {
-                        "description": "successful operation",
-                        "schema": {
-                          "$ref": "#/definitions/filesPerStudy"
-                        }
-                      },
-                      "401": {
-                        "description": "Unauthorized"
-                      }
-                    }
-                  }
-                },
                '?query={program(program_id:  "{program_id}" acceptDUA: {acceptDUA})  {program_id  program_submitter_id  name  projects  {project_id  project_submitter_id  name  studies  {pdc_study_id study_id study_submitter_id submitter_id_name analytical_fraction  study_name disease_types primary_sites embargo_date experiment_type acquisition_type} }  }  }': {
                  "get": {
                            "tags": ["Program"],
@@ -1337,7 +1213,7 @@ var spec = {
                  "get": {
                            "tags": ["Quantitative"],
                    "summary": "Get spectral counts and plex in available projects for a protein",
-                   "description": "<b>Input Parameter:</b><ul><li>protein (example: M0R009)</li></ul><b>Returns spectral counts of available projects for gene to which the protein ID (Uniprot or Refseq) is mapped.<br><br>Fields:</b><ul><li>gene_name</li><li>NCBI_gene_id</li><li>authority</li><li>description</li><li>organism</li><li>chromosome</li><li>locus</li><li>proteins</li><li>assays</li><li>spectral_counts</li></ul><b>A test call can be issued with the following parameter (it may return slowly, especially the first time, due to the data volume):</b>",
+                   "description": "<b>Input Parameter:</b><ul><li>protein (example: M0R009)</li></ul><b>Returns spectral counts of available projects for gene to which the protein ID (Uniprot or Refseq) is mapped.<br><br>Fields:</b><ul><li>gene_name</li><li>NCBI_gene_id</li><li>authority</li><li>description</li><li>organism</li><li>chromosome</li><li>locus</li><li>proteins</li><li>assays</li><li>spectral_counts</li></ul><b>A test call can be issued with the following parameter (it may return slowly or even time out the first time due to the data volume. However, the result is cached and will be returned promptly if you try with the same parameter again):</b>",
                    "operationId": "protein",
                    "produces": [
                      "application/json"
@@ -1366,8 +1242,8 @@ var spec = {
                 '?query={ pdcEntityReference(entity_type:"{entity_type}", entity_id: "{entity_id}", reference_type: "{reference_type}") { reference_id entity_type entity_id reference_type reference_entity_type reference_entity_alias reference_resource_name reference_resource_shortname reference_entity_location } }': {
                   "get": {
                     "tags": ["General"],
-                    "summary": "Find Entity References for a Study/Case",
-                    "description": "<b>Input Parameters (multiple parameters can be passed in one call):</b><ul><li>entity_type (example: study/case)</li><li>entity_id (must be the id of an object of the entity_type entered. example: dbe94609-1fb3-11e9-b7f8-0a80fada099c)</li><li>reference_type (example: internal/external)</li></ul><b>Returns details of a study<br><br>Fields:</b><ul><li>pdcEntityReference</li></ul><b>A test call can be issued with the following parameters:</b>",
+                    "summary": "Find Entity References for a Study or a Case",
+                    "description": "<b>Input Parameters (multiple parameters can be passed in one call):</b><ul><li>entity_type (example: study or case)</li><li>entity_id (must be the id of an object of the entity_type entered. example: dbe94609-1fb3-11e9-b7f8-0a80fada099c)</li><li>reference_type (example: internal/external)</li></ul><b>Returns details of a study<br><br>Fields:</b><ul><li>pdcEntityReference</li></ul><b>A test call can be issued with the following parameters:</b>",
                     "operationId": "pdcEntityReference",
                     "produces": [
                       "application/json"
@@ -1375,19 +1251,19 @@ var spec = {
                     "parameters": [{
                         "name": "entity_type",
                         "in": "path",
-                        "description": "Entity type, example: study",
+                        "description": "Entity type, example: study or case",
                         "required": true,
                         "type": "string"
                       }, {
                         "name": "entity_id",
                         "in": "path",
-                        "description": "Entity ID, example: dbe94609-1fb3-11e9-b7f8-0a80fada099c",
+                        "description": "Entity ID, example: 85df2ad5-0c83-4674-8013-0d6f360b9831 for study or bc2e2a27-9d23-4749-a2b4-ce6bbcad85b7 for case",
                         "required": true,
                         "type": "string"
                       }, {
                         "name": "reference_type",
                         "in": "path",
-                        "description": "Reference type, example: internal",
+                        "description": "Reference type, example: external",
                         "required": true,
                         "type": "string"
                       }              
@@ -5555,7 +5431,7 @@ var spec = {
             "properties":{
                "url":{
                   "type":"string",
-                  "example":"https://pdcdatastore.s3.amazonaws.com/studies/206/mzml/02CPTAC_CompRef_GBM_P_PNNL_20190306_B2S5_f10.mzML.gz?"
+                  "example":"https://pdcdatastore.s3.amazonaws.com/studies/206/mzml/02CPTAC_CompRef_GBM_P_PNNL_20190306_B2S5_f10.mzML.gz"
                }
               },
             "xml":{

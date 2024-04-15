@@ -24,9 +24,10 @@
         "days_to_treatment"
     ],
     "uniqueKeys": [
-        "id",
-        "project_id",
-        "submitter_id"
+      [
+        "treatment_id",
+        "treatment_submitter_id"
+      ]
     ],
     "properties": {
         "chemo_concurrent_to_radiation": {

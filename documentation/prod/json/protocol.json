@@ -179,7 +179,7 @@
         "instrument_model": {
             "description": "Model of instrument",
             "cde_id": "depends on make",
-            "term_url": "https://www.ebi.ac.uk/ols4/ontologies/ms/classes/http%253A%252F%252Fpurl.obolibrary.org%252Fobo%252FMS_https://www.ebi.ac.uk/ols4/ontologies/ms/classes/http%253A%252F%252Fpurl.obolibrary.org%252Fobo%252FMS_1000031",
+            "term_url": "https://www.ebi.ac.uk/ols4/ontologies/ms/classes/http%253A%252F%252Fpurl.obolibrary.org%252Fobo%252FMS_1000031",
             "required": "True",
             "enum": [
                 "1200 series LC/MSD SL",
@@ -479,6 +479,8 @@
                 "TMT6",
                 "TMT10",
                 "TMT11",
+                "TMT16",
+                "TMT18",
                 "180",
                 "AQUA",
                 "ICAT",
@@ -490,7 +492,7 @@
         "label_free_quantitation": {
             "description": "Type of label free data analysis strategy proposed for this data",
             "cde_id": "MS:1001834",
-            "term_url": "http://www.ontobee.org/ontology/MS?iri=https://www.ebi.ac.uk/ols4/ontologies/ms/classes/http%253A%252F%252Fpurl.obolibrary.org%252Fobo%252FMS_1001834",
+            "term_url": "https://www.ebi.ac.uk/ols4/ontologies/ms/classes/http%253A%252F%252Fpurl.obolibrary.org%252Fobo%252FMS_1001834",
             "source": "PSI MS",
             "required": "True",
             "enum": [
@@ -505,7 +507,7 @@
         "labeled_quantitation": {
             "description": "Type of labeling used",
             "cde_id": "MS:1002009",
-            "term_url": "http://www.ontobee.org/ontology/MS?iri=https://www.ebi.ac.uk/ols4/ontologies/ms/classes/http%253A%252F%252Fpurl.obolibrary.org%252Fobo%252FMS_1002009",
+            "term_url": "https://www.ebi.ac.uk/ols4/ontologies/ms/classes/http%253A%252F%252Fpurl.obolibrary.org%252Fobo%252FMS_1002009",
             "source": "PSI MS",
             "required": "True",
             "enum": [
@@ -525,7 +527,7 @@
         "quantitation_strategy": {
             "description": "General strategy used for differential analysis",
             "cde_id": "MS:1001833",
-            "term_url": "http://www.ontobee.org/ontology/MS?iri=https://www.ebi.ac.uk/ols4/ontologies/ms/classes/http%253A%252F%252Fpurl.obolibrary.org%252Fobo%252FMS_1001833",
+            "term_url": "https://www.ebi.ac.uk/ols4/ontologies/ms/classes/http%253A%252F%252Fpurl.obolibrary.org%252Fobo%252FMS_1001833",
             "source": "PSI MS",
             "required": "True",
             "enum": [
@@ -687,6 +689,61 @@
                 "mg"
             ],
             "type": "Enumeration"
+        },
+        "analytical_technique": {
+          "description": "General strategy used for metabolomics analysis",
+          "required": "False (Required for metabolomics only)",
+          "type": "String"
+        },
+        "chromatography_instrument_make": {
+          "description": "Manufacturer of chromatography instrument",
+          "required": "False (Required for metabolomics only)",
+          "type": "String"
+        },
+        "chromatography_instrument_model": {
+          "description": "Model of chromatography instrument",
+          "required": "False (Required for metabolomics only)",
+          "type": "String"
+        },
+        "polarity": {
+          "description": "Ion polarity mode(s) used during chromatography",
+          "required": "False (Required for metabolomics only)",
+          "enum": [
+              "positive",
+              "negative",
+              "postive/negative"
+          ],
+          "type": "Enumeration"
+        },
+        "reconstitution_solvent": {
+          "description": "Solvent used to reconstitute samples after evaporation",
+          "required": "False",
+          "type": "String"
+        },
+        "reconstitution_solvent_volume": {
+          "description": "Volume of the reconstitution solvent used",
+          "required": "False",
+          "type": "Number"
+        },
+        "reconstitution_volume_uom": {
+          "description": "Unit of measure of the reconstitution_solvent_volume",
+          "required": "False",
+          "type": "String"
+        },
+        "internal_standards": {
+          "description": "Reference material used for standardization/QC",
+          "required": "False",
+          "type": "String"
+        },
+        "ionization_mode": {
+          "description": "Method of ionization used in Mass Spec such as Electron Impact (EI) or Electrospray Ionization (ESI)",
+          "required": "False",
+          "type": "String"
+        },
+        "extraction_method": {
+          "description": "Method/Solution used for metabolite extraction",
+          "required": "False (Required for metabolomics only)",
+          "type": "String"
         }
     },
     "category": "Metadata",

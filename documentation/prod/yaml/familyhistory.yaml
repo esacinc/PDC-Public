@@ -261,6 +261,6 @@ required:
 title: Family History
 type: object
 uniqueKeys:
-- family_history_id
-- family_history_submitter_id
+- - family_history_id
+  - family_history_submitter_id
 validators: null

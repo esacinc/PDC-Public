@@ -1,40 +1,39 @@
 category: Administrative
 description: Any specifically defined piece of work that is undertaken or attempted
-    to meet a single requirement.
+  to meet a single requirement.
 links:
--   label: Project references the Program it is part of.
-    name: Program
-    required: 'True'
+- label: Project references the Program it is part of.
+  name: Program
+  required: 'True'
 properties:
-    description:
-        description: Project description
-        required: 'False'
-        type: String
-    name:
-        description: Display name for the project
-        required: 'True'
-        type: String
-    program:
-        description: 'Indicates that the project is logically part of the indicated
-            program.
+  description:
+    description: Project description
+    required: 'False'
+    type: String
+  name:
+    description: Display name for the project
+    required: 'True'
+    type: String
+  program:
+    description: 'Indicates that the project is logically part of the indicated program.
 
-            '
-        required: 'False'
-        type: String
-    program_id:
-        key: 'yes'
-        type: string
-    program_submitter_id:
-        key: 'yes'
-        type: string
-    project_id:
-        key: 'yes'
-        type: string
-    project_submitter_id:
-        key: 'yes'
-        type: string
+      '
+    required: 'False'
+    type: String
+  program_id:
+    key: 'yes'
+    type: string
+  program_submitter_id:
+    key: 'yes'
+    type: string
+  project_id:
+    key: 'yes'
+    type: string
+  project_submitter_id:
+    key: 'yes'
+    type: string
 title: Project
 type: object
 uniqueKeys:
--   - project_id
-    - project_submitter_id
+- - project_id
+  - project_submitter_id

@@ -1,646 +1,693 @@
 category: Metadata
 description: 'The formal plan of an experiment or research activity, including the
-    objective, rationale, design, materials and methods for the conduct of the study;
-    intervention description, and method of data analysis. '
+  objective, rationale, design, materials and methods for the conduct of the study;
+  intervention description, and method of data analysis. '
 links:
--   label: Protocol references the Study it is part of.
-    name: Study
-    required: 'True'
+- label: Protocol references the Study it is part of.
+  name: Study
+  required: 'True'
 properties:
-    1d_chromatography_type:
-        description: Type of chromatography of the first dimension. If only 1D was
-            used, annotate that dimension here.
-        enum:
-        - RPLC
-        - bRPLC
-        - bRPLC (pH 7.5)
-        - bRPLC (pH 10)
-        - SCX
-        required: 'True'
-        type: Enumeration
-    2d_chromatography_type:
-        description: Type of chromatography for the second dimension. This will generally
-            be RPLC.
-        enum:
-        - RPLC
-        - UHPLC
-        required: 'True'
-        type: Enumeration
-    acquisition_type:
-        description: Mass spectrometry acquisition method
-        enum:
-        - DDA
-        - DIA
-        required: 'True'
-        type: Enumeration
-    alkylation_reagent:
-        description: Reagent used for cysteine alkylation
-        enum:
-        - Iodoacetamide (IAA)
-        - 2-chloroacetamide (TCEP)
-        - tris(2-carboxyethyl)phosphine
-        - Methyl Methanethiosulfonate (MMTS)
-        required: 'True'
-        type: Enumeration
-    amount_on_column:
-        description: Approximate mass with units
-        required: 'False'
-        type: Number
-    amount_on_column_uom:
-        description: Unit of Measure of amount_on_column
-        required: 'False'
-        type: String
-    chromatography_dimensions_count:
-        description: Number of discrete chromatographic dimensions used
-        enum:
-        - 1
-        - 2
-        required: 'True'
-        type: Enumeration
-    column_inner_diameter:
-        description: Approximate diameter with units
-        required: 'False'
-        type: Number
-    column_inner_diameter_uom:
-        description: "Unit of Measure of column_inner_diameter, \xC2\xB5m"
-        required: 'False'
-        type: String
-    column_length:
-        description: Approximate length with units
-        required: 'False'
-        type: Integer
-    column_length_uom:
-        description: Unit of Measure of column_length, cm
-        required: 'False'
-        type: String
-    column_type:
-        description: Type of column used
-        enum:
-        - C18
-        - New Objective
-        - PicoFrit SELF/P
-        required: 'False'
-        type: Enumeration
-    dda_topn:
-        description: Number of precursors sampled per cycle
-        required: 'False'
-        type: String
-    dia_ims:
-        description: Numeric value that represents the current weight of the sample,
-            measured in milligrams.
-        enum:
-        - 'Yes'
-        - 'No'
-        required: 'False'
-        type: Enumeration
-    dia_multiplexing:
-        cde_id: MS:1000501,MS:1000500
-        description: Uses overlapping windows (MSX)
-        enum:
-        - 'Yes'
-        - 'No'
-        required: 'True'
-        source: PSI MS
-        term_url: https://www.ebi.ac.uk/ols4/ontologies/ms/classes/http%253A%252F%252Fpurl.obolibrary.org%252Fobo%252FMS_1000501
-        type: Enumeration
-    digestion_reagent:
-        cde_id: MS:1001045
-        description: Enzyme or reagent used for digestion. Multiple enzymes can be
-            separated by (;)
-        enum:
-        - 2-iodobenzoate
-        - Arg-C, Asp-N
-        - Asp-N_ambic
-        - Chymotrypsin
-        - CNBr, Formic_acid
-        - Glutamyl endopeptidase
-        - Leukocyte elastase
-        - Lys-C, Lys-C/P
-        - No cleavage
-        - NoEnzyme
-        - PepsinA
-        - Proline endopeptidase
-        - TrypChymo
-        - Trypsin
-        - Trypsin/P
-        - Unspecific cleavage
-        - V8-DE
-        - V8-E
-        - Lys-C
-        - Trypsin
-        required: 'True'
-        source: PSI MS
-        term_url: https://www.ebi.ac.uk/ols4/ontologies/ms/classes/http%253A%252F%252Fpurl.obolibrary.org%252Fobo%252FMS_1001045
-        type: Enumeration
-    dissociation_type:
-        cde_id: MS:1000044
-        description: Gas phase dissociation type
-        enum:
-        - HCD
-        - CID
-        - ETD
-        - ECD
-        required: 'True'
-        source: PSI MS
-        term_url: https://www.ebi.ac.uk/ols4/ontologies/ms/classes/http%253A%252F%252Fpurl.obolibrary.org%252Fobo%252FMS_1000044
-        type: Enumeration
-    document_name:
-        description: Name of protocol document
-        required: 'False'
-        type: String
-    enrichment:
-        description: 'Protocol or reagent used for enrichment, for example: Fe3+ NTA-Agarose
-            (Qiagen). User can select existing enrichments or add their own.'
-        required: 'True'
-        type: String
-    enrichment_strategy:
-        description: Type of peptide or protein enrichment
-        enum:
-        - Acetylome
-        - Proteome
-        - Phosphoproteome
-        - Glycoproteome
-        - Ubiquitylome
-        - Metabolome
-        - Lipidome
-        required: 'True'
-        type: Enumeration
-    experiment_type:
-        description: Type of labeling reagent used. Indicate number of channels.
-        enum:
-        - Label Free
-        - iTRAQ
-        - TMT
-        required: 'True'
-        type: Enumeration
-    fractions_analyzed_count:
-        description: Final number of fractions analyzed by mass spectrometry. For
-            Thermo instruments, this will equal the number of data files.
-        required: 'True'
-        type: Integer
-    gradient_length:
-        description: Time with units
-        required: 'False'
-        type: Integer
-    gradient_length_uom:
-        description: Unit of Measure of gradient_length, minutes
-        required: 'False'
-        type: String
-    instrument_make:
-        description: Manufacturer of instrument
-        enum:
-        - Agilent
-        - Applied Biosystems
-        - Bruker
-        - Dionex
-        - Hitachi
-        - LECO
-        - SCIEX
-        - Shimadzu
-        - Thermo Fisher Scientific
-        - Varian
-        - Waters
-        required: 'True'
-        type: Enumeration
-    instrument_model:
-        cde_id: depends on make
-        description: Model of instrument
-        enum:
-        - 1200 series LC/MSD SL
-        - 1200 series LC/MSD VL
-        - 6110 Quadrupole LC/MS
-        - 6120A Quadrupole LC/MS
-        - 6120B Quadrupole LC/MS
-        - 6130 Quadrupole LC/MS
-        - 6140 Quadrupole LC/MS
-        - 6150 Quadrupole LC/MS
-        - 6210 Time-of-Flight LC/MS
-        - 6220 Time-of-Flight LC/MS
-        - 6224 Time-of-Flight LC/MS
-        - 6230A Time-of-Flight LC/MS
-        - 6230B Time-of-Flight LC/MS
-        - 6310 Ion Trap LC/MS
-        - 6320 Ion Trap LC/MS
-        - 6330 Ion Trap LC/MS
-        - 6340 Ion Trap LC/MS
-        - 6410 Triple Quadrupole LC/MS
-        - 6420 Triple Quadrupole LC/MS
-        - 6430 Triple Quadrupole LC/MS
-        - 6460 Triple Quadrupole LC/MS
-        - 6490 Triple Quadrupole LC/MS
-        - 6495A Triple Quadrupole LC/MS
-        - 6495B Triple Quadrupole LC/MS
-        - 6510 Quadrupole Time-of-Flight LC/MS
-        - 6520A Quadrupole Time-of-Flight LC/MS
-        - 6520B Q-TOF LC/MS
-        - 6530A Q-TOF LC/MS
-        - 6530B Q-TOF LC/MS
-        - 6538 Q-TOF LC/MS
-        - 6540 Q-TOF LC/MS
-        - 6542 Q-TOF LC/MS
-        - 6545 Q-TOF LC/MS
-        - 6550 iFunnel Q-TOF LC/MS
-        - 6550A iFunnel Q-TOF LC/MS
-        - 6560 Q-TOF LC/MS
-        - 6570 Q-TOF LC/MS
-        - 7000A Triple Quadrupole GC/MS
-        - 7000B Triple Quadrupole GC/MS
-        - 7800 Quadrupole ICP-MS
-        - 8800 Triple Quadrupole ICP-MS
-        - 4700 Proteomics Analyzer
-        - 4800 Proteomics Analyzer
-        - Voyager-DE PRO
-        - Voyager-DE STR
-        - Bruker Daltonics amaZon series
-        - Bruker Daltonics apex series
-        - Bruker Daltonics BioTOF series
-        - Bruker Daltonics esquire series
-        - Bruker Daltonics EVOQ series
-        - Bruker Daltonics flex series
-        - Bruker Daltonics HCT series
-        - Bruker Daltonics maXis series
-        - Bruker Daltonics micrOTOF series
-        - Bruker Daltonics SCION series
-        - Bruker Daltonics solarix series
-        - timsTOF Pro
-        - Citius HRT
-        - Pegasus
-        - Pegasus 4D
-        - Pegasus BT
-        - Pegasus HRT
-        - Pegasus III
-        - TruTOF
-        - 2000 QTRAP
-        - 2500 QTRAP
-        - 3200 QTRAP
-        - 3500 QTRAP
-        - 4000 QTRAP
-        - 4000 QTRAP
-        - 4800 Plus MALDI TOF/TOF
-        - 5800 TOF/TOF
-        - API 100
-        - API 100LC
-        - API 150EX
-        - API 150EX Prep
-        - API 165
-        - API 2000
-        - API 300
-        - API 3000
-        - API 3200
-        - API 350
-        - API 365
-        - API 4000
-        - API 5000
-        - proteomics solution 1
-        - Q TRAP
-        - QSTAR
-        - QSTAR Elite
-        - QSTAR Pulsar
-        - QSTAR XL
-        - QTRAP 4500
-        - QTRAP 5500
-        - QTRAP 6500
-        - QTRAP 6500+m
-        - SymBiot I
-        - SymBiot XVI
-        - Triple Quad 3500
-        - Triple Quad 4500
-        - Triple Quad 5500
-        - Triple Quad 6500
-        - Triple Quad 6500+
-        - TripleTOF 4600
-        - TripleTOF 5600
-        - TripleTOF 5600+
-        - TripleTOF 6600
-        - X500R QTOF
-        - AXIMA Assurance Linear MALDI-TOF
-        - AXIMA CFR MALDI-TOF
-        - AXIMA Confidence MALDI-TOF
-        - AXIMA Performance MALDI-TOF/TOF
-        - AXIMA-CFR plus
-        - AXIMA-QIT
-        - Shimadzu MALDI-7090
-        - LCMS-2010A
-        - LCMS-2010EV
-        - LCMS-2020
-        - LCMS-8040
-        - LCMS-8045
-        - LCMS-8050
-        - LCMS-8060
-        - LCMS-9030
-        - LCMS-IT-TOF
-        - Accela PDA
-        - DFS
-        - DSQ II
-        - Element 2
-        - Element GD
-        - Element XR
-        - Exactive
-        - Exactive Plus
-        - GC IsoLink
-        - ISQ
-        - ITQ 1100
-        - ITQ 700
-        - ITQ 900
-        - LTQ
-        - LTQ FT
-        - LTQ FT Ultra
-        - LTQ Orbitrap
-        - LTQ Orbitrap Classic
-        - LTQ Orbitrap Discovery
-        - LTQ Orbitrap Elite
-        - LTQ Orbitrap Velos
-        - LTQ Orbitrap XL
-        - LTQ Orbitrap XL ETD
-        - LTQ Velos
-        - LTQ Velos ETD
-        - LTQ XL
-        - LTQ XL ETD
-        - LXQ
-        - MALDI LTQ Orbitrap
-        - MALDI LTQ XL
-        - Orbitrap Fusion
-        - Orbitrap Fusion ETD
-        - Orbitrap Fusion Lumos
-        - Q Exactive
-        - Q Exactive HF
-        - Q Exactive HF-X
-        - Q Exactive Plus
-        - Surveyor PDA
-        - TSQ 8000 Evo
-        - TSQ 9000
-        - TSQ Altis
-        - TSQ Endura
-        - TSQ Quantis
-        - TSQ Quantiva
-        - TSQ Quantum Access
-        - TSQ Quantum Ultra
-        - TSQ Quantum Ultra AM
-        - TSQ Vantage
-        - Velos Plus
-        - explorer
-        - HiRes ESI
-        - HiRes MALDI
-        - OMEGA
-        - OMEGA-2001
-        - ultima
-        - '3100'
-        - Acquity TQD
-        - ACQUITY UPLC
-        - Acquity UPLC FLR
-        - ACQUITY UPLC H-Class
-        - ACQUITY UPLC H-Class Bio
-        - ACQUITY UPLC I-Class
-        - Acquity UPLC PDA
-        - ACQUITY UPLC Systems with 2D Technology
-        - Auto Spec Ultima NT
-        - GCT
-        - GCT Premier
-        - IsoPrime
-        - IsoProbe T
-        - M@LDI L
-        - M@LDI LR
-        - MALDI Synapt G2-S HDMS
-        - MALDI Synapt G2-S MS
-        - MALDI SYNAPT G2-Si
-        - MALDI Synapt HDMS
-        - MALDI Synapt MS
-        - nanoACQUITY UPLC
-        - nanoACQUITY UPLC System with 1D Technology
-        - nanoACQUITY UPLC with HDX Technology
-        - NG-5400
-        - Platform ICP
-        - Q-Tof micro
-        - Q-Tof Premier
-        - Q-Tof Ultima
-        - quattro micro
-        - Quattro micro GC
-        - Quattro Ultima
-        - SQ Detector 2
-        - Synapt G2 HDMS
-        - Synapt G2 MS
-        - Synapt G2-S HDMS
-        - Synapt G2-S MS
-        - SYNAPT G2-Si
-        - Synapt HDMS
-        - Synapt MS
-        - TRIZAIC UPLC nanoTile
-        - Xevo G2 Q-Tof
-        - Xevo G2 Tof
-        - Xevo G2 XS Tof
-        - Xevo G2-S QTof
-        - Xevo G2-S Tof
-        - Xevo Q-Tof
-        - Xevo TQ MS
-        - Xevo TQ-S
-        - Xevo TQD
-        - 220 GC/MS Ion Trap System
-        - 240 GC/MS Ion Trap System
-        - 6200 Series Accurate-Mass Time-of-Flight (TOF) LC/MS
-        - 6400 Series Triple Quadrupole LC/MS
-        - 7000 Triple Quadrupole GC/MS System
-        - 7200 GC/Q-TOF
-        - EVOQ Elite
-        - EVOQ Qube
-        - maXis 4G
-        - maXis impact
-        - microOTOF focus II
-        - microOTOF-Q II
-        - solariX
-        - Pipeline
-        - MALDI 4800
-        - FTMS
-        - LTQ Velos Pro
-        - LTQ-FT
-        - LTQ-OT
-        - Orbitrap Elite
-        - Orbitrap Velos
-        - TSQ Quantum
-        - Acquity SQD
-        - API-US
-        - Bio-Q
-        - EMD 1000
-        - LCT
-        - LCT Premier
-        - LCT Premier XE
-        - MALDI L
-        - MALDI LR
-        - MALDI micro MX
-        - MALDI R
-        - MALDI Synapt G2 HDMS
-        - MALDI Synapt G2 MS
-        - Micro
-        - Platform
-        - Platform II
-        - Platform LCZ
-        - PLC
-        - Premier
-        - Quattro
-        - Quattro II
-        - Quattro LC
-        - Quattro Premier
-        - Quattro Premier XE
-        - Quattro Ultima Pt
-        - TofSpec
-        - TofSpec 2E
-        - TofSpec E
-        - TofSpec SE
-        - Xevo QTof
-        - ZMD
-        - ZQ
-        - Orbitrap Lumos
-        - Thermo Orbitrap Q Exactive HF-X
-        - Thermo Orbitrap Fusion Lumos
-        required: 'True'
-        term_url: https://www.ebi.ac.uk/ols4/ontologies/ms/classes/http%253A%252F%252Fpurl.obolibrary.org%252Fobo%252FMS_1000031
-        type: Enumeration
-    isobaric_labeling_reagent:
-        description: Reagent set used for isobaric labeling
-        enum:
-        - iTRAQ4
-        - iTRAQ8
-        - TMT6
-        - TMT10
-        - TMT11
-        - '180'
-        - AQUA
-        - ICAT
-        - ICPL
-        - SILAC
-        required: 'True'
-        type: Enumeration
-    label_free_quantitation:
-        cde_id: MS:1001834
-        description: Type of label free data analysis strategy proposed for this data
-        enum:
-        - Label-free protein level quantitation
-        - Label-free peptide level quantitation
-        - Label-free protein group level quantitation
-        - Label-free raw feature quantitation
-        - Label-free gene level quantitation
-        required: 'True'
-        source: PSI MS
-        term_url: http://www.ontobee.org/ontology/MS?iri=https://www.ebi.ac.uk/ols4/ontologies/ms/classes/http%253A%252F%252Fpurl.obolibrary.org%252Fobo%252FMS_1001834
-        type: Enumeration
-    labeled_quantitation:
-        cde_id: MS:1002009
-        description: Type of labeling used
-        enum:
-        - AminoxyTMT
-        - DiART
-        - DiLeu
-        - Glyco-TMT
-        - Hydrazide TMT
-        - IodoTMT
-        - IPTL
-        - iTRAQ
-        - iTRAQH
-        - TMT
-        required: 'True'
-        source: PSI MS
-        term_url: http://www.ontobee.org/ontology/MS?iri=https://www.ebi.ac.uk/ols4/ontologies/ms/classes/http%253A%252F%252Fpurl.obolibrary.org%252Fobo%252FMS_1002009
-        type: Enumeration
-    ms1_resolution:
-        cde_id: MS:1000011
-        description: MS1 resolution, typically at 400 m/z
-        required: 'False'
-        source: PSI MS
-        term_url: https://www.ebi.ac.uk/ols4/ontologies/ms/classes/http%253A%252F%252Fpurl.obolibrary.org%252Fobo%252FMS_1000011
-        type: Integer
-    ms2_resolution:
-        cde_id: MS:1000011
-        description: MS2 resolution, typically at 400 m/z
-        required: 'False'
-        source: PSI MS
-        term_url: https://www.ebi.ac.uk/ols4/ontologies/ms/classes/http%253A%252F%252Fpurl.obolibrary.org%252Fobo%252FMS_1000011
-        type: Integer
-    normalized_collision_energy:
-        cde_id: MS:1000138
-        description: Normalized collisions energy (%)
-        required: 'False'
-        source: PSI MS
-        term_url: https://www.ebi.ac.uk/ols4/ontologies/ms/classes/http%253A%252F%252Fpurl.obolibrary.org%252Fobo%252FMS_1000138
-        type: Integer
-    particle_size:
-        description: Approximate size with units
-        required: 'False'
-        type: Number
-    particle_size_uom:
-        description: Unit of Measure of particle_size
-        required: 'False'
-        type: String
-    particle_type:
-        description: Manufacturer or brand name of particle if applicable
-        required: 'False'
-        type: String
-    program_id:
-        key: 'yes'
-        type: String
-    program_submitter_id:
-        key: 'yes'
-        type: String
-    protocol_date:
-        description: Date protocol was created or updated
-        required: 'False'
-        type: Date
-    protocol_id:
-        key: 'yes'
-        type: String
-    protocol_name:
-        description: External analytical sample protocol name
-        required: 'False'
-        type: String
-    protocol_submitter_id:
-        key: 'yes'
-        type: String
-    quantitation_strategy:
-        cde_id: MS:1001833
-        description: General strategy used for differential analysis
-        enum:
-        - Absolute quantitation analysis
-        - Isobaric label quantitation analysis
-        - LC-MS label-free quantitation analysis
-        - Metabolic labeling 14N / 15N quantitation analysis
-        - MS1 label-based analysis
-        - MS2 tag-based analysis
-        - SILAC quantitation analysis
-        - Spectral counting analysis
-        - SRM quantitation analysis
-        - MS2-based label-free quantitation
-        required: 'True'
-        source: PSI MS
-        term_url: http://www.ontobee.org/ontology/MS?iri=https://www.ebi.ac.uk/ols4/ontologies/ms/classes/http%253A%252F%252Fpurl.obolibrary.org%252Fobo%252FMS_1001833
-        type: Enumeration
-    reporter_ion_ms_level:
-        description: MS level at which fragmentation spectra should be analyzed for
-            reporter ions
-        enum:
-        - MS2
-        - MS3
-        required: 'True'
-        type: Enumeration
-    serial_number:
-        description: A serial number is a unique identifier, usually assigned by the
-            manufacturer, to uniquely identify the instrument. This is especially
-            useful if you are uploading raw data to PDC from multiple instruments
-            in your lab. The serial number is usually located on the back side of
-            the instrument. If a serial number is not available, you may also assign
-            an alphanumeric tag that uniquely identifies the instrument.
-        required: 'True'
-        type: String
-    starting_amount:
-        description: Mass with units
-        required: 'False'
-        type: Number
-    starting_amount_uom:
-        description: Unit of Measure of starting_amount
-        enum:
-        - "\xB5g"
-        - mg
-        required: 'False'
-        type: Enumeration
+  1d_chromatography_type:
+    description: Type of chromatography of the first dimension. If only 1D was used,
+      annotate that dimension here.
+    enum:
+    - RPLC
+    - bRPLC
+    - bRPLC (pH 7.5)
+    - bRPLC (pH 10)
+    - SCX
+    required: 'True'
+    type: Enumeration
+  2d_chromatography_type:
+    description: Type of chromatography for the second dimension. This will generally
+      be RPLC.
+    enum:
+    - RPLC
+    - UHPLC
+    required: 'True'
+    type: Enumeration
+  acquisition_type:
+    description: Mass spectrometry acquisition method
+    enum:
+    - DDA
+    - DIA
+    required: 'True'
+    type: Enumeration
+  alkylation_reagent:
+    description: Reagent used for cysteine alkylation
+    enum:
+    - Iodoacetamide (IAA)
+    - 2-chloroacetamide (TCEP)
+    - tris(2-carboxyethyl)phosphine
+    - Methyl Methanethiosulfonate (MMTS)
+    required: 'True'
+    type: Enumeration
+  amount_on_column:
+    description: Approximate mass with units
+    required: 'False'
+    type: Number
+  amount_on_column_uom:
+    description: Unit of Measure of amount_on_column
+    required: 'False'
+    type: String
+  analytical_technique:
+    description: General strategy used for metabolomics analysis
+    required: False (Required for metabolomics only)
+    type: String
+  chromatography_dimensions_count:
+    description: Number of discrete chromatographic dimensions used
+    enum:
+    - 1
+    - 2
+    required: 'True'
+    type: Enumeration
+  chromatography_instrument_make:
+    description: Manufacturer of chromatography instrument
+    required: False (Required for metabolomics only)
+    type: String
+  chromatography_instrument_model:
+    description: Model of chromatography instrument
+    required: False (Required for metabolomics only)
+    type: String
+  column_inner_diameter:
+    description: Approximate diameter with units
+    required: 'False'
+    type: Number
+  column_inner_diameter_uom:
+    description: "Unit of Measure of column_inner_diameter, \xC2\xB5m"
+    required: 'False'
+    type: String
+  column_length:
+    description: Approximate length with units
+    required: 'False'
+    type: Integer
+  column_length_uom:
+    description: Unit of Measure of column_length, cm
+    required: 'False'
+    type: String
+  column_type:
+    description: Type of column used
+    enum:
+    - C18
+    - New Objective
+    - PicoFrit SELF/P
+    required: 'False'
+    type: Enumeration
+  dda_topn:
+    description: Number of precursors sampled per cycle
+    required: 'False'
+    type: String
+  dia_ims:
+    description: Numeric value that represents the current weight of the sample, measured
+      in milligrams.
+    enum:
+    - 'Yes'
+    - 'No'
+    required: 'False'
+    type: Enumeration
+  dia_multiplexing:
+    cde_id: MS:1000501,MS:1000500
+    description: Uses overlapping windows (MSX)
+    enum:
+    - 'Yes'
+    - 'No'
+    required: 'True'
+    source: PSI MS
+    term_url: https://www.ebi.ac.uk/ols4/ontologies/ms/classes/http%253A%252F%252Fpurl.obolibrary.org%252Fobo%252FMS_1000501
+    type: Enumeration
+  digestion_reagent:
+    cde_id: MS:1001045
+    description: Enzyme or reagent used for digestion. Multiple enzymes can be separated
+      by (;)
+    enum:
+    - 2-iodobenzoate
+    - Arg-C, Asp-N
+    - Asp-N_ambic
+    - Chymotrypsin
+    - CNBr, Formic_acid
+    - Glutamyl endopeptidase
+    - Leukocyte elastase
+    - Lys-C, Lys-C/P
+    - No cleavage
+    - NoEnzyme
+    - PepsinA
+    - Proline endopeptidase
+    - TrypChymo
+    - Trypsin
+    - Trypsin/P
+    - Unspecific cleavage
+    - V8-DE
+    - V8-E
+    - Lys-C
+    - Trypsin
+    required: 'True'
+    source: PSI MS
+    term_url: https://www.ebi.ac.uk/ols4/ontologies/ms/classes/http%253A%252F%252Fpurl.obolibrary.org%252Fobo%252FMS_1001045
+    type: Enumeration
+  dissociation_type:
+    cde_id: MS:1000044
+    description: Gas phase dissociation type
+    enum:
+    - HCD
+    - CID
+    - ETD
+    - ECD
+    required: 'True'
+    source: PSI MS
+    term_url: https://www.ebi.ac.uk/ols4/ontologies/ms/classes/http%253A%252F%252Fpurl.obolibrary.org%252Fobo%252FMS_1000044
+    type: Enumeration
+  document_name:
+    description: Name of protocol document
+    required: 'False'
+    type: String
+  enrichment:
+    description: 'Protocol or reagent used for enrichment, for example: Fe3+ NTA-Agarose
+      (Qiagen). User can select existing enrichments or add their own.'
+    required: 'True'
+    type: String
+  enrichment_strategy:
+    description: Type of peptide or protein enrichment
+    enum:
+    - Acetylome
+    - Proteome
+    - Phosphoproteome
+    - Glycoproteome
+    - Ubiquitylome
+    - Metabolome
+    - Lipidome
+    required: 'True'
+    type: Enumeration
+  experiment_type:
+    description: Type of labeling reagent used. Indicate number of channels.
+    enum:
+    - Label Free
+    - iTRAQ
+    - TMT
+    required: 'True'
+    type: Enumeration
+  extraction_method:
+    description: Method/Solution used for metabolite extraction
+    required: False (Required for metabolomics only)
+    type: String
+  fractions_analyzed_count:
+    description: Final number of fractions analyzed by mass spectrometry. For Thermo
+      instruments, this will equal the number of data files.
+    required: 'True'
+    type: Integer
+  gradient_length:
+    description: Time with units
+    required: 'False'
+    type: Integer
+  gradient_length_uom:
+    description: Unit of Measure of gradient_length, minutes
+    required: 'False'
+    type: String
+  instrument_make:
+    description: Manufacturer of instrument
+    enum:
+    - Agilent
+    - Applied Biosystems
+    - Bruker
+    - Dionex
+    - Hitachi
+    - LECO
+    - SCIEX
+    - Shimadzu
+    - Thermo Fisher Scientific
+    - Varian
+    - Waters
+    required: 'True'
+    type: Enumeration
+  instrument_model:
+    cde_id: depends on make
+    description: Model of instrument
+    enum:
+    - 1200 series LC/MSD SL
+    - 1200 series LC/MSD VL
+    - 6110 Quadrupole LC/MS
+    - 6120A Quadrupole LC/MS
+    - 6120B Quadrupole LC/MS
+    - 6130 Quadrupole LC/MS
+    - 6140 Quadrupole LC/MS
+    - 6150 Quadrupole LC/MS
+    - 6210 Time-of-Flight LC/MS
+    - 6220 Time-of-Flight LC/MS
+    - 6224 Time-of-Flight LC/MS
+    - 6230A Time-of-Flight LC/MS
+    - 6230B Time-of-Flight LC/MS
+    - 6310 Ion Trap LC/MS
+    - 6320 Ion Trap LC/MS
+    - 6330 Ion Trap LC/MS
+    - 6340 Ion Trap LC/MS
+    - 6410 Triple Quadrupole LC/MS
+    - 6420 Triple Quadrupole LC/MS
+    - 6430 Triple Quadrupole LC/MS
+    - 6460 Triple Quadrupole LC/MS
+    - 6490 Triple Quadrupole LC/MS
+    - 6495A Triple Quadrupole LC/MS
+    - 6495B Triple Quadrupole LC/MS
+    - 6510 Quadrupole Time-of-Flight LC/MS
+    - 6520A Quadrupole Time-of-Flight LC/MS
+    - 6520B Q-TOF LC/MS
+    - 6530A Q-TOF LC/MS
+    - 6530B Q-TOF LC/MS
+    - 6538 Q-TOF LC/MS
+    - 6540 Q-TOF LC/MS
+    - 6542 Q-TOF LC/MS
+    - 6545 Q-TOF LC/MS
+    - 6550 iFunnel Q-TOF LC/MS
+    - 6550A iFunnel Q-TOF LC/MS
+    - 6560 Q-TOF LC/MS
+    - 6570 Q-TOF LC/MS
+    - 7000A Triple Quadrupole GC/MS
+    - 7000B Triple Quadrupole GC/MS
+    - 7800 Quadrupole ICP-MS
+    - 8800 Triple Quadrupole ICP-MS
+    - 4700 Proteomics Analyzer
+    - 4800 Proteomics Analyzer
+    - Voyager-DE PRO
+    - Voyager-DE STR
+    - Bruker Daltonics amaZon series
+    - Bruker Daltonics apex series
+    - Bruker Daltonics BioTOF series
+    - Bruker Daltonics esquire series
+    - Bruker Daltonics EVOQ series
+    - Bruker Daltonics flex series
+    - Bruker Daltonics HCT series
+    - Bruker Daltonics maXis series
+    - Bruker Daltonics micrOTOF series
+    - Bruker Daltonics SCION series
+    - Bruker Daltonics solarix series
+    - timsTOF Pro
+    - Citius HRT
+    - Pegasus
+    - Pegasus 4D
+    - Pegasus BT
+    - Pegasus HRT
+    - Pegasus III
+    - TruTOF
+    - 2000 QTRAP
+    - 2500 QTRAP
+    - 3200 QTRAP
+    - 3500 QTRAP
+    - 4000 QTRAP
+    - 4000 QTRAP
+    - 4800 Plus MALDI TOF/TOF
+    - 5800 TOF/TOF
+    - API 100
+    - API 100LC
+    - API 150EX
+    - API 150EX Prep
+    - API 165
+    - API 2000
+    - API 300
+    - API 3000
+    - API 3200
+    - API 350
+    - API 365
+    - API 4000
+    - API 5000
+    - proteomics solution 1
+    - Q TRAP
+    - QSTAR
+    - QSTAR Elite
+    - QSTAR Pulsar
+    - QSTAR XL
+    - QTRAP 4500
+    - QTRAP 5500
+    - QTRAP 6500
+    - QTRAP 6500+m
+    - SymBiot I
+    - SymBiot XVI
+    - Triple Quad 3500
+    - Triple Quad 4500
+    - Triple Quad 5500
+    - Triple Quad 6500
+    - Triple Quad 6500+
+    - TripleTOF 4600
+    - TripleTOF 5600
+    - TripleTOF 5600+
+    - TripleTOF 6600
+    - X500R QTOF
+    - AXIMA Assurance Linear MALDI-TOF
+    - AXIMA CFR MALDI-TOF
+    - AXIMA Confidence MALDI-TOF
+    - AXIMA Performance MALDI-TOF/TOF
+    - AXIMA-CFR plus
+    - AXIMA-QIT
+    - Shimadzu MALDI-7090
+    - LCMS-2010A
+    - LCMS-2010EV
+    - LCMS-2020
+    - LCMS-8040
+    - LCMS-8045
+    - LCMS-8050
+    - LCMS-8060
+    - LCMS-9030
+    - LCMS-IT-TOF
+    - Accela PDA
+    - DFS
+    - DSQ II
+    - Element 2
+    - Element GD
+    - Element XR
+    - Exactive
+    - Exactive Plus
+    - GC IsoLink
+    - ISQ
+    - ITQ 1100
+    - ITQ 700
+    - ITQ 900
+    - LTQ
+    - LTQ FT
+    - LTQ FT Ultra
+    - LTQ Orbitrap
+    - LTQ Orbitrap Classic
+    - LTQ Orbitrap Discovery
+    - LTQ Orbitrap Elite
+    - LTQ Orbitrap Velos
+    - LTQ Orbitrap XL
+    - LTQ Orbitrap XL ETD
+    - LTQ Velos
+    - LTQ Velos ETD
+    - LTQ XL
+    - LTQ XL ETD
+    - LXQ
+    - MALDI LTQ Orbitrap
+    - MALDI LTQ XL
+    - Orbitrap Fusion
+    - Orbitrap Fusion ETD
+    - Orbitrap Fusion Lumos
+    - Q Exactive
+    - Q Exactive HF
+    - Q Exactive HF-X
+    - Q Exactive Plus
+    - Surveyor PDA
+    - TSQ 8000 Evo
+    - TSQ 9000
+    - TSQ Altis
+    - TSQ Endura
+    - TSQ Quantis
+    - TSQ Quantiva
+    - TSQ Quantum Access
+    - TSQ Quantum Ultra
+    - TSQ Quantum Ultra AM
+    - TSQ Vantage
+    - Velos Plus
+    - explorer
+    - HiRes ESI
+    - HiRes MALDI
+    - OMEGA
+    - OMEGA-2001
+    - ultima
+    - '3100'
+    - Acquity TQD
+    - ACQUITY UPLC
+    - Acquity UPLC FLR
+    - ACQUITY UPLC H-Class
+    - ACQUITY UPLC H-Class Bio
+    - ACQUITY UPLC I-Class
+    - Acquity UPLC PDA
+    - ACQUITY UPLC Systems with 2D Technology
+    - Auto Spec Ultima NT
+    - GCT
+    - GCT Premier
+    - IsoPrime
+    - IsoProbe T
+    - M@LDI L
+    - M@LDI LR
+    - MALDI Synapt G2-S HDMS
+    - MALDI Synapt G2-S MS
+    - MALDI SYNAPT G2-Si
+    - MALDI Synapt HDMS
+    - MALDI Synapt MS
+    - nanoACQUITY UPLC
+    - nanoACQUITY UPLC System with 1D Technology
+    - nanoACQUITY UPLC with HDX Technology
+    - NG-5400
+    - Platform ICP
+    - Q-Tof micro
+    - Q-Tof Premier
+    - Q-Tof Ultima
+    - quattro micro
+    - Quattro micro GC
+    - Quattro Ultima
+    - SQ Detector 2
+    - Synapt G2 HDMS
+    - Synapt G2 MS
+    - Synapt G2-S HDMS
+    - Synapt G2-S MS
+    - SYNAPT G2-Si
+    - Synapt HDMS
+    - Synapt MS
+    - TRIZAIC UPLC nanoTile
+    - Xevo G2 Q-Tof
+    - Xevo G2 Tof
+    - Xevo G2 XS Tof
+    - Xevo G2-S QTof
+    - Xevo G2-S Tof
+    - Xevo Q-Tof
+    - Xevo TQ MS
+    - Xevo TQ-S
+    - Xevo TQD
+    - 220 GC/MS Ion Trap System
+    - 240 GC/MS Ion Trap System
+    - 6200 Series Accurate-Mass Time-of-Flight (TOF) LC/MS
+    - 6400 Series Triple Quadrupole LC/MS
+    - 7000 Triple Quadrupole GC/MS System
+    - 7200 GC/Q-TOF
+    - EVOQ Elite
+    - EVOQ Qube
+    - maXis 4G
+    - maXis impact
+    - microOTOF focus II
+    - microOTOF-Q II
+    - solariX
+    - Pipeline
+    - MALDI 4800
+    - FTMS
+    - LTQ Velos Pro
+    - LTQ-FT
+    - LTQ-OT
+    - Orbitrap Elite
+    - Orbitrap Velos
+    - TSQ Quantum
+    - Acquity SQD
+    - API-US
+    - Bio-Q
+    - EMD 1000
+    - LCT
+    - LCT Premier
+    - LCT Premier XE
+    - MALDI L
+    - MALDI LR
+    - MALDI micro MX
+    - MALDI R
+    - MALDI Synapt G2 HDMS
+    - MALDI Synapt G2 MS
+    - Micro
+    - Platform
+    - Platform II
+    - Platform LCZ
+    - PLC
+    - Premier
+    - Quattro
+    - Quattro II
+    - Quattro LC
+    - Quattro Premier
+    - Quattro Premier XE
+    - Quattro Ultima Pt
+    - TofSpec
+    - TofSpec 2E
+    - TofSpec E
+    - TofSpec SE
+    - Xevo QTof
+    - ZMD
+    - ZQ
+    - Orbitrap Lumos
+    - Thermo Orbitrap Q Exactive HF-X
+    - Thermo Orbitrap Fusion Lumos
+    required: 'True'
+    term_url: https://www.ebi.ac.uk/ols4/ontologies/ms/classes/http%253A%252F%252Fpurl.obolibrary.org%252Fobo%252FMS_1000031
+    type: Enumeration
+  internal_standards:
+    description: Reference material used for standardization/QC
+    required: 'False'
+    type: String
+  ionization_mode:
+    description: Method of ionization used in Mass Spec such as Electron Impact (EI)
+      or Electrospray Ionization (ESI)
+    required: 'False'
+    type: String
+  isobaric_labeling_reagent:
+    description: Reagent set used for isobaric labeling
+    enum:
+    - iTRAQ4
+    - iTRAQ8
+    - TMT6
+    - TMT10
+    - TMT11
+    - TMT16
+    - TMT18
+    - '180'
+    - AQUA
+    - ICAT
+    - ICPL
+    - SILAC
+    required: 'True'
+    type: Enumeration
+  label_free_quantitation:
+    cde_id: MS:1001834
+    description: Type of label free data analysis strategy proposed for this data
+    enum:
+    - Label-free protein level quantitation
+    - Label-free peptide level quantitation
+    - Label-free protein group level quantitation
+    - Label-free raw feature quantitation
+    - Label-free gene level quantitation
+    required: 'True'
+    source: PSI MS
+    term_url: https://www.ebi.ac.uk/ols4/ontologies/ms/classes/http%253A%252F%252Fpurl.obolibrary.org%252Fobo%252FMS_1001834
+    type: Enumeration
+  labeled_quantitation:
+    cde_id: MS:1002009
+    description: Type of labeling used
+    enum:
+    - AminoxyTMT
+    - DiART
+    - DiLeu
+    - Glyco-TMT
+    - Hydrazide TMT
+    - IodoTMT
+    - IPTL
+    - iTRAQ
+    - iTRAQH
+    - TMT
+    required: 'True'
+    source: PSI MS
+    term_url: https://www.ebi.ac.uk/ols4/ontologies/ms/classes/http%253A%252F%252Fpurl.obolibrary.org%252Fobo%252FMS_1002009
+    type: Enumeration
+  ms1_resolution:
+    cde_id: MS:1000011
+    description: MS1 resolution, typically at 400 m/z
+    required: 'False'
+    source: PSI MS
+    term_url: https://www.ebi.ac.uk/ols4/ontologies/ms/classes/http%253A%252F%252Fpurl.obolibrary.org%252Fobo%252FMS_1000011
+    type: Integer
+  ms2_resolution:
+    cde_id: MS:1000011
+    description: MS2 resolution, typically at 400 m/z
+    required: 'False'
+    source: PSI MS
+    term_url: https://www.ebi.ac.uk/ols4/ontologies/ms/classes/http%253A%252F%252Fpurl.obolibrary.org%252Fobo%252FMS_1000011
+    type: Integer
+  normalized_collision_energy:
+    cde_id: MS:1000138
+    description: Normalized collisions energy (%)
+    required: 'False'
+    source: PSI MS
+    term_url: https://www.ebi.ac.uk/ols4/ontologies/ms/classes/http%253A%252F%252Fpurl.obolibrary.org%252Fobo%252FMS_1000138
+    type: Integer
+  particle_size:
+    description: Approximate size with units
+    required: 'False'
+    type: Number
+  particle_size_uom:
+    description: Unit of Measure of particle_size
+    required: 'False'
+    type: String
+  particle_type:
+    description: Manufacturer or brand name of particle if applicable
+    required: 'False'
+    type: String
+  polarity:
+    description: Ion polarity mode(s) used during chromatography
+    enum:
+    - positive
+    - negative
+    - postive/negative
+    required: False (Required for metabolomics only)
+    type: Enumeration
+  program_id:
+    key: 'yes'
+    type: String
+  program_submitter_id:
+    key: 'yes'
+    type: String
+  protocol_date:
+    description: Date protocol was created or updated
+    required: 'False'
+    type: Date
+  protocol_id:
+    key: 'yes'
+    type: String
+  protocol_name:
+    description: External analytical sample protocol name
+    required: 'False'
+    type: String
+  protocol_submitter_id:
+    key: 'yes'
+    type: String
+  quantitation_strategy:
+    cde_id: MS:1001833
+    description: General strategy used for differential analysis
+    enum:
+    - Absolute quantitation analysis
+    - Isobaric label quantitation analysis
+    - LC-MS label-free quantitation analysis
+    - Metabolic labeling 14N / 15N quantitation analysis
+    - MS1 label-based analysis
+    - MS2 tag-based analysis
+    - SILAC quantitation analysis
+    - Spectral counting analysis
+    - SRM quantitation analysis
+    - MS2-based label-free quantitation
+    required: 'True'
+    source: PSI MS
+    term_url: https://www.ebi.ac.uk/ols4/ontologies/ms/classes/http%253A%252F%252Fpurl.obolibrary.org%252Fobo%252FMS_1001833
+    type: Enumeration
+  reconstitution_solvent:
+    description: Solvent used to reconstitute samples after evaporation
+    required: 'False'
+    type: String
+  reconstitution_solvent_volume:
+    description: Volume of the reconstitution solvent used
+    required: 'False'
+    type: Number
+  reconstitution_volume_uom:
+    description: Unit of measure of the reconstitution_solvent_volume
+    required: 'False'
+    type: String
+  reporter_ion_ms_level:
+    description: MS level at which fragmentation spectra should be analyzed for reporter
+      ions
+    enum:
+    - MS2
+    - MS3
+    required: 'True'
+    type: Enumeration
+  serial_number:
+    description: A serial number is a unique identifier, usually assigned by the manufacturer,
+      to uniquely identify the instrument. This is especially useful if you are uploading
+      raw data to PDC from multiple instruments in your lab. The serial number is
+      usually located on the back side of the instrument. If a serial number is not
+      available, you may also assign an alphanumeric tag that uniquely identifies
+      the instrument.
+    required: 'True'
+    type: String
+  starting_amount:
+    description: Mass with units
+    required: 'False'
+    type: Number
+  starting_amount_uom:
+    description: Unit of Measure of starting_amount
+    enum:
+    - "\xB5g"
+    - mg
+    required: 'False'
+    type: Enumeration
 title: Protocol
 type: object
 uniqueKeys:
--   - protocol_id
-    - protocol_submitter_id
+- - protocol_id
+  - protocol_submitter_id

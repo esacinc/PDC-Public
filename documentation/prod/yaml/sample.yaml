@@ -724,6 +724,7 @@ properties:
     - Next Generation Cancer Model Expanded Under Non-conforming Conditions
     - Mixed Adherent Suspension
     - Saliva
+    - Serum
     required: 'True'
     source: caDSR
     term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3111302%20and%20ver_nr=2.0

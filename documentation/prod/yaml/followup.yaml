@@ -2313,6 +2313,6 @@ required:
 title: Follow-Up
 type: object
 uniqueKeys:
-- follow_up_id
-- follow_up_submitter_id
+- - follow_up_id
+  - follow_up_submitter_id
 validators: null

@@ -1,65 +1,59 @@
 category: Administrative
 description: A detailed examination, analysis, or critical inspection of a subject
-    designed to discover facts about it.
+  designed to discover facts about it.
 links:
--   label: Study references the Project it is part of.
-    name: Project
-    required: true
+- label: Study references the Project it is part of.
+  name: Project
+  required: true
 properties:
-    acquisition_type:
-        description: 'The modes of acquisition used in the LC-MS/MS experiments: data
-            dependent acquisition (DDA), data independent acquisition (DIA).'
-        required: 'True'
-        type: String
-    analytical_fraction:
-        description: Type of peptide or protein enrichment
-        required: 'False'
-        type: String
-    embargo_date:
-        description: Specifies the embargo date, i.e., the release of information
-            with the condition that it cannot be published or disseminated before
-            a certain date.
-        required: 'False'
-        type: Date
-    experiment_type:
-        description: General strategy used for differential analysis
-        required: 'False'
-        type: String
-    project_id:
-        key: 'yes'
-        required: 'False'
-        type: String
-    project_submitter_id:
-        key: 'yes'
-        required: 'False'
-        type: String
-    study_description:
-        description: 'Describes the objective of the study, data collection, or compilation,
-            etc. '
-        required: 'True'
-        type: String
-    study_id:
-        key: 'yes'
-        required: 'False'
-        type: String
-    study_short_name:
-        description: A short name for the study
-        required: 'False'
-        type: String
-    study_shortname:
-        key: 'yes'
-        required: 'False'
-        type: String
-    study_submitter_id:
-        key: 'yes'
-        required: 'False'
-        type: String
-    submitter_id_name:
-        description: Name of the study as described by the data submitter
-        required: 'False'
-        type: String
+  acquisition_type:
+    description: 'The modes of acquisition used in the LC-MS/MS experiments: data
+      dependent acquisition (DDA), data independent acquisition (DIA).'
+    required: 'True'
+    type: String
+  analytical_fraction:
+    description: Type of peptide or protein enrichment
+    required: 'False'
+    type: String
+  experiment_type:
+    description: General strategy used for differential analysis
+    required: 'False'
+    type: String
+  project_id:
+    key: 'yes'
+    required: 'False'
+    type: String
+  project_submitter_id:
+    key: 'yes'
+    required: 'False'
+    type: String
+  study_description:
+    description: 'Describes the objective of the study, data collection, or compilation,
+      etc. '
+    required: 'True'
+    type: String
+  study_id:
+    key: 'yes'
+    required: 'False'
+    type: String
+  study_short_name:
+    description: A short name for the study
+    required: 'False'
+    type: String
+  study_shortname:
+    key: 'yes'
+    required: 'False'
+    type: String
+  study_submitter_id:
+    key: 'yes'
+    required: 'False'
+    type: String
+  submitter_id_name:
+    description: Name of the study as described by the data submitter
+    required: 'False'
+    type: String
 title: Study
 type: object
 uniqueKeys:
--   - study_id
-    - study_submitter_id
+- - study_id
+  - study_submitter_id

@@ -53,7 +53,7 @@
         "days_to_last_follow_up": {
             "description": "Time interval from the date of last follow up to the date of initial pathologic diagnosis, represented as a calculated number of days.",
             "cde_id": 3008273,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3008273%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3008273%20and%20ver_nr=1.0",
             "source": "caDSR",
             "oneOf": [
                 {
@@ -71,7 +71,7 @@
         "days_to_last_known_disease_status": {
             "description": "Time interval from the date of last follow up to the date of initial pathologic diagnosis, represented as a calculated number of days.",
             "cde_id": 3008273,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3008273%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3008273%20and%20ver_nr=1.0",
             "source": "caDSR",
             "oneOf": [
                 {
@@ -89,7 +89,7 @@
         "days_to_recurrence": {
             "description": "Number of days between the date used for index and the date the patient's disease recurred.",
             "cde_id": 6154731,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6154731%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6154731%20and%20ver_nr=1.0",
             "source": "caDSR",
             "oneOf": [
                 {
@@ -112,7 +112,7 @@
         "last_known_disease_status": {
             "description": "Text term that describes the last known state or condition of an individual's neoplasm.",
             "cde_id": 5424231,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=5424231%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=5424231%20and%20ver_nr=1.0",
             "source": "caDSR",
             "required": "True",
             "enum": [
@@ -130,7 +130,7 @@
         "morphology": {
             "description": "The third edition of the International Classification of Diseases for Oncology, published in 2000 used principally in tumor and cancer registries for coding the site (topography) and the histology (morphology) of neoplasms. The study of the structure of the cells and their arrangement to constitute tissues and, finally, the association among these to form organs. In pathology, the microscopic process of identifying normal and abnormal morphologic characteristics in tissues, by employing various cytochemical and immunocytochemical stains. A system of numbered categories for representation of data.",
             "cde_id": 3226275,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3226275%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3226275%20and%20ver_nr=1.0",
             "source": "caDSR",
             "required": "True",
             "enum": [
@@ -1292,7 +1292,7 @@
         "primary_diagnosis": {
             "description": "Text term used to describe the patient's histologic diagnosis, as described by the World Health Organization's (WHO) International Classification of Diseases for Oncology (ICD-O).",
             "cde_id": 6161032,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6161032%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6161032%20and%20ver_nr=1.0",
             "source": "caDSR",
             "required": "True",
             "enum": [
@@ -3924,7 +3924,7 @@
         "progression_or_recurrence": {
             "description": "Yes/No/Unknown indicator to identify whether a patient has had a new tumor event after initial treatment.",
             "cde_id": 3121376,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3121376%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3121376%20and%20ver_nr=1.0",
             "source": "caDSR",
             "required": "True",
             "enum": [
@@ -3939,7 +3939,7 @@
         "site_of_resection_or_biopsy": {
             "description": "The text term used to describe the anatomic site of origin, of the patient's malignant disease, as described by the World Health Organization's (WHO) International Classification of Diseases for Oncology (ICD-O).",
             "cde_id": 6161034,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6161034%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6161034%20and%20ver_nr=1.0",
             "source": "caDSR",
             "required": "True",
             "enum": [
@@ -4282,7 +4282,7 @@
         "tissue_or_organ_of_origin": {
             "description": "The text term used to describe the anatomic site of origin, of the patient's malignant disease, as described by the World Health Organization's (WHO) International Classification of Diseases for Oncology (ICD-O).",
             "cde_id": 6161035,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6161035%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6161035%20and%20ver_nr=1.0",
             "source": "caDSR",
             "required": "True",
             "enum": [
@@ -4667,7 +4667,7 @@
         "ajcc_clinical_m": {
             "description": "Extent of the distant metastasis for the cancer based on evidence obtained from clinical assessment parameters determined prior to treatment.",
             "cde_id": 3440331,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3440331%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3440331%20and%20ver_nr=1.0",
             "source": "caDSR",
             "required": "False",
             "enum": [
@@ -4687,7 +4687,7 @@
         "ajcc_clinical_n": {
             "description": "Extent of the regional lymph node involvement for the cancer based on evidence obtained from clinical assessment parameters determined prior to treatment.",
             "cde_id": 3440330,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3440330%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3440330%20and%20ver_nr=1.0",
             "source": "caDSR",
             "required": "False",
             "enum": [
@@ -4724,7 +4724,7 @@
         "ajcc_clinical_stage": {
             "description": "Stage group determined from clinical information on the tumor (T), regional node (N) and metastases (M) and by grouping cases with similar prognosis for cancer.",
             "cde_id": 3440332,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3440332%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3440332%20and%20ver_nr=1.0",
             "source": "caDSR",
             "required": "False",
             "enum": [
@@ -4772,7 +4772,7 @@
         "ajcc_clinical_t": {
             "description": "Extent of the primary cancer based on evidence obtained from clinical assessment parameters determined prior to treatment.",
             "cde_id": 3440328,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3440328%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3440328%20and%20ver_nr=1.0",
             "source": "caDSR",
             "required": "False",
             "enum": [
@@ -4878,7 +4878,7 @@
         "ajcc_pathologic_stage": {
             "description": "The extent of a cancer, especially whether the disease has spread from the original site to other parts of the body based on AJCC staging criteria.",
             "cde_id": 3203222,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3203222%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3203222%20and%20ver_nr=1.0",
             "source": "caDSR",
             "required": "False",
             "enum": [
@@ -4971,7 +4971,7 @@
         "ajcc_staging_system_edition": {
             "description": "The text term used to describe the version or edition of the American Joint Committee on Cancer Staging Handbooks, a publication by the group formed for the purpose of developing a system of staging for cancer that is acceptable to the American medical profession and is compatible with other accepted classifications.",
             "cde_id": 2722309,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=2722309%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=2722309%20and%20ver_nr=1.0",
             "source": "caDSR",
             "required": "False",
             "enum": [
@@ -4991,7 +4991,7 @@
         "anaplasia_present": {
             "description": "Yes/no/unknown/not reported indicator used to describe whether anaplasia was present at the time of diagnosis.",
             "cde_id": 6059599,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6059599%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6059599%20and%20ver_nr=1.0",
             "source": "caDSR",
             "required": "False",
             "enum": [
@@ -5005,7 +5005,7 @@
         "anaplasia_present_type": {
             "description": "The text term used to describe the morphologic findings indicating the presence of a malignant cellular infiltrate characterized by the presence of large pleomorphic cells, necrosis, and high mitotic activity in a tissue sample.",
             "cde_id": 4925534,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=4925534%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=4925534%20and%20ver_nr=1.0",
             "source": "caDSR",
             "required": "False",
             "enum": [
@@ -5023,7 +5023,7 @@
         "ann_arbor_b_symptoms": {
             "description": "Text term to signify whether lymphoma B-symptoms are present as noted in the patient's medical record.",
             "cde_id": 2902402,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=2902402%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=2902402%20and%20ver_nr=1.0",
             "source": "caDSR",
             "required": "False",
             "enum": [
@@ -5049,7 +5049,7 @@
         "ann_arbor_clinical_stage": {
             "description": "The text term used to describe the clinical classification of lymphoma, as defined by the Ann Arbor Lymphoma Staging System.",
             "cde_id": 5615604,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=5615604%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=5615604%20and%20ver_nr=1.0",
             "source": "caDSR",
             "required": "False",
             "enum": [
@@ -5065,7 +5065,7 @@
         "ann_arbor_extranodal_involvement": {
             "description": "Indicator that identifies whether a patient with malignant lymphoma has lymphomatous involvement of an extranodal site.",
             "cde_id": 3364582,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3364582%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3364582%20and%20ver_nr=1.0",
             "source": "caDSR",
             "required": "False",
             "enum": [
@@ -5080,7 +5080,7 @@
         "ann_arbor_pathologic_stage": {
             "description": "The text term used to describe the pathologic classification of lymphoma, as defined by the Ann Arbor Lymphoma Staging System.",
             "cde_id": 5615605,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=5615605%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=5615605%20and%20ver_nr=1.0",
             "source": "caDSR",
             "required": "False",
             "enum": [
@@ -5096,7 +5096,7 @@
         "best_overall_response": {
             "description": "The best improvement achieved throughout the entire course of protocol treatment.",
             "cde_id": 2003324,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=2003324%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=2003324%20and%20ver_nr=3.0",
             "source": "caDSR",
             "required": "False",
             "enum": [
@@ -5140,7 +5140,7 @@
         "burkitt_lymphoma_clinical_variant": {
             "description": "Burkitt's lymphoma categorization based on clinical features that differ from other forms of the same disease.",
             "cde_id": 3770421,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=37704216%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3770421%20and%20ver_nr=1.0",
             "source": "caDSR",
             "required": "False",
             "enum": [
@@ -5158,7 +5158,7 @@
         "child_pugh_classification": {
             "description": "The text term used to describe the classification used in the prognosis of chronic liver disease, mainly cirrhosis.",
             "cde_id": 2931791,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=2931791%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=2931791%20and%20ver_nr=1.0",
             "source": "caDSR",
             "required": "False",
             "enum": [
@@ -5181,7 +5181,7 @@
         "circumferential_resection_margin": {
             "description": "Numeric value used to describe the non-peritonealised bare area of rectum, comprising anterior and posterior segments, when submitted as a surgical specimen resulting from excision of cancer of the rectum.",
             "cde_id": 6161030,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6161030%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6161030%20and%20ver_nr=1.0",
             "source": "caDSR",
             "required": "False",
             "type": "Integer"
@@ -5189,7 +5189,7 @@
         "classification_of_tumor": {
             "description": "Text that describes the kind of disease present in the tumor specimen as related to a specific timepoint.",
             "cde_id": 3288124,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3288124%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3288124%20and%20ver_nr=1.0",
             "source": "caDSR",
             "required": "False",
             "enum": [
@@ -5208,7 +5208,7 @@
         "cog_liver_stage": {
             "description": "The text term used to describe the staging classification of liver tumors, as defined by the Children's Oncology Group (COG). This staging system specifically describes the extent of the primary tumor prior to treatment.",
             "cde_id": 6013618,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6013618%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6013618%20and%20ver_nr=1.0",
             "source": "caDSR",
             "required": "False",
             "enum": [
@@ -5224,7 +5224,7 @@
         "cog_neuroblastoma_risk_group": {
             "description": "Text term that represents the categorization of patients on the basis of prognostic factors per a system developed by Children's Oncology Group (COG). Risk level is used to assign treatment intensity.",
             "cde_id": 4616452,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=4616452%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=4616452%20and%20ver_nr=1.0",
             "source": "caDSR",
             "required": "False",
             "enum": [
@@ -5239,7 +5239,7 @@
         "cog_renal_stage": {
             "description": "The text term used to describe the staging classification of renal tumors, as defined by the Children's Oncology Group (COG).",
             "cde_id": 6013641,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6013641%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6013641%20and%20ver_nr=1.0",
             "source": "caDSR",
             "required": "False",
             "enum": [
@@ -5255,7 +5255,7 @@
         "cog_rhabdomyosarcoma_risk_group": {
             "description": "Text term used to describe the classification of rhabdomyosarcoma, as defined by the Children's Oncology Group (COG).",
             "cde_id": 6133604,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6133604%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6133604%20and%20ver_nr=1.0",
             "source": "caDSR",
             "required": "False",
             "enum": [
@@ -5275,7 +5275,7 @@
         "days_to_best_overall_response": {
             "description": "Number of days between the date used for index and the date of the patient was thought to have the best overall response to their disease.",
             "cde_id": 6154732,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6154732%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6154732%20and%20ver_nr=1.0",
             "source": "caDSR",
             "required": "False",
             "type": "Integer"
@@ -5283,7 +5283,7 @@
         "days_to_diagnosis": {
             "description": "Number of days between the date used for index and the date the patient was diagnosed with the malignant disease.",
             "cde_id": 6154733,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6154733%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6154733%20and%20ver_nr=1.0",
             "source": "caDSR",
             "required": "False",
             "type": "Integer"
@@ -5327,7 +5327,7 @@
         "enneking_msts_metastasis": {
             "description": "Text term and code that represents the metastatic stage of the musculoskeletal sarcoma, using the Enneking staging system approved by the Musculoskeletal Tumor Society (MSTS).",
             "cde_id": 6003958,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6003958%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6003958%20and%20ver_nr=1.0",
             "source": "caDSR",
             "required": "False",
             "enum": [
@@ -5341,7 +5341,7 @@
         "enneking_msts_stage": {
             "description": "Text term used to describe the stage of the musculoskeletal sarcoma, using the Enneking staging system approved by the Musculoskeletal Tumor Society (MSTS).",
             "cde_id": 6060045,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6060045%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6060045%20and%20ver_nr=1.0",
             "source": "caDSR",
             "required": "False",
             "enum": [
@@ -5358,7 +5358,7 @@
         "enneking_msts_tumor_site": {
             "description": "Text term and code that represents the tumor site of the musculoskeletal sarcoma, using the Enneking staging system approved by the Musculoskeletal Tumor Society (MSTS).",
             "cde_id": 6003957,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6003957%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6003957%20and%20ver_nr=1.0",
             "source": "caDSR",
             "required": "False",
             "enum": [
@@ -5372,7 +5372,7 @@
         "esophageal_columnar_dysplasia_degree": {
             "description": "Text term to describe the amount of dysplasia found within the benign esophageal columnar mucosa.",
             "cde_id": 3440917,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3440917%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3440917%20and%20ver_nr=1.0",
             "source": "caDSR",
             "required": "False",
             "enum": [
@@ -5388,7 +5388,7 @@
         "esophageal_columnar_metaplasia_present": {
             "description": "The yes/no/unknown indicator used to describe whether esophageal columnar metaplasia was determined to be present.",
             "cde_id": 3440218,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3440218%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3440218%20and%20ver_nr=1.0",
             "source": "caDSR",
             "required": "False",
             "enum": [
@@ -5402,7 +5402,7 @@
         "figo_stage": {
             "description": "The extent of a cervical or endometrial cancer within the body, especially whether the disease has spread from the original site to other parts of the body, as described by the International Federation of Gynecology and Obstetrics (FIGO) stages.",
             "cde_id": 3225684,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3225684%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3225684%20and%20ver_nr=1.0",
             "source": "caDSR",
             "required": "False",
             "enum": [
@@ -5456,7 +5456,7 @@
         "first_symptom_prior_to_diagnosis": {
             "description": "Text term used to describe the patient's first symptom experienced prior to diagnosis and thought to be related to the disease.",
             "cde_id": 6133605,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6133605%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6133605%20and%20ver_nr=1.0",
             "source": "caDSR",
             "required": "False",
             "enum": [
@@ -5474,7 +5474,7 @@
         "gastric_esophageal_junction_involvement": {
             "description": "The yes/no/unknown/not reported indicator used to describe whether the tumor is located across the gastroesophageal junction.",
             "cde_id": 6059632,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6059632%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6059632%20and%20ver_nr=1.0",
             "source": "caDSR",
             "required": "False",
             "enum": [
@@ -5520,7 +5520,7 @@
         "goblet_cells_columnar_mucosa_present": {
             "description": "The yes/no/unknown indicator used to describe whether goblet cells were determined to be present in the esophageal columnar mucosa.",
             "cde_id": 3440219,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3440219%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3440219%20and%20ver_nr=1.0",
             "source": "caDSR",
             "required": "False",
             "enum": [
@@ -5534,7 +5534,7 @@
         "gross_tumor_weight": {
             "description": "TextNumeric value used to describe the gross pathologic tumor weight, measured in grams.",
             "cde_id": 6133606,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6133606%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6133606%20and%20ver_nr=1.0",
             "source": "caDSR",
             "required": "False",
             "type": "Integer"
@@ -5577,7 +5577,7 @@
         "inpc_grade": {
             "description": "Text term used to describe the classification of neuroblastic differentiation within neuroblastoma tumors, as defined by the International Neuroblastoma Pathology Classification (INPC).",
             "cde_id": 6133602,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6133602%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6133602%20and%20ver_nr=1.0",
             "source": "caDSR",
             "required": "False",
             "enum": [
@@ -5592,7 +5592,7 @@
         "inpc_histologic_group": {
             "description": "The text term used to describe the classification of neuroblastomas distinguishing between favorable and unfavorable histologic groups. The histologic score, defined by the International Neuroblastoma Pathology Classification (INPC), is based on age, mitosis-karyorrhexis index (MKI), stromal content and degree of tumor cell differentiation.",
             "cde_id": 4616372,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=4616372%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=4616372%20and%20ver_nr=1.0",
             "source": "caDSR",
             "required": "False",
             "enum": [
@@ -5606,7 +5606,7 @@
         "inrg_stage": {
             "description": "The text term used to describe the staging classification of neuroblastic tumors, as defined by the International Neuroblastoma Risk Group (INRG).",
             "cde_id": 5777238,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=5777238%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=5777238%20and%20ver_nr=1.0",
             "source": "caDSR",
             "required": "False",
             "enum": [
@@ -5622,7 +5622,7 @@
         "inss_stage": {
             "description": "Text term used to describe the staging classification of neuroblastic tumors, as defined by the International Neuroblastoma Staging System (INSS).",
             "cde_id": 6133603,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6133603%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6133603%20and%20ver_nr=1.0",
             "source": "caDSR",
             "required": "False",
             "enum": [
@@ -5654,7 +5654,7 @@
         "irs_group": {
             "description": "Text term used to describe the classification of rhabdomyosarcoma tumors, as defined by the Intergroup Rhabdomyosarcoma Study (IRS).",
             "cde_id": 6141658,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6141658%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6141658%20and%20ver_nr=1.0",
             "source": "caDSR",
             "required": "False",
             "enum": [
@@ -5677,7 +5677,7 @@
         "irs_stage": {
             "description": "The text term used to describe the classification of rhabdomyosarcoma tumors, as defined by the Intergroup Rhabdomyosarcoma Study (IRS).",
             "cde_id": 5162089,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=5162089%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=5162089%20and%20ver_nr=1.0",
             "source": "caDSR",
             "required": "False",
             "enum": [
@@ -5693,7 +5693,7 @@
         "ishak_fibrosis_score": {
             "description": "The text term used to describe the classification of the histopathologic degree of liver damage.",
             "cde_id": 3182621,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3182621%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3182621%20and%20ver_nr=1.0",
             "source": "caDSR",
             "required": "False",
             "enum": [
@@ -5710,7 +5710,7 @@
         "iss_stage": {
             "description": "The multiple myeloma disease stage at diagnosis.",
             "cde_id": 2465385,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=2465385%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=2465385%20and%20ver_nr=1.0",
             "source": "caDSR",
             "required": "False",
             "enum": [
@@ -5740,7 +5740,7 @@
         "laterality": {
             "description": "For tumors in paired organs, designates the side on which the cancer originates.",
             "cde_id": 827,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=827%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=827%20and%20ver_nr=3.0",
             "source": "caDSR",
             "required": "False",
             "enum": [
@@ -5757,7 +5757,7 @@
         "ldh_level_at_diagnosis": {
             "description": "The 2 decimal place numeric laboratory value measured, assigned or computed related to the assessment of lactate dehydrogenase in a specimen.",
             "cde_id": 2798766,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=2798766%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=2798766%20and%20ver_nr=1.0",
             "source": "caDSR",
             "required": "False",
             "type": "String"
@@ -5765,7 +5765,7 @@
         "ldh_normal_range_upper": {
             "description": "The top value of the range of statistical characteristics that are supposed to represent accepted standard, non-pathological pattern for lactate dehydrogenase (units not specified).",
             "cde_id": 89,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=89%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=89%20and%20ver_nr=3.0",
             "source": "caDSR",
             "required": "False",
             "type": "String"
@@ -5773,7 +5773,7 @@
         "lymph_nodes_positive": {
             "description": "The number of lymph nodes involved with disease as determined by pathologic examination.",
             "cde_id": 89,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=89%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=89%20and%20ver_nr=3.0",
             "source": "caDSR",
             "required": "False",
             "type": "Integer"
@@ -5781,7 +5781,7 @@
         "lymph_nodes_tested": {
             "description": "The number of lymph nodes tested to determine whether lymph nodes were involved with disease as determined by a pathologic examination.",
             "cde_id": 3,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3%20and%20ver_nr=3.0",
             "source": "caDSR",
             "required": "False",
             "type": "Integer"
@@ -5789,7 +5789,7 @@
         "lymphatic_invasion_present": {
             "description": "A yes/no indicator to ask if small or thin-walled vessel invasion is present, indicating lymphatic involvement",
             "cde_id": 64171,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=64171%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=64171%20and%20ver_nr=3.0",
             "source": "caDSR",
             "required": "False",
             "enum": [
@@ -5841,7 +5841,7 @@
         "medulloblastoma_molecular_classification": {
             "description": "The text term used to describe the classification of medulloblastoma tumors based on molecular features.",
             "cde_id": 6002209,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6002209%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6002209%20and%20ver_nr=1.0",
             "source": "caDSR",
             "required": "False",
             "enum": [
@@ -5857,7 +5857,7 @@
         "metastasis_at_diagnosis": {
             "description": "The text term used to describe the extent of metastatic disease present at diagnosis.",
             "cde_id": 6133614,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6133614%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6133614%20and%20ver_nr=1.0",
             "source": "caDSR",
             "required": "False",
             "enum": [
@@ -5873,7 +5873,7 @@
         "metastasis_at_diagnosis_site": {
             "description": "Text term to identify an anatomic site in which metastatic disease involvement is found.",
             "cde_id": 3029815,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3029815%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3029815%20and%20ver_nr=1.0",
             "source": "caDSR",
             "required": "False",
             "enum": [
@@ -5930,7 +5930,7 @@
         "method_of_diagnosis": {
             "description": "Text term used to describe the method used to confirm the patients malignant diagnosis.",
             "cde_id": 6161031,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6161031%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6161031%20and%20ver_nr=1.0",
             "source": "caDSR",
             "required": "False",
             "enum": [
@@ -5968,7 +5968,7 @@
         "micropapillary_features": {
             "description": "The yes/no/unknown indicator used to describe whether micropapillary features were determined to be present.",
             "cde_id": 6068784,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6068784%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6068784%20and%20ver_nr=1.0",
             "source": "caDSR",
             "required": "False",
             "enum": [
@@ -5982,7 +5982,7 @@
         "mitosis_karyorrhexis_index": {
             "description": "Text term that represents the component of the International Neuroblastoma Pathology Classification (INPC) for mitosis-karyorrhexis index (MKI).",
             "cde_id": 4616412,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=4616412%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=4616412%20and%20ver_nr=1.0",
             "source": "caDSR",
             "required": "False",
             "enum": [
@@ -6080,7 +6080,7 @@
         "perineural_invasion_present": {
             "description": "A yes/no indicator to ask if perineural invasion or infiltration of tumor or cancer is present.",
             "cde_id": 64181,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=64181%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=64181%20and%20ver_nr=3.0",
             "source": "caDSR",
             "required": "False",
             "enum": [
@@ -6109,7 +6109,7 @@
         "peripancreatic_lymph_nodes_tested": {
             "description": "The total number of peripancreatic lymph nodes tested for the presence of pancreatic cancer cells.",
             "cde_id": 6050944,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6050944%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6050944%20and%20ver_nr=1.0",
             "source": "caDSR",
             "required": "False",
             "type": "Integer"
@@ -6174,7 +6174,7 @@
         "prior_treatment": {
             "description": "A yes/no/unknown/not applicable indicator related to the administration of therapeutic agents received before the body specimen was collected.",
             "cde_id": 4231463,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=4231463%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=4231463%20and%20ver_nr=1.0",
             "source": "caDSR",
             "required": "False",
             "enum": [
@@ -6247,7 +6247,7 @@
         "supratentorial_localization": {
             "description": "Text term to specify the location of the supratentorial tumor.",
             "cde_id": 3133891,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3133891%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3133891%20and%20ver_nr=1.0",
             "source": "caDSR",
             "required": "False",
             "enum": [
@@ -6267,7 +6267,7 @@
         "synchronous_malignancy": {
             "description": "A yes/no/unknown indicator used to describe whether the patient had an additional malignant diagnosis at the same time the tumor used for sequencing was diagnosed. If both tumors were sequenced, both tumors would have synchronous malignancies.",
             "cde_id": 6142390,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6142390%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6142390%20and%20ver_nr=1.0",
             "source": "caDSR",
             "required": "False",
             "enum": [
@@ -6287,7 +6287,7 @@
         "tumor_confined_to_organ_of_origin": {
             "description": "The yes/no/unknown indicator used to describe whether the tumor is confined to the organ where it originated and did not spread to a proximal or distant location within the body.",
             "cde_id": 4925494,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=4925494%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=4925494%20and%20ver_nr=1.0",
             "source": "caDSR",
             "required": "False",
             "enum": [
@@ -6307,7 +6307,7 @@
         "tumor_focality": {
             "description": "The text term used to describe whether the patient's disease originated in a single location or multiple locations.",
             "cde_id": 3174022,
-            "term_url": "https://https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3174022%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3174022%20and%20ver_nr=1.0",
             "source": "caDSR",
             "required": "False",
             "enum": [
@@ -6321,7 +6321,7 @@
         "tumor_largest_dimension_diameter": {
             "description": "Numeric value used to describe the maximum diameter or dimension of the primary tumor, measured in centimeters.",
             "cde_id": 64215,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=64215%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=64215%20and%20ver_nr=3.0",
             "source": "caDSR",
             "required": "False",
             "type": "Double"
@@ -6329,7 +6329,7 @@
         "tumor_regression_grade": {
             "description": "A numeric value used to measure therapeutic response of the primary tumor and predict patient outcomes based on a three-point tumor regression grading system.",
             "cde_id": 6471217,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6471217%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=6471217%20and%20ver_nr=1.0",
             "source": "caDSR",
             "required": "False",
             "enum": [
@@ -6345,7 +6345,7 @@
         "vascular_invasion_present": {
             "description": "The yes/no indicator to ask if large vessel or venous invasion was detected by surgery or presence in a tumor specimen.",
             "cde_id": 64358,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=64358%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=64358%20and%20ver_nr=3.0",
             "source": "caDSR",
             "required": "False",
             "enum": [
@@ -6360,7 +6360,7 @@
         "vascular_invasion_type": {
             "description": "Text term that represents the type of vascular tumor invasion.",
             "cde_id": 3168001,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3168001%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=3168001%20and%20ver_nr=1.0",
             "source": "caDSR",
             "required": "False",
             "enum": [
@@ -6424,7 +6424,7 @@
         "wilms_tumor_histologic_subtype": {
             "description": "The text term used to describe the classification of Wilms tumors distinguishing between favorable and unfavorable histologic groups.",
             "cde_id": 4358735,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=4358735%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=4358735%20and%20ver_nr=1.0",
             "source": "caDSR",
             "required": "False",
             "enum": [
@@ -6438,7 +6438,7 @@
         "year_of_diagnosis": {
             "description": "Numeric value to represent the year of an individual's initial pathologic diagnosis of cancer.",
             "cde_id": 2896960,
-            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=2896960%20and%20ver_nr=2.0",
+            "term_url": "https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=2896960%20and%20ver_nr=1.0",
             "source": "caDSR",
             "required": "False",
             "type": "Integer",

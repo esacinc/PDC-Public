@@ -428,6 +428,6 @@ required:
 title: Exposure
 type: object
 uniqueKeys:
-- exposure_id
-- exposure_submitter_id
+- - exposure_id
+  - exposure_submitter_id
 validators: null

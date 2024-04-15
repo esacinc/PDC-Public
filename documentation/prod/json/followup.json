@@ -2282,9 +2282,10 @@
     "category": "clinical",
     "description": "A visit by a patient or study participant to a medical professional. A clinical encounter that encompasses planned and unplanned trial interventions, procedures and assessments that may be performed on a subject. A visit has a start and an end, each described with a rule. The process by which information about the health status of an individual is obtained before and after a study has officially closed; an activity that continues something that has already begun or that repeats something that has already been done.\n",
     "uniqueKeys": [
-        "id",
-        "project_id",
-        "submitter_id"
+      [
+        "follow_up_id",
+        "follow_up_submitter_id"
+      ]
     ],
     "links": [
         {

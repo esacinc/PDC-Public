@@ -226,7 +226,8 @@
                 "Not Allowed To Collect",
                 "Next Generation Cancer Model Expanded Under Non-conforming Conditions",
                 "Mixed Adherent Suspension",
-                "Saliva"
+                "Saliva",
+				        "Serum"
             ],
             "type": "Enumeration"
         },

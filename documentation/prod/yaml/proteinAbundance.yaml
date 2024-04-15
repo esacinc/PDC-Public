@@ -1,66 +1,65 @@
 category: Processed
 description: Derived results intended to approximate protein abundance for a given
-    gene product. Units of measurement include peptide-spectrum-matches (spectral
-    counts), precursor or reporter ion abundance.
+  gene product. Units of measurement include peptide-spectrum-matches (spectral counts),
+  precursor or reporter ion abundance.
 links:
--   label: Protein Abundance references measurements for a Gene.
-    name: Gene
-    required: 'True'
--   label: Protein Abundance references the Study it is derived from.
-    name: Study
-    required: 'True'
--   label: Protein Abundance references an experimental run of the Study it is derived
-        from.
-    name: Study Run Metadata
-    required: 'True'
+- label: Protein Abundance references measurements for a Gene.
+  name: Gene
+  required: 'True'
+- label: Protein Abundance references the Study it is derived from.
+  name: Study
+  required: 'True'
+- label: Protein Abundance references an experimental run of the Study it is derived
+    from.
+  name: Study Run Metadata
+  required: 'True'
 properties:
-    distinct_peptide:
-        description: Number of distinct peptide sequences associated with the gene
-            in acquisitions from a specific analytical sample
-        required: 'False'
-        type: number
-    log_ratio:
-        description: Average log-ratio of sample reporter-ion to common reference
-            of peptide ions associated with the gene in acquisitions from a specific
-            biological sample.
-        required: 'False'
-        type: number
-    plex_name:
-        description: For label-free workflows, the plex name is the aliquot (biological
-            sample) identifier. For labelled workflows (iTRAQ, TMT), the plex name
-            indicates the aliquot (biological sample) identifiers and any common reference
-            aliquot (sample) identifier, separated by colons, in reporter ion order.
-            Biological replicates, if any, are indicated by a trailing .1, .2, etc.
-            on the aliquot identifier.
-        required: 'False'
-        type: number
-    precursor_area:
-        description: Total precursor area of peptide ions associated with the gene
-            in acquisitions from a specific biological sample.
-        required: 'False'
-        type: number
-    spectral_count:
-        description: Number of spectra matched to peptides associated with the gene
-            in acquisitions from a specific analytical sample
-        required: 'False'
-        type: number
-    unshared_log_ratio:
-        description: Average log-ratio of sample reporter-ion to common reference
-            of peptide ions of unshared peptides only associated with the gene in
-            acquisitions from a specific biological sample.
-        required: 'False'
-        type: number
-    unshared_peptide:
-        description: Number of unshared peptide sequences associated with the gene
-            in acquisitions from a specific analytical sample
-        required: 'False'
-        type: number
-    unshared_precursor_area:
-        description: Total precursor area of peptide ions of unshared peptides only
-            associated with the gene in acquisitions from a specific biological sample.
-        required: 'False'
-        type: number
+  distinct_peptide:
+    description: Number of distinct peptide sequences associated with the gene in
+      acquisitions from a specific analytical sample
+    required: 'False'
+    type: number
+  log_ratio:
+    description: Average log-ratio of sample reporter-ion to common reference of peptide
+      ions associated with the gene in acquisitions from a specific biological sample.
+    required: 'False'
+    type: number
+  plex_name:
+    description: For label-free workflows, the plex name is the aliquot (biological
+      sample) identifier. For labelled workflows (iTRAQ, TMT), the plex name indicates
+      the aliquot (biological sample) identifiers and any common reference aliquot
+      (sample) identifier, separated by colons, in reporter ion order. Biological
+      replicates, if any, are indicated by a trailing .1, .2, etc. on the aliquot
+      identifier.
+    required: 'False'
+    type: number
+  precursor_area:
+    description: Total precursor area of peptide ions associated with the gene in
+      acquisitions from a specific biological sample.
+    required: 'False'
+    type: number
+  spectral_count:
+    description: Number of spectra matched to peptides associated with the gene in
+      acquisitions from a specific analytical sample
+    required: 'False'
+    type: number
+  unshared_log_ratio:
+    description: Average log-ratio of sample reporter-ion to common reference of peptide
+      ions of unshared peptides only associated with the gene in acquisitions from
+      a specific biological sample.
+    required: 'False'
+    type: number
+  unshared_peptide:
+    description: Number of unshared peptide sequences associated with the gene in
+      acquisitions from a specific analytical sample
+    required: 'False'
+    type: number
+  unshared_precursor_area:
+    description: Total precursor area of peptide ions of unshared peptides only associated
+      with the gene in acquisitions from a specific biological sample.
+    required: 'False'
+    type: number
 title: Protein Abundance
 type: object
 uniqueKeys:
--   - spectral_count_id
+- - spectral_count_id

@@ -406,9 +406,10 @@
     "category": "clinical",
     "description": "Clinically relevant patient information not immediately resulting from genetic predispositions.\n",
     "uniqueKeys": [
-        "id",
-        "project_id",
-        "submitter_id"
+       [
+        "exposure_id",
+        "exposure_submitter_id"
+       ]
     ],
     "links": [
         {

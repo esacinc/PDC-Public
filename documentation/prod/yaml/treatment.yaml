@@ -110,10 +110,6 @@ properties:
       treatment regimen.
 
       '
-    required: 'False'
-    source: caDSR
-    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=2975232%20and%20ver_nr=1.0
-    type: Enumeration
     enum:
     - 10-Deacetyltaxol
     - 11C Topotecan
@@ -144,8 +140,7 @@ properties:
     - 4'-Iodo-4'-Deoxydoxorubicin
     - 5-Aza-4'-thio-2'-deoxycytidine
     - 5-Fluoro-2-Deoxycytidine
-    - 6-Phosphofructo-2-kinase/fructose-2,6-bisphosphatases Isoform 3 Inhibitor
-      ACT-PFK-158
+    - 6-Phosphofructo-2-kinase/fructose-2,6-bisphosphatases Isoform 3 Inhibitor ACT-PFK-158
     - 7-Cyanoquinocarcinol
     - 7-Ethyl-10-Hydroxycamptothecin
     - 7-Hydroxystaurosporine
@@ -1001,8 +996,7 @@ properties:
     - Autologous Anti-BCMA CAR-transduced T-cells KITE-585
     - Autologous Anti-BCMA CD8+ CAR T-cells Descartes-11
     - Autologous Anti-BCMA-CAR Expressing Stem Memory T-cells P-BCMA-101
-    - Autologous Anti-BCMA-CAR-4-1BB-CD3zeta-expressing CD4+/CD8+ T-lymphocytes
-      JCARH125
+    - Autologous Anti-BCMA-CAR-4-1BB-CD3zeta-expressing CD4+/CD8+ T-lymphocytes JCARH125
     - Autologous Anti-BCMA-CAR-4-1BB-CD3zeta-expressing Memory T-lymphocytes bb21217
     - Autologous Anti-BCMA-CAR-4-1BB-CD3zeta-expressing T-cells C-CAR088
     - Autologous Anti-BCMA-CAR-4-1BB-CD3zeta-expressing T-cells CT053
@@ -1068,8 +1062,8 @@ properties:
     - Autologous LMP1/LMP2/EBNA1-specific HLA-A02:01/24:02/11:01-restricted TCR-expressing
       T-lymphocytes YT-E001
     - Autologous MAGE-A3/A6-specific TCR Gene-engineered Lymphocytes KITE-718
-    - Autologous MCPyV-specific HLA-A02-restricted TCR-transduced CD4+ and CD8+
-      T-cells FH-MCVA2TCR
+    - Autologous MCPyV-specific HLA-A02-restricted TCR-transduced CD4+ and CD8+ T-cells
+      FH-MCVA2TCR
     - Autologous Mesenchymal Stem Cells Apceth_101
     - Autologous Mesothelin-specific Human mRNA CAR-transfected PBMCs MCY-M11
     - Autologous Monocyte-derived Lysate-pulsed Dendritic Cell Vaccine PV-001-DC
@@ -1077,8 +1071,7 @@ properties:
     - Autologous Nectin-4/FAP-targeted CAR-T Cells
     - Autologous NKG2D CAR T-cells CYAD-02
     - Autologous NKG2D CAR-CD3zeta-DAP10-expressing T-Lymphocytes CYAD-01
-    - Autologous Pancreatic Adenocarcinoma Lysate and mRNA-loaded Dendritic Cell
-      Vaccine
+    - Autologous Pancreatic Adenocarcinoma Lysate and mRNA-loaded Dendritic Cell Vaccine
     - Autologous Peripheral Blood Lymphocytes from Ibrutinib-treated Chronic Lymphocytic
       Leukemia Patients IOV-2001
     - Autologous Prostate Cancer Antigen-expressing Dendritic Cell Vaccine BPX-101
@@ -2075,8 +2068,7 @@ properties:
     - FLT3 Inhibitor FF-10101 Succinate
     - FLT3 Inhibitor HM43239
     - FLT3 Inhibitor SKI-G-801
-    - Flt3 Ligand/Anti-CTLA-4 Antibody/IL-12 Engineered Oncolytic Vaccinia Virus
-      RIVAL-01
+    - Flt3 Ligand/Anti-CTLA-4 Antibody/IL-12 Engineered Oncolytic Vaccinia Virus RIVAL-01
     - FLT3 Tyrosine Kinase Inhibitor TTT-3002
     - FLT3/ABL/Aurora Kinase Inhibitor KW-2449
     - FLT3/CDK4/6 Inhibitor FLX925
@@ -2477,8 +2469,7 @@ properties:
     - Interleukin-15 Agonist Fusion Protein SHR1501
     - Interleukin-15 Fusion Protein BJ-001
     - Interleukin-15/Interleukin-15 Receptor Alpha Complex-Fc Fusion Protein XmAb24306
-    - Interleukin-15/Interleukin-15 Receptor Alpha Sushi+ Domain Fusion Protein
-      SO-C101
+    - Interleukin-15/Interleukin-15 Receptor Alpha Sushi+ Domain Fusion Protein SO-C101
     - Interleukin-2 Liposome
     - Intermediate-affinity Interleukin-2 Receptor Agonist ALKS 4230
     - Intetumumab
@@ -2528,8 +2519,7 @@ properties:
     - Irofulven
     - Iroplact
     - Irosustat
-    - Irradiated Allogeneic Human Lung Cancer Cells Expressing OX40L-Ig Vaccine
-      HS-130
+    - Irradiated Allogeneic Human Lung Cancer Cells Expressing OX40L-Ig Vaccine HS-130
     - Isatuximab
     - Iso-fludelone
     - Isobrucein B
@@ -2682,16 +2672,15 @@ properties:
     - Litronesib
     - Live-attenuated Double-deleted Listeria monocytogenes Bacteria JNJ-64041809
     - Live-Attenuated Listeria Encoding Human Mesothelin Vaccine CRS-207
-    - Live-attenuated Listeria monocytogenes-encoding EGFRvIII-NY-ESO-1 Vaccine
-      ADU-623
+    - Live-attenuated Listeria monocytogenes-encoding EGFRvIII-NY-ESO-1 Vaccine ADU-623
     - Liver X Receptor beta Agonist RGX-104
     - Lm-tLLO-neoantigens Vaccine ADXS-NEO
     - LMB-1 Immunotoxin
     - LMB-2 Immunotoxin
     - LMB-7 Immunotoxin
     - LMB-9 Immunotoxin
-    - LmddA-LLO-chHER2 Fusion Protein-secreting Live-attenuated Listeria Cancer
-      Vaccine ADXS31-164
+    - LmddA-LLO-chHER2 Fusion Protein-secreting Live-attenuated Listeria Cancer Vaccine
+      ADXS31-164
     - LMP-2:340-349 Peptide Vaccine
     - LMP-2:419-427 Peptide Vaccine
     - LMP2-specific T Cell Receptor-transduced Autologous T-lymphocytes
@@ -3216,8 +3205,7 @@ properties:
     - Oncolytic HSV-1 rQNestin34.5v.2
     - Oncolytic HSV-1 rRp450
     - Oncolytic HSV1716
-    - Oncolytic Measles Virus Encoding Helicobacter pylori Neutrophil-activating
-      Protein
+    - Oncolytic Measles Virus Encoding Helicobacter pylori Neutrophil-activating Protein
     - Oncolytic Newcastle Disease Virus MEDI5395
     - Oncolytic Newcastle Disease Virus MTH-68H
     - Oncolytic Newcastle Disease Virus Strain PV701
@@ -3263,8 +3251,8 @@ properties:
     - Other
     - Otlertuzumab
     - Ovapuldencel-T
-    - Ovarian Cancer Stem Cell/hTERT/Survivin mRNAs-loaded Autologous Dendritic
-      Cell Vaccine DC-006
+    - Ovarian Cancer Stem Cell/hTERT/Survivin mRNAs-loaded Autologous Dendritic Cell
+      Vaccine DC-006
     - Ovine Submaxillary Mucin
     - OX40L-expressing Oncolytic Adenovirus DNX-2440
     - Oxaliplatin
@@ -4621,6 +4609,10 @@ properties:
     - Zuclomiphene Citrate
     - Unknown
     - Not Reported
+    required: 'False'
+    source: caDSR
+    term_url: https://cadsr.cancer.gov/onedata/dmdirect/NIH/NCI/CO/CDEDD?filter=CDEDD.ITEM_ID=2975232%20and%20ver_nr=1.0
+    type: Enumeration
   treatment_anatomic_site:
     cde_id: 5615611
     description: 'The anatomic site or field targeted by a treatment regimen or single
@@ -5149,6 +5141,6 @@ required:
 title: Treatment
 type: object
 uniqueKeys:
-- treatment_id
-- treatment_submitter_id
+- - treatment_id
+  - treatment_submitter_id
 validators: null
