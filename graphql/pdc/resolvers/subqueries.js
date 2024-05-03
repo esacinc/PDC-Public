@@ -179,7 +179,7 @@ export const resolvers = {
 			//@@@PDC-2544 use case_id in cache key
 			cacheFilterName.name += "case_id:(" + obj.case_id + ");";
 			const res = await RedisCacheClient.redisCacheGetAsync(CacheName.getSummaryPageCaseSummary('CaseDemographic') + cacheFilterName['name']);
-			if (res === null) {
+			if (res === null) {				
 				var result = await db.getModelByName('Demographic').findAll({
 					attributes: [['bin_to_uuid(demographic_id)', 'demographic_id'], 'demographic_submitter_id',
 					['bin_to_uuid(case_id)', 'case_id'],
@@ -357,7 +357,7 @@ export const resolvers = {
 						'tumor_cell_content',
 						'who_cns_grade',
 						'who_nte_grade',
-						'diagnosis_uuid'
+						'diagnosis_uuid'					
 					],
 					where: {
 						case_id: Sequelize.fn('uuid_to_bin', obj.case_id )
@@ -390,14 +390,14 @@ export const resolvers = {
 				let sampleQuery = "select distinct bin_to_uuid(sam.sample_id) as sample_id, sam.sample_submitter_id, sample_type, sample_type_id, gdc_sample_id, gdc_project_id, biospecimen_anatomic_site, composition, current_weight, days_to_collection, days_to_sample_procurement, sam.status, sam.pool, sample_is_ref, diagnosis_pathologically_confirmed, freezing_method, initial_weight, intermediate_dimension, longest_dimension, method_of_sample_procurement, pathology_report_uuid, preservation_method, shortest_dimension, time_between_clamping_and_freezing, time_between_excision_and_freezing, tissue_type, tumor_code, tumor_code_id, tumor_descriptor, biospecimen_laterality, catalog_reference, distance_normal_to_tumor, distributor_reference, growth_rate, passage_count, sample_ordinal, tissue_collection_type "+
 				"FROM study s, sample sam, aliquot_run_metadata alm, aliquot al, project proj, program prog "+
 				"WHERE alm.study_id = s.study_id and al.aliquot_id = alm.aliquot_id and al.sample_id=sam.sample_id and proj.project_id = s.project_id and sam.case_id = uuid_to_bin(:case_id) ";
-
+				
 				let cache = { name:'' };
 				let replacements = {};
-
+				
 				sampleQuery += replacementFilters(context.arguments, cache, replacements);
-
+				
 				replacements['case_id'] = obj.case_id;
-
+				
 				return db.getSequelize().query(
 						sampleQuery,
 						{
@@ -405,7 +405,7 @@ export const resolvers = {
 							model: db.getModelByName('Sample')
 						}
 					);
-
+				
 				//RedisCacheClient.redisCacheSetExAsync(CacheName.getSummaryPageCaseSummary('CaseSample') + cacheFilterName['name'], JSON.stringify(result));
 				//return result;
 			//} else {
@@ -415,12 +415,12 @@ export const resolvers = {
 	},
 	//@@@PDC-5252 fetch diagnosis-sample association
 	//@@@PDC-5412 add diagnosis-sample annotation
-	//@@@PDC-7493 return full sample
+	//@@@PDC-7493 return full sample	
 	Diagnosis: {
 		samples(obj, args, context) {
 			logger.info("samples is called via "+context.parent);
 			let refQuery = "select bin_to_uuid(reference_entity_id) sample_id, "+
-			"reference_entity_alias as sample_submitter_id, annotation, sample_type, sample_type_id, gdc_sample_id, "+
+			"reference_entity_alias as sample_submitter_id, annotation, sample_type, sample_type_id, gdc_sample_id, "+ 
 			"gdc_project_id, biospecimen_anatomic_site, composition, current_weight, days_to_collection, days_to_sample_procurement, "+
 			"sam.status, sam.pool, sample_is_ref, diagnosis_pathologically_confirmed, freezing_method, initial_weight, "+
 			"intermediate_dimension, longest_dimension, method_of_sample_procurement, pathology_report_uuid, "+
@@ -438,7 +438,7 @@ export const resolvers = {
 						model: db.getModelByName('Sample')
 					}
 			);
-
+							
 		}
 	},
 	Sample: {
@@ -450,11 +450,11 @@ export const resolvers = {
 			"FROM study s, aliquot_run_metadata alm, aliquot al, project proj, program prog "+
 			"WHERE alm.study_id = s.study_id and al.aliquot_id = alm.aliquot_id and proj.project_id = s.project_id and al.sample_id = uuid_to_bin(:sample_id) ";
 			let cache = { name:'' };
-			let replacements = {};
+			let replacements = {};	
 			aliquotQuery += replacementFilters(context.arguments, cache, replacements);
-
+				
 			replacements['sample_id'] = obj.sample_id;
-
+				
 			return db.getSequelize().query(
 						aliquotQuery,
 						{
@@ -462,7 +462,7 @@ export const resolvers = {
 							model: db.getModelByName('Aliquot')
 						}
 				);
-
+				
 		},
 		//@@@PDC-5252 fetch diagnosis-sample association
 		//@@@PDC-5412 add diagnosis-sample annotation
@@ -479,7 +479,7 @@ export const resolvers = {
 			"days_to_new_event, figo_stage, hiv_positive, hpv_positive_type, hpv_status, iss_stage, laterality, ldh_level_at_diagnosis, "+
 			"ldh_normal_range_upper, lymph_nodes_positive, lymphatic_invasion_present, method_of_diagnosis, new_event_anatomic_site, "+
 			"+new_event_type, overall_survival, perineural_invasion_present, prior_treatment, progression_free_survival, progression_free_survival_event, "+
-			"residual_disease, vascular_invasion_present, year_of_diagnosis, icd_10_code, synchronous_malignancy, anaplasia_present, anaplasia_present_type, "+
+			"residual_disease, vascular_invasion_present, year_of_diagnosis, icd_10_code, synchronous_malignancy, anaplasia_present, anaplasia_present_type, "+ 
 			"child_pugh_classification, cog_liver_stage, cog_neuroblastoma_risk_group, cog_renal_stage, cog_rhabdomyosarcoma_risk_group, enneking_msts_grade, "+
 			"enneking_msts_metastasis, enneking_msts_stage, enneking_msts_tumor_site, esophageal_columnar_dysplasia_degree, esophageal_columnar_metaplasia_present, "+
 			"first_symptom_prior_to_diagnosis, gastric_esophageal_junction_involvement, goblet_cells_columnar_mucosa_present, gross_tumor_weight, inpc_grade, "+
@@ -491,7 +491,7 @@ export const resolvers = {
 			"peritoneal_fluid_cytological_status, primary_gleason_grade, secondary_gleason_grade, weiss_assessment_score, adrenal_hormone, "+
 			"ann_arbor_b_symptoms_described, diagnosis_is_primary_disease, eln_risk_classification, figo_staging_edition_year, gleason_grade_tertiary, "+
 			"gleason_patterns_percent, margin_distance, margins_involved_site, pregnant_at_diagnosis, satellite_nodule_present, sites_of_involvement, "+
-			"tumor_depth, who_cns_grade, who_nte_grade, diagnosis_uuid "+
+			"tumor_depth, who_cns_grade, who_nte_grade, diagnosis_uuid "+ 
 			"from reference ref, diagnosis diag where ref.entity_id = diag.diagnosis_id and reference_entity_id = "+
 			"uuid_to_bin(:sample_id) and entity_type = 'diagnosis'"
 			let replacements = {};
@@ -503,7 +503,7 @@ export const resolvers = {
 						model: db.getModelByName('Diagnosis')
 					}
 			);
-
+							
 		}
 	},
 	//@@@PDC-2366 Add aliquot_run_metadata_id to aliquot_run_metadata API entity
@@ -551,7 +551,7 @@ export const resolvers = {
 			} else {
 				return JSON.parse(res);
 			}
-		}
+		}			
 	},
 	//@@@PDC-7628 use gene_id instead of gene_name
 	GeneSp: {
@@ -735,7 +735,7 @@ export const resolvers = {
 			return JSON.parse(res);
 		},
 		//@@@PDC-5252 fetch diagnosis-sample association
-		//@@@PDC-5412 add diagnosis-sample annotation
+		//@@@PDC-5412 add diagnosis-sample annotation	
 		samples(obj, args, context) {
 			logger.info("samples is called via "+context.parent);
 			/*let refQuery = "select bin_to_uuid(reference_entity_id) sample_id, annotation, "+
@@ -757,13 +757,13 @@ export const resolvers = {
 						model: db.getModelByName('Sample')
 					}
 			);
-
+							
 		}
 	},
 	//@@@PDC-2978 add case external reference
 	//@@@PDC-4391 add new columns
 	//@@@PDC-5329 add samples associated with diagnosis
-	//@@@PDC-5412 add diagnosis-sample annotation
+	//@@@PDC-5412 add diagnosis-sample annotation	
 	Clinical: {
 		//@@@PDC-7493 return full sample
 		samples(obj, args, context) {
@@ -772,7 +772,7 @@ export const resolvers = {
 			"reference_entity_alias as sample_submitter_id from reference where entity_id = "+
 			"uuid_to_bin(:diagnosis_id) and reference_entity_type = 'sample'"*/
 			let refQuery = "select bin_to_uuid(reference_entity_id) sample_id, "+
-			"reference_entity_alias as sample_submitter_id, annotation, sample_type, sample_type_id, gdc_sample_id, "+
+			"reference_entity_alias as sample_submitter_id, annotation, sample_type, sample_type_id, gdc_sample_id, "+ 
 			"gdc_project_id, biospecimen_anatomic_site, composition, current_weight, days_to_collection, days_to_sample_procurement, "+
 			"sam.status, sam.pool, sample_is_ref, diagnosis_pathologically_confirmed, freezing_method, initial_weight, "+
 			"intermediate_dimension, longest_dimension, method_of_sample_procurement, pathology_report_uuid, "+
@@ -790,7 +790,7 @@ export const resolvers = {
 						model: db.getModelByName('Sample')
 					}
 			);
-
+							
 		},
 		externalReferences(obj, args, context) {
 			logger.info("externalReferences is called via "+context.parent);
@@ -959,8 +959,8 @@ export const resolvers = {
 		},
 		//@@@PDC-8027 move case/aliquot count to subquery
 		async cases_count(obj, args, context) {
-			let caseCountQuery = "SELECT count(distinct c.case_id) as cases_count "+
-				"FROM study s, `case` c, aliquot al, aliquot_run_metadata alm, sample sam "+
+			let caseCountQuery = "SELECT count(distinct c.case_id) as cases_count "+  
+				"FROM study s, `case` c, aliquot al, aliquot_run_metadata alm, sample sam "+ 
 				"WHERE alm.study_id = s.study_id and al.aliquot_id = alm.aliquot_id "+
 				"and al.sample_id=sam.sample_id and sam.case_id=c.case_id "+
 				"and s.study_id = uuid_to_bin('"+ obj.study_id +"')";
@@ -968,8 +968,8 @@ export const resolvers = {
 			return caseCount[0].cases_count;
 		},
 		async aliquots_count(obj, args, context) {
-			let alqCountQuery = "SELECT count(distinct al.aliquot_id) as aliquots_count "+
-							   "FROM study s, aliquot al, aliquot_run_metadata alm "+
+			let alqCountQuery = "SELECT count(distinct al.aliquot_id) as aliquots_count "+  
+							   "FROM study s, aliquot al, aliquot_run_metadata alm "+ 
 							   "WHERE alm.study_id = s.study_id and al.aliquot_id = alm.aliquot_id "+
 							   "and s.study_id = uuid_to_bin('"+ obj.study_id +"')";
 			let alqCount = await db.getSequelize().query(alqCountQuery, { model: db.getModelByName('ModelUICount') });
@@ -1353,7 +1353,7 @@ export const resolvers = {
 			replacements['publication_id'] = obj.publication_id;
 			let cacheKey = "PDCPUB:UIPancancerPublication:Files:"+obj.publication_id;
 			const res = await RedisCacheClient.redisCacheGetAsync(cacheKey);
-			if (res === null) {
+			if (res === null) {	
 				let result = await db.getSequelize().query(
 					fileQuery,
 					{
@@ -1377,7 +1377,7 @@ export const resolvers = {
 			replacements['publication_id'] = obj.publication_id;
 			let cacheKey = "PDCPUB:UIPancancerPublication:Studies:"+obj.publication_id;
 			const res = await RedisCacheClient.redisCacheGetAsync(cacheKey);
-			if (res === null) {
+			if (res === null) {	
 				let result = await db.getSequelize().query(
 							studyQuery,
 							{
@@ -1515,16 +1515,16 @@ export const resolvers = {
 			}
 
 			let alCountQuery = "SELECT count(distinct al.aliquot_id) as aliquots_count "+
-								"FROM aliquot al, aliquot_run_metadata alm "+
+								"FROM aliquot al, aliquot_run_metadata alm "+ 
 								"WHERE alm.aliquot_id = al.aliquot_id  "+
 								"and alm.study_submitter_id = (:study_submitter_id)";
 			let replacements = { };
 			replacements['study_submitter_id'] = obj.study_submitter_id;
-			let alcount = await db.getSequelize().query(alCountQuery, {
+			let alcount = await db.getSequelize().query(alCountQuery, { 
 				replacements: replacements,
 				raw: true });
-			console.log("alq count:"+ alcount[0][0].aliquots_count);
-			return alcount[0][0].aliquots_count
+			console.log("alq count:"+ alcount[0][0].aliquots_count);				
+			return alcount[0][0].aliquots_count			
 		}
 	},*/
 	//@@@PDC-3723 add sorting
@@ -1595,7 +1595,7 @@ export const resolvers = {
 						replacements: context.replacements,
 						model: db.getModelByName('ModelUIFile')
 					}
-				);
+				);			
 			rawData.forEach(row => {
 				let parsed = JSON.parse(row['annotation']);
 				row['description'] = parsed['description'];
@@ -1657,7 +1657,8 @@ export const resolvers = {
 							model: db.getModelByName('ModelUIClinical')
 						}
 					);
-					logger.info("Clinicals: "+JSON.stringify(result))
+					//@@@PDC-8220 speed up manifest
+					//logger.info("Clinicals: "+JSON.stringify(result))
 				RedisCacheClient.redisCacheSetExAsync(context.dataCacheName, JSON.stringify(result));
 				return result;
 			}else{
@@ -2224,19 +2225,25 @@ export const resolvers = {
 	//@@@PDC-8220 speed up study count query
 	/*UIGene: {
 		async num_study(obj, args, context) {
-			let sCountQuery = "SELECT COUNT(distinct sc.study_id) AS num_study "+
-							  "FROM spectral_count sc, study s "+
-							  "WHERE sc.study_id = s.study_id "+
-								"and sc.plex_name = 'All' "+
-								"and s.is_latest_version = 1 "+
-								"AND sc.gene_id = uuid_to_bin('"+obj.gene_id+"')"
-			let geneStudyCount = await db.getSequelize().query(
-				sCountQuery,
-				{
-					model: db.getModelByName('ModelUIGeneName')
-				}
-			);
-			return geneStudyCount[0].num_study
+			let cacheKey = "PDCPUB:uiGene:studyCount:"+obj.gene_id;
+			const res = await RedisCacheClient.redisCacheGetAsync(cacheKey);
+			if (res === null){
+				let sCountQuery = "SELECT COUNT(distinct sc.study_id) AS num_study "+
+								  "FROM spectral_count sc "+
+								  "WHERE sc.plex_name = 'All' "+
+								  "AND sc.gene_id = uuid_to_bin('"+obj.gene_id+"')"
+				let geneStudyCount = await db.getSequelize().query(
+					sCountQuery,
+					{
+						model: db.getModelByName('ModelUIGeneName')
+					}
+				);
+				RedisCacheClient.redisCacheSetExAsync(cacheKey, geneStudyCount[0].num_study);
+				return geneStudyCount[0].num_study
+			}
+			else {
+				return res;
+			}
 		}
 	},*/
 	//@@@PDC-1122 add signed url
@@ -2286,7 +2293,7 @@ export const resolvers = {
 		}
 	},
 	//@@@PDC-5252 fetch diagnosis-sample association
-	//@@@PDC-5412 add diagnosis-sample annotation
+	//@@@PDC-5412 add diagnosis-sample annotation	
 	UICase: {
 		diagnoses(obj, args, context) {
 			logger.info("diagnoses is called via "+context.parent);
@@ -2301,8 +2308,8 @@ export const resolvers = {
 						replacements: replacements,
 						model: db.getModelByName('Diagnosis')
 					}
-			);
-		}
+			);							
+		}		
 	},
 	Pagination: {
 		size(obj, args, context) {

@@ -80,7 +80,7 @@ var spec = {
              "get": {
                        "tags": ["Case"],
                "summary": "Get info of experiment types",
-                       "description": "Input Parameters (multiple parameters can be passed in one call):</b><ul><li>experiment_type (example: Label Free)</li><li>tissue_or_organ_of_origin (example: Cheek mucosa)</li><li>disease_type (example: Clear Cell Renal Cell Carcinoma)</li></ul><b>Returns a list of experiment types<br><br>Fields:<ul><li>experiment_type:</b> Name of experiment type </li><li><b>tissue_or_organ_of_origin:</b> Text term that describes the anatomic site of the tumor or disease</li><li><b>disease_type</b></li></ul><b>A test call can be issued with the following parameters:</b>",
+                       "description": "<b>Input Parameters (multiple parameters can be passed in one call):</b><ul><li>experiment_type (example: Label Free)</li><li>tissue_or_organ_of_origin (example: Cheek mucosa)</li><li>disease_type (example: Clear Cell Renal Cell Carcinoma)</li></ul><b>Returns a list of experiment types<br><br>Fields:<ul><li>experiment_type:</b> Name of experiment type </li><li><b>tissue_or_organ_of_origin:</b> Text term that describes the anatomic site of the tumor or disease</li><li><b>disease_type</b></li></ul><b>A test call can be issued with the following parameters:</b>",
                "operationId": "allExperimentTypes",
                "produces": [
                  "application/json"
@@ -109,7 +109,7 @@ var spec = {
              "get": {
                        "tags": ["Program"],
                "summary": "Gets all programs",
-               "description": "<b>Returns all available programs.<br><br>Fields:<ul><li>program_id:</b> Program ID, example : 10251935-5540-11e8-b664-00a098d917f8</li><li><b>program_submitter_id:</b> Program Submitter ID, example : Clinical Proteomic Tumor Analysis Consortium</li><li><b>name:</b> Name of the program, example: Clinical Proteomic Tumor Analysis Consortium</li><li><b>projects</b></li></ul><b>Click on the Try button to issue a test call:</b>",
+               "description": "<b>Returns all available programs.<br><br>Fields:<ul><li>program_id</li><li><b>program_submitter_id</li><li>name</li><li><b>projects</b></li></ul><b>Click on the Try button to issue a test call:</b>",
                "operationId": "allPrograms",
                "produces": [
                  "application/json"
@@ -1105,48 +1105,11 @@ var spec = {
                    }
                  }
                },
-               '?query={program(program_id:  "{program_id}" acceptDUA: {acceptDUA})  {program_id  program_submitter_id  name  projects  {project_id  project_submitter_id  name  studies  {pdc_study_id study_id study_submitter_id submitter_id_name analytical_fraction  study_name disease_types primary_sites embargo_date experiment_type acquisition_type} }  }  }': {
+               '?query={program(program_submitter_id:  "{program_submitter_id}")  {program_id  program_submitter_id  name  projects  {project_id  project_submitter_id  name  studies  {pdc_study_id study_id study_submitter_id submitter_id_name analytical_fraction  study_name disease_types primary_sites embargo_date experiment_type acquisition_type} }  }  }': {
                  "get": {
                            "tags": ["Program"],
                    "summary": "Find program by ID",
-                   "description": "<b>Returns a single program and its projects.<br><br>Fields:<ul><li>program_id:</b> Program ID, example : 10251935-5540-11e8-b664-00a098d917f8</li><li><b>program_submitter_id:</b> Program Submitter ID, example : Clinical Proteomic Tumor Analysis Consortium</li><li><b>name:</b> Name of the program, example: Clinical Proteomic Tumor Analysis Consortium</li><li><b>projects</b></li></ul>",
-                   "operationId": "program",
-                   "produces": [
-                     "application/json"
-                   ],
-                   "parameters": [{
-                       "name": "program_id",
-                       "in": "path",
-                       "description": "Program ID, example: c3408a52-f1e8-11e9-9a07-0a80fada099c",
-                       "required": true,
-                       "type": "string"
-                     }, {
-                        "name": "acceptDUA",
-                        "in": "path",
-                        "description": "Accept DUA  is no longer required",
-                        "required": false,
-                        "type": "boolean",
-						"defaultValue": true
-                      }
-                   ],
-                   "responses": {
-                     "200": {
-                       "description": "successful operation",
-                       "schema": {
-                         "$ref": "#/definitions/findProgram"
-                       }
-                     },
-                     "401": {
-                       "description": "Unauthorized"
-                     }
-                   }
-                 }
-               },
-               '?query={program(program_submitter_id:  "{program_submitter_id}" acceptDUA: {acceptDUA})  {program_id  program_submitter_id  name  projects  {project_id  project_submitter_id  name  studies  {pdc_study_id study_id study_submitter_id submitter_id_name analytical_fraction  study_name disease_types primary_sites embargo_date experiment_type acquisition_type} }  }  }': {
-                 "get": {
-                           "tags": ["Program"],
-                   "summary": "Find program by ID",
-                   "description": "<b>Returns a single program and its projects.<br><br>Fields:<ul><li>program_id:</b> Program ID, example : 10251935-5540-11e8-b664-00a098d917f8</li><li><b>program_submitter_id:</b> Program Submitter ID, example : Clinical Proteomic Tumor Analysis Consortium</li><li><b>name:</b> Name of the program, example: Clinical Proteomic Tumor Analysis Consortium</li><li><b>projects</b></li></ul>",
+                   "description": "<b>Input Parameters:</b><ul><li>program_id (example: c3408a52-f1e8-11e9-9a07-0a80fada099c)</li><li>program_submitter_id (example: Clinical Proteomic Tumor Analysis Consortium)</li></ul><b>Returns a single program and its projects.<br><br>Fields:<ul><li>program_id</li><li><b>program_submitter_id</li><li>name</li><li><b>projects</b></li></ul><b>A test call can be issued with the following parameter:</b>",
                    "operationId": "program",
                    "produces": [
                      "application/json"
@@ -1157,14 +1120,7 @@ var spec = {
                        "description": "Program Submitter ID, example: Clinical Proteomic Tumor Analysis Consortium",
                        "required": true,
                        "type": "string"
-                     }, {
-                        "name": "acceptDUA",
-                        "in": "path",
-                        "description": "Accept DUA  is no longer required",
-                        "required": false,
-                        "type": "boolean",
-						"defaultValue": true
-                      }
+                     }
                    ],
                    "responses": {
                      "200": {
@@ -1179,22 +1135,21 @@ var spec = {
                    }
                  }
                },
-               "?query={programsProjectsStudies (acceptDUA: {acceptDUA}) {program_id program_submitter_id name projects {project_id project_submitter_id name studies { pdc_study_id study_id study_submitter_id submitter_id_name analytical_fraction  study_name disease_types primary_sites embargo_date experiment_type acquisition_type} }}}": {
+               '?query={programsProjectsStudies (disease_type: "{disease_type}") {program_id program_submitter_id name projects {project_id project_submitter_id name studies { pdc_study_id study_id study_submitter_id submitter_id_name analytical_fraction  study_name disease_types primary_sites embargo_date experiment_type acquisition_type} }}}': {
                  "get": {
                            "tags": ["Program"],
-                   "summary": "Get all programs/projects/studies",
-                   "description": "<b>Returns a hierarchy of programs/projects/studies.<br><br>Fields:</b><ul><li>program_id</li><li>program_submitter_id</li><li>name</li><li>projects {project_id project_submitter_id name}</li><li> studies {pdc_study_id study_id study_submitter_id submitter_id_name analytical_fraction  study_name disease_types primary_sites embargo_date experiment_type acquisition_type}</li></ul>",
+                   "summary": "Get all programs/projects/studies",				   
+                   "description": "<b>Input Parameters (multiple parameters can be passed in one call):</b><ul><li>disease_type (example: Lung Adenocarcinoma)</li><li>instrument_model (example: Q Exactive)</li><li>analytical_fraction (example: Phosphoproteome)</li><li>experiment_type (example: iTRAQ4)</li></ul><b>Returns a hierarchy of programs/projects/studies.<br><br>Fields:</b><ul><li>program_id</li><li>program_submitter_id</li><li>name</li><li>projects {project_id project_submitter_id name}</li><li> studies {pdc_study_id study_id study_submitter_id submitter_id_name analytical_fraction  study_name disease_types primary_sites embargo_date experiment_type acquisition_type}</li></ul><b>A test call can be issued with the following parameter:</b>",
                    "operationId": "programsProjectsStudies",
                    "produces": [
                      "application/json"
                    ],
                    "parameters": [{
-                     "name": "acceptDUA",
+                     "name": "disease_type",
                      "in": "path",
-                     "description": "Accept DUA  is no longer required",
-                     "required": false,
-                     "type": "boolean",
-						"defaultValue": true
+                     "description": "Disease Type Example: Lung Adenocarcinoma",
+                     "required": true,
+                     "type": "string"
                    }],
                    "responses": {
                      "200": {
@@ -5431,7 +5386,7 @@ var spec = {
             "properties":{
                "url":{
                   "type":"string",
-                  "example":"https://pdcdatastore.s3.amazonaws.com/studies/206/mzml/02CPTAC_CompRef_GBM_P_PNNL_20190306_B2S5_f10.mzML.gz"
+                  "example":"https://pdcdatastore.s3.amazonaws.com/studies/206/mzml/02CPTAC_CompRef_GBM_P_PNNL_20190306_B2S5_f10.mzML.gz?"
                }
               },
             "xml":{

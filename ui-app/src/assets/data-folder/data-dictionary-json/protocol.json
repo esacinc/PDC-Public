@@ -692,22 +692,22 @@
         },
         "analytical_technique": {
           "description": "General strategy used for metabolomics analysis",
-          "required": "True (metabolomics only)",
+          "required": "False (Required for metabolomics only)",
           "type": "String"
         },
         "chromatography_instrument_make": {
           "description": "Manufacturer of chromatography instrument",
-          "required": "True (metabolomics only)",
+          "required": "False (Required for metabolomics only)",
           "type": "String"
         },
         "chromatography_instrument_model": {
           "description": "Model of chromatography instrument",
-          "required": "True (metabolomics only)",
+          "required": "False (Required for metabolomics only)",
           "type": "String"
         },
         "polarity": {
           "description": "Ion polarity mode(s) used during chromatography",
-          "required": "True (metabolomics only)",
+          "required": "False (Required for metabolomics only)",
           "enum": [
               "positive",
               "negative",
@@ -742,7 +742,7 @@
         },
         "extraction_method": {
           "description": "Method/Solution used for metabolite extraction",
-          "required": "True (metabolomics only)",
+          "required": "False (Required for metabolomics only)",
           "type": "String"
         }
     },

@@ -108,9 +108,18 @@
                             <div style="text-align:center"><img mat-card-image style="align-content: center" src="assets/createInstrument.png" alt="Login to PDC"></div>
                         <br>
                         <p>Note: You must be added as an assigned instrument operator to upload data to an instrument unless you are the creator of that instrument.</p></li>
-                        <li><b>Upload raw files:</b><br><br><p>Click upload, and in the dialog requesting information, select the instrument you previously created. You can upload directly from your local computer or from the cloud (AWS S3 is supported) if your files are on S3 already.</p><br><br>
+                        <li><b>Upload raw files:</b><br><br>
+                            <p>Click upload, and in the dialog requesting information, select the instrument you previously created. You can upload directly from your local computer or from the cloud (AWS S3 is supported) if your files are on S3 already.</p><br><br>
                                 <div style="text-align:center"><img mat-card-image style="align-content: center" src="assets/updateRawfiles.png" alt="Login to PDC"></div>
-                            <p>Note: The PDC Workspace accepts files with the “.raw”, “.d”; “.wiff”; “.wiff.scan”; “.wiff.mtd”; “.dat”; “.mis”. These files are produced directly on the mass spectrometer acquisition computer and are typically in proprietary formats.</p>
+                            <!-- @@@PDC-8265 - add instructions for .d files -->
+                            <p>PDC accepts various proprietary data formats developed by different manufacturers of mass spectrometers such as “.raw”, “.d”; “.wiff”; “.wiff.scan”; “.wiff.mtd”; “.dat”; “.mis”. If you encounter a data format that is not currently supported while uploading to the submission portal, please reach out to the PDC helpdesk for assistance.
+                               <br><br>
+                               Note:
+                               <br><br>
+                               For AB Sciex (formerly Applied Biosystems) series of mass spectrometers, such as the AB Sciex TripleTOF and QTRAP, which produce WIFF format data, it's important to note that multiple files may represent one raw file. In such cases, users are required to upload all associated files together in the same upload.
+                               <br><br>
+                               For Bruker instruments like the Bruker Tims Tof series, where a folder represents one raw file, users should compress individual .d folders corresponding to a single raw file into a single zip file. The compressed file should be named in the format "file.d.zip" to correspond to the original file name.
+                            </p>
                             <p>Tip: You may create a separate instrument for each study that you would like to create, even if all those files are generated from the same mass spectrometer. This is not required, but may help to organize and separate your files, facilitating study creation.</p>
                         <br></li>
 

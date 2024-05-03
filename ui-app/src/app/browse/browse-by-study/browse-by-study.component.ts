@@ -15,12 +15,15 @@ import { ngxCsv } from "ngx-csv/ngx-csv";
 import * as FileSaver from 'file-saver';
 import * as _ from 'lodash';
 import { TableModule } from 'primeng/table';
+//@@@PDC-8279-fix-508-compliance
+import { AriaLabeler } from '../aria-labeler';
+
 
 @Component({
   selector: 'browse-by-study',
   templateUrl: './browse-by-study.component.html',
   styleUrls: ['../../../assets/css/global.css', './browse-by-study.component.css'],
-	providers: [ BrowseByStudyService]
+	providers: [ BrowseByStudyService ]
 })
 
 //@@@PDC-169 The user should be able to browse data by Case
@@ -65,6 +68,7 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
   offset: number;
   limit: number;
   pageSize: number;
+
   static urlBase;
   @Output() studyTotalRecordChanged: EventEmitter<any> = new EventEmitter<any>();
   sort: string;
@@ -106,7 +110,8 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 				private browseByStudyService : BrowseByStudyService,
 				private filterService: BrowseFiltersService,
 				private dialog: MatDialog,
-				private activatedRoute:ActivatedRoute) {
+				private activatedRoute:ActivatedRoute,
+        private ariaUtil: AriaLabeler) {
 	// Array which holds filter names. Must be updated when new filters are added to browse page.
 	this.newFilterSelected = {"program_name" : "", "project_name": "", "study_name": "", "studyName_genes_tab": "", "submitter_id_name": "", "disease_type":"", "primary_site":"", "analytical_fraction":"", "experiment_type":"",
 								"ethnicity": "", "race": "", "gender": "", "tumor_grade": "", "sample_type": "", "acquisition_type": "", "data_category": "", "file_type": "", "access": "", "downloadable": "", "biospecimen_status": "", "case_status": ""};
@@ -116,6 +121,8 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 	this.pageSize = 10;
 	this.getAllStudiesData();
 	this.sort = "";
+
+
 
 	BrowseByStudyComponent.urlBase = environment.dictionary_base_url;
   }
@@ -132,13 +139,13 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
     console.log("selection change");
 	console.log(Math.floor(currentDate.getTime()/1000));
     console.log(event);
-	
+
 	if(this.selectedDate && Math.floor(this.selectedDate.getTime()/1000) === Math.floor(currentDate.getTime()/1000)){
 		setTimeout(() => {this.selectedStudies = [...this.keepSelectedStudies]},500);
 	}else{
 		this.keepSelectedStudies = [...event];
 	}
-	this.selectedDate = currentDate; 
+	this.selectedDate = currentDate;
 
     if(this.selectedStudies.length === this.totalRecords){
       console.log("equal");
@@ -200,6 +207,7 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 				this.offset = data.getPaginatedUIStudy.pagination.from;
 				this.pageSize = data.getPaginatedUIStudy.pagination.size;
 				this.limit = data.getPaginatedUIStudy.pagination.size;
+
 			}
 			this.loading = false;
 			this.clearSelection();
@@ -307,6 +315,13 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 			}
 		}
 	}
+  }
+
+  //@@@PDC-8279-fix-508-compliance
+  //Called after every check of the component's view. Applies to components only.
+  public ngAfterViewChecked(): void {
+    //Adds aria-label to the pagination elements in all tables.
+    this.ariaUtil.addsAriaLabel2Paginators();
   }
 
   ngOnChanges(changes: SimpleChanges){
@@ -685,16 +700,15 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 			this.handleCheckboxSelections();
 			//this.makeRowsSameHeight();
 		});
+
 	}
 
 	//@@@PDC-3667: "Select all pages" option issue
 	handleCheckboxSelections() {
     console.log(this.currentPageSelectedStudy);
 		if (this.currentPageSelectedStudy.length === this.pageSize) {
-      console.log("line 688");
 			this.headercheckbox = true;
 		} else {
-      console.log("line 691");
 			if (this.totalRecords - this.offset < this.pageSize) {
 				//For the last page
 				if (this.currentPageSelectedStudy.length === this.totalRecords - this.offset) {
@@ -787,6 +801,10 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 		   this.fenceRequest = true;
 		}
 	  });
+
+
+
+
 	  //Have to define this structure for Primeng CSV export to work properly (https://github.com/primefaces/primeng/issues/5114)
 		//@@@PDC-1789: Add study_submitter_id and study_id to exported study manifests
 		this.cols = [
@@ -802,9 +820,10 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 		{field: 'primary_site', header: 'Primary Site'},
 		{field: 'analytical_fraction', header: 'Analytical Fraction'},
 		{field: 'experiment_type', header: 'Experiment Type'},
-		{field: 'raw_count', header: 'RAW'},
+		//@@@PDC-8218 sync up headers with UI
+		{field: 'raw_count', header: 'Raw'},
 		{field: 'mzml_count', header: 'Processed Mass Spectra'},
-		{field: 'metadata_count', header: 'METADATA'},
+		{field: 'metadata_count', header: 'Metadata'},
 		{field: 'psm_count', header: 'PSM'},
 		{field: 'protein_assembly_count', header: 'Protein Assembly'},
 		//{field: 'protein_databases_count', header: 'Protein Databases'},

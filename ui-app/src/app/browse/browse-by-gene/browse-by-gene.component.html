@@ -58,7 +58,7 @@
 						{{checkboxOption}}
 					</mat-option>
 				</mat-select>
-				<span style="display:none;">Check All</span></label>
+				<span style="display:none;">Select All</span></label>
 				</th>
 				<!-- @@@PDC-4978 update links to migrated documentation pages -->
 				<th class="ui-datatable-tableheader" style="width:100px;" [pSortableColumn]="cols[0].field" pFrozenColumn><a href="/pdc/data-dictionary/Gene#gene_name" target="_blank" style="color:white">Gene</a>&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Study in ascending/descending order"></i></th>
@@ -74,8 +74,9 @@
         <ng-template pTemplate="body" let-geneData>
             <tr style="font-size: 11px;" [pSelectableRow]="geneData" >
 				<!-- @@@PDC-7110 - fix checkbox updates -->
+				<!-- @@@PDC-8279 - fix 508 compliance -->
 				<td style="width:50px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;" pFrozenColumn>
-					<label><p-checkbox #browsePageCheckboxes id="geneData{{geneData.gene_name}}" [(ngModel)]="selectedGenesData" [value]="geneData" class="browsePageCheckboxes"></p-checkbox></label>
+					<label><p-checkbox #browsePageCheckboxes id="geneData{{geneData.gene_name}}" [(ngModel)]="selectedGenesData" [value]="geneData" class="browsePageCheckboxes"></p-checkbox><span style="display:none;">Select this row</span></label>
 				</td>
 				<td style="width:100px;word-wrap: break-word; white-space: normal; cursor: pointer" pFrozenColumn><a href="javascript:void(0);" (click)="showGeneSummary(geneData.gene_name, geneData.gene_id)">{{geneData.gene_name }}</a></td>
                 <td class="fixedWidthCol" style="word-wrap: break-word; white-space: normal;">{{geneData.chromosome}}</td>

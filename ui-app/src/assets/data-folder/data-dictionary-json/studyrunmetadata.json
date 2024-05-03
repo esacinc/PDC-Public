@@ -224,7 +224,7 @@
         },
         "polarity": {
           "description": "Ion polarity for the experimental run",
-          "required": "False",
+          "required": "False (Required for metabolomics only)",
           "enum" : ["positive", "negative"],
           "type": "Enumeration"
         }

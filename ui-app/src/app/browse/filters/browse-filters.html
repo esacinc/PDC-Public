@@ -1,6 +1,7 @@
 <mat-card-header class="browse-filter" style="background: #254A61; line-height:2">
     <span class="float-button-left" style="color:white; font-family: Lato; font-size: 20px">
-    <img width="20px" height="20px" src="./assets/css/images/Triangle.png" alt="Filters"/>
+    <!-- @@@PDC-8279 - fix 508 compliance -->
+    <img width="20px" height="20px" src="./assets/css/images/Triangle.png" alt=""/>
           &nbsp; FILTERS
     </span>
 	<div *ngIf="loading && loadingURLParams"><i class="pi pi-spin pi-spinner" style="font-size: 3em; color:white"></i></div>
@@ -48,7 +49,7 @@
 
         <mat-expansion-panel [expanded]="true" class="sidenavFiltersPanel">
             <mat-expansion-panel-header [collapsedHeight]="'40px'" [expandedHeight]="'40px'" id="primarySitesPanel">
-                <mat-panel-title>
+                <mat-panel-title >
                   <!-- @@@PDC-4978 update links to migrated documentation pages -->
                   <a href="/pdc/data-dictionary/Case#primary_site" class="browse-filter-title" target="_blank" >Primary Site</a>
                   <!-- @@@PDC-320 -->
@@ -60,6 +61,8 @@
                 <mat-list class="card-body card-list" id="primarySiteList">
                     <div *ngIf="primarySitesFilter.length > 10;then primarySitesContent else primarySitesContent"></div>
                     <ng-template #primarySitesContent >
+                      <!-- @@@PDC-8279 fix 508 compliance -->
+                      <fieldset>
                       <div *ngFor="let prim_site of primarySitesFilter, let i = index" [ngClass]="selectedPrimarySites.indexOf(prim_site.filterName) !== -1 ? 'selectedFilterDiv': ''" id="{{prim_site.filterName}}-primSite">
                         <div *ngIf="i<10;then primarySitesInnerContent" class="browse-filter"></div>
                         <div *ngIf="primarySitesFilter.length > 10 && showPSite && i >= 10; then primarySitesInnerContent" class="browse-filter"></div>
@@ -82,6 +85,7 @@
                             Less...
                         </div>
                     </div>
+                     </fieldset>
                   </ng-template>
                 </mat-list>
               </div>
@@ -98,7 +102,10 @@
               <div class="filter-section">
                 <mat-list class="card-body card-list" id="programsList">
                     <div *ngIf="programsFilter.length > 10;then programContent else programContent"></div>
-                    <ng-template #programContent><div *ngFor="let program of programsFilter, let i = index" class="browse-filter" [ngClass]="selectedPrograms.indexOf(program.filterName) !== -1 ? 'selectedFilterDiv': ''" id="{{program.filterName}}-program">
+                    <ng-template #programContent>
+                      <!-- @@@PDC-8279 - fix 508 compliance issues -->
+                      <fieldset>
+                       <div *ngFor="let program of programsFilter, let i = index" class="browse-filter" [ngClass]="selectedPrograms.indexOf(program.filterName) !== -1 ? 'selectedFilterDiv': ''" id="{{program.filterName}}-program">
                         <div *ngIf="i<10;then programInnerContent" class="browse-filter"></div>
                         <div *ngIf="programsFilter.length > 10 && showProgram && i >= 10; then programInnerContent" class="browse-filter"></div>
                         <ng-template #programInnerContent><label><mat-list-item  [ngStyle]="getStyleForCheckbox(program.filterName, selectedPrograms)">
@@ -119,6 +126,7 @@
                           Less...
                       </div>
                     </div>
+                    </fieldset>
                   </ng-template>
                 </mat-list>
               </div>
@@ -137,6 +145,8 @@
                 <mat-list class="card-body card-list" id="diseaseTypeList">
                     <div *ngIf="diseaseTypesFilter.length > 10;then diseaseTypesContent else diseaseTypesContent"></div>
                     <ng-template #diseaseTypesContent>
+                    <!-- @@@PDC-8279 - fix 508 compliance issues -->
+                     <fieldset>
                       <div *ngFor="let disease of diseaseTypesFilter, let i = index" class="browse-filter" [ngClass]="selectedDiseases.indexOf(disease.filterName) !== -1 ? 'selectedFilterDiv': ''" id="{{disease.filterName}}-diseaseType">
                         <div *ngIf="i<10;then diseaseTypesInnerContent" class="browse-filter"></div>
                         <div *ngIf="diseaseTypesFilter.length > 10 && showDType && i >= 10; then diseaseTypesInnerContent" class="browse-filter"></div>
@@ -158,6 +168,7 @@
                             Less...
                         </div>
                       </div>
+                      </fieldset>
                     </ng-template>
                 </mat-list>
               </div>

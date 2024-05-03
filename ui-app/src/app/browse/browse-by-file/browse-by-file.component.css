@@ -24,13 +24,13 @@
   .table-panels .ui-widget-header {
     background: linear-gradient(to bottom, #f6f7f9 0%, #ebedf0 100%);
   }
-
+  /* PDC-8279 - fix 508 compliance */
   .table-panels .ui-datatable-tableheader {
-    background-color: #3A8BAF;
+    background-color: #387BA8;
   }
 
   .table-panels .ui-paginator .ui-paginator-page.ui-state-active {
-    background-color: #3A8BAF;
+    background-color: #387BA8;
   }
 
  .table-panels .ui-table .ui-table-tbody > tr:nth-child(even).ui-state-highlight,
@@ -68,10 +68,10 @@
 .ui-datatable-even {
     background: none repeat scroll 0 0 rgb(154, 181, 204);
 }
-
+/* PDC-8279 - fix 508 compliance */
 .ui-datatable-tableheader {
     /* background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%) !important; */
-    background-color: #3A8BAF !important;
+    background-color: #387BA8 !important;
     color: white !important;
 }
 .file-filter-additional-selection {

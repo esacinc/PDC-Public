@@ -527,6 +527,7 @@ constructor(private apollo: Apollo) {
 	}
 
 	//@@@PDC-5045: Convert the GET requests to the getPaginatedUIClinical API of "Clinical" tab to POST
+	//@@@PDC-8282 add treatment to manifest
 	filteredCinicalDataPaginatedPostQuery = gql`
 	query FilteredClinicalDataPaginated($offset_value: Int, $limit_value: Int, $sort_value: String, $program_name_filter: String!, $project_name_filter: String!, $study_name_filter: String!, $disease_filter: String!, $filterValue: String!, $analytical_frac_filter: String!, $exp_type_filter: String!, $ethnicity_filter: String!, $race_filter: String!, $gender_filter: String!, $tumor_grade_filter: String!, $sample_type_filter: String!, $acquisition_type_filter: String!, $data_category_filter: String!, $file_type_filter: String!, $access_filter: String!, $downloadable_filter: String!, $case_status_filter: String!, $biospecimen_status_filter: String!, $getAll: Boolean!){
 		getPaginatedUIClinical(offset: $offset_value, limit: $limit_value, sort: $sort_value, program_name: $program_name_filter , project_name: $project_name_filter,
@@ -791,6 +792,30 @@ constructor(private apollo: Apollo) {
 					undescended_testis_history_laterality
 					viral_hepatitis_serologies
 					weight
+				}
+				treatments {
+					treatment_id
+					treatment_submitter_id
+					days_to_treatment_end
+					days_to_treatment_start
+					initial_disease_status
+					regimen_or_line_of_therapy
+					therapeutic_agents
+					treatment_anatomic_site
+					treatment_effect
+					treatment_intent_type
+					treatment_or_therapy
+					treatment_outcome
+					treatment_type			
+					chemo_concurrent_to_radiation
+					number_of_cycles
+					reason_treatment_ended
+					route_of_administration
+					treatment_arm
+					treatment_dose
+					treatment_dose_units
+					treatment_effect_indicator
+					treatment_frequency
 				}
 				samples {
 					sample_id

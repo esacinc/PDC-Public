@@ -1,6 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 /* @import "~@angular/material/prebuilt-themes/indigo-pink.css"; */
-@import "../node_modules/@angular/material/legacy-prebuilt-themes/legacy-indigo-pink.css"; 
+@import "../node_modules/@angular/material/legacy-prebuilt-themes/legacy-indigo-pink.css";
 @import url('https://fonts.googleapis.com/css?family=Lato:100,700');
 
 /* LEFT align */
@@ -101,7 +101,7 @@ p-sorticon {
 }
 
 .table-striped thead .p-frozen-column {
-    border: 2px solid #D5D5D5 !important; 
+    border: 2px solid #D5D5D5 !important;
 }
 
 p-checkbox, p-tableCheckbox {
@@ -138,7 +138,7 @@ p-checkbox, p-tableCheckbox {
     font-size: 8px;
 } */
 p-paginator {
-  
+
     /*@@@PDC-7817: Pagination icons*/
     .p-paginator-first:before {
         content: "\f048";
@@ -192,10 +192,11 @@ p-paginator {
         margin-bottom: 5px;
     }
 
+    /* @@@PDC-8279-fix-508-compliance */
     .p-highlight {
-        background-color: #3A8BAF !important;
+        background-color: #387BA8 !important;
         color: #fff !important;
-    } 
+    }
 
     .p-paginator-pages .p-paginator-page {
         margin-bottom: 1px;
@@ -251,7 +252,7 @@ p-paginator {
     .p-dropdown-trigger {
         align-items: none;
     }
-    
+
     .p-dropdown-trigger .p-icon-wrapper {
         padding: 2px;
     }
@@ -275,7 +276,7 @@ p-paginator {
 
     .p-dropdown-item {
         border: none !important;
-        padding: 0.125em 0.25em 
+        padding: 0.125em 0.25em
     }
 }
 
@@ -321,7 +322,7 @@ p-paginator {
 #human-body-root {
 		position: relative;
 		min-height: 515px;
-		padding-top: 10px; 
+		padding-top: 10px;
 		padding-bottom: 40px;
 }
 #human-body-root .chart {
@@ -672,4 +673,3 @@ p-paginator {
     top: 86px;
     left: 197px;
 } */
-    

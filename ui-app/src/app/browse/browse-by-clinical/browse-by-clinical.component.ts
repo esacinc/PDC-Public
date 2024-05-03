@@ -57,6 +57,7 @@ export class BrowseByClinicalComponent implements OnInit {
   cols: any[];
   exposureCols: any[];
   followUpCols: any[];
+  treatmentCols: any[];
   static urlBase;
 	gdcUrl: string = environment.gdc_case_id_url;
 	kidsFirstURL: string = environment.kidsFirst_url;
@@ -405,12 +406,15 @@ prepareDownloadData(format, exportData, exportFileObject) {
 	}
 	var exposureBlob = this.prepareExposureDataforExport(exportData, format);
 	var followUpBlob = this.prepareFollowUpDataforExport(exportData, format);
+	//@@@PDC-8282 add treatment to manifest
+	var treatmentBlob = this.prepareTreatmentDataforExport(exportData, format);
 	//Zip the files to tar.gz
 	const jszip = new JSZip();
 	jszip.file(this.getExportFileName(format), blob);
 	jszip.file(this.getExportFileName(format, "exposure"), exposureBlob);
 	//@@@PDC-4490: Update Clinical manifest and Case summary pages for GDC Sync
 	jszip.file(this.getExportFileName(format, "followup"), followUpBlob);
+	jszip.file(this.getExportFileName(format, "treatment"), treatmentBlob);
 	//eg: PDC_clinical_data_manifests_<timestamp>
 	let folderName = this.getExportFileName(format, "", "true").replace("." + format, "") + ".tar.gz";
 	//Download files
@@ -632,6 +636,43 @@ isDownloadDisabled(){
 	        exposureBlob = new Blob([exportExposureCSVData], { type: 'text/csv;' });
 		}
 		return exposureBlob;
+	}
+	
+	//@@@PDC-8282 add treatment to manifest
+	prepareTreatmentDataforExport(exportData, format) {
+		let treatmentDataArr = [];
+		treatmentDataArr = this.populateTreatmentData(exportData);
+		let treatmentColValues = [];
+		var treatmentBlob = new Blob();
+		for (var i=0; i< this.treatmentCols.length; i++) {
+			treatmentColValues.push(this.treatmentCols[i]['field']);
+		}
+		let exportFileTreatmentObject = JSON.parse(JSON.stringify(treatmentDataArr, treatmentColValues));
+		if (format == "tsv") {
+			let exportTreatmentTSVData = this.prepareTSVExportManifestData(exportFileTreatmentObject, this.treatmentCols);
+			treatmentBlob = new Blob([exportTreatmentTSVData], { type: 'text/csv;charset=utf-8;' });
+		} else if (format == "csv") {
+			let exportTreatmentCSVData = this.prepareCSVExportManifestData(exportFileTreatmentObject, this.treatmentCols);
+			treatmentBlob = new Blob([exportTreatmentCSVData], { type: 'text/csv;' });
+		}
+		return treatmentBlob;
+	}
+
+	populateTreatmentData(exportData) {
+		let treatmentDataArr = [];
+		for (var obj in exportData) {
+			let case_id_val = exportData[obj]['case_id'];
+			let case_submitter_id_val = exportData[obj]['case_submitter_id'];
+			let treatments = exportData[obj]['treatments'];
+			if (treatments && treatments.length > 0) {
+				for (var exp in treatments) {
+					exportData[obj]['treatments'][exp]['case_id'] = case_id_val;
+					exportData[obj]['treatments'][exp]['case_submitter_id']	= case_submitter_id_val;
+					treatmentDataArr.push(exportData[obj]['treatments'][exp]);
+				}
+			}
+		}
+		return treatmentDataArr;
 	}
 
 	//@@@PDC-4490: Update Clinical manifest and Case summary pages for GDC Sync
@@ -924,6 +965,33 @@ isDownloadDisabled(){
 		{field: "smokeless_tobacco_quit_age", header: "Smokeless Tobacco Quit Age"},
 		{field: "tobacco_use_per_day", header: "Tobacco Use Per Day" }
 	  ];
+	  //@@@PDC-8282 add treatment to manifest
+	  this.treatmentCols = [
+		{field: 'case_id', header: 'Case ID'},
+		{field: 'case_submitter_id', header: 'Case Submitter ID'},
+		{field: 'treatment_id', header: 'Treatment ID'},
+		{field: 'treatment_submitter_id', header: 'Treatment Submitter ID'},
+		{field: 'days_to_treatment_end', header: 'Days to Treatment End'},
+		{field: 'days_to_treatment_start', header: 'Days to Treatment Start'},
+		{field: 'initial_disease_status', header: 'Initial Disease Status'},
+		{field: 'regimen_or_line_of_therapy', header: 'Regimen or Line of Therapy'},
+		{field: 'therapeutic_agents', header: 'Therapeutic Agents'},
+		{field: 'treatment_anatomic_site', header: 'Treatment Anatomic Site'},
+		{field: 'treatment_effect', header: 'Treatment Effect'},
+		{field: 'treatment_intent_type', header: 'Treatment Intent Type'},
+		{field: 'treatment_or_therapy', header: 'Treatment or Therapy'},
+		{field: 'treatment_outcome', header: 'Treatment Outcome'},
+		{field: 'treatment_type', header: 'Treatment Type'},
+		{field: 'treatment_arm', header: 'Treatment Arm'},
+		{field: 'treatment_dose', header: 'Treatment Dose'},
+		{field: 'treatment_dose_units', header: 'Treatment Dose Units'},
+		{field: 'treatment_effect_indicator', header: 'Treatment Effect Indicator'},
+		{field: 'treatment_frequency', header: 'Treatment Frequency'},
+		{field: 'chemo_concurrent_to_radiation', header: 'Chemo Concurrent to Radiation'},
+		{field: 'number_of_cycles', header: 'Number of Cycles'},
+		{field: 'reason_treatment_ended', header: 'Reason Treatment Ended'},
+		{field: 'route_of_administration', header: 'Route of Administration'}
+	  ];
 	//@@@PDC-4490: Update Clinical manifest and Case summary pages for GDC Sync
   //@@@PDC-4568: Deprecated Properties of Sample and Exposure should not show up in the export manifests
 	this.followUpCols = [
@@ -1093,10 +1161,11 @@ isDownloadDisabled(){
 			}
 			result = result.slice(0, -1);
 			result += EOL;
+			//@@@PDC-8282 remove null 
 			for (var i=0; i < manifestData.length; i++){
 				for (const index in manifestData[i]) {
 					if (manifestData[i][index] == null) {
-						result += "null" + separator;
+						result += separator;
 					} else {
 						result += '"'+ manifestData[i][index] + '"'+ separator;
 					}

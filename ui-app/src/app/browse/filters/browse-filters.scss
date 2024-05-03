@@ -137,9 +137,9 @@ $stateActiveBgColor: #3baae3;
     position: absolute!important;
 	left: 7.5px!important;
   }
-
+//@@@PDC-8279-fix-508-compliance
 .mat-expansion-panel-header, .mat-expansion-panel-header:hover{
-	background: rgb(120, 167, 192)!important;
+	background-color: #387BA8 !important;
 	padding-right:0px!important;
 }
 

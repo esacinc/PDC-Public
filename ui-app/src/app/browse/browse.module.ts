@@ -49,6 +49,8 @@ import { BrowseService } from './browse.service';
 import { AuthGuardService } from '../auth-guard.service';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+//@@@PDC-8279-fix-508-compliance
+import { AriaLabeler } from './aria-labeler';
 
 @NgModule({
   imports: [
@@ -61,7 +63,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
   declarations: [ NewsComponent, StripHtmlTagsPipe,
           BrowseByCaseComponent, BrowseByStudyComponent, BrowseByFileComponent,
           BrowseByClinicalComponent, BrowseByGeneComponent, BrowseFiltersComponent, BrowseComponent],
-  providers: [ BrowseService, BrowseFiltersService, NewsService, AuthGuardService ]
+  providers: [ BrowseService, BrowseFiltersService, NewsService, AuthGuardService, AriaLabeler ]
 })
 
 // @@@PDC-516 angular lazy loading

@@ -54,6 +54,7 @@
             <tr style="font-size: 12px;">
 				<th class="ui-datatable-tableheader" style="width:50px;overflow: unset;" pFrozenColumn>
 					<!-- @@@PDC-7012 -improve-checkbox intuitiveness -->
+					<!-- @@@PDC-8279 -fix 508 issues -->
 					<label><p-checkbox id="clinicalDataChk" [(ngModel)]="headercheckbox" binary="true" (onChange)="triggerchangeHeaderCheckbox($event)" ></p-checkbox>
 					<mat-select #dataForManifestExport id="dataForManifestExport" class="card-body card-list" [(ngModel)]="selectedHeaderCheckbox"
 					(selectionChange)="changeHeaderCheckbox($event)">
@@ -151,7 +152,7 @@
             <tr style="font-size: 11px;" [pSelectableRow]="clinicalData" >
 				<!-- @@PDC-7110 - fix checkbox updates -->
 				<td style="width:50px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;" pFrozenColumn>
-					<label><p-checkbox #browsePageCheckboxes id="clinicalData{{clinicalData.case_submitter_id}}" [value]="clinicalData" class="browsePageCheckboxes" [(ngModel)]="selectedClinicalData"></p-checkbox></label>
+					<label><p-checkbox #browsePageCheckboxes id="clinicalData{{clinicalData.case_submitter_id}}" [value]="clinicalData" class="browsePageCheckboxes" [(ngModel)]="selectedClinicalData"></p-checkbox><span style="display:none;">Select</span></label>
 				</td>
 				<!-- @@@PDC-462 show submitter id -->
 				<td style="width:150px;word-wrap: break-word; white-space: normal;" pFrozenColumn>

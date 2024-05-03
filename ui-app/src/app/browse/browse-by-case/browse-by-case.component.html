@@ -110,7 +110,8 @@
         <ng-template pTemplate="body" let-caseData let-columns="columns">
             <tr style="font-size: 11px;" [pSelectableRow]="caseData" >
 				<td style="width:50px;word-wrap: break-word; white-space: normal;" pFrozenColumn>
-					<label><p-checkbox #browsePageCheckboxes id="caseData{{caseData.aliquot_submitter_id}}" [value]="caseData" class="browsePageCheckboxes" [(ngModel)]="selectedCases"></p-checkbox></label>
+					<!--@@@PDC-8279-fix 508 compliance -->
+					<label><p-checkbox #browsePageCheckboxes id="caseData{{caseData.aliquot_submitter_id}}" [value]="caseData" class="browsePageCheckboxes" [(ngModel)]="selectedCases"></p-checkbox><span style="display:none">Select</span></label>
 				</td>
 				<!-- @@@PDC-462 show submitter ids -->
                 <td style="width:150px; white-space: normal;" pFrozenColumn>{{caseData.aliquot_submitter_id }}&nbsp;&nbsp;<span style='color:red' *ngIf="caseData.aliquot_status == 'Disqualified'">{{caseData.aliquot_status}}</span></td>

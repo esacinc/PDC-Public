@@ -1,6 +1,20 @@
 {
   "news": [
     {
+      "label": "NCI invites you to share your thoughts on the Clinical Proteomic Tumor Analysis Consortium (CPTAC). Your input can help accelerate cancer understanding through proteogenomics!",
+      "link": "https://proquest.iad1.qualtrics.com/jfe/form/SV_bP1hth2gAEHwn5k?Q_CHL=qr",
+      "exit_disclaimer":false,
+      "visible": true,
+      "date_added":"2024-05-02"
+    },
+    {
+      "label": "In its tenth year, the CRDC showcases how it empowers researchers through a manuscript series in AACR Cancer Research, detailing its resources, including the Proteomic Data Commons.",
+      "link": "https://datacommons.cancer.gov/publications/aacr-cancer-research",
+      "exit_disclaimer":false,
+      "visible": true,
+      "date_added":"2024-04-01"
+    },
+    {
       "label": "Catch the video of NCI CBIIT Data Science Webinar on \"Proteomic Data Commons in Cancer Research\" on November 15th, 2023, with speakers Dr. Ratna Rajesh Thangudu (ICF) and Dr. Bing Zhang (Baylor College of Medicine).",
       "link": "https://nci.rev.vbrick.com/sharevideo/ecc3ebe1-31ba-4117-816e-4b896883f205",
       "exit_disclaimer":false,
@@ -18,14 +32,14 @@
       "label": "Proteomic Data Commons, serving as a data resource for CPTAC’s Pan-Cancer effort",
       "link": "https://doi.org/10.1016/j.ccell.2023.06.009",
       "exit_disclaimer":false,
-      "visible": true,
+      "visible": false,
       "date_added":"2023-08-31"
     },
     {
       "label": "Illuminating Endometrial Carcinoma through Proteogenomics and Deep Learning",
       "link": "https://proteomics.cancer.gov/news_and_announcements/illuminating-endometrial-carcinoma-through-proteogenomics-and-deep-learning",
       "exit_disclaimer":false,
-      "visible": true,
+      "visible": false,
       "date_added":"2023-08-31"
     },
     {

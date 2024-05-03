@@ -4,7 +4,6 @@
 				[loading]="loading" [resizableColumns]="true" columnResizeMode="expand" [ngStyle]="{'width':'100%'}"
 		    [(selection)]="selectedStudies"
         (selectionChange)="onSelectionChange($event)"
-
 				dataKey="submitter_id_name" (onLazyLoad)="loadNewPage($event)" id="studyDataTable" paginatorPosition="both"
 				scrollHeight="500px" [autoLayout]="true" [scrollable]="true" styleClass="p-datatable-gridlines" >
 		<ng-template pTemplate="caption">
@@ -21,7 +20,8 @@
 							<div class="wholeManifestDownload">
 								Export All Manifests
 								&nbsp;<button matTooltip="Exports all manifests for the filters applied" id="downloadWholeManifest" mat-raised-button mat-primary label="Download Selection" (click)="downloadAllManifest('csv')" style="font-family:'Lato';font-weight:bold; min-width:1%;" [disabled]="iscompleteManifestDisabled()" aria-label="Download all Manifests">CSV</button>&nbsp;
-								<button matTooltip="Exports all manifests for the filters applied" id="downloadWholeManifest" mat-raised-button mat-primary label="Download Selection" (click)="downloadAllManifest('tsv')" style="font-family:'Lato';font-weight:bold; min-width: 1%;" [disabled]="iscompleteManifestDisabled()" aria-label="Download all Manifests">TSV</button>
+                <!-- @@@PDC-8279 -fix-508 compliance -->
+                <button matTooltip="Exports all manifests for the filters applied" id="downloadWholeManifest" mat-raised-button mat-primary label="Download Selection" (click)="downloadAllManifest('tsv')" style="font-family:'Lato';font-weight:bold; min-width: 1%;" [disabled]="iscompleteManifestDisabled()" aria-label="Download all Manifests">TSV</button>
 							</div>
 						</div>
 					</div>
@@ -55,7 +55,7 @@
 				<th rowspan=3 class="ui-datatable-tableheader checkboxColumn" style="max-width: 50px !important; min-width: 50px !important; width: 50px !important; align-content: center !important; overflow: unset;" alt="Check All checkboxes in the table" pFrozenColumn>
 					<!-- @@@PDC-7012 improve browse checkbox intuitiveness -->
 					<!-- @@@PDC-7109 improve browse checkbox intuitiveness -->
-					<label><p-checkbox id="studyDataChk" [(ngModel)]="headercheckbox" binary="true" (onChange)="triggerchangeHeaderCheckbox($event)"></p-checkbox>
+					<label title="checkboxLabel"><p-checkbox id="studyDataChk" [(ngModel)]="headercheckbox" binary="true" (onChange)="triggerchangeHeaderCheckbox($event)"></p-checkbox>
 							  <mat-select #dataForManifestExport id="dataForManifestExport" class="card-body card-list" [(ngModel)]="selectedHeaderCheckbox" (selectionChange)="changeHeaderCheckbox($event)">
 								  <mat-option *ngFor="let checkboxOption of checkboxOptions" [value]="checkboxOption" (selectionChange)="chkBoxSelectionCheck(checkboxOption)">
 									  {{checkboxOption}}
@@ -125,22 +125,22 @@
 				<th rowspan=3 class="ui-datatable-tableheader fixedWidthCol">Cases #</th>
 			</tr>
 			<tr>
-				<th colspan=6 class="ui-datatable-tableheader-collapsed" style="text-align: center"><a href="/pdc/faq/Files_Download" target="_blank" style="color:white">Available files for data category</a></th>
+				<th colspan=6 class="ui-datatable-tableheader-collapsed" style="text-align: center;color:white;background-color:#387BA8 !important"><a href="/pdc/faq/Files_Download" target="_blank" style="color:white">Available files for data category</a></th>
 			</tr>
-			<tr>
-				<th rowspan=1 class="ui-datatable-tableheader-continue fixedWidthCol"><a href="/pdc/faq/Files_Download" target="_blank" style="color:white">Raw</a></th>
-				<th rowspan=1 class="ui-datatable-tableheader-continue fixedMaxWidthCol"><a href="/pdc/faq/Files_Download" target="_blank" style="color:white"><div>Processed</div> Mass Spectra</a></th>
-				<th rowspan=1 class="ui-datatable-tableheader-continue fixedMaxWidthCol"><a href="/pdc/faq/Files_Download" target="_blank" style="color:white">Metadata</a></th>
-				<th rowspan=1 class="ui-datatable-tableheader-continue fixedWidthCol"><a href="/pdc/faq/Files_Download" target="_blank" style="color:white">PSM</a></th>
-				<th rowspan=2 class="ui-datatable-tableheader-continue fixedMaxWidthCol"><a href="/pdc/faq/Files_Download" target="_blank" style="color:white"><div>Protein</div>Assembly</a></th>
-				<th rowspan=2 class="ui-datatable-tableheader-continue fixedWidthCol"><a href="/pdc/faq/Files_Download" target="_blank" style="color:white"><div>Quality</div>Metrics</a></th>
+			<tr style="background-color:#387BA8 !important">
+				<th rowspan=1 class="ui-datatable-tableheader-continue fixedWidthCol"><a href="/pdc/faq/Files_Download" target="_blank" style="color:white;background-color:#387BA8 !important">Raw</a></th>
+				<th rowspan=1 class="ui-datatable-tableheader-continue fixedMaxWidthCol"><a href="/pdc/faq/Files_Download" target="_blank" style="color:white;background-color:#387BA8 !important"><div>Processed</div> Mass Spectra</a></th>
+				<th rowspan=1 class="ui-datatable-tableheader-continue fixedMaxWidthCol"><a href="/pdc/faq/Files_Download" target="_blank" style="color:white;background-color:#387BA8 !important">Metadata</a></th>
+				<th rowspan=1 class="ui-datatable-tableheader-continue fixedWidthCol"><a href="/pdc/faq/Files_Download" target="_blank" style="color:white;background-color:#387BA8 !important">PSM</a></th>
+				<th rowspan=2 class="ui-datatable-tableheader-continue fixedMaxWidthCol"><a href="/pdc/faq/Files_Download" target="_blank" style="color:white;background-color:#387BA8 !important"><div>Protein</div>Assembly</a></th>
+				<th rowspan=2 class="ui-datatable-tableheader-continue fixedWidthCol"><a href="/pdc/faq/Files_Download" target="_blank" style="color:white;background-color:#387BA8 !important"><div>Quality</div>Metrics</a></th>
             </tr>
 		</ng-template>
         <ng-template pTemplate="body" let-studyData let-columns="columns">
             <tr style="font-size: 11px" [pSelectableRow]="studyData">
 				<td style="max-width:50px; align-content: center !important;" class="checkboxColumn" pFrozenColumn>
           <!-- @@@PDC-7818 - select all studies error -->
-					<label><p-tableCheckbox  [pSelectableRow]="studyData" #browsePageCheckboxes id="studyData{{studyData.submitter_id_name}}" [value]="studyData"  class="browsePageCheckboxes" style="cursor:pointer !important;"></p-tableCheckbox></label>
+					<label><p-tableCheckbox  [pSelectableRow]="studyData" #browsePageCheckboxes id="studyData{{studyData.submitter_id_name}}" [value]="studyData"  class="browsePageCheckboxes" style="cursor:pointer !important;"></p-tableCheckbox><span style="display:none;">Select</span></label>
 				</td>
 				<td style="width:100px; word-wrap: break-word; white-space: normal;" pFrozenColumn><a href="javascript:void(0);" (click)="showStudySummary(studyData.study_submitter_id)">{{studyData.pdc_study_id}}</a>
 				<span *ngIf="versionCheck(studyData.versions)"><br><a href="javascript:void(0);" class="btn btn-primary breadCrumbButtons" style="padding: 0px; cursor:default!important;" disabled="true" matTooltip="This study has multiple versions. Additional versions (updates) of a study are created when the underlying data changes substantially. This may involve changes to the raw data, processed data, and/or metadata. When a new version is created, it may fall out of sync with the original publication of this data. Use of the latest version is strongly encouraged, as it commonly represents an update directly from the submitter." matTooltipPosition="right">

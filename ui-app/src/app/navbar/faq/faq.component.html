@@ -24,6 +24,8 @@
             <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Submit_Data, 'Submit_Data')">How do I submit data to PDC?</a></b>
             <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Register_PDC, 'Register_PDC')">How do I register my program with PDC?</a></b>
             <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(S3Upload_Data, 'S3Upload_Data')">How do I configure my AWS account to upload data from my S3 bucket to PDC?</a></b>
+            <!-- @@@PDC-8265 - add instructions for .d files -->
+            <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Raw_DataAccepted, 'Raw_DataAccepted')">What types of raw data does PDC accept?</a></b>
           </ul>
         <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Data_Download, 'Data_Download')">Data Download</a></b>
         <ul>
@@ -141,6 +143,20 @@
               {{'}'}}
             </pre></div>
       <br>Note: Replace the 'awsexamplesourcebucket' with your bucket name.
+      <!-- @@@PDC-8265 - add instructions for .d files -->
+      <div #Raw_DataAccepted id="Raw_DataAccepted" class="faq-question">What types of raw data does PDC accept?</div>
+      <p class="faq-response">
+        PDC accepts various proprietary data formats developed by different manufacturers of mass spectrometers such as “.raw”, “.d”; “.wiff”; “.wiff.scan”; “.wiff.mtd”; “.dat”; “.mis”.
+        If you encounter a data format that is not currently supported while uploading to the submission portal, please reach out to the PDC helpdesk for assistance.
+        <br><br>
+        Note:
+        <br><br>
+        For AB Sciex (formerly Applied Biosystems) series of mass spectrometers, such as the AB Sciex TripleTOF and QTRAP, which produce WIFF format data, it's important to note that multiple files may represent one raw file.
+        In such cases, users are required to upload all associated files together in the same upload.
+        <br><br>
+        For Bruker instruments like the Bruker Tims Tof series, where a folder represents one raw file, users should compress individual .d folders corresponding to a single raw file into a single zip file.
+        The compressed file should be named in the format "file.d.zip" to correspond to the original file name.
+      </p>
 
       <br><br><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Top)">Go Back</a>
 

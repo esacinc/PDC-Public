@@ -109,13 +109,13 @@
   .table-panels .ui-widget-header {
     background: linear-gradient(to bottom, #f6f7f9 0%, #ebedf0 100%);
   }
-
+  /* PDC-8279-fix-508-compliance */
   .table-panels .ui-datatable-tableheader {
-    background-color: #3A8BAF;
+    background-color: #387BA8;
   }
 
   .table-panels .ui-paginator .ui-paginator-page.ui-state-active {
-    background-color: #3A8BAF;
+    background-color: #387BA8;
   }
 
  .table-panels .ui-table .ui-table-tbody > tr:nth-child(even).ui-state-highlight,
@@ -239,7 +239,7 @@
   padding-bottom: 0px !important
 }
 
-.browseOverlay:has(div.p-datatable-loading-overlay) { 
+.browseOverlay:has(div.p-datatable-loading-overlay) {
   background: #F1F1F1;
   opacity: 0.6 !important;
 }
