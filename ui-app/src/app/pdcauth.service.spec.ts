@@ -1,20 +1,18 @@
 import { LoginUserResponse, PDCUserData, PDCUserId } from "./types";
-import {
-  HttpClientTestingModule,
-  HttpTestingController
-} from "@angular/common/http/testing";
+import { HttpTestingController, provideHttpClientTesting } from "@angular/common/http/testing";
 import { TestBed, inject } from "@angular/core/testing";
 
 import { PDCUserService } from "./pdcuser.service";
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 
 describe("PDCUserService", () => {
   let controller: HttpTestingController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [PDCUserService],
-      imports: [HttpClientTestingModule]
-    });
+    imports: [],
+    providers: [PDCUserService, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+});
 
     controller = TestBed.get(HttpTestingController);
   });

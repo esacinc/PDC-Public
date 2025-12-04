@@ -3,7 +3,7 @@ import { Apollo } from 'apollo-angular';
 import {
     Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild, ViewChildren
 } from '@angular/core';
-import { MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig } from '@angular/material/legacy-dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { AllCasesData, AllUICasesData } from '../../types';
@@ -14,10 +14,11 @@ import * as FileSaver from 'file-saver';
 import * as _ from 'lodash';
 
 @Component({
-  selector: 'browse-by-case',
-  templateUrl: './browse-by-case.component.html',
-  styleUrls: ['../../../assets/css/global.css', './browse-by-case.component.scss'],
-	providers: [ BrowseByCaseService]
+    selector: 'browse-by-case',
+    templateUrl: './browse-by-case.component.html',
+    styleUrls: ['../../../assets/css/global.css', './browse-by-case.component.scss', '../browse-table.component.css'],
+    providers: [BrowseByCaseService],
+    standalone: false
 })
 
 //@@@PDC-169 The user should be able to browse data by Case
@@ -59,7 +60,7 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
   fenceRequest:boolean = false;
   //keep a full list of filter category
   // Array which holds filter names. Must be updated when new filters are added to browse page.
-  allFilterCategory: string[] = ["project_name","primary_site","program_name","disease_type","analytical_fraction","experiment_type","acquisition_type","study_name","submitter_id_name","sample_type","ethnicity","race","gender","tumor_grade","data_category","file_type","access","downloadable","studyName_genes_tab", "biospecimen_status", "case_status"];
+  allFilterCategory: string[] = ["project_name","primary_site","program_name","disease_type","analytical_fraction","experiment_type","acquisition_type","study_name","submitter_id_name","sample_type","ethnicity","race","gender","tumor_grade","data_category","studyName_genes_tab","age_at_diagnosis", "ajcc_clinical_stage","ajcc_pathologic_stage", "morphology", "site_of_resection_or_biopsy","progression_or_recurrence","vital_status", "therapeutic_agents", "treatment_intent_type", "treatment_outcome","alcohol_intensity","tobacco_smoking_status","cigarettes_per_day","treatment_type","alcohol_history","case_status"];
   //@@@PDC-848 Fix headercheckbox issue for data tables on browse page
 	headercheckbox:boolean = false;
   currentPageSelectedCase = [];
@@ -90,8 +91,7 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
 				private dialog: MatDialog,
 				private activatedRoute:ActivatedRoute) {
 	// Array which holds filter names. Must be updated when new filters are added to browse page.
-	this.newFilterSelected = {"program_name" : "", "project_name": "", "study_name": "", "submitter_id_name": "", "disease_type":"", "primary_site":"", "analytical_fraction":"", "experiment_type":"",
-								"ethnicity": "", "race": "", "gender": "", "tumor_grade": "", "sample_type": "", "acquisition_type": "", "data_category": "", "file_type": "", "access": "", "downloadable": "", "studyName_genes_tab":"", "biospecimen_status": "", "case_status": ""};
+	this.newFilterSelected = {"program_name" : "", "project_name": "", "study_name": "", "submitter_id_name": "", "disease_type":"", "primary_site":"", "analytical_fraction":"", "experiment_type":"","ethnicity": "", "race": "", "gender": "", "tumor_grade": "", "sample_type": "", "acquisition_type": "", "data_category": "", "age_at_diagnosis" : "", "ajcc_clinical_stage" : "","ajcc_pathologic_stage" : "", "morphology" : "", "site_of_resection_or_biopsy" : "","progression_or_recurrence" : "","vital_status": "", "therapeutic_agents": "", "treatment_intent_type": "", "treatment_outcome": "","alcohol_intensity": "","tobacco_smoking_status": "","cigarettes_per_day": "","treatment_type": "","alcohol_history": "","studyName_genes_tab":"", "biospecimen_status": "", "case_status": ""};
 	this.offset = 0; //Initialize values for pagination
 	this.limit = 10;
 	this.totalRecords = 0;
@@ -179,22 +179,42 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
 			this.newFilterSelected["race"] = "";
 			this.newFilterSelected["gender"] = "";
 			this.newFilterSelected["tumor_grade"] = "";
+			this.newFilterSelected["vital_status"] = "";
+			this.newFilterSelected["disease_type"] = "";
+			this.newFilterSelected["primary_site"] = "";
+			this.newFilterSelected["age_at_diagnosis"] = "";
+			this.newFilterSelected["ajcc_clinical_stage"] = "";
+			this.newFilterSelected["ajcc_pathologic_stage"] = "";
+			this.newFilterSelected["morphology"] = "";
+			this.newFilterSelected["site_of_resection_or_biopsy"] = "";
+			this.newFilterSelected["progression_or_recurrence"] = "";
+			this.newFilterSelected["vital_status"] = "";
+			this.newFilterSelected["therapeutic_agents"] = "";
+			this.newFilterSelected["treatment_intent_type"] = "";
+			this.newFilterSelected["treatment_outcome"] = "";
+			this.newFilterSelected["alcohol_intensity"] = "";
+			this.newFilterSelected["tobacco_smoking_status"] = "";
+			this.newFilterSelected["cigarettes_per_day"] = "";
+			this.newFilterSelected["treatment_type"] = "";
+			this.newFilterSelected["alcohol_history"] = "";
+			this.newFilterSelected["sample_type"] = "";
 			this.newFilterSelected["case_status"] = "";
 		}
 		else if (filter_field[0] === "Clear all general filters selections"){
 			//console.log(this.newFilterSelected);
 			this.newFilterSelected["program_name"] = "";
 			this.newFilterSelected["project_name"] = "";
-			//this.newFilterSelected["study_name"] = "";
-			this.newFilterSelected["disease_type"] = "";
-			this.newFilterSelected["primary_site"] = "";
+			this.newFilterSelected["study_name"] = "";
+			//this.newFilterSelected["disease_type"] = "";
+			//this.newFilterSelected["primary_site"] = "";
 			this.newFilterSelected["analytical_fraction"] = "";
 			this.newFilterSelected["experiment_type"] = "";
 			this.newFilterSelected["acquisition_type"] = ""
-			this.newFilterSelected["biospecimen_status"] = "";
-			this.newFilterSelected["case_status"] = "";
+			this.newFilterSelected["data_category"] = "";
+			//this.newFilterSelected["biospecimen_status"] = "";
+			//this.newFilterSelected["case_status"] = "";
 		}
-		else if (filter_field[0] === "Clear all biospecimen filters selections"){
+		/*else if (filter_field[0] === "Clear all biospecimen filters selections"){
 			this.newFilterSelected["sample_type"] = "";
 			this.newFilterSelected["study_name"] = "";
 			this.newFilterSelected["biospecimen_status"] = "";
@@ -205,7 +225,7 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
 			this.newFilterSelected["file_type"] = "";
 			this.newFilterSelected["access"] = "";
 			this.newFilterSelected["downloadable"] = "";
-		}
+		}*/
 		else if (filter_field[0] === "Clear all genes filters selections"){
 			this.newFilterSelected["study_name"] = "";
 		}
@@ -516,7 +536,7 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
         case 'Select None':
             this.clearSelection();
             break;
-      } 
+      }
       //@@@PDC-7110 - check if there are unchecked checkboxes in table - if so then deselect checkbox
       let found = this.browsePageCheckboxes._results.some(el => el.checked === false);
       if(found == false){

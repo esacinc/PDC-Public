@@ -1,9 +1,9 @@
-import {HttpClient} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import {Component, OnInit, ViewChildren, HostListener, QueryList} from '@angular/core';
 import {UntypedFormControl} from '@angular/forms';
-import { MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig } from '@angular/material/legacy-dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatIconRegistry } from '@angular/material/icon';
-import { MatLegacyMenuTrigger as MatMenuTrigger } from '@angular/material/legacy-menu';
+import { MatMenuTrigger } from '@angular/material/menu';
 import {DomSanitizer} from '@angular/platform-browser';
 import {NavigationEnd, ActivationEnd, Router, ActivatedRoute, ParamMap, ActivationStart} from '@angular/router';
 import {DEFAULT_INTERRUPTSOURCES, Idle} from '@ng-idle/core';
@@ -28,10 +28,12 @@ import {SearchService} from './search.service';
 import {environment} from '../../environments/environment';
 
 @Component({
-  selector: 'app-navbar',
-  templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.scss', '../../assets/css/global.css']//,
-  //encapsulation: ViewEncapsulation.Native
+    selector: 'app-navbar',
+    templateUrl: './navbar.component.html',
+    styleUrls: ['./navbar.component.scss', '../../assets/css/global.css'] //,
+    //encapsulation: ViewEncapsulation.Native
+    ,
+    standalone: false
 })
 
 //@@@PDC-357 - Search UI
@@ -84,6 +86,7 @@ export class NavbarComponent implements OnInit {
   userEmailConfirmed = false;
   homePageURL = '/';
   userRegisteredToWorkspaceFlag = false;
+  userRegisteredToWorkspaceProgramFlag = false;
   //caseUUID = '';
   searchedSampleSubmitterID = "";
   searchedAliquotSubmitterID = "";
@@ -262,10 +265,11 @@ export class NavbarComponent implements OnInit {
         caseUUID = '';
       }
     }
-    this.openCaseSummaryDialog(caseSubmitterID, caseUUID);
+    //@@@PDC-8667 - include type,requiredCaseID to use to pull correct summary data
+    this.openCaseSummaryDialog(caseSubmitterID, caseUUID, type, requiredCaseID);
   }
 
-  openCaseSummaryDialog(caseSubmitterID = '', caseUUID) {
+  openCaseSummaryDialog(caseSubmitterID = '', caseUUID, type, requiredCaseID) {
     console.log('Open Case summary for case id: ' + caseSubmitterID + ', ' + caseUUID + '.');
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
@@ -290,7 +294,24 @@ export class NavbarComponent implements OnInit {
     //Fetch all required properties for a Case
     this.searchService.getCaseSummaryData(caseUUID, caseSubmitterID).subscribe((data: any) => {
       if (data.uiCase) {
-        let caseData = data.uiCase[0];
+        //@@@PDC-8667 - check returned values and match sample/aliquot ids using requiredCaseId value
+        let caseData; 
+        if(type == 'sample') {
+          data.uiCase.forEach((caseItem) => {
+            if (caseItem.sample_id === requiredCaseID[0]) {
+              caseData = caseItem;
+            }
+          });
+          } else if (type == 'aliquot') {
+            data.uiCase.forEach((caseItem) => {
+              let aliquot_id = requiredCaseID[0].split('{');
+              if (caseItem.aliquot_id === aliquot_id[0]) {
+                caseData = caseItem;
+              }
+            });
+          } else {
+            caseData = data.uiCase[0];
+          }  
         if (caseData) {
           if (caseUUID == '') {
             case_data.case_id = caseData.case_id;
@@ -439,15 +460,17 @@ export class NavbarComponent implements OnInit {
     this.searchService.getGeneSearchResults(search_term).subscribe((data: any) => {
       this.geneSearchResults = data.geneSearch.genes;
       for (let returnValue of this.geneSearchResults) {
-		  console.log('Search Gene Name: ', returnValue.name);
-		  console.log('Search  gene id: ', returnValue.gene_id);
-		  console.log('Search ncbi gene id: ', returnValue.ncbi_gene_id);
+		  //console.log('Search Gene Name: ', returnValue.name);
+		  //console.log('Search  gene id: ', returnValue.gene_id);
+		  //console.log('Search ncbi gene id: ', returnValue.ncbi_gene_id);
+		  //console.log('Search alias: ', returnValue.alias);
         let display_name = 'GN: ' + returnValue.name;
         //PDC-440 adding description to gene display value in dropdown list
 		//@@@PDC-7657 display ncbi_gene_id
-        if (returnValue.description != '') {
-          display_name = display_name.concat(' (' + returnValue.description +') ncbiGeneId: ' + returnValue.ncbi_gene_id);
-        }
+		//@@@PDC-8588 handle gene with aliases
+        //if (returnValue.description != '') {
+          display_name = display_name.concat(' (' + returnValue.description +') ncbiGeneId: ' + returnValue.ncbi_gene_id + ' alias: '+returnValue.alias);
+        //}
 		  console.log('Search Display Gene Name: ', display_name);
         //this.options.push({name: display_name, value: returnValue.name});
         this.options.push({name: display_name, value: returnValue.gene_id});
@@ -826,10 +849,20 @@ export class NavbarComponent implements OnInit {
           //Check if user is registered to Workspace
           var loggedInEmail = this.userService.getEmail();
           this.chorusService.checkUser(loggedInEmail).subscribe(exists => {
+			  console.log('User exists ' + exists);
             if (exists) {
               this.userRegisteredToWorkspaceFlag = true;
             } else {
               this.userRegisteredToWorkspaceFlag = false;
+            }
+          });
+		  //@@@PDC-9083 pending ws registration
+          this.chorusService.checkUserProgram(loggedInEmail).subscribe(exists => {
+			  console.log('User program exists ' + exists);
+            if (exists) {
+              this.userRegisteredToWorkspaceProgramFlag = true;
+            } else {
+              this.userRegisteredToWorkspaceProgramFlag = false;
             }
           });
           //@@@PDC-408 - implement session timeout after 30 mins idle
@@ -1092,7 +1125,8 @@ export class NavbarComponent implements OnInit {
     // @@PDC 552: this is for getting user information from local storage when page reloads.
     this.setInformationfromlocalStorage();
     // Since user is logged in, check to see if they are already setup in Chorus
-    this.chorusService.checkUser(this.loggedInEmail).subscribe(exists => {
+	//@@@PDC-9083 pending ws registration
+    this.chorusService.checkUserProgram(this.loggedInEmail).subscribe(exists => {
       if (exists) {
         this.chorusService.authenticateUser(this.loggedInEmail).subscribe(success => {
           //this.userEmail = userData.email;

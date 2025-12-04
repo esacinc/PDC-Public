@@ -1,4 +1,4 @@
-import { MessageDialogComponent } from "./../../dialog/message-dialog/message-dialog.component";
+import {MessageDialogComponent} from "./../../dialog/message-dialog/message-dialog.component";
 import {
   Component,
   EventEmitter,
@@ -9,30 +9,31 @@ import {
   ViewChild,
   ViewChildren
 } from "@angular/core";
-import { UntypedFormControl } from "@angular/forms";
-import { MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig } from "@angular/material/legacy-dialog";
-import { ActivatedRoute } from "@angular/router";
-import { Apollo } from "apollo-angular";
-import { ngxCsv } from "ngx-csv/ngx-csv";
-import { take } from 'rxjs/operators';
-import { Table } from "primeng/table";
-import { environment } from "../../../environments/environment";
-import { PDCUserService } from "../../pdcuser.service";
-import { AllFilesData } from "../../types";
-import { ConfirmationDialogComponent } from "./../../dialog/confirmation-dialog/confirmation-dialog.component";
-import { BrowseByFileService } from "./browse-by-file.service";
+import {UntypedFormControl} from "@angular/forms";
+import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
+import {ActivatedRoute} from "@angular/router";
+import {Apollo} from "apollo-angular";
+import {ngxCsv} from "ngx-csv/ngx-csv";
+import {take} from 'rxjs/operators';
+import {Table} from "primeng/table";
+import {environment} from "../../../environments/environment";
+import {PDCUserService} from "../../pdcuser.service";
+import {AllFilesData} from "../../types";
+import {ConfirmationDialogComponent} from "./../../dialog/confirmation-dialog/confirmation-dialog.component";
+import {BrowseByFileService} from "./browse-by-file.service";
 import * as jwt_decode from "jwt-decode";
 import { HttpClient } from '@angular/common/http';
-import { HttpErrorResponse } from "@angular/common/http";
+import {HttpErrorResponse} from "@angular/common/http";
 import * as _ from 'lodash';
 import * as FileSaver from 'file-saver';
-import { SizeUnitsPipe } from '../../sizeUnitsPipe.pipe';
+import {SizeUnitsPipe} from '../../sizeUnitsPipe.pipe';
 
 @Component({
-  selector: "browse-by-file",
-  templateUrl: "./browse-by-file.component.html",
-  styleUrls: ["../../../assets/css/global.css", "./browse-by-file.component.css"],
-  providers: [BrowseByFileService, SizeUnitsPipe]
+    selector: "browse-by-file",
+    templateUrl: "./browse-by-file.component.html",
+    styleUrls: ['../../../assets/css/global.css', './browse-by-file.component.css', '../browse-table.component.css'],
+    providers: [BrowseByFileService, SizeUnitsPipe],
+    standalone: false
 })
 
 //@@@PDC-169 The user should be able to browse data by File
@@ -80,16 +81,16 @@ export class BrowseByFileComponent implements OnInit {
   sort: string;
   selectedFileFilters: UntypedFormControl = new UntypedFormControl();
   @Output() fileTotalRecordChanged: EventEmitter<any> = new EventEmitter<any>();
-  fenceRequest:boolean = false;
+  fenceRequest: boolean = false;
   //keep a full list of filter category
   // Array which holds filter names. Must be updated when new filters are added to browse page.
-  allFilterCategory: string[] = ["project_name","primary_site","program_name","disease_type","analytical_fraction","experiment_type","acquisition_type","study_name","submitter_id_name","sample_type","ethnicity","race","gender","tumor_grade","data_category","file_type","access","downloadable","studyName_genes_tab", "biospecimen_status", "case_status"];
+  allFilterCategory: string[] = ["project_name", "primary_site", "program_name", "disease_type", "analytical_fraction", "experiment_type", "acquisition_type", "study_name", "submitter_id_name", "sample_type", "ethnicity", "race", "gender", "tumor_grade", "data_category", "file_type", "access", "downloadable", "studyName_genes_tab", "biospecimen_status", "case_status"];
 
   notDownloadable: string = 'not available for download';
 
   selectedFiles: AllFilesData[] = [];
   //status of headercheckbox
-  headercheckbox:boolean = false;
+  headercheckbox: boolean = false;
   //track current page selected file
   currentPageSelectedFile = [];
   //track if the header check box needs to be enabled
@@ -102,7 +103,7 @@ export class BrowseByFileComponent implements OnInit {
 
   static urlBase;
   // is fence url revisited
-  isFenceReloaded:any = false;
+  isFenceReloaded: any = false;
   //@@@PDC-937: Add a button to allow download all manifests with a single click
   completeFileManifest: AllFilesData[]; //Filtered list of cases
   @Output() downloadWholeManifestFlag: EventEmitter<any> = new EventEmitter<any>();
@@ -111,9 +112,9 @@ export class BrowseByFileComponent implements OnInit {
   @Input() downloadAllManifests;
   @Input() handleTableLoading;
   @Input() otherTabsLoaded;
-  @Input() enableDownloadAllManifests:any;
+  @Input() enableDownloadAllManifests: any;
   // Determines if there are any selected filters in the browse component
-  filtersSelected:any;
+  filtersSelected: any;
   //@@@PDC-1303: Add a download column and button for downloading individual files to the file tab
   individualFileData: AllFilesData[] = [];
   manifestFormat = "csv";
@@ -131,10 +132,10 @@ export class BrowseByFileComponent implements OnInit {
 
   constructor(
     private apollo: Apollo,
-	private http: HttpClient,
+    private http: HttpClient,
     private browseByFileService: BrowseByFileService,
     private dialog: MatDialog,
-	private sizeUnitsPipe: SizeUnitsPipe,
+    private sizeUnitsPipe: SizeUnitsPipe,
     private activeRoute: ActivatedRoute,
     private userService: PDCUserService
   ) {
@@ -155,30 +156,45 @@ export class BrowseByFileComponent implements OnInit {
       sample_type: "",
       acquisition_type: "",
       data_category: "",
-      file_type: "",
-      access: "",
-      downloadable: "",
+	 vital_status : "",
+	 age_at_diagnosis : "",
+	 ajcc_clinical_stage : "",
+	 ajcc_pathologic_stage : "",
+	 morphology : "",
+	 site_of_resection_or_biopsy : "",
+	 progression_or_recurrence : "",
+	 therapeutic_agents : "",
+	 treatment_intent_type : "",
+	 treatment_outcome : "",
+	 treatment_type : "",
+	 alcohol_history : "",
+	 alcohol_intensity : "",
+	 tobacco_smoking_status : "",
+	 cigarettes_per_day : "",
+	  //file_type: "",
+      //access: "",
+      //downloadable: "",
       studyName_genes_tab: "",
-      biospecimen_status: "",
+      //biospecimen_status: "",
       case_status: ""
     };
     this.offset = 0; //Initialize values for pagination
     this.limit = 10;
     this.totalRecords = 0;
     this.pageSize = 10;
-	this.studyVersion = sessionStorage.getItem('currentVersion') || "";
-	//assign study version value to each file
-	this.browseByFileService
-        .getStudiesVersions()
-        .subscribe((data: any) => {
-			for (let study of data.getPaginatedUIStudy.uiStudies){
-				if (study.versions && study.versions.length > 0) {
-					this.allStudiesVersions[study.submitter_id_name] = study.versions[0].number;
-				} else {
-					this.allStudiesVersions[study.submitter_id_name] = "N/A";
-				}
-			}
-		});
+    this.studyVersion = sessionStorage.getItem('currentVersion') || "";
+    //assign study version value to each file
+    this.browseByFileService
+      .getStudiesVersions()
+      .subscribe((data: any) => {
+        for (let study of data.getPaginatedUIStudy.uiStudies) {
+          if (study.versions && study.versions.length > 0) {
+            this.allStudiesVersions[study.submitter_id_name] = study.versions[0].number;
+          } else {
+            this.allStudiesVersions[study.submitter_id_name] = "N/A";
+          }
+        }
+      });
     this.getAllFilesData();
     this.selectedFileFilters = new UntypedFormControl();
     this.sort = "";
@@ -188,11 +204,11 @@ export class BrowseByFileComponent implements OnInit {
   onTableHeaderCheckboxToggle() {
     let emptyArray = [];
     let localSelectedFiles = emptyArray.concat(this.selectedFiles);
-    if(this.headercheckbox){
-      for(let file of this.filteredFilesData){
-		//Have to check if the file was already selected by file id and by study name
-		//otherwise there could be a situation (e.g. metadata files) where there is the same file for multiple studies
-        if(this.currentPageSelectedFile.indexOf(file.file_id + "-" + file.pdc_study_id) === -1){
+    if (this.headercheckbox) {
+      for (let file of this.filteredFilesData) {
+        //Have to check if the file was already selected by file id and by study name
+        //otherwise there could be a situation (e.g. metadata files) where there is the same file for multiple studies
+        if (this.currentPageSelectedFile.indexOf(file.file_id + "-" + file.pdc_study_id) === -1) {
           localSelectedFiles.push(file);
           this.currentPageSelectedFile.push(file.file_id + "-" + file.pdc_study_id);
         }
@@ -203,7 +219,7 @@ export class BrowseByFileComponent implements OnInit {
       for (let fileData of this.currentPageSelectedFile) {
         let index = localSelectedFiles.findIndex(x => (x.file_id + "-" + x.pdc_study_id) === fileData);
         if (index > -1) {
-          localSelectedFiles.splice(index,1);
+          localSelectedFiles.splice(index, 1);
         }
       }
       this.selectedFiles = localSelectedFiles;
@@ -216,17 +232,17 @@ export class BrowseByFileComponent implements OnInit {
   }
 
   //@@@PDC-820 row selections cross pagination
-  onRowSelected(event:any){
+  onRowSelected(event: any) {
     this.currentPageSelectedFile.push(event.data.file_id + "-" + event.data.pdc_study_id);
     //@@@PDC-3667: "Select all pages" option issue
     this.handleCheckboxSelections();
   }
 
   //@@@PDC-820 row selections cross pagination
-  onRowUnselected(event){
+  onRowUnselected(event) {
     let index = this.currentPageSelectedFile.indexOf(event.data.file_id + "-" + event.data.pdc_study_id);
-    if(index >-1){
-      this.currentPageSelectedFile.splice(index,1);
+    if (index > -1) {
+      this.currentPageSelectedFile.splice(index, 1);
     }
     //@@@PDC-3667: "Select all pages" option issue
     this.handleCheckboxSelections();
@@ -234,21 +250,21 @@ export class BrowseByFileComponent implements OnInit {
 
   //@@@PDC-3667: "Select all pages" option issue
   handleCheckboxSelections() {
-		if (this.currentPageSelectedFile.length === this.pageSize) {
-			this.headercheckbox = true;
-		} else {
-			//For the last page
-			if (this.totalRecords - this.offset < this.pageSize) {
-				if (this.currentPageSelectedFile.length === this.totalRecords - this.offset) {
-					this.headercheckbox = true;
-				} else {
-					this.headercheckbox = false;
-				}
-			} else {
-				this.headercheckbox = false;
-			}
-		}
-	}
+    if (this.currentPageSelectedFile.length === this.pageSize) {
+      this.headercheckbox = true;
+    } else {
+      //For the last page
+      if (this.totalRecords - this.offset < this.pageSize) {
+        if (this.currentPageSelectedFile.length === this.totalRecords - this.offset) {
+          this.headercheckbox = true;
+        } else {
+          this.headercheckbox = false;
+        }
+      } else {
+        this.headercheckbox = false;
+      }
+    }
+  }
 
   //@@@PDC-918: Add button to allow download of full file manifest
   changeHeaderCheckbox($event) {
@@ -256,53 +272,54 @@ export class BrowseByFileComponent implements OnInit {
     this.selectedFiles = this.currentPageSelectedFile = [];
     switch (checkboxVal) {
       case 'Select all pages':
-            this.fileExportCompleteManifest();
-            break;
+        this.fileExportCompleteManifest();
+        break;
       case 'Select this page':
-            this.headercheckbox = true;
-            this.onTableHeaderCheckboxToggle();
-            break;
+        this.headercheckbox = true;
+        this.onTableHeaderCheckboxToggle();
+        break;
       case 'Select None':
-            this.clearSelection();
-            break;
+        this.clearSelection();
+        break;
     }
   }
+
   //@@@PDC-7012 improve browse checkbox intuitiveness
   triggerchangeHeaderCheckbox() {
-      //@@@PDC-7110 - fix checkbox update
-      //@@@PDC-7110 - fix checkbox update - check the selection and then set checkbox accordingly
-      let checkboxVal = this.selectedHeaderCheckbox;
-      this.selectedFiles = this.currentPageSelectedFile = [];
-      switch (this.selectedHeaderCheckbox) {
-        case 'Select all pages':
-              this.fileExportCompleteManifest();
-              break;
-        case 'Select this page':
-              this.headercheckbox = true;
-              this.onTableHeaderCheckboxToggle();
-              break;
-        case 'Select None':
-              this.clearSelection();
-              break;
-      }
-      //@@@PDC-7110 - check if there are unchecked checkboxes in table - if so then deselect checkbox
-      var found = this.browsePageCheckboxes._results.some(el => el.checked === false);
-      if(found == false){
+    //@@@PDC-7110 - fix checkbox update
+    //@@@PDC-7110 - fix checkbox update - check the selection and then set checkbox accordingly
+    let checkboxVal = this.selectedHeaderCheckbox;
+    this.selectedFiles = this.currentPageSelectedFile = [];
+    switch (this.selectedHeaderCheckbox) {
+      case 'Select all pages':
+        this.fileExportCompleteManifest();
+        break;
+      case 'Select this page':
         this.headercheckbox = true;
-      } else {
-        this.headercheckbox = false;
-      }
-      this.dataForManifestExport.open();
+        this.onTableHeaderCheckboxToggle();
+        break;
+      case 'Select None':
+        this.clearSelection();
+        break;
+    }
+    //@@@PDC-7110 - check if there are unchecked checkboxes in table - if so then deselect checkbox
+    var found = this.browsePageCheckboxes._results.some(el => el.checked === false);
+    if (found == false) {
+      this.headercheckbox = true;
+    } else {
+      this.headercheckbox = false;
+    }
+    this.dataForManifestExport.open();
   }
 
   //@@@PDC-7109 improve browse checkbox intuitiveness - bug where 'Select None' remained checked when selected
   chkBoxSelectionCheck(selectedOption) {
-      if(selectedOption == 'Select None'){
-        this.headercheckbox = false;
-        this.dataForManifestExport.close();
-      } else {
-        this.headercheckbox = true;
-      }
+    if (selectedOption == 'Select None') {
+      this.headercheckbox = false;
+      this.dataForManifestExport.close();
+    } else {
+      this.headercheckbox = true;
+    }
   }
 
 
@@ -313,21 +330,21 @@ export class BrowseByFileComponent implements OnInit {
   //@@@PDC-5047: Investigate file download issues that's causing an auto scaling event
   //Comment code that's causing auto scaling event
   //WorkflowManagerComponent is not used anywhere, so comment its declaration
-/*   showStudySummary() {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = false;
-    dialogConfig.hasBackdrop = true;
-    dialogConfig.minWidth = "80%";
-    dialogConfig.width = "90%";
-    dialogConfig.height = "90%";
-    dialogConfig.data = {
-      summaryData: this.selectedFiles
-    };
-    const dialogRef = this.dialog.open(WorkflowManagerComponent, dialogConfig);
+  /*   showStudySummary() {
+      const dialogConfig = new MatDialogConfig();
+      dialogConfig.disableClose = true;
+      dialogConfig.autoFocus = false;
+      dialogConfig.hasBackdrop = true;
+      dialogConfig.minWidth = "80%";
+      dialogConfig.width = "90%";
+      dialogConfig.height = "90%";
+      dialogConfig.data = {
+        summaryData: this.selectedFiles
+      };
+      const dialogRef = this.dialog.open(WorkflowManagerComponent, dialogConfig);
 
-    dialogRef.afterClosed().subscribe(val => console.log("Dialog output:", val));
-  } */
+      dialogRef.afterClosed().subscribe(val => console.log("Dialog output:", val));
+    } */
 
   /*API call to get all cases data */
   getAllFilesData() {
@@ -335,14 +352,14 @@ export class BrowseByFileComponent implements OnInit {
     setTimeout(() => {
       this.browseByFileService
         .getFilteredFilesPaginated(
-		  this.studyVersion,
+          this.studyVersion,
           this.offset,
           this.limit,
           this.sort,
           this.newFilterSelected
         )
         .subscribe((data: any) => {
-          this.filteredFilesData = data.getPaginatedUIFile.uiFiles;
+          this.filteredFilesData = _.cloneDeep(data.getPaginatedUIFile.uiFiles);
           if (this.offset == 0) {
             this.totalRecords = data.getPaginatedUIFile.total;
             this.fileTotalRecordChanged.emit({
@@ -365,17 +382,17 @@ export class BrowseByFileComponent implements OnInit {
     // this.newFilterValue.fileTypes = [];
     this.newFilterSelected["file_type"] = filterValues.split(":")[1];
     this.loading = true;
-    console.log(this.newFilterSelected);
+    console.log("GET FILES: "+this.newFilterSelected);
     this.browseByFileService
       .getFilteredFilesPaginated(
-	    this.studyVersion,
+        this.studyVersion,
         this.offset,
         this.limit,
         this.sort,
         this.newFilterSelected
       )
       .subscribe((data: any) => {
-        this.filteredFilesData = data.getPaginatedUIFile.uiFiles;
+        this.filteredFilesData = _.cloneDeep(data.getPaginatedUIFile.uiFiles);
         if (this.offset === 0) {
           this.totalRecords = data.getPaginatedUIFile.total;
           this.fileTotalRecordChanged.emit({
@@ -398,12 +415,12 @@ export class BrowseByFileComponent implements OnInit {
     if (this.newFilterValue) {
       console.log(this.newFilterValue);
       //var filter_field = this.newFilterValue.split(":"); //the structure is field_name: "value1;value2"
-	  //@@@PDC-5428 fix study name truncation issue
-	  var filter_field = [];
-	  filter_field.push(this.newFilterValue.substring(0, this.newFilterValue.indexOf(":")));
-	  filter_field.push(this.newFilterValue.substring(this.newFilterValue.indexOf(":")+1));
-      console.log("Filter Name: "+ filter_field[0]);
-      console.log("Filter Value: "+ filter_field[1]);
+      //@@@PDC-5428 fix study name truncation issue
+      var filter_field = [];
+      filter_field.push(this.newFilterValue.substring(0, this.newFilterValue.indexOf(":")));
+      filter_field.push(this.newFilterValue.substring(this.newFilterValue.indexOf(":") + 1));
+      console.log("Filter Name: " + filter_field[0]);
+      console.log("Filter Value: " + filter_field[1]);
 
       //If clear all filter selection button was pressed need to clear all filters
       if (filter_field[0] === "Clear all selections") {
@@ -416,20 +433,37 @@ export class BrowseByFileComponent implements OnInit {
         this.newFilterSelected["race"] = "";
         this.newFilterSelected["gender"] = "";
         this.newFilterSelected["tumor_grade"] = "";
+        this.newFilterSelected["vital_status"] = "";
+        this.newFilterSelected["disease_type"] = "";
+        this.newFilterSelected["primary_site"] = "";
+        this.newFilterSelected["age_at_diagnosis"] = "";
+        this.newFilterSelected["ajcc_clinical_stage"] = "";
+        this.newFilterSelected["ajcc_pathologic_stage"] = "";
+        this.newFilterSelected["morphology"] = "";
+        this.newFilterSelected["site_of_resection_or_biopsy"] = "";
+        this.newFilterSelected["progression_or_recurrence"] = "";
+        this.newFilterSelected["vital_status"] = "";
+        this.newFilterSelected["therapeutic_agents"] = "";
+        this.newFilterSelected["treatment_intent_type"] = "";
+        this.newFilterSelected["treatment_outcome"] = "";
+        this.newFilterSelected["alcohol_intensity"] = "";
+        this.newFilterSelected["tobacco_smoking_status"] = "";
+        this.newFilterSelected["cigarettes_per_day"] = "";
+        this.newFilterSelected["treatment_type"] = "";
+        this.newFilterSelected["alcohol_history"] = "";
+        this.newFilterSelected["sample_type"] = "";
         this.newFilterSelected["case_status"] = "";
       } else if (filter_field[0] === "Clear all general filters selections") {
         //console.log(this.newFilterSelected);
         this.newFilterSelected["program_name"] = "";
         this.newFilterSelected["project_name"] = "";
-        //this.newFilterSelected["study_name"] = "";
-        this.newFilterSelected["disease_type"] = "";
-        this.newFilterSelected["primary_site"] = "";
+        this.newFilterSelected["study_name"] = "";
         this.newFilterSelected["analytical_fraction"] = "";
         this.newFilterSelected["experiment_type"] = "";
         this.newFilterSelected["acquisition_type"] = "";
-        this.newFilterSelected["biospecimen_status"] = "";
-        this.newFilterSelected["case_status"] = "";
-      } else if (filter_field[0] === "Clear all biospecimen filters selections") {
+        this.newFilterSelected["data_category"] = "";
+        //this.newFilterSelected["biospecimen_status"] = "";
+      /*} else if (filter_field[0] === "Clear all biospecimen filters selections") {
         this.newFilterSelected["sample_type"] = "";
         this.newFilterSelected["study_name"] = "";
         this.newFilterSelected["biospecimen_status"] = "";
@@ -438,34 +472,34 @@ export class BrowseByFileComponent implements OnInit {
         this.newFilterSelected["data_category"] = "";
         this.newFilterSelected["file_type"] = "";
         this.newFilterSelected["access"] = "";
-        this.newFilterSelected["downloadable"] = "";
+        this.newFilterSelected["downloadable"] = "";*/
       } else if (filter_field[0] === "Clear all genes filters selections") {
         this.newFilterSelected["study_name"] = "";
       } else {
         this.newFilterSelected[filter_field[0]] = filter_field[1];
       }
 
-	  //@@@PDC-3328 setting a variable that indicates that the current table shows files for older version of a study
-	  if (this.newFilterSelected["study_name"]){
-		  if (this.newFilterSelected["study_name"].length > 0 && sessionStorage.getItem('currentVersion')) {
-			  if (sessionStorage.getItem('currentVersion') < this.allStudiesVersions[this.newFilterSelected["study_name"]]) {
-				this.oldStudyVersion.emit({oldStudyVersion: sessionStorage.getItem('currentVersion')});
-			  }
-		  }
-	  }
+      //@@@PDC-3328 setting a variable that indicates that the current table shows files for older version of a study
+      if (this.newFilterSelected["study_name"]) {
+        if (this.newFilterSelected["study_name"].length > 0 && sessionStorage.getItem('currentVersion')) {
+          if (sessionStorage.getItem('currentVersion') < this.allStudiesVersions[this.newFilterSelected["study_name"]]) {
+            this.oldStudyVersion.emit({oldStudyVersion: sessionStorage.getItem('currentVersion')});
+          }
+        }
+      }
 
       //@@@PDC-799: Redirecting to the NIH login page for the file authorization loses PDC state
       //If its a fence request, set filters from local storage
       var selectedFiltersForBrowse = JSON.parse(localStorage.getItem("selectedFiltersForBrowse"));
       if (this.fenceRequest && selectedFiltersForBrowse && !this.isFenceReloaded) {
-        for (var i=0;i<this.allFilterCategory.length;i++) {
+        for (var i = 0; i < this.allFilterCategory.length; i++) {
           if (selectedFiltersForBrowse[this.allFilterCategory[i]]) {
             var filterName = this.allFilterCategory[i];
             var filterVal = selectedFiltersForBrowse[filterName];
             //special case for study name
             if (filterName == "submitter_id_name") {
               selectedFiltersForBrowse["study_name"] = filterVal.join(";");
-            }  else if (filterName == "studyName_genes_tab") {
+            } else if (filterName == "studyName_genes_tab") {
               selectedFiltersForBrowse["study_name"] = filterVal;
             } else {
               selectedFiltersForBrowse[filterName] = filterVal.join(";");
@@ -476,19 +510,19 @@ export class BrowseByFileComponent implements OnInit {
       }
       this.offset = 0; //Reinitialize offset for each new filter value
       this.loading = true;
-	  //@@@PDC-3366 selection of files was cleared since this API call was made more than once
-	  // adding pipe(take(1)) prevents from getting back to this API call repeated;
+      //@@@PDC-3366 selection of files was cleared since this API call was made more than once
+      // adding pipe(take(1)) prevents from getting back to this API call repeated;
       this.browseByFileService
         .getFilteredFilesPaginated(
-		  this.studyVersion,
+          this.studyVersion,
           this.offset,
           this.limit,
           this.sort,
           this.newFilterSelected
         )
-		.pipe(take(1))
+        .pipe(take(1))
         .subscribe((data: any) => {
-          this.filteredFilesData = data.getPaginatedUIFile.uiFiles;
+          this.filteredFilesData = _.cloneDeep(data.getPaginatedUIFile.uiFiles);
           console.log(this.filteredFilesData);
 
           if (this.offset === 0) {
@@ -506,7 +540,7 @@ export class BrowseByFileComponent implements OnInit {
           if (this.fenceRequest && selectedFiltersForBrowse && !this.isFenceReloaded) {
             this.trackCurrentPageSelectedFile(this.selectedFiles);
             //Select header checkbox if all rows in the current page are selected.
-            if(this.selectedFiles.length === this.pageSize){
+            if (this.selectedFiles.length === this.pageSize) {
               this.headercheckbox = true;
             }
             this.isFenceReloaded = true;
@@ -520,6 +554,7 @@ export class BrowseByFileComponent implements OnInit {
 
 
   }
+
   //@@@PDC-522 handle two type of events 1 general filters event 2 files filters
   ngOnChanges(changes: SimpleChanges) {
     if (changes && changes['childTabChanged']) {
@@ -540,10 +575,10 @@ export class BrowseByFileComponent implements OnInit {
     }
 
     setTimeout(() => {
-	//PDC-3265 Check what is the current manifest format
-	  if (this.downloadAllManifests != undefined){
-		  this.manifestFormat = this.downloadAllManifests.split('*')[1];
-	  }
+      //PDC-3265 Check what is the current manifest format
+      if (this.downloadAllManifests != undefined) {
+        this.manifestFormat = this.downloadAllManifests.split('*')[1];
+      }
       //@@@PDC-937: Add a button to allow download all manifests with a single click
       if (changes['otherTabsLoaded'] && changes['otherTabsLoaded'].currentValue) {
         this.fileExportCompleteManifest(true);
@@ -562,10 +597,10 @@ export class BrowseByFileComponent implements OnInit {
 
   //@@@PDC-497 (onLazyLoad)="loadFiles($event)" will be invoked when sort event fires
   loadFiles(event: any) {
-    if(this.headercheckbox && this.pageHeaderCheckBoxTrack.indexOf(this.offset) === -1){
+    if (this.headercheckbox && this.pageHeaderCheckBoxTrack.indexOf(this.offset) === -1) {
       this.pageHeaderCheckBoxTrack.push(this.offset);
-    }else if(!this.headercheckbox && this.pageHeaderCheckBoxTrack.indexOf(this.offset) !== -1){
-      this.pageHeaderCheckBoxTrack.splice(this.pageHeaderCheckBoxTrack.indexOf(this.offset),1);
+    } else if (!this.headercheckbox && this.pageHeaderCheckBoxTrack.indexOf(this.offset) !== -1) {
+      this.pageHeaderCheckBoxTrack.splice(this.pageHeaderCheckBoxTrack.indexOf(this.offset), 1);
     }
     let field = event.sortField;
     let order = event.sortOrder;
@@ -581,50 +616,50 @@ export class BrowseByFileComponent implements OnInit {
     this.loading = true;
     this.browseByFileService
       .getFilteredFilesPaginated(
-	    this.studyVersion,
+        this.studyVersion,
         this.offset,
         this.limit,
         this.sort,
         this.newFilterSelected
       )
       .pipe(take(1)).subscribe((data: any) => {
-        this.filteredFilesData = data.getPaginatedUIFile.uiFiles;
-        if (this.offset === 0) {
-          this.totalRecords = data.getPaginatedUIFile.total;
-          this.fileTotalRecordChanged.emit({
-            type: "file",
-            totalRecords: this.totalRecords
-          });
-          this.offset = data.getPaginatedUIFile.pagination.from;
-          this.limit = data.getPaginatedUIFile.pagination.size;
-        }
-        //@@@PDC-3700: Existing issues with Checkbox handling on "Browse" page
-			  //Page size should be available for all offsets
-        this.pageSize = data.getPaginatedUIFile.pagination.size;
-        this.loading = false;
-        this.trackCurrentPageSelectedFile(data.getPaginatedUIFile.uiFiles);
-        if (this.pageHeaderCheckBoxTrack.indexOf(this.offset) !== -1) {
-          this.headercheckbox = true;
-        } else {
-          this.headercheckbox = false;
-        }
-        this.handleCheckboxSelections();
-        //this.makeRowsSameHeight();
-      });
+      this.filteredFilesData = _.cloneDeep(data.getPaginatedUIFile.uiFiles);
+      if (this.offset === 0) {
+        this.totalRecords = data.getPaginatedUIFile.total;
+        this.fileTotalRecordChanged.emit({
+          type: "file",
+          totalRecords: this.totalRecords
+        });
+        this.offset = data.getPaginatedUIFile.pagination.from;
+        this.limit = data.getPaginatedUIFile.pagination.size;
+      }
+      //@@@PDC-3700: Existing issues with Checkbox handling on "Browse" page
+      //Page size should be available for all offsets
+      this.pageSize = data.getPaginatedUIFile.pagination.size;
+      this.loading = false;
+      this.trackCurrentPageSelectedFile(data.getPaginatedUIFile.uiFiles);
+      if (this.pageHeaderCheckBoxTrack.indexOf(this.offset) !== -1) {
+        this.headercheckbox = true;
+      } else {
+        this.headercheckbox = false;
+      }
+      this.handleCheckboxSelections();
+      //this.makeRowsSameHeight();
+    });
   }
 
-  	/* Helper function to determine whether the download all button should be disabled or not */
-	iscompleteManifestDisabled() {
-		if (this.filtersSelected) {
-		  if (this.filtersSelected > 0) {
-			  return false;
-		  } else {
-			  return true;
-		  }
-	  } else {
-		  return true;
-	  }
-	}
+  /* Helper function to determine whether the download all button should be disabled or not */
+  iscompleteManifestDisabled() {
+    if (this.filtersSelected) {
+      if (this.filtersSelected > 0) {
+        return false;
+      } else {
+        return true;
+      }
+    } else {
+      return true;
+    }
+  }
 
   // @@@PDC-260
   /* Small helper function to detrmine whether the download button should be disabled or not */
@@ -643,24 +678,24 @@ export class BrowseByFileComponent implements OnInit {
   //@@@PDC-937: Add a button to allow download all manifests with a single click
   downloadAllManifest(exportFormat = "csv") {
     setTimeout(() => {
-      this.downloadWholeManifestFlag.emit({downloadAllManifest:this.totalRecords, format: exportFormat});
-	  this.clearSelection();
+      this.downloadWholeManifestFlag.emit({downloadAllManifest: this.totalRecords, format: exportFormat});
+      this.clearSelection();
     }, 10);
   }
 
-  displayLoading(decisionFlag, loadFlagName, loadFlag){
+  displayLoading(decisionFlag, loadFlagName, loadFlag) {
     if (!decisionFlag) {
       this.loading = loadFlag;
     } else {
-        this.isFileTableLoading.emit({isFileTableLoading:''+loadFlagName+':'+loadFlag+''});
+      this.isFileTableLoading.emit({isFileTableLoading: '' + loadFlagName + ':' + loadFlag + ''});
     }
   }
 
   //@@@PDC-937: Add a button to allow download all manifests with a single click
   //@@@PDC-3206: fix Export All Manifests button causing files manifest to download twice
-  async fileExportCompleteManifest(buttonClick=false) {
+  async fileExportCompleteManifest(buttonClick = false) {
     if (this.totalRecords > 10000) {
-        this.dialogueForHugeDataVolume();
+      this.dialogueForHugeDataVolume();
     } else {
       if (!buttonClick) {
         this.displayLoading(buttonClick, "file", true);
@@ -669,22 +704,22 @@ export class BrowseByFileComponent implements OnInit {
       }
       setTimeout(() => {
         this.browseByFileService
-        .getFilteredFilesPaginated(
-		  this.studyVersion,
-          0,
-          this.totalRecords,
-          this.sort,
-          this.newFilterSelected
-        )
-        //@@@PDC-3620: Files Export manifest gets exported two times
-        //To avoid multiple exports, the observable needs to be subscribed only once: take(1)
-        .pipe(take(1)).subscribe((data: any) => {
+          .getFilteredFilesPaginated(
+            this.studyVersion,
+            0,
+            this.totalRecords,
+            this.sort,
+            this.newFilterSelected
+          )
+          //@@@PDC-3620: Files Export manifest gets exported two times
+          //To avoid multiple exports, the observable needs to be subscribed only once: take(1)
+          .pipe(take(1)).subscribe((data: any) => {
           if (buttonClick) {
-            this.completeFileManifest = data.getPaginatedUIFile.uiFiles;
+            this.completeFileManifest = _.cloneDeep(data.getPaginatedUIFile.uiFiles);
             this.fileTableExportCSV(true, false, this.manifestFormat);
             this.loading = false;
           } else {
-            this.selectedFiles = data.getPaginatedUIFile.uiFiles;
+            this.selectedFiles = _.cloneDeep(data.getPaginatedUIFile.uiFiles);
             this.headercheckbox = true;
             //@@@PDC-3667: "Select all pages" option issue
             this.updateCurrentPageSelectedFiles(data.getPaginatedUIFile.uiFiles);
@@ -700,7 +735,9 @@ export class BrowseByFileComponent implements OnInit {
     let cloneData = _.cloneDeep(localSelectedFiles);
     cloneData = cloneData.splice(0, this.pageSize);
     this.currentPageSelectedFile = [];
-    cloneData.forEach(item => {this.currentPageSelectedFile.push(item.file_id + "-" + item.pdc_study_id)});
+    cloneData.forEach(item => {
+      this.currentPageSelectedFile.push(item.file_id + "-" + item.pdc_study_id)
+    });
   }
 
   dialogueForHugeDataVolume() {
@@ -711,7 +748,7 @@ export class BrowseByFileComponent implements OnInit {
         disableClose: true,
         autoFocus: false,
         hasBackdrop: true,
-        data: { message: "Data volume for Files data is high. Please select files < 10000 to download." }
+        data: {message: "Data volume for Files data is high. Please select files < 10000 to download."}
       });
     }, 10);
   }
@@ -736,15 +773,15 @@ export class BrowseByFileComponent implements OnInit {
       for (let file of this.individualFileData) {
         if (file.downloadable.toLowerCase() === 'yes') {
           //let urlResponse = await this.browseByFileService.getOpenFileSignedUrl(file.file_name);
-		  //@@@PDC-5770 get file using uuid
-		  console.log("Current file id0926: "+file.file_id);
+          //@@@PDC-5770 get file using uuid
+          console.log("Current file id0926: " + file.file_id);
           let urlResponse = await this.browseByFileService.getOpenFileUuidSignedUrl(file.file_id);
           if (!urlResponse.error) {
             downloadLink = urlResponse.data;
           } else {
             this.displayMessageForNotDownloadable();
           }
-        } else{
+        } else {
           this.displayMessageForNotDownloadable();
         }
       }
@@ -764,7 +801,7 @@ export class BrowseByFileComponent implements OnInit {
       disableClose: true,
       autoFocus: false,
       hasBackdrop: true,
-      data: { message: "This file is not available for download." }
+      data: {message: "This file is not available for download."}
     });
   }
 
@@ -774,19 +811,19 @@ export class BrowseByFileComponent implements OnInit {
   //@@@PDC-801 For files that are marked downloadable call API to get signed URL and include in manifest
   //@@@PDC-869 if controlled file is not downloadable, it will not ask user to login eRA and authorize
   //@@@PDC-3206 fix ddownload manifest even if there are zero records
-  async fileTableExportCSV(iscompleteFileDownload:boolean = false, individualFileDownload:boolean = false, exportFormat = "csv") {
+  async fileTableExportCSV(iscompleteFileDownload: boolean = false, individualFileDownload: boolean = false, exportFormat = "csv") {
     let dataForExport;
     if (iscompleteFileDownload) {
-        dataForExport = this.completeFileManifest;
+      dataForExport = this.completeFileManifest;
     } else {
-        if (individualFileDownload) {
-          //@@@PDC-1303: Add a download column and button for downloading individual files to the file tab
-          dataForExport = this.individualFileData;
-          //Set a flag in local storage
-          localStorage.setItem("controlFilesIndividualFileDownload","true");
-        } else {
-          dataForExport =  this.selectedFiles;
-        }
+      if (individualFileDownload) {
+        //@@@PDC-1303: Add a download column and button for downloading individual files to the file tab
+        dataForExport = this.individualFileData;
+        //Set a flag in local storage
+        localStorage.setItem("controlFilesIndividualFileDownload", "true");
+      } else {
+        dataForExport = this.selectedFiles;
+      }
     }
     let confirmationMessage: string = "";
     let eRALogIn: string = "loginNotRequired";
@@ -810,18 +847,18 @@ export class BrowseByFileComponent implements OnInit {
       if (file["access"].toLowerCase() === "controlled" && file.downloadable.toLowerCase() === "yes") {
         controlledFileFlag = true;
       }
-	  //If embargo date is empty substitute with N/A
-	  if (!file["embargo_date"]) {
-		  file["embargo_date"] = "N/A";
-	  }
-	  //If studyVersion value is set assign it to each of the files
-	  //since the user opened Browse page to view files for a specific version of study
-	  if (this.studyVersion) {
-		  file["pdc_study_version"] = this.studyVersion;
-	  } else {
-		  //In all other cases assign default latest version of the study to which the file belongs
-		  file["pdc_study_version"] = this.allStudiesVersions[file["submitter_id_name"]];
-	  }
+      //If embargo date is empty substitute with N/A
+      if (!file["embargo_date"]) {
+        file["embargo_date"] = "N/A";
+      }
+      //If studyVersion value is set assign it to each of the files
+      //since the user opened Browse page to view files for a specific version of study
+      if (this.studyVersion) {
+        file["pdc_study_version"] = this.studyVersion;
+      } else {
+        //In all other cases assign default latest version of the study to which the file belongs
+        file["pdc_study_version"] = this.allStudiesVersions[file["submitter_id_name"]];
+      }
     }
     //@@PDC-6300 - remove embargo date from manifest
     if (controlledFileFlag) {
@@ -831,9 +868,10 @@ export class BrowseByFileComponent implements OnInit {
           "file_id",
           "file_name",
           "study_run_metadata_submitter_id",
+          "protocol_submitter_id",
           "submitter_id_name",
           "pdc_study_id",
-		  "pdc_study_version",
+          "pdc_study_version",
           "study_id",
           "project_name",
           "data_category",
@@ -864,7 +902,7 @@ export class BrowseByFileComponent implements OnInit {
         localStorage.removeItem("fence_access_token");
         const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
           width: "450px",
-          data: { message: confirmationMessage, continueMessage: eRALogIn }
+          data: {message: confirmationMessage, continueMessage: eRALogIn}
         });
 
         dialogRef.afterClosed().subscribe(result => {
@@ -874,11 +912,11 @@ export class BrowseByFileComponent implements OnInit {
           } else {
             if (controlledFileFlag) {
               if (result === "loginRequired") {
-                  localStorage.setItem("controlledFileExportFlag", "true");
-                  this.userService.logout();
-                  document.location.href = window.location.origin + "/pdc/sp/authnih";
-              } else if(result === "loginNotRequired"){
-                  document.location.href = environment.dcf_fence_login_url.replace("%dcf_client_id%",environment.dcf_client_id);
+                localStorage.setItem("controlledFileExportFlag", "true");
+                this.userService.logout();
+                document.location.href = window.location.origin + "/pdc/sp/authnih";
+              } else if (result === "loginNotRequired") {
+                document.location.href = environment.dcf_fence_login_url.replace("%dcf_client_id%", environment.dcf_client_id);
               }
             }
           }
@@ -894,9 +932,10 @@ export class BrowseByFileComponent implements OnInit {
           "File ID",
           "File Name",
           "Run Metadata ID",
+          "Protocol",
           "Study Name",
           "PDC Study ID",
-		  "PDC Study Version",
+          "PDC Study Version",
           "Study ID",
           "Project Name",
           "Data Category",
@@ -913,9 +952,10 @@ export class BrowseByFileComponent implements OnInit {
         "file_id",
         "file_name",
         "study_run_metadata_submitter_id",
+        "protocol_submitter_id",
         "submitter_id_name",
         "pdc_study_id",
-		"pdc_study_version",
+        "pdc_study_version",
         "study_id",
         "project_name",
         "data_category",
@@ -936,9 +976,9 @@ export class BrowseByFileComponent implements OnInit {
         var chunkSize = 1000;
         var count = 0;
         var loop = 0;
-        for (var i = 0, len = fileNameList.length; i< len; i += chunkSize) {
-          let tempArray = fileNameList.slice(i, i+chunkSize);
-          let fileNameStr =  tempArray.join(";");
+        for (var i = 0, len = fileNameList.length; i < len; i += chunkSize) {
+          let tempArray = fileNameList.slice(i, i + chunkSize);
+          let fileNameStr = tempArray.join(";");
           //Send 1000 files names per request
           //@@@PDC-1940: File manifest download is very slow
           this.browseByFileService.getFilesData(fileNameStr, "").subscribe((fileData: any) => {
@@ -947,54 +987,54 @@ export class BrowseByFileComponent implements OnInit {
             //In the last iteration, download the file manifest
             if (count == loop) {
               this.displayLoading(iscompleteFileDownload, "file1", false);
-			  if (count > 0) {
-				  if (exportFormat == "csv"){
-					new ngxCsv(exportFileObject, this.getCsvFileName("csv"), csvOptions);
-				  } else if (exportFormat == "pfb") {
-            //@@@PDC-3419: Add PFB option to File Manifest download
-            this.loading = true;
-            this.exportPFBFileManifest(exportFileObject);
-            this.loading = false;
-          } else {
-					let exportTSVData = this.prepareTSVExportManifestData(exportFileObject, csvOptions.headers);
-					var blob = new Blob([exportTSVData], { type: 'text/csv;charset=utf-8;' });
-					FileSaver.saveAs(blob, this.getCsvFileName("tsv"));
-				  }
-			  }
+              if (count > 0) {
+                if (exportFormat == "csv") {
+                  new ngxCsv(exportFileObject, this.getCsvFileName("csv"), csvOptions);
+                } else if (exportFormat == "pfb") {
+                  //@@@PDC-3419: Add PFB option to File Manifest download
+                  this.loading = true;
+                  this.exportPFBFileManifest(exportFileObject);
+                  this.loading = false;
+                } else {
+                  let exportTSVData = this.prepareTSVExportManifestData(exportFileObject, csvOptions.headers);
+                  var blob = new Blob([exportTSVData], {type: 'text/csv;charset=utf-8;'});
+                  FileSaver.saveAs(blob, this.getCsvFileName("tsv"));
+                }
+              }
             }
           });
           loop++;
         }
       } else {
-          //@@@PDC-1940: File manifest download is very slow
-          let fileNameStr = fileNameList.join(";")
-          this.browseByFileService.getFilesData(fileNameStr, "").subscribe((fileData: any) => {
-			  //PDC-3366 files selection was cleared when the execution got here
-			  //bandaid solution was to refill selected files values like this:
-			  //this.selectedFiles = dataForExport;
-			  //Better solution was to prevent the call to clearSelection() function
-            this.setFileExportObject(fileData, exportFileObject);
-            this.displayLoading(iscompleteFileDownload, "file1", false);
-			if (fileNameList.length > 0) {
-				if (exportFormat == "csv"){
-					new ngxCsv(exportFileObject, this.getCsvFileName("csv"), csvOptions);
-				} else if (exportFormat == "pfb") {
-          //@@@PDC-3419: Add PFB option to File Manifest download
-          this.loading = true;
-          this.exportPFBFileManifest(exportFileObject);
-          this.loading = false;
-        } else {
-					let exportTSVData = this.prepareTSVExportManifestData(exportFileObject, csvOptions.headers);
-					var blob = new Blob([exportTSVData], { type: 'text/csv;charset=utf-8;' });
-					FileSaver.saveAs(blob, this.getCsvFileName("tsv"));
-				}
-			}
-          });
+        //@@@PDC-1940: File manifest download is very slow
+        let fileNameStr = fileNameList.join(";")
+        this.browseByFileService.getFilesData(fileNameStr, "").subscribe((fileData: any) => {
+          //PDC-3366 files selection was cleared when the execution got here
+          //bandaid solution was to refill selected files values like this:
+          //this.selectedFiles = dataForExport;
+          //Better solution was to prevent the call to clearSelection() function
+          this.setFileExportObject(fileData, exportFileObject);
+          this.displayLoading(iscompleteFileDownload, "file1", false);
+          if (fileNameList.length > 0) {
+            if (exportFormat == "csv") {
+              new ngxCsv(exportFileObject, this.getCsvFileName("csv"), csvOptions);
+            } else if (exportFormat == "pfb") {
+              //@@@PDC-3419: Add PFB option to File Manifest download
+              this.loading = true;
+              this.exportPFBFileManifest(exportFileObject);
+              this.loading = false;
+            } else {
+              let exportTSVData = this.prepareTSVExportManifestData(exportFileObject, csvOptions.headers);
+              var blob = new Blob([exportTSVData], {type: 'text/csv;charset=utf-8;'});
+              FileSaver.saveAs(blob, this.getCsvFileName("tsv"));
+            }
+          }
+        });
       }
     }
   }
 
-    //@@@PDC-3419: Add PFB option to File Manifest download
+  //@@@PDC-3419: Add PFB option to File Manifest download
   //Prepare TSV data and send it to the Flask API for generating PFB files.
   async exportPFBFileManifest(exportFileObject) {
     let fileManifestName = this.getCsvFileName("csv")
@@ -1031,15 +1071,15 @@ export class BrowseByFileComponent implements OnInit {
     //let request = this.http.post("http://127.0.0.1:5000", exportTSVData);
     let request = this.http.post(environment.flask_api_url, exportTSVData);
     request.subscribe((response) => {
-      if (response) {
-        window.open(response.toString(), "_blank");
-      } else {
-        console.log("Something went wrong!");
-      }
-    },
-    (error) =>  {
-      console.log("Something went wrong!", error);
-    })
+        if (response) {
+          window.open(response.toString(), "_blank");
+        } else {
+          console.log("Something went wrong!");
+        }
+      },
+      (error) => {
+        console.log("Something went wrong!", error);
+      })
   }
 
   //@@@PDC-1940: File manifest download is very slow
@@ -1067,133 +1107,131 @@ export class BrowseByFileComponent implements OnInit {
 
   //@@@PDC-1765 add download prompt
   setDownloadBatch() {
-	let dataForExport =  this.selectedFiles;
-	let totalSize = 0;
+    let dataForExport = this.selectedFiles;
+    let totalSize = 0;
     for (let file of dataForExport) {
-		totalSize += parseInt(file.file_size);
-	}
-	console.log("Total file size to download: "+totalSize);
-	let confirmationMessage = 'You are about to download ' + this.sizeUnitsPipe.transform(totalSize) + ' of data. Do you wish to proceed?';
-	let denyMessage = 'Your download request ('+this.sizeUnitsPipe.transform(totalSize)+') exceeds the limit of 20 GB. Please reduce the volumn and try again.';
-  let nextMsg = 'Continue';
- 	if (totalSize <= 21474836480) {
-	    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-          width: "450px",
-          data: { message: confirmationMessage, continueMessage: nextMsg }
-        });
+      totalSize += parseInt(file.file_size);
+    }
+    console.log("Total file size to download: " + totalSize);
+    let confirmationMessage = 'You are about to download ' + this.sizeUnitsPipe.transform(totalSize) + ' of data. Do you wish to proceed?';
+    let denyMessage = 'Your download request (' + this.sizeUnitsPipe.transform(totalSize) + ') exceeds the limit of 20 GB. Please reduce the volumn and try again.';
+    let nextMsg = 'Continue';
+    if (totalSize <= 21474836480) {
+      const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+        width: "450px",
+        data: {message: confirmationMessage, continueMessage: nextMsg}
+      });
 
-        dialogRef.afterClosed().subscribe(result => {
-          if (!result) {
-          }
-		  else {
-			console.log("Let's download.");
-			this.downloadBatch();
-		  }
-		  });
-	}
-	else {
-        const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-          width: "450px",
-          data: { message: denyMessage, continueMessage: nextMsg }
-        });
+      dialogRef.afterClosed().subscribe(result => {
+        if (!result) {
+        } else {
+          console.log("Let's download.");
+          this.downloadBatch();
+        }
+      });
+    } else {
+      const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+        width: "450px",
+        data: {message: denyMessage, continueMessage: nextMsg}
+      });
 
-        dialogRef.afterClosed().subscribe(result => {
-		  });
-	}
+      dialogRef.afterClosed().subscribe(result => {
+      });
+    }
   }
 
   async downloadBatch() {
-	let dataForExport =  this.selectedFiles;
-	let urls: string = "";
-	let nextMsg = 'Continue';
-  const fileNameList = [];
-  if (dataForExport) {
-    dataForExport.map(x => fileNameList.push(x.file_name));
-    //@@@PDC-1940: File manifest download is very slow
-    //getFilesData API accepts upto 1000 file names per request. Else it takes more time to execute and impacts the performance.
-    if (fileNameList.length > 1000) {
-      var chunkSize = 1000;
-      for (var i = 0, len = fileNameList.length; i< len; i += chunkSize) {
-        let tempArray = fileNameList.slice(i, i+chunkSize);
-        let fileNameStr =  tempArray.join(";");
-        //Send 1000 files names per request
+    let dataForExport = this.selectedFiles;
+    let urls: string = "";
+    let nextMsg = 'Continue';
+    const fileNameList = [];
+    if (dataForExport) {
+      dataForExport.map(x => fileNameList.push(x.file_name));
+      //@@@PDC-1940: File manifest download is very slow
+      //getFilesData API accepts upto 1000 file names per request. Else it takes more time to execute and impacts the performance.
+      if (fileNameList.length > 1000) {
+        var chunkSize = 1000;
+        for (var i = 0, len = fileNameList.length; i < len; i += chunkSize) {
+          let tempArray = fileNameList.slice(i, i + chunkSize);
+          let fileNameStr = tempArray.join(";");
+          //Send 1000 files names per request
+          //@@@PDC-1940: File manifest download is very slow
+          this.getFilesDataObj(fileNameStr);
+        }
+      } else {
         //@@@PDC-1940: File manifest download is very slow
+        let fileNameStr = fileNameList.join(";")
         this.getFilesDataObj(fileNameStr);
       }
-    }  else {
-      //@@@PDC-1940: File manifest download is very slow
-      let fileNameStr = fileNameList.join(";")
-      this.getFilesDataObj(fileNameStr);
     }
   }
-}
 
 //@@@PDC-4781: Use filesPerStudy API to return signed urls for multiple files
-getFilesDataObj(fileNameStr) {
-  this.browseByFileService.getFilesData(fileNameStr, "").pipe(take(1)).subscribe((fileData: any) => {
-    for (var fileItem of fileData.uiFilesPerStudy) {
-      if (fileItem.signedUrl) {
-        let confirmationMessage = 'Finished downloading: '+ fileItem.file_name;
-        //@@@PDC-1925 use window.open for multiple download
-        this.winOpenS3File(fileItem.signedUrl.url).alert(confirmationMessage);
-        this.sleep(2000);
-      } else {
-        console.log("Error in downloading: " + fileItem.file_name);
+  getFilesDataObj(fileNameStr) {
+    this.browseByFileService.getFilesData(fileNameStr, "").pipe(take(1)).subscribe((fileData: any) => {
+      for (var fileItem of fileData.uiFilesPerStudy) {
+        if (fileItem.signedUrl) {
+          let confirmationMessage = 'Finished downloading: ' + fileItem.file_name;
+          //@@@PDC-1925 use window.open for multiple download
+          this.winOpenS3File(fileItem.signedUrl.url).alert(confirmationMessage);
+          this.sleep(2000);
+        } else {
+          console.log("Error in downloading: " + fileItem.file_name);
+        }
       }
-    }
-  });
-}
+    });
+  }
 
-  getS3File(url){
-	return this.http.get(url, {responseType: 'blob'});
+  getS3File(url) {
+    return this.http.get(url, {responseType: 'blob'});
   }
 
   //@@@PDC-1925 use window.open for multiple download
-  winOpenS3File(url){
+  winOpenS3File(url) {
     //@@@PDC-3452: Some Quality Metrics Web files open in the same tab
     return window.open(url, '_blank');
   }
 
   sleep(milliseconds) {
-	  const date = Date.now();
-	  let currentDate = null;
-	  do {
-		currentDate = Date.now();
-	  } while (currentDate - date < milliseconds);
+    const date = Date.now();
+    let currentDate = null;
+    do {
+      currentDate = Date.now();
+    } while (currentDate - date < milliseconds);
   }
 
-  private getOpenFileSignedUrl(openFileSignUrlMap){
-    let fileIdList : string[] = Object.keys(openFileSignUrlMap);
+  private getOpenFileSignedUrl(openFileSignUrlMap) {
+    let fileIdList: string[] = Object.keys(openFileSignUrlMap);
   }
 
   //Help function that returns true if parameter date is in the future, otherwise false
-	private isDateLater(embargo_date: string):boolean{
-		var now = new Date;
-		var target = new Date(embargo_date);
-		if (target > now )
-			return true;
-		else {
-			return false;
-		}
-	}
+  private isDateLater(embargo_date: string): boolean {
+    var now = new Date;
+    var target = new Date(embargo_date);
+    if (target > now)
+      return true;
+    else {
+      return false;
+    }
+  }
 
-	//If the date is in the future the value should be bold and in italics
-	getStyleClass(embargo_date: string){
-		if (this.isDateLater(embargo_date) )
-			return 'future_embargo_date';
-		else {
-			return '';
-		}
-	}
+  //If the date is in the future the value should be bold and in italics
+  getStyleClass(embargo_date: string) {
+    if (this.isDateLater(embargo_date))
+      return 'future_embargo_date';
+    else {
+      return '';
+    }
+  }
 
   //@@@PDC-729 Integrate PDC with Fence and IndexD
   //@@@PDC-784 Improve download controlled files feature
   //@@@PDC-801 For files that are marked downloadable call API to get signed URL and include in manifest
-  private async exportControlledCSV(authorizationCode: string, existAccessToken: string, fenceRequest:boolean = false, individualFileDownload:boolean = false) {
+  private async exportControlledCSV(authorizationCode: string, existAccessToken: string, fenceRequest: boolean = false, individualFileDownload: boolean = false) {
     if (fenceRequest) {
-        this.displayLoading(true, "fenceRequestcontrolFiles", true);
+      this.displayLoading(true, "fenceRequestcontrolFiles", true);
     } else {
-        this.displayLoading(true, "controlFiles", true);
+      this.displayLoading(true, "controlFiles", true);
     }
     let controlledFileObject = localStorage.getItem("controlledFileTableExportCsv");
     let exportFileObject: AllFilesData[] = JSON.parse(controlledFileObject);
@@ -1204,17 +1242,17 @@ getFilesDataObj(fileNameStr) {
     var metaDataRecords;
     //searchForFileIndex API accepts upto 85 file IDs per request. Else it throws URI Too Long error
     if (uuidList.length > 85) {
-        var chunkSize = 85;
-        for (var i=0,len=uuidList.length; i<len; i+=chunkSize) {
-            let tempArray = uuidList.slice(i,i+chunkSize);
-            //Send 85 files Ids per request
-            let tempMetaData = await this.browseByFileService.searchForFileIndex(tempArray);
-            let tempMetaDataRecs = _.values(tempMetaData.records);
-            metaDataRecords = _.concat(tempMetaDataRecs, metaDataRecords);
-        }
+      var chunkSize = 85;
+      for (var i = 0, len = uuidList.length; i < len; i += chunkSize) {
+        let tempArray = uuidList.slice(i, i + chunkSize);
+        //Send 85 files Ids per request
+        let tempMetaData = await this.browseByFileService.searchForFileIndex(tempArray);
+        let tempMetaDataRecs = _.values(tempMetaData.records);
+        metaDataRecords = _.concat(tempMetaDataRecs, metaDataRecords);
+      }
     } else {
-        let fileIndexMetaData = await this.browseByFileService.searchForFileIndex(uuidList);
-        metaDataRecords = fileIndexMetaData.records;
+      let fileIndexMetaData = await this.browseByFileService.searchForFileIndex(uuidList);
+      metaDataRecords = fileIndexMetaData.records;
     }
 
     let guidMap = {};
@@ -1249,7 +1287,7 @@ getFilesDataObj(fileNameStr) {
         );
         signedUrl = urlResponse.url;
       } catch (error) {
-          console.log(error);
+        console.log(error);
       }
       signedUrlMap[guidMap[guid]] = signedUrl;
     }
@@ -1264,31 +1302,31 @@ getFilesDataObj(fileNameStr) {
 
     var casePerFileInfo;
     //getControlledFilesDetails API accepts upto 135 control file IDs per request. Else it throws URI Too Long error
-	//@@@PDC-1123 call ui wrapper API
+    //@@@PDC-1123 call ui wrapper API
     if (controlledFilesIds.length > 130) {
-        var chunkSize = 130;
-        for (var i=0,len=controlledFilesIds.length; i<len; i+=chunkSize) {
-            let tempArray = controlledFilesIds.slice(i,i+chunkSize);
-            // send 130 file Ids per request.
-            let tempDetails = await this.browseByFileService.getControlledFilesDetails(
-                tempArray.join(";")
-            );
-            let tempCaseRecs = _.values(tempDetails["data"]["uiCasePerFile"]);
-            casePerFileInfo = _.concat(tempCaseRecs, casePerFileInfo);
-        }
-    } else {
-        let filesDetails = await this.browseByFileService.getControlledFilesDetails(
-            controlledFilesIds.join(";")
+      var chunkSize = 130;
+      for (var i = 0, len = controlledFilesIds.length; i < len; i += chunkSize) {
+        let tempArray = controlledFilesIds.slice(i, i + chunkSize);
+        // send 130 file Ids per request.
+        let tempDetails = await this.browseByFileService.getControlledFilesDetails(
+          tempArray.join(";")
         );
-        casePerFileInfo = filesDetails["data"]["uiCasePerFile"];
+        let tempCaseRecs = _.values(tempDetails["data"]["uiCasePerFile"]);
+        casePerFileInfo = _.concat(tempCaseRecs, casePerFileInfo);
+      }
+    } else {
+      let filesDetails = await this.browseByFileService.getControlledFilesDetails(
+        controlledFilesIds.join(";")
+      );
+      casePerFileInfo = filesDetails["data"]["uiCasePerFile"];
     }
 
     const filesMap = new Map();
 
     casePerFileInfo.forEach(item => {
-        if (item) {
-            filesMap.set(item["file_id"], item);
-        }
+      if (item) {
+        filesMap.set(item["file_id"], item);
+      }
     });
 
     let unauthorizedStudy = new Set<string>();
@@ -1297,19 +1335,19 @@ getFilesDataObj(fileNameStr) {
       if (exportFile.study_run_metadata_submitter_id === null) {
         exportFile.study_run_metadata_submitter_id = "";
       }
-	  //If studyVersion value is set assign it to each of the files
-	  //since the user opened Browse page to view files for a specific version of study
-	  if (this.studyVersion) {
-		  exportFile["pdc_study_version"] = this.studyVersion;
-	  } else {
-		  //In all other cases assign default latest version of the study to which the file belongs
-		  exportFile["pdc_study_version"] = this.allStudiesVersions[exportFile["submitter_id_name"]];
-	  }
+      //If studyVersion value is set assign it to each of the files
+      //since the user opened Browse page to view files for a specific version of study
+      if (this.studyVersion) {
+        exportFile["pdc_study_version"] = this.studyVersion;
+      } else {
+        //In all other cases assign default latest version of the study to which the file belongs
+        exportFile["pdc_study_version"] = this.allStudiesVersions[exportFile["submitter_id_name"]];
+      }
       let file_id = exportFile.file_id;
       delete exportFile.file_id;
       exportFile["file_id"] = file_id;
       if (exportFile.access.toLowerCase() === "controlled") {
-        if(signedUrlMap[file_id] === "not authorized"){
+        if (signedUrlMap[file_id] === "not authorized") {
           unauthorizedStudy.add(exportFile['study_id']);
         }
         let caseInfo = filesMap.get(file_id);
@@ -1319,15 +1357,15 @@ getFilesDataObj(fileNameStr) {
       } else {
         exportFile["case_id"] = "";
         exportFile["case_submitter_id"] = "";
-        if(exportFile.downloadable.toLowerCase() === 'yes'){
+        if (exportFile.downloadable.toLowerCase() === 'yes') {
           //@@@PDC-1940: File manifest download is very slow
           //This code should be changed to use 'getFilesData' API which accepts upto 1000 file names per request.
           //Not changing now as we don't have sufficient data to test.
           //let urlResponse = await this.browseByFileService.getOpenFileSignedUrl(exportFile.file_name);
- 		  //@@@PDC-5770 get file using uuid
-		  console.log("Export file id 0928: "+exportFile.file_id);
+          //@@@PDC-5770 get file using uuid
+          console.log("Export file id 0928: " + exportFile.file_id);
           let urlResponse = await this.browseByFileService.getOpenFileUuidSignedUrl(exportFile.file_id);
-         if(!urlResponse.error){
+          if (!urlResponse.error) {
             if (individualFileDownload) {
               //@@@PDC-1303: Add a download column and button for downloading individual files to the file tab
               //If its an individual file download, assign the download link to a variable.
@@ -1335,7 +1373,7 @@ getFilesDataObj(fileNameStr) {
             } else {
               exportFile['file_download_link'] = urlResponse.data;
             }
-          }else{
+          } else {
             if (individualFileDownload) {
               //If its an individual file download, display the confirmantion message that the download link is not available.
               this.displayMessageForNotDownloadable();
@@ -1343,7 +1381,7 @@ getFilesDataObj(fileNameStr) {
               exportFile['file_download_link'] = this.notDownloadable;
             }
           }
-        }else{
+        } else {
           if (individualFileDownload) {
             this.displayMessageForNotDownloadable();
           } else {
@@ -1358,18 +1396,18 @@ getFilesDataObj(fileNameStr) {
       let loggedInEmail = sessionStorage.getItem('loginEmail');
       let loggedInUser = sessionStorage.getItem('loginUser');
       let controlledFileDownloadInfo = {
-        "fileName":exportFile["file_id"],
-        "userName":loggedInUser,
-        "emailAddress":loggedInEmail
+        "fileName": exportFile["file_id"],
+        "userName": loggedInUser,
+        "emailAddress": loggedInEmail
       };
       await this.browseByFileService.recordControlledFileDownload(controlledFileDownloadInfo);
     }
 
-    if(unauthorizedStudy.size >0){
+    if (unauthorizedStudy.size > 0) {
       let studyList = Array.from(unauthorizedStudy).join(', ');
-      if(unauthorizedStudy.size >1){
+      if (unauthorizedStudy.size > 1) {
         message = `You do not have access to the controlled access data you requested. Request access via Authorized Access at dbGaP for the studies ${studyList}`;
-      }else{
+      } else {
         message = `You do not have access to the controlled access data you requested. Request access via Authorized Access at dbGaP for the study ${studyList}`;
       }
     }
@@ -1380,69 +1418,70 @@ getFilesDataObj(fileNameStr) {
         window.open(downloadLink, "_self");
       }
     } else {
-    //@@@PDC-1789: Add study_submitter_id and study_id to exported study manifests
-    let csvOptions = {
-      headers: [
-        "File ID",
-        "File Name",
-        "Run Metadata ID",
-        "Study Name",
-        "PDC Study ID",
-		"PDC Study Version",
-        "Study ID",
-        "Project Name",
-        "Data Category",
-        "File Type",
-        "Access",
-        "File Size (in bytes)",
-        "Md5sum",
-        "Case ID",
-        "Case Submitter ID",
-        "File Download Link"
-      ]
-    };
-    const csvFileName = this.getCsvFileName("csv");
-    new ngxCsv(exportFileObject, csvFileName, csvOptions);
-  }
-  if (fenceRequest) {
-    this.displayLoading(true, "fenceRequestcontrolFiles", false);
-  } else {
+      //@@@PDC-1789: Add study_submitter_id and study_id to exported study manifests
+      let csvOptions = {
+        headers: [
+          "File ID",
+          "File Name",
+          "Run Metadata ID",
+          "Protocol",
+          "Study Name",
+          "PDC Study ID",
+          "PDC Study Version",
+          "Study ID",
+          "Project Name",
+          "Data Category",
+          "File Type",
+          "Access",
+          "File Size (in bytes)",
+          "Md5sum",
+          "Case ID",
+          "Case Submitter ID",
+          "File Download Link"
+        ]
+      };
+      const csvFileName = this.getCsvFileName("csv");
+      new ngxCsv(exportFileObject, csvFileName, csvOptions);
+    }
+    if (fenceRequest) {
+      this.displayLoading(true, "fenceRequestcontrolFiles", false);
+    } else {
       this.displayLoading(true, "controlFiles", false);
-  }
+    }
     localStorage.removeItem("controlledFileTableExportCsv");
     this.dialog.open(MessageDialogComponent, {
       width: "300px",
       disableClose: true,
       autoFocus: false,
       hasBackdrop: true,
-      data: { message: message }
+      data: {message: message}
     });
     //delete csvOptions.headers;
   }
 
   //help function preparing a string containing the data for TSV manifest file (PDC-3265)
-	prepareTSVExportManifestData(manifestData, headers){
-		let result = "";
-		let separator = '\t';
-		let EOL = "\r\n";
-		for (var i=0; i< headers.length; i++) {
-			result += headers[i] + separator;
-		}
-		result = result.slice(0, -1);
-		result += EOL;
-		for (var i=0; i < manifestData.length; i++){
-			for (const index in manifestData[i]) {
-				if (manifestData[i][index] == null) {
-					result += "null" + separator;
-				} else {
-					result += manifestData[i][index] + separator;
-				}
-			}
-			result = result.slice(0, -1);
-			result += EOL;
-		}
-		return result;
-	}
+  prepareTSVExportManifestData(manifestData, headers) {
+    let result = "";
+    let separator = '\t';
+    let EOL = "\r\n";
+    for (var i = 0; i < headers.length; i++) {
+      result += headers[i] + separator;
+    }
+    result = result.slice(0, -1);
+    result += EOL;
+    for (var i = 0; i < manifestData.length; i++) {
+      for (const index in manifestData[i]) {
+        if (manifestData[i][index] == null) {
+          result += "null" + separator;
+        } else {
+          result += manifestData[i][index] + separator;
+        }
+      }
+      result = result.slice(0, -1);
+      result += EOL;
+    }
+    return result;
+  }
 
   private getCsvFileName(format = "csv"): string {
     let csvFileName = "PDC_file_manifest_";
@@ -1458,9 +1497,9 @@ getFilesDataObj(fileNameStr) {
     csvFileName += this.convertDateString(minute);
     let second: string = "" + currentDate.getSeconds();
     csvFileName += this.convertDateString(second);
-	if (format === "tsv") {
-		csvFileName += ".tsv";
-	}
+    if (format === "tsv") {
+      csvFileName += ".tsv";
+    }
     return csvFileName;
   }
 
@@ -1483,18 +1522,19 @@ getFilesDataObj(fileNameStr) {
   ngOnInit() {
     // Have to define this structure for Primeng CSV export to work properly
     this.cols = [
-	  {field: "pdc_study_id", header: "PDC Study ID"},
-      { field: "submitter_id_name", header: "Study" },
-      { field: "embargo_date", header: "Embargo Date"},
-      { field: "file_name", header: "File Name" },
-      { field: "study_run_metadata_submitter_id", header: "Run Metadata ID" },
-      { field: "project_name", header: "Project" },
-      { field: "data_category", header: "Data Category" },
-      { field: "file_type", header: "File Type" },
-      { field: "access", header: "Access" },
-      { field: "file_size", header: "File Size (in bytes)" },
-      { field: "file_id", header: "File ID" },
-      { field: "downloadable", header: "Downloadable" }
+      {field: "pdc_study_id", header: "PDC Study ID"},
+      {field: "submitter_id_name", header: "Study"},
+      {field: "embargo_date", header: "Embargo Date"},
+      {field: "file_name", header: "File Name"},
+      {field: "study_run_metadata_submitter_id", header: "Run Metadata ID"},
+      {field: "project_name", header: "Project"},
+      {field: "data_category", header: "Data Category"},
+      {field: "file_type", header: "File Type"},
+      {field: "access", header: "Access"},
+      {field: "file_size", header: "File Size (in bytes)"},
+      {field: "file_id", header: "File ID"},
+      {field: "downloadable", header: "Downloadable"},
+      {field: "protocol", header: "Protocol"}
     ];
 
     this.frozenColumns = [
@@ -1505,7 +1545,7 @@ getFilesDataObj(fileNameStr) {
     this.activeRoute.queryParams.subscribe(queryParams => {
       console.log(queryParams);
       if (queryParams.code) {
-        this.fenceRequest =  true;
+        this.fenceRequest = true;
         var controlFilesIndividualFileDownload = false;
         //@@@PDC-1303: Add a download column and button for downloading individual files to the file tab
         if (localStorage.getItem("controlFilesIndividualFileDownload")) {
@@ -1530,7 +1570,7 @@ getFilesDataObj(fileNameStr) {
     this.checkboxOptions = ["Select all pages", "Select this page", "Select None"];
   }
 
-  private clearSelection(){
+  private clearSelection() {
     this.selectedFiles = [];
     this.headercheckbox = false;
     this.currentPageSelectedFile = [];
@@ -1538,14 +1578,16 @@ getFilesDataObj(fileNameStr) {
     this.selectedHeaderCheckbox = '';
   }
 
-  private trackCurrentPageSelectedFile(filteredFilesData: AllFilesData[]){
+  private trackCurrentPageSelectedFile(filteredFilesData: AllFilesData[]) {
     let fileIdList = [];
     this.currentPageSelectedFile = [];
     filteredFilesData.forEach((item) => fileIdList.push(item.file_id));
-	//Keeping consistency - identify a selected file by file id and study name
-    this.selectedFiles.forEach(item => {if(fileIdList.indexOf(item.file_id) !== -1){
-      this.currentPageSelectedFile.push(item.file_id + "-" + item.pdc_study_id);
-    }});
+    //Keeping consistency - identify a selected file by file id and study name
+    this.selectedFiles.forEach(item => {
+      if (fileIdList.indexOf(item.file_id) !== -1) {
+        this.currentPageSelectedFile.push(item.file_id + "-" + item.pdc_study_id);
+      }
+    });
   }
 
   onResize(event) {
@@ -1558,30 +1600,28 @@ getFilesDataObj(fileNameStr) {
       if (document.getElementsByClassName('ui-table-scrollable-wrapper').length) {
         let wrapper = document.getElementsByClassName('ui-table-scrollable-wrapper');
         for (var i = 0; i < wrapper.length; i++) {
-            let w = wrapper.item(i) as HTMLElement;
-            let frozen_rows: any = w.querySelectorAll('.ui-table-frozen-view .ui-table-tbody tr');
-            let unfrozen_rows: any = w.querySelectorAll('.ui-table-unfrozen-view .ui-table-tbody tr');
-            let frozen_header_row: any = w.querySelectorAll('.ui-table-frozen-view .ui-table-thead tr');
-            let unfrozen_header_row: any = w.querySelectorAll('.ui-table-unfrozen-view .ui-table-thead');
-            if (frozen_header_row[0].clientHeight > unfrozen_header_row[0].clientHeight) {
-						  unfrozen_header_row[0].style.height = frozen_header_row[0].clientHeight+"px";
-				    }
-            else if (frozen_header_row[0].clientHeight < unfrozen_header_row[0].clientHeight) {
-              frozen_header_row[0].style.height = unfrozen_header_row[0].clientHeight+"px";
-            }
-            for (let i = 0; i < frozen_rows.length; i++) {
-              if (frozen_rows[i].clientHeight > unfrozen_rows[i].clientHeight) {
-                unfrozen_rows[i].style.height = frozen_rows[i].clientHeight+"px";
-              }
-              else if (frozen_rows[i].clientHeight < unfrozen_rows[i].clientHeight) {
-                frozen_rows[i].style.height = unfrozen_rows[i].clientHeight+"px";
-              }
-            }
-            let frozen_header_div: any = w.querySelectorAll('.ui-table-unfrozen-view .ui-table-scrollable-header-box');
-            frozen_header_div[0].setAttribute('style', 'margin-right: 0px !important');
+          let w = wrapper.item(i) as HTMLElement;
+          let frozen_rows: any = w.querySelectorAll('.ui-table-frozen-view .ui-table-tbody tr');
+          let unfrozen_rows: any = w.querySelectorAll('.ui-table-unfrozen-view .ui-table-tbody tr');
+          let frozen_header_row: any = w.querySelectorAll('.ui-table-frozen-view .ui-table-thead tr');
+          let unfrozen_header_row: any = w.querySelectorAll('.ui-table-unfrozen-view .ui-table-thead');
+          if (frozen_header_row[0].clientHeight > unfrozen_header_row[0].clientHeight) {
+            unfrozen_header_row[0].style.height = frozen_header_row[0].clientHeight + "px";
+          } else if (frozen_header_row[0].clientHeight < unfrozen_header_row[0].clientHeight) {
+            frozen_header_row[0].style.height = unfrozen_header_row[0].clientHeight + "px";
           }
+          for (let i = 0; i < frozen_rows.length; i++) {
+            if (frozen_rows[i].clientHeight > unfrozen_rows[i].clientHeight) {
+              unfrozen_rows[i].style.height = frozen_rows[i].clientHeight + "px";
+            } else if (frozen_rows[i].clientHeight < unfrozen_rows[i].clientHeight) {
+              frozen_rows[i].style.height = unfrozen_rows[i].clientHeight + "px";
+            }
+          }
+          let frozen_header_div: any = w.querySelectorAll('.ui-table-unfrozen-view .ui-table-scrollable-header-box');
+          frozen_header_div[0].setAttribute('style', 'margin-right: 0px !important');
         }
+      }
 
-       });
-    }
+    });
+  }
 }

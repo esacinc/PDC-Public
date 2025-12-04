@@ -8,9 +8,9 @@ import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
 import { Apollo } from 'apollo-angular';
 import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef, MatLegacyDialogConfig as MatDialogConfig, MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MAT_DIALOG_DATA, MatDialogRef, MatDialogConfig, MatDialog } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
+import { MatSelectModule } from '@angular/material/select';
 import { CaseSummaryComponent } from '../case-summary/case-summary.component';
 import { PDCUserService } from "../../pdcuser.service";
 import { AllFilesData } from "../../types";
@@ -30,10 +30,11 @@ import {environment} from '../../../environments/environment';
 
 
 @Component({
-  selector: 'publication-app-files-overlay',
-  templateUrl: './publication-files-overlay.component.html',
-  styleUrls: ['../../../assets/css/global.css', './publication-files-overlay.component.css'],
-  providers: [ BrowseByFileService, SizeUnitsPipe]
+    selector: 'publication-app-files-overlay',
+    templateUrl: './publication-files-overlay.component.html',
+    styleUrls: ['../../../assets/css/global.css', './publication-files-overlay.component.css'],
+    providers: [BrowseByFileService, SizeUnitsPipe],
+    standalone: false
 })
 
 //@@@PDC-6514: Build Pancancer page

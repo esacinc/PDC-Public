@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 //import {Http, Response, Headers, RequestOptions} from '@angular/http';
-import {Response, Headers, RequestOptions} from '@angular/http';
+import { HttpHeaders } from '@angular/common/http';
 
 
 import { Apollo } from 'apollo-angular';
@@ -15,14 +15,14 @@ import { CaseData, QueryAllStudiesData, ExperimentFileByCaseCount, DataCategoryF
 @Injectable()
 export class CaseSummaryService {
 
-	headers: Headers;
-	options: RequestOptions;
+	headers: HttpHeaders;
+	options: {};
 
 //constructor(private http: Http, private apollo: Apollo) {
 constructor(private apollo: Apollo) {
-	this.headers = new Headers({ 'Content-Type': 'application/json',
+	this.headers = new HttpHeaders({ 'Content-Type': 'application/json',
                                      'Accept': 'q=0.8;application/json;q=0.9' });
-        this.options = new RequestOptions({ headers: this.headers });
+        this.options = { headers: this.headers };
 	}
 
 	//@@@PDC-1355: Use uuid as API search parameter
@@ -898,6 +898,29 @@ constructor(private apollo: Apollo) {
 					viral_hepatitis_serologies
 					weight
 				  }
+				 treatments {
+					days_to_treatment_end
+					days_to_treatment_start
+					initial_disease_status
+					regimen_or_line_of_therapy
+					therapeutic_agents
+					treatment_anatomic_site
+					treatment_effect
+					treatment_intent_type
+					treatment_or_therapy
+					treatment_outcome
+					treatment_type
+					chemo_concurrent_to_radiation
+					number_of_cycles
+					reason_treatment_ended
+					route_of_administration
+					treatment_arm
+					treatment_dose
+					treatment_dose_units
+					treatment_effect_indicator
+					treatment_frequency
+				}
+
 			}
 		}`;
 

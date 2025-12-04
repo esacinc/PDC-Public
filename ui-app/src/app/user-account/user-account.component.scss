@@ -35,13 +35,13 @@ div.nih-login-button input {
 }
 
 
-::ng-deep  .mat-dialog-container{
+::ng-deep  .mat-mdc-dialog-container{
 	padding-top:24px!important;
 	padding-bottom:0!important;
 	padding-left:24px!important;
 	padding-right:24px!important;
 }
 
-::ng-deep  .mat-dialog-container .manage-user-account-tab {
+::ng-deep  .mat-mdc-dialog-container .manage-user-account-tab {
 	min-height: 150px!important;
 }

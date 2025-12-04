@@ -1,6 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-@Pipe({ name: 'sizeUnits' })
+@Pipe({
+    name: 'sizeUnits',
+    standalone: false
+})
 export class SizeUnitsPipe implements PipeTransform {
 
   transform(bytes: number): string {

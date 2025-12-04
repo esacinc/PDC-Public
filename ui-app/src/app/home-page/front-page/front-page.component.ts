@@ -11,10 +11,11 @@ import { HumanBodyChartComponent } from './human-body-chart/human-body-chart.com
 import {environment} from '../../../environments/environment';
 
 @Component({
-  selector: 'app-front-page',
-  templateUrl: './front-page.component.html',
-  styleUrls: ['../../../assets/css/global.css', './front-page.component.scss', './human-body-chart/human-body-chart.component.css'],
-  providers: [ FrontPageService]
+    selector: 'app-front-page',
+    templateUrl: './front-page.component.html',
+    styleUrls: ['../../../assets/css/global.css', './front-page.component.scss', './human-body-chart/human-body-chart.component.css'],
+    providers: [FrontPageService],
+    standalone: false
 })
 
 // @@@PDC-168 The landing page for the PDC Node provides a summary view of the data that is in

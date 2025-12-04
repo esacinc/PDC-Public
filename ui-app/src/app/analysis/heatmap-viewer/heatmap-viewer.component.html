@@ -1,7 +1,7 @@
 <div class="row" style="padding-left:2px;">
   <div class="col-md-3">
   <div>Study: {{study_name}}</div>
-    <mat-card class="analysis-manager">
+    <mat-card appearance="outlined" class="analysis-manager">
     <mat-nav-list  class="menu heatmap-menu-label">
        <ul *ngFor="let map of map_files" class="browse-filter" style="padding-left:5px; margin-left: 0px">
             <div *ngIf="map.isParent === true">{{map.label}}</div>

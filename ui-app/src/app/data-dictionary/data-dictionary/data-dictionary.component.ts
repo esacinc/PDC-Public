@@ -4,10 +4,11 @@ import { DataDictionaryService } from './data-dictionary.service';
 
 
 @Component({
-  encapsulation: ViewEncapsulation.None,
-  selector: 'app-data-dictionary',
-  templateUrl: './data-dictionary.component.html',
-  styleUrls: ['./data-dictionary.component.css']
+    encapsulation: ViewEncapsulation.None,
+    selector: 'app-data-dictionary',
+    templateUrl: './data-dictionary.component.html',
+    styleUrls: ['./data-dictionary.component.css'],
+    standalone: false
 })
 export class DataDictionaryComponent implements OnInit {
   dataDictionaryTable: any;

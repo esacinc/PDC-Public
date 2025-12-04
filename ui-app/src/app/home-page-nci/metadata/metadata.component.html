@@ -1,0 +1,67 @@
+<!--
+<div class="nci-hero__cta-container">
+  <div class="flex justify-evenly !w-full -mt-4 bg-white px-6 py-6 rounded shadow-2xl">
+  @for (item of items; track item.value) {
+
+    <div class="flex gap-2 items-center" >
+      <img src="../../../assets/{{ item.icon }}" class="cta-image">
+      <div class="flex flex-col items-start justify-center min-w-fit">
+          <span class="nci-heading-h1">{{ item.value }}</span>
+          <span class="nci-heading-h3" style="font-weight:lighter;">{{ item.title }}</span>
+      </div>
+  </div>
+  }
+
+  </div>
+</div>
+-->
+
+<div class="nci-hero__cta-container">
+  <div class="flex flex-wrap justify-center gap-4 md:justify-evenly !w-full -mt-12 sm:-mt-8 md:-mt-4 lg:-mt-12 bg-white px-6 py-6 rounded shadow-2xl">
+
+
+    <div class="flex gap-2 items-center min-w-fit" matTooltip="Number of Studies">
+      <img src="/assets/images/studies-icon.png" class="cta-image">
+      <div class="flex flex-col items-start justify-center min-w-fit">
+          <span class="nci-heading-h1">{{studiesCounter}}</span>
+          <span class="nci-heading-h3" style="font-weight:lighter;">Studies</span>
+      </div>
+  </div>
+  <div class="flex gap-2 items-center min-w-fit" matTooltip="Total data volume" >
+    <img src="/assets/images/data-frame.png" class="cta-image">
+    <div class="flex flex-col items-start justify-center min-w-fit">
+        <span class="nci-heading-h1">{{ dataSize }} TB</span>
+        <span class="nci-heading-h3" style="font-weight:lighter;">Data Volume</span>
+    </div>
+  </div>
+  <div class="flex gap-2 items-center min-w-fit" matTooltip="Number of raw and processed data files">
+    <img src="/assets/images/data-files 1.png" class="cta-image">
+    <div class="flex flex-col items-start justify-center min-w-fit">
+        <span class="nci-heading-h1">{{ filesCounter }}</span>
+        <span class="nci-heading-h3" style="font-weight:lighter;">Data Files</span>
+    </div>
+  </div>
+  <div class="flex gap-2 items-center min-w-fit" matTooltip="Number of cases">
+    <img src="/assets/images/user-alt.png" class="cta-image">
+    <div class="flex flex-col items-start justify-center min-w-fit">
+        <span class="nci-heading-h1">{{ caseCounter }}</span>
+        <span class="nci-heading-h3" style="font-weight:lighter;">Cases</span>
+    </div>
+  </div>
+  <div class="flex gap-2 items-center min-w-fit" matTooltip="Number of disease types">
+    <img src="/assets/images/disease-types.png" class="cta-image">
+    <div class="flex flex-col items-start justify-center min-w-fit">
+        <span class="nci-heading-h1">{{ diseaseTypeCounter }}</span>
+        <span class="nci-heading-h3" style="font-weight:lighter;">Disease Types</span>
+    </div>
+  </div>
+  <div class="flex gap-2 items-center min-w-fit" matTooltip="Number of proteins identified by the PDC Common Data Analysis Pipeline in at least one analytical sample, with at most 1% protein FDR, rolled up to the gene level.">
+    <img src="/assets/images/molecule2 1.png" class="cta-image">
+    <div class="flex flex-col items-start justify-center min-w-fit">
+        <span class="nci-heading-h1">{{ proteinCounter }}</span>
+        <span class="nci-heading-h3" style="font-weight:lighter;">Proteins</span>
+    </div>
+  </div>
+
+  </div>
+</div>

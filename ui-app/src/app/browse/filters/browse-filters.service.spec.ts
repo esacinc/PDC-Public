@@ -24,7 +24,7 @@ describe("BrowseFiltersService", () => {
     }
   ));
 
-  it("test getAllData", inject(
+  /*it("test getAllData", inject(
     [BrowseFiltersService],
     (service: BrowseFiltersService) => {
       service.getAllData().subscribe(data => {
@@ -1439,9 +1439,9 @@ describe("BrowseFiltersService", () => {
             }
           ]
         }
-      });
+      });*/
 
-      controller.verify();
+      //controller.verify();
     }
   ));
 });

@@ -1,9 +1,10 @@
 <title>Files</title>
-<button mat-icon-button style="float: right; flex: 0 0 auto;" (click)="close()" aria-label="Close">
-	<i class="fa fa-close" style="light"></i>
+<button mat-icon-button style="position: absolute; top: 10px; right: 10px; z-index: 1000;" (click)="close()" aria-label="Close">
+	<i class="fa fa-times" style="color: #333333 !important; font-size: 20px; font-weight: bold;"></i>
 </button>
-<div id="FilesOvelrayTitle" mat-dialog-title>
-<h2  style="color:#245672" >Files</h2>
+<div id="FilesOvelrayTitle" mat-dialog-title style="padding-bottom: 15px;">
+<h2 style="color:#245672; margin-bottom: 10px;">Files</h2>
+<div class="breadcrumb-container" style="word-wrap: break-word; line-height: 1.5;">
 <button class="btn btn-primary breadCrumbButtons" style="background-color: black; margin-right: 3px;" disabled="true">Study Name</button><button *ngIf="study_names_param.length == 1" class="btn btn-primary breadCrumbButtons" disabled="true">IS</button>&nbsp;
 <button *ngIf="study_names_param.length == 1" class="btn btn-primary breadCrumbButtons" style="background-color: grey; margin-right: 3px" disabled="true">{{studyData.summaryData.study_name}}</button>
 <span *ngIf="study_names_param.length > 1">
@@ -20,9 +21,10 @@
 <button *ngIf="studyData.summaryData.experiment_type!=''" class="btn btn-primary breadCrumbButtons" style="background-color: black; margin-right: 3px" disabled="true">Experiment Type</button> <button *ngIf="studyData.summaryData.experiment_type!=''" class="btn btn-primary breadCrumbButtons" disabled="true">IS</button>&nbsp;
 <button *ngIf="studyData.summaryData.experiment_type!=''" class="btn btn-primary breadCrumbButtons" style="background-color: grey; margin-right: 3px" disabled="true">{{studyData.summaryData.experiment_type}}</button>
 </div>
+</div>
 
-<mat-dialog-content style='max-height: 80vh; '>
-<div class="row" style="width: 100%;vertical-align: middle" (window:resize)="onResize($event)">
+<mat-dialog-content style='max-height: 85vh; padding: 10px;'>
+<div class="row" style="width: 100%;vertical-align: middle; margin: 0;" (window:resize)="onResize($event)">
 
 	<div class="container-fluid ui-helper-clearfix button-container-fluid">
 		<div class="row">
@@ -62,14 +64,26 @@
 						</div>
 						<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 manifestDownload">
 							Export File Manifest
-							<button matTooltip="Exports all selected rows for the current data table" id="downloadFileManifest" mat-raised-button mat-primary label="Download Selection" (click)="fileTableExportCSV(false, false, 'csv')" [disabled]="isDownloadDisabled()" style="font-family:'Lato';min-width:1%;" aria-label="Download File Manifest">CSV</button>&nbsp;
-							<button matTooltip="Exports all selected rows for the current data table" id="downloadFileManifest" mat-raised-button mat-primary label="Download Selection" (click)="fileTableExportCSV(false, false, 'tsv')" [disabled]="isDownloadDisabled()" style="font-family:'Lato';min-width:1%;" aria-label="Download File Manifest">TSV</button>&nbsp;
-							<button matTooltip="Exports all selected rows for the current data tab" id="downloadFileManifest" mat-raised-button mat-primary label="Download Selection" (click)="fileTableExportCSV(false, false, 'pfb')" [disabled]="isDownloadDisabled()" style="font-family:'Lato';min-width:1%;" aria-label="Download File Manifest">PFB</button><a href="/pdc/cloud-data-analysis" target="_blank" style="font-size: 13px;">
-								<i class="fa fa-question-circle" aria-hidden="true" title="Data exchange format with FireCloud" style="font-size: 14px !important; padding-left: 4px"></i> 
+							<div class="custom-tooltip-wrapper">
+								<button id="downloadFileManifest" mat-raised-button mat-primary label="Download Selection" (click)="fileTableExportCSV(false, false, 'csv')" [disabled]="isDownloadDisabled()" style="font-family:'Lato';min-width:1%;" aria-label="Download File Manifest">CSV</button>
+								<span class="custom-tooltip">Exports all selected rows for the current data table</span>
+							</div>&nbsp;
+							<div class="custom-tooltip-wrapper">
+								<button id="downloadFileManifest" mat-raised-button mat-primary label="Download Selection" (click)="fileTableExportCSV(false, false, 'tsv')" [disabled]="isDownloadDisabled()" style="font-family:'Lato';min-width:1%;" aria-label="Download File Manifest">TSV</button>
+								<span class="custom-tooltip">Exports all selected rows for the current data table</span>
+							</div>&nbsp;
+							<div class="custom-tooltip-wrapper">
+								<button id="downloadFileManifest" mat-raised-button mat-primary label="Download Selection" (click)="fileTableExportCSV(false, false, 'pfb')" [disabled]="isDownloadDisabled()" style="font-family:'Lato';min-width:1%;" aria-label="Download File Manifest">PFB</button>
+								<span class="custom-tooltip">Exports all selected rows for the current data tab</span>
+							</div><a href="/pdc/cloud-data-analysis" target="_blank" style="font-size: 13px;">
+								<i class="fa fa-question-circle" aria-hidden="true" title="Data exchange format with FireCloud" style="font-size: 14px !important; padding-left: 4px"></i>
 							</a>
 						</div>
 						<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 manifestDownload">
-							<button matTooltip="Please use local download manager to download the files" id="downloadFiles" mat-raised-button mat-primary label="Download Files" (click)="setDownloadBatch()" [disabled]="isDownloadDisabled()" style="font-family:'Lato';" aria-label="Download Files">Download Files</button>
+							<div class="custom-tooltip-wrapper">
+								<button id="downloadFiles" mat-raised-button mat-primary label="Download Files" (click)="setDownloadBatch()" [disabled]="isDownloadDisabled()" style="font-family:'Lato';" aria-label="Download Files">Download Files</button>
+								<span class="custom-tooltip">Please use local download manager to download the files</span>
+							</div>
 						</div>
 					</div>
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding-right: 0px;">
@@ -81,7 +95,7 @@
 							<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9"></div>
 							<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 faqLink" style="text-align: right;">
 								<a href="/pdc/faq/Multiple_Files" target="_blank" style="font-size: 13px; font-weight: bold">More ways to download&nbsp;
-									<i class="fa fa-question-circle" aria-hidden="true" title="More ways to download" style="font-size: 14px !important;"></i> 
+									<i class="fa fa-question-circle" aria-hidden="true" title="More ways to download" style="font-size: 14px !important;"></i>
 								</a>
 							</div>
 						</div>
@@ -135,6 +149,19 @@
 								</div>
 							</div>
 						</th>
+            <th *ngIf="!isLegacyData" class="ui-datatable-tableheader" [pSortableColumn]="cols[12].field">
+              <div class="ui-datatable-tableheader-flex-container">
+                <div>
+                  <a href="/pdc/data-dictionary/Protocol" target="_blank"
+                     style="color:white">
+                    Protocol
+                  </a>
+                </div>
+                <div>
+                  &nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Study in ascending/descending order"></i>
+                </div>
+              </div>
+            </th>
 						<th class="ui-datatable-tableheader" [pSortableColumn]="cols[5].field"><a
 								href="/pdc/data-dictionary/Project" target="_blank" style="color:white">Project</a>
 							&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Project column in ascending/descending order"></i>
@@ -170,6 +197,8 @@
 						</th>
 					</tr>
 				</ng-template>
+				<!-- @@@PDC-9480 - overlapping text file overlay Tech advancement -->
+				<!-- @@@PDC-9690 - file selection should be uniform - removed background-color from frozen columns -->
 				<ng-template pTemplate="body" let-fileData let-rowIndex="rowIndex">
 					<tr [pSelectableRow]="fileData">
 						<td style="width:50px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;" pFrozenColumn>
@@ -184,6 +213,7 @@
 						</td> -->
 						<td style="word-wrap: break-word; white-space: normal;">{{fileData.file_name}}</td>
 						<td *ngIf="publicationsFiles.length === 0" style="word-wrap: break-word; white-space: normal;">{{fileData.study_run_metadata_submitter_id}}</td>
+            <td *ngIf="!isLegacyData" style="word-wrap: break-word; white-space: normal;">{{fileData.protocol_submitter_id}}</td>
 						<td style="word-wrap: break-word; white-space: normal;">{{fileData.project_name}}</td>
 						<td style="word-wrap: break-word; white-space: normal;">{{fileData.data_category}}</td>
 						<td style="word-wrap: break-word; white-space: normal;">{{fileData.file_type}}</td>

@@ -1,4 +1,5 @@
 
+
 .overlayScreen .modal-body {
   font-size: 1em;
   padding-left: 0px !important;
@@ -24,6 +25,8 @@
   width: 90%;
   box-shadow: rgba(0, 0, 0, 0.5) 0px 5px 15px;
   max-width: 800px;
+  max-height: calc(100vh - 100px);
+  overflow-y: auto;
 }
 
 .overlayScreen .modal-body {
@@ -41,3 +44,69 @@
   font-size: 22px;
   padding-left: 0px;
 }
+
+.overlayScreen .modal-footer {
+  padding: 15px;
+  text-align: right;
+  border-top: 1px solid #e5e5e5;
+  background-color: #f9f9f9;
+}
+
+.overlayScreen .modal-footer .btn {
+  min-width: 120px;
+}
+
+/* Mobile responsive styles */
+@media (max-width: 768px) {
+  ::ng-deep .overlay-screen-dialog-panel {
+    margin: 20px auto;
+    width: 95%;
+    max-height: calc(100vh - 40px);
+  }
+
+  .overlayScreen {
+    margin: 0px 1rem 1rem;
+  }
+
+  .overlayScreen .privacy-modal-head {
+    font-size: 18px;
+    padding: 10px 0px;
+  }
+
+  .overlayScreen .modal-body {
+    font-size: 13px;
+    max-height: calc(100vh - 200px);
+    overflow-y: auto;
+  }
+
+  .overlayScreen .modal-footer {
+    position: sticky;
+    bottom: 0;
+    background-color: #fff;
+    padding: 10px;
+    margin: 0 -1rem -1rem;
+    z-index: 10;
+  }
+
+  .overlayScreen .modal-footer .btn {
+    width: 100%;
+  }
+}
+
+/* Extra small devices (phones in portrait, less than 576px) */
+@media (max-width: 575px) {
+  ::ng-deep .overlay-screen-dialog-panel {
+    margin: 10px auto;
+    width: 98%;
+    max-height: calc(100vh - 20px);
+  }
+
+  .overlayScreen {
+    margin: 0px 0.5rem 0.5rem;
+  }
+
+  .overlayScreen .modal-body {
+    max-height: calc(100vh - 180px);
+  }
+}
+

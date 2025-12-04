@@ -1,9 +1,9 @@
-import {MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialog as MatDialog} from '@angular/material/legacy-dialog';
+import {MatDialogRef, MAT_DIALOG_DATA, MatDialog} from '@angular/material/dialog';
 import {Inject} from '@angular/core';
 import {Component, OnInit} from '@angular/core';
 import {UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
-import {SocialAuthService, GoogleLoginProvider} from 'angularx-social-login';
+
 import {Md5} from 'ts-md5/dist/md5';
 import {PDCUserService} from '../../pdcuser.service';
 import {environment} from '../../../environments/environment';
@@ -11,9 +11,10 @@ import {MessageDialogComponent} from './../../dialog/message-dialog/message-dial
 import {OverlayWindowService} from '../../overlay-window/overlay-window.service';
 
 @Component({
-  selector: 'app-password-reset',
-  templateUrl: './reset-password.component.html',
-  styleUrls: ['./reset-password.component.scss']
+    selector: 'app-password-reset',
+    templateUrl: './reset-password.component.html',
+    styleUrls: ['./reset-password.component.scss'],
+    standalone: false
 })
 
 //@@@PDC-966: implement reset password part of forgot password feature
@@ -30,8 +31,7 @@ export class ResetPasswordComponent implements OnInit {
   resetPasswordForm: UntypedFormGroup;
 
   //, Validators.pattern('(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).+')
-  constructor(private socialAuthService: SocialAuthService,
-              private router: Router,
+  constructor(private router: Router,
               private userService: PDCUserService,
               private overlayWindow: OverlayWindowService,
               private dialog: MatDialog,

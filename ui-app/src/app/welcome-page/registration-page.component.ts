@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from "@angular/router";
-import { SocialAuthService, GoogleLoginProvider } from 'angularx-social-login';
+
 import { Md5 } from 'ts-md5/dist/md5';
 import { ChorusauthService } from '../chorusauth.service';
 import { PDCUserService } from '../pdcuser.service';
@@ -9,9 +9,10 @@ import { environment } from '../../environments/environment';
 import { OverlayWindowService } from '../overlay-window/overlay-window.service';
 
 @Component({
-  selector: 'registration-page',
-  templateUrl: './registration-page.component.html',
-  styleUrls: ['../../assets/css/global.css', './welcome-page.component.scss']
+    selector: 'registration-page',
+    templateUrl: './registration-page.component.html',
+    styleUrls: ['../../assets/css/global.css', './welcome-page.component.scss'],
+    standalone: false
 })
 
 //@@@PDC-371 Develop PDC welcome screen
@@ -33,7 +34,7 @@ export class RegistrationPageComponent implements OnInit {
   // This structure is needed for defining field validatoin rules
   registrationForm: UntypedFormGroup;
   //, Validators.pattern('(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).+')
-  constructor(private chorusService: ChorusauthService, private socialAuthService: SocialAuthService,
+  constructor(private chorusService: ChorusauthService,
 				private router: Router, private userService: PDCUserService,  private overlayWindow: OverlayWindowService) {
 	  let firstName = "";
 	  let lastName = "";

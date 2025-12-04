@@ -1,63 +1,74 @@
+/* Style for the 'Available files for data category' link in expanded row */
+.data-category-link {
+  color: #000 !important;
+  text-decoration: underline !important;
+  font-weight: bold !important;
+  font-size: 15px !important;
+  line-height: 1.5 !important;
+  transition: color 0.2s;
+}
+.data-category-link:hover,
+.data-category-link:focus {
+  color: #387BA8 !important;
+}
 /* @@@PDC-7012 - improve checkbox intuitiveness */
 #dataForManifestExport {
   visibility: hidden;
-}]
+}
 
 .browse-study {
-    font-family: 'Lato';
-    font-size: 12px;
+  font-family: 'Lato';
+  font-size: 12px;
 }
 
 .ui-datatable-odd {
-    background: rgb(225, 239, 252);
-
+  background: white !important;
 }
 .ui-datatable-even {
-    /* background: none repeat scroll 0 0 rgb(154, 181, 204); */
-    background: none repeat scroll 0 0 linear-gradient(to bottom, #f6f7f9 0%, #ebedf0 100%);
+  background: #f5f5f5 !important;
 }
 /* PDC-8279-fix-508-compliance */
 .ui-datatable-tableheader {
-    /* background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%) !important; */
-    background-color: #387BA8 !important;
-    /* border:0px !important; */
-    color: white !important;
+  /* background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%) !important; */
+  background-color: #387BA8 !important;
+  /* border:0px !important; */
+  color: white !important;
 }
 
 .ui-datatable-tableheader-collapsed {
-    /* background-image: linear-gradient(-180deg, #3A8BB7 0%, #347da5 100%) !important; */
-    background-color: #387BA8 !important;
-    /* border:0px !important; */
-    color: white !important;
+  /* background-image: linear-gradient(-180deg, #3A8BB7 0%, #347da5 100%) !important; */
+  background-color: #387BA8 !important;
+  /* border:0px !important; */
+  color: white !important;
 }
 .ui-datatable-tableheader-continue {
-    /* background-image: linear-gradient(-180deg, #347da5 0%, #245672 100%) !important; */
-    background-color: #387BA8 !important;
-    /* border:0px !important; */
-    color: white !important;
+  /* background-image: linear-gradient(-180deg, #347da5 0%, #245672 100%) !important; */
+  background-color: #387BA8 !important;
+  /* border:0px !important; */
+  color: white !important;
 }
 .ui-grid-render-container.ui-grid-render-container-body {
-    left: 30px;
-    top: 0;
-    position: absolute;
-  }
+  left: 30px;
+  top: 0;
+  position: absolute;
+}
 
- .ui-datatable-tableheader-flex-container{
-    display:-webkit-flex;
-    display:flex;
-    float: left;
-    align-items: center;
- }
+.ui-datatable-tableheader-flex-container{
+  display:-webkit-flex;
+  display:flex;
+  float: left;
+  align-items: center;
+}
 
 .future_embargo_date {
-	color: #de350b;
-	font-weight: 800;
+  color: #de350b;
+  font-weight: 800;
 }
 ::ng-deep .custom-tooltip {
-	word-wrap: break-word;
-	white-space: pre-line;
-	font-size: 11px;
-	width:80%;
+  word-wrap: break-word;
+  white-space: pre-line;
+  font-size: 11px;
+  width:80%;
 }
 
 
@@ -89,41 +100,140 @@
 } */
 
 
- /* @@@PDC-551: Need smaller font for paginator pages on Browse page tables to fit 3 digit numbers */
- :host ::ng-deep .ui-paginator .ui-paginator-pages .ui-paginator-page{
-    min-width: 2.5em !important;
- }
+/* Updated table header styles - light grey background, black font, no wrapping */
+.ui-datatable-tableheader {
+  background-color: #f5f5f5 !important; /* Light grey background */
+  color: #000000 !important; /* Black font */
+  white-space: nowrap !important; /* Prevent text wrapping */
+  overflow: visible !important; /* Remove overflow to prevent scrolling */
+  text-overflow: clip !important; /* Don't truncate text */
+  padding: 8px 6px !important; /* Reduced horizontal padding */
+  font-weight: bold !important; /* Bold font weight */
+  border: 1px solid #e0e0e0 !important;
+  vertical-align: top !important; /* Align headers to top */
+  font-size: 11px !important; /* Same size as body text */
+  line-height: 1.3 !important;
+  min-width: auto !important; /* Allow flexible width */
+  max-width: none !important; /* Remove max-width constraints */
+}
 
- /* @@@PDC-1063: Implement select all, select page, select none for all tabs */
- :host ::ng-deep #dataForManifestExport .mat-select-value {
-    display:none !important;
- }
+/* Data table header font size styling */
+.ui-datatable .ui-datatable-tableheader {
+  font-size: 14px !important;
+}
 
- :host ::ng-deep .p-datatable th {
-    word-wrap: break-word;
- }
+.ui-datatable .ui-datatable-tableheader a {
+  font-size: 14px !important;
+}
 
- /* @@@PDC-1419: Fix the tooltip position for "Export Full Manifest" feature on Browse Page */
- :host ::ng-deep .ui-table-caption {
-    padding-left: 0px;
-    text-align: unset !important;
- }
+/* Style the links in headers to be black and bold */
+.ui-datatable-tableheader a {
+  color: #000000 !important;
+  text-decoration: none !important;
+  white-space: nowrap !important;
+  font-size: 11px !important;
+  font-weight: bold !important;
+  vertical-align: top !important;
+}
+
+/* Style the sorting icons to be small and vertically centered */
+.ui-datatable-tableheader i.fas.fa-sort {
+  font-size: 8px !important; /* Even smaller icons */
+  color: #666666 !important;
+  margin-left: 3px !important;
+  vertical-align: middle !important; /* Center vertically with text */
+  line-height: 1 !important;
+}
+
+/* Style the flex container for headers */
+.ui-datatable-tableheader-flex-container {
+  display: flex !important;
+  align-items: center !important; /* Center items vertically */
+  white-space: nowrap !important;
+  gap: 3px !important; /* Reduced gap */
+  width: 100% !important;
+  height: 100% !important;
+  flex-wrap: nowrap !important; /* Prevent wrapping */
+}
+
+.ui-datatable-tableheader-flex-container > div:first-child {
+  flex-shrink: 1 !important; /* Allow shrinking */
+  overflow: visible !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  white-space: nowrap !important;
+}
+
+.ui-datatable-tableheader-flex-container > div:last-child {
+  flex-shrink: 0 !important;
+  margin-left: 2px !important; /* Reduced margin */
+  display: inline-flex !important;
+  align-items: center !important;
+}
+
+/* Remove line breaks in header text */
+.ui-datatable-tableheader br {
+  display: none !important;
+}
+
+/* Make header text inline and aligned to top */
+.ui-datatable-tableheader div {
+  display: inline !important;
+  white-space: nowrap !important;
+  vertical-align: top !important;
+}
+
+/* Adjust table to fit content without horizontal scroll */
+.ui-datatable {
+  width: 100% !important;
+  table-layout: auto !important;
+  overflow-x: visible !important;
+}
+
+/* Make table cells more compact */
+.ui-datatable td {
+  padding: 4px 6px !important;
+  font-size: 11px !important;
+  white-space: nowrap !important;
+  overflow: visible !important;
+}
+
+/* @@@PDC-551: Need smaller font for paginator pages on Browse page tables to fit 3 digit numbers */
+:host ::ng-deep .ui-paginator .ui-paginator-pages .ui-paginator-page{
+  min-width: 2.5em !important;
+}
+
+/* @@@PDC-1063: Implement select all, select page, select none for all tabs */
+/* TODO(mdc-migration): The following rule targets internal classes of select that may no longer apply for the MDC version. */
+:host ::ng-deep #dataForManifestExport .mat-select-value {
+  display:none !important;
+}
+
+:host ::ng-deep .p-datatable th {
+  word-wrap: break-word;
+}
+
+/* @@@PDC-1419: Fix the tooltip position for "Export Full Manifest" feature on Browse Page */
+:host ::ng-deep .ui-table-caption {
+  padding-left: 0px;
+  text-align: unset !important;
+}
 
 :host ::ng-deep .p-datatable-scrollable-table {
-   table-layout: unset !important;
+  table-layout: unset !important;
 }
 
 .fixedWidthCol, .fixedMaxWidthCol {
-   min-width: 100px;
-   max-width: 100px;
-   width: 100px;
-   background-color: inherit;
+  min-width: 100px;
+  max-width: 100px;
+  width: 100px;
+  background-color: inherit;
 }
 
 :host ::ng-deep .checkboxColumn {
-   min-width: 50px;
-   max-width: 50px;
-   width: 50px;
+  min-width: 50px;
+  max-width: 50px;
+  width: 50px;
 }
 
 /* :host ::ng-deep .ui-table-unfrozen-view .ui-table-thead .fixedMaxWidthCol {
@@ -131,12 +241,12 @@
 } */
 
 :host ::ng-deep .table-striped .ui-datatable-odd {
-    width: 100%;
+  width: 100%;
 }
 
 .no_count {
-   font-style: italic;
-   color: gray;
+  font-style: italic;
+  color: gray;
 }
 
 /*PDC-7831-select-all-issues */
@@ -231,3 +341,1039 @@ p-tableCheckbox{
       width: 83px !important;
    }
 }*/
+
+/* Remove spacing between header rows and body rows */
+.ui-datatable table,
+.ui-datatable tbody,
+.ui-datatable thead {
+  border-spacing: 0 !important;
+  border-collapse: collapse !important;
+}
+
+.ui-datatable th,
+.ui-datatable td {
+  border-spacing: 0 !important;
+  margin: 0 !important;
+}
+
+/* Remove any padding/margin between header rows */
+.ui-datatable thead tr {
+  margin: 0 !important;
+  padding: 0 !important;
+  border-spacing: 0 !important;
+}
+
+/* Ensure consistent border between header and body */
+.ui-datatable thead tr:last-child th {
+  border-bottom: 2px solid #e0e0e0 !important;
+}
+
+/* Remove borders from table rows */
+.ui-datatable tbody tr {
+  border-bottom: none !important;
+  border-top: none !important;
+  border-left: none !important;
+  border-right: none !important;
+}
+
+/* Remove borders from table cells */
+.ui-datatable tbody td {
+  border-bottom: none !important;
+  border-top: none !important;
+  border-left: none !important;
+  border-right: none !important;
+}
+
+/* Remove PrimeNG gridlines */
+.p-datatable-gridlines .p-datatable-tbody > tr > td {
+  border: none !important;
+}
+
+/* Remove any striped table borders */
+.ui-datatable-odd,
+.ui-datatable-even {
+  border: none !important;
+}
+
+/* Remove borders from expanded rows */
+.ui-datatable tbody tr td {
+  border: none !important;
+}
+
+/* More comprehensive border removal */
+.ui-datatable table {
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+  border: none !important;
+}
+
+/* Remove all borders from PrimeNG table elements */
+::ng-deep .p-datatable .p-datatable-tbody > tr,
+::ng-deep .p-datatable .p-datatable-tbody > tr > td,
+::ng-deep .ui-datatable tbody tr,
+::ng-deep .ui-datatable tbody tr td {
+  border: none !important;
+  border-top: none !important;
+  border-bottom: none !important;
+  border-left: none !important;
+  border-right: none !important;
+}
+
+/* Remove borders from table wrapper */
+::ng-deep .p-datatable-wrapper {
+  border: none !important;
+}
+
+/* Remove borders from table element itself */
+::ng-deep .p-datatable table {
+  border: none !important;
+}
+
+/* Remove any Tailwind CSS borders */
+.border-gray-200 {
+  border: none !important;
+}
+
+/* Remove borders from specific PrimeNG classes */
+::ng-deep .p-datatable-gridlines .p-datatable-header,
+::ng-deep .p-datatable-gridlines .p-datatable-tbody > tr > td,
+::ng-deep .p-datatable-gridlines .p-datatable-footer {
+  border: none !important;
+}
+
+/* Override PrimeNG striped row colors - alternating white and grey */
+::ng-deep .p-datatable .p-datatable-tbody > tr:nth-child(odd),
+::ng-deep .ui-datatable tbody tr:nth-child(odd) {
+  background: white !important;
+}
+
+::ng-deep .p-datatable .p-datatable-tbody > tr:nth-child(even),
+::ng-deep .ui-datatable tbody tr:nth-child(even) {
+  background: #f5f5f5 !important;
+}
+
+/* Override Bootstrap striped table colors */
+::ng-deep .table-striped > tbody > tr:nth-child(odd) > td,
+::ng-deep .table-striped > tbody > tr:nth-child(odd) > th {
+  background-color: white !important;
+}
+
+::ng-deep .table-striped > tbody > tr:nth-child(even) > td,
+::ng-deep .table-striped > tbody > tr:nth-child(even) > th {
+  background-color: #f5f5f5 !important;
+}
+
+/* Override light-stripes class with alternating colors */
+::ng-deep .light-stripes .ui-datatable-odd {
+  background: white !important;
+}
+
+::ng-deep .light-stripes .ui-datatable-even {
+  background: #f5f5f5 !important;
+}
+
+/* Ensure expanded/toggled rows always have white background */
+.expanded-row {
+  background: white !important;
+}
+
+.expanded-row-content {
+  background: white !important;
+  padding: 0 !important;
+}
+
+/* Override any striped row styling for expanded rows */
+::ng-deep .ui-datatable tbody tr.expanded-row,
+::ng-deep .p-datatable .p-datatable-tbody > tr.expanded-row {
+  background: white !important;
+}
+
+/* Ensure the content within expanded rows is white */
+::ng-deep .expanded-row td,
+::ng-deep .expanded-row .expanded-row-content {
+  background: white !important;
+}
+
+/* Override any nth-child styling for expanded rows */
+::ng-deep .ui-datatable tbody tr.expanded-row:nth-child(odd),
+::ng-deep .ui-datatable tbody tr.expanded-row:nth-child(even),
+::ng-deep .p-datatable .p-datatable-tbody > tr.expanded-row:nth-child(odd),
+::ng-deep .p-datatable .p-datatable-tbody > tr.expanded-row:nth-child(even) {
+  background: white !important;
+}
+
+/* Ensure all elements inside expanded row are white */
+.expanded-row .flex,
+.expanded-row .flex-col,
+.expanded-row .md\\:flex-row,
+.expanded-row div {
+  background: white !important;
+}
+
+/* Ensure header and body text have different font weights */
+.ui-datatable-tableheader,
+.ui-datatable-tableheader a {
+  font-size: 14px !important;
+  line-height: 1.3 !important;
+  font-weight: bold !important;
+}
+
+/* Keep body text normal weight */
+.ui-datatable tbody tr,
+.ui-datatable tbody td {
+  font-size: 14px !important;
+  line-height: 1.3 !important;
+  font-weight: normal !important;
+}
+
+/* Make sure header links have bold font weight */
+.ui-datatable-tableheader a {
+  font-weight: bold !important;
+  font-size: 14px !important;
+}
+
+/* Override any PrimeNG font sizing - headers bold, body normal */
+::ng-deep .p-datatable .p-datatable-thead > tr > th {
+  font-size: 14px !important;
+  line-height: 1.3 !important;
+  font-weight: bold !important;
+}
+
+::ng-deep .p-datatable .p-datatable-tbody > tr > td {
+  font-size: 14px !important;
+  line-height: 1.3 !important;
+  font-weight: normal !important;
+}
+
+/* Make sure header text elements have bold weight */
+.ui-datatable th,
+.ui-datatable th a {
+  font-size: 14px !important;
+  line-height: 1.3 !important;
+  font-weight: bold !important;
+}
+
+/* Keep body text normal weight */
+.ui-datatable td,
+.ui-datatable td a {
+  font-size: 14px !important;
+  line-height: 1.3 !important;
+  font-weight: normal !important;
+}
+
+/* Make expanded row text size match header and body text (11px) */
+.expanded-row,
+.expanded-row table,
+.expanded-row th,
+.expanded-row td,
+.expanded-row div,
+.expanded-row button {
+  font-size: 11px !important;
+  line-height: 1.3 !important;
+}
+
+/* Ensure expanded row table headers and cells have consistent sizing */
+.expanded-row table th,
+.expanded-row table td {
+  font-size: 11px !important;
+  line-height: 1.3 !important;
+  font-weight: normal !important;
+}
+
+/* Override any Tailwind CSS text sizing in expanded rows */
+.expanded-row .text-left,
+.expanded-row .font-semibold,
+.expanded-row .text-gray-700 {
+  font-size: 11px !important;
+  line-height: 1.3 !important;
+}
+
+/* Make sure the button in expanded row also has consistent sizing */
+.expanded-row button {
+  font-size: 11px !important;
+  line-height: 1.3 !important;
+}
+
+/* Override any default table styling inside expanded rows */
+.expanded-row .min-w-full th,
+.expanded-row .min-w-full td {
+  font-size: 11px !important;
+  line-height: 1.3 !important;
+  font-weight: normal !important;
+}
+
+/* Ensure all text content in expanded rows matches */
+.expanded-row-content * {
+  font-size: 11px !important;
+  line-height: 1.3 !important;
+}
+
+/* For headers without flex container - keep arrows inline */
+.ui-datatable-tableheader {
+  display: table-cell !important;
+  white-space: nowrap !important;
+}
+
+/* Make sure sort icons stay inline with text */
+.ui-datatable-tableheader i.fas.fa-sort {
+  display: inline !important;
+  white-space: nowrap !important;
+  margin-left: 3px !important;
+  vertical-align: middle !important;
+}
+
+/* Ensure header content doesn't wrap */
+.ui-datatable-tableheader > * {
+  display: inline !important;
+  white-space: nowrap !important;
+}
+
+/* Fix specific headers that might be wrapping */
+.ui-datatable-tableheader a + i {
+  display: inline !important;
+  margin-left: 3px !important;
+  vertical-align: middle !important;
+}
+
+/* Remove any non-breaking spaces that cause wrapping */
+.ui-datatable-tableheader-flex-container div {
+  white-space: nowrap !important;
+}
+
+/* Force sort icons to stay inline in flex containers */
+.ui-datatable-tableheader-flex-container > div:last-child i {
+  white-space: nowrap !important;
+  display: inline !important;
+  vertical-align: middle !important;
+}
+
+/* Prevent any text nodes from causing line breaks */
+.ui-datatable-tableheader-flex-container {
+  font-size: 0 !important; /* Remove whitespace between elements */
+}
+
+.ui-datatable-tableheader-flex-container > div {
+  font-size: 11px !important; /* Restore font size */
+}
+
+/* Specific styles for the data category table in expanded rows */
+.expanded-row .data-category-table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  max-width: 100%;
+}
+
+.expanded-row .data-category-table th {
+  background: none !important;
+  background-color: transparent !important;
+  font-weight: bold !important;
+  text-align: left !important;
+  padding: 12px 16px !important;
+  border-bottom: 2px solid #dee2e6 !important;
+  font-size: 11px !important;
+  line-height: 1.3 !important;
+  color: #374151 !important;
+}
+
+.expanded-row .data-category-table thead {
+  background: none !important;
+  background-color: transparent !important;
+}
+
+.expanded-row .data-category-table thead tr {
+  background: none !important;
+  background-color: transparent !important;
+}
+
+.expanded-row .data-category-table td {
+  padding: 8px 16px !important;
+  border-bottom: 1px solid #e5e7eb !important;
+  font-size: 11px !important;
+  line-height: 1.3 !important;
+  color: #374151 !important;
+  vertical-align: middle !important;
+}
+
+.expanded-row .data-category-table tbody tr:hover {
+  background-color: #f9fafb !important;
+}
+
+.expanded-row .data-category-table tbody tr:last-child td {
+  border-bottom: none !important;
+}
+
+/* Ensure the table numbers are emphasized */
+.expanded-row .data-category-table .font-medium {
+  font-weight: 600 !important;
+  color: #1f2937 !important;
+}
+
+/* Make sure the table container has proper spacing */
+.expanded-row .flex-1 {
+  margin-right: 16px;
+}
+
+/* Ensure the table border is consistent */
+.expanded-row .data-category-table {
+  border: 1px solid #e5e7eb !important;
+  border-radius: 6px !important;
+  overflow: hidden;
+}
+
+/* Export dropdown styling */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-toggle {
+  background-color: #387BA8 !important;
+  border-color: #387BA8 !important;
+  color: white !important;
+  font-family: 'Lato';
+  font-weight: bold;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dropdown-toggle:hover {
+  background-color: #2a5f85 !important;
+}
+
+.dropdown-toggle:disabled {
+  background-color: #6c757d !important;
+  border-color: #6c757d !important;
+  color: #ffffff !important;
+  opacity: 0.65 !important;
+  cursor: not-allowed !important;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  display: none;
+  float: left;
+  min-width: 160px;
+  padding: 5px 0;
+  margin: 2px 0 0;
+  font-size: 14px;
+  text-align: left;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+}
+
+.dropdown-menu.show {
+  display: block;
+}
+
+.dropdown-item {
+  display: block;
+  width: 100%;
+  padding: 6px 20px;
+  clear: both;
+  font-weight: 400;
+  color: #333;
+  text-align: inherit;
+  white-space: nowrap;
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.dropdown-item:hover {
+  background-color: #f5f5f5;
+  color: #262626;
+}
+
+.dropdown-item:disabled {
+  color: #ccc;
+  cursor: not-allowed;
+  background-color: transparent;
+}
+
+.dropdown-item i {
+  margin-right: 8px;
+}
+
+/* Flexbox utilities for export button alignment */
+.d-flex {
+  display: flex !important;
+}
+
+.justify-content-end {
+  justify-content: flex-end !important;
+}
+
+.align-items-center {
+  align-items: center !important;
+}
+
+.gap-3 {
+  gap: 1rem !important;
+}
+
+/* Ensure export buttons maintain proper appearance */
+.dropdown-toggle:not(:disabled) {
+  background-color: #387BA8 !important;
+  border-color: #387BA8 !important;
+  color: white !important;
+  opacity: 1 !important;
+}
+
+.dropdown-toggle:not(:disabled):hover {
+  background-color: #2a5f85 !important;
+  border-color: #2a5f85 !important;
+}
+
+/* Improve disabled state styling */
+.dropdown-toggle:disabled {
+  background-color: #6c757d !important;
+  border-color: #6c757d !important;
+  color: #ffffff !important;
+  opacity: 0.65 !important;
+  cursor: not-allowed !important;
+}
+
+/* Selected studies count styling */
+#selectedStudiesCount {
+  white-space: nowrap;
+  margin-right: 8px;
+}
+
+/* Data table text size styling */
+.ui-datatable .ui-datatable-data tr td {
+  font-size: 14px !important;
+}
+
+.ui-datatable .ui-datatable-data {
+  font-size: 14px !important;
+}
+
+/* Override any existing smaller font sizes for table content */
+.ui-datatable tbody tr td {
+  font-size: 14px !important;
+}
+
+.ui-datatable tbody {
+  font-size: 14px !important;
+}
+
+/* Ensure table rows use 14px font */
+tr[pSelectableRow] td {
+  font-size: 14px !important;
+}
+
+/* High specificity override for table body content */
+#studyDataTable .ui-datatable-data tr td,
+#studyDataTable tbody tr td,
+#studyDataTable .p-datatable-tbody tr td {
+  font-size: 14px !important;
+  line-height: 1.4 !important;
+}
+
+/* High specificity override for table headers */
+#studyDataTable .ui-datatable-tableheader,
+#studyDataTable .ui-datatable-tableheader a,
+#studyDataTable th,
+#studyDataTable .p-datatable-thead th {
+  font-size: 14px !important;
+  line-height: 1.3 !important;
+  font-weight: bold !important;
+}
+
+/* Remove outline and background from export buttons container */
+.exportButtonsRow,
+.button-container-fluid {
+  background: none !important;
+  background-color: transparent !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.exportButtonsRow .container-fluid,
+.button-container-fluid.container-fluid {
+  background: none !important;
+  background-color: transparent !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Remove all possible outlines and borders from table caption and containers */
+.ui-datatable .ui-datatable-caption,
+p-table .ui-datatable-caption,
+#studyDataTable .ui-datatable-caption {
+  background: none !important;
+  background-color: transparent !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Target any div elements within the caption */
+.ui-datatable-caption div,
+.ui-datatable-caption .container-fluid,
+.ui-datatable-caption .row,
+.ui-datatable-caption .col-lg-12,
+.ui-datatable-caption .col-lg-8,
+.ui-datatable-caption .col-lg-4 {
+  background: none !important;
+  background-color: transparent !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Remove any focus outlines that might appear */
+.exportButtonsRow *:focus,
+.button-container-fluid *:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* High priority overrides to remove any remaining outlines */
+div.container-fluid.ui-helper-clearfix.button-container-fluid.exportButtonsRow,
+div.container-fluid.ui-helper-clearfix.button-container-fluid {
+  background: transparent !important;
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Remove outline from any table-related containers */
+.ui-datatable,
+.ui-datatable > div,
+.ui-datatable .ui-datatable-tablewrapper {
+  border: none !important;
+  outline: none !important;
+}
+
+/* Ensure no border/outline on the specific row */
+.exportButtonsRow .row,
+.exportButtonsRow .col-lg-4,
+.exportButtonsRow .col-lg-8 {
+  border: none !important;
+  outline: none !important;
+  background: transparent !important;
+}
+
+/* Add right margin to Export Study Manifest button to prevent it from going off screen */
+#exportStudyManifestDropdown {
+  margin-right: 15px !important;
+}
+
+/* Alternative selector in case the ID doesn't work */
+.dropdown:last-child .dropdown-toggle,
+.manifestDownload .dropdown:last-child button {
+  margin-right: 15px !important;
+}
+
+/* Remove border from p-datatable-header */
+.p-datatable-header.ng-star-inserted,
+.p-datatable-header {
+  border: none !important;
+  border-top: none !important;
+  border-bottom: none !important;
+  border-left: none !important;
+  border-right: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* More specific selectors to remove p-datatable-header border */
+::ng-deep .p-datatable-header.ng-star-inserted,
+::ng-deep .p-datatable-header,
+::ng-deep .p-datatable .p-datatable-header,
+::ng-deep p-table .p-datatable-header {
+  border: 0 !important;
+  border-top: 0 !important;
+  border-bottom: 0 !important;
+  border-left: 0 !important;
+  border-right: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Target by table ID for maximum specificity */
+#studyDataTable .p-datatable-header.ng-star-inserted,
+#studyDataTable .p-datatable-header {
+  border: 0 !important;
+  border-top: 0 !important;
+  border-bottom: 0 !important;
+  border-left: 0 !important;
+  border-right: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Align and size the text elements and buttons */
+.exportButtonsRow .d-flex {
+  align-items: center !important;
+  justify-content: flex-end !important;
+  height: 40px; /* Set consistent height */
+  padding-bottom: 10px !important;
+}
+
+/* Make rows selected text same size as total studies text */
+#selectedStudiesCount {
+  font-family: 'Lato' !important;
+  font-size: 14px !important;
+  color: #333 !important;
+  white-space: nowrap;
+  margin-right: 15px !important;
+  line-height: 1.2 !important;
+  align-self: center;
+  font-weight: normal !important;
+}
+
+/* Ensure total studies text has consistent styling */
+.exportButtonsRow h3 {
+  font-family: 'Lato' !important;
+  font-size: 14px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1.2 !important;
+  align-self: center;
+  color: #333 !important;
+}
+
+/* Align the container properly */
+.exportButtonsRow .col-lg-4 {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  padding-bottom: 10px !important;
+}
+
+.exportButtonsRow .col-lg-8 {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  justify-content: flex-end !important;
+  padding-bottom: 10px !important;
+}
+
+/* Ensure buttons are properly aligned */
+.dropdown-toggle {
+  height: 38px;
+  display: flex;
+  align-items: center;
+  line-height: 1.2;
+}
+
+/* Hide smaller dropdown toggle icons from export buttons */
+/* Hide only Bootstrap's default dropdown caret, keep FontAwesome icons */
+.dropdown-toggle::after {
+  display: none !important;
+}
+
+/* Hide Bootstrap dropdown caret */
+.dropdown-toggle .caret {
+  display: none !important;
+}
+
+/* Ensure FontAwesome chevron icons are visible and properly sized */
+.dropdown-toggle .fa-chevron-down {
+  display: inline-block !important;
+  font-size: 12px !important;
+  margin-left: 8px !important;
+}
+
+/* Make sure the main dropdown icons show */
+#exportAllManifestsDropdown .fa-chevron-down,
+#exportStudyManifestDropdown .fa-chevron-down {
+  display: inline-block !important;
+  font-size: 12px !important;
+  margin-left: 8px !important;
+}
+
+/* White background for export button tooltips - comprehensive selectors */
+::ng-deep .mat-tooltip {
+  background-color: white !important;
+  color: #333 !important;
+  border: 1px solid #ccc !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+  font-size: 12px !important;
+}
+
+/* More specific Material tooltip selectors */
+::ng-deep .mat-mdc-tooltip,
+::ng-deep .mdc-tooltip__surface,
+::ng-deep .mat-mdc-tooltip .mdc-tooltip__surface {
+  background-color: white !important;
+  color: #333 !important;
+  border: 1px solid #ccc !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Overlay container for tooltips */
+::ng-deep .cdk-overlay-container .mat-tooltip,
+::ng-deep .cdk-overlay-container .mat-mdc-tooltip {
+  background-color: white !important;
+  color: #333 !important;
+  border: 1px solid #ddd !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Legacy and newer Material tooltip classes */
+::ng-deep .mat-tooltip.mat-tooltip-show,
+::ng-deep .mat-mdc-tooltip-panel {
+  background-color: white !important;
+  color: #333 !important;
+  border: 1px solid #ccc !important;
+}
+
+/* Tooltip arrow/pointer if present */
+::ng-deep .mat-tooltip::before,
+::ng-deep .mat-mdc-tooltip::before {
+  border-color: white transparent !important;
+}
+
+/* Chart container styles to prevent overflow and ensure proper containment */
+#diseaseTypesChart, #analyticalFractionChart, #expCountChart {
+  width: 100% !important;
+  height: 100% !important;
+  overflow: hidden !important;
+  position: relative !important;
+  box-sizing: border-box !important;
+}
+
+#diseaseTypesChart svg, #analyticalFractionChart svg, #expCountChart svg {
+  max-width: 100% !important;
+  max-height: 100% !important;
+  overflow: visible !important;
+}
+
+/* Ensure tooltips don't extend beyond chart containers */
+.charts-tooltip {
+  z-index: 1000 !important;
+  max-width: 200px !important;
+  word-wrap: break-word !important;
+}
+
+/* Chart text font size overrides - match pie chart font size */
+#analyticalFractionChart text,
+#expCountChart text,
+#diseaseTypesChart text {
+  font-size: 14px !important;
+  font-family: Arial, sans-serif !important;
+}
+
+/* Specific axis text styling */
+#analyticalFractionChart .tick text,
+#expCountChart .tick text,
+#analyticalFractionChart g text,
+#expCountChart g text {
+  font-size: 14px !important;
+  font-family: Arial, sans-serif !important;
+}
+
+/* Chart label styling - very small font for axis titles */
+.casesLabel {
+  font-size: 8px !important;
+  font-family: Arial, sans-serif !important;
+  font-weight: normal !important;
+}
+
+/* Nuclear option for Cases label */
+text.casesLabel,
+#analyticalFractionChart .casesLabel,
+#expCountChart .casesLabel,
+#analyticalFractionChart text.casesLabel,
+#expCountChart text.casesLabel {
+  font-size: 8px !important;
+  font-family: Arial, sans-serif !important;
+  font-weight: normal !important;
+}
+
+/* Override any D3 default axis styling */
+#analyticalFractionChart svg text,
+#expCountChart svg text,
+#analyticalFractionChart svg g,
+#expCountChart svg g {
+  font-size: 14px !important;
+  font-family: Arial, sans-serif !important;
+}
+
+/* --- Export Buttons Row Consistency: Grey Buttons, Hide Rows Selected Until Selection --- */
+.exportButtonsRow .d-flex {
+  align-items: center !important;
+  justify-content: flex-end !important;
+  height: 40px;
+  padding-bottom: 10px !important;
+}
+
+#selectedStudiesCount {
+  font-family: 'Lato' !important;
+  font-size: 14px !important;
+  color: #333 !important;
+  white-space: nowrap;
+  margin-right: 15px !important;
+  line-height: 1.2 !important;
+  align-self: center;
+  font-weight: normal !important;
+}
+
+.exportButtonsRow h3 {
+  font-family: 'Lato' !important;
+  font-size: 14px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1.2 !important;
+  align-self: center;
+  color: #333 !important;
+}
+
+.exportButtonsRow .col-lg-4 {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  padding-bottom: 10px !important;
+}
+
+.exportButtonsRow .col-lg-8 {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  justify-content: flex-end !important;
+  padding-bottom: 10px !important;
+}
+
+.btn.btn-secondary,
+.dropdown-toggle.btn-secondary {
+  height: 38px;
+  display: flex;
+  align-items: center;
+  line-height: 1.2;
+  font-family: 'Lato' !important;
+  font-size: 14px !important;
+  font-weight: bold !important;
+  background-color: #b0b0b0 !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 4px !important;
+  box-shadow: none !important;
+  padding: 0 18px 0 12px !important;
+  margin-right: 10px !important;
+  transition: background 0.2s;
+}
+.btn.btn-secondary[disabled], .btn.btn-secondary:disabled {
+  background-color: #e0e0e0 !important;
+  color: #f5f5f5 !important;
+  cursor: not-allowed !important;
+}
+.dropdown-toggle .fa-chevron-down {
+  display: inline-block !important;
+  font-size: 12px !important;
+  margin-left: 8px !important;
+}
+.dropdown-menu {
+  min-width: 160px !important;
+  font-size: 14px !important;
+  border-radius: 4px !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15) !important;
+  padding: 0 !important;
+}
+.dropdown-item {
+  font-family: 'Lato' !important;
+  font-size: 14px !important;
+  color: #333 !important;
+  padding: 8px 16px !important;
+  background: #fff !important;
+  border: none !important;
+  transition: background 0.2s;
+}
+.dropdown-item:active, .dropdown-item:focus, .dropdown-item:hover {
+  background: #e6f0fa !important;
+  color: #245672 !important;
+}
+
+/* Hide Bootstrap dropdown caret */
+.dropdown-toggle::after, .dropdown-toggle .caret {
+  display: none !important;
+}
+
+/* Ensure FontAwesome chevron icons are visible and properly sized */
+#exportAllManifestsDropdown .fa-chevron-down,
+#exportStudyManifestDropdown .fa-chevron-down {
+  display: inline-block !important;
+  font-size: 12px !important;
+  margin-left: 8px !important;
+}
+
+/* White background for export button tooltips */
+::ng-deep .mat-tooltip {
+  background-color: white !important;
+  color: #333 !important;
+  border: 1px solid #ccc !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Remove parent background/gradient for export area */
+.exportButtonsRow {
+  background: none !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+.container-fluid.button-container-fluid,
+.container-fluid.exportButtonsRow {
+  background: none !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+::ng-deep .cdk-overlay-pane {
+  width: 10vw !important;
+  max-width: 10vw !important;
+  background-color: white !important;
+}
+
+ p-tablecheckbox {
+  border: none !important;
+  background-color: transparent !important;
+}
+
+/* Ensure frozen columns match striping pattern */
+::ng-deep .table-striped tbody > tr:nth-child(odd) > td[pfrozencolumn],
+::ng-deep .table-striped tbody > tr:nth-child(odd) > td.p-frozen-column {
+  background-color: white !important;
+}
+
+::ng-deep .table-striped tbody > tr:nth-child(even) > td[pfrozencolumn],
+::ng-deep .table-striped tbody > tr:nth-child(even) > td.p-frozen-column {
+  background-color: #f5f5f5 !important;
+}
+
+/* Make table header links visible and underlined on hover/focus */
+.ui-datatable-tableheader a,
+.ui-datatable-tableheader-flex-container a {
+  color: #fff;
+  text-decoration: none;
+  cursor: pointer;
+  transition: text-decoration 0.2s, color 0.2s;
+}
+
+.ui-datatable-tableheader a:hover,
+.ui-datatable-tableheader a:focus,
+.ui-datatable-tableheader-flex-container a:hover,
+.ui-datatable-tableheader-flex-container a:focus {
+  text-decoration: underline !important;
+  color: #387BA8 !important;
+}
+
+

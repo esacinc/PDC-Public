@@ -4,8 +4,9 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { NewsComponent } from './news.component';
 import { NewsService } from '../news.service';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { of } from 'rxjs';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('NewsComponent', () => {
   let component: NewsComponent;
@@ -14,11 +15,11 @@ describe('NewsComponent', () => {
   let serviceSpy: jasmine.Spy;
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ NewsComponent, StripHtmlTagsPipe],
-      imports: [HttpClientTestingModule],
-      schemas:[NO_ERRORS_SCHEMA],
-      providers:[NewsService]
-    })
+    declarations: [NewsComponent, StripHtmlTagsPipe],
+    schemas: [NO_ERRORS_SCHEMA],
+    imports: [],
+    providers: [NewsService, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+})
     .compileComponents();
   }));
 

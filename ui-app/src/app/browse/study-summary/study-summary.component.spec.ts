@@ -1,20 +1,18 @@
 import { StudySummaryOverlayService } from "./study-summary-overlay-window/study-summary-overlay-window.service";
 import { Observable, of } from "rxjs";
 import { StudySummaryService } from "./study-summary.service";
-import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from "@angular/material/legacy-dialog";
-import { MatLegacyDialogRef as MatDialogRef } from "@angular/material/legacy-dialog";
+import { MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { MatDialogRef } from "@angular/material/dialog";
 import { Apollo } from "apollo-angular";
 import { Router } from '@angular/router';
 import { RouterTestingModule } from "@angular/router/testing";
-import {
-  HttpClientTestingModule,
-  HttpTestingController
-} from "@angular/common/http/testing";
+import { HttpTestingController, provideHttpClientTesting } from "@angular/common/http/testing";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed, fakeAsync, waitForAsync } from "@angular/core/testing";
 
 import { StudySummaryComponent } from "./study-summary.component";
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 
 class MockStudySummaryOverlayService {
   open() {}
@@ -777,10 +775,11 @@ describe("StudySummaryComponent", () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [StudySummaryComponent],
-      imports: [HttpClientTestingModule, RouterTestingModule.withRoutes([])],
-      schemas: [NO_ERRORS_SCHEMA]
-    });
+    declarations: [StudySummaryComponent],
+    schemas: [NO_ERRORS_SCHEMA],
+    imports: [RouterTestingModule.withRoutes([])],
+    providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+});
 
     TestBed.overrideComponent(StudySummaryComponent, {
       set: {

@@ -1,8 +1,8 @@
-<div (window:resize)="onResize($event)" class="container-fluid ui-helper-clearfix button-container-fluid heatmaps-page" style="overflow-x: scroll;min-width:1200px; font-family:'Lato'; font-size: 14px!important;">
-	<div class="container-fluid ui-helper-clearfix button-container-fluid">
-	  <mat-card>
-	    <mat-card-title style="padding-left: 0!important;padding-bottom:10px!important">
-		  <div style="font-size:20px;font-family: 'LatoBold';">Biological interpretation of PDC protein expression data through heatmaps</div>
+<div (window:resize)="onResize($event)" class="grid-container" style="">
+	<div class="">
+	  <mat-card appearance="outlined">
+	    <mat-card-title style="padding:15px;">
+		  <div class="usa-prose"><h2 >Biological interpretation of PDC protein expression data through heatmaps</h2></div>
 	    </mat-card-title>
 	    <mat-card-content class="card card-body" style="border: none;font-size: 15px !important">
 			<p>The PDC processes the submitted raw mass spectrometry data through a common data analysis pipeline (CDAP) to produce derived analysis
@@ -15,7 +15,9 @@
 			The Mopheus site offers <a href="https://software.broadinstitute.org/morpheus/documentation.html" target="_blank">documentation</a>,
 			a <a href="https://software.broadinstitute.org/morpheus/tutorial.html" target="_blank">tutorial</a>,
 			notes on <a href="https://software.broadinstitute.org/morpheus/configuration.html" target="_blank">configuration</a>, and other resources.</p>
-			<h3>Data</h3>
+			<br>
+			<div class="usa-prose"><h4>Data</h4></div>
+			<br>
 			<img src="assets/hierarchialClustering.png" alt="Hierarchical clustering" style="float:right">
 			<p>The source data for heatmap visualizations are organized in .gct file format. Gct  is essentially a data frame or matrix where
 			the rows correspond to genes (or proteins) and columns correspond to samples (or aliquots.)  Additional row (e.g., genes accessions)
@@ -27,7 +29,8 @@
 			and the denominator is the expression value of whatever control channel was used in the study.  Control channels are typically
 			pooled samples from many tumor samples. All isotopic-labeling studies, including PTM studies, have  log2 ratios available for visualization.
 			In addition, whole proteome studies have unshared_log2_ratio, where data from shared peptides has been excluded.</p>
-			<h3>Hierarchical clustering</h3>
+			<div class="usa-prose"><h4>Hierarchical clustering</h4></div>
+			<br>
 			<p>The main purpose of heatmap visualization, in the context of the PDC, is to examine
 			<a href="https://en.wikipedia.org/wiki/Hierarchical_clustering" target="_blank">clustering</a> of samples according to protein abundances.
 			When a study heatmap is loaded, the data have not been clustered by either row or column.  Clustering can be performed
@@ -43,10 +46,10 @@
 	    </mat-card-content>
 	  </mat-card>
 
-	<mat-card>
+	<mat-card appearance="outlined">
 	  <mat-card-content class="card card-body" style="border: none;">
 	    <div class="row" style="align-items: center;">
-			<div [formGroup] = "heatmapsFilterGroup" style="padding-top: 15px;">
+			<div [formGroup] = "heatmapsFilterGroup" style="padding: 15px;">
 			  <mat-form-field appearance="fill">
 				<mat-label>Disease Type</mat-label>
 					<mat-select formControlName="diseaseTypeFormControl" [(ngModel)]="filterSelected.disease_type" (selectionChange)="filterHeatmaps('disease_type')" multiple>
@@ -70,14 +73,15 @@
 		</div>
 	  </mat-card-content >
 	</mat-card>
-
+  <mat-card>
+    <mat-card-content>
 	<p-table class="table-striped ui-datatable-odd" #dt [columns]="cols"  [value]="filteredHeatmapsData" [lazy]="true" [totalRecords]="totalRecords"
 				[loading]="loading" [resizableColumns]="true" columnResizeMode="expand" [style]="{'width':'100%', 'min-width':'1000px'}"
 				(onLazyLoad)="loadHeatmaps($event)" (sortFunction)="heatmapsSortTable($event)" id="heatmapsDataTable"
 				scrollHeight="500px" [autoLayout]="true" [frozenColumns]="frozenColumns" [scrollable]="true" frozenWidth="150px">
 		<ng-template pTemplate="caption">
 		</ng-template>
-	
+
         <ng-template pTemplate="header" let-columns>
 				  <tr>
 					<!-- @@@PDC-7906 - study id column not displaying -->
@@ -105,17 +109,17 @@
 
         <ng-template pTemplate="body" let-heatmapData let-columns="columns">
 
-            <tr [pSelectableRow]="caseData" >
+            <tr>
 				<!-- @@@PDC-7906 - study id column not displaying -->
 				<td style="white-space: normal;">
 				   <a href="javascript:void(0);" (click)="showStudySummary(heatmapData.pdc_study_id, heatmapData.study_id, heatmapData.submitter_id_name)">{{heatmapData.pdc_study_id }}</a>
 			  </td>
                 <td id="{{heatmapData.submitter_id_name}}" style="word-wrap: break-word; white-space: normal;">{{heatmapData.submitter_id_name}}</td>
 				<td style="word-wrap: break-word; white-space: normal;">
-					<span *ngIf="disease != 'Other'">{{heatmapData.disease_type}}<br></span>
+					<span *ngIf="filterSelected.disease_type != 'Other'">{{heatmapData.disease_type}}<br></span>
 				</td>
 				<td style="word-wrap: break-word; white-space: normal;">
-					<span *ngIf="primary_site != 'Not Reported'">{{heatmapData.primary_site}}</span>
+					<span *ngIf="filterSelected.primary_site != 'Not Reported'">{{heatmapData.primary_site}}</span>
 				</td>
                 <td style="word-wrap: break-word; white-space: normal;">{{heatmapData.analytical_fraction}}</td>
 				<td style="word-wrap: break-word; white-space: normal;">{{heatmapData.experiment_type}}</td>
@@ -123,7 +127,8 @@
 				  <div class="row justify-content-center align-items-center">
 				    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 						<div *ngFor="let mapFile of heatmapData.heatmapFiles">
-							<span *ngIf="mapFile!='manifest.json'" style="line-height: 1.6">
+							<!--@@@PDC-8347-fix-508-compliance-quantitation-page-->
+							<span *ngIf="mapFile!='manifest.json' && mapFile!='desktop.ini'" style="line-height: 1.6">
 								<a href="javascript:void(0);" (click)="openHeatMap(heatmapData.study_id, heatmapData.submitter_id_name, mapFile)">{{ heatmapFileName(mapFile) }}</a>
 								<!--<img src="./assets/css/images/heatmap-icon.jpg" style="width:36px">-->
 							</span>
@@ -137,5 +142,7 @@
             </tr>
         </ng-template>
       </p-table>
+    </mat-card-content>
+  </mat-card>
   </div>
 </div>

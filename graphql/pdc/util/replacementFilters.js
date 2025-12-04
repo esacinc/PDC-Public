@@ -5,7 +5,7 @@ const replacementFilters = function (args, cache = { name:'' }, replacements = {
 	let uiFileQuery = "";
 	if (typeof args.program_name != 'undefined' && args.program_name.length > 0) {
 		let programs = args.program_name.split(';');
-		uiFileQuery += " and  prog.name IN (:programs) ";
+		uiFileQuery += " and  (prog.name IN (:programs) or prog.program_shortname IN (:programs))";
 		replacements['programs'] = programs;
 		cache.name += "program_name:("+ programs.join(",") + ");";
 	}
@@ -120,6 +120,85 @@ const replacementFilters = function (args, cache = { name:'' }, replacements = {
 		uiFileQuery += " and dia.tumor_grade IN (:gradeSub)";
 		replacements['gradeSub'] = gradeSub;
 		cache.name += "tumor_grade:("+ gradeSub.join(",") + ");";
+	}
+	//@@@PDC-10093 add gene filters
+	if (typeof args.vital_status != 'undefined' && args.vital_status.length > 0) {
+		let vitalSub = args.vital_status.split(";");
+		uiFileQuery += " and dem.vital_status IN (:vitalSub)";
+		replacements['vitalSub'] = vitalSub;
+		cache.name += "vital_status:("+ vitalSub.join(",") + ");";
+	}
+	if (typeof args.age_at_diagnosis != 'undefined' && args.age_at_diagnosis.length > 0) {
+		let aadSub = args.age_at_diagnosis.split(";");
+		uiFileQuery += " and dia.age_at_diagnosis IN (:aadSub)";
+		replacements['aadSub'] = aadSub;
+		cache.name += "age_at_diagnosis:("+ aadSub.join(",") + ");";
+	}
+	if (typeof args.ajcc_clinical_stage != 'undefined' && args.ajcc_clinical_stage.length > 0) {
+		let acsSub = args.ajcc_clinical_stage.split(";");
+		uiFileQuery += " and dia.ajcc_clinical_stage IN (:acsSub)";
+		replacements['acsSub'] = acsSub;
+		cache.name += "ajcc_clinical_stage:("+ acsSub.join(",") + ");";
+	}
+	if (typeof args.ajcc_pathologic_stage != 'undefined' && args.ajcc_pathologic_stage.length > 0) {
+		let apsSub = args.ajcc_pathologic_stage.split(";");
+		uiFileQuery += " and dia.ajcc_pathologic_stage IN (:apsSub)";
+		replacements['apsSub'] = apsSub;
+		cache.name += "ajcc_pathologic_stage:("+ apsSub.join(",") + ");";
+	}
+	if (typeof args.progression_or_recurrence != 'undefined' && args.progression_or_recurrence.length > 0) {
+		let porSub = args.progression_or_recurrence.split(";");
+		uiFileQuery += " and dia.progression_or_recurrence IN (:porSub)";
+		replacements['porSub'] = porSub;
+		cache.name += "progression_or_recurrence:("+ porSub.join(",") + ");";
+	}
+	if (typeof args.therapeutic_agents != 'undefined' && args.therapeutic_agents.length > 0) {
+		let taSub = args.therapeutic_agents.split(";");
+		uiFileQuery += " and treat.therapeutic_agents IN (:taSub)";
+		replacements['taSub'] = taSub;
+		cache.name += "therapeutic_agents:("+ taSub.join(",") + ");";
+	}
+	if (typeof args.treatment_intent_type != 'undefined' && args.treatment_intent_type.length > 0) {
+		let titSub = args.treatment_intent_type.split(";");
+		uiFileQuery += " and treat.treatment_intent_type IN (:titSub)";
+		replacements['titSub'] = titSub;
+		cache.name += "treatment_intent_type:("+ titSub.join(",") + ");";
+	}
+	if (typeof args.treatment_type != 'undefined' && args.treatment_type.length > 0) {
+		let ttSub = args.treatment_type.split(";");
+		uiFileQuery += " and treat.treatment_type IN (:ttSub)";
+		replacements['ttSub'] = ttSub;
+		cache.name += "treatment_type:("+ ttSub.join(",") + ");";
+	}
+	if (typeof args.treatment_outcome != 'undefined' && args.treatment_outcome.length > 0) {
+		let toSub = args.treatment_outcome.split(";");
+		uiFileQuery += " and treat.treatment_outcome IN (:toSub)";
+		replacements['toSub'] = toSub;
+		cache.name += "treatment_outcome:("+ toSub.join(",") + ");";
+	}
+	if (typeof args.alcohol_history != 'undefined' && args.alcohol_history.length > 0) {
+		let ahfSub = args.alcohol_history.split(";");
+		uiFileQuery += " and expo.alcohol_history IN (:ahfSub)";
+		replacements['ahfSub'] = ahfSub;
+		cache.name += "alcohol_history:("+ ahfSub.join(",") + ");";
+	}
+	if (typeof args.alcohol_intensity != 'undefined' && args.alcohol_intensity.length > 0) {
+		let aifSub = args.alcohol_intensity.split(";");
+		uiFileQuery += " and expo.alcohol_intensity IN (:aifSub)";
+		replacements['aifSub'] = aifSub;
+		cache.name += "alcohol_intensity:("+ aifSub.join(",") + ");";
+	}
+	if (typeof args.tobacco_smoking_status != 'undefined' && args.tobacco_smoking_status.length > 0) {
+		let tssSub = args.tobacco_smoking_status.split(";");
+		uiFileQuery += " and expo.tobacco_smoking_status IN (:tssSub)";
+		replacements['tssSub'] = tssSub;
+		cache.name += "tobacco_smoking_status:("+ tssSub.join(",") + ");";
+	}
+	if (typeof args.cigarettes_per_day != 'undefined' && args.cigarettes_per_day.length > 0) {
+		let cpdSub = args.cigarettes_per_day.split(";");
+		uiFileQuery += " and expo.cigarettes_per_day IN (:cpdSub)";
+		replacements['cpdSub'] = cpdSub;
+		cache.name += "cigarettes_per_day:("+ cpdSub.join(",") + ");";
 	}
 	if (typeof args.tumor_stage != 'undefined' && args.tumor_stage.length > 0) {
 		let stageSub = args.tumor_stage.split(";");

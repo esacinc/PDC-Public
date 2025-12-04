@@ -1,14 +1,16 @@
+<!--
 <mat-toolbar style="min-width: 1000px;">
     <mat-toolbar-row style="background-image: linear-gradient(-133deg, #246A92 0%, #245571 100%)"></mat-toolbar-row>
     <mat-toolbar-row style="background-image: linear-gradient(-133deg, #246A92 0%, #245571 100%)"></mat-toolbar-row>
 </mat-toolbar>
-<div class="row" style="min-width: 1000px;font:Lato; margin-top:-75px!important; margin-left:20px; margin-right: 20px; align-items: center;" >
-<mat-card class="about-page card card-body">
+-->
+<div class="grid-container" style="" >
+<mat-card appearance="outlined" class="about-page card card-body">
         <mat-card-content>
         <div class="row">
             <div  class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <!-- @@@PDC-8108-fix-font-consistency -->
-                <h3 style="text-align:center;" class="submit-page-header">PDC Workspace Data Submission Overview</h3>
+                <div class="usa-prose"><h2 style="text-align:center;" >PDC Workspace Data Submission Overview</h2></div>
 
             </div>
         </div>
@@ -20,17 +22,18 @@
             </div><br>
             <br>
             <!-- @@@PDC-5949-add-content-how-to-submit -->
+            <!-- @@@PDC-8459 - update 508 compliance errors -->
             <div class="submissionTemplate importantNote">
-              <strong style="font-weight: bolder;">Please click <a href="https://docs.google.com/spreadsheets/d/1wgCaEwLHYlfbjUZDUjc8o-u66vHAaMSs/edit?usp=sharing&ouid=102791987143514485948&rtpof=true&sd=true" target="_blank">here</a> to download the PDC submission template in spreadsheet format.</strong>
+              <strong style="font-weight: bolder;color:#193858">Please click <a style="color:color:#193858" href="https://docs.google.com/spreadsheets/d/1wgCaEwLHYlfbjUZDUjc8o-u66vHAaMSs/edit?usp=sharing&ouid=102791987143514485948&rtpof=true&sd=true" target="_blank" style="color:#193858">here</a> to download the PDC submission template in spreadsheet format.</strong>
             </div>
             <br>
             <!-- @@@PDC-7346-update-data-sharing-policy-text -->
             <div class="submissionTemplate importantNote" id="data-submission-and-release"><strong style="font-weight: bolder;">PDC Data Submission and Release policies:</strong>
               <br><br>
               <p>
-                PDC adheres to <a href="https://sharing.nih.gov/" target="_blank">NIH data sharing policy</a>, emphasizing prompt accessibility of shared scientific data, ideally concurrent with an associated publication or by the end of the award/support period, whichever comes first.
+                PDC adheres to <a href="https://sharing.nih.gov/" target="_blank" style="color:#193858">NIH data sharing policy</a>, emphasizing prompt accessibility of shared scientific data, ideally concurrent with an associated publication or by the end of the award/support period, whichever comes first.
                 Even for programs not funded by NIH, PDC strongly recommends releasing data no later than the associated publication's time.
-                PDC has no embargo policy; once data is released, it becomes freely accessible to the public, aligning with PDC's <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">CC-BY license policy</a>.
+                PDC has no embargo policy; once data is released, it becomes freely accessible to the public, aligning with PDC's <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" style="color:#193858">CC-BY license policy</a>.
               </p>
               <strong style="font-weight: bolder;">Regarding the release process:</strong>
               <br><br>
@@ -54,64 +57,67 @@
                   Citation details may be added post-release, with authors responsible for notifying PDC.
                 </li>
                 <li>
-                  Post-release revisions follow the PDC versioning process. Refer to the FAQ on <a href="/pdc/faq/Study_Version" target="_blank">'What is a study version?'</a>
+                  Post-release revisions follow the PDC versioning process. Refer to the FAQ on <a href="/pdc/faq/Study_Version" target="_blank" style="color:#193858">'What is a study version?'</a>
                 </li>
                 <li>
                   PDC provides links to other established repositories if there is corresponding complementary multiomic data such as genomics or imaging data available for a cohort. Authors are encouraged to provide the mapping information either through the PDC submission template or separately. The mapping can be both at the case or patient level and also at the study level.
                 </li>
                 <li>
                   When including PDC study identifiers in journal data availability statements, please cite the PDC resource using the URL https://pdc.cancer.gov along with the relevant study identifiers (e.g., PDC000250).
-                  Alternatively, you can cite the study URL directly (e.g., <a href="/pdc/study/PDC000250" target="_blank">https://pdc.cancer.gov/pdc/study/PDC000250)</a>.
+                  Alternatively, you can cite the study URL directly (e.g., <a href="/pdc/study/PDC000250" target="_blank" style="color:#193858;">https://pdc.cancer.gov/pdc/study/PDC000250)</a>.
                 </li>
               </ul>
-              For more details, contact <a href="mailto:PDCHelpDesk@mail.nih.gov?Subject=PDC Help" target="_blank">PDCHelpDesk@mail.nih.gov</a>
+              For more details, contact <a href="mailto:PDCHelpDesk@mail.nih.gov?Subject=PDC Help" target="_blank" style="color:#193858">PDCHelpDesk&#64;mail.nih.gov</a>
             </div>
-            <h3 id="how-to-submit">How to submit data:</h3>
+            <br>
+            <div class="usa-prose"><h3 class="usa-prose">How to submit data:</h3></div>
+            <br>
             <ol>
-                <li><b><a href="javascript:void(0);" (click)="scrollToElement(Register_Program)">Register your Program Name</a></b></li>
-                <li><b><a href="javascript:void(0);" (click)="scrollToElement(Register_PDC)">Register with PDC</a></b></li>
-                <li><b><a href="javascript:void(0);" (click)="scrollToElement(Register_Workspace)">Register on the PDC workspace as a data submitter for a Program</a></b></li>
-                <li><b><a href="javascript:void(0);" (click)="scrollToElement(Login_Workspace)">Login to the PDC Workspace</a></b></li>
-                <li><b><a href="javascript:void(0);" (click)="scrollToElement(Submission_Process)">Submission process</a></b></li>
-                <li><b><a href="javascript:void(0);" (click)="scrollToElement(Upload_Metadata)">Upload Clinical & Biospecimen Metadata</a></b></li>
-                <li><b><a href="javascript:void(0);" (click)="scrollToElement(Upload_Additional)">Upload additional supplementary files</a></b></li>
+                <li><a href="javascript:void(0);" (click)="scrollToElement(Register_Program)" class="custom-link">1. Register your Program Name</a></li>
+                <li><a href="javascript:void(0);" (click)="scrollToElement(Register_PDC)" class="custom-link">2. Register with PDC</a></li>
+                <li><a href="javascript:void(0);" (click)="scrollToElement(Register_Workspace)" class="custom-link">3. Register on the PDC workspace as a data submitter for a Program</a></li>
+                <li><a href="javascript:void(0);" (click)="scrollToElement(Login_Workspace)" class="custom-link">4. Login to the PDC Workspace</a></li>
+                <li><a href="javascript:void(0);" (click)="scrollToElement(Submission_Process)" class="custom-link">5. Submission process</a></li>
+                <li><a href="javascript:void(0);" (click)="scrollToElement(Upload_Metadata)" class="custom-link">6. Upload Clinical & Biospecimen Metadata</a></li>
+                <li><a href="javascript:void(0);" (click)="scrollToElement(Upload_Additional)" class="custom-link">7. Upload additional supplementary files</a></li>
             </ol>
             <div>
                 <!-- @@PDC-5758-update-how-to-submit-page -->
-                <br><div #Register_Program><b><span class="subDivHeading">Register your Program Name:</span></b><br><br>
-                  <p>To register your program, first you need to make a data submission request by filling out the <a href="assets/ProteomicDataCommonsDataSubmissionRequestForm.docx" download="Proteomic Data Commons Data (PDC) Submission Request Form.docx">submission request form</a> and send it to <a href="mailto:PDCHelpDesk@mail.nih.gov?Subject=PDC Help" target="_blank">PDCHelpDesk@mail.nih.gov</a>.
+                <br><div #Register_Program  ><span class="subDivHeading usa-prose"><h4>Register your Program Name:</h4></span><br>
+                  <p>To register your program, first you need to make a data submission request by filling out the <a href="assets/ProteomicDataCommonsDataSubmissionRequestForm.docx" download="Proteomic Data Commons Data (PDC) Submission Request Form.docx" class="custom-link">submission request form</a> and send it to <a href="mailto:PDCHelpDesk@mail.nih.gov?Subject=PDC Help" target="_blank">PDCHelpDesk&#64;mail.nih.gov</a>.
                      Once approved by the NCI, we will set up a program for you to which you may submit data.
                   </p></div>
-                <br><div #Register_PDC><b><span class="subDivHeading">Register with PDC:</span></b><br><br><p>Go to <a href="https://pdc.cancer.gov" target="_blank">https://pdc.cancer.gov</a>, click Login at the top right corner. You may use a Google or eRA commons account, or NIH email to register with PDC. If you do not have any of these, you may create an account by clicking 'Click here to sign up' and by following the instructions. You will receive an email; click the provided link to confirm your registration. </p><br><br>
+                <br><div #Register_PDC class="usa-prose"><span class="subDivHeading usa-prose"><h4>Register with PDC:</h4></span><p>Go to <a href="https://pdc.cancer.gov" target="_blank" class="custom-link">https://pdc.cancer.gov</a>, click Login at the top right corner. You may use a Google or eRA commons account, or NIH email to register with PDC. If you do not have any of these, you may create an account by clicking 'Click here to sign up' and by following the instructions. You will receive an email; click the provided link to confirm your registration. </p><br>
                     <div style="text-align:center"><img mat-card-image style="align-content: center" src="assets/W-Register-1.png" alt="Register with PDC"></div>
                 </div>
-                <br><div #Register_Workspace><b><span class="subDivHeading">Register on the PDC workspace as a data submitter for a Program:</span></b><br><br>
-                    <p>Return to <a href="https://pdc.cancer.gov" target="_blank">https://pdc.cancer.gov</a> and click 'SUBMIT DATA' and select 'Register with Workspace'. In the dialog box, start typing the program name and select the relevant program from the drop-down list. Click submit and you will receive an email confirmation for your request. You will receive another email once the request for membership to the program is approved.  </p><br><br>
+                <br><div #Register_Workspace  class="usa-prose"><span class="subDivHeading usa-prose"><h4>Register on the PDC workspace as a data submitter for a Program:</h4></span>
+                    <p>Return to <a href="https://pdc.cancer.gov" target="_blank" class="custom-link">https://pdc.cancer.gov</a> and click 'SUBMIT DATA' and select 'Register with Workspace'. In the dialog box, start typing the program name and select the relevant program from the drop-down list. Click submit and you will receive an email confirmation for your request. You will receive another email once the request for membership to the program is approved.  </p><br>
                     <div style="text-align:center"><img mat-card-image style="align-content: center" src="assets/W-Register-2-2.png" alt="Register with PDC"></div>
                 </div>
-                <br><div #Login_Workspace><b><span class="subDivHeading">Login to the PDC Workspace:</span></b><br><br>
-                    <p>Return to <a href="https://pdc.cancer.gov" target="_blank">https://pdc.cancer.gov</a> and click Login at the top right corner. A pop up wizard will appear which will allow you to either sign in with your Google or NIH/eRA account or you can login with your registered credentials. To enter the PDC Workspace, Click 'SUBMIT DATA' then click 'Go to Workspace'. You will see a screen displaying something like this:</p><br><br>
+                <br><div #Login_Workspace class="usa-prose"><span class="subDivHeading usa-prose"><h4>Login to the PDC Workspace:</h4></span>
+                    <p>Return to <a href="https://pdc.cancer.gov" target="_blank" class="custom-link">https://pdc.cancer.gov</a> and click Login at the top right corner. A pop up wizard will appear which will allow you to either sign in with your Google or NIH/eRA account or you can login with your registered credentials. To enter the PDC Workspace, Click 'SUBMIT DATA' then click 'Go to Workspace'. You will see a screen displaying something like this:</p><br>
                     <div style="text-align:center"><img mat-card-image style="align-content: center" src="assets/pdcLogin.png" alt="Login to PDC"></div>
                 </div>
-                <br><div #Submission_Process><b><span class="subDivHeading">Submission process:</span></b><br><br>
+                <br><div #Submission_Process class="usa-prose"><span class="subDivHeading usa-prose"><h4>Submission process:</h4></span>
                     <p><b>Note: Before you begin the submission, we strongly recommend you use the PDC submission template to collect the information required for a successful submission.</b></p>
                     <p>Now you are ready to begin the submission process. <b>You need to follow the steps in the order given in the Submission Overview (image) at the top of this document to avoid duplicating steps</b></p>
                     <p>The submission process involves the following major activities,</p>
-                    <ul>
+                    <ul style="list-style-type: disc; margin-left: 2em;">
                       <li>Creating an <b>instrument</b> to upload raw data</li>
                       <li>Create a <b>project</b> under which to group the raw data into a <b>Study</b> that was generated using a specific experimental <b>protocol</b></li>
                       <li>Upload biospecimen and clinical metadata for the samples used in the Studies</li>
                       <li>Upload any additional supplementary files</li>
                     </ul>
-                    <ol>
-                        <li><b>Create an instrument:</b><br><br><p>An instrument is a representation of the mass spectrometer from your lab. Go to create, click instrument, and enter the relevant information about the mass spectrometer used to collect the data. If you are a program member, you will receive an email once approved by the PDC admin or the program lead (PI).</p><br><br>
+                    <ol type="1" style="margin-left: 2em;">
+                        <li><b>1. Create an instrument:</b><br><br><p>An instrument is a representation of the mass spectrometer from your lab. Go to create, click instrument, and enter the relevant information about the mass spectrometer used to collect the data. If you are a program member, you will receive an email once approved by the PDC admin or the program lead (PI).</p><br><br>
                             <div style="text-align:center"><img mat-card-image style="align-content: center" src="assets/createInstrument.png" alt="Login to PDC"></div>
                         <br>
-                        <p>Note: You must be added as an assigned instrument operator to upload data to an instrument unless you are the creator of that instrument.</p></li>
-                        <li><b>Upload raw files:</b><br><br>
+                        <p>Note: You must be added as an assigned instrument operator to upload data to an instrument unless you are the creator of that instrument.</p></li><br>
+                        <li><b>2. Upload raw files:</b><br><br>
                             <p>Click upload, and in the dialog requesting information, select the instrument you previously created. You can upload directly from your local computer or from the cloud (AWS S3 is supported) if your files are on S3 already.</p><br><br>
                                 <div style="text-align:center"><img mat-card-image style="align-content: center" src="assets/updateRawfiles.png" alt="Login to PDC"></div>
                             <!-- @@@PDC-8265 - add instructions for .d files -->
+                             <br>
                             <p>PDC accepts various proprietary data formats developed by different manufacturers of mass spectrometers such as “.raw”, “.d”; “.wiff”; “.wiff.scan”; “.wiff.mtd”; “.dat”; “.mis”. If you encounter a data format that is not currently supported while uploading to the submission portal, please reach out to the PDC helpdesk for assistance.
                                <br><br>
                                Note:
@@ -120,36 +126,42 @@
                                <br><br>
                                For Bruker instruments like the Bruker Tims Tof series, where a folder represents one raw file, users should compress individual .d folders corresponding to a single raw file into a single zip file. The compressed file should be named in the format "file.d.zip" to correspond to the original file name.
                             </p>
+                            <br>
                             <p>Tip: You may create a separate instrument for each study that you would like to create, even if all those files are generated from the same mass spectrometer. This is not required, but may help to organize and separate your files, facilitating study creation.</p>
                         <br></li>
 
-                        <li><b>Validate file metadata:</b><br><br>
+                        <li><b>3. Validate file metadata:</b><br><br>
                         <p>To use these files to create your studies, you must first validate the file metadata. This ensures that the upload was successful, and no file corruption or truncation has occurred. To do this, you will need the "File_Metadata" sheet from your PDC Data Submission Template saved as a TSV file.</p>
+                        <br>
                         <p>Once you have the TSV file, return to the workspace and look for your program under the "My Programs" section in the left panel. From there, click on the "Instruments" link under your program name.</p>
+                        <br>
                         <p>Locate the name of the instrument you uploaded your files to and select the 3 vertical dots in front of your instrument name.</p>
+                        <br>
                         <p>Click "Validate File Metadata." In the pop-up window, click "browse files" and select the TSV file that you created from the "File_Metadata" worksheet, and click Upload.</p><br/><br/>
                         <div style="text-align:center"><img mat-card-image style="align-content: center" src="assets/fileMetadataValidation1.png" alt="File Metadata Validation"></div>
+                        <br>
                         <p>A verification log will appear listing which files:</p>
-                            <ol>
-                                <li>Were successfully validated.</li>
-                                <li>Were not present in your instrument but are present in the TSV file.</li>
-                                <li>Were present in the instrument but missing from your TSV file.</li>
-                                <li>Have failed verification.</li>
+                            <ol style="margin-left: 2em;">
+                                <li>1. Were successfully validated.</li>
+                                <li>2. Were not present in your instrument but are present in the TSV file.</li>
+                                <li>3. Were present in the instrument but missing from your TSV file.</li>
+                                <li>4. Have failed verification.</li>
                             </ol>
                         <br/>
                         <p>If you have files that failed verification, click on the 3 vertical dots in front of your instrument name and select “Show Files”. Within the metadata verification column, click on the “Failed Verification” text to open a window showing the metadata differences.</p>
                         <br/>
                         <br/>
                         <div style="text-align:center"><img mat-card-image style="align-content: center" src="assets/fileMetadataValidation2.png" alt="File Metadata Validation"></div>
+                        <br>
                         <p>These differences may be the result of corruption or truncation of the file when uploading to Workspace. Check your metadata worksheet and make sure the values are correct; if they are, then you will need to delete, re-upload and validate the failed files. Once all files have successfully validated, they may be used in the creation of your studies.</p>
                         </li>
-
-                        <li><b>Create a Project:</b><br><br>
+                        <br>
+                        <li><b>4. Create a Project:</b><br><br>
                             <p><b>Before you can create a Study or add your Protocol, you first need to create a Project.</b></p>
                             <p>Click Create->Project to open the wizard. Next, give your Project a name, select a Program and area of Research. You may also add collaborators to your project using the Sharing tab.</p><br><br>
                             <div style="text-align:center"><img mat-card-image style="align-content: center" src="assets/createProject.png" alt="Create a project"></div>
                         <br></li>
-                        <li><b>Create a Protocol:</b><br><br>
+                        <li><b>5. Create a Protocol:</b><br><br>
                             <p>Next, you will add the protocol metadata used in your Study. Click Create->Protocol to open the wizard. Required fields are marked with *. If you are unable to complete your protocol, you can ‘Save as Draft’ and resume later.</p><br><br>
                             <div style="text-align:center"><img mat-card-image style="align-content: center" src="assets/createProtocol-1.png" alt="Create a project"></div>
                             <br><p>You can locate your protocol draft using the left navigation panel. Under “View Type” Click “My” and under “Data Type” click “Protocol drafts.” Locate your protocol name and click the vertical dots in front of your protocol name for a menu to appear.</p>
@@ -158,8 +170,9 @@
                             <div style="text-align:center"><img mat-card-image style="align-content: center" src="assets/createProtocol-3.png" alt="Create a study"></div>
                             <br><p>If you feel that the wizard does not adequately meet your annotation needs for your particular Protocol, please contact the PDC by email for help resolving any issues.</p>
                         <br></li>
-                        <li><b>Create a Study:</b><br><br>
+                        <li><b>6. Create a Study:</b><br><br>
                             <p>In the PDC workspace, a study is a group of <b>instrument</b> raw files that are generated using a specific experimental <b>protocol</b>, with a well-annotated experimental design (sample to file mapping) that can be analyzed through a single bioinformatics pipeline.</p>
+                            <br>
                             <p> To create the study, click Create->Study to launch the wizard. In the wizard, for steps requiring you to enter data in tabular form for the sample/aliquot to file mapping, you may copy and paste from the Experimental Run Metadata sheet from the PDC submission template you prepared.  If you are unable to complete your study, you can click ‘Save as Draft’ to resume later.</p><br><br>
                             <div style="text-align:center"><img mat-card-image style="align-content: center" src="assets/createStudy-1.png" alt="Create a study"></div>
                             <br><p>You can locate your study draft using the left navigation panel. Under “View Type” Click “My” and under “Data Type” click “Study drafts.” Locate your study name and click the vertical dots in front of your study name for a menu to appear.</p>
@@ -167,9 +180,11 @@
                             <br><p>Click "Edit" and proceed with entering your study data.</p>
                             <br><div style="text-align:center"><img mat-card-image style="align-content: center" src="assets/createStudy-3.png" alt="Create a study"></div>
                         <br></li>
-                        <li #Upload_Metadata><b>Upload Clinical & Biospecimen Metadata:</b><br><br>
+                        <li #Upload_Metadata><b>7. Upload Clinical & Biospecimen Metadata:</b><br><br>
                             <p>To load the Clinical and Biospecimen data, save the Case Matrix, Case, Demographics, Diagnosis, Exposure, Family History, Treatment, Follow-Up, Sample, and Aliquot worksheets as TSV files from the PDC Submission template you prepared.</p>
+                            <br>
                             <p>Note: Clinical and biospecimen metadata should be submitted for all the aliquots (their parent samples and cases) that are entered in the Study creation step.</p>
+                            <br>
                             <p>All 10 files are required for upload, but if you have no data for the Exposure, Family History, Treatment, and Follow-Up entities you may include empty files containing only the column headers. Place all 10 TSV files in a new folder on your local computer. In the workspace click “Upload” then under Metadata click “Direct Upload.”</p>
                             <br><br><div style="text-align:center; margin-left: 15px"><img mat-card-image style="align-content: center" src="assets/uploadMetadata-1.png" alt="Upload Metadata"></div>
                             <br><p>A popup wizard to upload the metadata will appear. Click “Select a File Type” and select “All Clinical & Biospecimen.” Next, click “Select Program” to select the program the metadata belongs to and “Select Project” to choose the project your metadata is associated with. An icon will appear in the wizard giving you the option to upload your files. You can either drag and drop your files or select a folder the files belong to. A notification will appear requesting you to confirm the upload of all files from that folder. Click “Upload” to confirm.</p>
@@ -186,15 +201,18 @@
                             <br><br><div style="text-align:center; margin-left: 15px"><img mat-card-image style="align-content: center" src="assets/Update-Metadata.png" alt="Update Metadata"></div>
                             <br><p>Select the metadata upload set you wish to update; the name of the set contains the prefix or suffix of your TSV files and a timestamp of the original upload. Once you have selected a set to update, upload the set of 10 TSVs for the cases, samples, and aliquots you wish to update. You may choose to include only a subset of the cases, samples, and aliquots included in the original upload, but cannot include those that were not included in the original set.</p>
                         <br></li>
-                        <li #Upload_Additional><b>Upload additional supplementary files:</b><br><br>
+                        <li #Upload_Additional><b>8. Upload additional supplementary files:</b><br><br>
                             <p>You may also upload additional supplementary files (non-raw files), such as processed outputs from your own data analysis pipeline, SOPs, clinical data, etc.  You can select the appropriate data category for the files you wish upload -  ‘Alternative Processing Pipeline’, ‘Other Metadata’ and ‘Supplementary Data’.</p>
+                            <br>
                             <p>Once you complete the Study creation, you may proceed to upload the supplementary files associated with the study.  We recommend you contact the PDC team to validate your study on Workspace before you begin uploading the non-raw files.</p>
+                            <br>
                             <p>To begin uploading any of these types of files, select “Direct Upload” under the ‘Non-Raw Files’ tab in the ‘Upload’ dropdown.</p>
                             <br><br><div style="text-align:center; margin-left: 15px"><img mat-card-image style="align-content: center" src="assets/uploadAdditional-1.png" alt="Update Metadata"></div>
+                            <br>
                             <p>In the upload interface, first you must select the study you wish to associate the files with, and the type of file. You may choose to directly select a study, and the ‘Program’ and ‘Project’ options will be automatically filled.</p>
                             <br><br><div style="text-align:center; margin-left: 15px"><img mat-card-image style="align-content: center" src="assets/uploadAdditional-2.png" alt="Update Metadata"></div>
                             <p>The Data Source ‘Submitter’ will be automatically filled in. The other option, CDAP, is used by the PDC team to handle the upload of files produced by the “Common Data Analysis Pipeline.” Choose the data category you wish to upload from the ‘Data Category’ dropdown. Note that you will <b>only</b> be able to upload files with extensions belonging to that category. You may choose to upload a directory of files simultaneously, and file extensions that do not match the selected category will be automatically removed. However, note that some data categories have overlapping file extensions. You may wish to organize your files by data category prior to uploading.</p>
-                            <p><b>This completes the process of submission of a dataset for release through the PDC data portal. If you have any questions about this process, please contact the PDC by email for help <a href="mailto:PDCHelpDesk@mail.nih.gov?Subject=PDC Help" target="_blank">PDCHelpDesk@mail.nih.gov</a>.</b></p>
+                            <p><b>This completes the process of submission of a dataset for release through the PDC data portal. If you have any questions about this process, please contact the PDC by email for help <a href="mailto:PDCHelpDesk@mail.nih.gov?Subject=PDC Help" target="_blank" class="custom-link">PDCHelpDesk&#64;mail.nih.gov</a>.</b></p>
                         </li>
                     </ol>
                 </div>
@@ -202,9 +220,13 @@
         </div>
         <!-- PDC-5781-menu-items-not-accessible -->
         <!-- PDC-6694-submission-overview-covers-title-at-175 -->
-        <div class="col-xl-5 col-lg-5 col-md-5 col-sm-5 col-xs-5 submitDataImg sticky-nav-2 fixed-class" style="margin-top: 20% !important; pointer-events: none;">
-            <img id="submitDataArchitectureimg" mat-card-image src="assets/SubmitDataArchitecture.png" alt="PDC Workspace Architecture diagram">
+        <!-- PDC-9625 - process map visibility issue -->
+        <div class="col-xl-5 col-lg-5 col-md-5 col-sm-5 col-xs-5 submitDataImg sticky-nav-2 fixed-class" 
+             style="margin-top: 20% !important; pointer-events: none; position: sticky; top: 10px; height: calc(100vh - 20px); overflow: auto; display: flex; justify-content: center; align-items: center;">
+             <img id="submitDataArchitectureimg" mat-card-image src="assets/SubmitDataArchitecture.png" 
+             alt="PDC Workspace Architecture diagram" style="max-width: 100%; max-height: 100%; object-fit: contain;">
         </div>
+        
     </div>
     </mat-card-content>
  </mat-card>

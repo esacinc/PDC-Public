@@ -1,7 +1,7 @@
 
 
 import {Component, ViewEncapsulation, OnInit, Inject, Injectable} from '@angular/core';
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { WorkflowManagerFileService } from './workflow-manager.service';
 
@@ -11,16 +11,17 @@ import { BehaviorSubject} from 'rxjs';
 import { TreeNode } from 'primeng/api';
 import { FileMetadata } from '../../types';
 
-import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 const CLUSTER_NAME = 'master: PDC-CDAP';
 const CLUSTER_LABEL = 'PDC-CDAP';
 
 @Component({
-  encapsulation: ViewEncapsulation.None,
-  selector: 'app-workflow-manager',
-  templateUrl: './workflow-manager.component.html',
-  styleUrls: ['./workflow-manager.component.scss'],
-  providers: [WorkflowManagerFileService]
+    encapsulation: ViewEncapsulation.None,
+    selector: 'app-workflow-manager',
+    templateUrl: './workflow-manager.component.html',
+    styleUrls: ['./workflow-manager.component.scss'],
+    providers: [WorkflowManagerFileService],
+    standalone: false
 })
 
 //@@@PDC-447 new Angular 6 http.get returns data in JSON format by default - no need in JSON.parse

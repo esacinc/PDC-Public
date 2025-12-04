@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 
-import {Response, Headers, RequestOptions} from '@angular/http';
+import { HttpHeaders } from '@angular/common/http';
 import {HttpClient} from '@angular/common/http';
 
 
@@ -17,14 +17,14 @@ const DATA_DICTIONARY = 'assets/data-folder/data-dictionary-json/dictionary.json
   providedIn: 'root'
 })
 export class DataDictionaryService {
-  headers: Headers;
-  options: RequestOptions;
+  headers: HttpHeaders;
+  options: {};
 
 
   constructor(private http: HttpClient, private apollo: Apollo) {
-    this.headers = new Headers({ 'Content-Type': 'application/json',
+    this.headers = new HttpHeaders({ 'Content-Type': 'application/json',
                                          'Accept': 'q=0.8;application/json;q=0.9' });
-    this.options = new RequestOptions({ headers: this.headers });
+    this.options = { headers: this.headers };
     }
 
     getDataDictionary() : Observable<any> {

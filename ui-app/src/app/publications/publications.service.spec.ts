@@ -1,20 +1,21 @@
 import { PublicationsService } from "./publications.service";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import {
   ApolloTestingModule,
   ApolloTestingController,
 } from "apollo-angular/testing";
 import { TestBed, inject } from "@angular/core/testing";
 import gql from "graphql-tag";
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 
 describe("PublicationsService", () => {
   let controller: ApolloTestingController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [PublicationsService],
-      imports: [ApolloTestingModule, HttpClientTestingModule],
-    });
+    imports: [ApolloTestingModule],
+    providers: [PublicationsService, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+});
 
     controller = TestBed.get(ApolloTestingController);
   });

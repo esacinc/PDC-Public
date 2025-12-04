@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 //import {Http, Response, Headers, RequestOptions} from '@angular/http';
-import {Response, Headers, RequestOptions} from '@angular/http';
-import {HttpClient} from '@angular/common/http';
+//import {Response, Headers, RequestOptions} from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+
 
 
 import { Apollo } from 'apollo-angular';
@@ -24,17 +25,19 @@ export type PubmedIDSearchData = {
 @Injectable()
 export class PancancerService {
 
-	headers: Headers;
-	options: RequestOptions;
-	//private notify = new Subject<any>();
-	//notifyObservable$ = this.notify.asObservable();
+  headers: HttpHeaders;
+  options: {};
+  //private notify = new Subject<any>();
+  //notifyObservable$ = this.notify.asObservable();
 
-    //constructor(private http: Http, private apollo: Apollo) {
-    constructor(private apollo: Apollo,private http: HttpClient, ) {
-		this.headers = new Headers({ 'Content-Type': 'application/json',
-                                     'Accept': 'q=0.8;application/json;q=0.9' });
-        this.options = new RequestOptions({ headers: this.headers });
-	}
+  //constructor(private http: Http, private apollo: Apollo) {
+  constructor(private apollo: Apollo, private http: HttpClient) {
+    this.headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Accept': 'q=0.8;application/json;q=0.9'
+    });
+    this.options = { headers: this.headers };
+  }
 
 	getPublicationsQuery = gql`
 	query PubmedIDSearchQuery {

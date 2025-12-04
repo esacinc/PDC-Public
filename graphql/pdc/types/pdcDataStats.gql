@@ -8,4 +8,6 @@ type PdcDataStats {
 	data_size: Int
 	data_label:String
 	data_file: Int
+	case: Int
+	disease_type: Int
 }

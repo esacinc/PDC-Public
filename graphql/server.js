@@ -25,11 +25,11 @@ var showObj = function(req, res, next) {
 	//@@@PDC-814 Track API usage through Google Analytics
 	//@@@PDC-930 not tracking for calls from UI
 	let ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-	logger.info("Client IP: "+ip);
+	//logger.info("Client IP: "+ip);
  
 	var geo = geoip.lookup(ip);
  
-	logger.info(geo);
+	//logger.info(geo);
 	//logger.info("Request: "+Object.getOwnPropertyNames(req.connection));
 	//logger.info("Client IP from req.ip: "+req.ip);
 	//logger.info("Client IP from req.ip: "+req.ips);

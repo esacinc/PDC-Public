@@ -19,7 +19,7 @@ $header-height: 10.8rem;
       width: 100%;
   }
   .about-page .card-header {
-    font-family: 'Lato';
+   
     font-weight: 500;
     font-size: 20px;
     padding-top: 0px;
@@ -104,3 +104,14 @@ $header-height: 10.8rem;
   border-style: solid;
   background:#ADD8E6;
 }
+
+.custom-link {
+    color: #0071bc; /* USWDS blue, adjust as needed */
+    cursor: pointer;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+
+  .custom-link:hover {
+    color: #005ea2; /* Slightly darker blue on hover */
+  }

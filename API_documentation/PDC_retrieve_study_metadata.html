@@ -13043,25 +13043,22 @@ div#notebook {
 
 <!-- Loading mathjax macro -->
 <!-- Load mathjax -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS_HTML"></script>
-    <!-- MathJax configuration -->
+    <!-- @@@PDC-8688-update mathjax -->
+    <!-- MathJax configuration --> 
     <script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
+      <script>
+        window.MathJax = {
+          tex: {
             inlineMath: [ ['$','$'], ["\\(","\\)"] ],
             displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
             processEscapes: true,
             processEnvironments: true
-        },
-        // Center justify equations in code and markdown cells. Elsewhere
-        // we use CSS to left justify single line equations in code cells.
-        displayAlign: 'center',
-        "HTML-CSS": {
-            styles: {'.MathJax_Display': {"margin": 0}},
-            linebreaks: { automatic: true }
-        }
-    });
-    </script>
+          }
+        };
+      </script> 
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+   
     <!-- End of mathjax configuration --></head>
 <body>
   <div class="pageContent">

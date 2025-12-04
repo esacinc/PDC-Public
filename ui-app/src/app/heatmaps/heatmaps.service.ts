@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 //import {Http, Response, Headers, RequestOptions} from '@angular/http';
-import {Response, Headers, RequestOptions} from '@angular/http';
+import { HttpHeaders } from '@angular/common/http';
 import { Apollo } from 'apollo-angular';
 import { Observable ,  Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -13,17 +13,17 @@ import { QueryHeatmapsData, HeatmapsFiltersData } from '../types';
 @Injectable()
 export class HeatmapsService {
 
-	headers: Headers;
-	options: RequestOptions;
+	headers: HttpHeaders;
+	options: {};
 	private notify = new Subject<any>();
 	notifyObservable$ = this.notify.asObservable();
 
     constructor(private apollo: Apollo) {
-		this.headers = new Headers({ 'Content-Type': 'application/json',
+		this.headers = new HttpHeaders({ 'Content-Type': 'application/json',
                                      'Accept': 'q=0.8;application/json;q=0.9' });
-        this.options = new RequestOptions({ headers: this.headers });
+        this.options = { headers: this.headers };
 	}
-	
+
 	heatmapsDataQuery = gql`
 	  query FilterdHeatmapsQuery ($sort_value: String!, $primary_sites_filter: String!, $disease_type_filter: String!, $analytical_fractions_filter: String!) {
 		uiHeatmapStudies ( sort: $sort_value, primary_site: $primary_sites_filter, disease_type: $disease_type_filter, analytical_fraction: $analytical_fractions_filter) {
@@ -40,10 +40,10 @@ export class HeatmapsService {
 			experiment_type
 			embargo_date
 			heatmapFiles
-		} 
+		}
 	}`;
-	
-	
+
+
 	getFilteredHeatmaps(sort: string, filters:any) {
 		//by default if sort is not defined sort by PDC Study ID
 		return this.apollo.watchQuery<QueryHeatmapsData>({
@@ -52,15 +52,15 @@ export class HeatmapsService {
 				sort_value: sort || 'pdc_study_id desc',
 				primary_sites_filter: filters["primary_site"] || '',
 				disease_type_filter: filters["disease_type"] || '',
-				analytical_fractions_filter: filters["analytical_fraction"] || ''			
+				analytical_fractions_filter: filters["analytical_fraction"] || ''
 			}
 		})
 		.valueChanges
 		.pipe(
 			map(result => { console.log(result.data); return result.data;})
-		); 
+		);
 	}
-		
+
 	getHeatmapsFilters(){
 		return this.apollo.watchQuery<HeatmapsFiltersData>({
 		query: gql`
@@ -70,12 +70,12 @@ export class HeatmapsService {
 				disease_types
 				primary_sites
 				analytical_fractions
-			  } 
+			  }
 		   } `
 		  })
 		  .valueChanges
 		  .pipe(
 			map(result => { console.log(result.data); return result.data;})
-		  ); 
+		  );
 	}
 }

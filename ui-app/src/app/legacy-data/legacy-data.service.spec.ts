@@ -1,20 +1,21 @@
 import { LegacyDataService } from "./legacy-data.service";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import {
   ApolloTestingModule,
   ApolloTestingController,
 } from "apollo-angular/testing";
 import { TestBed, inject } from "@angular/core/testing";
 import gql from "graphql-tag";
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 
 describe("LegacyDataService", () => {
   let controller: ApolloTestingController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [LegacyDataService],
-      imports: [ApolloTestingModule, HttpClientTestingModule],
-    });
+    imports: [ApolloTestingModule],
+    providers: [LegacyDataService, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+});
 
     controller = TestBed.get(ApolloTestingController);
   });

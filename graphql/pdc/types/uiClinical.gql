@@ -155,6 +155,14 @@ type UIClinical {
 	who_cns_grade: String
 	who_nte_grade: String
 	diagnosis_uuid: String
+	therapeutic_agents: String
+	treatment_intent_type: String
+	treatment_outcome: String
+	treatment_type: String
+	alcohol_history: String
+	alcohol_intensity: String
+	tobacco_smoking_status: String
+	cigarettes_per_day: String
 	exposures: [Exposure]
 	family_histories: [FamilyHistory]
 	follow_ups: [FollowUp]

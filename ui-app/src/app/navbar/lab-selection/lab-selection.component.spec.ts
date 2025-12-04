@@ -1,11 +1,12 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogModule as MatDialogModule, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 
 import { ChorusauthService } from '../../chorusauth.service';
 import { ChorusLab } from '../../types';
 import { LabSelectionComponent } from './lab-selection.component';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 class MockDialogRef {
   close() {}
@@ -17,18 +18,20 @@ describe("LabSelectionComponent", () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [LabSelectionComponent],
-      imports: [HttpClientTestingModule, MatDialogModule],
-      schemas: [NO_ERRORS_SCHEMA],
-      providers: [
+    declarations: [LabSelectionComponent],
+    schemas: [NO_ERRORS_SCHEMA],
+    imports: [MatDialogModule],
+    providers: [
         ChorusauthService,
         { provide: MatDialogRef, useClass: MockDialogRef },
         {
-          provide: MAT_DIALOG_DATA,
-          useValue: { username: "", userEmial: "xxxyyy@esacinc.com" }
-        }
-      ]
-    }).compileComponents();
+            provide: MAT_DIALOG_DATA,
+            useValue: { username: "", userEmial: "xxxyyy@esacinc.com" }
+        },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting()
+    ]
+}).compileComponents();
   }));
 
   beforeEach(() => {

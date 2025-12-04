@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-harmonization',
-  templateUrl: './harmonization.component.html',
-  styleUrls: ['./harmonization.component.css']
+    selector: 'app-harmonization',
+    templateUrl: './harmonization.component.html',
+    styleUrls: ['./harmonization.component.css'],
+    standalone: false
 })
 export class HarmonizationComponent implements OnInit {
 

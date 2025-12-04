@@ -22,8 +22,9 @@ export class ChorusauthService {
     if (!this.validateEmail(email)) {
       email = sessionStorage.getItem('loginEmail');
     }
-
-    const url = environment.chorus_jwt_url + '/user/' + email;
+	
+	//@@@PDC-9083 check user only w/o lab
+    const url = environment.chorus_jwt_url + '/user/wsUser/' + email;
     let response: ChorusUserUpdateResponse;
 
     // @@@PDC-634: Need to make calls to pdcapi more secure.
@@ -33,16 +34,69 @@ export class ChorusauthService {
     const existsObservable = new Observable<boolean>((observer) => {
       setTimeout(() => {
         this.http.get(url, {headers: new HttpHeaders({'authorization':'bearer ' + localStorage.getItem('jwtToken')})}).subscribe(data => {
+            response = data as ChorusUserUpdateResponse;
+            console.log("checkUser resp: ");
+            console.log(response);
+
+            if ((!response.error) && (response.data.length > 0)) {
+				console.log("checkUser resp Good");
+				const user: ChorusUser = response.data[0];
+				console.log("checkUser user: ");
+				console.log(user);
+				if (user != null) {
+					sessionStorage.setItem('chorusKey', response.chorusKey);
+					observer.next(true);
+				}
+				else {
+					observer.next(false);
+				}
+            } else {
+                observer.next(false);
+            }
+            observer.complete();
+          },
+          (error: HttpErrorResponse) => {
+            console.log(error);
+            observer.next(false);
+            observer.complete();
+          });
+      }, 2000);
+      });
+      console.log("checkUser return: ");
+      console.log(existsObservable);
+      return existsObservable;
+  }
+  //@@@PDC-9083 pending ws registration
+  public checkUserProgram(email: string): Observable<boolean> {
+
+    email = sessionStorage.getItem('loginUser');
+
+    if (!this.validateEmail(email)) {
+      email = sessionStorage.getItem('loginEmail');
+    }
+
+    const url = environment.chorus_jwt_url + '/user/' + email;
+    let response: ChorusUserUpdateResponse;
+
+    const programExistsObservable = new Observable<boolean>((observer) => {
+      setTimeout(() => {
+        this.http.get(url, {headers: new HttpHeaders({'authorization':'bearer ' + localStorage.getItem('jwtToken')})}).subscribe(data => {
             console.log(data);
             response = data as ChorusUserUpdateResponse;
+            console.log("checkUserProgram resp: ");
+            console.log(response);
 
           // If we got a response then check to see if they have labs assigned
             if ((!response.error) && (response.data.length > 0)) {
               const user: ChorusUser = response.data[0];
               if (user.userLabMemberships.length > 0) {
+				  console.log("checkUserProgram lab1: ");
+				  console.log(user.userLabMemberships);
                 sessionStorage.setItem('chorusKey', response.chorusKey);
                 observer.next(true);
               } else {
+				  console.log("checkUserProgram lab2: ");
+				  console.log(user.userLabMemberships);
                 observer.next(false);
               }
             } else {
@@ -57,9 +111,10 @@ export class ChorusauthService {
           });
       }, 2000);
       });
-      return existsObservable;
+	  console.log("checkUserProgram return: ");
+	  console.log(programExistsObservable);
+      return programExistsObservable;
   }
-
   // Creates a new user in chorus
   public createUser(name: string, email: string, labIds: number[]): void {
     const url = '/workspace/security';

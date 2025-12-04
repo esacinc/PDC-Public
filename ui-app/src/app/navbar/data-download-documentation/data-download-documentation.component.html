@@ -1,13 +1,11 @@
-<mat-toolbar>
-    <mat-toolbar-row style="background-image: linear-gradient(-133deg, #246A92 0%, #245571 100%)"></mat-toolbar-row>
-    <mat-toolbar-row style="background-image: linear-gradient(-133deg, #246A92 0%, #245571 100%)"></mat-toolbar-row>
-</mat-toolbar>
-<div class="row" style="font-family:'Lato'; margin-top:-75px!important; margin-left:20px; margin-right: 20px; align-items: center;" >
-<mat-card class="data-doc-page card card-body">
+
+<div class="grid-container usa-prose" style="" >
+<mat-card appearance="outlined" class="data-doc-page card card-body">
     <mat-card-content>
       <!-- PDC-5573-updated-download-documentation-page -->
       <div class="importantNote" *ngIf="note != 'undefined'" [innerHTML]="note"></div>
-      <br><br><div #Top style="font-family:'LatoBold'; font-size: 20px; margin-bottom: 5px;" *ngIf="title != 'undefined'">{{title}}</div>
+      <br><br><div #Top class="usa-prose"><h2>{{title}}</h2></div>
+      <br>
       <!-- PDC-5573 Update download data documentation page with UI -->
       <div>
         {{description}}

@@ -5,6 +5,7 @@ type Demographic {
 	case_submitter_id:  String
 	ethnicity: String
 	gender: String
+	sex: String
 	race: String
 	cause_of_death: String
 	days_to_birth: String

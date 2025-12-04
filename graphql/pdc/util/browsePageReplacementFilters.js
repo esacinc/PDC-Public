@@ -1,5 +1,8 @@
 import _ from "lodash";
 
+import { logger } from '../util/logger';
+
+
 import {
     study_filter_columns,
     prog_proj_filter_columns,
@@ -14,11 +17,13 @@ function applyStudyReplacementFilter(args, cache = { name: "" }, replacements = 
     if (typeof args[property] != "undefined" && args[property].length > 0) {
       let columnName = study_filter_columns[property];
       let filterValue = args[property].split(";").join("','");
+		logger.info("columnName: "+columnName+ " filterValue: "+ filterValue)
       replacements[property] = args[property].split(";");
       studyFilterQuery += ` and ${columnName} IN ( :${property} ) `;
       cache.name += `${columnName}:('${filterValue}');`;
     }
   }
+  
   //@@@PDC-2969 get latest version by default
   /*if ((typeof args['study_version'] == "undefined" || args['study_version'].length <= 0)&&
   (typeof args['study_name'] == "undefined"|| args['study_name'].length <= 0) &&

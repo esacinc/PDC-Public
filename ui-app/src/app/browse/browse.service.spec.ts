@@ -1,20 +1,21 @@
 import { BrowseService } from "./browse.service";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import {
   ApolloTestingModule,
   ApolloTestingController,
 } from "apollo-angular/testing";
 import { TestBed, inject } from "@angular/core/testing";
 import gql from "graphql-tag";
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 
 describe("BrowseService", () => {
   let controller: ApolloTestingController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [BrowseService],
-      imports: [ApolloTestingModule, HttpClientTestingModule],
-    });
+    imports: [ApolloTestingModule],
+    providers: [BrowseService, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+});
 
     controller = TestBed.get(ApolloTestingController);
   });

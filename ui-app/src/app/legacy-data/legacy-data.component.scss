@@ -14,7 +14,7 @@
    width: 100%;
 }
 
-.mat-button.mat-small {
+.mat-mdc-button.mat-small {
   min-width: 1%;
 }
 
@@ -109,6 +109,25 @@ mat-expansion-panel {
     mat-expansion-panel-header {
       height: auto!important;
     }
+}
+
+/* Define fixed widths for each column */
+.name-column {
+  width: 500px; /* Adjust the width as needed */
+}
+
+.experiment-type-column {
+  width: 50px; /* Adjust the width as needed */
+}
+
+.analytical-fraction-column {
+  width: 50px; /* Adjust the width as needed */
+}
+
+/* Ensure the table layout is fixed */
+table {
+  table-layout: fixed;
+  width: 100%;
 }
 
 /*::ng-deep .mat-expansion-indicator {

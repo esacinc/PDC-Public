@@ -1,19 +1,17 @@
-<div class="pageContent">
+<div class="grid-container">
+         <main id="main-content"  appearance="outlined">
+                  <div class=" usa-prose contentArea" style="" >
+                     <div class="usa-prose pageText">
+                       <div class="usa-prose">
+                         <h2> PDC GraphQL API Overview</h2>
 
-                  <div class="contentBG">
-                  </div>
-                  <div class="contentArea" style="margin-top:-150px!important;" >
-                     <div class="pageText">
-                       <div class="textSection">
-                         <h3>PDC GraphQL API Overview</h3>
-
-                         <p>
-                         The PDC GraphQL API allows for more efficient retrieval of data by enabling to fetch multiple, nested resources in a single request. The API is based on the data model and data dictionary described <a href="/pdc/data-dictionary/" target="_blank">here</a>.
-                       </p>
+                        <p style="max-width: 100%;">
+                          The PDC GraphQL API allows for more efficient retrieval of data by enabling to fetch multiple, nested resources in a single request. The API is based on the data model and data dictionary described <a href="/pdc/data-dictionary/" target="_blank">here</a>.
+                        </p>
 
                         <p>
-                         The PDC GraphQL API is currently in alpha.
-                       </p>
+                          The PDC GraphQL API is currently in alpha.
+                        </p>
 
                          On this page:
 
@@ -45,30 +43,29 @@
 						</ul>
 					  </div>
 					  <!-- @@@PDC-2485 point to dev graghql playground -->
-                      <div id="Getting_started" class="textSection" id="Getting_started">
-                        <h3><a class="linkNoStyle" name="Getting_started" >Getting started</a></h3>
-
+                      <div id="Getting_started" class="usa-prose" id="Getting_started">
+                        <h3 class="pb-2"><a class="linkNoStyle" name="Getting_started" >Getting started</a></h3>
+                        
                        The quickest way to get started with the GraphQL API is to <a href="/graphql" target="_blank">PDC GraphQL Explorer</a>:
-                       <br/><br/>
+                       <br/>
                        <img border="0" width="800" height="206" src="./assets/css/images/graphqlExplorer.png" alt="PDC GraphQL Explorer"/>
                      </div>
 
 
-                       <div #Endpoint class="textSection">
-                         <h3><a class="linkNoStyle" name="Endpoint" id="Endpoint">Endpoint</a></h3>
-
+                       <div #Endpoint class="usa-prose">
+                         <h3 class="pb-2"><a class="linkNoStyle" name="Endpoint" id="Endpoint">Endpoint</a></h3>
                        The GraphQL API endpoint is https://pdc.cancer.gov/graphql. All requests must be HTTP POST requests with application/json encoded bodies.
                       </div>
 
-                       <div #Authentication class="textSection">
-                         <h3><a class="linkNoStyle" name="Authentication" id="Authentication">Authentication</a></h3>
-
+                       <div #Authentication class="usa-prose">
+                         <h3 class="pb-2"><a class="linkNoStyle" name="Authentication" id="Authentication">Authentication</a></h3>
+                       
                        PDC GraphQL is open access.
                      </div>
 
-                     <div #Performing_requests class="textSection">
-                       <h3><a class="linkNoStyle" name="Performing_requests" id="Performing_requests">Performing requests with curl</a></h3>
-
+                     <div #Performing_requests class="usa-prose">
+                       <h3 class="pb-2"><a class="linkNoStyle" name="Performing_requests" id="Performing_requests">Performing requests with curl</a></h3>
+                       
                        A GraphQL request is a standard HTTPS POST request, with a JSON-encoded body containing a "query" key, and optionally a "variables" key.
 
                        For example, the following curl command returns the case submitter id project submitter id disease typeproperties for a queried case:
@@ -78,23 +75,23 @@
 
                      </pre>
                    </div>
-                     <div #Schema class="textSection">
-                       <h3><a class="linkNoStyle" name="Schema" id="Schema">Schema</a></h3>
-
-                       Click <a href="/data-dictionary/publicapi-documentation/" target="_blank">here</a> for Swagger documentation of exposed schema (full list of fields and types) that you can explore using the <a href="/graphql" target="_blank">PDC GraphQL Explorer</a>.
+                     <div #Schema class="usa-prose">
+                       <h3 class="pb-2"><a class="linkNoStyle" name="Schema" id="Schema">Schema</a></h3>
+                       
+                       Click <a href="/pdc/publicapi-documentation/" target="_blank">here</a> for Swagger documentation of exposed schema (full list of fields and types) that you can explore using the <a href="/graphql" target="_blank">PDC GraphQL Explorer</a>.
                      </div>
-                     <div #GraphQL class="textSection">
-                       <h3><a class="linkNoStyle" name="GraphQL" id="GraphQL">GraphQL+Python Example</a></h3>
-
+                     <div #GraphQL class="usa-prose">
+                       <h3 class="pb-2"><a class="linkNoStyle" name="GraphQL" id="GraphQL">GraphQL+Python Example</a></h3>
+                       
                        Below is an example of querying PDC GraphQL API with Python. Click <a href="/API_documentation/PDC_clustergram.html" target="_blank">here</a> for an example of API usage for generating a clustergram from protein expression data.
                      </div>
 
                       <pre>
                       <code>{{code}}</code>
                     </pre>
-                    <div #Learning_more class="textSection">
-                      <h3><a class="linkNoStyle" name="Learning_more" id="Learning_more">Learning more about GraphQL</a></h3>
-
+                    <div #Learning_more class="usa-prose">
+                      <h3 class="pb-2"><a class="linkNoStyle" name="Learning_more" id="Learning_more">Learning more about GraphQL</a></h3>
+                      
                        Further resources for learning more about GraphQL:
 
                        <ul>
@@ -106,4 +103,5 @@
 
                      </div>
                   </div>
+                  </main>
                   </div>

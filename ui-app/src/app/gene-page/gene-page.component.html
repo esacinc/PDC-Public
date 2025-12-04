@@ -3,7 +3,7 @@
   <mat-sidenav-container style="min-height: 1100px; padding-left:5px!important">
       <mat-sidenav #sidenav style=" margin-top: 3px; width:330px; padding-left:15px!important; visibility:visible!important" mode="side" opened [(opened)]="opened" class="sideBarNavigation">
 
-        <mat-card class="card" style="padding:0px!important">
+        <mat-card appearance="outlined" class="card" style="padding:0px!important">
           <mat-card-header class="browse-filter">
           </mat-card-header>
          <gene-filters (selectedFilters)=onFilterSelected($event)>
@@ -24,7 +24,7 @@
 	  <div class="" style="padding-left:10px; padding-right:15px;  margin-left:10px!important">
 		<h2 mat-dialog-title style="color:#245672" id="geneName">GENE: {{geneSummaryData?.gene_name}}</h2>
 		<div class="row" style="width: 100%;">
-			<mat-card style="width:100%">
+			<mat-card appearance="outlined" style="width:100%">
 				<mat-card-content style="overflow-y: auto; word-wrap: break-word; white-space: normal;font-size: 14px;">
 					<div *ngIf="loadingGeneSummary"><i class="pi pi-spin pi-spinner" style="font-size: 3em;"></i></div>
 					<table id="geneSummaryCard">
@@ -38,9 +38,14 @@
 							<td class="summary-card-name-right-cell">Proteins</td><td class="summary-card-value-right-cell">{{geneSummaryData?.proteins}}</td>
 						</tr>
 						<tr><td class="summary-card-name-left-cell">Organism</td><td class="summary-card-value-left-cell">{{geneSummaryData?.organism}}</td>
-							<td class="summary-card-name-right-cell">Assays</td><td class="summary-card-value-right-cell">{{geneSummaryData?.assays}}
-								<div *ngIf="isAssaysEmpty()">N/A</div>
-							</td>
+						<!--@@@PDC-8588 add alias-->
+						<td class="summary-card-name-right-cell">Aliases</td><td class="summary-card-value-right-cell">{{geneSummaryData?.alias}}
+						</td>
+						</tr>
+						<tr><td class="summary-card-name-left-cell">Assays</td><td class="summary-card-value-left-cell">{{geneSummaryData?.assays}}
+						<div *ngIf="isAssaysEmpty()">N/A</div></td>
+							<td class="summary-card-name-right-cell"> </td>
+							<td class="summary-card-value-right-cell"> </td>
 						</tr>
 					</table>
 				</mat-card-content>
@@ -111,16 +116,22 @@
 					</div>
 				</ng-template>
 				<ng-template pTemplate="header" let-columns>
-					<tr class="safari_only">
-						<th class="ui-datatable-tableheader" style="width:50px;align-content: center !important; overflow: unset;" alt="Check All checkboxes in the table" pFrozenColumn>
-							<label><p-checkbox  id="studyDataChk" [(ngModel)]="headercheckbox" binary="true" (onChange)="onTableHeaderCheckboxToggle()" ></p-checkbox></label>
-							<mat-select id="dataForManifestExport" class="card-body card-list" [(ngModel)]="selectedHeaderCheckbox"
-							(selectionChange)="changeHeaderCheckbox($event)">
-								<mat-option *ngFor="let checkboxOption of checkboxOptions" [value]="checkboxOption">
-									{{checkboxOption}}
-								</mat-option>
-							</mat-select>
-							<span style="display:none;">Select All</span>
+					<!--tr class="safari_only"-->
+					<tr>
+						<!--th class="ui-datatable-tableheader" style="width:50px;align-content: center !important; overflow: unset;" alt="Check All checkboxes in the table" pFrozenColumn-->
+						<th class="ui-datatable-tableheader checkboxColumn" style="max-width: 50px !important; min-width: 50px !important; width: 50px !important; align-content: center !important; overflow: unset;" alt="Check All checkboxes in the table" pFrozenColumn>
+						<!-- @@@PDC-9015 sync up check box style-->
+						<label title="checkboxLabel">
+						<p-checkbox id="studyDataChk" [(ngModel)]="headercheckbox" binary="true" (onChange)="triggerchangeHeaderCheckbox($event)">
+						</p-checkbox>
+							  <mat-select #dataForManifestExport id="dataForManifestExport" class="card-body card-list" [(ngModel)]="selectedHeaderCheckbox" (selectionChange)="changeHeaderCheckbox($event)">
+								  <mat-option *ngFor="let checkboxOption of checkboxOptions" [value]="checkboxOption" (selectionChange)="chkBoxSelectionCheck(checkboxOption)">
+								 {{checkboxOption}}
+								  </mat-option>
+							  </mat-select>
+							  <span style="display:none;">Select All</span>
+						</label>
+
 						</th>
 						<th class="ui-datatable-tableheader fixedWidthCol" style="width:150px;" pFrozenColumn>PDC Study ID</th>
 						<th class="ui-datatable-tableheader fixedWidthCol">Study</th>

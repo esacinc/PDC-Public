@@ -5,6 +5,14 @@
     font-size: 18px;
 }
 
+.warning{
+	text-align: left;
+    font-family: 'Lato';
+    font-weight: 400;
+    font-size: 16px;
+	color: red;
+}
+
 .desc{
 	text-align: left;
     font-family: 'Lato';

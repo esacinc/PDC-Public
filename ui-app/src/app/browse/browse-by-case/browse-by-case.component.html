@@ -1,127 +1,166 @@
-	<div class="row" style="font-family:'Lato'; font-size: 12px;" (window:resize)="onResize($event)">
+<div class="row" style="font-family:'Lato'; font-size: 12px;" (window:resize)="onResize($event)">
 
-	  <p-table class="table-striped ui-datatable-odd" #dt [columns]="cols"  [value]="filteredCasesData" [lazy]="true" [paginator]="true" [(first)]="offset"
-				[rows]="10" [pageLinks]="5" [rowsPerPageOptions]="[10,20,50]" [totalRecords]="totalRecords"
-				[loading]="loading" [resizableColumns]="true" columnResizeMode="expand" [ngStyle]="{'width':'100%'}"
-				(onRowUnselect) ="onRowUnselected($event)" (onRowSelect)="onRowSelected($event)" [(selection)]="selectedCases"
-				dataKey="aliquot_submitter_id" (onLazyLoad)="loadCases($event)" id="biospecimensDataTable" paginatorPosition="both"
-				scrollHeight="500px" [autoLayout]="true" [frozenColumns]="frozenColumns" [scrollable]="true" frozenWidth="200px">
-		<ng-template pTemplate="caption">
-		<div class="container-fluid ui-helper-clearfix button-container-fluid exportButtonsRow">
-				<div class="row">
-					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-						<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-							<div *ngIf="totalRecords > 0 && !loading" >
-								<h3 style="font-family: 'Lato'; font-size:14px;margin-top:10px!important" >{{totalRecords > 1 ? 'Total aliquots: ' + totalRecords : 'Total aliquot: ' + totalRecords }}</h3>
-							</div>
-						</div>
-						<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
-						<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 manifestDownload">
-							<div class="wholeManifestDownload">
-								Export All Manifests
-								&nbsp;<button matTooltip="Exports all manifests for the filters applied" id="downloadWholeManifest" mat-raised-button mat-primary label="Download Selection" (click)="downloadAllManifest('csv')" style="font-family:'Lato';font-weight:bold;min-width:1%;" [disabled]="iscompleteManifestDisabled()" aria-label="Download all Manifests">CSV</button>&nbsp;
-								<button matTooltip="Exports all manifests for the filters applied" id="downloadWholeManifest" mat-raised-button mat-primary label="Download Selection" (click)="downloadAllManifest('tsv')" style="font-family:'Lato';font-weight:bold;min-width:1%;" [disabled]="iscompleteManifestDisabled()" aria-label="Download all Manifests">TSV</button>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="container-fluid ui-helper-clearfix button-container-fluid" style="border-top: 1px solid #ddd; font-weight: 700;">
-				<div class="row">
-					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-						<div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+  <p-table class="table-striped ui-datatable-odd" #dt [columns]="cols" [value]="filteredCasesData" [lazy]="true"
+           [paginator]="true" [(first)]="offset"
+           [rows]="10" [pageLinks]="5" [rowsPerPageOptions]="[10,20,50]" [totalRecords]="totalRecords"
+           [loading]="loading" [resizableColumns]="true" columnResizeMode="expand" [ngStyle]="{'width':'100%'}"
+           (onRowUnselect)="onRowUnselected($event)" (onRowSelect)="onRowSelected($event)" [(selection)]="selectedCases"
+           dataKey="aliquot_submitter_id" (onLazyLoad)="loadCases($event)" id="biospecimensDataTable" paginatorPosition="both"
+           scrollHeight="500px" [autoLayout]="true" [frozenColumns]="frozenColumns" [scrollable]="true"
+           frozenWidth="200px">
+    <ng-template pTemplate="caption">
+      <div class="container-fluid ui-helper-clearfix button-container-fluid exportButtonsRow">
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+              <div *ngIf="totalRecords > 0 && !loading">
+                <h3
+                  style="font-family: 'Lato'; font-size:14px; margin-top:0!important">{{ totalRecords > 1 ? 'Total aliquots: ' + totalRecords : 'Total aliquot: ' + totalRecords }}</h3>
+              </div>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 manifestDownload">
+              <div class="d-flex justify-content-end align-items-center gap-3">
+                <span id="selectedCasesCount" *ngIf="!isDownloadDisabled()"
+                      style="font-family:'Lato'; font-size:12px; color:#666;">Rows selected: {{ selectedCases.length }}</span>
+                <div class="dropdown">
+                  <button
+                    tooltip="Exports all selected rows for the current data tab"
+                    class="btn btn-primary dropdown-toggle"
+                    type="button"
+                    id="exportBiospecimenManifestDropdown"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                    style="font-weight:bold;"
+                    [disabled]="isDownloadDisabled()"
+                    (click)="toggleExportBiospecimenDropdown()">
+                    Export Biospecimen Manifest
+                    <i class="fa fa-chevron-down ml-2"></i>
+                  </button>
+                  <div class="dropdown-menu" [class.show]="showExportBiospecimenDropdown"
+                       aria-labelledby="exportBiospecimenManifestDropdown">
+                    <button
+                      class="dropdown-item"
+                      (click)="biospecimenTableExportCSV(dt); toggleExportBiospecimenDropdown()"
+                      [disabled]="isDownloadDisabled()">
+                      <i class="fa fa-file-text mr-2"></i>CSV Format
+                    </button>
+                    <button
+                      class="dropdown-item"
+                      (click)="biospecimenTableExportTSV(dt); toggleExportBiospecimenDropdown()"
+                      [disabled]="isDownloadDisabled()">
+                      <i class="fa fa-file-text mr-2"></i>TSV Format
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-						</div>
-						<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 manifestDownload">
-						  <div class="row">
-						    <div class="col-12">
-							  Export Biospecimen Manifest
-							  &nbsp;<button matTooltip="Exports all selected rows for the current data tab" id="downloadBio" mat-raised-button mat-primary  label="Download Selection" (click)="biospecimenTableExportCSV(dt)" [disabled]="isDownloadDisabled()" style="font-family:'Lato';min-width:1%;" aria-label="Download Biospecimen Manifest">CSV</button>&nbsp;
-							  <button matTooltip="Exports all selected rows for the current data tab" id="downloadBio" mat-raised-button mat-primary  label="Download Selection" (click)="biospecimenTableExportTSV(dt)" [disabled]="isDownloadDisabled()" style="font-family:'Lato';min-width:1%;" aria-label="Download Biospecimen Manifest">TSV</button>&nbsp;
-							</div>
-						  </div>
-						  <div class="row">
-						    <div class="col-12">
-							  <span id="selectedCasesCount" *ngIf="!isDownloadDisabled()" style="padding-top:5px;">Rows selected: {{selectedCases.length}}&nbsp;</span>
-							</div>
-						  </div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</ng-template>
-        <ng-template style="font-size: 12px; background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%);" pTemplate="header" let-columns>
-            <tr>
-				<th class="ui-datatable-tableheader" style="width:50px;overflow: unset;" pFrozenColumn>
-					<label><p-checkbox id="caseDataChk" [(ngModel)]="headercheckbox" binary="true" (onChange)="triggerchangeHeaderCheckbox()"></p-checkbox>
-						<mat-select #dataForManifestExport id="dataForManifestExport" class="card-body card-list" [(ngModel)]="selectedHeaderCheckbox"
-						(selectionChange)="changeHeaderCheckbox($event)">
-							<mat-option *ngFor="let checkboxOption of checkboxOptions" [value]="checkboxOption" (onSelectionChange)="chkBoxSelectionCheck(checkboxOption)">
-								{{checkboxOption}}
-							</mat-option>
-						</mat-select>
-						<span style="display:none">Select all rows</span></label>
+    </ng-template>
+    <ng-template style="font-size: 12px; background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%);"
+                 pTemplate="header" let-columns>
+      <tr>
+        <th class="ui-datatable-tableheader" style="width:50px;overflow: unset;" pFrozenColumn>
+          <label>
+            <p-checkbox id="caseDataChk" [(ngModel)]="headercheckbox" binary="true"
+                        (onChange)="triggerchangeHeaderCheckbox()"></p-checkbox>
+            <mat-select #dataForManifestExport id="dataForManifestExport" class="card-body card-list"
+                        [(ngModel)]="selectedHeaderCheckbox"
+                        (selectionChange)="changeHeaderCheckbox($event)">
+              <mat-option *ngFor="let checkboxOption of checkboxOptions" [value]="checkboxOption"
+                          (onSelectionChange)="chkBoxSelectionCheck(checkboxOption)">
+                {{ checkboxOption }}
+              </mat-option>
+            </mat-select>
+            <span style="display:none">Select all rows</span></label>
 
-				</th>
-				<!-- @@@PDC-262 link headers to data dictionary -->
-				<th class="ui-datatable-tableheader" style="width:150px;word-break: break-all;" [pSortableColumn]="cols[1].field"><a href="/pdc/data-dictionary/Aliquot" target="_blank" style="color:white" pFrozenColumn>Aliquot</a>&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Study in ascending/descending order"></i></th>
-			    <th class="ui-datatable-tableheader" [pSortableColumn]="cols[3].field"><a href="/pdc/data-dictionary/Sample" target="_blank" style="color:white">Sample</a>&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Study in ascending/descending order"></i></th>
-			    <th class="ui-datatable-tableheader" [pSortableColumn]="cols[5].field"><a href="/pdc/data-dictionary/Case" target="_blank" style="color:white">Case</a>&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Study in ascending/descending order"></i></th>
-			    <th class="ui-datatable-tableheader" [pSortableColumn]="cols[6].field"><a href="/pdc/data-dictionary/Project" target="_blank" style="color:white">Project</a>&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Study in ascending/descending order"></i></th>
-				<th class="ui-datatable-tableheader" [pSortableColumn]="cols[7].field">
-					<div class="ui-datatable-tableheader-flex-container">
-						<div>
-							<!-- @@@PDC-4978 update links to migrated documentation pages (comment inclues all links to data-dictionary below)-->
-							<a href="/pdc/data-dictionary/Sample#sample_type" target="_blank" style="color:white">
-								Sample<br>Type
-							</a>
-						</div>
-						<div>
-							&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Study in ascending/descending order"></i>
-						</div>
-					</div>
-				</th>
-				<th class="ui-datatable-tableheader" style="white-space: pre; word-break: break-all;" [pSortableColumn]="cols[8].field">
-					<div class="ui-datatable-tableheader-flex-container">
-						<div>
-							<a href="/pdc/data-dictionary/Case#primary_site" target="_blank" style="color:white">
-								Primary<br>Site
-							</a>
-						</div>
-						<div>
-							&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Study in ascending/descending order"></i>
-						</div>
-					</div>
-				</th>
-				<th class="ui-datatable-tableheader" [pSortableColumn]="cols[9].field">
-					<div class="ui-datatable-tableheader-flex-container">
-						<div>
-							<a href="/pdc/data-dictionary/Case#disease_type" target="_blank" style="color:white">
-								Disease<br>Type
-							</a>
-						</div>
-						<div>
-							&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Study in ascending/descending order"></i>
-						</div>
-					</div>
-				</th>
-            </tr>
-		</ng-template>
-        <ng-template pTemplate="body" let-caseData let-columns="columns">
-            <tr style="font-size: 11px;" [pSelectableRow]="caseData" >
-				<td style="width:50px;word-wrap: break-word; white-space: normal;" pFrozenColumn>
-					<!--@@@PDC-8279-fix 508 compliance -->
-					<label><p-checkbox #browsePageCheckboxes id="caseData{{caseData.aliquot_submitter_id}}" [value]="caseData" class="browsePageCheckboxes" [(ngModel)]="selectedCases"></p-checkbox><span style="display:none">Select</span></label>
-				</td>
-				<!-- @@@PDC-462 show submitter ids -->
-                <td style="width:150px; white-space: normal;" pFrozenColumn>{{caseData.aliquot_submitter_id }}&nbsp;&nbsp;<span style='color:red' *ngIf="caseData.aliquot_status == 'Disqualified'">{{caseData.aliquot_status}}</span></td>
-                <td style="word-wrap: break-word; white-space: normal;">{{caseData.sample_submitter_id}}&nbsp;&nbsp;<span style='color:red' *ngIf="caseData.sample_status == 'Disqualified'">{{caseData.sample_status}}</span></td>
-                <td style="word-wrap: break-word; white-space: normal;"><a href="javascript:void(0);" (click)="showCaseSummary(caseData.case_submitter_id)">{{caseData.case_submitter_id}}</a>&nbsp;&nbsp;<span style='color:red' *ngIf="caseData.case_status == 'Disqualified'">{{caseData.case_status}}</span></td>
-                <td style="word-wrap: break-word; white-space: normal;">{{caseData.project_name}}</td>
-				<td style="word-wrap: break-word; white-space: normal;">{{caseData.sample_type}}</td>
-				<td style="word-wrap: break-word; white-space: normal;">{{caseData.primary_site}}</td>
-				<td style="word-wrap: break-word; white-space: normal;">{{caseData.disease_type}}</td>
-            </tr>
-        </ng-template>
-      </p-table>
-	</div>
+        </th>
+        <!-- @@@PDC-262 link headers to data dictionary -->
+        <th class="ui-datatable-tableheader" style="width:150px;word-break: break-all;"
+            [pSortableColumn]="cols[1].field"><a href="/pdc/data-dictionary/Aliquot" target="_blank" style="color:white"
+                                                 pFrozenColumn>Aliquot</a>&nbsp;<i class="fas fa-sort"
+                                                                                   style="color: black"
+                                                                                   ariaLabel="Sort Study in ascending/descending order"></i>
+        </th>
+        <th class="ui-datatable-tableheader" [pSortableColumn]="cols[3].field"><a href="/pdc/data-dictionary/Sample"
+                                                                                  target="_blank" style="color:white">Sample</a>&nbsp;<i
+          class="fas fa-sort" style="color: black" ariaLabel="Sort Study in ascending/descending order"></i></th>
+        <th class="ui-datatable-tableheader" [pSortableColumn]="cols[5].field"><a href="/pdc/data-dictionary/Case"
+                                                                                  target="_blank" style="color:white">Case</a>&nbsp;<i
+          class="fas fa-sort" style="color: black" ariaLabel="Sort Study in ascending/descending order"></i></th>
+        <th class="ui-datatable-tableheader" [pSortableColumn]="cols[6].field"><a href="/pdc/data-dictionary/Project"
+                                                                                  target="_blank" style="color:white">Project</a>&nbsp;<i
+          class="fas fa-sort" style="color: black" ariaLabel="Sort Study in ascending/descending order"></i></th>
+        <th class="ui-datatable-tableheader" [pSortableColumn]="cols[7].field">
+          <div class="ui-datatable-tableheader-flex-container">
+            <div>
+              <!-- @@@PDC-4978 update links to migrated documentation pages (comment inclues all links to data-dictionary below)-->
+              <a href="/pdc/data-dictionary/Sample#sample_type" target="_blank" style="color:white">
+                Sample<br>Type
+              </a>
+            </div>
+            <div>
+              &nbsp;<i class="fas fa-sort" style="color: black"
+                       ariaLabel="Sort Study in ascending/descending order"></i>
+            </div>
+          </div>
+        </th>
+        <th class="ui-datatable-tableheader" style="white-space: pre; word-break: break-all;"
+            [pSortableColumn]="cols[8].field">
+          <div class="ui-datatable-tableheader-flex-container">
+            <div>
+              <a href="/pdc/data-dictionary/Case#primary_site" target="_blank" style="color:white">
+                Primary<br>Site
+              </a>
+            </div>
+            <div>
+              &nbsp;<i class="fas fa-sort" style="color: black"
+                       ariaLabel="Sort Study in ascending/descending order"></i>
+            </div>
+          </div>
+        </th>
+        <th class="ui-datatable-tableheader" [pSortableColumn]="cols[9].field">
+          <div class="ui-datatable-tableheader-flex-container">
+            <div>
+              <a href="/pdc/data-dictionary/Case#disease_type" target="_blank" style="color:white">
+                Disease<br>Type
+              </a>
+            </div>
+            <div>
+              &nbsp;<i class="fas fa-sort" style="color: black"
+                       ariaLabel="Sort Study in ascending/descending order"></i>
+            </div>
+          </div>
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-caseData let-columns="columns">
+      <tr style="font-size: 11px;" [pSelectableRow]="caseData">
+        <td style="width:50px;word-wrap: break-word; white-space: normal;" pFrozenColumn>
+          <!--@@@PDC-8279-fix 508 compliance -->
+          <label>
+            <p-checkbox #browsePageCheckboxes id="caseData{{caseData.aliquot_submitter_id}}" [value]="caseData"
+                        class="browsePageCheckboxes" [(ngModel)]="selectedCases"></p-checkbox>
+            <span style="display:none">Select</span></label>
+        </td>
+        <!-- @@@PDC-462 show submitter ids -->
+        <td style="width:150px; white-space: normal;"
+            pFrozenColumn>{{ caseData.aliquot_submitter_id }}&nbsp;&nbsp;<span style='color:red'
+                                                                               *ngIf="caseData.aliquot_status == 'Disqualified'">{{ caseData.aliquot_status }}</span>
+        </td>
+        <td style="word-wrap: break-word; white-space: normal;">{{ caseData.sample_submitter_id }}&nbsp;&nbsp;<span
+          style='color:red' *ngIf="caseData.sample_status == 'Disqualified'">{{ caseData.sample_status }}</span></td>
+        <td style="word-wrap: break-word; white-space: normal;"><a href="javascript:void(0);"
+                                                                   (click)="showCaseSummary(caseData.case_submitter_id)">{{ caseData.case_submitter_id }}</a>&nbsp;&nbsp;<span
+          style='color:red' *ngIf="caseData.case_status == 'Disqualified'">{{ caseData.case_status }}</span></td>
+        <td style="word-wrap: break-word; white-space: normal;">{{ caseData.project_name }}</td>
+        <td style="word-wrap: break-word; white-space: normal;">{{ caseData.sample_type }}</td>
+        <td style="word-wrap: break-word; white-space: normal;">{{ caseData.primary_site }}</td>
+        <td style="word-wrap: break-word; white-space: normal;">{{ caseData.disease_type }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

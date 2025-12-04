@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Response, Headers, RequestOptions} from '@angular/http';
+import { HttpHeaders } from '@angular/common/http';
 import {HttpClient} from '@angular/common/http';
 import { Apollo } from 'apollo-angular';
 import { Observable } from 'rxjs';
@@ -13,14 +13,14 @@ const DOWNLOAD_DOCUMENTATION = '/dataDownloadDocumentation.json';
   providedIn: 'root'
 })
 export class DataDownloadDocumentationService {
-  headers: Headers;
-  options: RequestOptions;
+  headers: HttpHeaders;
+  options: {};
 
   //@@@PDC-5717: Develop the JSON file for the Data Download Page
   constructor(private http: HttpClient, private apollo: Apollo) {
-        this.headers = new Headers({ 'Content-Type': 'application/json',
+        this.headers = new HttpHeaders({ 'Content-Type': 'application/json',
                                             'Accept': 'q=0.8;application/json;q=0.9' });
-        this.options = new RequestOptions({ headers: this.headers });
+        this.options = { headers: this.headers };
     }
 
     getDocumentation() : Observable<any> {

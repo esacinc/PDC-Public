@@ -1,0 +1,738 @@
+/* needed for uswds */
+@use 'uswds-core' with (
+  $theme-image-path: '/assets/usa-icons',
+);
+
+@forward 'uswds-global';
+@forward 'uswds-typography';
+@forward 'usa-content';
+@forward 'usa-section';
+@forward 'usa-layout-grid';
+@forward 'usa-skipnav';
+@forward 'usa-banner';
+@forward 'usa-site-alert';
+@forward 'nci-header';
+@forward 'usa-breadcrumb';
+@forward 'usa-sidenav';
+@forward 'usa-footer';
+@forward 'nci-hero';
+@forward 'nci-heading';
+
+
+@forward 'nci-card-group';
+@forward 'nci-card';
+@forward 'usa-list';
+//@forward 'usa-prose';
+@forward 'nci-guide-card';
+
+@forward 'nci-promo-block';
+
+
+/* You can add global styles to this file, and also import other style files */
+/* @import "@angular/material/prebuilt-themes/indigo-pink.css"; */
+/* @import "../prebuild-themes/legacy-indigo-pink.css";*/
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import url('https://fonts.googleapis.com/css?family=Lato:100,700');
+
+
+.page-header{
+   color: red; 
+}
+
+.usa-skipnav {
+    position: absolute;
+    top: -40px; /* Hide it off-screen initially */
+    left: 0;
+    /*background-color: #000;*/
+    color: #fff;
+    padding: 10px;
+    text-decoration: none;
+    z-index: 1000;
+    transition: top 0.3s ease;
+  }
+
+.usa-skipnav:focus {
+    top: 0; /* Bring it into view when focused */
+}
+
+/* LEFT align */
+/* TODO(mdc-migration): The following rule targets internal classes of list that may no longer apply for the MDC version. */
+.mat-mdc-list .mat-mdc-list-item.left .mat-list-item-content{
+    justify-content: flex-start;
+}
+
+/* RIGHT align */
+/* TODO(mdc-migration): The following rule targets internal classes of list that may no longer apply for the MDC version. */
+.mat-mdc-list .mat-mdc-list-item.right .mat-list-item-content{
+    justify-content: flex-end;
+}
+
+/* If you will use matLine */
+
+/* LEFT align */
+/* TODO(mdc-migration): The following rule targets internal classes of list that may no longer apply for the MDC version. */
+.mat-mdc-list .mat-mdc-list-item.left .mat-list-text>*{
+margin: 0 auto 0 0;
+}
+/* RIGHT align */
+/* TODO(mdc-migration): The following rule targets internal classes of list that may no longer apply for the MDC version. */
+.mat-mdc-list .mat-mdc-list-item.right .mat-list-text>*{
+margin: 0 0 0 auto;
+}
+
+/*PDC-1930: Add the new PDC id on the study tab table and in all the manifests*/
+#studyDataTable .ui-datatable-tableheader, #clinicalDataTable  .ui-datatable-tableheader, #fileDataTable .ui-datatable-tableheader,
+#genesDataTable .ui-datatable-tableheader{
+    word-break: unset !important;
+}
+
+/* @@@PDC-1689: Add additional analytics tag to PDC Data Browser */
+/* .cdk-global-overlay-wrapper {
+    align-items: end !important;
+} */
+
+.cdk-global-scrollblock {
+    top: 0px !important;
+}
+
+div[class$="_feedback_selection_ignore"] {
+    display: none !important;
+}
+
+/* PDC-1660: Browse Page - Clinical Table - Unable to change column size for some columns */
+.ui-datatable-tableheader {
+    word-break: break-all !important;
+    white-space: normal !important;
+}
+
+ /* @@@PDC-1419: Fix the tooltip position for "Export Full Manifest" feature on Browse Page */
+.wholeManifestDownload {
+/*     padding-top: 10px;
+    padding-bottom: 10px; */
+    text-align: right;
+}
+
+.manifestDownload {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align: right;
+    padding-right: 0px !important;
+}
+
+.button-container-fluid {
+    padding-right: 0px !important;
+}
+
+p-sorticon {
+    .p-icon-wrapper {
+      padding-left: 4px;
+      vertical-align: text-bottom;
+      font-family: 'primeicons', Arial, sans-serif;
+      justify-content: center;
+      font-size: 10px;
+    }
+}
+
+.table-sort-icon {
+    color: #1b1d1f;
+    width: 1.28571429em;
+    text-align: center;
+}
+
+.ui-datatable-odd {
+    background: unset !important;
+}
+
+.p-datatable table {
+    table-layout: unset !important;
+}
+
+.p-datatable-tbody td, .p-datatable-thead th {
+    border: 1px solid #D5D5D5;
+    padding: 0.25em 0.5em !important;
+}
+
+.table-striped tbody > tr:nth-child(even) {
+    background: linear-gradient(to bottom,#fafafb 0%,#fafafb 100%) !important;
+}
+
+.table-striped thead .p-frozen-column {
+    border: 2px solid #D5D5D5 !important;
+}
+
+p-checkbox, p-tableCheckbox {
+    width: 1.125em;
+    height: 1.125em;
+    line-height: 1.125em;
+    border-radius: 2px;
+    text-align: center;
+    border: 1px solid #c5c5c5;
+    background: #f6f6f6;
+    font-weight: 400;
+    color: #454545;
+    display: inline-block;
+    cursor: pointer;
+    vertical-align: middle;
+    margin-right: 0.25em;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+}
+
+.p-checkbox-checked, .p-highlight {
+    background: #186ba0;
+    border: 1px solid #156090;
+    color: #FFFFFF;
+    font-weight: 400;
+}
+
+/* .p-checkbox .p-checkbox-box {
+    width: 12px;
+    height: 12px;
+}
+
+.p-checkbox .p-checkbox-box .p-checkbox-icon {
+    font-size: 8px;
+} */
+p-paginator {
+
+    /*@@@PDC-7817: Pagination icons*/
+    .p-paginator-first:before {
+        content: "\f048";
+    }
+
+    .p-paginator-last:before {
+        content: "\f051";
+    }
+
+    .p-paginator-prev:before {
+        content: "\f0d9";
+    }
+
+    .p-paginator-next:before {
+        content: "\f0da";
+    }
+
+    .p-paginator-prev:before, .p-paginator-next:before {
+        font-size: 13px;
+        padding: 2px 4px;
+    }
+
+    .p-paginator-first:before, .p-paginator-last:before {
+        font-size: 9px;
+        padding: 4px 4px;
+    }
+
+    .p-paginator-first:before, .p-paginator-last:before,
+    .p-paginator-prev:before, .p-paginator-next:before {
+        font-family: "FontAwesome";
+    }
+
+    .p-paginator-next, .p-paginator-first {
+        margin-right: 1px !important;
+    }
+
+    .p-paginator-first, .p-paginator-last, .p-paginator-prev, .p-paginator-next {
+        svg {
+            display: none;
+        }
+    }
+
+     /*@@@PDC-7817: Pagination icons end*/
+
+    .p-element {
+        background: none !important;
+    }
+
+    .p-paginator-top {
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+
+    /* @@@PDC-8279-fix-508-compliance */
+    .p-highlight {
+        background-color: #387BA8 !important;
+        color: #fff !important;
+    }
+
+    .p-paginator-pages .p-paginator-page {
+        margin-bottom: 1px;
+    }
+
+    .p-paginator-page {
+        cursor: pointer;
+        display: inline-block;
+        min-width: 1.5em;
+        height: 1.5em;
+        line-height: 1.5em;
+        min-width: 2.5em !important;
+        zoom: 1;
+        margin-left: 0.063em;
+        margin-right: 0.063em;
+        text-decoration: none;
+        vertical-align: middle;
+        text-align: center;
+        position: relative;
+        border: 1px solid #c5c5c5;
+        background: #f6f6f6;
+        font-weight: 400;
+        color: #454545;
+    }
+
+    .p-paginator-element {
+        border-radius: 3px;
+    }
+
+    .p-paginator-element, p-dropdown .p-element {
+        border: 1px solid #c5c5c5;
+        background: #f6f6f6;
+        font-weight: 400;
+        color: #454545;
+    }
+
+    .p-dropdown-label {
+        background: #ffffff !important;
+        display: block;
+        white-space: nowrap;
+        overflow: hidden;
+        font-weight: normal;
+        width: 100%;
+        padding-right: 1em;
+        padding-left: 3px;
+    }
+
+    .p-dropdown {
+        min-width: 4em;
+        margin-left: 0.375em;
+    }
+
+    .p-dropdown-trigger {
+        align-items: none;
+    }
+
+    .p-dropdown-trigger .p-icon-wrapper {
+        padding: 2px;
+    }
+
+    p-dropdownitem {
+        display: contents;
+
+        .p-highlight {
+            border: 1px solid #dad55e !important;
+            background: #fffa90 !important;
+            color: #777620 !important;
+        }
+    }
+
+    .p-dropdown-items {
+        padding: 0.4em;
+        background: #fff;
+        color: #333;
+        border: 1px solid #c5c5c5;
+    }
+
+    .p-dropdown-item {
+        border: none !important;
+        padding: 0.125em 0.25em
+    }
+}
+
+.p-link:disabled {
+    opacity: .35;
+    background-image: none;
+}
+
+.embossed-card {
+    border-left: 1px solid #e9e9e9;
+    border-right: 1px solid #e9e9e9;
+    background: linear-gradient(to bottom,#f6f7f9 0%,#ebedf0 100%);
+}
+
+.p-inputtext {
+    .background: #ffffff !important;
+}
+
+
+.mat-sidenav p-checkbox {
+	padding-right: 10px !important;
+}
+
+.exportButtonsRow {
+    font-weight: 700;
+}
+
+/* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version. */
+.mat-tab-labels {
+    cursor: pointer;
+}
+
+/* @@@PDC-1214 - Replace the sunburst chart with the human body image with drill down */
+#human-body-highlights {
+   /* position: relative;*/
+    top: -20px;
+}
+#human-body-highlights > svg {
+    position: absolute;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+#human-body-root {
+		position: relative;
+		min-height: 515px;
+		padding-top: 10px;
+		padding-bottom: 40px;
+}
+#human-body-root .chart {
+
+		color: #fff;
+		position: relative;
+		margin-left: auto;
+		width: 100%;
+}
+
+
+@media only screen and (max-width: 1600px) {
+	#human-body-root {
+		padding-left: 2%;
+		padding-right: 10%;
+	}
+}
+
+@media only screen and (max-width: 1279px) {
+    #human-body-root {
+        overflow-x: scroll;
+        padding-left: 0% !important;
+        padding-right: 0% !important;
+    }
+}
+
+@media only screen and (min-width: 1601px) {
+	#human-body-root {
+		padding-left: 7%;
+	}
+}
+
+@media only screen and (min-width: 1376px) {
+	#human-body-root .chart {
+		padding-right: 13%;
+	}
+}
+
+@media only screen and (max-width: 1375px) {
+	#human-body-root .chart {
+		padding-right: 5%;
+	}
+}
+
+#homePageFilters #human-body-root .chart {
+    left: 290px;
+
+}
+
+#human-body-front-page-root .chart {
+   padding-left: 15%;
+
+}
+
+#human-body-root .chart g {
+    color: #000;
+}
+#human-body-svg-container {
+    position: absolute;
+}
+#title {
+    color: white;
+    font-size: 20px;
+    /*font-weight: bold;*/
+    position: absolute;
+    width: 300px;
+    left: 280px;
+    margin-top: 10px;
+}
+#human-body-root #title {
+    left: 360px;
+}
+
+
+#male {
+    left: -88px;
+    position: relative;
+}
+
+#female {
+    left: -308px;
+    position: relative;
+}
+#female-organs {
+    position: relative;
+    top: -95px;
+    left: -465px;
+    width: 123px;
+}
+#male-organs {
+    position: relative;
+    height: 34px;
+    width: 25px;
+   /* top: 255px;*/
+    left: -120px;
+}
+#Mouth {
+    height: 16px;
+    width: 18px;
+    top: 60px;
+    left: 151px;
+    opacity: 0.2 !important;
+}
+#Breast {
+    height: 35px;
+    width: 50px;
+    top: 105px;
+    left: 130px;
+    opacity: 0.2 !important;
+}
+#Kidney {
+    height: 21px;
+    width: 25px;
+    top: 155px;
+    left: 145px;
+    opacity: 0.2 !important;
+}
+#Uterus {
+    height: 23px;
+    width: 21px;
+    top: 200px;
+    left: 125px;
+    opacity: 0.2 !important;
+}
+
+#Uterus-NOS {
+    height: 23px;
+    width: 21px;
+    top: 230px;
+    left: 156px;
+    opacity: 0.2 !important;
+}
+
+#Ovary {
+    height: 13px;
+    width: 13px;
+    top: 195px;
+    left: 145px;
+    opacity: 0.2 !important;
+}
+#Colorectal {
+    height: 95px;
+    width: 87px;
+    top: 160px;
+    left: 95px;
+}
+#Colon {
+    height: 95px;
+    width: 87px;
+    top: 160px;
+    left: 125px;
+}
+#Rectum {
+    height: 95px;
+    width: 87px;
+    top: 160px;
+    left: 125px;
+}
+#Stomach {
+    height: 40px;
+    width: 40px;
+    top: 130px;
+    left: 120px;
+    opacity: 0.2 !important;
+}
+
+#Head-and-Neck {
+	height: 105px;
+    width: 105px;
+    top: -10px;
+    left: 85px;
+    opacity: 0.35 !important;
+}
+
+#Brain {
+    height: 25px;
+    width: 40px;
+    top: 2px;
+    left: 118px;
+    opacity: 0.2 !important;
+}
+
+#Lung {
+    height: 50px;
+    width: 35px;
+    top: 100px;
+    left: 105px;
+    opacity: 0.2 !important;
+}
+
+#Bronchus-and-lung {
+	height: 55px;
+    width: 37px;
+    top: 143px;
+    left: 133px;
+    opacity: 0.2 !important;
+    display:none;
+}
+
+#Liver {
+    height: 32px;
+    width: 37px;
+    top: 145px;
+    left: 125px;
+    opacity: 0.3 !important;
+}
+
+/* PDC-3207 - add pancreas to human body image on PDC front page */
+#Pancreas {
+    height: 30px;
+    width: 45px;
+    top: 155px;
+    left: 110px;
+	opacity: 0.35 !important;
+}
+
+/* PDC-3865 Update human body map to show the new AML study */
+/* PDC-9847 change mps from Bone Marrow to Bone Marrow and Blood */
+#Bone-Marrow-and-Blood {
+    height: 105px;
+    width: 30px;
+    top: 315px;
+    left: 130px;
+	opacity: 0.5!important;
+}
+
+/* #Brain {
+    height: 35px;
+    width: 50px;
+    top: 20px;
+    left: 183px;
+}
+#Lung {
+    height: 55px;
+    width: 37px;
+    top: 133px;
+    left: 173px;
+}
+#Pleura {
+    height: 26px;
+    width: 37px;
+    top: 161px;
+    left: 173px;
+}
+#Lymph-Nodes {
+    height: 70px;
+    width: 45px;
+    top: 83px;
+    left: 159px;
+}
+#Soft-Tissue {
+    height: 369px;
+    width: 128px;
+    top: 89px;
+    left: 138px;
+}
+#Eye {
+    height: 20px;
+    width: 20px;
+    top: 39px;
+    left: 205px;
+} */
+/* #Adrenal-Gland {
+    height: 12px;
+    width: 14px;
+    top: 197px;
+    left: 219px;
+}
+#Bile-Duct {
+    height: 28px;
+    width: 11px;
+    top: 190px;
+    left: 195px;
+}
+#Bladder {
+    height: 16px;
+    width: 25px;
+    top: 258px;
+    left: 194px;
+}
+#Prostate {
+    height: 25px;
+    width: 30px;
+    top: 269px;
+    left: 103px;
+}
+#Testis {
+    height: 23px;
+    width: 15px;
+    top: 288px;
+    left: 124px;
+} */
+
+/* #Cervix {
+    height: 14px;
+    width: 15px;
+    top: 258px;
+    left: 199px;
+} */
+
+/* #Liver {
+    height: 42px;
+    width: 47px;
+    top: 173px;
+    left: 188px;
+} */
+
+/* #Blood {
+    height: 153px;
+    width: 35px;
+    top: 243px;
+    left: 211px;
+}
+#Bone {
+    height: 89px;
+    width: 14px;
+    top: 383px;
+    left: 212px;
+}
+#Bone-Marrow-and-Blood {
+    height: 114px;
+    width: 30px;
+    top: 371px;
+    left: 204px;
+}
+#Skin {
+    height: 227px;
+    width: 57px;
+    top: 95px;
+    left: 221px;
+}
+#Nervous-System {
+    height: 279px;
+    width: 56px;
+    top: 222px;
+    left: 159px;
+}
+#Thyroid {
+    height: 16px;
+    width: 18px;
+    top: 90px;
+    left: 198px;
+}
+#Thymus {
+    height: 23px;
+    width: 17px;
+    top: 147px;
+    left: 200px;
+}
+#Esophagus {
+    height: 57px;
+    width: 20px;
+    top: 86px;
+    left: 197px;
+} */

@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { NgModule } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
-import { Apollo, SelectPipe } from 'apollo-angular';
+import { Apollo } from 'apollo-angular';
 import { Observable, Subject } from 'rxjs';
 import { map ,  switchMap, debounceTime,  startWith} from 'rxjs/operators';
 import gql from 'graphql-tag';
@@ -9,12 +9,12 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 
 import {DataViewModule} from 'primeng/dataview';
-import {MatExpansionModule} from '@angular/material/expansion'; 
+import {MatExpansionModule} from '@angular/material/expansion';
 
 import { publicationsStudyData, PublicationsData, QueryPublicationsData, publicationsFiltersData } from '../types';
 import { StudySummaryComponent } from '../browse/study-summary/study-summary.component';
 import { PublicationsService } from './publications.service';
-import { MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig } from '@angular/material/legacy-dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatSidenav } from '@angular/material/sidenav';
 
 import {TableTotalRecordCount, AllStudiesData} from '../types';
@@ -23,26 +23,27 @@ import { FilesOverlayComponent } from '../browse/browse-by-file/files-overlay.co
 declare var window: any;
 
 @Component({
-selector: 'publications',
-templateUrl: './publications.component.html',
-styleUrls: ['../../assets/css/global.css', './publications.component.scss'],
+    selector: 'publications',
+    templateUrl: './publications.component.html',
+    styleUrls: ['../../assets/css/global.css', './publications.component.scss'],
+    standalone: false
 })
 
 
 //@@@PDC-3573 add some improvements to publications page
 //@@@PDC-3648 add improvements to publications page - change title and add clear all filters button
 //@@@PDC-3698 update publication page to add a string field in the filters for pubmed ID
-//@@@PDC-3646 make publication page filters function like Browse page filters 
+//@@@PDC-3646 make publication page filters function like Browse page filters
 
-export class PublicationsComponent implements OnInit{ 
+export class PublicationsComponent implements OnInit{
 
 	allFiltersData: Observable<publicationsFiltersData>;
 	filteredPublicationsData: PublicationsData[];
-	
+
 	filterValues: any = { disease_type: "", year: "", program: "", pubmed_id: ""} ;
 	filteredOptions: Observable<string[]>;
 	options: any[] = []; // will hold the display name and value of the search terms
-	
+
 	diseaseTypesFilterVals = [];
 	yearFilterVals = [];
 	programFilterVals = [];
@@ -51,63 +52,63 @@ export class PublicationsComponent implements OnInit{
 	programFilter = [];
 	totalRecords = 0;
 	offset: number = 0;
-	limit: number = 50;
-	pageSize: number = 50;
+	limit: number = 100;
+	pageSize: number = 100;
 	newFilterSelected: any;
 	cols: any[];
 	loading = false;
 	publicationFiltersGroup:UntypedFormGroup;
 	isAbstractExpanded = false;
-	
+
 	filterSelected: any;
-	
+
 	searchErrorMessageFlag = false;
 
 	@ViewChild('sidenav') myNav: MatSidenav;
-	
-	constructor(private apollo: Apollo, private dialog: MatDialog, private publicationsService: PublicationsService, 
+
+	constructor(private apollo: Apollo, private dialog: MatDialog, private publicationsService: PublicationsService,
 		private route: ActivatedRoute,
 		private router: Router,
 		private loc: Location) {
-		
+
 		this.publicationFiltersGroup = new UntypedFormGroup({
 				diseaseTypeFormControl: new UntypedFormControl(),
 				yearFormControl: new UntypedFormControl(),
 				programFormControl: new UntypedFormControl(),
 				searchFormControl: new UntypedFormControl()
 		});
-		  
+
 		this.publicationFiltersGroup.setValue({diseaseTypeFormControl: '', yearFormControl: '', programFormControl: '', searchFormControl: ''});
 		this.getFiltersData();
 		this.getFilteredPublicationsData();
 	}
-	
+
 	get diseaseTypeFormControl(){
 		return this.publicationFiltersGroup.get("diseaseTypeFormControl");
 	}
-	
+
 	get yearFormControl(){
 		return this.publicationFiltersGroup.get("yearFormControl");
 	}
-	
+
 	get programFormControl(){
 		return this.publicationFiltersGroup.get("programFormControl");
 	}
-	
+
 	get searchFormControl() {
 		return this.publicationFiltersGroup.get("searchFormControl");
 	}
-	
+
 	isAbstractExpandedToggle() {
 		this.isAbstractExpanded = !this.isAbstractExpanded;
 	}
-	
+
 	private removeOtherFromDiseaseTypes(diseases:string[]){
 		diseases.forEach(( disease, index) => {
 			  if (disease == "other") diseases.splice(index, 1);
 		});
 	}
-	
+
 	getFiltersData(){
 		this.publicationsService.getPublicationsFilters().subscribe((data: any) =>{
 		  this.allFiltersData = data.getUIPublicationFilters;
@@ -118,7 +119,7 @@ export class PublicationsComponent implements OnInit{
 		  console.log(this.diseaseTypesFilterVals);
 		});
 	}
-	
+
 	getFilteredPublicationsData() {
 		this.loading = true;
  		this.publicationsService.getFilteredPaginatedPublications(this.offset, this.limit, []).subscribe((data: any) =>{
@@ -139,31 +140,31 @@ export class PublicationsComponent implements OnInit{
 		  this.loading = false;
 		});
 	}
-	
+
 	//@@@PDC-3646 - update publications counters per filters' values
 	private updateFiltersCounters( publicationData: any){
 		let filterValIdx = this.findFilterNameIndex(publicationData.year, this.yearFilter);
 		if (filterValIdx == -1) {
-			this.yearFilter.push( {filterVal: publicationData.year, pub_ids: [publicationData.publication_id]});	
+			this.yearFilter.push( {filterVal: publicationData.year, pub_ids: [publicationData.publication_id]});
 		} else {
 			this.yearFilter[filterValIdx].pub_ids.push(publicationData.publication_id);
 		}
 		filterValIdx = this.findFilterNameIndex(publicationData.program_name, this.programFilter);
 		if (filterValIdx == -1) {
-			this.programFilter.push( {filterVal: publicationData.program_name, pub_ids: [publicationData.publication_id]});	
+			this.programFilter.push( {filterVal: publicationData.program_name, pub_ids: [publicationData.publication_id]});
 		} else {
 			this.programFilter[filterValIdx].pub_ids.push(publicationData.publication_id);
 		}
 		for (var j = 0; j < publicationData.disease_types.length; j++) {
 			filterValIdx = this.findFilterNameIndex(publicationData.disease_types[j], this.diseaseTypesFilter);
-			if (filterValIdx == -1) { 
+			if (filterValIdx == -1) {
 				this.diseaseTypesFilter.push( {filterVal: publicationData.disease_types[j], pub_ids: [publicationData.publication_id]});
 			} else {
 				this.diseaseTypesFilter[filterValIdx].pub_ids.push(publicationData.publication_id);
 			}
 		}
 	}
-	
+
 	private findFilterNameIndex(varValue: string, filterArray: any[]) {
 		let returnValue = -1;
 		for (var i = 0; i < filterArray.length; i++ ) {
@@ -173,7 +174,7 @@ export class PublicationsComponent implements OnInit{
 		}
 		return returnValue;
 	}
-	
+
 	loadPublications(event: any){
 		this.loading = true;
 		console.log(this.offset);
@@ -191,7 +192,7 @@ export class PublicationsComponent implements OnInit{
 		});
 	}
 
-	
+
 	filterPublications(filterVal: any){
 		console.log(this.filterSelected.pubmed_id);
 		console.log(filterVal);
@@ -256,7 +257,7 @@ export class PublicationsComponent implements OnInit{
 	isFilterChosen(){
 		return (this.filterSelected.disease_type == "" && this.filterSelected.year == "" && this.filterSelected.program == "" && this.filterSelected.pubmed_id == "");
 	}
-	
+
 	clearFilters(){
 		this.filterPublications("clear");
 	}
@@ -307,7 +308,7 @@ export class PublicationsComponent implements OnInit{
 			);
 
   }
-  
+
 	private getPublicationDataByID(pub_id: string) {
 		//console.log(pub_id);
 		//console.log(this.filteredPublicationsData);
@@ -319,7 +320,7 @@ export class PublicationsComponent implements OnInit{
 		//If list of studies for a publication was not found, then return empty list
 		return {studies: []};
 	}
-  
+
 	showFilesOverlay(publication_id, data_category_val) {
 		let studies_names = "";
 		let current_study = this.getPublicationDataByID(publication_id) as PublicationsData;
@@ -333,9 +334,9 @@ export class PublicationsComponent implements OnInit{
 			}
 		}
 		console.log(studies_names);
-		const dialogConfig = new MatDialogConfig();	
+		const dialogConfig = new MatDialogConfig();
 		dialogConfig.disableClose = true;
-		dialogConfig.autoFocus = false; 
+		dialogConfig.autoFocus = false;
 		dialogConfig.hasBackdrop = true;
 		dialogConfig.width = '80%';
 		dialogConfig.height = '95%';
@@ -349,9 +350,9 @@ export class PublicationsComponent implements OnInit{
 				console.log("Dialog output:", val);
 				//Generate alias URL to hide auxiliary URL details when the overlay window was closed and the focus returnes back
 				this.loc.replaceState("/publications");
-		});	
+		});
 	}
-	
+
 	searchPubmedID(search_term:string){
 		console.log(search_term);
 		//PDC-3807 validate pubmed id search input
@@ -364,18 +365,18 @@ export class PublicationsComponent implements OnInit{
 					let display_name = returnValue.title + " (PMID:" + returnValue.pubmed_id + ")";
 					this.options.push({name: display_name, value: returnValue.pubmed_id });
 				}
-				this.loading = false;  
+				this.loading = false;
 			});
 		} else {
 			this.searchErrorMessageFlag = true;
 		}
 	}
-	
+
 	//helper function for pubmed id autocomplete search field
 	displayFunc(search_result:any):string{
 		return search_result ? search_result.name : '';
 	}
-	
+
 	//This function returns filled out options list which will populate search autcomplete dropdown list
 	private _filter(value: string): string[] {
 		value = value.trim();
@@ -389,9 +390,9 @@ export class PublicationsComponent implements OnInit{
 	}
 
 	ngOnInit() {
-		
+
 		this.filterSelected = { disease_type: '', year: '', program: '', pubmed_id: ''}
-		
+
 		this.cols = [
 			{field: 'title', header: 'Title'},
 			{field: 'journal', header: 'Journal'},
@@ -400,14 +401,14 @@ export class PublicationsComponent implements OnInit{
 			{field: 'studies', header: 'Studies'},
 			{field: 'supplementary_data', header: 'Supplementary Data'},
 		];
-		
-		// Monitor changes to search field and populate dropdown autocomplete list 
+
+		// Monitor changes to search field and populate dropdown autocomplete list
 	    // as soon as the user entered at least 3 characters
 	    this.filteredOptions = this.searchFormControl.valueChanges.pipe(debounceTime(400))
 			.pipe(
 				startWith(''),
-				map(value => value.length > 1 ? this._filter(value) : [])	
+				map(value => value.length > 1 ? this._filter(value) : [])
 			);
-	
+
 	}
 }

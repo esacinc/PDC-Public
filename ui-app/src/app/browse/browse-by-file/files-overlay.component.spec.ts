@@ -1,10 +1,10 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
-import { MatLegacyMenuModule as MatMenuModule } from '@angular/material/legacy-menu';
-import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
-import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
+import { MatMenuModule } from '@angular/material/menu';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Apollo } from 'apollo-angular';
 import { Observable, of } from 'rxjs';
@@ -12,6 +12,7 @@ import { PDCUserService } from './../../pdcuser.service';
 import { SizeUnitsPipe } from './../../sizeUnitsPipe.pipe';
 import { FilesOverlayComponent } from './files-overlay.component';
 import { BrowseByFileService } from './browse-by-file.service';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 
 
@@ -79,17 +80,17 @@ class MockBrowseByFileService {
     return of({
 		getPaginatedUIStudy: {
 			uiStudies:[
-			{	
+			{
 				pdc_study_id: "PDC000120",
-​​				submitter_id_name: "Prospective Breast BI Proteome",
-​​				versions: [
+				submitter_id_name: "Prospective Breast BI Proteome",
+				versions: [
 					{ number: "2"},
 					{ number: "1"}]
 			}]
 		}
 	});
   };
-				
+
 }
 
 class MockSizeUnitsPipe {
@@ -109,11 +110,11 @@ describe("FilesOverlayComponent", () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [FilesOverlayComponent],
-      imports: [RouterTestingModule, MatMenuModule, HttpClientTestingModule],
-      schemas: [NO_ERRORS_SCHEMA],
-      providers: []
-    });
+    declarations: [FilesOverlayComponent],
+    schemas: [NO_ERRORS_SCHEMA],
+    imports: [RouterTestingModule, MatMenuModule],
+    providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+});
 
     TestBed.overrideComponent(FilesOverlayComponent, {
       set: {
@@ -137,8 +138,8 @@ describe("FilesOverlayComponent", () => {
 				data_category: "Raw Mass Spectra",
 				file_type: "Proprietary",
 				study_name: "Prospective Ovarian JHU Intact Glycoproteome",
-​				versions: false
-			
+				versions: false
+
 			 }
             }
           },
@@ -185,8 +186,8 @@ describe("FilesOverlayComponent", () => {
     component.loadFiles(event);
     expect(serviceSpy).toHaveBeenCalled();
   });
-  
-  
+
+
   it("test getAllFilesData", () => {
 	component.getAllFilesData();
 	fixture.whenStable().then(() => {
@@ -195,16 +196,16 @@ describe("FilesOverlayComponent", () => {
 		expect(component.limit).toBe(10);
 	});
   });
-  
+
   it("test iscompleteManifestDisabled", () => {
 	  component.filtersSelected = 2;
 	  expect(component.iscompleteManifestDisabled()).toBe(false);
   });
-  
+
   it("test getStyleClass", () => {
 	  expect(component.getStyleClass("")).toBe('');
   });
-  
+
   it("test prepareTSVExportManifestData", () => {
 	  let manifestData = [];
 	  let headers = [];
@@ -219,50 +220,50 @@ describe("FilesOverlayComponent", () => {
     selectedData.push("");
     expect(component.isDownloadDisabled()).toBeFalsy();
   }); */
-  
+
   it("test fileExportCompleteManifest", () => {
 	component.totalRecords = 5;
 	component.fileExportCompleteManifest();
     expect(serviceSpy).toHaveBeenCalled();
   });
-  
+
   it("test onRowSelected", () => {
 	  component.currentPageSelectedFile = [];
 	  component.onRowSelected({data: {file_id: "xxx", pdc_study_id: "yyy"}});
 	  expect(component.headercheckbox).toBe(false);
   });
-  
-  
+
+
   it("test onRowUnselected", () => {
 	  component.currentPageSelectedFile = [];
 	  component.onRowUnselected({data: {file_id: "xxx", pdc_study_id: "yyy"}});
 	  expect(component.headercheckbox).toBe(false);
   });
-  
+
   it("test onTableHeaderCheckboxToggle", () => {
 	  component.headercheckbox = false;
 	  component.onTableHeaderCheckboxToggle();
 	  expect(component.selectedFiles).toEqual([]);
 	  expect(component.currentPageSelectedFile).toEqual([]);
 	  expect(component.pageHeaderCheckBoxTrack).toEqual([]);
-	  expect(component.selectedHeaderCheckbox).toBe(''); 
+	  expect(component.selectedHeaderCheckbox).toBe('');
   });
-  
+
    it("test changeHeaderCheckbox Select this page option", () => {
 	  component.selectedHeaderCheckbox = "Select this page";
 	  component.changeHeaderCheckbox({});
 	  expect(component.headercheckbox ).toBe(true);
   });
-  
+
   it("test changeHeaderCheckbox select none option", () => {
 	  component.selectedHeaderCheckbox = "Select None";
 	  component.changeHeaderCheckbox({});
 	  expect(component.selectedFiles).toEqual([]);
 	  expect(component.currentPageSelectedFile).toEqual([]);
 	  expect(component.pageHeaderCheckBoxTrack).toEqual([]);
-	  expect(component.selectedHeaderCheckbox).toBe(''); 
+	  expect(component.selectedHeaderCheckbox).toBe('');
   });
-  
+
   it("test handleCheckboxSelections", ()=> {
 	  component.currentPageSelectedFile.length = 10;
 	  component.pageSize = 20;
@@ -272,7 +273,7 @@ describe("FilesOverlayComponent", () => {
 	  component.handleCheckboxSelections();
 	  expect(component.headercheckbox).toBe(true);
   });
-  
+
   it("test getAllFilesData for Legacy Data", () => {
 	component.isLegacyData = true;
 	component.getAllFilesData();
@@ -282,7 +283,7 @@ describe("FilesOverlayComponent", () => {
 		expect(component.limit).toBe(10);
 	});
   });
-  
+
   it("test load new page for Legacy Data", () => {
     let event = {
       sortField: "case_submitter_id",
@@ -293,5 +294,4 @@ describe("FilesOverlayComponent", () => {
     component.loadFiles(event);
     expect(serviceSpyLegacyData).toHaveBeenCalled();
   });
-  
 });

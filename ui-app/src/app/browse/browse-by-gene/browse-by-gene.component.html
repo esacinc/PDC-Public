@@ -1,4 +1,4 @@
-	<div class="row" style="font-family:'Lato'; font-size: 12px;" (window:resize)="onResize($event)">
+<div class="row" style="font-family:'Lato'; font-size: 12px;" (window:resize)="onResize($event)">
       <p-table class="table-striped ui-datatable-odd" #dt [columns]="cols" [value]="filteredGenesData" [lazy]="true" [paginator]="true" [(first)]="offset"
 				[rows]="10" [pageLinks]="5" [rowsPerPageOptions]="[10,20,50]" [totalRecords]="totalRecords"
 				[loading]="loading" [resizableColumns]="true" columnResizeMode="expand" [ngStyle]="{'width':'100%'}"
@@ -7,45 +7,51 @@
 				scrollHeight="500px" [autoLayout]="true" [frozenColumns]="frozenColumns" [scrollable]="true" frozenWidth="150px">
 		<ng-template pTemplate="caption">
 			<div class="container-fluid ui-helper-clearfix button-container-fluid exportButtonsRow">
-					<div class="row">
-						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-							<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-								<div *ngIf="totalRecords > 0 && !loading" >
-									<h3 style="font-family: 'Lato'; font-size:14px;float:left;margin-top:10px!important">{{totalRecords > 1 ? 'Total records: ' + totalRecords : 'Total record: ' + totalRecords }}</h3>
-							</div>
-							</div>
-							<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 manifestDownload">
-								<div class="wholeManifestDownload">
-									Export All Manifests
-									&nbsp;<button matTooltip="Exports all manifests for the filters applied" id="downloadWholeManifest" mat-raised-button mat-primary label="Download Selection" (click)="downloadAllManifest('csv')" style="font-family:'Lato';font-weight:bold; min-width:1%;" [disabled]="iscompleteManifestDisabled()" aria-label="Download all Manifests">CSV</button>&nbsp;
-									<button matTooltip="Exports all manifests for the filters applied" id="downloadWholeManifest" mat-raised-button mat-primary label="Download Selection" (click)="downloadAllManifest('tsv')" style="font-family:'Lato';font-weight:bold; min-width:1%;" [disabled]="iscompleteManifestDisabled()" aria-label="Download all Manifests">TSV</button>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			<div class="container-fluid ui-helper-clearfix button-container-fluid" style="border-top: 1px solid #ddd; font-weight: 700;">
-				<div class="row">
-					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-						<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-						</div>
-						<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 manifestDownload">
-						  <div class="row">
-						    <div class="col-12">
-							  Export Genes Manifest
-							  &nbsp;<button matTooltip="Exports all selected rows for the current data tab" id="downloadGeneData"  mat-raised-button mat-primary label="Download Selection" (click)="geneTableExportCSV(dt)" [disabled]="isDownloadDisabled()" style="font-family:'Lato'; min-width:1%;" aria-label="Download Genes Manifest">CSV</button>&nbsp;
-							  <button matTooltip="Exports all selected rows for the current data tab" id="downloadGeneData"  mat-raised-button mat-primary label="Download Selection" (click)="geneTableExportTSV(dt)" [disabled]="isDownloadDisabled()" style="font-family:'Lato'; min-width:1%;" aria-label="Download Genes Manifest">TSV</button>&nbsp;
-							</div>
-						  </div>
-						  <div class="row">
-						    <div class="col-12">
-							  <div id="selectedGenesDataCount" *ngIf="!isDownloadDisabled()" style="padding-top:5px;">Rows selected: {{selectedGenesData.length}}</div>
-							</div>
-						  </div>
-						</div>
-					</div>
-				</div>
-			</div>
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                <div *ngIf="totalRecords > 0 && !loading">
+                    <h3 style="font-family: 'Lato'; font-size:14px; margin-top:0!important">{{totalRecords > 1 ? 'Total records: ' + totalRecords : 'Total record: ' + totalRecords }}</h3>
+                </div>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 manifestDownload">
+                <div class="d-flex justify-content-end align-items-center gap-3">
+                    <span id="selectedGenesDataCount" *ngIf="!isDownloadDisabled()" style="font-family:'Lato'; font-size:12px; color:#666;">Rows selected: {{selectedGenesData.length}}</span>
+                    <div class="dropdown">
+                        <button
+                            tooltip="Exports all selected rows for the current data tab"
+                            class="btn btn-primary dropdown-toggle"
+                            type="button"
+                            id="exportGenesManifestDropdown"
+                            data-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="false"
+                            style="font-weight:bold;"
+                            [disabled]="isDownloadDisabled()"
+                            (click)="toggleExportGenesDropdown()">
+                            Export Genes Manifest
+                            <i class="fa fa-chevron-down ml-2"></i>
+                        </button>
+                        <div class="dropdown-menu" [class.show]="showExportGenesDropdown" aria-labelledby="exportGenesManifestDropdown">
+                            <button
+                                class="dropdown-item"
+                                (click)="geneTableExportCSV(dt); toggleExportGenesDropdown()"
+                                [disabled]="isDownloadDisabled()">
+                                <i class="fa fa-file-text mr-2"></i>CSV Format
+                            </button>
+                            <button
+                                class="dropdown-item"
+                                (click)="geneTableExportTSV(dt); toggleExportGenesDropdown()"
+                                [disabled]="isDownloadDisabled()">
+                                <i class="fa fa-file-text mr-2"></i>TSV Format
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 		</ng-template>
         <ng-template style="font-size: 12px; background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%);" pTemplate="header" let-columns>
             <tr class="safari_only">

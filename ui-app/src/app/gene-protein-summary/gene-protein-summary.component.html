@@ -1,8 +1,14 @@
 <!--//@@@PDC-374 add full html to overlay window for testing -->
+<div class="usa-prose">
 <title>Gene Summary</title>
-
+<!--
 <button mat-icon-button style="float: right; flex: 0 0 auto;" (click)="close()" aria-label="Close">
     <i class="fa fa-close" style="light"></i>
+	
+</button>
+-->
+<button mat-icon-button style="float: right; flex: 0 0 auto;  z-index: 1000; position: relative;" (click)="close()" aria-label="Close">
+	<i class="fa fa-times" style="color: #333333 !important; font-size: 20px; font-weight: bold;"></i>
 </button>
 
 <div *ngIf="displayGeneNotFoundInStudyMsg" style="min-width: 600px; min-height: 70px; margin-top: 50px; padding-bottom: 0px; font-size: 16px">
@@ -12,9 +18,9 @@
 <!--//@@@PDC-461  Make all summary dialog windows headers sticky-->
 <h2 mat-dialog-title style="color:#245672" id="geneName">GENE/PROTEIN SUMMARY: {{geneSummaryData.gene_name}}</h2>
 
-<mat-dialog-content style='max-height: 80vh; '>
+<mat-dialog-content style='max-height: 80vh;padding:50px; '>
 	<div class="row" style="width: 100%;">
-		<mat-card style="width:100%">
+		<mat-card appearance="outlined" style="width:100%">
 			<mat-card-content style="overflow-y: auto; word-wrap: break-word; white-space: normal;font-size: 14px;">
 				<div *ngIf="loadingGeneSummary"><i class="pi pi-spin pi-spinner" style="font-size: 3em;"></i></div>
 				<table id="geneSummaryCard">
@@ -28,9 +34,15 @@
 						<td class="summary-card-name-right-cell">Proteins</td><td class="summary-card-value-right-cell">{{geneSummaryData.proteins}}</td>
 					</tr>
 					<tr><td class="summary-card-name-left-cell">Organism</td><td class="summary-card-value-left-cell">{{geneSummaryData.organism}}</td>
-						<td class="summary-card-name-right-cell">Assays</td><td class="summary-card-value-right-cell">{{geneSummaryData.assays}}
-							<div *ngIf="isAssaysEmpty()">N/A</div>
+					<!--@@@PDC-8588 add alias-->
+						<td class="summary-card-name-right-cell">Aliases</td><td class="summary-card-value-right-cell">{{geneSummaryData.alias}}
 						</td>
+					</tr>
+					<tr><td class="summary-card-name-left-cell">Assays</td><td class="summary-card-value-left-cell">{{geneSummaryData.assays}}							
+					<div *ngIf="isAssaysEmpty()">N/A</div>
+						</td>
+						<td class="summary-card-name-right-cell"> </td>
+						<td class="summary-card-value-right-cell"> </td>
 					</tr>
 				</table>
 			</mat-card-content>
@@ -65,7 +77,7 @@
 		</p-table>
 	</div>
 	<br>
-	<button mat-primary (click)="navigateFullPage()" style="cursor: pointer"><b>Full summary for {{geneSummaryData.gene_name}}</b></button>
+	<button class="usa-button usa-button--outline" mat-primary (click)="navigateFullPage()" style="cursor: pointer;float:right;"><b>Full summary for {{geneSummaryData.gene_name}}</b></button>
 	<!--
 	<div class="row" style="width: 100%;">
 		<p-table class="table-striped ui-datatable-odd" id="geneSummaryDataTable" [value]="studySpectralCountsList" [lazy]="true" [paginator]="studyTotalRecords > studyLimit" [(first)]="studyOffset"
@@ -136,4 +148,5 @@
 		</p-table>
 	</div> -->
 </mat-dialog-content>
+</div>
 </div>

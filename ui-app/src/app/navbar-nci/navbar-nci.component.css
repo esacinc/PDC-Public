@@ -1,0 +1,549 @@
+.usa-banner__header-text::before {
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAAAsBAMAAAAncaPMAAAAAXNSR0IArs4c6QAAABtQTFRF////4EAg2z8g2z8f2z4f2j4fHjSyHjOxHTOxQEYPwgAAAIdJREFUeNrNkUENxDAMBEOhFJaCKZiCKZhCKBj2ebV3rdR71+pIq+Qxj1GyqjJ3U8VlHkc07hFm0awBYe91juq6MSI0yhSAEgkzJ4TMKiXyzFw3pgR9lmIBJlqj2AmBedf+IycExmlKZVzvZEJ4A0oBrjBl/m6PCy95B3fFAN6YuQPxhbcB4QMkEj04wQXD5wAAAABJRU5ErkJggg==);
+    background-size: contain; /* Ensure the image scales properly */
+    content: "";
+    display: inline-block;
+    height: 11px; /* Match the actual height of the image */
+    width: 16px; /* Explicitly set the width to match the image */
+    vertical-align: middle;
+    margin-right: 0.5rem; /* Add space to the right of the image */
+}
+
+.nci-header--megamenu .nci-megamenu {
+    background-color: #004971;
+    display: block;
+    left: 0;
+    padding-top: 2rem;
+    position: absolute !important;
+    right: 0;
+    width: 100%;
+    z-index: 400;
+}
+
+.usa-button .nci-header-nav__primary-button {
+pointer-events: auto !important;
+}
+
+/* Simple solution: Reduce the existing JavaScript timeout to work better */
+.nci-header-nav__primary-item {
+    position: relative;
+}
+
+/* Create a larger hover area for the navigation items */
+.nci-header-nav__primary-item::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: -100px; /* Extend 100px below the nav item */
+    background: transparent;
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* Make the nav button have higher z-index */
+.nci-header-nav__primary-button {
+    position: relative;
+    z-index: 2;
+}
+
+/* Improve mega menu transitions */
+.nci-header--megamenu .nci-megamenu {
+    margin-top: 0;
+    transition: opacity 0.15s ease-out;
+}
+
+/* Full width navbar styles for browse page */
+.navbar-full-width {
+    width: calc(100vw - 30px) !important;
+    max-width: calc(100vw - 30px) !important;
+    margin-left: calc(-50vw + 50% + 15px) !important;
+    margin-right: calc(-50vw + 50% + 15px) !important;
+}
+
+.navbar-container-full-width {
+    max-width: 100% !important;
+    width: 100% !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+.nav-full-width {
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
+.nav-inner-full-width {
+    max-width: 100% !important;
+    width: 100% !important;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+}
+
+/* Logo styling adjustments */
+#extended-mega-logo {
+    width: 440px !important;
+    height: auto !important;
+    margin-top: -10px !important;
+    margin-left: -15px !important;
+}
+
+#extended-mega-logo img {
+    margin-top: -5px;
+    max-width: 100% !important;
+    height: auto !important;
+}
+
+/* Override any browse page specific logo sizing */
+.navbar-full-width #extended-mega-logo,
+.navbar-container-full-width #extended-mega-logo {
+    width: 440px !important;
+    height: auto !important;
+}
+
+/* White background for tooltips */
+::ng-deep .mat-tooltip {
+    background-color: white !important;
+    color: #333 !important;
+    border: 1px solid #ccc !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+    font-size: 12px !important;
+}
+
+/* More specific Material tooltip selectors */
+::ng-deep .mat-mdc-tooltip,
+::ng-deep .mdc-tooltip__surface,
+::ng-deep .mat-mdc-tooltip .mdc-tooltip__surface {
+    background-color: white !important;
+    color: #333 !important;
+    border: 1px solid #ccc !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Overlay container for tooltips */
+::ng-deep .cdk-overlay-container .mat-tooltip,
+::ng-deep .cdk-overlay-container .mat-mdc-tooltip {
+    background-color: white !important;
+    color: #333 !important;
+    border: 1px solid #ddd !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Custom dropdown for search autocomplete */
+.custom-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background: #fff;
+  border: 1px solid #ccc;
+  max-height: 250px;
+  overflow-y: auto;
+  z-index: 1000;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+.dropdown-item {
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: background 0.2s;
+  color: #222;
+  font-size: 1rem;
+  background: #fff;
+  border-bottom: 1px solid #eee;
+  min-height: 32px;
+  display: flex;
+  align-items: center;
+}
+.dropdown-item:last-child {
+  border-bottom: none;
+}
+.dropdown-item:hover {
+  background: #e6f2fa;
+  color: #004971;
+}
+
+
+
+.nci-header-nav__secondary {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.navbar-search-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.navbar-search-form {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+/* Searchbox container for icon and clear button alignment */
+.searchbox-container {
+  position: relative;
+  align-items: center;
+  width: 540px;
+  max-width: 100%;
+}
+
+.search-input {
+  width: 100%;
+  min-width: 480px;
+  padding-left: 36px; /* space for icon */
+  padding-right: 36px; /* space for clear button */
+  box-sizing: border-box;
+  height: 40px;
+  line-height: 40px;
+  vertical-align: middle;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  border: 1.5px solid #bdbdbd;
+  border-radius: 6px;
+  outline: none;
+  background: #fff;
+  transition: border-color 0.2s;
+}
+
+.search-input:focus {
+  border-color: #1976d2;
+}
+
+.search-icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #aaa;
+  font-size: 1.2em;
+  pointer-events: none;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+}
+
+/* Perfect vertical alignment for the X clear button in the input box */
+.search-clear-button {
+  position: absolute;
+  right: 10px;
+  top: 0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 2;
+}
+
+.search-clear-button mat-icon {
+  font-size: 1.2em;
+  color: #aaa;
+  vertical-align: middle;
+}
+
+/* Revert flex and spacing overrides to previous working state */
+.navbar-search-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  width: 100%;
+}
+
+.usa-button.usa-button--outline {
+  margin-left: 0 !important;
+  padding-left: 16px;
+}
+
+.searchbox-container {
+  margin-right: 0;
+}
+
+.navbar-search-form {
+  margin-right: 0;
+}
+
+/* Mobile Navigation Styles */
+.nci-header-mobilenav__open-btn {
+  display: none;
+  background: #004971;
+  border: 2px solid white;
+  color: white;
+  padding: 8px 16px;
+  margin-right: 12px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 4px;
+  position: relative;
+  z-index: 1001; /* Higher than mobile nav */
+  transition: all 0.3s ease;
+}
+
+.nci-header-mobilenav__open-btn:hover {
+  background: #0f2a44;
+  border-color: #87ceeb;
+}
+
+.nci-header-mobilenav__open-btn:focus {
+  outline: 2px solid #87ceeb;
+  outline-offset: 2px;
+}
+
+.mobile-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 1000; /* Below the hamburger button */
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.mobile-nav--open {
+  visibility: visible;
+  opacity: 1;
+}
+
+.mobile-nav__overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+}
+
+.mobile-nav__content {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 320px;
+  max-width: 85vw;
+  height: 100%;
+  background-color: #004971;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+}
+
+.mobile-nav--open .mobile-nav__content {
+  transform: translateX(0);
+}
+
+.mobile-nav__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: #003366;
+}
+
+.mobile-nav__title {
+  color: white;
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.mobile-nav__close {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.mobile-nav__close:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.mobile-nav__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.mobile-nav__item {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.mobile-nav__link {
+  display: block;
+  padding: 16px 20px;
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.mobile-nav__link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.mobile-nav__toggle {
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 16px 20px;
+  text-align: left;
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background-color 0.2s ease;
+}
+
+.mobile-nav__toggle:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.mobile-nav__toggle i {
+  transition: transform 0.2s ease;
+}
+
+.mobile-nav__submenu {
+  max-height: 0;
+  overflow: hidden;
+  background-color: rgba(0, 0, 0, 0.2);
+  transition: max-height 0.3s ease;
+}
+
+.mobile-nav__submenu--open {
+  max-height: 1000px;
+}
+
+.mobile-nav__sections {
+  padding: 0;
+}
+
+.mobile-nav__section {
+  padding: 12px 20px 12px 40px;
+}
+
+.mobile-nav__section-title {
+  margin: 0 0 8px 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.mobile-nav__section-title a,
+.mobile-nav__section-title button,
+.mobile-nav__section-title span {
+  color: #87ceeb;
+  text-decoration: none;
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  text-align: left;
+}
+
+.mobile-nav__section-title a:hover,
+.mobile-nav__section-title button:hover {
+  color: white;
+  text-decoration: underline;
+}
+
+.mobile-nav__sublist {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.mobile-nav__sublist-item {
+  margin-bottom: 4px;
+}
+
+.mobile-nav__sublist-link {
+  color: #b8d4ea;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.2s ease;
+}
+
+.mobile-nav__sublist-link:hover {
+  color: white;
+  text-decoration: underline;
+}
+
+
+
+/* Responsive breakpoints */
+@media (max-width: 1199px) {
+  .nci-header-mobilenav__open-btn {
+    display: inline-block;
+  }
+
+  /* Hide desktop navigation on mobile */
+  .nci-header-nav__primary {
+    display: none;
+  }
+
+  .nci-megamenu {
+    display: none !important;
+  }
+
+  /* Adjust search box for mobile */
+  .search-input {
+    min-width: 250px;
+  }
+}
+
+@media (max-width: 768px) {
+  .search-input {
+    min-width: 200px;
+  }
+
+  .mobile-nav__content {
+    width: 280px;
+  }
+}
+
+@media (max-width: 480px) {
+  .search-input {
+    min-width: 150px;
+    font-size: 14px;
+  }
+
+  .mobile-nav__content {
+    width: 260px;
+  }
+
+  .usa-button.usa-button--outline {
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+
+  .active {
+    color: blue;
+  }
+  .origin {
+    cursor: pointer;
+    text-decoration: underline;
+  }
+
+}

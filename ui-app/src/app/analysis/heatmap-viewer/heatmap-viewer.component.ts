@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { Router, ActivatedRoute, ParamMap} from '@angular/router';
 import { DOCUMENT } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { MatLegacyList as MatList } from '@angular/material/legacy-list';
+import { MatList } from '@angular/material/list';
 import { Location } from '@angular/common';
 
 import { switchMap } from 'rxjs/operators';
@@ -16,9 +16,10 @@ import { AnalysisService } from '../analysis.service';
 
 const SERVER_URL = environment.server_url_local;
 @Component({
-  selector: 'app-heatmap-viewer',
-  templateUrl: './heatmap-viewer.component.html',
-  styleUrls: ['./heatmap-viewer.component.scss']
+    selector: 'app-heatmap-viewer',
+    templateUrl: './heatmap-viewer.component.html',
+    styleUrls: ['./heatmap-viewer.component.scss'],
+    standalone: false
 })
 export class HeatmapViewerComponent implements OnInit {
 

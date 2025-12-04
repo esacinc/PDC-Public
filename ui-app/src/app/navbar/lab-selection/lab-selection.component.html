@@ -1,4 +1,10 @@
-<div class="title">Your email is not registered with the PDC Workspace. Create Account</div>
+<div *ngIf='!userRegisteredToWorkspaceFlag'>
+	<div class="title">Your email is not registered with the PDC Workspace. Create Account</div>
+</div>
+<div *ngIf='userRegisteredToWorkspaceFlag'>
+	<div class="warning">You have a pending request. Please wait for email confirmation.</div>
+</div>
+<!--@@@PDC-9083 pending ws registration-->
 <p></p>
 <div style="float:left;margin-right:20px;">
 	<label>First Name</label>
@@ -31,6 +37,10 @@
 	  </ul>
 <div style="float:left;margin-top:20px;">
 	<button mat-button id="cancelSubmitData" (click)="close('true')">Cancel</button>
-	<button mat-button id="register" (click)="registerUser()" disabled="true">Register</button>
+	<span *ngIf='!userRegisteredToWorkspaceFlag'>
+		<span *ngIf="selectedLabs.length > 0">
+			<button mat-button id="register" (click)="registerUser()">Register</button>
+		</span>
+	</span>
 </div>
 

@@ -1,14 +1,15 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 export interface DialogData {
   message: string;
 }
 
 @Component({
-  selector: 'app-message-dialog',
-  templateUrl: './message-dialog.component.html',
-  styleUrls: ['./message-dialog.component.css']
+    selector: 'app-message-dialog',
+    templateUrl: './message-dialog.component.html',
+    styleUrls: ['./message-dialog.component.css'],
+    standalone: false
 })
 export class MessageDialogComponent implements OnInit {
 

@@ -1,10 +1,10 @@
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
-import { SocialAuthService } from 'angularx-social-login';
+import { MatDialog } from '@angular/material/dialog';
+
 import { of } from 'rxjs';
 
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
+import { MatCardModule } from '@angular/material/card';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -12,6 +12,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { ChorusauthService } from '../chorusauth.service';
 import { PDCUserService } from '../pdcuser.service';
 import { WelcomePageComponent } from './welcome-page.component';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 
 class MockDialog {
@@ -29,7 +30,7 @@ class MockAuthService {
 describe("WelcomePageComponent", () => {
   let component: WelcomePageComponent;
   let fixture: ComponentFixture<WelcomePageComponent>;
-  let socialAuthService: SocialAuthService;
+
   let userService: PDCUserService;
   let activeRoute: ActivatedRoute;
   let route: Router;
@@ -39,20 +40,19 @@ describe("WelcomePageComponent", () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [WelcomePageComponent],
-      imports: [
-        MatToolbarModule,
+    declarations: [WelcomePageComponent],
+    imports: [MatToolbarModule,
         MatCardModule,
-        HttpClientTestingModule,
-        RouterTestingModule.withRoutes([])
-      ],
-      providers: [
+        RouterTestingModule.withRoutes([])],
+    providers: [
         ChorusauthService,
         PDCUserService,
-        { provide: SocialAuthService, useClass: MockAuthService },
+
         { provide: MatDialog, useClass: MockDialog },
-      ]
-    }).compileComponents();
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+    ]
+}).compileComponents();
   }));
 
   beforeEach(() => {
@@ -66,13 +66,13 @@ describe("WelcomePageComponent", () => {
   });
 
   it("test social sign in success, and navigate to pdc", done => {
-    socialAuthService = TestBed.get(SocialAuthService);
+
     userService = TestBed.get(PDCUserService);
     route = TestBed.get(Router);
     userSpy = spyOn(userService, "checkPDCUserByEmail").and.returnValue(Promise.resolve(0));
-    socialSpy = spyOn(socialAuthService, "signIn").and.callThrough();
+
     routeSpy = spyOn(route, "navigate");
-    component.socialSignIn("google");
+
     expect(socialSpy).toHaveBeenCalled();
     socialSpy.calls.mostRecent().returnValue.then(() => {
       expect(userSpy).toHaveBeenCalledWith("xxx@esacinc.com");
@@ -82,13 +82,13 @@ describe("WelcomePageComponent", () => {
   });
 
   it("test social sign in success with new user, and navigate to registration", done => {
-    socialAuthService = TestBed.get(SocialAuthService);
+
     userService = TestBed.get(PDCUserService);
     route = TestBed.get(Router);
     userSpy = spyOn(userService, "checkPDCUserByEmail").and.returnValue(Promise.resolve(1));
-    socialSpy = spyOn(socialAuthService, "signIn").and.callThrough();
+
     routeSpy = spyOn(route, "navigate");
-    component.socialSignIn("google");
+
     expect(socialSpy).toHaveBeenCalled();
     socialSpy.calls.mostRecent().returnValue.then(() => {
       expect(userSpy).toHaveBeenCalledWith("xxx@esacinc.com");
@@ -100,12 +100,10 @@ describe("WelcomePageComponent", () => {
   });
 
   it("test social sign in with error", done => {
-    socialAuthService = TestBed.get(SocialAuthService);
     userService = TestBed.get(PDCUserService);
     route = TestBed.get(Router);
     userSpy = spyOn(userService, "checkPDCUserByEmail").and.returnValue(Promise.resolve(2));
-    socialSpy = spyOn(socialAuthService, "signIn").and.callThrough();
-    component.socialSignIn("google");
+
     expect(socialSpy).toHaveBeenCalled();
     socialSpy.calls.mostRecent().returnValue.then(() => {
       fixture.detectChanges();

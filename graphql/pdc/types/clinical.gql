@@ -10,6 +10,7 @@ type Clinical {
 	demographic_submitter_id: String   
 	ethnicity: String
 	gender: String
+	sex: String
 	race: String
 	vital_status: String
 	days_to_birth: String

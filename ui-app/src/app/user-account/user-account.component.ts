@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
-import {SocialAuthService, GoogleLoginProvider} from 'angularx-social-login';
-import { MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig } from '@angular/material/legacy-dialog';
-import {MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA} from '@angular/material/legacy-dialog';
+
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {Inject} from '@angular/core';
 import {ConfirmationDialogComponent} from './../dialog/confirmation-dialog/confirmation-dialog.component';
 import {MessageDialogComponent} from './../dialog/message-dialog/message-dialog.component';
@@ -14,9 +14,10 @@ import {OverlayWindowService} from '../overlay-window/overlay-window.service';
 import {InputDialogComponent} from '../dialog/input-dialog/input-dialog.component';
 
 @Component({
-  selector: 'user-account',
-  templateUrl: './user-account.component.html',
-  styleUrls: ['../../assets/css/global.css', './user-account.component.scss']
+    selector: 'user-account',
+    templateUrl: './user-account.component.html',
+    styleUrls: ['../../assets/css/global.css', './user-account.component.scss'],
+    standalone: false
 })
 
 //@@@PDC-701
@@ -50,7 +51,7 @@ export class UserAccountComponent implements OnInit {
   });
 
   //, Validators.pattern('(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).+')
-  constructor(private chorusService: ChorusauthService, private socialAuthService: SocialAuthService, private dialog: MatDialog,
+  constructor(private chorusService: ChorusauthService, private dialog: MatDialog,
               private router: Router, private userService: PDCUserService,
               private overlayWindow: OverlayWindowService, private dialogRef: MatDialogRef<UserAccountComponent>,
               @Inject(MAT_DIALOG_DATA) data) {

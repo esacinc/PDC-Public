@@ -40,6 +40,7 @@ type Protocol {
 	gradient_length_uom: String
 	instrument_make: String
 	instrument_model: String
+	instrument: String
 	dissociation_type: String
 	ms1_resolution: String
 	ms2_resolution: String

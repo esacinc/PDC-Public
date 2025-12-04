@@ -1,0 +1,2909 @@
+<div class="side-bar-tabs  relative w-[320px] mt-4  ">
+<!-- Filter Dropdown Header -->
+<div class="relative inline-block w-full">
+  <button
+  class="bg-[#FFFFFF] outline outline-1 outline-gray-300 mb-1 text-gray px-4 py-2 rounded w-full flex items-center justify-between"
+  (click)="showDropdown = !showDropdown">
+  <span class="flex items-center">
+     <i class="fa fa-filter mr-2"></i>
+    &nbsp; Filter
+  </span>
+  <i [ngClass]="showDropdown ? 'fa fa-minus' : 'fa fa-plus'"></i>
+</button>
+  <div class="">
+    <div class="">
+      <!-- Place your filter controls here -->
+      <div *ngIf="loading && loadingURLParams" class="inline-block">
+        <i class="pi pi-spin pi-spinner text-3xl text-[#254A61]"></i>
+      </div>
+      <!--
+      <button
+        class="float-right text-[#254A61] hover:bg-[#254A61]/10 px-2 py-1 rounded"
+        id="clearAllSelections"
+        (click)="clearAllSelections()"
+
+        *ngIf="selectedProjects.length > 0 || selectedPrograms.length > 0 || selectedPrimarySites.length > 0 || selectedDiseases.length > 0 ||
+        selectedAnFracs.length > 0 || selectedExpStarts.length > 0 || selectedAcquisitions.length > 0 || selectedStudyFilter.length > 0 ||
+        selectedSampleType.length > 0 || selectedEthnicity.length > 0 || selectedRace.length > 0 || selectedGender.length > 0 || selectedGeneStudyList.length > 0 ||
+        selectedTumorGrade.length > 0 || selectedDataCategory.length > 0 || selectedFileType.length > 0 || selectedAccess.length > 0 || selectedBiospecimenStatus.length > 0 || selectedCaseStatus.length > 0 || selectedDownloadable.length > 0 || selectedDownloadableRadiobuttonVal != ''"
+        aria-label="Clear all selection">
+        <span>CLEAR&nbsp;</span><i class="fa fa-undo"></i>
+      </button>
+    -->
+
+
+      <div
+
+  *ngIf="showDropdown" class="border border-gray-200 rounded mb-1 sidenavFiltersPanel">
+  <button
+    class="flex items-center justify-between w-full px-4 py-3 text-left text-sm outline-none focus:outline-none"
+    [class.bg-[#D4E7F2]]="selectedTab === 0"
+    [class.text-gray-800]="selectedTab === 0"
+    [class.hover:bg-blue-50]="selectedTab !== 0"
+    [class.hover:bg-[#C1DBF0]]="selectedTab === 0"
+    (click)="selectedTab = 0">
+    <span>General</span>
+    <button
+      class="ml-2 outline-none focus:outline-none"
+      [class.text-gray-600]="selectedTab !== 0"
+      [class.hover:text-gray-800]="selectedTab !== 0"
+      [class.text-gray-800]="selectedTab === 0"
+      [class.hover:text-gray-900]="selectedTab === 0"
+      id="clearGeneralSelections"
+      (click)="clearAllGeneralSelections()"
+      *ngIf="selectedProjects.length > 0 || selectedPrograms.length > 0 || selectedPrimarySites.length > 0 || selectedDiseases.length > 0 || selectedAnFracs.length > 0 || selectedExpStarts.length > 0 || selectedAcquisitions.length > 0 || selectedDataCategory.length > 0 || selectedStudyFilter.length > 0"
+      aria-label="Clear all General selection">
+      <i class="fa fa-undo"></i>
+    </button>
+  </button>
+
+  <button
+    class="flex items-center justify-between w-full px-4 py-3 text-left text-sm outline-none focus:outline-none"
+    [class.bg-[#D4E7F2]]="selectedTab === 2"
+    [class.text-gray-800]="selectedTab === 2"
+    [class.hover:bg-blue-50]="selectedTab !== 2"
+    [class.hover:bg-[#C1DBF0]]="selectedTab === 2"
+    (click)="selectedTab = 2">
+    <span>Clinical</span>
+    <button
+      class="ml-2 outline-none focus:outline-none"
+      [class.text-gray-600]="selectedTab !== 2"
+      [class.hover:text-gray-800]="selectedTab !== 2"
+      [class.text-gray-800]="selectedTab === 2"
+      [class.hover:text-gray-900]="selectedTab === 2"
+      id="clearClinicalSelections"
+      (click)="clearAllClinicalSelections()"
+      *ngIf="selectedEthnicity.length > 0 || selectedRace.length > 0 || selectedGender.length > 0 || selectedTumorGrade.length > 0 || selectedCaseStatus.length > 0"
+      aria-label="Clear all selection">
+      <i class="fa fa-undo"></i>
+    </button>
+  </button>
+
+  <button
+    class="flex items-center justify-between w-full px-4 py-3 text-left text-sm outline-none focus:outline-none"
+    [class.bg-[#D4E7F2]]="selectedTab === 4"
+    [class.text-gray-800]="selectedTab === 4"
+    [class.hover:bg-blue-50]="selectedTab !== 4"
+    [class.hover:bg-[#C1DBF0]]="selectedTab === 4"
+    (click)="selectedTab = 4">
+    <span>Genes</span>
+    <button
+      class="ml-2 outline-none focus:outline-none"
+      [class.text-gray-600]="selectedTab !== 4"
+      [class.hover:text-gray-800]="selectedTab !== 4"
+      [class.text-gray-800]="selectedTab === 4"
+      [class.hover:text-gray-900]="selectedTab === 4"
+      id="clearAllGenesSelections"
+      (click)="clearAllGenesSelections()"
+      *ngIf="selectedGeneStudyList.length > 0"
+      aria-label="Clear all Genes selections">
+      <i class="fa fa-undo"></i>
+    </button>
+  </button>
+
+
+</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Tab Group -->
+
+  <!-- Tab Headers -->
+
+
+
+  <!-- Tab Panels -->
+
+  <!-- General Tab -->
+  <div [style.display]="selectedTab === 0 ? 'block' : 'none'" class="">
+
+
+    <!-- Program Filter -->
+    <div class="border border-gray-200 rounded mb-1 sidenavFiltersPanel">
+      <div class="px-4 py-2 border-b  bg-[#D4E7F2] flex items-center justify-between">
+        <a href="/pdc/data-dictionary/Program" class="text-blue-600 hover:text-blue-800 font-semibold" target="_blank">Program</a>
+        <button
+      class="text-gray-600 hover:text-gray-800 px-2 py-1 text-sm"
+      (click)="showProgram = !showProgram"
+      aria-label="Toggle Program section">
+      <i [ngClass]="showProgram ? 'fa fa-minus' : 'fa fa-plus'"></i>
+    </button>
+        <button
+          class="text-gray-600 hover:text-gray-800 px-2 py-1 text-sm"
+          id="clearPrograms"
+          *ngIf="selectedPrograms.length > 0"
+          (click)="clearSelectionsPrograms()"
+          aria-label="Clear programs selection">
+          <i class="fa fa-undo"></i>
+        </button>
+      </div>
+      <div class="filter-section p-4" *ngIf="showProgram">
+        <fieldset>
+          <div *ngFor="let program of programsFilter, let i = index"
+               [ngClass]="selectedPrograms.indexOf(program.filterName) !== -1 ? 'bg-blue-50 border-l-4 border-blue-500 pl-2': ''"
+               id="{{program.filterName}}-program"
+               class="mb-2">
+
+            <div *ngIf="(i<10 || (programsFilter.length > 10 && showProgram && i >= 10)) && program.filterName !==  'Aebersold Lab'" class="flex items-center">
+              <label class="flex items-center cursor-pointer w-full" matTooltip="{{ programNames[program.filterName] }}">
+                <!--
+                <p-checkbox
+                  name="group3"
+                  id="group3{{program.filterName}}"
+                  value="{{program.filterName}}"
+                  [ngModel]="selectedPrograms.indexOf(program.filterName) !== -1"
+                  [disabled]="program.filterCount == 0"
+                  (onChange)="filterDataByProgram($event, '-program', i)"
+                  class="mr-2">
+                </p-checkbox>
+                -->
+                <p-checkbox name="group3" id="group3{{program.filterName}}"
+                                value={{program.filterName}}
+                                [(ngModel)]="selectedPrograms"
+                  [disabled]="program.filterCount == 0"
+                                (onChange)="filterDataByProgram($event, '-program', i)">
+                            </p-checkbox> &nbsp;
+
+                <span [ngStyle]="getStyleForCheckbox(program.filterName, selectedPrograms)">
+                  {{program.filterName}} ({{program.filterCount}} {{program.filterCount > 1 ? 'Studies' : 'Study'}})
+                </span>
+              </label>
+            </div>
+            <div *ngIf="programsFilter.length > 10 && !showProgram && i==10"
+                 (click)="showMoreOrLess('program_name')"
+                 class="text-right text-sm text-gray-600 cursor-pointer font-bold hover:text-gray-800">
+              {{programsFilter.length - 10 }} More...
+            </div>
+            <div *ngIf="programsFilter.length > 10 && showProgram && i==programsFilter.length - 1"
+                 (click)="showMoreOrLess('program_name')"
+                 class="text-right text-sm text-gray-600 cursor-pointer font-bold hover:text-gray-800">
+              Less...
+            </div>
+          </div>
+        </fieldset>
+      </div>
+    </div>
+
+     <!-- Study Filter -->
+    <div class="border border-gray-200 rounded mb-1 sidenavFiltersPanel">
+      <div class="bg-[#D4E7F2] px-4 py-2 border-b border-gray-200 flex items-center justify-between">
+        <a href="/pdc/data-dictionary/Study" class="text-blue-600 hover:text-blue-800 font-semibold" target="_blank">Study</a>
+        <button
+      class="text-gray-600 hover:text-gray-800 px-2 py-1 text-sm"
+      (click)="showStudy = !showStudy"
+      aria-label="Toggle Study section">
+       <i [ngClass]="showStudy ? 'fa fa-minus' : 'fa fa-plus'"></i>
+    </button>
+        <button
+          class="text-gray-600 hover:text-gray-800"
+          id="clearStudyFilterSelections"
+          *ngIf="selectedStudyFilter.length > 0"
+          (click)="clearSelectionsStudyID()"
+          aria-label="Clear studies selection">
+
+          <i class="fa fa-undo"></i>
+        </button>
+      </div>
+      <div class="filter-section p-4" *ngIf="showStudy">
+        <fieldset>
+          <div *ngFor="let study of studyFilter, let i = index"
+               [ngClass]="selectedStudyFilter.indexOf(study.filterName) !== -1 ? 'bg-blue-50 border-l-4 border-blue-500 pl-2': ''"
+               id="{{study.filterName}}-study"
+               class="mb-2">
+
+            <div *ngIf="i<10 || (studyFilter.length > 10 && showStudyName && i >= 10)" class="flex items-center">
+              <label class="flex items-center cursor-pointer w-full" style="display: flex; align-items: flex-start;">
+                <p-checkbox
+                  name="studyGroup"
+                  id="studyGroup{{study.filterName}}"
+                  value="{{study.filterName}}"
+                  [(ngModel)]="selectedStudyFilter"
+                  [disabled]="study.filterCount == 0"
+                  (onChange)="filterDataByStudy($event, '-study', i)">
+                </p-checkbox> &nbsp;
+
+                <span [ngStyle]="getStyleForCheckbox(study.filterName, selectedStudyFilter)" style="flex: 1 1 0; min-width: 0; word-break: break-word; display: block; margin-left: 0.5em;">
+                  {{study.filterName}} ({{study.filterCount}} Study{{study.filterCount > 1 ? 's' : ''}})
+                </span>
+              </label>
+            </div>
+            <div *ngIf="studyFilter.length > 10 && !showStudyName && i==10"
+                 (click)="showMoreOrLess('study_name')"
+                 class="text-right text-sm text-gray-600 cursor-pointer font-bold hover:text-gray-800">
+              {{studyFilter.length - 10 }} More...
+            </div>
+            <div *ngIf="studyFilter.length > 10 && showStudyName && i==studyFilter.length - 1"
+                 (click)="showMoreOrLess('study_name')"
+                 class="text-right text-sm text-gray-600 cursor-pointer font-bold hover:text-gray-800">
+              Less...
+            </div>
+          </div>
+        </fieldset>
+      </div>
+    </div>
+
+    <!-- Disease Type Filter -->
+    <div class="border border-gray-200 rounded mb-1 sidenavFiltersPanel">
+      <div class="bg-[#D4E7F2] px-4 py-2 border-b border-gray-200 flex items-center justify-between">
+        <a href="/pdc/data-dictionary/Case#disease_type" class="text-blue-600 hover:text-blue-800 font-semibold" target="_blank">Disease Type</a>
+
+        <div class="flex items-center space-x-2">
+        <button
+      class="text-gray-600 hover:text-gray-800 px-2 py-1 text-sm"
+      (click)="showDiseaseType = !showDiseaseType"
+      aria-label="Toggle Disease section">
+      <i [ngClass]="showDiseaseType ? 'fa fa-minus' : 'fa fa-plus'"></i>
+    </button>
+
+    </div>
+
+
+
+        <button
+          class="text-gray-600 hover:text-gray-800 px-2 py-1 text-sm"
+          id="clearDiseaseTypes"
+          *ngIf="selectedDiseases.length > 0"
+          (click)="clearSelectionsDiseaseType()"
+          aria-label="Clear disease types selection">
+          <i class="fa fa-undo"></i>
+        </button>
+      </div>
+      <div class="filter-section p-4" *ngIf="showDiseaseType">
+        <fieldset>
+          <div *ngFor="let disease of diseaseTypesFilter, let i = index"
+               [ngClass]="selectedDiseases.indexOf(disease.filterName) !== -1 ? 'bg-blue-50 border-l-4 border-blue-500 pl-2': ''"
+               id="{{disease.filterName}}-diseaseType"
+               class="mb-2">
+            <div *ngIf="i<10 || (diseaseTypesFilter.length > 10 && showDType && i >= 10)" class="flex items-center">
+              <label class="flex items-center cursor-pointer w-full" style="display: flex; align-items: flex-start;">
+                <p-checkbox name="group4" id="group4{{disease.filterName}}"
+                  value={{disease.filterName}}
+                  [(ngModel)]="selectedDiseases"
+                  [disabled]="disease.filterCount == 0"
+                  (onChange)="filterDataByDiseaseType($event, '-diseaseType', i)">
+                </p-checkbox>
+                <span [ngStyle]="getStyleForCheckbox(disease.filterName, selectedDiseases)" style="flex: 1 1 0; min-width: 0; word-break: break-word; margin-left: 0.5em; overflow: hidden; text-overflow: ellipsis; white-space: normal; display: block; -webkit-line-clamp: 3; line-clamp: 3; -webkit-box-orient: vertical; box-orient: vertical;">
+                  {{disease.filterName}} ({{disease.filterCount}} {{disease.filterCount > 1 ? 'Studies' : 'Study'}})
+                </span>
+              </label>
+            </div>
+            <div *ngIf="diseaseTypesFilter.length > 10 && !showDType && i==10"
+                 (click)="showMoreOrLess('disease_type')"
+                 class="text-right text-sm text-gray-600 cursor-pointer font-bold hover:text-gray-800">
+              {{diseaseTypesFilter.length - 10 }} More...
+            </div>
+            <div *ngIf="diseaseTypesFilter.length > 10 && showDType && i==diseaseTypesFilter.length - 1"
+                 (click)="showMoreOrLess('disease_type')"
+                 class="text-right text-sm text-gray-600 cursor-pointer font-bold hover:text-gray-800">
+              Less...
+            </div>
+          </div>
+        </fieldset>
+      </div>
+    </div>
+
+
+
+    <!-- Analytical Fraction Filter -->
+
+    <div class="border border-gray-200 rounded mb-1 sidenavFiltersPanel">
+      <div class="bg-[#D4E7F2] px-4 py-2 border-b border-gray-200 flex items-center justify-between cursor-pointer hover:bg-blue-50"
+           (click)="showAnalyticalFraction = !showAnalyticalFraction">
+        <div class="flex items-center space-x-2">
+          <a href="/pdc/data-dictionary/Study#analytical_fraction" class="text-blue-700 font-semibold hover:underline" target="_blank" (click)="$event.stopPropagation()">Analytical Fraction</a>
+        </div>
+        <div class="flex items-center space-x-2">
+          <button
+            class="text-gray-600 hover:text-gray-800 px-2 py-1 text-sm"
+            id="clearAnalyticalFractions"
+            *ngIf="selectedAnFracs.length > 0"
+            (click)="clearSelectionsAnalyticalFraction(); $event.stopPropagation()"
+            aria-label="Clear analytical fractions selection">
+            <i class="fa fa-undo"></i>
+          </button>
+          <i [ngClass]="showAnalyticalFraction ? 'fa fa-minus' : 'fa fa-plus'"></i>
+        </div>
+      </div>
+      <div class="filter-section p-4" *ngIf="showAnalyticalFraction">
+        <div *ngFor="let an_frac of analyticalFractionsFilter, let i = index"
+             [ngClass]="selectedAnFracs.indexOf(an_frac.filterName) !== -1 ? 'bg-blue-50 border-l-4 border-blue-500 pl-2': ''"
+             id="{{an_frac.filterName}}-anFrac"
+             class="mb-2">
+          <div *ngIf="i<10 || (analyticalFractionsFilter.length > 10 && showAFraction && i >= 10)" class="flex items-center">
+            <label class="flex items-center cursor-pointer w-full">
+              <p-checkbox
+                name="group5"
+                id="group5{{an_frac.filterName}}"
+                value="{{an_frac.filterName}}"
+                [(ngModel)]="selectedAnFracs"
+                [disabled]="an_frac.filterCount == 0"
+                (onChange)="filterDataByAnalyticalFraction($event, '-anFrac', i)"
+                class="mr-2">
+              </p-checkbox>
+              <span [ngStyle]="getStyleForCheckbox(an_frac.filterName, selectedAnFracs)">
+                {{an_frac.filterName}} ({{an_frac.filterCount}} {{an_frac.filterCount > 1 ? 'Studies' : 'Study'}})
+              </span>
+            </label>
+          </div>
+          <div *ngIf="analyticalFractionsFilter.length > 10 && !showAFraction && i==10"
+               (click)="showMoreOrLess('analytical_fraction')"
+               class="text-right text-sm text-gray-600 cursor-pointer font-bold hover:text-gray-800">
+            {{analyticalFractionsFilter.length - 10 }} More...
+          </div>
+          <div *ngIf="analyticalFractionsFilter.length > 10 && showAFraction && i==analyticalFractionsFilter.length - 1"
+               (click)="showMoreOrLess('analytical_fraction')"
+               class="text-right text-sm text-gray-600 cursor-pointer font-bold hover:text-gray-800">
+            Less...
+          </div>
+        </div>
+      </div>
+    </div>
+
+     <!-- Experiment Type Header -->
+   <div class="border border-gray-200 rounded mb-1 sidenavFiltersPanel">
+
+
+  <div
+    class="bg-[#D4E7F2] px-4 py-2 border-b border-gray-200 flex items-center justify-between"
+    (click)="showExperimentType = !showExperimentType">
+    <div class="flex items-center space-x-2">
+      <span>
+        <a href="/pdc/data-dictionary/Study#experiment_type" class="text-blue-700 font-semibold hover:underline" target="_blank">
+          Experiment Type
+        </a>
+      </span>
+    </div>
+    <div class="flex items-center space-x-2">
+      <button
+        class="text-gray-600 hover:text-gray-800 px-2 py-1 text-sm"
+        id="experimentTypes"
+        *ngIf="selectedExpStarts.length > 0"
+        (click)="clearSelectionsExperimentalStrategy(); $event.stopPropagation()"
+        aria-label="Clear experiment types selection">
+        <i class="fa fa-undo"></i>
+      </button>
+      <i [ngClass]="showExperimentType ? 'fa fa-minus' : 'fa fa-plus'"></i>
+    </div>
+  </div>
+  <!-- Accordion Content -->
+  <div *ngIf="showExperimentType" class="px-4 py-2 bg-gray-50">
+    <div id="experimentTypeList">
+      <ng-container *ngIf="experimentalStrategiesFilter.length > 10; else experimentalStrategiesContent"></ng-container>
+      <ng-template #experimentalStrategiesContent>
+        <div *ngFor="let exp_start of experimentalStrategiesFilter; let i = index"
+             class="py-1"
+             [ngClass]="selectedExpStarts.indexOf(exp_start.filterName) !== -1 ? 'bg-blue-100 rounded' : ''"
+             id="{{exp_start.filterName}}-expStrategy">
+          <ng-container *ngIf="i < 10 || (experimentalStrategiesFilter.length > 10 && showExpType && i >= 10)">
+            <label class="flex items-center space-x-2 cursor-pointer">
+              <!--
+              <input
+                type="checkbox"
+                class="form-checkbox h-4 w-4 text-blue-600"
+                [value]="exp_start.filterName"
+                [(ngModel)]="selectedExpStarts"
+                [disabled]="exp_start.filterCount == 0"
+                (change)="filterDataByExperimentalStrategy($event, '-expStrategy', i)"
+                name="group6"
+                id="group6{{exp_start.filterName}}"
+              />
+              -->
+              <p-checkbox name="group6" id="group6{{exp_start.filterName}}"
+                                value={{exp_start.filterName}}
+                                [(ngModel)]="selectedExpStarts"
+                    [disabled]="exp_start.filterCount == 0"
+                                (onChange)="filterDataByExperimentalStrategy($event, '-expStrategy', i)">
+              </p-checkbox>
+              <span [ngStyle]="getStyleForCheckbox(exp_start.filterName, selectedExpStarts)">
+                {{exp_start.filterName}} ({{exp_start.filterCount}} {{exp_start.filterCount > 1 ? 'Studies' : 'Study'}})
+              </span>
+            </label>
+          </ng-container>
+          <!-- Show More/Less -->
+          <div *ngIf="experimentalStrategiesFilter.length > 10 && !showExpType && i==10"
+               (click)="showMoreOrLess('experiment_type')"
+               class="text-right text-lg text-gray-600 font-bold cursor-pointer select-none">
+            {{experimentalStrategiesFilter.length - 10}} More...
+          </div>
+          <div *ngIf="experimentalStrategiesFilter.length > 10 && showExpType && i==experimentalStrategiesFilter.length - 1"
+               (click)="showMoreOrLess('experiment_type')"
+               class="text-right text-lg text-gray-600 font-bold cursor-pointer select-none">
+            Less...
+          </div>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>
+ <!-- Acquisition Type Accordion Panel -->
+<div class="border border-gray-200 rounded mb-1 sidenavFiltersPanel">
+  <!-- Accordion Header -->
+  <div
+    class="bg-[#D4E7F2] flex items-center justify-between px-4 py-2 cursor-pointer hover:bg-blue-50"
+    (click)="showAcquisitionType = !showAcquisitionType">
+    <div class="flex items-center space-x-2">
+      <a href="/pdc/data-dictionary/Study#acquisition_type"
+         class="text-blue-700 font-semibold hover:underline"
+         target="_blank">
+        Acquisition Type
+      </a>
+    </div>
+    <div class="flex items-center space-x-2">
+      <button
+        class="text-gray-600 hover:text-gray-800 px-2 py-1 text-sm"
+        id="experimentTypes"
+        *ngIf="selectedAcquisitions.length > 0"
+        (click)="clearSelectionsAcquisitions(); $event.stopPropagation()"
+        aria-label="Clear acquisition types selection">
+        <i class="fa fa-undo"></i>
+      </button>
+      <i [ngClass]="showAcquisitionType ? 'fa fa-minus' : 'fa fa-plus'"></i>
+    </div>
+  </div>
+  <!-- Accordion Content -->
+  <div *ngIf="showAcquisitionType" class="px-4 py-2 bg-gray-50">
+    <div id="experimentTypeList">
+      <ng-container *ngIf="acquisitionFilter.length > 10; else acquisitionFilterContent"></ng-container>
+      <ng-template #acquisitionFilterContent>
+        <div *ngFor="let acq_start of acquisitionFilter; let i = index"
+             class="py-1"
+             [ngClass]="selectedAcquisitions.indexOf(acq_start.filterName) !== -1 ? 'bg-blue-100 rounded' : ''"
+             id="{{acq_start.filterName}}-acqType">
+          <ng-container *ngIf="i < 10 || (acquisitionFilter.length > 10 && showAcqType && i >= 10)">
+            <label class="flex items-center space-x-2 cursor-pointer">
+              <!--
+              <input
+                type="checkbox"
+                class="form-checkbox h-4 w-4 text-blue-600"
+                [value]="acq_start.filterName"
+                [(ngModel)]="selectedAcquisitions"
+                [disabled]="acq_start.filterCount == 0"
+                (change)="filterDataByAcquisition($event, '-acqType', i)"
+                name="group6"
+                id="group6{{acq_start.filterName}}"
+              />
+              -->
+                <p-checkbox name="group6" id="group6{{acq_start.filterName}}" value={{acq_start.filterName}} [(ngModel)]="selectedAcquisitions"
+                      [disabled]="acq_start.filterCount == 0" (onChange)="filterDataByAcquisition($event, '-acqType', i)">
+                    </p-checkbox> &nbsp;
+              <span [ngStyle]="getStyleForCheckbox(acq_start.filterName, selectedAcquisitions)">
+                {{acq_start.filterName}} ({{acq_start.filterCount}} {{acq_start.filterCount > 1 ? 'Studies' : 'Study'}})
+              </span>
+            </label>
+          </ng-container>
+          <!-- Show More/Less -->
+          <div *ngIf="acquisitionFilter.length > 10 && !showAcqType && i==10"
+               (click)="showMoreOrLess('acquisition_type')"
+               class="text-right text-lg text-gray-600 font-bold cursor-pointer select-none">
+            {{acquisitionFilter.length - 10}} More...
+          </div>
+          <div *ngIf="acquisitionFilter.length > 10 && showAcqType && i==acquisitionFilter.length - 1"
+               (click)="showMoreOrLess('acquisition_type')"
+               class="text-right text-lg text-gray-600 font-bold cursor-pointer select-none">
+            Less...
+          </div>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>
+    <!-- @@@PDC-10366 Data Category Filter -->
+    <!-- Data Category Filter -->
+    <div class="border border-gray-200 rounded mb-1 sidenavFiltersPanel">
+      <div class="bg-[#D4E7F2] px-4 py-2 border-b border-gray-200 flex items-center justify-between cursor-pointer hover:bg-blue-50"
+           (click)="showDataCategory = !showDataCategory">
+        <div class="flex items-center space-x-2">
+          <a href="/pdc/data-dictionary/File#data_category" class="text-blue-700 font-semibold hover:underline" target="_blank" (click)="$event.stopPropagation()">Data Category</a>
+        </div>
+        <div class="flex items-center space-x-2">
+          <button
+            class="text-gray-600 hover:text-gray-800 px-2 py-1 text-sm"
+            id="clearDataCategory"
+            *ngIf="selectedDataCategory.length > 0"
+            (click)="clearSelectionsDataCategory(); $event.stopPropagation()"
+            aria-label="Clear data category selection">
+            <i class="fa fa-undo"></i>
+          </button>
+          <i [ngClass]="showDataCategory ? 'fa fa-minus' : 'fa fa-plus'"></i>
+        </div>
+      </div>
+      <div class="filter-section p-4" *ngIf="showDataCategory">
+        <div id="dataCategoryList">
+          <div *ngFor="let dataCategory of dataCategoryFilter; let i = index"
+               [ngClass]="selectedDataCategory.indexOf(dataCategory.filterName) !== -1 ? 'bg-blue-50 border-l-4 border-blue-500 pl-2': ''"
+               id="{{dataCategory.filterName}}-dataCategory"
+               class="mb-2">
+            <div *ngIf="i<10 || (dataCategoryFilter.length > 10 && showDataCategory && i >= 10)" class="flex items-center">
+              <label class="flex items-center cursor-pointer w-full" style="display: flex; align-items: flex-start;">
+                <p-checkbox
+                  name="group7"
+                  id="group7{{dataCategory.filterName}}"
+                  value="{{dataCategory.filterName}}"
+                  [(ngModel)]="selectedDataCategory"
+                  [disabled]="dataCategory.filterCount == 0"
+                  (onChange)="filterDataByDataCategory($event, '-dataCategory', i)">
+                </p-checkbox>
+                <span [ngStyle]="getStyleForCheckbox(dataCategory.filterName, selectedDataCategory)" style="flex: 1 1 0; min-width: 0; word-break: break-word; margin-left: 0.5em; overflow: hidden; text-overflow: ellipsis; white-space: normal; display: block; -webkit-line-clamp: 3; line-clamp: 3; -webkit-box-orient: vertical; box-orient: vertical;">
+                  {{dataCategory.filterName}} ({{dataCategory.filterCount}} {{dataCategory.filterCount > 1 ? 'Studies' : 'Study'}})
+                </span>
+              </label>
+            </div>
+            <div *ngIf="dataCategoryFilter.length > 10 && !showDataCategory && i==10"
+                 (click)="showMoreOrLess('data_category')"
+                 class="text-right text-sm text-gray-600 cursor-pointer font-bold hover:text-gray-800">
+              {{dataCategoryFilter.length - 10 }} More...
+            </div>
+            <div *ngIf="dataCategoryFilter.length > 10 && showDataCategory && i==dataCategoryFilter.length - 1"
+                 (click)="showMoreOrLess('data_category')"
+                 class="text-right text-sm text-gray-600 cursor-pointer font-bold hover:text-gray-800">
+              Less...
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Clinical Tab -->
+ <!-- Clinical Tab Header -->
+<div [style.display]="selectedTab === 2 ? 'block' : 'none'" class="border border-gray-200 rounded mb-1 sidenavFiltersPanel">
+<!-- Accordion Panels -->
+<!-- Sample Accordion Panel (expanded by default) -->
+<div class="border-b bg-white">
+  <!-- Sample Header -->
+  <div
+    class="bg-[#D4E7F2] flex items-center justify-between px-4 py-2 mb-1 cursor-pointer hover:bg-blue-50"
+    (click)="showSamplePanel = !showSamplePanel">
+    <span class="text-blue-900 font-semibold">Sample</span>
+    <i [ngClass]="showSamplePanel ? 'fa fa-minus' : 'fa fa-plus'"></i>
+  </div>
+  <!-- Sample Content -->
+  <div *ngIf="showSamplePanel" class="pl-2">
+    <!-- Sample Type Accordion Panel -->
+    <div class="">
+      <div
+        class="flex items-center justify-between px-4 py-2 cursor-pointer hover:bg-blue-50"
+        (click)="showSampleTypePanel = !showSampleTypePanel">
+        <a href="/pdc/data-dictionary/Sample#sample_type"
+           class="text-blue-700 font-semibold hover:underline"
+           target="_blank">
+          Sample Type
+        </a>
+        <div class="flex items-center space-x-2">
+
+          <button
+            class="text-gray-600 hover:text-gray-800 px-2 py-1 text-sm"
+            id="clearDataCategorySelections"
+            *ngIf="selectedSampleType.length > 0"
+            (click)="clearSelectionsSampleType(); $event.stopPropagation()"
+            aria-label="Clear sample types selection">
+            <i class="fa fa-undo"></i>
+          </button>
+
+          <i [ngClass]="showSampleTypePanel ? 'fa fa-minus' : 'fa fa-plus'"></i>
+        </div>
+      </div>
+      <div *ngIf="showSampleTypePanel" class="px-4 py-2 bg-gray-50">
+        <div id="dataCategoryList">
+
+          <div *ngFor="let sampleType of sampleTypeFilter; let i = index"
+               [ngClass]="selectedSampleType.indexOf(sampleType.filterName) !== -1 ? 'bg-blue-100 rounded' : ''"
+               id="{{sampleType.filterName}}-sampType">
+
+            <ng-container *ngIf="i < 10 || (sampleTypeFilter.length > 10 && showSampleType && i >= 10)">
+              <label class="flex items-center cursor-pointer w-full" style="display: flex; align-items: flex-start;">
+                <p-checkbox
+                  name="group7"
+                  id="group7{{sampleType.filterName}}"
+                  value="{{sampleType.filterName}}"
+                  [(ngModel)]="selectedSampleType"
+                  [disabled]="sampleType.filterCount == 0"
+                  (onChange)="filterDataBySampleType($event, '-sampType', i)">
+                </p-checkbox>
+                <span [ngStyle]="getStyleForCheckbox(sampleType.filterName, selectedSampleType)" style="flex: 1 1 0; min-width: 0; word-break: break-word; margin-left: 0.5em; overflow: hidden; text-overflow: ellipsis; white-space: normal; display: block; -webkit-line-clamp: 3; line-clamp: 3; -webkit-box-orient: vertical; box-orient: vertical;">
+                  {{sampleType.filterName}} ({{sampleType.filterCount}} {{sampleType.filterCount > 1 ? 'Studies' : 'Study'}})
+                </span>
+              </label>
+            </ng-container>
+
+            <div *ngIf="sampleTypeFilter.length > 10 && !showSampleType && i==10"
+                 (click)="showMoreOrLess('sample_type')"
+                 class="text-right text-sm text-gray-600 font-bold cursor-pointer select-none">
+              {{sampleTypeFilter.length - 10}} More...
+            </div>
+            <div *ngIf="sampleTypeFilter.length > 10 && showSampleType && i==sampleTypeFilter.length - 1"
+                 (click)="showMoreOrLess('sample_type')"
+                 class="text-right text-sm text-gray-600 font-bold cursor-pointer select-none">
+              Less...
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Case Accordion Panel (expanded by default) -->
+<div class="">
+  <!-- Case Header -->
+  <div
+    class="bg-[#D4E7F2] flex items-center justify-between px-4 py-2 mb-1 cursor-pointer hover:bg-blue-50"
+    (click)="showCasePanel = !showCasePanel">
+    <span class="text-blue-900 font-semibold">Case</span>
+    <i [ngClass]="showCasePanel ? 'fa fa-minus' : 'fa fa-plus'"></i>
+  </div>
+  <!-- Case Content -->
+  <div *ngIf="showCasePanel" class="pl-2">
+    <!-- Case Status Accordion Panel -->
+    <div class="border-b bg-white">
+      <div
+        class="flex items-center justify-between px-4 py-2 cursor-pointer hover:bg-blue-50"
+        (click)="showCaseStatusPanel = !showCaseStatusPanel">
+        <a href="/pdc/data-dictionary/Case#status"
+           class="text-blue-700 font-semibold hover:underline"
+           target="_blank">
+          Case Status
+        </a>
+        <div class="flex items-center space-x-2">
+
+          <button
+            class="text-gray-600 hover:text-gray-800 px-2 py-1 text-sm"
+            id="clearSelectionsCaseStatus"
+            *ngIf="selectedCaseStatus.length > 0"
+            (click)="clearSelectionsCaseStatus(); $event.stopPropagation()"
+            aria-label="Clear case status selection">
+            <i class="fa fa-undo"></i>
+          </button>
+
+          <i [ngClass]="showCaseStatusPanel ? 'fa fa-minus' : 'fa fa-plus'"></i>
+        </div>
+      </div>
+      <div *ngIf="showCaseStatusPanel" class="px-4 py-2 bg-gray-50">
+        <div id="caseStatusList">
+
+          <ng-container *ngIf="caseStatusFilter.length > 10; else caseStatusFilterContent"></ng-container>
+          <ng-template #caseStatusFilterContent>
+            <div *ngFor="let caseStatus of caseStatusFilter; let i = index"
+                 [ngClass]="selectedCaseStatus.indexOf(caseStatus.filterName) !== -1 ? 'bg-blue-100 rounded' : ''"
+                 id="{{caseStatus.filterName}}-caseStatus">
+              <ng-container *ngIf="i < 10 && caseStatus.filterName !== '' || (caseStatusFilter.length > 10 && showCaseStatus && i >= 10 && caseStatus.filterName !== '')">
+                <label class="flex items-center space-x-2 cursor-pointer">
+                  <!--
+                  <input
+                    type="checkbox"
+                    class="form-checkbox h-4 w-4 text-blue-600"
+                    [value]="caseStatus.filterName"
+                    [(ngModel)]="selectedCaseStatus"
+                    [disabled]="caseStatus.filterCount == 0"
+                    (change)="filterDataByCaseStatus($event, '-caseStatus', i)"
+                    name="group7"
+                    id="group7{{caseStatus.filterName}}"
+                  />
+                  -->
+                    <p-checkbox name="group7" id="group7{{caseStatus.filterName}}" value={{caseStatus.filterName}}
+                        [(ngModel)]="selectedCaseStatus" [disabled]="caseStatus.filterCount == 0" (onChange)="filterDataByCaseStatus($event, '-caseStatus', i)">
+                      </p-checkbox>
+                  <span [ngStyle]="getStyleForCheckbox(caseStatus.filterName, selectedCaseStatus)">
+                    {{caseStatus.filterName}} ({{caseStatus.filterCount}} {{caseStatus.filterCount > 1 ? 'Studies' : 'Study'}})
+                  </span>
+                </label>
+              </ng-container>
+
+              <div *ngIf="caseStatusFilter.length > 10 && !showCaseStatus && i==10"
+                   (click)="showMoreOrLess('case_status')"
+                   class="text-right text-lg text-gray-600 font-bold cursor-pointer select-none">
+                {{caseStatusFilter.length - 10}} More...
+              </div>
+              <div *ngIf="caseStatusFilter.length > 10 && showCaseStatus && i==caseStatusFilter.length - 1"
+                   (click)="showMoreOrLess('case_status')"
+                   class="text-right text-lg text-gray-600 font-bold cursor-pointer select-none">
+                Less...
+              </div>
+            </div>
+          </ng-template>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Accordion Panels -->
+<div class="bg-[#D4E7F2] flex items-center justify-between px-4 py-2 mb-1 cursor-pointer hover:bg-blue-50"
+         (click)="showDemographicPanel = !showDemographicPanel">
+          <a href="/pdc/data-dictionary/Demographic" target="_blank" class="text-blue-700 font-semibold hover:underline">
+          Demographic
+         </a>
+         <div class="flex items-center space-x-2">
+        <button
+          class="text-gray-600 hover:text-gray-800 px-2 py-1 text-sm"
+          id="clearEthnicitySelections"
+          *ngIf="selectedEthnicity.length > 0"
+          (click)="clearSelectionsEthnicity(); $event.stopPropagation()"
+          aria-label="Clear ethnicities selection">
+          <i class="fa fa-undo"></i>
+        </button>
+        <i [ngClass]="showDemographicPanel ? 'fa fa-minus' : 'fa fa-plus'"></i>
+        </div><!-- begin demographic panel section -->
+      </div>
+<div class="divide-y border-b bg-white" *ngIf="showDemographicPanel">
+
+  <!-- Ethnicity Panel -->
+  <div>
+    <div class=" flex items-center justify-between px-4 py-2 mb-1 cursor-pointer hover:bg-blue-50"
+         (click)="showEthnicityPanel = !showEthnicityPanel">
+      <a href="/pdc/data-dictionary/Demographic#ethnicity" target="_blank" class="text-blue-700 font-semibold hover:underline">
+        Ethnicity
+      </a>
+      <div class="flex items-center space-x-2">
+        <button
+          class="text-gray-600 hover:text-gray-800 px-2 py-1 text-sm"
+          id="clearEthnicitySelections"
+          *ngIf="selectedEthnicity.length > 0"
+          (click)="clearSelectionsEthnicity(); $event.stopPropagation()"
+          aria-label="Clear ethnicities selection">
+          <i class="fa fa-undo"></i>
+        </button>
+        <i [ngClass]="showEthnicityPanel ? 'fa fa-minus' : 'fa fa-plus'"></i>
+      </div>
+    </div>
+    <div *ngIf="showEthnicityPanel" class="px-4 py-2 bg-gray-50">
+      <div id="ethnicityFiltersList">
+        <ng-container *ngIf="ethnicityFilter.length > 10; else ethnicityFilterContent"></ng-container>
+        <ng-template #ethnicityFilterContent>
+          <div *ngFor="let ethnicity of ethnicityFilter; let i = index"
+               class="py-1"
+               [ngClass]="selectedEthnicity.indexOf(ethnicity.filterName) !== -1 ? 'bg-blue-100 rounded' : ''"
+               id="{{ethnicity.filterName}}-ethn">
+            <ng-container *ngIf="i < 10 || (ethnicityFilter.length > 10 && showEthnicity && i >= 10)">
+              <label class="flex items-center space-x-2 cursor-pointer">
+                 <p-checkbox name="group1" id="group1{{ethnicity.filterName}}"
+                  value={{ethnicity.filterName}}
+                  [(ngModel)]="selectedEthnicity"
+                  [disabled]="ethnicity.filterCount == 0"
+                  (onChange)="filterDataByEthnicity($event, '-ethn', i)">
+                </p-checkbox>
+                <!--
+                <input
+                  type="checkbox"
+                  class="form-checkbox h-4 w-4 text-blue-600"
+                  [value]="ethnicity.filterName"
+                  [(ngModel)]="selectedEthnicity"
+                  [disabled]="ethnicity.filterCount == 0"
+                  (change)="filterDataByEthnicity($event, '-ethn', i)"
+                  name="group1"
+                  id="group1{{ethnicity.filterName}}"
+                />
+                -->
+                <span [ngStyle]="getStyleForCheckbox(ethnicity.filterName, selectedEthnicity)">
+                  {{ethnicity.filterName}} ({{ethnicity.filterCount}} {{ethnicity.filterCount > 1 ? 'Studies' : 'Study'}})
+                </span>
+              </label>
+            </ng-container>
+            <!-- Show More/Less -->
+            <div *ngIf="ethnicityFilter.length > 10 && !showEthnicity && i==10"
+                 (click)="showMoreOrLess('ethnicity')"
+                 class="text-right text-lg text-gray-600 font-bold cursor-pointer select-none">
+              {{ethnicityFilter.length - 10}} More...
+            </div>
+            <div *ngIf="ethnicityFilter.length > 10 && showEthnicity && i==ethnicityFilter.length - 1"
+                 (click)="showMoreOrLess('ethnicity')"
+                 class="text-right text-lg text-gray-600 font-bold cursor-pointer select-none">
+              Less...
+            </div>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+
+  <!-- Race Panel -->
+  <div>
+    <div class=" flex items-center justify-between px-4 py-2 mb-1 cursor-pointer hover:bg-blue-50"
+         (click)="showRacePanel = !showRacePanel">
+      <a href="/pdc/data-dictionary/Demographic#race" target="_blank" class="text-blue-700 font-semibold hover:underline">
+        Race
+      </a>
+      <div class="flex items-center space-x-2">
+        <button
+          class="text-gray-600 hover:text-gray-800 px-2 py-1 text-sm"
+          id="clearRaceSelections"
+          *ngIf="selectedRace.length > 0"
+          (click)="clearSelectionsRace(); $event.stopPropagation()"
+          aria-label="Clear races selection">
+          <i class="fa fa-undo"></i>
+        </button>
+        <i [ngClass]="showRacePanel ? 'fa fa-minus' : 'fa fa-plus'"></i>
+      </div>
+    </div>
+    <div *ngIf="showRacePanel" class="px-4 py-2 bg-gray-50">
+      <div id="raceFiltersList">
+        <ng-container *ngIf="raceFilter.length > 10; else raceFilterContent"></ng-container>
+        <ng-template #raceFilterContent>
+          <div *ngFor="let race of raceFilter; let i = index"
+               class="py-1"
+               [ngClass]="selectedRace.indexOf(race.filterName) !== -1 ? 'bg-blue-100 rounded' : ''"
+               id="{{race.filterName}}-race">
+            <ng-container *ngIf="i < 10 || (raceFilter.length > 10 && showRace && i >= 10)">
+              <label class="flex items-center cursor-pointer w-full" style="display: flex; align-items: flex-start;">
+                <p-checkbox name="group1" id="group1{{race.filterName}}"
+                  value="{{race.filterName}}"
+                  [(ngModel)]="selectedRace"
+                  [disabled]="race.filterCount == 0"
+                  (onChange)="filterDataByRace($event, '-race', i)">
+                </p-checkbox>
+                <span [ngStyle]="getStyleForCheckbox(race.filterName, selectedRace)" style="flex: 1 1 0; min-width: 0; word-break: break-word; margin-left: 0.5em; overflow: hidden; text-overflow: ellipsis; white-space: normal; display: block; -webkit-line-clamp: 3; line-clamp: 3; -webkit-box-orient: vertical; box-orient: vertical;">
+                  {{race.filterName}} ({{race.filterCount}} {{race.filterCount > 1 ? 'Studies' : 'Study'}})
+                </span>
+              </label>
+            </ng-container>
+            <!-- Show More/Less -->
+            <div *ngIf="raceFilter.length > 10 && !showRace && i==10"
+                 (click)="showMoreOrLess('race')"
+                 class="text-right text-lg text-gray-600 font-bold cursor-pointer select-none">
+              {{raceFilter.length - 10}} More...
+            </div>
+            <div *ngIf="raceFilter.length > 10 && showRace && i==raceFilter.length - 1"
+                 (click)="showMoreOrLess('race')"
+                 class="text-right text-lg text-gray-600 font-bold cursor-pointer select-none">
+              Less...
+            </div>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sex Panel -->
+  <div>
+    <div class="flex items-center justify-between px-4 py-2 mb-1 cursor-pointer hover:bg-blue-50"
+         (click)="showGenderPanel = !showGenderPanel">
+      <a href="/pdc/data-dictionary/Demographic#gender" target="_blank" class="text-blue-700 font-semibold hover:underline">
+        Sex
+      </a>
+      <div class="flex items-center space-x-2">
+        <button
+          class="text-gray-600 hover:text-gray-800 px-2 py-1 text-sm"
+          id="clearGenderSelections"
+          *ngIf="selectedGender.length > 0"
+          (click)="clearSelectionsGender(); $event.stopPropagation()"
+          aria-label="Clear genders selection">
+          <i class="fa fa-undo"></i>
+        </button>
+        <i [ngClass]="showGenderPanel ? 'fa fa-minus' : 'fa fa-plus'"></i>
+      </div>
+    </div>
+    <div *ngIf="showGenderPanel" class="px-4 py-2 bg-gray-50">
+      <div id="genderFiltersList">
+        <ng-container *ngIf="genderFilter.length > 10; else genderFilterContent"></ng-container>
+        <ng-template #genderFilterContent>
+          <div *ngFor="let gender of genderFilter; let i = index"
+               class="py-1"
+               [ngClass]="selectedGender.indexOf(gender.filterName) !== -1 ? 'bg-blue-100 rounded' : ''"
+               id="{{gender.filterName}}-gender">
+            <ng-container *ngIf="i < 10 || (genderFilter.length > 10 && showGender && i >= 10)">
+              <label class="flex items-center space-x-2 cursor-pointer">
+                <!--
+                <input
+                  type="checkbox"
+                  class="form-checkbox h-4 w-4 text-blue-600"
+                  [value]="gender.filterName"
+                  [(ngModel)]="selectedGender"
+                  [disabled]="gender.filterCount == 0"
+                  (change)="filterDataByGender($event, '-gender', i)"
+                  name="group1"
+                  id="group1{{gender.filterName}}"
+                />
+                -->
+                 <p-checkbox name="group1" id="group1{{gender.filterName}}"
+                    value={{gender.filterName}}
+                    [(ngModel)]="selectedGender"
+                    [disabled]="gender.filterCount == 0"
+                    (onChange)="filterDataByGender($event, '-gender', i)">
+                  </p-checkbox> &nbsp;
+                <span [ngStyle]="getStyleForCheckbox(gender.filterName, selectedGender)">
+                  {{gender.filterName}} ({{gender.filterCount}} {{gender.filterCount > 1 ? 'Studies' : 'Study'}})
+                </span>
+              </label>
+            </ng-container>
+            <!-- Show More/Less -->
+            <div *ngIf="genderFilter.length > 10 && !showGender && i==10"
+                 (click)="showMoreOrLess('gender')"
+                 class="text-right text-lg text-gray-600 font-bold cursor-pointer select-none">
+              {{genderFilter.length - 10}} More...
+            </div>
+            <div *ngIf="genderFilter.length > 10 && showGender && i==genderFilter.length - 1"
+                 (click)="showMoreOrLess('gender')"
+                 class="text-right text-lg text-gray-600 font-bold cursor-pointer select-none">
+              Less...
+            </div>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+  <!-- end gender panel -->
+  <!-- start vital status panel -->
+   <!-- Vital Status Accordion Panel -->
+<div>
+  <!-- Accordion Header -->
+  <div
+    class=" flex items-center justify-between px-4 py-2 mb-1 cursor-pointer hover:bg-blue-50"
+    (click)="showVitalStatusPanel = !showVitalStatusPanel">
+    <a href="/pdc/data-dictionary/Demographic#vital_status"
+       target="_blank"
+       class="text-blue-700 font-semibold hover:underline">
+      Vital Status
+    </a>
+    <div class="flex items-center space-x-2">
+
+      <button
+        class="text-gray-600 hover:text-gray-800 px-2 py-1 text-sm"
+        id="clearVitalStatusSelections"
+        *ngIf="selectedVitalStatus.length > 0"
+        (click)="clearSelectionsVitalStatus(); $event.stopPropagation()"
+        aria-label="Clear vital statuses selection">
+        <i class="fa fa-undo"></i>
+      </button>
+
+      <i [ngClass]="showVitalStatusPanel ? 'fa fa-minus' : 'fa fa-plus'"></i>
+    </div>
+  </div>
+  <!-- Accordion Content -->
+  <div *ngIf="showVitalStatusPanel" class="px-4 py-2 bg-gray-50">
+    <div id="vitalStatusFiltersList">
+      <ng-container *ngIf="vitalStatusFilter.length > 10; else vitalStatusFilterContent"></ng-container>
+      <ng-template #vitalStatusFilterContent>
+        <div *ngFor="let vital_status of vitalStatusFilter; let i = index"
+             class="py-1"
+             [ngClass]="selectedVitalStatus.indexOf(vital_status.filterName) !== -1 ? 'bg-blue-100 rounded' : ''"
+             id="{{vital_status.filterName}}-vitalStatus">
+          <ng-container *ngIf="i < 10 || (vitalStatusFilter.length > 10 && showVitalStatus && i >= 10)">
+            <label class="flex items-center space-x-2 cursor-pointer">
+              <!--
+              <input
+                type="checkbox"
+                class="form-checkbox h-4 w-4 text-blue-600"
+                [value]="vital_status.filterName"
+                [(ngModel)]="selectedVitalStatus"
+                [disabled]="vital_status.filterCount == 0"
+                (change)="filterDataByVitalStatus($event, '-vitalStatus', i)"
+                name="group1"
+                id="group1{{vital_status.filterName}}"
+              />
+              -->
+              <p-checkbox name="group1" id="group1{{vital_status.filterName}}"
+                  value={{vital_status.filterName}}
+                  [(ngModel)]="selectedVitalStatus"
+                  [disabled]="vital_status.filterCount == 0"
+                  (onChange)="filterDataByVitalStatus($event, '-vitalStatus', i)">
+                </p-checkbox> &nbsp;
+              <span [ngStyle]="getStyleForCheckbox(vital_status.filterName, selectedVitalStatus)">
+                {{vital_status.filterName}} ({{vital_status.filterCount}} {{vital_status.filterCount > 1 ? 'Studies' : 'Study'}})
+              </span>
+            </label>
+          </ng-container>
+
+          <div *ngIf="vitalStatusFilter.length > 10 && !showVitalStatus && i==10"
+               (click)="showMoreOrLess('vital_status')"
+               class="text-right text-lg text-gray-600 font-bold cursor-pointer select-none">
+            {{vitalStatusFilter.length - 10}} More...
+          </div>
+          <div *ngIf="vitalStatusFilter.length > 10 && showVitalStatus && i==vitalStatusFilter.length - 1"
+               (click)="showMoreOrLess('vital_status')"
+               class="text-right text-lg text-gray-600 font-bold cursor-pointer select-none">
+            Less...
+          </div>
+        </div>
+      </ng-template>
+
+    </div>
+  </div>
+</div>
+  <!-- end vital status panel -->
+
+
+  <!--end demographic panel section -->
+  </div>
+  <div class="bg-[#D4E7F2] flex items-center justify-between px-4 py-2 mb-1 cursor-pointer hover:bg-blue-50"
+         (click)="showDiagnosisPanel = !showDiagnosisPanel">
+          <a href="/pdc/data-dictionary/Demographic" target="_blank" class="text-blue-700 font-semibold hover:underline">
+          Diagnosis
+         </a>
+         <div class="flex items-center space-x-2">
+         <!--
+        <button
+          class="text-gray-600 hover:text-gray-800 px-2 py-1 text-sm"
+          id="clearDiagnosisSelections"
+          *ngIf="selectedDiagnosis.length > 0"
+          (click)="clearSelectionsDiagnosis(); $event.stopPropagation()"
+          aria-label="Clear diagnosis selection">
+          <span>CLEAR&nbsp;</span><i class="fa fa-undo"></i>
+        </button>
+         -->
+        <i [ngClass]="showDiagnosisPanel ? 'fa fa-minus' : 'fa fa-plus'"></i>
+        </div><!-- begin demographic panel section -->
+      </div>
+     <div class="divide-y border-b bg-white" *ngIf="showDiagnosisPanel">
+
+       <!-- Primary Site Accordion Panel -->
+  <div class="">
+  <!-- Accordion Header -->
+  <div
+    class="flex items-center justify-between px-4 py-2 cursor-pointer hover:bg-blue-50"
+    (click)="showPrimarySitePanel = !showPrimarySitePanel"
+    id="primarySitesPanel">
+    <a href="/pdc/data-dictionary/Case#primary_site"
+       class="text-blue-700 font-semibold hover:underline"
+       target="_blank">
+      Primary Site
+    </a>
+    <div class="flex items-center space-x-2">
+      <button
+        class="text-gray-600 hover:text-gray-800 px-2 py-1 text-sm"
+        id="clearPrimarysites"
+        *ngIf="selectedPrimarySites.length > 0"
+        (click)="clearSelectionsPrimarySite(); $event.stopPropagation()"
+        aria-label="Clear primary sites selection">
+        <i class="fa fa-undo"></i>
+      </button>
+      <i [ngClass]="showPrimarySitePanel ? 'fa fa-minus' : 'fa fa-plus'"></i>
+    </div>
+  </div>
+  <!-- Accordion Content -->
+  <div *ngIf="showPrimarySitePanel" class="px-4 py-2 bg-gray-50">
+    <fieldset>
+      <div id="primarySiteList">
+
+        <ng-container *ngIf="primarySitesFilter.length > 10; else primarySitesContent">
+             <div *ngFor="let prim_site of primarySitesFilter; let i = index"
+               [ngClass]="selectedPrimarySites.indexOf(prim_site.filterName) !== -1 ? 'bg-blue-100 rounded' : ''"
+               id="{{prim_site.filterName}}-primSite">
+            <ng-container *ngIf="i < 10 || (primarySitesFilter.length > 10 && showPSite && i >= 10)">
+              <label class="flex items-center space-x-2 cursor-pointer">
+                <!--
+                <input
+                  type="checkbox"
+                  class="form-checkbox h-4 w-4 text-blue-600"
+                  [value]="prim_site.filterName"
+                  [(ngModel)]="selectedPrimarySites"
+                  [disabled]="prim_site.filterCount == 0"
+                  (change)="filterDataByPrimarySite($event, '-primSite', i)"
+                  name="group2"
+                  id="group2{{prim_site.filterName}}"
+                />
+              -->
+                <p-checkbox name="group2" id="group2{{prim_site.filterName}}"
+                                  value={{prim_site.filterName}}
+                                  [(ngModel)]="selectedPrimarySites"
+                      [disabled]="prim_site.filterCount == 0"
+                                  (onChange)="filterDataByPrimarySite($event, '-primSite', i);">
+                              </p-checkbox>
+                <span [ngStyle]="getStyleForCheckbox(prim_site.filterName, selectedPrimarySites)">
+                  {{prim_site.filterName}} ({{prim_site.filterCount}} {{prim_site.filterCount > 1 ? 'Studies' : 'Study'}})
+                </span>
+              </label>
+            </ng-container>
+
+            <div *ngIf="primarySitesFilter.length > 10 && !showPSite && i==10"
+                 (click)="showMoreOrLess('primary_site')"
+                 class="text-right text-sm text-gray-600 font-bold cursor-pointer select-none">
+              {{primarySitesFilter.length - 10}} More...
+            </div>
+            <div *ngIf="primarySitesFilter.length > 10 && showPSite && i==primarySitesFilter.length - 1"
+                 (click)="showMoreOrLess('primary_site')"
+                 class="text-right text-sm text-gray-600 font-bold cursor-pointer select-none">
+              Less...
+            </div>
+
+          </div>
+
+        </ng-container>
+        <ng-template #primarySitesContent>
+          <div *ngFor="let prim_site of primarySitesFilter; let i = index"
+               [ngClass]="selectedPrimarySites.indexOf(prim_site.filterName) !== -1 ? 'bg-blue-100 rounded' : ''"
+               id="{{prim_site.filterName}}-primSite">
+            <ng-container *ngIf="i < 10 || (primarySitesFilter.length > 10 && showPSite && i >= 10)">
+              <label class="flex items-center space-x-2 cursor-pointer">
+                <!--
+                <input
+                  type="checkbox"
+                  class="form-checkbox h-4 w-4 text-blue-600"
+                  [value]="prim_site.filterName"
+                  [(ngModel)]="selectedPrimarySites"
+                  [disabled]="prim_site.filterCount == 0"
+                  (change)="filterDataByPrimarySite($event, '-primSite', i)"
+                  name="group2"
+                  id="group2{{prim_site.filterName}}"
+                />
+              -->
+                <p-checkbox name="group2" id="group2{{prim_site.filterName}}"
+                                  value={{prim_site.filterName}}
+                                  [(ngModel)]="selectedPrimarySites"
+                      [disabled]="prim_site.filterCount == 0"
+                                  (onChange)="filterDataByPrimarySite($event, '-primSite', i);">
+                              </p-checkbox>
+                <span [ngStyle]="getStyleForCheckbox(prim_site.filterName, selectedPrimarySites)">
+                  {{prim_site.filterName}} ({{prim_site.filterCount}} {{prim_site.filterCount > 1 ? 'Studies' : 'Study'}})
+                </span>
+              </label>
+            </ng-container>
+
+            <div *ngIf="primarySitesFilter.length > 10 && !showPSite && i==10"
+                 (click)="showMoreOrLess('primary_site')"
+                 class="text-right text-sm text-gray-600 font-bold cursor-pointer select-none">
+              {{primarySitesFilter.length - 10}} More...
+            </div>
+            <div *ngIf="primarySitesFilter.length > 10 && showPSite && i==primarySitesFilter.length - 1"
+                 (click)="showMoreOrLess('primary_site')"
+                 class="text-right text-sm text-gray-600 font-bold cursor-pointer select-none">
+              Less...
+            </div>
+
+          </div>
+        </ng-template>
+
+      </div>
+    </fieldset>
+  </div>
+</div>
+       <!-- Disease Type Accordion Panel -->
+  <!-- Disease Type Accordion Panel -->
+<div class="">
+  <!-- Accordion Header -->
+  <div
+    class="flex items-center justify-between px-4 py-2 cursor-pointer hover:bg-blue-50"
+    (click)="showDiseaseTypePanel = !showDiseaseTypePanel">
+    <a href="/pdc/data-dictionary/Case#disease_type"
+       class="text-blue-700 font-semibold hover:underline"
+       target="_blank">
+      Disease Type
+    </a>
+    <div class="flex items-center space-x-2">
+      <button
+        class="text-gray-600 hover:text-gray-800 px-2 py-1 text-sm"
+        id="clearDiseaseTypes"
+        *ngIf="selectedDiseases.length > 0"
+        (click)="clearSelectionsDiseaseType(); $event.stopPropagation()"
+        aria-label="Clear disease types selection">
+        <i class="fa fa-undo"></i>
+      </button>
+      <i [ngClass]="showDiseaseTypePanel ? 'fa fa-minus' : 'fa fa-plus'"></i>
+    </div>
+  </div>
+  <!-- Accordion Content -->
+  <div *ngIf="showDiseaseTypePanel" class="px-4 py-2 bg-gray-50">
+    <fieldset>
+      <div id="diseaseTypeList">
+
+        <ng-container *ngIf="diseaseTypesFilter.length > 10; else diseaseTypesContent">
+          <div *ngFor="let disease of diseaseTypesFilter; let i = index"
+               [ngClass]="selectedDiseases.indexOf(disease.filterName) !== -1 ? 'bg-blue-100 rounded' : ''"
+               id="{{disease.filterName}}-diseaseType">
+            <ng-container *ngIf="i < 10 || (diseaseTypesFilter.length > 10 && showDType && i >= 10)">
+              <label class="flex items-center cursor-pointer w-full" style="display: flex; align-items: flex-start;">
+                <p-checkbox name="group4" id="group4{{disease.filterName}}"
+                  value="{{disease.filterName}}"
+                  [(ngModel)]="selectedDiseases"
+                  [disabled]="disease.filterCount == 0"
+                  (onChange)="filterDataByDiseaseType($event, '-diseaseType', i)">
+                </p-checkbox>
+                <span [ngStyle]="getStyleForCheckbox(disease.filterName, selectedDiseases)" style="flex: 1 1 0; min-width: 0; word-break: break-word; margin-left: 0.5em; overflow: hidden; text-overflow: ellipsis; white-space: normal; display: block; -webkit-line-clamp: 3; line-clamp: 3; -webkit-box-orient: vertical; box-orient: vertical;">
+                  {{disease.filterName}} ({{disease.filterCount}} {{disease.filterCount > 1 ? 'Studies' : 'Study'}})
+                </span>
+              </label>
+            </ng-container>
+
+            <div *ngIf="diseaseTypesFilter.length > 10 && !showDType && i==10"
+                 (click)="showMoreOrLess('disease_type')"
+                 class="text-right text-sm text-gray-600 font-bold cursor-pointer select-none">
+              {{diseaseTypesFilter.length - 10}} More...
+            </div>
+            <div *ngIf="diseaseTypesFilter.length > 10 && showDType && i==diseaseTypesFilter.length - 1"
+                 (click)="showMoreOrLess('disease_type')"
+                 class="text-right text-sm text-gray-600 font-bold cursor-pointer select-none">
+              Less...
+            </div>
+          </div>
+
+        </ng-container>
+        <ng-template #diseaseTypesContent>
+          <div *ngFor="let disease of diseaseTypesFilter; let i = index"
+               [ngClass]="selectedDiseases.indexOf(disease.filterName) !== -1 ? 'bg-blue-100 rounded' : ''"
+               id="{{disease.filterName}}-diseaseType">
+            <ng-container *ngIf="i < 10 || (diseaseTypesFilter.length > 10 && showDType && i >= 10)">
+              <label class="flex items-center space-x-2 cursor-pointer">
+                <!--
+                <input
+                  type="checkbox"
+                  class="form-checkbox h-4 w-4 text-blue-600"
+                  [value]="disease.filterName"
+                  [(ngModel)]="selectedDiseases"
+                  [disabled]="disease.filterCount == 0"
+                  (change)="filterDataByDiseaseType($event, '-diseaseType', i)"
+                  name="group4"
+                  id="group4{{disease.filterName}}"
+                />
+                -->
+                <p-checkbox name="group4" id="group4{{disease.filterName}}"
+                                  value={{disease.filterName}}
+                                  [(ngModel)]="selectedDiseases"
+                    [disabled]="disease.filterCount == 0"
+                                  (onChange)="filterDataByDiseaseType($event, '-diseaseType', i)">
+                </p-checkbox>
+                <span [ngStyle]="getStyleForCheckbox(disease.filterName, selectedDiseases)">
+                  {{disease.filterName}} ({{disease.filterCount}} {{disease.filterCount > 1 ? 'Studies' : 'Study'}})
+                </span>
+              </label>
+            </ng-container>
+
+            <div *ngIf="diseaseTypesFilter.length > 10 && !showDType && i==10"
+                 (click)="showMoreOrLess('disease_type')"
+                 class="text-right text-lg text-gray-600 font-bold cursor-pointer select-none">
+              {{diseaseTypesFilter.length - 10}} More...
+            </div>
+            <div *ngIf="diseaseTypesFilter.length > 10 && showDType && i==diseaseTypesFilter.length - 1"
+                 (click)="showMoreOrLess('disease_type')"
+                 class="text-right text-lg text-gray-600 font-bold cursor-pointer select-none">
+              Less...
+            </div>
+          </div>
+        </ng-template>
+
+      </div>
+    </fieldset>
+  </div>
+</div> <!-- end disease type-->
+<!-- Age at Diagnosis Accordion Panel -->
+<div class="">
+  <!-- Accordion Header -->
+  <div
+    class="flex items-center justify-between px-4 py-2 cursor-pointer hover:bg-blue-50"
+    (click)="showAgeAtDiagnosisPanel = !showAgeAtDiagnosisPanel"
+    id="ageAtDiagnosisPanel">
+    <a href="/pdc/data-dictionary/Diagnosis#age_at_diagnosis"
+       class="text-blue-700 font-semibold hover:underline"
+       target="_blank">
+      Age at Diagnosis
+    </a>
+    <div class="flex items-center space-x-2">
+
+      <button
+        class="text-gray-600 hover:text-gray-800 px-2 py-1 text-sm"
+        id="clearAgeAtDiagnosis"
+        *ngIf="selectedAgeAtDiagnosis.length > 0"
+        (click)="clearSelectionsAgeAtDiagnosis(); $event.stopPropagation()"
+        aria-label="Clear age at diagnosis selection">
+        <i class="fa fa-undo"></i>
+      </button>
+
+      <i [ngClass]="showAgeAtDiagnosisPanel ? 'fa fa-minus' : 'fa fa-plus'"></i>
+    </div>
+  </div>
+  <!-- Accordion Content -->
+  <div *ngIf="showAgeAtDiagnosisPanel" class="px-4 py-2 bg-gray-50">
+    <fieldset>
+      <div id="ageAtDiagnosisList">
+
+        <ng-container *ngIf="ageAtDiagnosisFilter.length > 10; else ageAtDiagnosisContent">
+            <div *ngFor="let age_at_diag of ageAtDiagnosisFilter; let i = index"
+               [ngClass]="selectedAgeAtDiagnosis.indexOf(age_at_diag.filterName) !== -1 ? 'bg-blue-100 rounded' : ''"
+               id="{{age_at_diag.filterName}}-ageAtDiag">
+            <ng-container *ngIf="i < 10 || (ageAtDiagnosisFilter.length > 10 && showAgeAtDiag && i >= 10)">
+              <label class="flex items-center space-x-2 cursor-pointer">
+                <!--
+                <input
+                  type="checkbox"
+                  class="form-checkbox h-4 w-4 text-blue-600"
+                  [value]="age_at_diag.filterName"
+                  [(ngModel)]="selectedAgeAtDiagnosis"
+                  [disabled]="age_at_diag.filterCount == 0"
+                  (change)="filterDataByAgeAtDiagnosis($event, '-ageAtDiag', i)"
+                  name="group2"
+                  id="group2{{age_at_diag.filterName}}"
+                />
+                -->
+                 <p-checkbox name="group2" id="group2{{age_at_diag.filterName}}"
+                                  value={{age_at_diag.filterName}}
+                                  [(ngModel)]="selectedAgeAtDiagnosis"
+                      [disabled]="age_at_diag.filterCount == 0"
+                                  (onChange)="filterDataByAgeAtDiagnosis($event, '-ageAtDiag', i);">
+                  </p-checkbox>
+
+                <span [ngStyle]="getStyleForCheckbox(age_at_diag.filterName, selectedAgeAtDiagnosis)">
+                  {{age_at_diag.filterName}} ({{age_at_diag.filterCount}} {{age_at_diag.filterCount > 1 ? 'Studies' : 'Study'}})
+                </span>
+              </label>
+            </ng-container>
+
+            <div *ngIf="ageAtDiagnosisFilter.length > 10 && !showAgeAtDiag && i==10"
+                 (click)="showMoreOrLess('age_at_diagnosis')"
+                 class="text-right text-sm text-gray-600 font-bold cursor-pointer select-none">
+              {{ageAtDiagnosisFilter.length - 10}} More...
+            </div>
+            <div *ngIf="ageAtDiagnosisFilter.length > 10 && showAgeAtDiag && i==ageAtDiagnosisFilter.length - 1"
+                 (click)="showMoreOrLess('age_at_diagnosis')"
+                 class="text-right text-sm text-gray-600 font-bold cursor-pointer select-none">
+              Less...
+            </div>
+          </div>
+
+        </ng-container>
+        <ng-template #ageAtDiagnosisContent>
+          <div *ngFor="let age_at_diag of ageAtDiagnosisFilter; let i = index"
+               [ngClass]="selectedAgeAtDiagnosis.indexOf(age_at_diag.filterName) !== -1 ? 'bg-blue-100 rounded' : ''"
+               id="{{age_at_diag.filterName}}-ageAtDiag">
+            <ng-container *ngIf="i < 10 || (ageAtDiagnosisFilter.length > 10 && showAgeAtDiag && i >= 10)">
+              <label class="flex items-center space-x-2 cursor-pointer">
+                <!--
+                <input
+                  type="checkbox"
+                  class="form-checkbox h-4 w-4 text-blue-600"
+                  [value]="age_at_diag.filterName"
+                  [(ngModel)]="selectedAgeAtDiagnosis"
+                  [disabled]="age_at_diag.filterCount == 0"
+                  (change)="filterDataByAgeAtDiagnosis($event, '-ageAtDiag', i)"
+                  name="group2"
+                  id="group2{{age_at_diag.filterName}}"
+                />
+                -->
+                 <p-checkbox name="group2" id="group2{{age_at_diag.filterName}}"
+                                  value={{age_at_diag.filterName}}
+                                  [(ngModel)]="selectedAgeAtDiagnosis"
+                      [disabled]="age_at_diag.filterCount == 0"
+                                  (onChange)="filterDataByAgeAtDiagnosis($event, '-ageAtDiag', i);">
+                  </p-checkbox>
+
+                <span [ngStyle]="getStyleForCheckbox(age_at_diag.filterName, selectedAgeAtDiagnosis)">
+                  {{age_at_diag.filterName}} ({{age_at_diag.filterCount}} {{age_at_diag.filterCount > 1 ? 'Studies' : 'Study'}})
+                </span>
+              </label>
+            </ng-container>
+
+            <div *ngIf="ageAtDiagnosisFilter.length > 10 && !showAgeAtDiag && i==10"
+                 (click)="showMoreOrLess('age_at_diagnosis')"
+                 class="text-right text-sm text-gray-600 font-bold cursor-pointer select-none">
+              {{ageAtDiagnosisFilter.length - 10}} More...
+            </div>
+            <div *ngIf="ageAtDiagnosisFilter.length > 10 && showAgeAtDiag && i==ageAtDiagnosisFilter.length - 1"
+                 (click)="showMoreOrLess('age_at_diagnosis')"
+                 class="text-right text-sm text-gray-600 font-bold cursor-pointer select-none">
+              Less...
+            </div>
+          </div>
+        </ng-template>
+
+      </div>
+    </fieldset>
+  </div>
+  <!-- Ajcc Clinical Stage Accordion Panel -->
+<div class="">
+  <!-- Accordion Header -->
+  <div
+    class="flex items-center justify-between px-4 py-2 cursor-pointer hover:bg-blue-50"
+    (click)="showAjccClinicalStagePanel = !showAjccClinicalStagePanel"
+    id="ajccClinicalStagePanel">
+    <a href="/pdc/data-dictionary/Diagnosis#ajcc_clinical_stage"
+       class="text-blue-700 font-semibold hover:underline"
+       target="_blank">
+      Ajcc Clinical Stage
+    </a>
+    <div class="flex items-center space-x-2">
+
+      <button
+        class="text-gray-600 hover:text-gray-800 px-2 py-1 text-sm"
+        id="clearAjccClinicalStage"
+        *ngIf="selectedAjccClinicalStage.length > 0"
+        (click)="clearSelectionsAjccClinicalStage(); $event.stopPropagation()"
+        aria-label="Clear Ajcc Clinical Stage selection">
+        <i class="fa fa-undo"></i>
+      </button>
+
+      <i [ngClass]="showAjccClinicalStagePanel ? 'fa fa-minus' : 'fa fa-plus'"></i>
+    </div>
+  </div>
+  <!-- Accordion Content -->
+  <div *ngIf="showAjccClinicalStagePanel" class="px-4 py-2 bg-gray-50">
+    <fieldset>
+      <div id="ajccClinicalStageList">
+
+        <ng-container *ngIf="ajccClinicalStageFilter.length > 10; else ajccClinicalStageContent">
+           <div *ngFor="let ajcc_clinic_stage of ajccClinicalStageFilter; let i = index"
+               [ngClass]="selectedAjccClinicalStage.indexOf(ajcc_clinic_stage.filterName) !== -1 ? 'bg-blue-100 rounded' : ''"
+               id="{{ajcc_clinic_stage.filterName}}-ajccClinicStage">
+            <ng-container *ngIf="i < 10 || (ajccClinicalStageFilter.length > 10 && showAjccClinicalStage && i >= 10)">
+              <label class="flex items-center space-x-2 cursor-pointer">
+                <!--
+                <input
+                  type="checkbox"
+                  class="form-checkbox h-4 w-4 text-blue-600"
+                  [value]="ajcc_clinic_stage.filterName"
+                  [(ngModel)]="selectedAjccClinicalStage"
+                  [disabled]="ajcc_clinic_stage.filterCount == 0"
+                  (change)="filterDataByAjccClinicalStage($event, '-ajccClinicStage', i)"
+                  name="group2"
+                  id="group2{{ajcc_clinic_stage.filterName}}"
+                />
+                -->
+                 <p-checkbox name="group2" id="group2{{ajcc_clinic_stage.filterName}}"
+                                  value={{ajcc_clinic_stage.filterName}}
+                                  [(ngModel)]="selectedAjccClinicalStage"
+                      [disabled]="ajcc_clinic_stage.filterCount == 0"
+                                  (onChange)="filterDataByAjccClinicalStage($event, '-ajccClinicStage', i);">
+                              </p-checkbox>
+                <span [ngStyle]="getStyleForCheckbox(ajcc_clinic_stage.filterName, selectedAjccClinicalStage)">
+                  {{ajcc_clinic_stage.filterName}} ({{ajcc_clinic_stage.filterCount}} {{ajcc_clinic_stage.filterCount > 1 ? 'Studies' : 'Study'}})
+                </span>
+              </label>
+            </ng-container>
+
+            <div *ngIf="ajccClinicalStageFilter.length > 10 && !showAjccClinicalStage && i==10"
+                 (click)="showMoreOrLess('ajcc_clinical_stage')"
+                 class="text-right text-lg text-gray-600 font-bold cursor-pointer select-none">
+              {{ajccClinicalStageFilter.length - 10}} More...
+            </div>
+            <div *ngIf="ajccClinicalStageFilter.length > 10 && showAjccClinicalStage && i==ajccClinicalStageFilter.length - 1"
+                 (click)="showMoreOrLess('ajcc_clinical_stage')"
+                 class="text-right text-lg text-gray-600 font-bold cursor-pointer select-none">
+              Less...
+            </div>
+          </div>
+
+        </ng-container>
+        <ng-template #ajccClinicalStageContent>
+          <div *ngFor="let ajcc_clinic_stage of ajccClinicalStageFilter; let i = index"
+               [ngClass]="selectedAjccClinicalStage.indexOf(ajcc_clinic_stage.filterName) !== -1 ? 'bg-blue-100 rounded' : ''"
+               id="{{ajcc_clinic_stage.filterName}}-ajccClinicStage">
+            <ng-container *ngIf="i < 10 || (ajccClinicalStageFilter.length > 10 && showAjccClinicalStage && i >= 10)">
+              <label class="flex items-center space-x-2 cursor-pointer">
+                <!--
+                <input
+                  type="checkbox"
+                  class="form-checkbox h-4 w-4 text-blue-600"
+                  [value]="ajcc_clinic_stage.filterName"
+                  [(ngModel)]="selectedAjccClinicalStage"
+                  [disabled]="ajcc_clinic_stage.filterCount == 0"
+                  (change)="filterDataByAjccClinicalStage($event, '-ajccClinicStage', i)"
+                  name="group2"
+                  id="group2{{ajcc_clinic_stage.filterName}}"
+                />
+                -->
+                 <p-checkbox name="group2" id="group2{{ajcc_clinic_stage.filterName}}"
+                                  value={{ajcc_clinic_stage.filterName}}
+                                  [(ngModel)]="selectedAjccClinicalStage"
+                      [disabled]="ajcc_clinic_stage.filterCount == 0"
+                                  (onChange)="filterDataByAjccClinicalStage($event, '-ajccClinicStage', i);">
+                              </p-checkbox>
+                <span [ngStyle]="getStyleForCheckbox(ajcc_clinic_stage.filterName, selectedAjccClinicalStage)">
+                  {{ajcc_clinic_stage.filterName}} ({{ajcc_clinic_stage.filterCount}} {{ajcc_clinic_stage.filterCount > 1 ? 'Studies' : 'Study'}})
+                </span>
+              </label>
+            </ng-container>
+
+            <div *ngIf="ajccClinicalStageFilter.length > 10 && !showAjccClinicalStage && i==10"
+                 (click)="showMoreOrLess('ajcc_clinical_stage')"
+                 class="text-right text-lg text-gray-600 font-bold cursor-pointer select-none">
+              {{ajccClinicalStageFilter.length - 10}} More...
+            </div>
+            <div *ngIf="ajccClinicalStageFilter.length > 10 && showAjccClinicalStage && i==ajccClinicalStageFilter.length - 1"
+                 (click)="showMoreOrLess('ajcc_clinical_stage')"
+                 class="text-right text-lg text-gray-600 font-bold cursor-pointer select-none">
+              Less...
+            </div>
+          </div>
+        </ng-template>
+
+      </div>
+    </fieldset>
+  </div>
+</div>
+<!-- Ajcc Pathologic Stage Accordion Panel -->
+<div class="">
+  <!-- Accordion Header -->
+  <div
+    class="flex items-center justify-between px-4 py-2 cursor-pointer hover:bg-blue-50"
+    (click)="showAjccPathologicStagePanel = !showAjccPathologicStagePanel"
+    id="ajccPathologicStagePanel">
+    <a href="/pdc/data-dictionary/Diagnosis#ajcc_pathologic_stage"
+       class="text-blue-700 font-semibold hover:underline"
+       target="_blank">
+      Ajcc Pathologic Stage
+    </a>
+    <div class="flex items-center space-x-2">
+
+      <button
+        class="text-gray-600 hover:text-gray-800 px-2 py-1 text-sm"
+        id="clearAjccPathologicStage"
+        *ngIf="selectedAjccPathologicStage.length > 0"
+        (click)="clearSelectionsAjccPathologicStage(); $event.stopPropagation()"
+        aria-label="Clear Ajcc Pathologicl Stage selection">
+        <i class="fa fa-undo"></i>
+      </button>
+
+      <i [ngClass]="showAjccPathologicStagePanel ? 'fa fa-minus' : 'fa fa-plus'"></i>
+    </div>
+  </div>
+  <!-- Accordion Content -->
+  <div *ngIf="showAjccPathologicStagePanel" class="px-4 py-2 bg-gray-50">
+    <fieldset>
+      <div id="ajccPathologicStageList">
+
+        <ng-container *ngIf="ajccPathologicStageFilter.length > 10; else ajccPathologicStageContent">
+           <div *ngFor="let ajcc_patho_stage of ajccPathologicStageFilter; let i = index"
+               [ngClass]="selectedAjccPathologicStage.indexOf(ajcc_patho_stage.filterName) !== -1 ? 'bg-blue-100 rounded' : ''"
+               id="{{ajcc_patho_stage.filterName}}-ajccPathoStage">
+            <ng-container *ngIf="i < 10 || (ajccPathologicStageFilter.length > 10 && showAjccPathoStage && i >= 10)">
+              <label class="flex items-center space-x-2 cursor-pointer">
+                <!--
+                <input
+                  type="checkbox"
+                  class="form-checkbox h-4 w-4 text-blue-600"
+                  [value]="ajcc_patho_stage.filterName"
+                  [(ngModel)]="selectedAjccPathologicStage"
+                  [disabled]="ajcc_patho_stage.filterCount == 0"
+                  (change)="filterDataByAjccPathologicStage($event, '-ajccPathoStage', i)"
+                  name="group2"
+                  id="group2{{ajcc_patho_stage.filterName}}"
+                />
+                -->
+                 <p-checkbox name="group2" id="group2{{ajcc_patho_stage.filterName}}"
+                                  value={{ajcc_patho_stage.filterName}}
+                                  [(ngModel)]="selectedAjccPathologicStage"
+                      [disabled]="ajcc_patho_stage.filterCount == 0"
+                                  (onChange)="filterDataByAjccPathologicStage($event, '-ajccPathoStage', i);">
+                              </p-checkbox>
+                <span [ngStyle]="getStyleForCheckbox(ajcc_patho_stage.filterName, selectedAjccPathologicStage)">
+                  {{ajcc_patho_stage.filterName}} ({{ajcc_patho_stage.filterCount}} {{ajcc_patho_stage.filterCount > 1 ? 'Studies' : 'Study'}})
+                </span>
+              </label>
+            </ng-container>
+
+            <div *ngIf="ajccPathologicStageFilter.length > 10 && !showAjccPathoStage && i==10"
+                 (click)="showMoreOrLess('ajcc_pathologic_stage')"
+                 class="text-right text-sm text-gray-600 font-bold cursor-pointer select-none">
+              {{ajccPathologicStageFilter.length - 10}} More...
+            </div>
+            <div *ngIf="ajccPathologicStageFilter.length > 10 && showAjccPathoStage && i==ajccPathologicStageFilter.length - 1"
+                 (click)="showMoreOrLess('ajcc_pathologic_stage')"
+                 class="text-right text-sm text-gray-600 font-bold cursor-pointer select-none">
+              Less...
+            </div>
+          </div>
+        </ng-container>
+        <ng-template #ajccPathologicStageContent>
+          <div *ngFor="let ajcc_patho_stage of ajccPathologicStageFilter; let i = index"
+               [ngClass]="selectedAjccPathologicStage.indexOf(ajcc_patho_stage.filterName) !== -1 ? 'bg-blue-100 rounded' : ''"
+               id="{{ajcc_patho_stage.filterName}}-ajccPathoStage">
+            <ng-container *ngIf="i < 10 || (ajccPathologicStageFilter.length > 10 && showAjccPathoStage && i >= 10)">
+              <label class="flex items-center space-x-2 cursor-pointer">
+                <!--
+                <input
+                  type="checkbox"
+                  class="form-checkbox h-4 w-4 text-blue-600"
+                  [value]="ajcc_patho_stage.filterName"
+                  [(ngModel)]="selectedAjccPathologicStage"
+                  [disabled]="ajcc_patho_stage.filterCount == 0"
+                  (change)="filterDataByAjccPathologicStage($event, '-ajccPathoStage', i)"
+                  name="group2"
+                  id="group2{{ajcc_patho_stage.filterName}}"
+                />
+                -->
+                 <p-checkbox name="group2" id="group2{{ajcc_patho_stage.filterName}}"
+                                  value={{ajcc_patho_stage.filterName}}
+                                  [(ngModel)]="selectedAjccPathologicStage"
+                      [disabled]="ajcc_patho_stage.filterCount == 0"
+                                  (onChange)="filterDataByAjccPathologicStage($event, '-ajccPathoStage', i);">
+                              </p-checkbox>
+                <span [ngStyle]="getStyleForCheckbox(ajcc_patho_stage.filterName, selectedAjccPathologicStage)">
+                  {{ajcc_patho_stage.filterName}} ({{ajcc_patho_stage.filterCount}} {{ajcc_patho_stage.filterCount > 1 ? 'Studies' : 'Study'}})
+                </span>
+              </label>
+            </ng-container>
+
+            <div *ngIf="ajccPathologicStageFilter.length > 10 && !showAjccPathoStage && i==10"
+                 (click)="showMoreOrLess('ajcc_pathologic_stage')"
+                 class="text-right text-sm text-gray-600 font-bold cursor-pointer select-none">
+              {{ajccPathologicStageFilter.length - 10}} More...
+            </div>
+            <div *ngIf="ajccPathologicStageFilter.length > 10 && showAjccPathoStage && i==ajccPathologicStageFilter.length - 1"
+                 (click)="showMoreOrLess('ajcc_pathologic_stage')"
+                 class="text-right text-sm text-gray-600 font-bold cursor-pointer select-none">
+              Less...
+            </div>
+          </div>
+        </ng-template>
+
+      </div>
+    </fieldset>
+  </div>
+</div>
+<!-- Progression Or Recurrence Accordion Panel -->
+<div class="">
+  <!-- Accordion Header -->
+  <div
+    class="flex items-center justify-between px-4 py-2 cursor-pointer hover:bg-blue-50"
+    (click)="showProgressionOrRecurrencePanel = !showProgressionOrRecurrencePanel"
+    id="progressionOrRecurrencePanel">
+    <a href="/pdc/data-dictionary/Diagnosis#progression_or_recurrence"
+       class="text-blue-700 font-semibold hover:underline"
+       target="_blank">
+      Progression Or Recurrence
+    </a>
+    <div class="flex items-center space-x-2">
+
+      <button
+        class="text-gray-600 hover:text-gray-800 px-2 py-1 text-sm"
+        id="clearProgressionOrRecurrence"
+        *ngIf="selectedProgressionOrRecurrence.length > 0"
+        (click)="clearSelectionsProgressionOrRecurrence(); $event.stopPropagation()"
+        aria-label="Clear Progression Or Recurrence selection">
+        <i class="fa fa-undo"></i>
+      </button>
+
+      <i [ngClass]="showProgressionOrRecurrencePanel ? 'fa fa-minus' : 'fa fa-plus'"></i>
+    </div>
+  </div>
+  <!-- Accordion Content -->
+  <div *ngIf="showProgressionOrRecurrencePanel" class="px-4 py-2 bg-gray-50">
+    <fieldset>
+      <div id="progressionOrRecurrenceList">
+
+        <ng-container *ngIf="progressionOrRecurrenceFilter.length > 10; else progressionOrRecurrenceContent"></ng-container>
+        <ng-template #progressionOrRecurrenceContent>
+          <div *ngFor="let prog_or_recur of progressionOrRecurrenceFilter; let i = index"
+               [ngClass]="selectedProgressionOrRecurrence.indexOf(prog_or_recur.filterName) !== -1 ? 'bg-blue-100 rounded' : ''"
+               id="{{prog_or_recur.filterName}}-progOrRecur">
+            <ng-container *ngIf="i < 10 || (progressionOrRecurrenceFilter.length > 10 && showProgOrRecur && i >= 10)">
+              <label class="flex items-center space-x-2 cursor-pointer">
+                <!--
+                <input
+                  type="checkbox"
+                  class="form-checkbox h-4 w-4 text-blue-600"
+                  [value]="prog_or_recur.filterName"
+                  [(ngModel)]="selectedProgressionOrRecurrence"
+                  [disabled]="prog_or_recur.filterCount == 0"
+                  (change)="filterDataByProgressionOrRecurrence($event, '-progOrRecur', i)"
+                  name="group2"
+                  id="group2{{prog_or_recur.filterName}}"
+                />
+                -->
+                <p-checkbox name="group2" id="group2{{prog_or_recur.filterName}}"
+                                  value={{prog_or_recur.filterName}}
+                                  [(ngModel)]="selectedProgressionOrRecurrence"
+                      [disabled]="prog_or_recur.filterCount == 0"
+                                  (onChange)="filterDataByProgressionOrRecurrence($event, '-progOrRecur', i);">
+                              </p-checkbox> &nbsp;
+                <span [ngStyle]="getStyleForCheckbox(prog_or_recur.filterName, selectedProgressionOrRecurrence)">
+                  {{prog_or_recur.filterName}} ({{prog_or_recur.filterCount}} {{prog_or_recur.filterCount > 1 ? 'Studies' : 'Study'}})
+                </span>
+              </label>
+            </ng-container>
+
+            <div *ngIf="progressionOrRecurrenceFilter.length > 10 && !showProgOrRecur && i==10"
+                 (click)="showMoreOrLess('progression_or_recurrence')"
+                 class="text-right text-lg text-gray-600 font-bold cursor-pointer select-none">
+              {{progressionOrRecurrenceFilter.length - 10}} More...
+            </div>
+            <div *ngIf="progressionOrRecurrenceFilter.length > 10 && showProgOrRecur && i==progressionOrRecurrenceFilter.length - 1"
+                 (click)="showMoreOrLess('progression_or_recurrence')"
+                 class="text-right text-lg text-gray-600 font-bold cursor-pointer select-none">
+              Less...
+            </div>
+          </div>
+        </ng-template>
+
+      </div>
+    </fieldset>
+  </div>
+</div>
+<!-- Tumor Grade Accordion Panel -->
+<div class="">
+  <!-- Accordion Header -->
+  <div
+    class="flex items-center justify-between px-4 py-2 cursor-pointer hover:bg-blue-50"
+    (click)="showTumorGradePanel = !showTumorGradePanel">
+    <a href="/pdc/data-dictionary/Diagnosis#tumor_grade"
+       class="text-blue-700 font-semibold hover:underline"
+       target="_blank">
+      Tumor Grade
+    </a>
+    <div class="flex items-center space-x-2">
+
+      <button
+        class="text-gray-600 hover:text-gray-800 px-2 py-1 text-sm"
+        id="clearProjectGradeSelections"
+        *ngIf="selectedTumorGrade.length > 0"
+        (click)="clearSelectionsTumorGrade(); $event.stopPropagation()"
+        aria-label="Clear tumor grades selection">
+       <i class="fa fa-undo"></i>
+      </button>
+
+      <i [ngClass]="showTumorGradePanel ? 'fa fa-minus' : 'fa fa-plus'"></i>
+    </div>
+  </div>
+  <!-- Accordion Content -->
+  <div *ngIf="showTumorGradePanel" class="px-4 py-2 bg-gray-50">
+    <div id="tumorGradeFiltersList">
+
+      <ng-container *ngIf="tumorGradeFilter.length > 10; else tumorGradeFilterContent"></ng-container>
+      <ng-template #tumorGradeFilterContent>
+        <div *ngFor="let tumorGrade of tumorGradeFilter; let i = index"
+             [ngClass]="selectedTumorGrade.indexOf(tumorGrade.filterName) !== -1 ? 'bg-blue-100 rounded' : ''"
+             id="{{tumorGrade.filterName}}-tumorGrade">
+          <ng-container *ngIf="i < 10 || (tumorGradeFilter.length > 10 && showTmrGrade && i >= 10)">
+            <label class="flex items-center space-x-2 cursor-pointer">
+              <!--
+              <input
+                type="checkbox"
+                class="form-checkbox h-4 w-4 text-blue-600"
+                [value]="tumorGrade.filterName"
+                [(ngModel)]="selectedTumorGrade"
+                [disabled]="tumorGrade.filterCount == 0"
+                (change)="filterDataByTumorGrade($event, '-tumorGrade', i)"
+                name="group1"
+                id="group1{{tumorGrade.filterName}}"
+              />
+              -->
+              <p-checkbox name="group1" id="group1{{tumorGrade.filterName}}"
+                    value={{tumorGrade.filterName}}
+                    [(ngModel)]="selectedTumorGrade"
+                    [disabled]="tumorGrade.filterCount == 0"
+                    (onChange)="filterDataByTumorGrade($event, '-tumorGrade', i)">
+                  </p-checkbox> &nbsp;
+              <span [ngStyle]="getStyleForCheckbox(tumorGrade.filterName, selectedTumorGrade)">
+                {{tumorGrade.filterName}} ({{tumorGrade.filterCount}} {{tumorGrade.filterCount > 1 ? 'Studies' : 'Study'}})
+              </span>
+            </label>
+          </ng-container>
+
+          <div *ngIf="tumorGradeFilter.length > 10 && !showTmrGrade && i==10"
+               (click)="showMoreOrLess('tumor_grade')"
+               class="text-right text-lg text-gray-600 font-bold cursor-pointer select-none">
+            {{tumorGradeFilter.length - 10}} More...
+          </div>
+          <div *ngIf="tumorGradeFilter.length > 10 && showTmrGrade && i==tumorGradeFilter.length - 1"
+               (click)="showMoreOrLess('tumor_grade')"
+               class="text-right text-lg text-gray-600 font-bold cursor-pointer select-none">
+            Less...
+          </div>
+        </div>
+      </ng-template>
+
+    </div>
+  </div>
+</div>
+<!-- Morphology Accordion Panel -->
+<div class="">
+  <!-- Accordion Header -->
+  <div
+    class="flex items-center justify-between px-4 py-2 cursor-pointer hover:bg-blue-50"
+    (click)="showMorphologyPanel = !showMorphologyPanel"
+    id="morphologyPanel">
+    <a href="/pdc/data-dictionary/Diagnosis#morphology"
+       class="text-blue-700 font-semibold hover:underline"
+       target="_blank">
+      Morphology
+    </a>
+    <div class="flex items-center space-x-2">
+
+      <button
+        class="text-gray-600 hover:text-gray-800 px-2 py-1 text-sm"
+        id="clearMorphology"
+        *ngIf="selectedMorphology.length > 0"
+        (click)="clearSelectionsMorphology(); $event.stopPropagation()"
+        aria-label="Clear Morphology selection">
+        <i class="fa fa-undo"></i>
+      </button>
+
+      <i [ngClass]="showMorphologyPanel ? 'fa fa-minus' : 'fa fa-plus'"></i>
+    </div>
+  </div>
+  <!-- Accordion Content -->
+  <div *ngIf="showMorphologyPanel" class="px-4 py-2 bg-gray-50">
+    <fieldset>
+      <div id="morphologyList">
+
+        <ng-container *ngIf="morphologyFilter.length > 10; else morphologyContent">
+            <div *ngFor="let morph of morphologyFilter; let i = index"
+               [ngClass]="selectedMorphology.indexOf(morph.filterName) !== -1 ? 'bg-blue-100 rounded' : ''"
+               id="{{morph.filterName}}-morph">
+            <ng-container *ngIf="i < 10 || (morphologyFilter.length > 10 && showMorph && i >= 10)">
+              <label class="flex items-center space-x-2 cursor-pointer">
+                <!--
+                <input
+                  type="checkbox"
+                  class="form-checkbox h-4 w-4 text-blue-600"
+                  [value]="morph.filterName"
+                  [(ngModel)]="selectedMorphology"
+                  [disabled]="morph.filterCount == 0"
+                  (change)="filterDataByMorphology($event, '-morph', i)"
+                  name="group2"
+                  id="group2{{morph.filterName}}"
+                />
+                -->
+                <p-checkbox name="group2" id="group2{{morph.filterName}}"
+                                  value={{morph.filterName}}
+                                  [(ngModel)]="selectedMorphology"
+                      [disabled]="morph.filterCount == 0"
+                                  (onChange)="filterDataByMorphology($event, '-morph', i);">
+                              </p-checkbox>
+
+                <span [ngStyle]="getStyleForCheckbox(morph.filterName, selectedMorphology)">
+                  {{morph.filterName}} ({{morph.filterCount}} {{morph.filterCount > 1 ? 'Studies' : 'Study'}})
+                </span>
+              </label>
+            </ng-container>
+
+            <div *ngIf="morphologyFilter.length > 10 && !showMorph && i==10"
+                 (click)="showMoreOrLess('morphology')"
+                 class="text-right text-sm text-gray-600 font-bold cursor-pointer select-none">
+              {{morphologyFilter.length - 10}} More...
+            </div>
+            <div *ngIf="morphologyFilter.length > 10 && showMorph && i==morphologyFilter.length - 1"
+                 (click)="showMoreOrLess('morphology')"
+                 class="text-right text-sm text-gray-600 font-bold cursor-pointer select-none">
+              Less...
+            </div>
+          </div>
+
+        </ng-container>
+        <ng-template #morphologyContent>
+          <div *ngFor="let morph of morphologyFilter; let i = index"
+               [ngClass]="selectedMorphology.indexOf(morph.filterName) !== -1 ? 'bg-blue-100 rounded' : ''"
+               id="{{morph.filterName}}-morph">
+            <ng-container *ngIf="i < 10 || (morphologyFilter.length > 10 && showMorph && i >= 10)">
+              <label class="flex items-center space-x-2 cursor-pointer">
+                <!--
+                <input
+                  type="checkbox"
+                  class="form-checkbox h-4 w-4 text-blue-600"
+                  [value]="morph.filterName"
+                  [(ngModel)]="selectedMorphology"
+                  [disabled]="morph.filterCount == 0"
+                  (change)="filterDataByMorphology($event, '-morph', i)"
+                  name="group2"
+                  id="group2{{morph.filterName}}"
+                />
+                -->
+                <p-checkbox name="group2" id="group2{{morph.filterName}}"
+                                  value={{morph.filterName}}
+                                  [(ngModel)]="selectedMorphology"
+                      [disabled]="morph.filterCount == 0"
+                                  (onChange)="filterDataByMorphology($event, '-morph', i);">
+                              </p-checkbox>
+
+                <span [ngStyle]="getStyleForCheckbox(morph.filterName, selectedMorphology)">
+                  {{morph.filterName}} ({{morph.filterCount}} {{morph.filterCount > 1 ? 'Studies' : 'Study'}})
+                </span>
+              </label>
+            </ng-container>
+
+            <div *ngIf="morphologyFilter.length > 10 && !showMorph && i==10"
+                 (click)="showMoreOrLess('morphology')"
+                 class="text-right text-sm text-gray-600 font-bold cursor-pointer select-none">
+              {{morphologyFilter.length - 10}} More...
+            </div>
+            <div *ngIf="morphologyFilter.length > 10 && showMorph && i==morphologyFilter.length - 1"
+                 (click)="showMoreOrLess('morphology')"
+                 class="text-right text-sm text-gray-600 font-bold cursor-pointer select-none">
+              Less...
+            </div>
+          </div>
+        </ng-template>
+
+      </div>
+    </fieldset>
+  </div>
+</div>
+
+<!-- Site of Resection or Biopsy Accordion Panel -->
+<div class="">
+  <!-- Accordion Header -->
+  <div
+    class="flex items-center justify-between px-4 py-2 cursor-pointer hover:bg-blue-50"
+    (click)="showSiteResectionOrBiopsyPanel = !showSiteResectionOrBiopsyPanel"
+    id="siteResectionOrBiopsyPanel">
+    <a href="/pdc/data-dictionary/Diagnosis#site_of_resection_or_biopsy"
+       class="text-blue-700 font-semibold hover:underline"
+       target="_blank">
+      Site of Resection or Biopsy
+    </a>
+    <div class="flex items-center space-x-2">
+
+      <button
+        class="text-gray-600 hover:text-gray-800 px-2 py-1 text-sm"
+        id="clearSiteResectionOrBiopsy"
+        *ngIf="selectedSiteResectionOrBiopsy.length > 0"
+        (click)="clearSelectionsSiteResectionOrBiopsy(); $event.stopPropagation()"
+        aria-label="Clear Site of Resection or Biopsy selection">
+        <i class="fa fa-undo"></i>
+      </button>
+
+      <i [ngClass]="showSiteResectionOrBiopsyPanel ? 'fa fa-minus' : 'fa fa-plus'"></i>
+    </div>
+  </div>
+  <!-- Accordion Content -->
+  <div *ngIf="showSiteResectionOrBiopsyPanel" class="px-4 py-2 bg-gray-50">
+    <fieldset>
+      <div id="siteResectionOrBiopsyList">
+
+        <ng-container *ngIf="siteResectionOrBiopsyFilter.length > 10; else siteResectionOrBiopsyContent">
+             <div *ngFor="let site_resect_or_biop of siteResectionOrBiopsyFilter; let i = index"
+               [ngClass]="selectedSiteResectionOrBiopsy.indexOf(site_resect_or_biop.filterName) !== -1 ? 'bg-blue-100 rounded' : ''"
+               id="{{site_resect_or_biop.filterName}}-siteResectBiop">
+            <ng-container *ngIf="i < 10 || (siteResectionOrBiopsyFilter.length > 10 && showSiteResectBiop && i >= 10)">
+              <label class="flex items-center space-x-2 cursor-pointer">
+                <!--
+                <input
+                  type="checkbox"
+                  class="form-checkbox h-4 w-4 text-blue-600"
+                  [value]="site_resect_or_biop.filterName"
+                  [(ngModel)]="selectedSiteResectionOrBiopsy"
+                  [disabled]="site_resect_or_biop.filterCount == 0"
+                  (change)="filterDataBySiteResectionOrBiopsy($event, '-siteResectBiop', i)"
+                  name="group2"
+                  id="group2{{site_resect_or_biop.filterName}}"
+                />
+                -->
+                <p-checkbox name="group2" id="group2{{site_resect_or_biop.filterName}}"
+                                  value={{site_resect_or_biop.filterName}}
+                                  [(ngModel)]="selectedSiteResectionOrBiopsy"
+                      [disabled]="site_resect_or_biop.filterCount == 0"
+                                  (onChange)="filterDataBySiteResectionOrBiopsy($event, '-siteResectBiop', i);">
+                </p-checkbox>
+                <span [ngStyle]="getStyleForCheckbox(site_resect_or_biop.filterName, selectedSiteResectionOrBiopsy)">
+                  {{site_resect_or_biop.filterName}} ({{site_resect_or_biop.filterCount}} {{site_resect_or_biop.filterCount > 1 ? 'Studies' : 'Study'}})
+                </span>
+              </label>
+            </ng-container>
+
+            <div *ngIf="siteResectionOrBiopsyFilter.length > 10 && !showSiteResectBiop && i==10"
+                 (click)="showMoreOrLess('site_of_resection_or_biopsy')"
+                 class="text-right text-sm text-gray-600 font-bold cursor-pointer select-none">
+              {{siteResectionOrBiopsyFilter.length - 10}} More...
+            </div>
+            <div *ngIf="siteResectionOrBiopsyFilter.length > 10 && showSiteResectBiop && i==siteResectionOrBiopsyFilter.length - 1"
+                 (click)="showMoreOrLess('site_of_resection_or_biopsy')"
+                 class="text-right text-sm text-gray-600 font-bold cursor-pointer select-none">
+              Less...
+            </div>
+          </div>
+
+        </ng-container>
+        <ng-template #siteResectionOrBiopsyContent>
+          <div *ngFor="let site_resect_or_biop of siteResectionOrBiopsyFilter; let i = index"
+               [ngClass]="selectedSiteResectionOrBiopsy.indexOf(site_resect_or_biop.filterName) !== -1 ? 'bg-blue-100 rounded' : ''"
+               id="{{site_resect_or_biop.filterName}}-siteResectBiop">
+            <ng-container *ngIf="i < 10 || (siteResectionOrBiopsyFilter.length > 10 && showSiteResectBiop && i >= 10)">
+              <label class="flex items-center space-x-2 cursor-pointer">
+                <!--
+                <input
+                  type="checkbox"
+                  class="form-checkbox h-4 w-4 text-blue-600"
+                  [value]="site_resect_or_biop.filterName"
+                  [(ngModel)]="selectedSiteResectionOrBiopsy"
+                  [disabled]="site_resect_or_biop.filterCount == 0"
+                  (change)="filterDataBySiteResectionOrBiopsy($event, '-siteResectBiop', i)"
+                  name="group2"
+                  id="group2{{site_resect_or_biop.filterName}}"
+                />
+                -->
+                <p-checkbox name="group2" id="group2{{site_resect_or_biop.filterName}}"
+                                  value={{site_resect_or_biop.filterName}}
+                                  [(ngModel)]="selectedSiteResectionOrBiopsy"
+                      [disabled]="site_resect_or_biop.filterCount == 0"
+                                  (onChange)="filterDataBySiteResectionOrBiopsy($event, '-siteResectBiop', i);">
+                </p-checkbox>
+                <span [ngStyle]="getStyleForCheckbox(site_resect_or_biop.filterName, selectedSiteResectionOrBiopsy)">
+                  {{site_resect_or_biop.filterName}} ({{site_resect_or_biop.filterCount}} {{site_resect_or_biop.filterCount > 1 ? 'Studies' : 'Study'}})
+                </span>
+              </label>
+            </ng-container>
+
+            <div *ngIf="siteResectionOrBiopsyFilter.length > 10 && !showSiteResectBiop && i==10"
+                 (click)="showMoreOrLess('site_of_resection_or_biopsy')"
+                 class="text-right text-lg text-gray-600 font-bold cursor-pointer select-none">
+              {{siteResectionOrBiopsyFilter.length - 10}} More...
+            </div>
+            <div *ngIf="siteResectionOrBiopsyFilter.length > 10 && showSiteResectBiop && i==siteResectionOrBiopsyFilter.length - 1"
+                 (click)="showMoreOrLess('site_of_resection_or_biopsy')"
+                 class="text-right text-lg text-gray-600 font-bold cursor-pointer select-none">
+              Less...
+            </div>
+          </div>
+        </ng-template>
+
+      </div>
+    </fieldset>
+  </div>
+</div>
+
+
+
+
+
+</div> <!-- end age at diagnosis panel -->
+
+
+
+</div> <!-- end diagnosis panel section  -->
+     <!-- start treatment panel -->
+     <div class="bg-[#D4E7F2] flex items-center justify-between px-4 py-2 mb-1 cursor-pointer hover:bg-blue-50"
+         (click)="showTreatmentPanel = !showTreatmentPanel">
+          <a href="/pdc/data-dictionary/Demographic" target="_blank" class="text-blue-700 font-semibold hover:underline">
+          Treatment
+         </a>
+         <div class="flex items-center space-x-2">
+        <!---
+        <button
+          class="text-gray-600 hover:text-gray-800 px-2 py-1 text-sm"
+          id="clearTreatmentSelections"
+          *ngIf="selectedTreatment.length > 0"
+          (click)="clearSelectionsTreatment(); $event.stopPropagation()"
+          aria-label="Clear treatment selection">
+          <span>CLEAR&nbsp;</span><i class="fa fa-undo"></i>
+        </button>
+      -->
+
+        <i [ngClass]="showTreatmentPanel ? 'fa fa-minus' : 'fa fa-plus'"></i>
+        </div><!-- begin demographic panel section -->
+      </div>
+     <div class="divide-y border-b bg-white" *ngIf="showTreatmentPanel">
+       <!-- Therapeutic Agents Accordion Panel -->
+<div class="">
+  <!-- Accordion Header -->
+  <div
+    class="flex items-center justify-between px-4 py-2 cursor-pointer hover:bg-blue-50"
+    (click)="showTherapeuticAgentsPanel = !showTherapeuticAgentsPanel"
+    id="therapeuticAgentsPanel">
+    <a href="/pdc/data-dictionary/Treatment#therapeutic_agents"
+       class="text-blue-700 font-semibold hover:underline"
+       target="_blank">
+      Therapeutic Agents
+    </a>
+    <div class="flex items-center space-x-2">
+
+      <button
+        class="text-gray-600 hover:text-gray-800 px-2 py-1 text-sm"
+        id="clearTherapeuticAgents"
+        *ngIf="selectedTherapeuticAgents.length > 0"
+        (click)="clearSelectionsTherapeuticAgents(); $event.stopPropagation()"
+        aria-label="Clear Therapeutic Agents selection">
+       <i class="fa fa-undo"></i>
+      </button>
+
+      <i [ngClass]="showTherapeuticAgentsPanel ? 'fa fa-minus' : 'fa fa-plus'"></i>
+    </div>
+  </div>
+  <!-- Accordion Content -->
+  <div *ngIf="showTherapeuticAgentsPanel" class="px-4 py-2 bg-gray-50">
+    <fieldset>
+      <div id="therapeuticAgentsList">
+
+        <ng-container *ngIf="therapeuticAgentsFilter.length > 10; else therapeuticAgentsContent">
+           <div *ngFor="let therap_agents of therapeuticAgentsFilter; let i = index"
+               [ngClass]="selectedTherapeuticAgents.indexOf(therap_agents.filterName) !== -1 ? 'bg-blue-100 rounded' : ''"
+               id="{{therap_agents.filterName}}-therapAgents">
+            <ng-container *ngIf="i < 10 || (therapeuticAgentsFilter.length > 10 && showTherapAgents && i >= 10)">
+              <label class="flex items-center space-x-2 cursor-pointer">
+                <!--
+                <input
+                  type="checkbox"
+                  class="form-checkbox h-4 w-4 text-blue-600"
+                  [value]="therap_agents.filterName"
+                  [(ngModel)]="selectedTherapeuticAgents"
+                  [disabled]="therap_agents.filterCount == 0"
+                  (change)="filterDataByTherapeuticAgents($event, '-therapAgents', i)"
+                  name="group2"
+                  id="group2{{therap_agents.filterName}}"
+                />
+                -->
+                <p-checkbox name="group2" id="group2{{therap_agents.filterName}}"
+                                  value={{therap_agents.filterName}}
+                                  [(ngModel)]="selectedTherapeuticAgents"
+                      [disabled]="therap_agents.filterCount == 0"
+                                  (onChange)="filterDataByTherapeuticAgents($event, '-therapAgents', i);">
+                              </p-checkbox> &nbsp;
+
+                <span [ngStyle]="getStyleForCheckbox(therap_agents.filterName, selectedTherapeuticAgents)">
+                  {{therap_agents.filterName}} ({{therap_agents.filterCount}} {{therap_agents.filterCount > 1 ? 'Studies' : 'Study'}})
+                </span>
+              </label>
+            </ng-container>
+
+            <div *ngIf="therapeuticAgentsFilter.length > 10 && !showTherapAgents && i==10"
+                 (click)="showMoreOrLess('therapeutic_agents')"
+                 class="text-right text-sm text-gray-600 font-bold cursor-pointer select-none">
+              {{therapeuticAgentsFilter.length - 10}} More...
+            </div>
+            <div *ngIf="therapeuticAgentsFilter.length > 10 && showTherapAgents && i==therapeuticAgentsFilter.length - 1"
+                 (click)="showMoreOrLess('therapeutic_agents')"
+                 class="text-right text-sm text-gray-600 font-bold cursor-pointer select-none">
+              Less...
+            </div>
+          </div>
+
+        </ng-container>
+        <ng-template #therapeuticAgentsContent>
+          <div *ngFor="let therap_agents of therapeuticAgentsFilter; let i = index"
+               [ngClass]="selectedTherapeuticAgents.indexOf(therap_agents.filterName) !== -1 ? 'bg-blue-100 rounded' : ''"
+               id="{{therap_agents.filterName}}-therapAgents">
+            <ng-container *ngIf="i < 10 || (therapeuticAgentsFilter.length > 10 && showTherapAgents && i >= 10)">
+              <label class="flex items-center space-x-2 cursor-pointer">
+                <!--
+                <input
+                  type="checkbox"
+                  class="form-checkbox h-4 w-4 text-blue-600"
+                  [value]="therap_agents.filterName"
+                  [(ngModel)]="selectedTherapeuticAgents"
+                  [disabled]="therap_agents.filterCount == 0"
+                  (change)="filterDataByTherapeuticAgents($event, '-therapAgents', i)"
+                  name="group2"
+                  id="group2{{therap_agents.filterName}}"
+                />
+                -->
+                <p-checkbox name="group2" id="group2{{therap_agents.filterName}}"
+                                  value={{therap_agents.filterName}}
+                                  [(ngModel)]="selectedTherapeuticAgents"
+                      [disabled]="therap_agents.filterCount == 0"
+                                  (onChange)="filterDataByTherapeuticAgents($event, '-therapAgents', i);">
+                              </p-checkbox> &nbsp;
+
+                <span [ngStyle]="getStyleForCheckbox(therap_agents.filterName, selectedTherapeuticAgents)">
+                  {{therap_agents.filterName}} ({{therap_agents.filterCount}} {{therap_agents.filterCount > 1 ? 'Studies' : 'Study'}})
+                </span>
+              </label>
+            </ng-container>
+
+            <div *ngIf="therapeuticAgentsFilter.length > 10 && !showTherapAgents && i==10"
+                 (click)="showMoreOrLess('therapeutic_agents')"
+                 class="text-right text-sm text-gray-600 font-bold cursor-pointer select-none">
+              {{therapeuticAgentsFilter.length - 10}} More...
+            </div>
+            <div *ngIf="therapeuticAgentsFilter.length > 10 && showTherapAgents && i==therapeuticAgentsFilter.length - 1"
+                 (click)="showMoreOrLess('therapeutic_agents')"
+                 class="text-right text-sm text-gray-600 font-bold cursor-pointer select-none">
+              Less...
+            </div>
+          </div>
+        </ng-template>
+
+      </div>
+    </fieldset>
+  </div>
+</div>
+<!-- Treatment Intent Type Accordion Panel -->
+<div class="">
+  <!-- Accordion Header -->
+  <div
+    class="flex items-center justify-between px-4 py-2 cursor-pointer hover:bg-blue-50"
+    (click)="showTreatmentIntentTypePanel = !showTreatmentIntentTypePanel"
+    id="treatmentIntentTypePanel">
+    <a href="/pdc/data-dictionary/Treatment#treatment_intent_type"
+       class="text-blue-700 font-semibold hover:underline"
+       target="_blank">
+      Treatment Intent Type
+    </a>
+    <div class="flex items-center space-x-2">
+
+      <button
+        class="text-gray-600 hover:text-gray-800 px-2 py-1 text-sm"
+        id="clearTreatmentIntentType"
+        *ngIf="selectedTreatmentIntentType.length > 0"
+        (click)="clearSelectionsTreatmentIntentType(); $event.stopPropagation()"
+        aria-label="Clear Treatment Intent Type selection">
+        <i class="fa fa-undo"></i>
+      </button>
+
+      <i [ngClass]="showTreatmentIntentTypePanel ? 'fa fa-minus' : 'fa fa-plus'"></i>
+    </div>
+  </div>
+  <!-- Accordion Content -->
+  <div *ngIf="showTreatmentIntentTypePanel" class="px-4 py-2 bg-gray-50">
+    <fieldset>
+      <div id="treatmentIntentTypeList">
+
+        <ng-container *ngIf="treatmentIntentTypeFilter.length > 10; else treatmentIntentTypeContent"></ng-container>
+        <ng-template #treatmentIntentTypeContent>
+          <div *ngFor="let treat_int_type of treatmentIntentTypeFilter; let i = index"
+               [ngClass]="selectedTreatmentIntentType.indexOf(treat_int_type.filterName) !== -1 ? 'bg-blue-100 rounded' : ''"
+               id="{{treat_int_type.filterName}}-treatIntType">
+            <ng-container *ngIf="i < 10 || (treatmentIntentTypeFilter.length > 10 && showTreatIntType && i >= 10)">
+              <label class="flex items-center space-x-2 cursor-pointer">
+                <!--
+                <input
+                  type="checkbox"
+                  class="form-checkbox h-4 w-4 text-blue-600"
+                  [value]="treat_int_type.filterName"
+                  [(ngModel)]="selectedTreatmentIntentType"
+                  [disabled]="treat_int_type.filterCount == 0"
+                  (change)="filterDataByTreatmentIntentType($event, '-treatIntType', i)"
+                  name="group2"
+                  id="group2{{treat_int_type.filterName}}"
+                />
+                -->
+                <p-checkbox name="group2" id="group2{{treat_int_type.filterName}}"
+                                  value={{treat_int_type.filterName}}
+                                  [(ngModel)]="selectedTreatmentIntentType"
+                      [disabled]="treat_int_type.filterCount == 0"
+                                  (onChange)="filterDataByTreatmentIntentType($event, '-treatIntType', i);">
+                              </p-checkbox>
+                <span [ngStyle]="getStyleForCheckbox(treat_int_type.filterName, selectedTreatmentIntentType)">
+                  {{treat_int_type.filterName}} ({{treat_int_type.filterCount}} {{treat_int_type.filterCount > 1 ? 'Studies' : 'Study'}})
+                </span>
+              </label>
+            </ng-container>
+
+            <div *ngIf="treatmentIntentTypeFilter.length > 10 && !showTreatIntType && i==10"
+                 (click)="showMoreOrLess('treatment_intent_type')"
+                 class="text-right text-lg text-gray-600 font-bold cursor-pointer select-none">
+              {{treatmentIntentTypeFilter.length - 10}} More...
+            </div>
+            <div *ngIf="treatmentIntentTypeFilter.length > 10 && showTreatIntType && i==treatmentIntentTypeFilter.length - 1"
+                 (click)="showMoreOrLess('treatment_intent_type')"
+                 class="text-right text-lg text-gray-600 font-bold cursor-pointer select-none">
+              Less...
+            </div>
+          </div>
+        </ng-template>
+
+      </div>
+    </fieldset>
+  </div>
+</div>
+<!-- Treatment Outcome Accordion Panel -->
+<div class="">
+  <!-- Accordion Header -->
+  <div
+    class="flex items-center justify-between px-4 py-2 cursor-pointer hover:bg-blue-50"
+    (click)="showTreatmentOutcomePanel = !showTreatmentOutcomePanel"
+    id="treatmentOutcomePanel">
+    <a href="/pdc/data-dictionary/Treatment#treatment_outcome"
+       class="text-blue-700 font-semibold hover:underline"
+       target="_blank">
+      Treatment Outcome
+    </a>
+    <div class="flex items-center space-x-2">
+
+      <button
+        class="text-gray-600 hover:text-gray-800 px-2 py-1 text-sm"
+        id="clearTreatmentOutcome"
+        *ngIf="selectedTreatmentOutcome.length > 0"
+        (click)="clearSelectionsTreatmentOutcome(); $event.stopPropagation()"
+        aria-label="Clear Treatment Outcome selection">
+       <i class="fa fa-undo"></i>
+      </button>
+
+      <i [ngClass]="showTreatmentOutcomePanel ? 'fa fa-minus' : 'fa fa-plus'"></i>
+    </div>
+  </div>
+  <!-- Accordion Content -->
+  <div *ngIf="showTreatmentOutcomePanel" class="px-4 py-2 bg-gray-50">
+    <fieldset>
+      <div id="treatmentOutcomeList">
+
+        <ng-container *ngIf="treatmentOutcomeFilter.length > 10; else treatmentOutcomeContent"></ng-container>
+        <ng-template #treatmentOutcomeContent>
+          <div *ngFor="let treat_oc of treatmentOutcomeFilter; let i = index"
+               [ngClass]="selectedTreatmentOutcome.indexOf(treat_oc.filterName) !== -1 ? 'bg-blue-100 rounded' : ''"
+               id="{{treat_oc.filterName}}-treatOc">
+            <ng-container *ngIf="i < 10 || (treatmentOutcomeFilter.length > 10 && showTreatOc && i >= 10)">
+              <label class="flex items-center space-x-2 cursor-pointer">
+                <!--
+                <input
+                  type="checkbox"
+                  class="form-checkbox h-4 w-4 text-blue-600"
+                  [value]="treat_oc.filterName"
+                  [(ngModel)]="selectedTreatmentOutcome"
+                  [disabled]="treat_oc.filterCount == 0"
+                  (change)="filterDataByTreatmentOutcome($event, '-treatOc', i)"
+                  name="group2"
+                  id="group2{{treat_oc.filterName}}"
+                />
+                -->
+                <p-checkbox name="group2" id="group2{{treat_oc.filterName}}"
+                                  value={{treat_oc.filterName}}
+                                  [(ngModel)]="selectedTreatmentOutcome"
+                      [disabled]="treat_oc.filterCount == 0"
+                                  (onChange)="filterDataByTreatmentOutcome($event, '-treatOc', i);">
+                              </p-checkbox>
+                <span [ngStyle]="getStyleForCheckbox(treat_oc.filterName, selectedTreatmentOutcome)">
+                  {{treat_oc.filterName}} ({{treat_oc.filterCount}} {{treat_oc.filterCount > 1 ? 'Studies' : 'Study'}})
+                </span>
+              </label>
+            </ng-container>
+
+            <div *ngIf="treatmentOutcomeFilter.length > 10 && !showTreatOc && i==10"
+                 (click)="showMoreOrLess('treatment_outcome')"
+                 class="text-right text-lg text-gray-600 font-bold cursor-pointer select-none">
+              {{treatmentOutcomeFilter.length - 10}} More...
+            </div>
+            <div *ngIf="treatmentOutcomeFilter.length > 10 && showTreatOc && i==treatmentOutcomeFilter.length - 1"
+                 (click)="showMoreOrLess('treatment_outcome')"
+                 class="text-right text-lg text-gray-600 font-bold cursor-pointer select-none">
+              Less...
+            </div>
+          </div>
+        </ng-template>
+
+      </div>
+    </fieldset>
+  </div>
+</div>
+<!-- Treatment Type Accordion Panel -->
+<div class="">
+  <!-- Accordion Header -->
+  <div
+    class="flex items-center justify-between px-4 py-2 cursor-pointer hover:bg-blue-50"
+    (click)="showTreatmentTypePanel = !showTreatmentTypePanel"
+    id="treatmentTypePanel">
+    <a href="/pdc/data-dictionary/Treatment#treatment_type"
+       class="text-blue-700 font-semibold hover:underline"
+       target="_blank">
+      Treatment Type
+    </a>
+    <div class="flex items-center space-x-2">
+
+      <button
+        class="text-gray-600 hover:text-gray-800 px-2 py-1 text-sm"
+        id="clearTreatmentType"
+        *ngIf="selectedTreatmentType.length > 0"
+        (click)="clearSelectionsTreatmentType(); $event.stopPropagation()"
+        aria-label="Clear Treatment Type selection">
+        <i class="fa fa-undo"></i>
+      </button>
+
+      <i [ngClass]="showTreatmentTypePanel ? 'fa fa-minus' : 'fa fa-plus'"></i>
+    </div>
+  </div>
+  <!-- Accordion Content -->
+  <div *ngIf="showTreatmentTypePanel" class="px-4 py-2 bg-gray-50">
+    <fieldset>
+      <div id="treatmentTypeList">
+
+        <ng-container *ngIf="treatmentTypeFilter.length > 10; else treatmentTypeContent"></ng-container>
+        <ng-template #treatmentTypeContent>
+          <div *ngFor="let treat_type of treatmentTypeFilter; let i = index"
+               [ngClass]="selectedTreatmentType.indexOf(treat_type.filterName) !== -1 ? 'bg-blue-100 rounded' : ''"
+               id="{{treat_type.filterName}}-treatType">
+            <ng-container *ngIf="i < 10 || (treatmentTypeFilter.length > 10 && showTreatType && i >= 10)">
+              <label class="flex items-center space-x-2 cursor-pointer">
+                <!--
+                <input
+                  type="checkbox"
+                  class="form-checkbox h-4 w-4 text-blue-600"
+                  [value]="treat_type.filterName"
+                  [(ngModel)]="selectedTreatmentType"
+                  [disabled]="treat_type.filterCount == 0"
+                  (change)="filterDataByTreatmentType($event, '-treatType', i)"
+                  name="group2"
+                  id="group2{{treat_type.filterName}}"
+                />
+                -->
+                 <p-checkbox name="group2" id="group2{{treat_type.filterName}}"
+                                  value={{treat_type.filterName}}
+                                  [(ngModel)]="selectedTreatmentType"
+                      [disabled]="treat_type.filterCount == 0"
+                                  (onChange)="filterDataByTreatmentType($event, '-treatType', i);">
+                              </p-checkbox>
+                <span [ngStyle]="getStyleForCheckbox(treat_type.filterName, selectedTreatmentType)">
+                  {{treat_type.filterName}} ({{treat_type.filterCount}} {{treat_type.filterCount > 1 ? 'Studies' : 'Study'}})
+                </span>
+              </label>
+            </ng-container>
+
+            <div *ngIf="treatmentTypeFilter.length > 10 && !showTreatType && i==10"
+                 (click)="showMoreOrLess('treatment_type')"
+                 class="text-right text-lg text-gray-600 font-bold cursor-pointer select-none">
+              {{treatmentTypeFilter.length - 10}} More...
+            </div>
+            <div *ngIf="treatmentTypeFilter.length > 10 && showTreatType && i==treatmentTypeFilter.length - 1"
+                 (click)="showMoreOrLess('treatment_type')"
+                 class="text-right text-lg text-gray-600 font-bold cursor-pointer select-none">
+              Less...
+            </div>
+          </div>
+        </ng-template>
+
+      </div>
+    </fieldset>
+  </div>
+</div>
+
+     </div> <!-- end treatment panel section  -->
+      <!-- start exposure panel -->
+     <div class="bg-[#D4E7F2] flex items-center justify-between px-4 py-2 mb-1 cursor-pointer hover:bg-blue-50"
+         (click)="showExposurePanel = !showExposurePanel">
+          <a href="/pdc/data-dictionary/Demographic" target="_blank" class="text-blue-700 font-semibold hover:underline">
+          Exposure
+         </a>
+         <div class="flex items-center space-x-2">
+         <!--
+        <button
+          class="text-gray-600 hover:text-gray-800 px-2 py-1 text-sm"
+          id="clearExposureSelections"
+          *ngIf="selectedExposure.length > 0"
+          (click)="clearSelectionsExposure(); $event.stopPropagation()"
+          aria-label="Clear exposure selection">
+          <i class="fa fa-undo"></i>
+        </button>
+      -->
+
+        <i [ngClass]="showExposurePanel ? 'fa fa-minus' : 'fa fa-plus'"></i>
+        </div><!-- begin demographic panel section -->
+      </div>
+     <div class="divide-y border-b bg-white" *ngIf="showExposurePanel">
+       <!-- Alcohol History Accordion Panel -->
+<div class="">
+  <!-- Accordion Header -->
+  <div
+    class="flex items-center justify-between px-4 py-2 cursor-pointer hover:bg-blue-50"
+    (click)="showAlcoholHistoryPanel = !showAlcoholHistoryPanel"
+    id="alcoholHistoryPanel">
+    <a href="/pdc/data-dictionary/Exposure#alcohol_history"
+       class="text-blue-700 font-semibold hover:underline"
+       target="_blank">
+      Alcohol History
+    </a>
+    <div class="flex items-center space-x-2">
+
+      <button
+        class="text-gray-600 hover:text-gray-800 px-2 py-1 text-sm"
+        id="clearAlcoholHistory"
+        *ngIf="selectedAlcoholHistory.length > 0"
+        (click)="clearSelectionsAlcoholHistory(); $event.stopPropagation()"
+        aria-label="Clear Alcohol History selection">
+        <i class="fa fa-undo"></i>
+      </button>
+
+      <i [ngClass]="showAlcoholHistoryPanel ? 'fa fa-minus' : 'fa fa-plus'"></i>
+    </div>
+  </div>
+  <!-- Accordion Content -->
+  <div *ngIf="showAlcoholHistoryPanel" class="px-4 py-2 bg-gray-50">
+    <fieldset>
+      <div id="alcoholHistoryList">
+
+        <ng-container *ngIf="alcoholHistoryFilter.length > 10; else alcoholHistoryContent"></ng-container>
+        <ng-template #alcoholHistoryContent>
+          <div *ngFor="let alcohol_hist of alcoholHistoryFilter; let i = index"
+               [ngClass]="selectedAlcoholHistory.indexOf(alcohol_hist.filterName) !== -1 ? 'bg-blue-100 rounded' : ''"
+               id="{{alcohol_hist.filterName}}-alcoholHist">
+            <ng-container *ngIf="i < 10 || (alcoholHistoryFilter.length > 10 && showAlcoholHist && i >= 10)">
+              <label class="flex items-center space-x-2 cursor-pointer">
+                <!--
+                <input
+                  type="checkbox"
+                  class="form-checkbox h-4 w-4 text-blue-600"
+                  [value]="alcohol_hist.filterName"
+                  [(ngModel)]="selectedAlcoholHistory"
+                  [disabled]="alcohol_hist.filterCount == 0"
+                  (change)="filterDataByAlcoholHistory($event, '-alcoholHist', i)"
+                  name="group2"
+                  id="group2{{alcohol_hist.filterName}}"
+                />
+                -->
+                 <p-checkbox name="group2" id="group2{{alcohol_hist.filterName}}"
+                                  value={{alcohol_hist.filterName}}
+                                  [(ngModel)]="selectedAlcoholHistory"
+                      [disabled]="alcohol_hist.filterCount == 0"
+                                  (onChange)="filterDataByAlcoholHistory($event, '-alcoholHist', i);">
+                              </p-checkbox>
+                <span [ngStyle]="getStyleForCheckbox(alcohol_hist.filterName, selectedAlcoholHistory)">
+                  {{alcohol_hist.filterName}} ({{alcohol_hist.filterCount}} {{alcohol_hist.filterCount > 1 ? 'Studies' : 'Study'}})
+                </span>
+              </label>
+            </ng-container>
+
+            <div *ngIf="alcoholHistoryFilter.length > 10 && !showAlcoholHist && i==10"
+                 (click)="showMoreOrLess('alcohol_history')"
+                 class="text-right text-lg text-gray-600 font-bold cursor-pointer select-none">
+              {{alcoholHistoryFilter.length - 10}} More...
+            </div>
+            <div *ngIf="alcoholHistoryFilter.length > 10 && showAlcoholHist && i==alcoholHistoryFilter.length - 1"
+                 (click)="showMoreOrLess('alcohol_history')"
+                 class="text-right text-lg text-gray-600 font-bold cursor-pointer select-none">
+              Less...
+            </div>
+          </div>
+        </ng-template>
+
+      </div>
+    </fieldset>
+  </div>
+</div>
+<!-- Alcohol Intensity Accordion Panel -->
+<div class="">
+  <!-- Accordion Header -->
+  <div
+    class="flex items-center justify-between px-4 py-2 cursor-pointer hover:bg-blue-50"
+    (click)="showAlcoholIntensityPanel = !showAlcoholIntensityPanel"
+    id="alcoholIntensityPanel">
+    <a href="/pdc/data-dictionary/Exposure#alcohol_intensity"
+       class="text-blue-700 font-semibold hover:underline"
+       target="_blank">
+      Alcohol Intensity
+    </a>
+    <div class="flex items-center space-x-2">
+
+      <button
+        class="text-gray-600 hover:text-gray-800 px-2 py-1 text-sm"
+        id="clearAlcoholIntensity"
+        *ngIf="selectedAlcoholIntensity.length > 0"
+        (click)="clearSelectionsAlcoholIntensity(); $event.stopPropagation()"
+        aria-label="Clear Alcohol Intensity selection">
+       <i class="fa fa-undo"></i>
+      </button>
+
+      <i [ngClass]="showAlcoholIntensityPanel ? 'fa fa-minus' : 'fa fa-plus'"></i>
+    </div>
+  </div>
+  <!-- Accordion Content -->
+  <div *ngIf="showAlcoholIntensityPanel" class="px-4 py-2 bg-gray-50">
+    <fieldset>
+      <div id="alcoholIntensityList">
+
+        <ng-container *ngIf="alcoholIntensityFilter.length > 10; else alcoholIntensityContent"></ng-container>
+        <ng-template #alcoholIntensityContent>
+          <div *ngFor="let alcohol_intense of alcoholIntensityFilter; let i = index"
+               [ngClass]="selectedAlcoholIntensity.indexOf(alcohol_intense.filterName) !== -1 ? 'bg-blue-100 rounded' : ''"
+               id="{{alcohol_intense.filterName}}-alcoholIntense">
+            <ng-container *ngIf="i < 10 || (alcoholIntensityFilter.length > 10 && showAlcoholIntense && i >= 10)">
+              <label class="flex items-center space-x-2 cursor-pointer">
+                <!--
+                <input
+                  type="checkbox"
+                  class="form-checkbox h-4 w-4 text-blue-600"
+                  [value]="alcohol_intense.filterName"
+                  [(ngModel)]="selectedAlcoholIntensity"
+                  [disabled]="alcohol_intense.filterCount == 0"
+                  (change)="filterDataByAlcoholIntensity($event, '-alcoholIntense', i)"
+                  name="group2"
+                  id="group2{{alcohol_intense.filterName}}"
+                />
+                -->
+                 <p-checkbox name="group2" id="group2{{alcohol_intense.filterName}}"
+                                  value={{alcohol_intense.filterName}}
+                                  [(ngModel)]="selectedAlcoholIntensity"
+                      [disabled]="alcohol_intense.filterCount == 0"
+                                  (onChange)="filterDataByAlcoholIntensity($event, '-alcoholIntense', i);">
+                              </p-checkbox>
+                <span [ngStyle]="getStyleForCheckbox(alcohol_intense.filterName, selectedAlcoholIntensity)">
+                  {{alcohol_intense.filterName}} ({{alcohol_intense.filterCount}} {{alcohol_intense.filterCount > 1 ? 'Studies' : 'Study'}})
+                </span>
+              </label>
+            </ng-container>
+
+            <div *ngIf="alcoholIntensityFilter.length > 10 && !showAlcoholIntense && i==10"
+                 (click)="showMoreOrLess('alcohol_intensity')"
+                 class="text-right text-lg text-gray-600 font-bold cursor-pointer select-none">
+              {{alcoholIntensityFilter.length - 10}} More...
+            </div>
+            <div *ngIf="alcoholIntensityFilter.length > 10 && showAlcoholIntense && i==alcoholIntensityFilter.length - 1"
+                 (click)="showMoreOrLess('alcohol_intensity')"
+                 class="text-right text-lg text-gray-600 font-bold cursor-pointer select-none">
+              Less...
+            </div>
+          </div>
+        </ng-template>
+
+      </div>
+    </fieldset>
+  </div>
+</div>
+<!-- Tobacco Smoking Status Accordion Panel -->
+<div class="">
+  <!-- Accordion Header -->
+  <div
+    class="flex items-center justify-between px-4 py-2 cursor-pointer hover:bg-blue-50"
+    (click)="showTobaccoSmokingStatusPanel = !showTobaccoSmokingStatusPanel"
+    id="tobaccoSmokingStatusPanel">
+    <a href="/pdc/data-dictionary/Exposure#tobacco_smoking_status"
+       class="text-blue-700 font-semibold hover:underline"
+       target="_blank">
+      Tobacco Smoking Status
+    </a>
+    <div class="flex items-center space-x-2">
+
+      <button
+        class="text-gray-600 hover:text-gray-800 px-2 py-1 text-sm"
+        id="clearTobaccoSmokingStatus"
+        *ngIf="selectedTobaccoSmokingStatus.length > 0"
+        (click)="clearSelectionsTobaccoSmokingStatus(); $event.stopPropagation()"
+        aria-label="Clear Tobacco Smoking Status selection">
+        <i class="fa fa-undo"></i>
+      </button>
+
+      <i [ngClass]="showTobaccoSmokingStatusPanel ? 'fa fa-minus' : 'fa fa-plus'"></i>
+    </div>
+  </div>
+  <!-- Accordion Content -->
+  <div *ngIf="showTobaccoSmokingStatusPanel" class="px-4 py-2 bg-gray-50">
+    <fieldset>
+      <div id="tobaccoSmokingStatusList">
+
+        <ng-container *ngIf="tobaccoSmokingStatusFilter.length > 10; else tobaccoSmokingStatusContent"></ng-container>
+        <ng-template #tobaccoSmokingStatusContent>
+          <div *ngFor="let smoking_status of tobaccoSmokingStatusFilter; let i = index"
+               [ngClass]="selectedTobaccoSmokingStatus.indexOf(smoking_status.filterName) !== -1 ? 'bg-blue-100 rounded' : ''"
+               id="{{smoking_status.filterName}}-smokingStatus">
+            <ng-container *ngIf="i < 10 || (tobaccoSmokingStatusFilter.length > 10 && showSmokingStatus && i >= 10)">
+              <label class="flex items-center cursor-pointer w-full" style="display: flex; align-items: flex-start;">
+                <!--
+                <input
+                  type="checkbox"
+                  class="form-checkbox h-4 w-4 text-blue-600"
+                  [value]="smoking_status.filterName"
+                  [(ngModel)]="selectedTobaccoSmokingStatus"
+                  [disabled]="smoking_status.filterCount == 0"
+                  (change)="filterDataByTobaccoSmokingStatus($event, '-smokingStatus', i)"
+                  name="group2"
+                  id="group2{{smoking_status.filterName}}"
+                />
+                -->
+                <!-- @@@PDC-10327-tobacco status filter display-description-->
+                 <p-checkbox name="group2" id="group2{{smoking_status.filterName}}"
+                                  value={{smoking_status.filterName}}
+                                  [(ngModel)]="selectedTobaccoSmokingStatus"
+                      [disabled]="smoking_status.filterCount == 0"
+                                  (onChange)="filterDataByTobaccoSmokingStatus($event, '-smokingStatus', i);">
+                              </p-checkbox> &nbsp;
+                <span [ngStyle]="getStyleForCheckbox(smoking_status.filterName, selectedTobaccoSmokingStatus)" style="flex: 1 1 0; min-width: 0; word-break: break-word; display: block; margin-left: 0.5em; font-family: Lato; color: rgb(0, 0, 0); font-weight: 400; font-size: 12px;">
+                  {{getTobaccoSmokingStatusDisplay(smoking_status.filterName)}} ({{smoking_status.filterCount}} {{smoking_status.filterCount > 1 ? 'Studies' : 'Study'}})
+                </span>
+              </label>
+            </ng-container>
+
+            <div *ngIf="tobaccoSmokingStatusFilter.length > 10 && !showSmokingStatus && i==10"
+                 (click)="showMoreOrLess('tobacco_smoking_status')"
+                 class="text-right text-lg text-gray-600 font-bold cursor-pointer select-none">
+              {{tobaccoSmokingStatusFilter.length - 10}} More...
+            </div>
+            <div *ngIf="tobaccoSmokingStatusFilter.length > 10 && showSmokingStatus && i==tobaccoSmokingStatusFilter.length - 1"
+                 (click)="showMoreOrLess('tobacco_smoking_status')"
+                 class="text-right text-lg text-gray-600 font-bold cursor-pointer select-none">
+              Less...
+            </div>
+          </div>
+        </ng-template>
+
+      </div>
+    </fieldset>
+  </div>
+</div>
+<!-- Cigarettes Per Day Accordion Panel -->
+<div class="">
+  <!-- Accordion Header -->
+  <div
+    class="flex items-center justify-between px-4 py-2 cursor-pointer hover:bg-blue-50"
+    (click)="showCigarettesPerDayPanel = !showCigarettesPerDayPanel"
+    id="cigarettesPerDayPanel">
+    <a href="/pdc/data-dictionary/Exposure#cigarettes_per_day"
+       class="text-blue-700 font-semibold hover:underline"
+       target="_blank">
+      Cigarettes Per Day
+    </a>
+    <div class="flex items-center space-x-2">
+
+      <button
+        class="text-gray-600 hover:text-gray-800 px-2 py-1 text-sm"
+        id="clearCigarettesPerDay"
+        *ngIf="selectedCigarettesPerDay.length > 0"
+        (click)="clearSelectionsCigarettesPerDay(); $event.stopPropagation()"
+        aria-label="Clear Cigarettes Per Day selection">
+        <i class="fa fa-undo"></i>
+      </button>
+
+      <i [ngClass]="showCigarettesPerDayPanel ? 'fa fa-minus' : 'fa fa-plus'"></i>
+    </div>
+  </div>
+  <!-- Accordion Content -->
+  <div *ngIf="showCigarettesPerDayPanel" class="px-4 py-2 bg-gray-50">
+    <fieldset>
+      <div id="cigarettesPerDayList">
+
+        <ng-container *ngIf="cigarettesPerDayFilter.length > 10; else cigarettesPerDayContent">
+          <div *ngFor="let cigar_per_day of cigarettesPerDayFilter; let i = index"
+               [ngClass]="selectedCigarettesPerDay.indexOf(cigar_per_day.filterName) !== -1 ? 'bg-blue-100 rounded' : ''"
+               id="{{cigar_per_day.filterName}}-cigarPerDay">
+            <ng-container *ngIf="i < 10 || (cigarettesPerDayFilter.length > 10 && showCigarPerDay && i >= 10)">
+              <label class="flex items-center space-x-2 cursor-pointer">
+                <!--
+                <input
+                  type="checkbox"
+                  class="form-checkbox h-4 w-4 text-blue-600"
+                  [value]="cigar_per_day.filterName"
+                  [(ngModel)]="selectedCigarettesPerDay"
+                  [disabled]="cigar_per_day.filterCount == 0"
+                  (change)="filterDataByCigarettesPerDay($event, '-cigarPerDay', i)"
+                  name="group2"
+                  id="group2{{cigar_per_day.filterName}}"
+                />
+                -->
+
+                <p-checkbox name="group2" id="group2{{cigar_per_day.filterName}}"
+                                  value={{cigar_per_day.filterName}}
+                                  [(ngModel)]="selectedCigarettesPerDay"
+                      [disabled]="cigar_per_day.filterCount == 0"
+                                  (onChange)="filterDataByCigarettesPerDay($event, '-cigarPerDay', i);">
+                              </p-checkbox>
+                <span [ngStyle]="getStyleForCheckbox(cigar_per_day.filterName, selectedCigarettesPerDay)">
+                  {{cigar_per_day.filterName}} ({{cigar_per_day.filterCount}} {{cigar_per_day.filterCount > 1 ? 'Studies' : 'Study'}})
+                </span>
+              </label>
+            </ng-container>
+
+            <div *ngIf="cigarettesPerDayFilter.length > 10 && !showCigarPerDay && i==10"
+                 (click)="showMoreOrLess('cigarettes_per_day')"
+                 class="text-right text-sm text-gray-600 font-bold cursor-pointer select-none">
+              {{cigarettesPerDayFilter.length - 10}} More...
+            </div>
+            <div *ngIf="cigarettesPerDayFilter.length > 10 && showCigarPerDay && i==cigarettesPerDayFilter.length - 1"
+                 (click)="showMoreOrLess('cigarettes_per_day')"
+                 class="text-right text-sm text-gray-600 font-bold cursor-pointer select-none">
+              Less...
+            </div>
+          </div>
+        </ng-container>
+        <ng-template #cigarettesPerDayContent>
+          <div *ngFor="let cigar_per_day of cigarettesPerDayFilter; let i = index"
+               [ngClass]="selectedCigarettesPerDay.indexOf(cigar_per_day.filterName) !== -1 ? 'bg-blue-100 rounded' : ''"
+               id="{{cigar_per_day.filterName}}-cigarPerDay">
+            <ng-container *ngIf="i < 10 || (cigarettesPerDayFilter.length > 10 && showCigarPerDay && i >= 10)">
+              <label class="flex items-center space-x-2 cursor-pointer">
+                <!--
+                <input
+                  type="checkbox"
+                  class="form-checkbox h-4 w-4 text-blue-600"
+                  [value]="cigar_per_day.filterName"
+                  [(ngModel)]="selectedCigarettesPerDay"
+                  [disabled]="cigar_per_day.filterCount == 0"
+                  (change)="filterDataByCigarettesPerDay($event, '-cigarPerDay', i)"
+                  name="group2"
+                  id="group2{{cigar_per_day.filterName}}"
+                />
+                -->
+
+                <p-checkbox name="group2" id="group2{{cigar_per_day.filterName}}"
+                                  value={{cigar_per_day.filterName}}
+                                  [(ngModel)]="selectedCigarettesPerDay"
+                      [disabled]="cigar_per_day.filterCount == 0"
+                                  (onChange)="filterDataByCigarettesPerDay($event, '-cigarPerDay', i);">
+                              </p-checkbox>
+                <span [ngStyle]="getStyleForCheckbox(cigar_per_day.filterName, selectedCigarettesPerDay)">
+                  {{cigar_per_day.filterName}} ({{cigar_per_day.filterCount}} {{cigar_per_day.filterCount > 1 ? 'Studies' : 'Study'}})
+                </span>
+              </label>
+            </ng-container>
+
+            <div *ngIf="cigarettesPerDayFilter.length > 10 && !showCigarPerDay && i==10"
+                 (click)="showMoreOrLess('cigarettes_per_day')"
+                 class="text-right text-lg text-gray-600 font-bold cursor-pointer select-none">
+              {{cigarettesPerDayFilter.length - 10}} More...
+            </div>
+            <div *ngIf="cigarettesPerDayFilter.length > 10 && showCigarPerDay && i==cigarettesPerDayFilter.length - 1"
+                 (click)="showMoreOrLess('cigarettes_per_day')"
+                 class="text-right text-lg text-gray-600 font-bold cursor-pointer select-none">
+              Less...
+            </div>
+          </div>
+        </ng-template>
+
+      </div>
+    </fieldset>
+  </div>
+</div>
+</div> <!-- end exposure panel section  -->
+</div> <!-- end clinical panel section  -->
+
+  <!-- Genes Tab -->
+  <div [style.display]="selectedTab === 4 ? 'block' : 'none'" class="">
+    <div class="border border-gray-200 rounded mb-4 sidenavFiltersPanel">
+      <div class="bg-[#D4E7F2] flex items-center justify-between mb-1 px-4 py-2 cursor-pointer hover:bg-blue-50"
+        (click)="showGeneFilter = !showGeneFilter">
+        <a href="/pdc/data-dictionary/Gene#gene_name" class="text-blue-600 hover:text-blue-800 font-semibold" target="_blank">Genes</a>
+        <button
+          class="text-gray-600 hover:text-gray-800"
+          id="clearGenesCategorySelection"
+          *ngIf="selectedGeneStudyList.length > 0"
+          (click)="clearAllGenesSelections()"
+          aria-label="Clear all genes symbols selections">
+          <i class="fa fa-undo"></i>
+        </button>
+        <i [ngClass]="showGeneFilter ? 'fa fa-minus' : 'fa fa-plus'"></i>
+      </div>
+      <div class="p-4" *ngIf="showGeneFilter">
+        <div class="mb-4">
+          <span class="block mb-2">Prebuilt genes list</span>
+          <mat-select class="card-body card-list select-gene" [(value)]="selectedGeneNames" [(ngModel)]="selectedGeneSelectField" (selectionChange)="triggerInputEvent(selectedGeneNames)">
+            <mat-option *ngFor="let geneNameField of prebuildGeneList" [value]="geneNameField.geneNamesList" style="font-size: 12px; line-height: 2em; height: 2em; min-width: 520px;">
+              {{geneNameField.listName}}
+            </mat-option>
+          </mat-select>
+        </div>
+
+        <div class="mb-4" >
+          <label for="genesNamesInputField" class="block mb-2 pt-2">Enter your genes names manually</label>
+          <textarea
+            id="genesNamesInputField"
+            name="genesNamesInputField"
+            [(ngModel)]="selectedGeneNames"
+            (ngModelChange)="triggerInputEvent(selectedGeneNames)"
+            class="w-[97%] h-40 border border-gray-300 rounded px-3 py-2"
+            aria-label="Enter Gene Names">
+          </textarea>
+          <span class="sr-only">Enter Gene Names</span>
+        </div>
+
+        <div *ngIf="selectedGeneNames.length == 0" class="mb-4">
+          <button>
+            Please enter one <br> or more gene symbols.
+          </button>
+        </div>
+
+        <div *ngIf="!loadingGeneSymbolValidation && allGeneNamesValid && selectedGeneNames.length > 0 && this.validGenesNotUsedInPDCStudies.length == 0" class="mb-4">
+          <button class="bg-green-600 text-white font-normal px-4 py-2 rounded mb-2">
+            All gene symbols are valid.
+          </button>
+        </div>
+
+        <div *ngIf="!loadingGeneSymbolValidation && !allGeneNamesValid && selectedGeneNames.length > 0" class="mb-2">
+          <button class="bg-red-500 text-white font-normal px-4 py-2 rounded">
+            Gene name is invalid or not found in PDC.
+          </button>
+        </div>
+
+        <div *ngIf="loadingGeneSymbolValidation" class="mb-4">
+          <button class="px-4 py-2">
+            <i class="pi pi-spin pi-spinner"></i> Validating gene symbols...
+          </button>
+        </div>
+
+        <div *ngIf="invalidGenesEnteredByUser.length > 0" class="invalidGeneBreadCrumbs mb-4">
+          <span *ngFor="let invalidGene of invalidGenesEnteredByUser; index as i"
+                class="invalidGenes invalidGenes-{{invalidGene}} inline-block mr-2">
+            <button class="bg-blue-600 text-white px-2 py-1 rounded text-sm"
+                    (click)="deleteInvalidGeneBreadcrumb(invalidGene)">
+              {{invalidGene}}&nbsp;<i class="fa fa-close text-xs"></i>
+            </button>
+          </span>
+        </div>
+
+        <button
+          class="bg-blue-600 text-white px-4 py-2 rounded block mx-auto mt-2"
+          id="queryGeneNamesFilter"
+          (click)="filterDataByGeneName()"
+          [disabled]="(loadingGeneSymbolValidation == true || !allGeneNamesValid || this.validGenesNotUsedInPDCStudies.length > 0)">
+          Submit Query
+        </button>
+      </div>
+    </div>
+  </div> <!-- end genes tab   -->
+</div>
+<div class="flex justify-between mt-2">
+  <button class="bg-white text-black border-2 border-[#387ba8] px-4 py-2 rounded" (click)="clearAllSelections()" >Clear Filters</button>
+
+</div>

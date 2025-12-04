@@ -44,6 +44,7 @@ const defineSequelizeModels = (db) => {
 	  */
 	  //@@@PDC-4391 add new columns
 	  //@@@PDC-5257 add case_submitter_id
+	  //@@@PDC-9467 add sex
 	  const DemographicModel = db.getSequelize().define('demographic', {
 		  demographic_id: { type: Sequelize.STRING,
 					  primaryKey: true   },
@@ -52,6 +53,7 @@ const defineSequelizeModels = (db) => {
 		  demographic_submitter_id: { type: Sequelize.STRING },
 		  ethnicity: { type: Sequelize.STRING },
 		  gender: { type: Sequelize.STRING },
+		  sex: { type: Sequelize.STRING },
 		  race: { type: Sequelize.STRING },
 		  cause_of_death: { type: Sequelize.STRING },
 		  days_to_birth: { type: Sequelize.INTEGER },
@@ -371,6 +373,7 @@ const defineSequelizeModels = (db) => {
 			primaryKey: true  },
 		gene_name: { 	type: Sequelize.STRING  },
 		ncbi_gene_id: { type: Sequelize.STRING },
+		alias: { type: Sequelize.STRING },
 		authority: { type: Sequelize.STRING },
 		description: { type: Sequelize.STRING },
 		organism: { type: Sequelize.STRING },
@@ -464,6 +467,7 @@ const defineSequelizeModels = (db) => {
 	  db['Spectral'] = SpectralCountModel;
 	  db['Project'] = ProjectModel;
 	  db['Contact'] = ContactModel;
+
 };
 
 

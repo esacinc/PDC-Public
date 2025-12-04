@@ -193,6 +193,8 @@ const defineUiModels = (db) => {
     //@@@PDC-3428 add tumor_largest_dimension_diameter
 	//@@@PDC-4391 add new columns
 	//@@@PDC-5205 add auxiliary_data and tumor_cell_content
+	//@@@PDC-9467 add sex
+	//@@@PDC-9931 add treatment/exposure columns
 	/**
 	* ModelUIClinical is used in uiClinical query.
 	*/
@@ -211,6 +213,7 @@ const defineUiModels = (db) => {
 		demographic_submitter_id: { type: Sequelize.STRING},   
 		ethnicity: { type: Sequelize.STRING},
 		gender: { type: Sequelize.STRING},
+		sex: { type: Sequelize.STRING},
 		race: { type: Sequelize.STRING},
 		cause_of_death: { type: Sequelize.STRING}, 
 		days_to_birth: { type: Sequelize.STRING}, 
@@ -241,7 +244,6 @@ const defineUiModels = (db) => {
 		tumor_grade: { type: Sequelize.STRING}, 
 		tumor_stage: { type: Sequelize.STRING}, 
    	    tumor_largest_dimension_diameter : { type: Sequelize.STRING },
-		vital_status: { type: Sequelize.STRING}, 
 		tumor_cell_content: { type: Sequelize.STRING}, 
 		prior_malignancy: { type: Sequelize.STRING}, 
 		ajcc_clinical_m: { type: Sequelize.STRING}, 
@@ -258,8 +260,7 @@ const defineUiModels = (db) => {
 		ann_arbor_extranodal_involvement: { type: Sequelize.STRING}, 
 		ann_arbor_pathologic_stage: { type: Sequelize.STRING}, 
 		best_overall_response: { type: Sequelize.STRING}, 
-		burkitt_lymphoma_clinical_variant: { type: Sequelize.STRING}, 
-		cause_of_death: { type: Sequelize.STRING}, 
+		burkitt_lymphoma_clinical_variant: { type: Sequelize.STRING},
 		circumferential_resection_margin: { type: Sequelize.STRING}, 
 		colon_polyps_history: { type: Sequelize.STRING}, 
 		days_to_best_overall_response: { type: Sequelize.STRING}, 
@@ -355,10 +356,17 @@ const defineUiModels = (db) => {
 		sites_of_involvement: { type: Sequelize.STRING },
 		tumor_depth: { type: Sequelize.STRING },
 		who_cns_grade: { type: Sequelize.STRING },
-		tumor_cell_content: { type: Sequelize.STRING },
 		auxiliary_data: { type: Sequelize.STRING },
 		who_nte_grade: { type: Sequelize.STRING },
 		diagnosis_uuid: { type: Sequelize.STRING },
+		therapeutic_agents: { type: Sequelize.STRING },
+		treatment_intent_type: { type: Sequelize.STRING },
+		treatment_type: { type: Sequelize.STRING },
+		treatment_outcome: { type: Sequelize.STRING },
+		alcohol_history: { type: Sequelize.STRING },
+		alcohol_intensity: { type: Sequelize.STRING },
+		tobacco_smoking_status: { type: Sequelize.STRING },
+		cigarettes_per_day: { type: Sequelize.STRING },
 	}, {
 		timestamps: false,
 		underscored: true,
@@ -373,6 +381,7 @@ const defineUiModels = (db) => {
 	//@@@PDC-2815 add embargo_date to getPaginatedUIFile API
 	//@@@PDC-3909 add data_source to getPaginatedUILegacyFile API
 	//@@@PDC-6513 API for new pancancer publication page
+	//@@@PDC-9018 Add "Protocol" to files view and export
 	/**
 	* ModelUIFile is used in uiFile query.
 	*/
@@ -384,6 +393,7 @@ const defineUiModels = (db) => {
 		embargo_date: { type: Sequelize.DATE },
 		file_name:  { type: Sequelize.STRING},
 		study_run_metadata_submitter_id:  { type: Sequelize.STRING},
+		protocol_submitter_id:  { type: Sequelize.STRING},
 		project_name:  { type: Sequelize.STRING},
 		data_source: { type: Sequelize.STRING},
 		data_category: { type: Sequelize.STRING},
@@ -403,11 +413,16 @@ const defineUiModels = (db) => {
 	
 	//@@@PDC-579 gene tabe pagination
 	//@@@PDC-7629 add gene_id and ncbi_gene_id to output
+	//@@@PDC-8588 handle gene with aliases
 	const ModelUIGene = db.getSequelize().define('dummy', {
 		gene_name: { type: Sequelize.STRING},
 		gene_id: { type: Sequelize.STRING},
 		ncbi_gene_id: { type: Sequelize.STRING},
+		organism:  { type: Sequelize.STRING},
+		description:  { type: Sequelize.STRING},
+		authority:  { type: Sequelize.STRING},
 		chromosome:  { type: Sequelize.STRING},
+		alias:  { type: Sequelize.STRING},
 		locus:  { type: Sequelize.STRING},
 		num_study:  { type: Sequelize.INTEGER},
 		proteins:  { type: Sequelize.STRING},
@@ -481,6 +496,18 @@ const defineUiModels = (db) => {
 		tableName: 'dummy'	
 	});
 	ModelUIVersion.removeAttribute('id');
+
+	//@@@PDC-10280 Add tooltip to Program filters
+	const ModelUIProgram = db.getSequelize().define('dummy', {
+		shortname: { type: Sequelize.STRING },
+		fullname:  { type: Sequelize.STRING },
+	}, {
+		timestamps: false,
+		underscored: true,
+		freezeTableName: true,
+		tableName: 'dummy'
+	});
+	ModelUIProgram.removeAttribute('id');
 
 	//@@@PDC-136 server-side pagination 
 	/**
@@ -747,7 +774,8 @@ const defineUiModels = (db) => {
 	db['ModelUIFileCount'] = ModelUIFileCount;
 	db['ModelUIGeneStudySpectralCount'] = ModelUIGeneStudySpectralCount;
 	db['ModelUISunburst'] = ModelUISunburst;	
-	db['ModelUIVersion'] = ModelUIVersion;	
+	db['ModelUIVersion'] = ModelUIVersion;
+	db['ModelUIProgram'] = ModelUIProgram;
 	db['ModelUIPtm'] = ModelUIPtm;		
 	db['ModelFilterStudy'] = ModelFilterStudy;		
 	db['ModelFilterProgProj'] = ModelFilterProgProj;

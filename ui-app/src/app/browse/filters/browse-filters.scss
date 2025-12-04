@@ -50,12 +50,13 @@ $stateActiveBgColor: #3baae3;
 }
 
 //@@@PDC-683 - Add Gene Name filter to Gene filter tab with prepopulated genes list
+/* TODO(mdc-migration): The following rule targets internal classes of select that may no longer apply for the MDC version.*/
 .mat-select-value-text {
     white-space: pre-wrap!important;
     overflow: scroll!important;
     text-overflow: ellipsis!important;
 }
-.mat-select-panel .mat-option {
+.mat-mdc-select-panel .mat-mdc-option {
 	font-size: 12px!important;
     line-height: 2em!important;
     height: 2em!important;
@@ -127,7 +128,7 @@ $stateActiveBgColor: #3baae3;
 	padding-bottom: 0px!important;
 }
 
- ::ng-deep .sidenavFiltersPanel .mat-list-item {
+ ::ng-deep .sidenavFiltersPanel .mat-mdc-list-item {
 	padding-right: 0px!important;
 	height: 35px!important;
 	line-height: 100%;
@@ -138,26 +139,34 @@ $stateActiveBgColor: #3baae3;
 	left: 7.5px!important;
   }
 //@@@PDC-8279-fix-508-compliance
-.mat-expansion-panel-header, .mat-expansion-panel-header:hover{
-	background-color: #387BA8 !important;
-	padding-right:0px!important;
+.mat-expansion-panel > mat-expansion-panel-header, .mat-expansion-panel-header:hover{
+      background-color: #387BA8 !important;
+      font-weight: bold;
+	  padding-right:0px !important;
+}
+
+.mat-expansion-panel mat-expansion-panel > mat-expansion-panel-header {
+      background-color: #2986cc;
+	  padding-right:3px!important;
 }
 
 .mat-expansion-panel-header-title{
 	margin-right:0px!important;
 }
 
-::ng-deep div.mat-tab-label-content button#clearBiospecimenDataCategory.mat-icon-button {
+/* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
+::ng-deep div.mat-tab-label-content button#clearBiospecimenDataCategory.mat-mdc-icon-button {
 		width: 20px;
 }
 
 //@@@PDC-4625: Implement the UI-UX changes to the filter sidebar
 //@@@PDC-4871: UI-UX changes for stacking filters & improvements to the menu section
 ::ng-deep {
+	/* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
 	.side-bar-tabs .mat-tab-labels {
 		display: block !important;
 	}
-
+	/* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
 	.side-bar-tabs .mat-tab-label {
 		padding: 0px !important;
 		border: 0.5px solid lightgray !important;
@@ -167,11 +176,11 @@ $stateActiveBgColor: #3baae3;
 		border-radius: 4px;
 		height: 30px !important;
 	}
-
+	/* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
 	.side-bar-tabs .mat-tab-label-container {
 		text-align: center;
 	}
-
+	/* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
 	.side-bar-tabs .mat-tab-label-active {
 		//background: linear-gradient(to bottom, #f6f7f9 0%, #ebedf0 100%);
 		//background-color: #E8E8E8;
@@ -179,11 +188,11 @@ $stateActiveBgColor: #3baae3;
 		font-weight: 700;
 	}
 
-	.side-bar-tabs .mat-icon-button {
+	.side-bar-tabs .mat-mdc-icon-button {
 		width: 15px !important;
 	}
 
-	.side-bar-tabs .mat-icon-button i {
+	.side-bar-tabs .mat-mdc-icon-button i {
 		line-height: 20px;
 		font-size: 12px;
 	}
@@ -206,11 +215,12 @@ $stateActiveBgColor: #3baae3;
 
 	@media not all and (min-resolution:.001dpcm)
 	{ @supports (-webkit-appearance:none) and (stroke-color:transparent) {
+		/* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
 		.side-bar-tabs .mat-tab-label-active {
 			font-weight: 500 !important;
 		}
 	}}
-
+	/* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
 	.side-bar-tabs .mat-tab-header-pagination.mat-tab-header-pagination-disabled,
 	.side-bar-tabs .mat-tab-header-pagination-controls-enabled .mat-tab-header-pagination {
     	display: none !important;
@@ -258,104 +268,100 @@ $stateActiveBgColor: #3baae3;
 	}}
 }
 
-// ::ng-deep .mat-tab-labels {
-// 	__<<ngThemingMigrationEscapedComment0>>__
-// 	display: block !important;
-// }
+//@@PDC-8723 - updates to new study filter search box icon and clear button position
+  .search-wrapper {
+	position: relative;
+	display: flex;
+	align-items: center;
+  }
 
-// ::ng-deep .mat-tab-label {
-//   min-width: 102.9px !important;
-//   padding: 0px !important;
-// }
+  .search-icon {
+	position: absolute;
+	left: 10px;
+	top: 50%;
+	transform: translateY(-50%);
+	font-size: 1.2em;
+	color: lightgrey;
+  }
 
-// PDC-620: Make the filter selection tabs along the left side of the window
-/* ::ng-deep {
-	.sideBarNavigation .mat-tab-label-container {
-		display: flex;
-		flex-grow: 1;
-		overflow: hidden;
-		flex-direction: column;
-		z-index: 1;
-		width: 38px;
-	}
-	.sideBarNavigation .mat-tab-group {
-		flex-direction: row;
-	}
-	.sideBarNavigation .mat-tab-labels, sideBarNavigation .mat-tab-label-active {
-		flex-direction: column;
-		width: 60px;
-		height: 770px;
-		margin-left: -40px;
-		justify-content: space-around;
-		display: flex;
-	}
-	.sideBarNavigation .mat-tab-body-wrapper {
-		flex: 1 1 auto;
-		flex-direction: column;
-	}
-	.sideBarNavigation .mat-tab-header {
-		flex-direction: column;
-		border-bottom: none;
-	}
+  .search-input {
+	padding-left: 30px; // Adjust padding to make space for the icon
+	padding-right: 30px; // Adjust padding to make space for the clear button
+	width: 100%;
+  }
 
-	.sideBarNavigation .mat-ink-bar {
-		height: 100%;
-		left: 98% !important;
-	}
+  .search-clear-button {
+	position: absolute;
+	right: 10px;
+	top: 75%;
+	transform: translateY(-50%);
+	background: none;
+	border: none;
+	cursor: pointer;
+  }
 
-	.sideBarNavigation .mat-ripple {
-		overflow: visible;
-	}
+  /* @@@@PDC-8961 - fix gene filter display issues
+  ::ng-deep.mat-select-arrow {
+	//display: none;
+  }
 
-	.sideBarNavigation .mat-tab-header-pagination {
-		display: none !important;
-	}
+  ::ng-deep.mat-select-value-text {
+   // display: none !important;
 
-	.sideBarNavigation .mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary .mat-ink-bar {
-		background-color: #F0F0F0;
-	}
+  }
+  */
 
-	.sideBarNavigation .mat-tab-label-active{
-		background-color: #E8E8E8 !important;
-		border-radius: 2px;
-	}
+  .mat-mdc-list-item {
+	height: auto !important;
+	font-size: 14px !important;
+  }
 
-	.sideBarNavigation .mat-tab-label {
-		-ms-transform: rotate(90deg);
-		-webkit-transform: rotate(90deg);
-		transform: rotate(90deg);
-		min-width: 200%;
-		border-right: 1px solid #dddddd;
-		height: 100%;
-		text-transform: uppercase;
-		font-weight: bold;
-		color: black;
-	} */
+/* Simple alignment for all plus and minus signs */
+.fa-plus,
+.fa-minus {
+    width: 16px !important;
+    text-align: center !important;
+    font-size: 14px !important;
+    display: inline-block !important;
+}
 
-//	.sideBarNavigation #mat-tab-label-1-1 {
-//		min-width: 150px !important;
-//		padding-top: 50px !important;
-//	}
+/* Ensure all toggle buttons have consistent styling */
+button[aria-label*="Toggle"] {
+    width: 20px !important;
+    height: 20px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
+    background: none !important;
+    border: none !important;
+}
 
-//	div#mat-tab-label-1-1{
-//		justify-content: center !important;
-//		padding-left: 45px !important;
-//	}
+// Remove outline from flex items-center ng-star-inserted elements
+.flex.items-center.ng-star-inserted {
+    outline: none !important;
+}
 
-//	.sideBarNavigation #mat-tab-label-1-0, .sideBarNavigation #mat-tab-label-1-1, .sideBarNavigation #mat-tab-label-1-2,
-//	.sideBarNavigation #mat-tab-label-1-3,  .sideBarNavigation #mat-tab-label-1-4, sideBarNavigation #mat-tab-label-1-5{
-//		justify-content: center !important;
-//		//padding-left: 40px !important;
-//	}
+.flex.items-center.ng-star-inserted:focus {
+    outline: none !important;
+}
 
-	// PDC-3776 Make study filtering a primary filter tab
-//	div#mat-tab-label-1-5{
-//		justify-content: center !important;
-//		padding-left: 30px !important;
-//	}
+// Custom tooltip styling - grey text, white background, outlined rectangle
+.mat-mdc-tooltip {
+    background-color: white !important;
+    color: #666666 !important;
+    border: 1px solid #cccccc !important;
+    border-radius: 4px !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+    font-size: 12px !important;
+    padding: 8px 12px !important;
+}
 
-//	div#mat-tab-label-1-3{
-//		padding-left: 45px !important;
-//	}
-
-//}
+// Fix for the misaligned box - target the cdk-overlay-pane specifically for tooltips only
+::ng-deep .cdk-overlay-container .cdk-overlay-pane:has(.mat-tooltip-panel),
+::ng-deep .cdk-overlay-container .cdk-overlay-pane:has(.mat-mdc-tooltip) {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+}

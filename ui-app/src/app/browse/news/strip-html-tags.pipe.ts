@@ -15,7 +15,8 @@ const tagOrComment = new RegExp(
       + ')>',
       'gi');
 @Pipe({
-  name: 'stripHtmlTags'
+    name: 'stripHtmlTags',
+    standalone: false
 })
 export class StripHtmlTagsPipe implements PipeTransform {
   transform(value: any, args?: any): any {

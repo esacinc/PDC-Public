@@ -5,6 +5,7 @@ import Sequelize from 'sequelize';
 import {filters, filtersView} from '../util/filters'
 import { replacementFilters, replacementFiltersView } from "../util/replacementFilters";
 import {getSignedUrl} from '../util/getSignedUrl'
+//import {getCFSignedUrl} from '../util/getCFSignedUrl'
 import {RedisCacheClient, CacheName} from '../util/cacheClient';
 //@@@PDC-1215 use winston logger
 import { logger } from '../util/logger';
@@ -179,13 +180,15 @@ export const resolvers = {
 			//@@@PDC-2544 use case_id in cache key
 			cacheFilterName.name += "case_id:(" + obj.case_id + ");";
 			const res = await RedisCacheClient.redisCacheGetAsync(CacheName.getSummaryPageCaseSummary('CaseDemographic') + cacheFilterName['name']);
-			if (res === null) {				
+			if (res === null) {	
+				//@@@PDC-9467 add sex
 				var result = await db.getModelByName('Demographic').findAll({
 					attributes: [['bin_to_uuid(demographic_id)', 'demographic_id'], 'demographic_submitter_id',
 					['bin_to_uuid(case_id)', 'case_id'],
 					'case_submitter_id',
 						'ethnicity',
 						'gender',
+						['gender', 'sex'],
 						'race',
 						'cause_of_death',
 						'days_to_birth',
@@ -536,13 +539,14 @@ export const resolvers = {
 				if (typeof context.arguments.dataset_alias != 'undefined'){
 					//@@@PDC-2638 enhance aliquotSpectralCount
 					//@@@PDC-6285 force case insenetive on gene_name
-					spQuery = "SELECT bin_to_uuid(s.project_id) as project_id, s.project_submitter_id, bin_to_uuid(s.study_id) as study_id, s.study_submitter_id, pdc_study_id, dataset_alias as plex, spectral_count, distinct_peptide, unshared_peptide from spectral_count sp left join study s on sp.study_id = s.study_id where dataset_alias like '%"+context.arguments.dataset_alias+"%' and gene_name = '"+
-					obj.gene_name+"' COLLATE utf8mb4_general_ci";
+					spQuery = "SELECT bin_to_uuid(s.project_id) as project_id, s.project_submitter_id, bin_to_uuid(s.study_id) as study_id, s.study_submitter_id, pdc_study_id, dataset_alias as plex, spectral_count, distinct_peptide, unshared_peptide from spectral_count sp left join study s on sp.study_id = s.study_id where dataset_alias like '%"+context.arguments.dataset_alias+"%' and "+
+					"gene_id = uuid_to_bin('"+ obj.gene_id+"')";
+					//"' COLLATE utf8mb4_general_ci";
 
 				}
 				else {
-					spQuery = "SELECT bin_to_uuid(s.project_id) as project_id, s.project_submitter_id, bin_to_uuid(s.study_id) as study_id, s.study_submitter_id, pdc_study_id, dataset_alias as plex, spectral_count, distinct_peptide, unshared_peptide from spectral_count sp left join study s on sp.study_id = s.study_id where plex_name = 'All' and gene_name = '"+
-					obj.gene_name+"'  COLLATE utf8mb4_general_ci";
+					spQuery = "SELECT bin_to_uuid(s.project_id) as project_id, s.project_submitter_id, bin_to_uuid(s.study_id) as study_id, s.study_submitter_id, pdc_study_id, dataset_alias as plex, spectral_count, distinct_peptide, unshared_peptide from spectral_count sp left join study s on sp.study_id = s.study_id where plex_name = 'All' and "+
+					"gene_id = uuid_to_bin('"+ obj.gene_id+"')";
 
 				}
 				var result = await db.getSequelize().query(spQuery, { model: db.getModelByName('Spectral') });
@@ -561,7 +565,6 @@ export const resolvers = {
 			cacheFilterName.name +="sp_gene_name:("+ obj.gene_name +"-"+ obj.ncbi_gene_id+");";
 			const res = await RedisCacheClient.redisCacheGetAsync(CacheName.getSummaryPageGeneSummary('GeneSpectralCount')+cacheFilterName['name']);
 			if(res === null){
-				/*var spQuery = "SELECT project_submitter_id, study_submitter_id, dataset_alias as plex, spectral_count, distinct_peptide, unshared_peptide from spectral_count where plex_name = 'All' and gene_name = '"+obj.gene_name+"'";*/
 				var spQuery = "SELECT project_submitter_id, study_submitter_id, dataset_alias as plex, spectral_count, distinct_peptide, unshared_peptide from spectral_count where plex_name = 'All' and gene_id = uuid_to_bin('"+obj.gene_id+"')";
 				var result = await db.getSequelize().query(spQuery, { model: db.getModelByName('Spectral') });
 				RedisCacheClient.redisCacheSetExAsync(CacheName.getSummaryPageGeneSummary('GeneSpectralCount')+cacheFilterName['name'], JSON.stringify(result));
@@ -635,6 +638,54 @@ export const resolvers = {
 			}
 		}
 	},
+	//@@@PDC-9904 add case/diseaseTypes counts
+	//@@@PDC-10115 exclude Aebersold Lab
+	PdcDataStats: {
+		async case(obj, args, context) {
+			/*let cacheKey = "PDCHOME:caseCount";
+			const res = await RedisCacheClient.redisCacheGetAsync(cacheKey);
+			if (res === null) {*/
+				let caseQuery = `SELECT count(distinct c.case_id) as case_count FROM study s
+				 JOIN project proj ON proj.project_id = s.project_id
+				 JOIN program prog ON proj.program_id = prog.program_id
+				 JOIN aliquot_run_metadata alm ON alm.study_id = s.study_id
+				 JOIN aliquot al ON al.aliquot_id = alm.aliquot_id
+				 JOIN sample sam ON al.sample_id = sam.sample_id
+				 JOIN \`case\` c ON sam.case_id = c.case_id
+				 WHERE 'PG25730263' = 'PG25730263'`;
+				let result = await db.getSequelize().query(caseQuery, { raw: true });
+				//console.log(JSON.stringify(result))
+				//RedisCacheClient.redisCacheSetExAsync(cacheKey, JSON.stringify(result));
+				return result[0][0]['case_count'];
+			/*}
+			else {
+				let cached = JSON.parse(res);
+				return cached[0][0]['case_count'];
+			}*/
+		},
+		async disease_type(obj, args, context) {
+			/*let cacheKey = "PDCHOME:dtCount";
+			const res = await RedisCacheClient.redisCacheGetAsync(cacheKey);
+			if (res === null) {*/
+				let ddQuery = `SELECT count(distinct c.disease_type)as disease_count FROM study s
+				 JOIN project proj ON proj.project_id = s.project_id
+				 JOIN program prog ON proj.program_id = prog.program_id
+				 JOIN aliquot_run_metadata alm ON alm.study_id = s.study_id
+				 JOIN aliquot al ON al.aliquot_id = alm.aliquot_id
+				 JOIN sample sam ON al.sample_id = sam.sample_id
+				 JOIN \`case\` c ON sam.case_id = c.case_id
+				 WHERE 'PG25730263' = 'PG25730263'`;
+				let result = await db.getSequelize().query(ddQuery, { raw: true });
+				console.log(JSON.stringify(result))
+				//RedisCacheClient.redisCacheSetExAsync(cacheKey, JSON.stringify(result));
+				return result[0][0]['disease_count'];
+			/*}
+			else {
+				let cached = JSON.parse(res);
+				return cached[0][0]['disease_count'];
+			}*/
+		}
+	},
 	//@@@PDC-3921 new studyCatalog api
 	StudyCatalogEntry: {
 		versions(obj, args, context) {
@@ -666,7 +717,19 @@ export const resolvers = {
 			"WHERE file.file_id = sf.file_id and study.study_id = sf.study_id "+
 			"and sf.study_run_metadata_submitter_id = '"+ obj.study_run_metadata_submitter_id +"'";
 			return db.getSequelize().query(fileQuery, { model: db.getModelByName('ModelFile') });
-
+		},
+		//@@@PDC-9698 get protocol at srm level
+		protocol(obj, args, context) {
+			logger.info("protocol is called via "+context.parent+ ": "+obj.study_run_metadata_submitter_id);
+			var pQuery = "SELECT bin_to_uuid(p.protocol_id) as protocol_id, p.protocol_submitter_id, "+
+			"p.instrument_model as instrument "+
+			"FROM protocol p, study_run_metadata srm "+
+			"WHERE srm.protocol_id = p.protocol_id "+
+			"and srm.study_run_metadata_submitter_id = '"+ obj.study_run_metadata_submitter_id +"'";
+			let result = db.getSequelize().query(pQuery, { model: db.getModelByName('ModelProtocol') });
+			logger.info("protocol found: "+ JSON.stringify(result))
+			//return db.getSequelize().query(pQuery, { model: db.getModelByName('ModelProtocol') });
+			return result;
 		}
 	},
 	//@@@PDC-2026 add case external reference
@@ -912,6 +975,54 @@ export const resolvers = {
 				return getIt;
 			}
 			return JSON.parse(res);
+		},
+		//@@@PDC-9836 add has_genomic_data flag
+		async has_genomic_data(obj, args, context) {
+			logger.info("has_genomic_data is called via "+context.parent+ " "+obj.study_submitter_id);
+			let refQuery = "SELECT reference_id FROM reference WHERE entity_type = 'study' and reference_type = 'external' and reference_resource_name = 'Genomic Data Commons' and entity_id = uuid_to_bin('"+ obj.study_id +"')";
+			var hasRef = await db.getSequelize().query(refQuery, { raw: true });
+			if (hasRef[0].length > 0)
+				return 'Yes'
+			else
+				return 'No'			
+		},
+		//@@@PDC-9836 add has_imaging_data flag
+		async has_imaging_data(obj, args, context) {
+			logger.info("has_imaging_data is called via "+context.parent+ " "+obj.study_submitter_id);
+			let refQuery = "SELECT reference_id FROM reference WHERE entity_type = 'study' and reference_type = 'external' and reference_resource_name = 'Imaging Data Commons' and entity_id = uuid_to_bin('"+ obj.study_id +"')";
+			var hasRef = await db.getSequelize().query(refQuery, { raw: true });
+			if (hasRef[0].length > 0)
+				return 'Yes'
+			else
+				return 'No'			
+		},
+		//@@@PDC-10065 add has_lipidome_data flag
+		async has_lipidome_data(obj, args, context) {
+			logger.info("has_lipidome_data is called via "+context.parent+ " "+obj.study_submitter_id);
+			if (obj.analytical_fraction === 'Lipidome')
+				return 'Yes'
+			else {
+				let refQuery = "SELECT * FROM reference ref, study s WHERE reference_entity_alias = pdc_study_id and entity_type = 'study' and s.analytical_fraction = 'Lipidome' and entity_id = uuid_to_bin('"+ obj.study_id +"')";
+				var hasRef = await db.getSequelize().query(refQuery, { raw: true });
+				if (hasRef[0].length > 0)
+					return 'Yes'
+				else
+					return 'No'	
+			}				
+		},
+		//@@@PDC-10065 add has_metabolome_data flag
+		async has_metabolome_data(obj, args, context) {
+			logger.info("has_metabolome_data is called via "+context.parent+ " "+obj.study_submitter_id);
+			if (obj.analytical_fraction === 'Metabolome')
+				return 'Yes'
+			else {
+				let refQuery = "SELECT * FROM reference ref, study s WHERE reference_entity_alias = pdc_study_id and entity_type = 'study' and s.analytical_fraction = 'Metabolome' and entity_id = uuid_to_bin('"+ obj.study_id +"')";
+			var hasRef = await db.getSequelize().query(refQuery, { raw: true });
+			if (hasRef[0].length > 0)
+				return 'Yes'
+			else
+				return 'No'	
+			} 			
 		}
 	},
 	//@@@PDC-898 new public APIs--study
@@ -1667,7 +1778,7 @@ export const resolvers = {
 		},
 		//@@@PDC-579 gene tabe pagination
 		async uiGenes(obj, args, context) {
-			logger.info("uiGenes is called via "+context.parent);
+			logger.info("uiGenes is called via " + context.parent);
 			//@@@PDC-8165 handle zero-gene to avoid sql error
 			if (obj[0].total <= 0)
 				return [];
@@ -1722,7 +1833,7 @@ export const resolvers = {
 				result.forEach(element => element.num_study= geneStudyCountMap.get(element.gene_name));
 				RedisCacheClient.redisCacheSetExAsync(context.dataCacheName, JSON.stringify(result));*/
 				return result;
-			}else{
+			} else {
 				return JSON.parse(res);
 			}
 		},
@@ -2221,31 +2332,6 @@ export const resolvers = {
 			return context.total;
 		}
 	},
-	//@@@PDC-8028 restructure uiGenes to get study count
-	//@@@PDC-8220 speed up study count query
-	/*UIGene: {
-		async num_study(obj, args, context) {
-			let cacheKey = "PDCPUB:uiGene:studyCount:"+obj.gene_id;
-			const res = await RedisCacheClient.redisCacheGetAsync(cacheKey);
-			if (res === null){
-				let sCountQuery = "SELECT COUNT(distinct sc.study_id) AS num_study "+
-								  "FROM spectral_count sc "+
-								  "WHERE sc.plex_name = 'All' "+
-								  "AND sc.gene_id = uuid_to_bin('"+obj.gene_id+"')"
-				let geneStudyCount = await db.getSequelize().query(
-					sCountQuery,
-					{
-						model: db.getModelByName('ModelUIGeneName')
-					}
-				);
-				RedisCacheClient.redisCacheSetExAsync(cacheKey, geneStudyCount[0].num_study);
-				return geneStudyCount[0].num_study
-			}
-			else {
-				return res;
-			}
-		}
-	},*/
 	//@@@PDC-1122 add signed url
 	FilePerStudy: {
 		signedUrl(obj, args, context) {
@@ -2254,6 +2340,7 @@ export const resolvers = {
 			//logger.info("File Size: "+obj.file_size);
 			//logger.info("file_location for "+ obj.file_name +": "+obj.file_location);
 			if (obj.file_size >= 32212254720)
+				//@@@PDC-9155 generate CF url
 				return getSignedUrl(obj.file_location, false);
 			else
 				return getSignedUrl(obj.file_location, true);

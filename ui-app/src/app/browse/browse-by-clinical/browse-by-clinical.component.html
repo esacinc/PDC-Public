@@ -1,4 +1,4 @@
-	<div class="row" style="font-family:'Lato'; font-size: 12px;" (window:resize)="onResize($event)">
+<div class="row" style="font-family:'Lato'; font-size: 12px;" (window:resize)="onResize($event)">
 
       <p-table class="table-striped ui-datatable-odd" #dt [columns]="cols" [value]="filteredClinicalData" [lazy]="true" [paginator]="true" [(first)]="offset"
 				[rows]="10" [pageLinks]="5" [rowsPerPageOptions]="[10,20,50]" [totalRecords]="totalRecords"
@@ -8,47 +8,52 @@
 				scrollHeight="500px" [autoLayout]="true" [frozenColumns]="frozenColumns" [scrollable]="true" frozenWidth="200px">
 		<ng-template pTemplate="caption">
 		<div class="container-fluid ui-helper-clearfix button-container-fluid exportButtonsRow">
-			<div class="row">
-					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-						<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-							<div *ngIf="totalRecords > 0 && !loading" >
-								<h3 style="font-family: 'Lato'; font-size:14px;margin-top:10px!important">{{totalRecords > 1 ? 'Total records: ' + totalRecords : 'Total record: ' + totalRecords }}</h3>
-							</div>
-						</div>
-						<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
-						<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 manifestDownload">
-							<div class="wholeManifestDownload">
-								Export All Manifests
-								<button matTooltip="Exports all manifests for the filters applied" id="downloadWholeManifest" mat-raised-button mat-primary label="Download Selection" (click)="downloadAllManifest('csv')" style="font-family:'Lato';font-weight:bold; min-width:1%;" [disabled]="iscompleteManifestDisabled()" aria-label="Download All Manifests">CSV</button>&nbsp;
-								<button matTooltip="Exports all manifests for the filters applied" id="downloadWholeManifest" mat-raised-button mat-primary label="Download Selection" (click)="downloadAllManifest('tsv')" style="font-family:'Lato';font-weight:bold; min-width:1%;" [disabled]="iscompleteManifestDisabled()" aria-label="Download All Manifests">TSV</button>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="container-fluid ui-helper-clearfix button-container-fluid" style="border-top: 1px solid #ddd; font-weight: 700;">
-				<div class="row">
-					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-						<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                <div *ngIf="totalRecords > 0 && !loading">
+                    <h3 style="font-family: 'Lato'; font-size:14px; margin-top:0!important">{{totalRecords > 1 ? 'Total records: ' + totalRecords : 'Total record: ' + totalRecords }}</h3>
+                </div>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 manifestDownload">
+                <div class="d-flex justify-content-end align-items-center gap-3">
+                    <span id="selectedClinicalDataCount" *ngIf="!isDownloadDisabled()" style="font-family:'Lato'; font-size:12px; color:#666;">Rows selected: {{selectedClinicalData.length}}</span>
+                    <div class="dropdown">
+                        <button
+                            tooltip="Exports all selected rows for the current data tab"
+                            class="btn btn-primary dropdown-toggle"
+                            type="button"
+                            id="exportClinicalManifestDropdown"
+                            data-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="false"
+                            style="font-weight:bold;"
+                            [disabled]="isDownloadDisabled()"
+                            (click)="toggleExportClinicalDropdown()">
+                            Export Clinical Manifest
+                            <i class="fa fa-chevron-down ml-2"></i>
+                        </button>
+                        <div class="dropdown-menu" [class.show]="showExportClinicalDropdown" aria-labelledby="exportClinicalManifestDropdown">
+                            <button
+                                class="dropdown-item"
+                                (click)="clinicalTableExportCSV(dt); toggleExportClinicalDropdown()"
+                                [disabled]="isDownloadDisabled()">
+                                <i class="fa fa-file-text mr-2"></i>CSV Format
+                            </button>
+                            <button
+                                class="dropdown-item"
+                                (click)="clinicalTableExportTSV(dt); toggleExportClinicalDropdown()"
+                                [disabled]="isDownloadDisabled()">
+                                <i class="fa fa-file-text mr-2"></i>TSV Format
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-						</div>
-						<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 manifestDownload">
-						  <div class="row">
-						    <div class="col-12">
-							  Export Clinical Manifest
-							  &nbsp;<button matTooltip="Exports all selected rows for the current data tab" id="downloadClinical"  mat-raised-button mat-primary label="Download Selection" (click)="clinicalTableExportCSV(dt)" [disabled]="isDownloadDisabled()" style="font-family:'Lato'; min-width:1%;" aria-label="Download Clinical Manifests">CSV</button>&nbsp;
-							  <button matTooltip="Exports all selected rows for the current data tab" id="downloadClinical"  mat-raised-button mat-primary label="Download Selection" (click)="clinicalTableExportTSV(dt)" [disabled]="isDownloadDisabled()" style="font-family:'Lato'; min-width:1%;" aria-label="Download Clinical Manifests">TSV</button>&nbsp;
-							</div>
-						  </div>
-						  <div class="row">
-						    <div class="col-12">
-							  <span id="selectedClinicalDataCount" *ngIf="!isDownloadDisabled()" style="padding-top:5px;">Rows selected: {{selectedClinicalData.length}}&nbsp;</span>
-							</div>
-						  </div>
-						</div>
-					</div>
-				</div>
-			</div>
 		</ng-template>
         <ng-template style="font-size: 12px; background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%);" pTemplate="header" let-columns>
             <tr style="font-size: 12px;">
@@ -73,13 +78,24 @@
 						<div>
 							<!-- @@@PDC-4978 update links to migrated documentation pages -->
 							<a href="/pdc/data-dictionary/Case#gdc_case_id" target="_blank" style="color:white">
-								Genomic and Imaging<br> Data Resource
+								Genomic<br> Data Resource
 							</a>
 						</div>
 					</div>
 				</th>
+              <th class="ui-datatable-tableheader">
+                <div class="ui-datatable-tableheader-flex-container">
+                  <div>
+                    <!-- @@@PDC-4978 update links to migrated documentation pages -->
+                    <a href="/pdc/data-dictionary/Case#gdc_case_id" target="_blank" style="color:white">
+                      Imaging<br> Data Resource
+                    </a>
+                  </div>
+                </div>
+              </th>
 				<th class="ui-datatable-tableheader" [pSortableColumn]="cols[3].field"><a href="/pdc/data-dictionary/Demographic#ethnicity" target="_blank" style="color:white">Ethnicity</a>&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Study in ascending/descending order"></i></th>
-			    <th class="ui-datatable-tableheader" [pSortableColumn]="cols[4].field"><a href="/pdc/data-dictionary/Demographic#gender" target="_blank" style="color:white">Gender</a>&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Study in ascending/descending order"></i></th>
+				<!--@@@PDC-9426 Gender to Sex conversion-->
+			    <th class="ui-datatable-tableheader" [pSortableColumn]="cols[4].field"><a href="/pdc/data-dictionary/Demographic#gender" target="_blank" style="color:white">Sex</a>&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Study in ascending/descending order"></i></th>
 			    <th class="ui-datatable-tableheader" [pSortableColumn]="cols[5].field"><a href="/pdc/data-dictionary/Demographic#race" target="_blank" style="color:white">Race</a>&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Study in ascending/descending order"></i></th>
 			    <th class="ui-datatable-tableheader" [pSortableColumn]="cols[6].field"><a href="/pdc/data-dictionary/Diagnosis#morphology" target="_blank" style="color:white">Morphology</a>&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Study in ascending/descending order"></i></th>
 				<th class="ui-datatable-tableheader" [pSortableColumn]="cols[7].field"><a href="/pdc/data-dictionary/Diagnosis#primary_diagnosis" target="_blank" style="color:white">Primary Diagnosis</a>&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Study in ascending/descending order"></i></th>
@@ -168,18 +184,29 @@
 					</span>
 					<span style='color:red' *ngIf="clinicalData.status == 'Disqualified'"><br>{{clinicalData.status}}</span>
 				</td>
-				<td style="word-wrap: break-word; white-space: normal;text-align: center">
-				<!-- @@@PDC-1987: Update clinical tab to use new external reference API -->
-					<div *ngFor="let externalRef of clinicalData.externalReferences">
-						<a [href]="externalRef.reference_entity_location" title="{{ (externalRef.reference_resource_shortname | uppercase) == 'TCIA' ? 'Go to imaging resource' : 'Go to genomic resource'}}" target="_blank">
-							<img [src]="getIcon(externalRef.reference_resource_shortname)" alt="" [ngClass]="(externalRef.reference_resource_shortname | uppercase) == 'TCIA' ? 'imagingLbl': 'genomicLbl'">
-							<span style="display:none">Click on the External Reference Image</span>
-							{{displayTextforExternalID(clinicalData.external_case_id, externalRef.reference_entity_location)}}
-						</a>
-					</div>
-				</td>
-                <td style="word-wrap: break-word; white-space: normal;">{{clinicalData.ethnicity}}</td>
-                <td style="word-wrap: break-word; white-space: normal;">{{clinicalData.gender}}</td>
+              <td style="word-wrap: break-word; white-space: normal;text-align: center">
+                <!-- @@@PDC-1987: Update clinical tab to use new external reference API -->
+                <div *ngFor="let externalRef of clinicalData.externalReferences">
+                  <a *ngIf="(externalRef.reference_resource_shortname | uppercase) !== 'TCIA'" [href]="externalRef.reference_entity_location"
+                     title="Go to genomic resource"
+                     target="_blank">
+                    {{ displayTextforExternalID(clinicalData.external_case_id, externalRef.reference_entity_location) }}
+                  </a>
+                </div>
+              </td>
+
+              <td style="word-wrap: break-word; white-space: normal;text-align: center">
+                <!-- @@@PDC-1987: Update clinical tab to use new external reference API -->
+                <div *ngFor="let externalRef of clinicalData.externalReferences">
+                  <a *ngIf="(externalRef.reference_resource_shortname | uppercase) === 'TCIA'" [href]="externalRef.reference_entity_location"
+                     title="Go to imaging resource"
+                     target="_blank">
+                    {{ displayTextforExternalID(clinicalData.external_case_id, externalRef.reference_entity_location) }}
+                  </a>
+                </div>
+              </td>
+              <td style="word-wrap: break-word; white-space: normal;">{{ clinicalData.ethnicity }}</td>
+              <td style="word-wrap: break-word; white-space: normal;">{{ clinicalData.gender }}</td>
 				<td style="word-wrap: break-word; white-space: normal;">{{clinicalData.race}}</td>
 				<td style="word-wrap: break-word; white-space: normal;">{{clinicalData.morphology}}</td>
 				<td style="word-wrap: break-word; white-space: normal;">{{clinicalData.primary_diagnosis}}</td>

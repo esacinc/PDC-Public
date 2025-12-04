@@ -1,18 +1,19 @@
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { ApolloTestingModule, ApolloTestingController } from "apollo-angular/testing";
 import { TestBed, inject } from "@angular/core/testing";
 
 import { BrowseByFileService } from "./browse-by-file.service";
 import gql from "graphql-tag";
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 
 describe("BrowseByFileService", () => {
   let controller: ApolloTestingController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [BrowseByFileService],
-      imports: [ApolloTestingModule, HttpClientTestingModule]
-    });
+    imports: [ApolloTestingModule],
+    providers: [BrowseByFileService, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+});
 
     controller = TestBed.get(ApolloTestingController);
   });

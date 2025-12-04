@@ -1,0 +1,257 @@
+<section class="usa-banner" aria-label="Official government website">
+  <header class="usa-banner__header">
+      <div class="usa-banner__inner">
+          <div class="usa-banner__header-text">
+              An official website of the United States government
+          </div>
+
+      </div>
+  </header>
+</section>
+<!-- @@@PDC-9906 - redesign updates -->
+<header id="nci-header" class="nci-header nci-header--megamenu" [ngClass]="{'navbar-full-width': isBrowsePage}">
+  <div class="nci-header__navbar" [ngClass]="{'navbar-container-full-width': isBrowsePage}">
+    <div class="" id="extended-mega-logo" style="width:25%;height:auto; float: left; margin-left: -20px;">
+        <a href="/" style="cursor: pointer;">
+        <picture>
+            <source media="(min-width: 1024px)" srcset="/assets/images/PDC-Logo-COLOR.svg"  >
+            <img src="/assets/images/PDC-Logo-COLOR.svg" alt="National Cancer Institute Homepage" />
+        </picture>
+        </a>
+    </div>
+
+    <div class="nci-header-nav__secondary">
+
+      <div class="navbar-search-row">
+        <!-- Mobile menu button -->
+        <button class="usa-button nci-header-mobilenav__open-btn"
+                (click)="toggleMobileMenu()"
+                [attr.aria-expanded]="isMobileMenuOpen"
+                aria-label="Toggle navigation menu">
+          Menu
+        </button>
+
+        <div class="searchbox-container">
+          <span class="search-icon">
+            <mat-icon>search</mat-icon>
+          </span>
+          <form (submit)="onSubmit()" class="navbar-search-form">
+            <input
+              type="text"
+              placeholder="e.g. BRCC3, 05BR003, kinase, PDC000123, phs000892"
+              class="search-input"
+              [(ngModel)]="searchTerm"
+              (input)="onInputChange()"
+              (focus)="showDropdown = true"
+              (blur)="hideDropdown()"
+              name="search"
+              autocomplete="off"
+            />
+            <ul *ngIf="showDropdown && filteredOptions.length > 0" class="custom-dropdown">
+              <li
+                *ngFor="let option of filteredOptions"
+                (mousedown)="selectOption(option)"
+                class="dropdown-item"
+                [innerHtml]="option.name | searchStyle: searchTerm"></li>
+            </ul>
+            <button aria-label="Clear" type="button" (click)="clearSearch()" class="search-clear-button" style="margin-top:5px;">
+              <mat-icon>close</mat-icon>
+            </button>
+          </form>
+        </div>
+        <button *ngIf='!userLoggedInFlag' class="usa-button usa-button--outline" (click)="login()" style="margin-left:10px;padding:11px;background-color: white;" matTooltip="Login to PDC Workspace"> Login
+        </button>
+        <div
+             cdkOverlayOrigin
+             #trigger="cdkOverlayOrigin"
+             color="primary">
+        <button *ngIf='userLoggedInFlag' class="usa-button usa-button--outline" (click)="logoff()" style="margin-left:10px;padding:11px;background-color: white;"> Logout
+        </button>
+          <button
+            *ngIf='userLoggedInFlag'
+            class="text-blue-600 hover:text-blue-800 focus:outline-none"
+            (click)="isLoginPopupOpened = !isLoginPopupOpened"
+            [attr.aria-label]="isLoginPopupOpened ? 'Collapse' : 'Expand'" matTooltip="Manage User Account">
+            <i [ngClass]="isLoginPopupOpened ? 'fa fa-chevron-up' : 'fa fa-chevron-down'"></i>
+          </button>
+            <ng-template
+              cdkConnectedOverlay
+              [cdkConnectedOverlayOrigin]="trigger"
+              [cdkConnectedOverlayOpen]="userLoggedInFlag && isLoginPopupOpened"
+            >
+              <mat-card>
+                <mat-card-content>
+                  <p> Logged in as <a href="javascript:void(0);" (click)="openUserAccountPage()">{{userService.getUserName()}}</a></p>
+                </mat-card-content>
+              </mat-card>
+            </ng-template>
+        </div>
+      </div>
+      </div>
+  </div>
+
+  <nav aria-label="Primary navigation" class="nci-header-nav" [ngClass]="{'nav-full-width': isBrowsePage}">
+    <div class="nci-header-nav__inner" [ngClass]="{'nav-inner-full-width': isBrowsePage}">
+        <ul class="nci-header-nav__primary" >
+          <li class="nci-header-nav__primary-item" *ngFor="let item of navbarItems">
+            <!--
+             <button class="usa-button nci-header-nav__primary-button" (click)="toggleMenu(item.name)" aria-controls="megamenu-layer-explore" [attr.aria-expanded]="openMenu === item.name ? 'true' : 'false'">
+                 <span>{{item.label}}</span>
+              </button>
+            -->
+             <!--
+              <button class="usa-button nci-header-nav__primary-button" (click)="toggleMenu(item.name)" aria-controls="megamenu-layer-explore" [attr.aria-expanded]="openMenu === item.name ? 'true' : 'false'">
+                 <span>{{item.label}}</span>
+              </button>
+            -->
+
+
+
+            <button *ngIf="item.directLink"
+               class="usa-button nci-header-nav__primary-button"
+
+               (click)="navigateToHref(item.href)"
+               aria-controls="megamenu-layer-explore"
+
+             >
+            {{ item.label }}
+            </button>
+            <button *ngIf="!item.directLink"
+               class="usa-button nci-header-nav__primary-button"
+               (mouseenter)="toggleMenu(true, item)"
+               (mouseleave)="toggleMenu(false, item)"
+
+               aria-controls="megamenu-layer-explore"
+               [attr.aria-expanded]="openMenu === item.name ? 'true' : 'false'"
+             >
+            {{ item.label }}
+            <i class="fas" [ngClass]="openMenu === item.name ? 'fa-chevron-up' : 'fa-chevron-down'" style="margin-left: 8px;"></i>
+            </button>
+
+
+
+          </li>
+        </ul>
+    </div>
+   </nav>
+
+   <div *ngIf="openMenuToggle">
+    <div *ngFor="let menu of navbarItems" id="" class="nci-megamenu" style="position:unset; ">
+
+    <div class="grid-container" *ngIf="openMenu === menu.name"  (mouseenter)="onMenuEnter(menu)"
+     (mouseleave)="onMenuLeave()">
+
+      <div class="grid-row grid-gap">
+        <div class="grid-col-3 nci-megamenu__primary-pane" (mouseenter)="onMenuEnter(menu)"
+ >
+          <div class="nci-megamenu__primary-link" style="color: white;">{{menu.name}}</div>
+        </div>
+        <div class="nci-megamenu__items-pane grid-col-9">
+          <div class="grid-row grid-gap"  >
+            <div class="grid-col-4"  *ngFor="let section of menu.sections" (mouseenter)="onMenuEnter(menu)"
+   >
+              <ul class="nci-megamenu__list">
+                <li class="nci-megamenu__list-item">
+                  <a class="nci-megamenu__list-item-link" *ngIf="section.headerLink && !isFunction(section.headerLink)  && !section.exitDisclaimer && !section.newTab" href="{{section.headerLink}}">{{section.header}}</a>
+                  <a class="nci-megamenu__list-item-link" *ngIf="section.headerLink && !isFunction(section.headerLink) && (section.exitDisclaimer || section.newTab)" href="{{section.headerLink}}" target="_blank">{{section.header}}</a>
+                  <a *ngIf="section.exitDisclaimer" matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_blank" class="exit-link" style="margin-left: 4px;">
+                    <i class="fas fa-external-link-alt"></i>
+                    <span style="display: none">External Link</span>
+                  </a>
+                  <button class="nci-megamenu__list-item-link" *ngIf="(section.header !== 'Access Submission Workspace') && section.headerLink && isFunction(section.headerLink)"
+                         (click)="callFunction(section.headerLink)" style="color: white;text-align: left;">
+                         {{ section.header }}
+                  </button>
+                  <button class="nci-megamenu__list-item-link" *ngIf="(section.header === 'Access Submission Workspace') && section.headerLink && isFunction(section.headerLink) && userLoggedInFlag"
+                          (click)="callFunction(section.headerLink)" style="color: white;text-align: left;">
+                    Go to Submission Workspace
+                  </button>
+                  <button class="nci-megamenu__list-item-link" *ngIf="(section.header === 'Access Submission Workspace') && section.headerLink && isFunction(section.headerLink) && !userLoggedInFlag"
+                          (click)="callFunction(section.headerLink)" style="color: white;text-align: left;">
+                    Log in to Submission Workspace
+                  </button>
+                  <ul class="nci-megamenu__sublist">
+                    <li class="nci-megamenu__sublist-item" *ngFor="let sublink of section.sublinks">
+                      <a class="nci-megamenu__sublist-item-link" href="/{{sublink}}">{{sublink}}</a>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  </div>
+
+  <!-- Mobile Navigation Menu -->
+  <nav class="mobile-nav" [class.mobile-nav--open]="isMobileMenuOpen" aria-label="Mobile navigation">
+    <div class="mobile-nav__overlay" (click)="closeMobileMenu()"></div>
+    <div class="mobile-nav__content">
+      <div class="mobile-nav__header">
+        <h2 class="mobile-nav__title">Menu</h2>
+        <button class="mobile-nav__close"
+                (click)="closeMobileMenu()"
+                aria-label="Close navigation menu">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <ul class="mobile-nav__list">
+        <li class="mobile-nav__item" *ngFor="let item of navbarItems">
+
+          <!-- Direct link items -->
+          <a *ngIf="item.directLink"
+             href="{{item.href}}"
+             class="mobile-nav__link"
+             (click)="closeMobileMenu()">
+            {{ item.label }}
+          </a>
+
+          <!-- Items with submenu -->
+          <div *ngIf="!item.directLink" class="mobile-nav__dropdown">
+            <button class="mobile-nav__toggle"
+                    (click)="toggleMobileSubMenu(item.name)"
+                    [attr.aria-expanded]="openMobileSubMenu === item.name">
+              <span>{{ item.label }}</span>
+              <i class="fas" [ngClass]="openMobileSubMenu === item.name ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+            </button>
+
+            <div class="mobile-nav__submenu" [class.mobile-nav__submenu--open]="openMobileSubMenu === item.name">
+              <div class="mobile-nav__sections" *ngFor="let section of item.sections">
+                <div class="mobile-nav__section">
+                  <h3 class="mobile-nav__section-title" *ngIf="section.header">
+                    <a *ngIf="section.headerLink && !isFunction(section.headerLink)"
+                       href="{{section.headerLink}}"
+                       (click)="closeMobileMenu()">
+                      {{section.header}}
+                    </a>
+                    <button *ngIf="section.headerLink && isFunction(section.headerLink)"
+                           (click)="callFunction(section.headerLink); closeMobileMenu()">
+                      {{ section.header }}
+                    </button>
+                    <span *ngIf="!section.headerLink">{{section.header}}</span>
+                  </h3>
+                  <ul class="mobile-nav__sublist" *ngIf="section.sublinks">
+                    <li class="mobile-nav__sublist-item" *ngFor="let sublink of section.sublinks">
+                      <a class="mobile-nav__sublist-link"
+                         href="/{{sublink}}"
+                         (click)="closeMobileMenu()">
+                        {{sublink}}
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+</header>
+
+

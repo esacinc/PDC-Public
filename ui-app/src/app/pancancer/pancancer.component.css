@@ -16,11 +16,11 @@
   display:none !important;
 }
 
-:host ::ng-deep .mat-row:nth-child(even){
+:host ::ng-deep .mat-mdc-row:nth-child(even){
     background-color: red;
 }
 
-:host ::ng-deep .mat-row:nth-child(odd){
+:host ::ng-deep .mat-mdc-row:nth-child(odd){
     background-color: black;
 }
 
@@ -63,7 +63,7 @@
    line-height: 1.8em;
 }
 
-.mat-button.mat-small {
+.mat-mdc-button.mat-small {
   min-width: 1%;
 }
 

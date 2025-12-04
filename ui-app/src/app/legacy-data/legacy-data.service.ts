@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 //import {Http, Response, Headers, RequestOptions} from '@angular/http';
-import {Response, Headers, RequestOptions} from '@angular/http';
+import { HttpHeaders } from '@angular/common/http';
 
 
 import { Apollo } from 'apollo-angular';
@@ -14,18 +14,18 @@ import { QueryLegacyStudies, publicationsFiltersData } from '../types';
 @Injectable()
 export class LegacyDataService {
 
-	headers: Headers;
-	options: RequestOptions;
+	headers: HttpHeaders;
+	options: {};
 	private notify = new Subject<any>();
 	notifyObservable$ = this.notify.asObservable();
 
     //constructor(private http: Http, private apollo: Apollo) {
     constructor(private apollo: Apollo) {
-		this.headers = new Headers({ 'Content-Type': 'application/json',
+		this.headers = new HttpHeaders({ 'Content-Type': 'application/json',
                                      'Accept': 'q=0.8;application/json;q=0.9' });
-        this.options = new RequestOptions({ headers: this.headers });
+        this.options = { headers: this.headers };
 	}
-	
+
 	publicationsQuery = gql`
 	  query FilterdPaginatedPublicationsQuery ($offset_value: Int, $limit_value: Int, $year_filter: String!, $disease_type_filter: String!, $program_filter: String!) {
 		getPaginatedUIPublication(offset: $offset_value, limit: $limit_value, year: $year_filter, disease_type: $disease_type_filter, program: $program_filter) {
@@ -59,8 +59,8 @@ export class LegacyDataService {
 			}
 		}
 	}`;
-	
-	
+
+
 /*	getFilteredPaginatedPublications (offset: number, limit: number, filters:any) {
 		return this.apollo.watchQuery<QueryPublicationsData>({
 			query: this.publicationsQuery,
@@ -69,15 +69,15 @@ export class LegacyDataService {
 				limit_value: limit,
 				year_filter: filters["year"] || '',
 				disease_type_filter: filters["disease_type"] || '',
-				program_filter: filters["program"] || ''			
+				program_filter: filters["program"] || ''
 			}
 		})
 		.valueChanges
 		.pipe(
 			map(result => { console.log(result.data); return result.data;})
-		); 
+		);
 	}*/
-		
+
 	getAllLegacyStudies(){
 		return this.apollo.watchQuery<QueryLegacyStudies>({
 		query: gql`
@@ -115,13 +115,13 @@ export class LegacyDataService {
 						abstract
 						citation
 					}
-				} 
+				}
 		   } `
 		  })
 		  .valueChanges
 		  .pipe(
 			map(result => { console.log(result.data); return result.data;})
-		  ); 
+		  );
 	}
 
 }

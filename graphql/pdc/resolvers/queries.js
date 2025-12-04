@@ -11,6 +11,7 @@ import {CacheName, RedisCacheClient} from '../util/cacheClient';
 import {uiFilterProcess} from '../util/uiFilterProcess';
 import {fetchDataMatrix} from '../util/fetchDataMatrix';
 import {getAliquotId} from '../util/getAliquotId';
+import {getPtmLegacyGeneName} from '../util/getPtmLegacyGeneName';
 //@@@PDC-1215 use winston logger
 import { logger } from '../util/logger';
 import {
@@ -70,8 +71,14 @@ export const resolvers = {
 	//@@@PDC-5037 log api parent
 	//@@@PDC-4812 add more ui wrappers of public APIs
 	//@@@PDC-6137 make acceptDUA optional
+	//@@@PDC-8597 add publications api
 
 	Query: {
+		getPaginatedPublications(_, args, context) {
+			logger.info("The Wrapper: publications is called with "+ JSON.stringify(args));
+			context['parent']= "getPaginatedPublications";
+			return resolvers.Query.getPaginatedUIPublication(_, args, context);
+		},
 		uiFileMetadata(_, args, context) {
 			logger.info("The Wrapper: uiFileMetadata is called with "+ JSON.stringify(args));
 			context['isUI']= true;
@@ -203,7 +210,6 @@ export const resolvers = {
 					replacements: { pdc_study_id: args.pdc_study_id },
 					model: db.getModelByName('ModelStudy')
 				});
-
 		},
 		//@@@PDC-768 clinical metadata API
 		//@@@PDC-3428 add tumor_largest_dimension_diameter
@@ -270,10 +276,11 @@ export const resolvers = {
 				logger.info("experimentalMetadata is called from UI with "+ JSON.stringify(args));
 			context['arguments'] = args;
 			//@@@PDC-3840 get current version of study unless specific id is given
+
 			let isCurrent = true;
-			var studyQuery = "select bin_to_uuid(s.study_id) as study_id, s.study_submitter_id, s.pdc_study_id, s.experiment_type, s.analytical_fraction, "+
-			"p.instrument_model as instrument from study s, protocol p "+
-			"where s.study_id = p.study_id ";
+			//@@@PDC-9698 get protocol at srm level
+			var studyQuery = "select bin_to_uuid(s.study_id) as study_id, s.study_submitter_id, s.pdc_study_id, s.experiment_type, s.analytical_fraction "+
+			"from study s where s.study_id is not null ";
 
 			let replacements = { };
 			let cacheFilterName = {name:''};
@@ -284,16 +291,17 @@ export const resolvers = {
 				replacements['study_submitter_id'] = args.study_submitter_id;
 				cacheFilterName.name +="study_submitter_id:("+ args.study_submitter_id + ");";
 			}
+			//@@@PDC-9801 cache with correct keys
 			if (typeof args.pdc_study_id != 'undefined') {
 				studyQuery += "and s.pdc_study_id = :pdc_study_id ";
 				replacements['pdc_study_id'] = args.pdc_study_id;
-				cacheFilterName.name +="study_submitter_id:("+ args.study_submitter_id + ");";
+				cacheFilterName.name +="pdc_study_id:("+ args.pdc_study_id + ");";
 			}
 			if (typeof args.study_id != 'undefined') {
 				isCurrent = false;
 				studyQuery += " and s.study_id = uuid_to_bin(:study_id) ";
 				replacements['study_id'] = args.study_id;
-				cacheFilterName.name +="study_submitter_id:("+ args.study_submitter_id + ");";
+				cacheFilterName.name +="study_id:("+ args.study_id + ");";
 			}
 			if (isCurrent) {
 				studyQuery += " and s.is_latest_version = 1 ";
@@ -628,40 +636,77 @@ export const resolvers = {
 				cacheFilterName.name +="case_submitter_id:("+ args.case_submitter_id + ");";
 			}
 			//@@@PDC-5178 case-sample-aliquot across studies
+			let byStudy = false;
 			let studyFilters = {};
 			if (typeof args.study_id != 'undefined') {
+				byStudy = true;
 				studyFilters['study_id'] = args.study_id
+				cacheFilterName.name +="study_id:("+ args.study_id + ");";
 			}
 			if (typeof args.pdc_study_id != 'undefined') {
+				byStudy = true;
 				studyFilters['pdc_study_id'] = args.pdc_study_id
+				cacheFilterName.name +="pdc_study_id:("+ args.pdc_study_id + ");";
 			}
 			context['arguments'] = studyFilters;
 
 			const res = await RedisCacheClient.redisCacheGetAsync(CacheName.getSummaryPageCaseSummary('Case')+cacheFilterName['name']);
 			if(res === null){
+				let uiCaseBaseQuery = '';
 				//@@@PDC-2335 get ext id from reference
 				//@@@PDC-2657 reverse 2335
 				//@@@PDC-4486 new columns for case
 				//@@@PDC-4968 expose case_is_ref
-				let uiCaseBaseQuery = "SELECT distinct bin_to_uuid(c.case_id) as case_id, "+
-				"c.case_submitter_id, c.case_is_ref, "+
-				"c.tissue_source_site_code, c.days_to_lost_to_followup, c.disease_type, "+
-				"c.index_date, c.lost_to_followup, c.primary_site, c.project_submitter_id, "+
-				"c.consent_type, c.days_to_consent from `case` c where case_id is not null ";
-
 				let result = null;
 				let replacements = { };
+				//@@@PDC-9808 handle query by study
+				if (byStudy){
+					uiCaseBaseQuery = "SELECT distinct bin_to_uuid(c.case_id) as case_id, "+
+					"c.case_submitter_id, c.case_is_ref, "+
+					"c.tissue_source_site_code, c.days_to_lost_to_followup, c.disease_type, "+
+					"c.index_date, c.lost_to_followup, c.primary_site, c.project_submitter_id, "+
+					"c.consent_type, c.days_to_consent from study s, aliquot_run_metadata arm, "+
+					"aliquot a, sample sam,`case` c where s.study_id = arm.study_id and "+
+					"arm.aliquot_id = a.aliquot_id and a.sample_id = sam.sample_id "+
+					"and sam.case_id = c.case_id ";
+					if (typeof args.case_id != 'undefined'){
+						let caseIds = args.case_id.split(';');
+						uiCaseBaseQuery += "and bin_to_uuid(c.case_id) IN (:case_ids) ";
+						replacements['case_ids'] =  caseIds;
+					}
+					else if (typeof args.case_submitter_id != 'undefined'){
+						let caseSubmitterIds = args.case_submitter_id.split(';');
+						uiCaseBaseQuery += "and c.case_submitter_id IN (:case_submitter_ids) ";
+						replacements['case_submitter_ids'] = caseSubmitterIds;
+					}
+					if (typeof args.study_id != 'undefined'){
+						uiCaseBaseQuery += "and bin_to_uuid(s.study_id) = :study_id ";
+						replacements['study_id'] =  args.study_id;
+					}
+					else if (typeof args.pdc_study_id != 'undefined'){
+						uiCaseBaseQuery += "and s.pdc_study_id = :pdc_study_id ";
+						replacements['pdc_study_id'] = args.pdc_study_id;
+					}
+				}
+				else {
+					uiCaseBaseQuery = "SELECT distinct bin_to_uuid(c.case_id) as case_id, "+
+					"c.case_submitter_id, c.case_is_ref, "+
+					"c.tissue_source_site_code, c.days_to_lost_to_followup, c.disease_type, "+
+					"c.index_date, c.lost_to_followup, c.primary_site, c.project_submitter_id, "+
+					"c.consent_type, c.days_to_consent from `case` c where c.case_id is not null ";
+					if (typeof args.case_id != 'undefined'){
+						let caseIds = args.case_id.split(';');
+						uiCaseBaseQuery += "and bin_to_uuid(c.case_id) IN (:case_ids) ";
+						replacements['case_ids'] =  caseIds;
+					}
+					else if (typeof args.case_submitter_id != 'undefined'){
+						let caseSubmitterIds = args.case_submitter_id.split(';');
+						uiCaseBaseQuery += "and c.case_submitter_id IN (:case_submitter_ids) ";
+						replacements['case_submitter_ids'] = caseSubmitterIds;
+					}
+				}
+
 				//@@@PDC-2980 handle multiple cases
-				if (typeof args.case_id != 'undefined'){
-					let caseIds = args.case_id.split(';');
-					uiCaseBaseQuery += "and bin_to_uuid(c.case_id) IN (:case_ids) ";
-					replacements['case_ids'] =  caseIds;
-				}
-				else if (typeof args.case_submitter_id != 'undefined'){
-					let caseSubmitterIds = args.case_submitter_id.split(';');
-					uiCaseBaseQuery += "and c.case_submitter_id IN (:case_submitter_ids) ";
-					replacements['case_submitter_ids'] = caseSubmitterIds;
-				}
 				result = await db.getSequelize().query(
 						uiCaseBaseQuery,
 						{
@@ -841,6 +886,7 @@ export const resolvers = {
 		//@@@PDC-333 gene/spectral count API change
 		//@@@PDC-650 implement elasticache for API
 		//@@@PDC-7628 use ncbi_gene_id in gene query
+		//@@@PDC-8588 add alias
 		/**
 		* geneSpectralCount gets one specific gene with all its spectral * counts
 		*
@@ -885,24 +931,24 @@ export const resolvers = {
 				//logger.info("Gene Result: "+ JSON.stringify(result));
 				let result = null;
 				if (typeof args.gene_id != 'undefined') {
-					result = await db.getModelByName('Gene').findOne(					
+					result = await db.getModelByName('Gene').findOne(
 					{
-						attributes: [[db.getSequelize().fn('bin_to_uuid', db.getSequelize().col('gene_id')), 'gene_id'], 'gene_name', 'ncbi_gene_id', 'authority', 'description', 'organism', 'chromosome', 'locus', 'assays', 'proteins'],
+						attributes: [[db.getSequelize().fn('bin_to_uuid', db.getSequelize().col('gene_id')), 'gene_id'], 'gene_name', 'ncbi_gene_id', 'alias', 'authority', 'description', 'organism', 'chromosome', 'locus', 'assays', 'proteins'],
 						where: {
 								gene_id: Sequelize.fn('uuid_to_bin', args.gene_id)
 						}
-						
+
 					});
 				}
 				else if (typeof args.ncbi_gene_id != 'undefined') {
-					result = await db.getModelByName('Gene').findOne(					
+					result = await db.getModelByName('Gene').findOne(
 					{
-						attributes: [[db.getSequelize().fn('bin_to_uuid', db.getSequelize().col('gene_id')), 'gene_id'], 'gene_name', 'ncbi_gene_id', 'authority', 'description', 'organism', 'chromosome', 'locus', 'assays', 'proteins'],
+						attributes: [[db.getSequelize().fn('bin_to_uuid', db.getSequelize().col('gene_id')), 'gene_id'], 'gene_name', 'ncbi_gene_id', 'alias', 'authority', 'description', 'organism', 'chromosome', 'locus', 'assays', 'proteins'],
 						where: {
-								ncbi_gene_id: args.ncbi_gene_id,						
+								ncbi_gene_id: args.ncbi_gene_id,
 								gene_name: Sequelize.where(Sequelize.fn('BINARY', Sequelize.col('gene_name')), args.gene_name)
 						}
-						
+
 					});
 				}
 				else {
@@ -927,23 +973,23 @@ export const resolvers = {
 			}
 			else if (typeof args.gene_name != 'undefined') {
 				cacheFilterName.name +="gene_name:("+ args.gene_name + ");";
-				genQuery = "SELECT count(distinct study_id) as total FROM pdc.spectral_count where gene_name = '"+ args.gene_name +"'";
+				genQuery = "SELECT count(distinct study_id) as total FROM pdc.spectral_count where gene_id in (select gene_id from gene where gene_name = '"+ args.gene_name +"')";
 			}
 			let cacheKey = "geneStudyCount:"+cacheFilterName['name'];
 			const res = await RedisCacheClient.redisCacheGetAsync(cacheKey);
 			logger.info("cached: "+ res)
-			if(res === null){										
+			if(res === null){
 				var result = await db.getSequelize().query(
 						genQuery,
 						{
 							raw: true
 						}
-					); 								
+					);
 				RedisCacheClient.redisCacheSetExAsync(cacheKey, result[0][0].total);
 				return result[0][0].total;
 			} else {
 				return res;
-			}				
+			}
 		},
 		//@@@PDC-2614 rearrange geneSpectralCount
 		async geneSpectralCount(_, args, context) {
@@ -969,23 +1015,24 @@ export const resolvers = {
 			if(res === null){
 				//@@@PDC-2638 enhance aliquotSpectralCount
 				//@@@PDC-6285 force case insenetive on gene_name
+				//@@@PDC-8867 Update gene filter API query to make it case sensitive - Reversed PDC-6285
 				let genQuery = "SELECT gene_name, bin_to_uuid(gene_id) as gene_id, chromosome, " +
 								" ncbi_gene_id as NCBI_gene_id, authority, description, organism, " +
 								" locus, proteins, trim(both '\r' from assays) as assays FROM gene " +
-								" where gene_name = :gene_name COLLATE utf8mb4_general_ci";
-										
+								" where gene_name = :gene_name ";
+
 				var result = await db.getSequelize().query(
 						genQuery,
 						{
 							replacements: { gene_name: args.gene_name },
 							model: db.getModelByName('ModelGene')
 						}
-					); 								
+					);
 				RedisCacheClient.redisCacheSetExAsync(cacheKey, JSON.stringify(result));
 				return result;
 			} else {
 				return JSON.parse(res);
-			}				
+			}
 		},
 		//@@@PDC-164 plex-level spectral count
 		/**
@@ -1006,7 +1053,7 @@ export const resolvers = {
 			}
 			else
 				logger.info("aliquotSpectralCount is called from UI with "+ JSON.stringify(args));
-			
+
 			//@@@PDC-2638 enhance aliquotSpectralCount
 			context['arguments'] = args;
 			//@@@PDC-6860 cache search result
@@ -1024,23 +1071,24 @@ export const resolvers = {
 			if(res === null){
 				//@@@PDC-2638 enhance aliquotSpectralCount
 				//@@@PDC-6285 force case insenetive on gene_name
+				//@@@PDC-8867 Update gene filter API query to make it case sensitive - Reversed PDC-6285
 				let aliquotQuery = "SELECT gene_name, bin_to_uuid(gene_id) as gene_id, chromosome, " +
 										" ncbi_gene_id as NCBI_gene_id, authority, description, organism, " +
 										" locus, proteins, trim(both '\r' from assays) as assays FROM gene " +
-										" where gene_name = :gene_name COLLATE utf8mb4_general_ci";
-										
+										" where gene_name = :gene_name";
+
 				var result = await db.getSequelize().query(
 						aliquotQuery,
 						{
 							replacements: { gene_name: args.gene_name },
 							model: db.getModelByName('ModelGene')
 						}
-					); 								
+					);
 				RedisCacheClient.redisCacheSetExAsync(cacheKey, JSON.stringify(result));
 				return result;
 			} else {
 				return JSON.parse(res);
-			}				
+			}
 		},
 		/**
 		* protein gets one specific gene with all its spectral counts
@@ -1087,7 +1135,7 @@ export const resolvers = {
 				return result;
 			} else {
 				return JSON.parse(res);
-			}				
+			}
 		},
 		//@@@PDC-133 projects per experiment_type
 		/**
@@ -1268,6 +1316,7 @@ export const resolvers = {
 		//@@@PDC-188 study and file many-to-many
 		//@@@PDC-471 filePerStudy api enhancement
 		//@@@PDC-898 new public APIs--filesPerStudy
+		//@@@PDC-10282 filesPerStudy with filename not returning study ID and name
 		/**
 		* filesPerStudy gets files per study
 		*
@@ -1294,6 +1343,8 @@ export const resolvers = {
 								" FROM file AS f, study AS s, study_file AS sf"+
 								" WHERE f.file_id = sf.file_id and s.study_id = sf.study_id";
 
+			let myOffset = args.offset ?? 0;
+			let myLimit = args.limit ?? 1000000;
 			let replacements = { };
 			let cacheFilterName = {name:''};
 
@@ -1324,7 +1375,14 @@ export const resolvers = {
 			}
 			if (typeof args.file_name != 'undefined' && args.file_name.length > 0) {
 				let fns = args.file_name.split(";");
+				//@@@PDC-9925 just get one rec if only one file name passed in
+				if (fns.length == 1){
+					myOffset = 0;
+					myLimit = 1;
+				}
 				fileQuery += " and f.file_name IN (:fns) ";
+				//fileWithStudyQuery += " and f.file_name IN (:fns) ";
+				//withStudy = true;
 				replacements['fns'] = fns;
 				cacheFilterName.name +="file_name:("+ args.file_name + ");";
 			}
@@ -1341,7 +1399,17 @@ export const resolvers = {
 			if (!queryById) {
 				fileQuery += " and s.is_latest_version = 1 ";
 			}
-			fileQuery += " LIMIT 0, 5000";
+			//@@@PDC-9096 add offset and limit
+			if (typeof args.offset != 'undefined' && args.offset >= 0) {
+				myOffset = args.offset;
+				cacheFilterName.name +="offset:("+ args.offset + ");";
+			}
+			if (typeof args.limit != 'undefined' && args.limit > 0) {
+				myLimit = args.limit;
+				cacheFilterName.name +="limit:("+ args.limit + ");";
+			}
+
+			fileQuery += " LIMIT " + myOffset + ", " + myLimit;
 			//@@@PDC-6930 add cache
 			let cacheKey = "PDCPUB:filesPerStudy:"+cacheFilterName['name'];
 			const res = await RedisCacheClient.redisCacheGetAsync(cacheKey);
@@ -1476,7 +1544,7 @@ export const resolvers = {
 			else
 				logger.info("pdcDataStats is called from UI with "+ JSON.stringify(args));
 			//@@@PDC-1389 get latest statistics
-			let dataStatsQuery = "SELECT * from pdc_data_statistics order by updated desc ";
+			let dataStatsQuery = "SELECT * from pdc_data_statistics order by updated desc limit 0, 1 ";
 			return db.getSequelize().query(dataStatsQuery, { model: db.getModelByName('ModelPDCDataStatistics') });
 		},
 		//@@@PDC-165 workflow metadata APIs
@@ -1817,12 +1885,13 @@ export const resolvers = {
 		*/
 		async uiFilters (_, args, context) {
 			context['parent']= "uiFilters";
+			logger.info("uiFilters is called with "+ JSON.stringify(args));
 			//@@@PDC-4727 log filled filters only
 			//@@@PDC-5625 get filter usage statistics
 			for(var i in args) {
 				if (args[i] != undefined && args[i].length > 0) {
 					let filterValue = args[i].split(";");
-					filterValue.forEach(element => filterLogger.info("FILTER["+i+":"+element+"]")
+					filterValue.forEach(element => logger.info("UPDATED FILTER["+i+":"+element+"]")
 					)
 				}
 			}
@@ -1839,9 +1908,13 @@ export const resolvers = {
 
 			//Step 2 apply filters on queries
 			let studyFilter = applyStudyReplacementFilter(args, cacheName, replacements);
+			logger.info("study filter: "+studyFilter)
 			let projProjFilter = applyProgProjFilter(args, cacheName, replacements);
+			logger.info("prog/proj filter: "+projProjFilter)
 			let fileFilter = applyFileFilter(args, cacheName, replacements);
+			logger.info("file filter: "+fileFilter)
 			let alSamCaDemDiaFilter = applyAlSamCaDemDiaFilter(args, cacheName, replacements);
+			logger.info("alSamCaDem filter: "+alSamCaDemDiaFilter)
 
 			fileStudyQuery += studyFilter;
 			fileStudyQuery += fileFilter;
@@ -1904,6 +1977,14 @@ export const resolvers = {
 			//Step3
 			return Object.assign(fileFinalFilter, progProjAlSamCaDemDiaFinalFilter);
 		},
+		//@@@PDC-10280 Add tooltip for program filter
+		uiProgram(_, args, context) {
+			logger.info("uiProgram is called with "+ JSON.stringify(args));
+			context['parent'] = "uiProgram";
+			let progQuery = "SELECT prog.program_shortname as shortname, prog.name as fullname " +
+									" FROM program prog ";
+			return db.getSequelize().query(progQuery, { model: db.getModelByName('ModelUIProgram') });
+		},
 		//@@@PDC-198 API for UI case page
 		/**
 		* uiCase gets case data for UI
@@ -1959,12 +2040,15 @@ export const resolvers = {
 		uiFile (_, args, context) {
 			context['parent']= "uiFile";
 			logger.info("uiFile is called with "+ JSON.stringify(args));
-			let uiFileQuery = "select distinct s.submitter_id_name, f.file_name, "+
-			" sf.study_run_metadata_submitter_id ,proj.name as project_name, f.file_type, f.file_size"+
-			" from study s, `case` c, sample sam, aliquot al, aliquot_run_metadata alm, "+
-			" project proj, program prog, study_file sf, file f where alm.study_id=s.study_id "+
-			" and al.aliquot_id= alm.aliquot_id and al.sample_id=sam.sample_id and sam.case_id=c.case_id and "+
-			" proj.project_id = s.project_id and proj.program_id = prog.program_id and sf.study_id = s.study_id "+" and sf.file_id = f.file_id ";
+			let uiFileQuery = "select distinct s.submitter_id_name, f.file_name, " +
+				" sf.study_run_metadata_submitter_id, srm.protocol_submitter_id, " +
+				" proj.name as project_name, f.file_type, f.file_size " +
+				" from study s, `case` c, sample sam, aliquot al, aliquot_run_metadata alm, " +
+				" project proj, program prog, study_file sf, file f " +
+				" left join study_run_metadata srm on srm.study_run_metadata_id = sf.study_run_metadata_id" +
+				" where alm.study_id=s.study_id " +
+				" and al.aliquot_id= alm.aliquot_id and al.sample_id=sam.sample_id and sam.case_id=c.case_id and "+
+				" proj.project_id = s.project_id and proj.program_id = prog.program_id and sf.study_id = s.study_id "+" and sf.file_id = f.file_id ";
 			//" and s.project_submitter_id IN ('" + context.value.join("','") + "')";
 			let replacements = { };
 			uiFileQuery += replacementFilters(args, { name: "" }, replacements);
@@ -2002,10 +2086,10 @@ export const resolvers = {
 			//@@@PDC-7235 add new columns for metabolomics
 			//@@@PDC-7386 change acquisition_mode to polarity
 			let protoQuery = "SELECT distinct bin_to_uuid(prot.protocol_id) as protocol_id, "+
-			"prot.protocol_submitter_id, prot.experiment_type, protocol_name, "+ 
+			"prot.protocol_submitter_id, prot.experiment_type, protocol_name, "+
 			"protocol_date, document_name, quantitation_strategy, "+
 			"label_free_quantitation, labeled_quantitation,  isobaric_labeling_reagent, "+
-			"reporter_ion_ms_level, starting_amount, starting_amount_uom, "+ 
+			"reporter_ion_ms_level, starting_amount, starting_amount_uom, "+
 			"digestion_reagent, alkylation_reagent, enrichment_strategy, enrichment, "+
 			"chromatography_dimensions_count, 1d_chromatography_type as one_d_chromatography_type, "+
 			"2d_chromatography_type as two_d_chromatography_type, "+
@@ -2220,7 +2304,7 @@ export const resolvers = {
 		//@@@PDC-329 Pagination for UI study summary page
 		//@@@PDC-497 Make table column headers sortable on the browse page tabs
 		//@@@PDC-1291 Redesign Browse Page data tabs
-		async getPaginatedUIStudy (_, args, context) {
+		async  getPaginatedUIStudy (_, args, context) {
 			context['parent']= "getPaginatedUIStudy";
 			//@@@PDC-4726 log search query
 			/*if (args.source != 'undefined' && args.source === 'search') {
@@ -2262,7 +2346,7 @@ export const resolvers = {
 
 			// Step 1 get base queries
 			let studyCountQuery=queryList.study_tab_count;
-			let studyDataQuery=queryList.study_tab_data;
+			let studyDataQuery=queryList.study_tab_ids;
 			let fileStudyQuery = queryList.file_study;
 
 			let studyReplacement = { };
@@ -2284,6 +2368,8 @@ export const resolvers = {
 			studyDataQuery += projProjReplacementFilter;
 			studyDataQuery += alSamCaDemDiaReplacementFilter;
 
+			//console.log("Study data query: "+studyDataQuery);
+
 			fileStudyQuery += studyReplacementFilter;
 			fileStudyQuery += fileReplacementFilter;
 
@@ -2296,11 +2382,16 @@ export const resolvers = {
 				}
 			);
 			let studyResultCondition = addStudyInReplacementQuery(studyResult, studyReplacement);
+			//console.log("studyResultCondition: "+studyResultCondition);
+
 			//let studyResultCondition = addStudyInQuery(studyResult);
 
 			//apply study where condition in study query
 			studyCountQuery += studyResultCondition;
 			studyDataQuery += studyResultCondition;
+
+			//@@@PDC-9064 apply filters only on studies
+			let studyPermQuery = queryList.study_tab_data + " and s.study_id in ("+ studyDataQuery +")"
 
 			cacheFilterName['dataFilterName'] = cacheFilterName.name;
 
@@ -2331,11 +2422,18 @@ export const resolvers = {
 			}
 			let uiComboLimitQuery = " LIMIT " + myOffset+ ", " + myLimit;
 			if (args.getAll) {
-				context['query'] = studyDataQuery + groupByStudy + uiSortQuery;
+				//context['query'] = studyDataQuery + groupByStudy + uiSortQuery;
+				context['query'] = studyPermQuery + groupByStudy + uiSortQuery;
 				context['dataCacheName'] = CacheName.getBrowsePagePaginatedDataTabCacheKey('StudyAllData')+cacheFilterName['dataFilterName'];
 			}
 			else {
-				context['query'] = studyDataQuery + groupByStudy + uiSortQuery + uiComboLimitQuery;
+				//console.log("studyDataQuery: "+studyDataQuery);
+				//console.log("studyPermQuery: "+studyPermQuery);
+				//console.log("groupByStudy: "+groupByStudy);
+				//console.log("uiSortQuery: "+uiSortQuery);
+				//console.log("uiComboLimitQuery: "+uiComboLimitQuery);
+				//context['query'] = studyDataQuery + groupByStudy + uiSortQuery + uiComboLimitQuery;
+				context['query'] = studyPermQuery + groupByStudy + uiSortQuery + uiComboLimitQuery;
 				context['dataCacheName'] = CacheName.getBrowsePagePaginatedDataTabCacheKey('StudyData')+cacheFilterName['dataFilterName'];
 			}
 			context['replacements'] = studyReplacement;
@@ -2474,20 +2572,20 @@ export const resolvers = {
 		//@@@PDC-6601 Add paginate API for pancancer related files
 		//@@@PDC-8075 load pancancer info from cache
 		async getPaginatedUIPancancerFiles(_, args, context) {
-			context['parent']= "getPaginatedUIFile";
+			context['parent']= "etPaginatedUIPancancerFiles";
 			logger.info("getPaginatedUIFile is called with "+ JSON.stringify(args));
 			context['arguments'] = args;
-			let replacements = { };	
-			
+			let replacements = { };
+
 			let fileTotalQuery  = "SELECT count(distinct f.file_id) as total from file f, publication_file pf "+
 			"where f.file_id = pf.file_id and pf.publication_id = uuid_to_bin(:publication_id) "+
 			"and data_category = 'Publication Supplementary Material'";
 			let fileQuery  = "SELECT distinct bin_to_uuid(f.file_id) as file_id, file_name, downloadable, data_category, annotation "+
 			"from file f, publication_file pf "+
 			"where f.file_id = pf.file_id and pf.publication_id = uuid_to_bin(:publication_id) "+
-			"and data_category = 'Publication Supplementary Material'";			
+			"and data_category = 'Publication Supplementary Material'";
 			replacements['publication_id'] = args.publication_id;
-			
+
 			let myOffset = 0;
 			let myLimit = 100;
 			let paginated = false;
@@ -2501,14 +2599,14 @@ export const resolvers = {
 				paginated = true;
 			}
 			let uiFileLimitQuery = " LIMIT " + myOffset + ", " + myLimit;
-			
+
 			context['query'] = fileQuery + uiFileLimitQuery;
 			context['replacements'] = replacements;
-			
+
 			if (myOffset == 0 && paginated) {
 				let cacheKey = "PDCPUB:PaginatedUIPancancerFiles:"+args.publication_id+":total";
 				const res = await RedisCacheClient.redisCacheGetAsync(cacheKey);
-				if (res === null) {								
+				if (res === null) {
 					let rawData = await db.getSequelize().query(
 								fileTotalQuery,
 								{
@@ -2537,7 +2635,7 @@ export const resolvers = {
 			let fileQuery  = "SELECT bin_to_uuid(f.file_id) as file_id, file_name, downloadable, "+
 			"data_category, annotation from file f "+
 			"where f.annotation is not null ";
-			
+
 			//let cacheKey = "PDCPUB:AllUIPancancerFiles";
 			//const res = await RedisCacheClient.redisCacheGetAsync(cacheKey);
 			//if (res === null) {
@@ -2562,7 +2660,7 @@ export const resolvers = {
 			//} else {
 				//logger.info("AllUIPancancerFiles found in cache "+cacheKey);
 				//return JSON.parse(res);
-			//}			
+			//}
 		},
 		//@@@PDC-1291 Redesign Browse Page data tabs
 		async getPaginatedUIFile(_, args, context) {
@@ -2653,7 +2751,10 @@ export const resolvers = {
 			context['query'] = fileDataQuery+uiSortQuery+uiFileLimitQuery;
 			context['replacements'] = replacements;
 			context['dataCacheName'] = CacheName.getBrowsePagePaginatedDataTabCacheKey('FileData')+cacheFilterName['dataFilterName'];
-
+            console.log("query");
+			console.log(context['query']);
+			console.log("replacements");
+			console.log(context['replacements']);
 			if (myOffset == 0 && paginated) {
 				const res = await RedisCacheClient.redisCacheGetAsync(CacheName.getBrowsePagePaginatedDataTabCacheKey('FileTotalCount')+cacheFilterName.name);
 				if(res === null){
@@ -3014,34 +3115,32 @@ export const resolvers = {
 			SELECT DISTINCT
 				BIN_TO_UUID(s.study_id) as study_id
 			FROM
-				study s,
-				project proj,
-				program prog,
-				aliquot al,
-				aliquot_run_metadata alm,
-				\`case\` c,
-				sample sam,
-				demographic dem,
-				diagnosis dia
+				study s
+			JOIN project proj ON proj.project_id = s.project_id
+			JOIN program prog ON proj.program_id = prog.program_id
+			JOIN aliquot_run_metadata alm ON alm.study_id = s.study_id
+			JOIN aliquot al ON al.aliquot_id = alm.aliquot_id
+			JOIN sample sam ON al.sample_id = sam.sample_id
+			JOIN \`case\` c ON sam.case_id = c.case_id
+			JOIN demographic dem ON c.case_id = dem.case_id
+			JOIN diagnosis dia ON c.case_id = dia.case_id
+			LEFT JOIN exposure expo ON c.case_id = expo.case_id
+			LEFT JOIN treatment treat ON c.case_id = treat.case_id
 			WHERE
-				proj.program_id = prog.program_id
-					AND proj.project_id = s.project_id
-						AND alm.study_id = s.study_id
-					AND al.aliquot_id = alm.aliquot_id
-					AND al.sample_id = sam.sample_id
-					AND sam.case_id = c.case_id
-					AND c.case_id = dem.case_id
-					AND c.case_id = dia.case_id
-					AND s.is_latest_version = 1
+					s.is_latest_version = 1
 			`;
 
 			let replacements = { };
 
 			//Step1 apply filters on queries
 			let studyFilter = applyStudyReplacementFilter(args, cacheFilterName, replacements);
+			//console.log("studyFilter: ", studyFilter.length);
 			let projProjFilter = applyProgProjReplacementFilter(args, cacheFilterName, replacements);
+			//console.log("projProjFilter: ", projProjFilter.length);
 			let fileFilter = applyFileReplacementFilter(args, cacheFilterName, replacements);
+			//console.log("fileFilter: ", fileFilter.length);
 			let alSamCaDemDiaFilter = applyAlSamCaDemDiaReplacementFilter(args, cacheFilterName, replacements);
+			//console.log("alSamCaDemDiaFilter: ", alSamCaDemDiaFilter.length);
 			fileDataQuery += studyFilter;
 			progProjAlSamCaDemDiaStudyQuery += studyFilter;
 			fileDataQuery += fileFilter;
@@ -3049,6 +3148,8 @@ export const resolvers = {
 			progProjAlSamCaDemDiaStudyQuery += alSamCaDemDiaFilter;
 
 			//get study from file study subquery and program project aliquot sample case demographic diagnosis
+			console.log("fileDataQuery: ", fileDataQuery);
+
 			let studyResult1 = await db.getSequelize().query(
 					fileDataQuery,
 					{
@@ -3056,6 +3157,8 @@ export const resolvers = {
 						model: db.getModelByName('ModelFilterStudy')
 					}
 				);
+			console.log("progProjAlSamCaDemDiaStudyQuery: ", progProjAlSamCaDemDiaStudyQuery);
+
 			let studyResult2 = await db.getSequelize().query(
 					progProjAlSamCaDemDiaStudyQuery,
 					{
@@ -3081,12 +3184,13 @@ export const resolvers = {
 			`;*/
 			//@@@PDC-8029 restructure gene data query
 			//@@@PDC-8220 speed up study count query
+			//@@@PDC-8588 handle gene with aliases
 			let geneDataQuery = `
 					SELECT DISTINCT
-					ge.gene_name, bin_to_uuid(ge.gene_id) as gene_id, ncbi_gene_id, chromosome, locus, proteins, num_study
+					ge.gene_name, bin_to_uuid(ge.gene_id) as gene_id, ncbi_gene_id, organism, description, authority, chromosome, locus, proteins, alias, num_study
 				FROM
-					pdc.gene ge, spectral_count sc
-					where ge.gene_id = sc.gene_id and ${studyIdQueryCondition} 				
+					gene ge, spectral_count sc
+					where ge.gene_id = sc.gene_id and ${studyIdQueryCondition}
 			`;
 
 			//@@@PDC-4236 add study versioning
@@ -3141,7 +3245,7 @@ export const resolvers = {
 			}
 			let uiCaseLimitQuery = " LIMIT " + myOffset + ", " + myLimit;
 			if (args.getAll) {
-				context['query'] = geneDataQuery+uiSortQuery;
+				context['query'] = geneDataQuery + uiSortQuery;
 				context['dataCacheName'] = CacheName.getBrowsePagePaginatedDataTabCacheKey('GeneAllData')+cacheFilterName['dataFilterName'];
 			}
 			else {
@@ -3150,7 +3254,7 @@ export const resolvers = {
 			}
 			//context['geneStudyCountQuery'] = geneStudyCountQuery;
 			context['replacements'] = replacements;
-			
+
 			if (typeof geneNameSub != 'undefined' && geneNameSub.length > 0){
 				//@@@PDC-7662 case insensitive search of gene name
 				let geneNames = {};
@@ -3164,7 +3268,7 @@ export const resolvers = {
 					ge.gene_id = sp.gene_id and
 					ge.gene_name IN (:geneNameSub COLLATE utf8mb4_general_ci)
 				`;
-				
+
 				geneNames['geneNameSub'] = geneNameSub;
 
 				let geneCountResult = await db.getSequelize().query(
@@ -3189,16 +3293,34 @@ export const resolvers = {
 				}
 
 				if(res === null){
+					let studyQuery = `
+							SELECT
+								count(distinct ge.gene_id) as total
+							FROM
+								spectral_count AS sc
+							JOIN
+								gene AS ge ON ge.gene_id = sc.gene_id
+							JOIN
+								study AS s on s.study_id = sc.study_id
+							AND	${studyIdQueryCondition}
+							`;
+					let studyResult = await db.getSequelize().query(
+									studyQuery,
+									{
+										model: db.getModelByName('ModelPagination')
+									}
+								);
+
 					//console.time('gene_cache_study');
 					//get gene count
-					let studyMap =new Map();
-					let finalSet = new Set();
-					for(let studyName of studyArray){
-						let studyCacheName = CacheName.getBrowsePagePaginatedDataTabCacheKey('GeneStudy')+studyName
-						const studyGeneListRes = await RedisCacheClient.redisCacheGetAsync(studyCacheName);
-						let studyGeneArray = [];
-						if(studyGeneListRes == null){
-							let studyQuery = `
+					//let studyMap =new Map();
+					//let finalSet = new Set();
+					//for(let studyName of studyArray){
+						//let studyCacheName = CacheName.getBrowsePagePaginatedDataTabCacheKey('GeneStudy')+studyName
+						//const studyGeneListRes = await RedisCacheClient.redisCacheGetAsync(studyCacheName);
+						//let studyGeneArray = [];
+						//if(studyGeneListRes == null){
+							/*let studyQuery = `
 							SELECT
 								distinct ge.gene_name
 							FROM
@@ -3209,36 +3331,50 @@ export const resolvers = {
 								s.study_id = sc.study_id
 									AND ge.gene_id = sc.gene_id
 									AND s.study_id = UUID_TO_BIN('${studyName}')
-							`;
+							`;*/
+							/*let studyQuery = `
+							SELECT
+								distinct bin_to_uuid(ge.gene_id)
+							FROM
+								gene AS ge,
+								spectral_count AS sc,
+								study AS s
+							WHERE
+								s.study_id = sc.study_id
+									AND ge.gene_id = sc.gene_id
+									AND s.study_id = UUID_TO_BIN('${studyName}')
+							`;*/
 
-							let studyResult = await db.getSequelize().query(
+							/*let studyResult = await db.getSequelize().query(
 									studyQuery,
 									{
-										model: db.getModelByName('ModelUIGeneName')
+										model: db.getModelByName('ModelPagination')
 									}
 								);
 							studyResult.forEach(element => {
 
-							studyGeneArray.push(element.dataValues.gene_name);
-							finalSet.add(element.dataValues.gene_name);} );
+							//studyGeneArray.push(element.dataValues.gene_name);
+							//finalSet.add(element.dataValues.gene_name);} );
+							studyGeneArray.push(element.dataValues.gene_id);
+							finalSet.add(element.dataValues.gene_id);} );
 							RedisCacheClient.redisCacheSetExAsync(studyCacheName, JSON.stringify(studyGeneArray));
 						}else{
 							studyGeneArray = JSON.parse(studyGeneListRes);
 							studyGeneArray.forEach(element => finalSet.add(element));
 						}
-						//logger.info("gene count after "+studyName+": "+finalSet.size);
+						logger.info("gene count after "+studyName+": "+finalSet.size);
 						//studyMap.set(studyName, studyArray);
 					}
 					var totalCount = finalSet.size;
 					logger.info('total gene count: '+finalSet.size);
-					//console.timeEnd('gene_cache_study');
+					//console.timeEnd('gene_cache_study');*/
 					if (args.getAll){
-						RedisCacheClient.redisCacheSetExAsync(CacheName.getBrowsePagePaginatedDataTabCacheKey('GeneAllCount')+cacheFilterName.name, totalCount);
+						RedisCacheClient.redisCacheSetExAsync(CacheName.getBrowsePagePaginatedDataTabCacheKey('GeneAllCount')+cacheFilterName.name, studyResult[0].total);
 					}
 					else {
-						RedisCacheClient.redisCacheSetExAsync(CacheName.getBrowsePagePaginatedDataTabCacheKey('GeneTotalCount')+cacheFilterName.name, totalCount);
+						RedisCacheClient.redisCacheSetExAsync(CacheName.getBrowsePagePaginatedDataTabCacheKey('GeneTotalCount')+cacheFilterName.name, studyResult[0].total);
 					}
-					return [{total: totalCount}];
+					return [{total: studyResult[0].total}];
 				}else{
 					return [{total: res}];
 				}
@@ -3402,8 +3538,9 @@ export const resolvers = {
 
 			if (typeof args.gene_name != 'undefined') {
 				//@@@PDC-6285 force case insenetive on gene_name
-				geneCountQuery += "where gene_name like :gene_name COLLATE utf8mb4_general_ci";
-				geneQuery += "where gene_name like :gene_name COLLATE utf8mb4_general_ci";
+				//@@@PDC-8867 Update gene filter API query to make it case sensitive - Reversed PDC-6285
+				geneCountQuery += "where gene_name like :gene_name ";
+				geneQuery += "where gene_name like :gene_name ";
 				replacements['gene_name'] = "%" + args.gene_name + "%";
 			}
 
@@ -3484,30 +3621,26 @@ export const resolvers = {
 			let cacheFilterName = { name: '' };
 			let fileStudyQuery = queryList.file_study;
 			//@@@PDC-6794 use case_id count as case count
+			//@@@PDC-10115 exclude Aebersold Lab
 			let experimentBarQuery = `
 					SELECT
 					s.experiment_type,
 					COUNT(DISTINCT c.case_id) AS cases_count
 				FROM
-					study s,
-					\`case\` c,
-					sample sam,
-					aliquot al,
-					aliquot_run_metadata alm,
-					demographic dem,
-					diagnosis dia,
-					project proj,
-					program prog
+					 study s
+					 JOIN project proj ON proj.project_id = s.project_id
+					 JOIN program prog ON proj.program_id = prog.program_id
+					 JOIN aliquot_run_metadata alm ON alm.study_id = s.study_id
+					 JOIN aliquot al ON al.aliquot_id = alm.aliquot_id
+					 JOIN sample sam ON al.sample_id = sam.sample_id
+					 JOIN \`case\` c ON sam.case_id = c.case_id
+					 JOIN demographic dem ON c.case_id = dem.case_id
+					 JOIN diagnosis dia ON c.case_id = dia.case_id
+					 LEFT JOIN exposure expo ON c.case_id = expo.case_id
+					 LEFT JOIN treatment treat ON c.case_id = treat.case_id
 				WHERE
-					alm.study_id = s.study_id
-						AND al.aliquot_id = alm.aliquot_id
-						AND al.sample_id = sam.sample_id
-						AND sam.case_id = c.case_id
-						AND c.case_id = dem.case_id
-						AND c.case_id = dia.case_id
-						AND proj.project_id = s.project_id
-						AND proj.program_id = prog.program_id
-						AND proj.project_submitter_id IS NOT NULL
+					 proj.project_submitter_id IS NOT NULL
+					 AND 'PG25730263' = 'PG25730263'
 			`;
 
 			let replacements = { };
@@ -3595,30 +3728,27 @@ export const resolvers = {
 			let cacheFilterName = { name: '' };
 			let fileStudyQuery = queryList.file_study;
 			//@@@PDC-6794 use case_id count as case count
+			//@@@PDC-10026 apply new filters to browse page charts
+			//@@@PDC-10115 exclude Aebersold Lab
 			let uiAnalyticalFractionQuery = `
 					SELECT DISTINCT
 					s.analytical_fraction,
 					COUNT(DISTINCT c.case_id) AS cases_count
 				FROM
-					study s,
-					\`case\` c,
-					sample sam,
-					aliquot al,
-					aliquot_run_metadata alm,
-					demographic dem,
-					diagnosis dia,
-					project proj,
-					program prog
+					 study s
+					 JOIN project proj ON proj.project_id = s.project_id
+					 JOIN program prog ON proj.program_id = prog.program_id
+					 JOIN aliquot_run_metadata alm ON alm.study_id = s.study_id
+					 JOIN aliquot al ON al.aliquot_id = alm.aliquot_id
+					 JOIN sample sam ON al.sample_id = sam.sample_id
+					 JOIN \`case\` c ON sam.case_id = c.case_id
+					 JOIN demographic dem ON c.case_id = dem.case_id
+					 JOIN diagnosis dia ON c.case_id = dia.case_id
+					 LEFT JOIN exposure expo ON c.case_id = expo.case_id
+					 LEFT JOIN treatment treat ON c.case_id = treat.case_id
 				WHERE
-					alm.study_id = s.study_id
-						AND al.aliquot_id = alm.aliquot_id
-						AND al.sample_id = sam.sample_id
-						AND sam.case_id = c.case_id
-						AND c.case_id = dem.case_id
-						AND c.case_id = dia.case_id
-						AND proj.project_id = s.project_id
-						AND proj.program_id = prog.program_id
-						AND proj.project_submitter_id IS NOT NULL
+					 proj.project_submitter_id IS NOT NULL
+					 AND 'PG25730263' = 'PG25730263'
 			`;
 
 			let replacements = { };
@@ -3708,30 +3838,26 @@ export const resolvers = {
 			let cacheFilterName = { name: '' };
 			let fileStudyQuery = queryList.file_study;
 			//@@@PDC-6794 use case_id count as case count
+			//@@@PDC-10115 exclude Aebersold Lab
 			let experimentPieQuery = `
 					SELECT
 					c.disease_type,
 					COUNT(DISTINCT c.case_id) AS cases_count
 				FROM
-					study s,
-					\`case\` c,
-					sample sam,
-					aliquot al,
-					aliquot_run_metadata alm,
-					demographic dem,
-					diagnosis dia,
-					project proj,
-					program prog
+					 study s
+					 JOIN project proj ON proj.project_id = s.project_id
+					 JOIN program prog ON proj.program_id = prog.program_id
+					 JOIN aliquot_run_metadata alm ON alm.study_id = s.study_id
+					 JOIN aliquot al ON al.aliquot_id = alm.aliquot_id
+					 JOIN sample sam ON al.sample_id = sam.sample_id
+					 JOIN \`case\` c ON sam.case_id = c.case_id
+					 JOIN demographic dem ON c.case_id = dem.case_id
+					 JOIN diagnosis dia ON c.case_id = dia.case_id
+					 LEFT JOIN exposure expo ON c.case_id = expo.case_id
+					 LEFT JOIN treatment treat ON c.case_id = treat.case_id
 				WHERE
-						alm.study_id = s.study_id
-						AND al.aliquot_id = alm.aliquot_id
-						AND al.sample_id = sam.sample_id
-						AND sam.case_id = c.case_id
-						AND c.case_id = dem.case_id
-						AND c.case_id = dia.case_id
-						AND proj.project_id = s.project_id
-						AND proj.program_id = prog.program_id
-						AND proj.project_submitter_id IS NOT NULL
+					 proj.project_submitter_id IS NOT NULL
+					 AND 'PG25730263' = 'PG25730263'
 			`;
 
 			let replacements = { };
@@ -3795,7 +3921,7 @@ export const resolvers = {
 			let caseCountQuery = "SELECT count(distinct d.case_id) " +
 			"as cases_count FROM diagnosis d, `case` c, sample sam, aliquot a, aliquot_run_metadata arm, study s"+
 			" where c.case_id = d.case_id and sam.case_id = c.case_id and a.sample_id = sam.sample_id and arm.aliquot_id = a.aliquot_id and arm.study_id = s.study_id and s.is_latest_version = 1 ";
-			
+
 			let replacements = { };
 
 			if (typeof args.study_submitter_id != 'undefined') {
@@ -3921,11 +4047,14 @@ export const resolvers = {
 				logger.info("uiDataCategoryFileCount is called with "+ JSON.stringify(args));
 			//@@@PDC-759 add data_category to file count group
 			//@@@PDC-3188 get file counts for latest version only
+			//@@@PDC-9620 -updates to file count
 			let efcQuery = "SELECT f.file_type, f.data_category, count(distinct f.file_id) as files_count, s.submitter_id_name "+
 			" FROM study s, `case` c, sample sam, aliquot al, "+
-			" aliquot_run_metadata alm, file f, study_file sf "+
+			" aliquot_run_metadata alm, file f, study_file sf"+
 			" WHERE alm.study_id = s.study_id and al.aliquot_id = alm.aliquot_id  and "+
 			" al.sample_id=sam.sample_id and sam.case_id=c.case_id "+
+
+
 			" and s.study_id = sf.study_id and sf.file_id = f.file_id and s.is_latest_version = 1 ";
 			let cacheFilterName = {name:''};
 
@@ -3943,6 +4072,7 @@ export const resolvers = {
 				efcQuery +=" and c.case_id IN (uuid_to_bin('" + uuIds.join("'),uuid_to_bin('") + "'))";
 				cacheFilterName.name +="case_id:("+ uuIds.join(",") + ");";
 			}
+			//@@@PDC-9620 -updates to file count
 			efcQuery += " group by f.file_type, f.data_category, s.submitter_id_name ";
 
 			const res = await RedisCacheClient.redisCacheGetAsync(CacheName.getSummaryPageCaseSummary('DataCategoryFileCount')+cacheFilterName['name']);
@@ -3955,6 +4085,7 @@ export const resolvers = {
 						}
 					);
 				RedisCacheClient.redisCacheSetExAsync(CacheName.getSummaryPageCaseSummary('DataCategoryFileCount')+cacheFilterName['name'], JSON.stringify(result));
+				console.log("result: "+JSON.stringify(result));
 				return result;
 			}else{
 				return JSON.parse(res);
@@ -3976,16 +4107,17 @@ export const resolvers = {
 			//@@@PDC-8033 restructure query to improve performance
 			let gssQuery = "SELECT distinct sc.study_submitter_id, s.submitter_id_name, s.experiment_type "+
 			" FROM spectral_count sc, study s "+
-			" WHERE sc.study_id = s.study_id and s.is_latest_version = 1 ";
+			" WHERE sc.study_id = s.study_id and s.is_latest_version = 1 "+
+			" and sc.gene_id in (select gene_id from gene where "  ;
 
 			let replacements = { };
-			
+
 			let cacheFilterName = {name:''};
 
 			if (typeof args.gene_name != 'undefined') {
 				cacheFilterName.name +="gene_name:("+ args.gene_name + ");";
 				let gene_names = args.gene_name.split(';');
-				gssQuery += " and sc.gene_name IN (:gene_names)";
+				gssQuery += " gene_name IN (:gene_names))";
 				replacements['gene_names'] = gene_names;
 			}
 			let cacheKey = "PDCUI:uiGeneStudySpectralCount:"+cacheFilterName['name'];
@@ -4080,38 +4212,58 @@ export const resolvers = {
 			context['parent']= "getPaginatedUIGeneStudySpectralCountFiltered";
 			logger.info("getPaginatedUIGeneStudySpectralCountFiltered is called with "+ JSON.stringify(args));
 			context['arguments'] = args;
-			let gssCountQuery = "SELECT count(distinct sc.study_submitter_id) as total ";
-			//@@@PDC-2873 add pdc_study_id
-			let gssBaseQuery = "SELECT distinct sc.study_submitter_id,"+
-			" s.submitter_id_name, s.experiment_type, s.pdc_study_id, "+
-			" sc.spectral_count, sc.distinct_peptide, "+
-			" sc.unshared_peptide ";
-			//@@@PDC-3079 get latest version of study
-			let gssQuery = " FROM spectral_count sc, aliquot_run_metadata arm, "+
-			"`case` c, sample sam, aliquot al, study s, "+
-			"demographic dem, diagnosis dia, project proj, "+
-			"program prog "+
-			" WHERE sc.study_id = s.study_id and arm.study_id = s.study_id and al.aliquot_id = arm.aliquot_id "+
-			"and al.sample_id=sam.sample_id and sam.case_id=c.case_id "+
-			"and proj.project_id = s.project_id and c.case_id = dem.case_id "+
-			"and c.case_id = dia.case_id and proj.program_id = prog.program_id and sc.plex_name = 'All' and s.is_latest_version = 1 ";
-			let cacheFilterName = {name:''};
-
 			let replacements = { };
-
-			gssQuery += replacementFilters(args, cacheFilterName, replacements);
-			//@@@PDC-7631 use gene_id to study/spectral_count
+			let cacheFilterName = {name:''};
 			if (typeof args.gene_id != 'undefined') {
-				gssQuery += " and sc.gene_id = uuid_to_bin(:gene_id)";
 				replacements['gene_id'] = args.gene_id;
 				cacheFilterName.name +="gene_id:("+ args.gene_id + ");";
 			}
-			else if (typeof args.gene_name != 'undefined') {
-				let gene_names = args.gene_name.split(';');
-				gssQuery += " and sc.gene_name IN (:gene_names)";
-				replacements['gene_names'] = gene_names;
-				cacheFilterName.name +="gene_name:("+ gene_names.join(",") + ");";
+			else {
+				throw new ApolloError("Gene UUID is needed to get quant data");
 			}
+			//@@@PDC-10093 add new filters to gene page
+			let generalCountQuery = `SELECT COUNT(DISTINCT sc.study_submitter_id) AS total `;
+
+			let generalSelectQuery = `SELECT DISTINCT
+				sc.study_submitter_id,
+				s.submitter_id_name,
+				s.experiment_type,
+				s.pdc_study_id,
+				sc.spectral_count,
+				sc.distinct_peptide,
+				sc.unshared_peptide	`;
+
+			let generalFromQuery = `FROM spectral_count sc
+				JOIN study s
+					ON s.study_id = sc.study_id
+				JOIN project proj
+					ON proj.project_id = s.project_id
+				JOIN program prog
+					ON proj.program_id = prog.program_id
+				JOIN aliquot_run_metadata arm
+					ON arm.study_id = s.study_id
+				JOIN aliquot al
+					ON al.aliquot_id = arm.aliquot_id
+				JOIN sample sam
+					ON al.sample_id = sam.sample_id
+				JOIN pdc.case c
+					ON sam.case_id = c.case_id
+				JOIN demographic dem
+					ON c.case_id = dem.case_id
+				JOIN diagnosis dia
+					ON c.case_id = dia.case_id
+				LEFT JOIN exposure expo
+					ON c.case_id = expo.case_id
+				LEFT JOIN treatment treat
+					ON c.case_id = treat.case_id `
+
+			let generalWhereQuery = ` WHERE 'PG25730263' = 'PG25730263'
+			and sc.plex_name = 'All'
+			and sc.gene_id = uuid_to_bin(:gene_id) `;
+
+			let filterQuery = replacementFilters(args, cacheFilterName, replacements);
+
+
 			cacheFilterName['dataFilterName'] = cacheFilterName.name;
 			let myOffset = 0;
 			let myLimit = 100;
@@ -4128,14 +4280,14 @@ export const resolvers = {
 				cacheFilterName['dataFilterName'] += 'limit:'+args.limit+';';
 			}
 			let gssLimitQuery = " LIMIT "+ myOffset+ ", "+ myLimit;
-			context['query'] = gssBaseQuery + gssQuery + gssLimitQuery;
+			context['query'] = generalSelectQuery + generalFromQuery + generalWhereQuery + filterQuery +gssLimitQuery;
 			context['replacements'] = replacements;
 			context['dataCacheName'] = CacheName.getSummaryPageGeneSummary('StudySpectralCount')+cacheFilterName['dataFilterName'];
 			if (myOffset == 0 && paginated) {
 				const res = await RedisCacheClient.redisCacheGetAsync(CacheName.getSummaryPageGeneSummary('StudySpectralCountTotalCount')+cacheFilterName.name);
 				if(res === null){
 					let rawData = await db.getSequelize().query(
-							gssCountQuery + gssQuery,
+							generalCountQuery + generalFromQuery + generalWhereQuery + filterQuery,
 							{
 								replacements: replacements,
 								model: db.getModelByName('ModelPagination')
@@ -4272,81 +4424,151 @@ export const resolvers = {
 		async getPaginatedUIGeneAliquotSpectralCountFiltered(_, args, context) {
 			context['parent']= "getPaginatedUIGeneAliquotSpectralCountFiltered";
 			logger.info("getPaginatedUIGeneAliquotSpectralCountFiltered is called with "+ JSON.stringify(args));
-			context['arguments'] = args;
-			//@@@PDC-3171 new ptm abundance tables
-			let ptmTableName = "ptm_abundance";
-			//@@PDC-6361 - gene summary page issues - check if first character of gene is number if so then use num table
-			if(isNaN(args.gene_name.substr(0, 1))){
-				ptmTableName = "ptm_abundance_"+ args.gene_name.substr(0, 1);
-			} else {
-			  ptmTableName = "ptm_abundance_num";
-			}
-
-
-
-			let generalOpenCountQuery = "SELECT count(*) as total from (";
-			let generalCloseCountQuery = ") x";
-			//@@@PDC-2873 add pdc_study_id
-			let generalSelectQuery = "SELECT distinct arm.aliquot_submitter_id as aliquot_id, sc.dataset_alias as plex, "+
-			" arm.label, s.submitter_id_name, s.experiment_type, s.pdc_study_id, "+
-			" sc.spectral_count, sc.distinct_peptide,"+
-			" sc.unshared_peptide, ";
-			let gaSelectQuery = "ga.precursor_area, ga.log2_ratio, ga.unshared_precursor_area, ga.unshared_log2_ratio ";
-			//@@@PDC-769 access ptm_abundance
-			let paSelectQuery = "'' as precursor_area, pa.log2_ratio, '' as unshared_precursor_area, '' as unshared_log2_ratio ";
-			//var paSelectQuery = "'' as precursor_area, '' as log2_ratio, '' as unshared_precursor_area, '' as unshared_log2_ratio ";
-			let generalFromQuery = " FROM spectral_count sc, aliquot_run_metadata arm, "+
-			"study s, `case` c, sample sam, aliquot al, "+
-			"demographic dem, diagnosis dia, project proj, "+
-			"program prog";
-			let gaFromQuery = ", gene_abundance ga ";
-			//@@@PDC-769 access ptm_abundance
-			//var paFromQuery = ", ptm_abundance pa ";
-			let paFromQuery = ", "+ptmTableName+" pa ";
-			//var paFromQuery = '';
-			//@@@PDC-3079 get latest version of study
-			let generalWhereQuery = " WHERE s.is_latest_version = 1 "+
-			" and sc.study_run_metadata_id=arm.study_run_metadata_id "+
-			" and sc.study_id=s.study_id " +
-			" and arm.study_id = s.study_id and al.aliquot_id = arm.aliquot_id "+
-			" and al.sample_id=sam.sample_id and sam.case_id=c.case_id "+
-			" and proj.project_id = s.project_id and c.case_id = dem.case_id "+
-			" and c.case_id = dia.case_id and proj.program_id = prog.program_id ";
-			let gaWhereQuery = " and ga.study_run_metadata_id = arm.study_run_metadata_id "+
-			" and ga.study_id = s.study_id "+
-			" and ga.aliquot_submitter_id = arm.aliquot_submitter_id "+
-			" and s.analytical_fraction = 'Proteome' ";
-			//@@@PDC-769 access ptm_abundance
-			let paWhereQuery = " and pa.study_run_metadata_id = arm.study_run_metadata_id "+
-			" and pa.study_id = s.study_id "+
-			" and pa.aliquot_submitter_id = arm.aliquot_submitter_id "+
-			" and s.analytical_fraction != 'Proteome' ";
-			//var paWhereQuery = " and s.analytical_fraction != 'Proteome' ";
-			let cacheFilterName = {name:''};
 			let replacements = { };
-			let filterQuery = replacementFilters(args, cacheFilterName, replacements);
-			let generalGeneQuery = '', gaGeneQuery = '', paGeneQuery = '';
-			//@@@PDC-7631 use gene_id instead of gene_name
+			let cacheFilterName = {name:''};
 			if (typeof args.gene_id != 'undefined') {
-				generalGeneQuery = " and sc.gene_id = uuid_to_bin(:gene_id)";
-				gaGeneQuery = " and ga.gene_id = uuid_to_bin(:gene_id)";
-				paGeneQuery = " and pa.gene_id = uuid_to_bin(:gene_id)";
 				replacements['gene_id'] = args.gene_id;
 				cacheFilterName.name +="gene_id:("+ args.gene_id + ");";
 			}
-			else if (typeof args.gene_name != 'undefined') {
-				let gene_names = args.gene_name.split(';');
-				generalGeneQuery = " and sc.gene_name IN (:gene_names)";
-				gaGeneQuery = " and ga.gene_name IN (:gene_names)";
-				paGeneQuery = " and pa.gene_name IN (:gene_names)";
-				replacements['gene_names'] = gene_names;
-				cacheFilterName.name +="gene_name:("+ gene_names.join(",") + ");";
+			else {
+				throw new ApolloError("Gene UUID is needed to get quant data");
 			}
-			let unionQuery = generalSelectQuery+gaSelectQuery+generalFromQuery+
-			gaFromQuery+generalWhereQuery+gaWhereQuery+filterQuery+generalGeneQuery+
-			gaGeneQuery+" union all "+generalSelectQuery+paSelectQuery+generalFromQuery+
-			paFromQuery+generalWhereQuery+paWhereQuery+filterQuery+generalGeneQuery+
-			paGeneQuery
+
+			context['arguments'] = args;
+			//@@@PDC-8588 get legacy gene name
+			let ptmGeneName = await getPtmLegacyGeneName(args.gene_id, args.gene_name);
+			//@@@PDC-3171 new ptm abundance tables
+			let ptmTableName = "ptm_abundance";
+			//@@PDC-6361 - gene summary page issues - check if first character of gene is number if so then use num table
+			if(isNaN(ptmGeneName.substr(0, 1))){
+				ptmTableName = "ptm_abundance_"+ ptmGeneName.substr(0, 1);
+			} else {
+			    ptmTableName = "ptm_abundance_num";
+			}
+
+			//@@@PDC-10093 add new filters to gene page
+			let generalCountQuery = `SELECT COUNT(*) AS total
+                                     FROM (
+                                              SELECT DISTINCT
+                                                  arm.aliquot_submitter_id,
+                                                  sc.dataset_alias,
+                                                  arm.label,
+                                                  s.submitter_id_name,
+                                                  s.experiment_type,
+                                                  s.pdc_study_id,
+                                                  sc.spectral_count,
+                                                  sc.distinct_peptide,
+                                                  sc.unshared_peptide,
+                                                  COALESCE(ga.precursor_area, ''),
+                                                  COALESCE(ga.log2_ratio, ''),
+                                                  COALESCE(ga.unshared_precursor_area, ''),
+                                                  COALESCE(ga.unshared_log2_ratio, '') `;
+
+            let endGeneralCountQuery = `) AS sub`
+
+			let generalSelectQuery = `SELECT DISTINCT
+				arm.aliquot_submitter_id as aliquot_id,
+				sc.dataset_alias as plex,
+				arm.label,
+				s.submitter_id_name,
+				s.experiment_type,
+				s.pdc_study_id,
+				sc.spectral_count,
+				sc.distinct_peptide,
+				sc.unshared_peptide,
+				COALESCE(ga.precursor_area, '') as precursor_area,
+				COALESCE(ga.log2_ratio, '') as log2_ratio,
+				COALESCE(ga.unshared_precursor_area, '') as unshared_precursor_area,
+				COALESCE(ga.unshared_log2_ratio, '') as unshared_log2_ratio `;
+
+            let generalpaSelectQuery = ` SELECT DISTINCT
+                arm.aliquot_submitter_id as aliquot_id,
+                sc.dataset_alias as plex,
+                arm.label,
+                s.submitter_id_name,
+                s.experiment_type,
+                s.pdc_study_id,
+                sc.spectral_count,
+                sc.distinct_peptide,
+                sc.unshared_peptide,
+                '' as precursor_area,
+                COALESCE(pa.log2_ratio, '') as log2_ratio,
+                '' as unshared_precursor_area,
+                '' as unshared_log2_ratio `
+
+			let generalgaFromQuery = `FROM spectral_count sc
+				JOIN study s
+					ON s.study_id = sc.study_id
+				JOIN project proj
+					ON proj.project_id = s.project_id
+				JOIN program prog
+					ON proj.program_id = prog.program_id
+				JOIN aliquot_run_metadata arm
+					ON arm.study_run_metadata_id = sc.study_run_metadata_id
+				JOIN aliquot al
+					ON al.aliquot_id = arm.aliquot_id
+				JOIN sample sam
+					ON al.sample_id = sam.sample_id
+				JOIN pdc.case c
+					ON sam.case_id = c.case_id
+				JOIN demographic dem
+					ON c.case_id = dem.case_id
+				JOIN diagnosis dia
+					ON c.case_id = dia.case_id
+				LEFT JOIN exposure expo
+					ON c.case_id = expo.case_id
+				LEFT JOIN treatment treat
+					ON c.case_id = treat.case_id
+				JOIN gene_abundance ga
+					ON s.analytical_fraction = 'Proteome'
+					AND ga.study_run_metadata_id = arm.study_run_metadata_id
+					AND ga.study_id = s.study_id
+					AND ga.aliquot_submitter_id = arm.aliquot_submitter_id
+					AND ga.gene_id = uuid_to_bin(:gene_id)
+				`
+
+            let generalpaFromQuery = `FROM spectral_count sc
+				JOIN study s
+					ON s.study_id = sc.study_id
+				JOIN project proj
+					ON proj.project_id = s.project_id
+				JOIN program prog
+					ON proj.program_id = prog.program_id
+				JOIN aliquot_run_metadata arm
+					ON arm.study_run_metadata_id = sc.study_run_metadata_id
+				JOIN aliquot al
+					ON al.aliquot_id = arm.aliquot_id
+				JOIN sample sam
+					ON al.sample_id = sam.sample_id
+				JOIN pdc.case c
+					ON sam.case_id = c.case_id
+				JOIN demographic dem
+					ON c.case_id = dem.case_id
+				JOIN diagnosis dia
+					ON c.case_id = dia.case_id
+				LEFT JOIN exposure expo
+					ON c.case_id = expo.case_id
+				LEFT JOIN treatment treat
+					ON c.case_id = treat.case_id
+				
+				JOIN `+ptmTableName+` pa
+					ON s.analytical_fraction != 'Proteome'
+					AND pa.study_run_metadata_id = arm.study_run_metadata_id
+					AND pa.study_id = s.study_id
+					AND pa.aliquot_submitter_id = arm.aliquot_submitter_id
+					AND pa.gene_id = uuid_to_bin(:gene_id)`
+
+            let generalUnionQuery = ` UNION ALL `
+
+            let generalWhereQuery = ` WHERE 'PG25730263' = 'PG25730263'
+			and sc.gene_id = uuid_to_bin(:gene_id) `;
+
+			let filterQuery = replacementFilters(args, cacheFilterName, replacements);
+
+			//let generalGeneQuery = '', gaGeneQuery = '', paGeneQuery = '';
+			let selectQuery = generalSelectQuery + generalgaFromQuery + generalWhereQuery + filterQuery
+                + generalUnionQuery
+                + generalpaSelectQuery + generalpaFromQuery + generalWhereQuery + filterQuery;
 
 			cacheFilterName['dataFilterName'] = cacheFilterName.name;
 			let myOffset = 0;
@@ -4364,14 +4586,17 @@ export const resolvers = {
 				cacheFilterName['dataFilterName'] += 'limit:'+args.limit+';';
 			}
 			var generalLimitQuery = " LIMIT " + myOffset + ", " + myLimit;
-			context['query'] = unionQuery + generalLimitQuery;
+			context['query'] = selectQuery + generalLimitQuery;
 			context['replacements'] = replacements;
 			context['dataCacheName'] = CacheName.getSummaryPageGeneSummary('AliquotSpectralCountFiltered')+cacheFilterName['dataFilterName'];
 			if (myOffset == 0 && paginated) {
 				const res = await RedisCacheClient.redisCacheGetAsync(CacheName.getSummaryPageGeneSummary('AliquotSpectralCountTotalCountFiltered')+cacheFilterName.name);
 				if(res === null){
 					let rawData = await db.getSequelize().query(
-							generalOpenCountQuery + unionQuery + generalCloseCountQuery,
+							generalCountQuery + generalgaFromQuery + generalWhereQuery + filterQuery
+                        + generalUnionQuery
+                        + generalpaSelectQuery + generalpaFromQuery + generalWhereQuery + filterQuery
+                        + endGeneralCountQuery,
 							{
 								replacements: replacements,
 								model: db.getModelByName('ModelPagination')
@@ -4551,11 +4776,13 @@ export const resolvers = {
 			let searchCountQuery = "SELECT count(g.gene_name) as total ";
 			//@@@PDC-398 Add description to the APIs for search
 			//@@@PDC-7628 add gene_id and ncbi_gene_id to the APIs for search
-			let searchBaseQuery = "SELECT g.gene_name as name, g.description, bin_to_uuid(gene_id) as gene_id, g.ncbi_gene_id, 'gene' as record_type ";
+			//@@@PDC-8588 handle gene with aliases
+			let searchBaseQuery = "SELECT g.gene_name as name, g.description, bin_to_uuid(gene_id) as gene_id, g.ncbi_gene_id, g.alias, 'gene' as record_type ";
 			//@@@PDC-682 make search case insensitive for utf8 char set
 			//@@@PDC-6285 adjust gene_name charset/collation
 			//@@@PDC-6287 conduct case inseasitive search on gene_name
-			let searchQuery = " FROM gene g WHERE g.gene_name like :nameToSearch COLLATE utf8mb4_general_ci OR g.description like :nameToSearch";
+			//@@@PDC-8867 Update gene filter API query to make it case sensitive - Reversed PDC-6285
+			let searchQuery = " FROM gene g WHERE g.gene_name like :nameToSearch OR g.description like :nameToSearch OR g.alias like :nameToSearch COLLATE utf8mb4_general_ci";
 			let myOffset = 0;
 			let myLimit = 100;
 			let paginated = false;
@@ -4609,7 +4836,7 @@ export const resolvers = {
 			//@@@PDC-398 Add description to the APIs for search
 			//@@@PDC-468 Add proteins to protein search
 			//@@@PDC-7628 add ncbi_gene_id to the APIs for search
-			let searchBaseQuery = "SELECT g.gene_name as name, g.description, bin_to_uuid(gene_id) as gene_id, g.ncbi_gene_id, g.proteins, 'protein' as record_type ";
+			let searchBaseQuery = "SELECT g.gene_name as name, g.description, bin_to_uuid(gene_id) as gene_id, g.ncbi_gene_id, g.alias, g.proteins, 'protein' as record_type ";
 			let searchQuery = " FROM gene g WHERE g.proteins like :nameToSearch";
 			let myOffset = 0;
 			let myLimit = 100;
@@ -4853,10 +5080,10 @@ export const resolvers = {
 			}
 			else
 				logger.info("fileMetadata is called from UI with "+ JSON.stringify(args));
-			
+
 			let replacements = { };
 			let cacheFilterName = {name:''};
-			
+
 			//@@@PDC-8159 set default limit to 20000
 			var myOffset = 0;
 			var myLimit = 20000;
@@ -4865,7 +5092,7 @@ export const resolvers = {
 				myLimit = process.env.PDC_FILE_META_LIMIT;
 			}
 			logger.info("fileMetadata limit: "+myLimit);
-			
+
 
 			var paginated = false;
 			if (typeof args.offset != 'undefined' && typeof args.limit != 'undefined') {
@@ -4876,7 +5103,7 @@ export const resolvers = {
 				if (args.limit >= 0 && args.limit <= myLimit) {
 					myLimit = args.limit;
 					cacheFilterName.name +="limit:("+ args.limit + ");";
-				} 
+				}
 				else if (args.limit > myLimit) {
 					throw new ApolloError("Limit cannot be over "+myLimit);
 				}
@@ -4884,29 +5111,32 @@ export const resolvers = {
 			}
 			//@@@PDC-3529 check for current version
 			//@@@PDC-2642 add file_id
+			//@@@PDC-8941 get instrument from study_run_metadata
+			//@@@PDC-8988 support multi protocols per study
 			let gasQuery = "select distinct bin_to_uuid(f.file_id) as file_id, f.file_name, f.file_location,"+
 			" f.md5sum, f.file_size, f.original_file_name as file_submitter_id, f.data_category, f.file_type ,f.file_format, "+
 			" srm.analyte, p.instrument_model as instrument, srm.folder_name as plex_or_dataset_name,"+
-			" f.fraction_number, srm.experiment_type,"+
-			" srm.study_run_metadata_submitter_id,"+
+			" f.fraction_number, srm.experiment_type, srm.protocol_submitter_id,"+
+			" bin_to_uuid(srm.protocol_id) as protocol_id, srm.study_run_metadata_submitter_id,"+
 			" bin_to_uuid(srm.study_run_metadata_id) as study_run_metadata_id"+
 			" from file f"+
 		    " left join study_file sf on f.file_id = sf.file_id"+
 			" left join study_run_metadata srm on srm.study_run_metadata_id = sf.study_run_metadata_id"+
 			" left join study s on s.study_id = srm.study_id"+
-			" left join protocol p on s.study_id = p.study_id"+
+			" left join protocol p on srm.protocol_submitter_id = p.protocol_submitter_id"+
 			" where s.is_latest_version = 1 ";
 			//@@@PDC-5642 get non-raw files
 			let gas2Query = "select distinct bin_to_uuid(f.file_id) as file_id, f.file_name, f.file_location,"+
 			" f.md5sum, f.file_size, f.original_file_name as file_submitter_id, f.data_category, f.file_type ,f.file_format, "+
 			" 'N/A', p.instrument_model as instrument, 'N/A',"+
 			" f.fraction_number, 'N/A',"+
-			" 'N/A',"+
-			" 'N/A'"+
+			" 'N/A','N/A',"+
+			" 'N/A','N/A'"+
 			" from file f"+
 		    " left join study_file sf on f.file_id = sf.file_id"+
-			" left join study s on s.study_id = sf.study_id"+
-			" left join protocol p on s.study_id = p.study_id"+
+			" left join study_run_metadata srm on srm.study_run_metadata_id = sf.study_run_metadata_id"+
+			" left join study s on s.study_id = srm.study_id"+
+ 			" left join protocol p on srm.protocol_submitter_id = p.protocol_submitter_id"+
 			" where sf.study_run_metadata_id is null and s.is_latest_version = 1 ";
 
 
@@ -4974,62 +5204,6 @@ export const resolvers = {
 				return JSON.parse(res);
 			}
 		},
-		//@@@PDC-503 quantitiveDataCPTAC2 API
-		//@@@PDC-7440 remove obsolete APIs
-		/*quantitiveDataCPTAC2(_, args, context) {
-			if(!context.isUI) {
-				gaVisitor.pageview("/graphqlAPI/quantitiveDataCPTAC2").send();
-				context['parent']= "quantitiveDataCPTAC2";
-				logger.info("quantitiveDataCPTAC2 is called with "+ JSON.stringify(args));
-				//if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
-					//throw new ApolloError(duaMsg);
-			}
-			else
-				logger.info("quantitiveDataCPTAC2 is called from UI with "+ JSON.stringify(args));
-			//@@@PDC-669 gene_abundance table change
-			var quantQuery = "select bin_to_uuid(ga.gene_abundance_id) as gene_abundance_id, "+
-			"bin_to_uuid(ga.gene_id) as gene_id, ga.gene_name, "+
-			"bin_to_uuid(ga.study_id) as study_id, ga.study_submitter_id, s.pdc_study_id, "+
-			"bin_to_uuid(ga.study_run_metadata_id) as study_run_metadata_id, "+
-			"ga.study_run_metadata_submitter_id, s.experiment_type, "+
-			"s.analytical_fraction, bin_to_uuid(ga.aliquot_id) as aliquot_id, "+
-			"ga.aliquot_submitter_id, bin_to_uuid(ga.aliquot_run_metadata_id) as aliquot_run_metadata_id, "+
-			"bin_to_uuid(ga.project_id) as project_id, "+
-			"ga.project_submitter_id, ga.aliquot_alias, ga.log2_ratio, "+
-			"ga.unshared_log2_ratio, ga.unshared_precursor_area, ga.precursor_area, "+
-			"ga.cud_label "+
-			"from study s, gene_abundance ga "+
-			"where s.study_id = ga.study_id ";
-			//"and s.project_submitter_id IN ('" + context.value.join("','") + "')";
-
-			let replacements = { };
-
-			if (typeof args.study_submitter_id != 'undefined') {
-				let study_submitter_ids = args.study_submitter_id.split(';');
-				quantQuery += " and s.study_submitter_id IN (:study_submitter_ids)";
-				replacements['study_submitter_ids'] = study_submitter_ids;
-			}
-			if (typeof args.pdc_study_id != 'undefined') {
-				let studies = args.pdc_study_id.split(';');
-				quantQuery += " and s.pdc_study_id IN (:studies)";
-				replacements['studies'] = studies;
-			}
-			if (typeof args.experiment_type != 'undefined') {
-				let experiment_types = args.experiment_type.split(';');
-				quantQuery += " and s.experiment_type IN (:experiment_types)";
-				replacements['experiment_types'] = experiment_types;
-			}
-			let myOffset = 0;
-			let myLimit = 500;
-			quantQuery +=" LIMIT "+ myOffset+ ", "+ myLimit;
-			return db.getSequelize().query(
-					quantQuery,
-					{
-						replacements: replacements,
-						model: db.getModelByName('ModelQuantitativeData')
-					}
-				);
-		},*/
 		//@@@PDC-474 programs-projects-studies API
 		programsProjectsStudies(_, args, context) {
 			if(!context.isUI) {
@@ -5461,79 +5635,6 @@ export const resolvers = {
 				return [{total: 0}];
 			}
 		},
-		//@@@PDC-486 data matrix API
-		//@@@PDC-562 quant data matrix API
-		//@@@PDC-7440 remove obsolete APIs
-		/*paginatedDataMatrix (_, args, context) {
-			if(!context.isUI) {
-				gaVisitor.pageview("/graphqlAPI/paginatedDataMatrix").send();
-				context['parent']= "paginatedDataMatrix";
-				logger.info("paginatedDataMatrix is called with "+ JSON.stringify(args));
-				//if (typeof args.acceptDUA == 'undefined' || !args.acceptDUA)
-					//throw new ApolloError(duaMsg);
-			}
-			else
-				logger.info("paginatedDataMatrix is called from UI with "+ JSON.stringify(args));
-			context['arguments'] = args;
-			let matrixCountQuery = '';
-			let replacements = { };
-			switch (args.data_type) {
-				case 'spectral_count':
-				case 'distinct_peptide':
-				case 'unshared_peptide':
-					matrixCountQuery = "select count(distinct sc.plex_name) as total" +
-					" FROM spectral_count sc"+
-					" WHERE sc.study_submitter_id = :study_submitter_id";
-					replacements['study_submitter_id'] = args.study_submitter_id;
-					//"' and sc.project_submitter_id IN ('" + context.value.join("','") + "')";
-					break;
-				//@@@PDC-669 support all areas/ratios in gene_abundance
-				case 'precursor_area':
-				case 'log2_ratio':
-				case 'unshared_precursor_area':
-				case 'unshared_log2_ratio':
-				//@@@PDC-765 Key data matrix with aliquot_submitter_id and aliquot_alias
-					matrixCountQuery = "select count(distinct ga.aliquot_submitter_id, ga.aliquot_alias) as total" +
-					" FROM gene_abundance ga"+
-					" WHERE ga.study_submitter_id = :study_submitter_id";
-					replacements['study_submitter_id'] = args.study_submitter_id;
-					//"' and ga.project_submitter_id IN ('" + context.value.join("','") + "')";
-					break;
-				case 'log_ratio':
-					matrixCountQuery = "select count(distinct pq.aliquot_submitter_id) as total" +
-					" FROM phosphosite_quant pq"+
-					" WHERE pq.study_submitter_id = '"+ args.study_submitter_id + "'";
-					"' and pq.project_submitter_id IN ('" + context.value.join("','") + "')";
-					break;
-			}
-
-			let myOffset = 0;
-			let myLimit = 100;
-			let paginated = false;
-			if (typeof args.offset != 'undefined' && typeof args.limit != 'undefined') {
-				if (args.offset >= 0)
-					myOffset = args.offset;
-				if (args.limit >= 0)
-					myLimit = args.limit;
-				else
-					myLimit = 0;
-				paginated = true;
-			}
-			//@@@PDC-2725 pagination enhancement
-			//if (myOffset == 0 && paginated) {
-			if (paginated) {
-				return db.getSequelize().query(
-						matrixCountQuery,
-						{
-							replacements: replacements,
-							model: db.getModelByName('ModelPagination')
-						}
-					);
-			}
-			else {
-				return [{total: 0}];
-			}
-		},*/
 		//@@@PDC-3640 new pdc metrics api
 		getPDCMetrics(_, args, context) {
 			logger.info("getPDCMetrics is called with "+ JSON.stringify(args));
@@ -5605,7 +5706,7 @@ export const resolvers = {
 						replacements: replacements,
 						model: db.getModelByName('ModelFileMetadata')
 					}
-				);	
+				);
 				RedisCacheClient.redisCacheSetExAsync(cacheKey, JSON.stringify(result));
 				return result;
 			} else {
@@ -5622,7 +5723,8 @@ export const resolvers = {
 			let cacheFilterName = { name:'' };
 			cacheFilterName['dataFilterName'] = cacheFilterName.name;
 
-			let uiPubCountQuery = "select count(distinct pub.publication_id) as total ";
+			let uiPubCountQuery = "select count(*) as total from (select distinct pub.publication_id ";
+            let uiPubCountEndQuery = " ) sub"
 			//@@@PDC-5768 add group_name
 			let uiPubBaseQuery = "SELECT distinct bin_to_uuid(pub.publication_id) as publication_id, prog.name as program_name, pub.pubmed_id, pub.group_name, pub.doi, pub.author, pub.title, pub.journal, pub.journal_url, pub.year, pub.abstract, pub.citation ";
 			let uiPubQuery = "FROM publication pub, study s, `case` c, sample sam, aliquot al, "+
@@ -5657,7 +5759,8 @@ export const resolvers = {
 				replacements['pubmed_id'] = "%" + args.pubmed_id + "%";
 				cacheFilterName['dataFilterName'] += 'pubmed_id:'+args.pubmed_id+';';
 			}
-			uiPubQuery += " order by pub.year desc";
+
+			uiPubQuery += "group by pub.publication_id order by pub.year desc";
 
 			let myOffset = 0;
 			let myLimit = 500;
@@ -5681,7 +5784,7 @@ export const resolvers = {
 				const res = await RedisCacheClient.redisCacheGetAsync('PublicationTotal:'+cacheFilterName['dataFilterName']);
 				if(res === null){
 					let rawData = await db.getSequelize().query(
-							uiPubCountQuery + uiPubQuery,
+							uiPubCountQuery + uiPubQuery + uiPubCountEndQuery,
 							{
 								replacements: replacements,
 								model: db.getModelByName('ModelPagination')
@@ -5742,7 +5845,7 @@ export const resolvers = {
 						batch = [];
 						batch.push(genes[i]);
 					}
-				}				
+				}
 				else{
 					if (alpha === "num"){
 						batch.push(genes[i]);
@@ -5767,7 +5870,7 @@ export const resolvers = {
 						batch.push(genes[i]);
 					}
 				}
-				
+
 			}
 			console.log("gene batch: "+ batch);
 			if (batch.length > 0) {
@@ -5800,15 +5903,17 @@ export const resolvers = {
 			logger.info("getPaginatedUIPtm is called from UI with CS: "+ JSON.stringify(args));
 			context['arguments'] = args;
 			//@@@PDC-3171 new ptm abundance tables
+			//@@@PDC-8588 get legacy gene name
+			let ptmGeneName = await getPtmLegacyGeneName(args.gene_id, args.gene_name);
+			console.log("passed in gene name: ", args.gene_name);
+			console.log("old gene name: ", ptmGeneName);
 			let ptmTableName = "ptm_abundance";
-			if (typeof args.gene_name != 'undefined') {
-				  //@@PDC-6361 - gene summary page issues - check if first character of gene is number if so then use num table
-					if(isNaN(args.gene_name.substr(0, 1))){
-						ptmTableName = "ptm_abundance_"+ args.gene_name.substr(0, 1);
-					} else {
-					  ptmTableName = "ptm_abundance_num";
-					}
+			if(isNaN(ptmGeneName.substr(0, 1))){
+				ptmTableName = "ptm_abundance_"+ ptmGeneName.substring(0,1).toUpperCase();
+			} else {
+			  ptmTableName = "ptm_abundance_num";
 			}
+			console.log("ptm table name: ", ptmTableName);
 
 			let uiPtmCountQuery = "select count(distinct pq.ptm_type, pq.site, pq.peptide) as total ";
 			let uiPtmBaseQuery = "SELECT distinct pq.ptm_type, pq.site, pq.peptide ";
@@ -5823,10 +5928,13 @@ export const resolvers = {
 				cacheFilterName.name +="gene_id: ("+args.gene_id+");";
 			}
 			else {
+				throw new ApolloError("Gene UUID is needed to get ptm data");
+			}
+			/*else {
 				uiPtmQuery +=" WHERE pq.gene_name = :gene_name ";
 				replacements = { gene_name: args.gene_name };
 				cacheFilterName.name +="gene_name: ("+args.gene_name+");";
-			}
+			}*/
 			//"and pq.project_submitter_id IN ('" + context.value.join("','") + "')";
 
 			//let replacements = { gene_name: args.gene_name };
@@ -5978,9 +6086,10 @@ export const resolvers = {
 				logger.info("study is called from UI with "+ JSON.stringify(args));
 			context['arguments'] = args;
 			//@@@PDC-2615 add embargo_date
+			//@@@PDC-8597 add study_description
 			let studyBaseQuery = "SELECT bin_to_uuid(s.study_id) as study_id,"+
 			" s.study_submitter_id, s.submitter_id_name as study_name, s.pdc_study_id,"+
-			" s.study_shortname, s.embargo_date, bin_to_uuid(prog.program_id) as program_id,"+
+			" s.study_shortname, s.study_description, s.embargo_date, bin_to_uuid(prog.program_id) as program_id,"+
 			" bin_to_uuid(proj.project_id) as project_id,"+
 			" prog.name as program_name, proj.name as project_name,"+
 			" c.disease_type, c.primary_site, s.analytical_fraction,"+
@@ -5997,7 +6106,7 @@ export const resolvers = {
 			//" count(distinct al.aliquot_id) as aliquots_count ";
 
 			let studyHeadWrapQuery =
-			`select study_id, study_submitter_id, pdc_study_id, study_name, study_shortname, embargo_date, program_id, program_name, project_id, project_name, GROUP_CONCAT(distinct disease_type SEPARATOR ';') as disease_type,
+			`select study_id, study_submitter_id, pdc_study_id, study_name, study_shortname, study_description, embargo_date, program_id, program_name, project_id, project_name, GROUP_CONCAT(distinct disease_type SEPARATOR ';') as disease_type,
 				GROUP_CONCAT(distinct primary_site SEPARATOR ';') as primary_site, analytical_fraction, experiment_type FROM	(`;
 
 			let studyTailWrapQuery =
@@ -6268,6 +6377,7 @@ export const resolvers = {
 		//@@@PDC-4391 add new columns
 		//@@@PDC-5205 add auxiliary_data and tumor_cell_content
 		//@@@PDC-5647 return N/A if null
+		//@@@PDC-9467 add sex
 		async clinicalPerStudy(_, args, context) {
 			if(!context.isUI) {
 				gaVisitor.pageview("/graphqlAPI/clinicalPerStudy").send();
@@ -6281,7 +6391,7 @@ export const resolvers = {
 			let clinicalQuery = "select distinct bin_to_uuid(c.case_id) as case_id, "+
 			"c.case_submitter_id, c.status, c.disease_type, c.consent_type, c.consent_type, c.days_to_consent, "+
 			"c.primary_site, bin_to_uuid(dem.demographic_id) as demographic_id, "+
-			"dem.demographic_submitter_id, dem.ethnicity, dem.gender, dem.race, "+
+			"dem.demographic_submitter_id, dem.ethnicity, dem.gender, dem.gender as sex, dem.race, "+
 			"dem.cause_of_death, dem.days_to_birth, dem.days_to_death, dem.vital_status, "+
 			"dem.year_of_birth, dem.year_of_death, 	dem.age_at_index, dem.premature_at_birth, "+
 			"dem.weeks_gestation_at_birth, dem.age_is_obfuscated, dem.cause_of_death_source, "+
@@ -6506,19 +6616,21 @@ export const resolvers = {
 			//@@@PDC-5290 add experiment types of TMT16 and TMT18
 			//@@@PDC-6691 add acquisition_mode
 			//@@@PDC-7386 change acquisition_mode to polarity
+			//@@@PDC-8988 support multi protocols per study
+			//@@@PDC-8939 get fraction count from srm
 			let experimentalQuery = "SELECT distinct bin_to_uuid(srm.study_run_metadata_id) as study_run_metadata_id, "+
 			" bin_to_uuid(s.study_id) as study_id, srm.study_run_metadata_submitter_id,"+
-			" s.study_submitter_id, s.pdc_study_id, "+
-			" srm.analyte, s.acquisition_type, s.experiment_type,"+
+			" s.study_submitter_id, s.pdc_study_id, bin_to_uuid(srm.protocol_id) as protocol_id,"+
+			" srm.analyte, s.acquisition_type, s.experiment_type, srm.protocol_submitter_id, "+
 			" srm.folder_name as plex_dataset_name, srm.experiment_number, srm.polarity, "+
-			" p.fractions_analyzed_count as number_of_fractions, label_free as label_free_asi, itraq_113 as itraq_113_asi,"+
+			" srm.fraction as number_of_fractions, label_free as label_free_asi, itraq_113 as itraq_113_asi,"+
 			" itraq_114 as itraq_114_asi, itraq_115 as itraq_115_asi, itraq_116 as itraq_116_asi, itraq_117 as itraq_117_asi,"+
 			" itraq_118 as itraq_118_asi, itraq_119 as itraq_119_asi, itraq_121 as itraq_121_asi,"+
 			" tmt_126 as tmt_126_asi, tmt_127n as tmt_127n_asi, tmt_127c as tmt_127c_asi, tmt_128n as tmt_128n_asi, tmt_128c as tmt_128c_asi,"+
 			" tmt_129n as tmt_129n_asi, tmt_129c as tmt_129c_asi, tmt_130n as tmt_130n_asi, tmt_130c as tmt_130c_asi, tmt_131 as tmt_131_asi, tmt_131c as tmt_131c_asi, "+
 			" tmt_132n as tmt_132n_asi, tmt_132c as tmt_132c_asi, tmt_133n as tmt_133n_asi, tmt_133c as tmt_133c_asi, tmt_134n as tmt_134n_asi, tmt_134c as tmt_134c_asi, tmt_135n as tmt_135n_asi "+
-			" from study_run_metadata srm, study s, protocol p "+
-			" where srm.study_id=s.study_id and p.study_id = s.study_id ";
+			" from study_run_metadata srm, study s"+
+			" where srm.study_id=s.study_id ";
 			//" and s.project_submitter_id IN ('" + context.value.join("','") + "')";
 
 			let replacements = { };

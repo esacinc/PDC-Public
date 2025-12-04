@@ -10,9 +10,10 @@ import { environment } from '../../../environments/environment';
 
 
 @Component({
-selector: 'app-heat-map',
-templateUrl: './heat-map.component.html',
-styleUrls: ['./heat-map.component.scss']
+    selector: 'app-heat-map',
+    templateUrl: './heat-map.component.html',
+    styleUrls: ['./heat-map.component.scss'],
+    standalone: false
 })
 export class HeatMapComponent implements OnInit, AfterViewInit, OnChanges {
 @Input() map_file: Observable<string>;

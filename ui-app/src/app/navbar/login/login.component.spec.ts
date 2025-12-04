@@ -1,16 +1,17 @@
 import { RouterTestingModule } from '@angular/router/testing';
 import { PDCUserService } from './../../pdcuser.service';
-import { SocialAuthService } from "angularx-social-login";
+
 import { Observable, of } from "rxjs";
 
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
-import { MatLegacyDialogModule as MatDialogModule } from "@angular/material/legacy-dialog";
-import { MatLegacyDialog as MatDialog, MatLegacyDialogRef as MatDialogRef } from "@angular/material/legacy-dialog";
+import { MatDialogModule } from "@angular/material/dialog";
+import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 
 import { ChorusauthService } from "../../chorusauth.service";
 import { LoginComponent } from "./login.component";
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 class MockAuthService {
   signIn(providerId: string): Promise<any> {
@@ -50,17 +51,19 @@ describe("LoginComponent", () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [LoginComponent],
-      imports: [HttpClientTestingModule, MatDialogModule, RouterTestingModule],
-      schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
-      providers: [
+    declarations: [LoginComponent],
+    schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
+    imports: [MatDialogModule, RouterTestingModule],
+    providers: [
         ChorusauthService,
-        { provide: SocialAuthService, useClass: MockAuthService },
+
         { provide: MatDialogRef, useClass: MockMatDialogRef },
         { provide: MatDialog, userClass: MockMatDialog },
-        { provide: PDCUserService, userClass: MockPDCUserService}
-      ]
-    }).compileComponents();
+        { provide: PDCUserService, userClass: MockPDCUserService },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting()
+    ]
+}).compileComponents();
   }));
 
   beforeEach(() => {
@@ -74,7 +77,7 @@ describe("LoginComponent", () => {
   });
 
   it("social sign out", async () => {
-    let service = TestBed.get(SocialAuthService);
+
     let spy = spyOn(service, "signOut").and.callThrough();
     component.socialSignOut("google");
     expect(spy).toHaveBeenCalled();
@@ -85,7 +88,7 @@ describe("LoginComponent", () => {
   });
 
   it("test social sign in user exist", async () => {
-    let service = TestBed.get(SocialAuthService);
+
     let chorusSerrvice = TestBed.get(ChorusauthService);
     let dialogRef = TestBed.get(MatDialogRef);
     let spy = spyOn(service, "signIn").and.callThrough();
@@ -93,7 +96,7 @@ describe("LoginComponent", () => {
     //let spy2 = spyOn(chorusSerrvice, "authenticateUser").and.returnValue(
     //   of(true)
     // );
-    component.socialSignIn("google");
+
     expect(spy).toHaveBeenCalled();
     fixture.whenStable().then(() => {
       //expect(spy1).toHaveBeenCalledWith("xxx@esacinc.com");
@@ -104,13 +107,11 @@ describe("LoginComponent", () => {
   });
 
   xit("test social sign in user exist", async () => {
-    let service = TestBed.get(SocialAuthService);
+
     let chorusSerrvice = TestBed.get(ChorusauthService);
-    let spy = spyOn(service, "signIn").and.callThrough();
     let spy1 = spyOn(chorusSerrvice, "checkUser").and.returnValue(of(false));
     let dialogRef = TestBed.get(MatDialogRef);
     let dialogRefSpy = spyOn(dialogRef, "close").and.callThrough();
-    component.socialSignIn("google");
     fixture.whenStable().then(() => {
       expect(spy1).toHaveBeenCalledWith("xxx@esacinc.com");
       expect(dialogRefSpy).toHaveBeenCalled();

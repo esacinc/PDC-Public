@@ -1,8 +1,8 @@
 // src/app/auth/auth-guard.service.ts
 import { Injectable } from '@angular/core';
-import { Router, CanActivate } from '@angular/router';
+import { Router } from '@angular/router';
 @Injectable()
-export class AuthGuardService implements CanActivate {
+export class AuthGuardService  {
   constructor(public router: Router) {}
   canActivate(): boolean {
     let pathName = window.location.pathname;

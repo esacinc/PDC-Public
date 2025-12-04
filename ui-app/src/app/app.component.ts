@@ -4,9 +4,10 @@ import { Component, Renderer2, ElementRef, AfterViewChecked } from '@angular/cor
 import { OverlayWindowService } from './overlay-window/overlay-window.service';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css', '../assets/css/global.css']
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.css', '../assets/css/global.css'],
+    standalone: false
 })
 //@@@PDC-724: Need to develop overlay notice when user first opens PDC browser
 //@@@PDC-412 Implement more details google analytics

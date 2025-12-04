@@ -180,6 +180,13 @@ div.container.front-page-figures-row{
   color: #FFFFFF;
 }
 
+/* PDC-9533 - tech advancement header alignment update */
+@media only screen and (max-width: 1520px) {
+  .bottom-row-card-header {
+    height: 90px; /* Adjust height for smaller screens */
+  }
+}
+
 //@@@PDC-1119: Make the disease types table on the home page clickable
 .frontPage_diseasetype {
   color: #FFFFFF;

@@ -30,7 +30,7 @@ type StudyRunMetadata {
 	tmt_131: String
 	tmt_131c: String
 	study: Study
-	protocol: Protocol
+	protocol: [Protocol]
 	aliquot_run_metadata: [AliquotRunMetadata]	
 	files: [File]
 }

@@ -1,8 +1,8 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
-import { MatLegacyMenuModule as MatMenuModule } from '@angular/material/legacy-menu';
+import { MatDialog } from '@angular/material/dialog';
+import { MatMenuModule } from '@angular/material/menu';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Apollo } from 'apollo-angular';
 import { Observable, of } from 'rxjs';
@@ -10,6 +10,7 @@ import { PDCUserService } from './../../pdcuser.service';
 import { SizeUnitsPipe } from './../../sizeUnitsPipe.pipe';
 import { BrowseByFileComponent } from './browse-by-file.component';
 import { BrowseByFileService } from './browse-by-file.service';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 
 
@@ -80,11 +81,11 @@ describe("BrowseByFileComponent", () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [BrowseByFileComponent],
-      imports: [RouterTestingModule, MatMenuModule, HttpClientTestingModule],
-      schemas: [NO_ERRORS_SCHEMA],
-      providers: []
-    });
+    declarations: [BrowseByFileComponent],
+    schemas: [NO_ERRORS_SCHEMA],
+    imports: [RouterTestingModule, MatMenuModule],
+    providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+});
 
     TestBed.overrideComponent(BrowseByFileComponent, {
       set: {

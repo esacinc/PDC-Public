@@ -1,6 +1,38 @@
 
-.mat-button.mat-small {
+// Flex layout for browse page to allow main content to stretch when sidenav is hidden
+.browse-flex-container {
+  display: flex;
+  width: 100vw;
+  min-width: 0;
+  height: 100vh;
+}
+
+.browse-sidenav-container {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 1100px;
+  padding-left: 5px !important;
+}
+.mat-mdc-button.mat-small {
   min-width: 1%;
+}
+
+/* Tab button styling to ensure outlines are visible */
+.flex.border-b button {
+  border: 1px solid #d1d5db !important; /* Light gray border for all tabs */
+  outline: none !important; /* Remove default outline to use border instead */
+}
+
+/* Active tab styling */
+.flex.border-b button.border-blue-500 {
+  border: 1px solid #3b82f6 !important; /* Blue border for active tab */
+  border-bottom: 2px solid #3b82f6 !important; /* Thicker bottom border for active tab */
+}
+
+/* Inactive tab styling */
+.flex.border-b button.border-transparent {
+  border: 1px solid #e5e7eb !important; /* Slightly visible border for inactive tabs */
+  border-bottom: 2px solid transparent !important; /* Keep bottom border transparent for inactive */
 }
 
 .toolbar-second-row {
@@ -81,10 +113,6 @@
   padding: 3px;
 }
 
-::ng-deep #browsePageExpansionPanel .mat-expansion-panel-header {
-  //height: 36px !important;
-}
-
 ::ng-deep .mat-expansion-panel-header {
 	height:25px!important;
 }
@@ -100,7 +128,7 @@
     border-right: 1px solid #e9e9e9;
     background: linear-gradient(to bottom, #f6f7f9 0%, #ebedf0 100%);
   }
-
+  /*  TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
   .table-panels .mat-tab-label {
     border: 1px solid rgba(0,0,0,.12);
     background: linear-gradient(to bottom, #f6f7f9 0%, #ebedf0 100%);
@@ -167,7 +195,86 @@
 #diseaseTypesChart svg,
  #analyticalFractionChart svg,
 #expCountChart svg {
-  overflow: unset !important;
+  overflow: hidden !important; /* Changed from unset to hidden to prevent chart overflow */
+  max-width: 100% !important;
+}
+
+/* Chart containers - consistent styling for all three */
+#diseaseTypesChart,
+#analyticalFractionChart,
+#expCountChart {
+  padding: 5px !important; /* Consistent padding for all charts */
+  margin: 0 !important; /* Remove any margin that could cause misalignment */
+  box-sizing: border-box;
+  max-width: 100%;
+  width: 100% !important; /* Ensure each chart takes full width of its container */
+  height: 100% !important; /* Fill available height */
+  display: block !important; /* Changed from flex to block to prevent layout issues */
+  position: relative; /* Add positioning for better control */
+  background: transparent !important; /* Ensure no background color causes overlap */
+  z-index: 1; /* Add z-index for proper layering */
+  top: 0 !important; /* Ensure all charts start at the same vertical position */
+}
+
+/* Specific overflow settings - keep visible for tooltips but prevent layout overflow */
+#diseaseTypesChart,
+#expCountChart {
+  overflow: hidden !important; /* Keep hidden for these charts as they work fine */
+}
+
+#analyticalFractionChart {
+  overflow: visible !important; /* Allow overflow for tooltips to display properly */
+}
+
+/* Ensure chart text and labels stay within bounds - but preserve tooltip functionality */
+#diseaseTypesChart text,
+#analyticalFractionChart text,
+#expCountChart text {
+  /* Remove pointer-events: none to preserve tooltip functionality */
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+  text-overflow: ellipsis;
+}
+
+/* Specific fix for analytical fraction chart to ensure tooltips work */
+#analyticalFractionChart {
+  pointer-events: auto !important; /* Ensure hover events work for tooltips */
+}
+
+#analyticalFractionChart svg {
+  pointer-events: auto !important; /* Ensure SVG elements can receive hover events */
+}
+
+#analyticalFractionChart .bar,
+#analyticalFractionChart rect,
+#analyticalFractionChart path {
+  pointer-events: auto !important; /* Ensure chart elements can trigger tooltips */
+}
+
+/* Additional styling to prevent chart cutoff during resize */
+#diseaseTypesChart {
+  min-width: 280px !important; /* Minimum width to prevent cutoff */
+  flex-shrink: 0 !important; /* Prevent shrinking below minimum */
+}
+
+#analyticalFractionChart {
+  min-width: 280px !important;
+  flex-shrink: 0 !important;
+}
+
+#expCountChart {
+  min-width: 280px !important;
+  flex-shrink: 0 !important;
+}
+
+/* Ensure Y-axis labels are visible but contained */
+#analyticalFractionChart .tick text,
+#expCountChart .tick text {
+  overflow: visible !important; /* Keep text labels visible */
+  white-space: nowrap;
+  font-size: 12px; /* Smaller font to fit better */
+  text-overflow: ellipsis; /* Add ellipsis for very long labels */
 }
 
 //Hide x-axis in bar charts
@@ -184,7 +291,7 @@
     #analyticalFractions .tick text,
     #experimentalStrategy .tick text,
     .casesLabel {
-      font-size: 24px !important;
+      font-size: 12px !important; /* Readable font size */
       font-family: "Lucida Grande", "Lucida Sans Unicode", Arial, Helvetica, sans-serif !important;
     }
 
@@ -192,17 +299,17 @@
       #analyticalFractions .tick text,
       #experimentalStrategy .tick text,
       .casesLabel {
-        font-size: 22px !important;
+        font-size: 11px !important;
       }
     }
 
     #diseaseTypes text {
-      font-size: 9px;
+      font-size: 11px; /* Consistent readable size */
     }
 
     @media only screen  and (min-width: 1800px) and (max-width: 2400px) {
       #diseaseTypes text {
-        font-size: 8px;
+        font-size: 10px;
       }
     }
 
@@ -210,7 +317,7 @@
       #analyticalFractions .tick text,
       #experimentalStrategy .tick text,
       .casesLabel {
-        font-size: 18px !important;
+        font-size: 10px !important;
       }
     }
 
@@ -218,13 +325,13 @@
       #analyticalFractions .tick text,
       #experimentalStrategy .tick text,
       .casesLabel {
-        font-size: 14px !important;
+        font-size: 10px !important;
       }
     }
 
     @media only screen  and (min-width: 2401px) {
       #diseaseTypes text {
-        font-size: 6px;
+        font-size: 9px;
       }
     }
 
@@ -236,10 +343,161 @@
 .charts-card {
   padding-left:0px;
   padding-top:0px!important;
-  padding-bottom: 0px !important
+  padding-bottom: 0px !important;
+  // Remove rounded corners and shadow from charts card
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Ensure flex container for charts handles spacing properly */
+.charts-card > div {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 15px !important; /* Increased gap from 10px to 15px for more separation */
+  width: 100% !important;
+  align-items: flex-start !important; /* Ensure all chart containers align to the same top line */
+  
+  /* Individual chart container styling */
+  > div {
+    flex: 1 1 calc(33.333% - 15px) !important; /* Adjusted for larger gap */
+    min-width: 280px !important;
+    max-width: none !important; /* Remove max-width constraint */
+    box-sizing: border-box !important;
+    padding: 5px !important; /* Keep consistent padding for all */
+    margin: 0 2px !important; /* Add small margin for additional separation */
+    display: flex !important; /* Make containers flex to align content */
+    flex-direction: column !important; /* Stack title and chart vertically */
+    align-items: center !important; /* Center content horizontally */
+  }
+  
+  /* Remove specific adjustments that were causing misalignment */
+  > div:last-child {
+    padding: 5px !important; /* Keep same padding as others */
+    margin: 0 2px !important; /* Keep same margin as others */
+  }
+  
+  /* Remove specific adjustments that were causing misalignment */
+  > div:nth-child(2) {
+    padding: 5px !important; /* Keep same padding as others */
+    margin: 0 2px !important; /* Keep same margin as others */
+  }
+}
+
+// Additional override for Material Design card in charts section
+.browse-page .charts-card.mat-mdc-card {
+  border-radius: 0 !important;
+  box-shadow: none !important;
 }
 
 .browseOverlay:has(div.p-datatable-loading-overlay) {
   background: #F1F1F1;
   opacity: 0.6 !important;
 }
+
+/* Browse page wrapper with 15px margins */
+.browse-page-wrapper {
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+/* Chart container styling to prevent label overflow */
+#diseaseTypesChart,
+#analyticalFractionChart,
+#expCountChart {
+  overflow: hidden;
+  position: relative;
+}
+
+/* Chart text styling for better label display */
+#diseaseTypesChart text,
+#analyticalFractionChart text,
+#expCountChart text {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+  text-overflow: ellipsis;
+}
+
+/* Ensure Y-axis labels stay within bounds */
+#diseaseTypesChart svg g text,
+#analyticalFractionChart svg g text,
+#expCountChart svg g text {
+  max-width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+// Remove rounded corners from expansion panel content wrapper
+.mat-expansion-panel-content .mat-expansion-panel-body {
+  border-radius: 0 !important;
+}
+
+.mat-expansion-panel {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+.mat-expansion-panel-content {
+  border-radius: 0 !important;
+}
+
+.browsePageExpansionPanel .mat-expansion-panel {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  border: 1px solid #d1d5db !important; // Thin gray border similar to filter sections
+  margin-bottom: 4px !important;
+}
+
+.browsePageExpansionPanel .mat-expansion-panel-header {
+  border-radius: 0 !important;
+}
+
+.browsePageExpansionPanel .mat-expansion-panel-content {
+  border-radius: 0 !important;
+}
+
+/* Fix chart extension beyond browser window */
+.browse-page-wrapper {
+  max-width: 100vw !important;
+  overflow-x: hidden !important;
+}
+
+.browsePageExpansionPanel {
+  max-width: 100% !important;
+  overflow-x: hidden !important;
+  box-sizing: border-box !important;
+  
+  .mat-expansion-panel {
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+  }
+  
+  .mat-expansion-panel-body {
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+    padding: 0 !important;
+  }
+  
+  .charts-card {
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+    box-sizing: border-box !important;
+  }
+}
+
+/* Force all children to respect container bounds */
+.browse-page-wrapper * {
+  box-sizing: border-box !important;
+}
+
+/* Specific flex container overrides */
+.flex {
+  max-width: 100% !important;
+  overflow-x: hidden !important;
+}
+
+::ng-deep .cdk-overlay-pane.overlay-screen-dialog-panel {
+  width: 800px !important;
+  max-width: 100vw !important;
+}
+

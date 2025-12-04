@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { NgModule } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
-import { Apollo, SelectPipe } from 'apollo-angular';
+import { Apollo } from 'apollo-angular';
 import { Observable, Subject } from 'rxjs';
 import { map ,  switchMap ,  take } from 'rxjs/operators';
 import gql from 'graphql-tag';
@@ -16,7 +16,7 @@ import { QueryLegacyStudies, legacyStudyPublications } from '../types';
 import { StudySummaryComponent } from '../browse/study-summary/study-summary.component';
 import { LegacyStudySummaryComponent } from './legacy-study-summary/legacy-study-summary.component';
 import { LegacyDataService } from './legacy-data.service';
-import { MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig } from '@angular/material/legacy-dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatSidenav } from '@angular/material/sidenav';
 
 import {TableTotalRecordCount, AllStudiesData} from '../types';
@@ -27,9 +27,10 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 declare var window: any;
 
 @Component({
-selector: 'legacy-data',
-templateUrl: './legacy-data.component.html',
-styleUrls: ['../../assets/css/global.css', './legacy-data.component.scss'],
+    selector: 'legacy-data',
+    templateUrl: './legacy-data.component.html',
+    styleUrls: ['../../assets/css/global.css', './legacy-data.component.scss'],
+    standalone: false
 })
 
 //@@@PDC-3363 Develop UI legacy data
@@ -40,6 +41,7 @@ export class LegacyDataComponent implements OnInit{
 	allStudies: QueryLegacyStudies[];
 	projects: any[] = [];
 	//studiesList: any[] = [];
+	expandedRows: any = {};
 
 	totalRecords = 0;
 	offset: number = 0;
@@ -87,6 +89,26 @@ export class LegacyDataComponent implements OnInit{
 		this.isFullDescription = !this.isFullDescription;
 	}
 
+	onRowToggle(rowData: any) {
+		console.log('Row toggle clicked for:', rowData);
+		console.log('Current expandedRows:', this.expandedRows);
+		console.log('DataKey value:', rowData.project_name);
+	}
+
+	toggleRow(rowData: any) {
+		const key = rowData.project_name;
+		if (this.expandedRows[key]) {
+			delete this.expandedRows[key];
+		} else {
+			this.expandedRows[key] = true;
+		}
+		console.log('Toggled row for:', key, 'Expanded rows:', this.expandedRows);
+	}
+
+	isRowExpanded(rowData: any): boolean {
+		return !!this.expandedRows[rowData.project_name];
+	}
+
 	isAbstractExpandedToggle() {
 		this.isAbstractExpanded = !this.isAbstractExpanded;
 	}
@@ -104,8 +126,8 @@ export class LegacyDataComponent implements OnInit{
 	getStudiesData(){
 		this.legacyDataService.getAllLegacyStudies().pipe(take(1)).subscribe((data: any) =>{
 		  this.allStudies = data.uiLegacyStudies ;
-		  //sort all studies by their sort_order column
-		  this.allStudies.sort((a, b) => (a.sort_order > b.sort_order) ? 1 : -1);
+		  //sort all studies by their sort_order column - create a copy first to avoid read-only error
+		  this.allStudies = [...this.allStudies].sort((a, b) => (a.sort_order > b.sort_order) ? 1 : -1);
 		  console.log(this.allStudies);
 		  for (let study of this.allStudies) {
 			  //PDC-3982 Create new layout for Legacy Data page

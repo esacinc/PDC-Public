@@ -11,10 +11,11 @@ import { Filter, FilterData, GeneNameList, dataCategory2FileTypeMapping } from "
 import { BrowseService } from "../browse.service";
 import { BrowseFiltersService } from "./browse-filters.service";
 @Component({
-  selector: "browse-filters",
-  templateUrl: "./browse-filters.html",
-  styleUrls: ["../../../assets/css/global.css", "./browse-filters.scss"],
-  providers: [BrowseFiltersService]
+    selector: "browse-filters",
+    templateUrl: "./browse-filters-new.html",
+    styleUrls: ["../../../assets/css/global.css", "./browse-filters.scss"],
+    providers: [BrowseFiltersService],
+    standalone: false
 })
 
 //@@@PDC-169 The user should be able to browse data by Case
@@ -48,6 +49,31 @@ import { BrowseFiltersService } from "./browse-filters.service";
 //@@@PDC-3010: Update UI to use APIs for fily type to data category mapping
 //@@@PDC-3778: Implement deep linking to study filtering using PDC study ID
 export class BrowseFiltersComponent implements OnInit, OnChanges {
+  showAnalyticalFraction: boolean = false;
+  showDropdown: boolean = true;
+  showDiseaseType: boolean = false;
+  showAcquisitionType: boolean = false; // or false, as default
+  showStudyFilter: boolean = false;
+  showStudy: boolean = false;
+  showSampleStatus: boolean = false;
+  showGeneFilter: boolean = false;
+  showExperimentType: boolean = false;
+  showBiospecimenStatus: boolean = false;
+  showSamplePanel: boolean = false;
+  showCasePanel: boolean = false;
+  showTreatmentPanel: boolean = false;
+  showEthnicityPanel: boolean = false;
+  showRacePanel: boolean = false;
+  showGenderPanel: boolean = false;
+  showTumorGradePanel: boolean = false;
+  showCaseStatusPanel: boolean = false;
+  showDemographicPanel: boolean = false;
+  showVitalStatusPanel: boolean = false;
+  showDiagnosisPanel: boolean = false;
+  showExposurePanel: boolean = false;
+  showAgeAtDiagnosisPanel: boolean = false;
+  showAjccClinicalStagePanel: boolean = false;
+
   allCategoryFilterData: FilterData; // Full list of all cases as returned by API
   allFilterCategoryMapData: Map<string, string[]> = new Map();
   loading: boolean = false; //Flag indicates that the data is still being loaded from server
@@ -60,6 +86,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
   valudatedGeneNamesList: string[] = [];
   allGeneNamesValid: boolean = false;
   geneNameValid :boolean = false;
+  selectedBiospecimenStatus: string[] = [];
   prebuildGeneList:GeneNameList[] = [{listName: 'Glioblastoma:TP53 Pathway (4 genes)', geneNamesList: 'CDKN2A MDM2 MDM4 TP53'},
 									{listName: 'Glioblastoma:RTK/RAS/PI3K/AKT Signaling (16 genes)', geneNamesList: 'EGFR KRAS ERBB2 PDGFRA NRAS HRAS SPRY2 NF1 FOXO1 AKT1 FOXO3 AKT2 AKT3 PIK3R1 PIK3CA PTEN'},
 									{listName: 'Glioblastoma:RB Pathway (7 genes)', geneNamesList: 'CDKN2A CDKN2B CDKN2C CDK4 CDK6 CCND2 RB1'},
@@ -106,6 +133,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
 
   programsFilter: Filter[] = [];
   selectedPrograms: string[] = [];
+  programNames = {};
 
   diseaseTypesFilter: Filter[] = [];
   selectedDiseases: string[] = [];
@@ -115,6 +143,9 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
 
   experimentalStrategiesFilter: Filter[] = [];
   selectedExpStarts: string[] = [];
+
+  dataCategoryFilter: Filter[] = [];
+  selectedDataCategory: string[] = [];
 
   acquisitionFilter: Filter[] = [];
   selectedAcquisitions: string[] = [];
@@ -140,22 +171,50 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
   tumorGradeFilter: Filter[] = [];
   selectedTumorGrade: string[] = [];
 
-  //file filter
-  dataCategoryFilter: Filter[] = [];
-  selectedDataCategory: string[] = [];
+  vitalStatusFilter: Filter[] = [];
+  selectedVitalStatus: string[] = [];
 
-  fileTypeFilter: Filter[] = [];
-  selectedFileType: string[] = [];
+  ageAtDiagnosisFilter: Filter[] = [];
+  selectedAgeAtDiagnosis: string[] = [];
 
-  accessFilter: Filter[] = [];
-  selectedAccess: string[] = [];
+  ajccClinicalStageFilter: Filter[] = [];
+  selectedAjccClinicalStage: string[] = [];
 
-  downloadableFilter: Filter[] = [];
-  selectedDownloadable: string[] = [];
-  selectedDownloadableRadiobuttonVal: string = '';
+  ajccPathologicStageFilter: Filter[] = [];
+  selectedAjccPathologicStage: string[] = [];
 
-  biospecimenStatusFilter: Filter[] = [];
-  selectedBiospecimenStatus: string[] = [];
+  progressionOrRecurrenceFilter: Filter[] = [];
+  selectedProgressionOrRecurrence: string[] = [];
+
+  morphologyFilter: Filter[] = [];
+  selectedMorphology: string[] = [];
+
+  siteResectionOrBiopsyFilter: Filter[] = [];
+  selectedSiteResectionOrBiopsy: string[] = [];
+
+  therapeuticAgentsFilter: Filter[] = [];
+  selectedTherapeuticAgents: string[] = [];
+
+  treatmentIntentTypeFilter: Filter[] = [];
+  selectedTreatmentIntentType: string[] = [];
+
+  treatmentOutcomeFilter: Filter[] = [];
+  selectedTreatmentOutcome: string[] = [];
+
+  treatmentTypeFilter: Filter[] = [];
+  selectedTreatmentType: string[] = [];
+
+  alcoholHistoryFilter: Filter[] = [];
+  selectedAlcoholHistory: string[] = [];
+
+  alcoholIntensityFilter: Filter[] = [];
+  selectedAlcoholIntensity: string[] = [];
+
+  tobaccoSmokingStatusFilter: Filter[] = [];
+  selectedTobaccoSmokingStatus: string[] = [];
+
+  cigarettesPerDayFilter: Filter[] = [];
+  selectedCigarettesPerDay: string[] = [];
 
   caseStatusFilter: Filter[] = [];
   selectedCaseStatus: string[] = [];
@@ -182,9 +241,43 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
 
   //@@@PDC-799: Redirecting to the NIH login page for the file authorization loses PDC state
   // Arrays which hold filter names. Must be updated when new filters are added to browse page.
-  newFilterSelected = {"program_name" : "", "project_name": "", "study_name": "", "submitter_id_name": "", "disease_type":"", "primary_site":"", "analytical_fraction":"", "experiment_type":"",
-  "ethnicity": "", "race": "", "gender": "", "tumor_grade": "", "sample_type": "", "acquisition_type": "", "data_category": "", "file_type": "", "access": "", "downloadable": "", "gene_name": "", "studyName_genes_tab": "", "geneNameStudyArray": "", "biospecimen_status": "", "case_status": ""};
-  allFilterCategoriesForCntrlFiles: string[] = ["project_name","primary_site","program_name","disease_type","analytical_fraction","experiment_type","acquisition_type","submitter_id_name","sample_type","study_name","ethnicity","race","gender","tumor_grade","data_category","file_type","access","downloadable", "gene_name", "studyName_genes_tab", "geneNameStudyArray", "biospecimen_status", "case_status"];
+  newFilterSelected = {
+    "program_name": "",
+    "project_name": "",
+    "study_name": "",
+    "submitter_id_name": "",
+    "disease_type": "",
+    "primary_site": "",
+    "analytical_fraction": "",
+    "experiment_type": "",
+    "ethnicity": "",
+    "race": "",
+    "gender": "",
+    "tumor_grade": "",
+    "sample_type": "",
+    "vital_status": "",
+    "age_at_diagnosis": "",
+    "ajcc_clinical_stage": "",
+    "ajcc_pathologic_stage": "",
+    "morphology": "",
+    "site_of_resection_or_biopsy": "",
+    "progression_or_recurrence": "",
+    "therapeutic_agents": "",
+    "treatment_intent_type": "",
+    "treatment_outcome": "",
+    "treatment_type": "",
+    "alcohol_history": "",
+    "alcohol_intensity": "",
+    "tobacco_smoking_status": "",
+    "cigarettes_per_day": "",
+    "acquisition_type": "",
+    "data_category": "",
+    "gene_name": "",
+    "studyName_genes_tab": "",
+    "geneNameStudyArray": "",
+    "case_status": ""
+  };
+  allFilterCategoriesForCntrlFiles: string[] = ["project_name", "primary_site", "program_name", "disease_type", "analytical_fraction", "experiment_type", "acquisition_type", "submitter_id_name", "sample_type", "study_name", "ethnicity", "race", "gender", "tumor_grade", "vital_status", "age_at_diagnosis", "ajcc_clinical_stage", "ajcc_pathologic_stage", "morphology", "site_of_resection_or_biopsy", "progression_or_recurrence", "therapeutic_agents", "treatment_intent_type", "treatment_outcome", "treatment_type", "alcohol_history", "alcohol_intensity", "tobacco_smoking_status", "cigarettes_per_day", "data_category", "gene_name", "studyName_genes_tab", "geneNameStudyArray", "case_status"];
 
   //keep a full list of filter category
   allFilterCategory: string[] = [
@@ -202,25 +295,25 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
     "gender",
     "tumor_grade",
     "data_category",
-    "file_type",
-    "access",
-    "downloadable",
-    "biospecimen_status",
+    "vital_status",
+    "age_at_diagnosis",
+    "ajcc_clinical_stage",
+    "ajcc_pathologic_stage",
+    "morphology",
+    "site_of_resection_or_biopsy",
+    "progression_or_recurrence",
+    "therapeutic_agents",
+    "treatment_intent_type",
+    "treatment_outcome",
+    "treatment_type",
+    "alcohol_history",
+    "alcohol_intensity",
+    "tobacco_smoking_status",
+    "cigarettes_per_day",
     "case_status"
   ];
 
-  //dataCategoryFileTypeMap = {
-//	  "Other Metadata": ["Document", "Text", "Archive"], "Peptide Spectral Matches": ["Open Standard", "Text"], "Processed Mass Spectra" : ["Open Standard"],
-//	  "Protein Assembly": ["Text"], "Protein Databases": ["Text"], "Quality Metrics": ["Text", "Web"], "Raw Mass Spectra": ["Proprietary"],
-//	  "Spectral Library": ["Proprietary"], "Alternate Processing Pipeline": ["Archive"]
- // };
   dataCategoryFileTypeMap = {};
-
-  //fileTypeDataCategoryMap = {
-	//	"Document": ["Other Metadata"], "Open Standard": ["Peptide Spectral Matches", "Processed Mass Spectra"], "Proprietary": ["Raw Mass Spectra", "Spectral Library"],
-	//	"Text": ["Other Metadata", "Peptide Spectral Matches", "Protein Assembly", "Protein Databases", "Quality Metrics"], "Web": ["Quality Metrics"],
-	//	"Archive": ["Alternate Processing Pipeline", "Other Metadata"]
-  //};
   fileTypeDataCategoryMap = {};
 
   //array to keep all possible stduies
@@ -236,30 +329,42 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
   showExpType: boolean = false;
   showAcqType: boolean = false;
   showSampleType: boolean = false;
-  showBioStatus: boolean = false;
   showEthnicity: boolean = false;
   showRace: boolean = false;
   showGender: boolean = false;
   showTmrGrade: boolean = false;
   showCaseStatus: boolean = false;
   showDataCategory: boolean = false;
-  showFileType: boolean = false;
-  showAccess: boolean = false;
-  showDownloadable: boolean = false;
   showStudyName: boolean = false;
+  showVitalStatus: boolean = false;
+  showAgeAtDiag: boolean = false;
+  showAjccClinicalStage: boolean = false;
+  showAjccPathoStage: boolean = false;
+  showProgOrRecur: boolean = false;
+  showMorph: boolean = false;
+  showSiteResectBiop: boolean = false;
+  showTherapAgents: boolean = false;
+  showTreatIntType: boolean = false;
+  showTreatOc: boolean = false;
+  showTreatType: boolean = false;
+  showAlcoholHist: boolean = false;
+  showAlcoholIntense: boolean = false;
+  showSmokingStatus: boolean = false;
+  showCigarPerDay: boolean = false;
   invalidGenesEnteredByUser = [];
   validGenesNotUsedInPDCStudies = [];
 
   @ViewChild("primarySiteLists") primarySiteLists: ElementRef;
 
-  constructor( private route:ActivatedRoute, private loc: Location,
-    private browseFiltersService: BrowseFiltersService,
-    private browseService: BrowseService,
-    private elRef:ElementRef,
+  constructor(private route: ActivatedRoute, private loc: Location,
+              private browseFiltersService: BrowseFiltersService,
+              private browseService: BrowseService,
+              private elRef: ElementRef,
   ) {
     BrowseFiltersComponent.urlBase = environment.dictionary_base_url;
-	this.getDataCategoryMapping();
+    this.getDataCategoryMapping();
     this.getAllFilterData();
+    this.getProgramNamesData();
   }
 
   get staticUrlBase() {
@@ -351,12 +456,13 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
   }
 
   /* Populate filters and their counters from cases data */
+
   //@@@PDC-379 stop incrementing study count if the study is already accounted for a filter value
   populateFilters() {
     for (let i = 0; i < this.allFilterCategory.length; i++) {
       let filterCategoryName = this.allFilterCategory[i];
       let filterList: Filter[] = this.findFilterListByName(filterCategoryName);
-	  //console.log(this.allCategoryFilterData);
+      //console.log(this.allCategoryFilterData);
       let filterListData: FilterElement[] = this.allCategoryFilterData[filterCategoryName];
       for (let item of filterListData) {
         let filter: Filter = {
@@ -370,18 +476,19 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
           item.filterValue
         );
       }
+
       //@@@PDC-6692: UI Changes for the Experimental Design tab of Study Summary Page
       //Hide N/A for Metabolomics
-      if (filterCategoryName == "acquisition_type"){
+      if (filterCategoryName == "acquisition_type") {
         filterList = filterList.filter(item => item.filterName !== "N/A");
         this.acquisitionFilter = filterList;
       }
-	  // Generate a map between study name and study id for study id URL filter
-	  if (filterCategoryName == "submitter_id_name"){
-		for (let study of filterListData) {
-			this.studyNameStudyIdMap[study.filterValue[0]] = study.filterName;
-		}
-	  }
+      // Generate a map between study name and study id for study id URL filter
+      if (filterCategoryName == "submitter_id_name") {
+        for (let study of filterListData) {
+          this.studyNameStudyIdMap[study.filterValue[0]] = study.filterName;
+        }
+      }
     }
     //keep full set of
     this.studyFilter = this.allStudyFilter;
@@ -401,153 +508,179 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
     this.studyFilter.sort(this.compare);
     this.acquisitionFilter.sort(this.compare);
     this.dataCategoryFilter.sort(this.compare);
-    this.fileTypeFilter.sort(this.compare);
-    this.accessFilter.sort(this.compare);
-    this.downloadableFilter.sort(this.compare);
-    this.biospecimenStatusFilter.sort(this.compare);
+    this.vitalStatusFilter.sort(this.compare);
+    this.ageAtDiagnosisFilter.sort(this.compare);
+    this.ajccClinicalStageFilter.sort(this.compare);
+    this.ajccPathologicStageFilter.sort(this.compare);
+    this.progressionOrRecurrenceFilter.sort(this.compare);
+    this.morphologyFilter.sort(this.compare);
+    this.therapeuticAgentsFilter.sort(this.compare);
+    this.treatmentIntentTypeFilter.sort(this.compare);
+    this.treatmentOutcomeFilter.sort(this.compare);
+    this.treatmentTypeFilter.sort(this.compare);
+    this.alcoholHistoryFilter.sort(this.compare);
+    this.alcoholIntensityFilter.sort(this.compare);
+    this.tobaccoSmokingStatusFilter.sort(this.compare);
+    this.cigarettesPerDayFilter.sort(this.compare);
     this.caseStatusFilter.sort(this.compare);
 
 
-  //After the filters were populated if there are any filter values set in URL need to emit these filter values and update filters
-	//URL values for filters should be set in the following format:
-	//https://mainurl/filters/[filter name 1]:[filter value 1]|[filter value 2]&[filter name 2]:[filter value 1]|[filter value 2]
-	this.route.paramMap.subscribe(params => {
-    let filters = params.get("filters");
-    console.log(filters);
-    if(filters !=null ||filters != undefined){
-      filters = filters.replace('_slash', '/');
-    }
-		//If there were any URL filter values
-		if (filters) {
-      //@@@PDC-4763: One of the link of CPTAC forwarding has issues
-      //The results of this API call are required for URL filters processing.
-      this.browseFiltersService.getStudyUUID2NameMapping().subscribe((studyUUIDData: any) => {
-        //@@@PDC-1123 call ui wrapper API
-        let allPrograms = studyUUIDData.uiProgramsProjectsStudies;
-        for (let program of allPrograms){
-          for (let project of program.projects){
-            for (let study of project.studies){
-              this.studyNameUUIDMap[study.study_id] = study.submitter_id_name;
-              this.studyNamePDCStudyIDMap[study.pdc_study_id] = study.submitter_id_name;
+    //After the filters were populated if there are any filter values set in URL need to emit these filter values and update filters
+    //URL values for filters should be set in the following format:
+    //https://mainurl/filters/[filter name 1]:[filter value 1]|[filter value 2]&[filter name 2]:[filter value 1]|[filter value 2]
+    this.route.paramMap.subscribe(params => {
+      let filters = params.get("filters");
+      console.log(filters);
+      if (filters != null || filters != undefined) {
+        filters = filters.replace('_slash', '/');
+      }
+      //If there were any URL filter values
+      if (filters) {
+        //@@@PDC-4763: One of the link of CPTAC forwarding has issues
+        //The results of this API call are required for URL filters processing.
+        this.browseFiltersService.getStudyUUID2NameMapping().subscribe((studyUUIDData: any) => {
+          //@@@PDC-1123 call ui wrapper API
+          let allPrograms = studyUUIDData.uiProgramsProjectsStudies;
+          for (let program of allPrograms) {
+            for (let project of program.projects) {
+              for (let study of project.studies) {
+                this.studyNameUUIDMap[study.study_id] = study.submitter_id_name;
+                this.studyNamePDCStudyIDMap[study.pdc_study_id] = study.submitter_id_name;
+              }
             }
           }
-        }
-        console.log(this.studyNameUUIDMap);
-        console.log(this.studyNamePDCStudyIDMap);
-        //@@@PDC-1123 call ui wrapper API
-        this.urlFilterParams = true;
-        let filtersExtracted = filters.split('&');
-        console.log(filtersExtracted);
-        for (let filter_val of filtersExtracted){
-          var timeoutId = setTimeout(() => {
-            console.log(filter_val);
-            let filter = filter_val.split(':');
-            //PDC-786 allow study_id URL filter to work as study_name filter
-            if (filter[0] == "study_submitter_id"){
-              let studyNames = "";
-              //Convert study submitter ids to study names
-              for (let studyID of filter[1].split('|')){
-                if (this.studyNameStudyIdMap[studyID.toUpperCase()]) {
-                  studyNames = studyNames + this.studyNameStudyIdMap[studyID.toUpperCase()] + "|";
+          console.log(this.studyNameUUIDMap);
+          console.log(this.studyNamePDCStudyIDMap);
+          //@@@PDC-1123 call ui wrapper API
+          this.urlFilterParams = true;
+          let filtersExtracted = filters.split('&');
+          console.log(filtersExtracted);
+          for (let filter_val of filtersExtracted) {
+            var timeoutId = setTimeout(() => {
+              console.log(filter_val);
+              let filter = filter_val.split(':');
+              //PDC-786 allow study_id URL filter to work as study_name filter
+              if (filter[0] == "study_submitter_id") {
+                let studyNames = "";
+                //Convert study submitter ids to study names
+                for (let studyID of filter[1].split('|')) {
+                  if (this.studyNameStudyIdMap[studyID.toUpperCase()]) {
+                    studyNames = studyNames + this.studyNameStudyIdMap[studyID.toUpperCase()] + "|";
+                  } else {
+                    console.log("Error, study submitter id: " + studyID.toUpperCase() + " does not exist!!!");
+                  }
                 }
-                else {
-                  console.log("Error, study submitter id: " + studyID.toUpperCase() + " does not exist!!!");
+                console.log(studyNames);
+                this.setFilters("study_name", studyNames);
+                this.selectedFilters.emit("study_name:" + studyNames.split('|').join(';'));
+                //PDC-835
+              } else if (filter[0] == "study_id") {
+                let studyNames = "";
+                //Convert study uuids to study names
+                for (let studyID of filter[1].split('|')) {
+                  console.log(studyID);
+                  if (this.studyNameUUIDMap[studyID]) {
+                    studyNames = studyNames + this.studyNameUUIDMap[studyID] + "|";
+                  } else {
+                    console.log("Error, study uuid: " + studyID + " does not exist!!!");
+                  }
                 }
+                studyNames = studyNames.slice(0, -1);
+                console.log(studyNames);
+                this.setFilters("study_name", studyNames);
+                this.selectedFilters.emit("study_name:" + studyNames.split('|').join(';'));
+                //PDC-3778 add pdc_study_id filter URL filter option
+              } else if (filter[0] == "pdc_study_id") {
+                let studyNames = "";
+                //Convert study uuids to study names
+                for (let studyID of filter[1].split('|')) {
+                  if (this.studyNamePDCStudyIDMap[studyID]) {
+                    studyNames = studyNames + this.studyNamePDCStudyIDMap[studyID] + "|";
+                  } else {
+                    console.log("Error, PDC Study ID: " + studyID + " does not exist!!!");
+                  }
+                }
+                studyNames = studyNames.slice(0, -1);
+                console.log(studyNames);
+                this.setFilters("study_name", studyNames);
+                this.selectedFilters.emit("study_name:" + studyNames.split('|').join(';'));
+              } else if (filter[0] == "selectedTab") {
+                this.selectedTabForStudySummary.emit({index: 3});
+              } else {
+                //For all other URL filters set the apropriate filter and propagate to other modules
+                this.setFilters(filter[0], filter[1]); //filter[0] - name of the filter, filter[1] - value of the filter
+                this.selectedFilters.emit(filter[0] + ":" + filter[1].split('|').join(';')); //Change delimiter for multiple values for the same filter from | to ;
               }
-              console.log(studyNames);
-              this.setFilters("study_name", studyNames);
-              this.selectedFilters.emit("study_name:" + studyNames.split('|').join(';'));
-            //PDC-835
-            }else if (filter[0] == "study_id"){
-              let studyNames = "";
-              //Convert study uuids to study names
-              for (let studyID of filter[1].split('|')){
-                console.log(studyID);
-                if (this.studyNameUUIDMap[studyID]) {
-                  studyNames = studyNames + this.studyNameUUIDMap[studyID] + "|";
-                } else{
-                  console.log("Error, study uuid: " + studyID + " does not exist!!!");
-                }
-              }
-              studyNames = studyNames.slice(0, -1);
-              console.log(studyNames);
-              this.setFilters("study_name", studyNames);
-              this.selectedFilters.emit("study_name:" + studyNames.split('|').join(';'));
-            //PDC-3778 add pdc_study_id filter URL filter option
-            }else if (filter[0] == "pdc_study_id"){
-              let studyNames = "";
-              //Convert study uuids to study names
-              for (let studyID of filter[1].split('|')){
-                if (this.studyNamePDCStudyIDMap[studyID]){
-                  studyNames = studyNames + this.studyNamePDCStudyIDMap[studyID] + "|";
-                } else{
-                  console.log("Error, PDC Study ID: " + studyID + " does not exist!!!");
-                }
-              }
-              studyNames = studyNames.slice(0, -1);
-              console.log(studyNames);
-              this.setFilters("study_name", studyNames);
-              this.selectedFilters.emit("study_name:" + studyNames.split('|').join(';'));
-            } else if (filter[0] == "selectedTab"){
-              this.selectedTabForStudySummary.emit({index:3});
-            } else {
-              //For all other URL filters set the apropriate filter and propagate to other modules
-              this.setFilters(filter[0], filter[1]); //filter[0] - name of the filter, filter[1] - value of the filter
-              this.selectedFilters.emit(filter[0] + ":" + filter[1].split('|').join(';')); //Change delimiter for multiple values for the same filter from | to ;
-            }
-            this.loadingURLParams = true;
-            this.updateFiltersCounters();
-          }, 700); //need to set a short timout so that other components will have time perform queries
-        }
-      }); //main
-		}
-  });
+              this.loadingURLParams = true;
+              this.updateFiltersCounters();
+            }, 700); //need to set a short timout so that other components will have time perform queries
+          }
+        }); //main
+      }
+    });
 
     //@@@PDC-799: Redirecting to the NIH login page for the file authorization loses PDC state
     //If its a fence request, populate previously selected filters.
     var selectedFiltersForBrowse = JSON.parse(localStorage.getItem("selectedFiltersForBrowse"));
     if (this.fenceRequest && selectedFiltersForBrowse) {
-      for (var i=0;i<this.allFilterCategoriesForCntrlFiles.length;i++) {
+      for (var i = 0; i < this.allFilterCategoriesForCntrlFiles.length; i++) {
         if (selectedFiltersForBrowse[this.allFilterCategoriesForCntrlFiles[i]]) {
           var filterName = this.allFilterCategoriesForCntrlFiles[i];
           var checkBoxVal = selectedFiltersForBrowse[filterName];
           if (filterName == "gene_name" || filterName == "studyName_genes_tab" || filterName == "geneNameStudyArray") {
             this.setFilters(filterName, checkBoxVal, true);
             if (filterName == "gene_name") {
-              this.selectedFilters.emit(filterName+":"+checkBoxVal.replace(/ /g, ";"));
+              this.selectedFilters.emit(filterName + ":" + checkBoxVal.replace(/ /g, ";"));
             }
             if (filterName == "studyName_genes_tab") {
-              this.selectedFilters.emit("study_name:"+checkBoxVal);
+              this.selectedFilters.emit("study_name:" + checkBoxVal);
             }
           } else {
             for (var j = 0; j < checkBoxVal.length; j++) {
               this.setFilters(filterName, checkBoxVal[j], true);
             }
-            this.selectedFilters.emit(filterName+":"+checkBoxVal.join(";"));
+            this.selectedFilters.emit(filterName + ":" + checkBoxVal.join(";"));
             // This is for populating the 3 charts
             if (filterName == "submitter_id_name") {
-              this.selectedFilters.emit("study_name:"+checkBoxVal.join(";"));
+              this.selectedFilters.emit("study_name:" + checkBoxVal.join(";"));
             }
-        }
+          }
         }
       }
       this.updateFiltersCounters();
     }
   }
 
+  /**
+   * Get the program names data from the backend service
+   */
+  private getProgramNamesData() {
+    setTimeout(() => {
+      this.browseFiltersService.getProgramNamesData().subscribe((data: any) => {
+        if (data && data.uiProgram) {
+          for (const program of data.uiProgram) {
+            this.programNames[program.shortname] = program.fullname;
+          }
+          console.log("Program Names:");
+          console.log(this.programNames);
+        }
+      });
+    }, 1000);
+  }
+
   //@@@PDC-799: Redirecting to the NIH login page for the file authorization loses PDC state
   // PDC-728 Helper function to put select checkboxes of the filters set using URL values
-  private setFilters(filterName: string, filterVal: string, setValuesForFence = false, clearValuesforbreadcrumb = false){
- 	    console.log("Filter Selected: "+ filterVal);
-   switch (filterName) {
+  private setFilters(filterName: string, filterVal: string, setValuesForFence = false, clearValuesforbreadcrumb = false) {
+    console.log("Filter Selected: " + filterVal);
+    switch (filterName) {
       case "project_name":
-      if (setValuesForFence) {
-        this.selectedProjects.push(filterVal);
-      } else if (clearValuesforbreadcrumb) {
-        this.clearSelectionsProjects();
-      } else {
-        this.selectedProjects = filterVal.split('|');
-      }
+        if (setValuesForFence) {
+          this.selectedProjects.push(filterVal);
+        } else if (clearValuesforbreadcrumb) {
+          this.clearSelectionsProjects();
+        } else {
+          this.selectedProjects = filterVal.split('|');
+        }
         break;
       case "primary_site":
         if (setValuesForFence) {
@@ -555,7 +688,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
         } else if (clearValuesforbreadcrumb) {
           this.clearSelectionsPrimarySite();
         } else {
-          this.selectedPrimarySites  = filterVal.split('|');
+          this.selectedPrimarySites = filterVal.split('|');
         }
         let sortedPrimList = this.moveFilterToTop(this.primarySitesFilter, this.selectedPrimarySites, 'true', '-primSite');
         this.primarySitesFilter = sortedPrimList;
@@ -566,7 +699,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
         } else if (clearValuesforbreadcrumb) {
           this.clearSelectionsPrograms();
         } else {
-        this.selectedPrograms  = filterVal.split('|');
+          this.selectedPrograms = filterVal.split('|');
         }
         let sortedProgramsList = this.moveFilterToTop(this.programsFilter, this.selectedPrograms, 'true', '-program');
         this.programsFilter = sortedProgramsList;
@@ -577,7 +710,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
         } else if (clearValuesforbreadcrumb) {
           this.clearSelectionsDiseaseType();
         } else {
-          this.selectedDiseases  = filterVal.split('|');
+          this.selectedDiseases = filterVal.split('|');
         }
         let sortedDiseaseTypeList = this.moveFilterToTop(this.diseaseTypesFilter, this.selectedDiseases, 'true', '-diseaseType');
         this.diseaseTypesFilter = sortedDiseaseTypeList;
@@ -588,7 +721,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
         } else if (clearValuesforbreadcrumb) {
           this.clearSelectionsAnalyticalFraction();
         } else {
-        this.selectedAnFracs  = filterVal.split('|');
+          this.selectedAnFracs = filterVal.split('|');
         }
         let sortedAnFractionList = this.moveFilterToTop(this.analyticalFractionsFilter, this.selectedAnFracs, 'true', '-anFrac');
         this.analyticalFractionsFilter = sortedAnFractionList;
@@ -599,7 +732,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
         } else if (clearValuesforbreadcrumb) {
           this.clearSelectionsExperimentalStrategy();
         } else {
-        this.selectedExpStarts  = filterVal.split('|');
+          this.selectedExpStarts = filterVal.split('|');
         }
         let sortedExpTypeList = this.moveFilterToTop(this.experimentalStrategiesFilter, this.selectedExpStarts, 'true', '-expStrategy');
         this.experimentalStrategiesFilter = sortedExpTypeList;
@@ -610,32 +743,32 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
         } else if (clearValuesforbreadcrumb) {
           this.clearSelectionsAcquisitions();
         } else {
-        this.selectedAcquisitions  = filterVal.split('|');
+          this.selectedAcquisitions = filterVal.split('|');
         }
         let sortedAcqTypeList = this.moveFilterToTop(this.acquisitionFilter, this.selectedAcquisitions, 'true', '-acqType');
         this.acquisitionFilter = sortedAcqTypeList;
         break;
       case "study_name":
-	    console.log("Study Name Selected: "+ filterVal);
+        console.log("Study Name Selected: " + filterVal);
         if (setValuesForFence) {
           //this code is not needed now but might be useful in the future.
           //this.selectedStudyFilter = new Array(filterVal);
         } else if (clearValuesforbreadcrumb) {
           this.clearSelectionsStudyID();
         } else {
-          this.selectedStudyFilter  = filterVal.split('|');
+          this.selectedStudyFilter = filterVal.split('|');
         }
         let sortedStudyList = this.moveFilterToTop(this.studyFilter, this.selectedStudyFilter, 'true', '-study');
         this.studyFilter = sortedStudyList;
         break;
       case "submitter_id_name":
- 	    console.log("Study Name Selected: "+ filterVal);
-       if (setValuesForFence) {
+        console.log("Study Name Selected: " + filterVal);
+        if (setValuesForFence) {
           this.selectedStudyFilter.push(filterVal);
         } else if (clearValuesforbreadcrumb) {
           this.clearSelectionsStudyID();
-        }  else {
-          this.selectedStudyFilter  = filterVal.split('|');
+        } else {
+          this.selectedStudyFilter = filterVal.split('|');
         }
         let sortedStudyNameList = this.moveFilterToTop(this.studyFilter, this.selectedStudyFilter, 'true', '-study');
         this.studyFilter = sortedStudyNameList;
@@ -656,9 +789,9 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
         } else if (clearValuesforbreadcrumb) {
           this.clearSelectionsSampleType();
         } else {
-          this.selectedSampleType  = filterVal.split('|');
+          this.selectedSampleType = filterVal.split('|');
         }
-        let sortedSampleTypeList = this.moveFilterToTop(this.sampleTypeFilter, this.selectedSampleType,'true', '-sampType');
+        let sortedSampleTypeList = this.moveFilterToTop(this.sampleTypeFilter, this.selectedSampleType, 'true', '-sampType');
         this.sampleTypeFilter = sortedSampleTypeList;
         break;
       case "ethnicity":
@@ -667,7 +800,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
         } else if (clearValuesforbreadcrumb) {
           this.clearSelectionsEthnicity();
         } else {
-        this.selectedEthnicity  = filterVal.split('|');
+          this.selectedEthnicity = filterVal.split('|');
         }
         let sortedEthnicityList = this.moveFilterToTop(this.ethnicityFilter, this.selectedEthnicity, 'true', '-ethn');
         this.ethnicityFilter = sortedEthnicityList;
@@ -678,7 +811,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
         } else if (clearValuesforbreadcrumb) {
           this.clearSelectionsRace();
         } else {
-          this.selectedRace  = filterVal.split('|');
+          this.selectedRace = filterVal.split('|');
         }
         let sortedRaceList = this.moveFilterToTop(this.raceFilter, this.selectedRace, 'true', '-race');
         this.raceFilter = sortedRaceList;
@@ -689,7 +822,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
         } else if (clearValuesforbreadcrumb) {
           this.clearSelectionsGender();
         } else {
-        this.selectedGender  = filterVal.split('|');
+          this.selectedGender = filterVal.split('|');
         }
         let sortedGenderList = this.moveFilterToTop(this.genderFilter, this.selectedGender, 'true', '-gender');
         this.genderFilter = sortedGenderList;
@@ -700,53 +833,188 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
         } else if (clearValuesforbreadcrumb) {
           this.clearSelectionsTumorGrade();
         } else {
-        this.selectedTumorGrade  = filterVal.split('|');
+          this.selectedTumorGrade = filterVal.split('|');
         }
         let sortedTumorGradeList = this.moveFilterToTop(this.tumorGradeFilter, this.selectedTumorGrade, 'true', '-tumorGrade');
         this.tumorGradeFilter = sortedTumorGradeList;
         break;
       case "data_category":
-      if (setValuesForFence) {
-        this.selectedDataCategory.push(filterVal);
-      } else if (clearValuesforbreadcrumb) {
-        this.clearSelectionsDataCategory();
-      } else {
-        this.selectedDataCategory  = filterVal.split('|');
-      }
-      let sortedDataCategoryList = this.moveFilterToTop(this.dataCategoryFilter, this.selectedDataCategory, 'true', '-dataCategory');
-      this.dataCategoryFilter = sortedDataCategoryList;
-      break;
-      case "file_type":
-      if (setValuesForFence) {
-        this.selectedFileType.push(filterVal);
-      } else if (clearValuesforbreadcrumb) {
-        this.clearSelectionsFileType();
-      } else {
-        this.selectedFileType  = filterVal.split('|');
-      }
-      let sortedFileTypeList = this.moveFilterToTop(this.fileTypeFilter, this.selectedFileType, 'true', '-fileType');
-      this.fileTypeFilter = sortedFileTypeList;
-      break;
-      case "access":
-      if (setValuesForFence) {
-        this.selectedAccess.push(filterVal);
-      } else if (clearValuesforbreadcrumb) {
-        this.clearSelectionsAccess();
-      } else {
-        this.selectedAccess  = filterVal.split('|');
-      }
-      let sortedAccessList = this.moveFilterToTop(this.accessFilter, this.selectedAccess, 'true', '-access');
-      this.accessFilter = sortedAccessList;
-      break;
-      case "downloadable":
-      if (setValuesForFence) {
-        this.selectedDownloadableRadiobuttonVal = filterVal;
-        this.selectedDownloadable.push(this.selectedDownloadableRadiobuttonVal);
-      } else if (clearValuesforbreadcrumb) {
-        this.clearSelectionsDownloadable();
-      } else {
-        this.selectedDownloadable = filterVal.split('|');
-      }
+        if (setValuesForFence) {
+          this.selectedDataCategory.push(filterVal);
+        } else if (clearValuesforbreadcrumb) {
+          this.clearSelectionsDataCategory();
+        } else {
+          this.selectedDataCategory = filterVal.split('|');
+        }
+        let sortedDataCategoryList = this.moveFilterToTop(this.dataCategoryFilter, this.selectedDataCategory, 'true', '-dataCategory');
+        this.dataCategoryFilter = sortedDataCategoryList;
+        break;
+      case "vital_status":
+        if (setValuesForFence) {
+          this.selectedVitalStatus.push(filterVal);
+        } else if (clearValuesforbreadcrumb) {
+          this.clearSelectionsVitalStatus();
+        } else {
+          this.selectedVitalStatus = filterVal.split('|');
+        }
+        let sortedVitalStatusList = this.moveFilterToTop(this.vitalStatusFilter, this.selectedVitalStatus, 'true', '-vitalStatus');
+        this.vitalStatusFilter = sortedVitalStatusList;
+        break;
+      case "age_at_diagnosis":
+        if (setValuesForFence) {
+          this.selectedAgeAtDiagnosis.push(filterVal);
+        } else if (clearValuesforbreadcrumb) {
+          this.clearSelectionsAgeAtDiagnosis();
+        } else {
+          this.selectedAgeAtDiagnosis = filterVal.split('|');
+        }
+        let sortedAgeAtDiagnosisList = this.moveFilterToTop(this.ageAtDiagnosisFilter, this.selectedAgeAtDiagnosis, 'true', '-ageAtDiag');
+        this.ageAtDiagnosisFilter = sortedAgeAtDiagnosisList;
+        break;
+      case "ajcc_clinical_stage":
+        if (setValuesForFence) {
+          this.selectedAjccClinicalStage.push(filterVal);
+        } else if (clearValuesforbreadcrumb) {
+          this.clearSelectionsAjccClinicalStage();
+        } else {
+          this.selectedAjccClinicalStage = filterVal.split('|');
+        }
+        let sortedAjccClinicalStageList = this.moveFilterToTop(this.ajccClinicalStageFilter, this.selectedAjccClinicalStage, 'true', '-ajccClinicStage');
+        this.ajccClinicalStageFilter = sortedAjccClinicalStageList;
+        break;
+      case "ajcc_pathologic_stage":
+        if (setValuesForFence) {
+          this.selectedAjccPathologicStage.push(filterVal);
+        } else if (clearValuesforbreadcrumb) {
+          this.clearSelectionsAjccPathologicStage();
+        } else {
+          this.selectedAjccPathologicStage = filterVal.split('|');
+        }
+        let sortedAjccPathologicStageList = this.moveFilterToTop(this.ajccPathologicStageFilter, this.selectedAjccPathologicStage, 'true', '-ajccPathoStage');
+        this.ajccPathologicStageFilter = sortedAjccPathologicStageList;
+        break;
+      case "progression_or_recurrence":
+        if (setValuesForFence) {
+          this.selectedProgressionOrRecurrence.push(filterVal);
+        } else if (clearValuesforbreadcrumb) {
+          this.clearSelectionsProgressionOrRecurrence();
+        } else {
+          this.selectedProgressionOrRecurrence = filterVal.split('|');
+        }
+        let sortedProgressionOrRecurrenceList = this.moveFilterToTop(this.progressionOrRecurrenceFilter, this.selectedProgressionOrRecurrence, 'true', '-progOrRecur');
+        this.progressionOrRecurrenceFilter = sortedProgressionOrRecurrenceList;
+        break;
+      case "morphology":
+        if (setValuesForFence) {
+          this.selectedMorphology.push(filterVal);
+        } else if (clearValuesforbreadcrumb) {
+          this.clearSelectionsMorphology();
+        } else {
+          this.selectedMorphology = filterVal.split('|');
+        }
+        let sortedMorphologyList = this.moveFilterToTop(this.morphologyFilter, this.selectedMorphology, 'true', '-morph');
+        this.morphologyFilter = sortedMorphologyList;
+        break;
+      case "site_of_resection_or_biopsy":
+        if (setValuesForFence) {
+          this.selectedSiteResectionOrBiopsy.push(filterVal);
+        } else if (clearValuesforbreadcrumb) {
+          this.clearSelectionsSiteResectionOrBiopsy();
+        } else {
+          this.selectedSiteResectionOrBiopsy = filterVal.split('|');
+        }
+        let sortedSiteResectionOrBiopsyList = this.moveFilterToTop(this.siteResectionOrBiopsyFilter, this.selectedSiteResectionOrBiopsy, 'true', '-siteResectBiop');
+        this.siteResectionOrBiopsyFilter = sortedSiteResectionOrBiopsyList;
+        break;
+      case "therapeutic_agents":
+        if (setValuesForFence) {
+          this.selectedTherapeuticAgents.push(filterVal);
+        } else if (clearValuesforbreadcrumb) {
+          this.clearSelectionsTherapeuticAgents();
+        } else {
+          this.selectedTherapeuticAgents = filterVal.split('|');
+        }
+        let sortedTherapeuticAgentsList = this.moveFilterToTop(this.therapeuticAgentsFilter, this.selectedTherapeuticAgents, 'true', '-therapAgents');
+        this.therapeuticAgentsFilter = sortedTherapeuticAgentsList;
+        break;
+      case "treatment_intent_type":
+        if (setValuesForFence) {
+          this.selectedTreatmentIntentType.push(filterVal);
+        } else if (clearValuesforbreadcrumb) {
+          this.clearSelectionsTreatmentIntentType();
+        } else {
+          this.selectedTreatmentIntentType = filterVal.split('|');
+        }
+        let sortedTreatmentIntentTypeList = this.moveFilterToTop(this.treatmentIntentTypeFilter, this.selectedTreatmentIntentType, 'true', '-treatIntType');
+        this.treatmentIntentTypeFilter = sortedTreatmentIntentTypeList;
+        break;
+      case "treatment_outcome":
+        if (setValuesForFence) {
+          this.selectedTreatmentOutcome.push(filterVal);
+        } else if (clearValuesforbreadcrumb) {
+          this.clearSelectionsTreatmentOutcome();
+        } else {
+          this.selectedTreatmentOutcome = filterVal.split('|');
+        }
+        let sortedTreatmentOutcomeList = this.moveFilterToTop(this.treatmentOutcomeFilter, this.selectedTreatmentOutcome, 'true', '-treatOc');
+        this.treatmentOutcomeFilter = sortedTreatmentOutcomeList;
+        break;
+      case "treatment_type":
+        if (setValuesForFence) {
+          this.selectedTreatmentType.push(filterVal);
+        } else if (clearValuesforbreadcrumb) {
+          this.clearSelectionsTreatmentType();
+        } else {
+          this.selectedTreatmentType = filterVal.split('|');
+        }
+        let sortedTreatmentTypeList = this.moveFilterToTop(this.treatmentTypeFilter, this.selectedTreatmentType, 'true', '-treatType');
+        this.treatmentTypeFilter = sortedTreatmentTypeList;
+        break;
+      case "alcohol_history":
+        if (setValuesForFence) {
+          this.selectedAlcoholHistory.push(filterVal);
+        } else if (clearValuesforbreadcrumb) {
+          this.clearSelectionsAlcoholHistory();
+        } else {
+          this.selectedAlcoholHistory = filterVal.split('|');
+        }
+        let sortedAlcoholHistoryList = this.moveFilterToTop(this.alcoholHistoryFilter, this.selectedAlcoholHistory, 'true', '-alcoholHist');
+        this.alcoholHistoryFilter = sortedAlcoholHistoryList;
+        break;
+      case "alcohol_intensity":
+        if (setValuesForFence) {
+          this.selectedAlcoholIntensity.push(filterVal);
+        } else if (clearValuesforbreadcrumb) {
+          this.clearSelectionsAlcoholIntensity();
+        } else {
+          this.selectedAlcoholIntensity = filterVal.split('|');
+        }
+        let sortedAlcoholIntensityList = this.moveFilterToTop(this.alcoholIntensityFilter, this.selectedAlcoholIntensity, 'true', '-alcoholIntense');
+        this.alcoholIntensityFilter = sortedAlcoholIntensityList;
+        break;
+      case "tobacco_smoking_status":
+        if (setValuesForFence) {
+          this.selectedTobaccoSmokingStatus.push(filterVal);
+        } else if (clearValuesforbreadcrumb) {
+          this.clearSelectionsTobaccoSmokingStatus();
+        } else {
+          this.selectedTobaccoSmokingStatus = filterVal.split('|');
+        }
+        let sortedTobaccoSmokingStatusList = this.moveFilterToTop(this.tobaccoSmokingStatusFilter, this.selectedTobaccoSmokingStatus, 'true', '-smokingStatus');
+        this.tobaccoSmokingStatusFilter = sortedTobaccoSmokingStatusList;
+        console.log("Sorted Smoking Status List");
+        console.log(this.selectedTobaccoSmokingStatus);
+        break;
+      case "cigarettes_per_day":
+        if (setValuesForFence) {
+          this.selectedCigarettesPerDay.push(filterVal);
+        } else if (clearValuesforbreadcrumb) {
+          this.clearSelectionsCigarettesPerDay();
+        } else {
+          this.selectedCigarettesPerDay = filterVal.split('|');
+        }
+        let sortedCigarettesPerDayList = this.moveFilterToTop(this.cigarettesPerDayFilter, this.selectedCigarettesPerDay, 'true', '-cigarPerDay');
+        this.cigarettesPerDayFilter = sortedCigarettesPerDayList;
         break;
       case 'gene_name':
         if (setValuesForFence) {
@@ -756,31 +1024,20 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
           this.clearAllGenesSelections();
         }
         break;
-	  case "gene_names":
-	    //gene names are expected to be delimited with spaces or new lines in the input field
-		//therefore replacing commas with spaces
-		//the data tables will not be filtered by gene names, the gene names will only be validated
+      case "gene_names":
+        //gene names are expected to be delimited with spaces or new lines in the input field
+        //therefore replacing commas with spaces
+        //the data tables will not be filtered by gene names, the gene names will only be validated
         this.selectedGeneNames = filterVal.replace(/\|/, ' ').trim();
         this._validate(this.selectedGeneNames);
         break;
-    case "biospecimen_status":
-      if (setValuesForFence) {
-        this.selectedBiospecimenStatus.push(filterVal);
-      } else if (clearValuesforbreadcrumb) {
-        this.clearSelectionsBiospecimenStatus();
-      } else {
-        this.selectedBiospecimenStatus  = filterVal.split('|');
-      }
-      let sortedBioList = this.moveFilterToTop(this.biospecimenStatusFilter, this.selectedBiospecimenStatus, 'true', '-bioStatus');
-      this.biospecimenStatusFilter = sortedBioList;
-      break;
-    case "case_status":
+      case "case_status":
         if (setValuesForFence) {
           this.selectedCaseStatus.push(filterVal);
         } else if (clearValuesforbreadcrumb) {
           this.clearSelectionsCaseStatus();
         } else {
-          this.selectedCaseStatus  = filterVal.split('|');
+          this.selectedCaseStatus = filterVal.split('|');
         }
         let sortedCaseStatusList = this.moveFilterToTop(this.caseStatusFilter, this.selectedCaseStatus, 'true', '-caseStatus');
         this.caseStatusFilter = sortedCaseStatusList;
@@ -806,8 +1063,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
   updateFiltersCounters(geneNameStudyArray: string[] = [], geneNames = "", studyNamesList: any[] = [], studySelected: boolean = false) {
   // reset array of selected filters and localstorage
    localStorage.removeItem("selectedFiltersForBrowse");
-   this.newFilterSelected = {"program_name" : "", "project_name": "", "study_name": "", "submitter_id_name": "", "disease_type":"", "primary_site":"", "analytical_fraction":"", "experiment_type":"",
-  "ethnicity": "", "race": "", "gender": "", "tumor_grade": "", "sample_type": "", "acquisition_type": "", "data_category": "", "file_type": "", "access": "", "downloadable": "", "gene_name": "", "studyName_genes_tab": "", "geneNameStudyArray": "", "biospecimen_status": "", "case_status": ""};
+   this.newFilterSelected = {"program_name" : "", "project_name": "", "study_name": "", "submitter_id_name": "", "disease_type": "", "primary_site": "", "analytical_fraction": "", "experiment_type": "", "ethnicity": "", "race": "", "gender": "", "tumor_grade": "", "sample_type": "", "acquisition_type": "", "data_category": "", "vital_status": "", "age_at_diagnosis": "", "ajcc_clinical_stage": "", "ajcc_pathologic_stage": "", "morphology": "", "site_of_resection_or_biopsy": "", "progression_or_recurrence": "", "therapeutic_agents": "", "treatment_intent_type": "", "treatment_outcome": "", "treatment_type": "", "alcohol_history": "", "alcohol_intensity": "", "tobacco_smoking_status": "", "cigarettes_per_day":"", "gene_name": "", "studyName_genes_tab": "", "geneNameStudyArray": "", "case_status": ""};
 	//If there were filters set through url parameters and a new filter was set manualy
   // need to clear url of any filter settings
 	if (this.urlFilterParams){
@@ -1043,6 +1299,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
 
   private findSelectedFilterByName(filterName: string): string[] {
     let selectedFilter: string[];
+	console.log("Filter Name: "+filterName);
     switch (filterName) {
       case "project_name":
         selectedFilter = this.selectedProjects;
@@ -1089,17 +1346,50 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
       case "data_category":
         selectedFilter = this.selectedDataCategory;
         break;
-      case "file_type":
-        selectedFilter = this.selectedFileType;
+      case "vital_status":
+        selectedFilter = this.selectedVitalStatus;
         break;
-      case "access":
-        selectedFilter = this.selectedAccess;
+      case "age_at_diagnosis":
+        selectedFilter = this.selectedAgeAtDiagnosis;
         break;
-      case 'downloadable':
-        selectedFilter = this.selectedDownloadable;
+      case 'ajcc_pathologic_stage':
+        selectedFilter = this.selectedAjccPathologicStage;
         break;
-      case "biospecimen_status":
-        selectedFilter = this.selectedBiospecimenStatus;
+      case 'ajcc_clinical_stage':
+        selectedFilter = this.selectedAjccClinicalStage;
+        break;
+      case "morphology":
+        selectedFilter = this.selectedMorphology;
+        break;
+      case "site_of_resection_or_biopsy":
+        selectedFilter = this.selectedSiteResectionOrBiopsy;
+        break;
+      case "progression_or_recurrence":
+        selectedFilter = this.selectedProgressionOrRecurrence;
+        break;
+      case "therapeutic_agents":
+        selectedFilter = this.selectedTherapeuticAgents;
+        break;
+      case "treatment_intent_type":
+        selectedFilter = this.selectedTreatmentIntentType;
+        break;
+      case "treatment_outcome":
+        selectedFilter = this.selectedTreatmentOutcome;
+        break;
+      case "treatment_type":
+        selectedFilter = this.selectedTreatmentType;
+        break;
+      case "alcohol_history":
+        selectedFilter = this.selectedAlcoholHistory;
+        break;
+      case "alcohol_intensity":
+        selectedFilter = this.selectedAlcoholIntensity;
+        break;
+      case "tobacco_smoking_status":
+        selectedFilter = this.selectedTobaccoSmokingStatus;
+        break;
+      case "cigarettes_per_day":
+        selectedFilter = this.selectedCigarettesPerDay;
         break;
       case "case_status":
         selectedFilter = this.selectedCaseStatus;
@@ -1156,17 +1446,50 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
       case "data_category":
         filter = this.dataCategoryFilter;
         break;
-      case "file_type":
-        filter = this.fileTypeFilter;
+      case "vital_status":
+        filter = this.vitalStatusFilter;
         break;
-      case "access":
-        filter = this.accessFilter;
+      case "age_at_diagnosis":
+        filter = this.ageAtDiagnosisFilter;
         break;
-      case "downloadable":
-        filter =  this.downloadableFilter;
+      case "ajcc_clinical_stage":
+        filter =  this.ajccClinicalStageFilter;
         break;
-      case "biospecimen_status":
-        filter =  this.biospecimenStatusFilter;
+      case "ajcc_pathologic_stage":
+        filter =  this.ajccPathologicStageFilter;
+        break;
+      case "morphology":
+        filter =  this.morphologyFilter;
+        break;
+      case "site_of_resection_or_biopsy":
+        filter =  this.siteResectionOrBiopsyFilter;
+        break;
+      case "progression_or_recurrence":
+        filter =  this.progressionOrRecurrenceFilter;
+        break;
+      case "therapeutic_agents":
+        filter =  this.therapeuticAgentsFilter;
+        break;
+      case "treatment_intent_type":
+        filter =  this.treatmentIntentTypeFilter;
+        break;
+      case "treatment_outcome":
+        filter =  this.treatmentOutcomeFilter;
+        break;
+      case "treatment_type":
+        filter =  this.treatmentTypeFilter;
+        break;
+      case "alcohol_history":
+        filter =  this.alcoholHistoryFilter;
+        break;
+      case "alcohol_intensity":
+        filter =  this.alcoholIntensityFilter;
+        break;
+      case "tobacco_smoking_status":
+        filter =  this.tobaccoSmokingStatusFilter;
+        break;
+      case "cigarettes_per_day":
+        filter =  this.cigarettesPerDayFilter;
         break;
       case "case_status":
         filter = this.caseStatusFilter;
@@ -1199,9 +1522,6 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
       case "sample_type":
         this.showSampleType = !this.showSampleType;
         break;
-      case "biospecimen_status":
-        this.showBioStatus = !this.showBioStatus;
-        break;
       case "ethnicity":
         this.showEthnicity = !this.showEthnicity;
         break;
@@ -1220,14 +1540,47 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
       case "data_category":
         this.showDataCategory = !this.showDataCategory;
         break;
-      case "file_type":
-        this.showFileType = !this.showFileType;
+      case "vital_status":
+        this.showVitalStatus = !this.showVitalStatus;
         break;
-      case "access":
-        this.showAccess = !this.showAccess;
+      case "age_at_diagnosis":
+        this.showAgeAtDiag = !this.showAgeAtDiag;
         break;
-      case "downloadable":
-        this.showDownloadable = !this.showDownloadable;
+      case "ajcc_clinical_stage":
+        this.showAjccClinicalStage = !this.showAjccClinicalStage;
+        break;
+      case "ajcc_pathologic_stage":
+        this.showAjccPathoStage = !this.showAjccPathoStage;
+        break;
+      case "morphology":
+        this.showMorph = !this.showMorph;
+        break;
+      case "site_of_resection_or_biopsy":
+        this.showSiteResectBiop = !this.showSiteResectBiop;
+        break;
+      case "therapeutic_agents":
+        this.showTherapAgents = !this.showTherapAgents;
+        break;
+      case "treatment_intent_type":
+        this.showTreatIntType = !this.showTreatIntType;
+        break;
+      case "treatment_outcome":
+        this.showTreatOc = !this.showTreatOc;
+        break;
+      case "treatment_type":
+        this.showTreatType = !this.showTreatType;
+        break;
+      case "alcohol_history":
+        this.showAlcoholHist = !this.showAlcoholHist;
+        break;
+      case "alcohol_intensity":
+        this.showAlcoholIntense = !this.showAlcoholIntense;
+        break;
+      case "tobacco_smoking_status":
+        this.showSmokingStatus = !this.showSmokingStatus;
+        break;
+      case "cigarettes_per_day":
+        this.showCigarPerDay = !this.showCigarPerDay;
         break;
       case "study_name":
         this.showStudyName = !this.showStudyName;
@@ -1418,7 +1771,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
     this.updateFiltersCounters();
   }
 
-  filterDataByFileType(e, filterSub = '', index = 0) {
+  /*filterDataByFileType(e, filterSub = '', index = 0) {
     var newFilterValue = "file_type:" + this.selectedFileType.join(";");
     this.selectedFilters.emit(newFilterValue);
     let sortedList = this.moveFilterToTop(this.fileTypeFilter, this.selectedFileType, e, filterSub, index);
@@ -1444,12 +1797,12 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
 	  }
 	  //console.log("Return " + result + " for " + filterName);
 	  return result;
-  }
+  }*/
   //@@@PDC-1095
   //// If File type filter is selected only defined in mapping data category filters should be available for selection
   dataCetegoryFilterDisabled(filterName: string):boolean {
 	  let result = false;
-	  let isSelected = false;
+	  /*let isSelected = false;
 	  if (this.selectedFileType.length > 0 && this.selectedFileType[0] != ""){
 		    //Check in the mapping if the current data category filter should be available for selection
 		  for (let fileType of this.dataCategoryFileTypeMap[filterName]){
@@ -1460,11 +1813,11 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
 		  if (!isSelected) {
 			  result = true;
 		  }
-	  }
+	  }*/
 	  return result;
   }
 
-  filterDataByAccess(e, filterSub = '', index = 0) {
+  /*filterDataByAccess(e, filterSub = '', index = 0) {
     var newFilterValue = "access:" + this.selectedAccess.join(";");
     this.selectedFilters.emit(newFilterValue);
     let sortedList = this.moveFilterToTop(this.accessFilter, this.selectedAccess, e, filterSub, index);
@@ -1483,7 +1836,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
       this.selectedFilters.emit(newFilterValue);
       this.updateFiltersCounters();
     },1000);
-  }
+  }*/
 
 	filterDataByGeneName(){
 		//emit new gene name to selectedFilters
@@ -1498,6 +1851,8 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
 		this.selectedFilters.emit(newFilterValue);
 		//PDC-1001 added a timeout to send the list of studies associated with the search gene(s)
 		// to allow time to process the gene name filter.
+		//@@@PDC-9697 request brevity
+
 		setTimeout(() => {
 		  this.browseFiltersService.getStudyByGeneName(processedGeneNames).subscribe((data: any) => {
 			let studyList = [];
@@ -1507,8 +1862,8 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
 				studyList.push(item.study_submitter_id); //study id in format SXXXX-X
 				studyNamesList.push(item.submitter_id_name); //study name
 			}
-      this.selectedGeneStudyList = studyList;
-      this.selectedGeneStudyNamesList = studyNamesList;
+		  this.selectedGeneStudyList = studyList;
+		  this.selectedGeneStudyNamesList = studyNamesList;
 			this.updateFiltersCounters(studyList, this.selectedGeneNames, studyNamesList);
 			//All data tabs except for Genes tab will be filtered by studies that include the selected genes
 			var newFilterValue = "gene_study_name:" + studyNamesList.join(";");
@@ -1520,14 +1875,110 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
 		}, 200);
   }
 
-  filterDataByBiospecimenStatus(e, filterSub = '', index = 0) {
-    var newFilterValue = "biospecimen_status:" + this.selectedBiospecimenStatus.join(";");
+  filterDataByAjccPathologicStage(e, filterSub = '', index = 0) {
+    var newFilterValue = "ajcc_pathologic_stage:" + this.selectedAjccPathologicStage.join(";");
     this.selectedFilters.emit(newFilterValue);
-    let sortedList = this.moveFilterToTop(this.biospecimenStatusFilter, this.selectedBiospecimenStatus, e, filterSub, index);
-    this.biospecimenStatusFilter = sortedList;
+    let sortedList = this.moveFilterToTop(this.ajccPathologicStageFilter, this.selectedAjccPathologicStage, e, filterSub, index);
+    this.ajccPathologicStageFilter = sortedList;
     this.updateFiltersCounters();
   }
 
+  filterDataByVitalStatus(e, filterSub = '', index = 0) {
+    var newFilterValue = "vital_status:" + this.selectedVitalStatus.join(";");
+    this.selectedFilters.emit(newFilterValue);
+    let sortedList = this.moveFilterToTop(this.vitalStatusFilter, this.selectedVitalStatus, e, filterSub, index);
+    this.vitalStatusFilter = sortedList;
+    this.updateFiltersCounters();
+  }
+  filterDataByAgeAtDiagnosis(e, filterSub = '', index = 0) {
+    var newFilterValue = "age_at_diagnosis:" + this.selectedAgeAtDiagnosis.join(";");
+	console.log("New Filter Age: "+newFilterValue)
+    this.selectedFilters.emit(newFilterValue);
+    let sortedList = this.moveFilterToTop(this.ageAtDiagnosisFilter, this.selectedAgeAtDiagnosis, e, filterSub, index);
+    this.ageAtDiagnosisFilter = sortedList;
+    this.updateFiltersCounters();
+  }
+  filterDataByAjccClinicalStage(e, filterSub = '', index = 0) {
+    var newFilterValue = "ajcc_clinical_stage:" + this.selectedAjccClinicalStage.join(";");
+    this.selectedFilters.emit(newFilterValue);
+    let sortedList = this.moveFilterToTop(this.ajccClinicalStageFilter, this.selectedAjccClinicalStage, e, filterSub, index);
+    this.ajccClinicalStageFilter = sortedList;
+    this.updateFiltersCounters();
+  }
+  filterDataByProgressionOrRecurrence(e, filterSub = '', index = 0) {
+    var newFilterValue = "progression_or_recurrence:" + this.selectedProgressionOrRecurrence.join(";");
+    this.selectedFilters.emit(newFilterValue);
+    let sortedList = this.moveFilterToTop(this.progressionOrRecurrenceFilter, this.selectedProgressionOrRecurrence, e, filterSub, index);
+    this.progressionOrRecurrenceFilter = sortedList;
+    this.updateFiltersCounters();
+  }
+  filterDataByMorphology(e, filterSub = '', index = 0) {
+    var newFilterValue = "morphology:" + this.selectedMorphology.join(";");
+    this.selectedFilters.emit(newFilterValue);
+    let sortedList = this.moveFilterToTop(this.morphologyFilter, this.selectedMorphology, e, filterSub, index);
+    this.morphologyFilter = sortedList;
+    this.updateFiltersCounters();
+  }
+  filterDataBySiteResectionOrBiopsy(e, filterSub = '', index = 0) {
+    var newFilterValue = "site_of_resection_or_biopsy:" + this.selectedSiteResectionOrBiopsy.join(";");
+    this.selectedFilters.emit(newFilterValue);
+    let sortedList = this.moveFilterToTop(this.siteResectionOrBiopsyFilter, this.selectedSiteResectionOrBiopsy, e, filterSub, index);
+    this.siteResectionOrBiopsyFilter = sortedList;
+    this.updateFiltersCounters();
+  }
+  filterDataByTherapeuticAgents(e, filterSub = '', index = 0) {
+    var newFilterValue = "therapeutic_agents:" + this.selectedTherapeuticAgents.join(";");
+    this.selectedFilters.emit(newFilterValue);
+    let sortedList = this.moveFilterToTop(this.therapeuticAgentsFilter, this.selectedTherapeuticAgents, e, filterSub, index);
+    this.therapeuticAgentsFilter = sortedList;
+    this.updateFiltersCounters();
+  }
+  filterDataByTreatmentIntentType(e, filterSub = '', index = 0) {
+    var newFilterValue = "treatment_intent_type:" + this.selectedTreatmentIntentType.join(";");
+    this.selectedFilters.emit(newFilterValue);
+    let sortedList = this.moveFilterToTop(this.treatmentIntentTypeFilter, this.selectedTreatmentIntentType, e, filterSub, index);
+    this.treatmentIntentTypeFilter = sortedList;
+  }
+  filterDataByTreatmentOutcome(e, filterSub = '', index = 0) {
+    var newFilterValue = "treatment_outcome:" + this.selectedTreatmentOutcome.join(";");
+    this.selectedFilters.emit(newFilterValue);
+    let sortedList = this.moveFilterToTop(this.treatmentOutcomeFilter, this.selectedTreatmentOutcome, e, filterSub, index);
+    this.treatmentOutcomeFilter = sortedList;
+  }
+  filterDataByTreatmentType(e, filterSub = '', index = 0) {
+    var newFilterValue = "treatment_type:" + this.selectedTreatmentType.join(";");
+    this.selectedFilters.emit(newFilterValue);
+    let sortedList = this.moveFilterToTop(this.treatmentTypeFilter, this.selectedTreatmentType, e, filterSub, index);
+    this.treatmentTypeFilter = sortedList;
+  }
+  filterDataByAlcoholHistory(e, filterSub = '', index = 0) {
+    var newFilterValue = "alcohol_history:" + this.selectedAlcoholHistory.join(";");
+    this.selectedFilters.emit(newFilterValue);
+    let sortedList = this.moveFilterToTop(this.alcoholHistoryFilter, this.selectedAlcoholHistory, e, filterSub, index);
+    this.alcoholHistoryFilter = sortedList;
+    this.updateFiltersCounters();
+  }
+  filterDataByAlcoholIntensity(e, filterSub = '', index = 0) {
+    var newFilterValue = "alcohol_intensity:" + this.selectedAlcoholIntensity.join(";");
+    this.selectedFilters.emit(newFilterValue);
+    let sortedList = this.moveFilterToTop(this.alcoholIntensityFilter, this.selectedAlcoholIntensity, e, filterSub, index);
+    this.alcoholIntensityFilter = sortedList;
+    this.updateFiltersCounters();
+  }
+  filterDataByTobaccoSmokingStatus(e, filterSub = '', index = 0) {
+    var newFilterValue = "tobacco_smoking_status:" + this.selectedTobaccoSmokingStatus.join(";");
+    this.selectedFilters.emit(newFilterValue);
+    let sortedList = this.moveFilterToTop(this.tobaccoSmokingStatusFilter, this.selectedTobaccoSmokingStatus, e, filterSub, index);
+    this.tobaccoSmokingStatusFilter = sortedList;
+    this.updateFiltersCounters();
+  }
+  filterDataByCigarettesPerDay(e, filterSub = '', index = 0) {
+    var newFilterValue = "cigarettes_per_day:" + this.selectedCigarettesPerDay.join(";");
+    this.selectedFilters.emit(newFilterValue);
+    let sortedList = this.moveFilterToTop(this.cigarettesPerDayFilter, this.selectedCigarettesPerDay, e, filterSub, index);
+    this.cigarettesPerDayFilter = sortedList;
+    this.updateFiltersCounters();
+  }
   filterDataByCaseStatus(e, filterSub = '', index = 0) {
     var newFilterValue = "case_status:" + this.selectedCaseStatus.join(";");
     this.selectedFilters.emit(newFilterValue);
@@ -1617,31 +2068,103 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
     this.filterDataByDataCategory(false);
   }
 
-  clearSelectionsFileType() {
-    this.selectedFileType = [];
-    this.fileTypeFilter.sort(this.compare);
-    this.filterDataByFileType(false);
+  clearSelectionsVitalStatus() {
+    this.selectedVitalStatus = [];
+    this.vitalStatusFilter.sort(this.compare);
+    this.filterDataByVitalStatus(false);
   }
 
-  clearSelectionsAccess() {
-    this.selectedAccess = [];
-    this.accessFilter.sort(this.compare);
-    this.filterDataByAccess(false);
+  clearSelectionsAgeAtDiagnosis() {
+    this.selectedAgeAtDiagnosis = [];
+    this.ageAtDiagnosisFilter.sort(this.compare);
+    this.filterDataByAgeAtDiagnosis(false);
   }
 
-  //@@@PDC-775: Add new downloadable filter option to file filters
-  clearSelectionsDownloadable() {
-    this.selectedDownloadable = [];
-    this.selectedDownloadableRadiobuttonVal = "";
-    this.filterDataByDownloadable(false);
+  clearSelectionsAjccClinicalStage() {
+    this.selectedAjccClinicalStage = [];
+    this.ajccClinicalStageFilter.sort(this.compare);
+    this.filterDataByAjccClinicalStage(false);
   }
 
-  clearSelectionsBiospecimenStatus() {
-    this.selectedBiospecimenStatus = [];
-    this.biospecimenStatusFilter.sort(this.compare);
-    this.filterDataByBiospecimenStatus(false);
+  clearSelectionsAjccPathologicStage() {
+    this.selectedAjccPathologicStage = [];
+    this.ajccPathologicStageFilter.sort(this.compare);
+    this.filterDataByAjccPathologicStage(false);
   }
 
+  clearSelectionsProgressionOrRecurrence() {
+    this.selectedProgressionOrRecurrence = [];
+    this.progressionOrRecurrenceFilter.sort(this.compare);
+    this.filterDataByProgressionOrRecurrence(false);
+  }
+  clearSelectionsMorphology() {
+    this.selectedMorphology = [];
+    this.morphologyFilter.sort(this.compare);
+    this.filterDataByMorphology(false);
+  }
+  clearSelectionsSiteResectionOrBiopsy() {
+    this.selectedSiteResectionOrBiopsy = [];
+    this.siteResectionOrBiopsyFilter.sort(this.compare);
+    this.filterDataBySiteResectionOrBiopsy(false);
+  }
+  clearSelectionsTherapeuticAgents() {
+    this.selectedTherapeuticAgents = [];
+    this.therapeuticAgentsFilter.sort(this.compare);
+    this.filterDataByTherapeuticAgents(false);
+  }
+  clearSelectionsTreatmentIntentType() {
+    this.selectedTreatmentIntentType = [];
+    this.treatmentIntentTypeFilter.sort(this.compare);
+    this.filterDataByTreatmentIntentType(false);
+  }
+  clearSelectionsTreatmentOutcome() {
+    this.selectedTreatmentOutcome = [];
+    this.treatmentOutcomeFilter.sort(this.compare);
+    this.filterDataByTreatmentOutcome(false);
+  }
+  clearSelectionsTreatmentType() {
+    this.selectedTreatmentType = [];
+    this.treatmentTypeFilter.sort(this.compare);
+    this.filterDataByTreatmentType(false);
+  }
+  clearSelectionsAlcoholHistory() {
+    this.selectedAlcoholHistory = [];
+    this.alcoholHistoryFilter.sort(this.compare);
+    this.filterDataByAlcoholHistory(false);
+  }
+  clearSelectionsAlcoholIntensity() {
+    this.selectedAlcoholIntensity = [];
+    this.alcoholIntensityFilter.sort(this.compare);
+    this.filterDataByAlcoholIntensity(false);
+  }
+  clearSelectionsTobaccoSmokingStatus() {
+    this.selectedTobaccoSmokingStatus = [];
+    this.tobaccoSmokingStatusFilter.sort(this.compare);
+    this.filterDataByTobaccoSmokingStatus(false);
+  }
+
+  // @@@PDC-10327 - Map tobacco smoking status codes to display values
+  getTobaccoSmokingStatusDisplay(filterName: string): string {
+    console.log("Filter Name: " + filterName);
+    const statusMap: { [key: string]: string } = {
+      '1': 'Life Long Non-Smoker',
+      '2': 'Current Smoker',
+      '3': 'Current Reformed Smoker for > 15 yrs',
+      '4': 'Current Reformed Smoker for < or = 15 yrs',
+      '5': 'Current Reformed Smoker, Duration Not Specified',
+      '6': 'Smoker at Diagnosis',
+      '7': 'Smoking history not documented'
+    };
+    console.log("Mapped Value: " + (statusMap[filterName] || filterName));
+    
+    return statusMap[filterName] || filterName; 
+  }
+
+  clearSelectionsCigarettesPerDay() {
+    this.selectedCigarettesPerDay = [];
+    this.cigarettesPerDayFilter.sort(this.compare);
+    this.filterDataByCigarettesPerDay(false);
+  }
   clearSelectionsCaseStatus() {
     this.selectedCaseStatus = [];
     this.caseStatusFilter.sort(this.compare);
@@ -1663,10 +2186,20 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
     this.studyFilter.sort(this.compare);
     this.acquisitionFilter.sort(this.compare);
     this.dataCategoryFilter.sort(this.compare);
-    this.fileTypeFilter.sort(this.compare);
-    this.accessFilter.sort(this.compare);
-    this.downloadableFilter.sort(this.compare);
-    this.biospecimenStatusFilter.sort(this.compare);
+    this.vitalStatusFilter.sort(this.compare);
+    this.ageAtDiagnosisFilter.sort(this.compare);
+    this.ajccClinicalStageFilter.sort(this.compare);
+    this.ajccPathologicStageFilter.sort(this.compare);
+    this.progressionOrRecurrenceFilter.sort(this.compare);
+    this.morphologyFilter.sort(this.compare);
+    this.therapeuticAgentsFilter.sort(this.compare);
+    this.treatmentIntentTypeFilter.sort(this.compare);
+    this.treatmentOutcomeFilter.sort(this.compare);
+    this.treatmentTypeFilter.sort(this.compare);
+    this.alcoholHistoryFilter.sort(this.compare);
+    this.alcoholIntensityFilter.sort(this.compare);
+    this.tobaccoSmokingStatusFilter.sort(this.compare);
+    this.cigarettesPerDayFilter.sort(this.compare);
     this.caseStatusFilter.sort(this.compare);
   }
 
@@ -1689,16 +2222,26 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
     this.selectedSampleType = [];
     this.selectedStudyFilter = [];
     this.selectedDataCategory = [];
-    this.selectedFileType = [];
-    this.selectedAccess = [];
-    this.selectedDownloadable = [];
-    this.selectedDownloadableRadiobuttonVal = "";
     this.selectedGeneNames = "";
     this.selectedGeneStudyList = [];
     this.selectedGeneStudyNamesList = [];
     this.studyNameForGenesTab = [];
     this.allStudyIDsForGenes = [];
-    this.selectedBiospecimenStatus = [];
+	this.selectedVitalStatus = [];
+	this.selectedAgeAtDiagnosis = [];
+	this.selectedAjccClinicalStage = [];
+    this.selectedAjccPathologicStage = [];
+	this.selectedProgressionOrRecurrence = [];
+	this.selectedMorphology = [];
+	this.selectedSiteResectionOrBiopsy = [];
+	this.selectedTherapeuticAgents = [];
+	this.selectedTreatmentIntentType = [];
+	this.selectedTreatmentOutcome = [];
+	this.selectedTreatmentType = [];
+	this.selectedAlcoholHistory = [];
+	this.selectedAlcoholIntensity = [];
+	this.selectedTobaccoSmokingStatus = [];
+	this.selectedCigarettesPerDay = [];
     this.selectedCaseStatus = [];
     this.sortAllFilterLists();
     sessionStorage.removeItem('tableLoading');
@@ -1710,15 +2253,41 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
   clearAllClinicalSelections() {
     var newFilterValue = "Clear all clinical filters selections:"; //set new filter value
     this.selectedFilters.emit(newFilterValue);
+    this.selectedSampleType = [];
     this.selectedEthnicity = [];
     this.selectedRace = [];
     this.selectedGender = [];
+    this.selectedPrimarySites = [];
+    this.selectedDiseases = [];
     this.selectedTumorGrade = [];
+	this.selectedVitalStatus = [];
+	this.selectedAgeAtDiagnosis = [];
+	this.selectedAjccClinicalStage = [];
+    this.selectedAjccPathologicStage = [];
+	this.selectedProgressionOrRecurrence = [];
+	this.selectedMorphology = [];
+	this.selectedSiteResectionOrBiopsy = [];
     this.selectedCaseStatus = [];
+    this.primarySitesFilter.sort(this.compare);
+    this.diseaseTypesFilter.sort(this.compare);
     this.ethnicityFilter.sort(this.compare);
     this.raceFilter.sort(this.compare);
     this.genderFilter.sort(this.compare);
     this.tumorGradeFilter.sort(this.compare);
+    this.vitalStatusFilter.sort(this.compare);
+    this.ageAtDiagnosisFilter.sort(this.compare);
+    this.ajccClinicalStageFilter.sort(this.compare);
+    this.ajccPathologicStageFilter.sort(this.compare);
+    this.progressionOrRecurrenceFilter.sort(this.compare);
+    this.morphologyFilter.sort(this.compare);
+    this.therapeuticAgentsFilter.sort(this.compare);
+    this.treatmentIntentTypeFilter.sort(this.compare);
+    this.treatmentOutcomeFilter.sort(this.compare);
+    this.treatmentTypeFilter.sort(this.compare);
+    this.alcoholHistoryFilter.sort(this.compare);
+    this.alcoholIntensityFilter.sort(this.compare);
+    this.tobaccoSmokingStatusFilter.sort(this.compare);
+    this.cigarettesPerDayFilter.sort(this.compare);
     this.caseStatusFilter.sort(this.compare);
     this.updateFiltersCounters();
   }
@@ -1729,30 +2298,30 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
     //clear all filters selections
     this.selectedProjects = [];
     this.selectedPrograms = [];
-    this.selectedPrimarySites = [];
-    this.selectedDiseases = [];
+	this.selectedStudyFilter = [];
     this.selectedAnFracs = [];
     this.selectedExpStarts = [];
     this.selectedAcquisitions = [];
+    this.selectedDataCategory = [];
     this.projectsFilter.sort(this.compare);
-    this.primarySitesFilter.sort(this.compare);
     this.programsFilter.sort(this.compare);
-    this.diseaseTypesFilter.sort(this.compare);
     this.analyticalFractionsFilter.sort(this.compare);
     this.experimentalStrategiesFilter.sort(this.compare);
     this.acquisitionFilter.sort(this.compare);
+    this.dataCategoryFilter.sort(this.compare);
+	this.studyFilter.sort(this.compare);
     this.updateFiltersCounters();
   }
 
-  clearAllBiospecimenSelections() {
+  /*clearAllBiospecimenSelections() {
     var newFilterValue = "Clear all biospecimen filters selections:"; //set new filter value
     this.selectedFilters.emit(newFilterValue);
     this.selectedSampleType = [];
     this.selectedStudyFilter = [];
-    this.selectedBiospecimenStatus = [];
+    this.selectedAjccPathologicStage = [];
     this.sampleTypeFilter.sort(this.compare);
     this.studyFilter.sort(this.compare);
-    this.biospecimenStatusFilter.sort(this.compare);
+    this.ajccPathologicStageFilter.sort(this.compare);
     this.ethnicityFilter.sort(this.compare);
     this.raceFilter.sort(this.compare);
     this.genderFilter.sort(this.compare);
@@ -1776,7 +2345,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
     this.accessFilter.sort(this.compare);
 
     this.updateFiltersCounters();
-  }
+  }*/
 
    clearAllGenesSelections() {
   	var newFilterValue = "Clear all genes filters selections:"; //set new filter value
@@ -1848,7 +2417,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
           if (geneNamesArray[i] == invalidGene) {
             delete geneNamesArray[i];
           }
-        } 
+        }
         this.selectedGeneNames = "";
         this.selectedGeneNames = geneNamesArray.join(' ');
         this.selectedGeneNames = this.selectedGeneNames.trim();
@@ -1873,7 +2442,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
           if (geneNamesArray[i] == invalidGene) {
             delete geneNamesArray[i];
           }
-        } 
+        }
         this.selectedGeneNames = "";
         this.selectedGeneNames = geneNamesArray.join(' ');
         this.selectedGeneNames = this.selectedGeneNames.trim();
@@ -2030,11 +2599,12 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
         this.selectedStudyFilter = new Array(res.studyNameForCaseCount);
         this.filterDataByStudy(event);
       }
-      if (
+      /*if (
         res.hasOwnProperty("studyNameForFileType") &&
         res.hasOwnProperty("fileDetailsforFileType") &&
         res.hasOwnProperty("fileDetailsforDataCategory")
-      ) {
+      )
+	  {
         if (res.studyNameForFileType) {
           this.selectedStudyFilter = new Array(res.studyNameForFileType);
         }
@@ -2056,7 +2626,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
             this.filterDataByDataCategory(event);
           }, 2000);
         }
-      }
+      }*/
     });
   }
 

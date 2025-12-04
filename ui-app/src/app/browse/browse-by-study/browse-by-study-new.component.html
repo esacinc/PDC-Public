@@ -1,0 +1,301 @@
+<div class="row usa-prose" style="font-size: 14px !important;">
+  <p-table class="table-striped ui-datatable-odd light-stripes" #dt [columns]="cols" [value]="filteredStudiesData" [lazy]="true" [paginator]="true" paginatorPosition="both" [(first)]="offset"
+           [rows]="10" [pageLinks]="5" [rowsPerPageOptions]="[10,20,50]" [totalRecords]="totalRecords"
+           [loading]="loading" [resizableColumns]="true" columnResizeMode="expand" [ngStyle]="{'width':'100%'}"
+           [(selection)]="selectedStudies"
+           (selectionChange)="onSelectionChange($event)"
+           selectionMode="multiple"
+           dataKey="submitter_id_name" (onLazyLoad)="loadNewPage($event)" id="studyDataTable"
+           scrollHeight="500px" [autoLayout]="true" [scrollable]="true" >
+    <ng-template pTemplate="caption">
+      <div class="container-fluid ui-helper-clearfix button-container-fluid exportButtonsRow">
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+              <div *ngIf="totalRecords > 0 && !loading">
+                <h3 style="font-family: 'Lato'; font-size:14px; margin-top:0!important">{{totalRecords > 1 ? 'Total studies: ' + totalRecords : 'Total study: ' + totalRecords }}</h3>
+              </div>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 manifestDownload">
+              <div class="d-flex justify-content-end align-items-center gap-3">
+                <span id="selectedStudiesCount" *ngIf="selectedStudies?.length > 0 && !isDownloadDisabled()" style="font-family:'Lato'; font-size:12px; color:#666;">Rows selected: {{selectedStudies.length}}</span>
+                <div class="dropdown">
+                  <button
+                    tooltip="Exports all selected rows for the current data tab"
+                    class="btn btn-secondary dropdown-toggle"
+                    type="button"
+                    id="exportStudyManifestDropdown"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                    style="font-weight:bold; background-color:#b0b0b0; color:#fff; border:none;"
+                    [disabled]="isDownloadDisabled()"
+                    (click)="toggleExportStudyDropdown()">
+                    Export Study Manifest
+                    <i class="fa fa-chevron-down ml-2"></i>
+                  </button>
+                  <div class="dropdown-menu" [class.show]="showExportStudyDropdown" aria-labelledby="exportStudyManifestDropdown">
+                    <button
+                      class="dropdown-item"
+                      (click)="studyTableExportCSV(dt); toggleExportStudyDropdown()"
+                      [disabled]="isDownloadDisabled()">
+                      <i class="fa fa-file-text mr-2"></i>CSV Format
+                    </button>
+                    <button
+                      class="dropdown-item"
+                      (click)="studyTableExportTSV(dt); toggleExportStudyDropdown()"
+                      [disabled]="isDownloadDisabled()">
+                      <i class="fa fa-file-text mr-2"></i>TSV Format
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+
+
+    <ng-template pTemplate="header" let-columns>
+      <tr  style="font-size: 14px !important;">
+        <th rowspan=2 class="ui-datatable-tableheader checkboxColumn" style="width: 70px !important; " alt="Check All checkboxes in the table" pFrozenColumn>
+          <!-- @@@PDC-7012 improve browse checkbox intuitiveness -->
+          <!-- @@@PDC-7109 improve browse checkbox intuitiveness -->
+          <label title="checkboxLabel"><p-checkbox id="studyDataChk" [(ngModel)]="headercheckbox" binary="true" (onChange)="triggerchangeHeaderCheckbox($event)"></p-checkbox>
+            <mat-select #dataForManifestExport id="dataForManifestExport" class="card-body card-list" [(ngModel)]="selectedHeaderCheckbox" (selectionChange)="changeHeaderCheckbox($event)">
+              <mat-option *ngFor="let checkboxOption of checkboxOptions" [value]="checkboxOption" (onSelectionChange)="chkBoxSelectionCheck(checkboxOption)">
+                {{checkboxOption}}
+              </mat-option>
+            </mat-select>
+            <span style="display:none;">Select All</span>
+          </label>
+        </th>
+        <th rowspan=2 class="ui-datatable-tableheader" style="width: 70px !important; font-size:14px !important;" [pSortableColumn]="cols[0].field" pFrozenColumn><a href="/pdc/data-dictionary/Study" target="_blank">PDC Study ID</a><i class="fas fa-sort" ariaLabel="Sort Study in ascending/descending order"></i>
+        </th>
+        <th rowspan=2 class="ui-datatable-tableheader" style="width: 400px !important; min-width: 400px !important;" [pSortableColumn]="cols[3].field"><a href="/pdc/data-dictionary/Study" target="_blank">Study</a><i class="fas fa-sort" ariaLabel="Sort Study in ascending/descending order"></i></th>
+        <!-- <th rowspan=2 class="ui-datatable-tableheader" [pSortableColumn]="cols[4].field"><a href="/pdc/faq#Embargo_Date" target="_blank" style="color:white">Embargo Date</a><p-sortIcon [field]="cols[4].field" ariaLabel="Sort Embargo Date in ascending/descending order"></p-sortIcon></th> -->
+         <th rowspan=3 class="ui-datatable-tableheader" [pSortableColumn]="cols[6].field" style="width: 300px !important; min-width: 300px !important; white-space: nowrap;"><a href="/pdc/data-dictionary/Program" target="_blank" style="color:white">Program</a>&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Study in ascending/descending order"></i></th>
+
+        <th rowspan=2 class="ui-datatable-tableheader" style="width: 600px !important; min-width: 600px !important;" [pSortableColumn]="cols[7].field">
+          <div class="ui-datatable-tableheader-flex-container">
+            <div>
+              <!-- @@PDC-4743 Experiment type link and other link load issues -->
+              <a [routerLink]="['/data-dictionary/Case']" fragment="disease_type" target="_blank">
+                Disease Type
+              </a>
+            </div>
+            <div>
+              &nbsp;<i class="fas fa-sort" ariaLabel="Sort Study in ascending/descending order"></i>
+            </div>
+          </div>
+        </th>
+        <th rowspan=2 class="ui-datatable-tableheader" style="width: 150px !important; " [pSortableColumn]="cols[8].field">
+          <div class="ui-datatable-tableheader-flex-container">
+            <div>
+              <!-- @@PDC-4743 Experiment type link and other link load issues -->
+              <a [routerLink]="['/data-dictionary/Case']" fragment="primary_site" target="_blank">
+                Primary Site
+              </a>
+            </div>
+            <div>
+              &nbsp;<i class="fas fa-sort" ariaLabel="Sort Study in ascending/descending order"></i>
+            </div>
+          </div>
+        </th>
+        <th rowspan=2 class="ui-datatable-tableheader" style="width: 80px !important;" [pSortableColumn]="cols[9].field">
+          <div class="ui-datatable-tableheader-flex-container" >
+            <div>
+
+              <!-- @@PDC-4743 Experiment type link and other link load issues -->
+              <a [routerLink]="['/data-dictionary/Study']" fragment="analytical_fraction" target="_blank">
+                Analytical Fraction
+              </a>
+            </div>
+            <div>
+              &nbsp;<i class="fas fa-sort" ariaLabel="Sort Study in ascending/descending order"></i>
+            </div>
+          </div>
+        </th>
+        <th rowspan=2 class="ui-datatable-tableheader" style="width: 80px !important;" [pSortableColumn]="cols[10].field">
+          <div class="ui-datatable-tableheader-flex-container">
+            <div>
+              <!-- @@PDC-4743 Experiment type link and other link load issues -->
+              <a [routerLink]="['/data-dictionary/Study']" fragment="experiment_type" target="_blank">Experiment Type</a>
+
+            </div>
+
+            <div>
+              &nbsp;<i class="fas fa-sort" ariaLabel="Sort Study in ascending/descending order"></i>
+            </div>
+          </div>
+        </th>
+        <th rowspan=2 class="ui-datatable-tableheader" style="width: 80px !important;" [pSortableColumn]="cols[11].field">
+          <div class="ui-datatable-tableheader-flex-container">
+            <div>
+              <!-- @@PDC-4743 Experiment type link and other link load issues -->
+              <a [routerLink]="['/data-dictionary/Case']" fragment="cases" target="_blank">
+                Cases #
+              </a>
+            </div>
+            <div>
+              &nbsp;<i class="fas fa-sort" ariaLabel="Sort Cases in ascending/descending order"></i>
+            </div>
+          </div>
+        </th>
+        <th colspan="4" class="ui-datatable-tableheader" style="text-align: center; width: 320px !important; min-width: 320px !important;">
+          <div class="ui-datatable-tableheader-flex-container">
+            <div>
+              <a [routerLink]="['/faq/MultiOmic_Availability']" target="_blank">
+                Multi-omics Availability
+              </a>
+            </div>
+          </div>
+        </th>
+
+      </tr>
+      <!-- Second row - subheaders -->
+      <tr>
+        <th class="ui-datatable-tableheader" style="text-align: center; width: 80px !important; min-width: 80px !important;">
+          Genomics
+        </th>
+        <th class="ui-datatable-tableheader" style="text-align: center; width: 80px !important; min-width: 80px !important;">
+          Imaging
+        </th>
+        <th class="ui-datatable-tableheader" style="text-align: center; width: 80px !important; min-width: 80px !important;">
+          Lipidome
+        </th>
+        <th class="ui-datatable-tableheader" style="text-align: center; width: 80px !important; min-width: 80px !important;">
+          Metabolome
+        </th>
+      </tr>
+
+    </ng-template>
+    <ng-template pTemplate="body" let-studyData let-columns="columns">
+      <tr style="font-size: 14px;" [pSelectableRow]="studyData">
+        <td style="width: 50px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;" pFrozenColumn>
+          <!--@@@PDC-8279-fix 508 compliance -->
+          <!--
+          <label>
+            <p-checkbox  #browsePageCheckboxes id="studyData{{studyData.submitter_id_name}}" [value]="studyData"
+                         class="browsePageCheckboxes" [(ngModel)]="selectedStudies">
+
+            </p-checkbox>
+            <span style="display:none;">Select this row</span>
+          </label>
+           -->
+          <label><p-tableCheckbox  [pSelectableRow]="studyData" #browsePageCheckboxes id="studyData{{studyData.submitter_id_name}}" [value]="studyData"  class="browsePageCheckboxes" style="cursor:pointer !important;"></p-tableCheckbox><span style="display:none;">Select</span></label>
+          <button
+            class="text-blue-600 hover:text-blue-800 focus:outline-none"
+            (click)="studyData.toggled = !studyData.toggled"
+            [attr.aria-label]="studyData.toggled ? 'Collapse' : 'Expand'">
+            <i [ngClass]="studyData.toggled ? 'fa fa-chevron-up' : 'fa fa-chevron-down'"></i>
+          </button>
+        </td>
+        <td style="width:100px; word-wrap: break-word; white-space: normal;" pFrozenColumn><a href="javascript:void(0);" (click)="showStudySummary(studyData.study_submitter_id)">{{studyData.pdc_study_id}}</a>
+          <span *ngIf="versionCheck(studyData.versions)"><br><a href="javascript:void(0);" class="btn btn-primary breadCrumbButtons" style="padding: 0px; cursor:default!important;" disabled="true" matTooltip="This study has multiple versions. Additional versions (updates) of a study are created when the underlying data changes substantially. This may involve changes to the raw data, processed data, and/or metadata. When a new version is created, it may fall out of sync with the original publication of this data. Use of the latest version is strongly encouraged, as it commonly represents an update directly from the submitter." matTooltipPosition="right">
+					version {{studyData.versions[0].number}}</a></span>
+        </td>
+        <td id="{{studyData.submitter_id_name}}" style="word-wrap: break-word; white-space: normal;"><a href="javascript:void(0);" (click)="showStudySummary(studyData.study_submitter_id)">{{studyData.submitter_id_name}}</a></td>
+        <!-- 			  <td [ngClass]="getStyleClass(studyData.embargo_date)" style="word-wrap: break-word; white-space: normal;" [matTooltip]="getTooltip(studyData.embargo_date)" matTooltipClass="custom-tooltip" matTooltipPosition="right" >
+                  <div *ngIf="studyData.embargo_date == '' || studyData.embargo_date == null">N/A</div>
+                  {{studyData.embargo_date}}</td> -->
+        <td style="word-wrap: break-word; white-space: normal;">{{studyData.program_name}}</td>
+        <td style="word-wrap: break-word; white-space: normal;">{{studyData.disease_type}}</td>
+        <td style="word-wrap: break-word; white-space: normal;">{{studyData.primary_site}}</td>
+        <td style="word-wrap: break-word; white-space: normal;">{{studyData.analytical_fraction}}</td>
+        <td style="word-wrap: break-word; white-space: normal;">{{studyData.experiment_type}}</td>
+        <td style="word-wrap: break-word; white-space: normal;">{{studyData.cases_count}}</td>
+        <!--@@@PDC-9140 remove hyperlink from case count -->
+        <td style="word-wrap: break-word; white-space: normal;text-align:center;">
+          <!-- Data availability -->
+          <i class="fas fa-check text-green-600" *ngIf="studyData.has_genomic_data == 'Yes'" title="Genomics data available from an external source"></i>
+          <i class="fas fa-minus text-gray-600" *ngIf="studyData.has_genomic_data !== 'Yes'" title="Data not available"></i>
+        </td>
+        <td style="word-wrap: break-word; white-space: normal;text-align:center;">
+          <!-- Imaging data availability -->
+          <i class="fas fa-check text-green-600" *ngIf="studyData.has_imaging_data == 'Yes'" title="Imaging data available from an external source"></i>
+          <i class="fas fa-minus text-gray-600" *ngIf="studyData.has_imaging_data !== 'Yes'" title="Data not available"></i>
+        </td>
+        <td style="word-wrap: break-word; white-space: normal;text-align:center;">
+          <!-- Data availability -->
+          <i class="fas fa-check text-green-600" *ngIf="studyData.has_lipidome_data == 'Yes'" title="Lipidome data available in PDC"></i>
+          <i class="fas fa-minus text-gray-600" *ngIf="studyData.has_lipidome_data !== 'Yes'" title="Data not available"></i>
+        </td>
+        <td style="word-wrap: break-word; white-space: normal;text-align:center;">
+          <!-- Data availability -->
+          <i class="fas fa-check text-green-600" *ngIf="studyData.has_metabolome_data == 'Yes'" title="Metabolome data available in PDC"></i>
+          <i class="fas fa-minus text-gray-600" *ngIf="studyData.has_metabolome_data !== 'Yes'" title="Data not available"></i>
+        </td>
+      </tr>            <!-- Section below the row -->
+      <tr *ngIf="studyData.toggled" class="expanded-row">
+        <td colspan="100%" class="expanded-row-content">
+          <div class="flex flex-col md:flex-row gap-4 items-start w-full">
+            <!-- Left: Study Details Table -->
+            
+            <div class="flex-1 overflow-x-auto pb-2" style="padding-left:70px;">
+             
+              <table style="width:33%; border-collapse:collapse; background:transparent; min-width:260px;">
+                <tbody><tr style="background-color: white;"><td colspan="2" style="background-color: white; border:none;margin-bottom:4px; text-decoration: underline;"><a href="/pdc/faq/Files_Download" target="_blank" rel="noopener" class="data-category-link" style="font-size:14px !important; line-height:22px; color:#000; text-decoration:underline; font-weight:normal !important; transition:color 0.2s;">Available files for data category</a></td></tr>
+                  
+                  <tr>
+                    <td class="font-bold pr-4 pb-1" style="border:none; background:transparent; max-width:50%; width:50%; vertical-align:top; padding: 0 12px; font-size:15px;">Raw: {{studyData.raw_count ?? 0}}</td>
+                    <td class="font-bold pb-1" style="border:none; background:transparent; max-width:50%; width:50%; vertical-align:top; padding: 0 12px; font-size:15px;">PSM: {{studyData.psm_count ?? 0}}</td>
+                  </tr>
+                  <tr>
+                    <td class="font-bold pr-4 pb-1" style="border:none; background:transparent; max-width:50%; width:50%; vertical-align:top; padding: 0 12px; font-size:15px;">Processed Mass Spectra: {{studyData.mzml_count ?? 0}}</td>
+                    <td class="font-bold pb-1" style="border:none; background:transparent; max-width:50%; width:50%; vertical-align:top; padding: 0 12px; font-size:15px;">Protein Assembly: {{studyData.protein_assembly_count ?? 0}}</td>
+                  </tr>
+                  <tr>
+                    <td class="font-bold pr-4 pb-1" style="border:none; background:transparent; max-width:50%; width:50%; vertical-align:top; padding: 0 12px; font-size:15px;">Metadata: {{studyData.metadata_count ?? 0}}</td>
+                    <td class="font-bold pb-1" style="border:none; background:transparent; max-width:50%; width:50%; vertical-align:top; padding: 0 12px; font-size:15px;">Quality Metrics: {{studyData.quality_metrics_count ?? 0}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+
+            <!--
+              <div class="flex-1 overflow-x-auto">
+                <table class="min-w-full border-none">
+                  <thead>
+                    <tr class="bg-white">
+                      <th class="bg-white px-4 py-2 text-left font-semibold text-gray-700 ">Study Details</th>
+                      <th class="bg-white px-4 py-2 text-left font-semibold text-gray-700 ">Methodology</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="bg-white">
+                      <td class="bg-white border-none text-left px-4 py-2">Principle Investigator: {{studyData.details}}</td>
+                      <td class="bg-white text-left px-4 py-2">Data Types: {{studyData.methodology}}</td>
+                    </tr>
+                    <tr class="bg-white">
+                      <td class="bg-white text-left px-4 py-2">Institution: {{studyData.details}}</td>
+                      <td class="bg-white text-left px-4 py-2 ">Methodology: {{studyData.methodology}}</td>
+                    </tr>
+                    <tr class="bg-white">
+                      <td class="bg-white text-left px-4 py-2 ">Publication Date: {{studyData.details}}</td>
+                      <td class="bg-white text-left px-4 py-2 border-b">Description: {{studyData.methodology}}</td>
+                    </tr>
+                    <tr class="bg-white">
+                      <td class="bg-white text-left px-4 py-2 ">Sample Count: {{studyData.details}}</td>
+                      <td class="bg-white text-left px-4 py-2"></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            -->
+            <!-- Right: View Data Button -->
+            <div class="flex flex-col items-center justify-center min-w-[160px] h-20">
+              <a (click)="showStudySummary(studyData.study_submitter_id)" style="background-color: #387ba8;"
+                 class="text-white px-6 py-2 rounded hover:bg-blue-700 transition inline-block text-center no-underline">
+                View Data
+              </a>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+  <br>
+</div>

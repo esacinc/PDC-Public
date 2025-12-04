@@ -12,7 +12,7 @@
    line-height: 1.8em;
 }
 
-.mat-button.mat-small {
+.mat-mdc-button.mat-small {
   min-width: 1%;
 }
 
@@ -146,7 +146,7 @@
     }
 
     //@@@PDC-4924: Fix UI issues on Heatmaps page & filter stacking feature
-    .heatmaps-page .mat-card {
+    .heatmaps-page .mat-mdc-card {
         font-family: 'Lato' !important;
     }
 }

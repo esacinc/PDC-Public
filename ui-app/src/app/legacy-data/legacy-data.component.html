@@ -1,7 +1,7 @@
-<div class="container-fluid ui-helper-clearfix button-container-fluid" style="overflow-x: scroll;min-width:1200px; font-family:'Lato'; font-size: 12px;">
+<div class="grid-container usa-prose" style="">
 	<mat-card>
 	  <mat-card-title style="padding-left: 0!important;">
-		<div style="font-size:20px;font-family: 'LatoBold';padding-bottom: 10px">Technology Advancement Studies</div>
+		<div class="usa-prose" style="font-size:20px;font-weight: bold;padding-bottom: 10px">Technology Advancement Studies</div>
 		<p style="font-size:14px">Technology Advancement Studies include Technology Assessment Studies, System Suitability Studies, and Non-CPTAC Technology Advancement
 		and Methodology studies that were conducted to advance Proteomic technologies. This page primarily lists studies from
 		the Clinical Proteomic Tumor Analysis Consortium (CPTAC) program and their collaborators that do not conform to the PDC data model
@@ -9,15 +9,16 @@
 		but are distributed here as a community resource.</p>
 	  </mat-card-title>
 	  <mat-card-content class="card card-body" style="border: none;">
-	<p-table #dt [columns]="colsStudy" [value]="projects" [totalRecords]="totalRecords" dataKey="project_name"
-				[loading]="loading" [resizableColumns]="false" columnResizeMode="expand" [style]="{'width':'100%', 'min-width':'1000px'}"
-				id="legacyStudiesProjectsTable"> <!--*ngIf="projectsListView"-->
+	<p-table #dt [value]="projects" dataKey="project_name"
+				[loading]="loading" [style]="{'width':'100%', 'min-width':'1000px'}"
+				id="legacyStudiesProjectsTable">
+		
 		<ng-template pTemplate="body" let-studyData let-expanded="expanded">
 			<tr style="font-size: 14px; background-color: white;">
 				<td style="width:100%; word-wrap: break-word; white-space: normal; padding: 10px;">
 				  <div *ngIf="studyData.project_name=='CPTAC Phase I'" style="word-wrap: break-word; white-space: normal;">
 					<!-- @@@PDC-8108 - fix font consistency -->
-					<h5><b>Technology Assessment Studies</b></h5>
+					<h5 class="usa-prose" style="font-family: inherit;"><b>Technology Assessment Studies</b></h5>
 				  <!-- <span style="font-size:14px; font-weight:800">Technology Assessment Studies</span> -->
 					<p style="padding-top: 5px;font-size: 14px;" >The <a href="https://proteomics.cancer.gov/programs/completed#cptac" target="_blank">Clinical Proteomic Technologies for Cancer Initiative</a> (CPTC),
 					launched in 2006, was developed to address the pre-analytical and analytical variability, issues seen as barriers to preclinical discovery at the time.
@@ -38,7 +39,7 @@
 					<p>The data hosted here relates to the research projects focused on increasing the understanding of experimental and analytical sources of error for existing technologies.</p>
 				  </div>
 				  <div *ngIf="studyData.project_name=='CPTAC Phase II'" style="word-wrap: break-word; white-space: normal;">
-					<h5><b>System Suitability Studies</b></h5>
+					<h5 class="usa-prose" style="font-family: inherit;"><b>System Suitability Studies</b></h5>
 				  <!-- <span style="font-size:14px; font-weight:800">System Suitability Studies</span> -->
 					<p style="padding-top: 5px;font-size: 14px;">To begin the application of the technical outputs of the CPTC phase I, Clinical Proteomic Tumor Analysis Consortium (CPTAC)
 					was launched in 2011 as a pilot program to utilize the developed state-of-the-art standardized proteomic workflows on genomically-characterized tumors
@@ -51,59 +52,56 @@
 						</ul>
 				  </div>
 				  <div *ngIf="studyData.project_name=='External'" style="word-wrap: break-word; white-space: normal;">
-					<h5><b>Non-CPTAC Technology Advancement and Methodology Studies</b></h5>
+					<h5 class="usa-prose" style="font-family: inherit;"><b>Non-CPTAC Technology Advancement and Methodology Studies</b></h5>
 				   <!-- <span style="font-size:14px; font-weight:800">Non-CPTAC Technology Advancement and Methodology Studies</span> -->
 					<p style="padding-top: 5px; font-size: 14px;">The data hosted under this section is from collaborators of the CPTAC program.</p>
 				  </div>
 				  <span class="align-text-bottom">
-					  <button mat-raised-button [pRowToggler]="studyData" (click)="isExpandedToggle()" style="padding: 7px;">View Studies
-						  <i [ngClass]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></i></button>
+					  <button mat-raised-button style="padding: 7px;" (click)="toggleRow(studyData)">View Studies
+						  <i [ngClass]="isRowExpanded(studyData) ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></i></button>
 				  </span>
 			  </td>
 			</tr>
-		</ng-template>
-		 <ng-template pTemplate="rowexpansion" let-studyData>
-			<tr>
-				<td colspan="9" style="padding:0px !important">
-					<p-dataView [value]="studyData.studies" [loading]="loading" id="legacyDataList"  >
-						<ng-template pTemplate="listItem" let-study let-rowIndex="rowIndex">
-							<div style="border-bottom: 1px solid #c5c3c4;padding: 20px 25px;">
-								<div style="word-wrap: break-word; white-space: normal;font-size: 16px!important">
-									{{study.study_name }}<br>
+			<!-- Expanded content row -->
+			<tr *ngIf="isRowExpanded(studyData)">
+				<td style="padding:0px !important">
+					<div class="p-dataview p-component p-dataview-list">
+						<div class="p-dataview-content">
+							<div class="p-grid p-nogutter grid grid-nogutter">
+								<div *ngFor="let study of studyData.studies" style="border-bottom: 1px solid #c5c3c4;padding: 20px 25px;" class="ng-star-inserted">
+									<div style="word-wrap: break-word; white-space: normal;font-size: 16px!important">
+										{{study.study_name}}<br>
+									</div>
+									<div style="width: 80%;word-wrap: break-word; white-space: normal; padding-bottom: 5px;">
+										<mat-expansion-panel hideToggle style="box-shadow: none;">
+										  <mat-expansion-panel-header style="font-size: 14px!important; padding-left: 0;">
+											<mat-panel-title>
+											  <button mat-raised-button style="background-color: rgb(239, 239, 239);">Description</button>
+											</mat-panel-title>
+										  </mat-expansion-panel-header>
+											<span [innerHTML]="study.study_description"></span>
+										</mat-expansion-panel>
+									</div>
+									<table class="table table-striped" style="width:80%;">
+										<thead> <tr>
+											<th class="name-column">Name</th>
+											<th class="analytical-fraction-column">Analytical Fraction</th>
+											<th class="experiment-type-column">Experiment Type</th> </tr>
+										</thead>
+										<tbody>
+											<tr style="font-size: 14px;" *ngFor="let subStudy of study.studyNamesList">
+												<td class="name-column" style="word-wrap: break-word;white-space: normal; border:0;">
+													<a href="javascript:void(0);" (click)="showStudySummary(subStudy.subStudyName)">{{subStudy.subStudyName}}</a>
+												</td>
+												<td class="analytical-fraction-column" style="word-wrap: break-word;white-space: normal; border:0;">{{subStudy.analytical_fraction}}</td>
+												<td class="experiment-type-column" style="word-wrap: break-word;white-space: normal; border:0;">{{subStudy.experiment_type}}</td>
+											</tr>
+										</tbody>
+									</table>
 								</div>
-								<div style="width: 80%;word-wrap: break-word; white-space: normal; padding-bottom: 5px;">
-									<mat-expansion-panel hideToggle style="box-shadow: none;">
-									  <mat-expansion-panel-header style="font-size: 14px!important; padding-left: 0;">
-										<mat-panel-title>
-										  <button mat-raised-button style="background-color: rgb(239, 239, 239);">Description</button>
-										</mat-panel-title>
-									  </mat-expansion-panel-header>
-										<span [innerHTML]="study.study_description"></span>
-									</mat-expansion-panel>
-								</div>
-								<!--<div *ngFor="let subStudy of study.studyNamesList">
-									<a href="javascript:void(0);" (click)="showStudySummary(subStudy.subStudyName)">{{subStudy.subStudyName }}</a>
-									&nbsp;&nbsp; Analytical Fraction:&nbsp;<b>{{subStudy.analytical_fraction}}</b> &nbsp;&nbsp;Experiment Type:&nbsp;<b>{{subStudy.experiment_type}}</b><br>
-								</div>-->
-								<table class="table table-striped" style="width:80%;">
-									<thead> <tr>
-										<th>Name</th>
-										<th>Analytical Fraction</th>
-										<th>Experiment Type</th> </tr>
-									</thead>
-									<tbody>
-										<tr style="font-size: 14px;" *ngFor="let subStudy of study.studyNamesList">
-											<td style="word-wrap: break-word;white-space: normal; border:0;">
-												<a href="javascript:void(0);" (click)="showStudySummary(subStudy.subStudyName)">{{subStudy.subStudyName }}</a>
-											</td>
-											<td style="word-wrap: break-word;white-space: normal; border:0;">{{subStudy.analytical_fraction}}</td>
-											<td style="word-wrap: break-word;white-space: normal; border:0;">{{subStudy.experiment_type}}</td>
-										</tr>
-									</tbody>
-								</table>
 							</div>
-						</ng-template>
-					</p-dataView>
+						</div>
+					</div>
 				</td>
 			</tr>
 		</ng-template>

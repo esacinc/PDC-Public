@@ -1,26 +1,28 @@
+<!--
 <mat-toolbar>
   <mat-toolbar-row style="background-image: linear-gradient(-133deg, #246A92 0%, #245571 100%)"></mat-toolbar-row>
-  <mat-toolbar-row style="background-image: linear-gradient(-133deg, #246A92 0%, #245571 100%)"></mat-toolbar-row>
+  <mat-toolbar-row style
 </mat-toolbar>
-<div class="row" style="margin-top:-75px!important; margin-left:20px; margin-right: 20px; align-items: center; font-size: 16px">
-<mat-card class="card card-body">
+-->  
+<div class="grid-container" style="">
+<mat-card appearance="outlined" class="about-page card card-body">
   <mat-card-content style="margin-bottom: 13%">
-    <div #Top style="font-family:'LatoBold'; font-size: 20px; margin-bottom: 5px;">Analyze PDC Data in the Cloud</div><br>
+    <div #Top class="usa-prose"><h3>Analyze PDC Data in the Cloud</h3></div><br>
     <div style="font-size: 16px">
       <div style="padding-bottom: 10px">NCI Cloud Resources, an integral part of the NCI Cancer Research Data Commons (CRDC), offer computational power and analytical tools for scalable analysis of large datasets in the cloud, driving cancer research and discovery. Within the CRDC ecosystem, the PDC has seamlessly integrated with these Cloud Resources using technologies like the Data Commons Framework Services (NCI DCFS). This interoperability enables users to directly analyze the PDC data on these Cloud Resources, eliminating the need for researchers to download and store massive datasets. In the following sections, we outline the methods for analyzing PDC data using each of these resources.</div>
       <ul>
-        <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Generate_Manifest, 'Generate_Manifest')">Generating a manifest file</a></b>
-        <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(Broad_Firecloud, 'Broad_Firecloud')">Broad Institute FireCloud</a></b>
-        <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(SevenBridges_Cloud, 'SevenBridges_Cloud')">Seven Bridges Cancer Genomic Cloud</a></b>
-        <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(AdditionalData_PDCAPI, 'AdditionalData_PDCAPI')">Obtaining additional metadata using PDC APIs</a></b>
-        <li><b><a href="javascript:void(0);" class="faqs" (click)="scrollToElement(ISB_Cloud, 'ISB_Cloud')">ISB Cancer Gateway in the Cloud</a></b>
+        <li><b><a href="javascript:void(0);" class="faqs custom-link" (click)="scrollToElement(Generate_Manifest, 'Generate_Manifest')">Generating a manifest file</a></b>
+        <li><b><a href="javascript:void(0);" class="faqs custom-link" (click)="scrollToElement(Broad_Firecloud, 'Broad_Firecloud')">Broad Institute FireCloud</a></b>
+        <li><b><a href="javascript:void(0);" class="faqs custom-link" (click)="scrollToElement(SevenBridges_Cloud, 'SevenBridges_Cloud')">Seven Bridges Cancer Genomic Cloud</a></b>
+        <li><b><a href="javascript:void(0);" class="faqs custom-link" (click)="scrollToElement(AdditionalData_PDCAPI, 'AdditionalData_PDCAPI')">Obtaining additional metadata using PDC APIs</a></b>
+        <li><b><a href="javascript:void(0);" class="faqs custom-link" (click)="scrollToElement(ISB_Cloud, 'ISB_Cloud')">ISB Cancer Gateway in the Cloud</a></b>
       </ul>
       <br>
 
-      <div #Generate_Manifest id="Generate_Manifest" class="headers">Generating a manifest file</div>
+      <div #Generate_Manifest id="Generate_Manifest" class="usa-prose"><h3>Generating a manifest file</h3></div>
       <div>
         <br>
-        To begin your analysis of PDC Data using either Broad Institute Firecloud or Seven Bridges Cancer Genomic Cloud, you will first need to choose which files you would like to work with. The full list of file types available in the PDC are available here: <a href="https://pdc.cancer.gov/pdc/faq/Files_Download" target="_blank">Proteomic Data Commons</a>.
+  To begin your analysis of PDC Data using either Broad Institute Firecloud or Seven Bridges Cancer Genomic Cloud, you will first need to choose which files you would like to work with. The full list of file types available in the PDC are available here: <a href="https://pdc.cancer.gov/pdc/faq/Files_Download" target="_blank" class="custom-link">Proteomic Data Commons</a>.
         These include RAW mass spectrometry data formats, such as:
         <br><br>
         <table class="faqTable">
@@ -30,7 +32,7 @@
           </tr>
           <tr>
             <td>mzML Format</td>
-            <td>RAW format spectra in the <a href="http://www.psidev.info/" target="_blank">HUPO Proteome Standards Initiative (PSI)</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">External Link</span></a> compliant mzML format..</td>
+            <td>RAW format spectra in the <a href="http://www.psidev.info/" target="_blank" class="custom-link">HUPO Proteome Standards Initiative (PSI)</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_" class="custom-link">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">External Link</span></a> compliant mzML format..</td>
           </tr>
           </table>
         <br>
@@ -40,7 +42,7 @@
           <li>
             <span style="font-weight: bold;">From the study summary page</span>: Click on the number of files next to the specific file type in the available files section. In the file overlay that appears, you can select the checkbox to choose all or specific files of interest.
             <br>
-            <div style="padding-top: 5px">
+            <div style="padding-top: 5px; display: flex; justify-content: center;">
             <img style="width: 45%;" src="assets/css/images/study-summary-files-pfb.png" alt="Files overlay window from Study summary page"><img style="width: 50%; margin-left: 10px" src="assets/css/images/files-overlay-pfb.png" alt="Select files on the files overlay window">
             </div>
           </li>
@@ -48,7 +50,7 @@
           <li>
             <span style="font-weight: bold;">From the Explore page</span>: Apply filters to isolate the study or group of studies you want to download files from. Use the left-hand filter menu to select the data category of files (e.g., Raw Mass Spectra or Processed Mass Spectra) you're searching for. Navigate to the files tab and choose all or specific files of interest by selecting the checkboxes on the left side of the table. Once you've selected the desired files, click one of the options next to "Export File Manifest".
             <br><br>
-            <div style="text-align:center"><img style="width: 60%;margin-left: 9%;" src="assets/css/images/explore-select-files-pfb.png" alt="Select files on the Explore page"></div>
+            <div style="display: flex; justify-content: center;"><img style="width: 60%;margin-left: 9%;" src="assets/css/images/explore-select-files-pfb.png" alt="Select files on the Explore page"></div>
           </li>
           <br>
           The metadata contained in the manifest files (CSV, TSV, or PFB) can be used to organize the data for downstream analysis.
@@ -80,26 +82,39 @@
       </div>
       <br>
 
-      <div #Broad_Firecloud id="Broad_Firecloud" class="headers">Data handoff to Broad Institute FireCloud</div>
+      <div #Broad_Firecloud id="Broad_Firecloud" class="usa-prose"><h3>Data handoff to Broad Institute FireCloud</h3></div>
+      <br>
       <div>
         <!-- PDC-8109 -update Terra bio -->
-        Firecloud is a Broad Institute project that provides access to data along with a suite of applications and tools for data analysis and visualization, powered by the Terra cloud platform. To import and analyze data from the PDC on this platform, you will need to first create an account with Terra, link that account to a Google Cloud billing account, then create a workspace on Terra. Information on each of these steps can be found here: <a href="https://terra.bio/" target="_blank">Getting Started - Terra.Bio</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">External Link</span></a>
+        Firecloud is a Broad Institute project that provides access to data along with a suite of applications and tools for data analysis and visualization, powered by the Terra cloud platform. To import and analyze data from the PDC on this platform, you will need to first create an account with Terra, link that account to a Google Cloud billing account, then create a workspace on Terra. Information on each of these steps can be found here: <a href="https://terra.bio/" target="_blank" class="custom-link">Getting Started - Terra.Bio</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" class="custom-link" target="_blank">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">External Link</span></a>
         <br><br>
         Once you have set up your account and workspace, selecting the PFB option on a selection of files will direct you to a Terra session, and the files you selected will be made available in the chosen Terra workspace. You may view information regarding the files you have selected under the 'Data' tab in that workspace.
       </div>
       <br>
+      <!-- @@@PDC-8460 - add Panoply video link -->
+      <!-- @@@PDC-8825 - fix empty link 508 compliance error -->
+      <figure >
+        <figcaption>Watch the webinar on accessing and analyzing PDC data on the FireCloud/Terra platform using PANOPLY, a proteogenomic data analysis toolkit.</figcaption>
+        <iframe title="Webinar on accessing and analyzing PDC data on the FireCloud/Terra platform using PANOPLY, a proteogenomic data analysis toolkit." width="640" height="360" src="https://nci.rev.vbrick.com/embed?id=a669cfc8-17e3-4b54-a6c2-58bf888dc405" style="display: block; margin: 0 auto;" frameborder="0" allowfullscreen></iframe>
+      </figure>
+      <br>
+  A step-by-step guide to accessing PDC data and metadata, and analyzing it using FragPipe and PANOPLY pipelines on the 
+  <a href="https://github.com/broadinstitute/PANOPLY/blob/dev/pdc-data-import/about-workspace.md" class="custom-link">FireCloud/Terra platform.</a>  <a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_blank" aria-label="external link" class="custom-link"><i  href="https://www.cancer.gov/policies/linking" class="fas fa-external-link-alt"></i></a>
+      <br><br>
 
-      <div #SevenBridges_Cloud id="SevenBridges_Cloud" class="headers">Data handoff to Seven Bridges Cancer Genomic Cloud (CGC)</div>
+      <div #SevenBridges_Cloud id="SevenBridges_Cloud" class="usa-prose"><h3>Data handoff to Seven Bridges Cancer Genomic Cloud (CGC)</h3></div>
+      <br>
       <div>
-        The CGC is a cloud-based computational environment that hosts Genomic data alongside many tools for analyzing that data and integrating it with other data sources and data types, including proteomics data. Information on how to use the CGC and create the project that will house the data you import can be found here: <a href="https://docs.cancergenomicscloud.org/" target="_blank">The CGC Knowledge Center (cancergenomicscloud.org)</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">External Link</span></a>, and documentation on how to import data from the PDC can be found here: <a href="https://docs.cancergenomicscloud.org/docs/import-from-the-pdc" target="_blank">Import data from the PDC (cancergenomicscloud.org)</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">External Link</span></a>
+        The CGC is a cloud-based computational environment that hosts Genomic data alongside many tools for analyzing that data and integrating it with other data sources and data types, including proteomics data. Information on how to use the CGC and create the project that will house the data you import can be found here: <a href="https://docs.cancergenomicscloud.org/" target="_blank" class="custom-link">The CGC Knowledge Center (cancergenomicscloud.org)</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_" class="custom-link">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">External Link</span></a>, and documentation on how to import data from the PDC can be found here: <a href="https://docs.cancergenomicscloud.org/docs/import-from-the-pdc" target="_blank" class="custom-link">Import data from the PDC (cancergenomicscloud.org)</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_" class="custom-link">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">External Link</span></a>
         <br><br>
         In brief, within the 'Files' tab of your CGC project, select the 'Import from manifest' option. Next, select 'Proteomic Data Commons' in the 'Import Files From' dropdown and select the manifest you have downloaded. Once the import is complete, the data will be available in the project.
       </div>
       <br>
 
-      <div #AdditionalData_PDCAPI id="AdditionalData_PDCAPI" class="headers">Obtaining additional metadata using PDC APIs</div>
+      <div #AdditionalData_PDCAPI id="AdditionalData_PDCAPI" class="usa-prose"><h3>Obtaining additional metadata using PDC APIs</h3></div>
+      <br>
       <div>
-        Along with the raw data files, the PDC offers many GraphQL-based APIs that will allow you to retrieve important metadata, such as the experimental design of the chosen study and the clinical/biospecimen information for each participant. An overview of PDC APIs can be found here - <a href="https://pdc.cancer.gov/pdc/api-documentation" target="_blank">https://pdc.cancer.gov/pdc/api-documentation</a>, and full documentation of all publicly available APIs, along with a 'GraphQL explorer' that may help you build your queries, can be found here - <a href="https://pdc.cancer.gov/pdc/publicapi-documentation/#!/Case/allCases" target="_blank">https://pdc.cancer.gov/pdc/publicapi-documentation/#!/Case/allCases</a>
+        Along with the raw data files, the PDC offers many GraphQL-based APIs that will allow you to retrieve important metadata, such as the experimental design of the chosen study and the clinical/biospecimen information for each participant. An overview of PDC APIs can be found here - <a class="custom-link" href="https://pdc.cancer.gov/pdc/api-documentation" target="_blank">https://pdc.cancer.gov/pdc/api-documentation</a>, and full documentation of all publicly available APIs, along with a 'GraphQL explorer' that may help you build your queries, can be found here - <a class="custom-link"href="https://pdc.cancer.gov/pdc/publicapi-documentation/#!/Case/allCases" target="_blank">https://pdc.cancer.gov/pdc/publicapi-documentation/#!/Case/allCases</a>
         <br><br>
         Below is an example of how you may use three of these APIs with Python to retrieve all the clinical metadata of a study’s participants.  For more information on the output of each of these queries, please visit the following links for each API.
         <br><span style="font-weight: bold;"><a href="https://pdc.cancer.gov/pdc/publicapi-documentation/#!/Experimental/studyExperimentalDesign_0" target="_blank">studyExperimentalDesign</a></span>: Used to retrieve the experimental design (Plex information, aliquot to plex mapping)<br>
@@ -129,7 +144,7 @@ def query_pdc(query):
 # First, we will retrieve the experimental design for this study using the 'studyExperimentalDesign' API
 experimental_design_query = '{{ '{' }} studyExperimentalDesign(pdc_study_id: "' + pdc_study_id + '" acceptDUA: true) {{ '{' }} pdc_study_id, study_run_metadata_id, study_run_metadata_submitter_id, study_id, study_submitter_id, analyte,
 acquisition_type, experiment_type, plex_dataset_name, experiment_number, number_of_fractions, label_free{{ '{' }}aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id{{ '}' }}, itraq_113{{ '{' }}aliquot_id, aliquot_run_metadata_id,
-aliquot_submitter_id{{ '}' }}, itraq_114{{ '{' }}aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id{{ '}' }}, itraq_115{{ '{' }}aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id}, itraq_116{{ '{' }}aliquot_id, aliquot_run_metadata_id,
+aliquot_submitter_id{{ '}' }}, itraq_114{{ '{' }}aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id{{ '}' }}, itraq_115{{ '{' }}aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id&#125;, itraq_116{{ '{' }}aliquot_id, aliquot_run_metadata_id,
 aliquot_submitter_id{{ '}' }}, itraq_117{{ '{' }}aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id{{ '}' }}, itraq_118{{ '{' }}aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id{{ '}' }}, itraq_119{{ '{' }}aliquot_id, aliquot_run_metadata_id,
 aliquot_submitter_id{{ '}' }}, itraq_121{{ '{' }}aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id{{ '}' }}, tmt_126{{ '{' }}aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id{{ '}' }}, tmt_127n{{ '{' }}aliquot_id, aliquot_run_metadata_id,
 aliquot_submitter_id{{ '}' }}, tmt_127cd{{ '{' }}aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id{{ '}' }}, tmt_128nd{{ '{' }}aliquot_id, aliquot_run_metadata_id, aliquot_submitter_id{{ '}' }}, tmt_128cd{{ '{' }}aliquot_id, aliquot_run_metadata_id,
@@ -227,7 +242,7 @@ OUTPUT for one plex:
   # For this, we will use the biospecimenPerStudy API. This will also provide the case:sample:aliquot mapping for the study.
 
   biospecimen_query = '{{ '{' }} biospecimenPerStudy (pdc_study_id: "' + pdc_study_id + '"' +  'acceptDUA: true){{ '{' }} aliquot_id sample_id case_id aliquot_submitter_id sample_submitter_id case_submitter_id aliquot_status case_status
-  sample_status project_name sample_type disease_type primary_site pool taxon externalReferences {{ '{' }} external_reference_id reference_resource_shortname reference_resource_name reference_entity_location {{ '}' }}}{{ '}' }}{{ '}' }}'
+  sample_status project_name sample_type disease_type primary_site pool taxon externalReferences {{ '{' }} external_reference_id reference_resource_shortname reference_resource_name reference_entity_location {{ '}' }}&#125;{{ '}' }}{{ '}' }}'
   decoded = query_pdc(biospecimen_query)
 
   #can check for errors here
@@ -502,9 +517,10 @@ OUTPUT:
               </mat-expansion-panel>
       </div>
       <br><br>
-      <div #ISB_Cloud id="ISB_Cloud" class="headers">Perform multiomic correlations on ISB Cancer Gateway in the Cloud</div>
+      <div #ISB_Cloud id="ISB_Cloud" class="usa-prose"><h3>Perform multiomic correlations on ISB Cancer Gateway in the Cloud</h3></div>
+      <br>
       <div>
-        The ISB-CGC BigQuery Table Search UI (<a href="https://isb-cgc.appspot.com/bq_meta_search/" target="_blank">https://isb-cgc.appspot.com/bq_meta_search/</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">External Link</span></a>) is a powerful discovery tool designed for users to explore and search for ISB-CGC hosted BigQuery tables. These tables include all the protein expression data generated from the PDC's Common Data Analysis Pipeline (CDAP), which are regularly ingested into the ISB-CGC BigQuery platform. Researchers can leverage the Python and R interfaces provided by ISB-CGC to readily access and analyze this protein expression data. ISB-CGC also incorporates processed genomic data from other data commons, facilitating easy correlation analysis between proteomic and genomic data, if complementary omics data is available for the specific areas of interest. Learn more about ISB-CGC here (<a href="https://isb-cgc.appspot.com/" target="_blank">https://isb-cgc.appspot.com/</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">External Link</span></a>).
+  The ISB-CGC BigQuery Table Search UI (<a href="https://isb-cgc.appspot.com/bq_meta_search/" target="_blank" class="custom-link">https://isb-cgc.appspot.com/bq_meta_search/</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_" class="custom-link">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">External Link</span></a>) is a powerful discovery tool designed for users to explore and search for ISB-CGC hosted BigQuery tables. These tables include all the protein expression data generated from the PDC's Common Data Analysis Pipeline (CDAP), which are regularly ingested into the ISB-CGC BigQuery platform. Researchers can leverage the Python and R interfaces provided by ISB-CGC to readily access and analyze this protein expression data. ISB-CGC also incorporates processed genomic data from other data commons, facilitating easy correlation analysis between proteomic and genomic data, if complementary omics data is available for the specific areas of interest. Learn more about ISB-CGC here (<a href="https://isb-cgc.appspot.com/" target="_blank" class="custom-link">https://isb-cgc.appspot.com/</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_" class="custom-link">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">External Link</span></a>).
       </div>
     </div>
   </mat-card-content>

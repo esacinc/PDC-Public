@@ -5,6 +5,7 @@ type Study {
   submitter_id_name: String
   study_name: String
   study_shortname: String
+  study_description: String
   study_version: String
   is_latest_version: String
   embargo_date: Date

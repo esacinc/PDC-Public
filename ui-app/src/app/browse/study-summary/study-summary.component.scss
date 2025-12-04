@@ -1,3 +1,19 @@
+// Dialog content styling - 75% of screen width
+.full-width-dialog {
+  width: 75% !important;
+  max-width: 75% !important;
+  min-width: 75% !important;
+}
+
+// Ensure dialog content uses the dialog width
+::ng-deep .mat-mdc-dialog-content,
+::ng-deep .mat-dialog-content {
+  padding: 15px !important;
+  max-height: 90vh !important;
+  overflow-y: auto !important;
+  width: 100% !important;
+}
+
 .study-summary .card {
     padding-right: 0px;
     border: 0px;
@@ -18,7 +34,7 @@
   padding-bottom: 0px;
   color: #585858;
 }
-.study-summary .mat-card-title{
+.study-summary .mat-mdc-card-title{
 	font-family: 'Lato';
 	font-weight: 400;
 	font-size: 16px;
@@ -71,7 +87,7 @@ a.disabled {
 	background: #245571;
 }
 
-.mat-card-content{
+.mat-mdc-card-content{
 	font-size:14px;
 }
 
@@ -280,3 +296,526 @@ a.disabled {
     font-weight: 700;
 }
 
+/* PDC-8940 */
+.arrow-down::before {
+	content: 'fa fa-chevron-up'; /* Down arrow */
+  }
+
+  .arrow-up::before {
+	content: 'fa fa-chevron-down'; /* Up arrow */
+  }
+
+  .underline {
+	text-decoration: underline;
+  }
+
+  ::ng-deep .mat-dialog-container {
+  width: 75vw !important;
+  max-width: 75vw !important;
+  min-width: 75vw !important;
+  margin: 2.5vh auto !important;
+  padding: 0 !important;
+}
+
+// Additional override for Angular Material dialog
+::ng-deep .cdk-overlay-pane {
+  width: 75vw !important;
+  max-width: 75vw !important;
+}
+
+::ng-deep .mat-dialog-content {
+  margin: 0 !important;
+  padding: 0 !important;
+  max-height: 90vh !important;
+  overflow-y: auto !important;
+}
+
+// Center the dialog content
+::ng-deep .mat-dialog-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+// Center the main content row
+.row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+// Center the main flex container
+.col-md-12 {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+// Center the dialog title
+::ng-deep .mat-dialog-title,
+::ng-deep h2[mat-dialog-title] {
+  text-align: center;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.mat-tooltip .my-custom-tooltip {
+  background-color: #333; /* Dark background */
+  color: white; /* White text */
+  font-size: 14px;
+  padding: 8px 12px;
+  border-radius: 4px;
+}
+
+// Tooltip styling for multiomics section
+.tooltip-wrapper {
+  position: relative;
+  display: inline-block;
+  // Ensure parent doesn't clip tooltip
+  overflow: visible;
+  
+  .tooltip-text {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    bottom: 125%; /* Position above the element */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: white;
+    color: #666666;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    padding: 8px 12px;
+    font-size: 12px;
+    z-index: 1000;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    transition: opacity 0.3s, visibility 0.3s;
+    pointer-events: none;
+    
+    // Word wrapping and width settings
+    white-space: normal;
+    word-wrap: break-word;
+    word-break: break-word;
+    max-width: 250px;
+    min-width: 120px;
+    width: max-content;
+    text-align: center;
+    line-height: 1.4;
+    overflow-wrap: break-word;
+    
+    // Prevent tooltip from being cut off
+    box-sizing: border-box;
+    
+    // Prevent cutoff by adjusting position if needed
+    &.tooltip-left {
+      left: 0;
+      transform: translateX(0);
+    }
+    
+    &.tooltip-right {
+      left: auto;
+      right: 0;
+      transform: translateX(0);
+    }
+    
+    // Arrow pointing down
+    &::after {
+      content: "";
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 5px solid transparent;
+      border-top-color: white;
+    }
+    
+    // Arrow border
+    &::before {
+      content: "";
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 6px solid transparent;
+      border-top-color: #cccccc;
+      margin-left: -1px;
+    }
+    
+    // Adjust arrow position for left/right variants
+    &.tooltip-left::after,
+    &.tooltip-left::before {
+      left: 20px;
+      transform: translateX(0);
+    }
+    
+    &.tooltip-right::after,
+    &.tooltip-right::before {
+      left: auto;
+      right: 20px;
+      transform: translateX(0);
+    }
+  }
+  
+  &:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+  }
+}
+
+// Handle tooltips near the edges of the container
+mat-card-content {
+  // Ensure tooltip container has enough space
+  overflow: visible !important;
+}
+
+// Studies dropdown styling
+.studies-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: white;
+  border: 1px solid #cccccc;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  min-width: 280px;
+  max-width: 350px;
+  margin-top: 5px;
+  overflow: hidden;
+  box-sizing: border-box;
+  
+  .dropdown-header {
+    background-color: #f8f9fa;
+    padding: 10px 12px;
+    font-weight: 600;
+    font-size: 12px;
+    color: #333;
+    border-bottom: 1px solid #e9ecef;
+    border-radius: 6px 6px 0 0;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+    box-sizing: border-box;
+  }
+  
+  .dropdown-item {
+    padding: 12px;
+    border-bottom: 1px solid #f1f3f4;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    overflow: hidden;
+    
+    &:hover {
+      background-color: #f8f9fa;
+    }
+    
+    &:last-child {
+      border-bottom: none;
+      border-radius: 0 0 6px 6px;
+    }
+    
+    .study-name {
+      font-size: 13px;
+      font-weight: 500;
+      color: #333;
+      margin-bottom: 4px;
+      line-height: 1.3;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      white-space: normal;
+      max-width: 100%;
+    }
+    
+    .study-id {
+      font-size: 11px;
+      color: #666;
+      font-weight: 400;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      white-space: normal;
+      max-width: 100%;
+    }
+    
+    &.no-studies {
+      color: #888;
+      font-style: italic;
+      cursor: default;
+      
+      &:hover {
+        background-color: white;
+      }
+    }
+  }
+}
+
+// Additional responsive tooltip positioning
+@media (max-width: 768px) {
+  .tooltip-wrapper .tooltip-text {
+    max-width: 200px;
+    font-size: 11px;
+    padding: 6px 10px;
+  }
+  
+  .studies-dropdown {
+    min-width: 250px;
+    max-width: 280px;
+    right: -20px;
+  }
+}
+
+.tab-table-field-name {
+	padding-right:10px;
+	padding-bottom: 3px;
+	white-space:normal;
+	text-align: right;
+}
+
+.tab-table-field-value {
+	padding-right:2px;
+	padding-bottom: 3px;
+	word-wrap:break-word !important;
+	white-space:normal;
+	text-align: left;
+}
+
+//@@@PDC-461 Make all summary dialog windows headers sticky
+.container-fluid {
+	//position:absolute;
+	top:6.5em;
+	bottom:3em;
+	//overflow-y:auto;
+	//width:78%;
+}
+
+/* @@@PDC-1160: Add cases and aliquots to the study summary page */
+:host ::ng-deep .ui-table th {
+    word-wrap: break-word !important;
+}
+
+//@@@PDC-1219: Add a new experimental design tab on the study summary page
+:host ::ng-deep .ui-table tr td .colValue div {
+	font-weight: bold;
+	font-style: italic;
+	color: #3A8BB7;
+}
+
+//@@@PDC-3719 include disqualified in study summary Experimental Design table
+:host ::ng-deep .ui-table tr td  .colValue .colValueDisqualified {
+	font-weight: normal;
+    font-style: normal;
+	color: red;
+}
+
+.help-icon {
+	font-size: 20px !important;
+}
+
+//@@@PDC-1420: Cannot sort the columns in "Clinical" table of the Study summary page
+/* :host ::ng-deep .ui-table table {
+	width: 100% !important;
+} */
+
+//@@@PDC-1421: Unable to expand columns in the tables of Study Summary page
+#clinicalDataTable, #studyExperimentalDesignTable, #biospecimensDataTable {
+	height: 350px;
+    overflow-y: scroll;
+}
+
+//@@@PDC-1883: Add external references to study summary page
+.entity-reference-table {
+	width: 100%;
+}
+
+//@@@PDC-1987: Update clinical tab to use new external reference API
+.imagingLbl {
+    height: 20px;
+    margin-top: 6%;
+    background-color: gray;
+ }
+
+ .genomicLbl {
+     margin-top: 5%;
+ }
+
+ //@@@PDC-2598 conditional styling of Embargo date - future embargo date is bold red
+.future_embargo_date {
+	color: #de350b;
+	font-weight: 800;
+}
+
+::ng-deep {
+
+	.ui-table tr td, .ui-table-thead tr, .table, .table tr td, .table tr th {
+		font-size: 14px !important;
+	}
+
+	.ui-table table {
+		overflow-x: scroll !important;
+		table-layout: unset !important;
+	}
+
+	.ui-paginator .ui-paginator-page.ui-state-active {
+		background-color: #3A8BAF;
+	}
+
+	.clinicalTable .ui-table-unfrozen-view {
+		padding-top: 0.5 px !important;
+		overflow-x: scroll !important;
+	}
+
+ 	.clinicalTable .ui-table-unfrozen-view .ui-table-thead th,
+	.clinicalTable .ui-table-unfrozen-view .ui-table-tbody td,
+	#biospecimensDataTable .ui-table-unfrozen-view .ui-table-thead th,
+    #biospecimensDataTable .ui-table-unfrozen-view .ui-table-tbody td {
+		min-width: 150px !important;
+		max-width: 150px !important;
+		width: 150px !important;
+	}
+
+	.studyExperimentDesignTable .p-frozen-column,
+	.studyExperimentDesignTable .fixedWidthCol {
+		min-width: 100px !important;
+		max-width: 100px !important;
+		width: 100px !important;
+	}
+
+	.ui-table-scrollable-body-table {
+		table-layout: unset !important;
+	}
+
+/* 	.clinicalTable .ui-table-frozen-view .ui-table-thead th,
+	#biospecimensDataTable .ui-table-frozen-view .ui-table-thead th {
+		height: 69.19px !important;
+	} */
+
+	.ui-datatable-tableheader {
+		background-color: #3A8BAF;
+	}
+
+	.ui-paginator .ui-paginator-page.ui-state-active {
+		background-color: #3A8BAF;
+	}
+
+	.ui-table .ui-table-tbody > tr.ui-state-highlight,
+	.ui-table .ui-table-tbody > tr:nth-child(even).ui-state-highlight {
+		background-color: #aac1d4;
+		color: #000;
+	}
+
+	@media not all and (min-resolution:.001dpcm)
+	{ @supports (-webkit-appearance:none) and (stroke-color:transparent) {
+
+		.safari_only {
+			height: 68px !important;
+		}
+	}}
+}
+
+//@@@PDC-4995: Alignment issues
+:host ::ng-deep .ui-table-unfrozen-view .ui-table-scrollable-header-box {
+	padding-right: 17px !important;
+}
+
+.downloadButtons {
+	border: 1px solid #ddd;
+    background: #e9e9e9;
+    color: #333;
+	padding: 0.25em 0.5em;
+}
+
+.downloadButtons button {
+    font-weight: 700;
+}
+
+/* PDC-8940 */
+.arrow-down::before {
+	content: 'fa fa-chevron-up'; /* Down arrow */
+  }
+
+  .arrow-up::before {
+	content: 'fa fa-chevron-down'; /* Up arrow */
+  }
+
+  .underline {
+	text-decoration: underline;
+  }
+
+  ::ng-deep .mat-dialog-container {
+  width: 75vw !important;
+  max-width: 75vw !important;
+  min-width: 75vw !important;
+  margin: 2.5vh auto !important;
+  padding: 0 !important;
+}
+
+// Additional override for Angular Material dialog
+::ng-deep .cdk-overlay-pane {
+  width: 75vw !important;
+  max-width: 75vw !important;
+}
+
+::ng-deep .mat-dialog-content {
+  margin: 0 !important;
+  padding: 0 !important;
+  max-height: 90vh !important;
+  overflow-y: auto !important;
+}
+
+// Center the dialog content
+::ng-deep .mat-dialog-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+// Center the main content row
+.row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+// Center the main flex container
+.col-md-12 {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+// Center the dialog title
+::ng-deep .mat-dialog-title,
+::ng-deep h2[mat-dialog-title] {
+  text-align: center;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.mat-tooltip .my-custom-tooltip {
+  background-color: #333; /* Dark background */
+  color: white; /* White text */
+  font-size: 14px;
+  padding: 8px 12px;
+  border-radius: 4px;
+}
+
+/* @@@PDC-10333-multiomic-header-link */
+.multi-omic-link {
+  color: #585858;
+  font-family: Lato;
+  font-weight: 400;
+  font-size: 16px;
+}
+
+.multi-omic-link:hover {
+  text-decoration: underline;
+}

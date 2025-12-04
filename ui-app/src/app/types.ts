@@ -127,6 +127,10 @@ export type AllStudiesData = {
 	nonSupplementaryFilesCount: FileCountsForStudyPage[];
 	contacts: ContactDataForStudyPage[];
 	versions: studyVersions[];
+  has_genomic_data?: string;
+  has_imaging_data?: string;
+  has_lipidome_data?: string;
+  has_metabolome_data?: string;
 }
 
 export type FileCountsForStudyPage = {
@@ -155,26 +159,42 @@ export type QueryAllStudiesData = {
 
 //@@@PDC-535 New filters for browse page
 //@@@PDC-567 add sample_type field
+//@@@PDC-9978 add new filters
 export type FilterData = {
 	project_name : FilterElement[];
-  primary_site : FilterElement[];
-  program_name : FilterElement[];
-  disease_type : FilterElement[];
-  analytical_fraction : FilterElement[];
-  experiment_type : FilterElement[];
-  acquisition_type : FilterElement[];
-  submitter_id_name : FilterElement[];
-  sample_type : FilterElement[];
-  ethnicity : FilterElement[];
-  race : FilterElement[];
-  gender : FilterElement[];
-  tumor_grade : FilterElement[];
-  data_category : FilterElement[];
-  file_type : FilterElement[];
-  access : FilterElement[];
-  downloadable: FilterElement[];
-  biospecimen_status: FilterElement[];
-  case_status: FilterElement[];
+    primary_site : FilterElement[];
+    program_name : FilterElement[];
+    disease_type : FilterElement[];
+    analytical_fraction : FilterElement[];
+    experiment_type : FilterElement[];
+    acquisition_type : FilterElement[];
+    submitter_id_name : FilterElement[];
+    sample_type : FilterElement[];
+    ethnicity : FilterElement[];
+    race : FilterElement[];
+    gender : FilterElement[];
+    tumor_grade : FilterElement[];
+    data_category : FilterElement[];
+	vital_status : FilterElement[];
+	age_at_diagnosis : FilterElement[];
+	ajcc_clinical_stage : FilterElement[];
+	ajcc_pathologic_stage : FilterElement[];
+	morphology : FilterElement[];
+	site_of_resection_or_biopsy : FilterElement[];
+	progression_or_recurrence : FilterElement[];
+	therapeutic_agents : FilterElement[];
+	treatment_intent_type : FilterElement[];
+	treatment_outcome : FilterElement[];
+	treatment_type : FilterElement[];
+	alcohol_history : FilterElement[];
+	alcohol_intensity : FilterElement[];
+	tobacco_smoking_status : FilterElement[];
+	cigarettes_per_day : FilterElement[];
+    file_type : FilterElement[];
+    access : FilterElement[];
+    downloadable: FilterElement[];
+    biospecimen_status: FilterElement[];
+    case_status: FilterElement[];
 }
 
 export type FilterElement = {
@@ -224,6 +244,7 @@ export type AllFilesData = {
 //@@@PDC-232
 //@@@PDC-462 show submitter ids
 //@@@PDC-2397 Update clinical manifest generation to include additional attributes
+//@@@PDC-8464 handle multiple entries for one case
 export type AllClinicalData = {
 	case_submitter_id: string;
 	case_id: string;
@@ -378,6 +399,7 @@ export type AllClinicalData = {
 	externalReferences: ExternalReferences[];
 	exposures: Exposures[];
 	follow_ups: FollowUps[];
+	treatments: Treatments[];
 }
 
 export type ExternalReferences = {
@@ -497,12 +519,40 @@ export type FollowUps = {
 	undescended_testis_history_laterality: string;
 }
 
+//@@@PDC-8343 add treatment tab to case summaries
+export type Treatments = {
+	treatment_id: string;
+	treatment_submitter_id: string;
+	days_to_treatment_end: string;
+	days_to_treatment_start: string;
+	initial_disease_status: string;
+	regimen_or_line_of_therapy: string;
+	therapeutic_agents: string;
+	treatment_anatomic_site: string;
+	treatment_effect: string;
+	treatment_intent_type: string;
+	treatment_or_therapy: string;
+	treatment_outcome: string;
+	treatment_type: string;
+	chemo_concurrent_to_radiation: string;
+	number_of_cycles: string;
+	reason_treatment_ended: string;
+	route_of_administration: string;
+	treatment_arm: string;
+	treatment_dose: string;
+	treatment_dose_units: string;
+	treatment_effect_indicator: string;
+	treatment_frequency: string;
+}
+
+
 //@@@PDC-614 add gene data tab to browse page
 //@@@PDC-7629 add gene_id and ncbi_gene_id
 export type AllGeneData = {
 	gene_name: string;
 	gene_id: string;
 	ncbi_gene_id: string;
+	alias: string
     chromosome: string;
     locus: string;
     num_study: number;
@@ -944,6 +994,7 @@ export type SampleData = {
 }
 
 //@@@PDC-3095 - remove external_case_id field from uiCaseSummary API
+//@@@PDC-8464 handle multiple entries for one case
 export type CaseData = {
 	case_id: string;
     case_submitter_id: string;
@@ -956,6 +1007,8 @@ export type CaseData = {
     primary_site: string;
     demographics: DemographicsData[];
 	diagnoses: DiagnosesData[];
+	followups: FollowUps[];
+	treatments: Treatments[];
 	samples: SampleData[];
 }
 
@@ -1039,6 +1092,7 @@ export type SpectralCounts = {
 export type GeneProteinData = {
 	gene_name: string;
 	ncbi_gene_id: string;
+	alias: string
 	authority: string;
 	description: string;
 	organism: string;
@@ -1050,10 +1104,12 @@ export type GeneProteinData = {
 }
 
 //@@@PDC-7688 add gene_id
+//@@@PDC-8588 add alias
 export type GeneProteinDataWithId = {
 	gene_id: string;
 	gene_name: string;
 	ncbi_gene_id: string;
+	alias: string
 	authority: string;
 	description: string;
 	organism: string;
@@ -1073,6 +1129,16 @@ export type ReleaseVersionData = {
 export type QueryReleaseVersionData = {
 	uiDataVersionSoftwareVersion: ReleaseVersionData[];
 }
+
+export type ProgramNameData = {
+  shortname: string;
+  fullname: string;
+}
+
+export type QueryProgramNameData = {
+  uiProgramNames: ProgramNameData[];
+}
+
 
 export type GeneStudySpectralCountData = {
 	pdc_study_id: string;

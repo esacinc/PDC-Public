@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { Apollo } from 'apollo-angular';
 import { Observable } from 'rxjs';
@@ -9,18 +9,18 @@ import { HttpClient } from '@angular/common/http';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { PaginatorModule } from 'primeng/paginator';
 import { DropdownModule} from 'primeng/dropdown';
-import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
-import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
-import { MatLegacyCheckboxModule as MatCheckboxModule } from '@angular/material/legacy-checkbox';
-import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { MatLegacyListModule as MatListModule } from '@angular/material/legacy-list';
-import { MatLegacyProgressSpinnerModule as MatProgressSpinnerModule } from '@angular/material/legacy-progress-spinner';
-import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
+import { MatListModule } from '@angular/material/list';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatLegacyTabsModule as MatTabsModule } from '@angular/material/legacy-tabs';
+import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatLegacyTooltipModule as MatTooltipModule } from '@angular/material/legacy-tooltip';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { GenePageService } from "./gene-page.service";
 import { Filter, GeneProteinDataWithId, GeneStudySpectralCountData, GeneAliquotSpectralCountData,
 		GeneStudySpectralCountDataPaginated, GeneAliquotSpectralCountDataPaginated, ptmData, AllStudiesData } from '../types';
@@ -28,10 +28,11 @@ import { ngxCsv } from "ngx-csv/ngx-csv";
 import * as _ from 'lodash';
 
 @Component({
-  selector: 'app-gene-page',
-  templateUrl: './gene-page.component.html',
-  styleUrls: ['../../assets/css/global.css', './gene-page.component.scss'],
-  providers: [ GenePageService ]
+    selector: 'app-gene-page',
+    templateUrl: './gene-page.component.html',
+    styleUrls: ['../../assets/css/global.css', './gene-page.component.scss'],
+    providers: [GenePageService],
+    standalone: false
 })
 
 //@@@PDC-770 Add a gene page with filters
@@ -46,10 +47,12 @@ export class GenePageComponent implements OnInit, OnChanges {
   loadingAliquotRecords: boolean = false;
   loadingGeneSummary: boolean = false;
   lodingPTMData: boolean = false;
+  //@@@PDC-8588 add alias
   geneSummaryData: GeneProteinDataWithId = {
 		gene_name: "",
 		gene_id: "",
 		ncbi_gene_id: "",
+		alias: "",
 		authority: "",
 		description: "",
 		organism: "",
@@ -92,6 +95,7 @@ export class GenePageComponent implements OnInit, OnChanges {
   frozenGeneBiospecimenColumns: any[];
   selectedDate: Date;
   keepSelectedStudies: AllStudiesData[] = [];
+  @ViewChild('dataForManifestExport') dataForManifestExport;
 
   constructor(private route: ActivatedRoute,
 				private router: Router,
@@ -115,6 +119,7 @@ export class GenePageComponent implements OnInit, OnChanges {
 		gene_name: "",
 		gene_id: "",
 		ncbi_gene_id: "",
+		alias: "",
 		authority: "",
 		description: "",
 		organism: "",
@@ -124,8 +129,8 @@ export class GenePageComponent implements OnInit, OnChanges {
 		assays: "",
 		spectral_counts: []
 	};
-	this.newFilterSelected = {"program_name" : "", "project_name": "", "study_name": "", "disease_type":"", "primary_site":"", "analytical_fraction":"", "experiment_type":"",
-								"ethnicity": "", "race": "", "gender": "", "tumor_grade": "", "sample_type": "", "acquisition_type": ""};
+	//@@@PDC-10116 add gene filters
+	this.newFilterSelected = {"program_name" : "", "project_name": "", "study_name": "", "disease_type":"", "primary_site":"", "analytical_fraction":"", "experiment_type":"", "ethnicity": "", "race": "", "gender": "", "tumor_grade": "", "sample_type": "", "acquisition_type": "", "age_at_diagnosis" : "", "ajcc_clinical_stage" : "","ajcc_pathologic_stage" : "", "morphology" : "", "site_of_resection_or_biopsy" : "","progression_or_recurrence" : "","vital_status": "", "therapeutic_agents": "", "treatment_intent_type": "", "treatment_outcome": "","alcohol_intensity": "","tobacco_smoking_status": "","cigarettes_per_day": "","treatment_type": "","alcohol_history": ""};
 	this.route.paramMap.subscribe(params => {
 		let gene = params.get("gene_id");
 		//this.gene_id = gene || "";
@@ -174,6 +179,7 @@ export class GenePageComponent implements OnInit, OnChanges {
 		  //this.genePageService.getGeneDetails(this.gene_id.toUpperCase()).subscribe((data: any) =>{
 		  this.genePageService.getGeneDetails(this.gene_id, this.uuid).subscribe((data: any) =>{
 			this.geneSummaryData = data.uiGeneSpectralCount;
+			console.log("Alias: ", this.geneSummaryData.alias);
 			this.loadingGeneSummary = false;
 		  });
 	  }, 1000);
@@ -313,29 +319,34 @@ export class GenePageComponent implements OnInit, OnChanges {
 			this.newFilterSelected["race"] = "";
 			this.newFilterSelected["gender"] = "";
 			this.newFilterSelected["tumor_grade"] = "";
+			this.newFilterSelected["disease_type"] = "";
+			this.newFilterSelected["primary_site"] = "";
+			this.newFilterSelected["sample_type"] = "";
+			this.newFilterSelected["study_name"] = "";
+			this.newFilterSelected["age_at_diagnosis"] = "";
+			this.newFilterSelected["ajcc_clinical_stage"] = "";
+			this.newFilterSelected["ajcc_pathologic_stage"] = "";
+			this.newFilterSelected["morphology"] = "";
+			this.newFilterSelected["site_of_resection_or_biopsy"] = "";
+			this.newFilterSelected["progression_or_recurrence"] = "";
+			this.newFilterSelected["vital_status"] = "";
+			this.newFilterSelected["therapeutic_agents"] = "";
+			this.newFilterSelected["treatment_intent_type"] = "";
+			this.newFilterSelected["treatment_outcome"] = "";
+			this.newFilterSelected["alcohol_intensity"] = "";
+			this.newFilterSelected["tobacco_smoking_status"] = "";
+			this.newFilterSelected["cigarettes_per_day"] = "";
+			this.newFilterSelected["treatment_type"] = "";
+			this.newFilterSelected["alcohol_history"] = "";
 		}
 		else if (filter_field[0] === "Clear all general filters selections"){
 			//console.log(this.newFilterSelected);
 			this.newFilterSelected["program_name"] = "";
 			this.newFilterSelected["project_name"] = "";
 			//this.newFilterSelected["study_name"] = "";
-			this.newFilterSelected["disease_type"] = "";
-			this.newFilterSelected["primary_site"] = "";
 			this.newFilterSelected["analytical_fraction"] = "";
 			this.newFilterSelected["experiment_type"] = "";
 			this.newFilterSelected["acquisition_type"] = "";
-		}
-		else if (filter_field[0] === "Clear all biospecimen filters selections"){
-			this.newFilterSelected["sample_type"] = "";
-			this.newFilterSelected["study_name"] = "";
-		}
-		else if(filter_field[0] === "Clear all file filters selections"){
-			this.newFilterSelected["data_category"] = "";
-			this.newFilterSelected["file_type"] = "";
-			this.newFilterSelected["access"] = "";
-		}
-		else if (filter_field[0] === "Clear all genes filters selections"){
-			this.newFilterSelected["study_name"] = "";
 		}
 		else {
 			this.newFilterSelected[filter_field[0]] = filter_field[1];
@@ -436,6 +447,7 @@ export class GenePageComponent implements OnInit, OnChanges {
 
 	//@@@PDC-2874: Add download option for study table on gene summary page
 	changeHeaderCheckbox($event) {
+		console.log("inside gene changeHeaderCheckbox");
 		let checkboxVal = this.selectedHeaderCheckbox;
 		this.selectedStudies = this.currentPageSelectedStudy = [];
 		switch (checkboxVal) {
@@ -450,6 +462,42 @@ export class GenePageComponent implements OnInit, OnChanges {
 				this.clearSelection();
 				break;
 		}
+	}
+	
+	//@@@PDC-9015 sync up check box style
+	triggerchangeHeaderCheckbox($event) {
+		console.log("inside gene triggerchangeHeaderCheckbox");
+      let checkboxVal = this.selectedHeaderCheckbox;
+      this.selectedStudies = this.currentPageSelectedStudy = [];
+      switch (this.selectedHeaderCheckbox) {
+        case 'Select all pages':
+              this.downloadCompleteManifest();
+              break;
+        case 'Select this page':
+              this.headercheckbox = true;
+              this.onTableHeaderCheckboxToggle();
+              break;
+        case 'Select None':
+              this.clearSelection();
+              break;
+      }
+      /*let found = this.browsePageCheckboxes._results.some(el => el.checked === false);
+      if (found == false){
+        this.headercheckbox = true;
+      } else {
+        this.headercheckbox = false;
+      }*/
+      this.dataForManifestExport.open();
+	}
+
+	chkBoxSelectionCheck(selectedOption) {
+      console.log("inside gene checkbox selection");
+      if (selectedOption == 'Select None'){
+        this.headercheckbox = false;
+        this.dataForManifestExport.close();
+      } else {
+        this.headercheckbox = true;
+      }
 	}
 
 	//@@@PDC-2874: Add download option for study table on gene summary page

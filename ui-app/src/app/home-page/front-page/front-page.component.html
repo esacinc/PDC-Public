@@ -5,7 +5,7 @@
     <div class="row">
 	  <div class="container front-page-figures-row" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxFlexFill fxLayoutAlign="space-around stretch" >
 		<div class="front-page" fxFlexFill id="tissueSites" style="width:100%; padding-left:15px!important; padding-right:15px!important; " >
-          <mat-card class="front-page card card-body" style="background-image: radial-gradient(at center center, rgb(97, 162, 198) 0%, rgb(58, 139, 184) 48%, rgb(46, 111, 147) 100%);">
+          <mat-card appearance="outlined" class="front-page card card-body" style="background-image: radial-gradient(at center center, rgb(97, 162, 198) 0%, rgb(58, 139, 184) 48%, rgb(46, 111, 147) 100%);">
             <mat-card-title class="front-page cases-card-header">Cases by Major Primary site</mat-card-title>
             <!--<mat-card-title class="front-page card-header">TISSUE SITES</mat-card-title>-->
               <!--<div [chart]="tissuesChart"></div>-->
@@ -16,7 +16,7 @@
           </mat-card>
 		</div>
 		<div class="front-page" fxFlexFill id="diseaseTypes" style="width:100%; padding-left:0!important; padding-right:15px!important;">
-          <mat-card class="front-page card card-body disease-type-card-body">
+          <mat-card appearance="outlined" class="front-page card card-body disease-type-card-body">
             <mat-card-title matTooltip="Number of Cases for a disease type" class="front-page cases-card-header">Cases by Disease Type</mat-card-title>
             <mat-list class="list-group disease-type-card-list">
              <div class="disease-type-card-list" id="disease-type-card-list" *ngFor="let disease of diseasesTotalCounts">
@@ -35,7 +35,7 @@
 	</div>
 	<div class="row" style="padding-top:10px; padding-bottom: 20px">
 		<div class="col-md-3 ml-0" id="recentReleases"  style="padding-left: 15px!important;padding-right: 0!important;">
-			<mat-card class="bottom-card">
+			<mat-card appearance="outlined" class="bottom-card">
 				<mat-card-header class="bottom-row-card-header">RECENT RELEASES</mat-card-header>
 				<mat-card-content id="recentReleasesContent">
 				  <mat-list>
@@ -54,7 +54,7 @@
 		</div>
 		<!-- @@@PDC-1711 add external link icon -->
 		<div class="col-md-3 ml-0" id="newsSection"  style="padding-left: 0!important;padding-right: 0!important;">
-			<mat-card class="bottom-card">
+			<mat-card appearance="outlined" class="bottom-card">
 			  <mat-card-header class="bottom-row-card-header">NEWS</mat-card-header>
 			  <mat-card-content id="newsSectionContent">
 				<mat-list>
@@ -71,7 +71,7 @@
 			</mat-card>
     </div>
 		<div class="col-md-3 ml-0" id="tools-and-pipelines"  style="padding-left: 0!important;padding-right: 0!important; overflow-y: scroll;">
-				<mat-card class="bottom-card">
+				<mat-card appearance="outlined" class="bottom-card">
 				  <mat-card-header class="bottom-row-card-header" style="padding-right: 10px!important;" >TECHNOLOGY ADVANCEMENT STUDIES</mat-card-header>
 				  <mat-card-content id="CPTACLegacyData">
 					<mat-list>
@@ -90,7 +90,7 @@
 		</div>
     <!-- @@@PDC-5896 - build pancancer -->
     <div class="col-md-3 ml-0" id="pancancer"  style="padding-left: 0!important;padding-right: 0!important;">
-        <mat-card class="bottom-card">
+        <mat-card appearance="outlined" class="bottom-card">
           <mat-card-header class="bottom-row-card-header" style="padding-right: 10px!important;" >CPTAC PAN-CANCER DATA</mat-card-header>
           <mat-card-content id="CPTACPanCancerData" style="padding-top:30px;color:blue;">
 			<div style="padding-left:10px; padding-right: 10px">

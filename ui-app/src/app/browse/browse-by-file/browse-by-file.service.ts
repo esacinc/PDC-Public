@@ -1,8 +1,5 @@
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-//import {Http, Response, Headers, RequestOptions} from '@angular/http';
-import {Response, Headers, RequestOptions} from '@angular/http';
-
 
 import { Apollo } from 'apollo-angular';
 import { map } from 'rxjs/operators';
@@ -16,16 +13,16 @@ import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class BrowseByFileService {
-  headers: Headers;
-  options: RequestOptions;
+  headers: HttpHeaders;
+  options: {};
 
   //constructor(private http: Http, private apollo: Apollo) {
   constructor(private apollo: Apollo, private http: HttpClient) {
-    this.headers = new Headers({
+    this.headers = new HttpHeaders({
       "Content-Type": "application/json",
       Accept: "q=0.8;application/json;q=0.9"
     });
-    this.options = new RequestOptions({ headers: this.headers });
+    this.options = { headers: this.headers };
   }
 
   //@@@PDC-193 - New API
@@ -133,14 +130,24 @@ export class BrowseByFileService {
       $sample_type_filter: String!
       $acquisition_type_filter: String!
       $data_category_filter: String!
-      $file_type_filter: String!
-      $access_filter: String!
-      $downloadable_filter: String!,
-      $biospecimen_status_filter: String!,
-      $case_status_filter: String!
+	    $vital_status_filter: String!
+	    $age_at_diagnosis_filter: String!
+	    $ajcc_clinical_stage_filter: String!
+	    $ajcc_pathologic_stage_filter: String!
+	    $progression_or_recurrence_filter: String!
+	    $therapeutic_agents_filter: String!
+	    $treatment_intent_type_filter: String!
+	    $treatment_outcome_filter: String!
+	    $treatment_type_filter: String!
+	    $alcohol_history_filter: String!
+	    $alcohol_intensity_filter: String!
+	    $tobacco_smoking_status_filter: String!
+	    $cigarettes_per_day_filter: String!
+	    $case_status_filter: String!
+	    $file_type_filter: String!
     ) {
       getPaginatedUIFile(
-	    study_version: $study_version_value
+	      study_version: $study_version_value
         offset: $offset_value
         limit: $limit_value
         sort: $sort_value
@@ -158,11 +165,21 @@ export class BrowseByFileService {
         sample_type: $sample_type_filter
         acquisition_type: $acquisition_type_filter
         data_category: $data_category_filter
-        file_type: $file_type_filter
-        access: $access_filter
-        downloadable: $downloadable_filter,
-        biospecimen_status: $biospecimen_status_filter,
+		    vital_status: $vital_status_filter
+		    age_at_diagnosis: $age_at_diagnosis_filter
+		    ajcc_clinical_stage: $ajcc_clinical_stage_filter
+		    ajcc_pathologic_stage: $ajcc_pathologic_stage_filter
+		    progression_or_recurrence: $progression_or_recurrence_filter
+		    therapeutic_agents: $therapeutic_agents_filter
+		    treatment_intent_type: $treatment_intent_type_filter
+		    treatment_type: $treatment_type_filter
+		    treatment_outcome: $treatment_outcome_filter
+		    alcohol_history: $alcohol_history_filter
+		    alcohol_intensity: $alcohol_intensity_filter
+		    tobacco_smoking_status: $tobacco_smoking_status_filter
+		    cigarettes_per_day: $cigarettes_per_day_filter
         case_status: $case_status_filter
+        file_type: $file_type_filter
       ) {
         total
         uiFiles {
@@ -172,6 +189,7 @@ export class BrowseByFileService {
 		      embargo_date
           file_name
           study_run_metadata_submitter_id
+          protocol_submitter_id
           project_name
           data_category
           file_type
@@ -207,7 +225,7 @@ export class BrowseByFileService {
       .watchQuery<QueryAllFilesDataPaginated>({
         query: this.filteredFilesPaginatedQuery,
         variables: {
-		  study_version_value: version || "",
+          study_version_value: version || "",
           offset_value: offset,
           limit_value: limit,
           sort_value: sort,
@@ -225,11 +243,26 @@ export class BrowseByFileService {
           sample_type_filter: filters["sample_type"],
           acquisition_type_filter: filters["acquisition_type"],
           data_category_filter: filters["data_category"] || "",
-          file_type_filter: filters["file_type"] || "",
-          access_filter: filters["access"] || "",
-          downloadable_filter: filters["downloadable"] || "",
-          biospecimen_status_filter: filters["biospecimen_status"] || '',
-          case_status_filter: filters["case_status"] || ''
+          vital_status_filter: filters["vital_status"] || '',
+          age_at_diagnosis_filter: filters["age_at_diagnosis"] || '',
+          ajcc_clinical_stage_filter: filters["ajcc_clinical_stage"] || '',
+          ajcc_pathologic_stage_filter: filters["ajcc_pathologic_stage"] || '',
+          morphology_filter: filters["morphology"] || '',
+          site_of_resection_or_biopsy_filter: filters["site_of_resection_or_biopsy"] || '',
+          progression_or_recurrence_filter: filters["progression_or_recurrence"] || '',
+          therapeutic_agents_filter: filters["therapeutic_agents"] || '',
+          treatment_intent_type_filter: filters["treatment_intent_type"] || '',
+          treatment_outcome_filter: filters["treatment_outcome"] || '',
+          treatment_type_filter: filters["treatment_type"] || '',
+          alcohol_history_filter: filters["alcohol_history"] || '',
+          alcohol_intensity_filter: filters["alcohol_intensity"] || '',
+          tobacco_smoking_status_filter: filters["tobacco_smoking_status"] || '',
+          cigarettes_per_day_filter: filters["cigarettes_per_day"] || '',
+          case_status_filter: filters["case_status"] || '',
+          file_type_filter: filters["file_type"] || ''
+        },
+        context: {
+          method: 'POST'
         }
       })
       .valueChanges.pipe(
@@ -414,12 +447,12 @@ export class BrowseByFileService {
 
   //@@@PDC-1940: File manifest download is very slow
   getFilesData(fileNameStr: any, study_id_param: any) {
-     return this.apollo
+    return this.apollo
       .watchQuery<QueryAllFilesData>({
         query: this.filesDataQuery,
         variables: {
           file_name: fileNameStr,
-		  study_id: study_id_param || ""
+          study_id: study_id_param || ""
         },
         context: {
           method: 'POST'

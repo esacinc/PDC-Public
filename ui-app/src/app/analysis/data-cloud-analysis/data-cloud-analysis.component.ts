@@ -7,9 +7,10 @@ import { OverlayWindowService } from '../../overlay-window/overlay-window.servic
 import { Location } from '@angular/common';
 
 @Component({
-  selector: 'app-data-cloud-analysis',
-  templateUrl: './data-cloud-analysis.component.html',
-  styleUrls: ['./data-cloud-analysis.component.scss']
+    selector: 'app-data-cloud-analysis',
+    templateUrl: './data-cloud-analysis.component.html',
+    styleUrls: ['./data-cloud-analysis.component.scss'],
+    standalone: false
 })
 export class DataCloudAnalysisComponent implements OnInit {
 	

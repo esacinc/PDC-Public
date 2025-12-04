@@ -7,6 +7,7 @@ type FamilyHistory {
 	project_submitter_id: String
 	relationship_type: String
 	relationship_gender: String
+	relationship_sex: String
 	relationship_age_at_diagnosis: String
 	relationship_primary_diagnosis: String
 	relative_with_cancer_history: String

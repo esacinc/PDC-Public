@@ -7,10 +7,11 @@ import { ViewportScroller } from '@angular/common';
 import {DataDownloadDocumentationService} from './data-download-documentation.service'
 
 @Component({
-  selector: 'app-data-download-doc',
-  templateUrl: './data-download-documentation.component.html',
-  styleUrls: ['./data-download-documentation.component.scss'],
-  encapsulation: ViewEncapsulation.None,
+    selector: 'app-data-download-doc',
+    templateUrl: './data-download-documentation.component.html',
+    styleUrls: ['./data-download-documentation.component.scss'],
+    encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class DataDownloadDocComponent implements OnInit {
   fragment;

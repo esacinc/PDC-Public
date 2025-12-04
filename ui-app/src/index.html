@@ -43,22 +43,22 @@
     localStorage.removeItem('getSessionStorage');
   };
 
-  
-  
+
+
   (function() {
     window['_app_base'] = '/' + window.location.pathname.split('/')[1];
   })();
 
   //@@@PDC-839: Add HotJar tracking to all UI pages
   //Hotjar Tracking Code for PDC - DEV
-  (function(h,o,t,j,a,r){
+/*  (function(h,o,t,j,a,r){
       h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
       h._hjSettings={hjid:1320218,hjsv:6};
       a=o.getElementsByTagName('head')[0];
       r=o.createElement('script');r.async=1;
       r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
       a.appendChild(r);
-  })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+  })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');*/
  </script>
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-FCJVZGSR42"></script>
   <script>
@@ -75,9 +75,23 @@
   <link rel="icon" type="image/x-icon" href="assets/favicon-144x144.png">
   <!-- @@@PDC-1689: Add additional analytics tag to PDC Data Browser -->
   <!-- @@@PDC-1748: Change the analytics code -->
-  <script src="//assets.adobedtm.com/6a4249cd0a2c/073fd0859f8f/launch-3fc99dc39f0e-staging.min.js" async></script>
+  <!-- <script src="//assets.adobedtm.com/6a4249cd0a2c/073fd0859f8f/launch-3fc99dc39f0e-staging.min.js" async></script> -->
+
+  <!-- @@@PDC-9526 - shutdown-banner-not-displaying -->
+  <script src="https://assets.adobedtm.com/6a4249cd0a2c/785de09de161/launch-70d67a6a40a8.min.js" async></script>
+  <!-- @@@PDC-9618 - add administrative banner -->
+  <script type="module" src=https://static.cancer.gov/launchables/launch-banner-adminreview/v1.0.0/assets/index-CoFPPetr.js></script>
+  <!--update this-->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!--
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@uswds/uswds/dist/css/uswds.min.css">
+  <script defer="" src="https://designsystem.cancer.gov/example-site/js/main.fe4c381a62a86dea4492.bundle.js"></script>
+  <script defer="" src="https://designsystem.cancer.gov/example-site/js/runtime.ca9eff245c716c11bc20.bundle.js"></script>
+  <link href="https://designsystem.cancer.gov/example-site/styles/main.d27d18bf0c3e09230b80.css" rel="stylesheet">
+   -->
 </head>
 <body>
+  <a class="usa-skipnav" href="#main-content">Skip to main content</a>
   <app-root></app-root>
 </body>
 </html>

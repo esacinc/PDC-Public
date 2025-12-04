@@ -2,9 +2,10 @@ import { Component } from '@angular/core';
 import { StudySummaryOverlayRemoteRef } from '../study-summary-overlay-remote-ref'
 
 @Component({
-  selector: 'app-dua-other-programs-overlay-window',
-  templateUrl: './dua-other-programs-overlay-window.component.html',
-  styleUrls: ['../study-summary-overlay-window.component.css']
+    selector: 'app-dua-other-programs-overlay-window',
+    templateUrl: './dua-other-programs-overlay-window.component.html',
+    styleUrls: ['../study-summary-overlay-window.component.css'],
+    standalone: false
 })
 //@@@PDC-843: Add embargo date and data use statement to CPTAC studies
 export class DUAForOtherProgramsOverlayWindow {

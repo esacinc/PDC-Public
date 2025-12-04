@@ -18,4 +18,8 @@ type UIStudy {
 	nonSupplementaryFilesCount: [File]
 	contacts: [Contact]
 	versions: [Version]
+	has_genomic_data: String
+	has_imaging_data: String
+	has_lipidome_data: String
+	has_metabolome_data: String
 }

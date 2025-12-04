@@ -272,6 +272,7 @@ const defineCustomModels = (db) => {
 	  //@@@PDC-6690 add new columns for metabolomics
 	  //@@@PDC-7235 add new columns for metabolomics
 	  //@@@PDC-7386 add new columns for metabolomics
+	  //@@@PDC-9698 get protocol at srm level
 	  /**
 	  * ModelProtocol is a utility and used in 
 	  * projectsPerInstrument and uiProtocol queries.
@@ -317,6 +318,7 @@ const defineCustomModels = (db) => {
 		  gradient_length_uom: { type: Sequelize.STRING },
 		  instrument_make: { type: Sequelize.STRING },
 		  instrument_model: { type: Sequelize.STRING },
+		  instrument: { type: Sequelize.STRING },
 		  dissociation_type: { type: Sequelize.STRING },
 		  ms1_resolution: { type: Sequelize.STRING },
 		  ms2_resolution: { type: Sequelize.STRING },
@@ -454,7 +456,8 @@ const defineCustomModels = (db) => {
 	  //@@@PDC-1257 replace fraction with fraction_number	  
 	  //@@@PDC-2642 add file_id	
 	  //@@@PDC-3668 add study_id
-	  //@@@PDC-6708 get pancancer file data	  
+	  //@@@PDC-6708 get pancancer file data
+	  //@@@PDC-8988 support multi protocols per study	  
 	  /**
 	  * ModelFileMetadata is a utility and used in 
 	  *   getFileMetadata query.
@@ -477,6 +480,8 @@ const defineCustomModels = (db) => {
 		  file_format: { type: Sequelize.STRING},
 		  analyte: { type: Sequelize.STRING }, 
 		  instrument: { type: Sequelize.STRING },
+		  protocol_submitter_id: { type: Sequelize.STRING },
+		  protocol_id: { type: Sequelize.STRING },
 		  plex_or_dataset_name: { type: Sequelize.STRING },
 		  fraction_number: { type: Sequelize.STRING },
 		  experiment_type: { type: Sequelize.STRING },
@@ -495,6 +500,7 @@ const defineCustomModels = (db) => {
 	  //@@@PDC-398 Add description to the APIs for search
 	  //@@@PDC-468 Add proteins to protein search
 	  //@@@PDC-7628 add ncbi_gene_id to the APIs for search
+	  //@@@PDC-8588 handle gene with aliases
 	  /**
 	  * ModelSearchRecord is a utility and used in 
 	  *   caseSearch, geneSearch and studySearch queries.
@@ -506,6 +512,7 @@ const defineCustomModels = (db) => {
 		  description: { type: Sequelize.STRING },
 		  gene_id: { type: Sequelize.STRING },
 		  ncbi_gene_id: { type: Sequelize.STRING },
+		  alias: { type: Sequelize.STRING },
 		  proteins: { type: Sequelize.STRING },
 	  }, {
 		  timestamps: false,
@@ -646,6 +653,7 @@ const defineCustomModels = (db) => {
 	  
 	  //@@@PDC-898 new public APIs--study
 	  //@@@PDC-2615 add embargo_date
+	  //@@@PDC-8597 add study_description
 	  const ModelStudyPublic = db.getSequelize().define('dummy', {
 		  study_id: { type: Sequelize.STRING,
 					  primaryKey: true   },
@@ -654,6 +662,7 @@ const defineCustomModels = (db) => {
 		  submitter_id_name: { type: Sequelize.STRING },
 		  study_name:  { type: Sequelize.STRING},
 		  study_shortname:  { type: Sequelize.STRING},
+		  study_description:  { type: Sequelize.STRING},
 		  embargo_date: { type: Sequelize.DATE },		  
 		  project_submitter_id: { type: Sequelize.STRING },
 		  acquisition_type: { type: Sequelize.STRING },
@@ -683,6 +692,7 @@ const defineCustomModels = (db) => {
 	  //@@@PDC-5290 add experiment types of TMT16 and TMT18
 	  //@@@PDC-6691 add acquisition_mode
 	  //@@@PDC-7386 change acquisition_mode to polarity
+	  //@@@PDC-8988 support multi protocols per study
 	  const ModelStudyExperimentalDesign = db.getSequelize().define('dummy', {
 		  study_run_metadata_id: { type: Sequelize.STRING,
 					  primaryKey: true },
@@ -696,6 +706,8 @@ const defineCustomModels = (db) => {
 		  plex_dataset_name:  { type: Sequelize.STRING},
 		  experiment_number:  { type: Sequelize.STRING},
 		  experiment_type:  { type: Sequelize.STRING},
+		  protocol_submitter_id: { type: Sequelize.STRING },
+		  protocol_id: { type: Sequelize.STRING },
 		  polarity: { type: Sequelize.STRING },		  
 		  number_of_fractions:  { type: Sequelize.STRING},
 		  label_free_asi:  { type: Sequelize.STRING},
@@ -955,6 +967,7 @@ const defineCustomModels = (db) => {
 		gene_id: { 	type: Sequelize.STRING},
 		gene_name: { 	type: Sequelize.STRING  },
 		NCBI_gene_id: { type: Sequelize.STRING },
+ 	    alias: { type: Sequelize.STRING },
 		authority: { type: Sequelize.STRING },
 		description: { type: Sequelize.STRING },
 		organism: { type: Sequelize.STRING },

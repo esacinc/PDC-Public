@@ -1,17 +1,18 @@
 import { Apollo } from 'apollo-angular';
 import { Observable, of } from 'rxjs';
 
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
-import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 import { RouterTestingModule } from '@angular/router/testing';
-import { MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig } from '@angular/material/legacy-dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from "@angular/router";
 
 import { CaseSummaryComponent } from './case-summary.component';
 import { CaseSummaryService } from './case-summary.service';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 class MockDialog {
   open(): any {
@@ -625,11 +626,11 @@ describe("CaseSummaryComponent", () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [CaseSummaryComponent],
-      imports: [HttpClientTestingModule, RouterTestingModule.withRoutes([])],
-      schemas: [NO_ERRORS_SCHEMA],
-      providers: []
-    });
+    declarations: [CaseSummaryComponent],
+    schemas: [NO_ERRORS_SCHEMA],
+    imports: [RouterTestingModule.withRoutes([])],
+    providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+});
 
     TestBed.overrideComponent(CaseSummaryComponent, {
       set: {

@@ -1,9 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-analysis',
-  templateUrl: './analysis.component.html',
-  styleUrls: ['./analysis.component.css']
+    selector: 'app-analysis',
+    templateUrl: './analysis.component.html',
+    styleUrls: ['./analysis.component.css'],
+    standalone: false
 })
 export class AnalysisComponent implements OnInit {
 

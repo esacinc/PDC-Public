@@ -1,22 +1,24 @@
 import { Injectable } from '@angular/core';
-import { Headers, RequestOptions } from '@angular/http';
+
+import{ HttpHeaders } from "@angular/common/http";
+
 import { Apollo } from 'apollo-angular';
 import { map } from 'rxjs/operators';
 import gql from 'graphql-tag';
-import { SearchResultsStudy} from '../types'; 
+import { SearchResultsStudy} from '../types';
 
 //@@@PDC-3901: Develop backend study forwarding
 /*This is a service class used for the API queries */
 @Injectable()
 export class ForwardingSearchService {
 
-	headers: Headers;
-	options: RequestOptions;
+	headers: HttpHeaders;
+	options: {};
 
 	constructor(private apollo: Apollo) {
-		this.headers = new Headers({ 'Content-Type': 'application/json',
+		this.headers = new HttpHeaders({ 'Content-Type': 'application/json',
 										'Accept': 'q=0.8;application/json;q=0.9' });
-			this.options = new RequestOptions({ headers: this.headers });
+			this.options = { headers: this.headers };
 	}
 
 	//@@@PDC-3901: Develop backend study forwarding
@@ -47,7 +49,7 @@ export class ForwardingSearchService {
 		map(result => {
 			console.log(result.data);
 			return result.data;})
-	); 
+	);
 	}
-	
+
 }

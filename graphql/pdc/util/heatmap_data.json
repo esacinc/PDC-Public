@@ -1,4 +1,30 @@
 {
+    "0163099c-d8c0-4aec-81b2-e0e348939137": {
+        "acquisition_type": "DDA",
+        "analytical_fraction": "Proteome",
+        "cptac_study_id": null,
+        "cud_label": "PDC000516",
+        "embargo_date": "None",
+        "experiment_type": "TMT10",
+        "files": [
+            "0163099c-d8c0-4aec-81b2-e0e348939137-log2_ratio.gct",
+            "0163099c-d8c0-4aec-81b2-e0e348939137-unshared_log2_ratio.gct",
+            "manifest.json"
+        ],
+        "is_latest_version": 1,
+        "pdc_study_id": "PDC000516",
+        "project_id": "7ca2bd4f-3cad-48a1-b874-668a545cd1b6",
+        "project_submitter_id": "International Cancer Proteogenome Consortium (ICPC): Proteogenomics of Oral Squamous Cell Carcinoma in Taiwan",
+        "protocol_id": "ad58720c-d4a2-4822-9e43-408e074de728",
+        "protocol_submitter_id": "CGU OSCC Multi-omics Proteome",
+        "study_description": "<p>Oral cavity squamous cell carcinoma (OSCC), a leading subtype of head and neck cancer, exhibits high global incidence and mortality rates. Despite advancements in surgery and radiochemotherapy, approximately one-third of patients experience relapse. To improve current targeted and immunotherapy strategies for recurrent OSCC, we conducted multi-omics analyses on pretreatment OSCC samples (cohorts 1 and 2, n=137) and identified A3A and EGFR, both at the RNA and protein levels, as inversely expressed markers for patient stratification and response prediction. Survival analysis demonstrated that elevated A3A or PD-L1 expression levels correlated to improved responses to anti-PD-1 therapy in patients (cohort 3a, n=50, IHC). In contrast, high RRAS expression (cohort 4, n=252, qRT-PCR) was significantly associated with OSCC recurrence. Cell-based experiments revealed that RRAS was involved in radiotherapy and cisplatin resistance through the EGFR/RRAS/AKT/ERK signaling pathway. In OSCC patient-derived xenograft (PDX) mouse models, treatments with cisplatin and cetuximab (anti-EGFR) effectively reduced tumor size in EGFR-high-derived (#34) but not A3A-high-derived (#22) PDX tumors. Our study demonstrated that A3A-high tumors were immune-hot and responsive to anti-PD-1 therapy, whereas EGFR-high tumors exhibited chr.7p11.2 gains and DNA repair alterations. Additionally, RRAS-high tumors were associated with OSCC recurrence via AKT and ERK phosphorylation and demonstrate improved clinical outcomes with cetuximab therapy (cohort 3b, n=49, IHC). This study emphasizes the significance of A3A and EGFR expression levels in OSCC patient stratification and precision therapy, suggesting the use of anti-PD-1 or anti-EGFR treatments, respectively based on these biomarkers. Furthermore, RRAS emerges as a novel prognostic marker for local recurrence.</p>",
+        "study_id": "0163099c-d8c0-4aec-81b2-e0e348939137",
+        "study_shortname": "CGU OSCC Multi-omics - Proteome",
+        "study_submitter_id": "CGU OSCC Multi-omics - Proteome",
+        "study_version": "1",
+        "submitter_id_name": "CGU OSCC Multi-omics - Proteome",
+        "updated": "2025-02-03 21:42:32"
+    },
     "0779a1fe-44e2-46c6-a2bf-3c218452cefc": {
         "acquisition_type": "DDA",
         "analytical_fraction": "Proteome",
@@ -246,13 +272,13 @@
         "project_submitter_id": "CPTAC3 Discovery and Confirmatory",
         "protocol_id": "c39c5ddb-e8f5-458f-8a90-68807f8fff58",
         "protocol_submitter_id": "CPTAC-PDA-Proteome-JHU-TMT11",
-        "study_description": "<p>Pancreatic ductal adenocarcinoma (PDAC) is a highly aggressive cancer with poor patient survival. Toward understanding the underlying molecular alterations that drive PDAC oncogenesis, we conducted comprehensive proteogenomic analysis of 140 pancreatic cancers, 67 normal adjacent tissues, and 9 normal pancreatic ductal tissues. Proteomic, phosphoproteomic, and glycoproteomic analyses were used to characterize proteins and their modifications. In addition, whole-genome sequencing, whole-exome sequencing, methylation, RNA sequencing (RNA-seq), and microRNA sequencing (miRNA-seq) were performed on the same tissues to facilitate an integrated proteogenomic analysis and determine the impact of genomic alterations on protein expression, signaling pathways, and post-translational modifications. To ensure robust downstream analyses, tumor neoplastic cellularity was assessed via multiple orthogonal strategies using molecular features and verified via pathological estimation of tumor cellularity based on histological review. This integrated proteogenomic characterization of PDAC will serve as a valuable resource for the community, paving the way for early detection and identification of novel therapeutic targets.</p>",
+        "study_description": "<p>Pancreatic ductal adenocarcinoma (PDAC) is a highly aggressive cancer with poor patient survival. Toward understanding the underlying molecular alterations that drive PDAC oncogenesis, we conducted comprehensive proteogenomic analysis of 140 pancreatic cancers, 67 normal adjacent tissues, and 9 normal pancreatic ductal tissues. Proteomic, phosphoproteomic, and glycoproteomic analyses were used to characterize proteins and their modifications. In addition, whole-genome sequencing, whole-exome sequencing, methylation, RNA sequencing (RNA-seq), and microRNA sequencing (miRNA-seq) were performed on the same tissues to facilitate an integrated proteogenomic analysis and determine the impact of genomic alterations on protein expression, signaling pathways, and post-translational modifications. To ensure robust downstream analyses, tumor neoplastic cellularity was assessed via multiple orthogonal strategies using molecular features and verified via pathological estimation of tumor cellularity based on histological review. This integrated proteogenomic characterization of PDAC will serve as a valuable resource for the community, paving the way for early detection and identification of novel therapeutic targets.</p><p><font color=\"red\"><i>Note: The following aliquots are disqualified in this study: C3N-01900-04, CPT0162830005, CPT0166930004, CPT0275880003, CPT0162600005, CPT0198340004, CPT0275870003, CPT0088840004.</i></p>",
         "study_id": "1cf6e56a-02f4-4687-8f87-ab37b0f41960",
         "study_shortname": "CPTAC PDA Discovery Study - Proteome",
         "study_submitter_id": "CPTAC PDA Discovery Study - Proteome",
         "study_version": "1",
         "submitter_id_name": "CPTAC PDA Discovery Study - Proteome",
-        "updated": "2022-10-07 04:26:07"
+        "updated": "2025-08-19 23:56:41"
     },
     "1e921407-3636-46f9-be4d-89c83eca40c1": {
         "acquisition_type": "DDA",
@@ -380,6 +406,32 @@
         "submitter_id_name": "PTRC HGSOC FFPE Validation - Phosphoproteome",
         "updated": "2022-11-21 08:23:57"
     },
+    "2d3adba0-da63-4d62-86bd-2120cd5cb80b": {
+        "acquisition_type": "DDA",
+        "analytical_fraction": "Proteome",
+        "cptac_study_id": null,
+        "cud_label": "PDC000582",
+        "embargo_date": "None",
+        "experiment_type": "TMT16",
+        "files": [
+            "2d3adba0-da63-4d62-86bd-2120cd5cb80b-log2_ratio.gct",
+            "2d3adba0-da63-4d62-86bd-2120cd5cb80b-unshared_log2_ratio.gct",
+            "manifest.json"
+        ],
+        "is_latest_version": 1,
+        "pdc_study_id": "PDC000582",
+        "project_id": "7231aab6-7603-499b-a48d-3e3411143e18",
+        "project_submitter_id": "Proteogenomic Translational Research Centers (PTRC)",
+        "protocol_id": "ec6833d5-abc0-4f58-86d8-b144e2f13f4a",
+        "protocol_submitter_id": "PTRC BRCA CALGB40601 Neoadjuvant Trial - Proteome",
+        "study_description": "<p>Accurate predictive biomarkers for pathological complete response (pCR) to neoadjuvant therapy would promote alternative first-line treatments for unresponsive tumors. A proteogenomic analysis of the CALGB 40601 neoadjuvant trial for HER2+ breast cancer (BC) was therefore conducted. Absence of ERBB2 gene amplification and HER2 protein overexpression by proteogenomics was associated with non-pCR (p<0.05) indicating misdiagnosis by standard methods. Pathway analysis in proteogenomics-confirmed HER2+ samples identified upregulation of EMT, Notch and WNT-beta catenin signaling in non-pCR cases. Twenty pCR associated proteins were replicated in a second proteomic dataset, and three, GPRC5A, TPBG and OLXD1, were significant in a third. A meta-analysis of ten diverse neoadjuvant anti-HER2 treatment regimens from four independent studies confirmed significantly higher mRNA expression of GPRC5A (P=0.0002) and the oncofetal antigen TPBG (P=0.00008) in non-pCR cases. Thus, proteogenomic analysis successfully identified both predictive biomarkers for pCR and candidate investigational targets for treatment resistant HER2+ breast cancer.</p>",
+        "study_id": "2d3adba0-da63-4d62-86bd-2120cd5cb80b",
+        "study_shortname": "PTRC BRCA CALGB40601 Neoadjuvant Trial - Proteome",
+        "study_submitter_id": "PTRC BRCA CALGB40601 Neoadjuvant Trial - Proteome",
+        "study_version": "1",
+        "submitter_id_name": "PTRC BRCA CALGB40601 Neoadjuvant Trial - Proteome",
+        "updated": "2025-01-15 07:57:57"
+    },
     "3763131a-bbac-4ef8-84fc-30def4e8bcc1": {
         "acquisition_type": "DDA",
         "analytical_fraction": "Phosphoproteome",
@@ -481,6 +533,31 @@
         "submitter_id_name": "AML Gilteritinib TimeCourse -  Proteome",
         "updated": "2021-07-06 19:44:52"
     },
+    "3e39cf13-1abf-422c-b65d-e102f2c9a276": {
+        "acquisition_type": "DDA",
+        "analytical_fraction": "Phosphoproteome",
+        "cptac_study_id": null,
+        "cud_label": "PDC000490",
+        "embargo_date": "None",
+        "experiment_type": "TMT11",
+        "files": [
+            "3e39cf13-1abf-422c-b65d-e102f2c9a276-log2_ratio.gct",
+            "manifest.json"
+        ],
+        "is_latest_version": 1,
+        "pdc_study_id": "PDC000490",
+        "project_id": "267d6671-0e78-11e9-a064-0a9c39d33490",
+        "project_submitter_id": "CPTAC3 Discovery and Confirmatory",
+        "protocol_id": "d599f4de-f966-4104-aeac-2c78544ed108",
+        "protocol_submitter_id": "CPTAC3-LUADC Phosphoproteome",
+        "study_description": "<p>Lung adenocarcinoma (LUAD) is a pressing global health problem with enduring lethality and rapidly shifting epidemiology. Proteogenomic studies integrating proteomic and post-translational modification with comprehensive genomic characterization can identify novel clinical strata and oncogenic mechanisms provide new insights into LUAD pathobiology, but to date have been underpowered to examine effects of ethnicity, smoking and environmental exposure status, or sex, and other variables. This comprehensive proteogenomic analysis of LUAD tumors and matched normal adjacent tissues (NATs) from 406 patients across diverse geographic and demographic backgrounds defines the impact describes the influence of understudied less common driver mutations genomic alterations, heterogeneity of genomic instability, patterns of immune signaling, differential and sex-specific effects of endogenous mutagens and environmental carcinogens, and the biology underlying early-stage tumors with \u201clate-like\u201d characteristics. Candidate protein biomarkers are proposed for chromosomally unstable tumors and carcinogen exposure, and a LUAD subtype-specific atlas of therapeutic vulnerabilities is presented. These observations and the associated data resource advance the objective of precision management strategies for this devastating disease.</p><p><i>Note: The publication associated with this dataset integrates multiple datasets available in PDC, including cohorts from the CPTAC and ICPC Academia Sinica programs. The Related Studies section below lists other studies that are part of this integration.</i></p><p><i>Note: To facilitate cross-cohort comparisons, <b>Taiwanese IR</b> has been used as a bridging sample between the CPTAC and ICPC LUAD cohorts. Refer to the publication for further details.</i></p>",
+        "study_id": "3e39cf13-1abf-422c-b65d-e102f2c9a276",
+        "study_shortname": "CPTAC LUAD Confirmatory Study - Phosphoproteome",
+        "study_submitter_id": "CPTAC LUAD Confirmatory Study - Phosphoproteome",
+        "study_version": "1",
+        "submitter_id_name": "CPTAC LUAD Confirmatory Study - Phosphoproteome",
+        "updated": "2025-03-28 19:36:20"
+    },
     "401b6a4e-e36e-4bd2-be2a-2926eaa44d88": {
         "acquisition_type": "DDA",
         "analytical_fraction": "Proteome",
@@ -532,6 +609,32 @@
         "study_version": "1",
         "submitter_id_name": "Beat AML Baseline Clinical - Proteome",
         "updated": "2023-09-22 03:55:25"
+    },
+    "4c5d0549-45db-426f-91a0-74c9ea8493cb": {
+        "acquisition_type": "DDA",
+        "analytical_fraction": "Proteome",
+        "cptac_study_id": null,
+        "cud_label": "PDC000563",
+        "embargo_date": "None",
+        "experiment_type": "TMT10",
+        "files": [
+            "4c5d0549-45db-426f-91a0-74c9ea8493cb-log2_ratio.gct",
+            "4c5d0549-45db-426f-91a0-74c9ea8493cb-unshared_log2_ratio.gct",
+            "manifest.json"
+        ],
+        "is_latest_version": 1,
+        "pdc_study_id": "PDC000563",
+        "project_id": "05b0ec25-6947-11ea-b1fd-0aad30af8a83",
+        "project_submitter_id": "Academia Sinica LUAD-100",
+        "protocol_id": "e6e4dddf-6174-4419-bb76-dcab4d9da607",
+        "protocol_submitter_id": "LUAD ICPC-B TMT10plex proteome Lumos 1",
+        "study_description": "<p>Lung adenocarcinoma (LUAD) is a pressing global health problem with enduring lethality and rapidly shifting epidemiology. Proteogenomic studies integrating proteomic and post-translational modification with comprehensive genomic characterization can identify novel clinical strata and oncogenic mechanisms provide new insights into LUAD pathobiology, but to date have been underpowered to examine effects of ethnicity, smoking and environmental exposure status, or sex, and other variables. This comprehensive proteogenomic analysis of LUAD tumors and matched normal adjacent tissues (NATs) from 406 patients across diverse geographic and demographic backgrounds defines the impact describes the influence of understudied less common driver mutations genomic alterations, heterogeneity of genomic instability, patterns of immune signaling, differential and sex-specific effects of endogenous mutagens and environmental carcinogens, and the biology underlying early-stage tumors with \u201clate-like\u201d characteristics. Candidate protein biomarkers are proposed for chromosomally unstable tumors and carcinogen exposure, and a LUAD subtype-specific atlas of therapeutic vulnerabilities is presented. These observations and the associated data resource advance the objective of precision management strategies for this devastating disease.</p><p><i>Note: The publication associated with this dataset integrates multiple datasets available in PDC, including cohorts from the CPTAC and ICPC Academia Sinica programs. The Related Studies section below lists other studies that are part of this integration.</i></p><p><i>Note: To facilitate cross-cohort comparisons, <b>Taiwanese IR</b> has been used as a bridging sample between the CPTAC and ICPC LUAD cohorts. Refer to the publication for further details.</i></p>",
+        "study_id": "4c5d0549-45db-426f-91a0-74c9ea8493cb",
+        "study_shortname": "Academia Sinica LUAD ICPC-B - Proteome",
+        "study_submitter_id": "Academia Sinica LUAD ICPC-B - Proteome",
+        "study_version": "1",
+        "submitter_id_name": "Academia Sinica LUAD ICPC-B - Proteome",
+        "updated": "2025-03-28 19:36:19"
     },
     "4f354c22-0421-11eb-bc0e-0aad30af8a83": {
         "acquisition_type": "DDA",
@@ -585,6 +688,32 @@
         "submitter_id_name": "Prospective Ovarian JHU N-linked Glycosite-containing peptide",
         "updated": "2021-10-12 19:03:20"
     },
+    "524d5116-b6de-4e36-892a-e35dba7d0170": {
+        "acquisition_type": "DDA",
+        "analytical_fraction": "Proteome",
+        "cptac_study_id": null,
+        "cud_label": "PDC000514",
+        "embargo_date": "None",
+        "experiment_type": "TMT11",
+        "files": [
+            "524d5116-b6de-4e36-892a-e35dba7d0170-log2_ratio.gct",
+            "524d5116-b6de-4e36-892a-e35dba7d0170-unshared_log2_ratio.gct",
+            "manifest.json"
+        ],
+        "is_latest_version": 1,
+        "pdc_study_id": "PDC000514",
+        "project_id": "ed3662d9-18ca-4881-9b7e-92853f14e34c",
+        "project_submitter_id": "Cancer Proteogenomics  Group of National Cancer Center Korea",
+        "protocol_id": "5688b6b4-b2a6-4f19-bdda-7283b0204804",
+        "protocol_submitter_id": "Proteome - Glioblastoma",
+        "study_description": "The evolutionary trajectory of glioblastoma is a multifaceted biological process that extends beyond genetic alterations alone. Here, we perform an integrative proteogenomic analysis of 123 longitudinal glioblastoma pairs and identify a highly proliferative cellular state at diagnosis and replacement by activation of neuronal transition and synaptogenic pathways in recurrent tumors. Proteomic and phosphoproteomic analyses reveal that the molecular transition to neuronal state at recurrence is marked by post-translational activation of the WNT/PCP signaling pathway and BRAF protein kinase. Consistently, multi-omic analysis of Patient-Derived Xenograft (PDX) models mirror similar patterns of evolutionary trajectory. Inhibition of BRAF kinase impair both neuronal transition and migration capability of recurrent tumor cells, phenotypic hallmarks of post-therapy progression. Combinatorial treatment of temozolomide with BRAF inhibitor, vemurafenib, significantly extends the survival of PDX models. This study provides comprehensive insights into the biological mechanisms of glioblastoma evolution and treatment resistance, highlighting promising therapeutic strategies for clinical intervention.",
+        "study_id": "524d5116-b6de-4e36-892a-e35dba7d0170",
+        "study_shortname": "KNCC Glioblastoma Evolution - Proteome",
+        "study_submitter_id": "KNCC Glioblastoma Evolution - Proteome",
+        "study_version": "1",
+        "submitter_id_name": "KNCC Glioblastoma Evolution - Proteome",
+        "updated": "2024-01-24 09:40:36"
+    },
     "57b7e39e-d0bd-4aa9-8d46-62a854905797": {
         "acquisition_type": "DDA",
         "analytical_fraction": "Acetylome",
@@ -602,13 +731,13 @@
         "project_submitter_id": "CPTAC3 Discovery and Confirmatory",
         "protocol_id": "e5ff2974-29a4-4f43-927d-26b7270ff583",
         "protocol_submitter_id": "CPTAC3-GBMC Acetylome",
-        "study_description": "<p>To delineate the multi-scale regulatory interactions governing glioblastoma (GBM) development and evolution (recurrence and clinical outcomes), we characterized 228 human GBM tumors (including 28 at recurrence) using 15 proteogenomic and metabolomic platforms. Comparative analyses of paired primary-recurrent GBMs showed increased clonal diversity in recurrent tumors as a function of elapsed time since primary diagnosis and treatment-induced mutational and signaling signatures at recurrence. Additionally, across our entire cohort, independent analyses of proteomic and metabolomic changes associated with the trans effects of PTEN and TERT promoter mutations, when considered independently, showed a high correlation between the downstream effects of the two drivers. Glycoproteomic and phosphoproteomic analyses revealed crosstalk of dual glycosylation (N352 and N603) and phosphorylation (Y316) on EGFR, but only observed in the context of EGFR amplification or activating mutations. IDH1 mutation was associated with activated RTK signaling and decreased hypoxia pathway activities, which was concordant with epigenetic and metabolic profiles. Protein-protein interaction and kinase/phosphatase-substrate analyses uncovered detailed signaling flowing from upstream drivers (e.g., EGFR, PDGFRA, and IDH) through a PTPN11 network hub to downstream effectors, including GAB1, IRS1, MAP3K5, and PTK2B. We also report recurrent mutations in PTPN11 and its downstream consequences. In summary, this study presents new biological insights regarding treatment impact on tumor evolution and clinical outcomes, shared downstream consequences of independent drivers, and the potential importance of members of PTPN11 signaling circuitry across high-grade gliomas.</p>",
+        "study_description": "<p>To delineate the multi-scale regulatory interactions governing glioblastoma (GBM) development and evolution (recurrence and clinical outcomes), we characterized 228 human GBM tumors (including 28 at recurrence) using 15 proteogenomic and metabolomic platforms. Comparative analyses of paired primary-recurrent GBMs showed increased clonal diversity in recurrent tumors as a function of elapsed time since primary diagnosis and treatment-induced mutational and signaling signatures at recurrence. Additionally, across our entire cohort, independent analyses of proteomic and metabolomic changes associated with the trans effects of PTEN and TERT promoter mutations, when considered independently, showed a high correlation between the downstream effects of the two drivers. Glycoproteomic and phosphoproteomic analyses revealed crosstalk of dual glycosylation (N352 and N603) and phosphorylation (Y316) on EGFR, but only observed in the context of EGFR amplification or activating mutations. IDH1 mutation was associated with activated RTK signaling and decreased hypoxia pathway activities, which was concordant with epigenetic and metabolic profiles. Protein-protein interaction and kinase/phosphatase-substrate analyses uncovered detailed signaling flowing from upstream drivers (e.g., EGFR, PDGFRA, and IDH) through a PTPN11 network hub to downstream effectors, including GAB1, IRS1, MAP3K5, and PTK2B. We also report recurrent mutations in PTPN11 and its downstream consequences. In summary, this study presents new biological insights regarding treatment impact on tumor evolution and clinical outcomes, shared downstream consequences of independent drivers, and the potential importance of members of PTPN11 signaling circuitry across high-grade gliomas.</p><p><i>Note: The samples listed below are metastatic samples originating from organs including lung, uterus, colon, breast or urethra which metastasized to the brain and were subsequently resected from the brain.<br>\n7316UP-483, 7316UP-99, 7316UP-1273, 7316UP-743, 7316UP-219, 7316UP-485, 7316UP-393, 7316UP-553, 7316UP-1302, 7316UP-1405, 7316UP-1614, 7316UP-1883</i></p>",
         "study_id": "57b7e39e-d0bd-4aa9-8d46-62a854905797",
         "study_shortname": "CPTAC GBM Confirmatory Study - Acetylome",
         "study_submitter_id": "CPTAC GBM Confirmatory Study - Acetylome",
         "study_version": "1",
         "submitter_id_name": "CPTAC GBM Confirmatory Study - Acetylome",
-        "updated": "2023-04-06 05:58:36"
+        "updated": "2024-06-03 07:48:43"
     },
     "58be6cbb-f1f7-11e9-9a07-0a80fada099c": {
         "acquisition_type": "DDA",
@@ -686,6 +815,31 @@
         "study_version": "2",
         "submitter_id_name": "Prospective Ovarian JHU Proteome",
         "updated": "2021-10-20 21:06:35"
+    },
+    "639154e0-a7d7-496f-bb5f-6e5142424e35": {
+        "acquisition_type": "DDA",
+        "analytical_fraction": "Phosphoproteome",
+        "cptac_study_id": null,
+        "cud_label": "PDC000521",
+        "embargo_date": "None",
+        "experiment_type": "TMT10",
+        "files": [
+            "639154e0-a7d7-496f-bb5f-6e5142424e35-log2_ratio.gct",
+            "manifest.json"
+        ],
+        "is_latest_version": 1,
+        "pdc_study_id": "PDC000521",
+        "project_id": "7ca2bd4f-3cad-48a1-b874-668a545cd1b6",
+        "project_submitter_id": "International Cancer Proteogenome Consortium (ICPC): Proteogenomics of Oral Squamous Cell Carcinoma in Taiwan",
+        "protocol_id": "d67f75a2-cf27-423c-907d-a8e2735a909e",
+        "protocol_submitter_id": "CGU OSCC APOBEC3A Multiple Phosphoproteome",
+        "study_description": "<p>Oral cavity squamous cell carcinoma (OSCC), a leading subtype of head and neck cancer, exhibits high global incidence and mortality rates. Despite advancements in surgery and radiochemotherapy, approximately one-third of patients experience relapse. To improve current targeted and immunotherapy strategies for recurrent OSCC, we conducted multi-omics analyses on pretreatment OSCC samples (cohorts 1 and 2, n=137) and identified A3A and EGFR, both at the RNA and protein levels, as inversely expressed markers for patient stratification and response prediction. Survival analysis demonstrated that elevated A3A or PD-L1 expression levels correlated to improved responses to anti-PD-1 therapy in patients (cohort 3a, n=50, IHC). In contrast, high RRAS expression (cohort 4, n=252, qRT-PCR) was significantly associated with OSCC recurrence. Cell-based experiments revealed that RRAS was involved in radiotherapy and cisplatin resistance through the EGFR/RRAS/AKT/ERK signaling pathway. In OSCC patient-derived xenograft (PDX) mouse models, treatments with cisplatin and cetuximab (anti-EGFR) effectively reduced tumor size in EGFR-high-derived (#34) but not A3A-high-derived (#22) PDX tumors. Our study demonstrated that A3A-high tumors were immune-hot and responsive to anti-PD-1 therapy, whereas EGFR-high tumors exhibited chr.7p11.2 gains and DNA repair alterations. Additionally, RRAS-high tumors were associated with OSCC recurrence via AKT and ERK phosphorylation and demonstrate improved clinical outcomes with cetuximab therapy (cohort 3b, n=49, IHC). This study emphasizes the significance of A3A and EGFR expression levels in OSCC patient stratification and precision therapy, suggesting the use of anti-PD-1 or anti-EGFR treatments, respectively based on these biomarkers. Furthermore, RRAS emerges as a novel prognostic marker for local recurrence.</p>",
+        "study_id": "639154e0-a7d7-496f-bb5f-6e5142424e35",
+        "study_shortname": "CGU OSCC APOBEC3A - Multiple Phosphoproteome",
+        "study_submitter_id": "CGU OSCC APOBEC3A - Multiple Phosphoproteome",
+        "study_version": "1",
+        "submitter_id_name": "CGU OSCC APOBEC3A - Multiple Phosphoproteome",
+        "updated": "2025-02-03 21:42:32"
     },
     "651d728a-f87b-4990-b534-d53a63b17c54": {
         "acquisition_type": "DDA",
@@ -781,13 +935,38 @@
         "project_submitter_id": "CPTAC3 Discovery and Confirmatory",
         "protocol_id": "f2cea90e-5134-48c5-bde8-eb51573cb17c",
         "protocol_submitter_id": "CPTAC-PDA-Phosphoproteome-JHU-TMT11",
-        "study_description": "<p>Pancreatic ductal adenocarcinoma (PDAC) is a highly aggressive cancer with poor patient survival. Toward understanding the underlying molecular alterations that drive PDAC oncogenesis, we conducted comprehensive proteogenomic analysis of 140 pancreatic cancers, 67 normal adjacent tissues, and 9 normal pancreatic ductal tissues. Proteomic, phosphoproteomic, and glycoproteomic analyses were used to characterize proteins and their modifications. In addition, whole-genome sequencing, whole-exome sequencing, methylation, RNA sequencing (RNA-seq), and microRNA sequencing (miRNA-seq) were performed on the same tissues to facilitate an integrated proteogenomic analysis and determine the impact of genomic alterations on protein expression, signaling pathways, and post-translational modifications. To ensure robust downstream analyses, tumor neoplastic cellularity was assessed via multiple orthogonal strategies using molecular features and verified via pathological estimation of tumor cellularity based on histological review. This integrated proteogenomic characterization of PDAC will serve as a valuable resource for the community, paving the way for early detection and identification of novel therapeutic targets.</p>",
+        "study_description": "<p>Pancreatic ductal adenocarcinoma (PDAC) is a highly aggressive cancer with poor patient survival. Toward understanding the underlying molecular alterations that drive PDAC oncogenesis, we conducted comprehensive proteogenomic analysis of 140 pancreatic cancers, 67 normal adjacent tissues, and 9 normal pancreatic ductal tissues. Proteomic, phosphoproteomic, and glycoproteomic analyses were used to characterize proteins and their modifications. In addition, whole-genome sequencing, whole-exome sequencing, methylation, RNA sequencing (RNA-seq), and microRNA sequencing (miRNA-seq) were performed on the same tissues to facilitate an integrated proteogenomic analysis and determine the impact of genomic alterations on protein expression, signaling pathways, and post-translational modifications. To ensure robust downstream analyses, tumor neoplastic cellularity was assessed via multiple orthogonal strategies using molecular features and verified via pathological estimation of tumor cellularity based on histological review. This integrated proteogenomic characterization of PDAC will serve as a valuable resource for the community, paving the way for early detection and identification of novel therapeutic targets.</p><p><font color=\"red\"><i>Note: The following aliquots are disqualified in this study: C3N-01900-04, CPT0162830005, CPT0166930004, CPT0275880003, CPT0162600005, CPT0198340004, CPT0275870003, CPT0088840004.</i></p>",
         "study_id": "71f65605-162a-4b7b-b641-a696cb3eeebe",
         "study_shortname": "CPTAC PDA Discovery Study - Phosphoproteome",
         "study_submitter_id": "CPTAC PDA Discovery Study - Phosphoproteome",
         "study_version": "1",
         "submitter_id_name": "CPTAC PDA Discovery Study - Phosphoproteome",
-        "updated": "2022-10-07 04:26:07"
+        "updated": "2025-08-19 23:55:56"
+    },
+    "7724a091-3349-46df-8db4-3ba210867e41": {
+        "acquisition_type": "DDA",
+        "analytical_fraction": "Phosphoproteome",
+        "cptac_study_id": null,
+        "cud_label": "PDC000580",
+        "embargo_date": "None",
+        "experiment_type": "TMT10",
+        "files": [
+            "7724a091-3349-46df-8db4-3ba210867e41-log2_ratio.gct",
+            "manifest.json"
+        ],
+        "is_latest_version": 1,
+        "pdc_study_id": "PDC000580",
+        "project_id": "7231aab6-7603-499b-a48d-3e3411143e18",
+        "project_submitter_id": "Proteogenomic Translational Research Centers (PTRC)",
+        "protocol_id": "f59df44a-34c8-4112-957e-5735fe09a9fc",
+        "protocol_submitter_id": "PTRC TNBC Mitotic Vulnerability Study Phosphoproteome",
+        "study_description": "Triple-negative breast cancer (TNBC) is an aggressive subtype of breast cancer with few effective targeted therapies. Taxanes and other microtubule-targeting agents (MTAs) are frontline chemotherapies for TNBC; however, the molecular pathways that cause TNBC taxane sensitivity are largely unknown, preventing selection of taxane-responsive patients and development of more selective therapeutic strategies. In this study, we identified tumor-selective vulnerabilities in TNBC harboring inactivation of the tumor suppressor PTPN12 by integrating proteogenomic characterization and synthetic lethality screening. We discovered that PTPN12 inactivation drives mitotic defects through aberrant hyperactivation of the ubiquitin ligase complex APCFZR1, a critical regulator of the cell cycle. Consistent with the mitotic stress caused by PTPN12 inactivation in TNBC cell lines, tumors harboring loss of PTPN12 exhibit heightened sensitivity to taxane chemotherapy. Collectively, this data suggests that PTPN12 inactivation may drive chromosomal instability and favorable MTA response in TNBC; two prominent features of the disease with unclear mechanistic etiology.",
+        "study_id": "7724a091-3349-46df-8db4-3ba210867e41",
+        "study_shortname": "PTRC Triple-negative Breast Cancer Mitotic Vulnerability Study - Phosphoproteome",
+        "study_submitter_id": "PTRC Triple-negative Breast Cancer Mitotic Vulnerability Study - Phosphoproteome",
+        "study_version": "1",
+        "submitter_id_name": "PTRC Triple-negative Breast Cancer Mitotic Vulnerability Study - Phosphoproteome",
+        "updated": "2024-12-12 17:46:44"
     },
     "7746b4e0-6b8a-4d3d-a0bd-0d06059ac001": {
         "acquisition_type": "DDA",
@@ -941,6 +1120,31 @@
         "submitter_id_name": "APOLLO LUAD - Phosphoproteome - FeNTA",
         "updated": "2022-11-11 20:22:47"
     },
+    "915fbc30-f23b-4737-b207-f7c9f78cc03d": {
+        "acquisition_type": "DDA",
+        "analytical_fraction": "Ubiquitylome",
+        "cptac_study_id": null,
+        "cud_label": "PDC000603",
+        "embargo_date": "None",
+        "experiment_type": "TMT18",
+        "files": [
+            "915fbc30-f23b-4737-b207-f7c9f78cc03d-log2_ratio.gct",
+            "manifest.json"
+        ],
+        "is_latest_version": 1,
+        "pdc_study_id": "PDC000603",
+        "project_id": "253a0595-7418-45ea-ab48-f5308217f467",
+        "project_submitter_id": "CPTAC-KF-CCDI-Pediatric AML",
+        "protocol_id": "e1230dda-706d-480e-aa85-db13e464c760",
+        "protocol_submitter_id": "CPTAC-KF-CCDI-Pediatric AML Ubiquitylome Protocol",
+        "study_description": "",
+        "study_id": "915fbc30-f23b-4737-b207-f7c9f78cc03d",
+        "study_shortname": "CPTAC-KF-CCDI-Pediatric AML Study - Ubiquitylome",
+        "study_submitter_id": "CPTAC-KF-CCDI-Pediatric AML Study - Ubiquitylome",
+        "study_version": "1",
+        "submitter_id_name": "CPTAC-KF-CCDI-Pediatric AML Study - Ubiquitylome",
+        "updated": "2025-06-01 07:20:21"
+    },
     "96296e87-89a4-11ea-b1fd-0aad30af8a83": {
         "acquisition_type": "DDA",
         "analytical_fraction": "Phosphoproteome",
@@ -1044,6 +1248,83 @@
         "submitter_id_name": "PTRC HGSOC FFPE Discovery - Proteome",
         "updated": "2022-11-21 08:52:27"
     },
+    "99ad4da6-c76a-41a5-a92b-8719bacf5712": {
+        "acquisition_type": "DDA",
+        "analytical_fraction": "Proteome",
+        "cptac_study_id": null,
+        "cud_label": "PDC000356",
+        "embargo_date": "2024-12-30",
+        "experiment_type": "TMT10",
+        "files": [
+            "99ad4da6-c76a-41a5-a92b-8719bacf5712-log2_ratio.gct",
+            "99ad4da6-c76a-41a5-a92b-8719bacf5712-unshared_log2_ratio.gct",
+            "manifest.json"
+        ],
+        "is_latest_version": 1,
+        "pdc_study_id": "PDC000356",
+        "project_id": "e4c35569-3d14-4c61-8975-3d792aa402c7",
+        "project_submitter_id": "National Cancer Center Korea - iCC",
+        "protocol_id": "19ea7a75-8901-4d3a-b934-50d048034a18",
+        "protocol_submitter_id": "ICC protocol KBSI",
+        "study_description": "Intrahepatic cholangiocarcinomas (iCCs) are characterized by their rarity, difficulty in diagnosis, and overall poor prognosis. iCC is rare in terms of devoted studies, with a series of questions about pathogenesis, diagnosis and treatment left unanswered.  We performed comprehensive genomic, transcriptomic, proteomic, and phosphoproteomic characterization of treatment-naive iCC and paired normal adjacent tissue samples. A total of 102 patients histologically diagnosed with iCC between June 2001  and December 2018 at National Cancer Center, Korea, Pusan National University Hospital, Chonnam National University Hospital were subjected to global proteome and phosphoproteome analysis following the CPTAC-optimized workflow for mass spectrometry analysis of tissues using the 10-plexed isobaric tandem mass tags (TMT-11) (Mertins et al., Nature Protocols 2018). ",
+        "study_id": "99ad4da6-c76a-41a5-a92b-8719bacf5712",
+        "study_shortname": "NCC iCC - Proteome",
+        "study_submitter_id": "NCC iCC - Proteome",
+        "study_version": "1",
+        "submitter_id_name": "NCC iCC - Proteome",
+        "updated": "2024-01-09 07:54:38"
+    },
+    "99c6cbb1-4e81-489e-aca9-b7e57ebe70dc": {
+        "acquisition_type": "DDA",
+        "analytical_fraction": "Phosphoproteome",
+        "cptac_study_id": null,
+        "cud_label": "PDC000518",
+        "embargo_date": "None",
+        "experiment_type": "TMT10",
+        "files": [
+            "99c6cbb1-4e81-489e-aca9-b7e57ebe70dc-log2_ratio.gct",
+            "manifest.json"
+        ],
+        "is_latest_version": 1,
+        "pdc_study_id": "PDC000518",
+        "project_id": "7ca2bd4f-3cad-48a1-b874-668a545cd1b6",
+        "project_submitter_id": "International Cancer Proteogenome Consortium (ICPC): Proteogenomics of Oral Squamous Cell Carcinoma in Taiwan",
+        "protocol_id": "37089a17-0aa2-4e61-8164-ac27f6976c14",
+        "protocol_submitter_id": "CGU OSCC Multi-omics Global Phosphoproteome",
+        "study_description": "<p>Oral cavity squamous cell carcinoma (OSCC), a leading subtype of head and neck cancer, exhibits high global incidence and mortality rates. Despite advancements in surgery and radiochemotherapy, approximately one-third of patients experience relapse. To improve current targeted and immunotherapy strategies for recurrent OSCC, we conducted multi-omics analyses on pretreatment OSCC samples (cohorts 1 and 2, n=137) and identified A3A and EGFR, both at the RNA and protein levels, as inversely expressed markers for patient stratification and response prediction. Survival analysis demonstrated that elevated A3A or PD-L1 expression levels correlated to improved responses to anti-PD-1 therapy in patients (cohort 3a, n=50, IHC). In contrast, high RRAS expression (cohort 4, n=252, qRT-PCR) was significantly associated with OSCC recurrence. Cell-based experiments revealed that RRAS was involved in radiotherapy and cisplatin resistance through the EGFR/RRAS/AKT/ERK signaling pathway. In OSCC patient-derived xenograft (PDX) mouse models, treatments with cisplatin and cetuximab (anti-EGFR) effectively reduced tumor size in EGFR-high-derived (#34) but not A3A-high-derived (#22) PDX tumors. Our study demonstrated that A3A-high tumors were immune-hot and responsive to anti-PD-1 therapy, whereas EGFR-high tumors exhibited chr.7p11.2 gains and DNA repair alterations. Additionally, RRAS-high tumors were associated with OSCC recurrence via AKT and ERK phosphorylation and demonstrate improved clinical outcomes with cetuximab therapy (cohort 3b, n=49, IHC). This study emphasizes the significance of A3A and EGFR expression levels in OSCC patient stratification and precision therapy, suggesting the use of anti-PD-1 or anti-EGFR treatments, respectively based on these biomarkers. Furthermore, RRAS emerges as a novel prognostic marker for local recurrence.</p>",
+        "study_id": "99c6cbb1-4e81-489e-aca9-b7e57ebe70dc",
+        "study_shortname": "CGU OSCC Multi-omics - Global Phosphoproteome",
+        "study_submitter_id": "CGU OSCC Multi-omics - Global Phosphoproteome",
+        "study_version": "1",
+        "submitter_id_name": "CGU OSCC Multi-omics - Global Phosphoproteome",
+        "updated": "2025-02-03 21:42:32"
+    },
+    "99efac4f-538d-4c9b-aac6-ebaee68e248b": {
+        "acquisition_type": "DDA",
+        "analytical_fraction": "Proteome",
+        "cptac_study_id": null,
+        "cud_label": "PDC000519",
+        "embargo_date": "None",
+        "experiment_type": "TMT10",
+        "files": [
+            "99efac4f-538d-4c9b-aac6-ebaee68e248b-log2_ratio.gct",
+            "99efac4f-538d-4c9b-aac6-ebaee68e248b-unshared_log2_ratio.gct",
+            "manifest.json"
+        ],
+        "is_latest_version": 1,
+        "pdc_study_id": "PDC000519",
+        "project_id": "7ca2bd4f-3cad-48a1-b874-668a545cd1b6",
+        "project_submitter_id": "International Cancer Proteogenome Consortium (ICPC): Proteogenomics of Oral Squamous Cell Carcinoma in Taiwan",
+        "protocol_id": "3e2728ef-067a-4579-a05e-e326ce6f4013",
+        "protocol_submitter_id": "CGU OSCC APOBEC3A proteome",
+        "study_description": "<p>Oral cavity squamous cell carcinoma (OSCC), a leading subtype of head and neck cancer, exhibits high global incidence and mortality rates. Despite advancements in surgery and radiochemotherapy, approximately one-third of patients experience relapse. To improve current targeted and immunotherapy strategies for recurrent OSCC, we conducted multi-omics analyses on pretreatment OSCC samples (cohorts 1 and 2, n=137) and identified A3A and EGFR, both at the RNA and protein levels, as inversely expressed markers for patient stratification and response prediction. Survival analysis demonstrated that elevated A3A or PD-L1 expression levels correlated to improved responses to anti-PD-1 therapy in patients (cohort 3a, n=50, IHC). In contrast, high RRAS expression (cohort 4, n=252, qRT-PCR) was significantly associated with OSCC recurrence. Cell-based experiments revealed that RRAS was involved in radiotherapy and cisplatin resistance through the EGFR/RRAS/AKT/ERK signaling pathway. In OSCC patient-derived xenograft (PDX) mouse models, treatments with cisplatin and cetuximab (anti-EGFR) effectively reduced tumor size in EGFR-high-derived (#34) but not A3A-high-derived (#22) PDX tumors. Our study demonstrated that A3A-high tumors were immune-hot and responsive to anti-PD-1 therapy, whereas EGFR-high tumors exhibited chr.7p11.2 gains and DNA repair alterations. Additionally, RRAS-high tumors were associated with OSCC recurrence via AKT and ERK phosphorylation and demonstrate improved clinical outcomes with cetuximab therapy (cohort 3b, n=49, IHC). This study emphasizes the significance of A3A and EGFR expression levels in OSCC patient stratification and precision therapy, suggesting the use of anti-PD-1 or anti-EGFR treatments, respectively based on these biomarkers. Furthermore, RRAS emerges as a novel prognostic marker for local recurrence.</p>",
+        "study_id": "99efac4f-538d-4c9b-aac6-ebaee68e248b",
+        "study_shortname": "CGU OSCC APOBEC3A - Proteome",
+        "study_submitter_id": "CGU OSCC APOBEC3A - Proteome",
+        "study_version": "1",
+        "submitter_id_name": "CGU OSCC APOBEC3A - Proteome",
+        "updated": "2025-02-03 21:42:32"
+    },
     "9a3fa30d-b8be-4841-9081-7c3edfc813eb": {
         "acquisition_type": "DDA",
         "analytical_fraction": "Proteome",
@@ -1069,6 +1350,58 @@
         "study_version": "1",
         "submitter_id_name": "PTRC TNBC - Proteome",
         "updated": "2022-08-25 03:18:30"
+    },
+    "9b31480a-a729-49f7-8663-81ef283c9bec": {
+        "acquisition_type": "DDA",
+        "analytical_fraction": "Proteome",
+        "cptac_study_id": null,
+        "cud_label": "PDC000489",
+        "embargo_date": "None",
+        "experiment_type": "TMT11",
+        "files": [
+            "9b31480a-a729-49f7-8663-81ef283c9bec-log2_ratio.gct",
+            "9b31480a-a729-49f7-8663-81ef283c9bec-unshared_log2_ratio.gct",
+            "manifest.json"
+        ],
+        "is_latest_version": 1,
+        "pdc_study_id": "PDC000489",
+        "project_id": "267d6671-0e78-11e9-a064-0a9c39d33490",
+        "project_submitter_id": "CPTAC3 Discovery and Confirmatory",
+        "protocol_id": "fd1451ac-8d84-4f62-b77d-660f03f57ea2",
+        "protocol_submitter_id": "CPTAC3-LUADC Proteome ",
+        "study_description": "<p>Lung adenocarcinoma (LUAD) is a pressing global health problem with enduring lethality and rapidly shifting epidemiology. Proteogenomic studies integrating proteomic and post-translational modification with comprehensive genomic characterization can identify novel clinical strata and oncogenic mechanisms provide new insights into LUAD pathobiology, but to date have been underpowered to examine effects of ethnicity, smoking and environmental exposure status, or sex, and other variables. This comprehensive proteogenomic analysis of LUAD tumors and matched normal adjacent tissues (NATs) from 406 patients across diverse geographic and demographic backgrounds defines the impact describes the influence of understudied less common driver mutations genomic alterations, heterogeneity of genomic instability, patterns of immune signaling, differential and sex-specific effects of endogenous mutagens and environmental carcinogens, and the biology underlying early-stage tumors with \u201clate-like\u201d characteristics. Candidate protein biomarkers are proposed for chromosomally unstable tumors and carcinogen exposure, and a LUAD subtype-specific atlas of therapeutic vulnerabilities is presented. These observations and the associated data resource advance the objective of precision management strategies for this devastating disease.</p><p><i>Note: The publication associated with this dataset integrates multiple datasets available in PDC, including cohorts from the CPTAC and ICPC Academia Sinica programs. The Related Studies section below lists other studies that are part of this integration.</i></p><p><i>Note: To facilitate cross-cohort comparisons, <b>Taiwanese IR</b> has been used as a bridging sample between the CPTAC and ICPC LUAD cohorts. Refer to the publication for further details.</i></p>",
+        "study_id": "9b31480a-a729-49f7-8663-81ef283c9bec",
+        "study_shortname": "CPTAC LUAD Confirmatory Study - Proteome",
+        "study_submitter_id": "CPTAC LUAD Confirmatory Study - Proteome",
+        "study_version": "1",
+        "submitter_id_name": "CPTAC LUAD Confirmatory Study - Proteome",
+        "updated": "2025-03-28 19:36:20"
+    },
+    "9b8a5578-79e8-4771-8342-d671b1c012a1": {
+        "acquisition_type": "DDA",
+        "analytical_fraction": "Proteome",
+        "cptac_study_id": null,
+        "cud_label": "PDC000604",
+        "embargo_date": "None",
+        "experiment_type": "TMT18",
+        "files": [
+            "9b8a5578-79e8-4771-8342-d671b1c012a1-log2_ratio.gct",
+            "9b8a5578-79e8-4771-8342-d671b1c012a1-unshared_log2_ratio.gct",
+            "manifest.json"
+        ],
+        "is_latest_version": 1,
+        "pdc_study_id": "PDC000604",
+        "project_id": "253a0595-7418-45ea-ab48-f5308217f467",
+        "project_submitter_id": "CPTAC-KF-CCDI-Pediatric AML",
+        "protocol_id": "ca789e19-2a81-459b-90ec-55f75e13c73e",
+        "protocol_submitter_id": "CPTAC-KF-CCDI-Pediatric AML Proteome Protocol",
+        "study_description": "",
+        "study_id": "9b8a5578-79e8-4771-8342-d671b1c012a1",
+        "study_shortname": "CPTAC-KF-CCDI-Pediatric AML Study - Proteome",
+        "study_submitter_id": "CPTAC-KF-CCDI-Pediatric AML Study - Proteome",
+        "study_version": "1",
+        "submitter_id_name": "CPTAC-KF-CCDI-Pediatric AML Study - Proteome",
+        "updated": "2025-05-30 07:28:05"
     },
     "9dc23e84-ebff-40b8-844b-5c41a3a7384b": {
         "acquisition_type": "DDA",
@@ -1123,6 +1456,56 @@
         "submitter_id_name": "PTRC HGSOC FFPE Validation - Proteome",
         "updated": "2022-11-21 08:28:46"
     },
+    "a9d02dad-faf5-4b04-8df2-211732e2b2ed": {
+        "acquisition_type": "DDA",
+        "analytical_fraction": "Phosphoproteome",
+        "cptac_study_id": null,
+        "cud_label": "PDC000583",
+        "embargo_date": "None",
+        "experiment_type": "TMT16",
+        "files": [
+            "a9d02dad-faf5-4b04-8df2-211732e2b2ed-log2_ratio.gct",
+            "manifest.json"
+        ],
+        "is_latest_version": 1,
+        "pdc_study_id": "PDC000583",
+        "project_id": "7231aab6-7603-499b-a48d-3e3411143e18",
+        "project_submitter_id": "Proteogenomic Translational Research Centers (PTRC)",
+        "protocol_id": "308e6773-54e3-4eb3-bcdd-55f88df84b87",
+        "protocol_submitter_id": "PTRC BRCA CALGB40601 Neoadjuvant Trial - Phosphoproteome",
+        "study_description": "<p>Accurate predictive biomarkers for pathological complete response (pCR) to neoadjuvant therapy would promote alternative first-line treatments for unresponsive tumors. A proteogenomic analysis of the CALGB 40601 neoadjuvant trial for HER2+ breast cancer (BC) was therefore conducted. Absence of ERBB2 gene amplification and HER2 protein overexpression by proteogenomics was associated with non-pCR (p<0.05) indicating misdiagnosis by standard methods. Pathway analysis in proteogenomics-confirmed HER2+ samples identified upregulation of EMT, Notch and WNT-beta catenin signaling in non-pCR cases. Twenty pCR associated proteins were replicated in a second proteomic dataset, and three, GPRC5A, TPBG and OLXD1, were significant in a third. A meta-analysis of ten diverse neoadjuvant anti-HER2 treatment regimens from four independent studies confirmed significantly higher mRNA expression of GPRC5A (P=0.0002) and the oncofetal antigen TPBG (P=0.00008) in non-pCR cases. Thus, proteogenomic analysis successfully identified both predictive biomarkers for pCR and candidate investigational targets for treatment resistant HER2+ breast cancer.</p>",
+        "study_id": "a9d02dad-faf5-4b04-8df2-211732e2b2ed",
+        "study_shortname": "PTRC BRCA CALGB40601 Neoadjuvant Trial - Phosphoproteome",
+        "study_submitter_id": "PTRC BRCA CALGB40601 Neoadjuvant Trial - Phosphoproteome",
+        "study_version": "1",
+        "submitter_id_name": "PTRC BRCA CALGB40601 Neoadjuvant Trial - Phosphoproteome",
+        "updated": "2025-01-15 08:10:17"
+    },
+    "b06a11e6-ce3a-4fa3-98af-dfc01886a3d1": {
+        "acquisition_type": "DDA",
+        "analytical_fraction": "Phosphoproteome",
+        "cptac_study_id": null,
+        "cud_label": "PDC000602",
+        "embargo_date": "None",
+        "experiment_type": "TMT18",
+        "files": [
+            "b06a11e6-ce3a-4fa3-98af-dfc01886a3d1-log2_ratio.gct",
+            "manifest.json"
+        ],
+        "is_latest_version": 1,
+        "pdc_study_id": "PDC000602",
+        "project_id": "253a0595-7418-45ea-ab48-f5308217f467",
+        "project_submitter_id": "CPTAC-KF-CCDI-Pediatric AML",
+        "protocol_id": "f1897429-5cd7-40f3-94f3-7577d9f88f0b",
+        "protocol_submitter_id": "CPTAC-KF-CCDI-Pediatric AML Phosphoproteome Protocol",
+        "study_description": "",
+        "study_id": "b06a11e6-ce3a-4fa3-98af-dfc01886a3d1",
+        "study_shortname": "CPTAC-KF-CCDI-Pediatric AML Study - Phosphoproteome",
+        "study_submitter_id": "CPTAC-KF-CCDI-Pediatric AML Study - Phosphoproteome",
+        "study_version": "1",
+        "submitter_id_name": "CPTAC-KF-CCDI-Pediatric AML Study - Phosphoproteome",
+        "updated": "2025-06-01 07:10:08"
+    },
     "b16ac41e-c4c8-4a3d-b2a9-f365f005e31d": {
         "acquisition_type": "DDA",
         "analytical_fraction": "Proteome",
@@ -1167,13 +1550,13 @@
         "project_submitter_id": "CPTAC3 Discovery and Confirmatory",
         "protocol_id": "9c21e529-117c-4a9e-b030-4b07ae9fc48d",
         "protocol_submitter_id": "CPTAC3-GBMC Proteome",
-        "study_description": "<p>To delineate the multi-scale regulatory interactions governing glioblastoma (GBM) development and evolution (recurrence and clinical outcomes), we characterized 228 human GBM tumors (including 28 at recurrence) using 15 proteogenomic and metabolomic platforms. Comparative analyses of paired primary-recurrent GBMs showed increased clonal diversity in recurrent tumors as a function of elapsed time since primary diagnosis and treatment-induced mutational and signaling signatures at recurrence. Additionally, across our entire cohort, independent analyses of proteomic and metabolomic changes associated with the trans effects of PTEN and TERT promoter mutations, when considered independently, showed a high correlation between the downstream effects of the two drivers. Glycoproteomic and phosphoproteomic analyses revealed crosstalk of dual glycosylation (N352 and N603) and phosphorylation (Y316) on EGFR, but only observed in the context of EGFR amplification or activating mutations. IDH1 mutation was associated with activated RTK signaling and decreased hypoxia pathway activities, which was concordant with epigenetic and metabolic profiles. Protein-protein interaction and kinase/phosphatase-substrate analyses uncovered detailed signaling flowing from upstream drivers (e.g., EGFR, PDGFRA, and IDH) through a PTPN11 network hub to downstream effectors, including GAB1, IRS1, MAP3K5, and PTK2B. We also report recurrent mutations in PTPN11 and its downstream consequences. In summary, this study presents new biological insights regarding treatment impact on tumor evolution and clinical outcomes, shared downstream consequences of independent drivers, and the potential importance of members of PTPN11 signaling circuitry across high-grade gliomas.</p>",
+        "study_description": "<p>To delineate the multi-scale regulatory interactions governing glioblastoma (GBM) development and evolution (recurrence and clinical outcomes), we characterized 228 human GBM tumors (including 28 at recurrence) using 15 proteogenomic and metabolomic platforms. Comparative analyses of paired primary-recurrent GBMs showed increased clonal diversity in recurrent tumors as a function of elapsed time since primary diagnosis and treatment-induced mutational and signaling signatures at recurrence. Additionally, across our entire cohort, independent analyses of proteomic and metabolomic changes associated with the trans effects of PTEN and TERT promoter mutations, when considered independently, showed a high correlation between the downstream effects of the two drivers. Glycoproteomic and phosphoproteomic analyses revealed crosstalk of dual glycosylation (N352 and N603) and phosphorylation (Y316) on EGFR, but only observed in the context of EGFR amplification or activating mutations. IDH1 mutation was associated with activated RTK signaling and decreased hypoxia pathway activities, which was concordant with epigenetic and metabolic profiles. Protein-protein interaction and kinase/phosphatase-substrate analyses uncovered detailed signaling flowing from upstream drivers (e.g., EGFR, PDGFRA, and IDH) through a PTPN11 network hub to downstream effectors, including GAB1, IRS1, MAP3K5, and PTK2B. We also report recurrent mutations in PTPN11 and its downstream consequences. In summary, this study presents new biological insights regarding treatment impact on tumor evolution and clinical outcomes, shared downstream consequences of independent drivers, and the potential importance of members of PTPN11 signaling circuitry across high-grade gliomas.</p><p><i>Note: The samples listed below are metastatic samples originating from organs including lung, uterus, colon, breast or urethra which metastasized to the brain and were subsequently resected from the brain.<br>\n7316UP-483, 7316UP-99, 7316UP-1273, 7316UP-743, 7316UP-219, 7316UP-485, 7316UP-393, 7316UP-553, 7316UP-1302, 7316UP-1405, 7316UP-1614, 7316UP-1883</i></p>",
         "study_id": "b25c2cea-4a49-4bc3-9f87-3cf5ee026865",
         "study_shortname": "CPTAC GBM Confirmatory Study - Proteome",
         "study_submitter_id": "CPTAC GBM Confirmatory Study - Proteome",
         "study_version": "1",
         "submitter_id_name": "CPTAC GBM Confirmatory Study - Proteome",
-        "updated": "2023-03-31 03:33:44"
+        "updated": "2024-06-03 07:44:18"
     },
     "b3545fd1-ebcc-11ea-b1fd-0aad30af8a83": {
         "acquisition_type": "DDA",
@@ -1762,6 +2145,31 @@
         "submitter_id_name": "CPTAC UCEC Discovery Study - Proteome",
         "updated": "2022-10-07 04:26:07"
     },
+    "ca40e63b-2d0f-4eff-b3fc-c3bbfe76f22d": {
+        "acquisition_type": "DDA",
+        "analytical_fraction": "Phosphoproteome",
+        "cptac_study_id": null,
+        "cud_label": "PDC000520",
+        "embargo_date": "None",
+        "experiment_type": "TMT10",
+        "files": [
+            "ca40e63b-2d0f-4eff-b3fc-c3bbfe76f22d-log2_ratio.gct",
+            "manifest.json"
+        ],
+        "is_latest_version": 1,
+        "pdc_study_id": "PDC000520",
+        "project_id": "7ca2bd4f-3cad-48a1-b874-668a545cd1b6",
+        "project_submitter_id": "International Cancer Proteogenome Consortium (ICPC): Proteogenomics of Oral Squamous Cell Carcinoma in Taiwan",
+        "protocol_id": "c1a9db20-300c-43d2-ad59-8dd67b13f708",
+        "protocol_submitter_id": "CGU OSCC APOBEC3A Global Phosphoproteome",
+        "study_description": "<p>Oral cavity squamous cell carcinoma (OSCC), a leading subtype of head and neck cancer, exhibits high global incidence and mortality rates. Despite advancements in surgery and radiochemotherapy, approximately one-third of patients experience relapse. To improve current targeted and immunotherapy strategies for recurrent OSCC, we conducted multi-omics analyses on pretreatment OSCC samples (cohorts 1 and 2, n=137) and identified A3A and EGFR, both at the RNA and protein levels, as inversely expressed markers for patient stratification and response prediction. Survival analysis demonstrated that elevated A3A or PD-L1 expression levels correlated to improved responses to anti-PD-1 therapy in patients (cohort 3a, n=50, IHC). In contrast, high RRAS expression (cohort 4, n=252, qRT-PCR) was significantly associated with OSCC recurrence. Cell-based experiments revealed that RRAS was involved in radiotherapy and cisplatin resistance through the EGFR/RRAS/AKT/ERK signaling pathway. In OSCC patient-derived xenograft (PDX) mouse models, treatments with cisplatin and cetuximab (anti-EGFR) effectively reduced tumor size in EGFR-high-derived (#34) but not A3A-high-derived (#22) PDX tumors. Our study demonstrated that A3A-high tumors were immune-hot and responsive to anti-PD-1 therapy, whereas EGFR-high tumors exhibited chr.7p11.2 gains and DNA repair alterations. Additionally, RRAS-high tumors were associated with OSCC recurrence via AKT and ERK phosphorylation and demonstrate improved clinical outcomes with cetuximab therapy (cohort 3b, n=49, IHC). This study emphasizes the significance of A3A and EGFR expression levels in OSCC patient stratification and precision therapy, suggesting the use of anti-PD-1 or anti-EGFR treatments, respectively based on these biomarkers. Furthermore, RRAS emerges as a novel prognostic marker for local recurrence.</p>",
+        "study_id": "ca40e63b-2d0f-4eff-b3fc-c3bbfe76f22d",
+        "study_shortname": "CGU OSCC APOBEC3A - Global Phosphoproteome",
+        "study_submitter_id": "CGU OSCC APOBEC3A - Global Phosphoproteome",
+        "study_version": "1",
+        "submitter_id_name": "CGU OSCC APOBEC3A - Global Phosphoproteome",
+        "updated": "2025-02-03 21:42:32"
+    },
     "cb7220f5-0cd1-11e9-a064-0a9c39d33490": {
         "acquisition_type": "DDA",
         "analytical_fraction": "Phosphoproteome",
@@ -1786,6 +2194,31 @@
         "study_version": "1",
         "submitter_id_name": "CPTAC UCEC Discovery Study - Phosphoproteome",
         "updated": "2022-10-07 04:26:07"
+    },
+    "cebc259f-d275-4ad1-bea0-eebe02d265d6": {
+        "acquisition_type": "DDA",
+        "analytical_fraction": "Acetylome",
+        "cptac_study_id": null,
+        "cud_label": "PDC000601",
+        "embargo_date": "None",
+        "experiment_type": "TMT18",
+        "files": [
+            "cebc259f-d275-4ad1-bea0-eebe02d265d6-log2_ratio.gct",
+            "manifest.json"
+        ],
+        "is_latest_version": 1,
+        "pdc_study_id": "PDC000601",
+        "project_id": "253a0595-7418-45ea-ab48-f5308217f467",
+        "project_submitter_id": "CPTAC-KF-CCDI-Pediatric AML",
+        "protocol_id": "10d6ec64-a76f-478e-84ae-02ad3b9803d3",
+        "protocol_submitter_id": "CPTAC-KF-CCDI-Pediatric AML Acetylome Protocol",
+        "study_description": "",
+        "study_id": "cebc259f-d275-4ad1-bea0-eebe02d265d6",
+        "study_shortname": "CPTAC-KF-CCDI-Pediatric AML Study - Acetylome",
+        "study_submitter_id": "CPTAC-KF-CCDI-Pediatric AML Study - Acetylome",
+        "study_version": "1",
+        "submitter_id_name": "CPTAC-KF-CCDI-Pediatric AML Study - Acetylome",
+        "updated": "2025-05-30 07:10:04"
     },
     "cfe9f4a2-1797-11ea-9bfa-0a42f3c845fe": {
         "acquisition_type": "DDA",
@@ -1838,6 +2271,31 @@
         "submitter_id_name": "AML Ex Vivo Drug Response - Primary Cohort - Phosphoproteome",
         "updated": "2022-07-29 18:59:14"
     },
+    "d0dccda8-fb1f-4113-97db-7553f08c71f2": {
+        "acquisition_type": "DDA",
+        "analytical_fraction": "Acetylome",
+        "cptac_study_id": null,
+        "cud_label": "PDC000491",
+        "embargo_date": "None",
+        "experiment_type": "TMT11",
+        "files": [
+            "d0dccda8-fb1f-4113-97db-7553f08c71f2-log2_ratio.gct",
+            "manifest.json"
+        ],
+        "is_latest_version": 1,
+        "pdc_study_id": "PDC000491",
+        "project_id": "267d6671-0e78-11e9-a064-0a9c39d33490",
+        "project_submitter_id": "CPTAC3 Discovery and Confirmatory",
+        "protocol_id": "b1735dfc-5226-4034-9762-8c8eb8996f42",
+        "protocol_submitter_id": "CPTAC3-LUADC Acetylome",
+        "study_description": "<p>Lung adenocarcinoma (LUAD) is a pressing global health problem with enduring lethality and rapidly shifting epidemiology. Proteogenomic studies integrating proteomic and post-translational modification with comprehensive genomic characterization can identify novel clinical strata and oncogenic mechanisms provide new insights into LUAD pathobiology, but to date have been underpowered to examine effects of ethnicity, smoking and environmental exposure status, or sex, and other variables. This comprehensive proteogenomic analysis of LUAD tumors and matched normal adjacent tissues (NATs) from 406 patients across diverse geographic and demographic backgrounds defines the impact describes the influence of understudied less common driver mutations genomic alterations, heterogeneity of genomic instability, patterns of immune signaling, differential and sex-specific effects of endogenous mutagens and environmental carcinogens, and the biology underlying early-stage tumors with \u201clate-like\u201d characteristics. Candidate protein biomarkers are proposed for chromosomally unstable tumors and carcinogen exposure, and a LUAD subtype-specific atlas of therapeutic vulnerabilities is presented. These observations and the associated data resource advance the objective of precision management strategies for this devastating disease.</p><p><i>Note: The publication associated with this dataset integrates multiple datasets available in PDC, including cohorts from the CPTAC and ICPC Academia Sinica programs. The Related Studies section below lists other studies that are part of this integration.</i></p><p><i>Note: To facilitate cross-cohort comparisons, <b>Taiwanese IR</b> has been used as a bridging sample between the CPTAC and ICPC LUAD cohorts. Refer to the publication for further details.</i></p>",
+        "study_id": "d0dccda8-fb1f-4113-97db-7553f08c71f2",
+        "study_shortname": "CPTAC LUAD Confirmatory Study - Acetylome",
+        "study_submitter_id": "CPTAC LUAD Confirmatory Study - Acetylome",
+        "study_version": "1",
+        "submitter_id_name": "CPTAC LUAD Confirmatory Study - Acetylome",
+        "updated": "2025-03-28 19:36:19"
+    },
     "d3b64baa-c0dc-45db-bd1d-31bd5000f2e9": {
         "acquisition_type": "DDA",
         "analytical_fraction": "Phosphoproteome",
@@ -1862,6 +2320,31 @@
         "study_version": "1",
         "submitter_id_name": "AML Gilteritinib TimeCourse -  Phosphoproteome",
         "updated": "2021-07-06 19:46:04"
+    },
+    "d4e7efbe-fdd5-424c-87f2-f68da45ac6ba": {
+        "acquisition_type": "DDA",
+        "analytical_fraction": "Phosphoproteome",
+        "cptac_study_id": null,
+        "cud_label": "PDC000517",
+        "embargo_date": "None",
+        "experiment_type": "TMT10",
+        "files": [
+            "d4e7efbe-fdd5-424c-87f2-f68da45ac6ba-log2_ratio.gct",
+            "manifest.json"
+        ],
+        "is_latest_version": 1,
+        "pdc_study_id": "PDC000517",
+        "project_id": "7ca2bd4f-3cad-48a1-b874-668a545cd1b6",
+        "project_submitter_id": "International Cancer Proteogenome Consortium (ICPC): Proteogenomics of Oral Squamous Cell Carcinoma in Taiwan",
+        "protocol_id": "7b3fbc68-8f88-4f16-9ee8-5d0a24863d14",
+        "protocol_submitter_id": "CGU OSCC Multi-omics Multiple Phosphoproteome",
+        "study_description": "<p>Oral cavity squamous cell carcinoma (OSCC), a leading subtype of head and neck cancer, exhibits high global incidence and mortality rates. Despite advancements in surgery and radiochemotherapy, approximately one-third of patients experience relapse. To improve current targeted and immunotherapy strategies for recurrent OSCC, we conducted multi-omics analyses on pretreatment OSCC samples (cohorts 1 and 2, n=137) and identified A3A and EGFR, both at the RNA and protein levels, as inversely expressed markers for patient stratification and response prediction. Survival analysis demonstrated that elevated A3A or PD-L1 expression levels correlated to improved responses to anti-PD-1 therapy in patients (cohort 3a, n=50, IHC). In contrast, high RRAS expression (cohort 4, n=252, qRT-PCR) was significantly associated with OSCC recurrence. Cell-based experiments revealed that RRAS was involved in radiotherapy and cisplatin resistance through the EGFR/RRAS/AKT/ERK signaling pathway. In OSCC patient-derived xenograft (PDX) mouse models, treatments with cisplatin and cetuximab (anti-EGFR) effectively reduced tumor size in EGFR-high-derived (#34) but not A3A-high-derived (#22) PDX tumors. Our study demonstrated that A3A-high tumors were immune-hot and responsive to anti-PD-1 therapy, whereas EGFR-high tumors exhibited chr.7p11.2 gains and DNA repair alterations. Additionally, RRAS-high tumors were associated with OSCC recurrence via AKT and ERK phosphorylation and demonstrate improved clinical outcomes with cetuximab therapy (cohort 3b, n=49, IHC). This study emphasizes the significance of A3A and EGFR expression levels in OSCC patient stratification and precision therapy, suggesting the use of anti-PD-1 or anti-EGFR treatments, respectively based on these biomarkers. Furthermore, RRAS emerges as a novel prognostic marker for local recurrence.</p>",
+        "study_id": "d4e7efbe-fdd5-424c-87f2-f68da45ac6ba",
+        "study_shortname": "CGU OSCC Multi-omics - Multiple Phosphoproteome",
+        "study_submitter_id": "CGU OSCC Multi-omics - Multiple Phosphoproteome",
+        "study_version": "1",
+        "submitter_id_name": "CGU OSCC Multi-omics - Multiple Phosphoproteome",
+        "updated": "2025-02-03 21:42:32"
     },
     "d9b5770b-2d17-432b-8d64-621677653da8": {
         "acquisition_type": "DDA",
@@ -1982,13 +2465,13 @@
         "project_submitter_id": "CPTAC3 Discovery and Confirmatory",
         "protocol_id": "ce6141a2-88ad-49a8-a702-f162d0e622ae",
         "protocol_submitter_id": "CPTAC3-GBMC Phosphoproteome",
-        "study_description": "<p>To delineate the multi-scale regulatory interactions governing glioblastoma (GBM) development and evolution (recurrence and clinical outcomes), we characterized 228 human GBM tumors (including 28 at recurrence) using 15 proteogenomic and metabolomic platforms. Comparative analyses of paired primary-recurrent GBMs showed increased clonal diversity in recurrent tumors as a function of elapsed time since primary diagnosis and treatment-induced mutational and signaling signatures at recurrence. Additionally, across our entire cohort, independent analyses of proteomic and metabolomic changes associated with the trans effects of PTEN and TERT promoter mutations, when considered independently, showed a high correlation between the downstream effects of the two drivers. Glycoproteomic and phosphoproteomic analyses revealed crosstalk of dual glycosylation (N352 and N603) and phosphorylation (Y316) on EGFR, but only observed in the context of EGFR amplification or activating mutations. IDH1 mutation was associated with activated RTK signaling and decreased hypoxia pathway activities, which was concordant with epigenetic and metabolic profiles. Protein-protein interaction and kinase/phosphatase-substrate analyses uncovered detailed signaling flowing from upstream drivers (e.g., EGFR, PDGFRA, and IDH) through a PTPN11 network hub to downstream effectors, including GAB1, IRS1, MAP3K5, and PTK2B. We also report recurrent mutations in PTPN11 and its downstream consequences. In summary, this study presents new biological insights regarding treatment impact on tumor evolution and clinical outcomes, shared downstream consequences of independent drivers, and the potential importance of members of PTPN11 signaling circuitry across high-grade gliomas.</p>",
+        "study_description": "<p>To delineate the multi-scale regulatory interactions governing glioblastoma (GBM) development and evolution (recurrence and clinical outcomes), we characterized 228 human GBM tumors (including 28 at recurrence) using 15 proteogenomic and metabolomic platforms. Comparative analyses of paired primary-recurrent GBMs showed increased clonal diversity in recurrent tumors as a function of elapsed time since primary diagnosis and treatment-induced mutational and signaling signatures at recurrence. Additionally, across our entire cohort, independent analyses of proteomic and metabolomic changes associated with the trans effects of PTEN and TERT promoter mutations, when considered independently, showed a high correlation between the downstream effects of the two drivers. Glycoproteomic and phosphoproteomic analyses revealed crosstalk of dual glycosylation (N352 and N603) and phosphorylation (Y316) on EGFR, but only observed in the context of EGFR amplification or activating mutations. IDH1 mutation was associated with activated RTK signaling and decreased hypoxia pathway activities, which was concordant with epigenetic and metabolic profiles. Protein-protein interaction and kinase/phosphatase-substrate analyses uncovered detailed signaling flowing from upstream drivers (e.g., EGFR, PDGFRA, and IDH) through a PTPN11 network hub to downstream effectors, including GAB1, IRS1, MAP3K5, and PTK2B. We also report recurrent mutations in PTPN11 and its downstream consequences. In summary, this study presents new biological insights regarding treatment impact on tumor evolution and clinical outcomes, shared downstream consequences of independent drivers, and the potential importance of members of PTPN11 signaling circuitry across high-grade gliomas.</p><p><i>Note: The samples listed below are metastatic samples originating from organs including lung, uterus, colon, breast or urethra which metastasized to the brain and were subsequently resected from the brain.<br>\n7316UP-483, 7316UP-99, 7316UP-1273, 7316UP-743, 7316UP-219, 7316UP-485, 7316UP-393, 7316UP-553, 7316UP-1302, 7316UP-1405, 7316UP-1614, 7316UP-1883</i></p>",
         "study_id": "e1f7dcb3-db7f-4f04-bc0f-b150af3888b9",
         "study_shortname": "CPTAC GBM Confirmatory Study - Phosphoproteome",
         "study_submitter_id": "CPTAC GBM Confirmatory Study - Phosphoproteome",
         "study_version": "1",
         "submitter_id_name": "CPTAC GBM Confirmatory Study - Phosphoproteome",
-        "updated": "2023-04-06 05:26:48"
+        "updated": "2024-06-03 07:46:08"
     },
     "e386beb5-693a-11ea-b1fd-0aad30af8a83": {
         "acquisition_type": "DDA",
@@ -2040,6 +2523,106 @@
         "study_version": "1",
         "submitter_id_name": "Proteogenomics of Gastric Cancer - Phosphoproteome",
         "updated": "2020-11-24 09:46:07"
+    },
+    "e4dc9f9b-9483-434c-bd0e-ac16c8c53ee2": {
+        "acquisition_type": "DDA",
+        "analytical_fraction": "Phosphoproteome",
+        "cptac_study_id": null,
+        "cud_label": "PDC000564",
+        "embargo_date": "None",
+        "experiment_type": "TMT10",
+        "files": [
+            "e4dc9f9b-9483-434c-bd0e-ac16c8c53ee2-log2_ratio.gct",
+            "manifest.json"
+        ],
+        "is_latest_version": 1,
+        "pdc_study_id": "PDC000564",
+        "project_id": "05b0ec25-6947-11ea-b1fd-0aad30af8a83",
+        "project_submitter_id": "Academia Sinica LUAD-100",
+        "protocol_id": "8d210312-bb9a-485d-8ff1-948b9960e3fd",
+        "protocol_submitter_id": "LUAD ICPC-B TMT10plex phosphoproteome Eclipse",
+        "study_description": "<p>Lung adenocarcinoma (LUAD) is a pressing global health problem with enduring lethality and rapidly shifting epidemiology. Proteogenomic studies integrating proteomic and post-translational modification with comprehensive genomic characterization can identify novel clinical strata and oncogenic mechanisms provide new insights into LUAD pathobiology, but to date have been underpowered to examine effects of ethnicity, smoking and environmental exposure status, or sex, and other variables. This comprehensive proteogenomic analysis of LUAD tumors and matched normal adjacent tissues (NATs) from 406 patients across diverse geographic and demographic backgrounds defines the impact describes the influence of understudied less common driver mutations genomic alterations, heterogeneity of genomic instability, patterns of immune signaling, differential and sex-specific effects of endogenous mutagens and environmental carcinogens, and the biology underlying early-stage tumors with \u201clate-like\u201d characteristics. Candidate protein biomarkers are proposed for chromosomally unstable tumors and carcinogen exposure, and a LUAD subtype-specific atlas of therapeutic vulnerabilities is presented. These observations and the associated data resource advance the objective of precision management strategies for this devastating disease.</p><p><i>Note: The publication associated with this dataset integrates multiple datasets available in PDC, including cohorts from the CPTAC and ICPC Academia Sinica programs. The Related Studies section below lists other studies that are part of this integration.</i></p><p><i>Note: To facilitate cross-cohort comparisons, <b>Taiwanese IR</b> has been used as a bridging sample between the CPTAC and ICPC LUAD cohorts. Refer to the publication for further details.</i></p>",
+        "study_id": "e4dc9f9b-9483-434c-bd0e-ac16c8c53ee2",
+        "study_shortname": "Academia Sinica LUAD ICPC-B - Phosphoproteome",
+        "study_submitter_id": "Academia Sinica LUAD ICPC-B - Phosphoproteome",
+        "study_version": "1",
+        "submitter_id_name": "Academia Sinica LUAD ICPC-B - Phosphoproteome",
+        "updated": "2025-03-28 19:36:19"
+    },
+    "e5e0dd84-f982-46e3-b78a-5cb19eef31a8": {
+        "acquisition_type": "DDA",
+        "analytical_fraction": "Phosphoproteome",
+        "cptac_study_id": null,
+        "cud_label": "PDC000515",
+        "embargo_date": "None",
+        "experiment_type": "TMT11",
+        "files": [
+            "e5e0dd84-f982-46e3-b78a-5cb19eef31a8-log2_ratio.gct",
+            "manifest.json"
+        ],
+        "is_latest_version": 1,
+        "pdc_study_id": "PDC000515",
+        "project_id": "ed3662d9-18ca-4881-9b7e-92853f14e34c",
+        "project_submitter_id": "Cancer Proteogenomics  Group of National Cancer Center Korea",
+        "protocol_id": "5bb102e9-8e75-4ddc-9227-e75dc6cf58f5",
+        "protocol_submitter_id": "Phosphoproteome - Glioblastoma",
+        "study_description": "The evolutionary trajectory of glioblastoma is a multifaceted biological process that extends beyond genetic alterations alone. Here, we perform an integrative proteogenomic analysis of 123 longitudinal glioblastoma pairs and identify a highly proliferative cellular state at diagnosis and replacement by activation of neuronal transition and synaptogenic pathways in recurrent tumors. Proteomic and phosphoproteomic analyses reveal that the molecular transition to neuronal state at recurrence is marked by post-translational activation of the WNT/PCP signaling pathway and BRAF protein kinase. Consistently, multi-omic analysis of Patient-Derived Xenograft (PDX) models mirror similar patterns of evolutionary trajectory. Inhibition of BRAF kinase impair both neuronal transition and migration capability of recurrent tumor cells, phenotypic hallmarks of post-therapy progression. Combinatorial treatment of temozolomide with BRAF inhibitor, vemurafenib, significantly extends the survival of PDX models. This study provides comprehensive insights into the biological mechanisms of glioblastoma evolution and treatment resistance, highlighting promising therapeutic strategies for clinical intervention.",
+        "study_id": "e5e0dd84-f982-46e3-b78a-5cb19eef31a8",
+        "study_shortname": "KNCC Glioblastoma Evolution - Phosphoproteome",
+        "study_submitter_id": "KNCC Glioblastoma Evolution - Phosphoproteome",
+        "study_version": "1",
+        "submitter_id_name": "KNCC Glioblastoma Evolution - Phosphoproteome",
+        "updated": "2024-02-06 21:05:36"
+    },
+    "eb6aae30-9b42-4fe1-b3ed-22b55d730dfa": {
+        "acquisition_type": "DIA",
+        "analytical_fraction": "Proteome",
+        "cptac_study_id": null,
+        "cud_label": "PDC000504",
+        "embargo_date": "None",
+        "experiment_type": "Label Free",
+        "files": [
+            "eb6aae30-9b42-4fe1-b3ed-22b55d730dfa-precursor_area.gct",
+            "manifest.json"
+        ],
+        "is_latest_version": 1,
+        "pdc_study_id": "PDC000504",
+        "project_id": "9c3e6e3f-ab9c-483d-9ac0-d13677e12331",
+        "project_submitter_id": "CPTAC3-Other",
+        "protocol_id": "dbdfc932-2e35-454a-a814-ac2170e50f55",
+        "protocol_submitter_id": "JHU PDAC BioTExt DIA Proteome",
+        "study_description": "Background: Omics characterization of pancreatic adenocarcinoma tissue is complicated by the highly heterogeneous and mixed populations of cells. We evaluate the feasibility and potential benefit of using a coring method to enrich specific regions from bulk tissue and then perform proteogenomic analyses.\nMethods: We used the Biopsy Trifecta Extraction (BioTExt) technique to isolate cores of epithelial-enriched and stroma-enriched tissue from pancreatic tumor and adjacent tissue blocks. Histology was assessed at multiple depths throughout each core. DNA sequencing, RNA sequencing, and proteomics were performed on the cored and bulk tissue samples. Supervised and unsupervised analyses were performed based on integrated molecular and histology data. \nResults: Tissue cores had mixed cell composition at varying depths throughout. Average cell type percentages assessed by histology throughout the core were better associated with KRAS variant allele frequencies than standard histology assessment of the cut surface. Clustering based on serial histology data separated the cores into three groups with enrichment of neoplastic epithelium, stroma, and acinar cells, respectively. Using this classification, tumor overexpressed proteins identified in bulk tissue analysis were assigned into epithelial- or stroma-specific categories, which revealed novel epithelial-specific tumor overexpressed proteins.\nConclusions: Our study demonstrates the feasibility of multi-omics data generation from tissue cores, the necessity of interval H&E stains in serial histology sections, and the utility of coring to improve analysis over bulk tissue data.",
+        "study_id": "eb6aae30-9b42-4fe1-b3ed-22b55d730dfa",
+        "study_shortname": "CPTAC PDAC BioTExt - Proteome",
+        "study_submitter_id": "CPTAC PDAC BioTExt - Proteome",
+        "study_version": "1",
+        "submitter_id_name": "CPTAC PDAC BioTExt - Proteome",
+        "updated": "2023-10-26 21:39:56"
+    },
+    "ebeae7ce-783b-43f9-b71a-efa763b95a88": {
+        "acquisition_type": "DDA",
+        "analytical_fraction": "Phosphoproteome",
+        "cptac_study_id": null,
+        "cud_label": "PDC000363",
+        "embargo_date": "2024-12-30",
+        "experiment_type": "TMT10",
+        "files": [
+            "ebeae7ce-783b-43f9-b71a-efa763b95a88-log2_ratio.gct",
+            "manifest.json"
+        ],
+        "is_latest_version": 1,
+        "pdc_study_id": "PDC000363",
+        "project_id": "e4c35569-3d14-4c61-8975-3d792aa402c7",
+        "project_submitter_id": "National Cancer Center Korea - iCC",
+        "protocol_id": "d6b59258-1bb9-464d-8f48-3f8c3e58a58e",
+        "protocol_submitter_id": "iCC NCC phospho protocol",
+        "study_description": "Intrahepatic cholangiocarcinomas (iCCs) are characterized by their rarity, difficulty in diagnosis, and overall poor prognosis. iCC is rare in terms of devoted studies, with a series of questions about pathogenesis, diagnosis and treatment left unanswered.  We performed comprehensive genomic, transcriptomic, proteomic, and phosphoproteomic characterization of treatment-naive iCC and paired normal adjacent tissue samples. A total of 102 patients histologically diagnosed with iCC between June 2001  and December 2018 at National Cancer Center, Korea, Pusan National University Hospital, Chonnam National University Hospital were subjected to global proteome and phosphoproteome analysis following the CPTAC-optimized workflow for mass spectrometry analysis of tissues using the 10-plexed isobaric tandem mass tags (TMT-11) (Mertins et al., Nature Protocols 2018). \n",
+        "study_id": "ebeae7ce-783b-43f9-b71a-efa763b95a88",
+        "study_shortname": "NCC iCC - Phosphoproteome",
+        "study_submitter_id": "NCC iCC - Phosphoproteome",
+        "study_version": "1",
+        "submitter_id_name": "NCC iCC - Phosphoproteome",
+        "updated": "2024-01-09 08:24:11"
     },
     "efc3143a-1797-11ea-9bfa-0a42f3c845fe": {
         "acquisition_type": "DDA",
@@ -2167,5 +2750,56 @@
         "study_version": "1",
         "submitter_id_name": "CPTAC LUAD Discovery Study - Phosphoproteome",
         "updated": "2022-10-07 04:26:07"
+    },
+    "fa50195e-124b-4fa5-9885-015d27a41756": {
+        "acquisition_type": "DDA",
+        "analytical_fraction": "Ubiquitylome",
+        "cptac_study_id": null,
+        "cud_label": "PDC000492",
+        "embargo_date": "None",
+        "experiment_type": "TMT11",
+        "files": [
+            "fa50195e-124b-4fa5-9885-015d27a41756-log2_ratio.gct",
+            "manifest.json"
+        ],
+        "is_latest_version": 1,
+        "pdc_study_id": "PDC000492",
+        "project_id": "267d6671-0e78-11e9-a064-0a9c39d33490",
+        "project_submitter_id": "CPTAC3 Discovery and Confirmatory",
+        "protocol_id": "8a854acd-2efd-488a-b85f-c00315cbdc06",
+        "protocol_submitter_id": "CPTAC3-LUADC Ubiquitylome",
+        "study_description": "<p>Lung adenocarcinoma (LUAD) is a pressing global health problem with enduring lethality and rapidly shifting epidemiology. Proteogenomic studies integrating proteomic and post-translational modification with comprehensive genomic characterization can identify novel clinical strata and oncogenic mechanisms provide new insights into LUAD pathobiology, but to date have been underpowered to examine effects of ethnicity, smoking and environmental exposure status, or sex, and other variables. This comprehensive proteogenomic analysis of LUAD tumors and matched normal adjacent tissues (NATs) from 406 patients across diverse geographic and demographic backgrounds defines the impact describes the influence of understudied less common driver mutations genomic alterations, heterogeneity of genomic instability, patterns of immune signaling, differential and sex-specific effects of endogenous mutagens and environmental carcinogens, and the biology underlying early-stage tumors with \u201clate-like\u201d characteristics. Candidate protein biomarkers are proposed for chromosomally unstable tumors and carcinogen exposure, and a LUAD subtype-specific atlas of therapeutic vulnerabilities is presented. These observations and the associated data resource advance the objective of precision management strategies for this devastating disease.</p><p><i>Note: The publication associated with this dataset integrates multiple datasets available in PDC, including cohorts from the CPTAC and ICPC Academia Sinica programs. The Related Studies section below lists other studies that are part of this integration.</i></p><p><i>Note: To facilitate cross-cohort comparisons, <b>Taiwanese IR</b> has been used as a bridging sample between the CPTAC and ICPC LUAD cohorts. Refer to the publication for further details.</i></p>",
+        "study_id": "fa50195e-124b-4fa5-9885-015d27a41756",
+        "study_shortname": "CPTAC LUAD Confirmatory Study - Ubiquitylome",
+        "study_submitter_id": "CPTAC LUAD Confirmatory Study - Ubiquitylome",
+        "study_version": "1",
+        "submitter_id_name": "CPTAC LUAD Confirmatory Study - Ubiquitylome",
+        "updated": "2025-03-28 19:36:19"
+    },
+    "fb66c568-85ff-460d-a630-f727f4abcc49": {
+        "acquisition_type": "DDA",
+        "analytical_fraction": "Proteome",
+        "cptac_study_id": null,
+        "cud_label": "PDC000579",
+        "embargo_date": "None",
+        "experiment_type": "TMT10",
+        "files": [
+            "fb66c568-85ff-460d-a630-f727f4abcc49-log2_ratio.gct",
+            "fb66c568-85ff-460d-a630-f727f4abcc49-unshared_log2_ratio.gct",
+            "manifest.json"
+        ],
+        "is_latest_version": 1,
+        "pdc_study_id": "PDC000579",
+        "project_id": "7231aab6-7603-499b-a48d-3e3411143e18",
+        "project_submitter_id": "Proteogenomic Translational Research Centers (PTRC)",
+        "protocol_id": "a81449b8-1e9e-4553-8ec9-8bbaa9ef27be",
+        "protocol_submitter_id": "PTRC TNBC Mitotic Vulnerability Study Proteome",
+        "study_description": "Triple-negative breast cancer (TNBC) is an aggressive subtype of breast cancer with few effective targeted therapies. Taxanes and other microtubule-targeting agents (MTAs) are frontline chemotherapies for TNBC; however, the molecular pathways that cause TNBC taxane sensitivity are largely unknown, preventing selection of taxane-responsive patients and development of more selective therapeutic strategies. In this study, we identified tumor-selective vulnerabilities in TNBC harboring inactivation of the tumor suppressor PTPN12 by integrating proteogenomic characterization and synthetic lethality screening. We discovered that PTPN12 inactivation drives mitotic defects through aberrant hyperactivation of the ubiquitin ligase complex APCFZR1, a critical regulator of the cell cycle. Consistent with the mitotic stress caused by PTPN12 inactivation in TNBC cell lines, tumors harboring loss of PTPN12 exhibit heightened sensitivity to taxane chemotherapy. Collectively, this data suggests that PTPN12 inactivation may drive chromosomal instability and favorable MTA response in TNBC; two prominent features of the disease with unclear mechanistic etiology.",
+        "study_id": "fb66c568-85ff-460d-a630-f727f4abcc49",
+        "study_shortname": "PTRC Triple-negative Breast Cancer Mitotic Vulnerability Study - Proteome",
+        "study_submitter_id": "PTRC Triple-negative Breast Cancer Mitotic Vulnerability Study - Proteome",
+        "study_version": "1",
+        "submitter_id_name": "PTRC Triple-negative Breast Cancer Mitotic Vulnerability Study - Proteome",
+        "updated": "2024-12-12 17:23:32"
     }
 }

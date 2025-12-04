@@ -14,9 +14,10 @@
             "aot": true,
             "outputPath": "dist",
             "index": "src/index.html",
-            "main": "src/main.ts",
             "tsConfig": "src/tsconfig.app.json",
-            "polyfills": "src/polyfills.ts",
+            "polyfills": [
+              "zone.js"
+            ],
             "assets": [
               "src/assets",
               "src/favicon.ico"
@@ -24,10 +25,11 @@
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/primeicons/primeicons.css",
-               "node_modules/primeng/resources/primeng.min.css",
+              "prebuild-themes/legacy-indigo-pink.css",
+              "src/assets/primeng/resources/primeng.min.css",
               "node_modules/material-design-icons/iconfont/material-icons.css",
-              "src/assets/css/morpheus-latest.min.css",
-              "src/styles.css"
+              //"src/assets/css/morpheus-latest.min.css",
+              "src/styles.scss"
             ],
             "scripts": [
               "src/assets/js/echarts.min.js",
@@ -36,7 +38,7 @@
               "src/assets/js/jquery.slideto.min.js",
               "src/assets/js/jquery.wiggle.min.js",
               "src/assets/js/jquery.ba-bbq.min.js",
-              "src/assets/js/handlebars-2.0.0.js",
+              "src/assets/js/handlebars-4.7.8.js",
               "src/assets/js/underscore-min.js",
               "src/assets/js/backbone-min.js",
               "src/assets/js/jsoneditor.js",
@@ -46,8 +48,15 @@
               "src/assets/js/bootstrap.min.js",
               "src/assets/js/jquery.sieve.js",
               "../documentation/prod/publicapi-documentation/spec.js",
-              "../documentation/prod/publicapi-documentation/swagger-ui-pdc.js"
-            ]
+              "../documentation/prod/publicapi-documentation/swagger-ui-handlebars-4.js"
+            ],
+            "main": "src/main.ts",
+             "stylePreprocessorOptions": {
+              "includePaths": [
+               "node_modules/@nciocpl/ncids-css/packages",
+               "node_modules/@nciocpl/ncids-css/uswds-packages"
+              ]
+            }
           },
           "configurations": {
             "local": {
@@ -79,8 +88,6 @@
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -93,22 +100,22 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "ui-app:build",
-            "port": 8000
+            "port": 8000,
+            "buildTarget": "ui-app:build"
           },
           "configurations": {
             "local": {
-              "browserTarget": "ui-app:build:local"
+              "buildTarget": "ui-app:build:local"
             },
             "production": {
-              "browserTarget": "ui-app:build:production"
+              "buildTarget": "ui-app:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "ui-app:build"
+            "buildTarget": "ui-app:build"
           }
         },
         "test": {
@@ -125,7 +132,7 @@
               "src/assets/js/jquery.slideto.min.js",
               "src/assets/js/jquery.wiggle.min.js",
               "src/assets/js/jquery.ba-bbq.min.js",
-              "src/assets/js/handlebars-2.0.0.js",
+              "src/assets/js/handlebars-4.7.8.js",
               "src/assets/js/underscore-min.js",
               "src/assets/js/backbone-min.js",
               "src/assets/js/jsoneditor.js",
@@ -135,7 +142,7 @@
               "src/assets/js/bootstrap.min.js",
               "src/assets/js/jquery.sieve.js",
               "../documentation/prod/publicapi-documentation/spec.js",
-              "../documentation/prod/publicapi-documentation/swagger-ui-pdc.js"
+              "../documentation/prod/publicapi-documentation/swagger-ui-handlebars-4.js"
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",

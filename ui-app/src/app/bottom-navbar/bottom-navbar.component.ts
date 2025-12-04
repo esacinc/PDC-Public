@@ -9,10 +9,11 @@ import { BottomNavbarService } from '../bottom-navbar/bottom-navbar.service';
 import { ReleaseVersionData} from '../types';
 
 @Component({
-  selector: 'app-bottom-navbar',
-  templateUrl: './bottom-navbar.component.html',
-  styleUrls: ['./bottom-navbar.component.scss'],
-  providers: [ BottomNavbarService ]
+    selector: 'app-bottom-navbar',
+    templateUrl: './bottom-navbar.component.html',
+    styleUrls: ['./bottom-navbar.component.scss'],
+    providers: [BottomNavbarService],
+    standalone: false
 })
 export class BottomNavbarComponent implements OnInit {
 	

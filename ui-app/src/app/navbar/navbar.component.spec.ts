@@ -1,14 +1,14 @@
 import { Apollo } from 'apollo-angular';
 import { Observable, of } from 'rxjs';
 
-import { HttpClient } from '@angular/common/http';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { MatLegacyAutocompleteModule as MatAutocompleteModule } from '@angular/material/legacy-autocomplete';
-import { MatLegacyDialog as MatDialog, MatLegacyDialogModule as MatDialogModule, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
-import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field';
-import { MatLegacyMenuModule as MatMenuModule } from '@angular/material/legacy-menu';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatMenuModule } from '@angular/material/menu';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -43,26 +43,25 @@ describe("NavbarComponent", () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [NavbarComponent, SearchStylePipe],
-      imports: [
-        BrowserAnimationsModule,
+    declarations: [NavbarComponent, SearchStylePipe],
+    schemas: [NO_ERRORS_SCHEMA],
+    imports: [BrowserAnimationsModule,
         NgIdleModule.forRoot(),
         MatDialogModule,
         MatMenuModule,
         MatAutocompleteModule,
         MatFormFieldModule,
-        HttpClientTestingModule,
-        RouterTestingModule.withRoutes([])
-      ],
-      schemas: [NO_ERRORS_SCHEMA],
-      providers: [
+        RouterTestingModule.withRoutes([])],
+    providers: [
         ChorusauthService,
         Apollo,
         PDCUserService,
         SearchService,
-        HttpClient
-      ]
-    }).compileComponents();
+        HttpClient,
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting()
+    ]
+}).compileComponents();
   }));
 
   beforeEach(() => {

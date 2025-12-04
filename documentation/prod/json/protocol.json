@@ -604,7 +604,7 @@
             "type": "String"
         },
         "dia_ims": {
-            "description": "Numeric value that represents the current weight of the sample, measured in milligrams.",
+            "description": "Data independent acquisition following ion mobility separation.",
             "required": "False",
             "enum": [
                 "Yes",

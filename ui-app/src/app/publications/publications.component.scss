@@ -1,6 +1,9 @@
 .abstract-text {
 }
 
+::ng-deep .abstract .mat-expansion-panel-body, ::ng-deep .relatedStudies .mat-expansion-panel-body {
+  padding-top: 10px !important;
+}
 .abstract-text-truncate {
    display: inline-block;
    word-wrap: break-word;
@@ -12,7 +15,7 @@
    line-height: 1.8em;
 }
 
-.mat-button.mat-small {
+.mat-mdc-button.mat-small {
   min-width: 1%;
 }
 
@@ -129,7 +132,7 @@
   min-height: 100px !important;
 }
 
-.publicationsOverlay:has(div.p-dataview-loading-overlay) { 
+.publicationsOverlay:has(div.p-dataview-loading-overlay) {
   background: #F1F1F1;
   opacity: 0.3 !important;
 }

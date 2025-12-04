@@ -11,7 +11,9 @@ type FileMetadata {
 	downloadable: String
 	file_type: String
 	file_format: String
-	analyte: String 
+	analyte: String
+	protocol_id: String
+	protocol_submitter_id: String
 	instrument: String
 	plex_or_dataset_name: String
 	fraction_number: String

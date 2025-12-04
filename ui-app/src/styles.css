@@ -1,26 +1,48 @@
 /* You can add global styles to this file, and also import other style files */
 /* @import "~@angular/material/prebuilt-themes/indigo-pink.css"; */
-@import "../node_modules/@angular/material/legacy-prebuilt-themes/legacy-indigo-pink.css";
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+/*@import "../prebuild-themes/legacy-indigo-pink.css";*/
 @import url('https://fonts.googleapis.com/css?family=Lato:100,700');
 
+
+.usa-skipnav {
+    position: absolute;
+    top: -40px; /* Hide it off-screen initially */
+    left: 0;
+    /*background-color: #000;*/
+    color: #fff;
+    padding: 10px;
+    text-decoration: none;
+    z-index: 1000;
+    transition: top 0.3s ease;
+  }
+
+.usa-skipnav:focus {
+    top: 0; /* Bring it into view when focused */
+}
+
 /* LEFT align */
-.mat-list .mat-list-item.left .mat-list-item-content{
+/* TODO(mdc-migration): The following rule targets internal classes of list that may no longer apply for the MDC version. */
+.mat-mdc-list .mat-mdc-list-item.left .mat-list-item-content{
     justify-content: flex-start;
 }
 
 /* RIGHT align */
-.mat-list .mat-list-item.right .mat-list-item-content{
+/* TODO(mdc-migration): The following rule targets internal classes of list that may no longer apply for the MDC version. */
+.mat-mdc-list .mat-mdc-list-item.right .mat-list-item-content{
     justify-content: flex-end;
 }
 
 /* If you will use matLine */
 
 /* LEFT align */
-.mat-list .mat-list-item.left .mat-list-text>*{
+/* TODO(mdc-migration): The following rule targets internal classes of list that may no longer apply for the MDC version. */
+.mat-mdc-list .mat-mdc-list-item.left .mat-list-text>*{
 margin: 0 auto 0 0;
 }
 /* RIGHT align */
-.mat-list .mat-list-item.right .mat-list-text>*{
+/* TODO(mdc-migration): The following rule targets internal classes of list that may no longer apply for the MDC version. */
+.mat-mdc-list .mat-mdc-list-item.right .mat-list-text>*{
 margin: 0 0 0 auto;
 }
 
@@ -304,6 +326,7 @@ p-paginator {
     font-weight: 700;
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version. */
 .mat-tab-labels {
     cursor: pointer;
 }
@@ -319,6 +342,7 @@ p-paginator {
     opacity: 0;
     transition: opacity 0.3s ease;
 }
+
 #human-body-root {
 		position: relative;
 		min-height: 515px;
@@ -326,12 +350,13 @@ p-paginator {
 		padding-bottom: 40px;
 }
 #human-body-root .chart {
-		margin-top: 35px;
+
 		color: #fff;
 		position: relative;
-		left: 200px;
-		width: 80%;
+		margin-left: auto;
+		width: 100%;
 }
+
 
 @media only screen and (max-width: 1600px) {
 	#human-body-root {
@@ -368,10 +393,12 @@ p-paginator {
 
 #homePageFilters #human-body-root .chart {
     left: 290px;
+
 }
 
 #human-body-front-page-root .chart {
    padding-left: 15%;
+
 }
 
 #human-body-root .chart g {
@@ -400,13 +427,13 @@ p-paginator {
 }
 
 #female {
-    left: -278px;
+    left: -308px;
     position: relative;
 }
 #female-organs {
     position: relative;
-    top: -15px;
-    left: -435px;
+    top: -95px;
+    left: -465px;
     width: 123px;
 }
 #male-organs {
@@ -424,24 +451,24 @@ p-paginator {
     opacity: 0.2 !important;
 }
 #Breast {
-    height: 40px;
-    width: 40px;
-    top: 117px;
-    left: 167px;
+    height: 30px;
+    width: 30px;
+    top: 80px;
+    left: 135px;
     opacity: 0.2 !important;
 }
 #Kidney {
     height: 21px;
     width: 15px;
-    top: 178px;
-    left: 178px;
+    top: 125px;
+    left: 145px;
     opacity: 0.2 !important;
 }
 #Uterus {
     height: 23px;
     width: 21px;
-    top: 230px;
-    left: 156px;
+    top: 150px;
+    left: 125px;
     opacity: 0.2 !important;
 }
 
@@ -456,15 +483,15 @@ p-paginator {
 #Ovary {
     height: 13px;
     width: 13px;
-    top: 229px;
-    left: 174px;
+    top: 145px;
+    left: 145px;
     opacity: 0.2 !important;
 }
 #Colorectal {
     height: 95px;
     width: 87px;
-    top: 190px;
-    left: 125px;
+    top: 110px;
+    left: 95px;
 }
 #Colon {
     height: 95px;
@@ -479,34 +506,34 @@ p-paginator {
     left: 125px;
 }
 #Stomach {
-    height: 43px;
-    width: 45px;
-    top: 146px;
-    left: 149px;
+    height: 33px;
+    width: 35px;
+    top: 100px;
+    left: 125px;
     opacity: 0.2 !important;
 }
 
 #Head-and-Neck {
-	height: 125px;
-    width: 110px;
-    top: -15px;
-    left: 112px;
+	height: 75px;
+    width: 55px;
+    top: -5px;
+    left: 110px;
     opacity: 0.35 !important;
 }
 
 #Brain {
-    height: 35px;
-    width: 50px;
+    height: 25px;
+    width: 40px;
     top: 0px;
-    left: 143px;
+    left: 118px;
     opacity: 0.2 !important;
 }
 
 #Lung {
-    height: 55px;
-    width: 37px;
-    top: 113px;
-    left: 133px;
+    height: 45px;
+    width: 27px;
+    top: 80px;
+    left: 112px;
     opacity: 0.2 !important;
 }
 
@@ -516,31 +543,33 @@ p-paginator {
     top: 113px;
     left: 133px;
     opacity: 0.2 !important;
+    display:none;
 }
 
 #Liver {
-    height: 42px;
-    width: 47px;
-    top: 160px;
-    left: 148px;
+    height: 32px;
+    width: 37px;
+    top: 105px;
+    left: 115px;
     opacity: 0.3 !important;
 }
 
 /* PDC-3207 - add pancreas to human body image on PDC front page */
 #Pancreas {
-    height: 21px;
-    width: 45px;
-    top: 178px;
-    left: 140px;
+    height: 11px;
+    width: 35px;
+    top: 125px;
+    left: 120px;
 	opacity: 0.35 !important;
 }
 
 /* PDC-3865 Update human body map to show the new AML study */
-#Bone-Marrow {
-    height: 114px;
+/* PDC-9847 change mps from Bone Marrow to Bone Marrow and Blood */
+#Bone-Marrow-and-Blood {
+    height: 105px;
     width: 30px;
-    top: 371px;
-    left: 163px;
+    top: 245px;
+    left: 130px;
 	opacity: 0.5!important;
 }
 
@@ -637,7 +666,7 @@ p-paginator {
     top: 383px;
     left: 212px;
 }
-#Bone-Marrow {
+#Bone-Marrow-and-Blood {
     height: 114px;
     width: 30px;
     top: 371px;

@@ -7,6 +7,8 @@ type StudyExperimentalDesign {
 	aliquot_is_ref: String
 	experiment_number: Int
 	experiment_type: String
+	protocol_id: String
+	protocol_submitter_id: String
 	plex_dataset_name: String
 	acquisition_type: String
 	polarity: String

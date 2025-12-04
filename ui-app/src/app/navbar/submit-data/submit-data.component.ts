@@ -1,9 +1,10 @@
 import { Component, OnInit, Inject, HostListener, Renderer2, ElementRef, AfterViewChecked } from "@angular/core";
 
 @Component({
-  selector: 'app-submit-data',
-  templateUrl: './submit-data.component.html',
-  styleUrls: ['./submit-data.component.scss']
+    selector: 'app-submit-data',
+    templateUrl: './submit-data.component.html',
+    styleUrls: ['./submit-data.component.scss'],
+    standalone: false
 })
 
 //@@@PDC-1284: Add the 'how to submit data' under HELP

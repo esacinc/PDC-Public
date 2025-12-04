@@ -6,6 +6,7 @@ type UIFile {
 	embargo_date: Date	
 	file_name: String
 	study_run_metadata_submitter_id: String
+	protocol_submitter_id: String
 	project_name: String
 	data_category: String
 	data_source: String

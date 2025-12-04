@@ -1,8 +1,8 @@
 import { OverlayWindowService } from './../overlay-window/overlay-window.service';
-import { SocialAuthService } from 'angularx-social-login';
+
 import { of } from 'rxjs';
 
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { Router } from '@angular/router';
@@ -11,6 +11,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { ChorusauthService } from '../chorusauth.service';
 import { PDCUserService } from '../pdcuser.service';
 import { RegistrationPageComponent } from './registration-page.component';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 class MockAuthService {
   signIn(providerId: string): Promise<any> {
@@ -34,16 +35,18 @@ describe("RegistrationPageComponent", () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [RegistrationPageComponent],
-      imports: [HttpClientTestingModule, RouterTestingModule.withRoutes([])],
-      schemas: [NO_ERRORS_SCHEMA],
-      providers: [
+    declarations: [RegistrationPageComponent],
+    schemas: [NO_ERRORS_SCHEMA],
+    imports: [RouterTestingModule.withRoutes([])],
+    providers: [
         ChorusauthService,
         PDCUserService,
-        { provide: SocialAuthService, useClass: MockAuthService },
-        { provide: OverlayWindowService, useClass: MockOverlayWindowService}
-      ]
-    }).compileComponents();
+
+        { provide: OverlayWindowService, useClass: MockOverlayWindowService },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting()
+    ]
+}).compileComponents();
   }));
 
   beforeEach(() => {

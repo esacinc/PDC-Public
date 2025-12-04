@@ -1,17 +1,18 @@
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { inject, TestBed } from '@angular/core/testing';
 
 import { ChorusauthService } from './chorusauth.service';
 import { ChorusLab, ChorusLabResponse, ChorusUser, UserLabMembership } from './types';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe("ChorusauthService", () => {
   let controller: HttpTestingController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [ChorusauthService],
-      imports: [HttpClientTestingModule]
-    });
+    imports: [],
+    providers: [ChorusauthService, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+});
 
     controller = TestBed.get(HttpTestingController);
   });

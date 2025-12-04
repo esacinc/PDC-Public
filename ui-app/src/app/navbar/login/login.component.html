@@ -1,6 +1,7 @@
 <h2 mat-dialog-title style="text-align: center;">
   <b>Join NCI Proteomic Data Portal</b>
 </h2>
+<br>
 <div style="text-align: center; margin-top:-2.5rem; margin-bottom: 1rem;">
   <img src="assets/css/images/login_dialog.png" alt="login dialog" width="667" height="133" />
 </div>
@@ -22,9 +23,13 @@
   <div class="container">
     <div class="row">
       <div class="col" style="padding-top: 16px;">
-        <div class="social-login-container">
-          <button mat-raised-button (click)="nihSignIn()" class="social-login-item"><img
-                src="assets/css/images/nih_login_icon.png" width="55" height="30" alt="NIH login" />&nbsp;&nbsp;&nbsp; Login</button>
+        <div class="">
+          <button mat-raised-button (click)="nihSignIn()" class="social-login-item" style="min-height: 50px; min-width: 200px; padding: 8px 32px; background: white; border: none; box-shadow: none; outline: none; --mdc-filled-button-container-color: none; --mdc-filled-button-container-shape: 0; --mat-mdc-button-persistent-ripple: none; --mat-mdc-button-ripple-color: none;">
+            <span class="mdc-button__label" style="display: flex; align-items: center; width: 100%;">
+              <img src="assets/css/images/nih_login_icon.png" width="55" height="30" alt="NIH login" style="margin-right: 12px;" />
+              <span style="flex: 1;">Login</span>
+            </span>
+          </button>
         </div>
         <span>
           <div class="nihLoginText">You may login with the following identity providers:</div>
@@ -59,11 +64,11 @@
                 placeholder='Password'>
               <!--<mat-error *ngIf="first_name.invalid&&isValidFormSubmitted!=null">First name is required</mat-error>-->
             </div>
-            <div><a class="user-login-link" href="javascript:void(0)" (click)="registerWithEmail()">Don't have an
+            <div><a class="user-login-link" href="javascript:void(0)" (click)="registerWithEmail()" style="color: #0d6efd; text-decoration: none;">Don't have an
                 account? Click here to sign up.</a></div>
             <div class="rememberme-checkbox">
-              <mat-checkbox formControlName="rememberMeCheckbox" (click)="rememberUserName()"><span style="font-weight: 400">Remember me</span></mat-checkbox>
-              <a class="forget-password-link" href="javascript:void(0)" (click)="forgotPassword()">Forgot password?</a>
+              <mat-checkbox formControlName="rememberMeCheckbox" (click)="rememberUserName()" style="display: inline-block; margin-right: 20px;"><span style="font-weight: 400">Remember me</span></mat-checkbox>
+              <a class="forget-password-link" href="javascript:void(0)" (click)="forgotPassword()" style="color: #0d6efd; text-decoration: none; display: inline-block;">Forgot password?</a>
             </div>
             <button id="pdcLogin" mat-raised-button class="user-login-item">Login</button>
           </form>

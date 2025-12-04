@@ -15,7 +15,7 @@
 }
 //PDC-899
 {
-  program(program_submitter_id: "CPTAC"  acceptDUA: true) {
+  program(program_submitter_id: "PG25730263"  acceptDUA: true) {
 	  program_id
 	  program_submitter_id
 	  name
@@ -415,7 +415,7 @@ PDC-1122
 }
 //PDC-1874
 {
-	filesPerStudy (pdc_study_id: "PDC000173" acceptDUA: true) {
+	filesPerStudy (pdc_study_id: "PDC000173" offset: 0 limit: 20) {
 		file_id,
 		file_submitter_id
 		file_name
@@ -1487,7 +1487,7 @@ PDC-136, 774, 827, 787, 1960, 2815
 	}
 	}
 }
-//PDC-313 337 462 893 2396 4687
+//PDC-313 337 462 893 2396 4687 7899
 {
 	getPaginatedUICase(offset: 0 limit: 10) {
 	total
@@ -1508,6 +1508,7 @@ PDC-136, 774, 827, 787, 1960, 2815
 		sample_submitter_id
 		sample_is_ref
 		biospecimen_anatomic_site
+		biospecimen_laterality
 		composition
 		current_weight
 		days_to_collection
@@ -1567,13 +1568,15 @@ PDC-136, 774, 827, 787, 1960, 2815
 }
 //PDC-1874
 {
-	getPaginatedFiles(offset: 0 limit: 10 acceptDUA: true) {
+	getPaginatedFiles(offset: 0 limit: 10 data_category: "Peptide Spectral Matches" acceptDUA: true) {
 	total
 	files {
 		study_submitter_id
 		pdc_study_id
 		file_name
+		file_id
 		file_type
+		file_format
 		md5sum
 	}
 	pagination {
@@ -1640,6 +1643,7 @@ PDC-136, 774, 827, 787, 1960, 2815
 	}
 	}
 }
+//7491
 {
 	getPaginatedCases(offset: 0 limit: 10 acceptDUA: true) {
 	total
@@ -1651,7 +1655,14 @@ PDC-136, 774, 827, 787, 1960, 2815
 	  disease_type
 		disease_type
 		primary_site
-	}
+		case_is_ref
+		tissue_source_site_code
+		days_to_lost_to_followup
+		index_date
+		lost_to_followup
+		consent_type
+		days_to_consent	
+		}
 	pagination {
 		count
 		sort
@@ -2665,7 +2676,7 @@ PDC-265
 }
 //pdc-6690
 {
-	protocolPerStudy(pdc_study_id: "PDC000526"  acceptDUA: true){
+	protocolPerStudy(pdc_study_id: "PDC000557"  acceptDUA: true){
 		protocol_id
 		protocol_submitter_id
 		study_id
@@ -2717,7 +2728,9 @@ PDC-265
 		analytical_technique
 		chromatography_instrument_make
 		chromatography_instrument_model
-		acquisition_mode	
+		polarity
+		extraction_method 
+		ionization_mode		
 		}
 }
 //PDC-273
@@ -2747,6 +2760,24 @@ PDC-265
 	}
 
 }
+{
+	publications (pdc_study_id: "PDC000173" ){
+		publication_id 
+		program_name 
+		pubmed_id 
+		group_name 
+		doi 
+		author 
+		title_legacy 
+		title 
+		journal 
+		journal_url 
+		year 
+		abstract 
+		citation
+	}
+}	
+
 //pdc-6680
 {
 	getAllUIPancancerFiles {
@@ -2760,7 +2791,7 @@ PDC-265
 }
 //pdc-6601
 {
-	getPaginatedUIPancancerFiles(publication_id: "bef019a4-50b1-11ed-a6f8-0a79dd92157b" offset: 0 limit: 10){
+	getPaginatedUIPancancerFiles(publication_id: "bef019a4-50b1-11ed-a6f8-0a79dd92157b"   : 0 limit: 10){
 		total
 		uiPancancerFiles {
 			file_name
@@ -2810,10 +2841,9 @@ PDC-265
 		}
 	}
 }
-
 //PDC-3446
 {
-	getPaginatedUIPublication(offset: 0 limit: 10) {
+	getPaginatedPublications(offset: 0 limit: 10) {
 	total
 	uiPublication {
 		publication_id
@@ -2844,6 +2874,36 @@ PDC-265
 	}
 }
 {
+	getPaginatedUIPublication(offset: 0 limit: 10) {
+	total
+	uiPublication {
+		publication_id
+		pubmed_id
+		doi
+		author
+		title
+		journal
+		journal_url
+		year
+		abstract
+		citation
+		studies {
+			pdc_study_id
+			submitter_id_name
+		}
+		disease_types
+	}
+	pagination {
+		count
+		sort
+		from
+		page
+		total
+		pages
+		size
+	}
+	}
+}{
 	getUIPublicationFilters {
 		disease_types
 		years
@@ -3468,7 +3528,7 @@ PDC-2979
 }
 //PDC-307
 {
-	uiGeneStudySpectralCount(gene_name: "A1BG") {
+	uiGeneStudySpectralCount(gene_name: "SPARC;MMP1;MMP2;MMP9;MMP3;MMP7;MMP10;MMP11;MMP12;MMP14;MMP13;MMP15;MMP19;MMP23B;MMP28;ITGB3;ITGAV;CDH1;PTK2") {
 			submitter_id_name 
 			experiment_type
 			spectral_count
@@ -3691,7 +3751,7 @@ PDC-2979
 }
 //PDC-332 490
 {
-  fileMetadata(file_name: "06CPTAC_CCRCC_W_JHU_20171120_LUMOS_f09.mzid.gz" acceptDUA: true) {
+  fileMetadata(file_name: "20170218_LC_TMTB2_prot_F22_01.mzML.gz" acceptDUA: true) {
     file_name
     file_location
     md5sum
@@ -3702,6 +3762,8 @@ PDC-2979
 	file_format
     analyte
     instrument
+	protocol_id
+	protocol_submitter_id
     plex_or_dataset_name
     fraction
     experiment_type
@@ -3752,8 +3814,9 @@ PDC-2979
 		}
 	}
 }
+
 {
-  uiGeneSpectralCount(gene_name: "CDC42EP1", source: "search", acceptDUA: true) {
+  uiGeneSpectralCount(gene_id: "64383330-6337-3237-2d33-6133612d3131", source: "search", acceptDUA: true) {
   gene_id 
   gene_name 
   ncbi_gene_id 
@@ -3763,7 +3826,38 @@ PDC-2979
   chromosome 
   locus 
   proteins 
-  assays 
+  assays
+  spectral_counts {
+	  project_submitter_id
+	  study_submitter_id
+	  plex
+	  spectral_count
+	  distinct_peptide
+	  unshared_peptide
+  }  
+  }
+}
+{
+  uiGeneSpectralCount(gene_name: "ATP6", ncbi_gene_id: "4508", source: "search", acceptDUA: true) {
+  gene_id 
+  gene_name 
+  ncbi_gene_id
+  alias  
+  authority 
+  description 
+  organism 
+  chromosome 
+  locus 
+  proteins 
+  assays
+  spectral_counts {
+	  project_submitter_id
+	  study_submitter_id
+	  plex
+	  spectral_count
+	  distinct_peptide
+	  unshared_peptide
+  }  
   }
  }
 //PDC-415 PDC-564
@@ -3912,6 +4006,8 @@ PDC-2979
 			record_type
 			name
 			description
+			gene_id
+			ncbi_gene_id
 			proteins
 		}
 	}
@@ -3937,12 +4033,15 @@ PDC-2979
 	}
 }
 //PDC-387 398
+//@@@PDC-7628 add ncbi_gene_id to the APIs for search
 {
 	geneSearch(name: "alpha-1"){
 		genes {
 			record_type
 			name
 			description
+			gene_id
+			ncbi_gene_id
 		}
 	}
 }
@@ -3953,6 +4052,7 @@ PDC-2979
 			record_type
 			name
 			description
+			ncbi_gene_id
 		}
 		pagination {
 			count
@@ -6129,6 +6229,8 @@ limit: 10) {
     total
     uiGenes {
       gene_name
+	  gene_id
+	  ncbi_gene_id
       chromosome
       locus
       num_study
@@ -6193,7 +6295,7 @@ limit: 10) {
 }
 
 {
-	getPaginatedUIGene(study_name:"AML Ex Vivo Drug Response" offset: 0 limit: 10) {
+	getPaginatedUIGene(study_name:"Academia Sinica LUAD100-Proteome" offset: 0 limit: 10) {
 	total
 	uiGenes {
 		gene_name
@@ -6365,8 +6467,10 @@ limit: 10) {
 	}
 }
 //PDC-681
+f74f0c0f-b814-11e8-907f-0a2705229b82	INAVA	INAVA;C1orf106;FLJ10901
+0d67b62e-419c-11e9-9a07-0a80fada099c	INAVA	INAVA;C1orf106;FLJ10901
 {
-	getPaginatedUIPtm(gene_name: "CDC42EP1" offset: 0 limit: 10){
+	getPaginatedUIPtm(gene_name: "INAVA" gene_id: "f74f0c0f-b814-11e8-907f-0a2705229b82" offset: 0 limit: 10){
 		total
 		uiPtm {
 			ptm_type 
@@ -6449,7 +6553,7 @@ limit: 10) {
 }
 //PDC-737
 {
-	getPaginatedUIGeneAliquotSpectralCountFiltered(gene_name: "CDC42EP1" offset: 0 limit: 10){
+	getPaginatedUIGeneAliquotSpectralCountFiltered(gene_name: "INAVA" gene_id: "f74f0c0f-b814-11e8-907f-0a2705229b82" offset: 0 limit: 10){
 		total
 		uiGeneAliquotSpectralCounts {
 			aliquot_id 
@@ -6580,6 +6684,12 @@ limit: 10) {
 		primary_diagnosis
 		tumor_grade
 		tumor_stage
+	}
+}
+PDC-6794
+{
+	getUICaseCountPerStudy(pdc_study_id: "PDC000359"){
+		cases_count
 	}
 }
 //PDC-788 794 857 1874 2377 2435
@@ -6801,7 +6911,7 @@ limit: 10) {
 	}
 }
 {
-	study (study_id: "dbe94609-1fb3-11e9-b7f8-0a80fada099c" acceptDUA: true) 
+	study (study_id: "ad18f195-f3c0-11e8-a44b-0a9c39d33490" acceptDUA: true) 
 	{
 		study_id
 		study_submitter_id
@@ -6836,6 +6946,7 @@ limit: 10) {
 		project_id
 		study_name
 		study_shortname
+		study_description
 		program_name
 		project_name
 		disease_type
@@ -7143,11 +7254,13 @@ PDC-2978 4293
 		study_run_metadata_submitter_id,
 		study_id,
 		study_submitter_id,
-		pdc_study_id
-		aliquot_is_ref
+		pdc_study_id,
+		aliquot_is_ref,
 		analyte,
 		acquisition_type,
-		acquisition_mode
+		acquisition_mode,
+		protocol_id, 
+		protocol_submitter_id
 		experiment_type,
 		plex_dataset_name,
 		experiment_number,
@@ -8904,8 +9017,21 @@ PDC-3022
 				aliquot_volume
 				amount
 				analyte_type
+				aliquot_quantity
+				aliquot_volume
+				concentration
+				pool
+				status
+				aliquot_is_ref
 				aliquot_run_metadata{
 					aliquot_run_metadata_id
+					label
+					experiment_number
+					fraction
+					replicate_number
+					date
+					alias
+					analyte
 				}				
 			}
 		}
@@ -9160,7 +9286,7 @@ PDC-3022
 }
 //4569
 {
-  case(case_submitter_id: "C3L-01302" acceptDUA: true) {
+  case(case_submitter_id: "C94956" acceptDUA: true) {
     case_id
 	  case_submitter_id
 	  project_submitter_id
@@ -9204,6 +9330,16 @@ PDC-3022
 			passage_count
 			sample_ordinal
 			tissue_collection_type
+			diagnoses {
+				diagnosis_id
+				diagnosis_submitter_id
+				tissue_or_organ_of_origin
+				age_at_diagnosis
+				primary_diagnosis
+				tumor_grade, tumor_stage
+				classification_of_tumor
+				days_to_last_follow_up
+			}
 		}
 	}
 }

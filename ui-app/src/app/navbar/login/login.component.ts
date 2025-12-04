@@ -1,8 +1,8 @@
 import { PDCUserService } from './../../pdcuser.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { MatLegacyDialog as MatDialog, MatLegacyDialogRef as MatDialogRef, MatLegacyDialogConfig as MatDialogConfig, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
-import { SocialAuthService, GoogleLoginProvider } from 'angularx-social-login';
+import { MatDialog, MatDialogRef, MatDialogConfig, MAT_DIALOG_DATA } from '@angular/material/dialog';
+
 import { ChorusauthService } from '../../chorusauth.service';
 import { LabSelectionComponent } from '../lab-selection/lab-selection.component';
 import { Router } from '@angular/router';
@@ -13,9 +13,10 @@ import { ConfirmationDialogComponent } from "./../../dialog/confirmation-dialog/
 import { MessageDialogComponent } from "./../../dialog/message-dialog/message-dialog.component";
 
 @Component({
-  selector: "app-login",
-  templateUrl: "./login.component.html",
-  styleUrls: ["./login.component.scss"]
+    selector: "app-login",
+    templateUrl: "./login.component.html",
+    styleUrls: ["./login.component.scss"],
+    standalone: false
 })
 
 //@@@PDC-824 - Update login window and registration page to allow login with just email address and password
@@ -41,7 +42,7 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private chorusService: ChorusauthService,
-    private socialAuthService: SocialAuthService,
+
     private dialogRef: MatDialogRef<LoginComponent>,
     private dialog: MatDialog,
     private userService: PDCUserService,
@@ -110,61 +111,6 @@ export class LoginComponent implements OnInit {
 				break;
 		}
 		});
-  }
-
-  // Authenticate the user with Google
-  // @@@PDC-881 close login dialog and open registration dialog if user needs to register
-  public socialSignIn(socialPlatform: string) {
-    const socialPlatformProvider = GoogleLoginProvider.PROVIDER_ID;
-
-    this.socialAuthService.signIn(socialPlatformProvider).then(userData => {
-      // Now that they are logged in check to see if they are already setup in Chorus
-      this.userService.checkPDCUserByEmail(userData.email, "Google").then(exists => {
-		  //console.log(userData);
-        switch (exists) {
-          //user exists
-          case 0:
-            //'' route url will be welcome page to login. 'pdc' route url will be home page
-            //this.router.navigate([this.router.url]);
-            this.dialogRef.close("login successfully");
-            break;
-          //user does not exist
-          case 1:
-            //console.log(userData);
-            this.userService.setUserIDType("Google");
-            this.userService.setLoginUsername(userData.email);
-            this.userService.setEmail(userData.email);
-            this.userService.setName(userData.name);
-            //this.router.navigate(["registration"]);
-            this.dialogRef.close("new user register");
-            break;
-          //system error
-          case 2:
-            this.systemErrorMessage = "System Error. Please contact your system admin";
-            console.log("System error!!!");
-            break;
-		  case 5:
-			//this.systemErrorMessage = "User Cancelled their account";
-			//@@@PDC-6917 get helpdesk_email from env
-			this.systemErrorMessage = "User deactivated their account. To reactivate account please contact site administrators by email "+environment.helpdesk_email+".";
-			//this.userService.setLoginUsername(username);
-            //this.userService.setEmail(username);
-            //this.router.navigate(["registration"]);
-			this.dialog.open(MessageDialogComponent, {
-				width: "400px",
-				height: "170px",
-				disableClose: true,
-				autoFocus: false,
-				hasBackdrop: true,
-				data: { message: this.systemErrorMessage}
-			});
-            this.dialogRef.close("User cancelled their account");
-			break;
-        }
-		console.log("Error message: " + this.systemErrorMessage);
-      });
-    });
-
   }
 
   // @@@PDC-881 close login dialog and open registration dialog if user needs to register
@@ -285,14 +231,6 @@ export class LoginComponent implements OnInit {
 	  this.dialogRef.close("new user register");
   }
 
-  // Sign the user out of Google
-  public socialSignOut(socialPlatform: string) {
-    this.socialAuthService.signOut().then(userData => {
-      // Now clear the user data
-      this.username = "";
-      this.userEmail = "";
-    });
-  }
 
   // Sign the user in using their eRA Commons login
   public nihSignIn() {

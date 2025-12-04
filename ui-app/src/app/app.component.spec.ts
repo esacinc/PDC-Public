@@ -1,13 +1,14 @@
 import { OverlayWindowService } from "./overlay-window/overlay-window.service";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { TestBed, waitForAsync } from "@angular/core/testing";
-import { MatLegacyAutocompleteModule as MatAutocompleteModule } from "@angular/material/legacy-autocomplete";
-import { MatLegacyMenuModule as MatMenuModule } from "@angular/material/legacy-menu";
+import { MatAutocompleteModule } from "@angular/material/autocomplete";
+import { MatMenuModule } from "@angular/material/menu";
 import { RouterTestingModule } from "@angular/router/testing";
 
 import { AppComponent } from "./app.component";
 import { SearchStylePipe } from "./navbar/search-style.pipe";
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 
 class MockOverlayWindowService {
   open(): void {}
@@ -16,15 +17,13 @@ class MockOverlayWindowService {
 describe("AppComponent", () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [AppComponent, SearchStylePipe],
-      schemas: [NO_ERRORS_SCHEMA],
-      imports: [
-        RouterTestingModule,
-        HttpClientTestingModule,
+    declarations: [AppComponent, SearchStylePipe],
+    schemas: [NO_ERRORS_SCHEMA],
+    imports: [RouterTestingModule,
         MatAutocompleteModule,
-        MatMenuModule
-      ]
-    });
+        MatMenuModule],
+    providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+});
 
     TestBed.overrideComponent(AppComponent, {
       set: {

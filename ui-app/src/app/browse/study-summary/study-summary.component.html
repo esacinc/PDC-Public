@@ -1,40 +1,46 @@
+<div class="usa-prose">
 <title>STUDY SUMMARY</title>
-<button mat-icon-button style="float: right; flex: 0 0 auto;" (click)="close(false)" aria-label="Close">
-	<i class="fa fa-close" style="light"></i>
+<button mat-icon-button style="float: right; flex: 0 0 auto; margin: 10px; z-index: 1000; position: relative;" (click)="close(false)" aria-label="Close">
+	<i class="fa fa-times" style="color: #333333 !important; font-size: 20px; font-weight: bold;"></i>
 </button>
 
 <!--//@@@PDC-461  Make all summary dialog windows headers sticky-->
-<h2 mat-dialog-title style="color:#245672" >STUDY SUMMARY: {{studySummaryData.submitter_id_name}}</h2>
+<h2 mat-dialog-title style="color:#245672;" >STUDY SUMMARY: {{studySummaryData.submitter_id_name}}</h2>
 
-<mat-dialog-content style='max-height: 80vh; '>
-<div class="row" style="width: 100%;vertical-align: middle">
-	<div class="col-md-2" style="align-items: center;">
-		<mat-card style="background:#21b5f0;font-family: 'Lato';font-weight: 400;color:#ffffff;text-align: center;">
-			<mat-card-content>
-				<span style="font-size: 20px;">
-				<!--@@@PDC-5068 sync up case/aliquot counts with browse table-->
-				<!--@@@PDC-6794 use case id count as case count-->
-					{{studySummaryData.cases_count}}
-				<!--@@@PDC-6357  case count w/o filter
-					{{totalRecordsClinical}}-->
-				</span><br>
-				Cases
-			</mat-card-content>
-		</mat-card>
-		<mat-card style="background:#078abf;font-family: 'Lato';font-weight: 400;color:#ffffff;text-align: center;">
-			<mat-card-content>
-				<span style="font-size: 20px;">
-				<!--@@@PDC-5068 sync up case/aliquot counts with browse table-->
-					{{studySummaryData.aliquots_count}}
-				<!--@@@PDC-1427  sync up case/aliquot counts
-					{{totalRecordsBiospecimens}}-->
-				</span><br>
-				Aliquots
-			</mat-card-content>
-		</mat-card>
-	</div>
-	<div class="col-md-10" style="align-items: center;">
-		<mat-card style="width: 100%;">
+<mat-dialog-content>
+<div class="row" style="width: 100%;vertical-align: middle; margin: 0;">
+	<!-- Single row with three sections -->
+	<div class="col-md-12" style="display: flex; align-items: flex-start; gap: 20px; padding: 0 15px;">
+		<!-- Far Left: Cases and Aliquots cards -->
+		<div style="display: flex; flex-direction: column; gap: 15px; flex-shrink: 0;">
+			<mat-card class="border rounded mb-2" appearance="outlined" style="background:#21b5f0;font-family: 'Lato';font-weight: 400;color:#ffffff;text-align: center; min-width: 120px;">
+				<mat-card-content>
+					<span style="font-size: 20px;">
+					<!--@@@PDC-5068 sync up case/aliquot counts with browse table-->
+					<!--@@@PDC-6794 use case id count as case count-->
+						{{studySummaryData.cases_count}}
+					<!--@@@PDC-6357  case count w/o filter
+						{{totalRecordsClinical}}-->
+					</span><br>
+					Cases
+				</mat-card-content>
+			</mat-card>
+			<mat-card appearance="outlined" style="background:#078abf;font-family: 'Lato';font-weight: 400;color:#ffffff;text-align: center; min-width: 120px;">
+				<mat-card-content>
+					<span style="font-size: 20px;">
+					<!--@@@PDC-5068 sync up case/aliquot counts with browse table-->
+						{{studySummaryData.aliquots_count}}
+					<!--@@@PDC-1427  sync up case/aliquot counts
+						{{totalRecordsBiospecimens}}-->
+					</span><br>
+					Aliquots
+				</mat-card-content>
+			</mat-card>
+		</div>
+
+		<!-- Middle: Summary card -->
+		<div style="flex: 1; min-width: 0;">
+			<mat-card class="border rounded mb-2" appearance="outlined" style="width: 100%; margin: 0;">
 			<mat-card-header class="study-summary">
 				<mat-card-title class="study-summary">SUMMARY</mat-card-title>
 			</mat-card-header>
@@ -66,17 +72,150 @@
 						<td class="summary-card-name-right-cell">Project ID</td>
 						<td class="summary-card-value-right-cell">{{studySummaryData.project_name}}</td>
 					</tr>
-					<tr><td class="summary-card-name-left-cell">Experimental Strategy</td>
+					<tr><td class="summary-card-name-left-cell">Experiment Type</td>
 						<td class="summary-card-value-left-cell">{{studySummaryData.experiment_type}}</td>
 					</tr>
 					</tbody>
 				</table>
 			</mat-card-content>
 		</mat-card>
+		</div>
+        <!-- @@@PDC-10333-multiomic-header-link -->
+		<div style="flex-shrink: 0; align-self: flex-start;">
+			<mat-card class="border rounded mb-2" appearance="outlined" style="text-align: center !important; width: 100%; margin: 0; min-width: 320px; ">
+			<mat-card-header class="multi-omics card-header" style="display: flex; justify-content: center; align-items: center;background-color: white; border:none; ">
+					  <mat-card-title class="" style="display: flex; justify-content: center; align-items: center; width: 100%; font-size: 16px !important;border:none; background-color:white;">
+						<a [routerLink]="['/faq/MultiOmic_Availability']" target="_blank" class="multi-omic-link">
+							MULTI-OMIC AVAILABILITY
+						</a>
+					</mat-card-title>
+				</mat-card-header>
+        <mat-card-content style="max-height:330px; overflow-y:auto; overflow-x:hidden; word-wrap:break-word; white-space:normal;">
+
+          <!-- Genomics Row -->
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding: 0 8px;">
+            <span style="font-weight: 500; color: #333;">Genomics</span>
+            <div class="tooltip-wrapper">
+              <span *ngIf="has_genomic_data" 
+                    class="badge badge-success" 
+                    style="cursor: pointer; padding: 8px 12px; border-radius: 6px; font-size: 11px; background-color: #28a745; color: white; white-space: nowrap; min-width: 120px; text-align: center;"
+                    (click)="selectTab(TAB_INDEXES.CLINICAL)">
+                Available - View Data
+              </span>
+              <span *ngIf="!has_genomic_data" 
+                    class="badge badge-secondary" 
+                    style="padding: 8px 12px; border-radius: 6px; font-size: 11px; background-color: #6c757d; color: white; white-space: nowrap; min-width: 120px; text-align: center;">
+                Not Available
+              </span>
+              <span class="tooltip-text" *ngIf="has_genomic_data">Click to view case-level genomic links.</span>
+              <span class="tooltip-text" *ngIf="!has_genomic_data">No genomic data available.</span>
+            </div>
+          </div>
+
+          <!-- Imaging Row -->
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding: 0 8px;">
+            <span style="font-weight: 500; color: #333;">Imaging</span>
+            <div class="tooltip-wrapper">
+              <span *ngIf="has_imaging_data" 
+                    class="badge badge-success" 
+                    style="cursor: pointer; padding: 8px 12px; border-radius: 6px; font-size: 11px; background-color: #28a745; color: white; white-space: nowrap; min-width: 120px; text-align: center;"
+                    (click)="selectTab(TAB_INDEXES.CLINICAL)">
+                Available - View Data
+              </span>
+              <span *ngIf="!has_imaging_data" 
+                    class="badge badge-secondary" 
+                    style="padding: 8px 12px; border-radius: 6px; font-size: 11px; background-color: #6c757d; color: white; white-space: nowrap; min-width: 120px; text-align: center;">
+                Not Available
+              </span>
+              <span class="tooltip-text" *ngIf="has_imaging_data">Click to view case-level imaging links.</span>
+              <span class="tooltip-text" *ngIf="!has_imaging_data">No imaging data available.</span>
+            </div>
+          </div>
+
+          <!-- Lipidome Row -->
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding: 0 8px;">
+            <span style="font-weight: 500; color: #333;">Lipidome</span>
+            <div class="tooltip-wrapper" style="position: relative;">
+              <span *ngIf="has_lipidome_data" 
+                    #lipidomeButton
+                    class="badge badge-success" 
+                    style="cursor: pointer; padding: 8px 12px; border-radius: 6px; font-size: 11px; background-color: #28a745; color: white; white-space: nowrap; min-width: 120px; text-align: center;"
+                    (click)="toggleStudiesDropdown('lipidome', $event)">
+                Available - View Data ▼
+              </span>
+              <span *ngIf="!has_lipidome_data" 
+                    class="badge badge-secondary" 
+                    style="padding: 8px 12px; border-radius: 6px; font-size: 11px; background-color: #6c757d; color: white; white-space: nowrap; min-width: 120px; text-align: center;">
+                Not Available
+              </span>
+              
+              <!-- Dropdown for related lipidome studies -->
+              <div *ngIf="showLipidomeDropdown" class="studies-dropdown" (click)="$event.stopPropagation()">
+                <div class="dropdown-header">Related Lipidomics Studies</div>
+                <div class="dropdown-item" 
+                     *ngFor="let study of getLipidomeStudies()"
+                     (click)="showStudySummary(study.reference_entity_location, '')">
+                  <div class="study-name">{{study.submitter_id_name}}</div>
+                  <div class="study-id">{{study.reference_entity_alias}}</div>
+                </div>
+                <div *ngIf="getLipidomeStudies().length === 0" class="dropdown-item no-studies">
+                  This study
+                </div>
+              </div>
+              
+              <span class="tooltip-text" *ngIf="has_lipidome_data">Click to view related lipidomics studies.</span>
+              <span class="tooltip-text" *ngIf="!has_lipidome_data">No lipidomics data available.</span>
+            </div>
+          </div>
+
+          <!-- Metabolome Row -->
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0; padding: 0 8px;">
+            <span style="font-weight: 500; color: #333;">Metabolome</span>
+            <div class="tooltip-wrapper" style="position: relative;">
+              <span *ngIf="has_metabolome_data" 
+                    #metabolomeButton
+                    class="badge badge-success" 
+                    style="cursor: pointer; padding: 8px 12px; border-radius: 6px; font-size: 11px; background-color: #28a745; color: white; white-space: nowrap; min-width: 120px; text-align: center;"
+                    (click)="toggleStudiesDropdown('metabolome', $event)">
+                Available - View Data ▼
+              </span>
+              <span *ngIf="!has_metabolome_data" 
+                    class="badge badge-secondary" 
+                    style="padding: 8px 12px; border-radius: 6px; font-size: 11px; background-color: #6c757d; color: white; white-space: nowrap; min-width: 120px; text-align: center;">
+                Not Available
+              </span>
+              
+              <!-- Dropdown for related metabolome studies -->
+              <div *ngIf="showMetabolomeDropdown" class="studies-dropdown" (click)="$event.stopPropagation()">
+                <div class="dropdown-header">Related Metabolomics Studies</div>
+                <div class="dropdown-item" 
+                     *ngFor="let study of getMetabolomeStudies()"
+                     (click)="showStudySummary(study.reference_entity_location, '')">
+                  <div class="study-name">{{study.submitter_id_name}}</div>
+                  <div class="study-id">{{study.reference_entity_alias}}</div>
+                </div>
+                <div *ngIf="getMetabolomeStudies().length === 0" class="dropdown-item no-studies">
+                  This study
+                </div>
+              </div>
+              
+              <span class="tooltip-text" *ngIf="has_metabolome_data">Click to view related metabolomics studies.</span>
+              <span class="tooltip-text" *ngIf="!has_metabolome_data">No metabolomics data available.</span>
+            </div>
+          </div>
+
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+	</div>
+
+	<!-- Study versions and other content below -->
+	<div class="col-md-12" style="padding: 0 15px; margin-top: 20px;">
 		<div id="studyVersions" *ngIf="versionCheck()">
 		  <mat-expansion-panel [expanded]="false">
             <mat-expansion-panel-header>
-                <mat-panel-title style="color:rgb(0, 80, 131)" matTooltip="This study has multiple versions. Additional versions (updates) of a study are created when the underlying data changes substantially. This may involve changes to the raw data, processed data, and/or metadata. When a new version is created, it may fall out of sync with the original publication of this data. Use of the latest version is strongly encouraged, as it commonly represents an update directly from the submitter." matTooltipPosition="right" >Study version history</mat-panel-title>
+                <mat-panel-title style="color:rgb(0, 80, 131)" >Study version history</mat-panel-title>
              </mat-expansion-panel-header>
 
 			<table id="studySummaryVersions" style="border: 1px;">
@@ -92,9 +231,9 @@
 </div>
 <div class="row" style="padding-top:10px">
 	<mat-tab-group mat-stretch-tabs="always" style="width:100%; padding-top: 5px; padding-left: 20px; padding-right: 45px; padding-bottom: 5px;"
-	(selectedTabChange)="tabClick()">
+	(selectedTabChange)="tabClick()" [(selectedIndex)]="selectedTabIndex">
 		<mat-tab><ng-template mat-tab-label>
-				Description<a href={{description_help_url}} target="_"><mat-icon matTooltip="Description" class="help-icon">help</mat-icon></a>
+				Description<a href={{description_help_url}} target="_"><mat-icon placement="auto" tooltip="Description" class="help-icon">help</mat-icon></a>
 			  </ng-template>
 			<div *ngIf="loading">
 				<mat-spinner></mat-spinner>
@@ -104,14 +243,123 @@
 			<div style = "max-height:220px;overflow-y: auto;display: block!important;font-size: 14px; width: 100%;" *ngIf="studySummaryData.study_description" [innerHTML]="studySummaryData.study_description"></div>
 			<br>
 		</mat-tab>
-		<mat-tab> <ng-template mat-tab-label>
-			Protocol<a href={{protocol_help_url}} target="_"><mat-icon matTooltip="View Protocol" class="help-icon">help</mat-icon></a>
+		<mat-tab>
+			<ng-template mat-tab-label>
+			Protocol ({{protocol_length}})<a *ngIf="protocol_data" href={{protocol_help_url}} target="_"><mat-icon placement="auto" tooltip="View Protocol" class="help-icon">help</mat-icon></a>
 			  		</ng-template>
+
 			<div *ngIf="loading">
 				<mat-spinner></mat-spinner>
 			</div>
-			<div *ngIf="protocol">
-				<table style="max-height:220px;overflow-y: auto;display: block!important;font-size: 14px; width: 100%;" id="protocolDataTable">
+			<!-- @@@PDC-8940 multiple protocols per study -->
+				<div *ngIf="protocol_data">
+					<div *ngIf="protocol_data.length > 1; else singleProtocolTemplate">
+						<div *ngFor="let protocol of protocol_data; let i = index">
+						<h5 class="underline" (click)="toggleProtocolTableVisibility(i)">{{protocol.protocol_name}}
+							<i [ngClass]="{'fa fa-chevron-up': isTableVisible[i], 'fas fa-chevron-down': !isTableVisible[i]}"></i>
+						</h5>
+						<table  *ngIf="isTableVisible[i]" style="max-height:220px;overflow-y: auto;display: block!important;font-size: 14px; width: 100%;" id="protocolDataTable">
+							<tr style="background-color: rgba(0,0,0,.05);">
+								<td style="text-align: center;" colspan="2" ><b>General details</b></td></tr>
+							<tr><td class="tab-table-field-name">Protocol Name</td>
+								<td class="tab-table-field-value">{{protocol.protocol_name}}</td></tr>
+							<tr><td class="tab-table-field-name">Quantitation Strategy</td>
+								<td class="tab-table-field-value">{{protocol.quantitation_strategy}}</td></tr>
+							<tr><td class="tab-table-field-name">Label Free Quantitation</td>
+							<!--@@@PDC-3367 typo in label_free_quantitaion -->
+								<td class="tab-table-field-value">{{protocol.label_free_quantitation}}</td></tr>
+							<tr *ngIf="studySummaryData.analytical_fraction != 'Metabolome' && studySummaryData.analytical_fraction != 'Lipidome'"><td class="tab-table-field-name">Labeled Quantitation</td>
+								<td class="tab-table-field-value">{{protocol.labeled_quantitation}}</td></tr>
+							<tr *ngIf="studySummaryData.analytical_fraction != 'Metabolome' && studySummaryData.analytical_fraction != 'Lipidome'"><td class="tab-table-field-name">Isobaric Labeling Reagent</td>
+								<td class="tab-table-field-value">{{protocol.isobaric_labeling_reagent}}</td></tr>
+							<tr *ngIf="studySummaryData.analytical_fraction != 'Metabolome' && studySummaryData.analytical_fraction != 'Lipidome'"><td class="tab-table-field-name">Reporter Ion MS Level</td>
+								<td class="tab-table-field-value">{{protocol.reporter_ion_ms_level}}</td></tr>
+							<tr *ngIf="studySummaryData.analytical_fraction == 'Metabolome' || studySummaryData.analytical_fraction == 'Lipidome'"><td class="tab-table-field-name">Analytical Technique</td>
+									<td class="tab-table-field-value">{{protocol.analytical_technique}}</td></tr>
+							<tr style="background-color: rgba(0,0,0,.05);">
+								<td style="text-align: center;" colspan="2"><b>Analytical Sample Preparation</b></td></tr>
+							<tr *ngIf="studySummaryData.analytical_fraction != 'Metabolome' && studySummaryData.analytical_fraction != 'Lipidome'"><td class="tab-table-field-name">Digestion Reagent</td>
+								<td class="tab-table-field-value">{{protocol.digestion_reagent}}</td></tr>
+							<tr *ngIf="studySummaryData.analytical_fraction != 'Metabolome' && studySummaryData.analytical_fraction != 'Lipidome'"><td class="tab-table-field-name">Alkylation Reagent</td>
+								<td class="tab-table-field-value">{{protocol.alkylation_reagent}}</td></tr>
+							<tr><td class="tab-table-field-name">Enrichment Strategy</td>
+								<td class="tab-table-field-value">{{protocol.enrichment_strategy}}</td></tr>
+							<tr><td class="tab-table-field-name">Enrichment</td>
+								<td class="tab-table-field-value">{{protocol.enrichment}}</td></tr>
+							<tr *ngIf="studySummaryData.analytical_fraction == 'Metabolome' || studySummaryData.analytical_fraction == 'Lipidome'"><td class="tab-table-field-name">Extraction Method</td>
+								<td class="tab-table-field-value">{{protocol.extraction_method}}</td></tr>
+							<tr><td class="tab-table-field-name">Chromatography Dimensions Count</td>
+								<td class="tab-table-field-value">{{protocol.chromatography_dimensions_count}}</td></tr>
+							<tr><td class="tab-table-field-name">1D Chromatography Type</td>
+								<td class="tab-table-field-value">{{protocol.one_d_chromatography_type}}</td></tr>
+							<tr><td class="tab-table-field-name">2D Chromatography Type</td>
+								<td class="tab-table-field-value">{{protocol.two_d_chromatography_type}}</td></tr>
+							<!-- @@@PDC-7323 -add fractions analyzed back to protocol properties -->
+							<tr><td class="tab-table-field-name">Fractions Analyzed Count</td>
+								<td class="tab-table-field-value">{{protocol.fractions_analyzed_count}}</td></tr>
+							<!-- @@@PDC-7248 - additional metabolomic properties -->
+							<tr *ngIf="studySummaryData.analytical_fraction == 'Metabolome' || studySummaryData.analytical_fraction == 'Lipidome'"><td class="tab-table-field-name">Reconstitution Solvent</td>
+								<td class="tab-table-field-value">{{protocol.reconstitution_solvent}}</td></tr>
+							<tr *ngIf="studySummaryData.analytical_fraction == 'Metabolome' || studySummaryData.analytical_fraction == 'Lipidome'"><td class="tab-table-field-name">Reconstitution Volume</td>
+								<td class="tab-table-field-value">{{protocol.reconstitution_volume}} {{protocol.reconstitution_volume_uom}}</td></tr>
+							<tr style="background-color: rgba(0,0,0,.05);">
+								<td style="text-align: center;" colspan="2"><b>Liquid Chromatography</b></td></tr>
+							<tr><td class="tab-table-field-name">Column Type</td>
+								<td class="tab-table-field-value">{{protocol.column_type}}</td></tr>
+							<tr><td class="tab-table-field-name">Amount on Column</td>
+								<td class="tab-table-field-value">{{protocol.amount_on_column}} {{protocol.amount_on_column_uom}}</td></tr>
+							<tr><td class="tab-table-field-name">Column Length</td>
+								<td class="tab-table-field-value">{{protocol.column_length}} {{protocol.column_length_uom}}</td></tr>
+							<tr><td class="tab-table-field-name">Column Inner Diameter</td>
+								<td class="tab-table-field-value">{{protocol.column_inner_diameter}} {{protocol.column_inner_diameter_uom}}</td></tr>
+							<tr><td class="tab-table-field-name">Particle Size</td>
+								<td class="tab-table-field-value">{{protocol.particle_size}} {{protocol.particle_size_uom}}</td></tr>
+							<tr><td class="tab-table-field-name">Particle Type</td>
+								<td class="tab-table-field-value">{{protocol.particle_type}}</td></tr>
+							<tr><td class="tab-table-field-name">Gradient Length</td>
+								<td class="tab-table-field-value">{{protocol.gradient_length}} {{protocol.gradient_length_uom}}</td></tr>
+							<tr *ngIf="studySummaryData.analytical_fraction == 'Metabolome' || studySummaryData.analytical_fraction == 'Lipidome'"><td class="tab-table-field-name">Chromatography Instrument Make</td>
+								<td class="tab-table-field-value">{{protocol.chromatography_instrument_make}}</td></tr>
+							<tr *ngIf="studySummaryData.analytical_fraction == 'Metabolome' || studySummaryData.analytical_fraction == 'Lipidome'"><td class="tab-table-field-name">Chromatography Instrument Model</td>
+								<td class="tab-table-field-value">{{protocol.chromatography_instrument_model}}</td></tr>
+							<!-- @@@PDC-7248 - additional metabolomic properties -->
+							<tr *ngIf="studySummaryData.analytical_fraction == 'Metabolome' || studySummaryData.analytical_fraction == 'Lipidome'"><td class="tab-table-field-name">Internal Standards</td>
+								<td class="tab-table-field-value">{{protocol.internal_standards}}</td></tr>
+							<tr style="background-color: rgba(0,0,0,.05);">
+								<td style="text-align: center;" colspan="2"><b>Mass Spectrometry</b></td></tr>
+							<tr><td class="tab-table-field-name">Instrument Make</td>
+								<td class="tab-table-field-value">{{protocol.instrument_make}}</td></tr>
+							<tr><td class="tab-table-field-name">Instrument Model</td>
+								<td class="tab-table-field-value">{{protocol.instrument_model}}</td></tr>
+							<tr *ngIf="studySummaryData.analytical_fraction == 'Metabolome' || studySummaryData.analytical_fraction == 'Lipidome'"><td class="tab-table-field-name">Ionization Mode</td>
+								<td class="tab-table-field-value">{{protocol.ionization_mode}}</td></tr>
+							<tr><td class="tab-table-field-name">Dissociation Type</td>
+								<td class="tab-table-field-value">{{protocol.dissociation_type}}</td></tr>
+							<tr><td class="tab-table-field-name">MS1 Resolution</td>
+								<td class="tab-table-field-value">{{protocol.ms1_resolution}}</td></tr>
+							<tr><td class="tab-table-field-name">MS2 Resolution</td>
+								<td class="tab-table-field-value">{{protocol.ms2_resolution}}</td></tr>
+							<tr><td class="tab-table-field-name">DDA TopN</td>
+								<td class="tab-table-field-value">{{protocol.dda_topn}}</td></tr>
+							<tr><td class="tab-table-field-name">Normalized Collision Energy (%)</td>
+								<td class="tab-table-field-value">{{protocol.normalized_collision_energy}}</td></tr>
+							<tr *ngIf="studySummaryData.analytical_fraction != 'Metabolome' && studySummaryData.analytical_fraction != 'Lipidome'"><td class="tab-table-field-name">Acquistion Type</td>
+								<td class="tab-table-field-value">{{protocol.acquistion_type}}</td></tr>
+							<tr *ngIf="studySummaryData.analytical_fraction != 'Metabolome' && studySummaryData.analytical_fraction != 'Lipidome'"><td class="tab-table-field-name">DIA Multiplexing</td>
+								<td class="tab-table-field-value">{{protocol.dia_multiplexing}}</td></tr>
+							<tr *ngIf="studySummaryData.analytical_fraction != 'Metabolome' && studySummaryData.analytical_fraction != 'Lipidome'"><td class="tab-table-field-name">DIA IMS</td>
+								<td class="tab-table-field-value">{{protocol.dia_ims}}</td></tr>
+							<!--@@@PDC-7399 change acquisition_mode to polarity-->
+							<tr *ngIf="studySummaryData.analytical_fraction == 'Metabolome' || studySummaryData.analytical_fraction == 'Lipidome'"><td class="tab-table-field-name">Polarity</td>
+								<td class="tab-table-field-value">{{protocol.polarity}}</td></tr>
+						</table>
+						</div>
+					</div>
+					</div>
+					<ng-template #singleProtocolTemplate>
+						<!-- Template for when protocol_data length is one or less -->
+					<div *ngFor="let protocol of protocol_data">
+				    <table style="max-height:220px;overflow-y: auto;display: block!important;font-size: 14px; width: 100%;" id="protocolDataTable">
 					<tr style="background-color: rgba(0,0,0,.05);">
 						<td style="text-align: center;" colspan="2" ><b>General details</b></td></tr>
 					<tr><td class="tab-table-field-name">Protocol Name</td>
@@ -207,11 +455,12 @@
 						<td class="tab-table-field-value">{{protocol.polarity}}</td></tr>
 				</table>
 			</div>
+			</ng-template>
 		</mat-tab>
 		<mat-tab label="Experimental Design">
 			<span><ng-template mat-tab-label>
 				Experimental Design<a href={{experimentalDesign_help_url}} target="_">
-					<mat-icon matTooltip="View Study Run Metadata" class="help-icon">help</mat-icon></a>
+					<mat-icon placement="auto" tooltip="View Study Run Metadata" class="help-icon">help</mat-icon></a>
 				  </ng-template>
 			</span>
 			<div *ngIf="loading">
@@ -243,7 +492,7 @@
 						<th rowspan=2 *ngFor="let col of studyExperimentDesignTableCommonCols" class="ui-datatable-tableheader" style="word-wrap: break-word; white-space: normal;" pFrozenColumn>
               				<!-- @@@PDC-4978 update links to migrated documentation pages -->
 							<span *ngIf="col.header == 'Run Metadata ID'"><a href="/pdc/data-dictionary/Study Run Metadata" target="_blank" style="color:white" data-toggle = "tooltip" title = "Also called as plex name, plex dataset name, folder name, etc., in labeled experiments">{{col.header}}</a></span>
-							<span *ngIf="col.header != 'Run Metadata ID'"><a href="/pdc/data-dictionary/Study Run Metadata" target="_blank" style="color:white">{{col.header}}</a></span>
+							<span *ngIf="col.header != 'Run Metadata ID'" style="word-break: keep-all;"><a href="/pdc/data-dictionary/Study Run Metadata" target="_blank" style="color:white">{{col.header}}</a></span>
 						</th>
 						<th *ngIf="studyExperimentDesignTableExtraCols" rowspan=1 [attr.colspan]="studyExperimentDesignTableExtraCols.length" class="ui-datatable-tableheader" style="word-wrap: break-word; white-space: normal;text-align: center;">
 							<a href="/pdc/data-dictionary/Study Run Metadata" target="_blank" style="color:white">
@@ -255,18 +504,18 @@
 								<a href="/pdc/data-dictionary/Study Run Metadata" target="_blank" style="color:white">{{column.header}}</a>
 							</th>
 						</tr>
-	
+
 				</ng-template>
 				<ng-template pTemplate="body" let-studyExperimentalDesign let-studyExperimentDesignTableFrozenCols>
 					<tr [pSelectableRow]="clinicalData">
 						<td *ngFor="let col of studyExperimentDesignTableCommonCols" style="word-wrap: break-word; white-space: normal;" pFrozenColumn>
 							<span *ngIf="col.header == 'Run Metadata ID'" class="colValue" data-toggle = "tooltip" title = "Also called as plex name, plex dataset name, folder name, etc., in labeled experiments" [innerHtml] = "studyExperimentalDesign[col.field]"></span>
 							<span *ngIf="col.header != 'Run Metadata ID'" class="colValue" [innerHtml] = "studyExperimentalDesign[col.field]"></span>
-						</td>		
+						</td>
 						<td class="fixedWidthCol" *ngFor="let col of studyExperimentDesignTableExtraCols" style="word-wrap: break-word; white-space: normal;">
 							<span class="colValue" [innerHtml] = "studyExperimentalDesign[col.field]"></span>
-						</td>	
-					</tr>	
+						</td>
+					</tr>
 				</ng-template>
 				</p-table>
 			</div>
@@ -275,7 +524,7 @@
 		<mat-tab label="Clinical">
 				<span><ng-template mat-tab-label>
 						Clinical<a href={{clinical_help_url}} target="_">
-						<mat-icon matTooltip="View Clinical Data" class="help-icon">help</mat-icon></a>
+						<mat-icon placement="auto" tooltip="View Clinical Data" class="help-icon">help</mat-icon></a>
 					  </ng-template>
 				</span>
 				<div *ngIf="loading">
@@ -310,13 +559,23 @@
 								<div class="ui-datatable-tableheader-flex-container">
 									<div>
 										<a href="/pdc/data-dictionary/Case#gdc_case_id" target="_blank" style="color:white">
-											Genomic and Imaging<br> Data Resource
+											Genomic<br> Data Resource
 										</a>
 									</div>
 								</div>
 							</th>
+              <th class="ui-datatable-tableheader fixedWidthCol">
+                <div class="ui-datatable-tableheader-flex-container">
+                  <div>
+                    <a href="/pdc/data-dictionary/Case#gdc_case_id" target="_blank" style="color:white">
+                      Imaging<br> Data Resource
+                    </a>
+                  </div>
+                </div>
+              </th>
 							<th class="ui-datatable-tableheader"  [pSortableColumn]="clinicalCols[1].field"><a href="/pdc/data-dictionary/Demographic#ethnicity" target="_blank" style="color:white">Ethnicity</a>&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Ethinicity column in ascending/descending order"></i></th>
-							<th class="ui-datatable-tableheader"  [pSortableColumn]="clinicalCols[2].field"><a href="/pdc/data-dictionary/Demographic#gender" target="_blank" style="color:white">Gender</a>&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Gender column in ascending/descending order"></i></th>
+							<!--@@@PDC-9434 Gender to Sex conversion-->
+							<th class="ui-datatable-tableheader"  [pSortableColumn]="clinicalCols[2].field"><a href="/pdc/data-dictionary/Demographic#gender" target="_blank" style="color:white">Sex</a>&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Gender column in ascending/descending order"></i></th>
 							<th class="ui-datatable-tableheader"  [pSortableColumn]="clinicalCols[3].field"><a href="/pdc/data-dictionary/Demographic#race" target="_blank" style="color:white">Race</a>&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Race column in ascending/descending order"></i></th>
 							<th class="ui-datatable-tableheader"  [pSortableColumn]="clinicalCols[4].field"><a href="/pdc/data-dictionary/Diagnosis#morphology" target="_blank" style="color:white">Morphology</a>&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Morphology column in ascending/descending order"></i></th>
 							<th class="ui-datatable-tableheader"  [pSortableColumn]="clinicalCols[5].field"><a href="/pdc/data-dictionary/Diagnosis#primary_diagnosis" target="_blank" style="color:white">Primary Diagnosis</a>&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Primary Diagnosis column in ascending/descending order"></i></th>
@@ -362,13 +621,19 @@
 							<td style="word-wrap: break-word; white-space: normal;text-align: center" class="fixedWidthCol">
 								<!-- @@@PDC-1987: Update clinical tab to use new external reference API -->
 								<div *ngFor="let externalRef of clinicalData.externalReferences">
-									<a [href]="externalRef.reference_entity_location" title="{{ (externalRef.reference_resource_shortname | uppercase) == 'TCIA' ? 'Go to imaging resource' : 'Go to genomic resource'}}" target="_blank">
-										<img [src]="getIcon(externalRef.reference_resource_shortname)" alt="" [ngClass]="(externalRef.reference_resource_shortname | uppercase) == 'TCIA' ? 'imagingLbl': 'genomicLbl'">
-										<span style="display:none">Click on the External Reference Image</span>
+									<a *ngIf="(externalRef.reference_resource_shortname | uppercase) !== 'TCIA'" [href]="externalRef.reference_entity_location" title="Go to genomic resource" target="_blank">
 										{{displayTextforExternalID(clinicalData.external_case_id, externalRef.reference_entity_location)}}
 									</a>
 								</div>
 							</td>
+              <td style="word-wrap: break-word; white-space: normal;text-align: center" class="fixedWidthCol">
+                <!-- @@@PDC-1987: Update clinical tab to use new external reference API -->
+                <div *ngFor="let externalRef of clinicalData.externalReferences">
+                  <a *ngIf="(externalRef.reference_resource_shortname | uppercase) === 'TCIA'" [href]="externalRef.reference_entity_location" title="Go to imaging resource" target="_blank">
+                    {{displayTextforExternalID(clinicalData.external_case_id, externalRef.reference_entity_location)}}
+                  </a>
+                </div>
+              </td>
 							<td style="word-wrap: break-word; white-space: normal;">{{clinicalData.ethnicity}}</td>
 							<td style="word-wrap: break-word; white-space: normal;">{{clinicalData.gender}}</td>
 							<td style="word-wrap: break-word; white-space: normal;">{{clinicalData.race}}</td>
@@ -387,7 +652,7 @@
 			<mat-tab label="Biospecimens">
 				<span><ng-template mat-tab-label>
 					Biospecimens<a href={{aliquot_help_url}} target="_">
-					<mat-icon matTooltip="View Biospecimens Data" class="help-icon">help</mat-icon></a>
+					<mat-icon placement="auto" tooltip="View Biospecimens Data" class="help-icon">help</mat-icon></a>
 					</ng-template>
 				</span>
 				<div *ngIf="loading">
@@ -479,7 +744,7 @@
 		<mat-tab label="WORKFLOW" *ngIf="studySummaryData.analytical_fraction != 'Metabolome' && studySummaryData.analytical_fraction != 'Lipidome'">
 			<span><ng-template mat-tab-label>
 					Workflow<a href={{workflow_help_url}} target="_">
-					<mat-icon matTooltip="View Workflow" class="help-icon">help</mat-icon></a>
+					<mat-icon placement="auto" tooltip="View Workflow" class="help-icon">help</mat-icon></a>
 			  	</ng-template>
 			</span>
 			<div *ngIf="loading">
@@ -534,13 +799,13 @@
 			</div>
 		</mat-tab>
 		<mat-tab><ng-template mat-tab-label>
-				DUA<a href={{dua_help_url}} target="_"><mat-icon matTooltip="Data Use Agreement" class="help-icon">help</mat-icon></a>
+				DUA<a href={{dua_help_url}} target="_"><mat-icon placement="auto" tooltip="Data Use Agreement" class="help-icon">help</mat-icon></a>
 			  </ng-template>
 			<div *ngIf="duaAvailable" style = "max-height:220px;overflow-y: auto;display: block!important;font-size: 14px; width: 100%;"><h3>Data Use Agreement</h3><p>CPTAC requests that data users abide by the same principles that were previously established in the Fort Lauderdale and Amsterdam meetings. The recommendations from the Fort Lauderdale meeting (2003) on best practices and principles for <a href="https://www.genome.gov/Pages/Research/WellcomeReport0303.pdf" class="ext" target="_blank" rel="noopener noreferrer">sharing large-scale genomic data<span class="ext" aria-label="(link is external)"></span></a> address the roles and responsibilities of data producers, data users and funders of community resource projects. The aim of the recommendations is to establish and maintain an appropriate balance between the interests that data users have in rapid access to data and the needs that data producers have to publish and receive recognition for their work. The conclusion of the attendees at the Fort Lauderdale meeting was that a “responsible use” approach for secondary data users would be sufficient to ensure that the efforts of data producers will be recognized. “Responsible use” was defined as allowing data producers to have the opportunity to publish the initial global analyses of the data within a reasonable period of time prior to secondary analyses.</p>
 				<p>In 2008, the NCI’s OCCPR organized a workshop to discuss how and when proteomics data should be released. The result was the <a href="https://www.ncbi.nlm.nih.gov/pubmed/19344107" target="_blank">Amsterdam Principles</a> that established guidelines for the timing of data release, comprehensiveness of a dataset, data format, deposition to repositories, quality metrics, and responsibility for proteomic data release. Participants agreed that mass spectrometry output data files should be available to support the claims of proteomics publications. In 2010, NCI’s OCCPR convened a follow-on workshop to address quality metrics for proteomics with an emphasis on mass spectrometry. As a sign of solidarity for these principles, four peer-reviewed journals simultaneously published the <a href="https://www.ncbi.nlm.nih.gov/pubmed/22069307" target="_blank">corollary to Amsterdam Principles</a>.</p>
 				<p>Agreeing to abide by these principles and the CPTAC Publication Guidelines is required to gain access to CPTAC data.</p>
 				<h4>Publication Guidelines and Embargo Period</h4>
-				<p>CPTAC is a community resource project and data are made available rapidly after generation for community research use. To act in accord with the Fort Lauderdale Principles and support the continued timely public release of large-scale proteomic data prior to publication, researchers who plan to prepare manuscripts or presentations involving CPTAC data and journal editors who receive such manuscripts are encouraged to coordinate their independent reports with CPTAC’s publication schedule. This may be done by contacting the CPTAC network at <a href="mailto:cancer.proteomics@mail.nih.gov" class="mailto">cancer.proteomics@mail.nih.gov<span class="mailto" aria-label="(link sends e-mail)"></span></a>.</p>
+				<p>CPTAC is a community resource project and data are made available rapidly after generation for community research use. To act in accord with the Fort Lauderdale Principles and support the continued timely public release of large-scale proteomic data prior to publication, researchers who plan to prepare manuscripts or presentations involving CPTAC data and journal editors who receive such manuscripts are encouraged to coordinate their independent reports with CPTAC’s publication schedule. This may be done by contacting the CPTAC network at <a href="mailto:cancer.proteomics@mail.nih.gov" class="mailto">cancer.proteomics&#64;mail.nih.gov<span class="mailto" aria-label="(link sends e-mail)"></span></a>.</p>
 				<p>CPTAC defines a global analysis publication as the first marker paper, authored by one or more members of the CPTAC, which includes analysis of the existing CPTAC data generated on the tumor type or sample set at the time of a data freeze. Specifically, these manuscripts report on the comprehensive, integrated analyses of multiple CPTAC datasets which may include: characterization of global proteome and/or PTMs such as phosphorylation, acetylation, glycosylation and ubiquitination, and reverse-phase protein analysis. Prior to a global analysis publication on a specific tumor type, available datasets should be considered pre-publication data subject to the standard principles of scientific etiquette regarding publication of findings using data obtained from other sources.</p>
 				<p>The CPTAC program has established the following policy to clarify freedom of CPTAC and non-CPTAC users to publish findings using CPTAC data. There are no limitations on submitting manuscripts to a journal and subsequent publications containing analyses using any CPTAC dataset if the dataset meets one of the following three freedom-to-publish criteria:</p>
 				<ul><li>A global analysis publication paper has been published on that tumor type or sample set; or</li>
@@ -549,18 +814,18 @@
 				</ul><p>The specific status of each tumor dataset is displayed on the study page under Available Data tab.</p>
 				<p><span style="color:#333333;"><strong>Citing CPTAC Data in Publications</strong></span></p>
 				<p>The CPTAC program requests that publications using data from this program include the following statement: “Data used in this publication were generated by the National Cancer Institute Clinical Proteomic Tumor Analysis Consortium (CPTAC).”</p>
-				<p>If you have questions, contact <a href="mailto:cancer.proteomics@mail.nih.gov" class="mailto">cancer.proteomics@mail.nih.gov<span class="mailto" aria-label="(link sends e-mail)"></span></a>.</p>
+				<p>If you have questions, contact <a href="mailto:cancer.proteomics@mail.nih.gov" class="mailto">cancer.proteomics&#64;mail.nih.gov<span class="mailto" aria-label="(link sends e-mail)"></span></a>.</p>
 			</div>
 			<div *ngIf="!duaAvailable" style = "max-height:220px;overflow-y: auto;display: block!important;font-size: 14px; width: 100%;">
 				<br>
-				<p>PDC data submission and data use are governed by <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">Creative Commons CC-BY 4.0</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">Exit Disclaimer</span></a> licensing terms.</p>
+				<p>PDC data submission and data use are governed by <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">Creative Commons CC-BY 4.0</a><a placement="auto" tooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">Exit Disclaimer</span></a> licensing terms.</p>
 				<p>Under CC-BY terms, that user is free to,</p>
 				<p>&nbsp;&nbsp;&nbsp;&nbsp;Share — copy and redistribute the material in any medium or format</p>
 				<p>&nbsp;&nbsp;&nbsp;&nbsp;Adapt — remix, transform, and build upon the material for any purpose, even commercially.</p>
 				<P>The licensor cannot revoke these freedoms as long as you follow the license terms.</P>
 				<p>Under the following terms:</p>
-				<p>&nbsp;&nbsp;&nbsp;&nbsp;Attribution — You must give <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">appropriate credit</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">Exit Disclaimer</span></a>, provide a link to the license, and <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">indicate if changes were made</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">Exit Disclaimer</span></a>. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.</p>
-				<p>&nbsp;&nbsp;&nbsp;&nbsp;No additional restrictions — You may not apply legal terms or <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">technological measures</a><a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">Exit Disclaimer</span></a> that legally restrict others from doing anything the license permits.</p>
+				<p>&nbsp;&nbsp;&nbsp;&nbsp;Attribution — You must give <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">appropriate credit</a><a placement="auto" tooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">Exit Disclaimer</span></a>, provide a link to the license, and <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">indicate if changes were made</a><a placement="auto" tooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">Exit Disclaimer</span></a>. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.</p>
+				<p>&nbsp;&nbsp;&nbsp;&nbsp;No additional restrictions — You may not apply legal terms or <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">technological measures</a><a placement="auto" tooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">Exit Disclaimer</span></a> that legally restrict others from doing anything the license permits.</p>
 <!-- 				<br/>
 				<p><span style="color:#333333;"><strong>Note: </strong></span></p>
 				<p>PDC may impose an embargo on certain datasets at the request of data submitters. In PDC, an <b>embargo</b> is the release of data on the PDC portal with the condition that users who access these datasets from the PDC portal cannot published or disseminated before a certain <b>date</b>. The embargo date is displayed on the study summary page of each dataset as applicable.</p> -->
@@ -568,15 +833,16 @@
 		</mat-tab>
 	</mat-tab-group>
   </div>
+  <!--
   <div class="row" style="width: 100%; padding-top: 20px;padding-bottom:5px">
-		<div class="col-md-6">
-			<mat-card class="data-categories-table">
+		<div class="col-md-6" style="display: flex; flex-direction: column; align-items: stretch;">
+			<mat-card appearance="outlined" class="border rounded mb-2 data-categories-table" style="width: 100%; align-self: flex-start;">
 				<mat-card-content>
 				<table class="table table-striped" style="width:100%" id="dataCategoryStudyTable">
 					<caption *ngIf="studySummaryData.analytical_fraction != 'Metabolome' && studySummaryData.analytical_fraction != 'Lipidome'" style="caption-side:top;background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%);color:white!important; padding:0!important;text-align: center;" ><b>Common Data Analysis Pipeline (PDC Harmonization) data</b>
-								<a href={{files_download_faq_help_url}} target="_"><mat-icon matTooltip="Types of files available for download from PDC" class="help-icon" style="color:#e5e5e5!important">help</mat-icon></a></caption>
+								<a href={{files_download_faq_help_url}} target="_"><mat-icon placement="auto" tooltip="Types of files available for download from PDC" class="help-icon" style="color:#e5e5e5!important">help</mat-icon></a></caption>
 					<caption *ngIf="studySummaryData.analytical_fraction == 'Metabolome' || studySummaryData.analytical_fraction == 'Lipidome'" style="caption-side:top;background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%);color:white!important; padding:0!important;text-align: center;" ><b>Raw Mass Spectra</b>
-						<a href={{files_download_faq_help_url}} target="_"><mat-icon matTooltip="Types of files available for download from PDC" class="help-icon" style="color:#e5e5e5!important">help</mat-icon></a></caption>
+						<a href={{files_download_faq_help_url}} target="_"><mat-icon placement="auto" tooltip="Types of files available for download from PDC" class="help-icon" style="color:#e5e5e5!important">help</mat-icon></a></caption>
 					<thead>
 						<tr style="font-size: 12px;background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%);">
 							<th class="ui-datatable-tableheader" style="width:80%;">Data Category</th>
@@ -587,15 +853,16 @@
 						<tr style="font-size: 12px;" *ngFor="let categoryDetails of fileCountsRaw">
 							<td style="width:80%;word-wrap: break-word;white-space: normal;">{{categoryDetails.data_category}} ({{categoryDetails.file_type}})</td>
 							<!--<td style="width:20%;word-wrap: break-word;white-space: normal;"><a target="_blank" href= "/pdc/browse/filters/study_name:{{studySummaryData.submitter_id_name}}&data_category:{{categoryDetails.data_category}}&file_type:{{categoryDetails.file_type}}&selectedTab:3">{{categoryDetails.files_count}}</a></td>-->
+							<!--
 							<td style="width:20%;word-wrap: break-word;white-space: normal;"><a href="javascript:void(0);" (click)="showFilesOverlay(studySummaryData.submitter_id_name, categoryDetails.data_category, categoryDetails.file_type)">{{categoryDetails.files_count}}</a></td>
 						</tr>
 					</tbody>
 				  </table>
 				</mat-card-content>
 			</mat-card>
-			<div class="row" style="width: 100%; padding-top: 20px;padding-left: 30px">
+			<div class="row" style="width: 100%; padding-top: 20px;margin:0px;">
 				<div *ngIf="entityReferenceExternalData.length > 0" class="row" style="width: 200%;">
-						<mat-card class="entity-reference-table">
+						<mat-card appearance="outlined" class="border rounded mb-2 entity-reference-table">
 							<mat-card-content>
 							<table class="table table-striped" style="width:100%" id="entityReferenceExternalTable">
 								<thead>
@@ -613,8 +880,8 @@
 							</mat-card-content>
 						</mat-card>
 				</div>
-				<div *ngIf="entityReferenceInternalData.length > 0" class="row" style="padding-bottom:5px; width: 200%;">
-						<mat-card class="entity-reference-table">
+				<div *ngIf="entityReferenceInternalData.length > 0" class="row" style="padding-bottom:5px; width: 100%;">
+						<mat-card appearance="outlined" class="border rounded mb-2 entity-reference-table" style="width: 100%;">
 							<mat-card-content>
 							<table class="table table-striped" style="width:100%" id="entityReferenceInternalTable">
 								<thead>
@@ -634,9 +901,10 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-md-6" style="padding-bottom:5px">
+		<div class="col-md-6" style="padding-bottom:5px; display: flex; flex-direction: column; align-items: stretch;">
+		<!--
 		  <div id="contactDetails" *ngIf="studySummaryData.contacts && studySummaryData.contacts.length > 0" style="padding-bottom:3px; width:100%">
-			<mat-card style="padding:0">
+			<mat-card appearance="outlined" style="padding:0">
 				<mat-card-content>
 					<div style="background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%);color:white!important; padding:3px!important;text-align: center;">
 							<b>Contacts</b>
@@ -647,12 +915,14 @@
 				</mat-card-content>
 			</mat-card>
 		  </div>
-		  <div style="padding-bottom:3px; width:100%">
-			<mat-card class="data-categories-table">
+		  -->
+		  <!---
+		  <div style="padding-bottom:3px; width:100%; flex-shrink: 0;" >
+			<mat-card appearance="outlined" class="border rounded mb-2 data-categories-table" style="width: 100%; height: auto; align-self: flex-start;">
 				<mat-card-content>
 				<table class="table table-striped" style="width:100%" id="dataCategoryStudyTable">
 					<caption style="caption-side:top;background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%);color:white!important; padding:0!important;text-align: center;" ><b>Supplementary data</b>
-						<a href={{files_download_faq_help_url}} target="_"><mat-icon matTooltip="Types of files available for download from PDC" class="help-icon" style="color:#e5e5e5!important">help</mat-icon></a>
+						<a href={{files_download_faq_help_url}} target="_"><mat-icon placement="auto" tooltip="Types of files available for download from PDC" class="help-icon" style="color:#e5e5e5!important">help</mat-icon></a>
 					</caption>
 					<thead>
 						<tr style="font-size: 12px;background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%);">
@@ -664,7 +934,8 @@
 						<tr style="font-size: 12px;" *ngFor="let categoryDetails of suppFileCountsRaw">
 							<td style="width:80%;word-wrap: break-word;white-space: normal;">{{categoryDetails.data_category}} ({{categoryDetails.file_type}})</td>
 							<td style="width:20%;word-wrap: break-word;white-space: normal;">
-								<!--<a target="_blank" href= "/pdc/browse/filters/study_name:{{studySummaryData.submitter_id_name}}&data_category:{{categoryDetails.data_category}}&file_type:{{categoryDetails.file_type}}&selectedTab:3">{{categoryDetails.files_count}}</a>-->
+								<!-- <a target="_blank" href= "/pdc/browse/filters/study_name:{{studySummaryData.submitter_id_name}}&data_category:{{categoryDetails.data_category}}&file_type:{{categoryDetails.file_type}}&selectedTab:3">{{categoryDetails.files_count}}</a>-->
+								<!--
 								<a href="javascript:void(0);" (click)="showFilesOverlay(studySummaryData.submitter_id_name, categoryDetails.data_category, categoryDetails.file_type)">{{categoryDetails.files_count}}</a>
 							</td>
 						</tr>
@@ -674,8 +945,9 @@
 			</mat-card>
 		  </div>
 		<!--@@@PDC-1313 use heatmap thumbnail-->
-		 <div style="padding-bottom:3px" *ngIf="studySummaryData.analytical_fraction != 'Metabolome' && studySummaryData.analytical_fraction != 'Lipidome'">
-			<mat-card style="padding:10px">
+		  <!--
+		<div style="padding-bottom:3px; width:100%; flex-shrink: 0;" *ngIf="studySummaryData.analytical_fraction != 'Metabolome' && studySummaryData.analytical_fraction != 'Lipidome'">
+			<mat-card appearance="outlined" class="border rounded mb-2" style="padding:10px; width: 100%; height: auto; align-self: flex-start;">
 				<mat-card-content>
 				<div *ngIf="!heatmapAvailable">
 					No heatmap for this study
@@ -693,8 +965,8 @@
 				</div>
 				</mat-card-content>
 			</mat-card>
-		</div><div style="padding-bottom:3px">
-			<mat-card style="padding:10px">
+		</div><div style="padding-bottom:3px; width:100%; flex-shrink: 0;">
+			<mat-card appearance="outlined" class="border rounded mb-2" style="padding:10px; width: 100%; height: auto; align-self: flex-start;">
 				<mat-card-header class="study-summary" >
 					<mat-card-title  class="study-summary" >PUBLICATIONS</mat-card-title>
 				</mat-card-header>
@@ -715,4 +987,155 @@
 		 </div>
 		</div>
   </div>
+-->
+  <div class="row" style="width: 100%; padding-top: 20px;padding-bottom:5px; display: flex; align-items: flex-start;">
+		<div class="col-md-6" style="display: flex; flex-direction: column; align-items: stretch;">
+			<mat-card appearance="outlined" class="border rounded mb-2 data-categories-table" style="width: 100%; align-self: flex-start;">
+				<mat-card-content>
+				<table class="table table-striped" style="width:100%" id="dataCategoryStudyTable">
+					<caption *ngIf="studySummaryData.analytical_fraction != 'Metabolome' && studySummaryData.analytical_fraction != 'Lipidome'" style="caption-side:top;background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%);color:white!important; padding:0!important;text-align: center;" ><b>Common Data Analysis Pipeline (PDC Harmonization) data</b>
+								<a href={{files_download_faq_help_url}} target="_"><mat-icon placement="auto" tooltip="Types of files available for download from PDC" class="help-icon" style="color:#e5e5e5!important">help</mat-icon></a></caption>
+					<caption *ngIf="studySummaryData.analytical_fraction == 'Metabolome' || studySummaryData.analytical_fraction == 'Lipidome'" style="caption-side:top;background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%);color:white!important; padding:0!important;text-align: center;" ><b>Raw Mass Spectra</b>
+						<a href={{files_download_faq_help_url}} target="_"><mat-icon placement="auto" tooltip="Types of files available for download from PDC" class="help-icon" style="color:#e5e5e5!important">help</mat-icon></a></caption>
+					<thead>
+						<tr style="font-size: 12px;background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%);">
+							<th class="ui-datatable-tableheader" style="width:80%;">Data Category</th>
+							<th class="ui-datatable-tableheader" style="width:20%">Files (n={{totalFilesCount}})</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr style="font-size: 12px;" *ngFor="let categoryDetails of fileCountsRaw">
+							<td style="width:80%;word-wrap: break-word;white-space: normal;">{{categoryDetails.data_category}} ({{categoryDetails.file_type}})</td>
+							<!--<td style="width:20%;word-wrap: break-word;white-space: normal;"><a target="_blank" href= "/pdc/browse/filters/study_name:{{studySummaryData.submitter_id_name}}&data_category:{{categoryDetails.data_category}}&file_type:{{categoryDetails.file_type}}&selectedTab:3">{{categoryDetails.files_count}}</a></td>-->
+							<td style="width:20%;word-wrap: break-word;white-space: normal;"><a href="javascript:void(0);" (click)="showFilesOverlay(studySummaryData.submitter_id_name, categoryDetails.data_category, categoryDetails.file_type)">{{categoryDetails.files_count}}</a></td>
+						</tr>
+					</tbody>
+				  </table>
+				</mat-card-content>
+			</mat-card>
+
+			<!-- External References card -->
+			<div *ngIf="entityReferenceExternalData.length > 0" style="padding-top: 20px;">
+				<mat-card appearance="outlined" class="border rounded mb-2 entity-reference-table" style="width: 100%;">
+					<mat-card-content>
+					<table class="table table-striped" style="width:100%" id="entityReferenceExternalTable">
+						<thead>
+							<tr style="font-size: 12px;background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%);">
+								<th colspan="2" class="ui-datatable-tableheader" style="width:80%;">External References</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr style="font-size: 12px;" *ngFor="let entityReference of entityReferenceExternalData">
+								<td style="word-wrap: break-word;white-space: normal;width:80%">{{entityReference.reference_resource_name}}</td>
+								<td style="word-wrap: break-word;white-space: normal;"><a href="{{entityReference.reference_entity_location}}" target="_blank">{{entityReference.reference_entity_alias}}</a></td>
+							</tr>
+						</tbody>
+					</table>
+					</mat-card-content>
+				</mat-card>
+			</div>
+
+			<!-- Related PDC Studies card -->
+			<div *ngIf="entityReferenceInternalData.length > 0" style="padding-top: 20px;">
+				<mat-card appearance="outlined" class="border rounded mb-2 entity-reference-table" style="width: 100%;">
+					<mat-card-content>
+					<table class="table table-striped" style="width:100%" id="entityReferenceInternalTable">
+						<thead>
+							<tr style="font-size: 12px;background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%);">
+								<th id="related_pdc_studies" colspan="2" class="ui-datatable-tableheader" style="width:80%;">Related PDC studies</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr style="font-size: 12px;" *ngFor="let entityInternalReference of entityReferenceInternalData">
+								<td style="word-wrap: break-word;white-space: normal;width:80%">{{entityInternalReference.submitter_id_name}}</td>
+								<td style="word-wrap: break-word;white-space: normal;"><a href="javascript:void(0);" (click)="showStudySummary(entityInternalReference.reference_entity_location, '')" [ngClass]="{'disabled': oldVersionFlag}">{{entityInternalReference.reference_entity_alias}}</a></td>
+							</tr>
+						</tbody>
+					</table>
+					</mat-card-content>
+				</mat-card>
+			</div>
+		</div>
+
+		<!-- Right column positioned correctly within the same row -->
+		<div class="col-md-6" style="padding-bottom:5px; display: flex; flex-direction: column; align-items: stretch;">
+
+			<!-- New card aligned with the left column -->
+			 <!--
+			<mat-card appearance="outlined" class="border rounded mb-2" style="width: 100%; align-self: flex-start;">
+				<mat-card-content>
+					<div style="background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%);color:white!important; padding:3px!important;text-align: center;">
+						<b>Your Card Title</b>
+					</div>
+					<div style="padding: 10px;">
+
+						<p>This is your new card content. You can add any content you need here.</p>
+					</div>
+				</mat-card-content>
+			</mat-card>
+			-->
+			<mat-card appearance="outlined" class="border rounded mb-2 data-categories-table" style="width: 100%; height: auto; align-self: flex-start;">
+				<mat-card-content>
+				<table class="table table-striped" style="width:100%" id="dataCategoryStudyTable">
+					<caption style="caption-side:top;background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%);color:white!important; padding:0!important;text-align: center;" ><b>Supplementary data</b>
+						<a href={{files_download_faq_help_url}} target="_"><mat-icon placement="auto" tooltip="Types of files available for download from PDC" class="help-icon" style="color:#e5e5e5!important">help</mat-icon></a>
+					</caption>
+					<thead>
+						<tr style="font-size: 12px;background-image: linear-gradient(-180deg, #3A8BB7 0%, #245672 100%);">
+							<th class="ui-datatable-tableheader" style="width:80%;">Data Category</th>
+							<th class="ui-datatable-tableheader" style="width:20%">Files (n={{totalSuppFilesCount}})</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr style="font-size: 12px;" *ngFor="let categoryDetails of suppFileCountsRaw">
+							<td style="width:80%;word-wrap: break-word;white-space: normal;">{{categoryDetails.data_category}} ({{categoryDetails.file_type}})</td>
+							<td style="width:20%;word-wrap: break-word;white-space: normal;">
+								<!--<a target="_blank" href= "/pdc/browse/filters/study_name:{{studySummaryData.submitter_id_name}}&data_category:{{categoryDetails.data_category}}&file_type:{{categoryDetails.file_type}}&selectedTab:3">{{categoryDetails.files_count}}</a>-->
+								<a href="javascript:void(0);" (click)="showFilesOverlay(studySummaryData.submitter_id_name, categoryDetails.data_category, categoryDetails.file_type)">{{categoryDetails.files_count}}</a>
+							</td>
+						</tr>
+					</tbody>
+				  </table>
+				</mat-card-content>
+			</mat-card>
+			<mat-card appearance="outlined" class="border rounded mb-2" style="padding:10px; width: 100%; height: auto; align-self: flex-start;">
+				<mat-card-content>
+				<div *ngIf="!heatmapAvailable">
+					No heatmap for this study
+				</div>
+				<div *ngIf="heatmapAvailable">
+				<tr style="font-size: 14px;border: 0px">
+				<td style="width:10%;border: 0px">
+					<button mat-raised-button mat-primary (click)="openHeatMap(studySummaryData.submitter_id_name)" id="viewHeatMapFromStudySummary" style="padding-top: 5px; padding-left: 1px; padding-right: 1px;">
+						<img src="./assets/css/images/heatmap_thumb.png">
+					</button>
+				</td>
+				<td style="width:5%"> </td>
+				<td style="width:85%;align-content:center;border: 0px;word-wrap: break-word !important; white-space: normal;">  Explore protein quantitation from PDC Common <br>Data Analysis pipeline (CDAP) through heatmaps</td>
+				</tr>
+				</div>
+				</mat-card-content>
+			</mat-card>
+			<mat-card appearance="outlined" class="border rounded mb-2" style="padding:10px; width: 100%; height: auto; align-self: flex-start;">
+				<mat-card-header class="study-summary" >
+					<mat-card-title  class="study-summary" >PUBLICATIONS</mat-card-title>
+				</mat-card-header>
+				<mat-card-content>
+					<div *ngIf="!loading && publications && publications.length===0" style="padding-left: 18px">
+						No publications
+					</div>
+					<p-table [value]="publications" [loading]="loading" [resizableColumns]="true" responsive="true" id="publicationsStudyTable">
+						<ng-template pTemplate="body" let-publication>
+							<tr style="font-size: 11px;border: 0px">
+							  <td style="width:10%;padding-bottom: 3px; align-content: center !important;border: 0px"><a href="{{publication.pubmed_id}}" target="_blank"><img src="./assets/css/images/pubmedIcon.png" style="width:30px;height:30px"></a></td>
+                <td style="width:90%;padding-bottom: 3px; align-content: center !important; word-wrap: break-word; white-space: inherit;border: 0px"><a href="{{publication.pubmed_id}}" target="_blank">{{publication.title}}</a></td>
+							</tr>
+						</ng-template>
+					</p-table>
+				</mat-card-content>
+			</mat-card>
+
+		</div>
+  </div>
 </mat-dialog-content>
+</div>

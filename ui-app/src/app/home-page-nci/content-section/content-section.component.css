@@ -1,0 +1,97 @@
+/*  - Specific styling for pancancer circular logo */
+.pancancer-card .nci-card__image {
+  background: 
+    radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.25) 0%, transparent 35%),
+    radial-gradient(circle at 75% 75%, rgba(0, 0, 0, 0.2) 0%, transparent 35%),
+    radial-gradient(circle at 50% 80%, rgba(255, 255, 255, 0.15) 0%, transparent 50%),
+    linear-gradient(135deg, #5472a3 0%, #3d5a73 50%, #2c4158 100%);
+  background-size: 100% 100%, 80% 80%, 120% 120%, 100% 100%;
+  padding: 20px;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.pancancer-card .nci-card__image::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    repeating-linear-gradient(
+      45deg,
+      transparent 0px,
+      rgba(255, 255, 255, 0.03) 1px,
+      transparent 2px,
+      transparent 8px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      transparent 0px,
+      rgba(0, 0, 0, 0.02) 1px,
+      transparent 2px,
+      transparent 12px
+    );
+  z-index: 1;
+  pointer-events: none;
+}
+
+.pancancer-card .nci-card__image img {
+  object-fit: contain !important;
+  object-position: center !important;
+  width: 100% !important;
+  height: 100% !important;
+  position: relative;
+  z-index: 2;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.25)) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+}
+
+/* Ensure the picture container maintains proper aspect ratio */
+.nci-card__image {
+  aspect-ratio: 16/9;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* General styling for all card images to ensure consistent display */
+.nci-card__image img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+@media (max-width: 1024px) {
+  .nci-card, .pancancer-card {
+    width: 95vw !important;
+    min-width: 280px !important;
+    max-width: 100vw !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    box-sizing: border-box;
+  }
+  .nci-card__image {
+    aspect-ratio: 16/9;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100vw !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .nci-card, .pancancer-card {
+    width: 99vw !important;
+    min-width: 180px !important;
+    max-width: 100vw !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+  .nci-card__image {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100vw !important;
+  }
+}

@@ -3,10 +3,11 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ForwardingSearchService } from './forwarding.service';
 
 @Component({
-  selector: 'app-forwarding',
-  templateUrl: './forwarding.component.html',
-  styleUrls: ['./forwarding.component.scss'],
-  providers: [ ForwardingSearchService ]
+    selector: 'app-forwarding',
+    templateUrl: './forwarding.component.html',
+    styleUrls: ['./forwarding.component.scss'],
+    providers: [ForwardingSearchService],
+    standalone: false
 })
 //@@@PDC-3901: Develop backend study forwarding
 export class ForwardingComponent implements OnInit {

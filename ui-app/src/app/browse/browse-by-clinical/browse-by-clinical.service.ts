@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 //import {Http, Response, Headers, RequestOptions} from '@angular/http';
-import {Response, Headers, RequestOptions} from '@angular/http';
+import { HttpHeaders } from '@angular/common/http';
 
 
 import { Apollo } from 'apollo-angular';
@@ -15,14 +15,14 @@ import { AllClinicalData, QueryAllClinicalDataPaginated } from '../../types';
 @Injectable()
 export class BrowseByClinicalService {
 
-	headers: Headers;
-	options: RequestOptions;
+	headers: HttpHeaders;
+	options: {};
 
 //constructor(private http: Http, private apollo: Apollo) {
 constructor(private apollo: Apollo) {
-	this.headers = new Headers({ 'Content-Type': 'application/json',
+	this.headers = new HttpHeaders({ 'Content-Type': 'application/json',
                                      'Accept': 'q=0.8;application/json;q=0.9' });
-        this.options = new RequestOptions({ headers: this.headers });
+        this.options = { headers: this.headers };
 	}
 
 	//@@@PDC-232
@@ -34,11 +34,11 @@ constructor(private apollo: Apollo) {
 	//@@@PDC-2397 Update clinical manifest generation to include additional attributes
 	//@@@PDC-2335 remove imaging_resource
 	filteredCinicalDataPaginatedQuery = gql`
-				query FilteredClinicalDataPaginated($offset_value: Int, $limit_value: Int, $sort_value: String, $program_name_filter: String!, $project_name_filter: String!, $study_name_filter: String!, $disease_filter: String!, $filterValue: String!, $analytical_frac_filter: String!, $exp_type_filter: String!, $ethnicity_filter: String!, $race_filter: String!, $gender_filter: String!, $tumor_grade_filter: String!, $sample_type_filter: String!, $acquisition_type_filter: String!, $data_category_filter: String!, $file_type_filter: String!, $access_filter: String!, $downloadable_filter: String!, $case_status_filter: String!, $biospecimen_status_filter: String!){
+				query FilteredClinicalDataPaginated($offset_value: Int, $limit_value: Int, $sort_value: String, $program_name_filter: String!, $project_name_filter: String!, $study_name_filter: String!, $disease_filter: String!, $filterValue: String!, $analytical_frac_filter: String!, $exp_type_filter: String!, $ethnicity_filter: String!, $race_filter: String!, $gender_filter: String!, $tumor_grade_filter: String!, $sample_type_filter: String!, $acquisition_type_filter: String!, $data_category_filter: String!, $vital_status_filter: String!, $age_at_diagnosis_filter: String!, $ajcc_clinical_stage_filter: String!, $ajcc_pathologic_stage_filter: String!, $morphology_filter: String!, $site_of_resection_or_biopsy_filter: String!, $progression_or_recurrence_filter: String!,  $therapeutic_agents_filter: String!, $treatment_intent_type_filter: String!,  $treatment_outcome_filter: String!, $treatment_type_filter: String!, $alcohol_history_filter: String!, $alcohol_intensity_filter: String!, $tobacco_smoking_status_filter: String!, $cigarettes_per_day_filter: String!, $case_status_filter: String!){
 					getPaginatedUIClinical(offset: $offset_value, limit: $limit_value, sort: $sort_value, program_name: $program_name_filter , project_name: $project_name_filter,
 											study_name: $study_name_filter, disease_type: $disease_filter, primary_site: $filterValue, analytical_fraction: $analytical_frac_filter,
 											experiment_type: $exp_type_filter, ethnicity: $ethnicity_filter, race: $race_filter, gender: $gender_filter,
-											tumor_grade: $tumor_grade_filter, sample_type: $sample_type_filter, acquisition_type: $acquisition_type_filter, data_category: $data_category_filter, file_type: $file_type_filter, access: $access_filter, downloadable: $downloadable_filter, case_status: $case_status_filter, biospecimen_status: $biospecimen_status_filter) {
+											tumor_grade: $tumor_grade_filter, sample_type: $sample_type_filter, acquisition_type: $acquisition_type_filter, data_category: $data_category_filter, vital_status: $vital_status_filter, age_at_diagnosis: $age_at_diagnosis_filter, ajcc_clinical_stage: $ajcc_clinical_stage_filter, ajcc_pathologic_stage: $ajcc_pathologic_stage_filter, progression_or_recurrence: $progression_or_recurrence_filter, therapeutic_agents: $therapeutic_agents_filter, treatment_intent_type: $treatment_intent_type_filter, treatment_type: $treatment_type_filter, treatment_outcome: $treatment_outcome_filter, alcohol_history: $alcohol_history_filter, alcohol_intensity: $alcohol_intensity_filter, tobacco_smoking_status: $tobacco_smoking_status_filter, morphology: $morphology_filter, site_of_resection_or_biopsy: $site_of_resection_or_biopsy_filter, cigarettes_per_day: $cigarettes_per_day_filter, case_status: $case_status_filter) {
 						total
 						uiClinical{
 							case_submitter_id
@@ -64,8 +64,7 @@ constructor(private apollo: Apollo) {
 							cause_of_death
 							days_to_birth
 							days_to_death
-							vital_status
-							year_of_birth
+							vital_status							year_of_birth
 							year_of_death
 							age_at_index
 							premature_at_birth
@@ -171,11 +170,22 @@ constructor(private apollo: Apollo) {
 				sample_type_filter: filters["sample_type"],
 				acquisition_type_filter: filters["acquisition_type"],
 				data_category_filter: filters["data_category"] || '',
-				file_type_filter: filters["file_type"] || '',
-				access_filter: filters["access"] || '',
-				downloadable_filter: filters["downloadable"] || '',
-				case_status_filter: filters["case_status"] || '',
-				biospecimen_status_filter: filters["biospecimen_status"] || ''
+				vital_status_filter: filters["vital_status"] || '',
+				age_at_diagnosis_filter: filters["age_at_diagnosis"] || '',
+				ajcc_clinical_stage_filter: filters["ajcc_clinical_stage"] || '',
+				ajcc_pathologic_stage_filter: filters["ajcc_pathologic_stage"] || '',
+				morphology_filter: filters["morphology"] || '',
+				site_of_resection_or_biopsy_filter: filters["site_of_resection_or_biopsy"] || '',
+				progression_or_recurrence_filter: filters["progression_or_recurrence"] || '',
+				therapeutic_agents_filter: filters["therapeutic_agents"] || '',
+				treatment_intent_type_filter: filters["treatment_intent_type"] || '',
+				treatment_outcome_filter: filters["treatment_outcome"] || '',
+				treatment_type_filter: filters["treatment_type"] || '',
+				alcohol_history_filter: filters["alcohol_history"] || '',
+				alcohol_intensity_filter: filters["alcohol_intensity"] || '',
+				tobacco_smoking_status_filter: filters["tobacco_smoking_status"] || '',
+				cigarettes_per_day_filter: filters["cigarettes_per_day"] || '',
+				case_status_filter: filters["case_status"] || ''
 			}
 		})
 		.valueChanges
@@ -186,11 +196,11 @@ constructor(private apollo: Apollo) {
 
 	//@@@PDC-4490: Update Clinical manifest and Case summary pages for GDC Sync
 	filteredCinicalAdditionalDataPaginatedQuery = gql`
-	query FilteredCinicalAdditionalDataPaginated($offset_value: Int, $limit_value: Int, $sort_value: String, $program_name_filter: String!, $project_name_filter: String!, $study_name_filter: String!, $disease_filter: String!, $filterValue: String!, $analytical_frac_filter: String!, $exp_type_filter: String!, $ethnicity_filter: String!, $race_filter: String!, $gender_filter: String!, $tumor_grade_filter: String!, $sample_type_filter: String!, $acquisition_type_filter: String!, $data_category_filter: String!, $file_type_filter: String!, $access_filter: String!, $downloadable_filter: String!, $case_status_filter: String!, $biospecimen_status_filter: String!){
+	query FilteredCinicalAdditionalDataPaginated($offset_value: Int, $limit_value: Int, $sort_value: String, $program_name_filter: String!, $project_name_filter: String!, $study_name_filter: String!, $disease_filter: String!, $filterValue: String!, $analytical_frac_filter: String!, $exp_type_filter: String!, $ethnicity_filter: String!, $race_filter: String!, $gender_filter: String!, $tumor_grade_filter: String!, $sample_type_filter: String!, $acquisition_type_filter: String!, $data_category_filter: String!, $vital_status_filter: String!, $age_at_diagnosis_filter: String!, $ajcc_clinical_stage_filter: String!, $ajcc_pathologic_stage_filter: String!, $morphology_filter: String!, $site_of_resection_or_biopsy_filter: String!, $progression_or_recurrence_filter: String!,  $therapeutic_agents_filter: String!, $treatment_intent_type_filter: String!,  $treatment_outcome_filter: String!, $treatment_type_filter: String!, $alcohol_history_filter: String!, $alcohol_intensity_filter: String!, $tobacco_smoking_status_filter: String!, $cigarettes_per_day_filter: String!, $case_status_filter: String!){
 		getPaginatedUIClinical(offset: $offset_value, limit: $limit_value, sort: $sort_value, program_name: $program_name_filter , project_name: $project_name_filter,
 								study_name: $study_name_filter, disease_type: $disease_filter, primary_site: $filterValue, analytical_fraction: $analytical_frac_filter,
 								experiment_type: $exp_type_filter, ethnicity: $ethnicity_filter, race: $race_filter, gender: $gender_filter,
-								tumor_grade: $tumor_grade_filter, sample_type: $sample_type_filter, acquisition_type: $acquisition_type_filter, data_category: $data_category_filter, file_type: $file_type_filter, access: $access_filter, downloadable: $downloadable_filter, case_status: $case_status_filter, biospecimen_status: $biospecimen_status_filter) {
+								tumor_grade: $tumor_grade_filter, sample_type: $sample_type_filter, acquisition_type: $acquisition_type_filter, vital_status: $vital_status_filter, age_at_diagnosis: $age_at_diagnosis_filter, ajcc_clinical_stage: $ajcc_clinical_stage_filter, ajcc_pathologic_stage: $ajcc_pathologic_stage_filter, progression_or_recurrence: $progression_or_recurrence_filter, therapeutic_agents: $therapeutic_agents_filter, treatment_intent_type: $treatment_intent_type_filter, treatment_type: $treatment_type_filter, treatment_outcome: $treatment_outcome_filter, alcohol_history: $alcohol_history_filter, alcohol_intensity: $alcohol_intensity_filter, tobacco_smoking_status: $tobacco_smoking_status_filter, cigarettes_per_day: $cigarettes_per_day_filter, data_category: $data_category_filter, morphology: $morphology_filter, site_of_resection_or_biopsy: $site_of_resection_or_biopsy_filter, case_status: $case_status_filter) {
 			total
 			uiClinical{
 				case_submitter_id
@@ -269,11 +279,22 @@ constructor(private apollo: Apollo) {
 				sample_type_filter: filters["sample_type"],
 				acquisition_type_filter: filters["acquisition_type"],
 				data_category_filter: filters["data_category"] || '',
-				file_type_filter: filters["file_type"] || '',
-				access_filter: filters["access"] || '',
-				downloadable_filter: filters["downloadable"] || '',
-				case_status_filter: filters["case_status"] || '',
-				biospecimen_status_filter: filters["biospecimen_status"] || ''
+				vital_status_filter: filters["vital_status"] || '',
+				age_at_diagnosis_filter: filters["age_at_diagnosis"] || '',
+				ajcc_clinical_stage_filter: filters["ajcc_clinical_stage"] || '',
+				ajcc_pathologic_stage_filter: filters["ajcc_pathologic_stage"] || '',
+				morphology_filter: filters["morphology"] || '',
+				site_of_resection_or_biopsy_filter: filters["site_of_resection_or_biopsy"] || '',
+				progression_or_recurrence_filter: filters["progression_or_recurrence"] || '',
+				therapeutic_agents_filter: filters["therapeutic_agents"] || '',
+				treatment_intent_type_filter: filters["treatment_intent_type"] || '',
+				treatment_outcome_filter: filters["treatment_outcome"] || '',
+				treatment_type_filter: filters["treatment_type"] || '',
+				alcohol_history_filter: filters["alcohol_history"] || '',
+				alcohol_intensity_filter: filters["alcohol_intensity"] || '',
+				tobacco_smoking_status_filter: filters["tobacco_smoking_status"] || '',
+				cigarettes_per_day_filter: filters["cigarettes_per_day"] || '',
+				case_status_filter: filters["case_status"] || ''
 			}
 		})
 		.valueChanges
@@ -284,11 +305,11 @@ constructor(private apollo: Apollo) {
 
 	//@@@PDC-4490: Update Clinical manifest and Case summary pages for GDC Sync
 	filteredCinicalExposureDataPaginatedQuery = gql`
-	query FilteredClinicalExposureDataPaginated($offset_value: Int, $limit_value: Int, $sort_value: String, $program_name_filter: String!, $project_name_filter: String!, $study_name_filter: String!, $disease_filter: String!, $filterValue: String!, $analytical_frac_filter: String!, $exp_type_filter: String!, $ethnicity_filter: String!, $race_filter: String!, $gender_filter: String!, $tumor_grade_filter: String!, $sample_type_filter: String!, $acquisition_type_filter: String!, $data_category_filter: String!, $file_type_filter: String!, $access_filter: String!, $downloadable_filter: String!, $case_status_filter: String!, $biospecimen_status_filter: String!){
+	query FilteredClinicalExposureDataPaginated($offset_value: Int, $limit_value: Int, $sort_value: String, $program_name_filter: String!, $project_name_filter: String!, $study_name_filter: String!, $disease_filter: String!, $filterValue: String!, $analytical_frac_filter: String!, $exp_type_filter: String!, $ethnicity_filter: String!, $race_filter: String!, $gender_filter: String!, $tumor_grade_filter: String!, $sample_type_filter: String!, $acquisition_type_filter: String!, $data_category_filter: String!, $vital_status_filter: String!, $age_at_diagnosis_filter: String!, $ajcc_clinical_stage_filter: String!, $ajcc_pathologic_stage_filter: String!, $morphology_filter: String!, $site_of_resection_or_biopsy_filter: String!, $progression_or_recurrence_filter: String!,  $therapeutic_agents_filter: String!, $treatment_intent_type_filter: String!,  $treatment_outcome_filter: String!, $treatment_type_filter: String!, $alcohol_history_filter: String!, $alcohol_intensity_filter: String!, $tobacco_smoking_status_filter: String!, $cigarettes_per_day_filter: String!, $case_status_filter: String!){
 		getPaginatedUIClinical(offset: $offset_value, limit: $limit_value, sort: $sort_value, program_name: $program_name_filter , project_name: $project_name_filter,
 								study_name: $study_name_filter, disease_type: $disease_filter, primary_site: $filterValue, analytical_fraction: $analytical_frac_filter,
 								experiment_type: $exp_type_filter, ethnicity: $ethnicity_filter, race: $race_filter, gender: $gender_filter,
-								tumor_grade: $tumor_grade_filter, sample_type: $sample_type_filter, acquisition_type: $acquisition_type_filter, data_category: $data_category_filter, file_type: $file_type_filter, access: $access_filter, downloadable: $downloadable_filter, case_status: $case_status_filter, biospecimen_status: $biospecimen_status_filter) {
+								tumor_grade: $tumor_grade_filter, sample_type: $sample_type_filter, acquisition_type: $acquisition_type_filter, vital_status: $vital_status_filter, age_at_diagnosis: $age_at_diagnosis_filter, ajcc_clinical_stage: $ajcc_clinical_stage_filter, ajcc_pathologic_stage: $ajcc_pathologic_stage_filter, progression_or_recurrence: $progression_or_recurrence_filter, therapeutic_agents: $therapeutic_agents_filter, treatment_intent_type: $treatment_intent_type_filter, treatment_type: $treatment_type_filter, treatment_outcome: $treatment_outcome_filter, alcohol_history: $alcohol_history_filter, alcohol_intensity: $alcohol_intensity_filter, tobacco_smoking_status: $tobacco_smoking_status_filter, cigarettes_per_day: $cigarettes_per_day_filter, data_category: $data_category_filter, morphology: $morphology_filter, site_of_resection_or_biopsy: $site_of_resection_or_biopsy_filter, case_status: $case_status_filter) {
 			total
 			uiClinical{
 				case_submitter_id
@@ -386,11 +407,22 @@ constructor(private apollo: Apollo) {
 				sample_type_filter: filters["sample_type"],
 				acquisition_type_filter: filters["acquisition_type"],
 				data_category_filter: filters["data_category"] || '',
-				file_type_filter: filters["file_type"] || '',
-				access_filter: filters["access"] || '',
-				downloadable_filter: filters["downloadable"] || '',
-				case_status_filter: filters["case_status"] || '',
-				biospecimen_status_filter: filters["biospecimen_status"] || ''
+				vital_status_filter: filters["vital_status"] || '',
+				age_at_diagnosis_filter: filters["age_at_diagnosis"] || '',
+				ajcc_clinical_stage_filter: filters["ajcc_clinical_stage"] || '',
+				ajcc_pathologic_stage_filter: filters["ajcc_pathologic_stage"] || '',
+				morphology_filter: filters["morphology"] || '',
+				site_of_resection_or_biopsy_filter: filters["site_of_resection_or_biopsy"] || '',
+				progression_or_recurrence_filter: filters["progression_or_recurrence"] || '',
+				therapeutic_agents_filter: filters["therapeutic_agents"] || '',
+				treatment_intent_type_filter: filters["treatment_intent_type"] || '',
+				treatment_outcome_filter: filters["treatment_outcome"] || '',
+				treatment_type_filter: filters["treatment_type"] || '',
+				alcohol_history_filter: filters["alcohol_history"] || '',
+				alcohol_intensity_filter: filters["alcohol_intensity"] || '',
+				tobacco_smoking_status_filter: filters["tobacco_smoking_status"] || '',
+				cigarettes_per_day_filter: filters["cigarettes_per_day"] || '',
+				case_status_filter: filters["case_status"] || ''
 			}
 		})
 		.valueChanges
@@ -400,11 +432,11 @@ constructor(private apollo: Apollo) {
 	}
 
 	filteredCinicalFollowUpDataPaginatedQuery = gql`
-	query FilteredCinicalFollowUpDataPaginated($offset_value: Int, $limit_value: Int, $sort_value: String, $program_name_filter: String!, $project_name_filter: String!, $study_name_filter: String!, $disease_filter: String!, $filterValue: String!, $analytical_frac_filter: String!, $exp_type_filter: String!, $ethnicity_filter: String!, $race_filter: String!, $gender_filter: String!, $tumor_grade_filter: String!, $sample_type_filter: String!, $acquisition_type_filter: String!, $data_category_filter: String!, $file_type_filter: String!, $access_filter: String!, $downloadable_filter: String!, $case_status_filter: String!, $biospecimen_status_filter: String!){
+	query FilteredCinicalFollowUpDataPaginated($offset_value: Int, $limit_value: Int, $sort_value: String, $program_name_filter: String!, $project_name_filter: String!, $study_name_filter: String!, $disease_filter: String!, $filterValue: String!, $analytical_frac_filter: String!, $exp_type_filter: String!, $ethnicity_filter: String!, $race_filter: String!, $gender_filter: String!, $tumor_grade_filter: String!, $sample_type_filter: String!, $acquisition_type_filter: String!, $data_category_filter: String!, $vital_status_filter: String!, $age_at_diagnosis_filter: String!, $ajcc_clinical_stage_filter: String!, $ajcc_pathologic_stage_filter: String!, $morphology_filter: String!, $site_of_resection_or_biopsy_filter: String!, $progression_or_recurrence_filter: String!,  $therapeutic_agents_filter: String!, $treatment_intent_type_filter: String!,  $treatment_outcome_filter: String!, $treatment_type_filter: String!, $alcohol_history_filter: String!, $alcohol_intensity_filter: String!, $tobacco_smoking_status_filter: String!, $cigarettes_per_day_filter: String!, $case_status_filter: String!){
 		getPaginatedUIClinical(offset: $offset_value, limit: $limit_value, sort: $sort_value, program_name: $program_name_filter , project_name: $project_name_filter,
 								study_name: $study_name_filter, disease_type: $disease_filter, primary_site: $filterValue, analytical_fraction: $analytical_frac_filter,
 								experiment_type: $exp_type_filter, ethnicity: $ethnicity_filter, race: $race_filter, gender: $gender_filter,
-								tumor_grade: $tumor_grade_filter, sample_type: $sample_type_filter, acquisition_type: $acquisition_type_filter, data_category: $data_category_filter, file_type: $file_type_filter, access: $access_filter, downloadable: $downloadable_filter, case_status: $case_status_filter, biospecimen_status: $biospecimen_status_filter) {
+								tumor_grade: $tumor_grade_filter, sample_type: $sample_type_filter, acquisition_type: $acquisition_type_filter, vital_status: $vital_status_filter, age_at_diagnosis: $age_at_diagnosis_filter, ajcc_clinical_stage: $ajcc_clinical_stage_filter, ajcc_pathologic_stage: $ajcc_pathologic_stage_filter, progression_or_recurrence: $progression_or_recurrence_filter, therapeutic_agents: $therapeutic_agents_filter, treatment_intent_type: $treatment_intent_type_filter, treatment_type: $treatment_type_filter, treatment_outcome: $treatment_outcome_filter, alcohol_history: $alcohol_history_filter, alcohol_intensity: $alcohol_intensity_filter, tobacco_smoking_status: $tobacco_smoking_status_filter, cigarettes_per_day: $cigarettes_per_day_filter, data_category: $data_category_filter, morphology: $morphology_filter, site_of_resection_or_biopsy: $site_of_resection_or_biopsy_filter, case_status: $case_status_filter) {
 			total
 			uiClinical{
 				case_submitter_id
@@ -513,11 +545,22 @@ constructor(private apollo: Apollo) {
 				sample_type_filter: filters["sample_type"],
 				acquisition_type_filter: filters["acquisition_type"],
 				data_category_filter: filters["data_category"] || '',
-				file_type_filter: filters["file_type"] || '',
-				access_filter: filters["access"] || '',
-				downloadable_filter: filters["downloadable"] || '',
-				case_status_filter: filters["case_status"] || '',
-				biospecimen_status_filter: filters["biospecimen_status"] || ''
+				vital_status_filter: filters["vital_status"] || '',
+				age_at_diagnosis_filter: filters["age_at_diagnosis"] || '',
+				ajcc_clinical_stage_filter: filters["ajcc_clinical_stage"] || '',
+				ajcc_pathologic_stage_filter: filters["ajcc_pathologic_stage"] || '',
+				morphology_filter: filters["morphology"] || '',
+				site_of_resection_or_biopsy_filter: filters["site_of_resection_or_biopsy"] || '',
+				progression_or_recurrence_filter: filters["progression_or_recurrence"] || '',
+				therapeutic_agents_filter: filters["therapeutic_agents"] || '',
+				treatment_intent_type_filter: filters["treatment_intent_type"] || '',
+				treatment_outcome_filter: filters["treatment_outcome"] || '',
+				treatment_type_filter: filters["treatment_type"] || '',
+				alcohol_history_filter: filters["alcohol_history"] || '',
+				alcohol_intensity_filter: filters["alcohol_intensity"] || '',
+				tobacco_smoking_status_filter: filters["tobacco_smoking_status"] || '',
+				cigarettes_per_day_filter: filters["cigarettes_per_day"] || '',
+				case_status_filter: filters["case_status"] || ''
 			}
 		})
 		.valueChanges
@@ -529,11 +572,11 @@ constructor(private apollo: Apollo) {
 	//@@@PDC-5045: Convert the GET requests to the getPaginatedUIClinical API of "Clinical" tab to POST
 	//@@@PDC-8282 add treatment to manifest
 	filteredCinicalDataPaginatedPostQuery = gql`
-	query FilteredClinicalDataPaginated($offset_value: Int, $limit_value: Int, $sort_value: String, $program_name_filter: String!, $project_name_filter: String!, $study_name_filter: String!, $disease_filter: String!, $filterValue: String!, $analytical_frac_filter: String!, $exp_type_filter: String!, $ethnicity_filter: String!, $race_filter: String!, $gender_filter: String!, $tumor_grade_filter: String!, $sample_type_filter: String!, $acquisition_type_filter: String!, $data_category_filter: String!, $file_type_filter: String!, $access_filter: String!, $downloadable_filter: String!, $case_status_filter: String!, $biospecimen_status_filter: String!, $getAll: Boolean!){
+	query FilteredClinicalDataPaginated($offset_value: Int, $limit_value: Int, $sort_value: String, $program_name_filter: String!, $project_name_filter: String!, $study_name_filter: String!, $disease_filter: String!, $filterValue: String!, $analytical_frac_filter: String!, $exp_type_filter: String!, $ethnicity_filter: String!, $race_filter: String!, $gender_filter: String!, $tumor_grade_filter: String!, $sample_type_filter: String!, $acquisition_type_filter: String!, $data_category_filter: String!, $vital_status_filter: String!, $age_at_diagnosis_filter: String!, $ajcc_clinical_stage_filter: String!, $ajcc_pathologic_stage_filter: String!, $morphology_filter: String!, $site_of_resection_or_biopsy_filter: String!, $progression_or_recurrence_filter: String!,  $therapeutic_agents_filter: String!, $treatment_intent_type_filter: String!,  $treatment_outcome_filter: String!, $treatment_type_filter: String!, $alcohol_history_filter: String!, $alcohol_intensity_filter: String!, $tobacco_smoking_status_filter: String!, $cigarettes_per_day_filter: String!,$case_status_filter: String! $getAll: Boolean!){
 		getPaginatedUIClinical(offset: $offset_value, limit: $limit_value, sort: $sort_value, program_name: $program_name_filter , project_name: $project_name_filter,
 								study_name: $study_name_filter, disease_type: $disease_filter, primary_site: $filterValue, analytical_fraction: $analytical_frac_filter,
 								experiment_type: $exp_type_filter, ethnicity: $ethnicity_filter, race: $race_filter, gender: $gender_filter,
-								tumor_grade: $tumor_grade_filter, sample_type: $sample_type_filter, acquisition_type: $acquisition_type_filter, data_category: $data_category_filter, file_type: $file_type_filter, access: $access_filter, downloadable: $downloadable_filter, case_status: $case_status_filter, biospecimen_status: $biospecimen_status_filter, getAll: $getAll) {
+								tumor_grade: $tumor_grade_filter, sample_type: $sample_type_filter, acquisition_type: $acquisition_type_filter, data_category: $data_category_filter, vital_status: $vital_status_filter, age_at_diagnosis: $age_at_diagnosis_filter, ajcc_clinical_stage: $ajcc_clinical_stage_filter, ajcc_pathologic_stage: $ajcc_pathologic_stage_filter, progression_or_recurrence: $progression_or_recurrence_filter, therapeutic_agents: $therapeutic_agents_filter, treatment_intent_type: $treatment_intent_type_filter, treatment_type: $treatment_type_filter, treatment_outcome: $treatment_outcome_filter, alcohol_history: $alcohol_history_filter, alcohol_intensity: $alcohol_intensity_filter, tobacco_smoking_status: $tobacco_smoking_status_filter, cigarettes_per_day: $cigarettes_per_day_filter, morphology: $morphology_filter, site_of_resection_or_biopsy: $site_of_resection_or_biopsy_filter, case_status: $case_status_filter, getAll: $getAll) {
 			total
 			uiClinical{
 				case_submitter_id
@@ -806,7 +849,7 @@ constructor(private apollo: Apollo) {
 					treatment_intent_type
 					treatment_or_therapy
 					treatment_outcome
-					treatment_type			
+					treatment_type
 					chemo_concurrent_to_radiation
 					number_of_cycles
 					reason_treatment_ended
@@ -867,11 +910,22 @@ constructor(private apollo: Apollo) {
 			sample_type_filter: filters["sample_type"],
 			acquisition_type_filter: filters["acquisition_type"],
 			data_category_filter: filters["data_category"] || '',
-			file_type_filter: filters["file_type"] || '',
-			access_filter: filters["access"] || '',
-			downloadable_filter: filters["downloadable"] || '',
+			vital_status_filter: filters["vital_status"] || '',
+			age_at_diagnosis_filter: filters["age_at_diagnosis"] || '',
+			ajcc_clinical_stage_filter: filters["ajcc_clinical_stage"] || '',
+			ajcc_pathologic_stage_filter: filters["ajcc_pathologic_stage"] || '',
+			morphology_filter: filters["morphology"] || '',
+			site_of_resection_or_biopsy_filter: filters["site_of_resection_or_biopsy"] || '',
+			progression_or_recurrence_filter: filters["progression_or_recurrence"] || '',
+			therapeutic_agents_filter: filters["therapeutic_agents"] || '',
+			treatment_intent_type_filter: filters["treatment_intent_type"] || '',
+			treatment_outcome_filter: filters["treatment_outcome"] || '',
+			treatment_type_filter: filters["treatment_type"] || '',
+			alcohol_history_filter: filters["alcohol_history"] || '',
+			alcohol_intensity_filter: filters["alcohol_intensity"] || '',
+			tobacco_smoking_status_filter: filters["tobacco_smoking_status"] || '',
+			cigarettes_per_day_filter: filters["cigarettes_per_day"] || '',
 			case_status_filter: filters["case_status"] || '',
-			biospecimen_status_filter: filters["biospecimen_status"] || '',
 			getAll: getAll
 		},
 		context: {
@@ -883,6 +937,235 @@ constructor(private apollo: Apollo) {
 	map(result => { console.log(result.data); return result.data;})
 	);
 	}
+
+  filteredCinicalDataPaginatedQueryWithoutSubqueries = gql`
+	query FilteredClinicalDataPaginated($offset_value: Int, $limit_value: Int, $sort_value: String, $program_name_filter: String!, $project_name_filter: String!, $study_name_filter: String!, $disease_filter: String!, $filterValue: String!, $analytical_frac_filter: String!, $exp_type_filter: String!, $ethnicity_filter: String!, $race_filter: String!, $gender_filter: String!, $tumor_grade_filter: String!, $sample_type_filter: String!, $acquisition_type_filter: String!, $data_category_filter: String!, $vital_status_filter: String!, $age_at_diagnosis_filter: String!, $ajcc_clinical_stage_filter: String!, $ajcc_pathologic_stage_filter: String!, $morphology_filter: String!, $site_of_resection_or_biopsy_filter: String!, $progression_or_recurrence_filter: String!,  $therapeutic_agents_filter: String!, $treatment_intent_type_filter: String!,  $treatment_outcome_filter: String!, $treatment_type_filter: String!, $alcohol_history_filter: String!, $alcohol_intensity_filter: String!, $tobacco_smoking_status_filter: String!, $cigarettes_per_day_filter: String!,$case_status_filter: String! $getAll: Boolean!){
+		getPaginatedUIClinical(offset: $offset_value, limit: $limit_value, sort: $sort_value, program_name: $program_name_filter , project_name: $project_name_filter,
+								study_name: $study_name_filter, disease_type: $disease_filter, primary_site: $filterValue, analytical_fraction: $analytical_frac_filter,
+								experiment_type: $exp_type_filter, ethnicity: $ethnicity_filter, race: $race_filter, gender: $gender_filter,
+								tumor_grade: $tumor_grade_filter, sample_type: $sample_type_filter, acquisition_type: $acquisition_type_filter, data_category: $data_category_filter, vital_status: $vital_status_filter, age_at_diagnosis: $age_at_diagnosis_filter, ajcc_clinical_stage: $ajcc_clinical_stage_filter, ajcc_pathologic_stage: $ajcc_pathologic_stage_filter, progression_or_recurrence: $progression_or_recurrence_filter, therapeutic_agents: $therapeutic_agents_filter, treatment_intent_type: $treatment_intent_type_filter, treatment_type: $treatment_type_filter, treatment_outcome: $treatment_outcome_filter, alcohol_history: $alcohol_history_filter, alcohol_intensity: $alcohol_intensity_filter, tobacco_smoking_status: $tobacco_smoking_status_filter, cigarettes_per_day: $cigarettes_per_day_filter, morphology: $morphology_filter, site_of_resection_or_biopsy: $site_of_resection_or_biopsy_filter, case_status: $case_status_filter, getAll: $getAll) {
+			total
+			uiClinical{
+				case_submitter_id
+				external_case_id
+				ethnicity
+				gender
+				race
+				morphology
+				primary_diagnosis
+				site_of_resection_or_biopsy
+				tissue_or_organ_of_origin
+				tumor_grade
+				tumor_stage
+				age_at_diagnosis
+				classification_of_tumor
+				days_to_recurrence
+				case_id
+				disease_type
+				primary_site
+				program_name
+				project_name
+				status
+				cause_of_death
+				days_to_birth
+				days_to_death
+				vital_status
+				year_of_birth
+				year_of_death
+				age_at_index
+				premature_at_birth
+				weeks_gestation_at_birth
+				age_is_obfuscated
+				cause_of_death_source
+				occupation_duration_years
+				country_of_residence_at_enrollment
+				days_to_last_follow_up
+				days_to_last_known_disease_status
+				last_known_disease_status
+				progression_or_recurrence
+				prior_malignancy
+				ajcc_clinical_m
+				ajcc_clinical_n
+				ajcc_clinical_stage
+				ajcc_clinical_t
+				ajcc_pathologic_m
+				ajcc_pathologic_n
+				ajcc_pathologic_stage
+				ajcc_pathologic_t
+				ajcc_staging_system_edition
+				ann_arbor_b_symptoms
+				ann_arbor_clinical_stage
+				ann_arbor_extranodal_involvement
+				ann_arbor_pathologic_stage
+				best_overall_response
+				burkitt_lymphoma_clinical_variant
+				circumferential_resection_margin
+				colon_polyps_history
+				days_to_best_overall_response
+				days_to_diagnosis
+				days_to_hiv_diagnosis
+				days_to_new_event
+				figo_stage
+				hiv_positive
+				hpv_positive_type
+				hpv_status
+				iss_stage
+				laterality
+				ldh_level_at_diagnosis
+				ldh_normal_range_upper
+				lymph_nodes_positive
+				lymphatic_invasion_present
+				method_of_diagnosis
+				peripancreatic_lymph_nodes_positive
+				peripancreatic_lymph_nodes_tested
+				supratentorial_localization
+				tumor_confined_to_organ_of_origin
+				tumor_focality
+				tumor_regression_grade
+				vascular_invasion_type
+				wilms_tumor_histologic_subtype
+				breslow_thickness
+				gleason_grade_group
+				igcccg_stage
+				international_prognostic_index
+				largest_extrapelvic_peritoneal_focus
+				masaoka_stage
+				new_event_anatomic_site
+				new_event_type
+				overall_survival
+				perineural_invasion_present
+				prior_treatment
+				progression_free_survival
+				progression_free_survival_event
+				residual_disease
+				vascular_invasion_present
+				year_of_diagnosis
+				icd_10_code
+				synchronous_malignancy
+				metastasis_at_diagnosis
+				metastasis_at_diagnosis_site
+				mitosis_karyorrhexis_index
+				non_nodal_regional_disease
+				non_nodal_tumor_deposits
+				ovarian_specimen_status
+				ovarian_surface_involvement
+				percent_tumor_invasion
+				peritoneal_fluid_cytological_status
+				primary_gleason_grade
+				secondary_gleason_grade
+				weiss_assessment_score
+				adrenal_hormone
+				ann_arbor_b_symptoms_described
+				diagnosis_is_primary_disease
+				eln_risk_classification
+				figo_staging_edition_year
+				gleason_grade_tertiary
+				gleason_patterns_percent
+				margin_distance
+				margins_involved_site
+				pregnant_at_diagnosis
+				satellite_nodule_present
+				sites_of_involvement
+				tumor_depth
+				who_cns_grade
+				who_nte_grade
+				diagnosis_uuid
+				anaplasia_present
+				anaplasia_present_type
+				child_pugh_classification
+				cog_liver_stage
+				cog_neuroblastoma_risk_group
+				cog_renal_stage
+				cog_rhabdomyosarcoma_risk_group
+				enneking_msts_grade
+				enneking_msts_metastasis
+				enneking_msts_stage
+				enneking_msts_tumor_site
+				esophageal_columnar_dysplasia_degree
+				esophageal_columnar_metaplasia_present
+				first_symptom_prior_to_diagnosis
+				gastric_esophageal_junction_involvement
+				goblet_cells_columnar_mucosa_present
+				gross_tumor_weight
+				inpc_grade
+				inpc_histologic_group
+				inrg_stage
+				inss_stage
+				irs_group
+				irs_stage
+				ishak_fibrosis_score
+				lymph_nodes_tested
+				medulloblastoma_molecular_classification
+			}
+			pagination {
+				count
+				sort
+				from
+				page
+				total
+				pages
+				size
+			}
+		}
+	}`;
+
+  getFilteredClinicalDataPaginatedWithoutSubqueries(offset: number, limit: number, sort: string, filters:any, getAll:any = false) {
+    let filter_ethnicity = filters["ethnicity"];
+    if (filter_ethnicity === "Empty value"){
+      filter_ethnicity = "";
+    }
+    let filter_race = filters["race"];
+    if (filter_race === "Empty value"){
+      filter_race = "";
+    }
+
+    return this.apollo.watchQuery<QueryAllClinicalDataPaginated>({
+      query: this.filteredCinicalDataPaginatedQueryWithoutSubqueries,
+      variables: {
+        offset_value: offset,
+        limit_value: limit,
+        sort_value: sort,
+        program_name_filter: filters["program_name"] || "",
+        project_name_filter: filters["project_name"] || "" ,
+        study_name_filter: filters["study_name"] || "",
+        disease_filter: filters["disease_type"]|| "",
+        filterValue: filters["primary_site"] || "",
+        analytical_frac_filter: filters["analytical_fraction"] || "",
+        exp_type_filter: filters["experiment_type"] || "",
+        ethnicity_filter: filter_ethnicity || "",
+        race_filter: filter_race || "",
+        gender_filter: filters["gender"] || "",
+        tumor_grade_filter: filters["tumor_grade"] || "",
+        sample_type_filter: filters["sample_type"],
+        acquisition_type_filter: filters["acquisition_type"],
+        data_category_filter: filters["data_category"] || '',
+        vital_status_filter: filters["vital_status"] || '',
+        age_at_diagnosis_filter: filters["age_at_diagnosis"] || '',
+        ajcc_clinical_stage_filter: filters["ajcc_clinical_stage"] || '',
+        ajcc_pathologic_stage_filter: filters["ajcc_pathologic_stage"] || '',
+        morphology_filter: filters["morphology"] || '',
+        site_of_resection_or_biopsy_filter: filters["site_of_resection_or_biopsy"] || '',
+        progression_or_recurrence_filter: filters["progression_or_recurrence"] || '',
+        therapeutic_agents_filter: filters["therapeutic_agents"] || '',
+        treatment_intent_type_filter: filters["treatment_intent_type"] || '',
+        treatment_outcome_filter: filters["treatment_outcome"] || '',
+        treatment_type_filter: filters["treatment_type"] || '',
+        alcohol_history_filter: filters["alcohol_history"] || '',
+        alcohol_intensity_filter: filters["alcohol_intensity"] || '',
+        tobacco_smoking_status_filter: filters["tobacco_smoking_status"] || '',
+        cigarettes_per_day_filter: filters["cigarettes_per_day"] || '',
+        case_status_filter: filters["case_status"] || '',
+        getAll: getAll
+      },
+      context: {
+        method: 'POST'
+      }
+    })
+      .valueChanges
+      .pipe(
+        map(result => { console.log(result.data); return result.data;})
+      );
+  }
 
 	getFilteredClinicalDataPaginatedPostTest(offset: number, limit: number, sort: string, filters:any, getAll:any = false) {
 
@@ -915,12 +1198,22 @@ constructor(private apollo: Apollo) {
 				sample_type_filter: filters["sample_type"],
 				acquisition_type_filter: filters["acquisition_type"],
 				data_category_filter: filters["data_category"] || '',
-				file_type_filter: filters["file_type"] || '',
-				access_filter: filters["access"] || '',
-				downloadable_filter: filters["downloadable"] || '',
+				age_at_diagnosis_filter: filters["age_at_diagnosis"] || '',
+				ajcc_clinical_stage_filter: filters["ajcc_clinical_stage"] || '',
+				ajcc_pathologic_stage_filter: filters["ajcc_pathologic_stage"] || '',
+				morphology_filter: filters["morphology"] || '',
+				site_of_resection_or_biopsy_filter: filters["site_of_resection_or_biopsy"] || '',
+				progression_or_recurrence_filter: filters["progression_or_recurrence"] || '',
+				therapeutic_agents_filter: filters["therapeutic_agents"] || '',
+				treatment_intent_type_filter: filters["treatment_intent_type"] || '',
+				treatment_outcome_filter: filters["treatment_outcome"] || '',
+				treatment_type_filter: filters["treatment_type"] || '',
+				alcohol_history_filter: filters["alcohol_history"] || '',
+				alcohol_intensity_filter: filters["alcohol_intensity"] || '',
+				tobacco_smoking_status_filter: filters["tobacco_smoking_status"] || '',
+				cigarettes_per_day_filter: filters["cigarettes_per_day"] || '',
 				case_status_filter: filters["case_status"] || '',
-				biospecimen_status_filter: filters["biospecimen_status"] || '',
-			getAll: getAll
+				getAll: getAll
 		},
 		context: {
 			method: 'POST'

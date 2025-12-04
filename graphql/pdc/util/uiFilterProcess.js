@@ -1,6 +1,6 @@
 //@@@PDC-774 add downloadable
 //@@@PDC-894 add status filters
-const filterCategory = [
+/*const filterCategory = [
   "project_name",
   "primary_site",
   "program_name",
@@ -20,6 +20,39 @@ const filterCategory = [
   "file_type",
   "downloadable",
   "access"
+];*/
+//@@@PDC-9921 filter re-organize
+const filterCategory = [
+  "project_name",
+  "primary_site",
+  "program_name",
+  "disease_type",
+  "analytical_fraction",
+  "experiment_type",
+  "acquisition_type",
+  "case_status",
+  "submitter_id_name",
+  "sample_type",
+  "ethnicity",
+  "race",
+  "gender",
+  "tumor_grade",
+  "data_category",
+  "vital_status",
+  "age_at_diagnosis",
+  "ajcc_clinical_stage",
+  "ajcc_pathologic_stage",
+  "morphology",
+  "site_of_resection_or_biopsy",
+  "progression_or_recurrence",
+  "therapeutic_agents",
+  "treatment_intent_type",
+  "treatment_outcome",
+  "treatment_type",
+  "alcohol_history",
+  "alcohol_intensity",
+  "tobacco_smoking_status",
+  "cigarettes_per_day"
 ];
 
 function uiFilterProcess(uiFilters) {
@@ -32,7 +65,7 @@ function uiFilterProcess(uiFilters) {
     experiment_type: new Map(),
     acquisition_type: new Map(),
     case_status: new Map(),
-    biospecimen_status: new Map(),
+    //biospecimen_status: new Map(),
     submitter_id_name: new Map(),
     sample_type: new Map(),
     ethnicity: new Map(),
@@ -40,9 +73,24 @@ function uiFilterProcess(uiFilters) {
     gender: new Map(),
     tumor_grade: new Map(),
     data_category: new Map(),
-    file_type: new Map(),
-	downloadable: new Map(),
-    access: new Map()
+    //file_type: new Map(),
+	//downloadable: new Map(),
+    //access: new Map()
+	vital_status: new Map(),
+	age_at_diagnosis: new Map(),
+	ajcc_clinical_stage: new Map(),
+	ajcc_pathologic_stage: new Map(),
+	morphology: new Map(),
+	site_of_resection_or_biopsy: new Map(),
+	progression_or_recurrence: new Map(),
+	therapeutic_agents: new Map(),
+	treatment_intent_type: new Map(),
+	treatment_outcome: new Map(),
+	treatment_type: new Map(),
+	alcohol_history: new Map(),
+	alcohol_intensity: new Map(),
+	tobacco_smoking_status: new Map(),
+	cigarettes_per_day: new Map()
   };
 
   for (let i = 0; i < uiFilters.length; i++) {

@@ -1,6 +1,6 @@
 import { OverlayWindowService } from "./../overlay-window/overlay-window.service";
 import { RouterTestingModule } from "@angular/router/testing";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 
@@ -8,6 +8,7 @@ import { PDCUserService } from "../pdcuser.service";
 import { BottomNavbarComponent } from "./bottom-navbar.component";
 import { BottomNavbarService } from "./bottom-navbar.service";
 import { Observable, of } from 'rxjs';
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 
 class MockPDCUserService {}
 
@@ -35,11 +36,11 @@ describe("BottomNavbarComponent", () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [BottomNavbarComponent],
-      imports: [HttpClientTestingModule, RouterTestingModule],
-      schemas: [NO_ERRORS_SCHEMA],
-      providers: [PDCUserService]
-    });
+    declarations: [BottomNavbarComponent],
+    schemas: [NO_ERRORS_SCHEMA],
+    imports: [RouterTestingModule],
+    providers: [PDCUserService, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+});
 
     TestBed.overrideComponent(BottomNavbarComponent, {
       set: {

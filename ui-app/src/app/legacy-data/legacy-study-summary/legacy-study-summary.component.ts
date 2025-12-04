@@ -8,7 +8,7 @@ import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
 import { Apollo } from 'apollo-angular';
 import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef, MatLegacyDialogConfig as MatDialogConfig, MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MAT_DIALOG_DATA, MatDialogRef, MatDialogConfig, MatDialog } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { LegacyStudySummaryService } from './legacy-study-summary.service';
 import { AllStudiesData, Filter, WorkflowMetadata, ProtocolData, PublicationData,
@@ -40,10 +40,11 @@ enum FileTypes {
 
 
 @Component({
-  selector: 'app-legacy-study-summary',
-  templateUrl: './legacy-study-summary.component.html',
-  styleUrls: ['../../../assets/css/global.css', './legacy-study-summary.component.scss'],
-  providers: [ LegacyStudySummaryService ]
+    selector: 'app-legacy-study-summary',
+    templateUrl: './legacy-study-summary.component.html',
+    styleUrls: ['../../../assets/css/global.css', './legacy-study-summary.component.scss'],
+    providers: [LegacyStudySummaryService],
+    standalone: false
 })
 
 export class LegacyStudySummaryComponent implements OnInit {
@@ -116,7 +117,7 @@ export class LegacyStudySummaryComponent implements OnInit {
 	console.log("UUID: "+this.study_id + " PDC ID: " + this.pdcStudyID);
 	//this.loc.replaceState("/study/" + this.pdcStudyID);
 	if (this.studySummaryData.embargo_date === null || this.studySummaryData.embargo_date === ""){
-			this.studySummaryData.embargo_date = "N/A";
+			//this.studySummaryData.embargo_date = "N/A";
 	}
 	console.log(this.studySummaryData);
 	this.publications = this.studySummaryData.publications;
@@ -304,22 +305,26 @@ getFilesCountsPerStudy(){
 	       }
      }
      if (this.fileCountsRaw != undefined) {
-	       this.sortDataCategoriesInOrder();
+	       //this.sortDataCategoriesInOrder();
     }
 }
 
 sortDataCategoriesInOrder(){
 	var order = ["Raw Mass Spectra","Processed Mass Spectra", "Peptide Spectral Matches", "Peptide Spectral Matches", "Protein Assembly", "Quality Metrics", "Quality Metrics"];
-	for (var obj in this.fileCountsRaw) {
+	//@@@PDC-10399 - study-summary blank after filtering
+	// Create a mutable copy of the array to avoid "Cannot assign to read only property" error
+	let mutableFileCountsRaw = [...this.fileCountsRaw];
+	
+	for (var obj in mutableFileCountsRaw) {
 		console.log(obj);
 		let entityObj = "";
-		entityObj = this.fileCountsRaw[obj]["data_category"].toLowerCase();
+		entityObj = mutableFileCountsRaw[obj]["data_category"].toLowerCase();
 		//Order elements based on the suggested order
 		if (order.some(ele => entityObj.includes(ele))) {
-			this.fileCountsRaw[obj]["data_category"] = order.find(ele => entityObj.includes(ele));
+			mutableFileCountsRaw[obj]["data_category"] = order.find(ele => entityObj.includes(ele));
 		}
 	}
-	this.fileCountsRaw = this.fileCountsRaw.sort((a, b) => {
+	this.fileCountsRaw = mutableFileCountsRaw.sort((a, b) => {
 		return (
 			order.indexOf(a.data_category) - order.indexOf(b.data_category)
 		);
@@ -521,10 +526,13 @@ openHeatMap(study_name: string){
   ngOnInit() {
 	  this.readManifest();
 	  //@@@PDC-1160: Add cases and aliquots to the study summary page
+	  //@@@PDC-8509 - Case manifest not aligning with DD
 	  this.clinicalCols = [
-		{field: 'case_submitter_id', header: 'Cases Submitter ID'},
+		{field: 'case_submitter_id', header: 'Case Submitter ID'},
 		{field: 'ethnicity', header: 'Ethnicity'},
-		{field: 'gender', header: 'Gender'},
+		//{field: 'gender', header: 'Gender'},
+		//@@@PDC-9434 Gender to Sex conversion
+		{field: 'gender', header: 'Sex'},
 		{field: 'race', header: 'Race'},
 		{field: 'morphology', header: 'Morphology'},
 		{field: 'primary_diagnosis', header: 'Primary Diagnosis'},

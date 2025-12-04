@@ -1,0 +1,116 @@
+<!-- PDC-9906 updates PDC redesign-->
+<section class="usa-section usa-section--light cgdp-feature-card-row" aria-labelledby="paragraph-4911-heading"
+         data-eddl-landing-row="">
+  <div class="grid-container">
+    <div class="flex flex-col gap-4 items-center" style="margin-top:0px;">
+      <span class="nci-heading-h1" style="margin-top:0px;">
+      The PDC: A Core Resource of the NCI Cancer Research Data Commons (CRDC)
+    </span>
+      <span class="nci-heading-h3 text-[22px] w-[70%] text-center" style="font-weight:lighter;margin-top:0px;">
+        Offering advanced analytical resources and harmonized proteomic datasets for cancer research, and enabling researchers to share data across the community.
+      </span>
+    </div>
+    <br>
+    <ul class="nci-card-group">
+        @for (card of cardData; track card.link) {
+          <li class="nci-card grid-col-4" [class.pancancer-card]="card.imgSrc.includes('pancancerCircle')">
+              <a href="{{ card.link }}" aria-labelledby="paragraph-4896" data-eddl-landing-item="feature_card" data-eddl-landing-item-link-type="Internal">
+                  <picture class="nci-card__image">
+                      <source media="(min-width: 880px)" srcset="/assets/images/{{ card.imgSrc }}">
+                      <img src="/assets/images/{{ card.imgSrc }}" alt="{{ card.imgSrc }}">
+                  </picture>
+
+            <div class="nci-card__body">
+              <span class="nci-card__title" id="paragraph-4896">{{ card.linkText }}</span>
+              <p class="nci-card__description">
+                {{ card.description }}
+              </p>
+            </div>
+          </a>
+        </li>
+      }
+    </ul>
+  </div>
+</section>
+<div class="grid-container flex self-center w-full bg-[#01679D] justify-center py-4 rounded shadow-2xl">
+  <span class="nci-heading-h1" style="color:white"> Scientific Updates and Resources</span>
+</div>
+<section class="usa-section usa-section--light cgdp-feature-card-row" aria-labelledby="paragraph-4741-heading"
+         data-eddl-landing-row="">
+  <div class="grid-container" style="display: flex; justify-content: center; align-items: center;">
+    <ul class="nci-card-group" style="display: flex;">
+      @for (card of infoCards; track card.link) {
+        <li class="nci-card grid-col-4">
+          <a href="{{card.link}}" aria-labelledby="paragraph-4726" data-eddl-landing-item="feature_card"
+             data-eddl-landing-item-link-type="Internal">
+            <picture class="nci-card__image">
+              <source media="(min-width: 880px)" srcset="/assets/images/{{ card.imgSrc }}">
+              <img loading="lazy" src="/assets/images/{{ card.imgSrc }}" width="1408" height="793"
+                   alt="16x9 Override Image">
+            </picture>
+
+            <div class="nci-card__body">
+              <span class="nci-card__title" id="paragraph-4726">{{ card.linkText }}</span>
+              <p class="nci-card__description">
+                {{ card.description }}
+              </p>
+            </div>
+          </a>
+        </li>
+      }
+    </ul>
+  </div>
+
+</section>
+<section _ngcontent-ng-c2072493900="" aria-labelledby="paragraph-4756-title" data-eddl-landing-row=""
+         class="usa-section usa-section--light">
+  <div _ngcontent-ng-c2072493900="" class="grid-container-widescreen">
+    <div _ngcontent-ng-c2072493900="" data-eddl-landing-item="promo_block"
+         class="nci-promo-block nci-promo-block--with-image nci-promo-block--dark">
+      <picture _ngcontent-ng-c2072493900="" class="nci-promo-block__image">
+        <source _ngcontent-ng-c2072493900="" media="(min-width: 880px)" srcset="/pdc/assets/images/latestnews 1.png">
+        <img _ngcontent-ng-c2072493900="" loading="lazy" src="/assets/images/latest-news.jpg" width="961" height="541"
+             alt="16x9 Override Image"></picture>
+      <div _ngcontent-ng-c2072493900="" class="nci-promo-block__content"><span _ngcontent-ng-c2072493900=""
+                                                                               id="paragraph-4756-title"
+                                                                               class="nci-promo-block__heading"> Latest news </span>
+                      <ul _ngcontent-ng-c2072493900="" class="list-none space-y-2">
+                        <li *ngFor="let newsItem of newsData">
+                          <a href="{{newsItem.link}}" class="usa-prose text-white underline text-lg exit-link" target="_blank">
+                            {{newsItem.label}}
+                          </a>
+                          <a *ngIf="newsItem.exit_disclaimer" matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_blank" class="exit-link" style="margin-left: 4px;">
+                            <i class="fas fa-external-link-alt"></i>
+                            <span style="display: none">External Link</span>
+                          </a>
+                        </li>
+                      </ul>                                                          
+         <!--                                                             
+        <ul _ngcontent-ng-c2072493900="" class="list-none space-y-2">
+          <li _ngcontent-ng-c2072493900=""><a _ngcontent-ng-c2072493900=""
+                                              href="https://datacommons.cancer.gov/news/crdc-fall-symposium-report"
+                                              class="usa-prose text-white underline text-lg">The CRDC Fall Symposium:
+            Report</a></li>
+          <li _ngcontent-ng-c2072493900=""><a _ngcontent-ng-c2072493900=""
+                                              href="https://proteomics.cancer.gov/news_and_announcements/resource-spotlight-national-cancer-institutes-proteomic-data-commons"
+                                              class="usa-prose text-white underline text-lg">Resource Spotlight: The
+            National Cancer Institute's Proteomic Data Commons</a></li>
+          <li _ngcontent-ng-c2072493900=""><a _ngcontent-ng-c2072493900=""
+                                              href="https://aacrjournals.org/cancerrescommun/article/4/9/2480/748517/NCI-s-Proteomic-Data-Commons-A-Cloud-Based?preview=true"
+                                              class="usa-prose text-white underline text-lg">Proteomic Data Commons
+            Article Published in AACR Cancer Research Communications</a></li>
+          <li _ngcontent-ng-c2072493900=""><a _ngcontent-ng-c2072493900=""
+                                              href="https://datascience.cancer.gov/news-events/events/cancer-research-data-commons-2024-fall-symposium-ten-years-empowering-cancer"
+                                              class="usa-prose text-white underline text-lg">The Cancer Research Data
+            Commons 2024 Fall Symposium: Ten Years of Empowering Cancer Researchers October 16-17, 2024</a></li>
+          <li _ngcontent-ng-c2072493900=""><a _ngcontent-ng-c2072493900=""
+                                              href="https://datacommons.cancer.gov/news/ncicrdc-2024-aacr-annual-meeting"
+                                              class="usa-prose text-white underline text-lg">NCI/CRDC at the 2024 AACR
+            Annual Meeting</a></li>
+        </ul>
+         -->
+      </div>
+    </div>
+  </div>
+</section>
+

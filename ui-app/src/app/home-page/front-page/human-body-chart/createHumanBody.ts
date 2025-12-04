@@ -731,7 +731,7 @@ tooltip.style('opacity', 0);
 
 export default createHumanBody;
 
-
+//@@@PDC-9847 change mps from Bone Marrow to Bone Marrow and Blood
 export const HUMAN_BODY_SITES_MAP = {
   'accessory sinuses': 'Head and Neck',
   'adrenal gland': 'Adrenal Gland',
@@ -739,9 +739,9 @@ export const HUMAN_BODY_SITES_MAP = {
   'base of tongue': 'Head and Neck',
   'bile duct': 'Bile Duct',
   bladder: 'Bladder',
-  blood: 'Blood',
-  'bone marrow': 'Bone Marrow',
-  bone: 'Bone',
+  blood: 'Bone Marrow and Blood',
+  'bone marrow and blood': 'Bone Marrow and Blood',
+  bone: 'Bone Marrow and Blood',
   'bones, joints and articular cartilage of limbs': 'Bone',
   'bones, joints and articular cartilage of other and unspecified sites':
     'Bone',
@@ -762,7 +762,7 @@ export const HUMAN_BODY_SITES_MAP = {
   gum: 'Head and Neck',
   'head and neck': 'Head and Neck',
   'heart, mediastinum, and pleura': 'Pleura',
-  'hematopoietic and reticuloendothelial systems': 'Bone Marrow',
+  'hematopoietic and reticuloendothelial systems': 'Bone Marrow and Blood',
   hypopharynx: 'Head and Neck',
   kidney: 'Kidney',
   larynx: 'Head and Neck',
@@ -834,9 +834,7 @@ export const HUMAN_BODY_ALL_ALLOWED_SITES = [
   'Adrenal Gland',
   'Bile Duct',
   'Bladder',
-  'Blood',
-  //'Bone',
-  'Bone Marrow',
+  'Bone Marrow and Blood',
   'Brain',
   'Breast',
   'Cervix',

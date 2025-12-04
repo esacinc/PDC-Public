@@ -1,12 +1,10 @@
 import { ApolloTestingController, ApolloTestingModule } from "apollo-angular/testing";
 
-import {
-  HttpClientTestingModule,
-  HttpTestingController
-} from "@angular/common/http/testing";
+import { HttpTestingController, provideHttpClientTesting } from "@angular/common/http/testing";
 import { inject, TestBed } from "@angular/core/testing";
 
 import { WorkflowManagerFileService } from "./workflow-manager.service";
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 
 describe("WorkflowManagerService", () => {
   let apolloController: ApolloTestingController;
@@ -14,9 +12,9 @@ describe("WorkflowManagerService", () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [WorkflowManagerFileService],
-      imports: [ApolloTestingModule, HttpClientTestingModule]
-    });
+    imports: [ApolloTestingModule],
+    providers: [WorkflowManagerFileService, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+});
 
     apolloController = TestBed.get(ApolloTestingController);
     httpController = TestBed.get(HttpTestingController);

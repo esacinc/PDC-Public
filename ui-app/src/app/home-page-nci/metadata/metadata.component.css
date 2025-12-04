@@ -1,0 +1,31 @@
+.nci-heading-h3 {
+    margin-top: 0px;
+}
+
+/* White background for tooltips */
+::ng-deep .mat-tooltip {
+    background-color: white !important;
+    color: #333 !important;
+    border: 1px solid #ccc !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+    font-size: 12px !important;
+}
+
+/* More specific Material tooltip selectors */
+::ng-deep .mat-mdc-tooltip,
+::ng-deep .mdc-tooltip__surface,
+::ng-deep .mat-mdc-tooltip .mdc-tooltip__surface {
+    background-color: white !important;
+    color: #333 !important;
+    border: 1px solid #ccc !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Overlay container for tooltips */
+::ng-deep .cdk-overlay-container .mat-tooltip,
+::ng-deep .cdk-overlay-container .mat-mdc-tooltip {
+    background-color: white !important;
+    color: #333 !important;
+    border: 1px solid #ddd !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+}

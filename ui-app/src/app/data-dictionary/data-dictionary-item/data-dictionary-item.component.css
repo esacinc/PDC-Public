@@ -1,6 +1,6 @@
 body, input {
 	margin: 0;
-  font-family:'Lato';
+  
   font-size: 16px;
   color:#454545;
 }
@@ -13,7 +13,7 @@ table, th, td {
 /* @@PDC-4858 - unset properties inherited by conflicting css */
 #title{
 	margin: 0;
-  font-family:'Lato';
+
   font-size: 16px;
   color:#454545;
   width:unset;
@@ -106,7 +106,7 @@ a{
 
 .pageTitle{
   font-size:20px;
-  font-family: 'LatoBold';
+  
   padding-bottom: 5px;
 }
 

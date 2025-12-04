@@ -1,6 +1,6 @@
 .filters-wrapper{
-	background: #254A61;
-	box-shadow: 0 2px 7px 0 rgba(0,0,0,0.24);
+	background: transparent;
+	box-shadow: none;
 	border-radius: 0 0px 0px 0px;
 }
 
@@ -18,7 +18,101 @@ $stateActiveBgColor: #3baae3;
 	padding-right: 0px;
 	padding-top: 0px;
 	padding-bottom: 0px;
+}
+
+::ng-deep .mat-expansion-panel {
+    .mat-expansion-panel-header {
+    padding: 0 16px;
+    position: relative;
+
+    .mat-expansion-panel-header-title {
+      margin-right: 0;
+      display: flex;
+      width: 100%;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+
+      .panel-title-content {
+        display: flex;
+        flex: 1;
+        align-items: center;
+        gap: 8px;
+
+        a.browse-filter-title {
+          margin-right: auto;
+        }
+
+        button {
+          margin-left: 8px;
+        }
+      }
+
+      .custom-expansion-indicator {
+        color: #005083;
+        font-size: 18px;
+        margin-left: 16px;
+        transition: transform 0.3s ease;
+      }
+    }
+  }
+
+  // Rotate icon when panel is expanded
+  .mat-expansion-panel.mat-expanded {
+    .custom-expansion-indicator {
+      transform: rotate(180deg);
+    }
+  }
+
+  // Additional styling for the expansion panel to ensure proper layering
+  ::ng-deep .mat-expansion-panel {
+    overflow: visible !important;
+    
+    &.mat-expanded {
+      .mat-expansion-indicator {
+        transform: translateY(-50%) scale(1.2) rotate(180deg);
+      }
+    }
+  }
+
+  .mat-expansion-panel-header-title {
+    margin-right: 0;
+    flex-direction: row-reverse;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 16px;
+  }
 	border-top: 0px;
+}
+
+// White background specifically for nested subfilters (panels within panels)
+::ng-deep mat-expansion-panel.sidenavFiltersPanel mat-expansion-panel.sidenavFiltersPanel {
+  background-color: white !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+  border-radius: 0 !important;
+  
+  .mat-expansion-panel-header {
+    background-color: white !important;
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+    border-radius: 0 !important;
+  }
+  
+  .mat-expansion-panel-content {
+    background-color: white !important;
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+  }
+  
+  .mat-expansion-panel-body {
+    background-color: white !important;
+    border: none !important;
+    border-radius: 0 !important;
+  }
 }
 
 .browse-filter .checked-state{
@@ -50,12 +144,13 @@ $stateActiveBgColor: #3baae3;
 }
 
 //@@@PDC-683 - Add Gene Name filter to Gene filter tab with prepopulated genes list
+/* TODO(mdc-migration): The following rule targets internal classes of select that may no longer apply for the MDC version.*/
 .mat-select-value-text {
     white-space: pre-wrap!important;
     overflow: scroll!important;
     text-overflow: ellipsis!important;
 }
-.mat-select-panel .mat-option {
+.mat-mdc-select-panel .mat-mdc-option {
 	font-size: 12px!important;
     line-height: 2em!important;
     height: 2em!important;
@@ -84,11 +179,164 @@ $stateActiveBgColor: #3baae3;
 
 //@@@PDC-517 styling filter category title and align with reset button
 .browse-filter-title{
-	color:white;
-	font-weight:600;
-	font-size:15px;
-	height:40px;
-	line-height:40px;
+	color:red !important; /* Match browse-filters-new */
+	font-weight: 600;
+	font-size: 15px;
+	height: 40px;
+	line-height: 40px;
+	text-decoration: none;
+}
+
+.browse-filter-title:hover {
+	color: #003d66 !important; /* Darker shade for hover */
+}
+
+/* Ensure filter titles in gene filters match browse-filters-new exactly */
+.sidenavFiltersPanel .browse-filter-title,
+.filter-header .browse-filter-title {
+	color: #005083 !important; /* Match browse-filters-new */
+	font-weight: 600; /* font-semibold */
+	text-decoration: none;
+}
+
+.sidenavFiltersPanel .browse-filter-title:hover,
+.filter-header .browse-filter-title:hover {
+	color: #003d66 !important; /* Darker hover state */
+}
+
+/* New styling to match the provided example */
+.sidenavFiltersPanel {
+	border: 1px solid #e5e7eb; /* border-gray-200 */
+	border-radius: 0.375rem; /* rounded */
+	margin-bottom: 0.25rem; /* mb-1 */
+}
+
+/* Ensure nested expansion panels in Clinical tab extend full width */
+::ng-deep .sidenavFiltersPanel .sidenavFiltersPanel {
+	width: 100% !important;
+	margin-left: 0 !important;
+	margin-right: 0 !important;
+}
+
+/* Ensure Clinical tab subfilter panels have proper width */
+::ng-deep .filter-section .mat-expansion-panel {
+	width: 100% !important;
+	box-sizing: border-box;
+}
+
+/* Ensure subfilter headers extend full width */
+::ng-deep .filter-section .mat-expansion-panel-header {
+	width: 100% !important;
+	padding-left: 0 !important;
+	padding-right: 0 !important;
+	box-sizing: border-box;
+}
+
+/* Ensure subfilter content takes full width */
+::ng-deep .filter-section .mat-expansion-panel-body {
+	width: 100% !important;
+	padding-left: 0 !important;
+	padding-right: 0 !important;
+	box-sizing: border-box;
+}
+
+/* Ensure subfilter mat-lists take full width */
+::ng-deep .filter-section .mat-list {
+	width: 100% !important;
+	padding-left: 0 !important;
+	padding-right: 0 !important;
+}
+
+/* Ensure subfilter list items take full width */
+::ng-deep .filter-section .mat-list-item {
+	width: 100% !important;
+	padding-left: 12px !important;
+	padding-right: 12px !important;
+}
+
+/* Hide default Angular Material expansion indicators for all expansion panels */
+::ng-deep .mat-expansion-indicator {
+	display: none !important;
+}
+
+/* Ensure our custom expansion indicators are visible and properly positioned */
+.custom-expansion-indicator {
+	position: absolute !important;
+	right: 8px !important;
+	top: 50% !important;
+	transform: translateY(-50%) !important;
+}
+
+/* Set white background for Clinical tab sub-filters */
+::ng-deep .filter-section .mat-expansion-panel-header {
+	background-color: #ffffff !important;
+}
+
+::ng-deep .filter-section .mat-expansion-panel-header:hover {
+	background-color: #f8f9fa !important;
+}
+
+.filter-header {
+	padding: 0.5rem 1rem; /* px-4 py-2 */
+	border-bottom: 1px solid #e5e7eb; /* border-b border-gray-200 */
+	background-color: #D4E7F2; /* bg-[#D4E7F2] */
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.filter-toggle-btn, .filter-clear-btn {
+	color: #4b5563; /* text-gray-600 */
+	padding: 0.25rem 0.5rem; /* px-2 py-1 */
+	font-size: 0.875rem; /* text-sm */
+	background: none;
+	border: none;
+	cursor: pointer;
+}
+
+.filter-toggle-btn:hover, .filter-clear-btn:hover {
+	color: #374151; /* text-gray-800 */
+}
+
+.filter-section {
+	padding: 0; /* Remove padding to match General filters */
+	max-height: 500px;
+	overflow-y: auto;
+	width: 100% !important;
+	box-sizing: border-box;
+}
+
+.filter-item {
+	margin-bottom: 0.5rem; /* mb-2 */
+}
+
+.filter-item.selected {
+	background-color: #eff6ff; /* bg-blue-50 */
+	border-left: 4px solid #3b82f6; /* border-l-4 border-blue-500 */
+	padding-left: 0.5rem; /* pl-2 */
+}
+
+.filter-checkbox-container {
+	display: flex;
+	align-items: center;
+}
+
+.filter-checkbox-label {
+	display: flex;
+	align-items: center;
+	cursor: pointer;
+}
+
+.more-less-link {
+	text-align: right;
+	font-size: 0.875rem; /* text-sm */
+	color: #4b5563; /* text-gray-600 */
+	cursor: pointer;
+	font-weight: 700;
+}
+
+.more-less-link:hover {
+	color: #374151; /* text-gray-800 */
 }
 
 .card-list-checkbox-single-ln {
@@ -127,20 +375,53 @@ $stateActiveBgColor: #3baae3;
 	padding-bottom: 0px!important;
 }
 
-::ng-deep .sidenavFiltersPanel .mat-list-item {
+::ng-deep .sidenavFiltersPanel .mat-mdc-list-item {
 	padding-right: 0px!important;
 	height: 35px!important;
 	line-height: 100%;
 }
 
-::ng-deep.mat-expansion-indicator {
-    position: absolute!important;
-	left: 7.5px!important;
-  }
+// Main expansion panels (Clinical, Treatment, Exposure) - remove rounded corners and box shadow
+::ng-deep mat-expansion-panel.sidenavFiltersPanel {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  border: 1px solid #ccc !important;
+}
+
+// Ensure main Clinical tab expansion panels have same padding as General tab
+::ng-deep .filter-section > mat-expansion-panel.sidenavFiltersPanel .mat-expansion-panel-header {
+  padding: 0 16px !important;
+}
+
+// Fix checkbox and text alignment - make them inline
+::ng-deep .mat-list-item-content {
+  display: flex !important;
+  align-items: center !important;
+  flex-direction: row !important;
+  gap: 8px !important;
+  white-space: nowrap !important;
+  overflow: visible !important;
+}
+
+// Ensure mat-list-item has sufficient width for checkbox and text
+::ng-deep .mat-list-item {
+  width: 100% !important;
+  min-width: 300px !important;
+  white-space: nowrap !important;
+}
+
+// Prevent text wrapping in the label
+::ng-deep .mat-list-item .mat-list-text {
+  white-space: nowrap !important;
+  overflow: visible !important;
+  flex: 1 !important;
+}
 
 .mat-expansion-panel-header, .mat-expansion-panel-header:hover{
-	background: rgb(120, 167, 192)!important;
+	background: #D4E7F2 !important;
 	padding-right:0px!important;
+	border-radius: 0 !important;
+	box-shadow: none !important;
 }
 
 .mat-expansion-panel-header-title{
@@ -150,10 +431,11 @@ $stateActiveBgColor: #3baae3;
 //@@@PDC-4625: Implement the UI-UX changes to the filter sidebar
 //@@@PDC-4871: UI-UX changes for stacking filters & improvements to the menu section
 ::ng-deep {
+	/* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
 	.gene-page .mat-tab-labels {
 		display: flex !important;
 	}
-
+	/* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
 	.gene-page .mat-tab-label {
 		padding: 0px !important;
 		// min-width: 120px !important;
@@ -164,11 +446,11 @@ $stateActiveBgColor: #3baae3;
 		border-radius: 4px;
 		height: 30px !important;
 	}
-
+	/* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
 	.side-bar-tabs .mat-tab-label-container {
 		text-align: center;
 	}
-
+	/* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
 	.gene-page .mat-tab-label-active {
 		//background: linear-gradient(to bottom, #f6f7f9 0%, #ebedf0 100%);
 		//background-color: #E8E8E8;
@@ -176,11 +458,11 @@ $stateActiveBgColor: #3baae3;
 		font-weight: 700;
 	}
 
-	.gene-page .mat-icon-button {
+	.gene-page .mat-mdc-icon-button {
 		width: 15px !important;
 	}
 
-	.gene-page .mat-icon-button i {
+	.gene-page .mat-mdc-icon-button i {
 		line-height: 20px;
 		font-size: 12px;
 	}
@@ -203,11 +485,12 @@ $stateActiveBgColor: #3baae3;
 
 	@media not all and (min-resolution:.001dpcm)
 	{ @supports (-webkit-appearance:none) and (stroke-color:transparent) {
+		/* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
 		.gene-page .mat-tab-label-active {
 			font-weight: 500 !important;
 		}
 	}}
-
+	/* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
 	.gene-page .mat-tab-header-pagination.mat-tab-header-pagination-disabled,
 	.gene-page .mat-tab-header-pagination-controls-enabled .mat-tab-header-pagination {
     	display: none !important;
@@ -228,6 +511,8 @@ $stateActiveBgColor: #3baae3;
 .card-list div {
 	font-size: 14px !important;
 }
+
+
 
 // PDC-620: Make the filter selection tabs along the left side of the window
 /* ::ng-deep {
@@ -296,3 +581,140 @@ $stateActiveBgColor: #3baae3;
 	}
 
 } */
+
+/* Remove background from mat-mdc-card-header browse-filter */
+.mat-mdc-card-header.browse-filter {
+  background: transparent !important;
+  background-color: transparent !important;
+  height: 0 !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  display: none !important;
+}
+
+/* Also remove background from any other mat card headers */
+::ng-deep .mat-mdc-card-header {
+  background: transparent !important;
+  background-color: transparent !important;
+  height: 0 !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  display: none !important;
+}
+
+/* Override browse-filter card-header background */
+.browse-filter .card-header,
+.browse-filter ::ng-deep .mat-mdc-card-header {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* Fix checkbox and text alignment */
+::ng-deep .mat-list-item {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 8px !important;
+  min-height: 40px !important;
+  height: auto !important;
+  padding: 8px 0 !important;
+}
+
+::ng-deep .mat-list-item-content {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 8px !important;
+  min-height: 32px !important;
+  height: auto !important;
+  line-height: 1.4 !important;
+}
+
+/* Ensure checkbox and text are inline */
+.browse-filter mat-list-item {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  min-height: 40px !important;
+  height: auto !important;
+}
+
+/* Fix text container to prevent cutoff */
+.browse-filter mat-list-item div {
+  line-height: 1.4 !important;
+  min-height: 20px !important;
+  height: auto !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+/* Force checkbox and text to be side by side */
+::ng-deep .mat-list-item > * {
+  display: inline-block !important;
+  vertical-align: middle !important;
+}
+
+::ng-deep .mat-list-item p-checkbox {
+  display: inline-block !important;
+  vertical-align: middle !important;
+  margin-right: 8px !important;
+}
+
+::ng-deep .mat-list-item div {
+  display: inline-block !important;
+  vertical-align: middle !important;
+}
+
+/* Specific targeting for browse-filter items */
+.browse-filter ::ng-deep mat-list-item {
+  white-space: nowrap !important;
+}
+
+.browse-filter ::ng-deep mat-list-item > * {
+  display: inline-block !important;
+  vertical-align: middle !important;
+}
+
+/* Make filter text larger */
+.browse-filter label span {
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  line-height: 1.4 !important;
+}
+
+/* Simplify expansion panel interactions */
+::ng-deep .mat-expansion-panel-header {
+  pointer-events: auto !important;
+}
+
+/* Fix nested expansion panels in Clinical tab */
+::ng-deep .filter-section .mat-expansion-panel .mat-expansion-panel {
+  margin-left: 0 !important;
+}
+
+::ng-deep .filter-section .mat-expansion-panel .mat-expansion-panel .mat-expansion-panel-header {
+  pointer-events: auto !important;
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+/* Remove any borders/outlines from filter sections */
+.filter-sections {
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+/* Remove borders from sidenavFiltersPanel */
+.sidenavFiltersPanel {
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+/* Remove borders from tab navigation */
+.border-b.border-gray-200 {
+  border-bottom: none !important;
+}

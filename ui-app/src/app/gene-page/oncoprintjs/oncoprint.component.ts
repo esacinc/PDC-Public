@@ -5,9 +5,10 @@ import { Observable } from 'rxjs';
 import { GeneAliquotSpectralCountDataPaginated, GeneAliquotSpectralCountData } from '../../types';
 
 @Component({
-  selector: 'app-oncoprint',
-  templateUrl: './oncoprint.component.html',
-  styleUrls: ['./oncoprint.component.scss']
+    selector: 'app-oncoprint',
+    templateUrl: './oncoprint.component.html',
+    styleUrls: ['./oncoprint.component.scss'],
+    standalone: false
 })
 
 //@@@PDC-1110

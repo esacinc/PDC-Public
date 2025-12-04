@@ -78,8 +78,12 @@
 			<mat-menu [overlapTrigger]="false" yPosition="below" #submitDataBtn="matMenu">
 				<span *ngIf='!userLoggedInFlag'><a mat-button (click)="submitData()" class="custom-menu-item mat-menu-item" id="submitNavbar">Login to Workspace</a></span>
 				<span *ngIf='userLoggedInFlag'>
-					<span *ngIf='userRegisteredToWorkspaceFlag'>
+					<span *ngIf='userRegisteredToWorkspaceFlag && userRegisteredToWorkspaceProgramFlag'>
 						<a mat-button (click)="submitData()" class="custom-menu-item mat-menu-item" id="submitNavbar">Go to Workspace</a>
+					</span>
+					<!-- @@@PDC-9083 pending ws registration-->
+					<span *ngIf='userRegisteredToWorkspaceFlag && !userRegisteredToWorkspaceProgramFlag'>
+						<a mat-button [disabled]="true" class="custom-menu-item mat-menu-item" id="submitNavbar">Pending Workspace Registration</a>
 					</span>
 					<span *ngIf='!userRegisteredToWorkspaceFlag'>
 						<a mat-button (click)="submitData()" class="custom-menu-item mat-menu-item" id="submitNavbar">Register with Workspace</a>

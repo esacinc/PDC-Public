@@ -3,18 +3,19 @@ import { Router } from "@angular/router";
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient, HttpHeaders, HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import {map} from 'rxjs/operators';
-import { SocialAuthService, GoogleLoginProvider } from 'angularx-social-login';
+
 import { ChorusauthService } from '../chorusauth.service';
 import { environment } from '../../environments/environment';
 import { PDCUserService } from '../pdcuser.service';
 import { RegistrationComponent} from '../navbar/registration/registration.component';
-import { MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig } from '@angular/material/legacy-dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatIconRegistry } from '@angular/material/icon';
 
 @Component({
-  selector: 'welcome-page',
-  templateUrl: './welcome-page.component.html',
-  styleUrls: ['../../assets/css/global.css', './welcome-page.component.scss']
+    selector: 'welcome-page',
+    templateUrl: './welcome-page.component.html',
+    styleUrls: ['../../assets/css/global.css', './welcome-page.component.scss'],
+    standalone: false
 })
 
 //@@@PDC-371 Develop PDC welcome screen
@@ -26,46 +27,12 @@ export class WelcomePageComponent implements OnInit {
   userEmail:string = '';
   systemErrorMessage:string = '';
 
-  constructor(private chorusService: ChorusauthService, private socialAuthService: SocialAuthService,
+  constructor(private chorusService: ChorusauthService,
 				private router: Router, private http: HttpClient, private userService: PDCUserService,
 				private activeRoute: ActivatedRoute, private dialog: MatDialog) {
 					//@@@PDC-4898: Remove outdated Welcome page and redirect to home page
 					this.router.navigate(['']);
 				}
-
-  // Authenticate the user with Google
-  //@@@PDC-419 handle system error
-  public socialSignIn(socialPlatform: string) {
-    const socialPlatformProvider = GoogleLoginProvider.PROVIDER_ID;
-    this.systemErrorMessage='';
-    this.socialAuthService.signIn(socialPlatformProvider).then(
-      (userData) => {
-        // Now that they are logged in check to see if the user is registered in PDC
-        this.userService.checkPDCUserByEmail(userData.email).then(exists => {
-		switch (exists) {
-			//user exists
-			case 0:
-				//'' route url will be welcome page to login. 'pdc' route url will be home page
-				this.router.navigate(['pdc']);
-				break;
-			//user does not exist
-			case 1:
-				console.log(userData);
-				this.userService.setUserIDType("Google");
-				this.userService.setLoginUsername(userData.email);
-				this.userService.setEmail(userData.email);
-				this.userService.setName(userData.name);
-				this.router.navigate(['registration']);
-				break;
-			//system error
-			case 2:
-				this.systemErrorMessage="System Error. Please contact your system admin";
-				console.log("System error!!!");
-				break;
-		}
-        });
-    });
-  }
 
   //User used eRA/NIH login credentials
 	//@@@PDC-419 handle system error

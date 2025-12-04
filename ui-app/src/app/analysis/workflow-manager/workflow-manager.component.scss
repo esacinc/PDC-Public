@@ -15,7 +15,7 @@
 	padding-bottom: 0px;
 	color: #ffffff;
   }
-.study-summary .mat-card-title{
+.study-summary .mat-mdc-card-title{
 	font-family: 'Lato';
 	font-weight: 400;
 	font-size: 16px;
@@ -65,7 +65,8 @@
 	background-color: rgb(225, 239, 252);
 }
   
-.mat-list .mat-list-item .mat-list-item-content {
+/* TODO(mdc-migration): The following rule targets internal classes of list that may no longer apply for the MDC version. */
+.mat-mdc-list .mat-mdc-list-item .mat-list-item-content {
 	font-size: 12px;
 }
 
@@ -84,6 +85,6 @@
 	background: #245571;
 }
 
-.mat-card-content{
+.mat-mdc-card-content{
 	font-size:12px;
 }

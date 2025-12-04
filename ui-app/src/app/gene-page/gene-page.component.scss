@@ -1,3 +1,8 @@
+/* @@@PDC-9015 - improve checkbox intuitiveness */
+#dataForManifestExport {
+  visibility: hidden;
+}
+
 .gene-summary .card-header {
   font-family: 'Lato';
   font-weight: 400;
@@ -9,7 +14,7 @@
   padding-bottom: 0px;
   color: #585858;
 }
-.gene-summary .mat-card-title{
+.gene-summary .mat-mdc-card-title{
 	font-family: 'Lato';
 	font-weight: 400;
 	font-size: 16px;
@@ -111,7 +116,7 @@ p-tableCheckbox{
 }
 
 
-.mat-button.mat-small {
+.mat-mdc-button.mat-small {
   min-width: 1%;
 }
 
@@ -186,6 +191,7 @@ p-tableCheckbox{
   background-image: url('../../assets/css/images/Triangle.png');
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version. */
 .side-bar-tabs ::ng-deep.mat-tab-label{
 	min-width: 110px!important;
 	padding: 10px!important;
@@ -198,7 +204,7 @@ p-tableCheckbox{
 	padding-bottom: 0px!important;
 }
 
-::ng-deep .sidenavFiltersPanel .mat-list-item {
+::ng-deep .sidenavFiltersPanel .mat-mdc-list-item {
 	padding-right: 0px!important;
 	height: 35px!important;
 	line-height: 100%;
@@ -283,6 +289,12 @@ p-tableCheckbox{
 		height: 67px !important;
 	  }
 	}}
+}
+
+//@@@PDC9015 sync up chk box
+/* TODO(mdc-migration): The following rule targets internal classes of select that may no longer apply for the MDC version. */
+:host ::ng-deep #dataForManifestExport .mat-select-value {
+    display:none !important;
 }
 
 //@@@PDC-4995: Alignment issues
@@ -371,6 +383,7 @@ p-tableCheckbox{
 	}
 
 	//@@@PDC-3765: A 'S' symbol in Genes/ under checkbox of "Studies in Which the Gene Product Was Detected
+	/* TODO(mdc-migration): The following rule targets internal classes of select that may no longer apply for the MDC version. */
 	.mat-select-value-text {
 		display: none !important;
 	}

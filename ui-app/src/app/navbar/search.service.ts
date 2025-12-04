@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Response, Headers, RequestOptions} from '@angular/http';
+import { HttpHeaders } from '@angular/common/http';
 
 
 import { Apollo } from 'apollo-angular';
@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import gql from 'graphql-tag';
 
-import { SearchResults, QueryAllCasesData, SearchResultsStudy, SearchResultsGenesProteins, SearchResultsProteins, SearchbyStudyUUID, UUIDForStudy, SearchbyCaseUUID, UUIDForCase, AllCasesData, SearchCaseResults, SearchResultsForAliquot, ObjectSearched  } from '../types'; 
+import { SearchResults, QueryAllCasesData, SearchResultsStudy, SearchResultsGenesProteins, SearchResultsProteins, SearchbyStudyUUID, UUIDForStudy, SearchbyCaseUUID, UUIDForCase, AllCasesData, SearchCaseResults, SearchResultsForAliquot, ObjectSearched  } from '../types';
 
 //@@@PDC-264 - added cases_count field to uiStudy query
 //@@@PDC-440 - add description field to gene/protein search results
@@ -15,13 +15,13 @@ import { SearchResults, QueryAllCasesData, SearchResultsStudy, SearchResultsGene
 @Injectable()
 export class SearchService {
 
-	headers: Headers;
-	options: RequestOptions;
+	headers: HttpHeaders;
+	options: {};
 
 constructor(private apollo: Apollo) {
-	this.headers = new Headers({ 'Content-Type': 'application/json',
+	this.headers = new HttpHeaders({ 'Content-Type': 'application/json',
                                      'Accept': 'q=0.8;application/json;q=0.9' });
-        this.options = new RequestOptions({ headers: this.headers });
+        this.options = { headers: this.headers };
 	}
 
 	searchCaseQuery = gql`
@@ -34,7 +34,7 @@ constructor(private apollo: Apollo) {
 						}
 					}
 			}`;
-	
+
 	getCaseSearchResults(case_param:any){
 		return this.apollo.watchQuery<SearchCaseResults>({
 			query: this.searchCaseQuery,
@@ -47,9 +47,10 @@ constructor(private apollo: Apollo) {
 			map(result => {
 				console.log(result.data);
 				return result.data;})
-		); 
+		);
 	}
 	//@@@PDC-7657 add ncbi_gene_id
+	//@@@PDC-8588 add alias
 	searchGeneQuery = gql`
 			query GeneSearchQuery($gene_name: String!){
 					geneSearch(name: $gene_name){
@@ -59,10 +60,11 @@ constructor(private apollo: Apollo) {
 							description
 							gene_id
 							ncbi_gene_id
+							alias
 						}
 					}
 			}`;
-	
+
 	getGeneSearchResults(gene_param:any){
 		return this.apollo.watchQuery<SearchResultsGenesProteins>({
 			query: this.searchGeneQuery,
@@ -75,7 +77,7 @@ constructor(private apollo: Apollo) {
 			map(result => {
 				console.log(result.data);
 				return result.data;})
-		); 
+		);
 	}
 
 	//@@@PDC-438
@@ -94,7 +96,7 @@ constructor(private apollo: Apollo) {
 						}
 					}
 			}`;
-	
+
 	getProteinSearchResults(protein_param:any){
 		return this.apollo.watchQuery<SearchResultsProteins>({
 			query: this.searchProteinQuery,
@@ -107,9 +109,9 @@ constructor(private apollo: Apollo) {
 			map(result => {
 				console.log(result.data);
 				return result.data;})
-		); 
+		);
 	}
-	
+
 	searchStudyQuery = gql`
 			query StudySearchQuery($study_name: String!){
 					studySearch(name: $study_name){
@@ -123,7 +125,7 @@ constructor(private apollo: Apollo) {
 						}
 					}
 			}`;
-	
+
 	getStudySearchResults(study_id:any){
 		return this.apollo.watchQuery<SearchResultsStudy>({
 			query: this.searchStudyQuery,
@@ -136,7 +138,7 @@ constructor(private apollo: Apollo) {
 			map(result => {
 				console.log(result.data);
 				return result.data;})
-		); 
+		);
 	}
 
 	//@@@PDC-1875: Update search to be able to search by new PDC ID
@@ -167,7 +169,7 @@ constructor(private apollo: Apollo) {
 		map(result => {
 			console.log(result.data);
 			return result.data;})
-	); 
+	);
 	}
 
 	//@@@PDC-1931: Enable search based on the external references
@@ -198,7 +200,7 @@ constructor(private apollo: Apollo) {
 		map(result => {
 			console.log(result.data);
 			return result.data;})
-	); 
+	);
 	}
 
 	searchAliquotsQuery = gql`
@@ -223,7 +225,7 @@ constructor(private apollo: Apollo) {
 		map(result => {
 			console.log(result.data);
 			return result.data;})
-	); 
+	);
 	}
 
 	searchStudyUUIDQuery = gql`
@@ -248,7 +250,7 @@ constructor(private apollo: Apollo) {
 			map(result => {
 				console.log(result.data);
 				return result.data;})
-		); 
+		);
 	}
 
 	//@@@PDC-1441: Add ability to search by case, study, aliquot, sample UUIDs on UI search box
@@ -277,7 +279,7 @@ constructor(private apollo: Apollo) {
 			map(result => {
 				console.log(result.data);
 				return result.data;})
-		); 
+		);
 	}
 
 	searchCaseUUIDQuery = gql`
@@ -301,7 +303,7 @@ constructor(private apollo: Apollo) {
 			map(result => {
 				console.log(result.data);
 				return result.data;})
-		); 
+		);
 	}
 
 	caseSummaryData = gql`
@@ -309,7 +311,7 @@ constructor(private apollo: Apollo) {
 		uiCase (case_id: $case_id, case_submitter_id: $case_submitter_id, source: $source) {
 			case_id
 			case_submitter_id
-			aliquot_id 	
+			aliquot_id
 			sample_id
 			project_name
 			program_name
@@ -335,7 +337,7 @@ constructor(private apollo: Apollo) {
 		.valueChanges
 		.pipe(
 		map(result => { console.log(result.data); return result.data;})
-  		); 
+  		);
 	}
 
 	searchSampleUUIDQuery = gql`
@@ -359,7 +361,7 @@ constructor(private apollo: Apollo) {
 		.valueChanges
 		.pipe(
 		map(result => { console.log(result.data); return result.data;})
-  		); 
+  		);
 	}
 
 	searchSampleSubmitterIDQuery = gql`
@@ -383,7 +385,7 @@ constructor(private apollo: Apollo) {
 		.valueChanges
 		.pipe(
 		map(result => { console.log(result.data); return result.data;})
-  		); 
+  		);
 	}
 
 	searchAliquotUUIDQuery = gql`
@@ -407,7 +409,7 @@ constructor(private apollo: Apollo) {
 		.valueChanges
 		.pipe(
 		map(result => { console.log(result.data); return result.data;})
-  		); 
+  		);
 	}
 
 	searchAliquotSubmitterIDQuery = gql`
@@ -431,7 +433,7 @@ constructor(private apollo: Apollo) {
 		.valueChanges
 		.pipe(
 		map(result => { console.log(result.data); return result.data;})
-  		); 
+  		);
 	}
 
 	objectSearchedQuery = gql`
@@ -444,15 +446,15 @@ constructor(private apollo: Apollo) {
 		return this.apollo.watchQuery<ObjectSearched>({
 			query: this.objectSearchedQuery,
 			variables: {
-				type: type, 
-				parameterType: parameterType, 
+				type: type,
+				parameterType: parameterType,
 				parameterValue: parameterValue
 			}
 		})
 		.valueChanges
 		.pipe(
 		map(result => { console.log(result.data); return result.data;})
-  		); 
+  		);
 	}
-	
+
 }

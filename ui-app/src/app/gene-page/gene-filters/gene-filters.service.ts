@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject ,  Observable } from 'rxjs';
 //import {Http, Response, Headers, RequestOptions} from '@angular/http';
-import {Response, Headers, RequestOptions} from '@angular/http';
+import { HttpHeaders } from '@angular/common/http';
 
 
 import { Apollo } from 'apollo-angular';
@@ -15,14 +15,14 @@ import { AllStudiesData, QueryAllStudiesData, QueryAllFiltersData, SearchResults
 @Injectable()
 export class GeneFiltersService {
 
-	headers: Headers;
-	options: RequestOptions;
+	headers: HttpHeaders;
+	options: {};
 
 //constructor(private http: Http, private apollo: Apollo) {
-constructor(private apollo: Apollo) {	
-	this.headers = new Headers({ 'Content-Type': 'application/json',
+constructor(private apollo: Apollo) {
+	this.headers = new HttpHeaders({ 'Content-Type': 'application/json',
                                      'Accept': 'q=0.8;application/json;q=0.9' });
-        this.options = new RequestOptions({ headers: this.headers });
+        this.options = { headers: this.headers };
 	}
 
 	getAllData(){
@@ -50,9 +50,9 @@ constructor(private apollo: Apollo) {
         map(result => {
 				console.log(result.data);
 		return result.data;})
-      ); 
+      );
 	}
-	
+
 	geneStudyData = gql`
 	query GeneStudyData($gene_name: String!){
 		uiGeneStudySpectralCount(gene_name: $gene_name) {
@@ -76,8 +76,9 @@ constructor(private apollo: Apollo) {
 				})
 			);
 	}
-	
+
 	//@@@PDC-616 Add acquisition type to the general filters
+	//@@@PDC-10116 add new gene filters
 	getAllFiltersData(){
 		return this.apollo.watchQuery<QueryAllFiltersData>({
 			query: gql`
@@ -135,29 +136,80 @@ constructor(private apollo: Apollo) {
 							filterName
 							filterValue
 						}
-						data_category {
+						vital_status {
 							filterName
 							filterValue
 						}
-						file_type {
+						age_at_diagnosis {
 							filterName
 							filterValue
 						}
-						access {
+						ajcc_clinical_stage {
+							filterName
+							filterValue
+						}
+						ajcc_pathologic_stage {
+							filterName
+							filterValue
+						}
+						morphology {
+							filterName
+							filterValue
+						}
+						site_of_resection_or_biopsy {
+							filterName
+							filterValue
+						}
+						progression_or_recurrence {
+							filterName
+							filterValue
+						}
+						therapeutic_agents {
+							filterName
+							filterValue
+						}
+						treatment_intent_type {
+							filterName
+							filterValue
+						}
+						treatment_outcome {
+							filterName
+							filterValue
+						}
+						treatment_type {
+							filterName
+							filterValue
+						}
+						alcohol_history {
+							filterName
+							filterValue
+						}
+						alcohol_intensity {
+							filterName
+							filterValue
+						}
+						tobacco_smoking_status {
+							filterName
+							filterValue
+						}
+						cigarettes_per_day {
 							filterName
 							filterValue
 						}
 					}
-				}`
+				}`,
+				context: {
+					method: 'POST'
+				}
 		})
 		.valueChanges
 		.pipe(
         map(result => {
 				console.log(result.data);
 		return result.data;})
-      ); 
+      );
 	}
-	
+	//@@@PDC-8588 add alias
 	GeneQuery = gql`
 			query GeneSearchQuery($gene_name: String!){
 					geneSearch(name: $gene_name){
@@ -165,10 +217,11 @@ constructor(private apollo: Apollo) {
 							record_type
 							name
 							description
+							alias
 						}
 					}
 			}`;
-	
+
 	getGeneSearchResults(gene_param:any){
 		return this.apollo.watchQuery<SearchResultsGenesProteins>({
 			query: this.GeneQuery,
@@ -181,15 +234,15 @@ constructor(private apollo: Apollo) {
 			map(result => {
 				console.log(result.data);
 				return result.data;})
-		); 
+		);
 	}
-  
+
 	filteredFiltersDataQuery = gql`
-		query FiltersData($program_name_filter: String!, $project_name_filter: String!, $study_name_filter: String!, $disease_filter: String!, $filterValue: String!, $analytical_frac_filter: String!, $exp_type_filter: String!, $ethnicity_filter: String!, $race_filter: String!, $gender_filter: String!, $tumor_grade_filter: String!, $sample_type_filter: String!, $acquisition_type_filter: String!, $data_category_filter: String!, $file_type_filter: String!, $access_filter: String!, $downloadable_filter: String!, $biospecimen_status_filter: String!, $case_status_filter: String!){
-			uiFilters(program_name: $program_name_filter , project_name: $project_name_filter, 
-									study_name: $study_name_filter, disease_type: $disease_filter, primary_site: $filterValue, analytical_fraction: $analytical_frac_filter, 
+		query FiltersData($program_name_filter: String!, $project_name_filter: String!, $study_name_filter: String!, $disease_filter: String!, $filterValue: String!, $analytical_frac_filter: String!, $exp_type_filter: String!, $ethnicity_filter: String!, $race_filter: String!, $gender_filter: String!, $tumor_grade_filter: String!, $sample_type_filter: String!, $acquisition_type_filter: String!, $data_category_filter: String!, $case_status_filter: String!){
+			uiFilters(program_name: $program_name_filter , project_name: $project_name_filter,
+									study_name: $study_name_filter, disease_type: $disease_filter, primary_site: $filterValue, analytical_fraction: $analytical_frac_filter,
 									experiment_type: $exp_type_filter, ethnicity: $ethnicity_filter, race: $race_filter, gender: $gender_filter, tumor_grade: $tumor_grade_filter,
-									sample_type: $sample_type_filter, acquisition_type: $acquisition_type_filter, data_category: $data_category_filter, file_type: $file_type_filter, access: $access_filter, downloadable: $downloadable_filter, biospecimen_status: $biospecimen_status_filter, case_status: $case_status_filter) {			
+									sample_type: $sample_type_filter, acquisition_type: $acquisition_type_filter, data_category: $data_category_filter,  case_status: $case_status_filter) {
 				project_name {
 					filterName
 					filterValue
@@ -246,26 +299,10 @@ constructor(private apollo: Apollo) {
 					filterName
 					filterValue
 				}
-				file_type {
+				case_status {
 					filterName
 					filterValue
 				}
-				access {
-					filterName
-					filterValue
-				}
-				downloadable { 
-					filterName 
-					filterValue 
-				}
-				biospecimen_status { 
-					filterName 
-					filterValue 
-				} 
-				case_status { 
-					filterName 
-					filterValue 
-				} 
 			}
 		}
 	`;
@@ -296,16 +333,17 @@ constructor(private apollo: Apollo) {
 				sample_type_filter: filters["sample_type"],
 				acquisition_type_filter: filters["acquisition_type"],
 				data_category_filter: filters["data_category"] || '',
-				file_type_filter: filters["file_type"] || '',
-				access_filter: filters["access"] || '',
-				downloadable_filter: filters["downloadable"] || '',
-				biospecimen_status_filter: filters["biospecimen_status"] || '',
 				case_status_filter: filters["case_status"] || ''
-			}
+			},
+      context: {
+        method: 'POST'
+      }
 		})
 		.valueChanges
 		.pipe(
         map(result => { console.log(result.data); return result.data;})
-      ); 
-	}			
+      );
+	}
+
+
 }

@@ -1,16 +1,40 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 //import {Http, Response, Headers, RequestOptions} from '@angular/http';
-import {Response, Headers, RequestOptions} from '@angular/http';
+import {HttpClient, HttpParams, HttpHeaders, HttpResponse} from '@angular/common/http';
 
 
-import { Apollo } from 'apollo-angular';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+
+import {Apollo} from 'apollo-angular';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 import gql from 'graphql-tag';
 
-import { TissueSite, QueryTissueSites, QueryDiseases, Disease, Program, QueryPrograms, Project,
-		QueryCases, Case, DiseaseType, DiseaseTypeQuery, AllStudiesData, QueryAllStudiesData, WorkflowMetadata, ProtocolData,
-		PublicationData, QueryPublicationData, FilesCountsPerStudyData, QueryAllClinicalDataPaginated, QueryAllCasesDataPaginated, QueryStudyExperimentalDesign, QueryBiospecimenPerStudy, EntityReferencePerStudy } from '../../types';
+import {
+  TissueSite,
+  QueryTissueSites,
+  QueryDiseases,
+  Disease,
+  Program,
+  QueryPrograms,
+  Project,
+  QueryCases,
+  Case,
+  DiseaseType,
+  DiseaseTypeQuery,
+  AllStudiesData,
+  QueryAllStudiesData,
+  WorkflowMetadata,
+  ProtocolData,
+  PublicationData,
+  QueryPublicationData,
+  FilesCountsPerStudyData,
+  QueryAllClinicalDataPaginated,
+  QueryAllCasesDataPaginated,
+  QueryStudyExperimentalDesign,
+  QueryBiospecimenPerStudy,
+  EntityReferencePerStudy
+} from '../../types';
+import {environment} from "../../../environments/environment";
 
 /*This is a service class used for the API queries */
 
@@ -22,19 +46,21 @@ import { TissueSite, QueryTissueSites, QueryDiseases, Disease, Program, QueryPro
 @Injectable()
 export class StudySummaryService {
 
-	headers: Headers;
-	options: RequestOptions;
+  headers: HttpHeaders;
+  options: {};
 
 //constructor(private http: Http, private apollo: Apollo) {
-constructor(private apollo: Apollo) {
-	this.headers = new Headers({ 'Content-Type': 'application/json',
-                                     'Accept': 'q=0.8;application/json;q=0.9' });
-        this.options = new RequestOptions({ headers: this.headers });
-	}
+  constructor(private apollo: Apollo, private  http: HttpClient) {
+    this.headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Accept': 'q=0.8;application/json;q=0.9'
+    });
+    this.options = {headers: this.headers};
+  }
 
-	getAllData(){
-		return this.apollo.watchQuery<QueryAllStudiesData>({
-			query: gql`
+  getAllData() {
+    return this.apollo.watchQuery<QueryAllStudiesData>({
+      query: gql`
 				query CasesData{
 					uiStudy {
 					submitter_id_name
@@ -51,16 +77,17 @@ constructor(private apollo: Apollo) {
 					num_psm
 					}
 				}`
-		})
-		.valueChanges
-		.pipe(
+    })
+      .valueChanges
+      .pipe(
         map(result => {
-				console.log(result.data);
-		return result.data;})
+          console.log(result.data);
+          return result.data;
+        })
       );
-	}
+  }
 
-	filteredStudiesQuery = gql`
+  filteredStudiesQuery = gql`
 				query FilteredStudiesData($program_name_filter: String!, $project_name_filter: String!, $study_name_filter: String!, $disease_filter: String!, $filterValue: String!, $analytical_frac_filter: String!, $exp_type_filter: String!){
 					uiStudy(program_name: $program_name_filter , project_name: $project_name_filter, study_name: $study_name_filter, disease_type: $disease_filter, primary_site: $filterValue, analytical_fraction: $analytical_frac_filter, experiment_type: $exp_type_filter) {
 					submitter_id_name
@@ -78,52 +105,58 @@ constructor(private apollo: Apollo) {
 				}
 			}`;
 
-	getFilteredStudies(filters:any){
-		return this.apollo.watchQuery<QueryAllStudiesData>({
-			query: this.filteredStudiesQuery,
-			variables: {
-				program_name_filter: filters["program_name"],
-				project_name_filter: filters["project_name"],
-				study_name_filter: filters["study_name"],
-				disease_filter: filters["disease_type"],
-				filterValue: filters["primary_site"],
-				analytical_frac_filter: filters["analytical_fraction"],
-				exp_type_filter: filters["experiment_type"]
-			}
-		})
-		.valueChanges
-		.pipe(
-        map(result => { console.log(result.data); return result.data;})
+  getFilteredStudies(filters: any) {
+    return this.apollo.watchQuery<QueryAllStudiesData>({
+      query: this.filteredStudiesQuery,
+      variables: {
+        program_name_filter: filters["program_name"],
+        project_name_filter: filters["project_name"],
+        study_name_filter: filters["study_name"],
+        disease_filter: filters["disease_type"],
+        filterValue: filters["primary_site"],
+        analytical_frac_filter: filters["analytical_fraction"],
+        exp_type_filter: filters["experiment_type"]
+      }
+    })
+      .valueChanges
+      .pipe(
+        map(result => {
+          console.log(result.data);
+          return result.data;
+        })
       );
-	}
+  }
 
-	//@@@PDC-758: Study summary overlay window opened through search is missing data
-	//API call to fetch study summary details from a new API.
-	//@@@PDC-1883: Add external references to study summary page
-	//@@@PDC-2939 update study summary page to display other versions
-	//@@@PDC-2998 - update UI to include API changes for study versions new feature
-	getFilteredStudyData(study_name = '', pdc_study_id = '', study_version = '', source = ''){
-		console.log("getFilteredStudyData: " + pdc_study_id + " version: " + study_version);
-		return this.apollo.watchQuery<QueryAllStudiesData>({
-			query: this.filteredStudyDataQuery,
-			variables: {
-				study_name: study_name,
-				pdc_study_id: pdc_study_id,
-				study_version: study_version,
-				source: source
-			}
-		})
-		.valueChanges
-		.pipe(
-        map(result => { console.log(result.data); return result.data;})
+  //@@@PDC-758: Study summary overlay window opened through search is missing data
+  //API call to fetch study summary details from a new API.
+  //@@@PDC-1883: Add external references to study summary page
+  //@@@PDC-2939 update study summary page to display other versions
+  //@@@PDC-2998 - update UI to include API changes for study versions new feature
+  getFilteredStudyData(study_name = '', pdc_study_id = '', study_version = '', source = '') {
+    console.log("getFilteredStudyData: " + pdc_study_id + " version: " + study_version);
+    return this.apollo.watchQuery<QueryAllStudiesData>({
+      query: this.filteredStudyDataQuery,
+      variables: {
+        study_name: study_name,
+        pdc_study_id: pdc_study_id,
+        study_version: study_version,
+        source: source
+      }
+    })
+      .valueChanges
+      .pipe(
+        map(result => {
+          console.log(result.data);
+          return result.data;
+        })
       );
-	}
+  }
 
-	//@@@PDC-758: Study summary overlay window opened through search is missing data
-	//Query to fetch study summary details from a new API.
-	//@@@PDC-1358  add study uuid
-	//@@@PDC-1883: Add external references to study summary page
-	filteredStudyDataQuery = gql`
+  //@@@PDC-758: Study summary overlay window opened through search is missing data
+  //Query to fetch study summary details from a new API.
+  //@@@PDC-1358  add study uuid
+  //@@@PDC-1883: Add external references to study summary page
+  filteredStudyDataQuery = gql`
 		query paginatedUIStudyQuery($study_name: String!, $pdc_study_id: String!, $study_version: String!, $source: String!){
 			getPaginatedUIStudy(study_name: $study_name, pdc_study_id: $pdc_study_id, study_version: $study_version, source: $source) {
 				total
@@ -165,6 +198,10 @@ constructor(private apollo: Apollo) {
 					versions {
 							number
 					}
+					has_genomic_data
+					has_imaging_data
+					has_lipidome_data
+					has_metabolome_data
 				}
 				pagination {
 					count
@@ -178,8 +215,8 @@ constructor(private apollo: Apollo) {
 			}
 	}`;
 
-	//@@@PDC-1123 call ui wrapper API
-	workflowMetadataQuery = gql`
+  //@@@PDC-1123 call ui wrapper API
+  workflowMetadataQuery = gql`
 					query WorkflowMetadataQery($study_id: String!, $source: String!){
 						uiWorkflowMetadata(study_id: $study_id, source: $source) {
 						  workflow_metadata_submitter_id
@@ -212,24 +249,27 @@ constructor(private apollo: Apollo) {
 						}
 				}`;
 
-	getWorkflowMetadata(filters:any, source = ''){
-		return this.apollo.watchQuery<WorkflowMetadata>({
-			query: this.workflowMetadataQuery,
-			variables: {
-				study_id: filters,
-				source: source
-			}
-		})
-		.valueChanges
-		.pipe(
-        map(result => { console.log(result.data); return result.data;})
+  getWorkflowMetadata(filters: any, source = '') {
+    return this.apollo.watchQuery<WorkflowMetadata>({
+      query: this.workflowMetadataQuery,
+      variables: {
+        study_id: filters,
+        source: source
+      }
+    })
+      .valueChanges
+      .pipe(
+        map(result => {
+          console.log(result.data);
+          return result.data;
+        })
       );
-	}
+  }
 
-	//PDC-674 - UI changes to accomodate new protocol structure
-	//@@@PDC-7248 - additional metabolomic properties
-	//@@@PDC-7399 change acquisition_mode to polarity
-	protocolQuery = gql`
+  //PDC-674 - UI changes to accomodate new protocol structure
+  //@@@PDC-7248 - additional metabolomic properties
+  //@@@PDC-7399 change acquisition_mode to polarity
+  protocolQuery = gql`
 		query ProtocolQuery($study_id: String!, $source: String!){
 		  uiProtocol (study_id: $study_id, source: $source ){
 			protocol_id
@@ -292,21 +332,24 @@ constructor(private apollo: Apollo) {
 		}
 	}`;
 
-	getProtocolData(filters:any, source = ''){
-		return this.apollo.watchQuery<ProtocolData>({
-			query: this.protocolQuery,
-			variables: {
-				study_id: filters,
-				source: source
-			}
-		})
-		.valueChanges
-		.pipe(
-        map(result => { console.log(result.data); return result.data;})
+  getProtocolData(filters: any, source = '') {
+    return this.apollo.watchQuery<ProtocolData>({
+      query: this.protocolQuery,
+      variables: {
+        study_id: filters,
+        source: source
+      }
+    })
+      .valueChanges
+      .pipe(
+        map(result => {
+          console.log(result.data);
+          return result.data;
+        })
       );
-	}
+  }
 
-	publicationsQuery = gql`
+  publicationsQuery = gql`
 						query PublicationsQuery($study_id: String!, $source: String!){
 							uiPublication (study_id: $study_id, source: $source){
 								publication_id
@@ -315,22 +358,25 @@ constructor(private apollo: Apollo) {
 							}
 						}`;
 
-	getPublicationsData(filters:any, source = ''){
-		return this.apollo.watchQuery<QueryPublicationData>({
-			query: this.publicationsQuery,
-			variables: {
-				study_id: filters,
-				source: source
-			}
-		})
-		.valueChanges
-		.pipe(
-        map(result => { console.log(result.data); return result.data;})
+  getPublicationsData(filters: any, source = '') {
+    return this.apollo.watchQuery<QueryPublicationData>({
+      query: this.publicationsQuery,
+      variables: {
+        study_id: filters,
+        source: source
+      }
+    })
+      .valueChanges
+      .pipe(
+        map(result => {
+          console.log(result.data);
+          return result.data;
+        })
       );
-	}
+  }
 
-    //@@@PDC-1123 call ui wrapper API
-	filesCountPerStudyQuery = gql`
+  //@@@PDC-1123 call ui wrapper API
+  filesCountPerStudyQuery = gql`
 						query FilesCountsQuery($study_id: String!, $source: String!){
 							uiFilesCountPerStudy (study_id: $study_id, source: $source ){
 								study_submitter_id
@@ -339,23 +385,27 @@ constructor(private apollo: Apollo) {
 								data_category
 							}
 						}`;
-	getFilesCounts(filters:any, source = ''){
-		return this.apollo.watchQuery<FilesCountsPerStudyData>({
-			query: this.filesCountPerStudyQuery,
-			variables: {
-				study_id: filters,
-				source: source
-			}
-		})
-		.valueChanges
-		.pipe(
-        map(result => { console.log(result.data); return result.data;})
-      );
-	}
 
-	//@@@PDC-1160: Add cases and aliquots to the study summary page
-	//@@@PDC-1305 add age_at_diagnosis et al
-	filteredCinicalDataPaginatedQuery = gql`
+  getFilesCounts(filters: any, source = '') {
+    return this.apollo.watchQuery<FilesCountsPerStudyData>({
+      query: this.filesCountPerStudyQuery,
+      variables: {
+        study_id: filters,
+        source: source
+      }
+    })
+      .valueChanges
+      .pipe(
+        map(result => {
+          console.log(result.data);
+          return result.data;
+        })
+      );
+  }
+
+  //@@@PDC-1160: Add cases and aliquots to the study summary page
+  //@@@PDC-1305 add age_at_diagnosis et al
+  filteredCinicalDataPaginatedQuery = gql`
 	query FilteredClinicalDataPaginated($offset_value: Int, $limit_value: Int, $sort_value: String, $program_name_filter: String!, $project_name_filter: String!, $study_name_filter: String!, $disease_filter: String!, $filterValue: String!, $analytical_frac_filter: String!, $exp_type_filter: String!, $ethnicity_filter: String!, $race_filter: String!, $gender_filter: String!, $tumor_grade_filter: String!, $sample_type_filter: String!, $acquisition_type_filter: String!, $data_category_filter: String!, $file_type_filter: String!, $access_filter: String!, $downloadable_filter: String!, $case_status_filter: String!, $biospecimen_status_filter: String!, $source: String!){
 		getPaginatedUIClinical(offset: $offset_value, limit: $limit_value, sort: $sort_value, program_name: $program_name_filter , project_name: $project_name_filter,
 								study_name: $study_name_filter, disease_type: $disease_filter, primary_site: $filterValue, analytical_fraction: $analytical_frac_filter,
@@ -404,51 +454,54 @@ constructor(private apollo: Apollo) {
 		}
 	}`;
 
-	getFilteredClinicalDataPaginated(offset: number, limit:number, sort: string, filters:any, source = ''){
-		let filter_ethnicity = filters["ethnicity"];
-		if (filter_ethnicity === "Empty value"){
-		filter_ethnicity = "";
-		}
-		let filter_race = filters["race"];
-		if (filter_race === "Empty value"){
-		filter_race = "";
-		}
-		return this.apollo.watchQuery<QueryAllClinicalDataPaginated>({
-		query: this.filteredCinicalDataPaginatedQuery,
-		variables: {
-			offset_value: offset,
-			limit_value: limit,
-			sort_value: sort,
-			program_name_filter: filters["program_name"] || "",
-			project_name_filter: filters["project_name"] || "" ,
-			study_name_filter: filters["study_name"] || "",
-			disease_filter: filters["disease_type"]|| "",
-			filterValue: filters["primary_site"] || "",
-			analytical_frac_filter: filters["analytical_fraction"] || "",
-			exp_type_filter: filters["experiment_type"] || "",
-			ethnicity_filter: filter_ethnicity || "",
-			race_filter: filter_race || "",
-			gender_filter: filters["gender"] || "",
-			tumor_grade_filter: filters["tumor_grade"] || "",
-			sample_type_filter: filters["sample_type"],
-			acquisition_type_filter: filters["acquisition_type"],
-			data_category_filter: filters["data_category"] || '',
-			file_type_filter: filters["file_type"] || '',
-			access_filter: filters["access"] || '',
-			downloadable_filter: filters["downloadable"] || '',
-			case_status_filter: filters["case_status"] || '',
-			biospecimen_status_filter: filters["biospecimen_status"] || '',
-			source: source
-		}
-		})
-		.valueChanges
-		.pipe(
-		map(result => { console.log(result.data); return result.data;})
-		);
-	}
+  getFilteredClinicalDataPaginated(offset: number, limit: number, sort: string, filters: any, source = '') {
+    let filter_ethnicity = filters["ethnicity"];
+    if (filter_ethnicity === "Empty value") {
+      filter_ethnicity = "";
+    }
+    let filter_race = filters["race"];
+    if (filter_race === "Empty value") {
+      filter_race = "";
+    }
+    return this.apollo.watchQuery<QueryAllClinicalDataPaginated>({
+      query: this.filteredCinicalDataPaginatedQuery,
+      variables: {
+        offset_value: offset,
+        limit_value: limit,
+        sort_value: sort,
+        program_name_filter: filters["program_name"] || "",
+        project_name_filter: filters["project_name"] || "",
+        study_name_filter: filters["study_name"] || "",
+        disease_filter: filters["disease_type"] || "",
+        filterValue: filters["primary_site"] || "",
+        analytical_frac_filter: filters["analytical_fraction"] || "",
+        exp_type_filter: filters["experiment_type"] || "",
+        ethnicity_filter: filter_ethnicity || "",
+        race_filter: filter_race || "",
+        gender_filter: filters["gender"] || "",
+        tumor_grade_filter: filters["tumor_grade"] || "",
+        sample_type_filter: filters["sample_type"],
+        acquisition_type_filter: filters["acquisition_type"],
+        data_category_filter: filters["data_category"] || '',
+        file_type_filter: filters["file_type"] || '',
+        access_filter: filters["access"] || '',
+        downloadable_filter: filters["downloadable"] || '',
+        case_status_filter: filters["case_status"] || '',
+        biospecimen_status_filter: filters["biospecimen_status"] || '',
+        source: source
+      }
+    })
+      .valueChanges
+      .pipe(
+        map(result => {
+          console.log(result.data);
+          return result.data;
+        })
+      );
+  }
 
-	//@@@PDC-1160: Add cases and aliquots to the study summary page
-	filteredCasesPaginatedQuery = gql`
+  //@@@PDC-1160: Add cases and aliquots to the study summary page
+  filteredCasesPaginatedQuery = gql`
 	query FilteredCasesDataPaginated($offset_value: Int, $limit_value: Int, $sort_value: String, $program_name_filter: String!, $project_name_filter: String!, $study_name_filter: String!, $disease_filter: String!, $filterValue: String!, $analytical_frac_filter: String!, $exp_type_filter: String!,  $ethnicity_filter: String!, $race_filter: String!, $gender_filter: String!, $tumor_grade_filter: String!, $sample_type_filter: String!, $acquisition_type_filter: String!, $data_category_filter: String!, $file_type_filter: String!, $access_filter: String!, $downloadable_filter: String!, $biospecimen_status_filter: String!, $case_status_filter: String!, $source: String!){
 		getPaginatedUICase(offset: $offset_value, limit: $limit_value, sort: $sort_value, program_name: $program_name_filter ,
 							project_name: $project_name_filter, study_name: $study_name_filter, disease_type: $disease_filter,
@@ -515,60 +568,69 @@ constructor(private apollo: Apollo) {
 			}
 		}`;
 
-	getFilteredCasesPaginated(offset: number, limit: number, sort: string, filters:any, source = ''){
-		let filter_ethnicity = filters["ethnicity"];
-		if (filter_ethnicity === "Empty value"){
-		filter_ethnicity = "";
-		}
-		let filter_race = filters["race"];
-		if (filter_race === "Empty value"){
-		filter_race = "";
-		}
-		return this.apollo.watchQuery<QueryAllCasesDataPaginated>({
-		query: this.filteredCasesPaginatedQuery,
-		variables: {
-			offset_value: offset,
-			limit_value: limit,
-			sort_value: sort,
-			program_name_filter: filters["program_name"] || "",
-			project_name_filter: filters["project_name"] || "" ,
-			study_name_filter: filters["study_name"] || "",
-			disease_filter: filters["disease_type"]|| "",
-			filterValue: filters["primary_site"] || "",
-			analytical_frac_filter: filters["analytical_fraction"] || "",
-			exp_type_filter: filters["experiment_type"] || "",
-			ethnicity_filter: filter_ethnicity || "",
-			race_filter: filter_race || "",
-			gender_filter: filters["gender"] || "",
-			tumor_grade_filter: filters["tumor_grade"] || "",
-			sample_type_filter: filters["sample_type"],
-			acquisition_type_filter: filters["acquisition_type"],
-			data_category_filter: filters["data_category"] || '',
-			file_type_filter: filters["file_type"] || '',
-			access_filter: filters["access"] || '',
-			downloadable_filter: filters["downloadable"] || '',
-			biospecimen_status_filter: filters["biospecimen_status"] || '',
-			case_status_filter: filters["case_status"] || '',
-			source: source
-		}
-		})
-		.valueChanges
-		.pipe(
-		map(result => { console.log(result.data); return result.data;})
-		);
-	}
+  getFilteredCasesPaginated(offset: number, limit: number, sort: string, filters: any, source = '') {
+    let filter_ethnicity = filters["ethnicity"];
+    if (filter_ethnicity === "Empty value") {
+      filter_ethnicity = "";
+    }
+    let filter_race = filters["race"];
+    if (filter_race === "Empty value") {
+      filter_race = "";
+    }
+    return this.apollo.watchQuery<QueryAllCasesDataPaginated>({
+      query: this.filteredCasesPaginatedQuery,
+      variables: {
+        offset_value: offset,
+        limit_value: limit,
+        sort_value: sort,
+        program_name_filter: filters["program_name"] || "",
+        project_name_filter: filters["project_name"] || "",
+        study_name_filter: filters["study_name"] || "",
+        disease_filter: filters["disease_type"] || "",
+        filterValue: filters["primary_site"] || "",
+        analytical_frac_filter: filters["analytical_fraction"] || "",
+        exp_type_filter: filters["experiment_type"] || "",
+        ethnicity_filter: filter_ethnicity || "",
+        race_filter: filter_race || "",
+        gender_filter: filters["gender"] || "",
+        tumor_grade_filter: filters["tumor_grade"] || "",
+        sample_type_filter: filters["sample_type"],
+        acquisition_type_filter: filters["acquisition_type"],
+        data_category_filter: filters["data_category"] || '',
+        file_type_filter: filters["file_type"] || '',
+        access_filter: filters["access"] || '',
+        downloadable_filter: filters["downloadable"] || '',
+        biospecimen_status_filter: filters["biospecimen_status"] || '',
+        case_status_filter: filters["case_status"] || '',
+        source: source
+      },
+      context: {
+        method: 'POST'
+      }
+    })
+      .valueChanges
+      .pipe(
+        map(result => {
+          console.log(result.data);
+          return result.data;
+        })
+      );
+  }
 
-	//@@@PDC-1219: Add a new experimental design tab on the study summary page
-	//@@@PDC-3253 call api with acceptDUA
-	//@@@PDC-3900 new studyExperimentalDesign API
-	//@@@PDC-7399 change acquisition_mode to polarity
-	studyExperimentalDesignQuery = gql`
+  //@@@PDC-1219: Add a new experimental design tab on the study summary page
+  //@@@PDC-3253 call api with acceptDUA
+  //@@@PDC-3900 new studyExperimentalDesign API
+  //@@@PDC-7399 change acquisition_mode to polarity
+  //@@@PDC-8986 add protocol to experiment design table
+  //@@@PDC-9142 TMT18 not displaying in study summary page
+  studyExperimentalDesignQuery = gql`
 	query StudyExperimentalDesign($study_id_value: String, $source: String!) {
 		uiStudyExperimentalDesign(study_id: $study_id_value, source: $source) {
 			study_id
 			study_submitter_id
 			study_run_metadata_id
 			study_run_metadata_submitter_id
+			protocol_submitter_id
 			experiment_number
 			experiment_type
 			plex_dataset_name
@@ -700,26 +762,39 @@ constructor(private apollo: Apollo) {
 				aliquot_id,
 				aliquot_run_metadata_id,
 				aliquot_submitter_id
+			},
+			tmt_134c{
+			    aliquot_id,
+				aliquot_run_metadata_id,
+				aliquot_submitter_id
+			},
+			tmt_135n{
+			    aliquot_id,
+				aliquot_run_metadata_id,
+				aliquot_submitter_id
 			}
 		}
 	}`;
 
-	getStudyExperimentalDesign(study_id:any, source = ''){
-		return this.apollo.watchQuery<QueryStudyExperimentalDesign>({
-		query: this.studyExperimentalDesignQuery,
-		variables: {
-			study_id_value: study_id,
-			source: source
-		}
-		})
-		.valueChanges
-		.pipe(
-		map(result => { console.log(result.data); return result.data;})
-		);
-	}
+  getStudyExperimentalDesign(study_id: any, source = '') {
+    return this.apollo.watchQuery<QueryStudyExperimentalDesign>({
+      query: this.studyExperimentalDesignQuery,
+      variables: {
+        study_id_value: study_id,
+        source: source
+      }
+    })
+      .valueChanges
+      .pipe(
+        map(result => {
+          console.log(result.data);
+          return result.data;
+        })
+      );
+  }
 
-	//@@@PDC-3253 call ui wrapper api
-	biospecimenPerStudyQuery = gql`
+  //@@@PDC-3253 call ui wrapper api
+  biospecimenPerStudyQuery = gql`
 	query BiospecimenPerStudy($study_id_value: String, $source: String!) {
 		uiBiospecimenPerStudy(study_id: $study_id_value, source: $source) {
 			aliquot_id
@@ -741,24 +816,26 @@ constructor(private apollo: Apollo) {
 		}
 	}`;
 
-	getBiospecimenPerStudy(study_id:any, source = ''){
-		return this.apollo.watchQuery<QueryBiospecimenPerStudy>({
-		query: this.biospecimenPerStudyQuery,
-		variables: {
-			study_id_value: study_id,
-			source: source
-		}
-		})
-		.valueChanges
-		.pipe(
-		map(result => {console.log(result.data); return result.data;
-		})
-		);
-	}
+  getBiospecimenPerStudy(study_id: any, source = '') {
+    return this.apollo.watchQuery<QueryBiospecimenPerStudy>({
+      query: this.biospecimenPerStudyQuery,
+      variables: {
+        study_id_value: study_id,
+        source: source
+      }
+    })
+      .valueChanges
+      .pipe(
+        map(result => {
+          console.log(result.data);
+          return result.data;
+        })
+      );
+  }
 
-	//@@@PDC-1883: Add external references to study summary page
-	//@@@PDC-3253 call ui wrapper api
-	entityReferenceQuery = gql`
+  //@@@PDC-1883: Add external references to study summary page
+  //@@@PDC-3253 call ui wrapper api
+  entityReferenceQuery = gql`
 	query EntityReferenceQueryData($entity_type_filter: String!, $entity_id_filter: String!, $reference_type_filter: String!, $source: String!){
 		uiPdcEntityReference(entity_type: $entity_type_filter , entity_id: $entity_id_filter, reference_type: $reference_type_filter, source: $source) {
 			reference_id
@@ -774,25 +851,28 @@ constructor(private apollo: Apollo) {
 		}
 	}`;
 
-	//@@@PDC-1883: Add external references to study summary page
-	getEntityReferenceData(entity_type, entity_id, reference_type, source = ''){
-		return this.apollo.watchQuery<EntityReferencePerStudy>({
-		query: this.entityReferenceQuery,
-		variables: {
-			entity_type_filter: entity_type,
-			entity_id_filter: entity_id,
-			reference_type_filter: reference_type,
-			source: source
-		}
-		})
-		.valueChanges
-		.pipe(
-		map(result => { console.log(result.data); return result.data;})
-		);
-	}
+  //@@@PDC-1883: Add external references to study summary page
+  getEntityReferenceData(entity_type, entity_id, reference_type, source = '') {
+    return this.apollo.watchQuery<EntityReferencePerStudy>({
+      query: this.entityReferenceQuery,
+      variables: {
+        entity_type_filter: entity_type,
+        entity_id_filter: entity_id,
+        reference_type_filter: reference_type,
+        source: source
+      }
+    })
+      .valueChanges
+      .pipe(
+        map(result => {
+          console.log(result.data);
+          return result.data;
+        })
+      );
+  }
 
-	//@@@PDC-8282 add treatment to manifest
-	filteredCinicalDataPaginatedPostQuery = gql`
+  //@@@PDC-8282 add treatment to manifest
+  filteredCinicalDataPaginatedPostQuery = gql`
 	query FilteredClinicalDataPaginated($offset_value: Int, $limit_value: Int, $sort_value: String, $program_name_filter: String!, $project_name_filter: String!, $study_name_filter: String!, $disease_filter: String!, $filterValue: String!, $analytical_frac_filter: String!, $exp_type_filter: String!, $ethnicity_filter: String!, $race_filter: String!, $gender_filter: String!, $tumor_grade_filter: String!, $sample_type_filter: String!, $acquisition_type_filter: String!, $data_category_filter: String!, $file_type_filter: String!, $access_filter: String!, $downloadable_filter: String!, $case_status_filter: String!, $biospecimen_status_filter: String!, $source: String!){
 		getPaginatedUIClinical(offset: $offset_value, limit: $limit_value, sort: $sort_value, program_name: $program_name_filter , project_name: $project_name_filter,
 								study_name: $study_name_filter, disease_type: $disease_filter, primary_site: $filterValue, analytical_fraction: $analytical_frac_filter,
@@ -1070,7 +1150,7 @@ constructor(private apollo: Apollo) {
 					treatment_intent_type
 					treatment_or_therapy
 					treatment_outcome
-					treatment_type			
+					treatment_type
 					chemo_concurrent_to_radiation
 					number_of_cycles
 					reason_treatment_ended
@@ -1099,53 +1179,77 @@ constructor(private apollo: Apollo) {
 		}
 	}`;
 
-	//@@@PDC-1940: File manifest download is very slow
-	//@@@PDC-5045: Convert the GET requests to the getPaginatedUIClinical API of "Clinical" tab to POST
-	getFilteredClinicalDataPaginatedPost(offset: number, limit: number, sort: string, filters:any, source = '') {
-	let filter_ethnicity = filters["ethnicity"];
-	if (filter_ethnicity === "Empty value"){
-		filter_ethnicity = "";
-	}
-	let filter_race = filters["race"];
-	if (filter_race === "Empty value"){
-		filter_race = "";
-	}
+  //@@@PDC-1940: File manifest download is very slow
+  //@@@PDC-5045: Convert the GET requests to the getPaginatedUIClinical API of "Clinical" tab to POST
+  getFilteredClinicalDataPaginatedPost(offset: number, limit: number, sort: string, filters: any, source = '') {
+    let filter_ethnicity = filters["ethnicity"];
+    if (filter_ethnicity === "Empty value") {
+      filter_ethnicity = "";
+    }
+    let filter_race = filters["race"];
+    if (filter_race === "Empty value") {
+      filter_race = "";
+    }
 
-	return this.apollo.watchQuery<QueryAllClinicalDataPaginated>({
-		query: this.filteredCinicalDataPaginatedPostQuery,
-		variables: {
-			offset_value: offset,
-			limit_value: limit,
-			sort_value: sort,
-			program_name_filter: filters["program_name"] || "",
-			project_name_filter: filters["project_name"] || "" ,
-			study_name_filter: filters["study_name"] || "",
-			disease_filter: filters["disease_type"]|| "",
-			filterValue: filters["primary_site"] || "",
-			analytical_frac_filter: filters["analytical_fraction"] || "",
-			exp_type_filter: filters["experiment_type"] || "",
-			ethnicity_filter: filter_ethnicity || "",
-			race_filter: filter_race || "",
-			gender_filter: filters["gender"] || "",
-			tumor_grade_filter: filters["tumor_grade"] || "",
-			sample_type_filter: filters["sample_type"],
-			acquisition_type_filter: filters["acquisition_type"],
-			data_category_filter: filters["data_category"] || '',
-			file_type_filter: filters["file_type"] || '',
-			access_filter: filters["access"] || '',
-			downloadable_filter: filters["downloadable"] || '',
-			case_status_filter: filters["case_status"] || '',
-			biospecimen_status_filter: filters["biospecimen_status"] || '',
-			source: source
-		},
-		context: {
-			method: 'POST'
-		}
-	})
-	.valueChanges
-	.pipe(
-	map(result => { console.log(result.data); return result.data;})
-	);
-	}
+    return this.apollo.watchQuery<QueryAllClinicalDataPaginated>({
+      query: this.filteredCinicalDataPaginatedPostQuery,
+      variables: {
+        offset_value: offset,
+        limit_value: limit,
+        sort_value: sort,
+        program_name_filter: filters["program_name"] || "",
+        project_name_filter: filters["project_name"] || "",
+        study_name_filter: filters["study_name"] || "",
+        disease_filter: filters["disease_type"] || "",
+        filterValue: filters["primary_site"] || "",
+        analytical_frac_filter: filters["analytical_fraction"] || "",
+        exp_type_filter: filters["experiment_type"] || "",
+        ethnicity_filter: filter_ethnicity || "",
+        race_filter: filter_race || "",
+        gender_filter: filters["gender"] || "",
+        tumor_grade_filter: filters["tumor_grade"] || "",
+        sample_type_filter: filters["sample_type"],
+        acquisition_type_filter: filters["acquisition_type"],
+        data_category_filter: filters["data_category"] || '',
+        file_type_filter: filters["file_type"] || '',
+        access_filter: filters["access"] || '',
+        downloadable_filter: filters["downloadable"] || '',
+        case_status_filter: filters["case_status"] || '',
+        biospecimen_status_filter: filters["biospecimen_status"] || '',
+        source: source
+      },
+      context: {
+        method: 'POST'
+      }
+    })
+      .valueChanges
+      .pipe(
+        map(result => {
+          console.log(result.data);
+          return result.data;
+        })
+      );
+  }
 
+  downloadStudyWorkbook(pdc_study_id: string) {
+    this.http.get('/assets/data-folder/Study_Data_PDC000204.xlsx', { responseType: 'blob' }).subscribe(
+      (response: Blob) => {
+        const fileName = 'Study_Data_PDC000204.xlsx'; // Or get filename from response headers
+
+        const newBlob = new Blob([response], { type: response.type }); // Use response.type or a specific MIME type
+        const data = window.URL.createObjectURL(newBlob);
+
+        const link = document.createElement('a');
+        link.href = data;
+        link.download = fileName;
+        link.click();
+
+        // Optional: Revoke the object URL to free up memory
+        window.URL.revokeObjectURL(data);
+      },
+      (error) => {
+        console.error('Error downloading file:', error);
+      }
+    );
+  }
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 //import {Http, Response, Headers, RequestOptions} from '@angular/http';
-import {Response, Headers, RequestOptions} from '@angular/http';
+import { HttpHeaders } from '@angular/common/http';
 
 
 import { Apollo } from 'apollo-angular';
@@ -19,16 +19,16 @@ export type PubmedIDSearchData = {
 @Injectable()
 export class PublicationsService {
 
-	headers: Headers;
-	options: RequestOptions;
+	headers: HttpHeaders;
+	options: {};
 	private notify = new Subject<any>();
 	notifyObservable$ = this.notify.asObservable();
 
     //constructor(private http: Http, private apollo: Apollo) {
     constructor(private apollo: Apollo) {
-		this.headers = new Headers({ 'Content-Type': 'application/json',
+		this.headers = new HttpHeaders({ 'Content-Type': 'application/json',
                                      'Accept': 'q=0.8;application/json;q=0.9' });
-        this.options = new RequestOptions({ headers: this.headers });
+        this.options = { headers: this.headers };
 	}
 	//@@@PDC-3646 - add program_name field for the program filter on publications page
 	publicationsQuery = gql`
@@ -66,8 +66,8 @@ export class PublicationsService {
 			}
 		}
 	}`;
-	
-	
+
+
 	getFilteredPaginatedPublications (offset: number, limit: number, filters:any) {
 		console.log(filters);
 		return this.apollo.watchQuery<QueryPublicationsData>({
@@ -78,15 +78,15 @@ export class PublicationsService {
 				year_filter: filters["year"] || '',
 				disease_type_filter: filters["disease_type"] || '',
 				program_filter: filters["program"] || '',
-				pubmedid_filter: filters["pubmed_id"] || ''		
+				pubmedid_filter: filters["pubmed_id"] || ''
 			}
 		})
 		.valueChanges
 		.pipe(
 			map(result => { console.log(result.data); return result.data;})
-		); 
+		);
 	}
-		
+
 	getPublicationsFilters(){
 		return this.apollo.watchQuery<publicationsFiltersData>({
 		query: gql`
@@ -101,9 +101,9 @@ export class PublicationsService {
 		  .valueChanges
 		  .pipe(
 			map(result => { console.log(result.data); return result.data;})
-		  ); 
+		  );
 	}
-	
+
 	//@@@PDC-3698 update publication page to add a string field in the filters for pubmed ID
 	pubmedSearchQuery = gql`
 		query PubmedIDSearchQuery($search_term: String!){
@@ -115,19 +115,19 @@ export class PublicationsService {
 		  }
 		}`
 	;
-	
+
 	//Helper function to return pubmed ids for autocomplete search by pubmed id
 	getPubmedIDSearchResults(search_term_param: string){
 		return this.apollo.watchQuery<PubmedIDSearchData>({
 			query: this.pubmedSearchQuery,
 			variables: {
-				search_term: search_term_param	
+				search_term: search_term_param
 			}
 		})
 		.valueChanges
 		.pipe(
 			map(result => { console.log(result.data); return result.data;})
-		); 
+		);
 	}
 
 	/* public notifyChangeTabEvents(data: any) {

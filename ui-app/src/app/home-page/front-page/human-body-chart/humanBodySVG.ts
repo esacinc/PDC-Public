@@ -1,7 +1,7 @@
 //@@@PDC-1214 - Replace the sunburst chart with the human body image with drill down
 // This file is reused From @oncojs/sapien package used in GDC portal.
 // Contains SVGs for human body with organs
-
+//@@@PDC-9847 change mps from Bone Marrow to Bone Marrow and Blood
 // - second line
 export default ({ height = 500, width = 226, title = '' } = {}) => `
   <span id="human-body-svg-container" style="display:flex; position: absolute">
@@ -797,7 +797,7 @@ export default ({ height = 500, width = 226, title = '' } = {}) => `
           </defs>
       </svg>
 	  
-	  <svg id="Bone-Marrow" viewBox="0 0 45 170" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-miterlimit:10;">
+	  <svg id="Bone-Marrow-and-Blood" viewBox="0 0 45 170" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-miterlimit:10;">
           <g transform="matrix(0.5,0,0,0.5,8.03779,8.169)">
               <g transform="matrix(2,-0,-0,2,-16.0756,-16.338)">
                   <use xlink:href="#_bonemarrow" x="0" y="0" width="44.166px" height="169.166px"/>

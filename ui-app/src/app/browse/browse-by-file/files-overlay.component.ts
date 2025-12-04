@@ -8,9 +8,9 @@ import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
 import { Apollo } from 'apollo-angular';
 import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef, MatLegacyDialogConfig as MatDialogConfig, MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MAT_DIALOG_DATA, MatDialogRef, MatDialogConfig, MatDialog } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
+import { MatSelectModule } from '@angular/material/select';
 import { CaseSummaryComponent } from '../case-summary/case-summary.component';
 import { PDCUserService } from "../../pdcuser.service";
 import { AllFilesData } from "../../types";
@@ -30,10 +30,11 @@ import {environment} from '../../../environments/environment';
 
 
 @Component({
-  selector: 'app-files-overlay',
-  templateUrl: './files-overlay.component.html',
-  styleUrls: ['../../../assets/css/global.css', './browse-by-file.component.css'],
-  providers: [ BrowseByFileService, SizeUnitsPipe]
+    selector: 'app-files-overlay',
+    templateUrl: './files-overlay.component.html',
+    styleUrls: ['../../../assets/css/global.css', './browse-by-file.component.css'],
+    providers: [BrowseByFileService, SizeUnitsPipe],
+    standalone: false
 })
 
 //@@@PDC-3392 open files for a specific study in an overlay window
@@ -43,6 +44,7 @@ import {environment} from '../../../environments/environment';
 //@@@PDC-3622 add legacy studies data
 //@@@PDC-3788 fix issues found with Files overlay in legacy data page
 //@@@PDC-3928 No links to download files in Export File Manifest for Version 1 Studies
+//@@@PDC-9156: Add Protocol column to the file view
 export class FilesOverlayComponent implements OnInit {
 
 	filteredFilesData: AllFilesData[]; //Filtered list of cases
@@ -113,9 +115,10 @@ export class FilesOverlayComponent implements OnInit {
 				private dialogRef: MatDialogRef<FilesOverlayComponent>, private sizeUnitsPipe: SizeUnitsPipe,
 				@Inject(MAT_DIALOG_DATA) public studyData: any, private dialog: MatDialog,  private userService: PDCUserService) {
 	     console.log(studyData);
-		 let study_names = studyData.summaryData.study_name.split('|').join(';')
+		 let study_names = studyData.summaryData.study_name.split('|').join(';');
 		 this.study_names_param = studyData.summaryData.study_name.split('|');
 		// Array which holds filter names. Must be updated when new filters are added to browse page.
+
 		this.newFilterSelected = {
 		  program_name: "",
 		  project_name: "",
@@ -268,7 +271,7 @@ export class FilesOverlayComponent implements OnInit {
 				  this.newFilterSelected
 				)
 				.subscribe((data: any) => {
-				  this.filteredFilesData = data.getPaginatedUIFile.uiFiles;
+				  this.filteredFilesData = _.cloneDeep(data.getPaginatedUIFile.uiFiles);
 				  this.totalRecords = data.getPaginatedUIFile.total;
 				  this.fileTotalRecordChanged.emit({
 					type: "file",
@@ -295,7 +298,7 @@ export class FilesOverlayComponent implements OnInit {
 					  this.newFilterSelected
 				)
 				.subscribe((data: any) => {
-				  this.filteredFilesData = data.getPaginatedUILegacyFile.uiLegacyFiles;
+				  this.filteredFilesData = _.cloneDeep(data.getPaginatedUILegacyFile.uiLegacyFiles);
 				  this.totalRecords = data.getPaginatedUILegacyFile.total;
 				  this.fileTotalRecordChanged.emit({
 					type: "file",
@@ -354,7 +357,7 @@ export class FilesOverlayComponent implements OnInit {
 			this.newFilterSelected
 		  )
 		  .pipe(take(1)).subscribe((data: any) => {
-			this.filteredFilesData = data.getPaginatedUIFile.uiFiles;
+			this.filteredFilesData = _.cloneDeep(data.getPaginatedUIFile.uiFiles);
 			if (this.offset === 0) {
 			  this.totalRecords = data.getPaginatedUIFile.total;
 			  this.fileTotalRecordChanged.emit({
@@ -394,7 +397,7 @@ export class FilesOverlayComponent implements OnInit {
 			this.newFilterSelected
 		  )
 		  .subscribe((data: any) => {
-			this.filteredFilesData = data.getPaginatedUILegacyFile.uiLegacyFiles;
+			this.filteredFilesData = _.cloneDeep(data.getPaginatedUILegacyFile.uiLegacyFiles);
 			if (this.offset === 0) {
 			  this.totalRecords = data.getPaginatedUILegacyFile.total;
 			  this.fileTotalRecordChanged.emit({
@@ -538,65 +541,65 @@ export class FilesOverlayComponent implements OnInit {
 
   //@@@PDC-937: Add a button to allow download all manifests with a single click
   //@@@PDC-3206: fix Export All Manifests button causing files manifest to download twice
-  async fileExportCompleteManifest(buttonClick=false) {
+  async fileExportCompleteManifest(buttonClick = false) {
     if (this.totalRecords > 10000) {
-        this.dialogueForHugeDataVolume();
+      this.dialogueForHugeDataVolume();
     } else {
       this.displayLoading(buttonClick, "file", true);
       setTimeout(() => {
-		 if (!this.isLegacyData) {
-			this.browseByFileService
-			.getFilteredFilesPaginated(
-			  this.studyVersion,
-			  0,
-			  this.totalRecords,
-			  this.sort,
-			  this.newFilterSelected
-			)
-			.pipe(take(1))
-			.subscribe((data: any) => {
-			  if (buttonClick) {
-				this.completeFileManifest = data.getPaginatedUIFile.uiFiles;
-				this.fileTableExportCSV(true, false, this.manifestFormat);
-			  } else {
-				this.selectedFiles = data.getPaginatedUIFile.uiFiles;
-				if (this.publicationsFiles.length > 0) {
-				  this.getUniqueFiles();
-				  this.limit = 100;
-				  this.pageSize = 100;
-				  this.totalRecords = this.filteredFilesData.length;
-				  this.selectedFiles = this.filteredFilesData;
-				}
-				this.headercheckbox = true;
-				 //@@@PDC-3748: "Select all pages" issue on the Study Summary page
-				this.updateCurrentPageSelectedFiles(this.selectedFiles);
-			  }
-        this.makeRowsSameHeight();
-			  this.displayLoading(buttonClick, "file", false);
-			});
-		 } else {
-			this.browseByFileService
-			.getFilteredLegacyDataFilesPaginated(
-			  0,
-			  this.totalRecords,
-			  this.sort,
-			  this.newFilterSelected
-			)
-			.pipe(take(1))
-			.subscribe((data: any) => {
-			  if (buttonClick) {
-				this.completeFileManifest = data.getPaginatedUILegacyFile.uiLegacyFiles;
-				this.fileTableExportCSV(true, false, this.manifestFormat);
-			  } else {
-				this.selectedFiles = data.getPaginatedUILegacyFile.uiLegacyFiles;
-				this.headercheckbox = true;
-				 //@@@PDC-3748: "Select all pages" issue on the Study Summary page
-				//this.updateCurrentPageSelectedFiles(this.selectedFiles);
-			  }
-        this.makeRowsSameHeight();
-			  this.displayLoading(buttonClick, "file", false);
-			});
-		 }
+        if (!this.isLegacyData) {
+          this.browseByFileService
+            .getFilteredFilesPaginated(
+              this.studyVersion,
+              0,
+              this.totalRecords,
+              this.sort,
+              this.newFilterSelected
+            )
+            .pipe(take(1))
+            .subscribe((data: any) => {
+              if (buttonClick) {
+                this.completeFileManifest = _.cloneDeep(data.getPaginatedUIFile.uiFiles);
+                this.fileTableExportCSV(true, false, this.manifestFormat);
+              } else {
+                this.selectedFiles = _.cloneDeep(data.getPaginatedUIFile.uiFiles);
+                if (this.publicationsFiles.length > 0) {
+                  this.getUniqueFiles();
+                  this.limit = 100;
+                  this.pageSize = 100;
+                  this.totalRecords = this.filteredFilesData.length;
+                  this.selectedFiles = this.filteredFilesData;
+                }
+                this.headercheckbox = true;
+                //@@@PDC-3748: "Select all pages" issue on the Study Summary page
+                this.updateCurrentPageSelectedFiles(this.selectedFiles);
+              }
+              this.makeRowsSameHeight();
+              this.displayLoading(buttonClick, "file", false);
+            });
+        } else {
+          this.browseByFileService
+            .getFilteredLegacyDataFilesPaginated(
+              0,
+              this.totalRecords,
+              this.sort,
+              this.newFilterSelected
+            )
+            .pipe(take(1))
+            .subscribe((data: any) => {
+              if (buttonClick) {
+                this.completeFileManifest = _.cloneDeep(data.getPaginatedUILegacyFile.uiLegacyFiles);
+                this.fileTableExportCSV(true, false, this.manifestFormat);
+              } else {
+                this.selectedFiles = _.cloneDeep(data.getPaginatedUILegacyFile.uiLegacyFiles);
+                this.headercheckbox = true;
+                //@@@PDC-3748: "Select all pages" issue on the Study Summary page
+                //this.updateCurrentPageSelectedFiles(this.selectedFiles);
+              }
+              this.makeRowsSameHeight();
+              this.displayLoading(buttonClick, "file", false);
+            });
+        }
       }, 100);
     }
   }
@@ -716,19 +719,19 @@ export class FilesOverlayComponent implements OnInit {
   //@@@PDC-801 For files that are marked downloadable call API to get signed URL and include in manifest
   //@@@PDC-869 if controlled file is not downloadable, it will not ask user to login eRA and authorize
   //@@@PDC-3206 fix ddownload manifest even if there are zero records
-  async fileTableExportCSV(iscompleteFileDownload:boolean = false, individualFileDownload:boolean = false, exportFormat = "csv") {
+  async fileTableExportCSV(iscompleteFileDownload: boolean = false, individualFileDownload: boolean = false, exportFormat = "csv") {
     let dataForExport;
     if (iscompleteFileDownload) {
-        dataForExport = this.completeFileManifest;
+      dataForExport = this.completeFileManifest;
     } else {
-        if (individualFileDownload) {
-          //@@@PDC-1303: Add a download column and button for downloading individual files to the file tab
-          dataForExport = this.individualFileData;
-          //Set a flag in local storage
-          localStorage.setItem("controlFilesIndividualFileDownload","true");
-        } else {
-          dataForExport =  this.selectedFiles;
-        }
+      if (individualFileDownload) {
+        //@@@PDC-1303: Add a download column and button for downloading individual files to the file tab
+        dataForExport = this.individualFileData;
+        //Set a flag in local storage
+        localStorage.setItem("controlFilesIndividualFileDownload", "true");
+      } else {
+        dataForExport = this.selectedFiles;
+      }
     }
     let confirmationMessage: string = "";
     let eRALogIn: string = "loginNotRequired";
@@ -752,21 +755,27 @@ export class FilesOverlayComponent implements OnInit {
       if (file["access"].toLowerCase() === "controlled" && file.downloadable.toLowerCase() === "yes") {
         controlledFileFlag = true;
       }
-	  //If embargo date is empty substitute with N/A
-	  if (!file["embargo_date"]) {
-		  file["embargo_date"] = "N/A";
-	  }
-	  console.log(file["submitter_id_name"]);
-	  console.log(this.studyVersion);
-	  //PDC-3985 - fix study version value for non legacy studies
-	  //If studyVersion value is set assign it to each of the files
-	  //since the user opened Browse page to view files for a specific version of study
-	  if (this.studyVersion != "") {
-		  file["pdc_study_version"] = this.studyVersion;
-	  } else {
-		  //In all other cases assign default latest version of the study to which the file belongs
-		  file["pdc_study_version"] = this.allStudiesVersions[file["submitter_id_name"]];
-	  }
+      //If embargo date is empty substitute with N/A
+      if (!file["embargo_date"]) {
+        file["embargo_date"] = "N/A";
+      }
+      console.log(file["submitter_id_name"]);
+      console.log(this.studyVersion);
+      //PDC-3985 - fix study version value for non legacy studies
+      //If studyVersion value is set assign it to each of the files
+      //since the user opened Browse page to view files for a specific version of study
+      if (this.studyVersion != "") {
+        file["pdc_study_version"] = this.studyVersion;
+      } else {
+        //In all other cases assign default latest version of the study to which the file belongs
+        file["pdc_study_version"] = this.allStudiesVersions[file["submitter_id_name"]];
+      }
+
+      //@@@PDC-9626 - If legacy file, set protocol and pdc study version to NA
+      if (this.isLegacyData) {
+        file["protocol_submitter_id"] = "NA";
+        file["pdc_study_version"] = 1;
+      }
     }
 
     if (controlledFileFlag) {
@@ -776,11 +785,12 @@ export class FilesOverlayComponent implements OnInit {
           "file_id",
           "file_name",
           "study_run_metadata_submitter_id",
+          "protocol_submitter_id",
           "submitter_id_name",
           "pdc_study_id",
-		  "pdc_study_version",
+          "pdc_study_version",
           "study_id",
-		  "embargo_date",
+          "embargo_date",
           "project_name",
           "data_category",
           "file_type",
@@ -810,7 +820,7 @@ export class FilesOverlayComponent implements OnInit {
         localStorage.removeItem("fence_access_token");
         const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
           width: "450px",
-          data: { message: confirmationMessage, continueMessage: eRALogIn }
+          data: {message: confirmationMessage, continueMessage: eRALogIn}
         });
 
         dialogRef.afterClosed().subscribe(result => {
@@ -820,11 +830,11 @@ export class FilesOverlayComponent implements OnInit {
           } else {
             if (controlledFileFlag) {
               if (result === "loginRequired") {
-                  localStorage.setItem("controlledFileExportFlag", "true");
-                  this.userService.logout();
-                  document.location.href = window.location.origin + "/pdc/sp/authnih";
-              } else if(result === "loginNotRequired"){
-                  document.location.href = environment.dcf_fence_login_url.replace("%dcf_client_id%",environment.dcf_client_id);
+                localStorage.setItem("controlledFileExportFlag", "true");
+                this.userService.logout();
+                document.location.href = window.location.origin + "/pdc/sp/authnih";
+              } else if (result === "loginNotRequired") {
+                document.location.href = environment.dcf_fence_login_url.replace("%dcf_client_id%", environment.dcf_client_id);
               }
             }
           }
@@ -835,14 +845,16 @@ export class FilesOverlayComponent implements OnInit {
       //retrieve open file link
       //@@@PDC-1789: Add study_submitter_id and study_id to exported study manifests
       //@@PDC-6308 - remove embargo date tech advancement studies manifest
+      //@@@PDC-9156 - Add protocol field to the file view
       let csvOptions = {
         headers: [
           "File ID",
           "File Name",
           "Run Metadata ID",
+          "Protocol",
           "Study Name",
           "PDC Study ID",
-		  "PDC Study Version",
+          "PDC Study Version",
           "Study ID",
           "Project Name",
           "Data Category",
@@ -859,9 +871,10 @@ export class FilesOverlayComponent implements OnInit {
         "file_id",
         "file_name",
         "study_run_metadata_submitter_id",
+        "protocol_submitter_id",
         "submitter_id_name",
         "pdc_study_id",
-		"pdc_study_version",
+        "pdc_study_version",
         "study_id",
         "project_name",
         "data_category",
@@ -882,111 +895,114 @@ export class FilesOverlayComponent implements OnInit {
         var chunkSize = 1000;
         var count = 0;
         var loop = 0;
-        for (var i = 0, len = fileNameList.length; i< len; i += chunkSize) {
-          let tempArray = fileNameList.slice(i, i+chunkSize);
-          let fileNameStr =  tempArray.join(";");
-		  if (! this.isLegacyData){
-			  //Send 1000 files names per request
-			  //@@@PDC-1940: File manifest download is very slow
-			  this.browseByFileService.getFilesData(fileNameStr, this.origin_study_id).subscribe((fileData: any) => {
-				this.setFileExportObject(fileData, exportFileObject);
-				count++;
-				//In the last iteration, download the file manifest
-				if (count == loop) {
-				  this.displayLoading(iscompleteFileDownload, "file1", false);
-				  if (count > 0) {
-					  if (exportFormat == "csv"){
-						new ngxCsv(exportFileObject, this.getCsvFileName("csv"), csvOptions);
-					  } else if (exportFormat == "pfb") {
-              //@@@PDC-7018: Add PFB export option to Files Overlay Window
-              this.loading = true;
-              this.exportPFBFileManifest(exportFileObject);
-              this.loading = false;
-            } else {
-						let exportTSVData = this.prepareTSVExportManifestData(exportFileObject, csvOptions.headers);
-						var blob = new Blob([exportTSVData], { type: 'text/csv;charset=utf-8;' });
-						FileSaver.saveAs(blob, this.getCsvFileName("tsv"));
-					  }
-				  }
-				}
-			  });
-		  } else {
-			  //@@@PDC-3937 Use new APIs for downloading legacy studies' files
-			  this.browseByFileService.getLegacyFilesData(fileNameStr).subscribe((fileData: any) => {
-				this.setLegacyFileExportObject(fileData, exportFileObject);
-				count++;
-				//In the last iteration, download the file manifest
-				if (count == loop) {
-				  this.displayLoading(iscompleteFileDownload, "file1", false);
-				  //PDC-3985
-				  //remove study version from legacy data manifest
-				  csvOptions.headers.splice(5,1)
-				  if (count > 0) {
-					  if (exportFormat == "csv"){
-						new ngxCsv(exportFileObject, this.getCsvFileName("csv"), csvOptions);
-					  } else if (exportFormat == "pfb") {
-              //@@@PDC-7018: Add PFB export option to Files Overlay Window
-              this.loading = true;
-              this.exportPFBFileManifest(exportFileObject);
-              this.loading = false;
-            } else {
-						let exportTSVData = this.prepareTSVExportManifestData(exportFileObject, csvOptions.headers);
-						var blob = new Blob([exportTSVData], { type: 'text/csv;charset=utf-8;' });
-						FileSaver.saveAs(blob, this.getCsvFileName("tsv"));
-					  }
-				  }
-				}
-			  });
-		  }
+        for (var i = 0, len = fileNameList.length; i < len; i += chunkSize) {
+          let tempArray = fileNameList.slice(i, i + chunkSize);
+          let fileNameStr = tempArray.join(";");
+          if (!this.isLegacyData) {
+            //Send 1000 files names per request
+            //@@@PDC-1940: File manifest download is very slow
+            this.browseByFileService.getFilesData(fileNameStr, this.origin_study_id).subscribe((fileData: any) => {
+              this.setFileExportObject(fileData, exportFileObject);
+              count++;
+              //In the last iteration, download the file manifest
+              if (count == loop) {
+                this.displayLoading(iscompleteFileDownload, "file1", false);
+                if (count > 0) {
+                  if (exportFormat == "csv") {
+                    new ngxCsv(exportFileObject, this.getCsvFileName("csv"), csvOptions);
+                  } else if (exportFormat == "pfb") {
+                    //@@@PDC-7018: Add PFB export option to Files Overlay Window
+                    this.loading = true;
+                    this.exportPFBFileManifest(exportFileObject);
+                    this.loading = false;
+                  } else {
+                    let exportTSVData = this.prepareTSVExportManifestData(exportFileObject, csvOptions.headers);
+                    var blob = new Blob([exportTSVData], {type: 'text/csv;charset=utf-8;'});
+                    FileSaver.saveAs(blob, this.getCsvFileName("tsv"));
+                  }
+                }
+              }
+            });
+          } else {
+            //@@@PDC-3937 Use new APIs for downloading legacy studies' files
+            this.browseByFileService.getLegacyFilesData(fileNameStr).subscribe((fileData: any) => {
+              this.setLegacyFileExportObject(fileData, exportFileObject);
+              count++;
+              //In the last iteration, download the file manifest
+              if (count == loop) {
+                this.displayLoading(iscompleteFileDownload, "file1", false);
+
+                //@@@PDC-3985 remove study version from legacy data manifest
+                //csvOptions.headers.splice(5, 1);
+
+                if (count > 0) {
+                  if (exportFormat == "csv") {
+                    new ngxCsv(exportFileObject, this.getCsvFileName("csv"), csvOptions);
+                  } else if (exportFormat == "pfb") {
+                    //@@@PDC-7018: Add PFB export option to Files Overlay Window
+                    this.loading = true;
+                    this.exportPFBFileManifest(exportFileObject);
+                    this.loading = false;
+                  } else {
+                    let exportTSVData = this.prepareTSVExportManifestData(exportFileObject, csvOptions.headers);
+                    var blob = new Blob([exportTSVData], {type: 'text/csv;charset=utf-8;'});
+                    FileSaver.saveAs(blob, this.getCsvFileName("tsv"));
+                  }
+                }
+              }
+            });
+          }
           loop++;
         }
       } else {
-          //@@@PDC-1940: File manifest download is very slow
-          let fileNameStr = fileNameList.join(";")
-		  if (! this.isLegacyData){
-			  this.browseByFileService.getFilesData(fileNameStr, this.origin_study_id).subscribe((fileData: any) => {
-				console.log(fileData);
-				this.setFileExportObject(fileData, exportFileObject);
-				this.displayLoading(iscompleteFileDownload, "file1", false);
-				if (fileNameList.length > 0) {
-					if (exportFormat == "csv"){
-						new ngxCsv(exportFileObject, this.getCsvFileName("csv"), csvOptions);
-					} else if (exportFormat == "pfb") {
-            //@@@PDC-7018: Add PFB export option to Files Overlay Window
-            this.loading = true;
-            this.exportPFBFileManifest(exportFileObject);
-            this.loading = false;
-          } else {
-						let exportTSVData = this.prepareTSVExportManifestData(exportFileObject, csvOptions.headers);
-						var blob = new Blob([exportTSVData], { type: 'text/csv;charset=utf-8;' });
-						FileSaver.saveAs(blob, this.getCsvFileName("tsv"));
-					}
-				}
-			  });
-		  } else {
-			  this.browseByFileService.getLegacyFilesData(fileNameStr).subscribe((fileData: any) => {
-				console.log(fileData);
-				this.setLegacyFileExportObject(fileData, exportFileObject);
-				this.displayLoading(iscompleteFileDownload, "file1", false);
-				//PDC-3985
-				//remove study version from legacy data manifest
-				csvOptions.headers.splice(5,1)
-				if (fileNameList.length > 0) {
-					if (exportFormat == "csv"){
-						new ngxCsv(exportFileObject, this.getCsvFileName("csv"), csvOptions);
-					} else if (exportFormat == "pfb") {
-            //@@@PDC-7018: Add PFB export option to Files Overlay Window
-            this.loading = true;
-            this.exportPFBFileManifest(exportFileObject);
-            this.loading = false;
-          } else {
-						let exportTSVData = this.prepareTSVExportManifestData(exportFileObject, csvOptions.headers);
-						var blob = new Blob([exportTSVData], { type: 'text/csv;charset=utf-8;' });
-						FileSaver.saveAs(blob, this.getCsvFileName("tsv"));
-					}
-				}
-			  });
-		  }
+        //@@@PDC-1940: File manifest download is very slow
+        let fileNameStr = fileNameList.join(";")
+        if (!this.isLegacyData) {
+          this.browseByFileService.getFilesData(fileNameStr, this.origin_study_id).subscribe((fileData: any) => {
+            console.log(fileData);
+            this.setFileExportObject(fileData, exportFileObject);
+            this.displayLoading(iscompleteFileDownload, "file1", false);
+            if (fileNameList.length > 0) {
+              if (exportFormat == "csv") {
+                new ngxCsv(exportFileObject, this.getCsvFileName("csv"), csvOptions);
+              } else if (exportFormat == "pfb") {
+                //@@@PDC-7018: Add PFB export option to Files Overlay Window
+                this.loading = true;
+                this.exportPFBFileManifest(exportFileObject);
+                this.loading = false;
+              } else {
+                let exportTSVData = this.prepareTSVExportManifestData(exportFileObject, csvOptions.headers);
+                var blob = new Blob([exportTSVData], {type: 'text/csv;charset=utf-8;'});
+                FileSaver.saveAs(blob, this.getCsvFileName("tsv"));
+              }
+            }
+          });
+        } else {
+          this.browseByFileService.getLegacyFilesData(fileNameStr).subscribe((fileData: any) => {
+            console.log(fileData);
+            this.setLegacyFileExportObject(fileData, exportFileObject);
+            this.displayLoading(iscompleteFileDownload, "file1", false);
+
+            //@@@PDC-3985 remove study version from legacy data manifest
+            //const index = csvOptions.headers.indexOf("PDC Study Version");
+            //csvOptions.headers.splice(index, 1);
+
+            if (fileNameList.length > 0) {
+              if (exportFormat == "csv") {
+                new ngxCsv(exportFileObject, this.getCsvFileName("csv"), csvOptions);
+              } else if (exportFormat == "pfb") {
+                //@@@PDC-7018: Add PFB export option to Files Overlay Window
+                this.loading = true;
+                this.exportPFBFileManifest(exportFileObject);
+                this.loading = false;
+              } else {
+                let exportTSVData = this.prepareTSVExportManifestData(exportFileObject, csvOptions.headers);
+                var blob = new Blob([exportTSVData], {type: 'text/csv;charset=utf-8;'});
+                FileSaver.saveAs(blob, this.getCsvFileName("tsv"));
+              }
+            }
+          });
+        }
       }
     }
   }
@@ -1191,8 +1207,10 @@ export class FilesOverlayComponent implements OnInit {
 
   //@@@PDC-4781: Use filesPerStudy API to return signed urls for multiple files
   getFilesDataObj(fileNameStr) {
+	  console.log("To download: "+fileNameStr)
     this.browseByFileService.getFilesData(fileNameStr, "").pipe(take(1)).subscribe((fileData: any) => {
       for (var fileItem of fileData.uiFilesPerStudy) {
+		  console.log("To download in loop: "+fileItem.file_name)
         if (fileItem.signedUrl) {
           let confirmationMessage = 'Finished downloading: '+ fileItem.file_name;
           //@@@PDC-1925 use window.open for multiple download
@@ -1445,11 +1463,13 @@ export class FilesOverlayComponent implements OnInit {
       }
     } else {
     //@@@PDC-1789: Add study_submitter_id and study_id to exported study manifests
+      //@@@PDC-9156: Add Protocol column to the file tab
     let csvOptions = {
       headers: [
         "File ID",
         "File Name",
         "Run Metadata ID",
+        "Protocol",
         "Study Name",
         "PDC Study ID",
 		"PDC Study Version",
@@ -1548,7 +1568,7 @@ export class FilesOverlayComponent implements OnInit {
     this.cols = [
 	  {field: "pdc_study_id", header: "PDC Study ID"},
       { field: "submitter_id_name", header: "Study" },
-	  {field: "embargo_date", header: "Embargo Date"},
+	    {field: "embargo_date", header: "Embargo Date"},
       { field: "file_name", header: "File Name" },
       { field: "study_run_metadata_submitter_id", header: "Run Metadata ID" },
       { field: "project_name", header: "Project" },
@@ -1557,7 +1577,9 @@ export class FilesOverlayComponent implements OnInit {
       { field: "access", header: "Access" },
       { field: "file_size", header: "File Size (in bytes)" },
       { field: "file_id", header: "File ID" },
-      { field: "downloadable", header: "Downloadable" }
+      { field: "downloadable", header: "Downloadable" },
+      //@@@PDC-9156: Add Protocol column to the file tab
+      { field: "protocol_submitter_id", header: "Protocol" }
     ];
 
     this.frozenCols = [

@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { StudySummaryOverlayRemoteRef } from './study-summary-overlay-remote-ref'
 
 @Component({
-  selector: 'app-study-summary-overlay-window',
-  templateUrl: './study-summary-overlay-window.component.html',
-  styleUrls: ['./study-summary-overlay-window.component.css']
+    selector: 'app-study-summary-overlay-window',
+    templateUrl: './study-summary-overlay-window.component.html',
+    styleUrls: ['./study-summary-overlay-window.component.css'],
+    standalone: false
 })
 //@@@PDC-843: Add embargo date and data use statement to CPTAC studies
 export class StudySummaryOverlayWindowComponent {

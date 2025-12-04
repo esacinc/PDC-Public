@@ -9,7 +9,7 @@
   padding-bottom: 0px;
   color: #585858;
 }
-.case-summary .mat-card-title{
+.case-summary .mat-mdc-card-title{
 	font-family: 'Lato';
 	font-weight: 400;
 	font-size: 16px;
@@ -125,4 +125,75 @@
 	.ui-table tr td, .ui-table-thead tr, .table, .table tr td, .table tr th {
 		font-size: 14px !important;
 	}
+}
+
+
+  ::ng-deep .mat-dialog-container {
+  width: 75vw !important;
+  max-width: 75vw !important;
+  min-width: 75vw !important;
+  margin: 2.5vh auto !important;
+  padding: 0 !important;
+}
+
+// Additional override for Angular Material dialog
+::ng-deep .cdk-overlay-pane {
+  width: 75vw !important;
+  max-width: 75vw !important;
+}
+
+::ng-deep .mat-dialog-content {
+  margin: 0 !important;
+  padding: 0 !important;
+  max-height: 90vh !important;
+  overflow-y: auto !important;
+}
+
+// Center the dialog content
+::ng-deep .mat-dialog-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+// Center the main content row
+.row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+// Center the main flex container
+.col-md-12 {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+// Center the dialog title
+::ng-deep .mat-dialog-title,
+::ng-deep h2[mat-dialog-title] {
+  text-align: center;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.close-btn {
+  position: absolute;
+  right: 16px;
+  top: 16px;
+  z-index: 1000;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.close-btn i {
+  color: #333 !important;
+  font-size: 20px;
+  font-weight: bold;
 }

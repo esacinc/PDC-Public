@@ -1,4 +1,4 @@
-	<div class="row" style="font-family:'Lato'; font-size: 12px;" (window:resize)="onResize($event)">
+<div class="row" style="font-family:'Lato'; font-size: 12px;" (window:resize)="onResize($event)">
 	<!--@@@PDC-1433 unable to select a single record when there are multiple records of the same file name on the same page -->
       <p-table class="table-striped ui-datatable-odd " #dt [columns]="cols" [value]="filteredFilesData" [lazy]="true" [paginator]="true" [(first)]="offset"
 				[rows]="10" [pageLinks]="5" [rowsPerPageOptions]="[10,20,50,100]" [totalRecords]="totalRecords"
@@ -7,73 +7,59 @@
 				scrollHeight="500px" [autoLayout]="true" [frozenColumns]="frozenColumns" [scrollable]="true" frozenWidth="150px">
 		<ng-template pTemplate="caption">
 		<div class="container-fluid ui-helper-clearfix button-container-fluid exportButtonsRow">
-				<div class="row">
-					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-						<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-							<div *ngIf="totalRecords > 0 && !loading" >
-								<h3 style="font-family: 'Lato'; font-size:14px;margin-top:10px!important">{{totalRecords > 1 ? 'Total files: ' + totalRecords : 'Total file: ' + totalRecords }}</h3>
-						</div>
-						</div>
-						<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6"><h3 *ngIf="studyVersion" style="color:#de350b; font-size:14px; font-weight:800; text-align:center;">	Showing files for study version {{studyVersion}}</h3>
-						</div>
-						<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 manifestDownload">
-							<div class="wholeManifestDownload">
-								Export All Manifests
-								<button matTooltip="Exports all manifests for the filters applied" id="downloadWholeManifest" mat-raised-button mat-primary label="Download Selection" (click)="downloadAllManifest('csv')" style="font-family:'Lato';font-weight:bold;min-width:1%;" [disabled]="iscompleteManifestDisabled()" aria-label="Download all Manifests">CSV</button>&nbsp;
-								<button matTooltip="Exports all manifests for the filters applied" id="downloadWholeManifest" mat-raised-button mat-primary label="Download Selection" (click)="downloadAllManifest('tsv')" style="font-family:'Lato';font-weight:bold;min-width:1%;" [disabled]="iscompleteManifestDisabled()" aria-label="Download all Manifests">TSV</button>
-						</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="container-fluid ui-helper-clearfix button-container-fluid" style="border-top: 1px solid #ddd; font-weight: 700;">
-				<div class="row">
-					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-						<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-							<div id="selectedFilesDataCount" *ngIf="!isDownloadDisabled()" style="float:left;padding-top:5px;">Rows selected: {{selectedFiles.length}}</div>
-						</div>
-						<!--<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
-						<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 manifestDownload">
-							<button matTooltip="Please use CPTAC Data Portal for downloading the files" id="downloadFileManifest" mat-raised-button mat-primary label="Download Selection" (click)="fileTableExportCSV()" [disabled]="isDownloadDisabled()" style="font-family:'Lato';" aria-label="Download File Manifest">Export File Manifest</button>
-						</div>-->
-						<!-- <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6"> -->
-							<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 manifestDownload">
-								Export File Manifest
-								&nbsp;<button matTooltip="Exports all selected rows for the current data tab" id="downloadFileManifest" mat-raised-button mat-primary label="Download Selection" (click)="fileTableExportCSV(false, false, 'csv')" [disabled]="isDownloadDisabled()" style="font-family:'Lato';min-width:1%;" aria-label="Download File Manifest">CSV</button>&nbsp;
-								<button matTooltip="Exports all selected rows for the current data tab" id="downloadFileManifest" mat-raised-button mat-primary label="Download Selection" (click)="fileTableExportCSV(false, false, 'tsv')" [disabled]="isDownloadDisabled()" style="font-family:'Lato';min-width:1%;" aria-label="Download File Manifest">TSV</button>
-								&nbsp;<button matTooltip="Exports all selected rows for the current data tab" id="downloadFileManifest" mat-raised-button mat-primary label="Download Selection" (click)="fileTableExportCSV(false, false, 'pfb')" [disabled]="isDownloadDisabled()" style="font-family:'Lato';min-width:1%;" aria-label="Download File Manifest">PFB</button><a href="/pdc/cloud-data-analysis" target="_blank" style="font-size: 13px;">
-									<!-- <mat-icon matTooltip="Data exchange format with FireCloud" class="help-icon" style="font-size: 14px !important;height: 0px !important;width: 15px;vertical-align:sub;">help</mat-icon> -->
-									<i class="fa fa-question-circle" aria-hidden="true" title="Data exchange format with FireCloud" style="font-size: 14px !important; padding-left: 4px"></i>
-                  <!-- @@@PDC-8279 - fix 508 issues -->
-									<span style="display:none;">Link to cloud data analysis page</span>
-								</a>
-							</div>
-							<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 manifestDownload">
-								<button matTooltip="Please use local download manager to download the files" id="downloadFiles" mat-raised-button mat-primary label="Download Files" (click)="setDownloadBatch()" [disabled]="isDownloadDisabled()" style="font-family:'Lato';" aria-label="Download Files">Download Selected Files</button>
-							</div>
-						<!-- </div> -->
-					</div>
-					<!-- PDC-1702: Add a button/help link to FAQ page multiple download section from Browse page-->
-					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding-right: 0px;">
-<!-- 							<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="color:#de350b; padding-left: 0!important;">
-								Some data are under an <a href="/pdc/faq#Embargo_Date" target="_" style="color:#de350b !important;">EMBARGO</a> for publication and/or citation.
-								For more details, visit the summary page for the study of interest.
-							</div> -->
-							<!--<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
-							<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 faqLink">
-								<a href="/pdc/faq/Multiple_Files" target="_blank" style="font-size: 13px;">Download multiple files at once&nbsp;<mat-icon matTooltip="Download multiple files at once" class="help-icon" style="font-size: 14px !important;height: 0px !important;vertical-align: sub;">help</mat-icon></a>
-							</div>
-							<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>-->
-							<!-- <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div> -->
-							<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9"></div>
-							<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 faqLink" style="text-align: right;">
-								<a href="/pdc/faq/Download_Data" target="_blank" style="font-size: 13px;">More ways to download&nbsp;
-									<i class="fa fa-question-circle" aria-hidden="true" title="More ways to download" style="font-size: 14px !important; padding-left: 4px"></i>
-								</a>
-							</div>
-						</div>
-				</div>
-			</div>
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                <div *ngIf="totalRecords > 0 && !loading">
+                    <h3 style="font-family: 'Lato'; font-size:14px; margin-top:0!important">{{totalRecords > 1 ? 'Total files: ' + totalRecords : 'Total file: ' + totalRecords }}</h3>
+                </div>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 manifestDownload">
+                <div class="d-flex justify-content-end align-items-center gap-3">
+                    <span id="selectedFilesDataCount" *ngIf="!isDownloadDisabled()" style="font-family:'Lato'; font-size:12px; color:#666;">Rows selected: {{selectedFiles.length}}</span>
+                    <div class="dropdown">
+                        <button
+                            tooltip="Exports all selected rows for the current data tab"
+                            class="btn btn-primary dropdown-toggle"
+                            type="button"
+                            id="exportFileManifestDropdown"
+                            data-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="false"
+                            style="font-weight:bold;"
+                            [disabled]="isDownloadDisabled()"
+                            (click)="toggleExportFileDropdown()">
+                            Export File Manifest
+                            <i class="fa fa-chevron-down ml-2"></i>
+                        </button>
+                        <div class="dropdown-menu" [class.show]="showExportFileDropdown" aria-labelledby="exportFileManifestDropdown">
+                            <button
+                                class="dropdown-item"
+                                (click)="fileTableExportCSV(false, false, 'csv'); toggleExportFileDropdown()"
+                                [disabled]="isDownloadDisabled()">
+                                <i class="fa fa-file-text mr-2"></i>CSV Format
+                            </button>
+                            <button
+                                class="dropdown-item"
+                                (click)="fileTableExportCSV(false, false, 'tsv'); toggleExportFileDropdown()"
+                                [disabled]="isDownloadDisabled()">
+                                <i class="fa fa-file-text mr-2"></i>TSV Format
+                            </button>
+                            <button
+                                class="dropdown-item"
+                                (click)="fileTableExportCSV(false, false, 'pfb'); toggleExportFileDropdown()"
+                                [disabled]="isDownloadDisabled()">
+                                <i class="fa fa-file-text mr-2"></i>PFB Format
+                            </button>
+                        </div>
+                    </div>
+                    <button matTooltip="Please use local download manager to download the files" id="downloadFiles" mat-raised-button mat-primary label="Download Files" (click)="setDownloadBatch()" [disabled]="isDownloadDisabled()" style="font-family:'Lato'; font-size:14px; font-weight:bold; background-color:#387BA8; color:#fff; border-radius:4px; border:none; height:38px; margin-left:10px;">Download Selected Files</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 		</ng-template>
 				<ng-template pTemplate="header" let-columns>
 					<tr style="font-size: 12px;" class="safari_only">
@@ -121,6 +107,19 @@
 								</div>
 							</div>
 						</th>
+            <th class="ui-datatable-tableheader" [pSortableColumn]="cols[12].field">
+              <div class="ui-datatable-tableheader-flex-container">
+                <div>
+                  <a href="/pdc/data-dictionary/Protocol" target="_blank"
+                     style="color:white">
+                    Protocol
+                  </a>
+                </div>
+                <div>
+                  &nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Study in ascending/descending order"></i>
+                </div>
+              </div>
+            </th>
 						<th class="ui-datatable-tableheader" [pSortableColumn]="cols[5].field"><a
 								href="/pdc/data-dictionary/Project" target="_blank" style="color:white">Project</a>
 							&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Study in ascending/descending order"></i>
@@ -171,6 +170,7 @@
 						</td> -->
 						<td style="word-wrap: break-word; white-space: normal;">{{fileData.file_name}}</td>
 						<td style="word-wrap: break-word; white-space: normal;">{{fileData.study_run_metadata_submitter_id}}</td>
+            <td style="word-wrap: break-word; white-space: normal;">{{fileData.protocol_submitter_id}}</td>
 						<td style="word-wrap: break-word; white-space: normal;">{{fileData.project_name}}</td>
 						<td style="word-wrap: break-word; white-space: normal;">{{fileData.data_category}}</td>
 						<td style="word-wrap: break-word; white-space: normal;">{{fileData.file_type}}</td>

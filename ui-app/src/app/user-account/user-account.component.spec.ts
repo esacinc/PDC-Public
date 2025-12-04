@@ -1,11 +1,11 @@
 import { OverlayWindowService } from './../overlay-window/overlay-window.service';
 import { RegistrationPageComponent } from "./../welcome-page/registration-page.component";
-import { SocialAuthService } from "angularx-social-login";
-import { of } from "rxjs";
-import { MatLegacyDialogRef as MatDialogRef } from "@angular/material/legacy-dialog";
-import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from "@angular/material/legacy-dialog";
 
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { of } from "rxjs";
+import { MatDialogRef } from "@angular/material/dialog";
+import { MAT_DIALOG_DATA } from "@angular/material/dialog";
+
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { Router } from "@angular/router";
@@ -14,7 +14,8 @@ import { RouterTestingModule } from "@angular/router/testing";
 import { ChorusauthService } from "../chorusauth.service";
 import { PDCUserService } from "../pdcuser.service";
 import { UserAccountComponent } from "./user-account.component";
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 
 class MockAuthService {
@@ -46,22 +47,24 @@ describe("UserAccountComponent", () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [UserAccountComponent],
-      imports: [HttpClientTestingModule, RouterTestingModule.withRoutes([])],
-      schemas: [NO_ERRORS_SCHEMA],
-      providers: [
+    declarations: [UserAccountComponent],
+    schemas: [NO_ERRORS_SCHEMA],
+    imports: [RouterTestingModule.withRoutes([])],
+    providers: [
         ChorusauthService,
         PDCUserService,
-        { provide: SocialAuthService, useClass: MockAuthService },
+
         {
-          provide: MAT_DIALOG_DATA,
-          useValue: { data: "id" },
+            provide: MAT_DIALOG_DATA,
+            useValue: { data: "id" },
         },
         { provide: MatDialogRef, useClass: MockMatDialogRef },
         { provide: MatDialog, useClass: MockDialog },
-        { provide: OverlayWindowService, useClass: MockService }
-      ],
-    }).compileComponents();
+        { provide: OverlayWindowService, useClass: MockService },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting()
+    ]
+}).compileComponents();
   }));
 
   beforeEach(() => {

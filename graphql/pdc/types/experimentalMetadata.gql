@@ -4,6 +4,5 @@ type ExperimentalMetadata {
   pdc_study_id: String
   experiment_type: String
   analytical_fraction: String
-  instrument: String
   study_run_metadata: [StudyRunMetadata]
 }

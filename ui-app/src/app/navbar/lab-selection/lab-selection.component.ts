@@ -4,13 +4,14 @@ import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 
 import { ChorusLab } from '../../types';
 import { ChorusauthService } from '../../chorusauth.service';
-import { MatLegacyDialog as MatDialog, MatLegacyDialogRef as MatDialogRef, MatLegacyDialogConfig as MatDialogConfig, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
+import { MatDialog, MatDialogRef, MatDialogConfig, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Inject } from '@angular/core';
 
 @Component({
-  selector: 'app-lab-selection',
-  templateUrl: './lab-selection.component.html',
-  styleUrls: ['./lab-selection.component.css']
+    selector: 'app-lab-selection',
+    templateUrl: './lab-selection.component.html',
+    styleUrls: ['./lab-selection.component.css'],
+    standalone: false
 })
 export class LabSelectionComponent implements OnInit {
   firstName = '';
@@ -21,6 +22,9 @@ export class LabSelectionComponent implements OnInit {
   private searchTerms = new Subject<string>();
   selectedLabs: ChorusLab[] = [];
   searchTerm = '';
+  userRegisteredToWorkspaceFlag = false;
+  //userRegisteredToWorkspaceProgramFlag = false;
+
 
   constructor(private chorusService: ChorusauthService,
     private dialogRef: MatDialogRef<LabSelectionComponent>,
@@ -43,6 +47,16 @@ export class LabSelectionComponent implements OnInit {
       // switch to new search observable each time the term changes
       switchMap((term: string) => this.chorusService.searchLabs(term, this.selectedLabs)),
     );
+    //@@@PDC-9083 pending ws registration
+	this.chorusService.checkUser(this.userEmail).subscribe(exists => {
+	console.log('Navbar '+this.userEmail+' exists ' + exists);
+	if (exists) {
+	  this.userRegisteredToWorkspaceFlag = true;
+	} else {
+	  this.userRegisteredToWorkspaceFlag = false;
+	}
+  });
+
   }
 
   // Push a search term into the observable stream.

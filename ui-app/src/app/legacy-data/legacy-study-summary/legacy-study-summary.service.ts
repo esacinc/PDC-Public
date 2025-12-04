@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 //import {Http, Response, Headers, RequestOptions} from '@angular/http';
-import {Response, Headers, RequestOptions} from '@angular/http';
+import { HttpHeaders } from '@angular/common/http';
 
 
 import { Apollo } from 'apollo-angular';
@@ -20,16 +20,16 @@ import { QueryLegacyStudies, QueryAllStudiesData, QueryPublicationData, FilesCou
 @Injectable()
 export class LegacyStudySummaryService {
 
-	headers: Headers;
-	options: RequestOptions;
+	headers: HttpHeaders;
+	options: {};
 
 //constructor(private http: Http, private apollo: Apollo) {
 constructor(private apollo: Apollo) {
-	this.headers = new Headers({ 'Content-Type': 'application/json',
+	this.headers = new HttpHeaders({ 'Content-Type': 'application/json',
                                      'Accept': 'q=0.8;application/json;q=0.9' });
-        this.options = new RequestOptions({ headers: this.headers });
+        this.options = { headers: this.headers };
 	}
-	
+
 	//PDC-3860 Add related PDC studies to Legacy study summaries
 	//PDC-3969 Update UI to make legacy studies filter by PDC id
 	legacyStudyDataQuery = gql`
@@ -81,10 +81,10 @@ constructor(private apollo: Apollo) {
 		.valueChanges
 		.pipe(
         map(result => { console.log(result.data); return result.data;})
-      ); 
+      );
 	}
-		
-	
+
+
 	publicationsQuery = gql`
 						query PublicationsQuery($study_id: String!){
 							uiPublication (study_id: $study_id ){
@@ -93,7 +93,7 @@ constructor(private apollo: Apollo) {
 								title
 							}
 						}`;
-						
+
 	getPublicationsData(filters:any){
 		return this.apollo.watchQuery<QueryPublicationData>({
 			query: this.publicationsQuery,
@@ -104,9 +104,9 @@ constructor(private apollo: Apollo) {
 		.valueChanges
 		.pipe(
         map(result => { console.log(result.data); return result.data;})
-      ); 
+      );
 	}
-	
+
     //@@@PDC-1123 call ui wrapper API
 	filesCountPerStudyQuery = gql`
 						query FilesCountsQuery($study_id: String!){
@@ -114,7 +114,7 @@ constructor(private apollo: Apollo) {
 								study_submitter_id
 								file_type
 								files_count
-								data_category 
+								data_category
 							}
 						}`;
 	getFilesCounts(filters:any){
@@ -127,7 +127,7 @@ constructor(private apollo: Apollo) {
 		.valueChanges
 		.pipe(
         map(result => { console.log(result.data); return result.data;})
-      ); 
+      );
 	}
 
 	entityReferenceLegacyDataQuery = gql`
@@ -158,7 +158,7 @@ constructor(private apollo: Apollo) {
 		.valueChanges
 		.pipe(
 		map(result => { console.log(result.data); return result.data;})
-		); 
+		);
 	}
-	
+
 }

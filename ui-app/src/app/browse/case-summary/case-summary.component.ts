@@ -3,22 +3,24 @@ import { ActivatedRoute, Router, NavigationStart } from "@angular/router";
 import { Apollo } from 'apollo-angular';
 import { Location } from '@angular/common';
 import { Observable } from 'rxjs';
+import * as _ from 'lodash';
 
 import gql from 'graphql-tag';
 import { map } from 'rxjs/operators';
-import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { CaseSummaryService } from "./case-summary.service";
 import { Filter, FilesCountsPerStudyData, CaseData, AllCasesData, ExperimentFileByCaseCount, DataCategoryFileByCaseCount,
-			SampleData, AliquotData, DiagnosesData, DemographicsData, AllStudiesData, Exposures, FollowUps} from '../../types';
-import { MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig } from '@angular/material/legacy-dialog';
+			SampleData, AliquotData, DiagnosesData, DemographicsData, AllStudiesData, Exposures, FollowUps, Treatments} from '../../types';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { FilesOverlayComponent } from '../browse-by-file/files-overlay.component';
 import { StudySummaryComponent } from '../study-summary/study-summary.component';
 
 @Component({
-  selector: 'app-case-summary',
-  templateUrl: './case-summary.component.html',
-  styleUrls: ['../../../assets/css/global.css', './case-summary.component.scss'],
-  providers: [ CaseSummaryService ]
+    selector: 'app-case-summary',
+    templateUrl: './case-summary.component.html',
+    styleUrls: ['../../../assets/css/global.css', './case-summary.component.scss'],
+    providers: [CaseSummaryService],
+    standalone: false
 })
 //@@@PDC-327 Data categories for File counts by data category need to have long descriptive names
 //@@@PDC-336 Updates to case summary page
@@ -30,6 +32,7 @@ import { StudySummaryComponent } from '../study-summary/study-summary.component'
 //@@@PDC-2605: Show properties on Demography tab in Case Summary
 //@@@PDC-3095 - remove external_case_id field from uiCaseSummary API
 //@@@PDC-3478 open files data table in overlay window from study and case summaries
+//@@@PDC-8343 add treatment tab to case summaries
 export class CaseSummaryComponent implements OnInit {
   experimentFileCount: ExperimentFileByCaseCount[];
   dataCategoryFileCount: DataCategoryFileByCaseCount[];
@@ -45,74 +48,116 @@ export class CaseSummaryComponent implements OnInit {
   demographics: DemographicsData[];
   exposures: Exposures[];
   followups: FollowUps[];
+  treatments: Treatments[];
   fileTypesCounts: any;
   totalFilesCount: number = 0;
   loading: boolean = false;
 	showMore: boolean = false;
 	filteredStudiesData: AllStudiesData[]; //Filtered list of Studies
 	//@@@PDC-4490: Update Clinical manifest and Case summary pages for GDC Sync
-	showLessExposureEvenProps = [];showLessExposureOddProps = [];showLessExposureEvenPropVals = [];showLessExposureOddPropVals = [];
-	showMoreExposureEvenProps = [];showMoreExposureOddProps = [];showMoreExposureEvenPropVals = [];showMoreExposureOddPropVals = [];
-	showLessFollowUpEvenProps = [];showLessFollowUpOddProps = [];showLessFollowUpEvenPropVals = [];showLessFollowUpOddPropVals = [];
-	showMoreFollowUpOddProps = [];showMoreFollowUpEvenProps = [];showMoreFollowUpOddPropVals = [];showMoreFollowUpEvenPropVals = [];
-	showLessDiagnosisEvenProps = [];showLessDiagnosisOddProps = [];showLessDiagnosisEvenPropVals = [];showLessDiagnosisOddPropVals = [];
-	showMoreDiagnosisOddProps = [];showMoreDiagnosisEvenProps = [];showMoreDiagnosisOddPropVals = [];showMoreDiagnosisEvenPropVals = [];
-	showLessDemographicsEvenProps = [];showLessDemographicsOddProps = [];showLessDemographicsEvenPropVals = [];showLessDemographicsOddPropVals = [];
-	showMoreDemographicsOddProps = [];showMoreDemographicsEvenProps = [];showMoreDemographicsOddPropVals = [];showMoreDemographicsEvenPropVals = [];
+	showLessExposureEvenProps = [];
+	showLessExposureOddProps = [];
+	showLessExposureEvenPropVals = [];
+	showLessExposureOddPropVals = [];
+	showMoreExposureEvenProps = [];
+	showMoreExposureOddProps = [];
+	showMoreExposureEvenPropVals = [];
+	showMoreExposureOddPropVals = [];
+
+	showLessFollowUpEvenProps = [];
+	showLessFollowUpOddProps = [];
+	showLessFollowUpEvenPropVals = [];
+	showLessFollowUpOddPropVals = [];
+	showMoreFollowUpOddProps = [];
+	showMoreFollowUpEvenProps = [];
+	showMoreFollowUpOddPropVals = [];
+	showMoreFollowUpEvenPropVals = [];
+
+	showLessTreatmentEvenProps = [];
+	showLessTreatmentOddProps = [];
+	showLessTreatmentEvenPropVals = [];
+	showLessTreatmentOddPropVals = [];
+	showMoreTreatmentEvenProps = [];
+	showMoreTreatmentOddProps = [];
+	showMoreTreatmentEvenPropVals = [];
+	showMoreTreatmentOddPropVals = [];
+
+	showLessDiagnosisEvenProps = [];
+	showLessDiagnosisOddProps = [];
+	showLessDiagnosisEvenPropVals = [];
+	showLessDiagnosisOddPropVals = [];
+	showMoreDiagnosisOddProps = [];
+	showMoreDiagnosisEvenProps = [];
+	showMoreDiagnosisOddPropVals = [];
+	showMoreDiagnosisEvenPropVals = [];
+
+	showLessDemographicsEvenProps = [];
+	showLessDemographicsOddProps = [];
+	showLessDemographicsEvenPropVals = [];
+	showLessDemographicsOddPropVals = [];
+	showMoreDemographicsOddProps = [];
+	showMoreDemographicsEvenProps = [];
+	showMoreDemographicsOddPropVals = [];
+	showMoreDemographicsEvenPropVals = [];
+
 	showMoreDemographics: boolean = false;
 	showMoreExposure: boolean = false;
 	showMoreFollowUp: boolean = false;
+	showMoreTreatment: boolean = false;
 	source: string = "";
 	externalReferences: any;
 	externalReferences_length: number = 0;
 
   constructor(private activatedRoute: ActivatedRoute, private router: Router, private apollo: Apollo,
-				private loc:Location,
-				private caseSummaryService: CaseSummaryService,
-				private dialogRef: MatDialogRef<CaseSummaryComponent>,
-				@Inject(MAT_DIALOG_DATA) public caseData: any,
-				private dialog: MatDialog) {
+              private loc: Location,
+              private caseSummaryService: CaseSummaryService,
+              private dialogRef: MatDialogRef<CaseSummaryComponent>,
+              @Inject(MAT_DIALOG_DATA) public caseData: any,
+              private dialog: MatDialog) {
 
-	console.log(caseData);
-	this.case_submitter_id = caseData.summaryData.case_submitter_id;
-	this.case_id = caseData.summaryData.case_id;
-	this.caseSummaryData = caseData.summaryData;
-	//@@@PDC-4725: Set the source parameter in the UI calls to fetch details of a search result
-	if (caseData && caseData.source) {
-		this.source = caseData.source;
-	}
-	if (this.caseSummaryData.case_id === ""){
-		this.getCaseGeneralSummaryData();
-	}
-	//console.log(this.caseSummaryData);
-	this.loc.replaceState("/case/" + this.caseSummaryData.case_id);
-	this.fileTypesCounts = {RAW: 0, 'PSM-TSV': 0, 'PSM-MZID': 0, PROT_ASSEM: 0, MZML: 0, PROTOCOL: 0};
-	this.aliquots = [];
-	this.diagnoses = [];
-	this.samples = [];
-	this.caseDetailedSummaryData = {
-		case_id: "",
-		case_submitter_id: "",
-		project_submitter_id: "",
-		disease_type: "",
-		tissue_source_site_code: "",
-		days_to_lost_to_followup: "",
-		index_date: "",
-		lost_to_followup: "",
-		primary_site: "",
-		demographics: [],
-		diagnoses: [],
-		samples: []
-	}
-	this.getCaseSummaryData();
-	this.getExperimentFileCount();
-	this.getDataCategoryFilesCounts();
+    this.case_submitter_id = caseData.summaryData.case_submitter_id;
+    this.case_id = caseData.summaryData.case_id;
+    this.caseSummaryData = caseData.summaryData;
+    //@@@PDC-4725: Set the source parameter in the UI calls to fetch details of a search result
+    if (caseData && caseData.source) {
+      this.source = caseData.source;
+    }
+    if (this.caseSummaryData.case_id === "") {
+      this.getCaseGeneralSummaryData();
+    }
+
+    this.loc.replaceState("/case/" + this.caseSummaryData.case_id);
+    this.fileTypesCounts = {RAW: 0, 'PSM-TSV': 0, 'PSM-MZID': 0, PROT_ASSEM: 0, MZML: 0, PROTOCOL: 0};
+    this.aliquots = [];
+    this.diagnoses = [];
+    this.samples = [];
+    //@@@PDC-8464 handle multiple entries for one case
+    this.followups = [];
+    this.treatments = [];
+    this.caseDetailedSummaryData = {
+      case_id: "",
+      case_submitter_id: "",
+      project_submitter_id: "",
+      disease_type: "",
+      tissue_source_site_code: "",
+      days_to_lost_to_followup: "",
+      index_date: "",
+      lost_to_followup: "",
+      primary_site: "",
+      demographics: [],
+      diagnoses: [],
+      followups: [],
+      treatments: [],
+      samples: []
+    }
+    this.getCaseSummaryData();
+    this.getExperimentFileCount();
+    this.getDataCategoryFilesCounts();
   }
 
   getCaseGeneralSummaryData(){
 	this.loading = true;
 	this.caseSummaryService.getCaseSummaryData(this.case_id, this.case_submitter_id, this.source).subscribe((data: any) =>{
-		console.log(data.uiCase);
 		this.caseSummaryData = data.uiCase[0];
 		this.loading = false;
 	});
@@ -131,7 +176,6 @@ export class CaseSummaryComponent implements OnInit {
 		setTimeout(() => {
 			// Get all studies data for a study name.
 			this.caseSummaryService.getFilteredStudyDetailsForSummaryPage(studyName, this.source).subscribe((data: any) =>{
-				console.log(data);
 				this.filteredStudiesData = this.mergeStudies(data.getPaginatedUIStudy.uiStudies);
 				dialogConfig.data = {
 					summaryData: this.filteredStudiesData[0],
@@ -141,7 +185,6 @@ export class CaseSummaryComponent implements OnInit {
 				this.router.navigate([{outlets: {studySummary: ['study-summary', studyName]}}], { skipLocationChange: true });
 				const dialogRef = this.dialog.open(StudySummaryComponent, dialogConfig);
 				dialogRef.afterClosed().subscribe((val:any) => {
-					console.log("Dialog output:", val);
 					//Generate alias URL to hide auxiliary URL details when the previous overlay window was closed and the focus returned to this one
 					this.loc.replaceState("/case/" + this.caseSummaryData.case_id);
 				});
@@ -163,7 +206,6 @@ export class CaseSummaryComponent implements OnInit {
 		this.router.navigate([{outlets: {filesOverlay: ['files-overlay', this.case_id]}}], { skipLocationChange: true });
 		const dialogRef = this.dialog.open(FilesOverlayComponent, dialogConfig);
 		dialogRef.afterClosed().subscribe((val:any) => {
-				console.log("Dialog output:", val);
 				//Generate alias URL to hide auxiliary URL details when the previous overlay window was closed and the focus returned to this one
 				this.loc.replaceState("/case/" + this.caseSummaryData.case_id);
 		});
@@ -195,42 +237,46 @@ export class CaseSummaryComponent implements OnInit {
 			return mergedStudies;
 		}
 
-  getExperimentFileCount(){
-	this.loading = true;
-	this.caseSummaryService.getExprimentFileByCaseCountData(this.case_id, this.source).subscribe((data: any) =>{
-		this.experimentFileCount = data.uiExperimentFileCount;
-		this.loading = false;
-	});
+  getExperimentFileCount() {
+    this.loading = true;
+    setTimeout(() => {
+      this.caseSummaryService.getExprimentFileByCaseCountData(this.case_id, this.source).subscribe((data: any) => {
+        this.experimentFileCount = data.uiExperimentFileCount;
+        this.loading = false;
+      });
+    }, 1000);
   }
 
 
-  getDataCategoryFilesCounts(){
-	this.loading = true;
-	this.caseSummaryService.getDataCategoryFileByCaseCountData(this.case_id, this.source).subscribe((data: any) =>{
-		let fileCountsRaw = data.uiDataCategoryFileCount;
-		this.dataCategoryFileCount = this.mergeDataCategoryFiles(data.uiDataCategoryFileCount);
-		this.loading = false;
-	});
+  getDataCategoryFilesCounts() {
+    this.loading = true;
+    setTimeout(() => {
+      this.caseSummaryService.getDataCategoryFileByCaseCountData(this.case_id, this.source).subscribe((data: any) => {
+        const fileCountsRaw = _.cloneDeep(data.uiDataCategoryFileCount);
+        this.dataCategoryFileCount = this.mergeDataCategoryFiles(fileCountsRaw);
+        this.loading = false;
+      });
+    }, 1000);
   }
 
-  mergeDataCategoryFiles(dataCategoryFileCount: any[]){
-	let dataCategoryMap = new Map();
-	for(let dataCategory of dataCategoryFileCount){
-		if(dataCategoryMap.has(dataCategory.data_category+dataCategory.file_type)){
-			let data = dataCategoryMap.get(dataCategory.data_category+dataCategory.file_type);
-			data.submitter_id_name = data.submitter_id_name+"|"+ dataCategory.submitter_id_name;
-			data.files_count = data.files_count + dataCategory.files_count;
-			dataCategoryMap.set(dataCategory.data_category+dataCategory.file_type, data);
-		}else{
-			let data = {};
-			data['data_category'] = dataCategory.data_category;
-			data['file_type'] = dataCategory.file_type;
-			data['files_count'] = dataCategory.files_count;
-			data['submitter_id_name'] = dataCategory.submitter_id_name;
-			dataCategoryMap.set(dataCategory.data_category+dataCategory.file_type, data);
-		}
-	}
-	return Array.from(dataCategoryMap.values());
+  mergeDataCategoryFiles(dataCategoryFileCount: any[]) {
+    let dataCategoryMap = new Map();
+    for (let dataCategory of dataCategoryFileCount) {
+      if (dataCategoryMap.has(dataCategory.data_category + dataCategory.file_type)) {
+        let data = dataCategoryMap.get(dataCategory.data_category + dataCategory.file_type);
+        data.submitter_id_name = data.submitter_id_name + "|" + dataCategory.submitter_id_name;
+        data.files_count = data.files_count + dataCategory.files_count;
+        dataCategoryMap.set(dataCategory.data_category + dataCategory.file_type, data);
+      } else {
+        let data = {};
+        data['data_category'] = dataCategory.data_category;
+        data['file_type'] = dataCategory.file_type;
+        data['files_count'] = dataCategory.files_count;
+        data['submitter_id_name'] = dataCategory.submitter_id_name;
+        dataCategoryMap.set(dataCategory.data_category + dataCategory.file_type, data);
+      }
+    }
+    return Array.from(dataCategoryMap.values());
   }
 
   getCaseSummaryData(){
@@ -244,7 +290,6 @@ export class CaseSummaryComponent implements OnInit {
 			//@@@PDC-1123 add ui wrappers public APIs
 			//console.log("Case from Array: "+JSON.stringify(data.uiCaseSummary[0]));
 			//@@@PDC-2335 uiCaseSummary returns an array instead of a single obj
-			console.log(data);
 			this.caseDetailedSummaryData = data.uiCaseSummary[0];
 			//@@PDC-6543 external ref case summary
 			this.externalReferences = data.uiCaseSummary[0].externalReferences;
@@ -268,13 +313,16 @@ export class CaseSummaryComponent implements OnInit {
 			this.exposures = this.removeNullValues(data.uiCaseSummary[0].exposures);
 			if (this.exposures && this.exposures.length > 0) this.generateLoopsforAdditionalData(this.exposures[0], "exposure");
 			this.followups = this.removeNullValues(data.uiCaseSummary[0].follow_ups);
-			if (this.followups && this.followups.length > 0) this.generateLoopsforAdditionalData(this.followups[0], "followup");
+			if (this.followups && this.followups.length > 0) this.generateLoopsforAdditionalData(this.followups, "followup");
+			this.treatments = this.removeNullValues(data.uiCaseSummary[0].treatments);
+			if (this.treatments && this.treatments.length > 0) this.generateLoopsforAdditionalData(this.treatments, "treatment");
 			this.loading = false;
 	  	});
 	}, 1000);
   }
 
-  //@@@PDC-4490: Update Clinical manifest and Case summary pages for GDC Sync
+	//@@@PDC-4490: Update Clinical manifest and Case summary pages for GDC Sync
+	//@@@PDC-8464 handle multiple entries for one case
   generateLoopsforAdditionalData(dataSet, entity){
 	if (entity == "exposure") {
 		//if (dataSet && dataSet['exposure_id']) delete dataSet['exposure_id'];
@@ -287,17 +335,31 @@ export class CaseSummaryComponent implements OnInit {
 		this.showMoreExposureOddProps = this.populateAdditionalDatasets(dataSet, 2, false);
 		this.showMoreExposureEvenPropVals = this.populateAdditionalDatasets(dataSet, 3, false);
 		this.showMoreExposureOddPropVals = this.populateAdditionalDatasets(dataSet, 4, false);
-	} else if (entity == "followup") {
-		//if (dataSet && dataSet['follow_up_id']) delete dataSet['follow_up_id'];
-		//if (dataSet && dataSet['follow_up_submitter_id']) delete dataSet['follow_up_submitter_id'];
-		this.showLessFollowUpEvenProps = this.populateAdditionalDatasets(dataSet, 1, true);
-		this.showLessFollowUpOddProps = this.populateAdditionalDatasets(dataSet, 2, true);
-		this.showLessFollowUpEvenPropVals = this.populateAdditionalDatasets(dataSet, 3, true);
-		this.showLessFollowUpOddPropVals = this.populateAdditionalDatasets(dataSet, 4, true);
-		this.showMoreFollowUpEvenProps = this.populateAdditionalDatasets(dataSet, 1, false);
-		this.showMoreFollowUpOddProps = this.populateAdditionalDatasets(dataSet, 2, false);
-		this.showMoreFollowUpEvenPropVals = this.populateAdditionalDatasets(dataSet, 3, false);
-		this.showMoreFollowUpOddPropVals = this.populateAdditionalDatasets(dataSet, 4, false);
+	}
+	else if (entity == "followup") {
+		for (let data of dataSet){
+			let index = dataSet.indexOf(data);
+			this.showLessFollowUpEvenProps[index] = this.populateAdditionalDatasets(data, 1, true);
+			this.showLessFollowUpOddProps[index] = this.populateAdditionalDatasets(data, 2, true);
+			this.showLessFollowUpEvenPropVals[index] = this.populateAdditionalDatasets(data, 3, true);
+			this.showLessFollowUpOddPropVals[index] = this.populateAdditionalDatasets(data, 4, true);
+			this.showMoreFollowUpEvenProps[index] = this.populateAdditionalDatasets(data, 1, false);
+			this.showMoreFollowUpOddProps[index] = this.populateAdditionalDatasets(data, 2, false);
+			this.showMoreFollowUpEvenPropVals[index] = this.populateAdditionalDatasets(data, 3, false);
+			this.showMoreFollowUpOddPropVals[index] = this.populateAdditionalDatasets(data, 4, false);
+		}
+	} else if (entity == "treatment") {
+		for (let data of dataSet){
+			let index = dataSet.indexOf(data);
+			this.showLessTreatmentEvenProps[index] = this.populateAdditionalDatasets(data, 1, true);
+			this.showLessTreatmentOddProps[index] = this.populateAdditionalDatasets(data, 2, true);
+			this.showLessTreatmentEvenPropVals[index] = this.populateAdditionalDatasets(data, 3, true);
+			this.showLessTreatmentOddPropVals[index] = this.populateAdditionalDatasets(data, 4, true);
+			this.showMoreTreatmentEvenProps[index] = this.populateAdditionalDatasets(data, 1, false);
+			this.showMoreTreatmentOddProps[index] = this.populateAdditionalDatasets(data, 2, false);
+			this.showMoreTreatmentEvenPropVals[index] = this.populateAdditionalDatasets(data, 3, false);
+			this.showMoreTreatmentOddPropVals[index] = this.populateAdditionalDatasets(data, 4, false);
+		}
 	} else if (entity == "diagnosis") {
 		//@@@PDC-5251: Display the associated sample information for Diagnoses on the the Case Summary page
 		//Delete the property 'samples' if not present, else display the associated sample submitter ids
@@ -443,6 +505,10 @@ export class CaseSummaryComponent implements OnInit {
 		//loop through each element of the array and capitalize the first letter.
 		for (var i = 0; i < arr.length; i++) {
 			arr[i] = arr[i].charAt(0).toUpperCase() + arr[i].slice(1);
+			//@@@PDC-9426 Gender to Sex conversion
+			if (arr[i] == 'Gender') {
+				arr[i] = 'Sex';
+			}
 		}
 		result = arr.join(" ");
 	}
@@ -455,6 +521,7 @@ export class CaseSummaryComponent implements OnInit {
 	if (clinicalDataRow) {
 		caseDetailedSummaryData['follow_ups'] = clinicalDataRow['follow_ups'];
 		caseDetailedSummaryData['exposures'] = clinicalDataRow['exposures'];
+		caseDetailedSummaryData['treatments'] = clinicalDataRow['treatments'];
 	}
 	return caseDetailedSummaryData;
 }
@@ -538,6 +605,14 @@ export class CaseSummaryComponent implements OnInit {
 
   showLessFollowUpClicked(){
 	this.showMoreFollowUp = false;
+  }
+
+  showMoreTreatmentClicked(){
+	this.showMoreTreatment = true;
+  }
+
+  showLessTreatmentClicked(){
+	this.showMoreTreatment = false;
   }
 
   close() {

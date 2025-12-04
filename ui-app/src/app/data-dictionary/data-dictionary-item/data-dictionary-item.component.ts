@@ -5,11 +5,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ViewportScroller } from '@angular/common';
 
 @Component({
-  encapsulation: ViewEncapsulation.None,
-  selector: 'app-data-dictionary-item',
-  templateUrl: './data-dictionary-item.component.html',
-  styleUrls: ['./data-dictionary-item.component.css']
-
+    encapsulation: ViewEncapsulation.None,
+    selector: 'app-data-dictionary-item',
+    templateUrl: './data-dictionary-item.component.html',
+    styleUrls: ['./data-dictionary-item.component.css'],
+    standalone: false
 })
 export class DataDictionaryItemComponent implements OnInit {
   fragment;

@@ -6,32 +6,33 @@ import { Observable } from 'rxjs';
 import gql from 'graphql-tag';
 import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
-import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { PaginatorModule } from 'primeng/paginator';
 import { DropdownModule} from 'primeng/dropdown';
-import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
-import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
-import { MatLegacyCheckboxModule as MatCheckboxModule } from '@angular/material/legacy-checkbox';
-import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { MatLegacyListModule as MatListModule } from '@angular/material/legacy-list';
-import { MatLegacyProgressSpinnerModule as MatProgressSpinnerModule } from '@angular/material/legacy-progress-spinner';
-import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
+import { MatListModule } from '@angular/material/list';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatLegacyTabsModule as MatTabsModule } from '@angular/material/legacy-tabs';
+import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatLegacyTooltipModule as MatTooltipModule } from '@angular/material/legacy-tooltip';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { GeneProteinSummaryService } from "./gene-protein-summary.service";
 import { Filter, GeneProteinDataWithId, GeneStudySpectralCountData, GeneAliquotSpectralCountData,
 		GeneStudySpectralCountDataPaginated, GeneAliquotSpectralCountDataPaginated, ptmData } from '../types';
 
 
 @Component({
-  selector: 'app-gene-protein-summary',
-  templateUrl: './gene-protein-summary.component.html',
-  styleUrls: ['../../assets/css/global.css', './gene-protein-summary.component.scss'],
-  providers: [ GeneProteinSummaryService ]
+    selector: 'app-gene-protein-summary',
+    templateUrl: './gene-protein-summary.component.html',
+    styleUrls: ['../../assets/css/global.css', './gene-protein-summary.component.scss'],
+    providers: [GeneProteinSummaryService],
+    standalone: false
 })
 
 //@@@PDC-374 - adding url to overlay windows
@@ -114,6 +115,7 @@ export class GeneProteinSummaryComponent implements OnInit {
 		gene_id: "",
 		gene_name: "",
 		ncbi_gene_id: "",
+		alias: "",
 		authority: "",
 		description: "",
 		organism: "",

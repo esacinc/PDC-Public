@@ -1,6 +1,6 @@
 <title>STUDY SUMMARY</title>
-<button mat-icon-button style="float: right; flex: 0 0 auto;" (click)="close(false)" aria-label="Close">
-	<i class="fa fa-close" style="light"></i>
+<button mat-icon-button style="position: absolute; top: 15px; right: 15px; z-index: 1000; color: black; background-color: transparent; border: none; padding: 5px;" (click)="close(false)" aria-label="Close">
+	<i class="fa fa-times" style="color: black; font-size: 24px; font-weight: bold;"></i>
 </button>
 
 <!--//@@@PDC-461  Make all summary dialog windows headers sticky-->
@@ -9,7 +9,7 @@
 <mat-dialog-content style='max-height: 80vh; '>
 <div class="row" style="width: 100%;vertical-align: middle">
 	<div class="col-md-12" style="align-items: center;">
-		<mat-card style="width: 100%;">
+		<mat-card appearance="outlined" style="width: 100%;">
 			<mat-card-header class="study-summary">
 				<mat-card-title class="study-summary">SUMMARY</mat-card-title>
 			</mat-card-header>
@@ -34,7 +34,7 @@
 					</tr>
 					<tr><td class="summary-card-name-left-cell">Study Name</td>
 						<td class="summary-card-value-left-cell">{{studySummaryData.study_submitter_id}}</td>
-						<td class="summary-card-name-left-cell">Experimental Strategy</td>
+						<td class="summary-card-name-left-cell">Experiment Type</td>
 						<td class="summary-card-value-left-cell">{{studySummaryData.experiment_type}}</td>
 					</tr>
 <!-- 					<tr><td class="summary-card-name-left-cell">Experimental Strategy</td>
@@ -68,7 +68,7 @@
 				<p>In 2008, the NCI’s OCCPR organized a workshop to discuss how and when proteomics data should be released. The result was the <a href="https://www.ncbi.nlm.nih.gov/pubmed/19344107" target="_blank">Amsterdam Principles</a> that established guidelines for the timing of data release, comprehensiveness of a dataset, data format, deposition to repositories, quality metrics, and responsibility for proteomic data release. Participants agreed that mass spectrometry output data files should be available to support the claims of proteomics publications. In 2010, NCI’s OCCPR convened a follow-on workshop to address quality metrics for proteomics with an emphasis on mass spectrometry. As a sign of solidarity for these principles, four peer-reviewed journals simultaneously published the <a href="https://www.ncbi.nlm.nih.gov/pubmed/22069307" target="_blank">corollary to Amsterdam Principles</a>.</p>
 				<p>Agreeing to abide by these principles and the CPTAC Publication Guidelines is required to gain access to CPTAC data.</p>
 				<h4>Publication Guidelines and Embargo Period</h4>
-				<p>CPTAC is a community resource project and data are made available rapidly after generation for community research use. To act in accord with the Fort Lauderdale Principles and support the continued timely public release of large-scale proteomic data prior to publication, researchers who plan to prepare manuscripts or presentations involving CPTAC data and journal editors who receive such manuscripts are encouraged to coordinate their independent reports with CPTAC’s publication schedule. This may be done by contacting the CPTAC network at <a href="mailto:cancer.proteomics@mail.nih.gov" class="mailto">cancer.proteomics@mail.nih.gov<span class="mailto" aria-label="(link sends e-mail)"></span></a>.</p>
+				<p>CPTAC is a community resource project and data are made available rapidly after generation for community research use. To act in accord with the Fort Lauderdale Principles and support the continued timely public release of large-scale proteomic data prior to publication, researchers who plan to prepare manuscripts or presentations involving CPTAC data and journal editors who receive such manuscripts are encouraged to coordinate their independent reports with CPTAC’s publication schedule. This may be done by contacting the CPTAC network at <a href="mailto:cancer.proteomics@mail.nih.gov" class="mailto">cancer.proteomics&#64;mail.nih.gov<span class="mailto" aria-label="(link sends e-mail)"></span></a>.</p>
 				<p>CPTAC defines a global analysis publication as the first marker paper, authored by one or more members of the CPTAC, which includes analysis of the existing CPTAC data generated on the tumor type or sample set at the time of a data freeze. Specifically, these manuscripts report on the comprehensive, integrated analyses of multiple CPTAC datasets which may include: characterization of global proteome and/or PTMs such as phosphorylation, acetylation, glycosylation and ubiquitination, and reverse-phase protein analysis. Prior to a global analysis publication on a specific tumor type, available datasets should be considered pre-publication data subject to the standard principles of scientific etiquette regarding publication of findings using data obtained from other sources.</p>
 				<p>The CPTAC program has established the following policy to clarify freedom of CPTAC and non-CPTAC users to publish findings using CPTAC data. There are no limitations on submitting manuscripts to a journal and subsequent publications containing analyses using any CPTAC dataset if the dataset meets one of the following three freedom-to-publish criteria:</p>
 				<ul><li>A global analysis publication paper has been published on that tumor type or sample set; or</li>
@@ -77,7 +77,7 @@
 				</ul><p>The specific status of each tumor dataset is displayed on the study page under Available Data tab.</p>
 				<p><span style="color:#333333;"><strong>Citing CPTAC Data in Publications</strong></span></p>
 				<p>The CPTAC program requests that publications using data from this program include the following statement: “Data used in this publication were generated by the National Cancer Institute Clinical Proteomic Tumor Analysis Consortium (CPTAC).”</p>
-				<p>If you have questions, contact <a href="mailto:cancer.proteomics@mail.nih.gov" class="mailto">cancer.proteomics@mail.nih.gov<span class="mailto" aria-label="(link sends e-mail)"></span></a>.</p>
+				<p>If you have questions, contact <a href="mailto:cancer.proteomics@mail.nih.gov" class="mailto">cancer.proteomics&#64;mail.nih.gov<span class="mailto" aria-label="(link sends e-mail)"></span></a>.</p>
 			</div>
 			<div *ngIf="!duaAvailable" style = "max-height:220px;overflow-y: auto;display: block!important;font-size: 12px; width: 100%;">
 				<br>
@@ -98,7 +98,7 @@
   </div>
   <div class="row" style="width: 100%; padding-top: 20px;padding-bottom:5px">
 		<div class="col-md-6">
-			<mat-card class="data-categories-table">
+			<mat-card appearance="outlined" class="data-categories-table">
 				<mat-card-content>
 				<table class="table table-striped" style="width:100%" id="dataCategoryStudyTable">
 					<caption style="caption-side:top;background:#078abf;color:white!important; padding:0!important;text-align: center;" ><b>Common Data Analysis Pipeline (PDC Harmonization) data</b>
@@ -121,7 +121,7 @@
 			</mat-card>
 			<div class="row" style="width: 100%; padding-top: 20px;padding-left: 30px">
 				<div *ngIf="entityReferenceExternalData.length > 0" class="row" style="width: 200%;">
-						<mat-card class="entity-reference-table">
+						<mat-card appearance="outlined" class="entity-reference-table">
 							<mat-card-content>
 							<table class="table table-striped" style="width:100%" id="entityReferenceExternalTable">
 								<thead>
@@ -140,7 +140,7 @@
 						</mat-card>
 				</div>
 				<div *ngIf="entityReferenceInternalData.length > 0" class="row" style="padding-bottom:5px; width: 200%;">
-						<mat-card class="entity-reference-table">
+						<mat-card appearance="outlined" class="entity-reference-table">
 							<mat-card-content>
 							<table class="table table-striped" style="width:100%" id="entityReferenceInternalTable">
 								<thead>
@@ -162,7 +162,7 @@
 		</div>
 		<div class="col-md-6" style="padding-bottom:5px">
 		  <div style="padding-bottom:3px; width:100%">
-			<mat-card class="data-categories-table">
+			<mat-card appearance="outlined" class="data-categories-table">
 				<mat-card-content>
 				<table class="table table-striped" style="width:100%" id="dataCategoryStudyTable">
 					<caption style="caption-side:top;background:#078abf;color:white!important; padding:0!important;text-align: center;" ><b>Supplementary data</b>
@@ -189,7 +189,7 @@
 		  </div>
 		<!--@@@PDC-1313 use heatmap thumbnail-->
 		<div style="padding-bottom:3px">
-			<mat-card style="padding:10px">
+			<mat-card appearance="outlined" style="padding:10px">
 				<mat-card-header class="study-summary" >
 					<mat-card-title  class="study-summary" >PUBLICATIONS</mat-card-title>
 				</mat-card-header>

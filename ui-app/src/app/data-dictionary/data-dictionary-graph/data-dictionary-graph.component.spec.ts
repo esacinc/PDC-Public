@@ -3,9 +3,10 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { DataDictionaryGraphComponent } from './data-dictionary-graph.component';
 import { Apollo } from "apollo-angular";
 import { Observable, of } from "rxjs";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 
 describe('DataDictionaryGraphComponent', () => {
@@ -14,13 +15,15 @@ describe('DataDictionaryGraphComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ DataDictionaryGraphComponent ],
-      imports: [HttpClientTestingModule],
-      schemas: [NO_ERRORS_SCHEMA],
-      providers: [
+    declarations: [DataDictionaryGraphComponent],
+    schemas: [NO_ERRORS_SCHEMA],
+    imports: [],
+    providers: [
         { provide: Apollo, useValue: {} },
-      ]
-    })
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+    ]
+})
     .compileComponents();
   }));
 

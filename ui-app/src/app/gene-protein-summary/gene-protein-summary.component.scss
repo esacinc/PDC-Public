@@ -9,7 +9,7 @@
   padding-bottom: 0px;
   color: #585858;
 }
-.gene-summary .mat-card-title{
+.gene-summary .mat-mdc-card-title{
 	font-family: 'Lato';
 	font-weight: 400;
 	font-size: 16px;
@@ -117,4 +117,72 @@
 //@@@PDC-4995: Alignment issues
 :host ::ng-deep .ui-table-unfrozen-view .ui-table-scrollable-header-box {
 	padding-right: 17px !important;
+}
+
+:host ::ng-deep .mat-dialog-container {
+  max-width: 80vw !important;
+  width: 80vw !important;
+  min-width: 600px;
+  padding: 32px;
+  box-sizing: border-box;
+}
+
+/* Optional: match study-summary look */
+:host ::ng-deep .mat-dialog-container {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.18);
+}
+  ::ng-deep .mat-dialog-container {
+  width: 75vw !important;
+  max-width: 75vw !important;
+  min-width: 75vw !important;
+  margin: 2.5vh auto !important;
+  padding: 0 !important;
+}
+
+
+::ng-deep .cdk-overlay-pane {
+  width: 75vw !important;
+  max-width: 75vw !important;
+}
+
+::ng-deep .mat-dialog-content {
+  margin: 0 !important;
+  padding: 0 !important;
+  max-height: 90vh !important;
+  overflow-y: auto !important;
+}
+
+::ng-deep .mat-dialog-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+
+.row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+
+.col-md-12 {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+
+::ng-deep .mat-dialog-title,
+::ng-deep h2[mat-dialog-title] {
+  text-align: center;
+  width: 100%;
+  margin: 0 auto;
 }

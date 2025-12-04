@@ -3,9 +3,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ViewportScroller } from '@angular/common';
 
 @Component({
-  selector: 'app-api-documentation',
-  templateUrl: './api-documentation.component.html',
-  styleUrls: ['./api-documentation.component.css']
+    selector: 'app-api-documentation',
+    templateUrl: './api-documentation.component.html',
+    styleUrls: ['./api-documentation.component.css'],
+    standalone: false
 })
 export class ApiDocumentationComponent implements OnInit {
     fragment;

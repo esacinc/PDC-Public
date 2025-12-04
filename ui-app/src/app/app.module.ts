@@ -7,50 +7,46 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { providePrimeNG } from 'primeng/config';
+import Aura from '@primeng/themes/aura';
+
 import { TableModule } from 'primeng/table';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { CheckboxModule } from 'primeng/checkbox';
 import { PaginatorModule } from 'primeng/paginator';
 import { DataViewModule } from 'primeng/dataview';
 import { ButtonModule } from 'primeng/button';
-import { HttpClientModule} from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { APP_BASE_HREF } from '@angular/common';
-import { MatLegacyAutocompleteModule as MatAutocompleteModule } from '@angular/material/legacy-autocomplete';
-import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
-import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
-import { MatLegacyCheckboxModule as MatCheckboxModule } from '@angular/material/legacy-checkbox';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
-import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
-import { MatLegacyListModule as MatListModule } from '@angular/material/legacy-list';
-import { MatLegacyMenuModule as MatMenuModule } from '@angular/material/legacy-menu';
-import { MatLegacyProgressSpinnerModule as MatProgressSpinnerModule } from '@angular/material/legacy-progress-spinner';
-import { MatLegacyRadioModule as MatRadioModule } from '@angular/material/legacy-radio';
-import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
-import { MatLegacyTabsModule as MatTabsModule } from '@angular/material/legacy-tabs';
+import { MatInputModule } from '@angular/material/input';
+import { MatListModule } from '@angular/material/list';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
+import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatLegacyTooltipModule as MatTooltipModule } from '@angular/material/legacy-tooltip';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FormsModule } from '@angular/forms';
-import {
-    SocialLoginModule,
-    SocialAuthServiceConfig,
-    GoogleLoginProvider,
-} from 'angularx-social-login';
+
 import { ApolloModule, Apollo } from 'apollo-angular';
-import { HttpLinkModule, HttpLink } from 'apollo-angular-link-http';
-import { InMemoryCache } from 'apollo-cache-inmemory';
+import { HttpLink } from 'apollo-angular/http';
+import { InMemoryCache } from '@apollo/client/core';
 import { NgIdleModule } from '@ng-idle/core';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { Md5 } from 'ts-md5';
-import {
-  RecaptchaModule,
-  RecaptchaFormsModule,
-  RECAPTCHA_V3_SITE_KEY,
-  RecaptchaV3Module
-} from 'ng-recaptcha';
+
 
 import { NavbarComponent } from './navbar/navbar.component';
 import { SearchService } from './navbar/search.service';
@@ -113,31 +109,15 @@ import { PancancerComponent } from './pancancer/pancancer.component';
 import { PancancerService } from './pancancer/pancancer.service';
 import { DataCloudAnalysisComponent } from './analysis/data-cloud-analysis/data-cloud-analysis.component';
 
-
-export function getAuthServiceConfigs() {
-
-  const config = {
-    autoLogin: false,
-    providers: [
-      {
-        id: GoogleLoginProvider.PROVIDER_ID,
-        provider: new GoogleLoginProvider(
-          environment.google_oauth_client_id
-        )
-      }
-    ],
-    onError: (err) => {
-      console.error(err);
-    }
-  } as SocialAuthServiceConfig;
-
-  return config;
-}
+import { NavbarNciComponent } from './navbar-nci/navbar-nci.component';
+import { HomePageNciModule } from './home-page-nci/home-page-nci.module';
+import { FooterComponent } from './footer-nci/footer.component';
+import { TooltipDirective } from 'ngx-bootstrap/tooltip';
 
 const RECAPTCHA_V3_PDC_KEY = environment.recaptcha_site_key;
 
-@NgModule({
-    declarations: [
+@NgModule({ declarations: [
+        FooterComponent,
         NavbarComponent,
         AppComponent,
         BottomNavbarComponent,
@@ -147,7 +127,6 @@ const RECAPTCHA_V3_PDC_KEY = environment.recaptcha_site_key;
         GeneProteinSummaryComponent,
         WelcomePageComponent,
         RegistrationPageComponent,
-        SearchStylePipe,
         AboutComponent,
         CaseSummaryComponent,
         StudySummaryComponent,
@@ -179,65 +158,62 @@ const RECAPTCHA_V3_PDC_KEY = environment.recaptcha_site_key;
         PancancerComponent,
         DataCloudAnalysisComponent
     ],
-    imports: [
-        FontAwesomeModule,
-        TableModule,
-        OverlayPanelModule,
-        ButtonModule,
-        BrowserModule,
-        LegacyDataModule,
-        BrowserAnimationsModule,
-        DataDictionaryModule,
-        HttpClientModule,
-        ApolloModule,
-        HttpLinkModule,
-        // HttpModule,
-        CheckboxModule,
-        PaginatorModule,
-        DataViewModule,
-        MatButtonModule,
-        MatToolbarModule,
-        MatGridListModule,
-        MatFormFieldModule,
-        MatIconModule,
-        MatTabsModule,
-        MatInputModule,
-        MatMenuModule,
-        MatTooltipModule,
-        AppRoutingModule,
-        SocialLoginModule,
-        FormsModule,
-        MatCardModule,
-        MatAutocompleteModule,
-        ReactiveFormsModule,
-        MatRadioModule,
-        NgIdleModule.forRoot(),
-        MaterialModule,
-        MatProgressSpinnerModule,
-        AnalysisModule,
-        //AnalysisRoutingModule,
-        DataSubmissionModule,
-        OverlayModule,
-        GenePageModule,
-        MatCheckboxModule,
-        MatListModule,
-        MatExpansionModule,
-        MatSelectModule,
-        RecaptchaModule,
-        RecaptchaFormsModule,
-        RecaptchaV3Module
-    ],
-    providers: [ChorusauthService, FrontPageService, SearchService, PDCUserService, OverlayWindowService, PublicationsService, PancancerService,
+
+    bootstrap: [AppComponent],
+
+  imports: [
+    NavbarNciComponent,
+    HomePageNciModule,
+    FontAwesomeModule,
+    TableModule,
+    OverlayPanelModule,
+    ButtonModule,
+    BrowserModule,
+    LegacyDataModule,
+    BrowserAnimationsModule,
+    DataDictionaryModule,
+    ApolloModule,
+    // HttpLinkModule,
+    // HttpModule,
+    CheckboxModule,
+    PaginatorModule,
+    DataViewModule,
+    MatButtonModule,
+    MatToolbarModule,
+    MatGridListModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatTabsModule,
+    MatInputModule,
+    MatMenuModule,
+    MatTooltipModule,
+    AppRoutingModule,
+    FormsModule,
+    MatCardModule,
+    MatAutocompleteModule,
+    ReactiveFormsModule,
+    MatRadioModule,
+    NgIdleModule.forRoot(),
+    MaterialModule,
+    MatProgressSpinnerModule,
+    AnalysisModule,
+    //AnalysisRoutingModule,
+    DataSubmissionModule,
+    OverlayModule,
+    GenePageModule,
+    MatCheckboxModule,
+    MatListModule,
+    MatExpansionModule,
+    MatSelectModule,
+    TooltipDirective
+  ],
+  providers:
+    [
+      ChorusauthService, FrontPageService, SearchService, PDCUserService, OverlayWindowService, PublicationsService, PancancerService,
         LegacyDataService, HeatmapsService, StudySummaryOverlayService, AuthGuardService,
-        { provide: 'SocialAuthServiceConfig', useFactory: getAuthServiceConfigs },
+
         { provide: APP_BASE_HREF, useValue: window['_app_base'] || '/' },
-        {
-            provide: RECAPTCHA_V3_SITE_KEY,
-            useValue: RECAPTCHA_V3_PDC_KEY
-        }
-    ],
-    bootstrap: [AppComponent]
-})
+        provideHttpClient(withInterceptorsFromDi())] })
 // @@@PDC-168 The landing page for the PDC Node provides a summary view of the data that is in the PDC database.
 // @@@PDC-169 The user should be able to browse data by Case
 // @@@PDC-445 start using relative URLs

@@ -7,7 +7,7 @@
     <mat-expansion-panel>
       <mat-expansion-panel-header>Molecular and Cellular Proteomics</mat-expansion-panel-header>
       <div *ngFor="let feed of cellular_proteomics_feeds">
-        <mat-card>
+        <mat-card appearance="outlined">
         <mat-card-title><a target="_new" href={{feed.link}}>{{feed.title}}</a></mat-card-title>
         <mat-card-content>{{feed.content | stripHtmlTags}}</mat-card-content>
         </mat-card>
@@ -16,7 +16,7 @@
     <mat-expansion-panel>
         <mat-expansion-panel-header>The Human Protein Atlas</mat-expansion-panel-header>
         <div *ngFor="let feed of human_proteome_atlas_feeds">
-          <mat-card>
+          <mat-card appearance="outlined">
           <mat-card-title class="h3"><a target="_new" href={{feed.link}}>{{feed.title}}</a></mat-card-title>
           <mat-card-content>{{feed.content | stripHtmlTags}}</mat-card-content>
           </mat-card>
@@ -25,7 +25,7 @@
       <mat-expansion-panel>
           <mat-expansion-panel-header>UniProt</mat-expansion-panel-header>
           <div *ngFor="let feed of uniprot_feeds">
-            <mat-card>
+            <mat-card appearance="outlined">
             <mat-card-title class="h3"><a target="_new" href={{feed.link}}>{{feed.title}}</a></mat-card-title>
             <mat-card-content>{{feed.content | stripHtmlTags}}</mat-card-content>
             </mat-card>
@@ -36,7 +36,7 @@
   <div class="col-sm-6">
     <h3>NIH Funding Opportunities</h3>
       <div *ngFor="let feed of nih_funding_feeds">
-          <mat-card class="funding-card">
+          <mat-card appearance="outlined" class="funding-card">
           <mat-card-title class="header"><a target="_new" href={{feed.link}}>{{feed.title}}</a></mat-card-title>
           <mat-card-content class="body">{{feed.content | stripHtmlTags}}</mat-card-content>
           </mat-card>

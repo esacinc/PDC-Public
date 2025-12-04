@@ -42,7 +42,8 @@
 						  </div>
 						  <div class="row">
 						    <div class="col-12">
-							  <span id="selectedStudiesCount" *ngIf="!isDownloadDisabled()" style="padding-top:5px;">Rows selected: {{selectedStudies.length}}&nbsp;</span>
+							  <!-- @@@PDC-9310-partial-display-row-number -->	
+							  <span id="selectedStudiesCount" *ngIf="!isDownloadDisabled()" style="padding-top:5px;padding-right:10px;">Rows selected: {{selectedStudies.length}}&nbsp;</span>
 							</div>
 						  </div>
 						</div>
@@ -156,7 +157,9 @@
 			  <td style="word-wrap: break-word; white-space: normal;">{{studyData.primary_site}}</td>
 			  <td style="word-wrap: break-word; white-space: normal;">{{studyData.analytical_fraction}}</td>
 			  <td style="word-wrap: break-word; white-space: normal;">{{studyData.experiment_type}}</td>
-			  <td style="word-wrap: break-word; white-space: normal;"><a [class.disabled]="studyData.cases_count == 0" href="javascript:void(0)" (click)="changeTabForCaseCount(studyData.submitter_id_name)">{{studyData.cases_count}}</a></td>
+			  <!--@@@PDC-9140 remove hyperlink from case count -->
+			  <td style="word-wrap: break-word; white-space: normal;">{{studyData.cases_count}}</td>
+			  <!--<td style="word-wrap: break-word; white-space: normal;"><a [class.disabled]="studyData.cases_count == 0" href="javascript:void(0)" (click)="changeTabForCaseCount(studyData.submitter_id_name)">{{studyData.cases_count}}</a></td>-->
 			  <td style="word-wrap: break-word; white-space: normal;" class="fixedWidthCol"><a [class.disabled]="!studyData.raw_count" href="javascript:void(0)" (click)="changeTabForFileType(studyData.submitter_id_name, 'Proprietary', 'Raw Mass Spectra')"><span *ngIf="studyData.raw_count">{{studyData.raw_count}}</span><span *ngIf="!studyData.raw_count">0</span></a></td>
 			  <td style="word-wrap: break-word; white-space: normal;" class="fixedWidthCol"><a [class.disabled]="!studyData.mzml_count" href="javascript:void(0)" (click)="changeTabForFileType(studyData.submitter_id_name, 'Open Standard', 'Processed Mass Spectra')"><span *ngIf="studyData.mzml_count">{{studyData.mzml_count}}</span><span *ngIf="!studyData.mzml_count">0</span></a></td>
 			  <!-- @@@PDC-1703 get other metadata files -->

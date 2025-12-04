@@ -1,8 +1,7 @@
-import {MatLegacyDialog as MatDialog, MatLegacyDialogRef as MatDialogRef, MatLegacyDialogConfig as MatDialogConfig, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA} from '@angular/material/legacy-dialog';
+import {MatDialog, MatDialogRef, MatDialogConfig, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {Component, OnInit} from '@angular/core';
 import {UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
-import {SocialAuthService, GoogleLoginProvider} from 'angularx-social-login';
 import {Md5} from 'ts-md5/dist/md5';
 import {ChorusauthService} from '../../chorusauth.service';
 import {PDCUserService} from '../../pdcuser.service';
@@ -10,12 +9,13 @@ import {environment} from '../../../environments/environment';
 import {ConfirmationDialogComponent} from './../../dialog/confirmation-dialog/confirmation-dialog.component';
 import {MessageDialogComponent} from './../../dialog/message-dialog/message-dialog.component';
 import {OverlayWindowService} from '../../overlay-window/overlay-window.service';
-import {ReCaptchaV3Service} from 'ng-recaptcha';
+
 
 @Component({
-  selector: 'app-registration',
-  templateUrl: './registration.component.html',
-  styleUrls: ['./registration.component.scss']
+    selector: 'app-registration',
+    templateUrl: './registration.component.html',
+    styleUrls: ['./registration.component.scss'],
+    standalone: false
 })
 // @@@PDC-881 registration dialog
 //@@@PDC-885: registration form for google users did not validate properly
@@ -36,13 +36,12 @@ export class RegistrationComponent implements OnInit {
   //, Validators.pattern('(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).+')
   constructor(
     private chorusService: ChorusauthService,
-    private socialAuthService: SocialAuthService,
+
     private router: Router,
     private userService: PDCUserService,
     private overlayWindow: OverlayWindowService,
     private dialogRef: MatDialogRef<RegistrationComponent>,
-    private dialog: MatDialog,
-    private recaptchaV3Service: ReCaptchaV3Service
+    private dialog: MatDialog
   ) {
     let firstName = '';
     let lastName = '';
@@ -413,10 +412,6 @@ export class RegistrationComponent implements OnInit {
         this.registrationForm.updateValueAndValidity();
       });
 
-      this.recaptchaV3Service.execute('importantAction')
-        .subscribe((token: string) => {
-          console.log(`Token [${token}] generated`);
-        });
     }
   }
 
