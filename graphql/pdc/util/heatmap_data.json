@@ -1,4 +1,55 @@
 {
+    "001e7809-6898-446d-a417-e23d0cba26eb": {
+        "acquisition_type": "DDA",
+        "analytical_fraction": "Proteome",
+        "cptac_study_id": null,
+        "cud_label": "PDC000554",
+        "embargo_date": "None",
+        "experiment_type": "TMT18",
+        "files": [
+            "001e7809-6898-446d-a417-e23d0cba26eb-log2_ratio.gct",
+            "001e7809-6898-446d-a417-e23d0cba26eb-unshared_log2_ratio.gct",
+            "manifest.json"
+        ],
+        "is_latest_version": 1,
+        "pdc_study_id": "PDC000554",
+        "project_id": "267d6671-0e78-11e9-a064-0a9c39d33490",
+        "project_submitter_id": "CPTAC3 Discovery and Confirmatory",
+        "protocol_id": "a81d6fd8-72bf-42c3-82fa-5f71f9a4728b",
+        "protocol_submitter_id": "CPTAC-AML Proteome",
+        "study_description": "<p>Acute myeloid leukemia (AML) is a blood malignancy of poor prognosis with marked heterogeneity. To elucidate the underlying mechanisms that drive AML as part of the Clinical Proteomic Tumor Analysis Consortium (CPTAC) effort, we performed comprehensive genomics, transcriptomics, proteomics including multiple post-translational modifications (phosphorylation, acetylation, and glycosylation), metabolomics, and lipidomics characterization of 173 treatment-naive AML patients. Applying the similarity network fusion method on both transcriptomics and proteomics data, we identified 8 proteogenomic clusters. These clusters recapitulate specific recurrent mutations and established clinical subtypes available within the cohort. We used single-cell RNAseq data as a reference to perform immune component analysis for collected bulk samples. The result reveals that our proteogenomic clustering also captures the variations of AML differentiation hierarchies including CD14+ monocyte-like and GMP-like AML. To assess the complex disease nature of AML, we performed functional analysis for each cluster to reveal interplay between multiple genomic aberrations such as NPM1, FLT3-ITD, DNMT3A mutations, complex chromosomal alterations, and the leukemia cell differentiation. Importantly, the multi-omics analysis performed not only connects previously identified molecular drivers and cell differentiation variations within AML, but also links them with observed cancer metabolomic reprogramming with their drug response implications. Moreover, our study also identified site-specific post-translational modifications previously not known in AML, highlighting the valuable insights and clinical relevance of these newly identified clusters.</p>",
+        "study_id": "001e7809-6898-446d-a417-e23d0cba26eb",
+        "study_shortname": "CPTAC AML Study - Proteome",
+        "study_submitter_id": "CPTAC AML Study - Proteome",
+        "study_version": "1",
+        "submitter_id_name": "CPTAC AML Study - Proteome",
+        "updated": "2024-11-01 13:53:08"
+    },
+    "005c7da3-e438-48d7-a4c8-33f66392e31d": {
+        "acquisition_type": "DDA",
+        "analytical_fraction": "Phosphoproteome",
+        "cptac_study_id": null,
+        "cud_label": "PDC000501",
+        "embargo_date": "None",
+        "experiment_type": "TMT16",
+        "files": [
+            "005c7da3-e438-48d7-a4c8-33f66392e31d-log2_ratio.gct",
+            "manifest.json"
+        ],
+        "is_latest_version": 1,
+        "pdc_study_id": "PDC000501",
+        "project_id": "0f49e15c-73ec-46e9-be24-39dd5b7092c3",
+        "project_submitter_id": "PDIAMOND NSCLC Discovery Study",
+        "protocol_id": "f196aeb0-9b33-464c-93eb-69fbe79b581c",
+        "protocol_submitter_id": "PDIAMOND-NSCLC Phosphoproteome",
+        "study_description": "",
+        "study_id": "005c7da3-e438-48d7-a4c8-33f66392e31d",
+        "study_shortname": "PDIAMOND NSCLC Discovery Study - Phosphoproteome",
+        "study_submitter_id": "PDIAMOND NSCLC Discovery Study - Phosphoproteome",
+        "study_version": "1",
+        "submitter_id_name": "PDIAMOND NSCLC Discovery Study - Phosphoproteome",
+        "updated": "2023-10-23 07:15:52"
+    },
     "0163099c-d8c0-4aec-81b2-e0e348939137": {
         "acquisition_type": "DDA",
         "analytical_fraction": "Proteome",
@@ -24,6 +75,32 @@
         "study_version": "1",
         "submitter_id_name": "CGU OSCC Multi-omics - Proteome",
         "updated": "2025-02-03 21:42:32"
+    },
+    "04e7d2d0-5c37-454b-9158-d7fd4d4b93e6": {
+        "acquisition_type": "DDA",
+        "analytical_fraction": "Proteome",
+        "cptac_study_id": null,
+        "cud_label": "PDC000614",
+        "embargo_date": "None",
+        "experiment_type": "TMT18",
+        "files": [
+            "04e7d2d0-5c37-454b-9158-d7fd4d4b93e6-log2_ratio.gct",
+            "04e7d2d0-5c37-454b-9158-d7fd4d4b93e6-unshared_log2_ratio.gct",
+            "manifest.json"
+        ],
+        "is_latest_version": 1,
+        "pdc_study_id": "PDC000614",
+        "project_id": "267d6671-0e78-11e9-a064-0a9c39d33490",
+        "project_submitter_id": "CPTAC3 Discovery and Confirmatory",
+        "protocol_id": "bef4b4c1-0a6c-4800-9658-4024dd6efbd0",
+        "protocol_submitter_id": "CPTAC STAD Proteome Ascend JHU Protocol",
+        "study_description": "Gastric cancer (GC) is marked by profound molecular and microenvironmental heterogeneity that limits therapeutic progress. Here, we present a 15-layer multi-omics atlas that integrates genomics, epigenomics, transcriptomics, proteomics, multiple post-translational modifications (PTMs), protein-protein interactions, metabolomics, and microbiome profiles from 159 primary gastric adenocarcinomas and 30 matched normal adjacent tissues. Using cell-state deconvolution, we define tumor ecotypes that refine genomic and histological subtypes by capturing distinct tumor microenvironment architectures linked to clinical outcomes and potential association of immunotherapy response. Multi-omics integration prioritizes genomic and epigenomic aberrations and their associated vulnerabilities; defines ecotype-specific transcriptional programs, signaling pathways, PTMs, protein interaction networks, and metabolic regulation; and identifies microbiome features linked to ecotypes and resistance pathways. We further prioritize ecotype-, genomic subtype-, and cell type-specific targetable proteins using outlier-based proteomic and PTM analyses within a tumor microenvironment context. This comprehensive atlas provides a systems-level blueprint for decoding GC heterogeneity and advancing precision oncology.",
+        "study_id": "04e7d2d0-5c37-454b-9158-d7fd4d4b93e6",
+        "study_shortname": "CPTAC STAD Study - Proteome",
+        "study_submitter_id": "CPTAC STAD Study - Proteome",
+        "study_version": "1",
+        "submitter_id_name": "CPTAC STAD Study - Proteome",
+        "updated": "2026-02-16 21:27:00"
     },
     "0779a1fe-44e2-46c6-a2bf-3c218452cefc": {
         "acquisition_type": "DDA",
@@ -101,6 +178,31 @@
         "submitter_id_name": "AML Ex Vivo Drug Response - Sorafenib Treatment - Phosphoproteome",
         "updated": "2022-07-29 18:59:14"
     },
+    "155cc2e8-14f8-4580-a392-a40c12bc262d": {
+        "acquisition_type": "DDA",
+        "analytical_fraction": "Ubiquitylome",
+        "cptac_study_id": null,
+        "cud_label": "PDC000643",
+        "embargo_date": "None",
+        "experiment_type": "TMT18",
+        "files": [
+            "155cc2e8-14f8-4580-a392-a40c12bc262d-log2_ratio.gct",
+            "manifest.json"
+        ],
+        "is_latest_version": 1,
+        "pdc_study_id": "PDC000643",
+        "project_id": "f238bb25-50bc-42f7-a2c1-2e13167a63e1",
+        "project_submitter_id": "CPTAC-KF-CCDI-Pediatric T-ALL",
+        "protocol_id": "3d9d0c80-64d8-4290-a1c7-3025bce4fecb",
+        "protocol_submitter_id": "CPTAC-KF-CCDI-Pediatric T-ALL Study - Ubiquitylome",
+        "study_description": "",
+        "study_id": "155cc2e8-14f8-4580-a392-a40c12bc262d",
+        "study_shortname": "CPTAC-KF-CCDI-Pediatric T-ALL Study - Ubiquitylome",
+        "study_submitter_id": "CPTAC-KF-CCDI-Pediatric T-ALL Study - Ubiquitylome",
+        "study_version": "1",
+        "submitter_id_name": "CPTAC-KF-CCDI-Pediatric T-ALL Study - Ubiquitylome",
+        "updated": "2025-12-18 19:09:13"
+    },
     "17d5c31f-d028-11ea-b1fd-0aad30af8a83": {
         "acquisition_type": "DDA",
         "analytical_fraction": "Phosphoproteome",
@@ -176,6 +278,31 @@
         "study_version": "1",
         "submitter_id_name": "CPTAC LSCC Discovery Study - Proteome",
         "updated": "2022-10-07 04:26:07"
+    },
+    "188bbdd1-6487-4c13-b149-692d75a655e3": {
+        "acquisition_type": "DDA",
+        "analytical_fraction": "Phosphoproteome",
+        "cptac_study_id": null,
+        "cud_label": "PDC000615",
+        "embargo_date": "None",
+        "experiment_type": "TMT18",
+        "files": [
+            "188bbdd1-6487-4c13-b149-692d75a655e3-log2_ratio.gct",
+            "manifest.json"
+        ],
+        "is_latest_version": 1,
+        "pdc_study_id": "PDC000615",
+        "project_id": "267d6671-0e78-11e9-a064-0a9c39d33490",
+        "project_submitter_id": "CPTAC3 Discovery and Confirmatory",
+        "protocol_id": "1ea05695-7736-4d50-9892-e8f1044d99ad",
+        "protocol_submitter_id": "CPTAC STAD Phosphoproteome Ascend JHU Protocol",
+        "study_description": "Gastric cancer (GC) is marked by profound molecular and microenvironmental heterogeneity that limits therapeutic progress. Here, we present a 15-layer multi-omics atlas that integrates genomics, epigenomics, transcriptomics, proteomics, multiple post-translational modifications (PTMs), protein-protein interactions, metabolomics, and microbiome profiles from 159 primary gastric adenocarcinomas and 30 matched normal adjacent tissues. Using cell-state deconvolution, we define tumor ecotypes that refine genomic and histological subtypes by capturing distinct tumor microenvironment architectures linked to clinical outcomes and potential association of immunotherapy response. Multi-omics integration prioritizes genomic and epigenomic aberrations and their associated vulnerabilities; defines ecotype-specific transcriptional programs, signaling pathways, PTMs, protein interaction networks, and metabolic regulation; and identifies microbiome features linked to ecotypes and resistance pathways. We further prioritize ecotype-, genomic subtype-, and cell type-specific targetable proteins using outlier-based proteomic and PTM analyses within a tumor microenvironment context. This comprehensive atlas provides a systems-level blueprint for decoding GC heterogeneity and advancing precision oncology.",
+        "study_id": "188bbdd1-6487-4c13-b149-692d75a655e3",
+        "study_shortname": "CPTAC STAD Study - Phosphoproteome",
+        "study_submitter_id": "CPTAC STAD Study - Phosphoproteome",
+        "study_version": "1",
+        "submitter_id_name": "CPTAC STAD Study - Phosphoproteome",
+        "updated": "2026-02-16 21:27:00"
     },
     "196aabca-0e36-46ca-9096-339aee1471da": {
         "acquisition_type": "DDA",
@@ -636,6 +763,32 @@
         "submitter_id_name": "Academia Sinica LUAD ICPC-B - Proteome",
         "updated": "2025-03-28 19:36:19"
     },
+    "4d8e511f-ec80-43d9-87d5-50a11a916028": {
+        "acquisition_type": "DDA",
+        "analytical_fraction": "Proteome",
+        "cptac_study_id": null,
+        "cud_label": "PDC000498",
+        "embargo_date": "None",
+        "experiment_type": "TMT11",
+        "files": [
+            "4d8e511f-ec80-43d9-87d5-50a11a916028-log2_ratio.gct",
+            "4d8e511f-ec80-43d9-87d5-50a11a916028-unshared_log2_ratio.gct",
+            "manifest.json"
+        ],
+        "is_latest_version": 1,
+        "pdc_study_id": "PDC000498",
+        "project_id": "355af96a-8f7f-40e3-99c5-612aea8d3fc4",
+        "project_submitter_id": "Proteogenomics Analysis of Glioma across Pediatric Adolescent and Young Adult age groups",
+        "protocol_id": "d6b83f10-95ac-471b-8d19-04f06cf6a5c9",
+        "protocol_submitter_id": "CPTAC-Lumos-HOPE-AYA-Proteome",
+        "study_description": "Glioma, a devastating brain tumor, exhibits variations in its etiology across different age and sex groups, impacting patient survival rates. However, the role of brain development in glioma remains elusive. This study employs a cutting-edge proteogenomics approach to unravel the dynamic course of glioma across different stages of brain development: from pediatric to adolescent, young adult, and adult populations. By integrating genomic and proteomic data, we investigate how glioma evolves in correlation with brain development, shedding light on potential molecular mechanisms driving tumorigenesis in distinct age groups. Moreover, we explore the sex-specific molecular characteristics underlying glioma onset and progression, emphasizing the significant implications for survival outcomes. Our findings provide unprecedented insights into the intricate interplay between glioma and brain developmental processes, highlighting the need for age and sex-specific therapeutic strategies to combat this aggressive malignancy effectively.",
+        "study_id": "4d8e511f-ec80-43d9-87d5-50a11a916028",
+        "study_shortname": "HOPE-AYA GBM - Proteome",
+        "study_submitter_id": "HOPE-AYA GBM - Proteome",
+        "study_version": "1",
+        "submitter_id_name": "HOPE-AYA GBM - Proteome",
+        "updated": "2023-10-05 13:43:03"
+    },
     "4f354c22-0421-11eb-bc0e-0aad30af8a83": {
         "acquisition_type": "DDA",
         "analytical_fraction": "Proteome",
@@ -867,6 +1020,31 @@
         "submitter_id_name": "KU PDAC Discovery Study - Phosphoproteome",
         "updated": "2022-10-04 08:41:36"
     },
+    "69728b02-dba6-4a9f-8b6a-76f18e77fed3": {
+        "acquisition_type": "DDA",
+        "analytical_fraction": "Ubiquitylome",
+        "cptac_study_id": null,
+        "cud_label": "PDC000627",
+        "embargo_date": "None",
+        "experiment_type": "TMT11",
+        "files": [
+            "69728b02-dba6-4a9f-8b6a-76f18e77fed3-log2_ratio.gct",
+            "manifest.json"
+        ],
+        "is_latest_version": 1,
+        "pdc_study_id": "PDC000627",
+        "project_id": "267d6671-0e78-11e9-a064-0a9c39d33490",
+        "project_submitter_id": "CPTAC3 Discovery and Confirmatory",
+        "protocol_id": "2bed0bf7-e832-4a45-ba9d-ff9d31c181a9",
+        "protocol_submitter_id": "CPTAC LUAD Discovery Study - Ubiquitylome",
+        "study_description": "<p>Lung adenocarcinoma (LUAD) is a pressing global health problem with enduring lethality and rapidly shifting epidemiology. Proteogenomic studies integrating proteomic and post-translational modification with comprehensive genomic characterization can identify novel clinical strata and oncogenic mechanisms provide new insights into LUAD pathobiology, but to date have been underpowered to examine effects of ethnicity, smoking and environmental exposure status, or sex, and other variables. This comprehensive proteogenomic analysis of LUAD tumors and matched normal adjacent tissues (NATs) from 406 patients across diverse geographic and demographic backgrounds defines the impact describes the influence of understudied less common driver mutations genomic alterations, heterogeneity of genomic instability, patterns of immune signaling, differential and sex-specific effects of endogenous mutagens and environmental carcinogens, and the biology underlying early-stage tumors with \u201clate-like\u201d characteristics. Candidate protein biomarkers are proposed for chromosomally unstable tumors and carcinogen exposure, and a LUAD subtype-specific atlas of therapeutic vulnerabilities is presented. These observations and the associated data resource advance the objective of precision management strategies for this devastating disease.</p><p><i>Note: The manuscript incorporates data from multiple PDC Studies. See the 'Related Studies' section below to see which PDC Studies are included.</i></p><p><i>Note: Taiwanese IR is a bridging sample which links the CPTAC LUAD studies to the ICPC LUAD studies.</i></p>",
+        "study_id": "69728b02-dba6-4a9f-8b6a-76f18e77fed3",
+        "study_shortname": "CPTAC LUAD Discovery Study - Ubiquitylome",
+        "study_submitter_id": "CPTAC LUAD Discovery Study - Ubiquitylome",
+        "study_version": "1",
+        "submitter_id_name": "CPTAC LUAD Discovery Study - Ubiquitylome",
+        "updated": "2025-06-18 00:06:13"
+    },
     "6a52970d-b69d-43ab-b88b-1c21eaacd41c": {
         "acquisition_type": "DDA",
         "analytical_fraction": "Phosphoproteome",
@@ -918,6 +1096,31 @@
         "submitter_id_name": "AML Quizartinib Resistance -  Proteome",
         "updated": "2021-07-06 19:45:17"
     },
+    "71b1ddea-fbd1-42ae-90da-862486167b87": {
+        "acquisition_type": "DDA",
+        "analytical_fraction": "Phosphoproteome",
+        "cptac_study_id": null,
+        "cud_label": "PDC000641",
+        "embargo_date": "None",
+        "experiment_type": "TMT18",
+        "files": [
+            "71b1ddea-fbd1-42ae-90da-862486167b87-log2_ratio.gct",
+            "manifest.json"
+        ],
+        "is_latest_version": 1,
+        "pdc_study_id": "PDC000641",
+        "project_id": "f238bb25-50bc-42f7-a2c1-2e13167a63e1",
+        "project_submitter_id": "CPTAC-KF-CCDI-Pediatric T-ALL",
+        "protocol_id": "a7d4d8e2-719d-49d2-a2ba-2ac22d8cfaad",
+        "protocol_submitter_id": "CPTAC-KF-CCDI-Pediatric T-ALL Study - Phosphoproteome",
+        "study_description": "",
+        "study_id": "71b1ddea-fbd1-42ae-90da-862486167b87",
+        "study_shortname": "CPTAC-KF-CCDI-Pediatric T-ALL Study - Phosphoproteome",
+        "study_submitter_id": "CPTAC-KF-CCDI-Pediatric T-ALL Study - Phosphoproteome",
+        "study_version": "1",
+        "submitter_id_name": "CPTAC-KF-CCDI-Pediatric T-ALL Study - Phosphoproteome",
+        "updated": "2025-12-18 18:09:57"
+    },
     "71f65605-162a-4b7b-b641-a696cb3eeebe": {
         "acquisition_type": "DDA",
         "analytical_fraction": "Phosphoproteome",
@@ -942,6 +1145,57 @@
         "study_version": "1",
         "submitter_id_name": "CPTAC PDA Discovery Study - Phosphoproteome",
         "updated": "2025-08-19 23:55:56"
+    },
+    "726cb835-f425-4997-b99a-721e2ba06079": {
+        "acquisition_type": "DDA",
+        "analytical_fraction": "Proteome",
+        "cptac_study_id": null,
+        "cud_label": "PDC000640",
+        "embargo_date": "None",
+        "experiment_type": "TMT18",
+        "files": [
+            "726cb835-f425-4997-b99a-721e2ba06079-log2_ratio.gct",
+            "726cb835-f425-4997-b99a-721e2ba06079-unshared_log2_ratio.gct",
+            "manifest.json"
+        ],
+        "is_latest_version": 1,
+        "pdc_study_id": "PDC000640",
+        "project_id": "f238bb25-50bc-42f7-a2c1-2e13167a63e1",
+        "project_submitter_id": "CPTAC-KF-CCDI-Pediatric T-ALL",
+        "protocol_id": "e7dea71c-1bf0-4dee-a676-5fbc63fb36a2",
+        "protocol_submitter_id": "CPTAC-KF-CCDI-Pediatric T-ALL Study - Proteome",
+        "study_description": "",
+        "study_id": "726cb835-f425-4997-b99a-721e2ba06079",
+        "study_shortname": "CPTAC-KF-CCDI-Pediatric T-ALL Study - Proteome",
+        "study_submitter_id": "CPTAC-KF-CCDI-Pediatric T-ALL Study - Proteome",
+        "study_version": "1",
+        "submitter_id_name": "CPTAC-KF-CCDI-Pediatric T-ALL Study - Proteome",
+        "updated": "2025-12-18 16:50:29"
+    },
+    "743483f2-4e76-4bce-bf2b-c864e234da59": {
+        "acquisition_type": "DDA",
+        "analytical_fraction": "Phosphoproteome",
+        "cptac_study_id": null,
+        "cud_label": "PDC000497",
+        "embargo_date": "None",
+        "experiment_type": "TMT11",
+        "files": [
+            "743483f2-4e76-4bce-bf2b-c864e234da59-log2_ratio.gct",
+            "manifest.json"
+        ],
+        "is_latest_version": 1,
+        "pdc_study_id": "PDC000497",
+        "project_id": "355af96a-8f7f-40e3-99c5-612aea8d3fc4",
+        "project_submitter_id": "Proteogenomics Analysis of Glioma across Pediatric Adolescent and Young Adult age groups",
+        "protocol_id": "1f7beb0e-91bb-40a9-af99-5bc9ecb24035",
+        "protocol_submitter_id": "CPTAC-Lumos-HOPE-AYA-Phosphoproteome",
+        "study_description": "Glioma, a devastating brain tumor, exhibits variations in its etiology across different age and sex groups, impacting patient survival rates. However, the role of brain development in glioma remains elusive. This study employs a cutting-edge proteogenomics approach to unravel the dynamic course of glioma across different stages of brain development: from pediatric to adolescent, young adult, and adult populations. By integrating genomic and proteomic data, we investigate how glioma evolves in correlation with brain development, shedding light on potential molecular mechanisms driving tumorigenesis in distinct age groups. Moreover, we explore the sex-specific molecular characteristics underlying glioma onset and progression, emphasizing the significant implications for survival outcomes. Our findings provide unprecedented insights into the intricate interplay between glioma and brain developmental processes, highlighting the need for age and sex-specific therapeutic strategies to combat this aggressive malignancy effectively.",
+        "study_id": "743483f2-4e76-4bce-bf2b-c864e234da59",
+        "study_shortname": "HOPE-AYA GBM - Phosphoproteome",
+        "study_submitter_id": "HOPE-AYA GBM - Phosphoproteome",
+        "study_version": "1",
+        "submitter_id_name": "HOPE-AYA GBM - Phosphoproteome",
+        "updated": "2023-10-05 13:28:50"
     },
     "7724a091-3349-46df-8db4-3ba210867e41": {
         "acquisition_type": "DDA",
@@ -1069,6 +1323,32 @@
         "study_version": "1",
         "submitter_id_name": "PTRC HGSOC Frozen Validation - Phosphoproteome",
         "updated": "2022-11-21 08:59:45"
+    },
+    "859878e8-3464-4c66-adaa-6f8e70abe716": {
+        "acquisition_type": "DDA",
+        "analytical_fraction": "Proteome",
+        "cptac_study_id": null,
+        "cud_label": "PDC000342",
+        "embargo_date": "None",
+        "experiment_type": "TMT11",
+        "files": [
+            "859878e8-3464-4c66-adaa-6f8e70abe716-log2_ratio.gct",
+            "859878e8-3464-4c66-adaa-6f8e70abe716-unshared_log2_ratio.gct",
+            "manifest.json"
+        ],
+        "is_latest_version": 1,
+        "pdc_study_id": "PDC000342",
+        "project_id": "ca1429c3-df41-4cb4-b679-e8c8c2b51027",
+        "project_submitter_id": "Korea University - Cervical cancer",
+        "protocol_id": "e5281d04-c0e9-41cc-b203-c7f3c03e37b2",
+        "protocol_submitter_id": "KU-CCA Global proteome ",
+        "study_description": "<p>We report proteogenomic analysis of locally advanced cervical cancer (LACC). Exome-seq data revealed predominant alterations of keratinization-TP53 regulation and O-glycosylation-TP53 regulation axes in squamous and adeno-LACC, respectively, compared to in early-stage cervical cancer. Integrated clustering of mRNA, protein, and phosphorylation data identified six subtypes (Sub1-6) of LACC among which Sub3, 5, and 6 showed the treatment-resistant nature with poor local recurrence-free survival. Elevated immune and extracellular matrix (ECM) activation mediated by activated stroma (PDGFD and CXCL1<sup>high</sup> fibroblasts) characterized the immune-hot Sub3 enriched with MUC5AC<sup>high</sup> epithelial cells (ECs). Increased epithelial-mesenchymal-transition (EMT) and ECM remodeling characterized the immune-cold squamous Sub5 enriched with PGK1 and CXCL10<sup>high</sup> ECs. We further demonstrated that CIC mutations could trigger EMT activation by upregulating ETV4, and the elevation of the immune checkpoint PVR and neutrophil-like myeloid-derived suppressive cells (FCN1 and FCGR3B<sup>high</sup> macrophages) could cause suppression of T-cell activation in Sub5. Increased O-linked glycosylation of mucin characterized adeno-LACC Sub6 enriched with MUC5AC<sup>high</sup> ECs. These results provide a battery of somatic mutations, cellular pathways, and cellular players that can be used to predict treatment-resistant LACC subtypes and can serve as potential therapeutic targets for these LACC subtypes.</p>",
+        "study_id": "859878e8-3464-4c66-adaa-6f8e70abe716",
+        "study_shortname": "KU CCA Discovery Study - Global proteome",
+        "study_submitter_id": "KU CCA Discovery Study - Global proteome",
+        "study_version": "1",
+        "submitter_id_name": "KU CCA Discovery Study - Global proteome",
+        "updated": "2025-05-29 20:48:03"
     },
     "85df2ad5-0c83-4674-8013-0d6f360b9831": {
         "acquisition_type": "DDA",
@@ -1429,6 +1709,32 @@
         "study_version": "2",
         "submitter_id_name": "Academia Sinica LUAD100-Proteome",
         "updated": "2021-05-10 18:40:32"
+    },
+    "a5da6836-c92e-4bdc-8f84-d28d629fc383": {
+        "acquisition_type": "DDA",
+        "analytical_fraction": "Proteome",
+        "cptac_study_id": null,
+        "cud_label": "PDC000585",
+        "embargo_date": "None",
+        "experiment_type": "TMT11",
+        "files": [
+            "a5da6836-c92e-4bdc-8f84-d28d629fc383-log2_ratio.gct",
+            "a5da6836-c92e-4bdc-8f84-d28d629fc383-unshared_log2_ratio.gct",
+            "manifest.json"
+        ],
+        "is_latest_version": 1,
+        "pdc_study_id": "PDC000585",
+        "project_id": "ba34699a-caff-461c-b77e-a27a6bf305f0",
+        "project_submitter_id": "APOLLO-OV",
+        "protocol_id": "941fbc23-c5c5-49e4-bd77-683315e6143a",
+        "protocol_submitter_id": "APOLLO-OV - Proteome",
+        "study_description": "We performed a deep proteogenomic analysis of bulk tumor and laser microdissection enriched tumor cell populations from high-grade serous ovarian cancer (HGSOC) tissue specimens spanning a broad spectrum of purity. We identified patients with longer progression-free survival had increased immune-related signatures and validated proteins correlating with tumor-infiltrating lymphocytes in 65 tumors from an independent cohort of HGSOC patients, as well as with overall survival in an additional 126 HGSOC patient cohort. We identified that homologous recombination deficient (HRD) tumors are enriched in pathways associated with metabolism and oxidative phosphorylation that we validated in independent patient cohorts. We further identified that polycomb complex protein BMI-1 is elevated in HR proficient (HRP) tumors, that elevated BMI-1 correlates with poor overall survival in HRP but not HRD HGSOC patients, and that HRP HGSOC cells are uniquely sensitive to BMI-1 inhibition.",
+        "study_id": "a5da6836-c92e-4bdc-8f84-d28d629fc383",
+        "study_shortname": "APOLLO-OV - Proteome",
+        "study_submitter_id": "APOLLO-OV - Proteome",
+        "study_version": "1",
+        "submitter_id_name": "APOLLO-OV - Proteome",
+        "updated": "2025-01-09 14:17:47"
     },
     "a729bd45-38c5-4144-b340-ee6f51a5d6d7": {
         "acquisition_type": "DDA",
@@ -2043,6 +2349,31 @@
         "submitter_id_name": "Prospective Breast BI Proteome",
         "updated": "2021-04-30 18:58:43"
     },
+    "be0ae219-27eb-4407-920e-1888e4518b8f": {
+        "acquisition_type": "DDA",
+        "analytical_fraction": "Phosphoproteome",
+        "cptac_study_id": null,
+        "cud_label": "PDC000556",
+        "embargo_date": "None",
+        "experiment_type": "TMT18",
+        "files": [
+            "be0ae219-27eb-4407-920e-1888e4518b8f-log2_ratio.gct",
+            "manifest.json"
+        ],
+        "is_latest_version": 1,
+        "pdc_study_id": "PDC000556",
+        "project_id": "267d6671-0e78-11e9-a064-0a9c39d33490",
+        "project_submitter_id": "CPTAC3 Discovery and Confirmatory",
+        "protocol_id": "a67f3c10-0839-41ca-b6e1-28738f33b6b5",
+        "protocol_submitter_id": "CPTAC-AML Phosphoproteome",
+        "study_description": "<p>Acute myeloid leukemia (AML) is a blood malignancy of poor prognosis with marked heterogeneity. To elucidate the underlying mechanisms that drive AML as part of the Clinical Proteomic Tumor Analysis Consortium (CPTAC) effort, we performed comprehensive genomics, transcriptomics, proteomics including multiple post-translational modifications (phosphorylation, acetylation, and glycosylation), metabolomics, and lipidomics characterization of 173 treatment-naive AML patients. Applying the similarity network fusion method on both transcriptomics and proteomics data, we identified 8 proteogenomic clusters. These clusters recapitulate specific recurrent mutations and established clinical subtypes available within the cohort. We used single-cell RNAseq data as a reference to perform immune component analysis for collected bulk samples. The result reveals that our proteogenomic clustering also captures the variations of AML differentiation hierarchies including CD14+ monocyte-like and GMP-like AML. To assess the complex disease nature of AML, we performed functional analysis for each cluster to reveal interplay between multiple genomic aberrations such as NPM1, FLT3-ITD, DNMT3A mutations, complex chromosomal alterations, and the leukemia cell differentiation. Importantly, the multi-omics analysis performed not only connects previously identified molecular drivers and cell differentiation variations within AML, but also links them with observed cancer metabolomic reprogramming with their drug response implications. Moreover, our study also identified site-specific post-translational modifications previously not known in AML, highlighting the valuable insights and clinical relevance of these newly identified clusters.</p>",
+        "study_id": "be0ae219-27eb-4407-920e-1888e4518b8f",
+        "study_shortname": "CPTAC AML Study - Phosphoproteome",
+        "study_submitter_id": "CPTAC AML Study - Phosphoproteome",
+        "study_version": "1",
+        "submitter_id_name": "CPTAC AML Study - Phosphoproteome",
+        "updated": "2024-11-01 15:25:20"
+    },
     "be2883cb-57b8-11e8-b07a-00a098d917f8": {
         "acquisition_type": "DDA",
         "analytical_fraction": "Phosphoproteome",
@@ -2067,6 +2398,56 @@
         "study_version": "1",
         "submitter_id_name": "Prospective Breast BI Phosphoproteome",
         "updated": "2021-04-30 19:00:44"
+    },
+    "c15b40f0-45c6-4789-8f47-f9513f3169bd": {
+        "acquisition_type": "DDA",
+        "analytical_fraction": "Acetylome",
+        "cptac_study_id": null,
+        "cud_label": "PDC000622",
+        "embargo_date": "None",
+        "experiment_type": "TMT18",
+        "files": [
+            "c15b40f0-45c6-4789-8f47-f9513f3169bd-log2_ratio.gct",
+            "manifest.json"
+        ],
+        "is_latest_version": 1,
+        "pdc_study_id": "PDC000622",
+        "project_id": "267d6671-0e78-11e9-a064-0a9c39d33490",
+        "project_submitter_id": "CPTAC3 Discovery and Confirmatory",
+        "protocol_id": "82001065-d27d-4a7d-b228-ddc070ed8bf1",
+        "protocol_submitter_id": "CPTAC STAD Acetylproteome Ascend JHU Protocol",
+        "study_description": "Gastric cancer (GC) is marked by profound molecular and microenvironmental heterogeneity that limits therapeutic progress. Here, we present a 15-layer multi-omics atlas that integrates genomics, epigenomics, transcriptomics, proteomics, multiple post-translational modifications (PTMs), protein-protein interactions, metabolomics, and microbiome profiles from 159 primary gastric adenocarcinomas and 30 matched normal adjacent tissues. Using cell-state deconvolution, we define tumor ecotypes that refine genomic and histological subtypes by capturing distinct tumor microenvironment architectures linked to clinical outcomes and potential association of immunotherapy response. Multi-omics integration prioritizes genomic and epigenomic aberrations and their associated vulnerabilities; defines ecotype-specific transcriptional programs, signaling pathways, PTMs, protein interaction networks, and metabolic regulation; and identifies microbiome features linked to ecotypes and resistance pathways. We further prioritize ecotype-, genomic subtype-, and cell type-specific targetable proteins using outlier-based proteomic and PTM analyses within a tumor microenvironment context. This comprehensive atlas provides a systems-level blueprint for decoding GC heterogeneity and advancing precision oncology.",
+        "study_id": "c15b40f0-45c6-4789-8f47-f9513f3169bd",
+        "study_shortname": "CPTAC STAD Study - Acetylome",
+        "study_submitter_id": "CPTAC STAD Study - Acetylome",
+        "study_version": "1",
+        "submitter_id_name": "CPTAC STAD Study - Acetylome",
+        "updated": "2026-02-16 21:27:00"
+    },
+    "c1f0e523-c83d-4019-8937-b245dd692628": {
+        "acquisition_type": "DDA",
+        "analytical_fraction": "Acetylome",
+        "cptac_study_id": null,
+        "cud_label": "PDC000502",
+        "embargo_date": "None",
+        "experiment_type": "TMT16",
+        "files": [
+            "c1f0e523-c83d-4019-8937-b245dd692628-log2_ratio.gct",
+            "manifest.json"
+        ],
+        "is_latest_version": 1,
+        "pdc_study_id": "PDC000502",
+        "project_id": "0f49e15c-73ec-46e9-be24-39dd5b7092c3",
+        "project_submitter_id": "PDIAMOND NSCLC Discovery Study",
+        "protocol_id": "5d82f418-98ca-48e4-a44d-b7dbcbba792c",
+        "protocol_submitter_id": "PDIAMOND-NSCLC Acetylome",
+        "study_description": "",
+        "study_id": "c1f0e523-c83d-4019-8937-b245dd692628",
+        "study_shortname": "PDIAMOND NSCLC Discovery Study - Acetylome",
+        "study_submitter_id": "PDIAMOND NSCLC Discovery Study - Acetylome",
+        "study_version": "1",
+        "submitter_id_name": "PDIAMOND NSCLC Discovery Study - Acetylome",
+        "updated": "2023-10-23 07:32:29"
     },
     "c5d3598c-e1ee-4b42-880b-9f8b35338777": {
         "acquisition_type": "DDA",
@@ -2346,6 +2727,31 @@
         "submitter_id_name": "CGU OSCC Multi-omics - Multiple Phosphoproteome",
         "updated": "2025-02-03 21:42:32"
     },
+    "d7b895ef-bf0c-4dbb-a3e5-1d386142c5aa": {
+        "acquisition_type": "DDA",
+        "analytical_fraction": "Acetylome",
+        "cptac_study_id": null,
+        "cud_label": "PDC000642",
+        "embargo_date": "None",
+        "experiment_type": "TMT18",
+        "files": [
+            "d7b895ef-bf0c-4dbb-a3e5-1d386142c5aa-log2_ratio.gct",
+            "manifest.json"
+        ],
+        "is_latest_version": 1,
+        "pdc_study_id": "PDC000642",
+        "project_id": "f238bb25-50bc-42f7-a2c1-2e13167a63e1",
+        "project_submitter_id": "CPTAC-KF-CCDI-Pediatric T-ALL",
+        "protocol_id": "c5ed43a0-1461-439f-a8fc-44516ecb31f5",
+        "protocol_submitter_id": "CPTAC-KF-CCDI-Pediatric T-ALL Study - Acetylome",
+        "study_description": "",
+        "study_id": "d7b895ef-bf0c-4dbb-a3e5-1d386142c5aa",
+        "study_shortname": "CPTAC-KF-CCDI-Pediatric T-ALL Study - Acetylome",
+        "study_submitter_id": "CPTAC-KF-CCDI-Pediatric T-ALL Study - Acetylome",
+        "study_version": "1",
+        "submitter_id_name": "CPTAC-KF-CCDI-Pediatric T-ALL Study - Acetylome",
+        "updated": "2025-12-18 19:01:46"
+    },
     "d9b5770b-2d17-432b-8d64-621677653da8": {
         "acquisition_type": "DDA",
         "analytical_fraction": "Proteome",
@@ -2371,6 +2777,31 @@
         "study_version": "1",
         "submitter_id_name": "AML Ex Vivo Drug Response - Combination Treatment - Proteome",
         "updated": "2022-07-29 18:59:14"
+    },
+    "da41d436-4328-4a38-8cf3-1a9c58b71777": {
+        "acquisition_type": "DDA",
+        "analytical_fraction": "Acetylome",
+        "cptac_study_id": null,
+        "cud_label": "PDC000558",
+        "embargo_date": "None",
+        "experiment_type": "TMT18",
+        "files": [
+            "da41d436-4328-4a38-8cf3-1a9c58b71777-log2_ratio.gct",
+            "manifest.json"
+        ],
+        "is_latest_version": 1,
+        "pdc_study_id": "PDC000558",
+        "project_id": "267d6671-0e78-11e9-a064-0a9c39d33490",
+        "project_submitter_id": "CPTAC3 Discovery and Confirmatory",
+        "protocol_id": "4fce1e2f-4fee-445a-bae0-624f41111b59",
+        "protocol_submitter_id": "CPTAC-AML Acetylome",
+        "study_description": "<p>Acute myeloid leukemia (AML) is a blood malignancy of poor prognosis with marked heterogeneity. To elucidate the underlying mechanisms that drive AML as part of the Clinical Proteomic Tumor Analysis Consortium (CPTAC) effort, we performed comprehensive genomics, transcriptomics, proteomics including multiple post-translational modifications (phosphorylation, acetylation, and glycosylation), metabolomics, and lipidomics characterization of 173 treatment-naive AML patients. Applying the similarity network fusion method on both transcriptomics and proteomics data, we identified 8 proteogenomic clusters. These clusters recapitulate specific recurrent mutations and established clinical subtypes available within the cohort. We used single-cell RNAseq data as a reference to perform immune component analysis for collected bulk samples. The result reveals that our proteogenomic clustering also captures the variations of AML differentiation hierarchies including CD14+ monocyte-like and GMP-like AML. To assess the complex disease nature of AML, we performed functional analysis for each cluster to reveal interplay between multiple genomic aberrations such as NPM1, FLT3-ITD, DNMT3A mutations, complex chromosomal alterations, and the leukemia cell differentiation. Importantly, the multi-omics analysis performed not only connects previously identified molecular drivers and cell differentiation variations within AML, but also links them with observed cancer metabolomic reprogramming with their drug response implications. Moreover, our study also identified site-specific post-translational modifications previously not known in AML, highlighting the valuable insights and clinical relevance of these newly identified clusters.</p>",
+        "study_id": "da41d436-4328-4a38-8cf3-1a9c58b71777",
+        "study_shortname": "CPTAC AML Study - Acetylome",
+        "study_submitter_id": "CPTAC AML Study - Acetylome",
+        "study_version": "1",
+        "submitter_id_name": "CPTAC AML Study - Acetylome",
+        "updated": "2024-11-01 17:09:49"
     },
     "dbe94609-1fb3-11e9-b7f8-0a80fada099c": {
         "acquisition_type": "DDA",
@@ -2422,6 +2853,31 @@
         "study_version": "1",
         "submitter_id_name": "CPTAC CCRCC Discovery Study - Phosphoproteome",
         "updated": "2023-02-24 03:37:33"
+    },
+    "ddf292ec-ef92-44b8-89b8-61cf36eca53e": {
+        "acquisition_type": "DDA",
+        "analytical_fraction": "Phosphoproteome",
+        "cptac_study_id": null,
+        "cud_label": "PDC000343",
+        "embargo_date": "None",
+        "experiment_type": "TMT11",
+        "files": [
+            "ddf292ec-ef92-44b8-89b8-61cf36eca53e-log2_ratio.gct",
+            "manifest.json"
+        ],
+        "is_latest_version": 1,
+        "pdc_study_id": "PDC000343",
+        "project_id": "ca1429c3-df41-4cb4-b679-e8c8c2b51027",
+        "project_submitter_id": "Korea University - Cervical cancer",
+        "protocol_id": "e702e250-afc7-4b32-a926-ffcf2feddc53",
+        "protocol_submitter_id": "KU-CCA Phosphoproteome",
+        "study_description": "<p>We report proteogenomic analysis of locally advanced cervical cancer (LACC). Exome-seq data revealed predominant alterations of keratinization-TP53 regulation and O-glycosylation-TP53 regulation axes in squamous and adeno-LACC, respectively, compared to in early-stage cervical cancer. Integrated clustering of mRNA, protein, and phosphorylation data identified six subtypes (Sub1-6) of LACC among which Sub3, 5, and 6 showed the treatment-resistant nature with poor local recurrence-free survival. Elevated immune and extracellular matrix (ECM) activation mediated by activated stroma (PDGFD and CXCL1<sup>high</sup> fibroblasts) characterized the immune-hot Sub3 enriched with MUC5AC<sup>high</sup> epithelial cells (ECs). Increased epithelial-mesenchymal-transition (EMT) and ECM remodeling characterized the immune-cold squamous Sub5 enriched with PGK1 and CXCL10<sup>high</sup> ECs. We further demonstrated that CIC mutations could trigger EMT activation by upregulating ETV4, and the elevation of the immune checkpoint PVR and neutrophil-like myeloid-derived suppressive cells (FCN1 and FCGR3B<sup>high</sup> macrophages) could cause suppression of T-cell activation in Sub5. Increased O-linked glycosylation of mucin characterized adeno-LACC Sub6 enriched with MUC5AC<sup>high</sup> ECs. These results provide a battery of somatic mutations, cellular pathways, and cellular players that can be used to predict treatment-resistant LACC subtypes and can serve as potential therapeutic targets for these LACC subtypes.</p>",
+        "study_id": "ddf292ec-ef92-44b8-89b8-61cf36eca53e",
+        "study_shortname": "KU CCA Discovery Study - Phosphoproteome",
+        "study_submitter_id": "KU CCA Discovery Study - Phosphoproteome",
+        "study_version": "1",
+        "submitter_id_name": "KU CCA Discovery Study - Phosphoproteome",
+        "updated": "2025-05-29 20:57:03"
     },
     "e065339b-6ad2-4a66-b658-45d975a5baec": {
         "acquisition_type": "DDA",
@@ -2524,6 +2980,31 @@
         "submitter_id_name": "Proteogenomics of Gastric Cancer - Phosphoproteome",
         "updated": "2020-11-24 09:46:07"
     },
+    "e3ef5c03-a8dc-4deb-ba5a-c8aa31ce6f87": {
+        "acquisition_type": "DDA",
+        "analytical_fraction": "Phosphoproteome",
+        "cptac_study_id": null,
+        "cud_label": "PDC000591",
+        "embargo_date": "None",
+        "experiment_type": "TMT11",
+        "files": [
+            "e3ef5c03-a8dc-4deb-ba5a-c8aa31ce6f87-log2_ratio.gct",
+            "manifest.json"
+        ],
+        "is_latest_version": 1,
+        "pdc_study_id": "PDC000591",
+        "project_id": "a3ab45f4-8426-4a27-a429-6f5659b0d128",
+        "project_submitter_id": "Proteogenomic characterization of non-functional pancreatic neuroendocrine tumors",
+        "protocol_id": "c3eb5431-9162-4cf4-86cf-955472d81324",
+        "protocol_submitter_id": "Protocol - NF-PanNETs - Phosphoproteome TMT11",
+        "study_description": "The majority of neuroendocrine neoplasms in pancreas are non-functional pancreatic neuroendocrine tumors (NF-PanNETs), which exhibit a high occurrence of distant metastases with limited therapeutic options. Here, we perform a comprehensive molecular characterization of 108 NF-PanNETs, based on integrative analysis of genomic, transcriptomic, proteomic and phosphoproteomic profiles. Analysis of proteogenomic data provides functional clues for driver genomic alterations of NF-PanNETs, and a potential mediator of MEN1 alterations was further identified using a Men1-conditional knockout mouse model. Modelling analysis using machine-learning techniques deciphers a three-protein prognostic signature, with validation in an independent cohort. Proteomic and phosphoproteomic-based stratification dissects four subtypes with distinct molecular characteristics, immune microenvironments, and clinicopathological features. Drug screening utilizing patient-derived tumor organoids (PDOs), identifies CDK5 and CACNA4D as ubiquitous and subtype-specific targets respectively, with in vivo validation using xenograft models. Together, our proteogenomic analyses illustrate a comprehensive molecular landscape of NF-PanNETs, and reveal unique biological insights and therapeutic vulnerabilities.",
+        "study_id": "e3ef5c03-a8dc-4deb-ba5a-c8aa31ce6f87",
+        "study_shortname": "NF-PNET Discovery Study - Phosphoproteome - PhaseI",
+        "study_submitter_id": "NF-PNET Discovery Study - Phosphoproteome - PhaseI",
+        "study_version": "1",
+        "submitter_id_name": "NF-PNET Discovery Study - Phosphoproteome - PhaseI",
+        "updated": "2025-02-24 21:29:40"
+    },
     "e4dc9f9b-9483-434c-bd0e-ac16c8c53ee2": {
         "acquisition_type": "DDA",
         "analytical_fraction": "Phosphoproteome",
@@ -2573,6 +3054,58 @@
         "study_version": "1",
         "submitter_id_name": "KNCC Glioblastoma Evolution - Phosphoproteome",
         "updated": "2024-02-06 21:05:36"
+    },
+    "e6c15de4-f182-456e-a752-f52fbbffd6eb": {
+        "acquisition_type": "DDA",
+        "analytical_fraction": "Proteome",
+        "cptac_study_id": null,
+        "cud_label": "PDC000590",
+        "embargo_date": "None",
+        "experiment_type": "TMT11",
+        "files": [
+            "e6c15de4-f182-456e-a752-f52fbbffd6eb-log2_ratio.gct",
+            "e6c15de4-f182-456e-a752-f52fbbffd6eb-unshared_log2_ratio.gct",
+            "manifest.json"
+        ],
+        "is_latest_version": 1,
+        "pdc_study_id": "PDC000590",
+        "project_id": "a3ab45f4-8426-4a27-a429-6f5659b0d128",
+        "project_submitter_id": "Proteogenomic characterization of non-functional pancreatic neuroendocrine tumors",
+        "protocol_id": "226cac4c-e713-45d6-9c8e-3bcb86e553ea",
+        "protocol_submitter_id": "Protocol - NF-PanNETs - Proteome TMT11",
+        "study_description": "The majority of neuroendocrine neoplasms in pancreas are non-functional pancreatic neuroendocrine tumors (NF-PanNETs), which exhibit a high occurrence of distant metastases with limited therapeutic options. Here, we perform a comprehensive molecular characterization of 108 NF-PanNETs, based on integrative analysis of genomic, transcriptomic, proteomic and phosphoproteomic profiles. Analysis of proteogenomic data provides functional clues for driver genomic alterations of NF-PanNETs, and a potential mediator of MEN1 alterations was further identified using a Men1-conditional knockout mouse model. Modelling analysis using machine-learning techniques deciphers a three-protein prognostic signature, with validation in an independent cohort. Proteomic and phosphoproteomic-based stratification dissects four subtypes with distinct molecular characteristics, immune microenvironments, and clinicopathological features. Drug screening utilizing patient-derived tumor organoids (PDOs), identifies CDK5 and CACNA4D as ubiquitous and subtype-specific targets respectively, with in vivo validation using xenograft models. Together, our proteogenomic analyses illustrate a comprehensive molecular landscape of NF-PanNETs, and reveal unique biological insights and therapeutic vulnerabilities.",
+        "study_id": "e6c15de4-f182-456e-a752-f52fbbffd6eb",
+        "study_shortname": "NF-PNET Discovery Study - Proteome - PhaseI",
+        "study_submitter_id": "NF-PNET Discovery Study - Proteome - PhaseI",
+        "study_version": "1",
+        "submitter_id_name": "NF-PNET Discovery Study - Proteome - PhaseI",
+        "updated": "2025-02-24 21:12:41"
+    },
+    "e84aa466-9118-4dbb-a768-6cc060edeef1": {
+        "acquisition_type": "DDA",
+        "analytical_fraction": "Proteome",
+        "cptac_study_id": null,
+        "cud_label": "PDC000500",
+        "embargo_date": "None",
+        "experiment_type": "TMT16",
+        "files": [
+            "e84aa466-9118-4dbb-a768-6cc060edeef1-log2_ratio.gct",
+            "e84aa466-9118-4dbb-a768-6cc060edeef1-unshared_log2_ratio.gct",
+            "manifest.json"
+        ],
+        "is_latest_version": 1,
+        "pdc_study_id": "PDC000500",
+        "project_id": "0f49e15c-73ec-46e9-be24-39dd5b7092c3",
+        "project_submitter_id": "PDIAMOND NSCLC Discovery Study",
+        "protocol_id": "b87e1c6f-2cd9-4b22-96a2-29db213babdb",
+        "protocol_submitter_id": "PDIAMOND-NSCLC Proteome",
+        "study_description": "",
+        "study_id": "e84aa466-9118-4dbb-a768-6cc060edeef1",
+        "study_shortname": "PDIAMOND NSCLC Discovery Study - Proteome",
+        "study_submitter_id": "PDIAMOND NSCLC Discovery Study - Proteome",
+        "study_version": "1",
+        "submitter_id_name": "PDIAMOND NSCLC Discovery Study - Proteome",
+        "updated": "2023-10-23 07:02:41"
     },
     "eb6aae30-9b42-4fe1-b3ed-22b55d730dfa": {
         "acquisition_type": "DIA",
@@ -2751,6 +3284,32 @@
         "submitter_id_name": "CPTAC LUAD Discovery Study - Phosphoproteome",
         "updated": "2022-10-07 04:26:07"
     },
+    "f7fd4148-4025-467a-ac0d-a85f0506dca6": {
+        "acquisition_type": "DDA",
+        "analytical_fraction": "Proteome",
+        "cptac_study_id": null,
+        "cud_label": "PDC000588",
+        "embargo_date": "None",
+        "experiment_type": "TMT16",
+        "files": [
+            "f7fd4148-4025-467a-ac0d-a85f0506dca6-log2_ratio.gct",
+            "f7fd4148-4025-467a-ac0d-a85f0506dca6-unshared_log2_ratio.gct",
+            "manifest.json"
+        ],
+        "is_latest_version": 1,
+        "pdc_study_id": "PDC000588",
+        "project_id": "a3ab45f4-8426-4a27-a429-6f5659b0d128",
+        "project_submitter_id": "Proteogenomic characterization of non-functional pancreatic neuroendocrine tumors",
+        "protocol_id": "3b9d2603-87ac-49b2-a905-9461f31e2873",
+        "protocol_submitter_id": "Protocol - NF-PanNETs - Proteome TMT16",
+        "study_description": "The majority of neuroendocrine neoplasms in pancreas are non-functional pancreatic neuroendocrine tumors (NF-PanNETs), which exhibit a high occurrence of distant metastases with limited therapeutic options. Here, we perform a comprehensive molecular characterization of 108 NF-PanNETs, based on integrative analysis of genomic, transcriptomic, proteomic and phosphoproteomic profiles. Analysis of proteogenomic data provides functional clues for driver genomic alterations of NF-PanNETs, and a potential mediator of MEN1 alterations was further identified using a Men1-conditional knockout mouse model. Modelling analysis using machine-learning techniques deciphers a three-protein prognostic signature, with validation in an independent cohort. Proteomic and phosphoproteomic-based stratification dissects four subtypes with distinct molecular characteristics, immune microenvironments, and clinicopathological features. Drug screening utilizing patient-derived tumor organoids (PDOs), identifies CDK5 and CACNA4D as ubiquitous and subtype-specific targets respectively, with in vivo validation using xenograft models. Together, our proteogenomic analyses illustrate a comprehensive molecular landscape of NF-PanNETs, and reveal unique biological insights and therapeutic vulnerabilities.",
+        "study_id": "f7fd4148-4025-467a-ac0d-a85f0506dca6",
+        "study_shortname": "NF-PNET Discovery Study - Proteome - PhaseII",
+        "study_submitter_id": "NF-PNET Discovery Study - Proteome - PhaseII",
+        "study_version": "1",
+        "submitter_id_name": "NF-PNET Discovery Study - Proteome - PhaseII",
+        "updated": "2025-02-24 18:34:56"
+    },
     "fa50195e-124b-4fa5-9885-015d27a41756": {
         "acquisition_type": "DDA",
         "analytical_fraction": "Ubiquitylome",
@@ -2801,5 +3360,30 @@
         "study_version": "1",
         "submitter_id_name": "PTRC Triple-negative Breast Cancer Mitotic Vulnerability Study - Proteome",
         "updated": "2024-12-12 17:23:32"
+    },
+    "fe475945-ab94-4334-b3ea-283f1c867342": {
+        "acquisition_type": "DDA",
+        "analytical_fraction": "Phosphoproteome",
+        "cptac_study_id": null,
+        "cud_label": "PDC000589",
+        "embargo_date": "None",
+        "experiment_type": "TMT16",
+        "files": [
+            "fe475945-ab94-4334-b3ea-283f1c867342-log2_ratio.gct",
+            "manifest.json"
+        ],
+        "is_latest_version": 1,
+        "pdc_study_id": "PDC000589",
+        "project_id": "a3ab45f4-8426-4a27-a429-6f5659b0d128",
+        "project_submitter_id": "Proteogenomic characterization of non-functional pancreatic neuroendocrine tumors",
+        "protocol_id": "5e501824-4fbb-480f-ad08-10cf4cd2debf",
+        "protocol_submitter_id": "Protocol - NF-PanNETs - Phosphoproteome TMT16",
+        "study_description": "The majority of neuroendocrine neoplasms in pancreas are non-functional pancreatic neuroendocrine tumors (NF-PanNETs), which exhibit a high occurrence of distant metastases with limited therapeutic options. Here, we perform a comprehensive molecular characterization of 108 NF-PanNETs, based on integrative analysis of genomic, transcriptomic, proteomic and phosphoproteomic profiles. Analysis of proteogenomic data provides functional clues for driver genomic alterations of NF-PanNETs, and a potential mediator of MEN1 alterations was further identified using a Men1-conditional knockout mouse model. Modelling analysis using machine-learning techniques deciphers a three-protein prognostic signature, with validation in an independent cohort. Proteomic and phosphoproteomic-based stratification dissects four subtypes with distinct molecular characteristics, immune microenvironments, and clinicopathological features. Drug screening utilizing patient-derived tumor organoids (PDOs), identifies CDK5 and CACNA4D as ubiquitous and subtype-specific targets respectively, with in vivo validation using xenograft models. Together, our proteogenomic analyses illustrate a comprehensive molecular landscape of NF-PanNETs, and reveal unique biological insights and therapeutic vulnerabilities.",
+        "study_id": "fe475945-ab94-4334-b3ea-283f1c867342",
+        "study_shortname": "NF-PNET Discovery Study - Phosphoproteome - PhaseII",
+        "study_submitter_id": "NF-PNET Discovery Study - Phosphoproteome - PhaseII",
+        "study_version": "1",
+        "submitter_id_name": "NF-PNET Discovery Study - Phosphoproteome - PhaseII",
+        "updated": "2025-02-24 18:51:55"
     }
 }

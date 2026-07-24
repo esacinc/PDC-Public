@@ -979,8 +979,12 @@ export const resolvers = {
 		//@@@PDC-9836 add has_genomic_data flag
 		async has_genomic_data(obj, args, context) {
 			logger.info("has_genomic_data is called via "+context.parent+ " "+obj.study_submitter_id);
-			let refQuery = "SELECT reference_id FROM reference WHERE entity_type = 'study' and reference_type = 'external' and reference_resource_name = 'Genomic Data Commons' and entity_id = uuid_to_bin('"+ obj.study_id +"')";
-			var hasRef = await db.getSequelize().query(refQuery, { raw: true });
+            let genomicList = ['Genomic Data Commons', 'Children\'s Brain Tumor Tissue Consortium'];
+			let refQuery = "SELECT reference_id FROM reference WHERE entity_type = 'study' and reference_type = 'external' and reference_resource_name in (:genomicList)  and entity_id = uuid_to_bin('"+ obj.study_id +"')";
+			let hasRef = await db.getSequelize().query(refQuery, {
+                replacements: { genomicList: genomicList },
+                raw: true
+            });
 			if (hasRef[0].length > 0)
 				return 'Yes'
 			else
@@ -989,8 +993,12 @@ export const resolvers = {
 		//@@@PDC-9836 add has_imaging_data flag
 		async has_imaging_data(obj, args, context) {
 			logger.info("has_imaging_data is called via "+context.parent+ " "+obj.study_submitter_id);
-			let refQuery = "SELECT reference_id FROM reference WHERE entity_type = 'study' and reference_type = 'external' and reference_resource_name = 'Imaging Data Commons' and entity_id = uuid_to_bin('"+ obj.study_id +"')";
-			var hasRef = await db.getSequelize().query(refQuery, { raw: true });
+            let imageList = ['Imaging Data Commons', 'Human Cancer Models Initiative', 'The Cancer Imaging Archive'];
+			let refQuery = "SELECT reference_id FROM reference WHERE entity_type = 'study' and reference_type = 'external' and reference_resource_name in (:imageList) and entity_id = uuid_to_bin('"+ obj.study_id +"')";
+			let hasRef = await db.getSequelize().query(refQuery, {
+                replacements: { imageList: imageList },
+                raw: true
+            });
 			if (hasRef[0].length > 0)
 				return 'Yes'
 			else

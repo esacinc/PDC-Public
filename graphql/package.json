@@ -7,11 +7,11 @@
     "test": "test"
   },
   "dependencies": {
-    "@aws-sdk/client-cloudfront": "3.583.0",
-    "@aws-sdk/client-s3": "3.705.0",
-    "@aws-sdk/client-secrets-manager": "3.583.0",
-    "@aws-sdk/cloudfront-signer": "3.696.0",
-    "@aws-sdk/s3-request-presigner": "3.705.0",
+    "@aws-sdk/client-cloudfront": "3.1001.0",
+    "@aws-sdk/client-s3": "3.1001.0",
+    "@aws-sdk/client-secrets-manager": "3.1001.0",
+    "@aws-sdk/cloudfront-signer": "3.1001.0",
+    "@aws-sdk/s3-request-presigner": "3.1001.0",
     "apollo-server-express": "^3.13.0",
     "bunyan": "^1.8.15",
     "colorspace": "1.1.2",

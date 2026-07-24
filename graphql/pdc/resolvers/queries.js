@@ -2869,12 +2869,14 @@ export const resolvers = {
 				cacheFilterName['dataFilterName'] += 'limit:'+args.limit+';';
 			}
 			let uiClinicalLimitQuery = " LIMIT "+ myOffset+ ", "+ myLimit;
+            let uiClinicalGroupBy = " GROUP BY  dia.diagnosis_id ";
+
 			if (args.getAll) {
-				context['query'] = clinicalDataQuery+uiSortQuery;
+				context['query'] = clinicalDataQuery + uiClinicalGroupBy + uiSortQuery;
 				context['dataCacheName'] = CacheName.getBrowsePagePaginatedDataTabCacheKey('ClinicalAllData')+cacheFilterName['dataFilterName'];
 			}
 			else {
-				context['query'] = clinicalDataQuery+uiSortQuery+uiClinicalLimitQuery;
+				context['query'] = clinicalDataQuery + uiClinicalGroupBy +  uiSortQuery + uiClinicalLimitQuery;
 				context['dataCacheName'] = CacheName.getBrowsePagePaginatedDataTabCacheKey('ClinicalData')+cacheFilterName['dataFilterName'];
 			}
 			context['replacements'] = replacements;
@@ -3017,12 +3019,14 @@ export const resolvers = {
 				cacheFilterName['dataFilterName'] += 'limit:'+args.limit+';';
 			}
 			let uiCaseLimitQuery = " LIMIT "+ myOffset+ ", "+ myLimit;
+            let uiCaseGroupBy = " GROUP BY  al.aliquot_id ";
+
 			if (args.getAll) {
-				context['query'] = caseDataQuery+uiSortQuery;
+				context['query'] = caseDataQuery + uiCaseGroupBy + uiSortQuery;
 				context['dataCacheName'] = CacheName.getBrowsePagePaginatedDataTabCacheKey('CaseAllData')+cacheFilterName['dataFilterName'];
 			}
 			else {
-				context['query'] = caseDataQuery+uiSortQuery+uiCaseLimitQuery;
+				context['query'] = caseDataQuery + uiCaseGroupBy + uiSortQuery + uiCaseLimitQuery;
 				context['dataCacheName'] = CacheName.getBrowsePagePaginatedDataTabCacheKey('CaseData')+cacheFilterName['dataFilterName'];
 			}
 			context['replacements'] = replacements;
