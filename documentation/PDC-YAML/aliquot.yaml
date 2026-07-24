@@ -1,0 +1,112 @@
+- category: Biospecimen
+  description: Pertaining to a portion of the whole; any one of two or more samples
+    of something, of the same volume or weight.
+  foreignKeys:
+  - sourceField: sample_submitter_id
+    targetEntity: Sample
+    targetField: sample_submitter_id
+  - sourceField: project_submitter_id
+    targetEntity: Project
+    targetField: name
+  links:
+  - label: Aliquot references the Sample it is derived from.
+    name: Sample
+    required: 'True'
+  - label: Aliquot references the Analyte it is derived from.
+    name: Analyte
+    required: 'True'
+  name: Aliquot
+  primaryKey: aliquot_submitter_id
+  properties:
+  - dataType: String
+    maxLength: 50
+    name: aliquot_id
+    required: false
+  - dataType: String
+    maxLength: 50
+    name: aliquot_submitter_id
+    required: true
+  - dataType: String
+    maxLength: 50
+    name: sample_id
+    required: false
+  - dataType: String
+    maxLength: 500
+    name: sample_submitter_id
+    required: false
+  - dataType: String
+    maxLength: 500
+    name: study_id
+    required: false
+  - dataType: String
+    maxLength: 50
+    name: project_id
+    required: false
+  - dataType: String
+    maxLength: 250
+    name: project_submitter_id
+    required: false
+  - dataType: Enumeration
+    name: pool
+    required: true
+    values:
+    - 'Yes'
+    - 'No'
+  - dataType: Enumeration
+    name: status
+    required: true
+    values:
+    - Qualified
+    - Disqualified
+  - dataType: Enumeration
+    name: analyte_type
+    required: false
+    values:
+    - DNA
+    - EBV Immortalized Normal
+    - FFPE DNA
+    - FFPE RNA
+    - GenomePlex (Rubicon) Amplified DNA
+    - Repli-G (Qiagen) DNA
+    - Repli-G Pooled (Qiagen) DNA
+    - Repli-G X (Qiagen) DNA
+    - RNA
+    - Protein
+  - dataType: Number
+    name: aliquot_quantity
+    numberType: Double
+    required: false
+  - dataType: Number
+    name: aliquot_volume
+    numberType: Double
+    required: false
+  - dataType: Number
+    name: amount
+    numberType: Double
+    required: false
+  - dataType: Enumeration
+    name: analyte_type_id
+    required: false
+    values:
+    - D
+    - E
+    - G
+    - H
+    - R
+    - S
+    - T
+    - W
+    - X
+  - dataType: Number
+    name: concentration
+    numberType: Double
+    required: false
+  - dataType: Enumeration
+    name: aliquot_is_ref
+    required: true
+    values:
+    - 'Yes'
+    - 'No'
+  uniqueKeys:
+  - - aliquot_id
+    - aliquot_submitter_id

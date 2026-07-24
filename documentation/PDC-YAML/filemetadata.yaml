@@ -1,0 +1,30 @@
+- name: FileMetadata
+  properties:
+  - dataType: String
+    maxLength: 100
+    name: file_name
+    required: true
+  - dataType: String
+    maxLength: 100
+    name: md5sum
+    required: true
+  - dataType: String
+    maxLength: 100
+    name: sha1
+    required: false
+  - dataType: String
+    maxLength: 100
+    name: file_size
+    required: true
+  - dataType: String
+    maxLength: 100
+    name: data_category
+    required: false
+  - dataType: String
+    maxLength: 100
+    name: file_type
+    required: false
+  - dataType: String
+    maxLength: 100
+    name: file_format
+    required: false

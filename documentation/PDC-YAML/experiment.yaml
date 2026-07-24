@@ -1,0 +1,78 @@
+- foreignKeys:
+  - sourceField: protocol
+    targetEntity: Protocol
+    targetField: protocol_name
+  name: Experiment
+  primaryKey: name
+  properties:
+  - dataType: String
+    maxLength: 255
+    name: name
+    required: true
+    unique: true
+  - dataType: String
+    name: protocol
+    required: false
+  - dataType: String
+    name: description
+    required: false
+  - dataType: Boolean
+    name: 2d/lc
+    required: true
+  - dataType: String
+    maxLength: 255
+    name: label_type
+    required: false
+  - dataType: String
+    maxLength: 255
+    name: group_specific_parameters_type
+    required: false
+  - dataType: Boolean
+    name: filter_by_pif_enabled
+    required: false
+  - dataType: Number
+    name: min_reporter_pif
+    numberType: Double
+    required: true
+  - dataType: Number
+    name: min_base_peak_ratio
+    numberType: Double
+    required: true
+  - dataType: Number
+    name: min_reporter_fraction
+    numberType: Double
+    required: true
+  - dataType: Number
+    name: mixed_samples_count
+    numberType: Integer
+    required: true
+  - dataType: Number
+    name: reporter_mass_to_l
+    numberType: Double
+    required: true
+  - dataType: Number
+    name: channels_count
+    numberType: Integer
+    required: false
+  - dataType: Number
+    name: max_mz
+    numberType: Double
+    required: false
+  - dataType: Number
+    name: max_rt
+    numberType: Double
+    required: false
+  - dataType: Number
+    name: min_mz
+    numberType: Double
+    required: false
+  - dataType: Number
+    name: min_rt
+    numberType: Double
+    required: false
+  - dataType: Boolean
+    name: multiplexing
+    required: true
+  - dataType: String
+    name: additional_properties
+    required: false

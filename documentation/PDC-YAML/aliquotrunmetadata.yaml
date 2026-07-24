@@ -1,0 +1,76 @@
+- category: Metadata
+  description: Experimental metadata describing how an aliquot was processed within a study.
+  links:
+  - label: Aliquot Run Metadata references the experimental run of the study.
+    name: Study Run Metadata
+    required: true
+  - label: Aliquot Run Metadata references the Aliquots used in an experimental run of the study.
+    name: Aliquot
+    required: true
+  name: Aliquot Run Metadata
+  properties:
+  - dataType: String
+    name: aliquot_run_metadata_id
+    required: false
+  - dataType: String
+    name: study_run_metadata_id
+    required: false
+  - dataType: String
+    name: study_run_metadata_submitter_id
+    required: false
+  - dataType: String
+    name: aliquot_id
+    required: false
+  - dataType: String
+    name: aliquot_submitter_id
+    required: false
+  - dataType: String
+    name: protocol_id
+    required: false
+  - dataType: String
+    name: protocol_submitter_id
+    required: false
+  - dataType: String
+    name: study_id
+    required: false
+  - dataType: String
+    name: study_submitter_id
+    required: false
+  - dataType: String
+    name: experiment_type
+    required: false
+  - dataType: String
+    name: label
+    required: false
+  - dataType: String
+    name: experiment_number
+    required: false
+  - dataType: String
+    name: acquisition_file_name
+    required: false
+  - dataType: String
+    name: fraction
+    required: false
+  - dataType: String
+    name: instrument
+    required: false
+  - dataType: String
+    name: operator
+    required: false
+  - dataType: String
+    name: replicate_number
+    required: false
+  - dataType: String
+    name: date
+    required: false
+  - dataType: String
+    name: condition
+    required: false
+  - dataType: String
+    name: protocol
+    required: false
+  - dataType: String
+    name: analyte
+    required: false
+  uniqueKeys:
+  - - aliquot_run_metadata_id

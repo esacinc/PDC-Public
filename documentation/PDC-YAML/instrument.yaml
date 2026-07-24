@@ -1,0 +1,39 @@
+- foreignKeys:
+  - sourceField: lab
+    targetEntity: Lab
+    targetField: name
+  name: Instrument
+  properties:
+  - dataType: String
+    maxLength: 255
+    name: name
+    required: true
+  - dataType: String
+    maxLength: 255
+    name: program
+    required: true
+  - dataType: String
+    maxLength: 255
+    name: hplc
+    required: false
+  - dataType: String
+    maxLength: 255
+    name: serial_number
+    required: true
+    unique: true
+  - dataType: String
+    maxLength: 255
+    name: peripherals
+    required: false
+  - dataType: String
+    maxLength: 255
+    name: instrument_model
+    required: true
+  - dataType: String
+    maxLength: 255
+    name: vendor
+    required: true
+  - dataType: String
+    maxLength: 255
+    name: technology_type
+    required: true

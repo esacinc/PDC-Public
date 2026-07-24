@@ -1,0 +1,34 @@
+- category: Administrative
+  description: A broad framework of goals to be achieved.
+  links: null
+  name: Program
+  properties:
+  - dataType: String
+    name: program_id
+    required: false
+  - dataType: String
+    name: program_submitter_id
+    required: false
+  - dataType: String
+    name: program_shortname
+    required: true
+  - dataType: String
+    name: name
+    required: true
+  - dataType: String
+    name: sponsor
+    required: false
+  - dataType: Date
+    formats: MM/dd/yyyy
+    name: start_date
+    required: true
+  - dataType: Date
+    formats: MM/dd/yyyy
+    name: end_date
+    required: false
+  - dataType: String
+    name: program_manager
+    required: true
+  uniqueKeys:
+  - - program_id
+    - program_submitter_id

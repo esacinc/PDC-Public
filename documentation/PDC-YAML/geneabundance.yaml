@@ -1,0 +1,44 @@
+- category: Processed
+  description: Derived results intended to approximate protein abundance for a given
+    gene product. Units of measurement include peptide-spectrum-matches (spectral
+    counts), precursor or reporter ion abundance.
+  links:
+  - label: Gene Abundance references measurements for a Gene.
+    name: Gene
+    required: 'True'
+  - label: Gene Abundance references the Study it is derived from.
+    name: Study
+    required: 'True'
+  - label: Gene Abundance references an experimental run of the Study it is derived
+      from.
+    name: Study Run Metadata
+    required: 'True'
+  name: Gene Abundance
+  properties:
+  - dataType: String
+    name: gene_abundance_id
+    required: false
+  - dataType: String
+    name: gene_id
+    required: true
+  - dataType: String
+    name: gene_name
+    required: true
+  - dataType: Number
+    name: log2_ratio
+    numberType: Double
+    required: false
+  - dataType: Number
+    name: unshared_log2_ratio
+    numberType: Double
+    required: false
+  - dataType: Number
+    name: unshared_precursor_area
+    numberType: Double
+    required: false
+  - dataType: Number
+    name: precursor_area
+    numberType: Double
+    required: false
+  uniqueKeys:
+  - - spectral_count_id

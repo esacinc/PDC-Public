@@ -1,0 +1,15 @@
+- foreignKeys:
+  - sourceField: protocol
+    targetEntity: Protocol
+    targetField: protocol_name
+  name: Operator
+  primaryKey: name
+  properties:
+  - dataType: String
+    maxLength: 255
+    name: name
+    required: true
+  - dataType: String
+    maxLength: 255
+    name: protocol
+    required: true

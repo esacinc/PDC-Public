@@ -1,0 +1,153 @@
+- category: Clinical
+  description: Data for the characterization of the patient by means of segmenting
+    the population (e.g., characterization by age, sex, or race).
+  foreignKeys:
+  - sourceField: case_submitter_id
+    targetEntity: Case
+    targetField: case_submitter_id
+  - sourceField: project_submitter_id
+    targetEntity: Project
+    targetField: name
+  links:
+  - label: Demographic references the Case it is derived from.
+    name: Case
+    required: 'True'
+  name: Demographic
+  primaryKey: case_submitter_id
+  properties:
+  - dataType: String
+    maxLength: 50
+    name: demographic_id
+    required: false
+  - dataType: String
+    maxLength: 50
+    name: demographic_submitter_id
+    required: false
+  - dataType: String
+    maxLength: 50
+    name: case_id
+    required: false
+  - dataType: String
+    maxLength: 50
+    name: case_submitter_id
+    required: true
+  - dataType: String
+    maxLength: 50
+    name: study_id
+    required: false
+  - dataType: String
+    maxLength: 50
+    name: project_id
+    required: false
+  - dataType: String
+    maxLength: 250
+    name: project_submitter_id
+    required: false
+  - dataType: Enumeration
+    name: ethnicity
+    required: true
+    values:
+    - hispanic or latino
+    - not hispanic or latino
+    - not reported
+    - not allowed to collect
+    - unknown
+    - Unknown
+  - dataType: Enumeration
+    name: gender
+    required: true
+    values:
+    - female
+    - male
+    - unknown
+    - unspecified
+    - not reported
+  - dataType: Enumeration
+    name: race
+    required: true
+    values:
+    - white
+    - american indian or alaska native
+    - black or african american
+    - asian
+    - native hawaiian or other pacific islander
+    - other
+    - not reported
+    - not allowed to collect
+    - unknown
+    - Unknown
+  - dataType: Enumeration
+    name: cause_of_death
+    required: false
+    values:
+    - Cancer Related
+    - Cardiovascular Disorder, NOS
+    - End-stage Renal Disease
+    - Infection
+    - Not Cancer Related
+    - Renal Disorder, NOS
+    - Spinal Muscular Atrophy
+    - Surgical Complications
+    - Toxicity
+    - Not Reported
+    - Unknown
+  - dataType: Number
+    name: days_to_birth
+    numberType: Integer
+    required: false
+  - dataType: Number
+    name: days_to_death
+    numberType: Integer
+    required: false
+  - dataType: Enumeration
+    name: vital_status
+    required: false
+    values:
+    - Alive
+    - Dead
+    - Unknown
+    - Not Reported
+  - dataType: Number
+    name: year_of_birth
+    numberType: Integer
+    required: false
+  - dataType: Number
+    name: year_of_death
+    numberType: Integer
+    required: false
+  - dataType: Number
+    name: age_at_index
+    required: false
+    numberType: Integer
+  - dataType: Enumeration
+    name: premature_at_birth
+    required: false
+    values:
+    - 'Yes'
+    - 'No'
+    - Unknown
+    - Not Reported
+  - dataType: Number
+    name: weeks_gestation_at_birth
+    numberType: Integer
+    required: false
+  - dataType: Boolean
+    name: age_is_obfuscated
+    required: false
+  - dataType: Enumeration
+    name: cause_of_death_source
+    required: false
+    values:
+    - Autopsy
+    - Death Certificate
+    - Medical Record
+    - Social Security Death Index
+    - Unknown
+    - Not Reported
+  - dataType: Number
+    name: occupation_duration_years
+    numberType: Integer
+    required: false
+  uniqueKeys:
+  - - demographic_id
+    - demographic_submitter_id

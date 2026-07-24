@@ -1,0 +1,49 @@
+- category: Administrative
+  description: A detailed examination, analysis, or critical inspection of a subject
+    designed to discover facts about it.
+  links:
+  - label: Study references the Project it is part of.
+    name: Project
+    required: true
+  name: Study
+  properties:
+  - dataType: String
+    name: study_id
+    required: false
+  - dataType: String
+    name: study_submitter_id
+    required: false
+  - dataType: String
+    name: study_shortname
+    required: false
+  - dataType: String
+    name: project_id
+    required: false
+  - dataType: String
+    name: project_submitter_id
+    required: false
+  - dataType: String
+    name: submitter_id_name
+    required: false
+  - dataType: String
+    name: analytical_fraction
+    required: false
+  - dataType: String
+    name: experiment_type
+    required: false
+  - dataType: String
+    name: study_description
+    required: true
+  - dataType: Date
+    formats: MM/dd/yyyy
+    name: embargo_date
+    required: false
+  - dataType: String
+    name: acquisition_type
+    required: true
+  - dataType: String
+    name: study_short_name
+    required: false
+  uniqueKeys:
+  - - study_id
+    - study_submitter_id

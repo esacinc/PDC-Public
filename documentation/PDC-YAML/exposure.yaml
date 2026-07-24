@@ -1,0 +1,208 @@
+- category: clinical
+  description: 'Clinically relevant patient information not immediately resulting
+    from genetic predispositions.
+
+    '
+  links:
+  - backref: exposures
+    label: Exposure references the Case it is derived from.
+    multiplicity: many_to_one
+    name: Case
+    required: true
+    target_type: case
+  name: Exposure
+  properties:
+  - dataType: Number
+    name: alcohol_days_per_week
+    numberType: Integer
+    required: false
+  - dataType: Number
+    name: alcohol_drinks_per_day
+    numberType: Integer
+    required: false
+  - dataType: Enumeration
+    name: alcohol_history
+    required: false
+    values:
+    - 'Yes'
+    - 'No'
+    - Unknown
+    - Not Reported
+    - 'no'
+    - 'yes'
+  - dataType: Enumeration
+    name: alcohol_intensity
+    required: false
+    values:
+    - Drinker
+    - Heavy Drinker
+    - Lifelong Non-Drinker
+    - Non-Drinker
+    - Occasional Drinker
+    - Unknown
+    - Not Reported
+  - dataType: Enumeration
+    name: asbestos_exposure
+    required: false
+    values:
+    - 'Yes'
+    - 'No'
+    - Unknown
+    - Not Reported
+  - dataType: Number
+    name: bmi
+    numberType: Integer
+    required: false
+  - dataType: Number
+    name: cigarettes_per_day
+    numberType: Integer
+    required: false
+  - dataType: Enumeration
+    name: coal_dust_exposure
+    required: false
+    values:
+    - 'Yes'
+    - 'No'
+    - Unknown
+  - dataType: Enumeration
+    name: environmental_tobacco_smoke_exposure
+    required: false
+    values:
+    - 'Yes'
+    - 'No'
+    - Unknown
+  - dataType: Number
+    name: height
+    numberType: Integer
+    required: false
+  - dataType: Number
+    name: pack_years_smoked
+    numberType: Float
+    required: false
+  - dataType: Enumeration
+    name: radon_exposure
+    required: false
+    values:
+    - 'Yes'
+    - 'No'
+    - Unknown
+    - Not Reported
+  - dataType: Enumeration
+    name: respirable_crystalline_silica_exposure
+    required: false
+    values:
+    - 'Yes'
+    - 'No'
+    - Unknown
+  - dataType: Enumeration
+    name: smoking_frequency
+    required: false
+    values:
+    - Every day
+    - Some days
+    - Unknown
+  - dataType: Enumeration
+    name: time_between_waking_and_first_smoke
+    required: false
+    values:
+    - Within 5 Minutes
+    - 6-30 Minutes
+    - 31-60 Minutes
+    - After 60 Minutes
+    - Unknown
+  - dataType: Number
+    name: tobacco_smoking_onset_year
+    numberType: Integer
+    required: false
+  - dataType: Number
+    name: tobacco_smoking_quit_year
+    numberType: Integer
+    required: false
+  - dataType: Enumeration
+    name: tobacco_smoking_status
+    required: false
+    values:
+    - '1'
+    - '2'
+    - '3'
+    - '4'
+    - '5'
+    - '7'
+    - Unknown
+    - Not Reported
+    - Not Allowed To Collect
+  - dataType: Enumeration
+    name: type_of_smoke_exposure
+    required: false
+    values:
+    - Accidental building fire smoke
+    - Accidental fire smoke, grass
+    - Accidental fire smoke, NOS
+    - Accidental forest fire smoke
+    - Accidental vehicle fire smoke
+    - Aircraft smoke
+    - Burning tree smoke
+    - Coal smoke, NOS
+    - Cooking-related smoke, NOS
+    - Electronic cigarette smoke, NOS
+    - Electrical fire smoke
+    - Environmental tobacco smoke
+    - Factory smokestack smoke
+    - Field burning smoke
+    - Fire smoke, NOS
+    - Furnace or boiler smoke
+    - Gas burning smoke, propane
+    - Grease fire smoke
+    - Grilling smoke
+    - Hashish smoke
+    - Indoor stove or fireplace smoke, coal burning
+    - Indoor stove or fireplace smoke, NOS
+    - Indoor stove or fireplace smoke, wood burning
+    - Machine smoke
+    - Marijuana smoke
+    - No Smoke Exposure
+    - Oil burning smoke, Kerosene
+    - Oil burning smoke, NOS
+    - Recreational fire smoke
+    - Smoke exposure, NOS
+    - Smokehouse smoke
+    - Tobacco smoke, cigar
+    - Tobacco smoke, cigarettes
+    - Tobacco smoke, pipe
+    - Unknown
+    - Volcanic smoke
+    - Waste burning smoke
+    - Wood burning smoke, factory
+    - Wood burning smoke, NOS
+    - Work-related smoke, artificial smoke machines
+    - Work-related smoke, fire fighting
+    - Work-related smoke, foundry
+    - Work-related smoke, generators
+    - Work-related smoke, military
+    - Work-related smoke, NOS
+    - Work-related smoke, paint baking
+    - Work-related smoke, plastics factory
+    - Work-related smoke, plumbing
+    - Work-related smoke, soldering/welding
+  - dataType: Enumeration
+    name: type_of_tobacco_used
+    required: false
+    values:
+    - Cigarettes
+    - Cigar
+    - Electronic Cigarette
+    - Other
+    - Pipe
+    - Smokeless Tobacco
+  - dataType: Number
+    name: weight
+    numberType: Integer
+    required: false
+  - dataType: Number
+    name: years_smoked
+    numberType: Integer
+    required: false
+  uniqueKeys:
+  - id
+  - project_id
+  - submitter_id

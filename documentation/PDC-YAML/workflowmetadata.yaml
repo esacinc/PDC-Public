@@ -1,0 +1,102 @@
+- category: Metadata
+  description: Tools, versions and parameters used in data analysis pipeline/workflow
+    for analyzing study data.
+  links:
+  - label: Workflow Metadata references the pipeline used to analyze the Study.
+    name: Study
+    required: 'True'
+  name: Workflow Metadata
+  properties:
+  - dataType: String
+    name: workflow_metadata_id
+    required: false
+  - dataType: String
+    name: workflow_metadata_submitter_id
+    required: false
+  - dataType: String
+    name: protocol_id
+    required: false
+  - dataType: String
+    name: protocol_submitter_id
+    required: false
+  - dataType: String
+    name: study_id
+    required: false
+  - dataType: String
+    name: study_submitter_id
+    required: false
+  - dataType: String
+    name: cptac_study_id
+    required: false
+  - dataType: String
+    name: submitter_id_name
+    required: false
+  - dataType: String
+    name: study_submitter_name
+    required: false
+  - dataType: String
+    name: analytical_fraction
+    required: false
+  - dataType: String
+    name: experiment_type
+    required: false
+  - dataType: String
+    name: instrument
+    required: false
+  - dataType: String
+    name: refseq_database_version
+    required: false
+  - dataType: String
+    name: uniport_database_version
+    required: false
+  - dataType: String
+    name: hgnc_version
+    required: false
+  - dataType: String
+    name: raw_data_processing
+    required: false
+  - dataType: String
+    name: raw_data_conversion
+    required: false
+  - dataType: String
+    name: sequence_database_search
+    required: false
+  - dataType: String
+    name: search_database_parameters
+    required: false
+  - dataType: String
+    name: phosphosite_localization
+    required: false
+  - dataType: String
+    name: ms1_data_analysis
+    required: false
+  - dataType: String
+    name: psm_report_generation
+    required: false
+  - dataType: String
+    name: cptac_dcc_mzidentml
+    required: false
+  - dataType: String
+    name: mzidentml_refseq
+    required: false
+  - dataType: String
+    name: mzidentml_uniprot
+    required: false
+  - dataType: String
+    name: gene_to_prot
+    required: false
+  - dataType: String
+    name: cptac_galaxy_workflows
+    required: false
+  - dataType: String
+    name: cptac_galaxy_tools
+    required: false
+  - dataType: String
+    name: cdap_reports
+    required: false
+  - dataType: String
+    name: cptac_dcc_tools
+    required: false
+  uniqueKeys:
+  - - workflow_metadata_id
+    - workflow_metadata_submitter_id

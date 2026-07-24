@@ -1,0 +1,2425 @@
+- properties:
+    acquisition_type:
+      description: 'The modes of acquisition used in the LC-MS/MS experiments: data
+        dependent acquisition (DDA), data independent acquisition (DIA).'
+    analytical_fraction:
+      description: Type of peptide or protein enrichment
+    embargo_date:
+      description: Specifies the embargo date, i.e., the release of information with
+        the condition that it cannot be published or disseminated before a certain
+        date.
+    experiment_type:
+      description: General strategy used for differential analysis
+    project_id:
+      key: 'yes'
+    project_submitter_id:
+      key: 'yes'
+    study_description:
+      description: 'Describes the objective of the study, data collection, or compilation,
+        etc. '
+    study_id:
+      key: 'yes'
+    study_short_name:
+      description: A short name for the study
+    study_shortname:
+      key: 'yes'
+    study_submitter_id:
+      key: 'yes'
+    submitter_id_name:
+      description: Name of the study as described by the data submitter
+  title: Study
+  type: object
+- properties:
+    aliquot_id:
+      key: 'yes'
+    aliquot_is_ref:
+      description: A biospecimen entity which is used as a reference sample for determining
+        relative protein abundances in labeling experiments.
+    aliquot_quantity:
+      description: The quantity in micrograms (ug) of the aliquot(s) derived from
+        the analyte(s) shipped for sequencing and characterization.
+    aliquot_submitter_id:
+      key: 'yes'
+    aliquot_volume:
+      description: The volume in microliters (ml) of the aliquot(s) derived from the
+        analyte(s) shipped for sequencing and characterization.
+    amount:
+      description: Weight in grams or volume in mL
+    analyte_type:
+      cde_id: 2513915
+      description: Text term that represents the kind of molecular specimen analyte.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2513915&version=2.0
+    analyte_type_id:
+      cde_id: 5432508
+      description: A single letter code used to identify a type of molecular analyte.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432508&version=1.0
+    concentration:
+      cde_id: 5432594
+      description: Numeric value that represents the concentration of an analyte or
+        aliquot extracted from the sample or sample portion, measured in milligrams
+        per milliliter.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432594&version=1.0
+    pool:
+      description: Any biospecimen entity where multiple cases, samples or aliquots
+        are combined to produce a reference. Sample pooling is commonly used for determining
+        relative protein abundances in labeling experiments.
+    project_id:
+      key: 'yes'
+    project_submitter_id:
+      key: 'yes'
+    sample_id:
+      key: 'yes'
+    sample_submitter_id:
+      key: 'yes'
+    status:
+      description: Specifies if the aliquot is qualified or disqualified for any reason.
+        Usually the data releated to such aliquots are not used in the data analysis.
+  title: Aliquot
+  type: object
+- properties:
+    creation_datetime:
+      cde_id: 5432592
+      description: The datetime of portion creation encoded as seconds from epoch.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432592&version=1.0
+    is_ffpe:
+      cde_id: 4170557
+      description: Indicator to signify whether or not the tissue sample was fixed
+        in formalin and embedded in paraffin (FFPE).
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=4170557&version=1.0
+    portion_id:
+      key: 'yes'
+    portion_number:
+      cde_id: 5432711
+      description: Numeric value that represents the sequential number assigned to
+        a portion of the sample.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432711&version=1.0
+    portion_submitter_id:
+      key: 'yes'
+    project_id:
+      key: 'yes'
+    project_submitter_id:
+      key: 'yes'
+    sample_id:
+      key: 'yes'
+    sample_submitter_id:
+      key: 'yes'
+    weight:
+      cde_id: 651
+      description: Numeric value that represents the sample portion weight, measured
+        in milligrams.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=651&version=4.0
+  title: Portion
+  type: object
+- properties:
+    age_at_index:
+      cde_id: 6028530
+      description: The patient's age (in years) on the reference or anchor date date
+        used during date obfuscation.
+      oneOf:
+      - maximum: 32872
+        minimum: 0
+        type: integer
+      - type: 'null'
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6028530&version=1.0
+    age_is_obfuscated:
+      description: 'The age of the patient has been modified for compliance reasons.
+        The actual age differs from what is reported. Other date intervals for this
+        patient may also be modified.
+
+        '
+    case_id:
+      key: 'yes'
+    case_submitter_id:
+      key: 'yes'
+    cause_of_death:
+      cde_id: 2554674
+      description: Text term to identify the cause of death for a patient.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2554674&version=3.0
+    cause_of_death_source:
+      description: 'The text term used to describe the source used to determine the
+        patient''s cause of death.
+
+        '
+    days_to_birth:
+      cde_id: 6154723
+      description: Number of days between the date used for index and the date from
+        a person's date of birth represented as a calculated negative number of days.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6154723&version=1.0
+    days_to_death:
+      cde_id: 6154724
+      description: Number of days between the date used for index and the date from
+        a person's date of death represented as a calculated number of days.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6154724&version=1.0
+    demographic_id:
+      key: 'yes'
+    demographic_submitter_id:
+      key: 'yes'
+    ethnicity:
+      cde_id: 2192217
+      description: An individual's self-described social and cultural grouping, specifically
+        whether an individual describes themselves as Hispanic or Latino. The provided
+        values are based on the categories defined by the U.S. Office of Management
+        and Business and used by the U.S. Census Bureau.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2192217&version=2.0
+    gender:
+      cde_id: 2200604
+      description: 'Text designations that identify gender. Gender is described as
+        the assemblage of properties that distinguish people on the basis of their
+        societal roles. [Explanatory Comment 1: Identification of gender is based
+        upon self-report and may come from a form, questionnaire, interview, etc.]'
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2200604&version=3.0
+    occupation_duration_years:
+      cde_id: 2435424
+      description: 'The number of years a patient worked in a specific occupation.
+
+        '
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2435424&version=1.0
+    premature_at_birth:
+      cde_id: 6010765
+      description: The yes/no/unknown indicator used to describe whether the patient
+        was premature (less than 37 weeks gestation) at birth.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6010765&version=1.0
+    project_id:
+      key: 'yes'
+    project_submitter_id:
+      key: 'yes'
+    race:
+      cde_id: 2192199
+      description: An arbitrary classification of a taxonomic group that is a division
+        of a species. It usually arises as a consequence of geographical isolation
+        within a species and is characterized by shared heredity, physical attributes
+        and behavior, and in the case of humans, by common history, nationality, or
+        geographic distribution. The provided values are based on the categories defined
+        by the U.S. Office of Management and Business and used by the U.S. Census
+        Bureau.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2192199&version=1.0
+    vital_status:
+      cde_id: 5
+      description: The survival state of the person registered on the protocol.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5&version=5.0
+    weeks_gestation_at_birth:
+      cde_id: 2737369
+      description: Numeric value used to describe the number of weeks starting from
+        the approximate date of the biological mother's last menstrual period and
+        ending with the birth of the patient.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2737369&version=1.0
+    year_of_birth:
+      cde_id: 2896954
+      description: Numeric value to represent the calendar year in which an individual
+        was born.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2896954&version=1.0
+    year_of_death:
+      cde_id: 2897030
+      description: Numeric value to represent the year of the death of an individual.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2897030&version=1.0
+  title: Demographic
+  type: object
+- properties:
+    alias:
+      description: A plex or dataset name used by the submitters
+    analyte:
+      description: Type of peptide or protein enrichment
+    condition:
+      description: 'Biological condition (ex: disease state) of the cases(patients)
+        from which the aliquots derived.'
+    date:
+      description: Date of the data acquired from the mass spectrometry instrument
+    experiment_number:
+      description: Number associated with a specific run of the experiment
+    experiment_type:
+      description: General strategy used for differential analysis
+    folder_name:
+      key: 'yes'
+    fraction:
+      description: Number of fractions in the experimental run
+    itraq_113:
+      description: The sample tagged with this isobaric label reagent
+    itraq_114:
+      description: The sample tagged with this isobaric label reagent
+    itraq_115:
+      description: The sample tagged with this isobaric label reagent
+    itraq_116:
+      description: The sample tagged with this isobaric label reagent
+    itraq_117:
+      description: The sample tagged with this isobaric label reagent
+    itraq_118:
+      description: The sample tagged with this isobaric label reagent
+    itraq_119:
+      description: The sample tagged with this isobaric label reagent
+    itraq_121:
+      description: The sample tagged with this isobaric label reagent
+    label_free:
+      description: The sample tagged with this isobaric label reagent
+    operator:
+      description: Mass Spectrometry instrument operator
+    plex_or_folder_name:
+      description: Name used to group the files generated in single experimental run
+    protocol_id:
+      key: 'yes'
+    protocol_submitter_id:
+      key: 'yes'
+    replicate_number:
+      description: Replicate number, if applicable
+    study_id:
+      key: 'yes'
+    study_run_metadata_id:
+      key: 'yes'
+    study_run_metadata_submitter_id:
+      key: 'yes'
+    study_submitter_id:
+      key: 'yes'
+    tmt_126:
+      description: The sample tagged with this isobaric label reagent
+    tmt_127c:
+      description: The sample tagged with this isobaric label reagent
+    tmt_127n:
+      description: The sample tagged with this isobaric label reagent
+    tmt_128c:
+      description: The sample tagged with this isobaric label reagent
+    tmt_128n:
+      description: The sample tagged with this isobaric label reagent
+    tmt_129c:
+      description: The sample tagged with this isobaric label reagent
+    tmt_129n:
+      description: The sample tagged with this isobaric label reagent
+    tmt_130c:
+      description: The sample tagged with this isobaric label reagent
+    tmt_130n:
+      description: The sample tagged with this isobaric label reagent
+    tmt_131:
+      description: The sample tagged with this isobaric label reagent
+    tmt_131c:
+      description: The sample tagged with this isobaric label reagent
+  title: Study Run Metadata
+  type: object
+- additionalProperties: false
+  downloadable: false
+  previous_version_downloadable: false
+  properties:
+    adverse_event:
+      cde_id: 3125302
+      description: 'Text that represents the Common Terminology Criteria for Adverse
+        Events low level term name for an adverse event.
+
+        '
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3125302&version=1.1
+    barretts_esophagus_goblet_cells_present:
+      cde_id: 3440216
+      description: 'The yes/no/unknown indicator used to describe whether goblet cells
+        were determined to be present in a patient diagnosed with Barrett''s esophagus.
+
+        '
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3440216&version=1.0
+    bmi:
+      cde_id: 2006410
+      description: 'A calculated numerical quantity that represents an individual''s
+        weight to height ratio.
+
+        '
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2006410&version=3.0
+    cause_of_response:
+      cde_id: 6161025
+      description: 'The text term used to describe the suspected cause or reason for
+        the patient disease response.
+
+        '
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6161025&version=1.0
+    comorbidity:
+      cde_id: 2970715
+      description: 'The text term used to describe a comorbidity disease, which coexists
+        with the patient''s malignant disease.
+
+        '
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2970715&version=1.0
+    comorbidity_method_of_diagnosis:
+      cde_id: 6142386
+      description: 'The text term used to describe the method used to diagnose the
+        patient''s comorbidity disease.
+
+        '
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6142386&version=1.0
+    days_to_adverse_event:
+      cde_id: 6154728
+      description: 'Number of days between the date used for index and the date of
+        the patient''s adverse event.
+
+        '
+      maximum: 32872
+      minimum: -32872
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6154728&version=1.0
+    days_to_comorbidity:
+      cde_id: 6154729
+      description: 'Number of days between the date used for index and the date the
+        patient was diagnosed with a comorbidity.
+
+        '
+      maximum: 32872
+      minimum: -32872
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6154729&version=1.0
+    days_to_follow_up:
+      cde_id: 6154727
+      description: 'Number of days between the date used for index and the date of
+        the patient''s last follow-up appointment or contact.
+
+        '
+      maximum: 32872
+      minimum: -32872
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6154727&version=1.0
+    days_to_progression:
+      cde_id: 6154730
+      description: 'Number of days between the date used for index and the date the
+        patient''s disease progressed.
+
+        '
+      maximum: 32872
+      minimum: -32872
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6154730&version=1.0
+    days_to_progression_free:
+      description: 'Number of days between the date used for index and the date the
+        patient''s disease was formally confirmed as progression-free.
+
+        '
+      maximum: 32872
+      minimum: -32872
+      source: caDSR
+    days_to_recurrence:
+      cde_id: 6154731
+      description: 'Number of days between the date used for index and the date the
+        patient''s disease recurred.
+
+        '
+      maximum: 32872
+      minimum: -32872
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6154731&version=1.0
+    diabetes_treatment_type:
+      cde_id: 3587247
+      description: 'Text term used to describe the types of treatment used to manage
+        diabetes.
+
+        '
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3587247&version=1.0
+    disease_response:
+      cde_id: 5750671
+      description: 'Code assigned to describe the patient''s response or outcome to
+        the disease.
+
+        '
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5750671&version=1.0
+    dlco_ref_predictive_percent:
+      cde_id: 2180255
+      description: 'The value, as a percentage of predicted lung volume, measuring
+        the amount of carbon monoxide detected in a patient''s lungs.
+
+        '
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2180255&version=1.0
+    ecog_performance_status:
+      cde_id: 88
+      description: 'The ECOG functional performance status of the patient/participant.
+
+        '
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=88&version=5.1
+    fev1_fvc_post_bronch_percent:
+      cde_id: 3302956
+      description: 'Percentage value to represent result of Forced Expiratory Volume
+        in 1 second (FEV1) divided by the Forced Vital Capacity (FVC) post-bronchodilator.
+
+        '
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3302956&version=1.0
+    fev1_fvc_pre_bronch_percent:
+      cde_id: 3302955
+      description: 'Percentage value to represent result of Forced Expiratory Volume
+        in 1 second (FEV1) divided by the Forced Vital Capacity (FVC) pre-bronchodilator.
+
+        '
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3302955&version=1.0
+    fev1_ref_post_bronch_percent:
+      cde_id: 3302948
+      description: 'The percentage comparison to a normal value reference range of
+        the volume of air that a patient can forcibly exhale from the lungs in one
+        second post-bronchodilator.
+
+        '
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3302948&version=1.0
+    fev1_ref_pre_bronch_percent:
+      cde_id: 3302947
+      description: 'The percentage comparison to a normal value reference range of
+        the volume of air that a patient can forcibly exhale from the lungs in one
+        second pre-bronchodilator.
+
+        '
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3302947&version=1.0
+    height:
+      cde_id: 649
+      description: 'The height of the patient in centimeters.
+
+        '
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=649&version=4.1
+    hepatitis_sustained_virological_response:
+      cde_id: 6423783
+      description: 'The yes/no/unknown indicator used to describe whether the patient
+        received treatment for a risk factor the patient had at the time of or prior
+        to their diagnosis.
+
+        '
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6423783&version=1.0
+    hpv_positive_type:
+      cde_id: 2922649
+      description: 'Text classification to represent the strain or type of human papillomavirus
+        identified in an individual.
+
+        '
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2922649&version=1.0
+    karnofsky_performance_status:
+      cde_id: 2003853
+      description: 'Text term used to describe the classification used of the functional
+        capabilities of a person.
+
+        '
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2003853&version=4.2
+    menopause_status:
+      cde_id: 2434914
+      description: 'Text term used to describe the patient''s menopause status.
+
+        '
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2434914&version=1.1
+    pancreatitis_onset_year:
+      cde_id: 3457763
+      description: 'Numeric value to represent the year that the patient was diagnosed
+        with clinical chronic pancreatitis.
+
+        '
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3457763&version=1.0
+    progression_or_recurrence:
+      cde_id: 3121376
+      description: 'Yes/No/Unknown indicator to identify whether a patient has had
+        a new tumor event after initial treatment.
+
+        '
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3121376&version=1.0
+    progression_or_recurrence_anatomic_site:
+      cde_id: 6161026
+      description: 'The text term used to describe the anatomic site of the progressive
+        or recurrent disease.
+
+        '
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6161026&version=1.0
+    progression_or_recurrence_type:
+      cde_id: 6142385
+      description: 'The text term used to describe the type of progressive or recurrent
+        disease or relapsed disease.
+
+        '
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6142385&version=1.0
+    reflux_treatment_type:
+      cde_id: 3440206
+      description: 'Text term used to describe the types of treatment used to manage
+        gastroesophageal reflux disease (GERD).
+
+        '
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3440206&version=1.0
+    risk_factor:
+      cde_id: 6142389
+      description: 'The text term used to describe a risk factor the patient had at
+        the time of or prior to their diagnosis.
+
+        '
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6142389&version=1.0
+    risk_factor_treatment:
+      cde_id: 6514356
+      description: 'The yes/no/unknown indicator used to describe whether the patient
+        received treatment for a risk factor the patient had at the time of or prior
+        to their diagnosis.
+
+        '
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6514356&version=1.0
+    viral_hepatitis_serologies:
+      cde_id: 4395982
+      description: 'Text term that describes the kind of serological laboratory test
+        used to determine the patient''s hepatitus status.
+
+        '
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=4395982&version=1.0
+    weight:
+      cde_id: 651
+      description: 'The weight of the patient measured in kilograms.
+
+        '
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=651&version=4.0
+  required:
+  - submitter_id
+  - days_to_follow_up
+  - cases
+  title: Follow-Up
+  type: object
+  validators: null
+- properties:
+    name:
+      description: Display name for the project
+    program:
+      description: 'Indicates that the project is logically part of the indicated
+        program.
+
+        '
+    program_id:
+      key: 'yes'
+    program_submitter_id:
+      key: 'yes'
+    project_id:
+      key: 'yes'
+    project_submitter_id:
+      key: 'yes'
+  title: Project
+  type: object
+- properties:
+    end_date:
+      description: End date of the program
+    name:
+      description: Name of the program
+    program_id:
+      key: 'yes'
+    program_manager:
+      description: Name of the program manager from the sponsoring agency
+    program_shortname:
+      description: Short name for the program
+    program_submitter_id:
+      key: 'yes'
+    sponsor:
+      description: Funding agency
+    start_date:
+      description: Start date of the program
+  title: Program
+  type: object
+- properties:
+    analytical_fraction:
+      description: Type of peptide or protein enrichment
+    cdap_reports:
+      description: Name and version of the tool used to generate protein summary reports
+    cptac_dcc_mzidentml:
+      description: Name and version of the tool used to generate mzIdentML from the
+        peptide spectral match report
+    cptac_dcc_tools:
+      description: Name and version of the custom scripts used in the data analysis
+        pipeline
+    cptac_galaxy_tools:
+      description: Name and version of the custom scripts used in the data analysis
+        pipeline
+    cptac_galaxy_workflows:
+      description: Name and version of the workflow of data analysis pipeline
+    cptac_study_id:
+      key: 'yes'
+    experiment_type:
+      description: General strategy used for differential analysis
+    gene_to_prot:
+      description: Name and version of the tool used to map gene to protein in the
+        data analysis pipeline
+    hgnc_version:
+      description: Name and version of HGNC database of human gene names used in the
+        data analysis pipeline
+    instrument:
+      description: Make and model of the mass spectrometry instrument
+    ms1_data_analysis:
+      description: Name and version of the tool used for MS1 data analysis
+    mzidentml_refseq:
+      description: Name and version of the NCBI Refseq database used in mzIdentML
+    mzidentml_uniprot:
+      description: Name and version of the Uniprot Refseq database used in mzIdentiML
+    phosphosite_localization:
+      description: Name and version of the tool used for phosphosite localization
+    protocol_id:
+      key: 'yes'
+    protocol_submitter_id:
+      key: 'yes'
+    psm_report_generation:
+      description: Name and version of the tool used to peptide spectral match report
+        generation
+    raw_data_conversion:
+      description: Name and version of the tool used to convert the proprietary data
+        into open format
+    raw_data_processing:
+      description: Name and version of the tool used to process the proprietary raw
+        data
+    refseq_database_version:
+      description: Name and version of the NCBI Refseq database used in the data analysis
+        pipeline
+    search_database_parameters:
+      description: Parameters used in the peptide identification database search
+    sequence_database_search:
+      description: Name and version of the tool used in peptide identification by
+        scoring MS/MS spectra against peptides derived from a protein sequence database
+    study_id:
+      key: 'yes'
+    study_submitter_id:
+      key: 'yes'
+    study_submitter_name:
+      key: 'yes'
+    submitter_id_name:
+      key: 'yes'
+    uniport_database_version:
+      description: Name and version of the Uniprot Refseq database used in the data
+        analysis pipeline
+    workflow_metadata_id:
+      key: 'yes'
+    workflow_metadata_submitter_id:
+      key: 'yes'
+  title: Workflow Metadata
+  type: object
+- properties:
+    access:
+      description: The Open Access data tier comprises public data not unique to an
+        individual. The Open Access data tier does not require authorization. The
+        Controlled Access data tier contains data that may be unique to an individual.
+        All data types are stripped of direct identifiers. The Controlled Access data
+        tier requires authorization.
+    data_category:
+      description: Broad categorization of the contents of the data file.
+    dbgap_control_number:
+      description: Study identifier from database of genotypes and phenotypes (dbGaP)
+    downloadable:
+      description: Indicates if the file is downloadable from PDC data portal
+    file_format:
+      description: Format of the file
+    file_id:
+      key: 'yes'
+    file_location:
+      description: Physical location of the file on the server
+    file_name:
+      description: Assigned file name
+    file_size:
+      description: Size of the file in bytes
+    file_type:
+      description: Specific kind of file to denote raw or processed
+    fraction_number:
+      description: Chromatorgraphy fraction number of the file
+    md5sum:
+      description: A 128-bit hash value derived from a file for the purpose of detecting
+        errors which may have been introduced during its transmission or storage.
+    original_file_name:
+      description: Original name of the file at the time of when submission
+    sha1:
+      description: A 160-bit (20-byte) hash value derived from a file for the purpose
+        of detecting errors which may have been introduced during its transmission
+        or storage.
+  title: File
+  type: object
+- properties:
+    assays:
+      description: CPTAC Assay accessions for the peptides associated with the gene
+    authority:
+      description: HGNC Identifier
+    chromosome:
+      description: NCBI Gene chromosome
+    description:
+      description: NCBI Gene description
+    gene_id:
+      key: 'yes'
+    gene_name:
+      description: NCBI Gene name
+    locus:
+      description: NCBI Gene cytoband
+    ncbi_gene_id:
+      description: NCBI Gene Identifier
+    organism:
+      description: NCBI Gene organism
+    proteins:
+      description: Semi-colon separated list of protein accessions associated with
+        the gene
+  title: Gene
+  type: object
+- additionalProperties: false
+  deprecated:
+  - bmi
+  - height
+  - weight
+  downloadable: false
+  preferred:
+  - pack_years_smoked
+  - years_smoked
+  previous_version_downloadable: false
+  properties:
+    alcohol_days_per_week:
+      cde_id: 3114013
+      description: 'Numeric value used to describe the average number of days each
+        week that a person consumes an alcoholic beverage.
+
+        '
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3114013&version=1.0
+    alcohol_drinks_per_day:
+      cde_id: 3124961
+      description: 'Numeric value used to describe the average number of alcoholic
+        beverages  a person consumes per day.
+
+        '
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3124961&version=1.0
+    alcohol_history:
+      cde_id: 2201918
+      deprecated_enum:
+      - 'no'
+      - 'yes'
+      description: 'A response to a question that asks whether the participant has
+        consumed at least 12 drinks of any kind of alcoholic beverage in their lifetime.
+
+        '
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2201918&version=1.0
+    alcohol_intensity:
+      cde_id: 3457767
+      description: 'Category to describe the patient''s current level of alcohol use
+        as self-reported by the patient.
+
+        '
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3457767&version=1.0
+    asbestos_exposure:
+      cde_id: 1253
+      description: 'The yes/no/unknown indicator used to describe whether the patient
+        was exposed to asbestos.
+
+        '
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=1253&version=3.0
+    bmi:
+      cde_id: 2006410
+      description: 'A calculated numerical quantity that represents an individual''s
+        weight to height ratio.
+
+        '
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2006410&version=3.0
+    cigarettes_per_day:
+      cde_id: 2001716
+      description: 'The average number of cigarettes smoked per day.
+
+        '
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2001716&version=4.0
+    coal_dust_exposure:
+      description: 'The yes/no/unknown indicator used to describe whether a patient
+        was exposed to fine powder derived by the crushing of coal.
+
+        '
+      source: caDSR
+    environmental_tobacco_smoke_exposure:
+      description: 'The yes/no/unknown indicator used to describe whether a patient
+        was exposed to smoke that is emitted from burning tobacco, including cigarettes,
+        pipes, and cigars. This includes tobacco smoke exhaled by smokers.
+
+        '
+      source: caDSR
+    height:
+      cde_id: 649
+      description: 'The height of the patient in centimeters.
+
+        '
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=649&version=4.1
+    pack_years_smoked:
+      cde_id: 2955385
+      description: 'Numeric computed value to represent lifetime tobacco exposure
+        defined as number of cigarettes smoked per day x number of years smoked divided
+        by 20.
+
+        '
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2955385&version=1.0
+    radon_exposure:
+      cde_id: 2816352
+      description: 'The yes/no/unknown indicator used to describe whether the patient
+        was exposed to radon.
+
+        '
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2816352&version=1.0
+    respirable_crystalline_silica_exposure:
+      description: 'The yes/no/unknown indicator used to describe whether a patient
+        was exposured to respirable crystalline silica, a widespread, naturally occurring,
+        crystalline metal oxide that consists of different forms including quartz,
+        cristobalite, tridymite, tripoli, ganister, chert and novaculite.
+
+        '
+      source: caDSR
+    smoking_frequency:
+      description: 'The text term used to generally decribe how often the patient
+        smokes.
+
+        '
+      source: caDSR
+    time_between_waking_and_first_smoke:
+      cde_id: 3279220
+      description: 'The text term used to describe the approximate amount of time
+        elapsed between the time the patient wakes up in the morning to the time they
+        smoke their first cigarette.
+
+        '
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3279220&version=1.0
+    tobacco_smoking_onset_year:
+      cde_id: 2228604
+      description: 'The year in which the participant began smoking.
+
+        '
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2228604&version=1.0
+    tobacco_smoking_quit_year:
+      cde_id: 2228610
+      description: 'The year in which the participant quit smoking.
+
+        '
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2228610&version=1.0
+    tobacco_smoking_status:
+      cde_id: 2181650
+      deprecated_enum:
+      - Not Allowed To Collect
+      description: 'Category describing current smoking status and smoking history
+        as self-reported by a patient.
+
+        '
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2181650&version=1.0
+    type_of_smoke_exposure:
+      description: 'The text term used to describe the patient''s specific type of
+        smoke exposure.
+
+        '
+      source: caDSR
+    type_of_tobacco_used:
+      description: 'The text term used to describe the specific type of tobacco used
+        by the patient.
+
+        '
+      source: caDSR
+    weight:
+      cde_id: 651
+      description: 'The weight of the patient measured in kilograms.
+
+        '
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=651&version=4.0
+    years_smoked:
+      cde_id: 3137957
+      description: 'Numeric value (or unknown) to represent the number of years a
+        person has been smoking.
+
+        '
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3137957&version=1.0
+  required:
+  - submitter_id
+  title: Exposure
+  type: object
+  validators: null
+- properties:
+    biospecimen_anatomic_site:
+      cde_id: 4742851
+      description: Text term that represents the name of the primary disease site
+        of the submitted tumor sample.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=4742851&version=1.0
+    biospecimen_laterality:
+      cde_id: 2007875
+      description: For tumors in paired organs, designates the side on which the specimen
+        was obtained.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2007875&version=1.0
+    case_id:
+      key: 'yes'
+    case_submitter_id:
+      key: 'yes'
+    catalog_reference:
+      description: HCMI catalog reference number for cancer model.
+    composition:
+      cde_id: 5432591
+      description: Text term that represents the cellular composition of the sample.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432591&version=1.0
+    current_weight:
+      cde_id: 5432606
+      description: Numeric value that represents the current weight of the sample,
+        measured in milligrams.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432606&version=1.0
+    days_to_collection:
+      cde_id: 3008340
+      description: Time interval from the date of biospecimen collection to the date
+        of initial pathologic diagnosis, represented as a calculated number of days.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3008340&version=1.0
+    days_to_sample_procurement:
+      description: The number of days from the date the patient was diagnosed to the
+        date of the procedure that produced the sample.
+    diagnosis_pathologically_confirmed:
+      description: The histologic description of tissue or cells confirmed by a pathology
+        review of frozen or formalin fixed slide(s) completed after the diagnostic
+        pathology review of the tumor sample used to extract analyte(s).
+    distance_normal_to_tumor:
+      cde_id: 3088708
+      description: Text term to signify the distance between the tumor tissue and
+        the normal control tissue that was procured for matching normal DNA.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3088708&version=1.0
+    distributor_reference:
+      cde_id: 3088708
+      description: Distributor reference number for cancer model.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3088708&version=1.0
+    freezing_method:
+      cde_id: 5432607
+      description: Text term that represents the method used for freezing the sample.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432607&version=1.0
+    gdc_project_id:
+      description: Project identifier associated with the sample at the genomic data
+        commons
+    gdc_sample_id:
+      description: Sample identifier associated with the sample at the genomic data
+        commons
+    growth_rate:
+      description: Rate at which the model grows, measured as hours to time to split.
+    initial_weight:
+      cde_id: 5432605
+      description: Numeric value that represents the initial weight of the sample,
+        measured in milligrams.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432605&version=1.0
+    intermediate_dimension:
+      description: Intermediate dimension of the sample, in millimeters.
+    is_ffpe:
+      cde_id: 4170557
+      description: Indicator to signify whether or not the tissue sample was fixed
+        in formalin and embedded in paraffin (FFPE).
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=4170557&version=1.0
+    longest_dimension:
+      cde_id: 5432602
+      description: Numeric value that represents the longest dimension of the sample,
+        measured in millimeters.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432602&version=1.0
+    method_of_sample_procurement:
+      description: The method used to procure the sample used to extract analyte(s).
+    oct_embedded:
+      cde_id: 5432538
+      description: Indicator of whether or not the sample was embedded in Optimal
+        Cutting Temperature (OCT) compound.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432538&version=1.0
+    passage_count:
+      description: Number of passages (splits) between the original tissue and this
+        model.
+    pathology_report_uuid:
+      description: UUID of the related pathology report.
+    pool:
+      description: Any biospecimen entity where multiple cases, samples or aliquots
+        are combined to produce a reference. Sample pooling is commonly used for determining
+        relative protein abundances in labeling experiments.
+    preservation_method:
+      cde_id: 5432521
+      description: Text term that represents the method used to preserve the sample.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432521&version=1.0
+    project_id:
+      key: 'yes'
+    project_submitter_id:
+      key: 'yes'
+    sample_id:
+      key: 'yes'
+    sample_is_ref:
+      description: A biospecimen entity which is used as a reference sample for determining
+        relative protein abundances in labeling experiments.
+    sample_submitter_id:
+      key: 'yes'
+    sample_type:
+      cde_id: 3111302
+      description: Text term to describe the source of a biospecimen used for a laboratory
+        test.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3111302&version=2.0
+    sample_type_id:
+      description: The accompanying sample type id for the sample type.
+    shortest_dimension:
+      cde_id: 5432603
+      description: Numeric value that represents the shortest dimension of the sample,
+        measured in millimeters.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432603&version=1.0
+    status:
+      description: Specifies if the sample is qualified or disqualified for any reason.
+    time_between_clamping_and_freezing:
+      cde_id: 5432611
+      description: Numeric representation of the elapsed time between the surgical
+        clamping of blood supply and freezing of the sample, measured in minutes.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432611&version=1.0
+    time_between_excision_and_freezing:
+      cde_id: 5432612
+      description: Numeric representation of the elapsed time between the excision
+        and freezing of the sample, measured in minutes.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432612&version=1.0
+    tissue_type:
+      cde_id: 5432687
+      description: Text term that represents a description of the kind of tissue collected
+        with respect to disease status or proximity to tumor tissue.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432687&version=1.0
+    tumor_code:
+      description: Diagnostic tumor code of the tissue sample source.
+    tumor_code_id:
+      description: BCR-defined id code for the tumor sample.
+    tumor_descriptor:
+      cde_id: 3288124
+      description: Text that describes the kind of disease present in the tumor specimen
+        as related to a specific timepoint.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3288124&version=1.0
+  title: Sample
+  type: object
+- properties:
+    a260_a280_ratio:
+      cde_id: 5432595
+      description: Numeric value that represents the sample ratio of nucleic acid
+        absorbance at 260 nm and 280 nm, used to determine a measure of DNA purity.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432595&version=1.0
+    amount:
+      description: Weight in grams or volume in mL
+    analyte_id:
+      key: 'yes'
+    analyte_quantity:
+      description: The quantity in micrograms (ug) of the analyte(s) derived from
+        the analyte(s) shipped for sequencing and characterization.
+    analyte_submitter_id:
+      key: 'yes'
+    analyte_type:
+      cde_id: 2513915
+      description: Text term that represents the kind of molecular specimen analyte.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2513915&version=2.0
+    analyte_type_id:
+      cde_id: 5432508
+      description: A single letter code used to identify a type of molecular analyte.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432508&version=1.0
+    analyte_volume:
+      description: The volume in microliters (ml) of the aliquot(s) derived from the
+        analyte(s) shipped for sequencing and characterization.
+    concentration:
+      cde_id: 5432594
+      description: Numeric value that represents the concentration of an analyte or
+        aliquot extracted from the sample or sample portion, measured in milligrams
+        per milliliter.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432594&version=1.0
+    normal_tumor_genotype_snp_match:
+      cde_id: 4588156
+      description: Text term that represents whether or not the genotype of the normal
+        tumor matches or if the data is not available.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=4588156&version=1.0
+    portion_id:
+      key: 'yes'
+    portion_submitter_id:
+      key: 'yes'
+    project_id:
+      key: 'yes'
+    project_submitter_id:
+      key: 'yes'
+    ribosomal_rna_28s_16s_ratio:
+      description: The 28S/18S ribosomal RNA band ratio used to assess the quality
+        of total RNA.
+    sample_id:
+      key: 'yes'
+    sample_submitter_id:
+      key: 'yes'
+    spectrophotometer_method:
+      cde_id: 3008378
+      description: Name of the method used to determine the concentration of purified
+        nucleic acid within a solution.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3008378&version=1.0
+    well_number:
+      cde_id: 5432613
+      description: Numeric value that represents the the well location within a plate
+        for the analyte or aliquot from the sample.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5432613&version=1.0
+  title: Analyte
+  type: object
+- properties:
+    1d_chromatography_type:
+      description: Type of chromatography of the first dimension. If only 1D was used,
+        annotate that dimension here.
+    2d_chromatography_type:
+      description: Type of chromatography for the second dimension. This will generally
+        be RPLC.
+    acquisition_type:
+      description: Mass spectrometry acquisition method
+    alkylation_reagent:
+      description: Reagent used for cysteine alkylation
+    amount_on_column:
+      description: Approximate mass with units
+    amount_on_column_uom:
+      description: "Unit of Measure of amount_on_column"
+    chromatography_dimensions_count:
+      description: Number of discrete chromatographic dimensions used
+    column_inner_diameter:
+      description: Approximate diameter with units
+    column_inner_diameter_uom:
+      description: "Unit of Measure of column_inner_diameter, \xC2\xB5m"
+    column_length:
+      description: Approximate length with units
+    column_length_uom:
+      description: Unit of Measure of column_length, cm
+    column_type:
+      description: Type of column used
+    dda_topn:
+      description: Number of precursors sampled per cycle
+    dia_ims:
+      description: Numeric value that represents the current weight of the sample,
+        measured in milligrams.
+    dia_multiplexing:
+      cde_id: MS:1000501,MS:1000500
+      description: Uses overlapping windows (MSX)
+      source: PSI MS
+      term_url: http://purl.obolibrary.org/obo/MS_1000501
+    digestion_reagent:
+      cde_id: MS:1001045
+      description: Enzyme or reagent used for digestion. Multiple enzymes can be separated
+        by (;)
+      source: PSI MS
+      term_url: http://purl.obolibrary.org/obo/MS_1001045
+    dissociation_type:
+      cde_id: MS:1000044
+      description: Gas phase dissociation type
+      source: PSI MS
+      term_url: http://purl.obolibrary.org/obo/MS_1000044
+    document_name:
+      description: Name of protocol document
+    enrichment:
+      description: Protocol or reagent used for enrichment, for example: Fe3+ NTA-Agarose (Qiagen). User can select existing enrichments or add their own. 
+    enrichment_strategy:
+      description: Type of peptide or protein enrichment
+    experiment_type:
+      description: Type of labeling reagent used. Indicate number of channels.
+    fractions_analyzed_count:
+      description: Final number of fractions analyzed by mass spectrometry. For Thermo
+        instruments, this will equal the number of data files.
+    gradient_length:
+      description: Time with units
+    gradient_length_uom:
+      description: Unit of Measure of gradient_length, minutes
+    instrument_make:
+      description: Manufacturer of instrument
+    instrument_model:
+      cde_id: depends on make
+      description: Model of instrument
+      term_url: http://purl.obolibrary.org/obo/MS_1001045
+    isobaric_labeling_reagent:
+      description: Reagent set used for isobaric labeling
+    label_free_quantitation:
+      cde_id: MS:1001834
+      description: Type of label free data analysis strategy proposed for this data
+      source: PSI MS
+      term_url: http://www.ontobee.org/ontology/MS?iri=http://purl.obolibrary.org/obo/MS_1001834
+    labeled_quantitation:
+      cde_id: MS:1002009
+      description: Type of labeling used
+      source: PSI MS
+      term_url: http://www.ontobee.org/ontology/MS?iri=http://purl.obolibrary.org/obo/MS_1002009
+    ms1_resolution:
+      cde_id: MS:1000011
+      description: MS1 resolution, typically at 400 m/z
+      source: PSI MS
+      term_url: http://purl.obolibrary.org/obo/MS_1000011
+    ms2_resolution:
+      cde_id: MS:1000011
+      description: MS2 resolution, typically at 400 m/z
+      source: PSI MS
+      term_url: http://purl.obolibrary.org/obo/MS_1000011
+    normalized_collision_energy:
+      cde_id: MS:1000138
+      description: Normalized collisions energy (%)
+      source: PSI MS
+      term_url: http://purl.obolibrary.org/obo/MS_1000138
+    particle_size:
+      description: Approximate size with units
+    particle_size_uom:
+      description: "Unit of Measure of particle_size"
+    particle_type:
+      description: Manufacturer or brand name of particle if applicable
+    program_id:
+      key: 'yes'
+    program_submitter_id:
+      key: 'yes'
+    protocol_date:
+      description: Date protocol was created or updated
+    protocol_id:
+      key: 'yes'
+    protocol_name:
+      description: External analytical sample protocol name
+    protocol_submitter_id:
+      key: 'yes'
+    quantitation_strategy:
+      cde_id: MS:1001833
+      description: General strategy used for differential analysis
+      source: PSI MS
+      term_url: http://www.ontobee.org/ontology/MS?iri=http://purl.obolibrary.org/obo/MS_1001833
+    reporter_ion_ms_level:
+      description: MS level at which fragmentation spectra should be analyzed for
+        reporter ions
+    serial_number:
+      description: A serial number is a unique identifier, usually assigned by the
+        manufacturer, to uniquely identify the instrument. This is especially useful
+        if you are uploading raw data to PDC from multiple instruments in your lab.
+        The serial number is usually located on the back side of the instrument. If
+        a serial number is not available, you may also assign an alphanumeric tag
+        that uniquely identifies the instrument.
+    starting_amount:
+      description: Mass with units
+    starting_amount_uom:
+      description: Unit of Measure of starting_amount
+  title: Protocol
+  type: object
+- properties:
+    acquisition_file_name:
+      description: Representative file name for one of the raw data file from the
+        run
+    aliquot_id:
+      key: 'yes'
+    aliquot_run_metadata_id:
+      key: 'yes'
+    aliquot_submitter_id:
+      key: 'yes'
+    analyte:
+      description: Type of peptide or protein enrichment
+    condition:
+      description: 'Biological condition (ex: disease state) of the cases(patients)
+        from which the aliquots derived.'
+    date:
+      description: Date of the data acquired from the mass spectrometry instrument
+    experiment_number:
+      description: Number associated with a specific run of the experiment
+    experiment_type:
+      description: General strategy used for differential analysis
+    fraction:
+      description: Number of fractions in the experimental run
+    instrument:
+      description: Make and model of the mass spectrometry instrument
+    label:
+      description: Reagent used for isobaric labeling or label-free
+    operator:
+      description: Mass Spectrometry instrument operator
+    protocol:
+      description: Name of the protocol used to run the experiment
+    protocol_id:
+      key: 'yes'
+    protocol_submitter_id:
+      key: 'yes'
+    replicate_number:
+      description: Replicate number, if applicable
+    study_id:
+      key: 'yes'
+    study_run_metadata_id:
+      key: 'yes'
+    study_run_metadata_submitter_id:
+      key: 'yes'
+    study_submitter_id:
+      key: 'yes'
+  title: Aliquot Run Metadata
+  type: object
+- properties:
+    gene_abundance_id:
+      key: 'yes'
+    gene_id:
+      description: Gene Identifier
+    gene_name:
+      description: NCBI Gene name
+    log2_ratio:
+      description: Average log-ratio of sample reporter-ion to common reference of
+        peptide ions associated with the gene in acquisitions from a specific biological
+        sample.
+    precursor_area:
+      description: Total precursor area of peptide ions associated with the gene in
+        acquisitions from a specific biological sample.
+    unshared_log2_ratio:
+      description: Average log-ratio of sample reporter-ion to common reference of
+        peptide ions of unshared peptides only associated with the gene in acquisitions
+        from a specific biological sample.
+    unshared_precursor_area:
+      description: Total precursor area of peptide ions of unshared peptides only
+        associated with the gene in acquisitions from a specific biological sample.
+  title: Gene Abundance
+  type: object
+- properties:
+    publication_id:
+      key: 'yes'
+    pubmed_id:
+      description: Identifier of the article in Pubmed system
+    title:
+      description: Title of the research article
+  title: Publication
+  type: object
+- properties:
+    distinct_peptide:
+      description: Number of distinct peptide sequences associated with the gene in
+        acquisitions from a specific analytical sample
+    log_ratio:
+      description: Average log-ratio of sample reporter-ion to common reference of
+        peptide ions associated with the gene in acquisitions from a specific biological
+        sample.
+    plex_name:
+      description: For label-free workflows, the plex name is the aliquot (biological
+        sample) identifier. For labelled workflows (iTRAQ, TMT), the plex name indicates
+        the aliquot (biological sample) identifiers and any common reference aliquot
+        (sample) identifier, separated by colons, in reporter ion order. Biological
+        replicates, if any, are indicated by a trailing .1, .2, etc. on the aliquot
+        identifier.
+    precursor_area:
+      description: Total precursor area of peptide ions associated with the gene in
+        acquisitions from a specific biological sample.
+    spectral_count:
+      description: Number of spectra matched to peptides associated with the gene
+        in acquisitions from a specific analytical sample
+    unshared_log_ratio:
+      description: Average log-ratio of sample reporter-ion to common reference of
+        peptide ions of unshared peptides only associated with the gene in acquisitions
+        from a specific biological sample.
+    unshared_peptide:
+      description: Number of unshared peptide sequences associated with the gene in
+        acquisitions from a specific analytical sample
+    unshared_precursor_area:
+      description: Total precursor area of peptide ions of unshared peptides only
+        associated with the gene in acquisitions from a specific biological sample.
+  title: Protein Abundance
+  type: object
+- properties:
+    age_at_diagnosis:
+      cde_id: 3225640
+      description: Age at the time of diagnosis expressed in number of days since
+        birth.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3225640&version=2.0
+    ajcc_clinical_m:
+      cde_id: 3440331
+      description: Extent of the distant metastasis for the cancer based on evidence
+        obtained from clinical assessment parameters determined prior to treatment.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3440331&version=2.0
+    ajcc_clinical_n:
+      cde_id: 3440330
+      description: Extent of the regional lymph node involvement for the cancer based
+        on evidence obtained from clinical assessment parameters determined prior
+        to treatment.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3440330&version=2.0
+    ajcc_clinical_stage:
+      cde_id: 3440332
+      description: Stage group determined from clinical information on the tumor (T),
+        regional node (N) and metastases (M) and by grouping cases with similar prognosis
+        for cancer.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3440332&version=2.0
+    ajcc_clinical_t:
+      cde_id: 3440328
+      description: Extent of the primary cancer based on evidence obtained from clinical
+        assessment parameters determined prior to treatment.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3440328&version=2.0
+    ajcc_pathologic_m:
+      cde_id: 3045439
+      description: Code to represent the defined absence or presence of distant spread
+        or metastases (M) to locations via vascular channels or lymphatics beyond
+        the regional lymph nodes, using criteria established by the American Joint
+        Committee on Cancer (AJCC).
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3045439&version=2.0
+    ajcc_pathologic_n:
+      cde_id: 3203106
+      description: The codes that represent the stage of cancer based on the nodes
+        present (N stage) according to criteria based on multiple editions of the
+        AJCC's Cancer Staging Manual.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3203106&version=2.0
+    ajcc_pathologic_stage:
+      cde_id: 3203222
+      description: The extent of a cancer, especially whether the disease has spread
+        from the original site to other parts of the body based on AJCC staging criteria.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3203222&version=2.0
+    ajcc_pathologic_t:
+      cde_id: 3045435
+      description: Code of pathological T (primary tumor) to define the size or contiguous
+        extension of the primary tumor (T), using staging criteria from the American
+        Joint Committee on Cancer (AJCC).
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3045435&version=2.0
+    ajcc_staging_system_edition:
+      cde_id: 2722309
+      description: The text term used to describe the version or edition of the American
+        Joint Committee on Cancer Staging Handbooks, a publication by the group formed
+        for the purpose of developing a system of staging for cancer that is acceptable
+        to the American medical profession and is compatible with other accepted classifications.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2722309&version=2.0
+    anaplasia_present:
+      cde_id: 6059599
+      description: Yes/no/unknown/not reported indicator used to describe whether
+        anaplasia was present at the time of diagnosis.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6059599&version=2.0
+    anaplasia_present_type:
+      cde_id: 4925534
+      description: The text term used to describe the morphologic findings indicating
+        the presence of a malignant cellular infiltrate characterized by the presence
+        of large pleomorphic cells, necrosis, and high mitotic activity in a tissue
+        sample.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=4925534&version=2.0
+    ann_arbor_b_symptoms:
+      cde_id: 2902402
+      description: Text term to signify whether lymphoma B-symptoms are present as
+        noted in the patient's medical record.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2902402&version=2.0
+    ann_arbor_clinical_stage:
+      cde_id: 5615604
+      description: The text term used to describe the clinical classification of lymphoma,
+        as defined by the Ann Arbor Lymphoma Staging System.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5615604&version=2.0
+    ann_arbor_extranodal_involvement:
+      cde_id: 3364582
+      description: Indicator that identifies whether a patient with malignant lymphoma
+        has lymphomatous involvement of an extranodal site.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3364582&version=2.0
+    ann_arbor_pathologic_stage:
+      cde_id: 5615605
+      description: The text term used to describe the pathologic classification of
+        lymphoma, as defined by the Ann Arbor Lymphoma Staging System.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5615605&version=2.0
+    best_overall_response:
+      cde_id: 2003324
+      description: The best improvement achieved throughout the entire course of protocol
+        treatment.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2003324&version=2.0
+    breslow_thickness:
+      cde_id: 64809
+      description: 'The number that describes the distance, in millimeters, between
+        the upper layer of the epidermis and the deepest point of tumor penetration.
+
+        '
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=64809&version=3.0
+    burkitt_lymphoma_clinical_variant:
+      cde_id: 3770421
+      description: Burkitt's lymphoma categorization based on clinical features that
+        differ from other forms of the same disease.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=37704216&version=2.0
+    case_id:
+      key: 'yes'
+    case_submitter_id:
+      key: 'yes'
+    cause_of_death:
+      description: Text term to identify the cause of death for a patient.
+    child_pugh_classification:
+      cde_id: 2931791
+      description: The text term used to describe the classification used in the prognosis
+        of chronic liver disease, mainly cirrhosis.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2931791&version=2.0
+    circumferential_resection_margin:
+      cde_id: 6161030
+      description: Numeric value used to describe the non-peritonealised bare area
+        of rectum, comprising anterior and posterior segments, when submitted as a
+        surgical specimen resulting from excision of cancer of the rectum.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6161030&version=2.0
+    classification_of_tumor:
+      cde_id: 3288124
+      description: Text that describes the kind of disease present in the tumor specimen
+        as related to a specific timepoint.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3288124&version=2.0
+    cog_liver_stage:
+      cde_id: 6013618
+      description: The text term used to describe the staging classification of liver
+        tumors, as defined by the Children's Oncology Group (COG). This staging system
+        specifically describes the extent of the primary tumor prior to treatment.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6013618&version=2.0
+    cog_neuroblastoma_risk_group:
+      cde_id: 4616452
+      description: Text term that represents the categorization of patients on the
+        basis of prognostic factors per a system developed by Children's Oncology
+        Group (COG). Risk level is used to assign treatment intensity.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=4616452&version=2.0
+    cog_renal_stage:
+      cde_id: 6013641
+      description: The text term used to describe the staging classification of renal
+        tumors, as defined by the Children's Oncology Group (COG).
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6013641&version=2.0
+    cog_rhabdomyosarcoma_risk_group:
+      cde_id: 6133604
+      description: Text term used to describe the classification of rhabdomyosarcoma,
+        as defined by the Children's Oncology Group (COG).
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6133604&version=2.0
+    colon_polyps_history:
+      description: Yes/No indicator to describe if the subject had a previous history
+        of colon polyps as noted in the history/physical or previous endoscopic report
+        (s).
+    days_to_best_overall_response:
+      cde_id: 6154732
+      description: Number of days between the date used for index and the date of
+        the patient was thought to have the best overall response to their disease.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6154732&version=2.0
+    days_to_birth:
+      description: Time interval from a person's date of birth to the date of initial
+        pathologic diagnosis, represented as a calculated negative number of days.
+    days_to_death:
+      description: Time interval from a person's date of death to the date of initial
+        pathologic diagnosis, represented as a calculated number of days.
+    days_to_diagnosis:
+      cde_id: 6154733
+      description: Number of days between the date used for index and the date the
+        patient was diagnosed with the malignant disease.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6154733&version=2.0
+    days_to_hiv_diagnosis:
+      description: Time interval from the date of the initial pathologic diagnosis
+        to the date of human immunodeficiency diagnosis, represented as a calculated
+        number of days.
+    days_to_last_follow_up:
+      cde_id: 3008273
+      description: Time interval from the date of last follow up to the date of initial
+        pathologic diagnosis, represented as a calculated number of days.
+      oneOf:
+      - maximum: 32872
+        minimum: -32872
+        type: number
+      - type: 'null'
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3008273&version=2.0
+    days_to_last_known_disease_status:
+      cde_id: 3008273
+      description: Time interval from the date of last follow up to the date of initial
+        pathologic diagnosis, represented as a calculated number of days.
+      oneOf:
+      - maximum: 32872
+        minimum: -32872
+        type: number
+      - type: 'null'
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3008273&version=2.0
+    days_to_new_event:
+      description: Time interval from the date of new tumor event including progression,
+        recurrence and new primary malignancies to the date of initial pathologic
+        diagnosis, represented as a calculated number of days.
+    days_to_recurrence:
+      cde_id: 6154731
+      description: Number of days between the date used for index and the date the
+        patient's disease recurred.
+      oneOf:
+      - maximum: 32872
+        minimum: -32872
+        type: number
+      - type: 'null'
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6154731&version=2.0
+    diagnosis_id:
+      key: 'yes'
+    diagnosis_submitter_id:
+      key: 'yes'
+    enneking_msts_grade:
+      cde_id: 6003955
+      description: The text term used to describe the surgical grade of the musculoskeletal
+        sarcoma, using the Enneking staging system approved by the Musculoskeletal
+        Tumor Society (MSTS).
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6003955&version=2.0
+    enneking_msts_metastasis:
+      cde_id: 6003958
+      description: Text term and code that represents the metastatic stage of the
+        musculoskeletal sarcoma, using the Enneking staging system approved by the
+        Musculoskeletal Tumor Society (MSTS).
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6003958&version=2.0
+    enneking_msts_stage:
+      cde_id: 6060045
+      description: Text term used to describe the stage of the musculoskeletal sarcoma,
+        using the Enneking staging system approved by the Musculoskeletal Tumor Society
+        (MSTS).
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6060045&version=2.0
+    enneking_msts_tumor_site:
+      cde_id: 6003957
+      description: Text term and code that represents the tumor site of the musculoskeletal
+        sarcoma, using the Enneking staging system approved by the Musculoskeletal
+        Tumor Society (MSTS).
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6003957&version=2.0
+    esophageal_columnar_dysplasia_degree:
+      cde_id: 3440917
+      description: Text term to describe the amount of dysplasia found within the
+        benign esophageal columnar mucosa.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3440917&version=2.0
+    esophageal_columnar_metaplasia_present:
+      cde_id: 3440218
+      description: The yes/no/unknown indicator used to describe whether esophageal
+        columnar metaplasia was determined to be present.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3440218&version=2.0
+    external_case_id:
+      key: 'yes'
+    figo_stage:
+      cde_id: 3225684
+      description: The extent of a cervical or endometrial cancer within the body,
+        especially whether the disease has spread from the original site to other
+        parts of the body, as described by the International Federation of Gynecology
+        and Obstetrics (FIGO) stages.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3225684&version=2.0
+    first_symptom_prior_to_diagnosis:
+      cde_id: 6133605
+      description: Text term used to describe the patient's first symptom experienced
+        prior to diagnosis and thought to be related to the disease.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6133605&version=2.0
+    gastric_esophageal_junction_involvement:
+      cde_id: 6059632
+      description: The yes/no/unknown/not reported indicator used to describe whether
+        the tumor is located across the gastroesophageal junction.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6059632&version=2.0
+    gleason_grade_group:
+      cde_id: 5918370
+      description: 'The text term used to describe the overall grouping of grades
+        defined by the Gleason grading classification, which is used to determine
+        the aggressiveness of prostate cancer. Note that this grade describes the
+        entire prostatectomy specimen and is not specific to the sample used for sequencing.
+
+        '
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5918370&version=1.0
+    goblet_cells_columnar_mucosa_present:
+      cde_id: 3440219
+      description: The yes/no/unknown indicator used to describe whether goblet cells
+        were determined to be present in the esophageal columnar mucosa.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3440219&version=2.0
+    gross_tumor_weight:
+      cde_id: 6133606
+      description: TextNumeric value used to describe the gross pathologic tumor weight,
+        measured in grams.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6133606&version=2.0
+    hiv_positive:
+      description: Text term to signify whether a physician has diagnosed HIV infection
+        in a patient.
+    hpv_positive_type:
+      description: Text classification to represent the strain or type of human papillomavirus
+        identified in an individual.
+    hpv_status:
+      description: The findings of the oncogenic HPV.
+    icd_10_code:
+      cde_id: 3226287
+      description: Alphanumeric value used to describe the disease code from the tenth
+        version of the International Classification of Disease (ICD-10).
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3226287&version=2.0
+    igcccg_stage:
+      description: 'The text term used to describe the International Germ Cell Cancer
+        Collaborative Group (IGCCCG), a grouping used to further classify metastatic
+        testicular tumors.
+
+        '
+    inpc_grade:
+      cde_id: 6133602
+      description: Text term used to describe the classification of neuroblastic differentiation
+        within neuroblastoma tumors, as defined by the International Neuroblastoma
+        Pathology Classification (INPC).
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6133602&version=2.0
+    inpc_histologic_group:
+      cde_id: 4616372
+      description: The text term used to describe the classification of neuroblastomas
+        distinguishing between favorable and unfavorable histologic groups. The histologic
+        score, defined by the International Neuroblastoma Pathology Classification
+        (INPC), is based on age, mitosis-karyorrhexis index (MKI), stromal content
+        and degree of tumor cell differentiation.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=4616372&version=2.0
+    inrg_stage:
+      cde_id: 5777238
+      description: The text term used to describe the staging classification of neuroblastic
+        tumors, as defined by the International Neuroblastoma Risk Group (INRG).
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5777238&version=2.0
+    inss_stage:
+      cde_id: 6133603
+      description: Text term used to describe the staging classification of neuroblastic
+        tumors, as defined by the International Neuroblastoma Staging System (INSS).
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6133603&version=2.0
+    international_prognostic_index:
+      cde_id: 2500234
+      description: 'The text term used to describe the International Prognostic Index,
+        which classifies the prognosis of patients with aggressive non-Hodgkin''s
+        lymphoma.
+
+        '
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2500234&version=1.0
+    irs_group:
+      cde_id: 6141658
+      description: Text term used to describe the classification of rhabdomyosarcoma
+        tumors, as defined by the Intergroup Rhabdomyosarcoma Study (IRS).
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6141658&version=2.0
+    irs_stage:
+      cde_id: 5162089
+      description: The text term used to describe the classification of rhabdomyosarcoma
+        tumors, as defined by the Intergroup Rhabdomyosarcoma Study (IRS).
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5162089&version=2.0
+    ishak_fibrosis_score:
+      cde_id: 3182621
+      description: The text term used to describe the classification of the histopathologic
+        degree of liver damage.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3182621&version=2.0
+    iss_stage:
+      cde_id: 2465385
+      description: The multiple myeloma disease stage at diagnosis.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2465385&version=2.0
+    largest_extrapelvic_peritoneal_focus:
+      cde_id: 6690680
+      description: 'The text term used to describe the diameter of the largest focus
+        originating outside of the pelvic peritoneal region.
+
+        '
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6690680&version=1.0
+    last_known_disease_status:
+      cde_id: 5424231
+      description: Text term that describes the last known state or condition of an
+        individual's neoplasm.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5424231&version=2.0
+    laterality:
+      cde_id: 827
+      description: For tumors in paired organs, designates the side on which the cancer
+        originates.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=827&version=2.0
+    ldh_level_at_diagnosis:
+      cde_id: 2798766
+      description: The 2 decimal place numeric laboratory value measured, assigned
+        or computed related to the assessment of lactate dehydrogenase in a specimen.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2798766&version=2.0
+    ldh_normal_range_upper:
+      cde_id: 89
+      description: The top value of the range of statistical characteristics that
+        are supposed to represent accepted standard, non-pathological pattern for
+        lactate dehydrogenase (units not specified).
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=89&version=2.0
+    lymph_nodes_positive:
+      cde_id: 89
+      description: The number of lymph nodes involved with disease as determined by
+        pathologic examination.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=89&version=2.0
+    lymph_nodes_tested:
+      cde_id: 3
+      description: The number of lymph nodes tested to determine whether lymph nodes
+        were involved with disease as determined by a pathologic examination.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3&version=2.0
+    lymphatic_invasion_present:
+      cde_id: 64171
+      description: A yes/no indicator to ask if small or thin-walled vessel invasion
+        is present, indicating lymphatic involvement
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=64171&version=2.0
+    masaoka_stage:
+      cde_id: 3952848
+      description: 'The text term used to describe the Masaoka staging system, a classification
+        that defines prognostic indicators for thymic malignancies and predicts tumor
+        recurrence.
+
+        '
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3952848&version=1.0
+    medulloblastoma_molecular_classification:
+      cde_id: 6002209
+      description: The text term used to describe the classification of medulloblastoma
+        tumors based on molecular features.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6002209&version=2.0
+    metastasis_at_diagnosis:
+      cde_id: 6133614
+      description: The text term used to describe the extent of metastatic disease
+        present at diagnosis.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6133614&version=2.0
+    metastasis_at_diagnosis_site:
+      cde_id: 3029815
+      description: Text term to identify an anatomic site in which metastatic disease
+        involvement is found.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3029815&version=2.0
+    method_of_diagnosis:
+      cde_id: 6161031
+      description: Text term used to describe the method used to confirm the patients
+        malignant diagnosis.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6161031&version=2.0
+    micropapillary_features:
+      cde_id: 6068784
+      description: The yes/no/unknown indicator used to describe whether micropapillary
+        features were determined to be present.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6068784&version=2.0
+    mitosis_karyorrhexis_index:
+      cde_id: 4616412
+      description: Text term that represents the component of the International Neuroblastoma
+        Pathology Classification (INPC) for mitosis-karyorrhexis index (MKI).
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=4616412&version=2.0
+    mitotic_count:
+      description: 'The number of mitoses identified under the microscope in tumors.
+        The method of counting varies, according to the specific tumor examined. Usually,
+        the mitotic count is determined based on the number of mitoses per high power
+        field (40X) or 10 high power fields.
+
+        '
+    morphology:
+      cde_id: 3226275
+      description: The third edition of the International Classification of Diseases
+        for Oncology, published in 2000 used principally in tumor and cancer registries
+        for coding the site (topography) and the histology (morphology) of neoplasms.
+        The study of the structure of the cells and their arrangement to constitute
+        tissues and, finally, the association among these to form organs. In pathology,
+        the microscopic process of identifying normal and abnormal morphologic characteristics
+        in tissues, by employing various cytochemical and immunocytochemical stains.
+        A system of numbered categories for representation of data.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3226275&version=2.0
+    new_event_anatomic_site:
+      description: Text term to specify the anatomic location of the return of tumor
+        after treatment.
+    new_event_type:
+      description: Text term to identify a new tumor event.
+    non_nodal_regional_disease:
+      description: 'The text term used to describe whether the patient had non-nodal
+        regional disease.
+
+        '
+      source: caDSR
+    non_nodal_tumor_deposits:
+      cde_id: 3107051
+      description: 'The yes/no/unknown indicator used to describe the presence of
+        tumor deposits in the pericolic or perirectal fat or in adjacent mesentery
+        away from the leading edge of the tumor.
+
+        '
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3107051&version=1.0
+    ovarian_specimen_status:
+      cde_id: 6690671
+      description: 'The text term used to describe the physical condition of the involved
+        ovary.
+
+        '
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6690671&version=1.0
+    ovarian_surface_involvement:
+      cde_id: 6690674
+      description: 'The text term that describes whether the surface tissue (outer
+        boundary) of the ovary shows evidence of involvement or presence of cancer.
+
+        '
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6690674&version=1.0
+    overall_survival:
+      description: Number of days between the date used for index and the patient's
+        date of death or the date the patient was last known to be alive.
+    percent_tumor_invasion:
+      description: 'The percentage of tumor cells spread locally in a malignant neoplasm
+        through infiltration or destruction of adjacent tissue.
+
+        '
+      source: caDSR
+    perineural_invasion_present:
+      cde_id: 64181
+      description: A yes/no indicator to ask if perineural invasion or infiltration
+        of tumor or cancer is present.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=64181&version=2.0
+    peripancreatic_lymph_nodes_positive:
+      cde_id: 5983082
+      description: Enumerated numeric value or range of values used to describe the
+        number of peripancreatic lymph nodes determined to be positive.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5983082&version=2.0
+    peripancreatic_lymph_nodes_tested:
+      cde_id: 6050944
+      description: The total number of peripancreatic lymph nodes tested for the presence
+        of pancreatic cancer cells.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6050944&version=2.0
+    peritoneal_fluid_cytological_status:
+      cde_id: 6690681
+      description: 'The text term used to describe the malignant status of the peritoneal
+        fluid determined by cytologic testing.
+
+        '
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6690681&version=1.0
+    primary_diagnosis:
+      cde_id: 6161032
+      description: Text term used to describe the patient's histologic diagnosis,
+        as described by the World Health Organization's (WHO) International Classification
+        of Diseases for Oncology (ICD-O).
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6161032&version=2.0
+    primary_gleason_grade:
+      cde_id: 5936800
+      description: 'The text term used to describe the primary Gleason score, which
+        describes the pattern of cells making up the largest area of the tumor. The
+        primary and secondary Gleason pattern grades are combined to determine the
+        patient''s Gleason grade group, which is used to determine the aggresiveness
+        of prostate cancer. Note that this grade describes the entire prostatectomy
+        specimen and is not specific to the sample used for sequencing.
+
+        '
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5936800&version=1.0
+    prior_malignancy:
+      cde_id: 3382736
+      description: The yes/no/unknown indicator used to describe the patient's history
+        of prior cancer diagnosis.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3382736&version=2.0
+    prior_treatment:
+      cde_id: 4231463
+      description: A yes/no/unknown/not applicable indicator related to the administration
+        of therapeutic agents received before the body specimen was collected.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=4231463&version=2.0
+    progression_free_survival:
+      description: Number of days between the date used for index and the first date
+        the patient is known to be free of disease progression.
+    progression_free_survival_event:
+      description: The event used to define the patient''s disease progression.
+    progression_or_recurrence:
+      cde_id: 3121376
+      description: Yes/No/Unknown indicator to identify whether a patient has had
+        a new tumor event after initial treatment.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3121376&version=2.0
+    project_id:
+      key: 'yes'
+    project_submitter_id:
+      key: 'yes'
+    residual_disease:
+      cde_id: 2608702
+      description: Text terms to describe the status of a tissue margin following
+        surgical resection.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2608702&version=2.0
+    secondary_gleason_grade:
+      cde_id: 5936802
+      description: 'The text term used to describe the secondary Gleason score, which
+        describes the pattern of cells making up the second largest area of the tumor.
+        The primary and secondary Gleason pattern grades are combined to determine
+        the patient''s Gleason grade group, which is used to determine the aggresiveness
+        of prostate cancer. Note that this grade describes the entire prostatectomy
+        specimen and is not specific to the sample used for sequencing.
+
+        '
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5936802&version=1.0
+    site_of_resection_or_biopsy:
+      cde_id: 6161034
+      description: The text term used to describe the anatomic site of origin, of
+        the patient's malignant disease, as described by the World Health Organization's
+        (WHO) International Classification of Diseases for Oncology (ICD-O).
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6161034&version=2.0
+    supratentorial_localization:
+      cde_id: 3133891
+      description: Text term to specify the location of the supratentorial tumor.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3133891&version=2.0
+    synchronous_malignancy:
+      cde_id: 6142390
+      description: A yes/no/unknown indicator used to describe whether the patient
+        had an additional malignant diagnosis at the same time the tumor used for
+        sequencing was diagnosed. If both tumors were sequenced, both tumors would
+        have synchronous malignancies.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6142390&version=2.0
+    tissue_or_organ_of_origin:
+      cde_id: 6161035
+      description: The text term used to describe the anatomic site of origin, of
+        the patient's malignant disease, as described by the World Health Organization's
+        (WHO) International Classification of Diseases for Oncology (ICD-O).
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6161035&version=2.0
+    tumor_confined_to_organ_of_origin:
+      cde_id: 4925494
+      description: The yes/no/unknown indicator used to describe whether the tumor
+        is confined to the organ where it originated and did not spread to a proximal
+        or distant location within the body.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=4925494&version=2.0
+    tumor_focality:
+      cde_id: 3174022
+      description: The text term used to describe whether the patient's disease originated
+        in a single location or multiple locations.
+      source: caDSR
+      term_url: https://https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3174022&version=2.0
+    tumor_grade:
+      cde_id: 2785839
+      description: Numeric value to express the degree of abnormality of cancer cells,
+        a measure of differentiation and aggressiveness.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2785839&version=2.0
+    tumor_largest_dimension_diameter:
+      cde_id: 64215
+      description: Numeric value used to describe the maximum diameter or dimension
+        of the primary tumor, measured in centimeters.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=64215&version=2.0
+    tumor_regression_grade:
+      cde_id: 6471217
+      description: A numeric value used to measure therapeutic response of the primary
+        tumor and predict patient outcomes based on a three-point tumor regression
+        grading system.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6471217&version=2.0
+    tumor_stage:
+      cde_id: C16899
+      description: The extent of a cancer in the body. Staging is usually based on
+        the size of the tumor, whether lymph nodes contain cancer, and whether the
+        cancer has spread from the original site to other parts of the body. The accepted
+        values for tumor_stage depend on the tumor site, type, and accepted staging
+        system. These items should accompany the tumor_stage value as associated metadata.
+      source: NCIt
+      term_url: https://ncit.nci.nih.gov/ncitbrowser/pages/concept_details.jsf?dictionary=NCI%20Thesaurus&code=C16899
+    vascular_invasion_present:
+      cde_id: 64358
+      description: The yes/no indicator to ask if large vessel or venous invasion
+        was detected by surgery or presence in a tumor specimen.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=64358&version=2.0
+    vascular_invasion_type:
+      cde_id: 3168001
+      description: Text term that represents the type of vascular tumor invasion.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3168001&version=2.0
+    vital_status:
+      cde_id: 5
+      description: The survival state of the person registered on the protocol.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5&version=2.0
+    weiss_assessment_score:
+      cde_id: 3648744
+      description: 'The text term used to describe the overall Weiss assessment score,
+        a commonly used assessment describing the malignancy of adrenocortical tumors.
+        The Weiss score is determined based on nine histological criteria including
+        the following: high nuclear grade, mitotic rate greater than five per 50 high
+        power fields (HPF), atypical mitotic figures, eosinophilic tumor cell cytoplasm
+        (greater than 75% tumor cells), diffuse architecture (greater than 33% of
+        tumor), necrosis, venous invasion, sinusoidal invasion, and capsular invasion.
+
+        '
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=3648744&version=1.0
+    wilms_tumor_histologic_subtype:
+      cde_id: 4358735
+      description: The text term used to describe the classification of Wilms tumors
+        distinguishing between favorable and unfavorable histologic groups.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=4358735&version=2.0
+    year_of_diagnosis:
+      cde_id: 2896960
+      description: Numeric value to represent the year of an individual's initial
+        pathologic diagnosis of cancer.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2896960&version=2.0
+  title: Diagnosis
+  type: object
+- additionalProperties: false
+  downloadable: false
+  previous_version_downloadable: false
+  properties:
+    relationship_age_at_diagnosis:
+      cde_id: 5300571
+      description: 'The age (in years) when the patient''s relative was first diagnosed.
+
+        '
+      maximum: 90
+      minimum: 0
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5300571&version=1.0
+    relationship_gender:
+      cde_id: 6161021
+      description: 'The text term used to describe the gender of the patient''s relative
+        with a history of cancer.
+
+        '
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6161021&version=1.0
+    relationship_primary_diagnosis:
+      cde_id: 6161022
+      description: 'The text term used to describe the malignant diagnosis of the
+        patient''s relative with a history of cancer.
+
+        '
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6161022&version=1.0
+    relationship_type:
+      cde_id: 2690165
+      description: 'The subgroup that describes the state of connectedness between
+        members of the unit of society organized around kinship ties.
+
+        '
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2690165&version=2.0
+    relative_with_cancer_history:
+      cde_id: 6161023
+      description: 'The yes/no/unknown indicator used to describe whether any of the
+        patient''s relatives have a history of cancer.
+
+        '
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6161023&version=1.0
+    relatives_with_cancer_history_count:
+      description: 'The number of relatives the patient has with a known history of
+        cancer.
+
+        '
+  required:
+  - submitter_id
+  title: Family History
+  type: object
+  validators: null
+- properties:
+    case_id:
+      key: 'yes'
+    case_is_ref:
+      description: A biospecimen entity which is used as a reference sample for determining
+        relative protein abundances in labeling experiments.
+    case_submitter_id:
+      key: 'yes'
+    days_to_lost_to_followup:
+      cde_id: 6154721
+      description: The number of days between the date used for index and to the date
+        the patient was lost to follow-up.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6154721&version=1.0
+    disease_type:
+      cde_id: 6161017
+      description: The text term used to describe the type of malignant disease, as
+        categorized by the World Health Organization's (WHO) International Classification
+        of Diseases for Oncology (ICD-O).
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6161017&version=1.0
+    external_case_id:
+      description: Identifier from other resources for this case
+    index_date:
+      cde_id: 6154722
+      description: The text term used to describe the reference or anchor date used
+        when for date obfuscation, where a single date is obscured by creating one
+        or more date ranges in relation to this date.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6154722&version=1.
+    lost_to_followup:
+      cde_id: 6161018
+      description: The yes/no/unknown indicator used to describe whether a patient
+        was unable to be contacted or seen for follow-up information.
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6161018&version=1.0
+    pool:
+      description: Any biospecimen entity where multiple cases, samples or aliquots
+        are combined to produce a reference. Sample pooling is commonly used for determining
+        relative protein abundances in labeling experiments.
+    primary_site:
+      cde_id: 6161019
+      description: The text term used to describe the general location of the malignant
+        disease, as categorized by the World Health Organization's (WHO) International
+        Classification of Diseases for Oncology (ICD-O).
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6161019&version=1.0
+    project_id:
+      key: 'yes'
+    project_submitter_id:
+      key: 'yes'
+    status:
+      description: Specifies if the case is qualified or disqualified for any reason.
+        Usually the data releated to such cases may be not used in the data analysis.
+    taxon:
+      description: A taxonomic group, such as a species.
+  title: Case
+  type: object
+- additionalProperties: false
+  deprecated:
+  - days_to_treatment
+  downloadable: false
+  previous_version_downloadable: false
+  properties:
+    days_to_treatment_end:
+      cde_id: 6154725
+      description: 'Number of days between the date used for index and the date the
+        treatment ended.
+
+        '
+      maximum: 32872
+      minimum: -32872
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6154725&version=1.0
+    days_to_treatment_start:
+      cde_id: 6154726
+      description: 'Number of days between the date used for index and the date the
+        treatment started.
+
+        '
+      maximum: 32872
+      minimum: -32872
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6154726&version=1.0
+    initial_disease_status:
+      description: 'The text term used to describe the status of the patient''s malignancy
+        when the treatment began.
+
+        '
+      source: caBIG
+    regimen_or_line_of_therapy:
+      cde_id: 6161024
+      description: 'The text term used to describe the regimen or line of therapy.
+
+        '
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6161024&version=1.0
+    therapeutic_agents:
+      cde_id: 2975232
+      description: 'Text identification of the individual agent(s) used as part of
+        a treatment regimen.
+
+        '
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2975232&version=1.0
+    treatment_anatomic_site:
+      cde_id: 5615611
+      description: 'The anatomic site or field targeted by a treatment regimen or
+        single agent therapy.
+
+        '
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5615611&version=1.0
+    treatment_effect:
+      cde_id: 6514354
+      description: 'The text term used to describe the pathologic effect a treatment(s)
+        had on the tumor.
+
+        '
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=6514354&version=1.0
+    treatment_intent_type:
+      cde_id: 2793511
+      description: 'Text term to identify the reason for the administration of a treatment
+        regimen. [Manually-curated]
+
+        '
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=2793511&version=1.0
+    treatment_or_therapy:
+      cde_id: 4231463
+      description: 'A yes/no/unknown/not applicable indicator related to the administration
+        of therapeutic agents received.
+
+        '
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=4231463&version=1.0
+    treatment_outcome:
+      cde_id: 5102383
+      description: 'Text term that describes the patient''s final outcome after the
+        treatment was administered.
+
+        '
+      source: caDSR
+      term_url: https://cdebrowser.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search?publicId=5102383&version=1.0
+    treatment_type: {}
+  required:
+  - submitter_id
+  title: Treatment
+  type: object
+  validators: null

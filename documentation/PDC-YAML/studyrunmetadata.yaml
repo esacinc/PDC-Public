@@ -1,0 +1,123 @@
+- category: Metadata
+  description: General experimental metadata describing study design.
+  links:
+  - label: Study Run Metadata references the Study that used the experimental design.
+    name: Study
+    required: 'True'
+  name: Study Run Metadata
+  properties:
+  - dataType: String
+    name: study_run_metadata_id
+    required: false
+  - dataType: String
+    name: study_run_metadata_submitter_id
+    required: false
+  - dataType: String
+    name: study_id
+    required: false
+  - dataType: String
+    name: study_submitter_id
+    required: false
+  - dataType: String
+    name: protocol_id
+    required: false
+  - dataType: String
+    name: protocol_submitter_id
+    required: false
+  - dataType: Number
+    name: experiment_number
+    numberType: Integer
+    required: false
+  - dataType: String
+    name: experiment_type
+    required: true
+  - dataType: String
+    name: analyte
+    required: false
+  - dataType: String
+    name: fraction
+    required: true
+  - dataType: String
+    name: date
+    required: false
+  - dataType: String
+    name: replicate_number
+    required: false
+  - dataType: String
+    name: condition
+    required: false
+  - dataType: String
+    name: folder_name
+    required: false
+  - dataType: String
+    name: operator
+    required: false
+  - dataType: String
+    name: plex_or_folder_name
+    required: true
+  - dataType: String
+    name: tmt_126
+    required: true
+  - dataType: String
+    name: tmt_130n
+    required: true
+  - dataType: String
+    name: tmt_127n
+    required: true
+  - dataType: String
+    name: itraq_113
+    required: true
+  - dataType: String
+    name: itraq_114
+    required: true
+  - dataType: String
+    name: tmt_131
+    required: true
+  - dataType: String
+    name: itraq_119
+    required: true
+  - dataType: String
+    name: tmt_131c
+    required: true
+  - dataType: String
+    name: tmt_128n
+    required: true
+  - dataType: String
+    name: itraq_115
+    required: true
+  - dataType: String
+    name: tmt_130c
+    required: true
+  - dataType: String
+    name: itraq_121
+    required: true
+  - dataType: String
+    name: tmt_128c
+    required: true
+  - dataType: String
+    name: tmt_127c
+    required: true
+  - dataType: String
+    name: alias
+    required: false
+  - dataType: String
+    name: itraq_116
+    required: true
+  - dataType: String
+    name: tmt_129c
+    required: true
+  - dataType: String
+    name: itraq_117
+    required: true
+  - dataType: String
+    name: label_free
+    required: true
+  - dataType: String
+    name: itraq_118
+    required: true
+  - dataType: String
+    name: tmt_129n
+    required: true
+  uniqueKeys:
+  - - study_run_metadata_id
+    - study_run_metadata_submitter_id

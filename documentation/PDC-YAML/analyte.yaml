@@ -1,0 +1,105 @@
+- category: Biospecimen
+  description: A liquid bulk product produced according to specified lab protocols,
+    from a sample or analyte, intended for further analysis.
+  links:
+  - label: Analyte references the Sample it is derived from.
+    name: Sample
+    required: true
+  - label: Analyte references the Portion it is derived from.
+    name: Portion
+    required: true
+  name: Analyte
+  properties:
+  - dataType: String
+    name: analyte_id
+    required: false
+  - dataType: String
+    name: analyte_submitter_id
+    required: false
+  - dataType: String
+    name: sample_id
+    required: false
+  - dataType: String
+    name: sample_submitter_id
+    required: false
+  - dataType: String
+    name: portion_id
+    required: false
+  - dataType: String
+    name: portion_submitter_id
+    required: false
+  - dataType: String
+    name: project_id
+    required: false
+  - dataType: String
+    name: project_submitter_id
+    required: false
+  - dataType: Enumeration
+    name: analyte_type
+    required: true
+    values:
+    - DNA
+    - EBV Immortalized Normal
+    - FFPE DNA
+    - FFPE RNA
+    - GenomePlex (Rubicon) Amplified DNA
+    - Repli-G (Qiagen) DNA
+    - Repli-G Pooled (Qiagen) DNA
+    - Repli-G X (Qiagen) DNA
+    - RNA
+    - Total RNA
+  - dataType: Number
+    name: a260_a280_ratio
+    numberType: Integer
+    required: false
+  - dataType: Number
+    name: amount
+    numberType: Integer
+    required: false
+  - dataType: Number
+    name: analyte_quantity
+    numberType: Integer
+    required: false
+  - dataType: Enumeration
+    name: analyte_type_id
+    required: false
+    values:
+    - D
+    - E
+    - G
+    - H
+    - R
+    - S
+    - T
+    - W
+    - X
+  - dataType: Number
+    name: analyte_volume
+    numberType: Integer
+    required: false
+  - dataType: Number
+    name: concentration
+    numberType: Integer
+    required: false
+  - dataType: Enumeration
+    name: normal_tumor_genotype_snp_match
+    required: false
+    values:
+    - 'Yes'
+    - 'No'
+    - Unknown
+    - Not Reported
+    - Not Allowed To Collect
+  - dataType: Number
+    name: ribosomal_rna_28s_16s_ratio
+    numberType: Integer
+    required: false
+  - dataType: String
+    name: spectrophotometer_method
+    required: false
+  - dataType: String
+    name: well_number
+    required: false
+  uniqueKeys:
+  - - analyte_id
+    - analyte_submitter_id

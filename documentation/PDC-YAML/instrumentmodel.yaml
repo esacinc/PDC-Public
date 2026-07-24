@@ -1,0 +1,29 @@
+- name: InstrumentModel
+  properties:
+  - dataType: String
+    maxLength: 255
+    name: name
+    required: true
+  - dataType: String
+    maxLength: 255
+    name: technology_type
+    required: true
+  - dataType: String
+    maxLength: 255
+    name: instrument_type
+    required: true
+  - dataType: String
+    maxLength: 255
+    name: vendor
+    required: true
+  - dataType: String
+    delimiter: ','
+    isArray: true
+    name: extensions
+    required: true
+  - dataType: Boolean
+    name: additional_files
+    required: false
+  - dataType: Boolean
+    name: folder_archive_support
+    required: false

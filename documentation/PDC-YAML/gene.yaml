@@ -1,0 +1,40 @@
+- category: Biological
+  description: A functional unit of heredity which occupies a specific position on
+    a particular chromosome and serves as the template for a product that contributes
+    to a phenotype or a biological function.
+  links: null
+  name: Gene
+  properties:
+  - dataType: String
+    name: gene_id
+    required: false
+  - dataType: String
+    name: gene_name
+    required: true
+  - dataType: Number
+    name: ncbi_gene_id
+    numberType: Integer
+    required: true
+  - dataType: String
+    name: authority
+    required: true
+  - dataType: String
+    name: description
+    required: true
+  - dataType: String
+    name: organism
+    required: true
+  - dataType: String
+    name: chromosome
+    required: true
+  - dataType: String
+    name: locus
+    required: true
+  - dataType: String
+    name: proteins
+    required: true
+  - dataType: String
+    name: assays
+    required: false
+  uniqueKeys:
+  - - gene_id

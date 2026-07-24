@@ -1,0 +1,26 @@
+- name: CaseMatrix
+  properties:
+  - dataType: String
+    maxLength: 100
+    name: case_id
+    required: true
+  - dataType: String
+    maxLength: 500
+    name: sample
+    required: true
+  - dataType: String
+    maxLength: 100
+    name: portion
+    required: false
+  - dataType: String
+    maxLength: 100
+    name: analyte
+    required: false
+  - dataType: String
+    maxLength: 100
+    name: slide
+    required: false
+  - dataType: String
+    maxLength: 500
+    name: aliquot
+    required: true

@@ -1,0 +1,47 @@
+- category: Biospecimen
+  description: A physical sub-part of any sample.
+  links:
+  - label: Portion references the Sample it is derived from.
+    name: Sample
+    required: 'True'
+  name: Portion
+  properties:
+  - dataType: String
+    name: portion_id
+    required: false
+  - dataType: String
+    name: portion_submitter_id
+    required: false
+  - dataType: String
+    name: sample_id
+    required: false
+  - dataType: String
+    name: sample_submitter_id
+    required: false
+  - dataType: String
+    name: project_id
+    required: false
+  - dataType: String
+    name: project_submitter_id
+    required: false
+  - dataType: Number
+    name: creation_datetime
+    numberType: Integer
+    required: false
+  - dataType: Enumeration
+    name: is_ffpe
+    required: false
+    values:
+    - 'true'
+    - 'false'
+  - dataType: Number
+    name: portion_number
+    numberType: Integer
+    required: false
+  - dataType: Number
+    name: weight
+    numberType: Integer
+    required: false
+  uniqueKeys:
+  - - portion_id
+    - portion_submitter_id
