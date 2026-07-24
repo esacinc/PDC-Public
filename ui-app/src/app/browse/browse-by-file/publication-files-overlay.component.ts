@@ -55,7 +55,7 @@ export class PublicationFilesOverlayComponent implements OnInit {
 				private browseByFileService: BrowseByFileService, private loc:Location,
 				private dialogRef: MatDialogRef<PublicationFilesOverlayComponent>, private sizeUnitsPipe: SizeUnitsPipe,
 				@Inject(MAT_DIALOG_DATA) public publicationData: any, private dialog: MatDialog,  private userService: PDCUserService) {
-	      //console.log(publicationData);
+
         if (publicationData.summaryData.publication_id) {
           this.publication_id = publicationData.summaryData.publication_id;
           this.getAllFilesData();
@@ -113,7 +113,7 @@ export class PublicationFilesOverlayComponent implements OnInit {
 				)
 				.subscribe((data: any) => {
 				  this.filteredFilesData = data.getPaginatedUIPancancerFiles.uiPancancerFiles;
-          //console.log(this.filteredFilesData);
+
 				  this.totalRecords = data.getPaginatedUIPancancerFiles.total;
 				  this.offset = data.getPaginatedUIPancancerFiles.pagination.from;
 				  this.pageSize = data.getPaginatedUIPancancerFiles.pagination.size;
@@ -131,7 +131,7 @@ export class PublicationFilesOverlayComponent implements OnInit {
           //@@@PDC-5770 get file using uuid
           for (let file of individualFileData) {
               if (file.downloadable.toLowerCase() === 'yes') {
-                  //console.log("Export file id 0930: "+file.file_id);
+
                   let urlResponse = await this.browseByFileService.getOpenFileUuidSignedUrl(file.file_id);console.log(urlResponse);
                   if (!urlResponse.error) {
                     downloadLink = urlResponse.data;
@@ -159,7 +159,7 @@ export class PublicationFilesOverlayComponent implements OnInit {
           return false;
         }
       }
-    
+
       //@@@PDC-1303: Add a download column and button for downloading individual files to the file tab
       //Opens a dialog window with the message that the file is not downloadable.
       async displayMessageForNotDownloadable() {

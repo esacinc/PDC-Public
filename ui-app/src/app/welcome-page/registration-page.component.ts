@@ -136,7 +136,7 @@ export class RegistrationPageComponent implements OnInit {
 	  }
 	  //If the user has UID they signed in via NIH/eRA login
 	  if (this.userService.getUID()) {
-		console.log("Creating user with UID " + this.userService.getUID());
+
 		//PDC-421 - adding username to send to pdcapi
 		let username:string = this.registrationForm.value.first_name + ' ' + this.registrationForm.value.last_name;
 		this.userService.createPDCUser(this.userService.getUID(), this.registrationForm.get('email').value,
@@ -153,13 +153,13 @@ export class RegistrationPageComponent implements OnInit {
 					this.router.navigate(['pdc']);
 				}
 			} else {
-			  console.log("Registration failed!");
+
 			}
 		});
 	  }
 	  //If user does not have UID they signed in via google
 	  else {
-		console.log("Creating user with email " + this.registrationForm.value.email);
+
 		let secure_pass:string = '';
 		if (this.idProvider === "PDC") {
 			secure_pass = Md5.hashAsciiStr(this.registrationForm.get('user_pass').value) as string;
@@ -171,7 +171,7 @@ export class RegistrationPageComponent implements OnInit {
 			if (isRegistered) {
 			  if (this.userService.getUserIDType() === 'PDC' && this.userService.getIsRegistered() === 0 ){
 				alert("User registered successfully, waiting for email confirmation.");
-				console.log("User registered successfully, waiting for email confirmation.");
+
 				this.router.navigate(['pdc']);
 			  } else {
 				//'' route url will be welcome page to login. 'pdc' route url will be home page
@@ -179,7 +179,7 @@ export class RegistrationPageComponent implements OnInit {
 			  }
 			} else {
 			  //Something went wrong with the registration
-			  console.log("Registration failed!");
+
 			}
 		});
 	  }

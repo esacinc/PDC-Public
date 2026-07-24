@@ -101,7 +101,7 @@ export class BrowseByGeneComponent implements OnInit {
 	  this.loading = true;
 	  setTimeout(() => {
 		this.browseByGeneService.getFilteredGenesDataPaginated(this.offset, this.limit, this.sort, this.newFilterSelected).subscribe((data: any) =>{
-			console.log(data);
+
 				this.filteredGenesData = data.getPaginatedUIGene.uiGenes as Array<AllGeneData>;
 				this.totalRecords = data.getPaginatedUIGene.total;
 				this.genesTotalRecordChanged.emit({type: 'genes', totalRecords:this.totalRecords});
@@ -110,10 +110,10 @@ export class BrowseByGeneComponent implements OnInit {
 				this.limit = data.getPaginatedUIGene.pagination.size;
 				//@@@PDC-7688 add gene_id
 				for (let gene of this.filteredGenesData) {
-					console.log("GeneId: "+gene.gene_id);
+
 					this.getPTMData(gene.gene_name, gene.gene_id);
 				}
-				console.log(this.ptmStatsData);
+
 				this.loading = false;
 				this.clearSelection();
 				//this.makeRowsSameHeight();
@@ -140,7 +140,7 @@ export class BrowseByGeneComponent implements OnInit {
 			}
 		}
 		else if (filter_field[0] === "Clear all clinical filters selections"){
-			//console.log(this.newFilterSelected);
+
 			this.newFilterSelected["ethnicity"] = ""
 			this.newFilterSelected["race"] = "";
 			this.newFilterSelected["gender"] = "";
@@ -167,7 +167,7 @@ export class BrowseByGeneComponent implements OnInit {
 			this.newFilterSelected["case_status"] = "";
 		}
 		else if (filter_field[0] === "Clear all general filters selections"){
-			//console.log(this.newFilterSelected);
+
 			this.newFilterSelected["program_name"] = "";
 			this.newFilterSelected["project_name"] = "";
 			this.newFilterSelected["study_name"] = "";
@@ -255,7 +255,7 @@ export class BrowseByGeneComponent implements OnInit {
 		if (this.downloadAllManifests != undefined){
 			this.manifestFormat = this.downloadAllManifests.split('*')[1];
 		}
-		console.log(this.manifestFormat);
+
 		if (changes['downloadAllManifests'] && changes['downloadAllManifests'].currentValue) {
 			this.downloadCompleteManifest();
 		}
@@ -288,7 +288,7 @@ downloadCompleteManifest(buttonClick = false) {
 			this.loading = true;
 		}
 		this.browseByGeneService.getFilteredGenesDataPaginated(0, 0, this.sort, this.newFilterSelected, true).subscribe((data: any) =>{
-			//console.log(data);
+
 			///@@@PDC-8865 - Fix issue gene count inconsistency
 			///@@@PDC-8958 - fix gene manifest download issue
 			let filteredGenesData = data.getPaginatedUIGene.uiGenes as Array<AllGeneData>;
@@ -455,7 +455,7 @@ isDownloadDisabled(){
 			this.ptmData = data.getPaginatedUIPtm.uiPtm;
 			for (let data of this.ptmData){
 				this.ptmSitesData.push(data.site);
-				//console.log(data);
+
 			}
 			console.log(this.ptmSitesData);
 		});
@@ -468,7 +468,7 @@ isDownloadDisabled(){
 			let ptm_type_counters = [];
 			for (let data of this.ptmData){
 				//this.ptmSitesData.push(data.site);
-				//console.log(data);
+
 				if (sites_list.length < 5) {
 					sites_list.push(data.site);
 				}
@@ -480,7 +480,7 @@ isDownloadDisabled(){
 					ptm_type_counters.push( {ptm_type: ptmType, counter: 1} );
 				}
 			}
-			console.log(sites_list);
+
 			//this.ptmStatsData[gene_id] = {"ptm_type_counter": ptm_type_counters, "sites_list": sites_list.join("\r\n")};
 			this.ptmStatsData[gene_id] = {"ptm_type_counter": ptm_type_counters, "sites_list": sites_list};
 		});

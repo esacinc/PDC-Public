@@ -1,18 +1,58 @@
 /* Table header link styles (match browse-by-study, browse-by-case, browse-by-clinical) */
 .ui-datatable-tableheader a,
 .ui-datatable-tableheader-flex-container a {
-    color: #fff;
+    /*color: #fff !important;*/
     text-decoration: none;
     cursor: pointer;
-    transition: text-decoration 0.2s, color 0.2s;
+    transition: text-decoration 0.2s;
 }
 
 .ui-datatable-tableheader a:hover,
 .ui-datatable-tableheader a:focus,
+.ui-datatable-tableheader a:active,
+.ui-datatable-tableheader a:visited,
 .ui-datatable-tableheader-flex-container a:hover,
-.ui-datatable-tableheader-flex-container a:focus {
+.ui-datatable-tableheader-flex-container a:focus,
+.ui-datatable-tableheader-flex-container a:active,
+.ui-datatable-tableheader-flex-container a:visited {
     text-decoration: underline !important;
-    color: #387BA8 !important;
+    /*color: #fff !important;*/
+}
+
+/* Keep table header text white when clicked/active in file overlay */
+:host ::ng-deep .p-datatable .p-datatable-thead > tr > th {
+    /*color: white !important;*/
+}
+
+:host ::ng-deep .p-datatable .p-datatable-thead > tr > th a,
+:host ::ng-deep .p-datatable .p-datatable-thead > tr > th a:hover,
+:host ::ng-deep .p-datatable .p-datatable-thead > tr > th a:focus,
+:host ::ng-deep .p-datatable .p-datatable-thead > tr > th a:active,
+:host ::ng-deep .p-datatable .p-datatable-thead > tr > th a:visited,
+:host ::ng-deep .p-datatable .p-datatable-thead > tr > th .p-column-title {
+    /*color: white !important;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-thead > tr > th .p-sortable-column-icon {
+     /*color: white !important;*/
+}
+
+/* Keep sorted column header white */
+:host ::ng-deep .p-datatable .p-datatable-thead > tr > th.p-highlight,
+:host ::ng-deep .p-datatable .p-datatable-thead > tr > th.p-highlight a,
+:host ::ng-deep .p-datatable .p-datatable-thead > tr > th.p-highlight a:hover,
+:host ::ng-deep .p-datatable .p-datatable-thead > tr > th.p-highlight a:focus,
+:host ::ng-deep .p-datatable .p-datatable-thead > tr > th.p-highlight a:active,
+:host ::ng-deep .p-datatable .p-datatable-thead > tr > th.p-highlight a:visited,
+:host ::ng-deep .p-datatable .p-datatable-thead > tr > th.p-highlight .p-column-title,
+:host ::ng-deep .p-datatable .p-datatable-thead > tr > th.p-sortable-column.p-highlight {
+    /*color: white !important;*/
+}
+
+/* Keep sorted column header white after hover */
+:host ::ng-deep .p-datatable .p-datatable-thead > tr > th.p-highlight .p-sortable-column-icon,
+:host ::ng-deep .p-datatable .p-datatable-thead > tr > th.p-sortable-column-sorted .p-sortable-column-icon {
+    /*color: white !important;*/
 }
 /* @@@PDC-7012 - improve checkbox intuitiveness */
 #dataForManifestExport {
@@ -443,4 +483,126 @@
 
 .downloadButtons {
     overflow: visible !important;
+}
+
+/* Fix pagination arrow icons - use Font Awesome icons instead of broken SVG */
+:host ::ng-deep .table-striped .p-paginator-bottom,
+:host ::ng-deep .table-striped .p-paginator-top {
+    padding-top: 5px;
+    border: 1px solid #ddd;
+    background: #ffffff;
+    opacity: 1;
+    color: #333;
+}
+
+:host ::ng-deep .table-striped .p-paginator-first:before {
+    content: "\f048";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+}
+
+:host ::ng-deep .table-striped .p-paginator-last:before {
+    content: "\f051";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+}
+
+:host ::ng-deep .table-striped .p-paginator-prev:before {
+    content: "\f0d9";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+}
+
+:host ::ng-deep .table-striped .p-paginator-next:before {
+    content: "\f0da";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+}
+
+:host ::ng-deep .table-striped .p-paginator-first svg,
+:host ::ng-deep .table-striped .p-paginator-last svg,
+:host ::ng-deep .table-striped .p-paginator-prev svg,
+:host ::ng-deep .table-striped .p-paginator-next svg {
+    display: none;
+}
+
+:host ::ng-deep .table-striped .p-dropdown-panel {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    opacity: 1;
+}
+
+:host ::ng-deep .table-striped .p-dropdown-items {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    opacity: 1;
+}
+
+/* Fix paginator dropdown (p-select) background */
+:host ::ng-deep .p-select-overlay {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+}
+
+:host ::ng-deep .p-select-list-container {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+}
+
+:host ::ng-deep .p-select-list {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+}
+
+:host ::ng-deep .p-select-option {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+}
+
+:host ::ng-deep .p-overlay-content {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+}
+
+:host ::ng-deep .table-striped .p-dropdown-item {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+}
+
+:host ::ng-deep .table-striped .p-dropdown {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+}
+
+/* Custom confirmation dialog - override cdk-overlay-pane default styles */
+::ng-deep .custom-confirmation-dialog {
+    max-width: 450px !important;
+    width: 450px !important;
+}
+
+::ng-deep .custom-confirmation-dialog .mat-dialog-container,
+::ng-deep .custom-confirmation-dialog .mat-mdc-dialog-container {
+    padding: 0 !important;
+    border-radius: 8px;
+}
+
+::ng-deep .custom-confirmation-dialog .mat-mdc-dialog-inner-container {
+    padding: 0 !important;
+}
+
+::ng-deep .custom-confirmation-dialog .mat-mdc-dialog-surface {
+    padding: 16px !important;
+}
+
+::ng-deep .custom-confirmation-dialog .mat-dialog-content,
+::ng-deep .custom-confirmation-dialog .mat-mdc-dialog-content {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+::ng-deep .custom-confirmation-dialog .mat-dialog-actions,
+::ng-deep .custom-confirmation-dialog .mat-mdc-dialog-actions {
+    justify-content: flex-end;
+    padding: 16px 0 0 0 !important;
+    margin: 0 !important;
 }

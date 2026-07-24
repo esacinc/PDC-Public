@@ -129,7 +129,7 @@ export class NavbarComponent implements OnInit {
   //@@@PDC-5778: UI call logging API for search statistics
   callObjectSearchedAPI(type, paramType, paramVal) {
     this.searchService.getObjectSearchedResults(type, paramType, paramVal).subscribe((data: any) => {
-      console.log(data);
+
     });
   }
 
@@ -138,8 +138,8 @@ export class NavbarComponent implements OnInit {
   openSearchTermSummary(test: any) {
     //console.log(this.selectedSearchTerm);
     this.searchButtonFlag = true;
-	console.log("selected gene name: "+this.selectedSearchTerm.name);
-	console.log("selected gene ID: "+this.selectedSearchTerm.value);
+
+
     if (this.selectedSearchTerm.name) {
       let term = this.selectedSearchTerm.name.split(': ');
 	  //@@@PDC-7657 use ncbi_gene_id in getting gene
@@ -149,7 +149,7 @@ export class NavbarComponent implements OnInit {
         let gene_term = term[1].split(' (');
 		let ncbiGeneId = term[2];
 		let geneUuid = this.selectedSearchTerm.value;
-		console.log("selected ncbiGeneId:"+ncbiGeneId);
+
         this.showGeneProteinSummary(gene_term[0].replace(/[^a-zA-Z0-9-]/g, ''), geneUuid, ncbiGeneId, 'gene');
         this.searchButtonFlag = false;
       }
@@ -180,7 +180,7 @@ export class NavbarComponent implements OnInit {
   showGeneProteinSummary(gene_name: string, geneUuid: string, ncbiGeneId: string, type = '') {
     //@@@PDC-5778: UI call logging API for search statistics
     //Call the API only when searched through search box
-	console.log('Gene name to search: ', gene_name);
+
     if (type != "") {
       if (type == 'protein') {
         this.callObjectSearchedAPI(type, 'protein_name', gene_name);
@@ -209,7 +209,7 @@ export class NavbarComponent implements OnInit {
     const dialogRef = this.dialog.open(GeneProteinSummaryComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(
       val => {
-        console.log('Dialog output:', val);
+
         //@@@PDC-1441: Add ability to search by case, study, aliquot, sample UUIDs on UI search box
         //Reset the search box to empty
         this.selectedSearchTerm = [{name: '', value: ''}];
@@ -270,7 +270,7 @@ export class NavbarComponent implements OnInit {
   }
 
   openCaseSummaryDialog(caseSubmitterID = '', caseUUID, type, requiredCaseID) {
-    console.log('Open Case summary for case id: ' + caseSubmitterID + ', ' + caseUUID + '.');
+
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = false;
@@ -295,7 +295,7 @@ export class NavbarComponent implements OnInit {
     this.searchService.getCaseSummaryData(caseUUID, caseSubmitterID).subscribe((data: any) => {
       if (data.uiCase) {
         //@@@PDC-8667 - check returned values and match sample/aliquot ids using requiredCaseId value
-        let caseData; 
+        let caseData;
         if(type == 'sample') {
           data.uiCase.forEach((caseItem) => {
             if (caseItem.sample_id === requiredCaseID[0]) {
@@ -311,7 +311,7 @@ export class NavbarComponent implements OnInit {
             });
           } else {
             caseData = data.uiCase[0];
-          }  
+          }
         if (caseData) {
           if (caseUUID == '') {
             case_data.case_id = caseData.case_id;
@@ -348,7 +348,7 @@ export class NavbarComponent implements OnInit {
       const dialogRef = this.dialog.open(CaseSummaryComponent, dialogConfig);
       dialogRef.afterClosed().subscribe(
         val => {
-          console.log('Dialog output:', val);
+
           //@@@PDC-1441: Add ability to search by case, study, aliquot, sample UUIDs on UI search box
           //Reset the search box to empty
           this.selectedSearchTerm = [{name: '', value: ''}];
@@ -373,7 +373,7 @@ export class NavbarComponent implements OnInit {
     let study_submitter_id_name = '';
     let pdc_study_id = '';
     //Fetch Study Submitter ID for the study
-    console.log('Study_name: ' + study_name + ', studyUUID: ' + studyUUID + ', study_submitter_id_param: ' + study_submitter_id_param);
+
     if (study_name.indexOf('{') > -1) {
       let requiredStudyName = study_name.split('{');
       study_uuid = requiredStudyName[0];
@@ -422,7 +422,7 @@ export class NavbarComponent implements OnInit {
       contacts: [],
       versions: [],
     };
-    console.log(study_data);
+
     //@@@PDC-4725: Set the source parameter in the UI calls to fetch details of a search result
     dialogConfig.data = {
       summaryData: study_data,
@@ -446,7 +446,7 @@ export class NavbarComponent implements OnInit {
     const dialogRef = this.dialog.open(StudySummaryComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(
       val => {
-        console.log('Dialog output:', val);
+
         //@@@PDC-1441: Add ability to search by case, study, aliquot, sample UUIDs on UI search box
         //Reset the search box to empty
         this.selectedSearchTerm = [{name: '', value: ''}];
@@ -471,7 +471,7 @@ export class NavbarComponent implements OnInit {
         //if (returnValue.description != '') {
           display_name = display_name.concat(' (' + returnValue.description +') ncbiGeneId: ' + returnValue.ncbi_gene_id + ' alias: '+returnValue.alias);
         //}
-		  console.log('Search Display Gene Name: ', display_name);
+
         //this.options.push({name: display_name, value: returnValue.name});
         this.options.push({name: display_name, value: returnValue.gene_id});
       }
@@ -495,7 +495,7 @@ export class NavbarComponent implements OnInit {
           let proteins = returnValue.proteins.split(';');
           for (let protein of proteins) {
             if (protein.includes(search_term)) {
-			  //@@@PDC-7657 display ncbi_gene_id	
+			  //@@@PDC-7657 display ncbi_gene_id
               display_name = display_name.concat(' (' + protein + ') ncbiGeneId: ' + returnValue.ncbi_gene_id);
               this.options.push({name: display_name, value: returnValue.gene_id});
               //need reinitialize display value with GN: XXXX format if there are additional matching proteins
@@ -766,9 +766,9 @@ export class NavbarComponent implements OnInit {
       let loginUserIDType = sessionStorage.getItem('loginUserIDType');
       this.userService.retrieveUserDataForLoggedInUser(this.loggedInEmail, loginUserIDType).then(returnValue => {
         if (returnValue === 0) {
-          console.log('The user was successfuly logged in. Session continues');
+
         } else {
-          console.log('An error occured while retrieving user data:' + returnValue);
+
         }
       });
       //@@@PDC-408 - implement session timeout after 30 mins idle
@@ -776,7 +776,7 @@ export class NavbarComponent implements OnInit {
     }
     //PDC-1795 Detect when a user loged in with NIH/eRA sign in option
     this.route.queryParams.subscribe(queryParams => {
-      console.log(queryParams);
+
       if (queryParams.uid) {
         let user_uid = queryParams.uid;
         this.userService.checkPDCUser(user_uid, queryParams.token).subscribe((login: any) => {
@@ -784,7 +784,7 @@ export class NavbarComponent implements OnInit {
           //Generate new url that does not contain uid parameters
           var newUrl = currentUrl.split('?uid=');
           this.loc.replaceState(newUrl[0]);
-          console.log('User tried to login with NIH/eRA option returned:' + login);
+
           switch (login) {
             //user registered
             case 0:
@@ -830,7 +830,7 @@ export class NavbarComponent implements OnInit {
                 hasBackdrop: true,
                 data: {message: 'System Error. Please contact your system administrator '}
               });
-              console.log('System error!!!');
+
               break;
           }
         });
@@ -841,7 +841,7 @@ export class NavbarComponent implements OnInit {
       isLoggedIn => {
         this.userLoggedInFlag = isLoggedIn;
         if (this.userLoggedInFlag) {
-          console.log('User logged in as ' + this.userService.getUserName());
+
           this.loggedInUser = this.userService.getUserName();
           // @@PDC 552: this is for getting user information from local storage when page reloads.
           this.setInformationfromlocalStorage();
@@ -849,7 +849,7 @@ export class NavbarComponent implements OnInit {
           //Check if user is registered to Workspace
           var loggedInEmail = this.userService.getEmail();
           this.chorusService.checkUser(loggedInEmail).subscribe(exists => {
-			  console.log('User exists ' + exists);
+
             if (exists) {
               this.userRegisteredToWorkspaceFlag = true;
             } else {
@@ -858,7 +858,7 @@ export class NavbarComponent implements OnInit {
           });
 		  //@@@PDC-9083 pending ws registration
           this.chorusService.checkUserProgram(loggedInEmail).subscribe(exists => {
-			  console.log('User program exists ' + exists);
+
             if (exists) {
               this.userRegisteredToWorkspaceProgramFlag = true;
             } else {
@@ -917,7 +917,7 @@ export class NavbarComponent implements OnInit {
           }
           //Reset password option
           if (event.snapshot.params['uuid'] != '' && event.snapshot.url.length > 0 && event.snapshot.url[0].path === 'reset-password') {
-            console.log('User ' + event.snapshot.params['uuid'] + ' wants to reset password');
+
             this.openResetPassword(event.snapshot.params['uuid']);
           }
           //Open case summary overlay window from url when auxiliary path is provided
@@ -945,7 +945,7 @@ export class NavbarComponent implements OnInit {
           //If case_uuid parameter is defined - this is a direct link URL for case summary
           if (event.snapshot.outlet == 'primary' && 'case_uuid' in event.snapshot.params && event.snapshot.params['case_uuid'] != '') {
             var case_uuid = event.snapshot.params['case_uuid'];
-            console.log('case_uuid: ' + case_uuid);
+
             this.searchService.getCaseUUIDResults(case_uuid).subscribe((data: any) => {
               var case_id = data.uiCaseSummary[0].case_submitter_id;
               this.showCaseSummary(case_id, '', case_uuid);
@@ -969,7 +969,7 @@ export class NavbarComponent implements OnInit {
               if (study_uuid == '') {
                 study_uuid = data.uiStudySummary[0].study_id;
               }
-              console.log('study_submitter_id_name: ' + study_submitter_id_name + ', study_uuid: ' + study_uuid);
+
               this.showStudySummary(study_submitter_id_name, study_uuid, study_submitter_id, PDC_study_id);
             });
           }
@@ -1131,7 +1131,7 @@ export class NavbarComponent implements OnInit {
         this.chorusService.authenticateUser(this.loggedInEmail).subscribe(success => {
           //this.userEmail = userData.email;
           //this.username = userData.name;
-          console.log('Logged in to Chorus');
+
         });
       } else {
         // Open the dialog to let them login and handle registering if they are not already in Chorus

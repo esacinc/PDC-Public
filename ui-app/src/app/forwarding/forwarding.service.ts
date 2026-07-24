@@ -47,7 +47,7 @@ export class ForwardingSearchService {
 	.valueChanges
 	.pipe(
 		map(result => {
-			console.log(result.data);
+
 			return result.data;})
 	);
 	}

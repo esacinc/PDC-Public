@@ -97,7 +97,7 @@ export class BrowseComponent implements OnInit, AfterViewInit {
 		//PDC-1360 Add Bookmark URLs
 		const parsedUrl = new URL(window.location.href);
 		this.baseUrl = parsedUrl.origin + "/pdc";
-		console.log(this.baseUrl);
+
 		this.bookmarkURL = this.baseUrl + this.loc.path() + "/filters/";
 		this.route.params.subscribe(params => this.browseStudy(params));
 	}
@@ -105,9 +105,9 @@ export class BrowseComponent implements OnInit, AfterViewInit {
 	/* API call to get disease types data for the pie chart */
 	// @@@PDC-221 - new API for disease counts
 getDiseasesData() {
-	console.log('Getting diseases data...');
+
 	this.browseService.getDiseases().pipe(take(1)).subscribe((data: any) => {
-		console.log('Diseases data received:', data);
+
 		this.diseasesData = data.uiExperimentPie;
 		//@@@PDC-7596: Duplicate D3 Charts occur on the UI when Case URL is pasted in a new tab
 		d3.select("#diseaseTypes").remove();
@@ -124,8 +124,8 @@ toggleSidenav() {
 
 //@@@PDC-7344: Replace highcharts with D3 in PDC chart implementation - Pie chart
 createD3PieChart(data, selectedDiseaseType = null) {
-	console.log('Creating D3 pie chart with data:', data);
-	console.log('Selected disease type for highlighting:', selectedDiseaseType);
+
+
 	if (!data || !Array.isArray(data) || data.length === 0) {
 		console.error('No data provided for pie chart:', data);
 		return;
@@ -134,12 +134,15 @@ createD3PieChart(data, selectedDiseaseType = null) {
 	var chartId;
 	var svg;
 
+	//@@@PDC-10530 - Hide any existing tooltips before recreating the chart 
+	d3.selectAll('.pie-chart-tooltip').style('opacity', '0');
+
 	// Clear any existing chart first
 	d3.select('#diseaseTypesChart').selectAll('*').remove();
 
 	// Get container dimensions dynamically
 	const chartContainer = d3.select('#diseaseTypesChart');
-	console.log('Chart container found:', !chartContainer.empty());
+
 	if (chartContainer.empty()) {
 		console.error('Chart container #diseaseTypesChart not found!');
 		return;
@@ -158,7 +161,7 @@ createD3PieChart(data, selectedDiseaseType = null) {
 	// Create a deep copy of the data to avoid "not extensible" errors
 	const dataCopy = JSON.parse(JSON.stringify(data));
 	const total = dataCopy.reduce((prev, next) => prev + next.cases_count, 0);
-	console.log('Total cases count:', total);
+
 	if (!total || isNaN(total)) {
 		console.error('Invalid total cases count for pie chart:', total);
 		return;
@@ -238,21 +241,16 @@ createD3PieChart(data, selectedDiseaseType = null) {
 	})
 	.style('cursor', 'pointer');
 
-	console.log('PIE CHART ARCS CREATED. Count:', svg.selectAll(".donutArcs").size());
-	console.log('PIE CHART ARC ELEMENTS:', svg.selectAll(".donutArcs").nodes());
-
 	// Add event handlers separately
 	svg.selectAll(".donutArcs")
 	// Add event handlers separately
 	svg.selectAll(".donutArcs")
 	.on('mouseover', function(event, d) {
-		console.log('PIE CHART MOUSEOVER TRIGGERED');
+
 		tooltip.style('opacity', '1');
 		tooltip.html(`${d.data.disease_type}<br><span style="color:${colors(d.index)}">●</span>&nbsp;Case count: <span>${d.data.cases_count}</span>`)
 		.style('left', `${event.pageX + 10}px`)
 		.style('top', `${event.pageY - 20}px`);
-		console.log('Tooltip node after setting opacity 1:', tooltip.node());
-		console.log('Tooltip styles:', tooltip.style('opacity'), tooltip.style('left'), tooltip.style('top'));
 		//Reduce opacity of arcs
 		var elements = document.getElementsByClassName('donutArcs');
 		for (var j = 0; j < elements.length; j++) {
@@ -286,14 +284,14 @@ createD3PieChart(data, selectedDiseaseType = null) {
 		}
 	})
 	.on('click', (event, d) => {
-		console.log('=== PIE CHART SLICE CLICKED ===');
-		console.log('Disease type clicked:', d.data.disease_type);
+
+
 		tooltip.style('opacity', 0);
 
 		// For pie chart clicks, we want to filter ALL charts, including redrawing the pie chart
 		// with highlighting, rather than the current approach that blanks bar charts
 		const filterString = `disease_type:${d.data.disease_type}`;
-		console.log('Applying disease type filter:', filterString);
+
 
 		// Set the filter state
 		this.newFilterSelected['disease_type'] = d.data.disease_type;
@@ -526,7 +524,7 @@ lineBreak(text, width) {
 		let string = '';
 		for (let i = 0; i < words.length; i++) {
 			let word = words[i];
-			
+
 			// Check if adding this word would exceed the width
 			if ((string + word).length <= width) {
 				string = string + word + ' ';
@@ -543,7 +541,7 @@ lineBreak(text, width) {
 				}
 			}
 		}
-		
+
 		// Add any remaining content
 		if (string.trim().length > 0) {
 			wordsFormatted.push(string.trim());
@@ -602,7 +600,7 @@ getCasesByAnalyticFraction() {
 		// Clear existing chart and any tooltips more thoroughly
 		d3.select("#analyticalFractionChart").selectAll("*").remove();
 		d3.selectAll('.analyticalFractions-tooltip').remove();
-		
+
 		// Small delay to ensure container is rendered and cleanup is complete
 		setTimeout(() => {
 			this.createD3BarChart(dataJSON);
@@ -685,7 +683,7 @@ createD3BarChart(dataJSON) {
 	});
 
 	//Creating SVG for the chart
-	console.log('Chart dimensions:', {containerWidth, containerHeight, width, height, leftMargin, margin});
+
 
 	svg = d3
 	  .select(chartIDValue)
@@ -709,11 +707,11 @@ createD3BarChart(dataJSON) {
 	.domain([0, Number(highestValue)]);
 
     var data = chartDataArr;
-	console.log('Chart data:', data);
-	console.log('X scale domain:', [0, Number(highestValue)]);
-	console.log('X scale range:', [0, width]);
-	console.log('Y scale domain:', data.map(d => d[filterKey]));
-	console.log('Y scale range:', [0, height]);
+
+
+
+
+
 	var xaxisID = chartID + '-xaxis';
 	var yaxisID = chartID + '-yaxis';
 
@@ -885,7 +883,7 @@ createD3BarChart(dataJSON) {
 	.attr("id", (d) =>  d[filterKey])
 	.attr('class', d => `bar-${d[filterKey]}`);
 
-   console.log('Bars created:', bars.size());
+
    console.log('Sample bar attributes:', {
        x: x(0),
        sampleY: data[0] ? y(data[0][filterKey]) : 'no data',
@@ -914,7 +912,7 @@ createD3BarChart(dataJSON) {
 			.attr('fill', 'rgb(88, 136, 165)');
 	})
 	.on('click', (event, d) => {
-		console.log('Bar clicked!', chartName, d[filterKey]);
+
 		tooltip.style('opacity', 0);
 		// Use arrow function to preserve 'this' context
 		this.onChartBarClick(chartName, d[filterKey]);
@@ -924,11 +922,6 @@ createD3BarChart(dataJSON) {
 
 //@@@PDC-7278: Replace highcharts with D3 in PDC chart implementation
 createD3BarChart(dataJSON) {
-	console.log('*** createD3BarChart called with:', dataJSON);
-	console.log('*** Chart ID:', dataJSON.chartID);
-	console.log('*** Chart Name:', dataJSON.chartName);
-	console.log('*** Chart Data Array Length:', dataJSON.chartDataArr.length);
-	console.log('*** Chart Data Array:', dataJSON.chartDataArr);
 
 	var chartName = dataJSON["chartName"];
 	var chartDataArr = dataJSON["chartDataArr"];
@@ -942,7 +935,7 @@ createD3BarChart(dataJSON) {
 
 	// Get container element first
 	const chartContainer = d3.select(chartIDValue);
-	
+
 	// Clear any existing chart and tooltips completely before creating new one
 	if (!chartContainer.empty()) {
 		chartContainer.selectAll("*").remove();
@@ -952,7 +945,7 @@ createD3BarChart(dataJSON) {
 
 	// Handle empty data case - still create an SVG with a "No data" message
 	if (!chartDataArr || chartDataArr.length === 0) {
-		console.log('No data provided for chart:', chartName);
+
 
 		if (chartContainer.empty()) {
 			console.error('Chart container not found:', chartIDValue);
@@ -978,7 +971,6 @@ createD3BarChart(dataJSON) {
 			.style("fill", "#666")
 			.text("No data available");
 
-		console.log('Created "No data" message for chart:', chartName);
 		return;
 	}
 
@@ -987,7 +979,6 @@ createD3BarChart(dataJSON) {
     var svg;
 
     // Use the chartContainer already declared above
-    console.log('Bar chart container found:', !chartContainer.empty());
     if (chartContainer.empty()) {
         console.error('Bar chart container not found:', chartIDValue);
         return;
@@ -1002,16 +993,11 @@ createD3BarChart(dataJSON) {
     const containerWidth = containerElement.clientWidth;
     const containerHeight = containerElement.clientHeight;
 
-    console.log('Container dimensions:', { containerWidth, containerHeight });
 
     if (containerWidth === 0 || containerHeight === 0) {
-        console.error('Container has zero dimensions, using fallback:', { containerWidth, containerHeight });
-        console.log('Container element:', containerElement);
-        console.log('Container styles:', window.getComputedStyle(containerElement));
         // Use fallback dimensions
         const fallbackWidth = 400;
         const fallbackHeight = 350;
-        console.log('Using fallback dimensions:', { fallbackWidth, fallbackHeight });
     }
 
     var margin = 30;
@@ -1031,23 +1017,6 @@ createD3BarChart(dataJSON) {
     // Calculate ideal height based on data, but enforce minimum
     var calculatedHeight = chartDataArr.length * minBarHeight;
     var height = Math.max(Math.min(calculatedHeight, maxChartHeight), minChartHeight);
-
-    console.log('Chart height calculation:', {
-        dataItems: chartDataArr.length,
-        calculatedHeight,
-        minChartHeight,
-        maxChartHeight,
-        finalHeight: height
-    });
-
-    console.log('Bar chart dimensions:', {
-        containerWidth: actualWidth,
-        containerHeight: actualHeight,
-        width,
-        height,
-        leftMargin,
-        margin
-    });
 
 	let tableLength = chartDataArr.length;
 
@@ -1079,7 +1048,6 @@ createD3BarChart(dataJSON) {
 	});
 
 	//Creating SVG for the chart
-	console.log('Creating SVG with dimensions:', { chartID, leftMargin, width, height, margin });
 
 	// Use proper viewBox dimensions to fit the container like pie chart
 	var viewBoxWidth = width + leftMargin + padding * 2;
@@ -1249,16 +1217,9 @@ createD3BarChart(dataJSON) {
 
 	var barWidthDiff = availableBarHeight - barThickness;
 
-	console.log('Bar sizing:', {
-		dataCount: chartDataArr.length,
-		availableBarHeight,
-		barThickness,
-		barWidthDiff
-	});
 
 	// Store component reference for use in event handlers
 	const componentRef = this;
-	console.log('*** Storing component reference:', componentRef);
 
    //Create horizontal bars
    const bars = svg.append("g")
@@ -1275,10 +1236,6 @@ createD3BarChart(dataJSON) {
 	.attr("id", (d) =>  d[filterKey])
 	.attr('class', d => `bar-${d[filterKey]}`);
 
-	console.log('*** Bars created, count:', bars.size());
-	console.log('*** Bar elements:', bars.nodes());
-	console.log('*** Adding event handlers...');
-
 	bars.attr('onload', function (d,i) {
 		tooltip.style('opacity', 0);
 	});
@@ -1288,13 +1245,11 @@ createD3BarChart(dataJSON) {
 	// Add event handlers separately
 	bars
 	.on('mouseover', function (event, d) {
-		console.log('BAR CHART MOUSEOVER TRIGGERED');
 		tooltip.style('opacity', '1');
 		// create a tooltip
 		tooltip.html(`${d[filterKey]}<br><span style="color:rgb(88, 136, 165)">●</span>&nbsp;Case count: <span>${d[caseCountKey]}</span>`)
 		.style('left', `${event.pageX + 10}px`)
 		.style('top', `${event.pageY - 20}px`);
-		console.log('Tooltip after styling:', tooltip.style('opacity'), tooltip.style('left'), tooltip.style('top'));
 		//@@@PDC-7508: Improvements to the D3 charts
 		d3.select(`.bar-${d[filterKey]}`)
 		.attr('fill', f => {
@@ -1307,12 +1262,6 @@ createD3BarChart(dataJSON) {
   		.attr('fill', 'rgb(88, 136, 165)')
 		})
 	.on('click', function(event, d) {
-		console.log('=== BAR CLICK DETECTED ===');
-		console.log('Event:', event);
-		console.log('Data (d):', d);
-		console.log('Chart name:', chartName);
-		console.log('Filter key:', filterKey);
-		console.log('Filter value:', d[filterKey]);
 
 		tooltip.style('opacity', 0);
 
@@ -1325,23 +1274,16 @@ createD3BarChart(dataJSON) {
 
 		const filterField = chartToFilterMap[chartName];
 		const filterString = `${filterField}:${d[filterKey]}`;
-		console.log('Direct filter application:', filterString);
-
-		// Use the stored component reference
-		console.log('Using component reference:', componentRef);
 
 		try {
 			// Apply filter directly
-			console.log('Calling parentCharts.next with:', filterString);
 			componentRef.parentCharts.next(filterString);
 
-			console.log('Calling onFilterSelected with:', filterString);
 			componentRef.onFilterSelected(filterString);
-			console.log('Filter applied successfully');
 
 			// Let's also check if the filter was actually set
 			setTimeout(() => {
-				console.log('Filter check - newFilterSelected after 1 second:', componentRef.newFilterSelected);
+
 			}, 1000);
 		} catch (error) {
 			console.error('Error applying filter:', error);
@@ -1374,7 +1316,7 @@ getCasesByExperimentalStrategy(){
 		// Clear existing chart and any tooltips more thoroughly
 		d3.select("#expCountChart").selectAll("*").remove();
 		d3.selectAll('.experimentalStrategy-tooltip').remove();
-		
+
 		// Small delay to ensure container is rendered and cleanup is complete
 		setTimeout(() => {
 			this.createD3BarChart(dataJSON);
@@ -1424,8 +1366,6 @@ getCasesByExperimentalStrategy(){
 	// @@@PDC-221 - Added filtering for the charts on the browse page
 	// @@@PDC-616 Add acquisition type to the general filters
 	onFilterSelected(filterValue: string) {
-		console.log('=== onFilterSelected called ===');
-		console.log('Filter value received:', filterValue);
 
 		filterValue = filterValue.replace('_slash','/');
 	    //@@@PDC-5428 fix study name truncation issue
@@ -1433,9 +1373,6 @@ getCasesByExperimentalStrategy(){
 	    filter_field.push(filterValue.substring(0, filterValue.indexOf(":")));
 	    filter_field.push(filterValue.substring(filterValue.indexOf(":")+1));
 
-		console.log('Parsed filter field:', filter_field);
-		console.log('Filter name:', filter_field[0]);
-		console.log('Filter value:', filter_field[1]);
 		//var filter_field = filterValue.split(':'); // the structure is field_name: "value1;value2"
 		if (filter_field[0] == "gene_study_name") {
 			//ifthe filter field is gene_study_name, do not pass it to other tabs.
@@ -1444,9 +1381,9 @@ getCasesByExperimentalStrategy(){
 			this.newFilterValue = filterValue;
 			this.gene_study_name = '';
 		}
-      //console.log("Raw Filter: "+ filterValue);
-      //console.log("Filter Name: "+ filter_field[0]);
-      //console.log("Filter Value: "+ filter_field[1]);
+
+
+
 		//If clear all filter selection button was pressed need to clear all filters
 		if (filter_field[0] === "Clear all selections"){
 			for (let filter_name in this.newFilterSelected){
@@ -1455,7 +1392,7 @@ getCasesByExperimentalStrategy(){
 
 		}
 		else if (filter_field[0] === "Clear all clinical filters selections"){
-			//console.log(this.newFilterSelected);
+
 			this.newFilterSelected["ethnicity"] = ""
 			this.newFilterSelected["race"] = "";
 			this.newFilterSelected["gender"] = "";
@@ -1468,7 +1405,7 @@ getCasesByExperimentalStrategy(){
 			this.deleteBreadcrumb('', deleteFromBreadCrumbs);
 		}
 		else if (filter_field[0] === "Clear all general filters selections"){
-			//console.log(this.newFilterSelected);
+
 			this.newFilterSelected["program_name"] = "";
 			this.newFilterSelected["project_name"] = "";
 			this.newFilterSelected["study_name"] = "";
@@ -1506,9 +1443,9 @@ getCasesByExperimentalStrategy(){
 			this.newFilterSelected['gene_study_name'] = "";
 		} else {
 			if (filter_field[0] != "selectedTab") {
-				console.log('Setting filter:', filter_field[0], '=', filter_field[1]);
+
 				this.newFilterSelected[filter_field[0]] = filter_field[1];
-				console.log('Updated newFilterSelected:', this.newFilterSelected);
+
 			}
 		}
 		//PDC-1360 Add Bookmark URLs
@@ -1523,7 +1460,7 @@ getCasesByExperimentalStrategy(){
 			if (this.newFilterSelected[filter_val] != ""){
 				this.bookmarkURL +=  filter_val + ":" + this.newFilterSelected[filter_val].replace(/;/g, "|").replace('/','_slash') + "&";
 			}
-			//console.log(filter_val);
+
 		}
 		this.bookmarkURL = this.bookmarkURL.slice(0, -1);
 		//@@@PDC-3645: Query URLs include unescaped spaces
@@ -1535,21 +1472,21 @@ getCasesByExperimentalStrategy(){
 		this.enableDownloadAllManifests =  this.breadcrumbs.length;
 		// Update the analytic fractions bar chart
 
-		//console.log("Filter Value of study name: "+ this.newFilterSelected['study_name']);
-		console.log('=== STARTING CHART UPDATES ===');
-		console.log('Updating charts with new filter data:', this.newFilterSelected);
+
+
+
 
 		this.browseService.getFilteredAnalyticFractionTypeCasesCount(this.newFilterSelected).pipe(take(1)).subscribe((data: any) => {
 			//@@@PDC-7278: Replace highcharts with D3 in PDC chart implementation
 			var chartDataArr = data.uiAnalyticalFractionsCount;
-			console.log('=== ANALYTICAL FRACTIONS UPDATE ===');
-			console.log('Received analytical fractions data:', chartDataArr);
+
+
 
 			// Always process the data, even if empty - displayAllFractionsAndSort will handle empty arrays
 			chartDataArr = this.displayAllFractionsAndSort(this.analyticalFractionTypes, chartDataArr, 'analytical_fraction', 'cases_count');
 
-			console.log('Processed analytical fractions data:', chartDataArr);
-			console.log('Removing old analytical fractions chart...');
+
+
 			// More thorough chart cleanup
 			d3.select("#analyticalFractions").remove();
 			d3.select("#analyticalFractionChart").selectAll("*").remove();
@@ -1565,26 +1502,26 @@ getCasesByExperimentalStrategy(){
 				offsetTop: 300,
 				offsetRight: 0
 			}
-			console.log('Creating new analytical fractions chart with dataJSON:', dataJSON);
+
 
 			// Add a small delay to ensure DOM cleanup is complete
 			setTimeout(() => {
 				this.createD3BarChart(dataJSON);
-				console.log('Analytical fractions chart created');
+
 			}, 50);
 		});
 		// Update experiment types bar chart
 		this.browseService.getFilteredExperimentTypeCasesCount(this.newFilterSelected).pipe(take(1)).subscribe((data: any) => {
 			//@@@PDC-7278: Replace highcharts with D3 in PDC chart implementation
 			var chartDataArr = data.uiExperimentBar;
-			console.log('=== EXPERIMENT TYPES UPDATE ===');
-			console.log('Received experiment types data:', chartDataArr);
+
+
 
 			// Always process the data, even if empty - displayAllFractionsAndSort will handle empty arrays
 			chartDataArr = this.displayAllFractionsAndSort(this.experimentTypes, chartDataArr, 'experiment_type', 'cases_count');
 
-			console.log('Processed experiment types data:', chartDataArr);
-			console.log('Removing old experiment types chart...');
+
+
 			d3.select("#experimentalStrategy").remove();
 			d3.select("#expCountChart").selectAll("*").remove();
 			var dataJSON = {
@@ -1598,24 +1535,24 @@ getCasesByExperimentalStrategy(){
 				offsetTop: 300,
 				offsetRight: 50
 			}
-			console.log('Creating new experiment types chart with dataJSON:', dataJSON);
+
 
 			// Add a small delay to ensure DOM cleanup is complete
 			setTimeout(() => {
 				this.createD3BarChart(dataJSON);
-				console.log('Experiment types chart created');
+
 			}, 50);
 		});
 		// Update disease types pie chart
 		this.browseService.getFilteredDiseases(this.newFilterSelected).pipe(take(1)).subscribe((data: any) => {
-			console.log('=== DISEASE TYPES UPDATE ===');
-			console.log('Received disease types data:', data.uiExperimentPie);
-			console.log('Current disease type filter:', this.newFilterSelected['disease_type']);
+
+
+
 
 			// Store the data for potential reuse
 			this.diseasesData = data.uiExperimentPie;
 
-			console.log('Removing old disease types chart...');
+
 			d3.select("#diseaseTypes").remove();
 			d3.select("#diseaseTypesChart").selectAll("*").remove();
 
@@ -1624,17 +1561,17 @@ getCasesByExperimentalStrategy(){
 				// If we have a disease type filter, pass it for highlighting
 				const selectedDiseaseType = this.newFilterSelected['disease_type'] || null;
 				this.createD3PieChart(data.uiExperimentPie, selectedDiseaseType);
-				console.log('Disease types chart created with highlighting:', selectedDiseaseType);
+
 			}, 50);
 		});
 	}
 
 	displayAllFractionsAndSort(types, chartDataArr, sortField, countField) {
-		console.log('displayAllFractionsAndSort called with:', { types, chartDataArr, sortField, countField });
+
 
 		// Create a new array to avoid modifying the original (which might be frozen)
 		let mutableChartDataArr = [...chartDataArr];
-		console.log('Created mutable array:', mutableChartDataArr);
+
 
 		for (var i in types) {
 			// Check if this type exists in the chart data
@@ -1643,20 +1580,19 @@ getCasesByExperimentalStrategy(){
 				let typeData = {};
 				typeData[sortField] = types[i];
 				typeData[countField] = 0;
-				console.log('Adding missing type:', typeData);
+
 				mutableChartDataArr.push(typeData);
 			}
 		}
 
+		//@@@PDC-10775 - explore graphs label should maintain order after filtering 
 		mutableChartDataArr.sort((a, b) => {
-			if (a[sortField] < b[sortField])
-				return -1;
-			if (a[sortField] > b[sortField])
-				return 1;
-			return 0;
+			const indexA = types.indexOf(a[sortField]);
+			const indexB = types.indexOf(b[sortField]);
+			return indexA - indexB;
 		});
 
-		console.log('Final sorted array:', mutableChartDataArr);
+
 		return mutableChartDataArr;
 	}
 
@@ -1678,7 +1614,7 @@ getCasesByExperimentalStrategy(){
 	populateBreadcrumbsForFilters() {
 		var filter_field = [];
 		if (this.gene_study_name && this.gene_study_name != "") {
-			//console.log("GENE Study Name: "+this.gene_study_name);
+
 			filter_field = this.gene_study_name.split(':');
 			this.gene_study_names = filter_field[1];
 		} else {
@@ -1687,9 +1623,9 @@ getCasesByExperimentalStrategy(){
 			filter_field.push(this.newFilterValue.substring(this.newFilterValue.indexOf(":")+1));
 			//var filter_field = this.newFilterValue.split(':');
 		}
-			//console.log("New filter value: "+this.newFilterValue);
-			//console.log("Filter Name: "+filter_field[0]);
-			//console.log("Filter value: "+filter_field[1]);
+
+
+
 		var displayStudynameForGeneName = false;
 		if (filter_field[0] == "Clear all selections") {
 			this.breadcrumbs = [];
@@ -1736,7 +1672,7 @@ getCasesByExperimentalStrategy(){
 					'facetValues': facetValuesArray,
 				});
 			}
-			//console.log(this.breadcrumbs);
+
 		}
 	}
 
@@ -1748,7 +1684,7 @@ getCasesByExperimentalStrategy(){
 	//@@@PDC-277: Add a filter crumb bar at the top that explains the filter criteria selected
 	//@@@PDC-994: Breadcrumbs in Browse page are displayed even after clearing filter selections
 	deleteBreadcrumb(event, filterToBeDeleted = []) {
-		console.log("deleting breadcrumb");
+
 		if (event != '') {
 			this.filtersChangedInBreadcrumbBar = event.value + ":";
 			//@@@PDC-1418: Unable to clear breadcrumbs when the user clicks on breadcrumbs other than "Clear"
@@ -1805,8 +1741,7 @@ getCasesByExperimentalStrategy(){
 	// This function is used to navigate to a specific study
 	// when the user gets to this page from a different route
 	browseStudy(params: any) {
-		console.log('Switching tabs');
-		console.log(params);
+
 		if ( params.tab === 'genes') {
 			this.selectedTab = 4;
 		}else if ( params.tab === 'clinical') {
@@ -1821,7 +1756,6 @@ getCasesByExperimentalStrategy(){
 	}
 	//handle browse page 4 tables total count change action triggered by filters applied
 	totalRecordChanged(totalRecord:TableTotalRecordCount){
-		console.log(totalRecord);
 		let type = totalRecord.type;
 		let totalRecords = totalRecord.totalRecords
 		switch (type){
@@ -2020,17 +1954,17 @@ getCasesByExperimentalStrategy(){
 	private resizeTimeout: any;
 
 	private redrawCharts() {
-		console.log('Redrawing charts due to window resize');
-		
+
+
 		// Clear existing charts completely
 		d3.select("#analyticalFractionChart").selectAll("*").remove();
 		d3.select("#expCountChart").selectAll("*").remove();
 		d3.select("#diseaseTypesChart").selectAll("*").remove();
-		
+
 		// Remove any lingering tooltips
 		d3.selectAll('.bar-chart-tooltip').remove();
 		d3.selectAll('.charts-tooltip').remove();
-		
+
 		// Redraw charts with current data
 		setTimeout(() => {
 			if (this.analyticalFractionschartDataArr && this.analyticalFractionschartDataArr.length > 0) {
@@ -2047,7 +1981,7 @@ getCasesByExperimentalStrategy(){
 				}
 				this.createD3BarChart(dataJSON);
 			}
-			
+
 			if (this.experimentStrategyChartDataArr && this.experimentStrategyChartDataArr.length > 0) {
 				var dataJSON = {
 					chartName: "experiment types",
@@ -2062,7 +1996,7 @@ getCasesByExperimentalStrategy(){
 				}
 				this.createD3BarChart(dataJSON);
 			}
-			
+
 			// Redraw pie chart if data exists
 			if (this.diseasesData && this.diseasesData.length > 0) {
 				this.diseaseTypesChart = this.createD3PieChart(this.diseasesData);

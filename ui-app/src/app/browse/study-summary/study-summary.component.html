@@ -96,14 +96,14 @@
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding: 0 8px;">
             <span style="font-weight: 500; color: #333;">Genomics</span>
             <div class="tooltip-wrapper">
-              <span *ngIf="has_genomic_data" 
-                    class="badge badge-success" 
+              <span *ngIf="has_genomic_data"
+                    class="badge badge-success"
                     style="cursor: pointer; padding: 8px 12px; border-radius: 6px; font-size: 11px; background-color: #28a745; color: white; white-space: nowrap; min-width: 120px; text-align: center;"
                     (click)="selectTab(TAB_INDEXES.CLINICAL)">
                 Available - View Data
               </span>
-              <span *ngIf="!has_genomic_data" 
-                    class="badge badge-secondary" 
+              <span *ngIf="!has_genomic_data"
+                    class="badge badge-secondary"
                     style="padding: 8px 12px; border-radius: 6px; font-size: 11px; background-color: #6c757d; color: white; white-space: nowrap; min-width: 120px; text-align: center;">
                 Not Available
               </span>
@@ -116,14 +116,14 @@
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding: 0 8px;">
             <span style="font-weight: 500; color: #333;">Imaging</span>
             <div class="tooltip-wrapper">
-              <span *ngIf="has_imaging_data" 
-                    class="badge badge-success" 
+              <span *ngIf="has_imaging_data"
+                    class="badge badge-success"
                     style="cursor: pointer; padding: 8px 12px; border-radius: 6px; font-size: 11px; background-color: #28a745; color: white; white-space: nowrap; min-width: 120px; text-align: center;"
                     (click)="selectTab(TAB_INDEXES.CLINICAL)">
                 Available - View Data
               </span>
-              <span *ngIf="!has_imaging_data" 
-                    class="badge badge-secondary" 
+              <span *ngIf="!has_imaging_data"
+                    class="badge badge-secondary"
                     style="padding: 8px 12px; border-radius: 6px; font-size: 11px; background-color: #6c757d; color: white; white-space: nowrap; min-width: 120px; text-align: center;">
                 Not Available
               </span>
@@ -136,23 +136,23 @@
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding: 0 8px;">
             <span style="font-weight: 500; color: #333;">Lipidome</span>
             <div class="tooltip-wrapper" style="position: relative;">
-              <span *ngIf="has_lipidome_data" 
+              <span *ngIf="has_lipidome_data"
                     #lipidomeButton
-                    class="badge badge-success" 
+                    class="badge badge-success"
                     style="cursor: pointer; padding: 8px 12px; border-radius: 6px; font-size: 11px; background-color: #28a745; color: white; white-space: nowrap; min-width: 120px; text-align: center;"
                     (click)="toggleStudiesDropdown('lipidome', $event)">
                 Available - View Data ▼
               </span>
-              <span *ngIf="!has_lipidome_data" 
-                    class="badge badge-secondary" 
+              <span *ngIf="!has_lipidome_data"
+                    class="badge badge-secondary"
                     style="padding: 8px 12px; border-radius: 6px; font-size: 11px; background-color: #6c757d; color: white; white-space: nowrap; min-width: 120px; text-align: center;">
                 Not Available
               </span>
-              
+
               <!-- Dropdown for related lipidome studies -->
               <div *ngIf="showLipidomeDropdown" class="studies-dropdown" (click)="$event.stopPropagation()">
                 <div class="dropdown-header">Related Lipidomics Studies</div>
-                <div class="dropdown-item" 
+                <div class="dropdown-item"
                      *ngFor="let study of getLipidomeStudies()"
                      (click)="showStudySummary(study.reference_entity_location, '')">
                   <div class="study-name">{{study.submitter_id_name}}</div>
@@ -162,7 +162,7 @@
                   This study
                 </div>
               </div>
-              
+
               <span class="tooltip-text" *ngIf="has_lipidome_data">Click to view related lipidomics studies.</span>
               <span class="tooltip-text" *ngIf="!has_lipidome_data">No lipidomics data available.</span>
             </div>
@@ -172,23 +172,23 @@
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0; padding: 0 8px;">
             <span style="font-weight: 500; color: #333;">Metabolome</span>
             <div class="tooltip-wrapper" style="position: relative;">
-              <span *ngIf="has_metabolome_data" 
+              <span *ngIf="has_metabolome_data"
                     #metabolomeButton
-                    class="badge badge-success" 
+                    class="badge badge-success"
                     style="cursor: pointer; padding: 8px 12px; border-radius: 6px; font-size: 11px; background-color: #28a745; color: white; white-space: nowrap; min-width: 120px; text-align: center;"
                     (click)="toggleStudiesDropdown('metabolome', $event)">
                 Available - View Data ▼
               </span>
-              <span *ngIf="!has_metabolome_data" 
-                    class="badge badge-secondary" 
+              <span *ngIf="!has_metabolome_data"
+                    class="badge badge-secondary"
                     style="padding: 8px 12px; border-radius: 6px; font-size: 11px; background-color: #6c757d; color: white; white-space: nowrap; min-width: 120px; text-align: center;">
                 Not Available
               </span>
-              
+
               <!-- Dropdown for related metabolome studies -->
               <div *ngIf="showMetabolomeDropdown" class="studies-dropdown" (click)="$event.stopPropagation()">
                 <div class="dropdown-header">Related Metabolomics Studies</div>
-                <div class="dropdown-item" 
+                <div class="dropdown-item"
                      *ngFor="let study of getMetabolomeStudies()"
                      (click)="showStudySummary(study.reference_entity_location, '')">
                   <div class="study-name">{{study.submitter_id_name}}</div>
@@ -198,7 +198,7 @@
                   This study
                 </div>
               </div>
-              
+
               <span class="tooltip-text" *ngIf="has_metabolome_data">Click to view related metabolomics studies.</span>
               <span class="tooltip-text" *ngIf="!has_metabolome_data">No metabolomics data available.</span>
             </div>
@@ -240,7 +240,7 @@
 			</div>
 			<br>
 			<!--PDC-1084 description was not translated to HTML properly -->
-			<div style = "max-height:220px;overflow-y: auto;display: block!important;font-size: 14px; width: 100%;" *ngIf="studySummaryData.study_description" [innerHTML]="studySummaryData.study_description"></div>
+			<div class="study-description-content" style = "max-height:220px;overflow-y: auto;display: block!important;font-size: 14px; width: 100%;" *ngIf="studySummaryData.study_description" [innerHTML]="studySummaryData.study_description"></div>
 			<br>
 		</mat-tab>
 		<mat-tab>
@@ -621,7 +621,7 @@
 							<td style="word-wrap: break-word; white-space: normal;text-align: center" class="fixedWidthCol">
 								<!-- @@@PDC-1987: Update clinical tab to use new external reference API -->
 								<div *ngFor="let externalRef of clinicalData.externalReferences">
-									<a *ngIf="(externalRef.reference_resource_shortname | uppercase) !== 'TCIA'" [href]="externalRef.reference_entity_location" title="Go to genomic resource" target="_blank">
+									<a *ngIf="(externalRef.reference_resource_shortname | uppercase) !== 'TCIA' && (externalRef.reference_resource_shortname | uppercase) !== 'HCMI'" [href]="externalRef.reference_entity_location" title="Go to genomic resource" target="_blank">
 										{{displayTextforExternalID(clinicalData.external_case_id, externalRef.reference_entity_location)}}
 									</a>
 								</div>
@@ -629,7 +629,7 @@
               <td style="word-wrap: break-word; white-space: normal;text-align: center" class="fixedWidthCol">
                 <!-- @@@PDC-1987: Update clinical tab to use new external reference API -->
                 <div *ngFor="let externalRef of clinicalData.externalReferences">
-                  <a *ngIf="(externalRef.reference_resource_shortname | uppercase) === 'TCIA'" [href]="externalRef.reference_entity_location" title="Go to imaging resource" target="_blank">
+                  <a *ngIf="(externalRef.reference_resource_shortname | uppercase) === 'TCIA' || (externalRef.reference_resource_shortname | uppercase) === 'HCMI'" [href]="externalRef.reference_entity_location" title="Go to imaging resource" target="_blank">
                     {{displayTextforExternalID(clinicalData.external_case_id, externalRef.reference_entity_location)}}
                   </a>
                 </div>

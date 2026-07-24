@@ -37,7 +37,6 @@ export class BottomNavbarService {
       .valueChanges
       .pipe(
         map(result => {
-          console.log(result.data);
           return result.data;
         })
       );

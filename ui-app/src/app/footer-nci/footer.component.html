@@ -11,10 +11,10 @@
                   <div class="usa-footer__primary-link">About</div>
                   <ul class="usa-list usa-list--unstyled">
                     <li class="usa-footer__secondary-link">
-                      <a href="/pdc/about">About PDC</a>
+                      <a href="https://pdc-docs.cancer.gov/pdc-docs/home#about-the-proteomic-data-commons">About PDC</a>
                     </li>
                     <li class="usa-footer__secondary-link">
-                      <a href="/pdc/data-use-guidelines">Data Use</a>
+                      <a href="https://pdc-docs.cancer.gov/pdc-docs/home#data-use-guidelines">Data Use</a>
                     </li>
                   </ul>
                 </section>
@@ -118,8 +118,9 @@
   <div>
     <mat-toolbar-row class="mat-toolbar-row bottom-navbar-links title-center" style="height: 35px; font-size: 12px !important;"> Build Tag: {{releaseVersionsData.build_tag}}, Data Release: {{releaseVersionsData.data_release}} </mat-toolbar-row>
   </div>
+  <!-- PDC-10922 back to top navigation -->
   <div class="usa-footer__nci-return-to-top show" aria-label="Back to Top">
-    <a href="#top"><span>Back to Top</span></a>
+    <a href="javascript:void(0)" (click)="scrollToTop()"><span>Back to Top</span></a>
   </div>
 
 </footer>

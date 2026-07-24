@@ -311,6 +311,62 @@ p-tableCheckbox{
 	color: #333;
 }
 
+// Fix pagination arrow icons
+:host ::ng-deep .table-striped {
+	.p-paginator-bottom, .p-paginator-top {
+		padding-top: 5px;
+		border: 1px solid #ddd;
+		background: #ffffff;
+		opacity: 1;
+		color: #333;
+	}
+
+	.p-paginator-first:before {
+		content: "\f048";
+		font-family: "Font Awesome 5 Free";
+		font-weight: 900;
+	}
+
+	.p-paginator-last:before {
+		content: "\f051";
+		font-family: "Font Awesome 5 Free";
+		font-weight: 900;
+	}
+
+	.p-paginator-prev:before {
+		content: "\f0d9";
+		font-family: "Font Awesome 5 Free";
+		font-weight: 900;
+	}
+
+	.p-paginator-next:before {
+		content: "\f0da";
+		font-family: "Font Awesome 5 Free";
+		font-weight: 900;
+	}
+
+	.p-paginator-first, .p-paginator-last, .p-paginator-prev, .p-paginator-next {
+		svg {
+			display: none;
+		}
+	}
+
+	.p-dropdown-panel {
+		background: #ffffff;
+		opacity: 1;
+	}
+
+	.p-dropdown-items {
+		background: #ffffff;
+		opacity: 1;
+	}
+
+	.p-select-list {
+		background: #ffffff;
+		opacity: 1;
+	}
+}
+
 // PDC-620: Make the filter selection tabs along the left side of the window
 ::ng-deep {
 	/* .sideBarNavigation .mat-tab-label-container {

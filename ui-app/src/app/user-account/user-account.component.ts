@@ -156,7 +156,7 @@ export class UserAccountComponent implements OnInit {
     console.log(researcherType);
     let id_provider = this.userService.getUserIDType();
     console.log(id_provider);
-    console.log('Updating user data with email ' + this.registrationForm.get('email').value + ' name: ' + this.registrationForm.get('first_name').value + ' ' + this.registrationForm.get('last_name').value);
+
     this.userService.updateUserData(this.registrationForm.get('first_name').value, this.registrationForm.get('last_name').value,
       this.registrationForm.get('email').value, researcherType, id_provider,
       this.registrationForm.get('organization').value).subscribe(isUpdated => {
@@ -170,7 +170,7 @@ export class UserAccountComponent implements OnInit {
         this.dialogRef.close('submit button');
       } else {
         //Something went wrong with the registration
-        console.log('Registration failed!');
+
       }
     });
   }
@@ -192,11 +192,11 @@ export class UserAccountComponent implements OnInit {
         this.userService.cancelUser(this.userService.getUserName(), this.userService.getEmail(), this.userService.getUserType(),
           this.userService.getUserIDType(), this.userService.getOrganization()).subscribe(success => {
           if (success) {
-            console.log('User successfully deactivated their account');
+
 
             this.dialogRef.close('cancel account button');
           } else {
-            console.log('Failed to cancel account');
+
           }
         });
       }
@@ -222,7 +222,7 @@ export class UserAccountComponent implements OnInit {
           hasBackdrop: true,
           data: {message: 'Check your email for further instrutions'}
         });
-        console.log('An email with instructions to reset password was sent');
+
         this.dialogRef.close('Change password button');
       } else {
         this.systemErrorMessage = 'User does not exist.';
@@ -235,7 +235,7 @@ export class UserAccountComponent implements OnInit {
           hasBackdrop: true,
           data: {message: 'PDC user account with such email does not exist.'}
         });
-        console.log('User with such email ' + this.registrationForm.get('email').value + ' does not exist');
+
       }
     });
   }
@@ -254,7 +254,7 @@ export class UserAccountComponent implements OnInit {
           hasBackdrop: true,
           data: {message: 'Check your email for further instructions'}
         });
-        console.log('An email with instructions to reset password was sent');
+
         this.dialogRef.close('Change password button');
       } else {
         this.systemErrorMessage = 'User does not exist.';
@@ -267,7 +267,7 @@ export class UserAccountComponent implements OnInit {
           hasBackdrop: true,
           data: {message: 'Google user account with such email does not exist.'}
         });
-        console.log('User with such email ' + this.registrationForm.get('email').value + ' does not exist');
+
       }
     });
   }
@@ -291,7 +291,7 @@ export class UserAccountComponent implements OnInit {
           this.registrationForm.setValue({ email: result });
         } else {
           //Something went wrong with changing email
-          console.log('Failed to update email');
+
         }
       });
     });

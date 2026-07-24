@@ -310,7 +310,7 @@ export class HeatmapsComponent implements OnInit {
     this.router.navigate([{outlets: {studySummary: ['study-summary', study_name]}}], {skipLocationChange: true});
     const dialogRef = this.dialog.open(StudySummaryComponent, dialogConfig);
     dialogRef.afterClosed().subscribe((val: any) => {
-      console.log("Dialog output:", val);
+
       //@@@PDC-4924: Fix UI issues on Heatmaps page & filter stacking feature
       //When a user clicks on study name/study id in the Study table, the rows get misasligned.
       //Solution: Scroll the study name/id into viewport

@@ -45,7 +45,7 @@ export class HeatmapViewerComponent implements OnInit {
   selectedRowName = '';
   constructor( @Inject(DOCUMENT) private document: any, private analysisService: AnalysisService,
               private loc:Location, private route: ActivatedRoute, private router: Router) {
-	//@@@PDC-374 - assign auxiliary urls to overlay windows 	
+	//@@@PDC-374 - assign auxiliary urls to overlay windows
 	// There is an unresolved issue: Parentheses remains in URL when child auxiliary route outlet path is set to null
 	// https://github.com/angular/angular/issues/24656, therefore need this line of code to avoid still having auxiliary url
 	this.router.navigate([{outlets: {'studySummary': null}}], { queryParamsHandling: "merge", skipLocationChange: true });
@@ -65,10 +65,10 @@ export class HeatmapViewerComponent implements OnInit {
     this.selectedRowName = row_name;
     this.selectedMapTitle = title;
     this.selectedColName = col_name;
-    
+
     window.scrollTo(0, 0);
   }
-  
+
   //@@@PDC-3724 add handling for heatmap request from "Explore Quantitation Data" page (single map file passed as parameter)
   //@@@PDC-3804 process heatmap files for "Label Free" experiment type
   ngOnInit() {
@@ -95,7 +95,7 @@ export class HeatmapViewerComponent implements OnInit {
 			  }
 		  }
           const newMenu = [];
-          console.log('Parent Label:' + aMap['menu-label']);
+
           const parent_label = aMap['menu-label'];
 		  if (parentPushFlag) {
 			  this.map_files.push({
@@ -140,11 +140,11 @@ export class HeatmapViewerComponent implements OnInit {
       });
 	  console.log(this.map_files);
         // Display the first heatmap
-        
+
       this.onSelect(this.map_files[1].location, this.map_files[1].rowName, this.map_files[1].colName,
         this.map_files[1].label);
         window.scrollTo(0, 0);
     });
   }
-  
+
 }

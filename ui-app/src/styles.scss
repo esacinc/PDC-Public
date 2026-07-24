@@ -43,8 +43,8 @@
     position: absolute;
     top: -40px; /* Hide it off-screen initially */
     left: 0;
-    /*background-color: #000;*/
-    color: #fff;
+    background-color: transparent;
+    color: #212121;
     padding: 10px;
     text-decoration: none;
     z-index: 1000;
@@ -53,6 +53,8 @@
 
 .usa-skipnav:focus {
     top: 0; /* Bring it into view when focused */
+    background-color: #212121;
+    color: #fff;
 }
 
 /* LEFT align */

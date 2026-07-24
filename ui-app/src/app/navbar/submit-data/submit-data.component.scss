@@ -106,12 +106,26 @@ $header-height: 10.8rem;
 }
 
 .custom-link {
-    color: #0071bc; /* USWDS blue, adjust as needed */
+    color: #005ea2; /* Darker blue for better 508 compliance contrast */
     cursor: pointer;
-    font-weight: 500;
-    transition: color 0.2s;
+    font-weight: 400;
+    text-decoration: underline;
+    transition: color 0.2s, text-decoration 0.2s;
   }
 
   .custom-link:hover {
-    color: #005ea2; /* Slightly darker blue on hover */
+    color: #162e51; /* Even darker blue on hover */
+    text-decoration: underline;
+  }
+  .custom-link-nav {
+    color: #005ea2; /* Darker blue for better 508 compliance contrast */
+    cursor: pointer;
+    font-weight: 400;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .custom-link-nav:hover {
+    color: #162e51; /* Even darker blue on hover */
+    text-decoration: underline;
   }

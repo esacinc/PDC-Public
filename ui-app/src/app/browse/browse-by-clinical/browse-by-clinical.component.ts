@@ -1,6 +1,6 @@
 import {Apollo} from 'apollo-angular';
 
-import {Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild, ViewChildren} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild, ViewChildren, ChangeDetectorRef} from '@angular/core';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import {Router, ActivatedRoute, ParamMap} from '@angular/router';
 import {environment} from '../../../environments/environment';
@@ -57,6 +57,7 @@ export class BrowseByClinicalComponent implements OnInit {
   limit: number;
   pageSize: number;
   selectedClinicalData: AllClinicalData[] = [];
+  fullSelectedClinicalData: AllClinicalData[] = []; // Stores complete data for export with exposures/follow_ups/treatments
   cols: any[];
   exposureCols: any[];
   followUpCols: any[];
@@ -95,9 +96,12 @@ export class BrowseByClinicalComponent implements OnInit {
   @ViewChild('dataForManifestExport') dataForManifestExport;
   //@@@PDC-7110 fix checkbox update
   @ViewChildren('browsePageCheckboxes') browsePageCheckboxes;
+  // Track the current selection mode to handle async timing issues
+  currentSelectionMode = '';
 
   constructor(private apollo: Apollo, private router: Router, private dialog: MatDialog,
-              private browseByClinicalService: BrowseByClinicalService, private activatedRoute: ActivatedRoute) {
+              private browseByClinicalService: BrowseByClinicalService, private activatedRoute: ActivatedRoute,
+              private cdr: ChangeDetectorRef) {
     // Array which holds filter names. Must be updated when new filters are added to browse page.
     this.newFilterSelected = {
       "program_name": "",
@@ -242,7 +246,6 @@ export class BrowseByClinicalComponent implements OnInit {
       this.browseByClinicalService.getFilteredClinicalDataPaginatedPost(this.offset, this.limit, this.sort, this.newFilterSelected).pipe(take(1)).subscribe((data: any) => {
         this.filteredClinicalData = data.getPaginatedUIClinical.uiClinical;
         this.populateAssociatedSampleInfo(this.filteredClinicalData);
-        console.log("after populateAssociatedSampleInfo");
         if (this.offset === 0) {
           this.totalRecords = data.getPaginatedUIClinical.total;
           this.clinicalTotalRecordChanged.emit({type: 'clinical', totalRecords: this.totalRecords});
@@ -274,7 +277,7 @@ export class BrowseByClinicalComponent implements OnInit {
           this.newFilterSelected[filter_name] = "";
         }
       } else if (filter_field[0] === "Clear all clinical filters selections") {
-        //console.log(this.newFilterSelected);
+
         this.newFilterSelected["ethnicity"] = ""
         this.newFilterSelected["race"] = "";
         this.newFilterSelected["gender"] = "";
@@ -300,7 +303,7 @@ export class BrowseByClinicalComponent implements OnInit {
         this.newFilterSelected["sample_type"] = "";
         this.newFilterSelected["case_status"] = "";
       } else if (filter_field[0] === "Clear all general filters selections") {
-        //console.log(this.newFilterSelected);
+
         this.newFilterSelected["program_name"] = "";
         this.newFilterSelected["project_name"] = "";
         this.newFilterSelected["study_name"] = "";
@@ -351,13 +354,13 @@ export class BrowseByClinicalComponent implements OnInit {
       }
       this.offset = 0; //Reinitialize offset for each new filter value
       this.loading = true;
-      console.log("GET CLINICAL: " + this.newFilterSelected);
+
 
       this.browseByClinicalService.getFilteredClinicalDataPaginatedPost(this.offset, this.limit, this.sort, this.newFilterSelected).pipe(take(1)).subscribe((data: any) => {
         this.filteredClinicalData = data.getPaginatedUIClinical.uiClinical;
         console.log(data.getPaginatedUIClinical.uiClinical);
         this.populateAssociatedSampleInfo(this.filteredClinicalData);
-        console.log("after populateAssociatedSampleInfo");
+
 
         if (this.offset === 0) {
           this.totalRecords = data.getPaginatedUIClinical.total;
@@ -377,7 +380,7 @@ export class BrowseByClinicalComponent implements OnInit {
       if (this.downloadAllManifests != undefined) {
         this.manifestFormat = this.downloadAllManifests.split('*')[1];
       }
-      console.log(this.manifestFormat);
+
       if (changes['downloadAllManifests'] && changes['downloadAllManifests'].currentValue) {
         this.downloadCompleteManifest();
       }
@@ -414,25 +417,51 @@ export class BrowseByClinicalComponent implements OnInit {
         //@@@PDC-4931: Last row of Biospecimen and Clinical is not getting selected when the user use Select All Pages
         //Set limit as total_records + 1. getFilteredClinicalDataPaginated API returns total records if the limit is increased by 1.
         //@@@PDC-4490: Update Clinical manifest and Case summary pages for GDC Sync
-        this.browseByClinicalService.getFilteredClinicalDataPaginatedWithoutSubqueries(0, 0, this.sort, this.newFilterSelected, true).pipe(take(1)).subscribe((data: any) => {
+        //@@@PDC-10576-select-all-pages-not-capture-exposure-followup-treatment
+        // NEW VERSION - Use Post version to include exposure, followup, and treatment data for all cases
+        this.browseByClinicalService.getFilteredClinicalDataPaginatedPost(0, 0, this.sort, this.newFilterSelected, true).pipe(take(1)).subscribe((data: any) => {
+        // PREVIOUS VERSION - WithoutSubqueries version doesn't include exposure/followup/treatment data:
+        //this.browseByClinicalService.getFilteredClinicalDataPaginatedWithoutSubqueries(0, 0, this.sort, this.newFilterSelected, true).pipe(take(1)).subscribe((data: any) => {
           let filteredClinicalData = _.cloneDeep(data.getPaginatedUIClinical.uiClinical);
-          console.log(data);
-          console.log(data.getPaginatedUIClinical.uiClinical);
 
-          this.populateAssociatedSampleInfo(filteredClinicalData);
-          console.log("after populateAssociatedSampleInfo");
+          console.log(data.getPaginatedUIClinical.uiClinical);
+          console.log("filteredClinicalData");
+          console.log(filteredClinicalData);
+         
+
+          // Don't call populateAssociatedSampleInfo here - it would overwrite this.filteredClinicalData
+          // Just process the local data for export without affecting the current page display
+          filteredClinicalData = this.processAssociatedSampleInfoForExport(filteredClinicalData);
+
           let localSelectedClinical = [];
           for (let item of filteredClinicalData) {
             localSelectedClinical.push(item);
           }
 
-          console.log("Total clinical records for manifest: " + localSelectedClinical.length);
+
 
           if (buttonClick) {
-            this.selectedClinicalData = localSelectedClinical;
-            this.headercheckbox = true;
-            //@@@PDC-3667: "Select all pages" option issue
-            this.updateCurrentPageSelectedClinical(localSelectedClinical);
+            // Check if user has changed selection mode while API was in progress
+            console.log("downloadCompleteManifest callback - currentSelectionMode:", this.currentSelectionMode);
+            console.log("downloadCompleteManifest callback - selectedClinicalData.length before:", this.selectedClinicalData.length);
+            
+            if (this.currentSelectionMode === 'Select all pages') {
+              //@@@PDC-10776 - updates for multiple diagnosis data not exporting
+              this.fullSelectedClinicalData = _.cloneDeep(localSelectedClinical);
+    
+              // Assign reference for display - will be synced with current page objects for checkboxes
+              this.selectedClinicalData = localSelectedClinical;
+              this.headercheckbox = true;
+              //@@@PDC-3667: "Select all pages" option issue
+              this.updateCurrentPageSelectedClinical(localSelectedClinical);
+              // Replace selected items with current page objects for proper checkbox binding
+              // This modifies selectedClinicalData but won't affect fullSelectedClinicalData (separate copy)
+              this.syncSelectedDataWithCurrentPage();
+              
+            } else {
+              console.log("NOT updating selection - mode is:", this.currentSelectionMode);
+            }
+            // If mode changed, don't update selection - user's new choice takes precedence
             this.loading = false;
           } else {
             let headerCols = [];
@@ -505,6 +534,44 @@ export class BrowseByClinicalComponent implements OnInit {
     });
   }
 
+  // Sync selected data with current page objects for proper checkbox binding
+  // PrimeNG selection requires object references to match, so we replace
+  // items in selectedClinicalData with the actual objects from filteredClinicalData
+  syncSelectedDataWithCurrentPage() {
+    /* 
+    if (this.selectedClinicalData && this.selectedClinicalData.length > 0 && this.filteredClinicalData) {
+      for (let i = 0; i < this.filteredClinicalData.length; i++) {
+        let currentItem = this.filteredClinicalData[i];
+        let selectedIndex = this.selectedClinicalData.findIndex(
+          item => item.case_submitter_id === currentItem.case_submitter_id
+        );
+        if (selectedIndex > -1) {
+          // Replace with the actual object reference from filteredClinicalData
+          this.selectedClinicalData[selectedIndex] = currentItem;
+        }
+      }
+    }
+    */
+    
+    // @@@PDC-10653 - uses case_id (unique) instead of case_submitter_id to handle duplicates
+    if (this.selectedClinicalData && this.selectedClinicalData.length > 0 && this.filteredClinicalData) {
+  
+      const filteredDataMap = new Map();
+      for (let item of this.filteredClinicalData) {
+        if (item.case_id) {
+          filteredDataMap.set(item.case_id, item);
+        }
+      }
+      
+      for (let i = 0; i < this.selectedClinicalData.length; i++) {
+        const caseId = this.selectedClinicalData[i].case_id;
+        if (caseId && filteredDataMap.has(caseId)) {
+          this.selectedClinicalData[i] = filteredDataMap.get(caseId);
+        }
+      }
+    }
+  }
+
   /* Helper function to determine whether the download all button should be disabled or not */
   iscompleteManifestDisabled() {
     if (this.filtersSelected) {
@@ -558,10 +625,7 @@ export class BrowseByClinicalComponent implements OnInit {
     this.browseByClinicalService.getFilteredClinicalDataPaginatedPost(this.offset, this.limit, this.sort, this.newFilterSelected).pipe(take(1)).subscribe((data: any) => {
       this.filteredClinicalData = data.getPaginatedUIClinical.uiClinical;
 
-      console.log("Load data" + data.getPaginatedUIClinical.total);
-      console.log("before populateAssociatedSampleInfo");
       this.populateAssociatedSampleInfo(this.filteredClinicalData);
-      console.log("after populateAssociatedSampleInfo");
 
       if (this.offset == 0) {
         this.totalRecords = data.getPaginatedUIClinical.total;
@@ -573,6 +637,8 @@ export class BrowseByClinicalComponent implements OnInit {
       //Page size should be available for all offsets
       this.pageSize = data.getPaginatedUIClinical.pagination.size;
       this.trackCurrentPageSelectedCase(data.getPaginatedUIClinical.uiClinical);
+      // Sync object references for proper checkbox binding
+      this.syncSelectedDataWithCurrentPage();
       if (this.pageHeaderCheckBoxTrack.indexOf(this.offset) !== -1) {
         this.headercheckbox = true;
       } else {
@@ -598,14 +664,12 @@ export class BrowseByClinicalComponent implements OnInit {
         if (clinicalRecord.samples && clinicalRecord.samples.length > 0) {
           //@@@PDC-6397 handle multiple samples
           if (clinicalRecord.samples[0].sample_submitter_id == null) {
-            console.log("No Sample associated");
+
             // Create a new clinical record with samples set to null
             updatedRecord = Object.assign({}, clinicalRecord, {samples: null});
           } else if (clinicalRecord.samples[0].sample_submitter_id.includes('|')) {
-            console.log("Multi Samples found: " + clinicalRecord.samples[0].sample_submitter_id);
             let tempSamples = clinicalRecord.samples[0].sample_submitter_id.split("|");
             let newAnnotation = "Samples of " + tempSamples.join(" and ") + " are associated with this clinical record. "
-            console.log("Annotation for multi samples: " + newAnnotation);
             // Create new sample with annotation
             const updatedSample = Object.assign({}, clinicalRecord.samples[0], {annotation: newAnnotation});
             const updatedSamples = Array.from(clinicalRecord.samples.map((sample, idx) =>
@@ -614,7 +678,6 @@ export class BrowseByClinicalComponent implements OnInit {
             // Create new clinical record with updated samples
             updatedRecord = Object.assign({}, clinicalRecord, {samples: updatedSamples});
           } else if (!clinicalRecord.samples[0].annotation) {
-            console.log("Add annotation for " + clinicalRecord.samples[0].sample_submitter_id);
             // Create new sample with annotation
             const updatedSample = Object.assign({}, clinicalRecord.samples[0], {
               annotation: "The sample " + clinicalRecord.samples[0].sample_submitter_id + " is associated with this clinical record."
@@ -647,14 +710,61 @@ export class BrowseByClinicalComponent implements OnInit {
           associatedsampleIds_test['annotation'] = associatedSamples[key]['annotation'];
         }
         arr_test.push(associatedsampleIds_test);
-        console.log("samples to display 523: "+associatedSamples[key]['sample_submitter_id']);
+
         arr.push(associatedSamples[key]['sample_submitter_id']);
       }
       let associatedsampleIds = arr.join(", ");
-      console.log("sample IDs to display: "+associatedsampleIds);
+
       filteredClinicalData[i]['samples'] = arr_test;
-      console.log("sample IDs formatted: "+filteredClinicalData[i]['samples']);
+
     }*/
+  }
+
+  //@@@PDC-5206: Process sample info without updating this.filteredClinicalData (for export only)
+  processAssociatedSampleInfoForExport(filteredClinicalData) {
+    if (filteredClinicalData.length > 0) {
+      // Create a new array instead of modifying the existing read-only array
+      const updatedClinicalData = [];
+
+      for (let index = 0; index < filteredClinicalData.length; index++) {
+        const clinicalRecord = filteredClinicalData[index];
+        let updatedRecord = clinicalRecord;
+
+        if (clinicalRecord.samples && clinicalRecord.samples.length > 0) {
+          //@@@PDC-6397 handle multiple samples
+          if (clinicalRecord.samples[0].sample_submitter_id == null) {
+            // Create a new clinical record with samples set to null
+            updatedRecord = Object.assign({}, clinicalRecord, {samples: null});
+          } else if (clinicalRecord.samples[0].sample_submitter_id.includes('|')) {
+            let tempSamples = clinicalRecord.samples[0].sample_submitter_id.split("|");
+            let newAnnotation = "Samples of " + tempSamples.join(" and ") + " are associated with this clinical record. "
+            // Create new sample with annotation
+            const updatedSample = Object.assign({}, clinicalRecord.samples[0], {annotation: newAnnotation});
+            const updatedSamples = Array.from(clinicalRecord.samples.map((sample, idx) =>
+              idx === 0 ? updatedSample : Object.assign({}, sample)
+            ));
+            // Create new clinical record with updated samples
+            updatedRecord = Object.assign({}, clinicalRecord, {samples: updatedSamples});
+          } else if (!clinicalRecord.samples[0].annotation) {
+            // Create new sample with annotation
+            const updatedSample = Object.assign({}, clinicalRecord.samples[0], {
+              annotation: "The sample " + clinicalRecord.samples[0].sample_submitter_id + " is associated with this clinical record."
+            });
+            const updatedSamples = Array.from(clinicalRecord.samples.map((sample, idx) =>
+              idx === 0 ? updatedSample : Object.assign({}, sample)
+            ));
+            // Create new clinical record with updated samples
+            updatedRecord = Object.assign({}, clinicalRecord, {samples: updatedSamples});
+          }
+        }
+
+        updatedClinicalData.push(updatedRecord);
+      }
+
+      // Return the new array WITHOUT updating this.filteredClinicalData
+      return updatedClinicalData;
+    }
+    return filteredClinicalData;
   }
 
   //@@@PDC-4490: Update Clinical manifest and Case summary pages for GDC Sync
@@ -667,9 +777,12 @@ export class BrowseByClinicalComponent implements OnInit {
         let case_submitter_id = followUpDataRow['case_submitter_id'];
         let follow_ups = followUpDataRow['follow_ups'];
         if (filteredClinicalData.length > 0) {
-          let recFound = filteredClinicalData.find(x => x.case_submitter_id == case_submitter_id);
-          if (recFound) {
-            recFound['follow_ups'] = follow_ups;
+          //@@@PDC-10776 - updates for multiple diagnosis data not exporting
+          let recsFound = filteredClinicalData.filter(x => x.case_submitter_id == case_submitter_id);
+          for (let recFound of recsFound) {
+            if (recFound) {
+              recFound['follow_ups'] = follow_ups;
+            }
           }
         }
       }
@@ -681,17 +794,23 @@ export class BrowseByClinicalComponent implements OnInit {
         let case_submitter_id = exposureDataRow['case_submitter_id'];
         let exposures = exposureDataRow['exposures'];
         if (filteredClinicalData.length > 0) {
-          let recFound = filteredClinicalData.find(x => x.case_submitter_id == case_submitter_id);
-          if (recFound) {
-            recFound['exposures'] = exposures;
-            Object.keys(exposureDataRow).forEach(function (key) {
-              if (!['exposures', 'follow_ups', 'externalReferences', '__typename', 'case_submitter_id'].includes(key)) {
-                recFound[key] = exposureDataRow[key];
-              }
-              if (!recFound) {
-                filteredClinicalData[key] = null;
-              }
-            });
+          // Use filter() instead of find() to handle multiple diagnosis records per case
+          let recsFound = filteredClinicalData.filter(x => x.case_submitter_id == case_submitter_id);
+          for (let recFound of recsFound) {
+            if (recFound) {
+              recFound['exposures'] = exposures;
+              // Only copy case-level demographic fields, not diagnosis-specific fields
+              // Diagnosis-specific fields like diagnosis_uuid, diagnosis_is_primary_disease, etc should NOT be copied
+              const caseLevelFields = ['ethnicity', 'gender', 'race', 'vital_status', 'cause_of_death', 
+                                       'days_to_birth', 'days_to_death', 'year_of_birth', 'year_of_death',
+                                       'age_at_index', 'premature_at_birth', 'weeks_gestation_at_birth', 
+                                       'occupation_duration_years', 'country_of_residence_at_enrollment'];
+              Object.keys(exposureDataRow).forEach(function (key) {
+                if (caseLevelFields.includes(key)) {
+                  recFound[key] = exposureDataRow[key];
+                }
+              });
+            }
           }
         }
       }
@@ -703,16 +822,21 @@ export class BrowseByClinicalComponent implements OnInit {
       if (clinicalDataRow && clinicalDataRow['case_submitter_id']) {
         let case_submitter_id = clinicalDataRow['case_submitter_id'];
         if (filteredClinicalData.length > 0) {
-          let recFound = filteredClinicalData.find(x => x.case_submitter_id == case_submitter_id);
-          if (recFound) {
-            Object.keys(clinicalDataRow).forEach(function (key) {
-              if (!['exposures', 'follow_ups', 'externalReferences', '__typename', 'case_submitter_id'].includes(key)) {
-                recFound[key] = clinicalDataRow[key];
-              }
-              if (!recFound) {
-                filteredClinicalData[key] = null;
-              }
-            });
+          // Use filter() instead of find() to handle multiple diagnosis records per case
+          let recsFound = filteredClinicalData.filter(x => x.case_submitter_id == case_submitter_id);
+          for (let recFound of recsFound) {
+            if (recFound) {
+              // Only copy case-level fields, not diagnosis-specific fields
+              const caseLevelFields = ['ethnicity', 'gender', 'race', 'vital_status', 'cause_of_death',
+                                       'days_to_birth', 'days_to_death', 'year_of_birth', 'year_of_death',
+                                       'age_at_index', 'premature_at_birth', 'weeks_gestation_at_birth',
+                                       'occupation_duration_years', 'country_of_residence_at_enrollment'];
+              Object.keys(clinicalDataRow).forEach(function (key) {
+                if (caseLevelFields.includes(key)) {
+                  recFound[key] = clinicalDataRow[key];
+                }
+              });
+            }
           }
         }
       }
@@ -817,39 +941,70 @@ export class BrowseByClinicalComponent implements OnInit {
 
   //@@@PDC-1063: Implement select all, select page, select none for all tabs
   changeHeaderCheckbox($event) {
+    console.log("changeHeaderCheckbox called with:", this.selectedHeaderCheckbox);
     let checkboxVal = this.selectedHeaderCheckbox;
-    this.selectedClinicalData = this.currentPageSelectedClinical = [];
+    // Update the current selection mode
+    this.currentSelectionMode = checkboxVal;
+    
     switch (checkboxVal) {
       case 'Select all pages':
+        console.log("Executing Select all pages");
+        // Clear first, then select all (use new array references)
+        this.selectedClinicalData = [];
+        this.currentPageSelectedClinical = [];
+        this.fullSelectedClinicalData = [];
         this.downloadCompleteManifest(true);
         break;
       case 'Select this page':
+        console.log("Executing Select this page");
+        // Clear all selections and select only current page
+        this.selectedClinicalData = [];
+        this.currentPageSelectedClinical = [];
+        this.fullSelectedClinicalData = [];
+        this.pageHeaderCheckBoxTrack = [];
         this.headercheckbox = true;
-        this.onTableHeaderCheckboxToggle();
+        // Select only items from current page - don't copy from selectedClinicalData
+        this.selectCurrentPageOnly();
         break;
       case 'Select None':
+        console.log("Executing Select None");
         this.clearSelection();
         break;
     }
+    
+    // Reset dropdown to allow fresh selection next time
+    setTimeout(() => {
+      this.selectedHeaderCheckbox = '';
+    }, 100);
+  }
+
+  // Helper method to select only the current page items
+  selectCurrentPageOnly() {
+    console.log("selectCurrentPageOnly - filteredClinicalData.length:", this.filteredClinicalData.length);
+    let localSelectedClinical = [];
+    for (let item of this.filteredClinicalData) {
+      localSelectedClinical.push(item);
+      this.currentPageSelectedClinical.push(item.case_submitter_id);
+    }
+    this.selectedClinicalData = [...localSelectedClinical];
+    // Sync references for PrimeNG binding
+    this.syncSelectedDataWithCurrentPage();
+    console.log("After Select this page, selectedClinicalData.length:", this.selectedClinicalData.length);
+    // Force Angular change detection to update UI
+    this.cdr.detectChanges();
+    
+    // Double-check after a tick to see if something overwrites it
+    setTimeout(() => {
+      console.log("selectedClinicalData.length after timeout:", this.selectedClinicalData.length);
+    }, 100);
   }
 
   //@@@PDC-7012 improve browse checkbox intuitiveness
   triggerchangeHeaderCheckbox($event) {
     //@@@PDC-7110 - fix checkbox update - check the selection and then set checkbox accordingly
-    let checkboxVal = this.selectedHeaderCheckbox;
-    this.selectedClinicalData = this.currentPageSelectedClinical = [];
-    switch (checkboxVal) {
-      case 'Select all pages':
-        this.downloadCompleteManifest(true);
-        break;
-      case 'Select this page':
-        this.headercheckbox = true;
-        this.onTableHeaderCheckboxToggle();
-        break;
-      case 'Select None':
-        this.clearSelection();
-        break;
-    }
+    // Only check checkbox states and open dropdown - don't execute selection logic
+    // Selection logic is handled by changeHeaderCheckbox when user actually selects from dropdown
+
     //@@@PDC-7110 - check if there are unchecked checkboxes in table - if so then deselect checkbox
     let found = this.browsePageCheckboxes._results.some(el => el.checked === false);
     if (found == false) {
@@ -862,11 +1017,14 @@ export class BrowseByClinicalComponent implements OnInit {
 
   //@@@PDC-7109 improve browse checkbox intuitiveness - bug where 'Select None' remained checked when selected
   chkBoxSelectionCheck(selectedOption) {
+    console.log("chkBoxSelectionCheck called with:", selectedOption);
     if (selectedOption == 'Select None') {
       this.headercheckbox = false;
       this.dataForManifestExport.close();
     } else {
       this.headercheckbox = true;
+      // Close dropdown after selection for all options
+      this.dataForManifestExport.close();
     }
   }
 
@@ -1192,7 +1350,12 @@ export class BrowseByClinicalComponent implements OnInit {
       colValues.push(this.cols[i]['field']);
     }
     let exportData = [];
-    exportData = this.addGenomicImagingDataToExportManifest(this.selectedClinicalData);
+    // Use fullSelectedClinicalData if available (from "Select All Pages"), otherwise use selectedClinicalData
+    let dataToExport = this.fullSelectedClinicalData.length > 0 ? this.fullSelectedClinicalData : this.selectedClinicalData;
+    console.log('CSV Export - Using fullSelectedClinicalData?', this.fullSelectedClinicalData.length > 0);
+    console.log('CSV Export - Data to export length:', dataToExport.length);
+    console.log('CSV Export - First item:', dataToExport[0]);
+    exportData = this.addGenomicImagingDataToExportManifest(dataToExport);
     let exportFileObject = JSON.parse(JSON.stringify(exportData, colValues));
     //@@@PDC-4260: Update clinical manifest to include new clinical data fields
     this.prepareDownloadData("csv", exportData, exportFileObject);
@@ -1205,7 +1368,11 @@ export class BrowseByClinicalComponent implements OnInit {
     for (var i = 0; i < this.cols.length; i++) {
       colValues.push(this.cols[i]['field']);
     }
-    exportData = this.addGenomicImagingDataToExportManifest(this.selectedClinicalData);
+    // Use fullSelectedClinicalData if available (from "Select All Pages"), otherwise use selectedClinicalData
+    let dataToExport = this.fullSelectedClinicalData.length > 0 ? this.fullSelectedClinicalData : this.selectedClinicalData;
+    console.log('TSV Export - Using fullSelectedClinicalData?', this.fullSelectedClinicalData.length > 0);
+    console.log('TSV Export - Data to export length:', dataToExport.length);
+    exportData = this.addGenomicImagingDataToExportManifest(dataToExport);
     let exportFileObject = JSON.parse(JSON.stringify(exportData, colValues));
     //@@@PDC-4260: Update clinical manifest to include new clinical data fields
     this.prepareDownloadData("tsv", exportData, exportFileObject);
@@ -1288,6 +1455,7 @@ export class BrowseByClinicalComponent implements OnInit {
     exportData = _.cloneDeep(manifestData);
     for (var i = 0; i < exportData.length; i++) {
       let externalResources = exportData[i]["externalReferences"];
+      //@@@PDC-10776-not exporting multiple diagnosis records in manifest download
       let genomicImagingData = "";
       if (typeof externalResources !== 'undefined' && externalResources !== null && externalResources.length > 0) {
         //Sort the external references as per reference_resource_shortname
@@ -1300,14 +1468,27 @@ export class BrowseByClinicalComponent implements OnInit {
       exportData[i]["genomicImagingData"] = genomicImagingData;
       let associatedSamples = exportData[i]["samples"];
       //@@PDC-6542 - clinical manifest download broken
-      if (associatedSamples != null) {
+      if (associatedSamples != null && Array.isArray(associatedSamples) && associatedSamples.length > 0 && associatedSamples[0]) {
         //@@PDC-5414-add-annotation-information
-        exportData[i]["samples"] = "Samples: " + associatedSamples[0]['sample_submitter_id'];
-        exportData[i]["sample_annotation"] = associatedSamples[0]['annotation'];
+        // Check if sample_submitter_id and annotation exist before accessing them
+        let sampleId = associatedSamples[0]['sample_submitter_id'];
+        let annotation = associatedSamples[0]['annotation'];
+        //@@@PDC-10774 - fix misalignment of sample annotation in manifest download
+        if (sampleId) {
+          exportData[i]["samples"] = "Samples: " + sampleId;
+        } else {
+          exportData[i]["samples"] = " ";
+        }
+        
+        if (annotation) {
+          exportData[i]["sample_annotation"] = annotation;
+        } else {
+          exportData[i]["sample_annotation"] = " ";
+        }
       } else {
         //@@PDC-5519 - if no sample annotation values in manifest shift left
+        exportData[i]["samples"] = " ";
         exportData[i]["sample_annotation"] = " ";
-
       }
     }
     return exportData;
@@ -1353,8 +1534,10 @@ export class BrowseByClinicalComponent implements OnInit {
 
   //@@@PDC-848 Fix headercheckbox issue for data tables on browse page
   onTableHeaderCheckboxToggle() {
-    let emptyArray = [];
-    let localSelectedClinical = emptyArray.concat(this.selectedClinicalData);
+    console.log("onTableHeaderCheckboxToggle");
+    let localSelectedClinical = [...this.selectedClinicalData];
+    console.log("Current selectedClinicalData: " + this.selectedClinicalData.length);
+    console.log("Current localSelectedClinical: " + localSelectedClinical.length);
     if (this.headercheckbox) {
       for (let item of this.filteredClinicalData) {
         //@@PDC-5362-download-clinical-manifest-not-including-multiple-diagnosis-records
@@ -1363,7 +1546,8 @@ export class BrowseByClinicalComponent implements OnInit {
           this.currentPageSelectedClinical.push(item.case_submitter_id);
         }
       }
-      this.selectedClinicalData = localSelectedClinical;
+      // Force new array reference for Angular change detection
+      this.selectedClinicalData = [...localSelectedClinical];
     } else {
       //@@@PDC-3667: "Select all pages" option issue
       for (let biospecimen of this.currentPageSelectedClinical) {
@@ -1410,6 +1594,8 @@ export class BrowseByClinicalComponent implements OnInit {
     if (index > -1) {
       this.currentPageSelectedClinical.splice(index, 1);
     }
+    // Clear full selected data since selection has changed
+    this.fullSelectedClinicalData = [];
     //@@@PDC-3667: "Select all pages" option issue
     this.handleCheckboxSelections();
   }
@@ -1434,10 +1620,14 @@ export class BrowseByClinicalComponent implements OnInit {
 
   //@@@PDC-848 Fix headercheckbox issue for data tables on browse page
   private clearSelection() {
+    // Create new empty arrays to ensure Angular's change detection picks up the change
+    // This is especially important for PrimeNG table's selection binding
     this.selectedClinicalData = [];
-    this.headercheckbox = false;
+    this.fullSelectedClinicalData = [];
     this.currentPageSelectedClinical = [];
     this.pageHeaderCheckBoxTrack = [];
+    this.headercheckbox = false;
+    this.currentSelectionMode = '';
   }
 
   //@@@PDC-848 Fix headercheckbox issue for data tables on browse page

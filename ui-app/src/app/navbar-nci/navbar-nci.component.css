@@ -205,9 +205,10 @@ pointer-events: auto !important;
   line-height: 40px;
   vertical-align: middle;
   font-size: 1rem;
+  color: #212121;
   display: flex;
   align-items: center;
-  border: 1.5px solid #bdbdbd;
+  border: 1.5px solid #767676;
   border-radius: 6px;
   outline: none;
   background: #fff;
@@ -218,13 +219,35 @@ pointer-events: auto !important;
   border-color: #1976d2;
 }
 
+/* Placeholder text contrast for 508 compliance - 7:1 ratio */
+.search-input::placeholder {
+  color: #595959;
+  opacity: 1;
+}
+
+.search-input::-webkit-input-placeholder {
+  color: #595959;
+  opacity: 1;
+}
+
+.search-input::-moz-placeholder {
+  color: #595959;
+  opacity: 1;
+}
+
+.search-input:-ms-input-placeholder {
+  color: #595959;
+  opacity: 1;
+}
+
 .search-icon {
   position: absolute;
   left: 10px;
   top: 50%;
   transform: translateY(-50%);
-  color: #aaa;
+  color: #595959;
   font-size: 1.2em;
+  font-weight: 500;
   pointer-events: none;
   z-index: 2;
   display: flex;
@@ -248,7 +271,8 @@ pointer-events: auto !important;
 
 .search-clear-button mat-icon {
   font-size: 1.2em;
-  color: #aaa;
+  color: #595959;
+  font-weight: 500;
   vertical-align: middle;
 }
 
@@ -275,6 +299,7 @@ pointer-events: auto !important;
 }
 
 /* Mobile Navigation Styles */
+/* @@@@PDC-10695-minor-ui-updates */
 .nci-header-mobilenav__open-btn {
   display: none;
   background: #004971;
@@ -287,7 +312,7 @@ pointer-events: auto !important;
   font-weight: 500;
   border-radius: 4px;
   position: relative;
-  z-index: 1001; /* Higher than mobile nav */
+  z-index: 500; /* Below overlay windows but above normal content */
   transition: all 0.3s ease;
 }
 

@@ -174,7 +174,7 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
 			}
 		}
 		else if (filter_field[0] === "Clear all clinical filters selections"){
-			//console.log(this.newFilterSelected);
+
 			this.newFilterSelected["ethnicity"] = ""
 			this.newFilterSelected["race"] = "";
 			this.newFilterSelected["gender"] = "";
@@ -201,7 +201,7 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
 			this.newFilterSelected["case_status"] = "";
 		}
 		else if (filter_field[0] === "Clear all general filters selections"){
-			//console.log(this.newFilterSelected);
+
 			this.newFilterSelected["program_name"] = "";
 			this.newFilterSelected["project_name"] = "";
 			this.newFilterSelected["study_name"] = "";
@@ -275,7 +275,7 @@ export class BrowseByCaseComponent implements OnInit, OnChanges {
 			if (this.downloadAllManifests != undefined){
 				this.manifestFormat = this.downloadAllManifests.split('*')[1];
 			}
-			console.log(this.manifestFormat);
+
 			if (changes['downloadAllManifests'] && changes['downloadAllManifests'].currentValue) {
 				this.downloadCompleteManifest();
 			}

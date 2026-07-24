@@ -84,8 +84,8 @@ export class GeneProteinSummaryComponent implements OnInit {
 	this.gene_id = geneProteinData.summaryData;
 	this.ncbi_gene_id = geneProteinData.ncbi;
 	this.uuid = geneProteinData.uuid;
-	console.log("ncbi: "+this.ncbi_gene_id);
-	console.log("uuid: "+this.uuid);
+
+
 	//@@@PDC-7786: UI change to report error for genes not used in studies
 	this.geneProteinSummaryService.getGeneStudyCountResults(this.uuid).subscribe((geneData: any) => {
         let geneStudyCount = geneData.geneStudyCount;
@@ -139,9 +139,9 @@ export class GeneProteinSummaryComponent implements OnInit {
 		  this.geneProteinSummaryService.getGeneDetailsNcbi(this.gene_id, this.uuid, this.source).subscribe((data: any) =>{
 		  //this.geneProteinSummaryService.getGeneDetails(this.gene_id, this.source).subscribe((data: any) =>{
 			this.geneSummaryData = data.uiGeneSpectralCount;
-			console.log("gene detail: "+ this.geneSummaryData);
+
 			this.uuid = this.geneSummaryData.gene_id;
-			console.log("gene uuid: "+ this.uuid);
+
 			this.loadingGeneSummary = false;
 		  });
 	  }, 1000);
@@ -161,7 +161,7 @@ export class GeneProteinSummaryComponent implements OnInit {
 			this.loadingAliquotRecords = false;
 		  },
 		  err => {
-			  console.log("ERROR!!!!Loading data took too long");
+
 			  this.aliquotSpectralCountLoadError = "Loading data took too long, please, close the overlay gene summary window and open it again.";
 			  this.loadingAliquotRecords = false; //If loading data takes too much time and fails, need to stop spinning wheel
 		  });
@@ -235,7 +235,7 @@ export class GeneProteinSummaryComponent implements OnInit {
 	  //this.ptmLimit = event.rows;
 	  this.lodingPTMData = true;
 	  //this.geneProteinSummaryService.getGenePTMData(this.gene_id, this.ptmOffset, this.ptmLimit, this.source).subscribe((data: any) =>{
-	  console.log("loadPTM: "+ this.uuid);	  
+
 	  this.geneProteinSummaryService.getGeneUuidPTMData(this.gene_id, this.uuid, this.ptmOffset, this.ptmLimit, this.source).subscribe((data: any) =>{
 			this.genePTMData = data.getPaginatedUIPtm.uiPtm;
 			if (this.ptmOffset == 0) {

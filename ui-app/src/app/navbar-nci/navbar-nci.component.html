@@ -36,8 +36,10 @@
             <mat-icon>search</mat-icon>
           </span>
           <form (submit)="onSubmit()" class="navbar-search-form">
+            <label for="nci-search-input" class="sr-only">Search for genes, cases, or studies</label>
             <input
               type="text"
+              id="nci-search-input"
               placeholder="e.g. BRCC3, 05BR003, kinase, PDC000123, phs000892"
               class="search-input"
               [(ngModel)]="searchTerm"
@@ -46,6 +48,7 @@
               (blur)="hideDropdown()"
               name="search"
               autocomplete="off"
+              aria-label="Search for genes, cases, or studies"
             />
             <ul *ngIf="showDropdown && filteredOptions.length > 0" class="custom-dropdown">
               <li
@@ -54,7 +57,7 @@
                 class="dropdown-item"
                 [innerHtml]="option.name | searchStyle: searchTerm"></li>
             </ul>
-            <button aria-label="Clear" type="button" (click)="clearSearch()" class="search-clear-button" style="margin-top:5px;">
+            <button aria-label="Clear search" type="button" (click)="clearSearch()" class="search-clear-button" style="margin-top:5px;">
               <mat-icon>close</mat-icon>
             </button>
           </form>
@@ -152,11 +155,11 @@
    >
               <ul class="nci-megamenu__list">
                 <li class="nci-megamenu__list-item">
-                  <a class="nci-megamenu__list-item-link" *ngIf="section.headerLink && !isFunction(section.headerLink)  && !section.exitDisclaimer && !section.newTab" href="{{section.headerLink}}">{{section.header}}</a>
+                  <a class="nci-megamenu__list-item-link" *ngIf="section.headerLink && !isFunction(section.headerLink)  && !section.exitDisclaimer && !section.newTab" href="{{section.headerLink}}" target="_blank">{{section.header}}</a>
                   <a class="nci-megamenu__list-item-link" *ngIf="section.headerLink && !isFunction(section.headerLink) && (section.exitDisclaimer || section.newTab)" href="{{section.headerLink}}" target="_blank">{{section.header}}</a>
                   <a *ngIf="section.exitDisclaimer" matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_blank" class="exit-link" style="margin-left: 4px;">
                     <i class="fas fa-external-link-alt"></i>
-                    <span style="display: none">External Link</span>
+                    <span class="sr-only">External Link</span>
                   </a>
                   <button class="nci-megamenu__list-item-link" *ngIf="(section.header !== 'Access Submission Workspace') && section.headerLink && isFunction(section.headerLink)"
                          (click)="callFunction(section.headerLink)" style="color: white;text-align: left;">
@@ -205,7 +208,7 @@
           <a *ngIf="item.directLink"
              href="{{item.href}}"
              class="mobile-nav__link"
-             (click)="closeMobileMenu()">
+             (click)="closeMobileMenu()" >
             {{ item.label }}
           </a>
 
@@ -224,7 +227,7 @@
                   <h3 class="mobile-nav__section-title" *ngIf="section.header">
                     <a *ngIf="section.headerLink && !isFunction(section.headerLink)"
                        href="{{section.headerLink}}"
-                       (click)="closeMobileMenu()">
+                       (click)="closeMobileMenu()" >
                       {{section.header}}
                     </a>
                     <button *ngIf="section.headerLink && isFunction(section.headerLink)"
@@ -237,7 +240,7 @@
                     <li class="mobile-nav__sublist-item" *ngFor="let sublink of section.sublinks">
                       <a class="mobile-nav__sublist-link"
                          href="/{{sublink}}"
-                         (click)="closeMobileMenu()">
+                         (click)="closeMobileMenu()" >
                         {{sublink}}
                       </a>
                     </li>

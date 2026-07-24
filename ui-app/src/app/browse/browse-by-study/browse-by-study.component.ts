@@ -147,16 +147,16 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
   //@PDC-8153 fix study delection
   onSelectionChange(event){
     let currentDate = new Date();
-    console.log("selection change");
-    console.log(Math.floor(currentDate.getTime()/1000));
-    console.log(event);
+
+    //console.log(Math.floor(currentDate.getTime()/1000));
+
 
     this.selectedStudies = [...event]; // Always update selectedStudies for template binding
     this.keepSelectedStudies = [...event];
     this.selectedDate = currentDate;
 
     if(this.selectedStudies.length === this.totalRecords){
-      console.log("equal");
+
       this.headercheckbox = true;
     } else {
       this.headercheckbox = false;
@@ -180,7 +180,7 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
     this.router.navigate([{outlets: {studySummary: ['study-summary', this.filteredStudiesData[study_index].submitter_id_name]}}], { skipLocationChange: true });
     const dialogRef = this.dialog.open(StudySummaryComponent, dialogConfig);
     dialogRef.afterClosed().subscribe((val:any) => {
-      console.log("Dialog output:", val);
+
       //@@@PDC-4806: Alignment issue in some resolutions
       //When a user clicks on study name/study id in the Study table, the rows get misasligned.
       //Solution: Scroll the study name/id into viewport
@@ -407,14 +407,14 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
       else {
         this.newFilterSelected[filter_field[0]] = filter_field[1];
       }
-      console.log("Study Filter Value: "+ this.newFilterSelected[filter_field[0]]);
+
       this.offset = 0; //Reinitialize offset for each new filter value
       this.loading = true;
       //@@@PDC-799: Redirecting to the NIH login page for the file authorization loses PDC state
       //If its a fence request, set filters from local storage
       var selectedFiltersForBrowse = JSON.parse(localStorage.getItem("selectedFiltersForBrowse"));
       if (this.fenceRequest && selectedFiltersForBrowse) {
-        console.log("IN fence request ");
+
         for (var i=0;i<this.allFilterCategory.length;i++) {
           if (selectedFiltersForBrowse[this.allFilterCategory[i]]) {
             var filterName = this.allFilterCategory[i];
@@ -459,7 +459,7 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
       if (this.downloadAllManifests != undefined){
         this.manifestFormat = this.downloadAllManifests.split('*')[1];
       }
-      console.log(this.manifestFormat);
+
       if (changes['downloadAllManifests'] && changes['downloadAllManifests'].currentValue) {
         this.downloadCompleteManifest();
       }
@@ -500,7 +500,7 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
         let localSelectedStudies = [];
         //@@@PDC-8461 all page selection manifest
         for(let study of filteredStudiesData) {
-          //console.log("Full study: "+ JSON.stringify(study));
+          //
           //if the export column column does not value, set it to empty
           for (var i=0;i<colValues.length;i++) {
             if (!study[colValues[i]]) {
@@ -513,7 +513,7 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
             //PDC-5245 init file count to 0
             ///* @@@PDC-8645 - uncommenting to restore correct counts to manifest files
             if (headerCols[i] == "RAW" && study[colValues[i]] == '') {
-              console.log("study field: "+colValues[i]);
+
               study[colValues[i]] = "0";
             }
             if (headerCols[i] == "Processed Mass Spectra" && study[colValues[i]] == '') {
@@ -544,7 +544,7 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
           localSelectedStudies.push(study);
         }
         if (buttonClick) {
-          console.log("======IN buttonClick==");
+
           //@@@PDC-1063: Implement select all, select page, select none for all tabs
           this.headercheckbox = true;
           /*let emptyArray = [];
@@ -564,7 +564,7 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
           this.updateCurrentPageSelectedStudy(localSelectedStudies);
 
         } else {
-          console.log("======IN bc ELSE==");
+
           let exportFileObject = JSON.parse(JSON.stringify(localSelectedStudies, colValues));
           if (this.manifestFormat == "csv") {
             let csvOptions = {
@@ -580,8 +580,8 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
           this.isTableLoading.emit({isTableLoading:"study:false"});
         }
         /*console.log("======LOCAL STUDY==");
-        console.log(localSelectedStudies);
-        console.log("======SELECT STUDY==");
+
+
         console.log(this.selectedStudies);*/
       });
     }, 10);
@@ -619,11 +619,9 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
   }
 
   //@@@PDC-260
+  //@@@@PDC-10846 - study manifest download should be disabled when no studies are selected
   /* Small helper function to determine whether the download button should be disabled or not */
   isDownloadDisabled(){
-    // Temporarily always return false to enable testing of dropdown functionality
-    return false;
-    /*
     if (this.selectedStudies) {
       if (this.selectedStudies.length > 0) {
         return false;
@@ -635,7 +633,6 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
     else {
       return true;
     }
-    */
   }
 
   //@@@PDC-1063: Implement select all, select page, select none for all tabs
@@ -687,7 +684,7 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 
   //@@@PDC-7109 improve browse checkbox intuitiveness - bug where 'Select None' remained checked when selected
   chkBoxSelectionCheck(selectedOption) {
-    console.log("inside checkbox selection");
+
     if (selectedOption == 'Select None'){
       this.headercheckbox = false;
       this.dataForManifestExport.close();
@@ -752,7 +749,7 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 
   //@@@PDC-3667: "Select all pages" option issue
   handleCheckboxSelections() {
-    console.log(this.currentPageSelectedStudy);
+
     if (this.currentPageSelectedStudy.length === this.pageSize) {
       this.headercheckbox = true;
     } else {
@@ -867,6 +864,7 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
       {field: 'primary_site', header: 'Primary Site'},
       {field: 'analytical_fraction', header: 'Analytical Fraction'},
       {field: 'experiment_type', header: 'Experiment Type'},
+      {field: 'cases_count', header: 'Cases #'},
       //@@@PDC-8218 sync up headers with UI
       {field: 'raw_count', header: 'Raw'},
       {field: 'mzml_count', header: 'Processed Mass Spectra'},
@@ -874,8 +872,7 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
       {field: 'psm_count', header: 'PSM'},
       {field: 'protein_assembly_count', header: 'Protein Assembly'},
       //{field: 'protein_databases_count', header: 'Protein Databases'},
-      {field: 'quality_metrics_count', header: 'Quality Metrics'},
-      {field: 'cases_count', header: 'Cases #'}
+      {field: 'quality_metrics_count', header: 'Quality Metrics'}
     ];
     //@@@PDC-1063: Implement select all, select page, select none for all tabs
     this.checkboxOptions = ["Select all pages", "Select this page", "Select None"];
@@ -927,7 +924,7 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 
   //@@@PDC-795 Change manifest download file name include timestamp
   studyTableExportCSV(dt){
-    console.log("======IN export CSV==");
+
     this.validateStudyField();
     dt.exportFilename = this.getCsvFileName("csv");
     dt.exportCSV({ selectionOnly: true });
@@ -935,7 +932,7 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 
   //PDC-3073, PDC-3074 Add TSV format for manifests
   studyTableExportTSV(dt){
-    console.log("======IN export TSV==");
+
     this.validateStudyField();
     let colValues = [];
     for (var i=0; i< this.cols.length; i++) {
@@ -949,8 +946,8 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
 
   //PDC-4129 export 0 by default
   validateStudyField(){
-    console.log("======IN validateStudyField==");
-    console.log(this.selectedStudies);
+
+
     for(let study of this.selectedStudies){
       if(!study['raw_count']){
         study['raw_count'] = 0
@@ -1063,8 +1060,8 @@ export class BrowseByStudyComponent implements OnInit, OnChanges {
       this.currentPageSelectedStudy = [];
       this.pageHeaderCheckBoxTrack = [];
     }
-    console.log("=====THIS PAGE ====");
-    console.log(this.selectedStudies);
+
+
   }
 
   //@@@PDC-848 Fix headercheckbox issue for data tables on browse page

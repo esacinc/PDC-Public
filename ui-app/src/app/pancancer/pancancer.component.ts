@@ -134,7 +134,7 @@ export class PancancerComponent {
     };
     //study_data.pdc_study_id = study_id;
     //study_data.study_submitter_id = study_name;
-    console.log(study_data);
+
     const dialogConfig = new MatDialogConfig();
 
     dialogConfig.disableClose = true;
@@ -158,8 +158,8 @@ export class PancancerComponent {
   }
 
   private getPublicationDataByID(pub_id: string) {
-    //console.log(pub_id);
-    //console.log(this.filteredPublicationsData);
+
+
     for (let i = 0; i < this.allPublicationsData.length; i++) {
       if (this.allPublicationsData[i].publication_id == pub_id) {
         return this.allPublicationsData[i];
@@ -182,7 +182,7 @@ export class PancancerComponent {
     this.router.navigate([{outlets: {publicationFilesOverlay: ['publication-files-overlay', publication_id]}}], {skipLocationChange: true});
     const dialogRef = this.dialog.open(PublicationFilesOverlayComponent, dialogConfig);
     dialogRef.afterClosed().subscribe((val: any) => {
-      console.log("Dialog output:", val);
+
       //Generate alias URL to hide auxiliary URL details when the overlay window was closed and the focus returnes back
       this.loc.replaceState("/publications");
     });
@@ -199,7 +199,7 @@ export class PancancerComponent {
     dialogConfig.data = {
       summaryData: {publication_id: publication_id}
     };
-    console.log(publication_id);
+
     this.publication_id = publication_id;
     this.browseByFileService
       .getPaginatedFilesForPublication(
@@ -209,7 +209,7 @@ export class PancancerComponent {
       )
       .subscribe((data: any) => {
         this.filteredFilesData = data.getPaginatedUIPancancerFiles.uiPancancerFiles;
-        //console.log(this.filteredFilesData);
+
         this.totalRecords_sup = data.getPaginatedUIPancancerFiles.total;
         this.offset_sup = data.getPaginatedUIPancancerFiles.pagination.from;
         this.pageSize_sup = data.getPaginatedUIPancancerFiles.pagination.size;
@@ -221,8 +221,8 @@ export class PancancerComponent {
   }
 
   test(event: any, publication_id) {
-    console.log(event);
-    console.log(publication_id);
+
+
   }
 
   ///@@@PDC-8012
@@ -262,7 +262,7 @@ export class PancancerComponent {
   }
 
   getPublicationsData() {
-    console.log("inside getPublications");
+
     this.loading = true;
     setTimeout(() => {
       this.publicationsService.getPublicationsResults().pipe(take(1)).subscribe((data: any) => {
@@ -285,7 +285,7 @@ export class PancancerComponent {
 
           this.totalRecords = data.getUIPancancerPublications.length;
 
-          console.log('totalRecords' + this.totalRecords);
+
           //Add spaces to comma separated data (cohorts)
           //Calculate publication supplementary files for a publication
           for (let publication of this.allPublicationsData) {
@@ -320,7 +320,7 @@ export class PancancerComponent {
     //Remove duplicates
     allFilesArr = allFilesArr.filter((v, i, a) => a.findIndex(v2 => (v2.file_id === v.file_id)) === i);
     for (let k in allFilesArr) {
-      console.log("pancan file: " + allFilesArr[k]['characterization']);
+
       if (allFilesArr[k]['cohorts'] && !this.isEmpty(allFilesArr[k]['cohorts'])) {
         //allFilesArr[k]['cohorts'] = this.addSpacesToField(allFilesArr[k]['cohorts']);
       }
@@ -373,7 +373,7 @@ export class PancancerComponent {
         c = c + 3;
       }
     }
-    //console.log(this.publSupplementaryData);
+
   }
 
   getBackgroundColor(rowIndex) {
@@ -405,15 +405,15 @@ export class PancancerComponent {
     //@@@PDC-5770 get file using uuid
     for (let file of individualFileData) {
       if (file.downloadable.toLowerCase() === 'yes') {
-        //console.log("Export file id 0930: "+file.file_id);
+
         let urlResponse = await this.publicationsService.getOpenFileUuidSignedUrl(file.file_id);
-        console.log(urlResponse);
+
         if (!urlResponse.error) {
           downloadLink = urlResponse.data;
         } else {
           this.displayMessageForNotDownloadable();
         }
-        console.log(downloadLink);
+
         if (downloadLink) {
           //If the download file link is available, open the download link and start file download.
           if (this.checkFilenameExtentions(file.file_name)) {

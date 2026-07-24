@@ -12,3 +12,10 @@
 .title-center {
   margin: 0 auto;
 }
+
+/* Hide Back to Top button on mobile devices */
+@media (max-width: 768px) {
+  .usa-footer__nci-return-to-top {
+    display: none !important;
+  }
+}

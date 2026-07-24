@@ -1,31 +1,73 @@
 {
   "news": [
     {
-      "label": "NCI invites you to share your thoughts on the Clinical Proteomic Tumor Analysis Consortium (CPTAC). Your input can help accelerate cancer understanding through proteogenomics!",
-      "link": "https://proquest.iad1.qualtrics.com/jfe/form/SV_bP1hth2gAEHwn5k?Q_CHL=qr",
+      "label": "2025 Fall CPTAC Scientific Symposium, September 30, 2025",
+      "link": "https://dctd.cancer.gov/about/news-events/events/2025-cptac-symposium",
       "exit_disclaimer":false,
       "visible": true,
+      "date_added":"2025-09-30"
+    },
+    {
+      "label": "Upcoming Skyline Webinar: Exploring DIA Data Analysis Workflows, September 26, 2025 ",
+      "link": "https://skyline.ms/project/home/software/Skyline/events/2025%20Webinars/Webinar%2026/begin.view",
+      "exit_disclaimer":true,
+      "visible": true,
+      "date_added":"2025-09-26"
+    },
+    {
+      "label": "The CRDC Fall Symposium: Report",
+      "link": "https://datacommons.cancer.gov/news/crdc-fall-symposium-report",
+      "exit_disclaimer":false,
+      "visible": true,
+      "date_added":"2025-03-20"
+    },
+    {
+      "label": "Resource Spotlight: The National Cancer Institute's Proteomic Data Commons",
+      "link": "https://proteomics.cancer.gov/news_and_announcements/resource-spotlight-national-cancer-institutes-proteomic-data-commons",
+      "exit_disclaimer":false,
+      "visible": true,
+      "date_added":"2025-03-20"
+    },
+    {
+      "label": "Proteomic Data Commons Article Published in AACR Cancer Research Communications",
+      "link": "https://aacrjournals.org/cancerrescommun/article/4/9/2480/748517/NCI-s-Proteomic-Data-Commons-A-Cloud-Based?preview=true",
+      "exit_disclaimer":true,
+      "visible": false,
+      "date_added":"2024-09-20"
+    },
+    {
+      "label": "The Cancer Research Data Commons 2024 Fall Symposium: Ten Years of Empowering Cancer Researchers October 16-17, 2024",
+      "link": "https://datascience.cancer.gov/news-events/events/cancer-research-data-commons-2024-fall-symposium-ten-years-empowering-cancer",
+      "exit_disclaimer":false,
+      "visible": false,
+      "date_added":"2024-09-20"
+    },
+    {
+      "label": "NCI/CRDC at the 2024 AACR Annual Meeting",
+      "link": "https://datacommons.cancer.gov/news/ncicrdc-2024-aacr-annual-meeting",
+      "exit_disclaimer":false,
+      "visible": false,
       "date_added":"2024-05-02"
     },
     {
       "label": "In its tenth year, the CRDC showcases how it empowers researchers through a manuscript series in AACR Cancer Research, detailing its resources, including the Proteomic Data Commons.",
       "link": "https://datacommons.cancer.gov/publications/aacr-cancer-research",
       "exit_disclaimer":false,
-      "visible": true,
+      "visible": false,
       "date_added":"2024-04-01"
     },
     {
       "label": "Catch the video of NCI CBIIT Data Science Webinar on \"Proteomic Data Commons in Cancer Research\" on November 15th, 2023, with speakers Dr. Ratna Rajesh Thangudu (ICF) and Dr. Bing Zhang (Baylor College of Medicine).",
       "link": "https://nci.rev.vbrick.com/sharevideo/ecc3ebe1-31ba-4117-816e-4b896883f205",
       "exit_disclaimer":false,
-      "visible": true,
+      "visible": false,
       "date_added":"2024-01-11"
     },
     {
       "label": "Join the Data Science Webinar to learn how to effectively use the Proteomic Data Commons, November 15, 2023  11-12 p.m. ET",
       "link": "https://datascience.cancer.gov/news-events/events/proteomic-data-commons-cancer-research",
       "exit_disclaimer":false,
-      "visible": true,
+      "visible": false,
       "date_added":"2023-11-06"
     },
     {

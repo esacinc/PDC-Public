@@ -93,13 +93,13 @@
                   </div>
                 </div>
               </th>
-				<th class="ui-datatable-tableheader" [pSortableColumn]="cols[3].field"><a href="/pdc/data-dictionary/Demographic#ethnicity" target="_blank" style="color:white">Ethnicity</a>&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Study in ascending/descending order"></i></th>
+				<th class="ui-datatable-tableheader" [pSortableColumn]="cols[5].field"><a href="/pdc/data-dictionary/Demographic#ethnicity" target="_blank" style="color:white">Ethnicity</a>&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Study in ascending/descending order"></i></th>
 				<!--@@@PDC-9426 Gender to Sex conversion-->
-			    <th class="ui-datatable-tableheader" [pSortableColumn]="cols[4].field"><a href="/pdc/data-dictionary/Demographic#gender" target="_blank" style="color:white">Sex</a>&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Study in ascending/descending order"></i></th>
-			    <th class="ui-datatable-tableheader" [pSortableColumn]="cols[5].field"><a href="/pdc/data-dictionary/Demographic#race" target="_blank" style="color:white">Race</a>&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Study in ascending/descending order"></i></th>
-			    <th class="ui-datatable-tableheader" [pSortableColumn]="cols[6].field"><a href="/pdc/data-dictionary/Diagnosis#morphology" target="_blank" style="color:white">Morphology</a>&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Study in ascending/descending order"></i></th>
-				<th class="ui-datatable-tableheader" [pSortableColumn]="cols[7].field"><a href="/pdc/data-dictionary/Diagnosis#primary_diagnosis" target="_blank" style="color:white">Primary Diagnosis</a>&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Study in ascending/descending order"></i></th>
-				<th class="ui-datatable-tableheader" [pSortableColumn]="cols[8].field">
+			    <th class="ui-datatable-tableheader" [pSortableColumn]="cols[6].field"><a href="/pdc/data-dictionary/Demographic#gender" target="_blank" style="color:white">Sex</a>&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Study in ascending/descending order"></i></th>
+			    <th class="ui-datatable-tableheader" [pSortableColumn]="cols[7].field"><a href="/pdc/data-dictionary/Demographic#race" target="_blank" style="color:white">Race</a>&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Study in ascending/descending order"></i></th>
+			    <th class="ui-datatable-tableheader" [pSortableColumn]="cols[8].field"><a href="/pdc/data-dictionary/Diagnosis#morphology" target="_blank" style="color:white">Morphology</a>&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Study in ascending/descending order"></i></th>
+				<th class="ui-datatable-tableheader" [pSortableColumn]="cols[9].field"><a href="/pdc/data-dictionary/Diagnosis#primary_diagnosis" target="_blank" style="color:white">Primary Diagnosis</a>&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Study in ascending/descending order"></i></th>
+				<th class="ui-datatable-tableheader" [pSortableColumn]="cols[10].field">
 					<div class="ui-datatable-tableheader-flex-container">
 						<div>
 							<a href="/pdc/data-dictionary/Diagnosis#site_of_resection_or_biopsy" target="_blank" style="color:white">
@@ -111,7 +111,7 @@
 						</div>
 					</div>
 				</th>
-				<th class="ui-datatable-tableheader" [pSortableColumn]="cols[9].field">
+				<th class="ui-datatable-tableheader" [pSortableColumn]="cols[11].field">
 					<div class="ui-datatable-tableheader-flex-container">
 						<div>
 							<a href="/pdc/data-dictionary/Diagnosis#tissue_or_organ_of_origin" target="_blank" style="color:white">
@@ -123,22 +123,21 @@
 						</div>
 					</div>
 				</th>
-				<th class="ui-datatable-tableheader" [pSortableColumn]="cols[10].field"><a href="/pdc/data-dictionary/Diagnosis#tumor_grade" target="_blank" style="color:white">Tumor Grade</a>&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Study in ascending/descending order"></i></th>
-				<th class="ui-datatable-tableheader" [pSortableColumn]="cols[11].field"><a href="/pdc/data-dictionary/Diagnosis#tumor_stage" target="_blank" style="color:white">Tumor Stage</a>&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Study in ascending/descending order"></i></th>
+				<th class="ui-datatable-tableheader" [pSortableColumn]="cols[12].field"><a href="/pdc/data-dictionary/Diagnosis#tumor_grade" target="_blank" style="color:white">Tumor Grade</a>&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Study in ascending/descending order"></i></th>
+				<th class="ui-datatable-tableheader" [pSortableColumn]="cols[13].field"><a href="/pdc/data-dictionary/Diagnosis#tumor_stage" target="_blank" style="color:white">Tumor Stage</a>&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Study in ascending/descending order"></i></th>
 				<!-- @@@PDC-1305 add age_at_diagnosis et al -->
-				<th class="ui-datatable-tableheader" [pSortableColumn]="cols[12].field">
+				<!-- @@@PDC-10528 remove sort capability --> 
+				<th class="ui-datatable-tableheader" >
 					<div class="ui-datatable-tableheader-flex-container">
 						<div>
 							<a href="/pdc/data-dictionary/Diagnosis#age_at_diagnosis" target="_blank" style="color:white">
 								Age at<br> Diagnosis
 							</a>
 						</div>
-						<div class="ui-datatable-tableheader-flex-sorticon">
-							&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Study in ascending/descending order"></i>
-						</div>
+						
 					</div>
 				</th>
-				<th class="ui-datatable-tableheader" [pSortableColumn]="cols[13].field">
+				<th class="ui-datatable-tableheader" [pSortableColumn]="cols[15].field">
 					<div class="ui-datatable-tableheader-flex-container">
 						<div>
 							<a href="/pdc/data-dictionary/Diagnosis#classification_of_tumor" target="_blank" style="color:white">
@@ -150,16 +149,15 @@
 						</div>
 					</div>
 				</th>
-				<th class="ui-datatable-tableheader" [pSortableColumn]="cols[14].field">
+				<!-- @@@PDC-10528 remove sort capability --> 
+				<th class="ui-datatable-tableheader" >
 					<div class="ui-datatable-tableheader-flex-container">
 						<div>
 							<a href="/pdc/data-dictionary/Diagnosis#days_to_recurrence" target="_blank" style="color:white">
 								Days to<br> Recurrence
 							</a>
 						</div>
-						<div class="ui-datatable-tableheader-flex-sorticon">
-							&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Study in ascending/descending order"></i>
-						</div>
+						
 					</div>
 				</th>
             </tr>

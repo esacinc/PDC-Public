@@ -220,7 +220,6 @@ const RECAPTCHA_V3_PDC_KEY = environment.recaptcha_site_key;
 // @@@PDC-516 angular lazy loading
 export class AppModule {
 	constructor(apollo: Apollo, httpLink: HttpLink) {
-		console.log(environment);
 		let  graphql_server_url = environment.graphql_server_url;
 		apollo.create({
 			//Would need to make changes here to add google authentication to the queries

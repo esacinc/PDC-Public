@@ -1,0 +1,7 @@
+.colValueDisqualified {
+  color: red !important;
+}
+
+::ng-deep .colValueDisqualified {
+  color: red !important;
+}

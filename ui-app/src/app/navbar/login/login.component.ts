@@ -125,7 +125,7 @@ export class LoginComponent implements OnInit {
 	  if (this.loginForm.invalid){
 		  this.isValidFormSubmitted  = false;
 		  this.systemErrorMessage = "Email is missing or incorrect"
-		  //console.log(this.registrationForm);
+
 		  return;
 	  }
 	this.isValidFormSubmitted = true;
@@ -141,7 +141,7 @@ export class LoginComponent implements OnInit {
             break;
           //user does not exist
           case 1:
-            //console.log(userData);
+
 			this.systemErrorMessage = '';
             this.userService.setUserIDType("PDC");
             this.userService.setLoginUsername(username);
@@ -226,7 +226,7 @@ export class LoginComponent implements OnInit {
   public registerWithEmail(){
 	  this.userService.setUserIDType("PDC");
 	  this.userService.setEmail("");
-	  //console.log(this.dialogRef);
+
 	  //this.router.navigate(["registration"]);
 	  this.dialogRef.close("new user register");
   }

@@ -25,13 +25,13 @@ export class ContentSectionComponent {
     },
     {
       imgSrc: "cloud-data.jpg",
-      link: "/pdc/cloud-data-analysis",
+      link: "https://pdc-docs.cancer.gov/pdc-docs/usage#analyzing-pdc-data",
       linkText: "Cloud Data Analysis",
       description: "Analyze PDC datasets in the cloud using scalable workflows and integrated tools.",
     },
     {
       imgSrc: "submit-data.jpg",
-      link: "/pdc/submit-data",
+      link: "https://pdc-docs.cancer.gov/pdc-docs/data-submission#submission-process",
       linkText: "How to Submit Data",
       description: "Submit your proteomics data to support cancer research and FAIR sharing.",
     },
@@ -40,13 +40,13 @@ export class ContentSectionComponent {
   infoCards = [
     {
       imgSrc: "cite-pdc.jpg",
-      link: "/pdc/data-use-guidelines#Cite_PDC",
+      link: "https://pdc-docs.cancer.gov/pdc-docs/home#cite-pdc",
       linkText: "Cite PDC",
       description: "Citing PDC resource, datasets and associated publication.",
     },
     {
       imgSrc: "release-notes.jpg",
-      link: "/pdc-docs",
+      link: "https://pdc-docs.cancer.gov/pdc-docs/",
       linkText: "Documentation",
       description: "Find user guides, tutorials and information on PDC processes.",
     },
@@ -62,7 +62,7 @@ export class ContentSectionComponent {
    ngOnInit() {
     this.http.get('/assets/data-folder/news.json').subscribe(data => {
       this.newsData = data['news'].slice(0,4);
-      console.log(data);
+
     });
   }
 

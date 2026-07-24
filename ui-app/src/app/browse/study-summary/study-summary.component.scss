@@ -91,6 +91,26 @@ a.disabled {
 	font-size:14px;
 }
 
+// Style links in study description only to make them visible
+::ng-deep .study-description-content a {
+  color: #005ea2 !important;
+  cursor: pointer;
+  font-weight: 400;
+  text-decoration: underline !important;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 2px;
+  text-decoration-skip-ink: none;
+  transition: color 0.2s, text-decoration 0.2s;
+}
+
+::ng-deep .study-description-content a:hover {
+  color: #162e51 !important;
+  text-decoration: underline !important;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 2px;
+  text-decoration-skip-ink: none;
+}
+
 .table .summary-table{
 	border: 0;
 	overflow-y:auto;

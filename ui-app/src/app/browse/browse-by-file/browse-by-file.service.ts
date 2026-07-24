@@ -44,7 +44,7 @@ export class BrowseByFileService {
       })
       .valueChanges.pipe(
         map(result => {
-          console.log(result.data);
+
           return result.data;
         })
       );
@@ -98,7 +98,7 @@ export class BrowseByFileService {
       })
       .valueChanges.pipe(
         map(result => {
-          console.log(result.data);
+
           return result.data;
         })
       );
@@ -132,8 +132,10 @@ export class BrowseByFileService {
       $data_category_filter: String!
 	    $vital_status_filter: String!
 	    $age_at_diagnosis_filter: String!
-	    $ajcc_clinical_stage_filter: String!
+      $ajcc_clinical_stage_filter: String!
 	    $ajcc_pathologic_stage_filter: String!
+	    $morphology_filter: String!
+	    $site_of_resection_or_biopsy_filter: String!
 	    $progression_or_recurrence_filter: String!
 	    $therapeutic_agents_filter: String!
 	    $treatment_intent_type_filter: String!
@@ -169,6 +171,8 @@ export class BrowseByFileService {
 		    age_at_diagnosis: $age_at_diagnosis_filter
 		    ajcc_clinical_stage: $ajcc_clinical_stage_filter
 		    ajcc_pathologic_stage: $ajcc_pathologic_stage_filter
+		    morphology: $morphology_filter
+		    site_of_resection_or_biopsy: $site_of_resection_or_biopsy_filter
 		    progression_or_recurrence: $progression_or_recurrence_filter
 		    therapeutic_agents: $therapeutic_agents_filter
 		    treatment_intent_type: $treatment_intent_type_filter
@@ -267,7 +271,7 @@ export class BrowseByFileService {
       })
       .valueChanges.pipe(
         map(result => {
-          console.log(result.data);
+
           return result.data;
         })
       );
@@ -340,7 +344,7 @@ export class BrowseByFileService {
       })
       .valueChanges.pipe(
         map(result => {
-          console.log(result.data);
+
           return result.data;
         })
       );
@@ -460,7 +464,7 @@ export class BrowseByFileService {
       })
       .valueChanges.pipe(
         map(result => {
-          //console.log(result.data);
+
           return result.data;
         })
       );
@@ -495,7 +499,7 @@ export class BrowseByFileService {
       })
       .valueChanges.pipe(
         map(result => {
-          //console.log(result.data);
+
           return result.data;
         })
       );
@@ -524,7 +528,7 @@ export class BrowseByFileService {
         `
       }).valueChanges.pipe(
         map(result => {
-          console.log(result.data);
+
           return result.data;
         })
       );
@@ -577,7 +581,7 @@ getPaginatedFilesForPublication(publication_id: string, offset: number, limit: n
     })
     .valueChanges.pipe(
       map(result => {
-        console.log(result.data);
+
         return result.data;
       })
     );

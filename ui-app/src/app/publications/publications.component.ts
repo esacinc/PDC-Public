@@ -134,9 +134,9 @@ export class PublicationsComponent implements OnInit{
 		  for (let i=0; i < this.filteredPublicationsData.length; i++ ) {
 			this.updateFiltersCounters(this.filteredPublicationsData[i]);
 		  }
-		  //console.log(this.yearFilter);
-		  //console.log(this.diseaseTypesFilter);
-		  //console.log(this.programFilter);
+
+
+
 		  this.loading = false;
 		});
 	}
@@ -310,8 +310,8 @@ export class PublicationsComponent implements OnInit{
   }
 
 	private getPublicationDataByID(pub_id: string) {
-		//console.log(pub_id);
-		//console.log(this.filteredPublicationsData);
+
+
 		for(let i=0; i < this.filteredPublicationsData.length; i++ ) {
 			if (this.filteredPublicationsData[i].publication_id == pub_id) {
 				return this.filteredPublicationsData[i];
@@ -347,7 +347,7 @@ export class PublicationsComponent implements OnInit{
 		this.router.navigate([{outlets: {filesOverlay: ['files-overlay', studies_names]}}], { skipLocationChange: true });
 		const dialogRef = this.dialog.open(FilesOverlayComponent, dialogConfig);
 		dialogRef.afterClosed().subscribe((val:any) => {
-				console.log("Dialog output:", val);
+
 				//Generate alias URL to hide auxiliary URL details when the overlay window was closed and the focus returnes back
 				this.loc.replaceState("/publications");
 		});

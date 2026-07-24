@@ -2,11 +2,11 @@
 <section class="usa-section usa-section--light cgdp-feature-card-row" aria-labelledby="paragraph-4911-heading"
          data-eddl-landing-row="">
   <div class="grid-container">
-    <div class="flex flex-col gap-4 items-center" style="margin-top:0px;">
-      <span class="nci-heading-h1" style="margin-top:0px;">
+    <div class="flex flex-col gap-4 items-center content-header" style="margin-top:0px; padding: 0 15px;">
+      <span class="nci-heading-h1 content-title" id="paragraph-4911-heading" style="margin-top:0px; text-align: center;">
       The PDC: A Core Resource of the NCI Cancer Research Data Commons (CRDC)
     </span>
-      <span class="nci-heading-h3 text-[22px] w-[70%] text-center" style="font-weight:lighter;margin-top:0px;">
+      <span class="nci-heading-h3 text-[22px] content-subtitle text-center" style="font-weight:lighter;margin-top:0px;">
         Offering advanced analytical resources and harmonized proteomic datasets for cancer research, and enabling researchers to share data across the community.
       </span>
     </div>
@@ -14,7 +14,7 @@
     <ul class="nci-card-group">
         @for (card of cardData; track card.link) {
           <li class="nci-card grid-col-4" [class.pancancer-card]="card.imgSrc.includes('pancancerCircle')">
-              <a href="{{ card.link }}" aria-labelledby="paragraph-4896" data-eddl-landing-item="feature_card" data-eddl-landing-item-link-type="Internal">
+              <a href="{{ card.link }}" aria-labelledby="paragraph-4896" data-eddl-landing-item="feature_card" data-eddl-landing-item-link-type="Internal" target="_blank">
                   <picture class="nci-card__image">
                       <source media="(min-width: 880px)" srcset="/assets/images/{{ card.imgSrc }}">
                       <img src="/assets/images/{{ card.imgSrc }}" alt="{{ card.imgSrc }}">
@@ -33,7 +33,7 @@
   </div>
 </section>
 <div class="grid-container flex self-center w-full bg-[#01679D] justify-center py-4 rounded shadow-2xl">
-  <span class="nci-heading-h1" style="color:white"> Scientific Updates and Resources</span>
+  <span class="nci-heading-h1" id="paragraph-4741-heading" style="color:white"> Scientific Updates and Resources</span>
 </div>
 <section class="usa-section usa-section--light cgdp-feature-card-row" aria-labelledby="paragraph-4741-heading"
          data-eddl-landing-row="">
@@ -42,7 +42,7 @@
       @for (card of infoCards; track card.link) {
         <li class="nci-card grid-col-4">
           <a href="{{card.link}}" aria-labelledby="paragraph-4726" data-eddl-landing-item="feature_card"
-             data-eddl-landing-item-link-type="Internal">
+             data-eddl-landing-item-link-type="Internal" target="_blank">
             <picture class="nci-card__image">
               <source media="(min-width: 880px)" srcset="/assets/images/{{ card.imgSrc }}">
               <img loading="lazy" src="/assets/images/{{ card.imgSrc }}" width="1408" height="793"
@@ -81,7 +81,7 @@
                           </a>
                           <a *ngIf="newsItem.exit_disclaimer" matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_blank" class="exit-link" style="margin-left: 4px;">
                             <i class="fas fa-external-link-alt"></i>
-                            <span style="display: none">External Link</span>
+                            <span class="sr-only">External Link</span>
                           </a>
                         </li>
                       </ul>                                                          

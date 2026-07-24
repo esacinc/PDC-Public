@@ -114,7 +114,7 @@ export class LegacyStudySummaryComponent implements OnInit {
 	this.studySubmitterId = studyData.summaryData.study_submitter_id;
 	//@@@PDC-1888: Standardize the IDs on the study summary and case summary pages
 	this.pdcStudyID = studyData.summaryData.pdc_study_id;
-	console.log("UUID: "+this.study_id + " PDC ID: " + this.pdcStudyID);
+
 	//this.loc.replaceState("/study/" + this.pdcStudyID);
 	if (this.studySummaryData.embargo_date === null || this.studySummaryData.embargo_date === ""){
 			//this.studySummaryData.embargo_date = "N/A";
@@ -192,7 +192,7 @@ export class LegacyStudySummaryComponent implements OnInit {
 		//@@@PDC-3172 use study_id in heatmap folder name
 		const manifest_file = 'assets/data-folder/' + this.study_id + '/manifest.json';
 
-		console.log('Getting manifest file from: ' + manifest_file);
+
 		return this.http.get(manifest_file);
   }
 
@@ -201,7 +201,7 @@ export class LegacyStudySummaryComponent implements OnInit {
 	this.getManifestFile()
     .subscribe((data: any) => {
 		this.heatmapAvailable = true;
-		console.log(data);
+
 		data.heatmaps.map(aMap => {
 			this.mapData.push({
 				menu_label: aMap['menu-label'],
@@ -314,7 +314,7 @@ sortDataCategoriesInOrder(){
 	//@@@PDC-10399 - study-summary blank after filtering
 	// Create a mutable copy of the array to avoid "Cannot assign to read only property" error
 	let mutableFileCountsRaw = [...this.fileCountsRaw];
-	
+
 	for (var obj in mutableFileCountsRaw) {
 		console.log(obj);
 		let entityObj = "";
@@ -334,7 +334,7 @@ sortDataCategoriesInOrder(){
 
 //PDC-3860 Add related PDC studies to Legacy study summaries
 showLegacyStudySummary(study_name:string) {
-	console.log("Openining study summary " + study_name);
+
 	setTimeout(() => {
 	this.legacyStudySummaryService.getLegacyStudyData(study_name).pipe(take(1)).subscribe((data: any) =>{
 		var studyData: QueryLegacyStudies = data.uiLegacyStudies[0];
@@ -409,7 +409,7 @@ showCaseSummary(case_id: string, module: string){
 	this.router.navigate([{outlets: {caseSummary: ['case-summary', case_id]}}], { skipLocationChange: true });
 	const dialogRef = this.dialog.open(CaseSummaryComponent, dialogConfig);
 	dialogRef.afterClosed().subscribe((val:any) => {
-			console.log("Dialog output:", val);
+
 			//Generate alias URL to hide auxiliary URL details when the previous overlay window was closed and the focus returned to this one
 			//this.loc.replaceState("/legacy-study-summary/" + this.pdcStudyID);
 			this.loc.replaceState("/TechnologyAdvancementStudies/");
@@ -434,7 +434,7 @@ showFilesOverlay(submitter_id_name, study_id, data_category_val, file_type_val, 
 	this.router.navigate([{outlets: {filesOverlay: ['files-overlay', this.study_id]}}], { skipLocationChange: true });
 	const dialogRef = this.dialog.open(FilesOverlayComponent, dialogConfig);
 	dialogRef.afterClosed().subscribe((val:any) => {
-			console.log("Dialog output:", val);
+
 			//Generate alias URL to hide auxiliary URL details when the previous overlay window was closed and the focus returned to this one
 			//this.loc.replaceState("/legacy-study-summary/" + this.pdcStudyID);
 			this.loc.replaceState("/TechnologyAdvancementStudies/");
@@ -469,7 +469,7 @@ close(navigateToHeatmap: boolean, study_name: string = '') {
 	this.router.navigate([{outlets: {'studySummary': null, 'filesOverlay': null}}], { replaceUrl: true });
 	this.loc.replaceState(this.router.url);
 	//sessionStorage.removeItem('currentVersion');
-	console.log("CLOSE study_name: " + study_name);
+
 	if ( navigateToHeatmap ) {
 	// Route to the first heatmap
 		const navigationExtras: NavigationExtras = {

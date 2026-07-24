@@ -81,6 +81,26 @@
   }
 }
 
+@media (max-width: 768px) {
+  .content-header {
+    width: 100% !important;
+    padding: 0 10px !important;
+  }
+
+  .content-title {
+    font-size: 1.75rem !important;
+    line-height: 2rem !important;
+    width: 100% !important;
+  }
+
+  .content-subtitle {
+    font-size: 1rem !important;
+    line-height: 1.5rem !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
+
 @media (max-width: 600px) {
   .nci-card, .pancancer-card {
     width: 99vw !important;
@@ -93,5 +113,27 @@
     width: 100% !important;
     min-width: 0 !important;
     max-width: 100vw !important;
+  }
+
+  .content-title {
+    font-size: 1.5rem !important;
+    line-height: 1.75rem !important;
+  }
+
+  .content-subtitle {
+    font-size: 0.875rem !important;
+    line-height: 1.25rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .content-title {
+    font-size: 1.25rem !important;
+    line-height: 1.5rem !important;
+  }
+
+  .content-subtitle {
+    font-size: 0.8125rem !important;
+    line-height: 1.125rem !important;
   }
 }

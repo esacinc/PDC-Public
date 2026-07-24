@@ -46,7 +46,7 @@ constructor(private apollo: Apollo) {
 		.valueChanges
 		.pipe(
         map(result => {
-				console.log(result.data);
+
 		return result.data;})
       );
 	}
@@ -85,7 +85,7 @@ constructor(private apollo: Apollo) {
 		})
 		.valueChanges
 		.pipe(
-        map(result => { console.log(result.data); return result.data;})
+        map(result => {  return result.data;})
       );
 	}
 
@@ -216,7 +216,7 @@ constructor(private apollo: Apollo) {
 		})
 		.valueChanges
 		.pipe(
-        map(result => { console.log(result.data); return result.data;})
+        map(result => {  return result.data;})
       );
 	}
 

@@ -58,7 +58,7 @@ export class BrowseFiltersService {
       .valueChanges
       .pipe(
         map(result => {
-          console.log(result.data);
+          //console.log(result.data);
           return result.data;
         })
       );
@@ -223,7 +223,7 @@ export class BrowseFiltersService {
       .valueChanges
       .pipe(
         map(result => {
-          console.log(result.data);
+          //console.log(result.data);
           return result.data;
         })
       );
@@ -244,7 +244,7 @@ export class BrowseFiltersService {
       .valueChanges
       .pipe(
         map(result => {
-          console.log(result.data);
+          //console.log(result.data);
           return result.data;
         })
       );
@@ -275,7 +275,7 @@ export class BrowseFiltersService {
       .valueChanges
       .pipe(
         map(result => {
-          console.log(result.data);
+          //console.log(result.data);
           return result.data;
         })
       );
@@ -298,7 +298,7 @@ export class BrowseFiltersService {
       .valueChanges
       .pipe(
         map(result => {
-          console.log(result.data);
+          //console.log(result.data);
           return result.data;
         })
       );
@@ -338,7 +338,7 @@ export class BrowseFiltersService {
       .valueChanges
       .pipe(
         map(result => {
-          console.log(result.data);
+          //console.log(result.data);
           return result.data;
         })
       );
@@ -579,7 +579,7 @@ export class BrowseFiltersService {
       .valueChanges
       .pipe(
         map(result => {
-          console.log(result.data);
+          //console.log(result.data);
           return result.data;
         })
       );
@@ -600,7 +600,7 @@ export class BrowseFiltersService {
       .valueChanges
       .pipe(
         map(result => {
-          console.log(result.data);
+
           return result.data;
         })
       );

@@ -388,7 +388,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
   private getDataCategoryMapping() {
 	this.loading = true;
     this.browseFiltersService.getDataCategoryToFileTypeMapping().subscribe((data: any) => {
-		console.log(data);
+
 		var mapping:dataCategory2FileTypeMapping[] = data.uiDataCategoryFileTypeMapping;
 		for (let record of mapping){
 			//There might be several file types mapped to one data category
@@ -404,7 +404,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
 				this.fileTypeDataCategoryMap[record.file_type] = Array(record.data_category);
 			}
 		}
-		console.log(this.dataCategoryFileTypeMap, this.fileTypeDataCategoryMap);
+
 	});
   }
 
@@ -420,8 +420,8 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
 			  }
 		  }
 	  }
-	  //console.log(this.studyNameUUIDMap);
-    //console.log(this.studyNamePDCStudyIDMap);
+
+
     })
   }
 
@@ -462,7 +462,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
     for (let i = 0; i < this.allFilterCategory.length; i++) {
       let filterCategoryName = this.allFilterCategory[i];
       let filterList: Filter[] = this.findFilterListByName(filterCategoryName);
-      //console.log(this.allCategoryFilterData);
+
       let filterListData: FilterElement[] = this.allCategoryFilterData[filterCategoryName];
       for (let item of filterListData) {
         let filter: Filter = {
@@ -530,7 +530,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
     //https://mainurl/filters/[filter name 1]:[filter value 1]|[filter value 2]&[filter name 2]:[filter value 1]|[filter value 2]
     this.route.paramMap.subscribe(params => {
       let filters = params.get("filters");
-      console.log(filters);
+
       if (filters != null || filters != undefined) {
         filters = filters.replace('_slash', '/');
       }
@@ -549,15 +549,15 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
               }
             }
           }
-          console.log(this.studyNameUUIDMap);
-          console.log(this.studyNamePDCStudyIDMap);
+
+
           //@@@PDC-1123 call ui wrapper API
           this.urlFilterParams = true;
           let filtersExtracted = filters.split('&');
-          console.log(filtersExtracted);
+
           for (let filter_val of filtersExtracted) {
             var timeoutId = setTimeout(() => {
-              console.log(filter_val);
+
               let filter = filter_val.split(':');
               //PDC-786 allow study_id URL filter to work as study_name filter
               if (filter[0] == "study_submitter_id") {
@@ -570,7 +570,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
                     console.log("Error, study submitter id: " + studyID.toUpperCase() + " does not exist!!!");
                   }
                 }
-                console.log(studyNames);
+
                 this.setFilters("study_name", studyNames);
                 this.selectedFilters.emit("study_name:" + studyNames.split('|').join(';'));
                 //PDC-835
@@ -578,15 +578,15 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
                 let studyNames = "";
                 //Convert study uuids to study names
                 for (let studyID of filter[1].split('|')) {
-                  console.log(studyID);
+
                   if (this.studyNameUUIDMap[studyID]) {
                     studyNames = studyNames + this.studyNameUUIDMap[studyID] + "|";
                   } else {
-                    console.log("Error, study uuid: " + studyID + " does not exist!!!");
+
                   }
                 }
                 studyNames = studyNames.slice(0, -1);
-                console.log(studyNames);
+
                 this.setFilters("study_name", studyNames);
                 this.selectedFilters.emit("study_name:" + studyNames.split('|').join(';'));
                 //PDC-3778 add pdc_study_id filter URL filter option
@@ -597,11 +597,11 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
                   if (this.studyNamePDCStudyIDMap[studyID]) {
                     studyNames = studyNames + this.studyNamePDCStudyIDMap[studyID] + "|";
                   } else {
-                    console.log("Error, PDC Study ID: " + studyID + " does not exist!!!");
+
                   }
                 }
                 studyNames = studyNames.slice(0, -1);
-                console.log(studyNames);
+
                 this.setFilters("study_name", studyNames);
                 this.selectedFilters.emit("study_name:" + studyNames.split('|').join(';'));
               } else if (filter[0] == "selectedTab") {
@@ -661,8 +661,8 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
           for (const program of data.uiProgram) {
             this.programNames[program.shortname] = program.fullname;
           }
-          console.log("Program Names:");
-          console.log(this.programNames);
+
+
         }
       });
     }, 1000);
@@ -671,7 +671,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
   //@@@PDC-799: Redirecting to the NIH login page for the file authorization loses PDC state
   // PDC-728 Helper function to put select checkboxes of the filters set using URL values
   private setFilters(filterName: string, filterVal: string, setValuesForFence = false, clearValuesforbreadcrumb = false) {
-    console.log("Filter Selected: " + filterVal);
+
     switch (filterName) {
       case "project_name":
         if (setValuesForFence) {
@@ -749,7 +749,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
         this.acquisitionFilter = sortedAcqTypeList;
         break;
       case "study_name":
-        console.log("Study Name Selected: " + filterVal);
+
         if (setValuesForFence) {
           //this code is not needed now but might be useful in the future.
           //this.selectedStudyFilter = new Array(filterVal);
@@ -762,7 +762,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
         this.studyFilter = sortedStudyList;
         break;
       case "submitter_id_name":
-        console.log("Study Name Selected: " + filterVal);
+
         if (setValuesForFence) {
           this.selectedStudyFilter.push(filterVal);
         } else if (clearValuesforbreadcrumb) {
@@ -1002,8 +1002,8 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
         }
         let sortedTobaccoSmokingStatusList = this.moveFilterToTop(this.tobaccoSmokingStatusFilter, this.selectedTobaccoSmokingStatus, 'true', '-smokingStatus');
         this.tobaccoSmokingStatusFilter = sortedTobaccoSmokingStatusList;
-        console.log("Sorted Smoking Status List");
-        console.log(this.selectedTobaccoSmokingStatus);
+
+
         break;
       case "cigarettes_per_day":
         if (setValuesForFence) {
@@ -1299,7 +1299,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
 
   private findSelectedFilterByName(filterName: string): string[] {
     let selectedFilter: string[];
-	console.log("Filter Name: "+filterName);
+
     switch (filterName) {
       case "project_name":
         selectedFilter = this.selectedProjects;
@@ -1639,7 +1639,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
           //@@@PDC-1418: Unable to clear breadcrumbs when the user clicks on breadcrumbs other than "Clear"
           let filterValWithrandowmNum =  filterChangedInBreadcrumbBar.split("~");
           let filterValWithoutrandomNum = filterValWithrandowmNum[0];
-		  //console.log("Filter Raw: "+ filterValWithoutrandomNum);
+
           var filter_value = filterValWithoutrandomNum.split(":");
           if (filter_value[1] != "") {
             if (filter_value[0] == "gene_name") {
@@ -1795,7 +1795,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
 			  result = true;
 		  }
 	  }
-	  //console.log("Return " + result + " for " + filterName);
+
 	  return result;
   }*/
   //@@@PDC-1095
@@ -1845,7 +1845,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
 		//@@@PDC-6288 gene name is case sensitive
 		//let processedGeneNames = this.selectedGeneNames.trim().toUpperCase().replace(/\s+|\n+/g, ';');
 		let processedGeneNames = this.selectedGeneNames.trim().replace(/\s+|\n+/g, ';');
-		console.log(processedGeneNames);
+
 		//Genes data tab will be filtered directly by gene names
 		var newFilterValue = "gene_name:" + processedGeneNames;
 		this.selectedFilters.emit(newFilterValue);
@@ -1857,7 +1857,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
 		  this.browseFiltersService.getStudyByGeneName(processedGeneNames).subscribe((data: any) => {
 			let studyList = [];
 			let studyNamesList = [];
-			console.log(data.uiGeneStudySpectralCount);
+
 			for(const item of data.uiGeneStudySpectralCount){
 				studyList.push(item.study_submitter_id); //study id in format SXXXX-X
 				studyNamesList.push(item.submitter_id_name); //study name
@@ -1892,7 +1892,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
   }
   filterDataByAgeAtDiagnosis(e, filterSub = '', index = 0) {
     var newFilterValue = "age_at_diagnosis:" + this.selectedAgeAtDiagnosis.join(";");
-	console.log("New Filter Age: "+newFilterValue)
+
     this.selectedFilters.emit(newFilterValue);
     let sortedList = this.moveFilterToTop(this.ageAtDiagnosisFilter, this.selectedAgeAtDiagnosis, e, filterSub, index);
     this.ageAtDiagnosisFilter = sortedList;
@@ -2145,7 +2145,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
 
   // @@@PDC-10327 - Map tobacco smoking status codes to display values
   getTobaccoSmokingStatusDisplay(filterName: string): string {
-    console.log("Filter Name: " + filterName);
+
     const statusMap: { [key: string]: string } = {
       '1': 'Life Long Non-Smoker',
       '2': 'Current Smoker',
@@ -2155,9 +2155,9 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
       '6': 'Smoker at Diagnosis',
       '7': 'Smoking history not documented'
     };
-    console.log("Mapped Value: " + (statusMap[filterName] || filterName));
-    
-    return statusMap[filterName] || filterName; 
+
+
+    return statusMap[filterName] || filterName;
   }
 
   clearSelectionsCigarettesPerDay() {
@@ -2485,7 +2485,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
 	  this.options = "";
 	  this.allGeneNamesValid = true;
 	  this.valudatedGeneNamesList = value.trim().split(/\s+|\n+/);
-	  console.log(this.valudatedGeneNamesList);
+
 	  this.validatingGeneNamesCounter = 1;
 	  for (let geneName of this.valudatedGeneNamesList) {
 		this.searchGeneNames(geneName);
@@ -2552,7 +2552,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
 		.subscribe(value => value.length > 2 ? this._validate(value) : '');
 
     this.parentCharts.subscribe(event => {
-      console.log("in filter child component " + event);
+
       let filterField = event.split(":");
       let filterCatalog = filterField[0];
       let filterName = filterField[1];
@@ -2622,7 +2622,7 @@ export class BrowseFiltersComponent implements OnInit, OnChanges {
           setTimeout(() => {
             //@@@PDC-1252: Add data category as a filter for the "file counts" section of the Study table
             this.selectedDataCategory = new Array(res.fileDetailsforDataCategory);
-        console.log(this.selectedDataCategory);
+
             this.filterDataByDataCategory(event);
           }, 2000);
         }

@@ -37,9 +37,9 @@ url: string // This is the location of the HTML file which displays the heatmap
 constructor(@Inject(DOCUMENT) private document: any, private route: ActivatedRoute, private http: HttpClient) {
    // this.landingPage = new Morpheus.LandingPage(this.document);
    // this.heatmapContent = '';
-   console.log('Map file is:' + this.map_file);
+
    this.loading = true;
-   console.log('URL: ', this.url);
+
   }
 
   public loadFiles(fileData) {
@@ -50,17 +50,17 @@ constructor(@Inject(DOCUMENT) private document: any, private route: ActivatedRou
 	  //PDC-4909 mitigate xss
 	  var myUrl = window.top.location.href;
 	//console.log("parent: "+ myUrl+ myUrl.indexOf('view_heatmap'));
-	console.log("parent: "+ myUrl);
+
 	/*if (myUrl.indexOf('view_heatmap') >=0) {
-		console.log("Should quit!");
+
 
 		throw 'XSS alert!';
 	}*/
 
-    console.log('File content changed:', fname);
+
     if ( fname && fname.length > 1 ) {
       this.url = environment.heatmap_url + this.map_file;
-      console.log('URL: ', this.url);
+
      //  this.openFile(fname, rowLabel, colLabel);
      //  return this.http.get(fname, { responseType: 'text'});
     }

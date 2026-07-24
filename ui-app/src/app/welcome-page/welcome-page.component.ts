@@ -71,7 +71,7 @@ export class WelcomePageComponent implements OnInit {
 			//system error
 			case 2:
 				this.systemErrorMessage="System Error. Please contact your system admin";
-				console.log("System error!!!");
+
 				break;
 		}
 		});
@@ -87,7 +87,7 @@ export class WelcomePageComponent implements OnInit {
 		}
 	  // If the user uses eRA/NIH login, it will be returned back bu pdcapi with uid parameter defined
 	this.activeRoute.queryParams.subscribe(queryParams => {
-		console.log(queryParams);
+
 		if (queryParams.uid && queryParams.token) {
       this.eRAnihSignIn(queryParams.uid, queryParams.token);
 		}

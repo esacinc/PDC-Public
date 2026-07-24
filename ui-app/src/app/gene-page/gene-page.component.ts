@@ -134,20 +134,20 @@ export class GenePageComponent implements OnInit, OnChanges {
 	this.route.paramMap.subscribe(params => {
 		let gene = params.get("gene_id");
 		//this.gene_id = gene || "";
-		//console.log(this.gene_id);
+
 		if (gene != null && gene.length > 0){
 			let tempGene = gene.split('#');
 			this.gene_id = tempGene[0];
 			this.uuid = tempGene[1];
-			console.log("current gene_name: "+this.gene_id);
-			console.log("current gene_id: "+this.uuid);
+
+
 			this.getGeneSummaryData();
 			this.getGeneAliquotSpectralCounts();
 			this.getGeneStudySpectralCounts();
 			this.getPTMData();
 		}
 		else {
-			console.log("ERROR: no gene id in url");
+
 		}
 	  });
 	//@@@PDC-2874: Add download option for study table on gene summary page
@@ -157,10 +157,10 @@ export class GenePageComponent implements OnInit, OnChanges {
   //@PDC-8153 fix study delection
   onSelectionChange(event){
 	let currentDate = new Date();
-    console.log("selection change");
+
 	console.log(Math.floor(currentDate.getTime()/1000));
     console.log(event);
-	
+
 	if(this.selectedDate && Math.floor(this.selectedDate.getTime()/1000) === Math.floor(currentDate.getTime()/1000)){
 		setTimeout(() => {this.selectedStudies = [...this.keepSelectedStudies]},500);
 	}else{
@@ -174,12 +174,12 @@ export class GenePageComponent implements OnInit, OnChanges {
 	  this.loadingGeneSummary = true;
     //@@@PDC-1123 call ui wrapper API
 	//@@@PDC-6288 gene name is case sensitive
-	console.log("Orginal Gene: "+this.gene_id);
+
 	  setTimeout(() => {
 		  //this.genePageService.getGeneDetails(this.gene_id.toUpperCase()).subscribe((data: any) =>{
 		  this.genePageService.getGeneDetails(this.gene_id, this.uuid).subscribe((data: any) =>{
 			this.geneSummaryData = data.uiGeneSpectralCount;
-			console.log("Alias: ", this.geneSummaryData.alias);
+
 			this.loadingGeneSummary = false;
 		  });
 	  }, 1000);
@@ -198,7 +198,7 @@ export class GenePageComponent implements OnInit, OnChanges {
 			this.loadingAliquotRecords = false;
 		  },
 		  err => {
-			  console.log("ERROR!!!!Loading data took too long");
+
 			  this.aliquotSpectralCountLoadError = "Loading data took too long, please, close the overlay gene summary window and open it again.";
 			  this.loadingAliquotRecords = false; //If loading data takes too much time and fails, need to stop spinning wheel
 		  });
@@ -314,7 +314,7 @@ export class GenePageComponent implements OnInit, OnChanges {
 			}
 		}
 		else if (filter_field[0] === "Clear all clinical filters selections"){
-			//console.log(this.newFilterSelected);
+
 			this.newFilterSelected["ethnicity"] = ""
 			this.newFilterSelected["race"] = "";
 			this.newFilterSelected["gender"] = "";
@@ -340,7 +340,7 @@ export class GenePageComponent implements OnInit, OnChanges {
 			this.newFilterSelected["alcohol_history"] = "";
 		}
 		else if (filter_field[0] === "Clear all general filters selections"){
-			//console.log(this.newFilterSelected);
+
 			this.newFilterSelected["program_name"] = "";
 			this.newFilterSelected["project_name"] = "";
 			//this.newFilterSelected["study_name"] = "";
@@ -447,7 +447,7 @@ export class GenePageComponent implements OnInit, OnChanges {
 
 	//@@@PDC-2874: Add download option for study table on gene summary page
 	changeHeaderCheckbox($event) {
-		console.log("inside gene changeHeaderCheckbox");
+
 		let checkboxVal = this.selectedHeaderCheckbox;
 		this.selectedStudies = this.currentPageSelectedStudy = [];
 		switch (checkboxVal) {
@@ -463,10 +463,10 @@ export class GenePageComponent implements OnInit, OnChanges {
 				break;
 		}
 	}
-	
+
 	//@@@PDC-9015 sync up check box style
 	triggerchangeHeaderCheckbox($event) {
-		console.log("inside gene triggerchangeHeaderCheckbox");
+
       let checkboxVal = this.selectedHeaderCheckbox;
       this.selectedStudies = this.currentPageSelectedStudy = [];
       switch (this.selectedHeaderCheckbox) {
@@ -491,7 +491,7 @@ export class GenePageComponent implements OnInit, OnChanges {
 	}
 
 	chkBoxSelectionCheck(selectedOption) {
-      console.log("inside gene checkbox selection");
+
       if (selectedOption == 'Select None'){
         this.headercheckbox = false;
         this.dataForManifestExport.close();

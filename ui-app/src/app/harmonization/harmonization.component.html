@@ -14,7 +14,7 @@
   <mat-toolbar-usa-prose style="background-image: linear-gradient(-133deg, #246A92 0%, #245571 100%)"></mat-toolbar-usa-prose>
 </mat-toolbar>
 -->
-<div class="grid-container" style="" >
+<div class="grid-container" style="" id="main-content">
 <mat-card appearance="outlined" class="about-page card card-body">
   <mat-card-content style="padding: 20px;">
   <div class="usa-prose"><h3>Data Harmonization</h3></div>
@@ -53,8 +53,8 @@
   <div >
     <p class="usa-prose">
       PDC uses the CDAP developed at NIST and Georgetown University and in use at  the CPTAC Data Coordinating Center
-      (published <a href="https://www.ncbi.nlm.nih.gov/pubmed/26860878" target="_blank">here</a>)
-      as a starting point for DDA datasets. The pipeline is implemented in the Galaxy Framework that runs on Amazon Cloud. Software programs and parameters are also detailed in <a href="assets/CDAP_ProteinReports_description_20180914.pdf" target="_blank">this</a> document.  In general, the pipeline proceeds in the following order:
+      (published <a href="https://www.ncbi.nlm.nih.gov/pubmed/26860878" target="_blank" style="color: #0066cc !important; text-decoration: underline !important; font-weight: 600 !important;">here</a>)
+      as a starting point for DDA datasets. The pipeline is implemented in the Galaxy Framework that runs on Amazon Cloud. Software programs and parameters are also detailed in <a href="assets/CDAP_ProteinReports_description_20180914.pdf" target="_blank" style="color: #0066cc !important; text-decoration: underline !important; font-weight: 600 !important;">this</a> document.  In general, the pipeline proceeds in the following order:
     </p>
   </div>
   <br>
@@ -64,16 +64,16 @@
            Spectral conversion to standard formats from proprietary.  This step also extracts peak area values for any reporter ion intensities, if an isobaric labeling strategy has been used (current tool: ReAdW4Mascot2.exe from NIST)
         </li>
         <li>
-           Sequence database search (current tool: <a href="https://omics.pnl.gov/software/ms-gf" target="_blank">MSGF+</a> from PNNL)
+           Sequence database search (current tool: <a href="https://omics.pnl.gov/software/ms-gf" target="_blank" style="color: #0066cc !important; text-decoration: underline !important; font-weight: 600 !important;">MSGF+</a> from PNNL)
         </li>
         <li>
            MS1 data processing used for label-free quantitation (current tool: ProMS from NIST)
         </li>
         <li>
-           Phosphosite localization (i.e., scoring) if the sample has been enriched (current tool: <a href="http://ms.imp.ac.at/index.php?action=phosphors" target="_blank">PhosphoRS</a> from the Mechtler Lab)
+           Phosphosite localization (i.e., scoring) if the sample has been enriched (current tool: <a href="http://ms.imp.ac.at/index.php?action=phosphors" target="_blank" style="color: #0066cc !important; text-decoration: underline !important; font-weight: 600 !important;">PhosphoRS</a> from the Mechtler Lab)
         </li>
         <li>
-           Generalized parsimony and “roll-up” of any quantitative information to the gene level (from the spectrum and peptide-levels).  This step also includes normalization and calculation of individual aliquot values to log2ratio values for iTRAQ4 and TMT10 studies. (current tool: PSMLab from the <a href="https://edwardslab.bmcb.georgetown.edu/" target="_blank">Edwards Lab</a> at Georgetown)
+           Generalized parsimony and "roll-up" of any quantitative information to the gene level (from the spectrum and peptide-levels).  This step also includes normalization and calculation of individual aliquot values to log2ratio values for iTRAQ4 and TMT10 studies. (current tool: PSMLab from the <a href="https://edwardslab.bmcb.georgetown.edu/" target="_blank" style="color: #0066cc !important; text-decoration: underline !important; font-weight: 600 !important;">Edwards Lab</a> at Georgetown)
         </li>
      </ul>
   </div>
@@ -92,13 +92,13 @@
   <div class="importantNote">
   <h3>Useful resources:</h3>
 	<p>
-		An overview of the Common Data Analysis pipeline is outlined <a href="assets/CDAP_Results_Overview_rev_09152014.pdf" target="_blank" style="color:#183A58;">here</a> and described in more details in this <a href="https://www.ncbi.nlm.nih.gov/pubmed/26860878" target="_blank" style="color:#183A58;">publication</a>.
+		An overview of the Common Data Analysis pipeline is outlined <a href="assets/CDAP_Results_Overview_rev_09152014.pdf" target="_blank" style="color: #0066cc !important; text-decoration: underline !important; font-weight: 600 !important;">here</a> and described in more details in this <a href="https://www.ncbi.nlm.nih.gov/pubmed/26860878" target="_blank" style="color: #0066cc !important; text-decoration: underline !important; font-weight: 600 !important;">publication</a>.
 	</p>
 	<p>
-		Details of the processed outputs from CDAP can be found <a href="https://pdc.cancer.gov/pdc/faq/Files_Download" target="_blank" style="color:#183A58;">here</a>.
+		Details of the processed outputs from CDAP can be found <a href="https://pdc.cancer.gov/pdc/faq/Files_Download" target="_blank" style="color: #0066cc !important; text-decoration: underline !important; font-weight: 600 !important;">here</a>.
 	</p>
 	<p>
-		Detail of the formats of CDPA out puts can be found here : <a href="assets/CPTAC_DCC_mzIdentML_Format_Peptide-Spectrum-Matches_version_1.1.0.pdf" target="_blank" style="color:#183A58;">Peptide Spectral Matches</a> and <a href="assets/CDAP_ProteinReports_description_20160503.pdf" target="_blank" style="color:#183A58;">Protein Reports</a>.
+		Detail of the formats of CDPA out puts can be found here : <a href="assets/CPTAC_DCC_mzIdentML_Format_Peptide-Spectrum-Matches_version_1.1.0.pdf" target="_blank" style="color: #0066cc !important; text-decoration: underline !important; font-weight: 600 !important;">Peptide Spectral Matches</a> and <a href="assets/CDAP_ProteinReports_description_20160503.pdf" target="_blank" style="color: #0066cc !important; text-decoration: underline !important; font-weight: 600 !important;">Protein Reports</a>.
 	</p>
   </div>
   <br><br>
@@ -107,7 +107,7 @@
   <br>
   <div >
     <p class="usa-prose">
-	  Our approach for analysis of data independent acquisition is based on work in the <a href="https://bitbucket.org/searleb/encyclopedia/wiki/Home" target="_blank">MacCoss Lab</a> and is currently under development. If available, sample or pool-specific data are used to build a spectral library.  The peptides in the library are then scored assigned match scores for each DIA data file.
+	  Our approach for analysis of data independent acquisition is based on work in the <a href="https://bitbucket.org/searleb/encyclopedia/wiki/Home" target="_blank" style="color: #0066cc !important; text-decoration: underline !important; font-weight: 600 !important;">MacCoss Lab</a> and is currently under development. If available, sample or pool-specific data are used to build a spectral library.  The peptides in the library are then scored assigned match scores for each DIA data file.
     </p>
   </div>
   <div  style="margin: auto auto; vertical-align: middle;">
@@ -115,16 +115,16 @@
       <li>
          <!-- @@@PDC-5591-update-site-link -->
          <!-- @@@PDC-8135-update-->
-         Spectral conversion to standard formats from proprietary (current tool: <a href="https://proteowizard.sourceforge.io/doc_users.html" target="_blank">msconvert</a>)
+         Spectral conversion to standard formats from proprietary (current tool: <a href="https://proteowizard.sourceforge.io/doc_users.html" target="_blank" style="color: #0066cc !important; text-decoration: underline !important; font-weight: 600 !important;">msconvert</a>)
       </li>
       <li>
-        An individual peptide centric search is performed on each file with <a href="https://bitbucket.org/searleb/encyclopedia/wiki/Home" target="_blank">EncyclopeDIA</a> either using a user supplied spectral library or the pan-human spectral library.
+        An individual peptide centric search is performed on each file with <a href="https://bitbucket.org/searleb/encyclopedia/wiki/Home" target="_blank" style="color: #0066cc !important; text-decoration: underline !important; font-weight: 600 !important;">EncyclopeDIA</a> either using a user supplied spectral library or the pan-human spectral library.
       </li>
       <li>
-        An experiment level q-value is calculated using <a href="https://www.ncbi.nlm.nih.gov/pubmed/27572102" target="_blank">Percolator</a> from the results from each individual search, and the results are combined into a single chromatogram library.
+        An experiment level q-value is calculated using <a href="https://www.ncbi.nlm.nih.gov/pubmed/27572102" target="_blank" style="color: #0066cc !important; text-decoration: underline !important; font-weight: 600 !important;">Percolator</a> from the results from each individual search, and the results are combined into a single chromatogram library.
       </li>
       <li>
-         The peak boundaries and transitions in the chromatogram library are imported into a <a href="https://skyline.ms/project/home/software/Skyline/begin.view" target="_blank">Skyline</a> document to enable quantification and visualization of the results.
+         The peak boundaries and transitions in the chromatogram library are imported into a <a href="https://skyline.ms/project/home/software/Skyline/begin.view" target="_blank" style="color: #0066cc !important; text-decoration: underline !important; font-weight: 600 !important;">Skyline</a> document to enable quantification and visualization of the results.
       </li>
    </ul>
   </div>
@@ -150,17 +150,17 @@
   <li>
     
       DIA Workflow GitHub Repository: 
-      <a href="https://github.com/mriffle/nf-skyline-dia-ms" target="_blank" style="color:#183A58;">
+      <a href="https://github.com/mriffle/nf-skyline-dia-ms" target="_blank" style="color: #0066cc !important; text-decoration: underline !important; font-weight: 600 !important;">
       nf-skyline-dia-ms</a> 
-      <a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_" style="color:#183A58;">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">External Link</span></a>
+      <a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_" style="color: #0066cc !important;">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">External Link</span></a>
     
   </li>
   <li>
     
       DIA Pipeline User Documentation:
-      <a href="https://nf-skyline-dia-ms.readthedocs.io/" target="_blank" style="color:#183A58;">
+      <a href="https://nf-skyline-dia-ms.readthedocs.io/" target="_blank" style="color: #0066cc !important; text-decoration: underline !important; font-weight: 600 !important;">
       nf-skyline-dia-ms Docs</a> 
-      <a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_" style="color:#183A58;">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">External Link</span></a>
+      <a matTooltip="Exit Disclaimer" href="https://www.cancer.gov/policies/linking" target="_" style="color: #0066cc !important;">&nbsp;<i class="fas fa-external-link-alt"></i><span style="display: none">External Link</span></a>
  
   </li>
 </ul>

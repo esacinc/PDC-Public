@@ -23,7 +23,7 @@ export class HumanBodyChartComponent implements OnInit {
   tickInterval:number;
   numberofOrgans:number;
   primarySites = [];
-  
+
   constructor(private router: Router, private frontPageService: FrontPageService) {}
 
   ngOnInit() {
@@ -31,7 +31,7 @@ export class HumanBodyChartComponent implements OnInit {
     this.generateHumanBody();
   }
 
-  generateHumanBody(selectedFilters = '') { 
+  generateHumanBody(selectedFilters = '') {
     const root = document.getElementById('human-body-root');
     // Have human body map stay highlighted after selection
     var selectedHumanBodyOrgans = "";
@@ -39,14 +39,14 @@ export class HumanBodyChartComponent implements OnInit {
       selectedHumanBodyOrgans = selectedFilters['primary_site'];
     }
     this.frontPageService.getDataForHumanBody().subscribe((data: any) =>{
-		console.log(data);
+
 		this.dataSetsForHumanBody = data.uiPrimarySiteCaseCount;
         //this.numberofOrgans = this.dataSetsForHumanBody.length;
         const humanBodyImgData = this.dataSetsForHumanBody
         .map(({ major_primary_site, cases_count, primarySites}) => ({
 			_key: major_primary_site || "Other",
 			_count: cases_count,
-			_primary_sites_filters: primarySites.join('|')	
+			_primary_sites_filters: primarySites.join('|')
         }))
         .sort((a, b) => (a._key > b._key ? 1 : -1));
 		//PDC-2278 No "Other", "Not Reported" or null bars should appear on the bar chart next to human body figure
@@ -59,7 +59,7 @@ export class HumanBodyChartComponent implements OnInit {
 		if (otherIndex > -1) {
 		  humanBodyImgData.splice(otherIndex, 1);
 	    }
-		//Calculate number of organs/bars in the bar chart based on data post processing -  
+		//Calculate number of organs/bars in the bar chart based on data post processing -
 		//after removing null, not reported, other records
 		this.numberofOrgans = humanBodyImgData.length;
       // Body map on study list doesn't show x-axis when genomic/imaging checkboxes checked
@@ -75,8 +75,6 @@ export class HumanBodyChartComponent implements OnInit {
         if (medianOfCounts < 50) this.tickInterval = medianOfCounts;
       }
       // Generate human body image with mapping.
-	  console.log(humanBodyImgData);
-	  console.log(selectedHumanBodyOrgans);
       let that = this;
       createHumanBody({
         title: '',
@@ -91,15 +89,15 @@ export class HumanBodyChartComponent implements OnInit {
         numberofOrgansFromAPI: that.numberofOrgans,
         clickHandler: function(selectedOrgan: any) {
           //that.selectedFilters.emit(selectedOrgan['_key']);
-          let key = selectedOrgan['_key']; 
+          let key = selectedOrgan['_key'];
           if(selectedOrgan['_key'] == 'Other'){
             key = 'Not Reported';
           }
 		  var url = "/browse/filters/primary_site:" + key;
-		  console.log("URL: " + url);
+
 		  that.router.navigateByUrl(url);
         }
-      }); 
+      });
     });
   }
 }

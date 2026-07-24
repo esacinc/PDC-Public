@@ -1,0 +1,68 @@
+/* Mobile responsiveness for hero section */
+@media (max-width: 768px) {
+  .nci-hero {
+    background-size: cover !important;
+    min-height: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    max-width: 100vw !important;
+    box-sizing: border-box !important;
+  }
+
+  .hero-title {
+    font-size: 1.75rem !important;
+    line-height: 2rem !important;
+    text-align: center;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem !important;
+    line-height: 1.5rem !important;
+    text-align: center;
+  }
+
+  .nci-hero__cta-button {
+    width: 100% !important;
+    max-width: 200px !important;
+    margin: 0 auto !important;
+    display: block !important;
+  }
+
+  .human-body-chart {
+    max-width: 250px !important;
+    margin: 0 auto !important;
+  }
+
+  .nci-hero__content {
+    padding: 5px !important;
+    width: 100% !important;
+    max-width: 100vw !important;
+    box-sizing: border-box !important;
+    margin: 0 !important;
+  }
+
+  .grid-container {
+    padding: 5px !important;
+    margin: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 1.5rem !important;
+    line-height: 1.75rem !important;
+  }
+
+  .hero-subtitle {
+    font-size: 0.875rem !important;
+    line-height: 1.25rem !important;
+  }
+
+  .human-body-chart {
+    max-width: 200px !important;
+  }
+}

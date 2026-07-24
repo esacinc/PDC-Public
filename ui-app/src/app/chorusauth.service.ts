@@ -22,7 +22,7 @@ export class ChorusauthService {
     if (!this.validateEmail(email)) {
       email = sessionStorage.getItem('loginEmail');
     }
-	
+
 	//@@@PDC-9083 check user only w/o lab
     const url = environment.chorus_jwt_url + '/user/wsUser/' + email;
     let response: ChorusUserUpdateResponse;
@@ -81,7 +81,7 @@ export class ChorusauthService {
     const programExistsObservable = new Observable<boolean>((observer) => {
       setTimeout(() => {
         this.http.get(url, {headers: new HttpHeaders({'authorization':'bearer ' + localStorage.getItem('jwtToken')})}).subscribe(data => {
-            console.log(data);
+
             response = data as ChorusUserUpdateResponse;
             console.log("checkUserProgram resp: ");
             console.log(response);
@@ -134,7 +134,7 @@ export class ChorusauthService {
     };
 
     this.http.post(url, payload).subscribe(data => {
-        console.log(data);
+
 
         // Now since the user is created lets update it
         this.updateUser(email);
@@ -153,7 +153,7 @@ export class ChorusauthService {
     //this.getJWTTokenFromChorusAPI();
     setTimeout(() => {
       this.http.put(url,null, {headers: new HttpHeaders({'authorization':'bearer '+localStorage.getItem('jwtToken')})}).subscribe(data => {
-          console.log(data);
+
         },
         (error: HttpErrorResponse) => {
           console.log(error);
@@ -194,7 +194,7 @@ export class ChorusauthService {
 
     const successObservable = new Observable<boolean>((observer) => {
     this.http.post(url, payload).subscribe(data => {
-        console.log(data);
+
         // window.location.href = environment.workspace_url;
         window.open(environment.workspace_url, '_blank');
         observer.next(true);

@@ -150,7 +150,7 @@ export class NavbarNciComponent implements OnInit {
     }
     //PDC-1795 Detect when a user loged in with NIH/eRA sign in option
     this.route.queryParams.subscribe(queryParams => {
-      console.log(queryParams);
+
       if (queryParams.uid) {
         let user_uid = queryParams.uid;
         this.userService.checkPDCUser(user_uid, queryParams.token).subscribe((login: any) => {
@@ -418,7 +418,7 @@ export class NavbarNciComponent implements OnInit {
   //@@@PDC-5778: UI call logging API for search statistics
   callObjectSearchedAPI(type, paramType, paramVal) {
     this.searchService.getObjectSearchedResults(type, paramType, paramVal).subscribe((data: any) => {
-      console.log(data);
+
     });
   }
 
@@ -1187,8 +1187,8 @@ export class NavbarNciComponent implements OnInit {
       icon: 'analysis-icon.png',
       primaryLink: 'Analysis Section',
       sections: [
-        {header: 'Common Data Analysis Pipeline', headerLink: "/pdc/harmonization", sublinks: []},
-        {header: 'Analyze PDC data in the cloud', headerLink: "/pdc/cloud-data-analysis", sublinks: []},
+        {header: 'Common Data Analysis Pipeline', headerLink: "https://pdc-docs.cancer.gov/pdc-docs/data-analysis-guides#data-processing-and-harmonization", sublinks: []},
+        {header: 'Analyze PDC data in the cloud', headerLink: "https://pdc-docs.cancer.gov/pdc-docs/usage#analyzing-pdc-data", sublinks: []},
         {header: 'Quantitation Heatmap Viewer', headerLink: "/pdc/explore-quantitation-data", sublinks: []},
         {header: 'Peptide Mapping on Genome', headerLink: "https://pdc.cancer.gov/jbrowse", exitDisclaimer: true,    sublinks: []},
         {header: 'Peptide Matching with PepQuery', headerLink: "https://pepquery2.pepquery.org/", exitDisclaimer: true, sublinks: []},
@@ -1219,11 +1219,11 @@ export class NavbarNciComponent implements OnInit {
       primaryLink: 'Submit Section',
       sections: [
         {header: 'Access Submission Workspace', headerLink: "submitData", sublinks: []},
-        {header: 'How to Submit Data', headerLink: "/pdc/submit-data", sublinks: []},
-        {header: 'Request Access to Submit Data', headerLink: "/pdc/request-data-submission", sublinks: []},
+        {header: 'How to Submit Data', headerLink: "https://pdc-docs.cancer.gov/pdc-docs/data-submission#submission-process", sublinks: []},
+        {header: 'Request Access to Submit Data', headerLink: "https://pdc-docs.cancer.gov/pdc-docs/data-submission#requesting-data-submission", sublinks: []},
         {
           header: 'Submission Guidelines & Policies',
-          headerLink: "/pdc/submit-data#data-submission-and-release",
+          headerLink: "https://pdc-docs.cancer.gov/pdc-docs/data-submission#data-submission-policies",
           sublinks: []
         },
       ],
@@ -1237,7 +1237,7 @@ export class NavbarNciComponent implements OnInit {
       sections: [
         { header: 'PDC Data Dictionary', headerLink: "/pdc/data-dictionary", sublinks: [] },
         { header: 'Data Model',  headerLink: "/pdc/data-dictionary/data-dictionary-graph", sublinks: [] },
-        { header: 'Data Types and File Formats', headerLink: "/pdc/faq/Files_Download", sublinks: [] },
+        { header: 'Data Types and File Formats', headerLink: "https://pdc-docs.cancer.gov/pdc-docs/data-analysis-guides#data-types", sublinks: [] },
         { header: 'Frequently Asked Questions', headerLink: "/pdc/faq", sublinks: [] },
       ],
       //action: () => this.toggleMenu( "data-sources")
@@ -1248,9 +1248,9 @@ export class NavbarNciComponent implements OnInit {
       icon: 'data-sources-icon.png',
       primaryLink: 'API & Tools Section',
       sections: [
-        { header: 'Overview of PDC APIs', headerLink: "/pdc/api-documentation", sublinks: [] },
+        { header: 'Overview of PDC APIs', headerLink: "https://pdc-docs.cancer.gov/pdc-docs/api-documentation", sublinks: [] },
         { header: 'Try the API (Swagger)',  headerLink: "/pdc/publicapi-documentation/#!/Case/allCases", sublinks: [] },
-        { header: 'Data Download Client Documentation', headerLink: "/pdc/data-download-documentation", sublinks: [] }
+        { header: 'Data Download Client Documentation', headerLink: "https://pdc-docs.cancer.gov/pdc-docs/usage#data-download-client", sublinks: [] }
       ],
       //action: () => this.toggleMenu( "data-sources")
     },
@@ -1340,7 +1340,7 @@ export class NavbarNciComponent implements OnInit {
 
 // New method for immediate closing when mouse moves below mega menu
   onMouseMoveBelow() {
-    console.log("Mouse moved below mega menu - closing immediately");
+
     // Clear any existing timeout
     if (this.closeTimeout) {
       clearTimeout(this.closeTimeout);

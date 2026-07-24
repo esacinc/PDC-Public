@@ -26,9 +26,9 @@ export class DataDownloadDocComponent implements OnInit {
 
   //@@@PDC-5717: Develop the JSON file for the Data Download Page
   constructor(private route:ActivatedRoute,private overlayWindow: OverlayWindowService,private viewportScroller: ViewportScroller,
-    private downloadDocumentationService: DataDownloadDocumentationService) { 
+    private downloadDocumentationService: DataDownloadDocumentationService) {
       this.downloadDocumentationService.getDocumentation().subscribe((data: any) => {
-        //console.log(data);
+
         this.data = data;
         if (data.note) this.note = data.note;
         if (data.title) this.title = data.title;

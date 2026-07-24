@@ -9,6 +9,8 @@ import { map } from 'rxjs/operators';
 import gql from 'graphql-tag';
 
 import { AllClinicalData, QueryAllClinicalDataPaginated } from '../../types';
+import { filter } from 'jszip';
+import { sample } from '../../../assets/js/underscore-min';
 
 /*This is a service class used for the API queries */
 
@@ -190,7 +192,7 @@ constructor(private apollo: Apollo) {
 		})
 		.valueChanges
 		.pipe(
-        map(result => { console.log(result.data); return result.data;})
+        map(result => {  return result.data;})
       );
 	}
 
@@ -299,7 +301,7 @@ constructor(private apollo: Apollo) {
 		})
 		.valueChanges
 		.pipe(
-        map(result => { console.log(result.data); return result.data;})
+        map(result => {  return result.data;})
       );
 	}
 
@@ -427,7 +429,7 @@ constructor(private apollo: Apollo) {
 		})
 		.valueChanges
 		.pipe(
-        map(result => { console.log(result.data); return result.data;})
+        map(result => {  return result.data;})
       );
 	}
 
@@ -565,7 +567,7 @@ constructor(private apollo: Apollo) {
 		})
 		.valueChanges
 		.pipe(
-        map(result => { console.log(result.data); return result.data;})
+        map(result => {  return result.data;})
       );
 	}
 
@@ -926,6 +928,11 @@ constructor(private apollo: Apollo) {
 			tobacco_smoking_status_filter: filters["tobacco_smoking_status"] || '',
 			cigarettes_per_day_filter: filters["cigarettes_per_day"] || '',
 			case_status_filter: filters["case_status"] || '',
+			exposure: filters["exposure"] || '',
+			follow_ups: filters["follow-ups"] || '',
+			treatments: filters["treatments"] || '',
+			samples: filters["samples"] || '',
+
 			getAll: getAll
 		},
 		context: {
@@ -934,10 +941,10 @@ constructor(private apollo: Apollo) {
 	})
 	.valueChanges
 	.pipe(
-	map(result => { console.log(result.data); return result.data;})
+	map(result => {  return result.data;})
 	);
 	}
-
+  /* @@@PDC-10691-select all depopulates genomic and image resource columns */
   filteredCinicalDataPaginatedQueryWithoutSubqueries = gql`
 	query FilteredClinicalDataPaginated($offset_value: Int, $limit_value: Int, $sort_value: String, $program_name_filter: String!, $project_name_filter: String!, $study_name_filter: String!, $disease_filter: String!, $filterValue: String!, $analytical_frac_filter: String!, $exp_type_filter: String!, $ethnicity_filter: String!, $race_filter: String!, $gender_filter: String!, $tumor_grade_filter: String!, $sample_type_filter: String!, $acquisition_type_filter: String!, $data_category_filter: String!, $vital_status_filter: String!, $age_at_diagnosis_filter: String!, $ajcc_clinical_stage_filter: String!, $ajcc_pathologic_stage_filter: String!, $morphology_filter: String!, $site_of_resection_or_biopsy_filter: String!, $progression_or_recurrence_filter: String!,  $therapeutic_agents_filter: String!, $treatment_intent_type_filter: String!,  $treatment_outcome_filter: String!, $treatment_type_filter: String!, $alcohol_history_filter: String!, $alcohol_intensity_filter: String!, $tobacco_smoking_status_filter: String!, $cigarettes_per_day_filter: String!,$case_status_filter: String! $getAll: Boolean!){
 		getPaginatedUIClinical(offset: $offset_value, limit: $limit_value, sort: $sort_value, program_name: $program_name_filter , project_name: $project_name_filter,
@@ -1096,7 +1103,145 @@ constructor(private apollo: Apollo) {
 				ishak_fibrosis_score
 				lymph_nodes_tested
 				medulloblastoma_molecular_classification
+				program_name
+				exposures {
+					exposure_id
+					exposure_submitter_id
+					alcohol_days_per_week
+					alcohol_drinks_per_day
+					alcohol_history
+					alcohol_intensity
+					asbestos_exposure
+					cigarettes_per_day
+					coal_dust_exposure
+					environmental_tobacco_smoke_exposure
+					pack_years_smoked
+					radon_exposure
+					respirable_crystalline_silica_exposure
+					smoking_frequency
+					time_between_waking_and_first_smoke
+					tobacco_smoking_onset_year
+					tobacco_smoking_quit_year
+					tobacco_smoking_status
+					type_of_smoke_exposure
+					type_of_tobacco_used
+					years_smoked
+					age_at_onset
+					alcohol_type
+					exposure_duration
+					exposure_duration_years
+					exposure_type
+					marijuana_use_per_week
+					parent_with_radiation_exposure
+					secondhand_smoke_as_child
+					smokeless_tobacco_quit_age
+					tobacco_use_per_day
+				}
+				follow_ups {
+					follow_up_id
+					follow_up_submitter_id
+					adverse_event
+					adverse_event_grade
+					aids_risk_factors
+					barretts_esophagus_goblet_cells_present
+					bmi
+					body_surface_area
+					cause_of_response
+					cd4_count
+					cdc_hiv_risk_factors
+					comorbidity
+					comorbidity_method_of_diagnosis
+					days_to_adverse_event
+					days_to_comorbidity
+					days_to_follow_up
+					days_to_imaging
+					days_to_progression
+					days_to_progression_free
+					days_to_recurrence
+					diabetes_treatment_type
+					disease_response
+					dlco_ref_predictive_percent
+					ecog_performance_status
+					evidence_of_recurrence_type
+					eye_color
+					fev1_ref_post_bronch_percent
+					fev1_ref_pre_bronch_percent
+					fev1_fvc_pre_bronch_percent
+					fev1_fvc_post_bronch_percent
+					haart_treatment_indicator
+					height
+					hepatitis_sustained_virological_response
+					history_of_tumor
+					history_of_tumor_type
+					hiv_viral_load
+					hormonal_contraceptive_type
+					hormonal_contraceptive_use
+					hormone_replacement_therapy_type
+					hpv_positive_type
+					hysterectomy_margins_involved
+					hysterectomy_type
+					imaging_result
+					imaging_type
+					immunosuppressive_treatment_type
+					karnofsky_performance_status
+					menopause_status
+					nadir_cd4_count
+					pancreatitis_onset_year
+					pregnancy_outcome
+					procedures_performed
+					progression_or_recurrence
+					progression_or_recurrence_anatomic_site
+					progression_or_recurrence_type
+					recist_targeted_regions_number
+					recist_targeted_regions_sum
+					reflux_treatment_type
+					risk_factor
+					risk_factor_treatment
+					scan_tracer_used
+					undescended_testis_corrected
+					undescended_testis_corrected_age
+					undescended_testis_corrected_laterality
+					undescended_testis_corrected_method
+					undescended_testis_history
+					undescended_testis_history_laterality
+					viral_hepatitis_serologies
+					weight
+				}
+				treatments {
+					treatment_id
+					treatment_submitter_id
+					days_to_treatment_end
+					days_to_treatment_start
+					initial_disease_status
+					regimen_or_line_of_therapy
+					therapeutic_agents
+					treatment_anatomic_site
+					treatment_effect
+					treatment_intent_type
+					treatment_or_therapy
+					treatment_outcome
+					treatment_type
+					chemo_concurrent_to_radiation
+					number_of_cycles
+					reason_treatment_ended
+					route_of_administration
+					treatment_arm
+					treatment_dose
+					treatment_dose_units
+					treatment_effect_indicator
+					treatment_frequency
+				}
+				samples {
+					sample_id
+					sample_submitter_id
+					annotation
+				}
+				externalReferences {
+					reference_resource_shortname
+					reference_entity_location
+				}
 			}
+				
 			pagination {
 				count
 				sort
@@ -1163,7 +1308,7 @@ constructor(private apollo: Apollo) {
     })
       .valueChanges
       .pipe(
-        map(result => { console.log(result.data); return result.data;})
+        map(result => {  return result.data;})
       );
   }
 
@@ -1221,7 +1366,7 @@ constructor(private apollo: Apollo) {
 	})
 	.valueChanges
 	.pipe(
-	map(result => { console.log(result.data); return result.data;})
+	map(result => {  return result.data;})
 	);
 	}
 

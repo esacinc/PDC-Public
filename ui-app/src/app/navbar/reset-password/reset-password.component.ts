@@ -38,7 +38,7 @@ export class ResetPasswordComponent implements OnInit {
               private dialogRef: MatDialogRef<ResetPasswordComponent>,
               @Inject(MAT_DIALOG_DATA) data) {
     this.uid = data.uuid;
-    //console.log(this.uid);
+
     this.resetPasswordForm = new UntypedFormGroup({
       user_pass: new UntypedFormControl('', [Validators.required,
         Validators.minLength(8),
@@ -77,11 +77,11 @@ export class ResetPasswordComponent implements OnInit {
         this.dialogRef.close('Password updated');
         message = 'User updated password successfully and may now login with their new password.';
 
-        console.log('User updated password successfully.');
+
         //this.router.navigate(["pdc"]);
       } else {
         //Something went wrong
-        console.log('Password reset failed!');
+
         message = 'Password reset was not successful. Your password reset link has expired!';
         this.dialogRef.close('Password reset failed');
       }

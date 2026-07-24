@@ -76,7 +76,7 @@ export class PublicapiDocumentationComponent implements AfterViewInit  {
 
 
         if (swaggerUi.options.url) {
-          console.log("swagger url: "+ swaggerUi.options.url);
+
           $('#input_baseUrl').val(swaggerUi.options.url);
         }
         if (swaggerUi.options.apiKey) {
@@ -87,7 +87,7 @@ export class PublicapiDocumentationComponent implements AfterViewInit  {
 
         /* @@@PDC-2179: Add search feature in Swagger API Documentation */
 
-        var searchTemplate = "<div class='filter'><fieldset class='search'><input type='text' placeholder='Search for API methods... '><button type='submit'><i class='icon-search'></i></button></fieldset></div>";
+        var searchTemplate = "<div class='filter'><fieldset class='search'><legend class='sr-only'>Search API Methods</legend><label for='api-search-input' class='sr-only'>Search for API methods</label><input id='api-search-input' type='text' placeholder='Search for API methods... ' aria-label='Search for API methods'><button type='submit' aria-label='Search'><i class='icon-search'></i></button></fieldset></div>";
 
         $("#swagger-ui-container").find(">div>ul").sieve({
           itemSelector: "li",
@@ -102,6 +102,51 @@ export class PublicapiDocumentationComponent implements AfterViewInit  {
         });
 
         $("[data-toggle='tooltip']").tooltip();
+
+        /* Add accessibility labels for 508 compliance */
+        // Function to add aria-label to form inputs
+        function addAccessibilityLabels() {
+          $('input.parameter, textarea.parameter, select.parameter, input.body-textarea, textarea.body-textarea').each(function() {
+            var $input = $(this);
+            var name = $input.attr('name');
+            var title = $input.attr('data-original-title') || $input.attr('title') || name;
+            
+            // Set aria-label if not already set
+            if (!$input.attr('aria-label') && title) {
+              $input.attr('aria-label', title);
+            }
+          });
+          
+          // Add labels to URL and API Key inputs
+          if ($('#input_baseUrl').length && !$('#input_baseUrl').attr('aria-label')) {
+            $('#input_baseUrl').attr('aria-label', 'Base URL');
+          }
+          if ($('#input_apiKey').length && !$('#input_apiKey').attr('aria-label')) {
+            $('#input_apiKey').attr('aria-label', 'API Key Token');
+          }
+        }
+        
+        // Add labels to initial inputs
+        addAccessibilityLabels();
+        
+        // Watch for dynamically added inputs (when operations are expanded)
+        var observer = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.addedNodes && mutation.addedNodes.length > 0) {
+              // Run with a small delay to ensure DOM is fully updated
+              setTimeout(addAccessibilityLabels, 100);
+            }
+          });
+        });
+        
+        // Start observing the swagger container for changes
+        var container = document.getElementById('swagger-ui-container');
+        if (container) {
+          observer.observe(container, {
+            childList: true,
+            subtree: true
+          });
+        }
 
         var key = encodeURIComponent($('#input_apiKey')[0].value);
         if (key && key.trim() != "") {
@@ -123,7 +168,7 @@ export class PublicapiDocumentationComponent implements AfterViewInit  {
         $('#input_apiKey').change(addApiKeyAuthorization);
       },
       onFailure: function (data) {
-        console.log("Unable to Load SwaggerUI");
+
       },
       docExpansion: "none",
       sorter: "alpha"
@@ -175,7 +220,6 @@ export class PublicapiDocumentationComponent implements AfterViewInit  {
           var navOffset = n.offset();
           n.hasClass("fixed") || navOffset;
           e();
-          //console.log(n.offset().top);
 
           $(window).scrollTop() > 1000 ? $(".modal.in").length || n.addClass("fixed") : n.removeClass("fixed").css({ "top": "0px"});
           //$(window).scrollTop() > navOffset ? 0 || n.addClass("fixed") : n.removeClass("fixed")

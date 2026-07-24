@@ -44,4 +44,9 @@ export class FooterComponent implements OnInit {
     this.overlayWindow.open('PrivacyPolicyOverlayWindowComponent');
   }
 
+  // PDC-10922: Scroll to top of current page
+  scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
 }

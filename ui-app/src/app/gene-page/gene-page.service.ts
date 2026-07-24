@@ -61,7 +61,7 @@ constructor(private apollo: Apollo) {
 		})
 		.valueChanges
 		.pipe(
-        map(result => { console.log(result.data); return result.data;})
+        map(result => {  return result.data;})
       );
 	}
 
@@ -104,7 +104,7 @@ constructor(private apollo: Apollo) {
 		})
 		.valueChanges
 		.pipe(
-        map(result => { console.log(result.data); return result.data;})
+        map(result => {  return result.data;})
       );
 	}
 	// Updated query for @@@PDC-557: Add the protein abundance data to the Gene Summary screen
@@ -199,7 +199,7 @@ constructor(private apollo: Apollo) {
 		})
 		.valueChanges
 		.pipe(
-        map(result => { console.log(result.data); return result.data;})
+        map(result => {  return result.data;})
       );
 	}
 
@@ -290,7 +290,7 @@ constructor(private apollo: Apollo) {
 		})
 		.valueChanges
 		.pipe(
-        map(result => { console.log(result.data); return result.data;})
+        map(result => {  return result.data;})
       );
 	}
 
@@ -328,7 +328,7 @@ constructor(private apollo: Apollo) {
 		})
 		.valueChanges
 		.pipe(
-        map(result => { console.log(result.data); return result.data;})
+        map(result => {  return result.data;})
       );
 	}
 }

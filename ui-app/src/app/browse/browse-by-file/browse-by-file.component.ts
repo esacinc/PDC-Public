@@ -84,7 +84,7 @@ export class BrowseByFileComponent implements OnInit {
   fenceRequest: boolean = false;
   //keep a full list of filter category
   // Array which holds filter names. Must be updated when new filters are added to browse page.
-  allFilterCategory: string[] = ["project_name", "primary_site", "program_name", "disease_type", "analytical_fraction", "experiment_type", "acquisition_type", "study_name", "submitter_id_name", "sample_type", "ethnicity", "race", "gender", "tumor_grade", "data_category", "file_type", "access", "downloadable", "studyName_genes_tab", "biospecimen_status", "case_status"];
+  allFilterCategory: string[] = ["project_name", "primary_site", "program_name", "disease_type", "analytical_fraction", "experiment_type", "acquisition_type", "study_name", "submitter_id_name", "sample_type", "ethnicity", "race", "gender", "tumor_grade", "data_category", "file_type", "access", "downloadable", "studyName_genes_tab", "biospecimen_status", "case_status", "vital_status", "age_at_diagnosis", "ajcc_clinical_stage", "ajcc_pathologic_stage", "morphology", "site_of_resection_or_biopsy", "progression_or_recurrence", "therapeutic_agents", "treatment_intent_type", "treatment_outcome", "treatment_type", "alcohol_history", "alcohol_intensity", "tobacco_smoking_status", "cigarettes_per_day"];
 
   notDownloadable: string = 'not available for download';
 
@@ -378,11 +378,11 @@ export class BrowseByFileComponent implements OnInit {
 
   applySelectFilter(filterValues: string) {
     // console.log(event.value);
-    //console.log("Filter in File: "+filterValues);
+
     // this.newFilterValue.fileTypes = [];
     this.newFilterSelected["file_type"] = filterValues.split(":")[1];
     this.loading = true;
-    console.log("GET FILES: "+this.newFilterSelected);
+
     this.browseByFileService
       .getFilteredFilesPaginated(
         this.studyVersion,
@@ -419,8 +419,8 @@ export class BrowseByFileComponent implements OnInit {
       var filter_field = [];
       filter_field.push(this.newFilterValue.substring(0, this.newFilterValue.indexOf(":")));
       filter_field.push(this.newFilterValue.substring(this.newFilterValue.indexOf(":") + 1));
-      console.log("Filter Name: " + filter_field[0]);
-      console.log("Filter Value: " + filter_field[1]);
+
+
 
       //If clear all filter selection button was pressed need to clear all filters
       if (filter_field[0] === "Clear all selections") {
@@ -428,7 +428,7 @@ export class BrowseByFileComponent implements OnInit {
           this.newFilterSelected[filter_name] = "";
         }
       } else if (filter_field[0] === "Clear all clinical filters selections") {
-        //console.log(this.newFilterSelected);
+
         this.newFilterSelected["ethnicity"] = "";
         this.newFilterSelected["race"] = "";
         this.newFilterSelected["gender"] = "";
@@ -454,7 +454,7 @@ export class BrowseByFileComponent implements OnInit {
         this.newFilterSelected["sample_type"] = "";
         this.newFilterSelected["case_status"] = "";
       } else if (filter_field[0] === "Clear all general filters selections") {
-        //console.log(this.newFilterSelected);
+
         this.newFilterSelected["program_name"] = "";
         this.newFilterSelected["project_name"] = "";
         this.newFilterSelected["study_name"] = "";
@@ -774,7 +774,7 @@ export class BrowseByFileComponent implements OnInit {
         if (file.downloadable.toLowerCase() === 'yes') {
           //let urlResponse = await this.browseByFileService.getOpenFileSignedUrl(file.file_name);
           //@@@PDC-5770 get file using uuid
-          console.log("Current file id0926: " + file.file_id);
+
           let urlResponse = await this.browseByFileService.getOpenFileUuidSignedUrl(file.file_id);
           if (!urlResponse.error) {
             downloadLink = urlResponse.data;
@@ -1063,10 +1063,10 @@ export class BrowseByFileComponent implements OnInit {
       exportfileobjectTSV[key].file_md5sum = exportfileobjectTSV[key].md5sum;
       delete exportfileobjectTSV[key].md5sum;
     });
-    //console.log(exportfileobjectTSV);
+
     let data = {'fileManifestName': fileManifestName}
     exportfileobjectTSV.push(data);
-    //console.log(exportfileobjectTSV);
+
     let exportTSVData = JSON.stringify(exportfileobjectTSV);
     //let request = this.http.post("http://127.0.0.1:5000", exportTSVData);
     let request = this.http.post(environment.flask_api_url, exportTSVData);
@@ -1074,11 +1074,11 @@ export class BrowseByFileComponent implements OnInit {
         if (response) {
           window.open(response.toString(), "_blank");
         } else {
-          console.log("Something went wrong!");
+
         }
       },
       (error) => {
-        console.log("Something went wrong!", error);
+
       })
   }
 
@@ -1112,7 +1112,7 @@ export class BrowseByFileComponent implements OnInit {
     for (let file of dataForExport) {
       totalSize += parseInt(file.file_size);
     }
-    console.log("Total file size to download: " + totalSize);
+
     let confirmationMessage = 'You are about to download ' + this.sizeUnitsPipe.transform(totalSize) + ' of data. Do you wish to proceed?';
     let denyMessage = 'Your download request (' + this.sizeUnitsPipe.transform(totalSize) + ') exceeds the limit of 20 GB. Please reduce the volumn and try again.';
     let nextMsg = 'Continue';
@@ -1125,7 +1125,7 @@ export class BrowseByFileComponent implements OnInit {
       dialogRef.afterClosed().subscribe(result => {
         if (!result) {
         } else {
-          console.log("Let's download.");
+
           this.downloadBatch();
         }
       });
@@ -1176,7 +1176,7 @@ export class BrowseByFileComponent implements OnInit {
           this.winOpenS3File(fileItem.signedUrl.url).alert(confirmationMessage);
           this.sleep(2000);
         } else {
-          console.log("Error in downloading: " + fileItem.file_name);
+
         }
       }
     });
@@ -1363,7 +1363,7 @@ export class BrowseByFileComponent implements OnInit {
           //Not changing now as we don't have sufficient data to test.
           //let urlResponse = await this.browseByFileService.getOpenFileSignedUrl(exportFile.file_name);
           //@@@PDC-5770 get file using uuid
-          console.log("Export file id 0928: " + exportFile.file_id);
+
           let urlResponse = await this.browseByFileService.getOpenFileUuidSignedUrl(exportFile.file_id);
           if (!urlResponse.error) {
             if (individualFileDownload) {
@@ -1543,7 +1543,7 @@ export class BrowseByFileComponent implements OnInit {
 
     //@@@PDC-729 Integrate PDC with Fence and IndexD
     this.activeRoute.queryParams.subscribe(queryParams => {
-      console.log(queryParams);
+
       if (queryParams.code) {
         this.fenceRequest = true;
         var controlFilesIndividualFileDownload = false;

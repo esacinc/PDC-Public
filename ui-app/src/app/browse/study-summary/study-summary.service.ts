@@ -81,7 +81,7 @@ export class StudySummaryService {
       .valueChanges
       .pipe(
         map(result => {
-          console.log(result.data);
+
           return result.data;
         })
       );
@@ -121,7 +121,7 @@ export class StudySummaryService {
       .valueChanges
       .pipe(
         map(result => {
-          console.log(result.data);
+
           return result.data;
         })
       );
@@ -133,7 +133,7 @@ export class StudySummaryService {
   //@@@PDC-2939 update study summary page to display other versions
   //@@@PDC-2998 - update UI to include API changes for study versions new feature
   getFilteredStudyData(study_name = '', pdc_study_id = '', study_version = '', source = '') {
-    console.log("getFilteredStudyData: " + pdc_study_id + " version: " + study_version);
+
     return this.apollo.watchQuery<QueryAllStudiesData>({
       query: this.filteredStudyDataQuery,
       variables: {
@@ -146,7 +146,7 @@ export class StudySummaryService {
       .valueChanges
       .pipe(
         map(result => {
-          console.log(result.data);
+
           return result.data;
         })
       );
@@ -260,7 +260,7 @@ export class StudySummaryService {
       .valueChanges
       .pipe(
         map(result => {
-          console.log(result.data);
+
           return result.data;
         })
       );
@@ -343,7 +343,7 @@ export class StudySummaryService {
       .valueChanges
       .pipe(
         map(result => {
-          console.log(result.data);
+
           return result.data;
         })
       );
@@ -369,7 +369,7 @@ export class StudySummaryService {
       .valueChanges
       .pipe(
         map(result => {
-          console.log(result.data);
+
           return result.data;
         })
       );
@@ -397,7 +397,7 @@ export class StudySummaryService {
       .valueChanges
       .pipe(
         map(result => {
-          console.log(result.data);
+
           return result.data;
         })
       );
@@ -494,7 +494,7 @@ export class StudySummaryService {
       .valueChanges
       .pipe(
         map(result => {
-          console.log(result.data);
+
           return result.data;
         })
       );
@@ -611,7 +611,7 @@ export class StudySummaryService {
       .valueChanges
       .pipe(
         map(result => {
-          console.log(result.data);
+
           return result.data;
         })
       );
@@ -787,7 +787,7 @@ export class StudySummaryService {
       .valueChanges
       .pipe(
         map(result => {
-          console.log(result.data);
+
           return result.data;
         })
       );
@@ -827,7 +827,7 @@ export class StudySummaryService {
       .valueChanges
       .pipe(
         map(result => {
-          console.log(result.data);
+
           return result.data;
         })
       );
@@ -865,7 +865,7 @@ export class StudySummaryService {
       .valueChanges
       .pipe(
         map(result => {
-          console.log(result.data);
+
           return result.data;
         })
       );
@@ -1225,7 +1225,7 @@ export class StudySummaryService {
       .valueChanges
       .pipe(
         map(result => {
-          console.log(result.data);
+
           return result.data;
         })
       );

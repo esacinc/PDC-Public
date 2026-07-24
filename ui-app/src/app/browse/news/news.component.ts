@@ -20,13 +20,13 @@ export class NewsComponent implements OnInit {
     const url_nih_funding_feed = 'https%3A%2F%2Fgrants.nih.gov%2Fgrants%2Fguide%2Fnewsfeed%2Ffundingopps.xml';
     this.newsService.getFeedContent(url_cellular_proteomics)
         .subscribe(( data: any ) => {
-          console.log(data.items);
+          //console.log(data.items);
           this.cellular_proteomics_feeds = data.items;
 
         });
     this.newsService.getFeedContent(url_human_proteome_atlas)
         .subscribe(( data: any ) => {
-          console.log(data.items);
+          //console.log(data.items);
           this.human_proteome_atlas_feeds = data.items;
 
         });

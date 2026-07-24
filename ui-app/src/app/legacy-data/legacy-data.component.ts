@@ -90,9 +90,9 @@ export class LegacyDataComponent implements OnInit{
 	}
 
 	onRowToggle(rowData: any) {
-		console.log('Row toggle clicked for:', rowData);
-		console.log('Current expandedRows:', this.expandedRows);
-		console.log('DataKey value:', rowData.project_name);
+
+
+
 	}
 
 	toggleRow(rowData: any) {
@@ -102,7 +102,7 @@ export class LegacyDataComponent implements OnInit{
 		} else {
 			this.expandedRows[key] = true;
 		}
-		console.log('Toggled row for:', key, 'Expanded rows:', this.expandedRows);
+
 	}
 
 	isRowExpanded(rowData: any): boolean {
@@ -128,7 +128,7 @@ export class LegacyDataComponent implements OnInit{
 		  this.allStudies = data.uiLegacyStudies ;
 		  //sort all studies by their sort_order column - create a copy first to avoid read-only error
 		  this.allStudies = [...this.allStudies].sort((a, b) => (a.sort_order > b.sort_order) ? 1 : -1);
-		  console.log(this.allStudies);
+
 		  for (let study of this.allStudies) {
 			  //PDC-3982 Create new layout for Legacy Data page
 			 /*var studyIdx = this.findStudyInList(study.submitter_id_name);
@@ -146,9 +146,9 @@ export class LegacyDataComponent implements OnInit{
 										 experiment_type: ""
 										});
 			 }*/
-			  //console.log(study);
+
 			  var index = this.findProjectInList(study.project_submitter_id);
-			  //console.log(index);
+
 			  if (index > -1) {
 				  //this.projects[index].studies.push(study);
 				  //look if this study name already is in the list
@@ -158,23 +158,23 @@ export class LegacyDataComponent implements OnInit{
 						studyIndex = i;
 					}
 				  }
-				  //console.log("Project index: " + index + ", Study index: " + studyIndex);
+
 				  //Grouping studies with the same name
 				  if (studyIndex > -1) {
-					  //console.log("Study found");
+
 					 // console.log(this.projects[index].studies[studyIndex]);
 					//If study already exists in the list add just the substudy name
 					this.projects[index].studies[studyIndex].studyNamesList.push( {subStudyName: study.study_submitter_id,
 																					analytical_fraction: study.analytical_fraction,
 																					experiment_type: study.experiment_type});
 				  } else {
-					  //console.log("Study NOT found");
+
 					this.projects[index].studies.push( {study_name:  study.submitter_id_name,
 														studyNamesList: [{subStudyName: study.study_submitter_id,
 																		  analytical_fraction: study.analytical_fraction,
 																		  experiment_type: study.experiment_type}],
 														study_description: study.study_description });
-					//console.log(this.projects[index].studies);
+
 				  }
 			  } else {
 				  //this.projects.push({project_name: study.project_submitter_id, studies: [study]});
@@ -186,7 +186,7 @@ export class LegacyDataComponent implements OnInit{
 																					 study_description: study.study_description
 																					}],
 									});
-				  //console.log(this.projects);
+
 			  }
 
 		  }
@@ -206,8 +206,8 @@ export class LegacyDataComponent implements OnInit{
 			  this.studiesList[i].analytical_fraction = an_frac.join(", ");
 			  this.studiesList[i].experiment_type = exp_type.join(", ");
 		  }
-		   console.log(this.studiesList);*/
-		  console.log(this.projects);
+		   */
+
 
 		});
 	}
@@ -261,7 +261,7 @@ export class LegacyDataComponent implements OnInit{
 			//study_data.pdc_study_id = study_id;
 			//study_data.study_submitter_id = study_name;
 			let study_data: QueryLegacyStudies = this.allStudies[index];
-			console.log(study_data);
+
 			const dialogConfig = new MatDialogConfig();
 
 			dialogConfig.disableClose = true;
@@ -299,7 +299,7 @@ export class LegacyDataComponent implements OnInit{
 				studies_names = studies_names.slice(0, -1);
 			}
 		}*/
-		console.log(studies_names);
+
 		const dialogConfig = new MatDialogConfig();
 		dialogConfig.disableClose = true;
 		dialogConfig.autoFocus = false;
@@ -312,7 +312,7 @@ export class LegacyDataComponent implements OnInit{
 		this.router.navigate([{outlets: {filesOverlay: ['files-overlay', studies_names]}}], { skipLocationChange: true });
 		const dialogRef = this.dialog.open(FilesOverlayComponent, dialogConfig);
 		dialogRef.afterClosed().subscribe((val:any) => {
-				console.log("Dialog output:", val);
+
 				//Generate alias URL to hide auxiliary URL details when the overlay window was closed and the focus returnes back
 				this.loc.replaceState("/TechnologyAdvancementStudies");
 		});

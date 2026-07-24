@@ -54,9 +54,9 @@
 		<br>
 		<div class="row" style="width: 80%;">
 			<p-table class="table-striped ui-datatable-odd" id="geneSummaryPTMDataTable" [value]="genePTMData" [lazy]="true" [paginator]="true" [(first)]="ptmOffset"
-					 scrollHeight="200px" [rows]="10" [pageLinks]="5" [totalRecords]="ptmTotalRecords" [loading]="loading"
+					 scrollHeight="200px" [rows]="10" [pageLinks]="5" [rowsPerPageOptions]="[10,20,50]" [totalRecords]="ptmTotalRecords" [loading]="loading"
 					 [resizableColumns]="true" responsive="true" (onLazyLoad)="loadPTMData($event)" [ngStyle]="{'width':'100%'}"
-					 [autoLayout]="true" [frozenColumns]="frozenPTMColumns" [scrollable]="true" frozenWidth="150px">
+					 [autoLayout]="true" [frozenColumns]="frozenPTMColumns" [scrollable]="true" frozenWidth="150px" paginatorPosition="both">
 				<ng-template pTemplate="caption">
 					<div style="float:left">Detected Post-translational Modifications</div>
 					<div class="ui-helper-clearfix">
@@ -124,8 +124,9 @@
 						<label title="checkboxLabel">
 						<p-checkbox id="studyDataChk" [(ngModel)]="headercheckbox" binary="true" (onChange)="triggerchangeHeaderCheckbox($event)">
 						</p-checkbox>
-							  <mat-select #dataForManifestExport id="dataForManifestExport" class="card-body card-list" [(ngModel)]="selectedHeaderCheckbox" (selectionChange)="changeHeaderCheckbox($event)">
-								  <mat-option *ngFor="let checkboxOption of checkboxOptions" [value]="checkboxOption" (selectionChange)="chkBoxSelectionCheck(checkboxOption)">
+						<!-- @@@PDC-10616-selection-text-gene-summary-page-display-issue -->
+							  <mat-select #dataForManifestExport id="dataForManifestExport" class="card-body card-list" [(ngModel)]="selectedHeaderCheckbox" (selectionChange)="changeHeaderCheckbox($event)" style="width:200px;">
+								  <mat-option *ngFor="let checkboxOption of checkboxOptions" [value]="checkboxOption" (selectionChange)="chkBoxSelectionCheck(checkboxOption)" style="width:200px;">
 								 {{checkboxOption}}
 								  </mat-option>
 							  </mat-select>

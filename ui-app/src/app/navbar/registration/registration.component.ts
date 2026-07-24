@@ -153,7 +153,7 @@ export class RegistrationComponent implements OnInit {
         this.passwordInvalidMessage = passwordInvalidMessage2;
       }
       this.formInvalidMessage = 'Some required fields are missing.';
-      //console.log(this.registrationForm);
+
       //Delete the contents of localStorage after the error messages are displayed.
       localStorage.removeItem('passwordInvalidMessage');
       localStorage.removeItem('nonMatchingPasswords');
@@ -164,7 +164,7 @@ export class RegistrationComponent implements OnInit {
     //Delete the contents of localStorage if the form has valid data.
     localStorage.removeItem('passwordInvalidMessage');
     localStorage.removeItem('nonMatchingPasswords');
-    //console.log(this.registrationForm.value);
+
     let researcherType = this.selectedResearcherType;
     //Save what the user wrote in text field for "other" researcher type option
     if (this.otherResearcherType != '' && this.selectedResearcherType == 'other') {
@@ -179,7 +179,7 @@ export class RegistrationComponent implements OnInit {
     }
     //If the user has UID they signed in via NIH/eRA login
     if (this.userService.getUID()) {
-      console.log('Creating user with UID ' + this.userService.getUID());
+
       //PDC-421 - adding username to send to pdcapi
       let username: string =
         this.registrationForm.value.first_name +
@@ -215,13 +215,13 @@ export class RegistrationComponent implements OnInit {
               this.router.navigate(['browse']);
             }
           } else {
-            console.log('Registration failed!');
+
           }
         });
     }
     //If user does not have UID they signed in via google
     else {
-      console.log('Creating user with email ' + this.registrationForm.get('email').value);
+
       let secure_pass: string = '';
       let continueRegistration = true;
       if (this.idProvider === 'PDC') {
@@ -235,7 +235,7 @@ export class RegistrationComponent implements OnInit {
               //this.dialogRef.close('user registered');
               break;
             case 1:
-              console.log('User with this email does not exist continue to registration.');
+
               continueRegistration = true;
               //this.dialogRef.close('user registered');
               break;
@@ -304,7 +304,7 @@ export class RegistrationComponent implements OnInit {
               let messageHeight = '140px';
               if (this.userService.getUserIDType() === 'PDC' && this.userService.getIsRegistered() === 0) {
                 //alert("Thank you for registering with PDC. You will receive a message to confirm your registration at the email address provided. Once confirmed, you should be able to login with your email id password.");
-                console.log('Thank you for registering with PDC. You will receive a message to confirm your registration at the email address provided. Once confirmed, you should be able to login with your email id password.');
+
                 message = 'Thank you for registering with PDC. You will receive a message to confirm your registration at the email address provided. Once confirmed, you should be able to login with your email and password.';
                 messageHeight = '200px';
               }
@@ -318,7 +318,7 @@ export class RegistrationComponent implements OnInit {
               });
             } else {
               //Something went wrong with the registration
-              console.log('Registration failed!');
+
             }
           });
       }
@@ -349,7 +349,7 @@ export class RegistrationComponent implements OnInit {
       if (emailSent) {
         let message = 'An email with instructions to reset password was sent';
         //alert("Check your email for further instrutions");
-        console.log('An email with instructions to reset password was sent');
+
         this.dialog.open(MessageDialogComponent, {
           width: '400px',
           height: '120px',
@@ -370,7 +370,7 @@ export class RegistrationComponent implements OnInit {
           hasBackdrop: true,
           data: {message: notExistsMsg}
         });
-        console.log('User with such email ' + userId + ' does not exist');
+
       }
     });
   }
@@ -387,7 +387,7 @@ export class RegistrationComponent implements OnInit {
   }
 
   ngOnInit() {
-    //console.log(this.registrationForm);
+
     if (this.idProvider === 'PDC') {
       this.user_pass.valueChanges.subscribe(value => {
         if (this.registrationForm.value.user_pass.length < 8 && this.registrationForm.value.user_pass.length > 2) {

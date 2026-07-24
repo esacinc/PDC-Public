@@ -74,7 +74,7 @@ export class WorkflowManagerComponent implements OnInit {
 
     let f_lists: string[];
     f_lists = [];
-   console.log('Summary Data:', this.selectedFiles.summaryData);
+
     this.selectedFiles.summaryData.map((x) => f_lists.push(x.file_name));
     let file_names = '';
     file_names += f_lists.join(';');
@@ -85,18 +85,18 @@ export class WorkflowManagerComponent implements OnInit {
     this.workflowManagerFileService.getMetadataForFiles(file_names).subscribe((data: any) => {
     //@@@PDC-1123 call ui wrapper API
       this.workflow_params = data.uiFileMetadata;
-      
+
       this.file_metadata_list = this.buildMetadataTree(data);
       this.file_metadata = <TreeNode[]>this.file_metadata_list;
       // Now get the metadata list for the files
-   
-      this.workflowManagerFileService.getAvailableWorkflows(this.file_type_list, this.instrument_list, 
+
+      this.workflowManagerFileService.getAvailableWorkflows(this.file_type_list, this.instrument_list,
                                     this.analytes_list, this.experiment_types_list).subscribe(
         (workflows: any) => {
 		  //PDC-447 no need in JSON.parse
           const available_workflows = workflows;
           if ( available_workflows.workflows.length < 1 ) {
-            console.log('No matching workflows available for selected files');
+
             this.error_message = 'No relevant workflows available for selected files';
             this.run_enabled = false;
           } else {
@@ -109,7 +109,7 @@ export class WorkflowManagerComponent implements OnInit {
       });
 
     });
-    
+
     this.workflowManagerFileService.getClusterStatus(CLUSTER_NAME).subscribe((data: any) => {
 	  //PDC-447 no need in JSON.parse
       const status_details = data;
@@ -129,10 +129,10 @@ export class WorkflowManagerComponent implements OnInit {
   }
 
   submitWorkflow() {
-    console.log('Submitting workflow params:', this.workflow_params);
+
     this.workflowManagerFileService.submitCDAPWorkflow(this.workflow_params, this.selectedWorkflow,
                                                     CLUSTER_LABEL).subscribe((data: any) => {
-      console.log(data);
+
     });
   }
 
@@ -143,7 +143,7 @@ export class WorkflowManagerComponent implements OnInit {
     const instruments: string[] = [];
     const analytic_fractions: string[] = [];
 
-    console.log('Query Results:', queryResults);
+
     //@@@PDC-1123 call ui wrapper API
     queryResults.uiFileMetadata.map(aFile => {
         if (! fileMap.has(aFile.file_name)) {
@@ -164,7 +164,7 @@ export class WorkflowManagerComponent implements OnInit {
             instruments.push(aFile.instrument);
 
             rootNode.children.push(this.addChildNode('Fraction: ' + aFile.fraction, aFile.fraction));
-            
+
 
             rootNode.children.push(this.addChildNode('Experiment Type: ' + aFile.experiment_type,
                                                       aFile.experiment_type) );
@@ -187,7 +187,7 @@ export class WorkflowManagerComponent implements OnInit {
             fileMap.set(aFile.file_name, aNode);
         }
     });
-    
+
     this.analytes_list = analytic_fractions.join(',');
     this.file_type_list = file_types.join(',');
     this.instrument_list = instruments.join(',');

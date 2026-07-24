@@ -248,7 +248,7 @@ export class GeneFiltersComponent implements OnInit, OnChanges {
       if (this.selectedGeneNames.length > 0) {
         this.getAllFilterData();
       } else {
-        console.log("ERROR: no gene name in url");
+
       }
     });
     this.getProgramNamesData();
@@ -362,7 +362,7 @@ export class GeneFiltersComponent implements OnInit, OnChanges {
               filterStudyIDList.push(studyID);
             }
           }
-          //console.log(filterStudyIDList);
+
           let filter: Filter = {
             filterName: item.filterName,
             //filterCount: item.filterValue.length
@@ -580,8 +580,8 @@ export class GeneFiltersComponent implements OnInit, OnChanges {
 
     //remove study in study filter category if study is not able to be selected
     console.log(this.projectsFilter);
-    //console.log(this.allCategoryFilterData);
-    //console.log(this.allStudyArray);
+
+
   }
 
   private findSelectedFilterByName(filterName: string): string[] {
@@ -774,7 +774,7 @@ export class GeneFiltersComponent implements OnInit, OnChanges {
           for (const program of data.uiProgram) {
             this.programNames[program.shortname] = program.fullname;
           }
-          console.log("Program Names:");
+
           console.log(this.programNames);
         }
       });
@@ -1084,7 +1084,7 @@ export class GeneFiltersComponent implements OnInit, OnChanges {
     this.selectedFilters.emit(newFilterValue);
     let sortedList = this.moveFilterToTop(this.sampleTypeFilter, this.selectedSampleType, e, filterSub, index);
     this.sampleTypeFilter = sortedList;
-    console.log('Sample Type Filter Updated:', this.sampleTypeFilter);
+
     this.updateFiltersCounters();
   }
 

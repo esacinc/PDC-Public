@@ -16,15 +16,15 @@ import { ReleaseVersionData} from '../types';
     standalone: false
 })
 export class BottomNavbarComponent implements OnInit {
-	
-  isUserLoggedIn:boolean = false;	
+
+  isUserLoggedIn:boolean = false;
   private subscription: Subscription;
   bottomNavDisplayFlag:boolean  = true;
   homePageURL = "/";
   tag: string;
   loadingReleaseData: boolean = false;
   releaseVersionsData: ReleaseVersionData[] = [];
-  
+
   //@@@PDC 707: Add privacy notice to user registration page and in footer of all pages
   constructor(private http: HttpClient, private userService: PDCUserService, private router: Router,  private overlayWindow: OverlayWindowService, private bottomNavbarService: BottomNavbarService,) {
     //@@@PDC-3163: Add data release version to the UI
@@ -50,10 +50,10 @@ export class BottomNavbarComponent implements OnInit {
 		// 					isLoggedIn => {
     //             this.isUserLoggedIn = isLoggedIn;
 		// 						if ( this.isUserLoggedIn ) {
-		// 							console.log('User logged in as ' + this.userService.getUserName());
-    //             } 
-    //           }            
-    // ); 
+		//
+    //             }
+    //           }
+    // );
     this.router.events.subscribe(event =>{
 			if (event instanceof NavigationEnd) {
 				if(event.url === '/welcome' || event.url === '/registration'){

@@ -48,7 +48,7 @@ constructor(private apollo: Apollo) {
 		.valueChanges
 		.pipe(
         map(result => {
-				console.log(result.data);
+
 		return result.data;})
       );
 	}
@@ -85,7 +85,7 @@ constructor(private apollo: Apollo) {
 		})
 		.valueChanges
 		.pipe(
-        map(result => { console.log(result.data); return result.data;})
+        map(result => {  return result.data;})
       );
 	}
 
@@ -167,7 +167,7 @@ constructor(private apollo: Apollo) {
 		if (filter_race === "Empty value"){
 			filter_race = "";
 		}
-		console.log("Study Name: "+ filters["study_name"]);
+
 
 		return this.apollo.watchQuery<QueryAllStudyDataPaginated>({
 			query: this.filteredStudiesDataPaginatedQuery,
@@ -213,7 +213,7 @@ constructor(private apollo: Apollo) {
 		})
 		.valueChanges
 		.pipe(
-        map(result => { console.log(result.data); return result.data;})
+        map(result => {  return result.data;})
       );
 	}
 

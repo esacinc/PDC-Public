@@ -17,7 +17,7 @@ const CLUSTER_NAME = environment.PDC_CLUSTER_NAME;
 
 @Injectable()
 export class WorkflowManagerFileService {
-    
+
     query_result: any;
     cluster_status = 'Available';
     available_workflows: any[];
@@ -43,9 +43,9 @@ export class WorkflowManagerFileService {
         this.available_workflows = [];
     }
     // The file ids parameter is passed to the graphql query
-    // 'file_name:fn_1;fn_2;fn_3 etc. 
+    // 'file_name:fn_1;fn_2;fn_3 etc.
     getMetadataForFiles(f_names: string) {
-        console.log('F_names:', f_names);
+
         return this.apollo.watchQuery<FileMetadata>({
             query: this.fileMedatdataQuery,
             variables: {
@@ -72,10 +72,10 @@ export class WorkflowManagerFileService {
         const params = file_types + '/' + experiment_type + '/' + instruments + '/' + analytic_fractions;
         return this.http.get(WORKFLOW_MANAGER_SERVER_URL + '/workflows/' + params);
     }
-    
 
-    
-    
+
+
+
 
 
 }

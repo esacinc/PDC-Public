@@ -11,7 +11,7 @@ import { ForwardingSearchService } from './forwarding.service';
 })
 //@@@PDC-3901: Develop backend study forwarding
 export class ForwardingComponent implements OnInit {
-	
+
   studySearchResults = [];
   studyFound =  false;
 
@@ -23,7 +23,7 @@ export class ForwardingComponent implements OnInit {
       //Fetch the query params in order to scroll to that section.
       //Eg: URL Type: pdc-dev.esacinc.com/forwarding/S056
       let param = params.get("id");
-      //console.log(param);
+
       if (param.startsWith("S") || param.startsWith("s")) {
         this.searchStudiesForExternalReferences(param);
       } else {
@@ -39,7 +39,7 @@ export class ForwardingComponent implements OnInit {
           this.studyFound =  true;
           this.studySearchResults = Object.assign(this.studySearchResults, data.studySearchByExternalId.studies);
           const selectedIds = this.studySearchResults.map(({ pdc_study_id }) => pdc_study_id);
-          var pdcStudyIds = selectedIds.join("|"); 
+          var pdcStudyIds = selectedIds.join("|");
           //Other options to navigate current page to Browse page
           //window.location.replace("/pdc/browse/filters/pdc_study_id:"+pdcStudyIds);
           //window.location.href = "/pdc/browse/filters/pdc_study_id:" + pdcStudyIds;

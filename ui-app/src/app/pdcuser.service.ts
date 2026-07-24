@@ -136,7 +136,7 @@ export class PDCUserService {
   // return value: number
   //@@@PDC-419 handle system error
   public checkPDCUser(uid: string, token: string): Observable<number> {
-    console.log('token:' + token);
+
     const url = environment.private_api_url + 'uid/' + uid + '?token=' + token;
     let response: LoginUserResponse;
 
@@ -154,7 +154,7 @@ export class PDCUserService {
             if (response.data.length > 0) {
               //if the user record is found
               this.userData = response.data[0];
-              //console.log(this.userData);
+
               if (this.userData.registered == 1) {
                 //if user's registered flag is set to 1, such user already exists,
                 //thus loggedIn is set to true and 0 is returned
@@ -196,10 +196,10 @@ export class PDCUserService {
       email = sessionStorage.getItem('loginUser');
     }
 
-    console.log('Email: ' + email + ' Session Storage: ' + sessionStorage.getItem('loginUser'));
+
 
     const url = environment.private_api_url + email + '/' + user_id_type;
-    console.log('PDC API: ' + url);
+
     let response: LoginUserResponse;
 
     let data;
@@ -220,7 +220,7 @@ export class PDCUserService {
         result = 1;
       }
     } catch (error) {
-      console.log('Error in fetching token from PDCAPI');
+
     }
     return result;
   }
@@ -232,7 +232,7 @@ export class PDCUserService {
   //@@@PDC-419 handle system error
   public async checkPDCUserByEmail(email: string, user_id_type: string = 'PDC', userPass: string = ''): Promise<number> {
     const url = environment.private_api_url + email + '/' + user_id_type;
-    console.log('PDC API: ' + url);
+
     let response: LoginUserResponse;
 
     // @@@PDC-633: Need to make calls to pdcapi more secure.
@@ -254,7 +254,7 @@ export class PDCUserService {
         //Wrong password
         result = 4;
         this.updateWrongPasswordCounter(email).subscribe(attempts => {
-          console.log('Attempts: ' + attempts);
+
           this.setLoginAttempt(attempts);
         });
       } else if (response.data) {
@@ -278,7 +278,7 @@ export class PDCUserService {
           //User registered through email/password and have not confirmed email yet.
           result = 3;
         } else if (this.userData.registered === -1) {
-          console.log('Registered: ' + this.userData.registered);
+
           //User tried to login more than 6 times with wrong password and was blocked
           result = 7;
         } else {
@@ -301,7 +301,7 @@ export class PDCUserService {
 
   public async registerPDCUserByEmail(email: string, user_id_type: string = 'PDC', userPass: string = ''): Promise<number> {
     const url = environment.private_api_url + email + '/' + user_id_type;
-    console.log('PDC API: ' + url);
+
     let response: LoginUserResponse;
 
     let dataResponse;
@@ -323,7 +323,7 @@ export class PDCUserService {
           //User registered through email/password and have not confirmed email yet.
           result = 3;
         } else if (this.userData.registered === -1) {
-          console.log('Registered: ' + this.userData.registered);
+
           //User tried to login more than 6 times with wrong password and was blocked
           result = 7;
         } else {
@@ -355,7 +355,7 @@ export class PDCUserService {
     const registerObservable = new Observable<number>((observer) => {
       setTimeout(() => {
         this.http.put(url, user_data, {headers: new HttpHeaders({'authorization': 'bearer ' + localStorage.getItem('jwtToken')})}).subscribe(data => {
-            //console.log(data);
+
             observer.next((data as any).attempts);
             observer.complete();
           },
@@ -379,7 +379,7 @@ export class PDCUserService {
     };
     setTimeout(() => {
       this.http.put(url, user_data, {headers: new HttpHeaders({'authorization': 'bearer ' + localStorage.getItem('jwtToken')})}).subscribe(data => {
-          //console.log(data);
+
           this.userData.registered = 1;
           this.setLoginAttempt(this.userData.registered);
         },
@@ -397,7 +397,7 @@ export class PDCUserService {
         localStorage.setItem('jwtToken', data['token']);
       },
       (error: HttpErrorResponse) => {
-        console.log('Error in fetching token from PDCAPI');
+
       });
   }
 
@@ -405,7 +405,7 @@ export class PDCUserService {
   //PDC-421 - added "username" parameter and "name" field to send to pdcapi
   public createPDCUser(uid: string, email: string, usertype: string, id_provider: string, username: string, organization: string): Observable<boolean> {
     const url = environment.private_api_url + this.uid;
-    console.log('parameter uid: ' + uid + ' this.uid: ' + this.uid + ' url: ' + url);
+
     // Create the user
     const user_data = {
       'email': email,
@@ -422,7 +422,7 @@ export class PDCUserService {
     const registerObservable = new Observable<boolean>((observer) => {
       setTimeout(() => {
         this.http.put(url, user_data, {headers: new HttpHeaders({'authorization': 'bearer ' + localStorage.getItem('jwtToken')})}).subscribe(data => {
-            //console.log(data);
+
             // Now since the user is created lets update it
             this.setLoginUsername(email);
             this.setIsLoggedIn(true);
@@ -463,7 +463,7 @@ export class PDCUserService {
     const registerObservable = new Observable<boolean>((observer) => {
       //PDC-824 when allowing login with just email address and password and the password is empty do not proceed to registration
       if (id_provider === 'PDC' && userpass === '') {
-        console.log('Password is empty for PDC user!');
+
         observer.next(false);
         observer.complete();
       } else {
@@ -481,7 +481,7 @@ export class PDCUserService {
                 this.setLoginUsername(email);
                 this.setIsLoggedIn(true);
                 //this.setUserInformationInLocalStorage();
-                console.log('Loggin user in!');
+
               }
               console.log(response);
               observer.next(true);
@@ -509,7 +509,7 @@ export class PDCUserService {
     const registerObservable = new Observable<boolean>((observer) => {
       setTimeout(() => {
         this.http.post(url, user_data, {headers: new HttpHeaders({'authorization': 'bearer ' + localStorage.getItem('jwtToken')})}).subscribe((response: any) => {
-            console.log('Password reset email was successfully sent');
+
             observer.next(true);
             observer.complete();
           },
@@ -533,7 +533,7 @@ export class PDCUserService {
     const registerObservable = new Observable<boolean>((observer) => {
       setTimeout(() => {
         this.http.post(url, user_data, {headers: new HttpHeaders({'authorization': 'bearer ' + localStorage.getItem('jwtToken')})}).subscribe((response: any) => {
-            console.log('Password reset email was successfully sent');
+
             observer.next(true);
             observer.complete();
           },
@@ -552,7 +552,7 @@ export class PDCUserService {
     const url = environment.private_api_url + 'update/' + this.getLoginUsername();
     console.log(url);
     const username = firstname + ' ' + lastname;
-    console.log('Username: ' + username);
+
     const user_data = {
       'email': email,
       'user_type': usertype,
@@ -564,7 +564,7 @@ export class PDCUserService {
     const registerObservable = new Observable<boolean>((observer) => {
       setTimeout(() => {
         this.http.put(url, user_data, {headers: new HttpHeaders({'authorization': 'bearer ' + localStorage.getItem('jwtToken')})}).subscribe(data => {
-            console.log(data);
+
             // Now since the user is created lets update it
             //this.setLoginUsername(email);
             this.setName(username);
@@ -621,7 +621,7 @@ export class PDCUserService {
     const registerObservable = new Observable<boolean>((observer) => {
       setTimeout(() => {
         this.http.put(url, user_data, {headers: new HttpHeaders({'authorization': 'bearer ' + localStorage.getItem('jwtToken')})}).subscribe(data => {
-            console.log(data);
+
             // Cancelling account was successful, log out the user
             this.logout();
             observer.next(true);
@@ -650,7 +650,7 @@ export class PDCUserService {
     const registerObservable = new Observable<boolean>((observer) => {
       setTimeout(() => {
         this.http.put(url, user_data, {headers: new HttpHeaders({'authorization': 'bearer ' + localStorage.getItem('jwtToken')})}).subscribe(data => {
-            //console.log(data);
+
             observer.next(true);
             observer.complete();
           },
@@ -681,9 +681,9 @@ export class PDCUserService {
             if (response.data) {
               //if the user record is found
               this.userData = response.data;
-              //console.log(this.userData);
+
               if (this.userData.registered === 1) {
-                console.log('UserData registered = 1');
+
                 //if user's registered flag is set to 1, such user already exists,
                 //thus loggedIn is set to true and 0 is returned
                 //this.setIsLoggedIn(true);
@@ -691,12 +691,12 @@ export class PDCUserService {
                 observer.next(0);
               } else {
                 //if user's registered flag is not set 1 is returned
-                console.log('An error occured while confirming user email');
+
                 observer.next(1);
               }
             } else {
               //if user record not found 1 is returned
-              console.log('Could not confirm email since record was not found or user is blocked, or user is already confirmed');
+
               observer.next(3);
             }
             observer.complete();
@@ -734,7 +734,7 @@ export class PDCUserService {
 
   //Logging user out of the system
   public logout() {
-    console.log('Logging out user ' + this.getUserName());
+
     this.isLoggedIn.next(false);
     this.setLoginUsername('');
     this.setName('');

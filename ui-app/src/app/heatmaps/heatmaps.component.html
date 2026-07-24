@@ -1,4 +1,4 @@
-<div (window:resize)="onResize($event)" class="grid-container" style="">
+<div (window:resize)="onResize($event)" class="grid-container" style="" id="main-content">
 	<div class="">
 	  <mat-card appearance="outlined">
 	    <mat-card-title style="padding:15px;">
@@ -9,12 +9,12 @@
 			results which can be used to identify patterns of protein and post-translational modifications (PTMs) abundance. On the PDC portal,
 			these results can be visualized as a heatmap, useful for identifying correlated clusters of proteins (or PTMs) and/or samples.</p>
 			<p>This page provides a listing of all the studies with links to heatmaps for quick access. The heatmaps can also be accessed
-			from the individual study summary pages (e.g., <a href="https://pdc.cancer.gov/pdc/study/PDC000120" target="_blank">PDC000120</a>).
+			from the individual study summary pages (e.g., <a href="https://pdc.cancer.gov/pdc/study/PDC000120" target="_blank" style="color: #0066cc !important; text-decoration: underline !important; font-weight: 600 !important;">PDC000120</a>).
 			Clicking on a heatmap link automatically loads the quantitative data and displays it through
-			<a href="https://software.broadinstitute.org/morpheus/" target="_blank">Morpheus</a>, developed at the Broad Institute.
-			The Mopheus site offers <a href="https://software.broadinstitute.org/morpheus/documentation.html" target="_blank">documentation</a>,
-			a <a href="https://software.broadinstitute.org/morpheus/tutorial.html" target="_blank">tutorial</a>,
-			notes on <a href="https://software.broadinstitute.org/morpheus/configuration.html" target="_blank">configuration</a>, and other resources.</p>
+			<a href="https://software.broadinstitute.org/morpheus/" target="_blank" style="color: #0066cc !important; text-decoration: underline !important; font-weight: 600 !important;">Morpheus</a>, developed at the Broad Institute.
+			The Mopheus site offers <a href="https://software.broadinstitute.org/morpheus/documentation.html" target="_blank" style="color: #0066cc !important; text-decoration: underline !important; font-weight: 600 !important;">documentation</a>,
+			a <a href="https://software.broadinstitute.org/morpheus/tutorial.html" target="_blank" style="color: #0066cc !important; text-decoration: underline !important; font-weight: 600 !important;">tutorial</a>,
+			notes on <a href="https://software.broadinstitute.org/morpheus/configuration.html" target="_blank" style="color: #0066cc !important; text-decoration: underline !important; font-weight: 600 !important;">configuration</a>, and other resources.</p>
 			<br>
 			<div class="usa-prose"><h4>Data</h4></div>
 			<br>
@@ -32,7 +32,7 @@
 			<div class="usa-prose"><h4>Hierarchical clustering</h4></div>
 			<br>
 			<p>The main purpose of heatmap visualization, in the context of the PDC, is to examine
-			<a href="https://en.wikipedia.org/wiki/Hierarchical_clustering" target="_blank">clustering</a> of samples according to protein abundances.
+			<a href="https://en.wikipedia.org/wiki/Hierarchical_clustering" target="_blank" style="color: #0066cc !important; text-decoration: underline !important; font-weight: 600 !important;">clustering</a> of samples according to protein abundances.
 			When a study heatmap is loaded, the data have not been clustered by either row or column.  Clustering can be performed
 			according to the method of your choice by accessing the Tools menu.  You will know your data have been clustered
 			if above the column annotations is displayed a dendogram, linking the samples.  In addition, the ordering of the columns will have changed
@@ -112,7 +112,7 @@
             <tr>
 				<!-- @@@PDC-7906 - study id column not displaying -->
 				<td style="white-space: normal;">
-				   <a href="javascript:void(0);" (click)="showStudySummary(heatmapData.pdc_study_id, heatmapData.study_id, heatmapData.submitter_id_name)">{{heatmapData.pdc_study_id }}</a>
+				   <a href="javascript:void(0);" (click)="showStudySummary(heatmapData.pdc_study_id, heatmapData.study_id, heatmapData.submitter_id_name)" style="color: #0066cc !important; text-decoration: underline !important; font-weight: 600 !important;">{{heatmapData.pdc_study_id }}</a>
 			  </td>
                 <td id="{{heatmapData.submitter_id_name}}" style="word-wrap: break-word; white-space: normal;">{{heatmapData.submitter_id_name}}</td>
 				<td style="word-wrap: break-word; white-space: normal;">
@@ -129,7 +129,7 @@
 						<div *ngFor="let mapFile of heatmapData.heatmapFiles">
 							<!--@@@PDC-8347-fix-508-compliance-quantitation-page-->
 							<span *ngIf="mapFile!='manifest.json' && mapFile!='desktop.ini'" style="line-height: 1.6">
-								<a href="javascript:void(0);" (click)="openHeatMap(heatmapData.study_id, heatmapData.submitter_id_name, mapFile)">{{ heatmapFileName(mapFile) }}</a>
+								<a href="javascript:void(0);" (click)="openHeatMap(heatmapData.study_id, heatmapData.submitter_id_name, mapFile)" style="color: #0066cc !important; text-decoration: underline !important; font-weight: 600 !important;">{{ heatmapFileName(mapFile) }}</a>
 								<!--<img src="./assets/css/images/heatmap-icon.jpg" style="width:36px">-->
 							</span>
 						</div>

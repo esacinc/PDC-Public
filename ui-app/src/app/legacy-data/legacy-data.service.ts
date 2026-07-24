@@ -74,7 +74,7 @@ export class LegacyDataService {
 		})
 		.valueChanges
 		.pipe(
-			map(result => { console.log(result.data); return result.data;})
+			map(result => {  return result.data;})
 		);
 	}*/
 
@@ -120,7 +120,7 @@ export class LegacyDataService {
 		  })
 		  .valueChanges
 		  .pipe(
-			map(result => { console.log(result.data); return result.data;})
+			map(result => {  return result.data;})
 		  );
 	}
 

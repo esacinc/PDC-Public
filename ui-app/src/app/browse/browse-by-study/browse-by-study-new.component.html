@@ -28,7 +28,7 @@
                     data-toggle="dropdown"
                     aria-haspopup="true"
                     aria-expanded="false"
-                    style="font-weight:bold; background-color:#b0b0b0; color:#fff; border:none;"
+                    style="font-weight:bold; background-color:#6c757d !important; color:#fff; border:none;"
                     [disabled]="isDownloadDisabled()"
                     (click)="toggleExportStudyDropdown()">
                     Export Study Manifest
@@ -75,9 +75,9 @@
         </th>
         <th rowspan=2 class="ui-datatable-tableheader" style="width: 400px !important; min-width: 400px !important;" [pSortableColumn]="cols[3].field"><a href="/pdc/data-dictionary/Study" target="_blank">Study</a><i class="fas fa-sort" ariaLabel="Sort Study in ascending/descending order"></i></th>
         <!-- <th rowspan=2 class="ui-datatable-tableheader" [pSortableColumn]="cols[4].field"><a href="/pdc/faq#Embargo_Date" target="_blank" style="color:white">Embargo Date</a><p-sortIcon [field]="cols[4].field" ariaLabel="Sort Embargo Date in ascending/descending order"></p-sortIcon></th> -->
-         <th rowspan=3 class="ui-datatable-tableheader" [pSortableColumn]="cols[6].field" style="width: 300px !important; min-width: 300px !important; white-space: nowrap;"><a href="/pdc/data-dictionary/Program" target="_blank" style="color:white">Program</a>&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Study in ascending/descending order"></i></th>
+         <th rowspan=3 class="ui-datatable-tableheader" [pSortableColumn]="cols[5].field" style="width: 300px !important; min-width: 300px !important; white-space: nowrap;"><a href="/pdc/data-dictionary/Program" target="_blank" style="color:white">Program</a>&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Study in ascending/descending order"></i></th>
 
-        <th rowspan=2 class="ui-datatable-tableheader" style="width: 600px !important; min-width: 600px !important;" [pSortableColumn]="cols[7].field">
+        <th rowspan=2 class="ui-datatable-tableheader" style="width: 600px !important; min-width: 600px !important;" [pSortableColumn]="cols[6].field">
           <div class="ui-datatable-tableheader-flex-container">
             <div>
               <!-- @@PDC-4743 Experiment type link and other link load issues -->
@@ -90,7 +90,7 @@
             </div>
           </div>
         </th>
-        <th rowspan=2 class="ui-datatable-tableheader" style="width: 150px !important; " [pSortableColumn]="cols[8].field">
+        <th rowspan=2 class="ui-datatable-tableheader" style="width: 150px !important; " [pSortableColumn]="cols[7].field">
           <div class="ui-datatable-tableheader-flex-container">
             <div>
               <!-- @@PDC-4743 Experiment type link and other link load issues -->
@@ -103,7 +103,7 @@
             </div>
           </div>
         </th>
-        <th rowspan=2 class="ui-datatable-tableheader" style="width: 80px !important;" [pSortableColumn]="cols[9].field">
+        <th rowspan=2 class="ui-datatable-tableheader" style="width: 80px !important;" [pSortableColumn]="cols[8].field">
           <div class="ui-datatable-tableheader-flex-container" >
             <div>
 
@@ -117,7 +117,7 @@
             </div>
           </div>
         </th>
-        <th rowspan=2 class="ui-datatable-tableheader" style="width: 80px !important;" [pSortableColumn]="cols[10].field">
+        <th rowspan=2 class="ui-datatable-tableheader" style="width: 80px !important;" [pSortableColumn]="cols[9].field">
           <div class="ui-datatable-tableheader-flex-container">
             <div>
               <!-- @@PDC-4743 Experiment type link and other link load issues -->
@@ -130,7 +130,7 @@
             </div>
           </div>
         </th>
-        <th rowspan=2 class="ui-datatable-tableheader" style="width: 80px !important;" [pSortableColumn]="cols[11].field">
+        <th rowspan=2 class="ui-datatable-tableheader" style="width: 80px !important;" [pSortableColumn]="cols[10].field">
           <div class="ui-datatable-tableheader-flex-container">
             <div>
               <!-- @@PDC-4743 Experiment type link and other link load issues -->

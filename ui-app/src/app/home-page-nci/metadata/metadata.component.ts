@@ -5,11 +5,11 @@ import { TissueSite, QueryTissueSites, QueryDiseases, QueryPrograms, QueryPortal
 
 @Component({
   selector: "app-metadata",
- 
+
   templateUrl: "./metadata.component.html",
   styleUrl: "./metadata.component.css",
   providers: [FrontPageService],
-  standalone: false, 
+  standalone: false,
   //encapsulation: ViewEncapsulation.Emulated
 
 })
@@ -28,15 +28,14 @@ export class MetadataComponent implements OnInit {
   items: any[] = [];
 
   constructor(private metadataService: FrontPageService) {
-  
-  
+
+
   }
 
   getAllProgramsData() {
     this.metadataService.getPortalStats().subscribe((data: any) => {
     //@@@PDC-1123 call ui wrapper API
-      console.log("Fetching portal stats...");
-      console.log(data);
+
       this.programsCounter = data.pdcDataStats[0].program;
       this.projectsCounter = data.pdcDataStats[0].project;
       this.filesCounter = data.pdcDataStats[0].data_file.toLocaleString();
@@ -86,7 +85,7 @@ export class MetadataComponent implements OnInit {
   ngOnInit() {
     this.getAllProgramsData();
   }
- 
+
 
   //@@@PDC-1986: Round the Program Statistics numbers to nearest Millions
   round(num: number) {
@@ -94,12 +93,12 @@ export class MetadataComponent implements OnInit {
         ? Math.round(Math.abs(Number(num)) / 1.0e+9 ) + " B"
         : Math.abs(Number(num)) >= 1.0e+6
             ? Math.round(Math.abs(Number(num)) / 1.0e+6 ) + " M"
-                : Math.abs(Number(num)); 
+                : Math.abs(Number(num));
   }
 
 
 
-  
-  
+
+
 
 }

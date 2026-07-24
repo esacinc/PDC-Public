@@ -49,7 +49,7 @@ export class LabSelectionComponent implements OnInit {
     );
     //@@@PDC-9083 pending ws registration
 	this.chorusService.checkUser(this.userEmail).subscribe(exists => {
-	console.log('Navbar '+this.userEmail+' exists ' + exists);
+
 	if (exists) {
 	  this.userRegisteredToWorkspaceFlag = true;
 	} else {

@@ -45,7 +45,7 @@ constructor(private apollo: Apollo) {
 		.valueChanges
 		.pipe(
 			map(result => {
-				console.log(result.data);
+
 				return result.data;})
 		);
 	}
@@ -75,7 +75,7 @@ constructor(private apollo: Apollo) {
 		.valueChanges
 		.pipe(
 			map(result => {
-				console.log(result.data);
+
 				return result.data;})
 		);
 	}
@@ -107,7 +107,7 @@ constructor(private apollo: Apollo) {
 		.valueChanges
 		.pipe(
 			map(result => {
-				console.log(result.data);
+
 				return result.data;})
 		);
 	}
@@ -136,7 +136,7 @@ constructor(private apollo: Apollo) {
 		.valueChanges
 		.pipe(
 			map(result => {
-				console.log(result.data);
+
 				return result.data;})
 		);
 	}
@@ -167,7 +167,7 @@ constructor(private apollo: Apollo) {
 	.valueChanges
 	.pipe(
 		map(result => {
-			console.log(result.data);
+
 			return result.data;})
 	);
 	}
@@ -198,7 +198,7 @@ constructor(private apollo: Apollo) {
 	.valueChanges
 	.pipe(
 		map(result => {
-			console.log(result.data);
+
 			return result.data;})
 	);
 	}
@@ -223,7 +223,7 @@ constructor(private apollo: Apollo) {
 	.valueChanges
 	.pipe(
 		map(result => {
-			console.log(result.data);
+
 			return result.data;})
 	);
 	}
@@ -248,7 +248,7 @@ constructor(private apollo: Apollo) {
 		.valueChanges
 		.pipe(
 			map(result => {
-				console.log(result.data);
+
 				return result.data;})
 		);
 	}
@@ -277,7 +277,7 @@ constructor(private apollo: Apollo) {
 		.valueChanges
 		.pipe(
 			map(result => {
-				console.log(result.data);
+
 				return result.data;})
 		);
 	}
@@ -301,7 +301,7 @@ constructor(private apollo: Apollo) {
 		.valueChanges
 		.pipe(
 			map(result => {
-				console.log(result.data);
+
 				return result.data;})
 		);
 	}
@@ -325,7 +325,7 @@ constructor(private apollo: Apollo) {
 
 	//@@@PDC-2956: issue with opening case summary via direct URL
 	getCaseSummaryData(case_id:any, case_submitter_id:any){
-		console.log(case_id + ", " + case_submitter_id);
+
 		return this.apollo.watchQuery<AllCasesData>({
 			query: this.caseSummaryData,
 			variables: {
@@ -336,7 +336,7 @@ constructor(private apollo: Apollo) {
 		})
 		.valueChanges
 		.pipe(
-		map(result => { console.log(result.data); return result.data;})
+		map(result => {  return result.data;})
   		);
 	}
 
@@ -350,7 +350,7 @@ constructor(private apollo: Apollo) {
 	}`;
 
 	getSampleUUIDResults(sample_id:any){
-		//console.log(case_submitter_id);
+
 		return this.apollo.watchQuery<AllCasesData>({
 			query: this.searchSampleUUIDQuery,
 			variables: {
@@ -360,7 +360,7 @@ constructor(private apollo: Apollo) {
 		})
 		.valueChanges
 		.pipe(
-		map(result => { console.log(result.data); return result.data;})
+		map(result => {  return result.data;})
   		);
 	}
 
@@ -374,7 +374,7 @@ constructor(private apollo: Apollo) {
 	}`;
 
 	getSampleSubmitterIDResults(sample_submitter_id: any){
-		//console.log(case_submitter_id);
+
 		return this.apollo.watchQuery<AllCasesData>({
 			query: this.searchSampleSubmitterIDQuery,
 			variables: {
@@ -384,7 +384,7 @@ constructor(private apollo: Apollo) {
 		})
 		.valueChanges
 		.pipe(
-		map(result => { console.log(result.data); return result.data;})
+		map(result => {  return result.data;})
   		);
 	}
 
@@ -398,7 +398,7 @@ constructor(private apollo: Apollo) {
 	}`;
 
 	getAliquotUUIDResults(aliquot_id:any){
-		//console.log(case_submitter_id);
+
 		return this.apollo.watchQuery<AllCasesData>({
 			query: this.searchAliquotUUIDQuery,
 			variables: {
@@ -408,7 +408,7 @@ constructor(private apollo: Apollo) {
 		})
 		.valueChanges
 		.pipe(
-		map(result => { console.log(result.data); return result.data;})
+		map(result => {  return result.data;})
   		);
 	}
 
@@ -422,7 +422,7 @@ constructor(private apollo: Apollo) {
 	}`;
 
 	getAliquotSubmitterIDResults(aliquot_submitter_id:any){
-		//console.log(case_submitter_id);
+
 		return this.apollo.watchQuery<AllCasesData>({
 			query: this.searchAliquotSubmitterIDQuery,
 			variables: {
@@ -432,7 +432,7 @@ constructor(private apollo: Apollo) {
 		})
 		.valueChanges
 		.pipe(
-		map(result => { console.log(result.data); return result.data;})
+		map(result => {  return result.data;})
   		);
 	}
 
@@ -453,7 +453,7 @@ constructor(private apollo: Apollo) {
 		})
 		.valueChanges
 		.pipe(
-		map(result => { console.log(result.data); return result.data;})
+		map(result => {  return result.data;})
   		);
 	}
 

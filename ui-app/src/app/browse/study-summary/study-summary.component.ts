@@ -1,7 +1,7 @@
 import {of as observableOf, Observable} from 'rxjs';
 
 import {catchError, take} from 'rxjs/operators';
-import {Component, OnInit, Inject} from '@angular/core';
+import {Component, OnInit, Inject, AfterViewInit} from '@angular/core';
 import {formatDate} from '@angular/common';
 import {ActivatedRoute, Router, NavigationExtras} from '@angular/router';
 import {Apollo} from 'apollo-angular';
@@ -77,7 +77,7 @@ enum TAB_INDEXES {
 //@@@PDC-3174: Study Summary overlay window opens twice for studies whose embargo date is N/A
 //@@@PDC-3474: Disable all related studies and cases links for older versions of a study in study summary overlay window
 //@@@PDC-3478 open files data table in overlay window from study and case summaries
-export class StudySummaryComponent implements OnInit {
+export class StudySummaryComponent implements OnInit, AfterViewInit {
 
   study_id: string;
   study_submitter_id_name: string;
@@ -103,7 +103,7 @@ export class StudySummaryComponent implements OnInit {
   aliquot_help_url = environment.dictionary_base_url + 'dictionaryitem.html?eName=Aliquot';
   clinical_help_url = environment.dictionary_base_url + 'dictionaryitem.html?eName=Case';
   experimentalDesign_help_url = environment.dictionary_base_url + 'dictionaryitem.html?eName=Study Run Metadata';
-  files_download_faq_help_url = "/pdc/faq#Files_Download";
+  files_download_faq_help_url = "https://pdc-docs.cancer.gov/pdc-docs/data-analysis-guides#data-types";
   duaAvailable: boolean = true;
   filteredClinicalData: AllClinicalData[]; //Filtered list of clinical data
   //@@@PDC-1160: Add cases and aliquots to the study summary page
@@ -170,7 +170,7 @@ export class StudySummaryComponent implements OnInit {
               private dialogRef: MatDialogRef<StudySummaryComponent>,
               @Inject(MAT_DIALOG_DATA) public studyData: any, private studySummaryOverlayWindow: StudySummaryOverlayService, private dialog: MatDialog) {
 
-    console.log(studyData);
+
     //@@@PDC-3474 check if the cirrent version is an old version of the study
     if (studyData.oldVersion) {
       this.oldVersionFlag = studyData.oldVersion;
@@ -179,7 +179,7 @@ export class StudySummaryComponent implements OnInit {
     if (studyData && studyData.source) {
       this.source = studyData.source;
     }
-    console.log("Project Name: " + studyData.summaryData.project_name);
+
     //If I got here via search then most of the fields are empty and I need to query study summary data
     this.getStudySummaryData();
 
@@ -194,23 +194,23 @@ export class StudySummaryComponent implements OnInit {
     this.studySubmitterId = studyData.summaryData.study_submitter_id;
     //@@@PDC-1888: Standardize the IDs on the study summary and case summary pages
     this.pdcStudyID = studyData.summaryData.pdc_study_id;
-    console.log("UUID: " + this.study_id + " PDC ID: " + this.pdcStudyID);
+
 
     this.loc.replaceState("/study/" + this.pdcStudyID);
 
-    console.log(this.studySummaryData);
+
     //@@@PDC-10274 - issue viewing multiple versions of a study
     this.manualVersionSelected = false;
     if (this.studySummaryData.versions.length === 0 || this.oldVersionFlag) {
       this.studyVersion = "1";
     } else {
       this.studyVersion = this.studySummaryData.versions[0].number;
-      console.log("Setting versions to " + this.studyVersion);
+
     }
     //@@@PDC-6794 get unfiltered cases count
     this.getUnfilteredCaseCount(this.pdcStudyID, this.studyVersion);
-    console.log("Total cases: " + this.studySummaryData.cases_count);
-    console.log("Total aliquots: " + this.studySummaryData.aliquots_count);
+
+
     this.workflowData = {
       workflow_metadata_submitter_id: '',
       study_submitter_id: '',
@@ -387,7 +387,7 @@ export class StudySummaryComponent implements OnInit {
 
   //Helper function that is called when a different version is chosen on study summary window
   showVersionStudySummary(version: string) {
-    console.log("Setting version to " + version + " most recent study version: " + this.studySummaryData.versions[0].number);
+
 
     // Set flag to indicate user manually selected a version
     this.manualVersionSelected = true;
@@ -400,8 +400,8 @@ export class StudySummaryComponent implements OnInit {
       this.oldVersionFlag = false;
     }
 
-    console.log("Old version: " + this.oldVersionFlag);
-    console.log("Updating current study summary to show version " + version);
+
+
 
     //@@@PDC-10274 - issue viewing multiple versions of a study
     // Instead of opening a new dialog, fetch data for the selected version and update current component
@@ -410,7 +410,7 @@ export class StudySummaryComponent implements OnInit {
       // Update current component's data with the selected version
       this.studySummaryData = _.cloneDeep(data.getPaginatedUIStudy.uiStudies[0]);
       this.studySummaryData.study_description = this.studySummaryData.study_description.replace(/<a/g, '<a target="_blank" ');
-      console.log('Updated Summary Data for version ' + version);
+
 
       // Update component properties with version-specific data
       this.has_genomic_data = this.studySummaryData.has_genomic_data === 'Yes';
@@ -452,7 +452,7 @@ export class StudySummaryComponent implements OnInit {
     //@@@PDC-3172 use study_id in heatmap folder name
     const manifest_file = 'assets/data-folder/' + this.study_id + '/manifest.json';
 
-    console.log('Getting manifest file from: ' + manifest_file);
+
     return this.http.get(manifest_file);
   }
 
@@ -461,7 +461,7 @@ export class StudySummaryComponent implements OnInit {
     this.getManifestFile()
       .subscribe((data: any) => {
         this.heatmapAvailable = true;
-        console.log(data);
+
         data.heatmaps.map(aMap => {
           this.mapData.push({
             menu_label: aMap['menu-label'],
@@ -472,7 +472,7 @@ export class StudySummaryComponent implements OnInit {
         });
       }, error => {
         this.heatmapAvailable = false;
-        console.log('Error Status:', error.status);
+
       });
   }
 
@@ -499,7 +499,7 @@ export class StudySummaryComponent implements OnInit {
       this.studySummaryService.getFilteredStudyData(this.study_submitter_id_name, '', '', this.source).subscribe((data: any) => {
         this.studySummaryData = _.cloneDeep(data.getPaginatedUIStudy.uiStudies[0]);
         this.studySummaryData.study_description = this.studySummaryData.study_description.replace(/<a/g, '<a target="_blank" ');
-        console.log('Summary Data ' + this.studySummaryData);
+
         this.has_genomic_data = this.studySummaryData.has_genomic_data === 'Yes';
         this.has_imaging_data = this.studySummaryData.has_imaging_data === 'Yes';
         this.has_lipidome_data = this.studySummaryData.has_lipidome_data === 'Yes';
@@ -522,9 +522,9 @@ export class StudySummaryComponent implements OnInit {
             ((this.studySummaryData.versions.length > 1) ||
              (this.studySummaryData.versions.length == 1 && Number(this.studySummaryData.versions[0].number) > 1))) {
           this.studyVersion = this.studySummaryData.versions[0].number;
-          console.log("Setting versions to " + this.studyVersion);
+
         }
-        console.log("studyVersion: "+this.studyVersion);
+
 
 
       });
@@ -538,7 +538,7 @@ export class StudySummaryComponent implements OnInit {
         this.protocol = data.uiProtocol[0];
         //@@@PDC-8940-UI-support-multiple-protocols
         this.protocol_data = _.cloneDeep(data.uiProtocol);
-        //console.log(this.protocol_data);
+
         if (Array.isArray(this.protocol_data)) {
           this.protocol_length = this.protocol_data.length;
           this.protocol_data.sort((a, b) => a.protocol_name.localeCompare(b.protocol_name));
@@ -561,7 +561,7 @@ export class StudySummaryComponent implements OnInit {
     setTimeout(() => {
       this.studySummaryService.getPublicationsData(this.study_id, this.source).subscribe((data: any) => {
         this.publications = data.uiPublication;
-        console.log(this.publications);
+
         this.loading = false;
       });
     }, 1000);
@@ -594,7 +594,7 @@ export class StudySummaryComponent implements OnInit {
         for (let i = 0; i < this.fileCountsRaw.length; i++) {
           this.totalFilesCount += this.fileCountsRaw[i].files_count;
         }
-        console.log(this.fileCountsRaw);
+
         this.loading = false;
         });
       }, 1000);*/
@@ -606,7 +606,7 @@ export class StudySummaryComponent implements OnInit {
     //@@@PDC-10399 - study-summary-page-blank-after-filtering
     // Create a mutable copy of the array to avoid "Cannot assign to read only property" error
     let mutableFileCountsRaw = [...this.fileCountsRaw];
-    
+
     for (var obj in mutableFileCountsRaw) {
       let entityObj = "";
       entityObj = mutableFileCountsRaw[obj]["data_category"].toLowerCase();
@@ -648,13 +648,13 @@ export class StudySummaryComponent implements OnInit {
           && typeof (filteredClinicalData[i].samples) == 'string') {
           //@@@PDC-6397 handle multiple samples
           if (filteredClinicalData[i].samples.includes(',')) {
-            console.log("Multi Samples found: " + filteredClinicalData[i].samples);
+
             let tempSamples = filteredClinicalData[i].samples;
             let newAnnotation = "Samples of " + tempSamples + " are associated with this clinical record. "
-            console.log("Annotation for multi samples: " + newAnnotation);
+
             filteredClinicalData[i]['annotation'] = newAnnotation;
           } else if (!filteredClinicalData[i].samples.includes(',')) {
-            console.log("Add annotation for " + filteredClinicalData[i].samples);
+
             filteredClinicalData[i]['annotation'] = "The sample " + filteredClinicalData[i].samples + " is associated with this clinical record.";
           }
         }
@@ -696,7 +696,7 @@ export class StudySummaryComponent implements OnInit {
 //@@@PDC-1883: Add external references to study summary page
 //PDC-2998 - update UI to include API changes for study versions new feature
   showStudySummary(entity_location, version = '', oldVersionFlag = false) {
-    console.log("Openining study summary " + entity_location + " version: " + version);
+
     var entityLocExtracted = entity_location.split("study/");
     var pdcStudyID;
     if (entityLocExtracted[1]) {
@@ -712,7 +712,7 @@ export class StudySummaryComponent implements OnInit {
       //if referenced study is clicked than currentVersion should be cleared
       //sessionStorage.removeItem('currentVersion');
     }
-    console.log("oldVersionFlag inside showStudySummary: " + oldVersionFlag);
+
     setTimeout(() => {
       this.studySummaryService.getFilteredStudyData('', pdcStudyID, version, this.source).pipe(take(1)).subscribe((data: any) => {
         var studyData = data.getPaginatedUIStudy.uiStudies[0];
@@ -733,7 +733,7 @@ export class StudySummaryComponent implements OnInit {
 
           const dialogRef = this.dialog.open(StudySummaryComponent, dialogConfig);
           dialogRef.afterClosed().subscribe((val: any) => {
-            console.log("Dialog output:", val);
+
             //Generate alias URL to hide auxiliary URL details when the previous overlay window was closed and the focus returned to this one
             this.loc.replaceState("/study/" + this.pdcStudyID);
           });
@@ -794,9 +794,9 @@ export class StudySummaryComponent implements OnInit {
         this.totalRecordsBiospecimens = data.getPaginatedUICase.total;
         setTimeout(() => {
           this.studySummaryService.getFilteredCasesPaginated(this.offsetBiospecimen, this.totalRecordsBiospecimens, this.sort, this.newFilterSelected, this.source).subscribe((data: any) => {
-            this.filteredCasesData = data.getPaginatedUICase.uiCases;
+            this.filteredCasesData = _.cloneDeep(data.getPaginatedUICase.uiCases);
             this.totalRecordsBiospecimens = data.getPaginatedUICase.total;
-            console.log('totalRecordsBiospecimens ' + this.totalRecordsBiospecimens);
+
             //this.makeRowsSameHeight();
             this.loading = false;
           });
@@ -817,7 +817,7 @@ export class StudySummaryComponent implements OnInit {
     setTimeout(() => {
       this.studySummaryService.getEntityReferenceData("study", this.study_id, "internal", this.source).subscribe((internalData: any) => {
         this.entityReferenceInternalData = internalData.uiPdcEntityReference;
-        console.log(this.entityReferenceInternalData);
+
         this.loading = false;
       });
     }, 1000);
@@ -852,7 +852,7 @@ export class StudySummaryComponent implements OnInit {
     this.router.navigate([{outlets: {caseSummary: ['case-summary', case_id]}}], {skipLocationChange: true});
     const dialogRef = this.dialog.open(CaseSummaryComponent, dialogConfig);
     dialogRef.afterClosed().subscribe((val: any) => {
-      console.log("Dialog output:", val);
+
       //Generate alias URL to hide auxiliary URL details when the previous overlay window was closed and the focus returned to this one
       this.loc.replaceState("/study/" + this.pdcStudyID);
     });
@@ -884,7 +884,7 @@ export class StudySummaryComponent implements OnInit {
     this.router.navigate([{outlets: {filesOverlay: ['files-overlay', this.study_id]}}], {skipLocationChange: true});
     const dialogRef = this.dialog.open(FilesOverlayComponent, dialogConfig);
     dialogRef.afterClosed().subscribe((val: any) => {
-      console.log("Dialog output:", val);
+
       //Generate alias URL to hide auxiliary URL details when the previous overlay window was closed and the focus returned to this one
       this.loc.replaceState("/study/" + this.pdcStudyID);
     });
@@ -917,7 +917,7 @@ export class StudySummaryComponent implements OnInit {
   close(navigateToHeatmap: boolean, study_name: string = '') {
     this.router.navigate([{outlets: {'studySummary': null, 'filesOverlay': null}}], {replaceUrl: true});
     this.loc.replaceState(this.router.url);
-    console.log("CLOSE study_name: " + study_name);
+
     if (navigateToHeatmap) {
       // Route to the first heatmap
       const navigationExtras: NavigationExtras = {
@@ -1432,7 +1432,11 @@ export class StudySummaryComponent implements OnInit {
     let exportValues = _.cloneDeep(this.studyExperimentalDesign);
     for (let exportVal of exportValues) {
       var changedVal = "";
+      //@@@PDC-10697 - export experimental design table with HTML tags in the column values, which should be removed in the exported file
       for (let colValue of colValues) {
+        if (exportVal[colValue] == null) {
+          exportVal[colValue] = "";
+        } else {
         changedVal = exportVal[colValue].replace(/<[^>]*>/g, '');
         //@@@PDC-4060: Experimental Design - not all studies files get exported
         if (exportVal[colValue] && !Array.isArray(exportVal[colValue])) {
@@ -1442,6 +1446,7 @@ export class StudySummaryComponent implements OnInit {
           changedVal = changedVal.replace("<div class='colValueDisqualified'>", '\r\n');
           exportVal[colValue] = changedVal;
         }
+      }
       }
     }
     let csvOptions = {
@@ -1914,11 +1919,32 @@ export class StudySummaryComponent implements OnInit {
               this.studyExperimentDesignTableCols = this.studyExperimentDesignTableCommonCols;
             }
             this.makeRowsSameHeight();
+            // Apply styles to disqualified status after view is rendered
+            setTimeout(() => this.applyDisqualifiedStyles(), 100);
           });
         }, 1000);
       });
     }, 1000);
     this.loading = false;
+  }
+
+  ngAfterViewInit() {
+    // Apply styles to disqualified elements after view initialization
+    this.applyDisqualifiedStyles();
+  }
+
+  private applyDisqualifiedStyles() {
+    // Find all elements containing 'Disqualified' text and apply red color
+    const elements = document.querySelectorAll('.colValue');
+    elements.forEach(element => {
+      const divs = element.querySelectorAll('div');
+      divs.forEach(div => {
+        if (div.textContent?.trim() === 'Disqualified') {
+          (div as HTMLElement).style.color = 'red';
+          (div as HTMLElement).style.fontWeight = 'normal';
+        }
+      });
+    });
   }
 
   tabClick() {

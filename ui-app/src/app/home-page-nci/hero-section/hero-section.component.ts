@@ -116,7 +116,7 @@ export class HeroSectionComponent implements OnInit {
 				  this.diseasesTotalCounts[counter_idx].cases_count += parseInt(data[idx].cases_count);
 			  }
 		  }
-			console.log(this.diseasesData);
+
 			this.diseasesTotalCounts.sort(this.compareDiseases);
 	  });
   }
@@ -135,8 +135,8 @@ export class HeroSectionComponent implements OnInit {
 
   //Check if element is already found in array
   private isElementInArray(array, element_name:string, parent_element: string): number {
-		//console.log("element name: " + element_name + " parent element: " + parent_element);
-		//console.log(array);
+
+
 		for (let i = 0; i < array.length; i ++ ){
 			if (array[i].id === element_name) {
 				if (parent_element != '') {

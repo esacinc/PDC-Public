@@ -1,34 +1,34 @@
 {
 	"title": "PDC Data Download Client",
-	"note": "Note: For details about available file types, information on how to download from the PDC web portal user interface or through APIs, go to the <a href='/pdc/faq/Data_Download' target='_blank'>Data Download</a> section of the PDC Frequently Asked Questions.",
+	"note": "Note: For details about available file types, information on how to download from the PDC web portal user interface or through APIs, go to the <a href='/pdc/faq/Data_Download' target='_blank' style='color:#1A3D5B !important'>Data Download</a> section of the PDC Frequently Asked Questions.",
 	"description": "The PDC data download client supports the download of all files associated with PDC studies. The command line (CL) version is recommended for those that have some experience with command line tools in cases where the user needs to download a large volume data in an organized manner. For users that prefer a graphical interface, the PDC Data Download Client User Interface (UI) is available.",
 	"installation": {
-		"system_requirements": "<ul><li>OS: Linux (Ubuntu 14.x or later, CentOS 7), OS X (10.9 Mavericks or < 12.0 ), or Windows (7 or later)</li><li>Please delete any previous instances of the download client before downloading a newer version.</li></ul>",
+		"system_requirements": "<ul><li>OS: Linux (Ubuntu 22 or later), OS X (Sonoma or later), or Windows (11 or later)</li><li>Please delete any previous instances of the download client before downloading a newer version.</li></ul>",
 		"binary_distributions": [
 			{
 				"platform": "Linux",
-				"command_line_ui_title": "pdc-client_v1.0.7_Ubuntu_x64.zip",
-				"command_line_ui_url": "https://pdc-download-clients.s3.amazonaws.com/pdc-client_v1.0.7_Ubuntu_x64.zip"
+				"command_line_ui_title": "pdc-client_v1.0.8_Ubuntu_x64.zip",
+				"command_line_ui_url": "https://pdc-download-clients.s3.amazonaws.com/pdc-client_v1.0.8_Ubuntu_x64.zip"
 			},
 			{
 				"platform": "OS X",
-				"command_line_ui_title": "pdc-client_v1.0.7_OSX_x64.zip",
-				"command_line_ui_url": "https://pdc-download-clients.s3.amazonaws.com/pdc-client_v1.0.7_OSX_x64.zip"
+				"command_line_ui_title": "pdc-client_v1.0.8_OSX_x64.zip",
+				"command_line_ui_url": "https://pdc-download-clients.s3.amazonaws.com/pdc-client_v1.0.8_OSX_x64.zip"
 			},
 			{
 				"platform": "Windows",
-				"command_line_ui_title": "pdc-client_v1.0.7_Windows_x64.zip",
-				"command_line_ui_url": "https://pdc-download-clients.s3.amazonaws.com/pdc-client_v1.0.7_Windows_x64.zip"
-			}		
+				"command_line_ui_title": "pdc-client_v1.0.8_Windows_x64.zip",
+				"command_line_ui_url": "https://pdc-download-clients.s3.amazonaws.com/pdc-client_v1.0.8_Windows_x64.zip"
+			}
 		],
 		"information": [
 			{
 				"title": "<h4>Release Notes</h4>",
-				"content": "<ul><li>Please click <a href='https://pdc-release-notes.s3.amazonaws.com/PDC_DownloadClient_Release_Notes.html' target='_blank'>here</a> for the release notes of the Download Client.</li></ul>"	
-			},			
+				"content": "<ul><li>Please click <a href='https://pdc-release-notes.s3.amazonaws.com/PDC_DownloadClient_Release_Notes.html' target='_blank'>here</a> for the release notes of the Download Client.</li></ul>"
+			},
 			{
 				"title": "<h4>Known Issues</h4>",
-				"content": "<ul> <li>There is a limit of 10 download attempts per individual file. This limit includes the retries that are automatically attempted by the download client. The current error message does not reflect this (CL). </li></ul>"	
+				"content": "<ul> <li>There is a limit of 10 download attempts per individual file. This limit includes the retries that are automatically attempted by the download client. The current error message does not reflect this (CL). </li></ul>"
 			}
 		]
 	},

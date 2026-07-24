@@ -109,9 +109,9 @@ constructor(private apollo: Apollo) {
 		})
 		.valueChanges
 		.pipe(
-        map(result => { console.log(result.data);
+        map(result => {
 			//@@@PDC-8961 -fix issue with incorrect gene count
-			console.log("FILTERS: " + filters);
+
 			if (filters != null && filters.gene_name !== "") {
 				const filterGeneNames = filters.gene_name.split(';');
 				let uiGenes = result.data['getPaginatedUIGene']['uiGenes'];
@@ -160,7 +160,7 @@ constructor(private apollo: Apollo) {
 		})
 		.valueChanges
 		.pipe(
-        map(result => { console.log(result.data); return result.data;})
+        map(result => {  return result.data;})
       );
 	}
 

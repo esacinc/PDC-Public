@@ -1,7 +1,7 @@
 import { Component, OnInit, OnChanges, EventEmitter, Output, Input } from '@angular/core';
 import { GenePageService } from '../gene-page.service';
 import { Observable } from 'rxjs';
-//import OncoprintJS, { TrackId, CustomTrackOption } from 'oncoprintjs'; 
+//import OncoprintJS, { TrackId, CustomTrackOption } from 'oncoprintjs';
 import { GeneAliquotSpectralCountDataPaginated, GeneAliquotSpectralCountData } from '../../types';
 
 @Component({
@@ -36,7 +36,7 @@ export class OncoprintComponent implements OnInit, OnChanges {
 	vizWidth = 2000;
 	newFilterSelected = {"program_name" : "", "project_name": "", "study_name": "", "disease_type":"", "primary_site":"", "analytical_fraction":"", "experiment_type":"",
 								"ethnicity": "", "race": "", "gender": "", "tumor_grade": "", "sample_type": "", "acquisition_type": ""};
- 
+
 	@Input() newFilterValue: any;
 	frozenStudyColumn = [{ field: 'study', header: 'Study' }];
 	cols = [
@@ -46,31 +46,31 @@ export class OncoprintComponent implements OnInit, OnChanges {
 	isScrollable:boolean = true;
 
   constructor(private genePageService: GenePageService ) {
-	  console.log("Gene name: " + this.gene_id);
-	  this.positiveMut = '<rect x="0" y="0" width="' + this.trackWidth + 
-							'" height="20" fill="rgb(190,190,190)" fill-opacity="1"></rect><rect width="' + this.trackWidth + 
+
+	  this.positiveMut = '<rect x="0" y="0" width="' + this.trackWidth +
+							'" height="20" fill="rgb(190,190,190)" fill-opacity="1"></rect><rect width="' + this.trackWidth +
 							'" height="6.6659999999999995" x="0" y="6.6659999999999995" stroke="rgb(0,0,0)" stroke-opacity="0" stroke-width="0" fill="rgb(153,52,4)" fill-opacity="1"></rect>';
-	  this.emptyMut = '<rect width="' + this.trackWidth + 
+	  this.emptyMut = '<rect width="' + this.trackWidth +
 						'" height="20" x="0" y="0" stroke="rgb(0,0,0)" stroke-opacity="0" stroke-width="0" fill="rgb(190,190,190)" fill-opacity="1"></rect>';
   }
 
   ngOnInit() {
   }
-  
+
   ngOnChanges(){
 	  console.log(this.newFilterValue);
 	  if (this.gene_id){
-		  console.log("Gene name: " + this.gene_id);
+
 		  this.onFilterSelected();
 		  console.log(this.dataByStudy);
 	  }
   }
- 
+
   calculateXPos(idx:number): number {
 	 // console.log("x = " + idx + " X = " + (idx % 350) * 6);
 	  return idx * 6;
   }
-  
+
   getGeneAliquotSpectralCounts(){
 	  this.loadingAliquotRecords = true;
 	  this.aliquotSpectralCountLoadError = '';
@@ -79,142 +79,238 @@ export class OncoprintComponent implements OnInit, OnChanges {
 	  //reinitialize array that holds the data
 	  this.dataForViz = [];
 	  this.dataByStudy = [];
-	  console.log("Gene name/id used to get aliquot: "+this.gene_id+"-"+this.uuid);
+	  this.fullTrackCount = 0;
+
 	  //@@@PDC-7690 use gene_id to get gene info
-	  this.genePageService.getAliquotSpectralCount(this.gene_id, this.uuid, 0, 10000, "", this.newFilterSelected).subscribe((data: any) =>{
+	  //@@@PDC-10981 increased limit from 10000 to 1000000 to ensure all studies (including PTM studies) are included in visualizer
+	  this.genePageService.getAliquotSpectralCount(this.gene_id, this.uuid, 0, 1000000, "", this.newFilterSelected).subscribe((data: any) =>{
 			this.aliquotSpectralCountsList = data.getPaginatedUIGeneAliquotSpectralCountFiltered.uiGeneAliquotSpectralCounts;
 			console.log(this.aliquotSpectralCountsList);
 			this.aliquotTotalRecords = data.getPaginatedUIGeneAliquotSpectralCountFiltered.total;
 			this.loadingAliquotRecords = false;
-			var idx = 0;
-			if (this.aliquotTotalRecords < 135) {
-				this.vizHeight = 30;
-			} else {
-				this.vizHeight = Math.round(this.aliquotTotalRecords / 135) * 30;
-			}
-			console.log("Height: " + this.vizHeight);
-			for (var record of this.aliquotSpectralCountsList){
-				var exists0 = true;
-				var exists1 = false;
-				var exists2 = false;
-				var exists3 = false;
-				var exists4 = false;
-				var exists5 = false;
-				var exists6 = false;
-				var exists7 = false;
-				if (record.log2_ratio != "" && record.log2_ratio != null && record.log2_ratio != "0") {
-					exists1 = true;
-					this.fullTrackCount++;
-				}
-				if (record.distinct_peptide != "0" && record.distinct_peptide != null) {
-					exists2 = true;
-				}
-				if (record.unshared_peptide != "0" && record.unshared_peptide != null) {
-					exists3 = true;
-				}
-				if (record.precursor_area != "" && record.precursor_area != null && record.precursor_area != "0") {
-					exists4 = true;
-				}
-				if (record.unshared_precursor_area != "" && record.unshared_precursor_area != null && record.unshared_precursor_area != "0") {
-					exists5 = true;
-				}
-				if (record.unshared_log2_ratio != "" && record.unshared_log2_ratio != null && record.unshared_log2_ratio != "0") {
-					exists6 = true;
-				}
-				if (record.spectral_count != "" && record.spectral_count != null && record.spectral_count != "0") {
-					exists7 = true;
-				}
+			
+			// Calculate viz height once
+			this.vizHeight = this.aliquotTotalRecords < 135 ? 30 : Math.round(this.aliquotTotalRecords / 135) * 30;
+
+			// Create a map for faster study lookup and to track study names
+			const studyMap = new Map<string, any[]>();
+			const studyNames: string[] = [];
+			
+			// Single pass through data - build everything at once
+			for (let idx = 0; idx < this.aliquotSpectralCountsList.length; idx++) {
+				const record = this.aliquotSpectralCountsList[idx];
 				
-				this.dataForViz.push({'mut': record.aliquot_id, 'exists0': exists0, 'exists1': exists1,'exists2': exists2,'exists3': exists3,
-											'exists4': exists4,'exists5': exists5,'exists6': exists6, 'exists7': exists7,'idx': idx});
-											
-				if (!this.dataByStudy[record.submitter_id_name]) {
-					this.dataByStudy.push(record.submitter_id_name);
-					this.dataByStudy[record.submitter_id_name] = [];
+				// Pre-parse numeric values once
+				const log2_ratio = parseFloat(record.log2_ratio) || 0;
+				const precursor_area = parseFloat(record.precursor_area) || 0;
+				const unshared_precursor_area = parseFloat(record.unshared_precursor_area) || 0;
+				const unshared_log2_ratio = parseFloat(record.unshared_log2_ratio) || 0;
+				
+				// Check existence flags
+				const exists1 = log2_ratio !== 0;
+				const exists2 = record.distinct_peptide != "0" && record.distinct_peptide != null;
+				const exists3 = record.unshared_peptide != "0" && record.unshared_peptide != null;
+				const exists4 = precursor_area !== 0;
+				const exists5 = unshared_precursor_area !== 0;
+				const exists6 = unshared_log2_ratio !== 0;
+				const exists7 = record.spectral_count != "" && record.spectral_count != null && record.spectral_count != "0";
+
+				if (exists1) this.fullTrackCount++;
+
+				const mutData = {
+					mut: record.aliquot_id,
+					exists0: true,
+					exists1: exists1,
+					exists2: exists2,
+					exists3: exists3,
+					exists4: exists4,
+					exists5: exists5,
+					exists6: exists6,
+					exists7: exists7,
+					idx: idx,
+					log2_ratio: log2_ratio,
+					precursor_area: precursor_area,
+					unshared_log2_ratio: unshared_log2_ratio,
+					unshared_precursor_area: unshared_precursor_area
+				};
+
+				this.dataForViz.push(mutData);
+
+				// Group by study
+				const studyName = record.submitter_id_name;
+				if (!studyMap.has(studyName)) {
+					studyMap.set(studyName, []);
+					studyNames.push(studyName);
 				}
-				this.dataByStudy[record.submitter_id_name].push({'mut': record.aliquot_id, 'exists0': exists0, 'exists1': exists1,'exists2': exists2,'exists3': exists3,
-											'exists4': exists4,'exists5': exists5,'exists6': exists6, 'exists7': exists7,'idx': idx, 'log2_ratio': record.log2_ratio, 
-											'precursor_area': record.precursor_area, 'unshared_log2_ratio': record.unshared_log2_ratio, 'unshared_precursor_area': record.unshared_precursor_area});	
-				idx++;
+				studyMap.get(studyName).push(mutData);
 			}
+
+			console.log('Studies found:', studyNames.length);
+
+			// Convert map to array structure and sort
+			let maxWidth = 0;
+			for (const studyName of studyNames) {
+				const studyData = studyMap.get(studyName);
+				studyData.sort(this.compareAliquotData);
+				this.dataByStudy.push(studyName);
+				this.dataByStudy[studyName] = studyData;
+				
+				const width = (studyData.length - 1) * 6;
+				if (width > maxWidth) maxWidth = width;
+			}
+			this.vizWidth = maxWidth;
+
 			console.log(this.dataByStudy);
-			for (var study of this.dataByStudy){
-				this.dataByStudy[study].sort(this.compareAliquotData);
-				if ( (this.dataByStudy[study].length - 1) * 6  > this.vizWidth) this.vizWidth = (this.dataByStudy[study].length - 1) * 6;
-			}
 
-			//@@@PDC-1350 calculate opacity value once instead caculating values at rendering time. 
-			//So property binding in aliquotData ngtemplate to these fields instead of binding to these functions to avoid function call during Tooltip triggering.
-			for (let i = 0; i < this.dataByStudy.length; i++) {
-				let studyName = this.dataByStudy[i];
-				let mutList = this.dataByStudy[studyName];
-				for(let j = 0; j<mutList.length; j++){
-					let mut = mutList[j];
-					if(mut.exists1){
-						mut["exists1Value"] = this.opacityValueByLog2Ratio(studyName, j);
+			//@@@PDC-1350 calculate opacity value once instead of calculating values at rendering time.
+			// Process opacity values and tooltips in batches for better performance
+			for (const studyName of studyNames) {
+				const mutList = this.dataByStudy[studyName];
+				
+				// Pre-calculate min/max values for the entire study to avoid repeated calculations
+				const studyMetrics = this.calculateStudyMetrics(mutList);
+				
+				// Process all mutations for this study
+				for (let j = 0; j < mutList.length; j++) {
+					const mut = mutList[j];
+					
+					if (mut.exists1) {
+						mut["exists1Value"] = this.calculateNormalizedValue(mut.log2_ratio, studyMetrics.log2_ratio);
 					}
-					if(mut.exists4){
-						mut["exists4Value"] = this.opacityValueByPrecursorArea(studyName, j);
+					if (mut.exists4) {
+						mut["exists4Value"] = this.calculateNormalizedValue(mut.precursor_area, studyMetrics.precursor_area);
 					}
-					if(mut.exists5){
-						mut["exists5Value"] = this.opacityValueByUnsharedPrecursorArea(studyName, j);
+					if (mut.exists5) {
+						mut["exists5Value"] = this.calculateNormalizedValue(mut.unshared_precursor_area, studyMetrics.unshared_precursor_area);
 					}
-					if(mut.exists6){
-						mut["exists6Value"] = this.opacityValueByUnsharedLog2Ratio(studyName, j);
+					if (mut.exists6) {
+						mut["exists6Value"] = this.calculateNormalizedValue(mut.unshared_log2_ratio, studyMetrics.unshared_log2_ratio);
 					}
-					mut["tooltipText"] = this.tooltipText2(studyName, j);
+					
+					// Build tooltip text
+					mut["tooltipText"] = this.buildTooltipText(mut);
 				}
 			}
 
-			if (this.dataByStudy.length <=10 )this.isScrollable = false;
+			this.isScrollable = this.dataByStudy.length > 10;
 			this.loading = false;
 		  },
 		  err => {
-			  console.log("ERROR!!!!Loading data took too long");
 			  this.aliquotSpectralCountLoadError = "Loading data took too long, please, close the overlay gene summary window and open it again.";
-			  this.loadingAliquotRecords = false; //If loading data takes too much time and fails, need to stop spinning wheel
+			  this.loadingAliquotRecords = false;
 			  this.loading = false;
 		  });
-	 
-  }
-  compareAliquotData(a,b){
-	  if (a.log2_ratio && a.log2_ratio != "" && b.log2_ratio && b.log2_ratio != ""){
-				if (parseFloat(a.log2_ratio) > parseFloat(b.log2_ratio)) return -1;
-				if (parseFloat(a.log2_ratio) < parseFloat(b.log2_ratio)) return 1;
-	  }
-	  if (a.log2_ratio && a.log2_ratio != "" && ( !b.log2_ratio || b.log2_ratio == "")) return -1;
-	  if (b.log2_ratio && b.log2_ratio != "" && ( !a.log2_ratio || a.log2_ratio == "")) return 1;
-	  if (a.precursor_area && a.precursor_area != "" &&	b.precursor_area && b.precursor_area != ""){
-				if (parseFloat(a.precursor_area) > parseFloat(b.precursor_area)) return -1;
-				if (parseFloat(a.precursor_area) < parseFloat(b.precursor_area)) return 1;
-	  }
-	  if (a.precursor_area && a.precursor_area != "" &&	( !b.precursor_area || b.precursor_area == "")) return -1;
-	  if (b.precursor_area && b.precursor_area != "" &&	( !a.precursor_area || a.precursor_area == "")) return 1;
-	  return 0;
+
   }
   
+  // Helper method to calculate study-wide min/max metrics
+  calculateStudyMetrics(mutList: any[]) {
+	  const metrics = {
+		  log2_ratio: { min: Infinity, max: -Infinity },
+		  precursor_area: { min: Infinity, max: -Infinity },
+		  unshared_precursor_area: { min: Infinity, max: -Infinity },
+		  unshared_log2_ratio: { min: Infinity, max: -Infinity }
+	  };
+	  
+	  for (const mut of mutList) {
+		  if (mut.log2_ratio !== 0) {
+			  metrics.log2_ratio.min = Math.min(metrics.log2_ratio.min, mut.log2_ratio);
+			  metrics.log2_ratio.max = Math.max(metrics.log2_ratio.max, mut.log2_ratio);
+		  }
+		  if (mut.precursor_area !== 0) {
+			  metrics.precursor_area.min = Math.min(metrics.precursor_area.min, mut.precursor_area);
+			  metrics.precursor_area.max = Math.max(metrics.precursor_area.max, mut.precursor_area);
+		  }
+		  if (mut.unshared_precursor_area !== 0) {
+			  metrics.unshared_precursor_area.min = Math.min(metrics.unshared_precursor_area.min, mut.unshared_precursor_area);
+			  metrics.unshared_precursor_area.max = Math.max(metrics.unshared_precursor_area.max, mut.unshared_precursor_area);
+		  }
+		  if (mut.unshared_log2_ratio !== 0) {
+			  metrics.unshared_log2_ratio.min = Math.min(metrics.unshared_log2_ratio.min, mut.unshared_log2_ratio);
+			  metrics.unshared_log2_ratio.max = Math.max(metrics.unshared_log2_ratio.max, mut.unshared_log2_ratio);
+		  }
+	  }
+	  
+	  return metrics;
+  }
+  
+  // Helper method to calculate normalized value
+  calculateNormalizedValue(value: number, metric: {min: number, max: number}): string {
+	  if (metric.min === Infinity || metric.max === -Infinity || metric.max === metric.min) {
+		  return "1.00";
+	  }
+	  const normalizedVal = (value - metric.min) / (metric.max - metric.min);
+	  return normalizedVal.toFixed(2);
+  }
+  
+  // Optimized tooltip builder
+  buildTooltipText(mut: any): string {
+	  const orig_idx = mut.idx;
+	  const record = this.aliquotSpectralCountsList[orig_idx];
+	  const parts = [mut.mut];
+	  
+	  if (record.log2_ratio && record.log2_ratio != "") {
+		  parts.push(`\n log2_ratio: ${record.log2_ratio}`);
+	  }
+	  if (record.precursor_area && record.precursor_area != "") {
+		  parts.push(`\n precursor_area: ${record.precursor_area}`);
+	  }
+	  if (record.unshared_precursor_area && record.unshared_precursor_area != "") {
+		  parts.push(`\n unshared_precursor_area: ${record.unshared_precursor_area}`);
+	  }
+	  if (record.unshared_log2_ratio && record.unshared_log2_ratio != "") {
+		  parts.push(`\n unshared_log2_ratio: ${record.unshared_log2_ratio}`);
+	  }
+	  
+	  return parts.join('');
+  }
+  
+  compareAliquotData(a, b) {
+	  // Use pre-parsed numeric values for faster comparison
+	  const aLog2 = a.log2_ratio;
+	  const bLog2 = b.log2_ratio;
+	  const aPrecursor = a.precursor_area;
+	  const bPrecursor = b.precursor_area;
+	  
+	  // Compare log2_ratio (descending)
+	  if (aLog2 !== 0 && bLog2 !== 0) {
+		  return bLog2 - aLog2; // Descending order
+	  }
+	  if (aLog2 !== 0) return -1;
+	  if (bLog2 !== 0) return 1;
+	  
+	  // Compare precursor_area (descending)
+	  if (aPrecursor !== 0 && bPrecursor !== 0) {
+		  return bPrecursor - aPrecursor; // Descending order
+	  }
+	  if (aPrecursor !== 0) return -1;
+	  if (bPrecursor !== 0) return 1;
+	  
+	  return 0;
+  }
+
   tooltipText(idx:number):  string{
 	var result = "";
 	if (this.dataForViz[idx]) {
 		result = this.dataForViz[idx].mut;
 		if (this.aliquotSpectralCountsList[idx].log2_ratio && this.aliquotSpectralCountsList[idx].log2_ratio != "") {
-			result += "\n log2_ratio: " + this.aliquotSpectralCountsList[idx].log2_ratio; 
+			result += "\n log2_ratio: " + this.aliquotSpectralCountsList[idx].log2_ratio;
 		}
 		/* Commenting out 3 columns upon request in tooltip text as well
 		if (this.dataForViz[idx].exists2) {
 			result += "\n distinct_peptide: " + this.aliquotSpectralCountsList[idx].distinct_peptide;
 		}
 		if (this.dataForViz[idx].exists3) {
-			result += "\n unshared_peptide: " + this.aliquotSpectralCountsList[idx].unshared_peptide;	
+			result += "\n unshared_peptide: " + this.aliquotSpectralCountsList[idx].unshared_peptide;
 		}*/
 		if (this.aliquotSpectralCountsList[idx].precursor_area && this.aliquotSpectralCountsList[idx].precursor_area != "") {
-			result += "\n precursor_area: " + this.aliquotSpectralCountsList[idx].precursor_area;		
+			result += "\n precursor_area: " + this.aliquotSpectralCountsList[idx].precursor_area;
 		}
 		if (this.aliquotSpectralCountsList[idx].unshared_precursor_area && this.aliquotSpectralCountsList[idx].unshared_precursor_area != "") {
-			result += "\n unshared_precursor_area: " + this.aliquotSpectralCountsList[idx].unshared_precursor_area;			
+			result += "\n unshared_precursor_area: " + this.aliquotSpectralCountsList[idx].unshared_precursor_area;
 		}
 		if (this.aliquotSpectralCountsList[idx].unshared_log2_ratio && this.aliquotSpectralCountsList[idx].unshared_log2_ratio != "") {
-			result += "\n unshared_log2_ratio: " + this.aliquotSpectralCountsList[idx].unshared_log2_ratio;			
+			result += "\n unshared_log2_ratio: " + this.aliquotSpectralCountsList[idx].unshared_log2_ratio;
 		}
 		/*if (this.dataForViz[idx].exists7) {
 			result += "\n spectral_count: " + this.aliquotSpectralCountsList[idx].spectral_count;
@@ -222,33 +318,33 @@ export class OncoprintComponent implements OnInit, OnChanges {
 	}
 	return result;
   }
-  
+
   tooltipText2(study: string, idx:any): string{
 	  var result = "";
 	  if (this.dataByStudy[study][idx]){
 		  result = this.dataByStudy[study][idx].mut;
 		  var orig_idx = this.dataByStudy[study][idx].idx;
 		  if (this.aliquotSpectralCountsList[orig_idx].log2_ratio && this.aliquotSpectralCountsList[orig_idx].log2_ratio != "") {
-			result += "\n log2_ratio: " + this.aliquotSpectralCountsList[orig_idx].log2_ratio; 
+			result += "\n log2_ratio: " + this.aliquotSpectralCountsList[orig_idx].log2_ratio;
 		  }
-		
+
 		  if (this.aliquotSpectralCountsList[orig_idx].precursor_area && this.aliquotSpectralCountsList[orig_idx].precursor_area != "") {
-			result += "\n precursor_area: " + this.aliquotSpectralCountsList[orig_idx].precursor_area;		
+			result += "\n precursor_area: " + this.aliquotSpectralCountsList[orig_idx].precursor_area;
 		  }
 		  if (this.aliquotSpectralCountsList[orig_idx].unshared_precursor_area && this.aliquotSpectralCountsList[orig_idx].unshared_precursor_area != "") {
-			result += "\n unshared_precursor_area: " + this.aliquotSpectralCountsList[orig_idx].unshared_precursor_area;			
+			result += "\n unshared_precursor_area: " + this.aliquotSpectralCountsList[orig_idx].unshared_precursor_area;
 		  }
 		  if (this.aliquotSpectralCountsList[orig_idx].unshared_log2_ratio && this.aliquotSpectralCountsList[orig_idx].unshared_log2_ratio != "") {
-			result += "\n unshared_log2_ratio: " + this.aliquotSpectralCountsList[orig_idx].unshared_log2_ratio;			
+			result += "\n unshared_log2_ratio: " + this.aliquotSpectralCountsList[orig_idx].unshared_log2_ratio;
 		  }
 	  }
 	  return result;
   }
-  
+
   opacityValueByLog2Ratio(study: string, idx:any){
 
 	  var lastIdx = this.dataByStudy[study].length - 1;
-	  
+
 	  var minValue = parseFloat(this.dataByStudy[study][lastIdx].log2_ratio);
 	  if (minValue == 0 || isNaN(minValue)){
 		  for (var i = lastIdx; i > 0; i--){
@@ -261,10 +357,10 @@ export class OncoprintComponent implements OnInit, OnChanges {
 	  var normalizedVal = (parseFloat(this.dataByStudy[study][idx].log2_ratio) - minValue ) / (parseFloat(this.dataByStudy[study][0].log2_ratio) - minValue);
 	  return String(normalizedVal.toFixed(2));
   }
-  
+
   opacityValueByUnsharedLog2Ratio(study: string, idx:any){
 	  var lastIdx = this.dataByStudy[study].length - 1;
-	  
+
 	  var minValue = parseFloat(this.dataByStudy[study][lastIdx].unshared_log2_ratio);
 	  if (minValue == 0 || isNaN(minValue)){
 		  for (var i = lastIdx; i > 0; i--){
@@ -296,7 +392,7 @@ export class OncoprintComponent implements OnInit, OnChanges {
 	  var normalizedVal = (this.dataByStudy[study][idx].unshared_precursor_area - this.dataByStudy[study][lastIdx].unshared_precursor_area) / (this.dataByStudy[study][0].unshared_precursor_area - this.dataByStudy[study][lastIdx].unshared_precursor_area);
 	  return normalizedVal;
   }
-  
+
   onFilterSelected() {
 	console.log(this.newFilterValue);
 	if (this.newFilterValue){
@@ -345,5 +441,5 @@ export class OncoprintComponent implements OnInit, OnChanges {
 	}
 	console.log(this.newFilterSelected);
 	this.getGeneAliquotSpectralCounts();
-  }		
+  }
 }

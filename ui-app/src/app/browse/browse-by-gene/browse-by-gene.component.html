@@ -68,13 +68,13 @@
 				</th>
 				<!-- @@@PDC-4978 update links to migrated documentation pages -->
 				<th class="ui-datatable-tableheader" style="width:100px;" [pSortableColumn]="cols[0].field" pFrozenColumn><a href="/pdc/data-dictionary/Gene#gene_name" target="_blank" style="color:white">Gene</a>&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Study in ascending/descending order"></i></th>
-			    <th class="ui-datatable-tableheader fixedWidthCol" [pSortableColumn]="cols[1].field"><a href="/pdc/data-dictionary/Gene#chromosome" target="_blank" style="color:white">Chromosome</a>&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Study in ascending/descending order"></i></th>
-			    <th class="ui-datatable-tableheader fixedWidthCol" [pSortableColumn]="cols[2].field"><a href="/pdc/data-dictionary/Gene#locus" target="_blank" style="color:white">Locus</a>&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Study in ascending/descending order"></i></th>
+			    <th class="ui-datatable-tableheader fixedWidthCol" [pSortableColumn]="cols[2].field"><a href="/pdc/data-dictionary/Gene#chromosome" target="_blank" style="color:white">Chromosome</a>&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Study in ascending/descending order"></i></th>
+			    <th class="ui-datatable-tableheader fixedWidthCol" [pSortableColumn]="cols[3].field"><a href="/pdc/data-dictionary/Gene#locus" target="_blank" style="color:white">Locus</a>&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Study in ascending/descending order"></i></th>
 			    <th class="ui-datatable-tableheader fixedWidthCol">No of Studies</th>
 			    <th class="ui-datatable-tableheader fixedWidthCol">PTM Sites</th>
 				<!-- @@@PDC-7635 display ncbi_gene_id -->
 			    <th class="ui-datatable-tableheader fixedWidthCol">NCBI gene ID</th>
-			    <th class="ui-datatable-tableheader fixedWidthCol" [pSortableColumn]="cols[4].field"><a href="/pdc/data-dictionary/Gene#proteins" target="_blank" style="color:white">Proteins</a>&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Study in ascending/descending order"></i></th>
+			    <th class="ui-datatable-tableheader fixedWidthCol" [pSortableColumn]="cols[5].field"><a href="/pdc/data-dictionary/Gene#proteins" target="_blank" style="color:white">Proteins</a>&nbsp;<i class="fas fa-sort" style="color: black" ariaLabel="Sort Study in ascending/descending order"></i></th>
             </tr>
 		</ng-template>
         <ng-template pTemplate="body" let-geneData>

@@ -114,7 +114,7 @@ export class FilesOverlayComponent implements OnInit {
 				private browseByFileService: BrowseByFileService, private loc:Location,
 				private dialogRef: MatDialogRef<FilesOverlayComponent>, private sizeUnitsPipe: SizeUnitsPipe,
 				@Inject(MAT_DIALOG_DATA) public studyData: any, private dialog: MatDialog,  private userService: PDCUserService) {
-	     console.log(studyData);
+	     //
 		 let study_names = studyData.summaryData.study_name.split('|').join(';');
 		 this.study_names_param = studyData.summaryData.study_name.split('|');
 		// Array which holds filter names. Must be updated when new filters are added to browse page.
@@ -248,7 +248,7 @@ export class FilesOverlayComponent implements OnInit {
 				}
 			}
 		  }
-		  console.log(uniqueFiles);
+		  //
 		  this.filteredFilesData = uniqueFiles;
 	 // }
   }
@@ -645,14 +645,15 @@ export class FilesOverlayComponent implements OnInit {
 			if (!this.isLegacyData){
 				//let urlResponse = await this.browseByFileService.getOpenFileSignedUrl(file.file_name);
 			  //@@@PDC-5770 get file using uuid
-			  console.log("Export file id 0930: "+file.file_id);
-			  let urlResponse = await this.browseByFileService.getOpenFileUuidSignedUrl(file.file_id);console.log(urlResponse);
+
+			  let urlResponse = await this.browseByFileService.getOpenFileUuidSignedUrl(file.file_id);
+
 				if (!urlResponse.error) {
 					downloadLink = urlResponse.data;
 				} else {
 					this.displayMessageForNotDownloadable();
 				}
-				console.log(downloadLink);
+
 				if (downloadLink) {
 					//If the download file link is available, open the download link and start file download.
 					if (this.checkFilenameExtentions(file.file_name)) {
@@ -665,7 +666,7 @@ export class FilesOverlayComponent implements OnInit {
 			} else {
 				//@@@PDC-3937 Use new APIs for downloading legacy studies' files
 				this.browseByFileService.getLegacyFilesData(file.file_name).subscribe((fileData: any) => {
-					console.log(fileData);
+
 					if (fileData.uiLegacyFilesPerStudy[0].signedUrl.url != "") {
 						downloadLink = fileData.uiLegacyFilesPerStudy[0].signedUrl.url;
 					} else {
@@ -759,8 +760,6 @@ export class FilesOverlayComponent implements OnInit {
       if (!file["embargo_date"]) {
         file["embargo_date"] = "N/A";
       }
-      console.log(file["submitter_id_name"]);
-      console.log(this.studyVersion);
       //PDC-3985 - fix study version value for non legacy studies
       //If studyVersion value is set assign it to each of the files
       //since the user opened Browse page to view files for a specific version of study
@@ -959,7 +958,6 @@ export class FilesOverlayComponent implements OnInit {
         let fileNameStr = fileNameList.join(";")
         if (!this.isLegacyData) {
           this.browseByFileService.getFilesData(fileNameStr, this.origin_study_id).subscribe((fileData: any) => {
-            console.log(fileData);
             this.setFileExportObject(fileData, exportFileObject);
             this.displayLoading(iscompleteFileDownload, "file1", false);
             if (fileNameList.length > 0) {
@@ -979,7 +977,7 @@ export class FilesOverlayComponent implements OnInit {
           });
         } else {
           this.browseByFileService.getLegacyFilesData(fileNameStr).subscribe((fileData: any) => {
-            console.log(fileData);
+
             this.setLegacyFileExportObject(fileData, exportFileObject);
             this.displayLoading(iscompleteFileDownload, "file1", false);
 
@@ -1037,10 +1035,10 @@ export class FilesOverlayComponent implements OnInit {
       exportfileobjectTSV[key].file_md5sum = exportfileobjectTSV[key].md5sum;
       delete exportfileobjectTSV[key].md5sum;
     });
-    //console.log(exportfileobjectTSV);
+
     let data = {'fileManifestName': fileManifestName}
     exportfileobjectTSV.push(data);
-    //console.log(exportfileobjectTSV);
+
     let exportTSVData = JSON.stringify(exportfileobjectTSV);
     //let request = this.http.post("http://127.0.0.1:5000", exportTSVData);
     let request = this.http.post(environment.flask_api_url, exportTSVData);
@@ -1048,11 +1046,11 @@ export class FilesOverlayComponent implements OnInit {
       if (response) {
         window.open(response.toString(), "_blank");
       } else {
-        console.log("Something went wrong!");
+
       }
     },
     (error) =>  {
-      console.log("Something went wrong!", error);
+
     })
   }
 
@@ -1063,7 +1061,7 @@ export class FilesOverlayComponent implements OnInit {
         //Fetch the file object in 'exportFileObject' that has the same file id.
         let fileObject = exportFileObject.filter(item => item.file_id === fileItem.file_id);
         for (var fileObj of fileObject) {
-        console.log(fileObj);
+
           if (fileObj) {
             if (fileObj.downloadable.toLowerCase() === 'yes') {
               if (fileItem.signedUrl) {
@@ -1081,7 +1079,7 @@ export class FilesOverlayComponent implements OnInit {
       exportFileObject.forEach(item => item['file_download_link'] = "not found");
     }
   }
-	console.log(exportFileObject);
+
   }
 
   //@@@PDC-3937 Use new APIs for downloading legacy studies' files
@@ -1090,7 +1088,7 @@ export class FilesOverlayComponent implements OnInit {
       //Fetch the file object in 'exportFileObject' that has the same file id.
       let fileObject = exportFileObject.filter(item => item.file_id === fileItem.file_id);
       for (var fileObj of fileObject) {
-		  console.log(fileObj);
+
         if (fileObj) {
           if (fileObj.downloadable.toLowerCase() === 'yes') {
             if (fileItem.signedUrl) {
@@ -1107,7 +1105,7 @@ export class FilesOverlayComponent implements OnInit {
 	if (fileData.uiLegacyFilesPerStudy.length == 0) {
 		exportFileObject.forEach(item => item['file_download_link'] = "not found");
 	}
-	console.log(exportFileObject);
+
   }
 
   //@@@PDC-1765 add download prompt
@@ -1117,13 +1115,14 @@ export class FilesOverlayComponent implements OnInit {
     for (let file of dataForExport) {
 		totalSize += parseInt(file.file_size);
 	}
-	console.log("Total file size to download: "+totalSize);
+
 	let confirmationMessage = 'You are about to download ' + this.sizeUnitsPipe.transform(totalSize) + ' of data. Do you wish to proceed?';
 	let denyMessage = 'Your download request ('+this.sizeUnitsPipe.transform(totalSize)+') exceeds the limit of 20 GB. Please reduce the volumn and try again.';
 	let nextMsg = 'Continue';
 	if (totalSize <= 21474836480) {
 	    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
           width: "450px",
+          panelClass: 'custom-confirmation-dialog',
           data: { message: confirmationMessage, continueMessage: nextMsg }
         });
 
@@ -1131,7 +1130,7 @@ export class FilesOverlayComponent implements OnInit {
           if (!result) {
           }
 		  else {
-			console.log("Let's download.");
+
 			this.downloadBatch();
 		  }
 		  });
@@ -1139,6 +1138,7 @@ export class FilesOverlayComponent implements OnInit {
 	else {
         const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
           width: "450px",
+          panelClass: 'custom-confirmation-dialog',
           data: { message: denyMessage, continueMessage: nextMsg }
         });
 
@@ -1199,7 +1199,7 @@ export class FilesOverlayComponent implements OnInit {
           this.winOpenS3File(fileItem.signedUrl.url, fileItem.file_name).alert(confirmationMessage);
           this.sleep(2000);
         } else {
-          console.log("Error in downloading: " + fileItem.file_name);
+
         }
       }
     });
@@ -1207,17 +1207,17 @@ export class FilesOverlayComponent implements OnInit {
 
   //@@@PDC-4781: Use filesPerStudy API to return signed urls for multiple files
   getFilesDataObj(fileNameStr) {
-	  console.log("To download: "+fileNameStr)
+
     this.browseByFileService.getFilesData(fileNameStr, "").pipe(take(1)).subscribe((fileData: any) => {
       for (var fileItem of fileData.uiFilesPerStudy) {
-		  console.log("To download in loop: "+fileItem.file_name)
+
         if (fileItem.signedUrl) {
           let confirmationMessage = 'Finished downloading: '+ fileItem.file_name;
           //@@@PDC-1925 use window.open for multiple download
           this.winOpenS3File(fileItem.signedUrl.url, fileItem.file_name).alert(confirmationMessage);
           this.sleep(2000);
         } else {
-          console.log("Error in downloading: " + fileItem.file_name);
+
         }
       }
     });
@@ -1331,7 +1331,7 @@ export class FilesOverlayComponent implements OnInit {
         );
         signedUrl = urlResponse.url;
       } catch (error) {
-          console.log(error);
+
       }
       signedUrlMap[guidMap[guid]] = signedUrl;
     }
@@ -1407,7 +1407,7 @@ export class FilesOverlayComponent implements OnInit {
           //Not changing now as we don't have sufficient data to test.
           //let urlResponse = await this.browseByFileService.getOpenFileSignedUrl(exportFile.file_name);
 		  //@@@PDC-5770 get file using uuid
-		  console.log("Export file id 0929: "+exportFile.file_id);
+
           let urlResponse = await this.browseByFileService.getOpenFileUuidSignedUrl(exportFile.file_id);
           if(!urlResponse.error){
             if (individualFileDownload) {
@@ -1588,7 +1588,7 @@ export class FilesOverlayComponent implements OnInit {
 
     //@@@PDC-729 Integrate PDC with Fence and IndexD
     this.activeRoute.queryParams.subscribe(queryParams => {
-      console.log(queryParams);
+
       if (queryParams.code) {
         this.fenceRequest =  true;
         var controlFilesIndividualFileDownload = false;
@@ -1637,7 +1637,7 @@ export class FilesOverlayComponent implements OnInit {
 	//this.router.navigate([{outlets: {'studySummary': null}}], { replaceUrl: true });
 	//this.loc.replaceState(this.router.url);
 	//sessionStorage.removeItem('currentVersion');
-	//console.log("CLOSE study_name: " + study_name);
+
 	//if ( navigateToHeatmap ) {
 	// Route to the first heatmap
 	//	const navigationExtras: NavigationExtras = {

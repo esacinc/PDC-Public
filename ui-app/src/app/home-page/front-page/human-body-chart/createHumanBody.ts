@@ -38,7 +38,7 @@ const createHumanBody: TCreateHumanBody = ({
   numberofOrgansFromAPI
 } = {}) => {
   // Similar to a React target element
-  console.log(data);
+
   const root = document.querySelector(selector);
 
   // if (!root) {
@@ -90,7 +90,7 @@ const createHumanBody: TCreateHumanBody = ({
 	//@@@PDC-1590 remove Other label from human body image
     //if (dataofOther != '') data.push(dataofOther);
   }*/
- 
+
   //Redraw filter charts on datasets and home pages upon filter selection
   //Display text if there is no data
   if (data.length == 0) {
@@ -99,14 +99,14 @@ const createHumanBody: TCreateHumanBody = ({
     .attr('y', width/2)
     .attr('dy', '.35em')
     .text('No Data to Display');
-  } 
+  }
 
   // Bar Heights
   const y = d3
     .scaleBand()
     .domain(data.map(x => x[primarySiteKey]))
     .range([plotHeight, 0]);
-    
+
   // Bar Widths
   const x = d3
     .scaleLinear()
@@ -125,8 +125,8 @@ const createHumanBody: TCreateHumanBody = ({
       .attr('y1', plotHeight + halfPixel)
       .attr('y2', plotHeight + halfPixel);
   }
-  
-    console.log(data);
+
+
 
   const xAxisLabels = svg.append('g').attr('id', 'xAxisLabels');
 
@@ -179,18 +179,18 @@ const createHumanBody: TCreateHumanBody = ({
    .text(d => d[primarySiteKey])
    .attr('onload', function (d,i):boolean {
     // If an organ is highlighted, highlight the corresponding label on load.
-	console.log(selectedHumanBodyOrgans);
+
     if (selectedHumanBodyOrgans != '') {
       d3.select('.primary-site-label-' + selectedHumanBodyOrgans)
       //.transition()
-      .attr('fill', '#66FF66'); 
+      .attr('fill', '#66FF66');
     }
 	return true;
    })
    .on('mouseover', function (i, d) { // needs `this`
    const organSelector = toClassName(d[primarySiteKey]);
    const organ = document.getElementById(organSelector);
-   console.log(organ);
+
    if (organ) {
     organ.setAttribute("style","opacity: 1 !important");
    }
@@ -205,13 +205,13 @@ const createHumanBody: TCreateHumanBody = ({
     //    hsl.s = 1;
     //    hsl.l = 0.7;
     //    return String(d3.hsl(hsl));
-    //  }) 
+    //  })
       .attr('stroke', f => {
           return '#66FF66';
       })
       .attr('stroke-width', f => {
         return '2px';
-      }); 
+      });
 
    d3.select(`.primary-site-label-${toClassName(d[primarySiteKey])}`)
      //.transition()
@@ -260,8 +260,7 @@ const createHumanBody: TCreateHumanBody = ({
   .attr('fill', 'white');
 }
 //special case if the selected bar element is "Organ"
-console.log(organSelector);
-console.log(selectedHumanBodyOrgans);
+
 if (selectedHumanBodyOrgans == "Other" && organSelector == selectedHumanBodyOrgans) {
   d3.select(`.bar-Other`)
   .attr('cursor', 'pointer')
@@ -277,7 +276,7 @@ if (selectedHumanBodyOrgans == "Other" && organSelector == selectedHumanBodyOrga
   })
   .attr('stroke-width', f => {
     return '2px';
-  }); 
+  });
   //@@@PDC-1333: Mouse tooltip remains after moving off bar in human body image
   d3.select(`.primary-site-label-Other`)
   //.transition()
@@ -289,19 +288,19 @@ tooltip.style('opacity', 0);
   clickHandler({ _key: d[primarySitesFilters] });
   selectedHumanBodyOrgans = d[primarySiteKey];
   const svgs = document.querySelectorAll('#human-body-highlights svg');
-  console.log(svgs);
+
   //Change so all bars still show in body map graph when a bar is selected
   //Do not highlight previously selected organs,bar graph,labels
  svgs.forEach.call(svgs, svgPart => {
       if (svgPart.id != d[primarySiteKey]) {
       svgPart.style.opacity = '0';
-    } 
+    }
     d3.select(`.bar-${svgPart.id}`)
     //.transition()
     .attr('fill', d => {
       d['color'] = colorCodes[d[primarySiteKey]]; return d['color'];
     })
-    .attr('stroke', f => {return '';}); 
+    .attr('stroke', f => {return '';});
     d3.select(`.primary-site-label-${svgPart.id}`)
     //.transition()
     .attr('fill', 'white');
@@ -334,10 +333,10 @@ tooltip.style('opacity', 0);
   })
   .attr('stroke-width', f => {
     return '2px';
-  }); 
+  });
   d3.select(`.primary-site-label-${toClassName(d[primarySiteKey])}`)
   //.transition()
-  .attr('fill', '#66FF66'); 
+  .attr('fill', '#66FF66');
 });
 
 
@@ -369,15 +368,15 @@ tooltip.style('opacity', 0);
     .append('g')
     .append('rect')
     .attr('class', d => `bar-group-${toClassName(d[primarySiteKey])}`)
-    .attr('y', function(d, i) { 
+    .attr('y', function(d, i) {
       return ((plotHeight / (numberofOrgans-1)) * i) + 6;
     })
     .attr('x', barStartOffset + halfPixel)
     .attr('width', d => x(d[caseCountKey]))
     .attr('height', 22)
-    .attr('fill', (d, i) => { 
-        d['color'] = colorCodes[d[primarySiteKey]]; 
-		return d['color']; 
+    .attr('fill', (d, i) => {
+        d['color'] = colorCodes[d[primarySiteKey]];
+		return d['color'];
     })
     .attr('class', d => `bar-${toClassName(d[primarySiteKey])}`)
     .attr('onload', function (d,i):boolean {
@@ -398,12 +397,12 @@ tooltip.style('opacity', 0);
         })
         .attr('stroke-width', f => {
           return '2px';
-        }); 
+        });
       }
 	  return true;
     })
     .on('mouseover', function (i, d) { // needs `this`
-	console.log(d);
+
     const organSelector = toClassName(d[primarySiteKey]);
     const organ = document.getElementById(organSelector);
     if (organ) {
@@ -424,7 +423,7 @@ tooltip.style('opacity', 0);
       })
       .attr('stroke-width', f => {
         return '2px';
-      }); 
+      });
 
     d3.select(`.primary-site-label-${toClassName(d[primarySiteKey])}`)
       //.transition()
@@ -433,7 +432,7 @@ tooltip.style('opacity', 0);
     if (mouseOverHandler) {
       mouseOverHandler(d);
     } else {
-      var tooltipLabelPostfix = d['_count'] > 1 ? 'cases': 'case';      
+      var tooltipLabelPostfix = d['_count'] > 1 ? 'cases': 'case';
       tooltip
         .style('opacity', 1)
         .html(`
@@ -453,25 +452,25 @@ tooltip.style('opacity', 0);
   .on('click', function (i, d) {
     clickHandler({ _key: d[primarySitesFilters] }); //Send filters rather than organ name
     selectedHumanBodyOrgans = d[primarySiteKey];
-	console.log(selectedHumanBodyOrgans);
+
     const svgs = document.querySelectorAll('#human-body-highlights svg');
-	console.log(svgs);
+
     //Change so all bars still show in body map graph when a bar is selected
     //Do not highlight previously selected organs,bar graph,labels
     svgs.forEach.call(svgs, svgPart => {
         if (svgPart.id != this.id) {
         svgPart.style.opacity = '0';
-      }     
+      }
       d3.select(`.bar-${svgPart.id}`)
       //.transition()
       .attr('fill', d => {
         d['color'] = colorCodes[d[primarySiteKey]]; return d['color'];
       })
-      .attr('stroke', f => {return '';}); 
+      .attr('stroke', f => {return '';});
       d3.select(`.primary-site-label-${svgPart.id}`)
       //.transition()
       .attr('fill', 'white');
-      
+
     });
     //Deselect 'Other' part along with other organs.
     d3.select(`.bar-Other`)
@@ -503,7 +502,7 @@ tooltip.style('opacity', 0);
     })
     .attr('stroke-width', f => {
       return '2px';
-    }); 
+    });
     d3.select(`.primary-site-label-${toClassName(d[primarySiteKey])}`)
     //.transition()
     .attr('fill', '#66FF66');
@@ -542,7 +541,7 @@ tooltip.style('opacity', 0);
       })
       .attr('stroke-width', f => {
         return '2px';
-      }); 
+      });
     }
     if ((organ && selectedHumanBodyOrgans != organ.id) || (organSelector == "Other" && organSelector != selectedHumanBodyOrgans)) {
       d3.select(`.primary-site-label-${toClassName(d[primarySiteKey])}`)
@@ -568,9 +567,9 @@ tooltip.style('opacity', 0);
 		d3.select(`.bar-${svgPart.id}`)
         //.transition()
         .attr('fill', d => {
-			console.log(d[primarySitesFilters]);
+
 			clickHandler({ _key: d[primarySitesFilters] }); //calling to clickHandler function with the correct primary site name
-			d['color'] = colorCodes[d[primarySiteKey]]; 
+			d['color'] = colorCodes[d[primarySiteKey]];
 			return d['color'];
 		});
       //Have human body map stay highlighted after selection
@@ -599,7 +598,7 @@ tooltip.style('opacity', 0);
       .attr('stroke', f => {return '';});
       d3.select(`.primary-site-label-Other`)
       //.transition()
-      .attr('fill', 'white');     
+      .attr('fill', 'white');
       //Highlight selected organs,bar graph,labels
       this.style.opacity = '1 !important';
       selectedHumanBodyOrgans = this.id;
@@ -617,7 +616,7 @@ tooltip.style('opacity', 0);
         })
         .attr('stroke-width', f => {
           return '2px';
-        }); 
+        });
         d3.select(`.primary-site-label-${toClassName(this.id)}`)
         //.transition()
         .attr('fill', '#66FF66');
@@ -627,7 +626,7 @@ tooltip.style('opacity', 0);
 
     svgPart.addEventListener('mouseover', function (event) { // needs `this`
 	  this.setAttribute( 'style', 'opacity: 1 !important');
-	
+
       d3.select(`.primary-site-label-${this.id}`)
         //.transition()
         .attr('fill', '#66FF66');
@@ -666,7 +665,7 @@ tooltip.style('opacity', 0);
         })
         .attr('stroke-width', f => {
           return '2px';
-        }); 
+        });
     });
 
     svgPart.addEventListener('mouseout', function () { // needs `this`
@@ -690,7 +689,7 @@ tooltip.style('opacity', 0);
             mouseOutHandler(d);
           } else {
             tooltip.style('opacity', 0);
-          } 
+          }
           //Change so all bars still show in body map graph when a bar is selected
           if (this.isorganSelected == this.id) {
               // const hsl = d3.hsl(d['color']);

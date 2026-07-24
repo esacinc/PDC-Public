@@ -71,7 +71,7 @@ constructor(private apollo: Apollo) {
 	}`;
 
 	getLegacyStudyData(study_name = ''){
-		console.log("getLegacyStudyData - " + study_name);
+
 		return this.apollo.watchQuery<QueryLegacyStudies>({
 			query: this.legacyStudyDataQuery,
 			variables: {
@@ -80,7 +80,7 @@ constructor(private apollo: Apollo) {
 		})
 		.valueChanges
 		.pipe(
-        map(result => { console.log(result.data); return result.data;})
+        map(result => {  return result.data;})
       );
 	}
 
@@ -103,7 +103,7 @@ constructor(private apollo: Apollo) {
 		})
 		.valueChanges
 		.pipe(
-        map(result => { console.log(result.data); return result.data;})
+        map(result => {  return result.data;})
       );
 	}
 
@@ -126,7 +126,7 @@ constructor(private apollo: Apollo) {
 		})
 		.valueChanges
 		.pipe(
-        map(result => { console.log(result.data); return result.data;})
+        map(result => {  return result.data;})
       );
 	}
 
@@ -157,7 +157,7 @@ constructor(private apollo: Apollo) {
 		})
 		.valueChanges
 		.pipe(
-		map(result => { console.log(result.data); return result.data;})
+		map(result => {  return result.data;})
 		);
 	}
 
