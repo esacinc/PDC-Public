@@ -2836,10 +2836,10 @@
         <i [ngClass]="showGeneFilter ? 'fa fa-minus' : 'fa fa-plus'"></i>
       </div>
       <div class="p-4" *ngIf="showGeneFilter">
-        <div class="mb-4">
+        <div class="mb-4" >
           <span class="block mb-2">Prebuilt genes list</span>
-          <mat-select class="card-body card-list select-gene" [(value)]="selectedGeneNames" [(ngModel)]="selectedGeneSelectField" (selectionChange)="triggerInputEvent(selectedGeneNames)">
-            <mat-option *ngFor="let geneNameField of prebuildGeneList" [value]="geneNameField.geneNamesList" style="font-size: 12px; line-height: 2em; height: 2em; min-width: 520px;">
+          <mat-select class="card-body card-list select-gene w-full" panelClass="gene-select-panel" [(value)]="selectedGeneNames" [(ngModel)]="selectedGeneSelectField" (selectionChange)="triggerInputEvent(selectedGeneNames)">
+            <mat-option *ngFor="let geneNameField of prebuildGeneList" [value]="geneNameField.geneNamesList">
               {{geneNameField.listName}}
             </mat-option>
           </mat-select>
@@ -2876,6 +2876,12 @@
           </button>
         </div>
 
+        <div *ngIf="!loadingGeneSymbolValidation && allGeneNamesValid && this.validGenesNotUsedInPDCStudies.length > 0 && selectedGeneNames.length > 0" class="mb-2">
+          <button class="bg-yellow-600 text-white font-normal px-4 py-2 rounded">
+            Gene symbol is valid but not expressed in the studies currently available in PDC.
+          </button>
+        </div>
+
         <div *ngIf="loadingGeneSymbolValidation" class="mb-4">
           <button class="px-4 py-2">
             <i class="pi pi-spin pi-spinner"></i> Validating gene symbols...
@@ -2883,11 +2889,23 @@
         </div>
 
         <div *ngIf="invalidGenesEnteredByUser.length > 0" class="invalidGeneBreadCrumbs mb-4">
+          
           <span *ngFor="let invalidGene of invalidGenesEnteredByUser; index as i"
                 class="invalidGenes invalidGenes-{{invalidGene}} inline-block mr-2">
             <button class="bg-blue-600 text-white px-2 py-1 rounded text-sm"
                     (click)="deleteInvalidGeneBreadcrumb(invalidGene)">
               {{invalidGene}}&nbsp;<i class="fa fa-close text-xs"></i>
+            </button>
+          </span>
+        
+        </div>
+
+        <div *ngIf="validGenesNotUsedInPDCStudies.length > 0" class="validButNotInPDCStudyGeneBreadCrumbs mb-4">
+          <span *ngFor="let validGene of validGenesNotUsedInPDCStudies; index as i"
+                class="validButNotInPDCGenes validButNotInPDCGenes-{{validGene}} inline-block mr-2">
+            <button class="bg-yellow-600 text-white px-2 py-1 rounded text-sm"
+                    (click)="deleteGeneNotEnteredInStudyBreadcrumb(validGene)">
+              {{validGene}}&nbsp;<i class="fa fa-close text-xs"></i>
             </button>
           </span>
         </div>

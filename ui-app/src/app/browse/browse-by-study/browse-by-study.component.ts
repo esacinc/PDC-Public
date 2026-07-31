@@ -22,7 +22,7 @@ import { AriaLabeler } from '../aria-labeler';
 @Component({
   selector: 'browse-by-study',
   templateUrl: './browse-by-study-new.component.html',
-  styleUrls: ['../../../assets/css/global.css', './browse-by-study.component.css'],
+  styleUrls: ['../../../assets/css/global.css', './browse-by-study.component.css', '../browse-table.component.css'],
   providers: [BrowseByStudyService],
   standalone: false
 })

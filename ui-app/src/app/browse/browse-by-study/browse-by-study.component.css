@@ -746,13 +746,7 @@ p-tableCheckbox{
   background-color: #2a5f85 !important;
 }
 
-.dropdown-toggle:disabled {
-  background-color: #6c757d !important;
-  border-color: #6c757d !important;
-  color: #ffffff !important;
-  opacity: 0.65 !important;
-  cursor: not-allowed !important;
-}
+
 
 .dropdown-menu {
   position: absolute;
@@ -838,8 +832,8 @@ p-tableCheckbox{
 
 /* Improve disabled state styling */
 .dropdown-toggle:disabled {
-  background-color: #6c757d !important;
-  border-color: #6c757d !important;
+  background-color: #387BA8 !important;
+  border-color: #387BA8 !important;
   color: #ffffff !important;
   opacity: 0.65 !important;
   cursor: not-allowed !important;

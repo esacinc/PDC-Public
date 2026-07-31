@@ -25,7 +25,43 @@
 p-tableCheckbox{
   width:20px;
   height:20px;
-  border-width: 2px !important;
+  border: none !important;
+  background: none !important;
+  line-height: normal !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  vertical-align: top !important;
+}
+
+p-tableCheckbox .p-checkbox {
+  vertical-align: top !important;
+}
+
+p-tableCheckbox .p-checkbox .p-checkbox-box {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+  width: 18px !important;
+  height: 18px !important;
+  vertical-align: top !important;
+  border: 1px solid #c5c5c5 !important;
+}
+
+p-tableCheckbox .p-checkbox .p-checkbox-box.p-highlight {
+  padding: 0 !important;
+  border: 1px solid #156090 !important;
+  width: 18px !important;
+  height: 18px !important;
+}
+
+p-tableCheckbox .p-checkbox .p-checkbox-box .p-checkbox-icon {
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1 !important;
+  display: block !important;
+  vertical-align: middle !important;
 }
 
 .ui-datatable-tableheader {

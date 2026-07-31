@@ -8,8 +8,7 @@
         "experiment_type": "TMT18",
         "files": [
             "001e7809-6898-446d-a417-e23d0cba26eb-log2_ratio.gct",
-            "001e7809-6898-446d-a417-e23d0cba26eb-unshared_log2_ratio.gct",
-            "manifest.json"
+            "001e7809-6898-446d-a417-e23d0cba26eb-unshared_log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000554",
@@ -33,8 +32,7 @@
         "embargo_date": "None",
         "experiment_type": "TMT16",
         "files": [
-            "005c7da3-e438-48d7-a4c8-33f66392e31d-log2_ratio.gct",
-            "manifest.json"
+            "005c7da3-e438-48d7-a4c8-33f66392e31d-log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000501",
@@ -59,8 +57,7 @@
         "experiment_type": "TMT10",
         "files": [
             "0163099c-d8c0-4aec-81b2-e0e348939137-log2_ratio.gct",
-            "0163099c-d8c0-4aec-81b2-e0e348939137-unshared_log2_ratio.gct",
-            "manifest.json"
+            "0163099c-d8c0-4aec-81b2-e0e348939137-unshared_log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000516",
@@ -76,6 +73,30 @@
         "submitter_id_name": "CGU OSCC Multi-omics - Proteome",
         "updated": "2025-02-03 21:42:32"
     },
+    "02aa93bd-e30e-4d02-87d8-f7e178579de2": {
+        "acquisition_type": "DDA",
+        "analytical_fraction": "Phosphoproteome",
+        "cptac_study_id": null,
+        "cud_label": "PDC000666",
+        "embargo_date": "None",
+        "experiment_type": "TMT18",
+        "files": [
+            "02aa93bd-e30e-4d02-87d8-f7e178579de2-log2_ratio.gct"
+        ],
+        "is_latest_version": 1,
+        "pdc_study_id": "PDC000666",
+        "project_id": "f7730205-d414-40a0-b03d-e08a61252670",
+        "project_submitter_id": "CPTAC-KF-CCDI-Pediatric Brain Cancer",
+        "protocol_id": "7d120be7-63e8-4221-a006-54d5ed7be77c",
+        "protocol_submitter_id": "CPTAC-KF-CCDI-Pediatric Brain Cancer Medulloblastoma Phosphoproteome Protocol",
+        "study_description": "",
+        "study_id": "02aa93bd-e30e-4d02-87d8-f7e178579de2",
+        "study_shortname": "CPTAC-KF-CCDI-Pediatric Brain Cancer Study - Medulloblastoma Phosphoproteome",
+        "study_submitter_id": "CPTAC-KF-CCDI-Pediatric Brain Cancer Study - Medulloblastoma Phosphoproteome",
+        "study_version": "1",
+        "submitter_id_name": "CPTAC-KF-CCDI-Pediatric Brain Cancer Study - Medulloblastoma Phosphoproteome",
+        "updated": "2026-06-11 17:11:29"
+    },
     "04e7d2d0-5c37-454b-9158-d7fd4d4b93e6": {
         "acquisition_type": "DDA",
         "analytical_fraction": "Proteome",
@@ -85,8 +106,7 @@
         "experiment_type": "TMT18",
         "files": [
             "04e7d2d0-5c37-454b-9158-d7fd4d4b93e6-log2_ratio.gct",
-            "04e7d2d0-5c37-454b-9158-d7fd4d4b93e6-unshared_log2_ratio.gct",
-            "manifest.json"
+            "04e7d2d0-5c37-454b-9158-d7fd4d4b93e6-unshared_log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000614",
@@ -111,8 +131,7 @@
         "experiment_type": "TMT11",
         "files": [
             "0779a1fe-44e2-46c6-a2bf-3c218452cefc-log2_ratio.gct",
-            "0779a1fe-44e2-46c6-a2bf-3c218452cefc-unshared_log2_ratio.gct",
-            "manifest.json"
+            "0779a1fe-44e2-46c6-a2bf-3c218452cefc-unshared_log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000315",
@@ -136,8 +155,7 @@
         "embargo_date": "None",
         "experiment_type": "TMT11",
         "files": [
-            "07a7b5aa-e984-480c-a339-a9399d7aa787-log2_ratio.gct",
-            "manifest.json"
+            "07a7b5aa-e984-480c-a339-a9399d7aa787-log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000441",
@@ -161,8 +179,7 @@
         "embargo_date": "None",
         "experiment_type": "TMT10",
         "files": [
-            "07f03e78-2aef-4a94-9eba-81606624a94f-log2_ratio.gct",
-            "manifest.json"
+            "07f03e78-2aef-4a94-9eba-81606624a94f-log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000401",
@@ -186,8 +203,7 @@
         "embargo_date": "None",
         "experiment_type": "TMT18",
         "files": [
-            "155cc2e8-14f8-4580-a392-a40c12bc262d-log2_ratio.gct",
-            "manifest.json"
+            "155cc2e8-14f8-4580-a392-a40c12bc262d-log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000643",
@@ -203,6 +219,31 @@
         "submitter_id_name": "CPTAC-KF-CCDI-Pediatric T-ALL Study - Ubiquitylome",
         "updated": "2025-12-18 19:09:13"
     },
+    "172500d9-e617-4277-b8c6-7da372a5a00d": {
+        "acquisition_type": "DDA",
+        "analytical_fraction": "Proteome",
+        "cptac_study_id": null,
+        "cud_label": "PDC000646",
+        "embargo_date": "None",
+        "experiment_type": "TMT18",
+        "files": [
+            "172500d9-e617-4277-b8c6-7da372a5a00d-log2_ratio.gct",
+            "172500d9-e617-4277-b8c6-7da372a5a00d-unshared_log2_ratio.gct"
+        ],
+        "is_latest_version": 1,
+        "pdc_study_id": "PDC000646",
+        "project_id": "f7730205-d414-40a0-b03d-e08a61252670",
+        "project_submitter_id": "CPTAC-KF-CCDI-Pediatric Brain Cancer",
+        "protocol_id": "f736c882-d435-4c91-b195-c03e9a5beab2",
+        "protocol_submitter_id": "CPTAC-KF-CCDI-Pediatric Brain Cancer Ependymoma Proteome Protocol",
+        "study_description": "",
+        "study_id": "172500d9-e617-4277-b8c6-7da372a5a00d",
+        "study_shortname": "CPTAC-KF-CCDI-Pediatric Brain Cancer Study - Ependymoma Proteome",
+        "study_submitter_id": "CPTAC-KF-CCDI-Pediatric Brain Cancer Study - Ependymoma Proteome",
+        "study_version": "1",
+        "submitter_id_name": "CPTAC-KF-CCDI-Pediatric Brain Cancer Study - Ependymoma Proteome",
+        "updated": "2026-05-28 16:27:18"
+    },
     "17d5c31f-d028-11ea-b1fd-0aad30af8a83": {
         "acquisition_type": "DDA",
         "analytical_fraction": "Phosphoproteome",
@@ -211,8 +252,7 @@
         "embargo_date": "None",
         "experiment_type": "TMT11",
         "files": [
-            "17d5c31f-d028-11ea-b1fd-0aad30af8a83-log2_ratio.gct",
-            "manifest.json"
+            "17d5c31f-d028-11ea-b1fd-0aad30af8a83-log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000232",
@@ -236,8 +276,7 @@
         "embargo_date": "None",
         "experiment_type": "TMT11",
         "files": [
-            "17d5c50c-d028-11ea-b1fd-0aad30af8a83-log2_ratio.gct",
-            "manifest.json"
+            "17d5c50c-d028-11ea-b1fd-0aad30af8a83-log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000233",
@@ -262,8 +301,7 @@
         "experiment_type": "TMT11",
         "files": [
             "17d5c677-d028-11ea-b1fd-0aad30af8a83-log2_ratio.gct",
-            "17d5c677-d028-11ea-b1fd-0aad30af8a83-unshared_log2_ratio.gct",
-            "manifest.json"
+            "17d5c677-d028-11ea-b1fd-0aad30af8a83-unshared_log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000234",
@@ -287,8 +325,7 @@
         "embargo_date": "None",
         "experiment_type": "TMT18",
         "files": [
-            "188bbdd1-6487-4c13-b149-692d75a655e3-log2_ratio.gct",
-            "manifest.json"
+            "188bbdd1-6487-4c13-b149-692d75a655e3-log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000615",
@@ -313,8 +350,7 @@
         "experiment_type": "TMT11",
         "files": [
             "196aabca-0e36-46ca-9096-339aee1471da-log2_ratio.gct",
-            "196aabca-0e36-46ca-9096-339aee1471da-unshared_log2_ratio.gct",
-            "manifest.json"
+            "196aabca-0e36-46ca-9096-339aee1471da-unshared_log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000362",
@@ -330,6 +366,30 @@
         "submitter_id_name": "PTRC HGSOC Frozen Validation - Proteome",
         "updated": "2022-11-21 09:08:47"
     },
+    "1b4dc521-fb1e-4b4c-9edc-d128551ca53c": {
+        "acquisition_type": "DDA",
+        "analytical_fraction": "Phosphoproteome",
+        "cptac_study_id": null,
+        "cud_label": "PDC000647",
+        "embargo_date": "None",
+        "experiment_type": "TMT18",
+        "files": [
+            "1b4dc521-fb1e-4b4c-9edc-d128551ca53c-log2_ratio.gct"
+        ],
+        "is_latest_version": 1,
+        "pdc_study_id": "PDC000647",
+        "project_id": "f7730205-d414-40a0-b03d-e08a61252670",
+        "project_submitter_id": "CPTAC-KF-CCDI-Pediatric Brain Cancer",
+        "protocol_id": "e73c26ad-a0e2-4d1e-8834-27636c71dc42",
+        "protocol_submitter_id": "CPTAC-KF-CCDI-Pediatric Brain Cancer Ependymoma Phosphoproteome Protocol",
+        "study_description": "",
+        "study_id": "1b4dc521-fb1e-4b4c-9edc-d128551ca53c",
+        "study_shortname": "CPTAC-KF-CCDI-Pediatric Brain Cancer Study - Ependymoma Phosphoproteome",
+        "study_submitter_id": "CPTAC-KF-CCDI-Pediatric Brain Cancer Study - Ependymoma Phosphoproteome",
+        "study_version": "1",
+        "submitter_id_name": "CPTAC-KF-CCDI-Pediatric Brain Cancer Study - Ependymoma Phosphoproteome",
+        "updated": "2026-05-28 16:40:49"
+    },
     "1ca393b5-6a3e-4d85-b4fa-6b2c76184918": {
         "acquisition_type": "DDA",
         "analytical_fraction": "Proteome",
@@ -339,8 +399,7 @@
         "experiment_type": "TMT10",
         "files": [
             "1ca393b5-6a3e-4d85-b4fa-6b2c76184918-log2_ratio.gct",
-            "1ca393b5-6a3e-4d85-b4fa-6b2c76184918-unshared_log2_ratio.gct",
-            "manifest.json"
+            "1ca393b5-6a3e-4d85-b4fa-6b2c76184918-unshared_log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000398",
@@ -364,8 +423,7 @@
         "embargo_date": "None",
         "experiment_type": "TMT11",
         "files": [
-            "1cb77297-00b8-482a-8d43-e22eea61f0d1-log2_ratio.gct",
-            "manifest.json"
+            "1cb77297-00b8-482a-8d43-e22eea61f0d1-log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000359",
@@ -390,8 +448,7 @@
         "experiment_type": "TMT11",
         "files": [
             "1cf6e56a-02f4-4687-8f87-ab37b0f41960-log2_ratio.gct",
-            "1cf6e56a-02f4-4687-8f87-ab37b0f41960-unshared_log2_ratio.gct",
-            "manifest.json"
+            "1cf6e56a-02f4-4687-8f87-ab37b0f41960-unshared_log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000270",
@@ -415,8 +472,7 @@
         "embargo_date": "None",
         "experiment_type": "TMT11",
         "files": [
-            "1e921407-3636-46f9-be4d-89c83eca40c1-log2_ratio.gct",
-            "manifest.json"
+            "1e921407-3636-46f9-be4d-89c83eca40c1-log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000409",
@@ -440,8 +496,7 @@
         "embargo_date": "None",
         "experiment_type": "TMT10",
         "files": [
-            "23292a1a-b708-11ea-b1fd-0aad30af8a83-log2_ratio.gct",
-            "manifest.json"
+            "23292a1a-b708-11ea-b1fd-0aad30af8a83-log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000224",
@@ -465,8 +520,7 @@
         "embargo_date": "None",
         "experiment_type": "TMT10",
         "files": [
-            "2329308e-b708-11ea-b1fd-0aad30af8a83-log2_ratio.gct",
-            "manifest.json"
+            "2329308e-b708-11ea-b1fd-0aad30af8a83-log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000226",
@@ -491,8 +545,7 @@
         "experiment_type": "TMT10",
         "files": [
             "26da108f-b554-4c81-8397-0aded036fe93-log2_ratio.gct",
-            "26da108f-b554-4c81-8397-0aded036fe93-unshared_log2_ratio.gct",
-            "manifest.json"
+            "26da108f-b554-4c81-8397-0aded036fe93-unshared_log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000393",
@@ -516,8 +569,7 @@
         "embargo_date": "None",
         "experiment_type": "TMT11",
         "files": [
-            "298318e8-0f64-49ef-9667-257df14be2da-log2_ratio.gct",
-            "manifest.json"
+            "298318e8-0f64-49ef-9667-257df14be2da-log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000357",
@@ -542,8 +594,7 @@
         "experiment_type": "TMT16",
         "files": [
             "2d3adba0-da63-4d62-86bd-2120cd5cb80b-log2_ratio.gct",
-            "2d3adba0-da63-4d62-86bd-2120cd5cb80b-unshared_log2_ratio.gct",
-            "manifest.json"
+            "2d3adba0-da63-4d62-86bd-2120cd5cb80b-unshared_log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000582",
@@ -567,8 +618,7 @@
         "embargo_date": "None",
         "experiment_type": "TMT11",
         "files": [
-            "3763131a-bbac-4ef8-84fc-30def4e8bcc1-log2_ratio.gct",
-            "manifest.json"
+            "3763131a-bbac-4ef8-84fc-30def4e8bcc1-log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000403",
@@ -592,8 +642,7 @@
         "embargo_date": "None",
         "experiment_type": "TMT11",
         "files": [
-            "377db6e0-c7ac-4823-bef9-b5fb4f9a7272-log2_ratio.gct",
-            "manifest.json"
+            "377db6e0-c7ac-4823-bef9-b5fb4f9a7272-log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000318",
@@ -617,8 +666,7 @@
         "embargo_date": "None",
         "experiment_type": "TMT11",
         "files": [
-            "37dfda3f-1132-11ea-9bfa-0a42f3c845fe-log2_ratio.gct",
-            "manifest.json"
+            "37dfda3f-1132-11ea-9bfa-0a42f3c845fe-log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000199",
@@ -634,6 +682,80 @@
         "submitter_id_name": "HBV-Related Hepatocellular Carcinoma - Phosphoproteome",
         "updated": "2021-07-06 19:40:51"
     },
+    "3993e7e4-63fd-4533-8dc8-acad2e69b6ea": {
+        "acquisition_type": "DDA",
+        "analytical_fraction": "Proteome",
+        "cptac_study_id": null,
+        "cud_label": "PDC000687",
+        "embargo_date": "None",
+        "experiment_type": "TMT18",
+        "files": [
+            "3993e7e4-63fd-4533-8dc8-acad2e69b6ea-log2_ratio.gct",
+            "3993e7e4-63fd-4533-8dc8-acad2e69b6ea-unshared_log2_ratio.gct"
+        ],
+        "is_latest_version": 1,
+        "pdc_study_id": "PDC000687",
+        "project_id": "f7730205-d414-40a0-b03d-e08a61252670",
+        "project_submitter_id": "CPTAC-KF-CCDI-Pediatric Brain Cancer",
+        "protocol_id": "91ebf32a-c574-4bf2-9e7c-a301bf833676",
+        "protocol_submitter_id": "CPTAC-KF-CCDI-Pediatric Brain Cancer High-Grade Glioma Proteome Protocol",
+        "study_description": "",
+        "study_id": "3993e7e4-63fd-4533-8dc8-acad2e69b6ea",
+        "study_shortname": "CPTAC-KF-CCDI-Pediatric Brain Cancer Study - High-Grade Glioma Proteome",
+        "study_submitter_id": "CPTAC-KF-CCDI-Pediatric Brain Cancer Study - High-Grade Glioma Proteome",
+        "study_version": "1",
+        "submitter_id_name": "CPTAC-KF-CCDI-Pediatric Brain Cancer Study - High-Grade Glioma Proteome",
+        "updated": "2026-06-10 13:12:57"
+    },
+    "3d20d6e9-c485-4d62-acd7-2c8c374191e1": {
+        "acquisition_type": "DDA",
+        "analytical_fraction": "Phosphoproteome",
+        "cptac_study_id": null,
+        "cud_label": "PDC000701",
+        "embargo_date": "None",
+        "experiment_type": "TMT18",
+        "files": [
+            "3d20d6e9-c485-4d62-acd7-2c8c374191e1-log2_ratio.gct"
+        ],
+        "is_latest_version": 1,
+        "pdc_study_id": "PDC000701",
+        "project_id": "f7730205-d414-40a0-b03d-e08a61252670",
+        "project_submitter_id": "CPTAC-KF-CCDI-Pediatric Brain Cancer",
+        "protocol_id": "c5906ad2-1185-40a5-83a1-b089da0dff17",
+        "protocol_submitter_id": "CPTAC-KF-CCDI-Pediatric Brain Cancer GCC Phosphoproteome Protocol",
+        "study_description": "",
+        "study_id": "3d20d6e9-c485-4d62-acd7-2c8c374191e1",
+        "study_shortname": "CPTAC-KF-CCDI-Pediatric Brain Cancer Study - Ganglioglioma-CPC-CPP Phosphoproteome",
+        "study_submitter_id": "CPTAC-KF-CCDI-Pediatric Brain Cancer Study - Ganglioglioma-CPC-CPP Phosphoproteome",
+        "study_version": "1",
+        "submitter_id_name": "CPTAC-KF-CCDI-Pediatric Brain Cancer Study - Ganglioglioma-CPC-CPP Phosphoproteome",
+        "updated": "2026-06-30 17:46:31"
+    },
+    "3d5c73ec-43e6-4772-a79d-7d93ce8f9718": {
+        "acquisition_type": "DDA",
+        "analytical_fraction": "Proteome",
+        "cptac_study_id": null,
+        "cud_label": "PDC000700",
+        "embargo_date": "None",
+        "experiment_type": "TMT18",
+        "files": [
+            "3d5c73ec-43e6-4772-a79d-7d93ce8f9718-log2_ratio.gct",
+            "3d5c73ec-43e6-4772-a79d-7d93ce8f9718-unshared_log2_ratio.gct"
+        ],
+        "is_latest_version": 1,
+        "pdc_study_id": "PDC000700",
+        "project_id": "f7730205-d414-40a0-b03d-e08a61252670",
+        "project_submitter_id": "CPTAC-KF-CCDI-Pediatric Brain Cancer",
+        "protocol_id": "b92a09cf-2b42-4fa3-83ab-39227b86b7f2",
+        "protocol_submitter_id": "CPTAC-KF-CCDI-Pediatric Brain Cancer GCC Proteome Protocol",
+        "study_description": "",
+        "study_id": "3d5c73ec-43e6-4772-a79d-7d93ce8f9718",
+        "study_shortname": "CPTAC-KF-CCDI-Pediatric Brain Cancer Study - Ganglioglioma-CPC-CPP Proteome",
+        "study_submitter_id": "CPTAC-KF-CCDI-Pediatric Brain Cancer Study - Ganglioglioma-CPC-CPP Proteome",
+        "study_version": "1",
+        "submitter_id_name": "CPTAC-KF-CCDI-Pediatric Brain Cancer Study - Ganglioglioma-CPC-CPP Proteome",
+        "updated": "2026-06-30 16:10:15"
+    },
     "3dd78548-2cb3-4ab1-8883-e2987e41a1c8": {
         "acquisition_type": "DDA",
         "analytical_fraction": "Proteome",
@@ -643,8 +765,7 @@
         "experiment_type": "TMT11",
         "files": [
             "3dd78548-2cb3-4ab1-8883-e2987e41a1c8-log2_ratio.gct",
-            "3dd78548-2cb3-4ab1-8883-e2987e41a1c8-unshared_log2_ratio.gct",
-            "manifest.json"
+            "3dd78548-2cb3-4ab1-8883-e2987e41a1c8-unshared_log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000316",
@@ -668,8 +789,7 @@
         "embargo_date": "None",
         "experiment_type": "TMT11",
         "files": [
-            "3e39cf13-1abf-422c-b65d-e102f2c9a276-log2_ratio.gct",
-            "manifest.json"
+            "3e39cf13-1abf-422c-b65d-e102f2c9a276-log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000490",
@@ -694,8 +814,7 @@
         "experiment_type": "TMT11",
         "files": [
             "401b6a4e-e36e-4bd2-be2a-2926eaa44d88-log2_ratio.gct",
-            "401b6a4e-e36e-4bd2-be2a-2926eaa44d88-unshared_log2_ratio.gct",
-            "manifest.json"
+            "401b6a4e-e36e-4bd2-be2a-2926eaa44d88-unshared_log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000439",
@@ -720,8 +839,7 @@
         "experiment_type": "TMT11",
         "files": [
             "40c5bfc8-0fd9-468c-a1be-d1078285dbca-log2_ratio.gct",
-            "40c5bfc8-0fd9-468c-a1be-d1078285dbca-unshared_log2_ratio.gct",
-            "manifest.json"
+            "40c5bfc8-0fd9-468c-a1be-d1078285dbca-unshared_log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000477",
@@ -737,6 +855,54 @@
         "submitter_id_name": "Beat AML Baseline Clinical - Proteome",
         "updated": "2023-09-22 03:55:25"
     },
+    "49c6e0ba-4f12-4311-9efb-dae0a4a1e5f1": {
+        "acquisition_type": "DDA",
+        "analytical_fraction": "Phosphoproteome",
+        "cptac_study_id": null,
+        "cud_label": "PDC000694",
+        "embargo_date": "None",
+        "experiment_type": "TMT18",
+        "files": [
+            "49c6e0ba-4f12-4311-9efb-dae0a4a1e5f1-log2_ratio.gct"
+        ],
+        "is_latest_version": 1,
+        "pdc_study_id": "PDC000694",
+        "project_id": "f7730205-d414-40a0-b03d-e08a61252670",
+        "project_submitter_id": "CPTAC-KF-CCDI-Pediatric Brain Cancer",
+        "protocol_id": "38dfb0a1-9c1f-44b2-91a8-6f8911359370",
+        "protocol_submitter_id": "CPTAC-KF-CCDI-Pediatric Brain Cancer High-Grade Glioma Phosphotyrosine Protocol",
+        "study_description": "",
+        "study_id": "49c6e0ba-4f12-4311-9efb-dae0a4a1e5f1",
+        "study_shortname": "CPTAC-KF-CCDI-Pediatric Brain Cancer Study - High-Grade Glioma Phosphotyrosine",
+        "study_submitter_id": "CPTAC-KF-CCDI-Pediatric Brain Cancer Study - High-Grade Glioma Phosphotyrosine",
+        "study_version": "1",
+        "submitter_id_name": "CPTAC-KF-CCDI-Pediatric Brain Cancer Study - High-Grade Glioma Phosphotyrosine",
+        "updated": "2026-06-10 16:56:57"
+    },
+    "4bdee5d2-31cd-4b83-830e-86b44a141169": {
+        "acquisition_type": "DDA",
+        "analytical_fraction": "Phosphoproteome",
+        "cptac_study_id": null,
+        "cud_label": "PDC000704",
+        "embargo_date": "None",
+        "experiment_type": "TMT18",
+        "files": [
+            "4bdee5d2-31cd-4b83-830e-86b44a141169-log2_ratio.gct"
+        ],
+        "is_latest_version": 1,
+        "pdc_study_id": "PDC000704",
+        "project_id": "f7730205-d414-40a0-b03d-e08a61252670",
+        "project_submitter_id": "CPTAC-KF-CCDI-Pediatric Brain Cancer",
+        "protocol_id": "22602b9b-3a97-4e3a-98f2-b891d75cee9d",
+        "protocol_submitter_id": "CPTAC-KF-CCDI-Pediatric Brain Cancer GCC Phosphotyrosine Protocol",
+        "study_description": "",
+        "study_id": "4bdee5d2-31cd-4b83-830e-86b44a141169",
+        "study_shortname": "CPTAC-KF-CCDI-Pediatric Brain Cancer Study - Ganglioglioma-CPC-CPP Phosphotyrosine",
+        "study_submitter_id": "CPTAC-KF-CCDI-Pediatric Brain Cancer Study - Ganglioglioma-CPC-CPP Phosphotyrosine",
+        "study_version": "1",
+        "submitter_id_name": "CPTAC-KF-CCDI-Pediatric Brain Cancer Study - Ganglioglioma-CPC-CPP Phosphotyrosine",
+        "updated": "2026-06-30 17:55:23"
+    },
     "4c5d0549-45db-426f-91a0-74c9ea8493cb": {
         "acquisition_type": "DDA",
         "analytical_fraction": "Proteome",
@@ -746,8 +912,7 @@
         "experiment_type": "TMT10",
         "files": [
             "4c5d0549-45db-426f-91a0-74c9ea8493cb-log2_ratio.gct",
-            "4c5d0549-45db-426f-91a0-74c9ea8493cb-unshared_log2_ratio.gct",
-            "manifest.json"
+            "4c5d0549-45db-426f-91a0-74c9ea8493cb-unshared_log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000563",
@@ -772,8 +937,7 @@
         "experiment_type": "TMT11",
         "files": [
             "4d8e511f-ec80-43d9-87d5-50a11a916028-log2_ratio.gct",
-            "4d8e511f-ec80-43d9-87d5-50a11a916028-unshared_log2_ratio.gct",
-            "manifest.json"
+            "4d8e511f-ec80-43d9-87d5-50a11a916028-unshared_log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000498",
@@ -798,9 +962,7 @@
         "experiment_type": "TMT10",
         "files": [
             "4f354c22-0421-11eb-bc0e-0aad30af8a83-log2_ratio.gct",
-            "4f354c22-0421-11eb-bc0e-0aad30af8a83-unshared_log2_ratio.gct",
-            "desktop.ini",
-            "manifest.json"
+            "4f354c22-0421-11eb-bc0e-0aad30af8a83-unshared_log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000248",
@@ -824,8 +986,7 @@
         "embargo_date": "None",
         "experiment_type": "TMT10",
         "files": [
-            "4f355232-0421-11eb-bc0e-0aad30af8a83-log2_ratio.gct",
-            "manifest.json"
+            "4f355232-0421-11eb-bc0e-0aad30af8a83-log2_ratio.gct"
         ],
         "is_latest_version": 0,
         "pdc_study_id": "PDC000251",
@@ -850,8 +1011,7 @@
         "experiment_type": "TMT11",
         "files": [
             "524d5116-b6de-4e36-892a-e35dba7d0170-log2_ratio.gct",
-            "524d5116-b6de-4e36-892a-e35dba7d0170-unshared_log2_ratio.gct",
-            "manifest.json"
+            "524d5116-b6de-4e36-892a-e35dba7d0170-unshared_log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000514",
@@ -875,8 +1035,7 @@
         "embargo_date": "None",
         "experiment_type": "TMT11",
         "files": [
-            "57b7e39e-d0bd-4aa9-8d46-62a854905797-log2_ratio.gct",
-            "manifest.json"
+            "57b7e39e-d0bd-4aa9-8d46-62a854905797-log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000450",
@@ -900,8 +1059,7 @@
         "embargo_date": "None",
         "experiment_type": "TMT11",
         "files": [
-            "58be6cbb-f1f7-11e9-9a07-0a80fada099c-log2_ratio.gct",
-            "manifest.json"
+            "58be6cbb-f1f7-11e9-9a07-0a80fada099c-log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000176",
@@ -926,8 +1084,7 @@
         "experiment_type": "TMT11",
         "files": [
             "58be6db8-f1f7-11e9-9a07-0a80fada099c-log2_ratio.gct",
-            "58be6db8-f1f7-11e9-9a07-0a80fada099c-unshared_log2_ratio.gct",
-            "manifest.json"
+            "58be6db8-f1f7-11e9-9a07-0a80fada099c-unshared_log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000180",
@@ -952,8 +1109,7 @@
         "experiment_type": "TMT10",
         "files": [
             "6338aad7-851b-4eea-ba90-ba50237cb875-log2_ratio.gct",
-            "6338aad7-851b-4eea-ba90-ba50237cb875-unshared_log2_ratio.gct",
-            "manifest.json"
+            "6338aad7-851b-4eea-ba90-ba50237cb875-unshared_log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000110",
@@ -977,8 +1133,7 @@
         "embargo_date": "None",
         "experiment_type": "TMT10",
         "files": [
-            "639154e0-a7d7-496f-bb5f-6e5142424e35-log2_ratio.gct",
-            "manifest.json"
+            "639154e0-a7d7-496f-bb5f-6e5142424e35-log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000521",
@@ -1002,9 +1157,7 @@
         "embargo_date": "None",
         "experiment_type": "TMT10",
         "files": [
-            "651d728a-f87b-4990-b534-d53a63b17c54-log2_ratio.gct",
-            "desktop.ini",
-            "manifest.json"
+            "651d728a-f87b-4990-b534-d53a63b17c54-log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000249",
@@ -1020,6 +1173,31 @@
         "submitter_id_name": "KU PDAC Discovery Study - Phosphoproteome",
         "updated": "2022-10-04 08:41:36"
     },
+    "68c159f9-5327-4d4d-bc52-65110e3dea00": {
+        "acquisition_type": "DDA",
+        "analytical_fraction": "Proteome",
+        "cptac_study_id": null,
+        "cud_label": "PDC000682",
+        "embargo_date": "None",
+        "experiment_type": "TMT18",
+        "files": [
+            "68c159f9-5327-4d4d-bc52-65110e3dea00-log2_ratio.gct",
+            "68c159f9-5327-4d4d-bc52-65110e3dea00-unshared_log2_ratio.gct"
+        ],
+        "is_latest_version": 1,
+        "pdc_study_id": "PDC000682",
+        "project_id": "f7730205-d414-40a0-b03d-e08a61252670",
+        "project_submitter_id": "CPTAC-KF-CCDI-Pediatric Brain Cancer",
+        "protocol_id": "e102defb-f56c-46c4-82d2-f2d7d02e3d1b",
+        "protocol_submitter_id": "CPTAC-KF-CCDI-Pediatric Brain Cancer Sarcoma Proteome Protocol",
+        "study_description": "",
+        "study_id": "68c159f9-5327-4d4d-bc52-65110e3dea00",
+        "study_shortname": "CPTAC-KF-CCDI-Pediatric Brain Cancer Study - Sarcoma Proteome",
+        "study_submitter_id": "CPTAC-KF-CCDI-Pediatric Brain Cancer Study - Sarcoma Proteome",
+        "study_version": "1",
+        "submitter_id_name": "CPTAC-KF-CCDI-Pediatric Brain Cancer Study - Sarcoma Proteome",
+        "updated": "2026-07-01 15:18:10"
+    },
     "69728b02-dba6-4a9f-8b6a-76f18e77fed3": {
         "acquisition_type": "DDA",
         "analytical_fraction": "Ubiquitylome",
@@ -1028,8 +1206,7 @@
         "embargo_date": "None",
         "experiment_type": "TMT11",
         "files": [
-            "69728b02-dba6-4a9f-8b6a-76f18e77fed3-log2_ratio.gct",
-            "manifest.json"
+            "69728b02-dba6-4a9f-8b6a-76f18e77fed3-log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000627",
@@ -1053,8 +1230,7 @@
         "embargo_date": "None",
         "experiment_type": "TMT11",
         "files": [
-            "6a52970d-b69d-43ab-b88b-1c21eaacd41c-log2_ratio.gct",
-            "manifest.json"
+            "6a52970d-b69d-43ab-b88b-1c21eaacd41c-log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000478",
@@ -1079,8 +1255,7 @@
         "experiment_type": "TMT11",
         "files": [
             "6b86339d-8e96-4f4d-8dba-8f54e996b3df-log2_ratio.gct",
-            "6b86339d-8e96-4f4d-8dba-8f54e996b3df-unshared_log2_ratio.gct",
-            "manifest.json"
+            "6b86339d-8e96-4f4d-8dba-8f54e996b3df-unshared_log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000317",
@@ -1096,6 +1271,31 @@
         "submitter_id_name": "AML Quizartinib Resistance -  Proteome",
         "updated": "2021-07-06 19:45:17"
     },
+    "6f6209c3-6356-45b1-8988-76b9da588646": {
+        "acquisition_type": "DDA",
+        "analytical_fraction": "Proteome",
+        "cptac_study_id": null,
+        "cud_label": "PDC000674",
+        "embargo_date": "None",
+        "experiment_type": "TMT18",
+        "files": [
+            "6f6209c3-6356-45b1-8988-76b9da588646-log2_ratio.gct",
+            "6f6209c3-6356-45b1-8988-76b9da588646-unshared_log2_ratio.gct"
+        ],
+        "is_latest_version": 1,
+        "pdc_study_id": "PDC000674",
+        "project_id": "f7730205-d414-40a0-b03d-e08a61252670",
+        "project_submitter_id": "CPTAC-KF-CCDI-Pediatric Brain Cancer",
+        "protocol_id": "a4279d09-e806-42d1-8ba8-21eac7d66e2e",
+        "protocol_submitter_id": "CPTAC-KF-CCDI-Pediatric Brain Cancer Craniopharyngioma Proteome Protocol",
+        "study_description": "",
+        "study_id": "6f6209c3-6356-45b1-8988-76b9da588646",
+        "study_shortname": "CPTAC-KF-CCDI-Pediatric Brain Cancer Study - Craniopharyngioma Proteome",
+        "study_submitter_id": "CPTAC-KF-CCDI-Pediatric Brain Cancer Study - Craniopharyngioma Proteome",
+        "study_version": "1",
+        "submitter_id_name": "CPTAC-KF-CCDI-Pediatric Brain Cancer Study - Craniopharyngioma Proteome",
+        "updated": "2026-06-23 17:33:38"
+    },
     "71b1ddea-fbd1-42ae-90da-862486167b87": {
         "acquisition_type": "DDA",
         "analytical_fraction": "Phosphoproteome",
@@ -1104,8 +1304,7 @@
         "embargo_date": "None",
         "experiment_type": "TMT18",
         "files": [
-            "71b1ddea-fbd1-42ae-90da-862486167b87-log2_ratio.gct",
-            "manifest.json"
+            "71b1ddea-fbd1-42ae-90da-862486167b87-log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000641",
@@ -1129,8 +1328,7 @@
         "embargo_date": "None",
         "experiment_type": "TMT11",
         "files": [
-            "71f65605-162a-4b7b-b641-a696cb3eeebe-log2_ratio.gct",
-            "manifest.json"
+            "71f65605-162a-4b7b-b641-a696cb3eeebe-log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000271",
@@ -1155,8 +1353,7 @@
         "experiment_type": "TMT18",
         "files": [
             "726cb835-f425-4997-b99a-721e2ba06079-log2_ratio.gct",
-            "726cb835-f425-4997-b99a-721e2ba06079-unshared_log2_ratio.gct",
-            "manifest.json"
+            "726cb835-f425-4997-b99a-721e2ba06079-unshared_log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000640",
@@ -1180,8 +1377,7 @@
         "embargo_date": "None",
         "experiment_type": "TMT11",
         "files": [
-            "743483f2-4e76-4bce-bf2b-c864e234da59-log2_ratio.gct",
-            "manifest.json"
+            "743483f2-4e76-4bce-bf2b-c864e234da59-log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000497",
@@ -1205,8 +1401,7 @@
         "embargo_date": "None",
         "experiment_type": "TMT10",
         "files": [
-            "7724a091-3349-46df-8db4-3ba210867e41-log2_ratio.gct",
-            "manifest.json"
+            "7724a091-3349-46df-8db4-3ba210867e41-log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000580",
@@ -1231,8 +1426,7 @@
         "experiment_type": "TMT10",
         "files": [
             "7746b4e0-6b8a-4d3d-a0bd-0d06059ac001-log2_ratio.gct",
-            "7746b4e0-6b8a-4d3d-a0bd-0d06059ac001-unshared_log2_ratio.gct",
-            "manifest.json"
+            "7746b4e0-6b8a-4d3d-a0bd-0d06059ac001-unshared_log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000400",
@@ -1256,8 +1450,7 @@
         "embargo_date": "None",
         "experiment_type": "TMT11",
         "files": [
-            "7b6e6ed7-1401-48c8-a43f-9e65fd2a5bb3-log2_ratio.gct",
-            "manifest.json"
+            "7b6e6ed7-1401-48c8-a43f-9e65fd2a5bb3-log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000443",
@@ -1282,8 +1475,7 @@
         "experiment_type": "TMT11",
         "files": [
             "7becf5c5-9d40-43f7-9c02-a71075944b30-log2_ratio.gct",
-            "7becf5c5-9d40-43f7-9c02-a71075944b30-unshared_log2_ratio.gct",
-            "manifest.json"
+            "7becf5c5-9d40-43f7-9c02-a71075944b30-unshared_log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000464",
@@ -1299,6 +1491,30 @@
         "submitter_id_name": "CPTAC non-ccRCC Study - Proteome",
         "updated": "2023-04-13 06:30:54"
     },
+    "7d100523-012b-4bb1-ba7f-b89a394def8a": {
+        "acquisition_type": "DDA",
+        "analytical_fraction": "Phosphoproteome",
+        "cptac_study_id": null,
+        "cud_label": "PDC000656",
+        "embargo_date": "None",
+        "experiment_type": "TMT18",
+        "files": [
+            "7d100523-012b-4bb1-ba7f-b89a394def8a-log2_ratio.gct"
+        ],
+        "is_latest_version": 1,
+        "pdc_study_id": "PDC000656",
+        "project_id": "f7730205-d414-40a0-b03d-e08a61252670",
+        "project_submitter_id": "CPTAC-KF-CCDI-Pediatric Brain Cancer",
+        "protocol_id": "741f7582-4f21-4d93-8737-4ebf0c51bdce",
+        "protocol_submitter_id": "CPTAC-KF-CCDI-Pediatric Brain Cancer ATRT Phosphoproteome Protocol",
+        "study_description": "",
+        "study_id": "7d100523-012b-4bb1-ba7f-b89a394def8a",
+        "study_shortname": "CPTAC-KF-CCDI-Pediatric Brain Cancer Study - ATRT Phosphoproteome",
+        "study_submitter_id": "CPTAC-KF-CCDI-Pediatric Brain Cancer Study - ATRT Phosphoproteome",
+        "study_version": "1",
+        "submitter_id_name": "CPTAC-KF-CCDI-Pediatric Brain Cancer Study - ATRT Phosphoproteome",
+        "updated": "2026-06-23 14:12:35"
+    },
     "7f0fddc3-d0db-4d2d-8a41-f9b5a3dbee63": {
         "acquisition_type": "DDA",
         "analytical_fraction": "Phosphoproteome",
@@ -1307,8 +1523,7 @@
         "embargo_date": "None",
         "experiment_type": "TMT11",
         "files": [
-            "7f0fddc3-d0db-4d2d-8a41-f9b5a3dbee63-log2_ratio.gct",
-            "manifest.json"
+            "7f0fddc3-d0db-4d2d-8a41-f9b5a3dbee63-log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000361",
@@ -1324,6 +1539,31 @@
         "submitter_id_name": "PTRC HGSOC Frozen Validation - Phosphoproteome",
         "updated": "2022-11-21 08:59:45"
     },
+    "81697a34-4088-477b-9002-aee2ba728a42": {
+        "acquisition_type": "DDA",
+        "analytical_fraction": "Proteome",
+        "cptac_study_id": null,
+        "cud_label": "PDC000655",
+        "embargo_date": "None",
+        "experiment_type": "TMT18",
+        "files": [
+            "81697a34-4088-477b-9002-aee2ba728a42-log2_ratio.gct",
+            "81697a34-4088-477b-9002-aee2ba728a42-unshared_log2_ratio.gct"
+        ],
+        "is_latest_version": 1,
+        "pdc_study_id": "PDC000655",
+        "project_id": "f7730205-d414-40a0-b03d-e08a61252670",
+        "project_submitter_id": "CPTAC-KF-CCDI-Pediatric Brain Cancer",
+        "protocol_id": "5a18d7fb-3f9a-4c8a-8e19-a225c63c3def",
+        "protocol_submitter_id": "CPTAC-KF-CCDI-Pediatric Brain Cancer ATRT Proteome Protocol",
+        "study_description": "",
+        "study_id": "81697a34-4088-477b-9002-aee2ba728a42",
+        "study_shortname": "CPTAC-KF-CCDI-Pediatric Brain Cancer Study - ATRT Proteome",
+        "study_submitter_id": "CPTAC-KF-CCDI-Pediatric Brain Cancer Study - ATRT Proteome",
+        "study_version": "1",
+        "submitter_id_name": "CPTAC-KF-CCDI-Pediatric Brain Cancer Study - ATRT Proteome",
+        "updated": "2026-06-23 12:46:49"
+    },
     "859878e8-3464-4c66-adaa-6f8e70abe716": {
         "acquisition_type": "DDA",
         "analytical_fraction": "Proteome",
@@ -1333,8 +1573,7 @@
         "experiment_type": "TMT11",
         "files": [
             "859878e8-3464-4c66-adaa-6f8e70abe716-log2_ratio.gct",
-            "859878e8-3464-4c66-adaa-6f8e70abe716-unshared_log2_ratio.gct",
-            "manifest.json"
+            "859878e8-3464-4c66-adaa-6f8e70abe716-unshared_log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000342",
@@ -1358,8 +1597,7 @@
         "embargo_date": "None",
         "experiment_type": "TMT11",
         "files": [
-            "85df2ad5-0c83-4674-8013-0d6f360b9831-log2_ratio.gct",
-            "manifest.json"
+            "85df2ad5-0c83-4674-8013-0d6f360b9831-log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000320",
@@ -1383,8 +1621,7 @@
         "embargo_date": "None",
         "experiment_type": "TMT11",
         "files": [
-            "8961afcf-05de-4b7c-b471-ca1a4887ed36-log2_ratio.gct",
-            "manifest.json"
+            "8961afcf-05de-4b7c-b471-ca1a4887ed36-log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000436",
@@ -1408,8 +1645,7 @@
         "embargo_date": "None",
         "experiment_type": "TMT18",
         "files": [
-            "915fbc30-f23b-4737-b207-f7c9f78cc03d-log2_ratio.gct",
-            "manifest.json"
+            "915fbc30-f23b-4737-b207-f7c9f78cc03d-log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000603",
@@ -1425,6 +1661,31 @@
         "submitter_id_name": "CPTAC-KF-CCDI-Pediatric AML Study - Ubiquitylome",
         "updated": "2025-06-01 07:20:21"
     },
+    "94ee4720-c5e7-4454-85de-9ae99904fe2a": {
+        "acquisition_type": "DDA",
+        "analytical_fraction": "Proteome",
+        "cptac_study_id": null,
+        "cud_label": "PDC000663",
+        "embargo_date": "None",
+        "experiment_type": "TMT18",
+        "files": [
+            "94ee4720-c5e7-4454-85de-9ae99904fe2a-log2_ratio.gct",
+            "94ee4720-c5e7-4454-85de-9ae99904fe2a-unshared_log2_ratio.gct"
+        ],
+        "is_latest_version": 1,
+        "pdc_study_id": "PDC000663",
+        "project_id": "f7730205-d414-40a0-b03d-e08a61252670",
+        "project_submitter_id": "CPTAC-KF-CCDI-Pediatric Brain Cancer",
+        "protocol_id": "22b8a4c5-fb09-451e-8b83-d92d940adede",
+        "protocol_submitter_id": "CPTAC-KF-CCDI-Pediatric Brain Cancer Medulloblastoma Proteome Protocol",
+        "study_description": "",
+        "study_id": "94ee4720-c5e7-4454-85de-9ae99904fe2a",
+        "study_shortname": "CPTAC-KF-CCDI-Pediatric Brain Cancer Study - Medulloblastoma Proteome",
+        "study_submitter_id": "CPTAC-KF-CCDI-Pediatric Brain Cancer Study - Medulloblastoma Proteome",
+        "study_version": "1",
+        "submitter_id_name": "CPTAC-KF-CCDI-Pediatric Brain Cancer Study - Medulloblastoma Proteome",
+        "updated": "2026-06-10 18:17:22"
+    },
     "96296e87-89a4-11ea-b1fd-0aad30af8a83": {
         "acquisition_type": "DDA",
         "analytical_fraction": "Phosphoproteome",
@@ -1433,9 +1694,7 @@
         "embargo_date": "None",
         "experiment_type": "TMT10",
         "files": [
-            "96296e87-89a4-11ea-b1fd-0aad30af8a83-log2_ratio.gct",
-            "desktop.ini",
-            "manifest.json"
+            "96296e87-89a4-11ea-b1fd-0aad30af8a83-log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000220",
@@ -1460,8 +1719,7 @@
         "experiment_type": "TMT11",
         "files": [
             "96296fd1-89a4-11ea-b1fd-0aad30af8a83-log2_ratio.gct",
-            "96296fd1-89a4-11ea-b1fd-0aad30af8a83-unshared_log2_ratio.gct",
-            "manifest.json"
+            "96296fd1-89a4-11ea-b1fd-0aad30af8a83-unshared_log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000221",
@@ -1485,8 +1743,7 @@
         "embargo_date": "None",
         "experiment_type": "TMT11",
         "files": [
-            "96297108-89a4-11ea-b1fd-0aad30af8a83-log2_ratio.gct",
-            "manifest.json"
+            "96297108-89a4-11ea-b1fd-0aad30af8a83-log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000222",
@@ -1511,8 +1768,7 @@
         "experiment_type": "TMT11",
         "files": [
             "97332d25-b8bb-4094-8bed-92290c729599-log2_ratio.gct",
-            "97332d25-b8bb-4094-8bed-92290c729599-unshared_log2_ratio.gct",
-            "manifest.json"
+            "97332d25-b8bb-4094-8bed-92290c729599-unshared_log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000360",
@@ -1537,8 +1793,7 @@
         "experiment_type": "TMT10",
         "files": [
             "99ad4da6-c76a-41a5-a92b-8719bacf5712-log2_ratio.gct",
-            "99ad4da6-c76a-41a5-a92b-8719bacf5712-unshared_log2_ratio.gct",
-            "manifest.json"
+            "99ad4da6-c76a-41a5-a92b-8719bacf5712-unshared_log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000356",
@@ -1562,8 +1817,7 @@
         "embargo_date": "None",
         "experiment_type": "TMT10",
         "files": [
-            "99c6cbb1-4e81-489e-aca9-b7e57ebe70dc-log2_ratio.gct",
-            "manifest.json"
+            "99c6cbb1-4e81-489e-aca9-b7e57ebe70dc-log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000518",
@@ -1588,8 +1842,7 @@
         "experiment_type": "TMT10",
         "files": [
             "99efac4f-538d-4c9b-aac6-ebaee68e248b-log2_ratio.gct",
-            "99efac4f-538d-4c9b-aac6-ebaee68e248b-unshared_log2_ratio.gct",
-            "manifest.json"
+            "99efac4f-538d-4c9b-aac6-ebaee68e248b-unshared_log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000519",
@@ -1614,8 +1867,7 @@
         "experiment_type": "TMT11",
         "files": [
             "9a3fa30d-b8be-4841-9081-7c3edfc813eb-log2_ratio.gct",
-            "9a3fa30d-b8be-4841-9081-7c3edfc813eb-unshared_log2_ratio.gct",
-            "manifest.json"
+            "9a3fa30d-b8be-4841-9081-7c3edfc813eb-unshared_log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000408",
@@ -1640,8 +1892,7 @@
         "experiment_type": "TMT11",
         "files": [
             "9b31480a-a729-49f7-8663-81ef283c9bec-log2_ratio.gct",
-            "9b31480a-a729-49f7-8663-81ef283c9bec-unshared_log2_ratio.gct",
-            "manifest.json"
+            "9b31480a-a729-49f7-8663-81ef283c9bec-unshared_log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000489",
@@ -1666,8 +1917,7 @@
         "experiment_type": "TMT18",
         "files": [
             "9b8a5578-79e8-4771-8342-d671b1c012a1-log2_ratio.gct",
-            "9b8a5578-79e8-4771-8342-d671b1c012a1-unshared_log2_ratio.gct",
-            "manifest.json"
+            "9b8a5578-79e8-4771-8342-d671b1c012a1-unshared_log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000604",
@@ -1692,9 +1942,7 @@
         "experiment_type": "TMT10",
         "files": [
             "9dc23e84-ebff-40b8-844b-5c41a3a7384b-log2_ratio.gct",
-            "9dc23e84-ebff-40b8-844b-5c41a3a7384b-unshared_log2_ratio.gct",
-            "desktop.ini",
-            "manifest.json"
+            "9dc23e84-ebff-40b8-844b-5c41a3a7384b-unshared_log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000219",
@@ -1719,8 +1967,7 @@
         "experiment_type": "TMT11",
         "files": [
             "a5da6836-c92e-4bdc-8f84-d28d629fc383-log2_ratio.gct",
-            "a5da6836-c92e-4bdc-8f84-d28d629fc383-unshared_log2_ratio.gct",
-            "manifest.json"
+            "a5da6836-c92e-4bdc-8f84-d28d629fc383-unshared_log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000585",
@@ -1745,8 +1992,7 @@
         "experiment_type": "TMT11",
         "files": [
             "a729bd45-38c5-4144-b340-ee6f51a5d6d7-log2_ratio.gct",
-            "a729bd45-38c5-4144-b340-ee6f51a5d6d7-unshared_log2_ratio.gct",
-            "manifest.json"
+            "a729bd45-38c5-4144-b340-ee6f51a5d6d7-unshared_log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000358",
@@ -1770,8 +2016,7 @@
         "embargo_date": "None",
         "experiment_type": "TMT16",
         "files": [
-            "a9d02dad-faf5-4b04-8df2-211732e2b2ed-log2_ratio.gct",
-            "manifest.json"
+            "a9d02dad-faf5-4b04-8df2-211732e2b2ed-log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000583",
@@ -1795,8 +2040,7 @@
         "embargo_date": "None",
         "experiment_type": "TMT18",
         "files": [
-            "b06a11e6-ce3a-4fa3-98af-dfc01886a3d1-log2_ratio.gct",
-            "manifest.json"
+            "b06a11e6-ce3a-4fa3-98af-dfc01886a3d1-log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000602",
@@ -1821,8 +2065,7 @@
         "experiment_type": "TMT11",
         "files": [
             "b16ac41e-c4c8-4a3d-b2a9-f365f005e31d-log2_ratio.gct",
-            "b16ac41e-c4c8-4a3d-b2a9-f365f005e31d-unshared_log2_ratio.gct",
-            "manifest.json"
+            "b16ac41e-c4c8-4a3d-b2a9-f365f005e31d-unshared_log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000410",
@@ -1847,8 +2090,7 @@
         "experiment_type": "TMT11",
         "files": [
             "b25c2cea-4a49-4bc3-9f87-3cf5ee026865-log2_ratio.gct",
-            "b25c2cea-4a49-4bc3-9f87-3cf5ee026865-unshared_log2_ratio.gct",
-            "manifest.json"
+            "b25c2cea-4a49-4bc3-9f87-3cf5ee026865-unshared_log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000446",
@@ -1872,8 +2114,7 @@
         "embargo_date": "None",
         "experiment_type": "TMT11",
         "files": [
-            "b3545fd1-ebcc-11ea-b1fd-0aad30af8a83-log2_ratio.gct",
-            "manifest.json"
+            "b3545fd1-ebcc-11ea-b1fd-0aad30af8a83-log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000237",
@@ -1898,8 +2139,7 @@
         "experiment_type": "iTRAQ4",
         "files": [
             "b8da9eeb-57b8-11e8-b07a-00a098d917f8-log2_ratio.gct",
-            "b8da9eeb-57b8-11e8-b07a-00a098d917f8-unshared_log2_ratio.gct",
-            "manifest.json"
+            "b8da9eeb-57b8-11e8-b07a-00a098d917f8-unshared_log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000173",
@@ -1923,8 +2163,7 @@
         "embargo_date": "None",
         "experiment_type": "TMT10",
         "files": [
-            "b91a0119-f3a0-11ea-b1fd-0aad30af8a83-log2_ratio.gct",
-            "manifest.json"
+            "b91a0119-f3a0-11ea-b1fd-0aad30af8a83-log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000239",
@@ -1949,8 +2188,7 @@
         "experiment_type": "TMT10",
         "files": [
             "b91a0a02-f3a0-11ea-b1fd-0aad30af8a83-log2_ratio.gct",
-            "b91a0a02-f3a0-11ea-b1fd-0aad30af8a83-unshared_log2_ratio.gct",
-            "manifest.json"
+            "b91a0a02-f3a0-11ea-b1fd-0aad30af8a83-unshared_log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000120",
@@ -1974,8 +2212,7 @@
         "embargo_date": "None",
         "experiment_type": "TMT10",
         "files": [
-            "b91a0e5f-f3a0-11ea-b1fd-0aad30af8a83-log2_ratio.gct",
-            "manifest.json"
+            "b91a0e5f-f3a0-11ea-b1fd-0aad30af8a83-log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000121",
@@ -1999,8 +2236,7 @@
         "embargo_date": "None",
         "experiment_type": "TMT11",
         "files": [
-            "b91a12b7-f3a0-11ea-b1fd-0aad30af8a83-log2_ratio.gct",
-            "manifest.json"
+            "b91a12b7-f3a0-11ea-b1fd-0aad30af8a83-log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000245",
@@ -2024,8 +2260,7 @@
         "embargo_date": "None",
         "experiment_type": "iTRAQ4",
         "files": [
-            "b93bb1e9-57b8-11e8-b07a-00a098d917f8-log2_ratio.gct",
-            "manifest.json"
+            "b93bb1e9-57b8-11e8-b07a-00a098d917f8-log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000174",
@@ -2050,8 +2285,7 @@
         "experiment_type": "Label Free",
         "files": [
             "b998098f-57b8-11e8-b07a-00a098d917f8.all_peptides_log10_ion_intensity.tsv",
-            "b998098f-57b8-11e8-b07a-00a098d917f8.spectral_counts.tsv",
-            "manifest.json"
+            "b998098f-57b8-11e8-b07a-00a098d917f8.spectral_counts.tsv"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000111",
@@ -2075,8 +2309,7 @@
         "embargo_date": "None",
         "experiment_type": "iTRAQ4",
         "files": [
-            "b9f2ccc5-57b8-11e8-b07a-00a098d917f8.all_peptides_log2ratio_rounded.tsv",
-            "manifest.json"
+            "b9f2ccc5-57b8-11e8-b07a-00a098d917f8.all_peptides_log2ratio_rounded.tsv"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000112",
@@ -2101,8 +2334,7 @@
         "experiment_type": "iTRAQ4",
         "files": [
             "ba4e17a5-57b8-11e8-b07a-00a098d917f8-log2_ratio.gct",
-            "ba4e17a5-57b8-11e8-b07a-00a098d917f8-unshared_log2_ratio.gct",
-            "manifest.json"
+            "ba4e17a5-57b8-11e8-b07a-00a098d917f8-unshared_log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000113",
@@ -2127,8 +2359,7 @@
         "experiment_type": "iTRAQ4",
         "files": [
             "baa8ae46-57b8-11e8-b07a-00a098d917f8-log2_ratio.gct",
-            "baa8ae46-57b8-11e8-b07a-00a098d917f8-unshared_log2_ratio.gct",
-            "manifest.json"
+            "baa8ae46-57b8-11e8-b07a-00a098d917f8-unshared_log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000114",
@@ -2152,8 +2383,7 @@
         "embargo_date": "None",
         "experiment_type": "iTRAQ4",
         "files": [
-            "bb076b33-57b8-11e8-b07a-00a098d917f8-log2_ratio.gct",
-            "manifest.json"
+            "bb076b33-57b8-11e8-b07a-00a098d917f8-log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000115",
@@ -2169,6 +2399,30 @@
         "submitter_id_name": "TCGA Ovarian PNNL Phosphoproteome Velos Qexactive",
         "updated": "2022-02-23 17:39:10"
     },
+    "bb0ff3c0-3e10-44a5-835e-66a2c964b2f2": {
+        "acquisition_type": "DDA",
+        "analytical_fraction": "Phosphoproteome",
+        "cptac_study_id": null,
+        "cud_label": "PDC000667",
+        "embargo_date": "None",
+        "experiment_type": "TMT18",
+        "files": [
+            "bb0ff3c0-3e10-44a5-835e-66a2c964b2f2-log2_ratio.gct"
+        ],
+        "is_latest_version": 1,
+        "pdc_study_id": "PDC000667",
+        "project_id": "f7730205-d414-40a0-b03d-e08a61252670",
+        "project_submitter_id": "CPTAC-KF-CCDI-Pediatric Brain Cancer",
+        "protocol_id": "6d172710-6d3e-45c0-abcb-d01af13c6f55",
+        "protocol_submitter_id": "CPTAC-KF-CCDI-Pediatric Brain Cancer Medulloblastoma Phosphotyrosine Protocol",
+        "study_description": "",
+        "study_id": "bb0ff3c0-3e10-44a5-835e-66a2c964b2f2",
+        "study_shortname": "CPTAC-KF-CCDI-Pediatric Brain Cancer Study - Medulloblastoma Phosphotyrosine",
+        "study_submitter_id": "CPTAC-KF-CCDI-Pediatric Brain Cancer Study - Medulloblastoma Phosphotyrosine",
+        "study_version": "1",
+        "submitter_id_name": "CPTAC-KF-CCDI-Pediatric Brain Cancer Study - Medulloblastoma Phosphotyrosine",
+        "updated": "2026-06-11 17:21:52"
+    },
     "bb67ec40-57b8-11e8-b07a-00a098d917f8": {
         "acquisition_type": "DDA",
         "analytical_fraction": "Proteome",
@@ -2178,8 +2432,7 @@
         "experiment_type": "Label Free",
         "files": [
             "bb67ec40-57b8-11e8-b07a-00a098d917f8.all_peptides_log10_ion_intensity.tsv",
-            "bb67ec40-57b8-11e8-b07a-00a098d917f8.spectral_counts.tsv",
-            "manifest.json"
+            "bb67ec40-57b8-11e8-b07a-00a098d917f8.spectral_counts.tsv"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000109",
@@ -2204,8 +2457,7 @@
         "experiment_type": "TMT10",
         "files": [
             "bbc1441e-57b8-11e8-b07a-00a098d917f8-log2_ratio.gct",
-            "bbc1441e-57b8-11e8-b07a-00a098d917f8-unshared_log2_ratio.gct",
-            "manifest.json"
+            "bbc1441e-57b8-11e8-b07a-00a098d917f8-unshared_log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000116",
@@ -2229,8 +2481,7 @@
         "embargo_date": "None",
         "experiment_type": "TMT10",
         "files": [
-            "bc23a4a1-57b8-11e8-b07a-00a098d917f8-log2_ratio.gct",
-            "manifest.json"
+            "bc23a4a1-57b8-11e8-b07a-00a098d917f8-log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000117",
@@ -2255,8 +2506,7 @@
         "experiment_type": "TMT10",
         "files": [
             "bc81da61-57b8-11e8-b07a-00a098d917f8-log2_ratio.gct",
-            "bc81da61-57b8-11e8-b07a-00a098d917f8-unshared_log2_ratio.gct",
-            "manifest.json"
+            "bc81da61-57b8-11e8-b07a-00a098d917f8-unshared_log2_ratio.gct"
         ],
         "is_latest_version": 0,
         "pdc_study_id": "PDC000110",
@@ -2281,8 +2531,7 @@
         "experiment_type": "TMT10",
         "files": [
             "bcdeeba0-57b8-11e8-b07a-00a098d917f8-log2_ratio.gct",
-            "bcdeeba0-57b8-11e8-b07a-00a098d917f8-unshared_log2_ratio.gct",
-            "manifest.json"
+            "bcdeeba0-57b8-11e8-b07a-00a098d917f8-unshared_log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000118",
@@ -2306,8 +2555,7 @@
         "embargo_date": "None",
         "experiment_type": "TMT10",
         "files": [
-            "bd70311c-57b8-11e8-b07a-00a098d917f8-log2_ratio.gct",
-            "manifest.json"
+            "bd70311c-57b8-11e8-b07a-00a098d917f8-log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000119",
@@ -2332,8 +2580,7 @@
         "experiment_type": "TMT10",
         "files": [
             "bdcd3802-57b8-11e8-b07a-00a098d917f8-log2_ratio.gct",
-            "bdcd3802-57b8-11e8-b07a-00a098d917f8-unshared_log2_ratio.gct",
-            "manifest.json"
+            "bdcd3802-57b8-11e8-b07a-00a098d917f8-unshared_log2_ratio.gct"
         ],
         "is_latest_version": 0,
         "pdc_study_id": "PDC000120",
@@ -2357,8 +2604,7 @@
         "embargo_date": "None",
         "experiment_type": "TMT18",
         "files": [
-            "be0ae219-27eb-4407-920e-1888e4518b8f-log2_ratio.gct",
-            "manifest.json"
+            "be0ae219-27eb-4407-920e-1888e4518b8f-log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000556",
@@ -2382,8 +2628,7 @@
         "embargo_date": "None",
         "experiment_type": "TMT10",
         "files": [
-            "be2883cb-57b8-11e8-b07a-00a098d917f8-log2_ratio.gct",
-            "manifest.json"
+            "be2883cb-57b8-11e8-b07a-00a098d917f8-log2_ratio.gct"
         ],
         "is_latest_version": 0,
         "pdc_study_id": "PDC000121",
@@ -2407,8 +2652,7 @@
         "embargo_date": "None",
         "experiment_type": "TMT18",
         "files": [
-            "c15b40f0-45c6-4789-8f47-f9513f3169bd-log2_ratio.gct",
-            "manifest.json"
+            "c15b40f0-45c6-4789-8f47-f9513f3169bd-log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000622",
@@ -2432,8 +2676,7 @@
         "embargo_date": "None",
         "experiment_type": "TMT16",
         "files": [
-            "c1f0e523-c83d-4019-8937-b245dd692628-log2_ratio.gct",
-            "manifest.json"
+            "c1f0e523-c83d-4019-8937-b245dd692628-log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000502",
@@ -2458,8 +2701,7 @@
         "experiment_type": "TMT11",
         "files": [
             "c5d3598c-e1ee-4b42-880b-9f8b35338777-log2_ratio.gct",
-            "c5d3598c-e1ee-4b42-880b-9f8b35338777-unshared_log2_ratio.gct",
-            "manifest.json"
+            "c5d3598c-e1ee-4b42-880b-9f8b35338777-unshared_log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000434",
@@ -2483,8 +2725,7 @@
         "embargo_date": "None",
         "experiment_type": "TMT11",
         "files": [
-            "c78f8c0f-9a58-4efa-94a6-b662982573a3-log2_ratio.gct",
-            "manifest.json"
+            "c78f8c0f-9a58-4efa-94a6-b662982573a3-log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000435",
@@ -2509,8 +2750,7 @@
         "experiment_type": "TMT10",
         "files": [
             "c935c587-0cd1-11e9-a064-0a9c39d33490-log2_ratio.gct",
-            "c935c587-0cd1-11e9-a064-0a9c39d33490-unshared_log2_ratio.gct",
-            "manifest.json"
+            "c935c587-0cd1-11e9-a064-0a9c39d33490-unshared_log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000125",
@@ -2534,8 +2774,7 @@
         "embargo_date": "None",
         "experiment_type": "TMT10",
         "files": [
-            "ca40e63b-2d0f-4eff-b3fc-c3bbfe76f22d-log2_ratio.gct",
-            "manifest.json"
+            "ca40e63b-2d0f-4eff-b3fc-c3bbfe76f22d-log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000520",
@@ -2559,8 +2798,7 @@
         "embargo_date": "None",
         "experiment_type": "TMT10",
         "files": [
-            "cb7220f5-0cd1-11e9-a064-0a9c39d33490-log2_ratio.gct",
-            "manifest.json"
+            "cb7220f5-0cd1-11e9-a064-0a9c39d33490-log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000126",
@@ -2584,8 +2822,7 @@
         "embargo_date": "None",
         "experiment_type": "TMT18",
         "files": [
-            "cebc259f-d275-4ad1-bea0-eebe02d265d6-log2_ratio.gct",
-            "manifest.json"
+            "cebc259f-d275-4ad1-bea0-eebe02d265d6-log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000601",
@@ -2610,8 +2847,7 @@
         "experiment_type": "TMT11",
         "files": [
             "cfe9f4a2-1797-11ea-9bfa-0a42f3c845fe-log2_ratio.gct",
-            "cfe9f4a2-1797-11ea-9bfa-0a42f3c845fe-unshared_log2_ratio.gct",
-            "manifest.json"
+            "cfe9f4a2-1797-11ea-9bfa-0a42f3c845fe-unshared_log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000204",
@@ -2635,8 +2871,7 @@
         "embargo_date": "None",
         "experiment_type": "TMT10",
         "files": [
-            "d07ab435-2c60-4eec-8445-e63f037bbfc8-log2_ratio.gct",
-            "manifest.json"
+            "d07ab435-2c60-4eec-8445-e63f037bbfc8-log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000399",
@@ -2660,8 +2895,7 @@
         "embargo_date": "None",
         "experiment_type": "TMT11",
         "files": [
-            "d0dccda8-fb1f-4113-97db-7553f08c71f2-log2_ratio.gct",
-            "manifest.json"
+            "d0dccda8-fb1f-4113-97db-7553f08c71f2-log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000491",
@@ -2685,8 +2919,7 @@
         "embargo_date": "None",
         "experiment_type": "TMT11",
         "files": [
-            "d3b64baa-c0dc-45db-bd1d-31bd5000f2e9-log2_ratio.gct",
-            "manifest.json"
+            "d3b64baa-c0dc-45db-bd1d-31bd5000f2e9-log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000319",
@@ -2710,8 +2943,7 @@
         "embargo_date": "None",
         "experiment_type": "TMT10",
         "files": [
-            "d4e7efbe-fdd5-424c-87f2-f68da45ac6ba-log2_ratio.gct",
-            "manifest.json"
+            "d4e7efbe-fdd5-424c-87f2-f68da45ac6ba-log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000517",
@@ -2735,8 +2967,7 @@
         "embargo_date": "None",
         "experiment_type": "TMT18",
         "files": [
-            "d7b895ef-bf0c-4dbb-a3e5-1d386142c5aa-log2_ratio.gct",
-            "manifest.json"
+            "d7b895ef-bf0c-4dbb-a3e5-1d386142c5aa-log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000642",
@@ -2752,6 +2983,54 @@
         "submitter_id_name": "CPTAC-KF-CCDI-Pediatric T-ALL Study - Acetylome",
         "updated": "2025-12-18 19:01:46"
     },
+    "d90ca42e-4f35-4859-b517-1a2b9168ce18": {
+        "acquisition_type": "DDA",
+        "analytical_fraction": "Phosphoproteome",
+        "cptac_study_id": null,
+        "cud_label": "PDC000681",
+        "embargo_date": "None",
+        "experiment_type": "TMT18",
+        "files": [
+            "d90ca42e-4f35-4859-b517-1a2b9168ce18-log2_ratio.gct"
+        ],
+        "is_latest_version": 1,
+        "pdc_study_id": "PDC000681",
+        "project_id": "f7730205-d414-40a0-b03d-e08a61252670",
+        "project_submitter_id": "CPTAC-KF-CCDI-Pediatric Brain Cancer",
+        "protocol_id": "7b39ca1f-4516-49d8-87fb-66343d0d58be",
+        "protocol_submitter_id": "CPTAC-KF-CCDI-Pediatric Brain Cancer Sarcoma Phosphoproteome Protocol",
+        "study_description": "",
+        "study_id": "d90ca42e-4f35-4859-b517-1a2b9168ce18",
+        "study_shortname": "CPTAC-KF-CCDI-Pediatric Brain Cancer Study - Sarcoma Phosphoproteome",
+        "study_submitter_id": "CPTAC-KF-CCDI-Pediatric Brain Cancer Study - Sarcoma Phosphoproteome",
+        "study_version": "1",
+        "submitter_id_name": "CPTAC-KF-CCDI-Pediatric Brain Cancer Study - Sarcoma Phosphoproteome",
+        "updated": "2026-07-01 15:58:08"
+    },
+    "d9543baf-a932-4b63-a057-1198072390aa": {
+        "acquisition_type": "DDA",
+        "analytical_fraction": "Phosphoproteome",
+        "cptac_study_id": null,
+        "cud_label": "PDC000651",
+        "embargo_date": "None",
+        "experiment_type": "TMT18",
+        "files": [
+            "d9543baf-a932-4b63-a057-1198072390aa-log2_ratio.gct"
+        ],
+        "is_latest_version": 1,
+        "pdc_study_id": "PDC000651",
+        "project_id": "f7730205-d414-40a0-b03d-e08a61252670",
+        "project_submitter_id": "CPTAC-KF-CCDI-Pediatric Brain Cancer",
+        "protocol_id": "6841a41b-a474-4ac3-b6ea-aacb67d6c7aa",
+        "protocol_submitter_id": "CPTAC-KF-CCDI-Pediatric Brain Cancer Ependymoma Phosphotyrosine Protocol",
+        "study_description": "",
+        "study_id": "d9543baf-a932-4b63-a057-1198072390aa",
+        "study_shortname": "CPTAC-KF-CCDI-Pediatric Brain Cancer Study - Ependymoma Phosphotyrosine",
+        "study_submitter_id": "CPTAC-KF-CCDI-Pediatric Brain Cancer Study - Ependymoma Phosphotyrosine",
+        "study_version": "1",
+        "submitter_id_name": "CPTAC-KF-CCDI-Pediatric Brain Cancer Study - Ependymoma Phosphotyrosine",
+        "updated": "2026-05-29 17:08:34"
+    },
     "d9b5770b-2d17-432b-8d64-621677653da8": {
         "acquisition_type": "DDA",
         "analytical_fraction": "Proteome",
@@ -2761,8 +3040,7 @@
         "experiment_type": "TMT11",
         "files": [
             "d9b5770b-2d17-432b-8d64-621677653da8-log2_ratio.gct",
-            "d9b5770b-2d17-432b-8d64-621677653da8-unshared_log2_ratio.gct",
-            "manifest.json"
+            "d9b5770b-2d17-432b-8d64-621677653da8-unshared_log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000402",
@@ -2786,8 +3064,7 @@
         "embargo_date": "None",
         "experiment_type": "TMT18",
         "files": [
-            "da41d436-4328-4a38-8cf3-1a9c58b71777-log2_ratio.gct",
-            "manifest.json"
+            "da41d436-4328-4a38-8cf3-1a9c58b71777-log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000558",
@@ -2812,8 +3089,7 @@
         "experiment_type": "TMT10",
         "files": [
             "dbe94609-1fb3-11e9-b7f8-0a80fada099c-log2_ratio.gct",
-            "dbe94609-1fb3-11e9-b7f8-0a80fada099c-unshared_log2_ratio.gct",
-            "manifest.json"
+            "dbe94609-1fb3-11e9-b7f8-0a80fada099c-unshared_log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000127",
@@ -2837,8 +3113,7 @@
         "embargo_date": "None",
         "experiment_type": "TMT10",
         "files": [
-            "dd0a228f-1fb3-11e9-b7f8-0a80fada099c-log2_ratio.gct",
-            "manifest.json"
+            "dd0a228f-1fb3-11e9-b7f8-0a80fada099c-log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000128",
@@ -2862,8 +3137,7 @@
         "embargo_date": "None",
         "experiment_type": "TMT11",
         "files": [
-            "ddf292ec-ef92-44b8-89b8-61cf36eca53e-log2_ratio.gct",
-            "manifest.json"
+            "ddf292ec-ef92-44b8-89b8-61cf36eca53e-log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000343",
@@ -2887,8 +3161,7 @@
         "embargo_date": "None",
         "experiment_type": "TMT11",
         "files": [
-            "e065339b-6ad2-4a66-b658-45d975a5baec-log2_ratio.gct",
-            "manifest.json"
+            "e065339b-6ad2-4a66-b658-45d975a5baec-log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000465",
@@ -2904,6 +3177,30 @@
         "submitter_id_name": "CPTAC non-ccRCC Study - Phosphoproteome",
         "updated": "2023-04-15 07:57:38"
     },
+    "e0b4713e-0344-43a7-ac96-0b5f7070db66": {
+        "acquisition_type": "DDA",
+        "analytical_fraction": "Phosphoproteome",
+        "cptac_study_id": null,
+        "cud_label": "PDC000676",
+        "embargo_date": "None",
+        "experiment_type": "TMT18",
+        "files": [
+            "e0b4713e-0344-43a7-ac96-0b5f7070db66-log2_ratio.gct"
+        ],
+        "is_latest_version": 1,
+        "pdc_study_id": "PDC000676",
+        "project_id": "f7730205-d414-40a0-b03d-e08a61252670",
+        "project_submitter_id": "CPTAC-KF-CCDI-Pediatric Brain Cancer",
+        "protocol_id": "340da96c-a2af-4791-ae41-1db0ab1ade1f",
+        "protocol_submitter_id": "CPTAC-KF-CCDI-Pediatric Brain Cancer Craniopharyngioma Phosphotyrosine Protocol",
+        "study_description": "",
+        "study_id": "e0b4713e-0344-43a7-ac96-0b5f7070db66",
+        "study_shortname": "CPTAC-KF-CCDI-Pediatric Brain Cancer Study - Craniopharyngioma Phosphotyrosine",
+        "study_submitter_id": "CPTAC-KF-CCDI-Pediatric Brain Cancer Study - Craniopharyngioma Phosphotyrosine",
+        "study_version": "1",
+        "submitter_id_name": "CPTAC-KF-CCDI-Pediatric Brain Cancer Study - Craniopharyngioma Phosphotyrosine",
+        "updated": "2026-06-23 18:28:00"
+    },
     "e1f7dcb3-db7f-4f04-bc0f-b150af3888b9": {
         "acquisition_type": "DDA",
         "analytical_fraction": "Phosphoproteome",
@@ -2912,8 +3209,7 @@
         "embargo_date": "None",
         "experiment_type": "TMT11",
         "files": [
-            "e1f7dcb3-db7f-4f04-bc0f-b150af3888b9-log2_ratio.gct",
-            "manifest.json"
+            "e1f7dcb3-db7f-4f04-bc0f-b150af3888b9-log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000448",
@@ -2938,8 +3234,7 @@
         "experiment_type": "iTRAQ4",
         "files": [
             "e386beb5-693a-11ea-b1fd-0aad30af8a83-log2_ratio.gct",
-            "e386beb5-693a-11ea-b1fd-0aad30af8a83-unshared_log2_ratio.gct",
-            "manifest.json"
+            "e386beb5-693a-11ea-b1fd-0aad30af8a83-unshared_log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000214",
@@ -2963,8 +3258,7 @@
         "embargo_date": "None",
         "experiment_type": "iTRAQ4",
         "files": [
-            "e386c3db-693a-11ea-b1fd-0aad30af8a83-log2_ratio.gct",
-            "manifest.json"
+            "e386c3db-693a-11ea-b1fd-0aad30af8a83-log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000215",
@@ -2988,8 +3282,7 @@
         "embargo_date": "None",
         "experiment_type": "TMT11",
         "files": [
-            "e3ef5c03-a8dc-4deb-ba5a-c8aa31ce6f87-log2_ratio.gct",
-            "manifest.json"
+            "e3ef5c03-a8dc-4deb-ba5a-c8aa31ce6f87-log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000591",
@@ -3013,8 +3306,7 @@
         "embargo_date": "None",
         "experiment_type": "TMT10",
         "files": [
-            "e4dc9f9b-9483-434c-bd0e-ac16c8c53ee2-log2_ratio.gct",
-            "manifest.json"
+            "e4dc9f9b-9483-434c-bd0e-ac16c8c53ee2-log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000564",
@@ -3038,8 +3330,7 @@
         "embargo_date": "None",
         "experiment_type": "TMT11",
         "files": [
-            "e5e0dd84-f982-46e3-b78a-5cb19eef31a8-log2_ratio.gct",
-            "manifest.json"
+            "e5e0dd84-f982-46e3-b78a-5cb19eef31a8-log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000515",
@@ -3064,8 +3355,7 @@
         "experiment_type": "TMT11",
         "files": [
             "e6c15de4-f182-456e-a752-f52fbbffd6eb-log2_ratio.gct",
-            "e6c15de4-f182-456e-a752-f52fbbffd6eb-unshared_log2_ratio.gct",
-            "manifest.json"
+            "e6c15de4-f182-456e-a752-f52fbbffd6eb-unshared_log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000590",
@@ -3090,8 +3380,7 @@
         "experiment_type": "TMT16",
         "files": [
             "e84aa466-9118-4dbb-a768-6cc060edeef1-log2_ratio.gct",
-            "e84aa466-9118-4dbb-a768-6cc060edeef1-unshared_log2_ratio.gct",
-            "manifest.json"
+            "e84aa466-9118-4dbb-a768-6cc060edeef1-unshared_log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000500",
@@ -3115,8 +3404,7 @@
         "embargo_date": "None",
         "experiment_type": "Label Free",
         "files": [
-            "eb6aae30-9b42-4fe1-b3ed-22b55d730dfa-precursor_area.gct",
-            "manifest.json"
+            "eb6aae30-9b42-4fe1-b3ed-22b55d730dfa-precursor_area.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000504",
@@ -3140,8 +3428,7 @@
         "embargo_date": "2024-12-30",
         "experiment_type": "TMT10",
         "files": [
-            "ebeae7ce-783b-43f9-b71a-efa763b95a88-log2_ratio.gct",
-            "manifest.json"
+            "ebeae7ce-783b-43f9-b71a-efa763b95a88-log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000363",
@@ -3165,8 +3452,7 @@
         "embargo_date": "None",
         "experiment_type": "TMT11",
         "files": [
-            "efc3143a-1797-11ea-9bfa-0a42f3c845fe-log2_ratio.gct",
-            "manifest.json"
+            "efc3143a-1797-11ea-9bfa-0a42f3c845fe-log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000205",
@@ -3190,8 +3476,7 @@
         "embargo_date": "None",
         "experiment_type": "TMT10",
         "files": [
-            "f115c648-5027-41ac-91ac-92b24d44f44e-log2_ratio.gct",
-            "manifest.json"
+            "f115c648-5027-41ac-91ac-92b24d44f44e-log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000251",
@@ -3216,8 +3501,7 @@
         "experiment_type": "TMT11",
         "files": [
             "f14e4c61-106f-11ea-9bfa-0a42f3c845fe-log2_ratio.gct",
-            "f14e4c61-106f-11ea-9bfa-0a42f3c845fe-unshared_log2_ratio.gct",
-            "manifest.json"
+            "f14e4c61-106f-11ea-9bfa-0a42f3c845fe-unshared_log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000198",
@@ -3242,8 +3526,7 @@
         "experiment_type": "TMT10",
         "files": [
             "f1c59a53-ab7c-11e9-9a07-0a80fada099c-log2_ratio.gct",
-            "f1c59a53-ab7c-11e9-9a07-0a80fada099c-unshared_log2_ratio.gct",
-            "manifest.json"
+            "f1c59a53-ab7c-11e9-9a07-0a80fada099c-unshared_log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000153",
@@ -3267,8 +3550,7 @@
         "embargo_date": "None",
         "experiment_type": "TMT10",
         "files": [
-            "f1c59f58-ab7c-11e9-9a07-0a80fada099c-log2_ratio.gct",
-            "manifest.json"
+            "f1c59f58-ab7c-11e9-9a07-0a80fada099c-log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000149",
@@ -3293,8 +3575,7 @@
         "experiment_type": "TMT16",
         "files": [
             "f7fd4148-4025-467a-ac0d-a85f0506dca6-log2_ratio.gct",
-            "f7fd4148-4025-467a-ac0d-a85f0506dca6-unshared_log2_ratio.gct",
-            "manifest.json"
+            "f7fd4148-4025-467a-ac0d-a85f0506dca6-unshared_log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000588",
@@ -3310,6 +3591,54 @@
         "submitter_id_name": "NF-PNET Discovery Study - Proteome - PhaseII",
         "updated": "2025-02-24 18:34:56"
     },
+    "f8c30d8a-912c-499e-99d1-fe37272c661b": {
+        "acquisition_type": "DDA",
+        "analytical_fraction": "Phosphoproteome",
+        "cptac_study_id": null,
+        "cud_label": "PDC000659",
+        "embargo_date": "None",
+        "experiment_type": "TMT18",
+        "files": [
+            "f8c30d8a-912c-499e-99d1-fe37272c661b-log2_ratio.gct"
+        ],
+        "is_latest_version": 1,
+        "pdc_study_id": "PDC000659",
+        "project_id": "f7730205-d414-40a0-b03d-e08a61252670",
+        "project_submitter_id": "CPTAC-KF-CCDI-Pediatric Brain Cancer",
+        "protocol_id": "632f1683-7bcf-41e6-977c-d7459c4a83c2",
+        "protocol_submitter_id": "CPTAC-KF-CCDI-Pediatric Brain Cancer ATRT Phosphotyrosine Protocol",
+        "study_description": "",
+        "study_id": "f8c30d8a-912c-499e-99d1-fe37272c661b",
+        "study_shortname": "CPTAC-KF-CCDI-Pediatric Brain Cancer Study - ATRT Phosphotyrosine",
+        "study_submitter_id": "CPTAC-KF-CCDI-Pediatric Brain Cancer Study - ATRT Phosphotyrosine",
+        "study_version": "1",
+        "submitter_id_name": "CPTAC-KF-CCDI-Pediatric Brain Cancer Study - ATRT Phosphotyrosine",
+        "updated": "2026-06-23 14:34:01"
+    },
+    "f9270dfb-841d-4738-9d87-dfc1fff32a1d": {
+        "acquisition_type": "DDA",
+        "analytical_fraction": "Phosphoproteome",
+        "cptac_study_id": null,
+        "cud_label": "PDC000688",
+        "embargo_date": "None",
+        "experiment_type": "TMT18",
+        "files": [
+            "f9270dfb-841d-4738-9d87-dfc1fff32a1d-log2_ratio.gct"
+        ],
+        "is_latest_version": 1,
+        "pdc_study_id": "PDC000688",
+        "project_id": "f7730205-d414-40a0-b03d-e08a61252670",
+        "project_submitter_id": "CPTAC-KF-CCDI-Pediatric Brain Cancer",
+        "protocol_id": "d75840e5-2227-49d6-9378-f7707c533bc7",
+        "protocol_submitter_id": "CPTAC-KF-CCDI-Pediatric Brain Cancer High-Grade Glioma Phosphoproteome Protocol",
+        "study_description": "",
+        "study_id": "f9270dfb-841d-4738-9d87-dfc1fff32a1d",
+        "study_shortname": "CPTAC-KF-CCDI-Pediatric Brain Cancer Study - High-Grade Glioma Phosphoproteome",
+        "study_submitter_id": "CPTAC-KF-CCDI-Pediatric Brain Cancer Study - High-Grade Glioma Phosphoproteome",
+        "study_version": "1",
+        "submitter_id_name": "CPTAC-KF-CCDI-Pediatric Brain Cancer Study - High-Grade Glioma Phosphoproteome",
+        "updated": "2026-06-10 13:25:11"
+    },
     "fa50195e-124b-4fa5-9885-015d27a41756": {
         "acquisition_type": "DDA",
         "analytical_fraction": "Ubiquitylome",
@@ -3318,8 +3647,7 @@
         "embargo_date": "None",
         "experiment_type": "TMT11",
         "files": [
-            "fa50195e-124b-4fa5-9885-015d27a41756-log2_ratio.gct",
-            "manifest.json"
+            "fa50195e-124b-4fa5-9885-015d27a41756-log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000492",
@@ -3335,6 +3663,30 @@
         "submitter_id_name": "CPTAC LUAD Confirmatory Study - Ubiquitylome",
         "updated": "2025-03-28 19:36:19"
     },
+    "fb008c23-3bcf-4d27-b3d5-2f2fbec90712": {
+        "acquisition_type": "DDA",
+        "analytical_fraction": "Phosphoproteome",
+        "cptac_study_id": null,
+        "cud_label": "PDC000673",
+        "embargo_date": "None",
+        "experiment_type": "TMT18",
+        "files": [
+            "fb008c23-3bcf-4d27-b3d5-2f2fbec90712-log2_ratio.gct"
+        ],
+        "is_latest_version": 1,
+        "pdc_study_id": "PDC000673",
+        "project_id": "f7730205-d414-40a0-b03d-e08a61252670",
+        "project_submitter_id": "CPTAC-KF-CCDI-Pediatric Brain Cancer",
+        "protocol_id": "d80b4571-164e-4bd8-b402-7cd23de0ea4f",
+        "protocol_submitter_id": "CPTAC-KF-CCDI-Pediatric Brain Cancer Craniopharyngioma Phosphoproteome Protocol",
+        "study_description": "",
+        "study_id": "fb008c23-3bcf-4d27-b3d5-2f2fbec90712",
+        "study_shortname": "CPTAC-KF-CCDI-Pediatric Brain Cancer Study - Craniopharyngioma Phosphoproteome",
+        "study_submitter_id": "CPTAC-KF-CCDI-Pediatric Brain Cancer Study - Craniopharyngioma Phosphoproteome",
+        "study_version": "1",
+        "submitter_id_name": "CPTAC-KF-CCDI-Pediatric Brain Cancer Study - Craniopharyngioma Phosphoproteome",
+        "updated": "2026-06-23 18:18:21"
+    },
     "fb66c568-85ff-460d-a630-f727f4abcc49": {
         "acquisition_type": "DDA",
         "analytical_fraction": "Proteome",
@@ -3344,8 +3696,7 @@
         "experiment_type": "TMT10",
         "files": [
             "fb66c568-85ff-460d-a630-f727f4abcc49-log2_ratio.gct",
-            "fb66c568-85ff-460d-a630-f727f4abcc49-unshared_log2_ratio.gct",
-            "manifest.json"
+            "fb66c568-85ff-460d-a630-f727f4abcc49-unshared_log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000579",
@@ -3361,6 +3712,30 @@
         "submitter_id_name": "PTRC Triple-negative Breast Cancer Mitotic Vulnerability Study - Proteome",
         "updated": "2024-12-12 17:23:32"
     },
+    "fcbbc229-a6ad-4df7-8e12-1e91b26b7f9a": {
+        "acquisition_type": "DDA",
+        "analytical_fraction": "Phosphoproteome",
+        "cptac_study_id": null,
+        "cud_label": "PDC000684",
+        "embargo_date": "None",
+        "experiment_type": "TMT18",
+        "files": [
+            "fcbbc229-a6ad-4df7-8e12-1e91b26b7f9a-log2_ratio.gct"
+        ],
+        "is_latest_version": 1,
+        "pdc_study_id": "PDC000684",
+        "project_id": "f7730205-d414-40a0-b03d-e08a61252670",
+        "project_submitter_id": "CPTAC-KF-CCDI-Pediatric Brain Cancer",
+        "protocol_id": "d03a81ba-a5a1-4b21-a152-bbb8269ab037",
+        "protocol_submitter_id": "CPTAC-KF-CCDI-Pediatric Brain Cancer Sarcoma Phosphotyrosine Protocol",
+        "study_description": "",
+        "study_id": "fcbbc229-a6ad-4df7-8e12-1e91b26b7f9a",
+        "study_shortname": "CPTAC-KF-CCDI-Pediatric Brain Cancer Study - Sarcoma Phosphotyrosine",
+        "study_submitter_id": "CPTAC-KF-CCDI-Pediatric Brain Cancer Study - Sarcoma Phosphotyrosine",
+        "study_version": "1",
+        "submitter_id_name": "CPTAC-KF-CCDI-Pediatric Brain Cancer Study - Sarcoma Phosphotyrosine",
+        "updated": "2026-07-01 16:15:14"
+    },
     "fe475945-ab94-4334-b3ea-283f1c867342": {
         "acquisition_type": "DDA",
         "analytical_fraction": "Phosphoproteome",
@@ -3369,8 +3744,7 @@
         "embargo_date": "None",
         "experiment_type": "TMT16",
         "files": [
-            "fe475945-ab94-4334-b3ea-283f1c867342-log2_ratio.gct",
-            "manifest.json"
+            "fe475945-ab94-4334-b3ea-283f1c867342-log2_ratio.gct"
         ],
         "is_latest_version": 1,
         "pdc_study_id": "PDC000589",

@@ -63,6 +63,28 @@ $stateActiveBgColor: #3baae3;
     min-width: 520px!important;
 }
 
+// Override for gene filter dropdown to match container width and isolate from other styles
+::ng-deep .cdk-overlay-pane:has(.gene-select-panel) {
+    width: auto !important;
+    max-width: none !important;
+    min-width: auto !important;
+}
+
+::ng-deep .gene-select-panel.mat-mdc-select-panel {
+    width: 100% !important;
+    max-width: 300px !important;
+    min-width: 100% !important;
+}
+
+::ng-deep .gene-select-panel .mat-mdc-option {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 100% !important;
+    font-size: 12px !important;
+    line-height: 2em !important;
+    height: 2em !important;
+}
+
 .mat-panel-title {
 	font-size: 14px;
 	font-family: 'Lato';
@@ -229,7 +251,8 @@ $stateActiveBgColor: #3baae3;
 
 .select-gene {
 	border: 1px solid rgb(118, 118, 118);
-	width: 97%;
+	width: 100% !important;
+	max-width: 100% !important;
 }
 
 .filter-section {
