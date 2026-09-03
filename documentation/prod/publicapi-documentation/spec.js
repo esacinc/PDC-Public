@@ -13,43 +13,43 @@ var spec = {
      "tags": [
          {
              "name": "Case",
-             "description": "Queries related to Cases"
+             "description": "Queries related to Cases"  
          },
          {
              "name": "Disease",
-             "description": "Queries related to Diseases"
+             "description": "Queries related to Diseases"  
          },
          {
              "name": "Files",
-             "description": "Queries related to Files"
+             "description": "Queries related to Files"  
          },
          {
              "name": "Gene",
-             "description": "Queries related to Gene"
+             "description": "Queries related to Gene"  
          },
          {
              "name": "Gene",
-             "description": "Common queries"
+             "description": "Common queries"  
          },
          {
              "name": "Paginated Records",
-             "description": "Queries related to paginated records"
+             "description": "Queries related to paginated records"  
          },
          {
              "name": "Program",
-             "description": "Queries related to Programs"
+             "description": "Queries related to Programs"  
          },
          {
              "name": "Project",
-             "description": "Queries related to Projects"
+             "description": "Queries related to Projects"  
          },
          {
              "name": "Protein",
-             "description": "Queries related to Protein"
+             "description": "Queries related to Protein"  
          },
          {
             "name": "Study",
-            "description": "Queries related to Study"
+            "description": "Queries related to Study"  
         },
      ],
    "paths": {
@@ -443,7 +443,7 @@ var spec = {
                         "description": "Limit of records, example: 10",
                         "required": true,
                         "type": "integer"
-                      }
+                      } 
                       ],
                     "responses": {
                       "200": {
@@ -485,7 +485,7 @@ var spec = {
                        "description": "Limit of records, example: 10",
                        "required": true,
                        "type": "integer"
-                     }
+                     }  
                      ],
                    "responses": {
                      "200": {
@@ -527,7 +527,7 @@ var spec = {
                         "description": "Limit of records, example: 10",
                         "required": true,
                         "type": "integer"
-                      }
+                      }  
                       ],
                     "responses": {
                       "200": {
@@ -569,7 +569,7 @@ var spec = {
                        "description": "Limit of records, example: 10",
                        "required": true,
                        "type": "integer"
-                     }
+                     }  
                      ],
                    "responses": {
                      "200": {
@@ -867,14 +867,14 @@ var spec = {
                        "description": "Study ID, example: 0fe15489-1381-4864-8b17-6159e14a65a8",
                        "required": true,
                        "type": "string"
-                    },
+                    }, 
 					{
                            "name": "offset",
                            "in": "path",
                            "description": "Offset of records, example: 0",
                            "required": true,
                            "type": "integer"
-                    },
+                    }, 
 					{
                            "name": "limit",
                            "in": "path",
@@ -942,7 +942,7 @@ var spec = {
                '?query={programsProjectsStudies (disease_type: "{disease_type}") {program_id program_submitter_id name projects {project_id project_submitter_id name studies { pdc_study_id study_id study_submitter_id submitter_id_name analytical_fraction  study_name disease_types primary_sites experiment_type acquisition_type} }}}': {
                  "get": {
                            "tags": ["Program"],
-                   "summary": "Get all programs/projects/studies",
+                   "summary": "Get all programs/projects/studies",				   
                    "description": "<b>Input Parameters (multiple parameters can be passed in one call):</b><ul><li>disease_type (example: Lung Adenocarcinoma)</li><li>instrument_model (example: Q Exactive)</li><li>analytical_fraction (example: Phosphoproteome)</li><li>experiment_type (example: iTRAQ4)</li></ul><b>Returns a hierarchy of programs/projects/studies.<br><br>Fields:</b><ul><li>program_id</li><li>program_submitter_id</li><li>name</li><li>projects {project_id project_submitter_id name}</li><li> studies {pdc_study_id study_id study_submitter_id submitter_id_name analytical_fraction  study_name disease_types primary_sites experiment_type acquisition_type}</li></ul><b>A test call can be issued with the following parameter:</b>",
                    "operationId": "programsProjectsStudies",
                    "produces": [
@@ -1025,7 +1025,7 @@ var spec = {
                         "description": "Reference type, example: external",
                         "required": true,
                         "type": "string"
-                      }
+                      }              
                     ],
                     "responses": {
                       "200": {
@@ -1066,7 +1066,7 @@ var spec = {
                         "in": "path",
                         "description": "Reference type, example: internal",
                         "type": "string"
-                      }
+                      }                   
                     ],
                     "responses": {
                       "200": {
@@ -1096,7 +1096,7 @@ var spec = {
                         "description": "Gene Name, example: A1BG",
                         "required": true,
                         "type": "string"
-                      }
+                      } 
                     ],
                     "responses": {
                       "200": {
@@ -1138,7 +1138,7 @@ var spec = {
                            "description": "Limit of records, example: 10",
                            "required": true,
                            "type": "integer"
-                       }
+                       } 
                        ],
                    "responses": {
                        "200": {
@@ -1576,27 +1576,27 @@ var spec = {
 				"age_at_index":{
                    "type":"integer",
                    "example":"50"
-                },
+                }, 
 				"premature_at_birth":{
                    "type":"string",
                    "example":"Yes"
-                },
+                },  
 				"weeks_gestation_at_birth":{
                    "type":"integer",
                    "example":"6"
-                },
+                },  
 				"age_is_obfuscated":{
                    "type":"boolean",
                    "example":"true"
-                },
+                },  
 				"cause_of_death_source":{
                    "type":"string",
                    "example":"Autopsy"
-                },
+                },  
 				"occupation_duration_years":{
                    "type":"integer",
                    "example":"30"
-                },
+                },  
 				"country_of_residence_at_enrollment":{
                    "type":"string",
                    "example":"Afghanistan"
@@ -1703,39 +1703,39 @@ var spec = {
 				"age_at_onset":{
                    "type":"integer",
                    "example":"45"
-                },
+                }, 
 				"alcohol_type":{
                    "type":"string",
                    "example":"Liquor"
-                },
+                }, 
 				"exposure_duration":{
                    "type":"string",
                    "example":"Six Weeks or More"
-                },
+                }, 
 				"exposure_duration_years":{
                    "type":"integer",
                    "example":"15"
-                },
+                }, 
 				"exposure_type":{
                    "type":"string",
                    "example":"Marijuana"
-                },
+                }, 
 				"marijuana_use_per_week":{
                    "type":"number",
                    "example":"3.5"
-                },
+                }, 
 				"parent_with_radiation_exposure":{
                    "type":"string",
                    "example":"Not Reported"
-                },
+                }, 
 				"secondhand_smoke_as_child":{
                    "type":"string",
                    "example":"Unknown"
-                },
+                }, 
 				"smokeless_tobacco_quit_age":{
                    "type":"integer",
                    "example":"48"
-                },
+                }, 
 				"tobacco_use_per_day":{
                    "type":"number",
                    "example":"7.5"
@@ -1756,83 +1756,83 @@ var spec = {
 				"days_to_treatment_end": {
 											"type":"integer",
 											"example":" "
-										},
+										}, 
 				"days_to_treatment_start": {
 											"type":"integer",
 											"example":" "
-										},
+										},  
 				"initial_disease_status": {
 											"type":"string",
 											"example":" "
-										},
+										},  
 				"regimen_or_line_of_therapy": {
 											"type":"string",
 											"example":" "
-										},
+										},   
 				"therapeutic_agents": {
 											"type":"string",
 											"example":" "
-										},
+										},   
 				"treatment_anatomic_site": {
 											"type":"string",
 											"example":" "
-										},
+										},  
 				"treatment_effect": {
 											"type":"string",
 											"example":" "
-										},
+										},   
 				"treatment_intent_type": {
 											"type":"string",
 											"example":"Adjuvant"
-										},
+										},  
 				"treatment_or_therapy": {
 											"type":"string",
 											"example":" "
-										},
+										},   
 				"treatment_outcome": {
 											"type":"string",
 											"example":" "
-										},
+										},   
 				"treatment_type": {
 											"type":"string",
 											"example":"Radiation Therapy, NOS"
-									},
+									},  
 				"chemo_concurrent_to_radiation": {
 											"type":"string",
 											"example":" "
-										},
+										},   
 				"number_of_cycles": {
 											"type":"integer",
 											"example":" "
-										},
+										},  						
 				"reason_treatment_ended": {
 											"type":"string",
 											"example":" "
-										},
+										},   
 				"route_of_administration": {
 											"type":"string",
 											"example":" "
-										},
+										},  
 				"treatment_arm": {
 											"type":"string",
 											"example":" "
-								},
+								},   
 				"treatment_dose": {
 											"type":"integer",
 											"example":" "
-										},
+										},   
 				"treatment_dose_units": {
 											"type":"string",
 											"example":" "
-										},
+										},   
 				"treatment_effect_indicator": {
 											"type":"string",
 											"example":" "
-										},
+										},   
 				"treatment_frequency": {
 											"type":"string",
 											"example":" "
-										}
+										}    			 
 				}
 		  },
 		  "FollowUp":{
@@ -1861,7 +1861,7 @@ var spec = {
 				"cause_of_response": {
 								   "type":"string",
 								   "example":"Not Reported"
-								},
+								}, 
 				"comorbidity": {
 								   "type":"string",
 								   "example":"Adenocarcinoma"
@@ -1881,235 +1881,235 @@ var spec = {
 				"days_to_follow_up": {
 								   "type":"integer",
 								   "example":"14"
-								},
+								}, 
 				"days_to_progression": {
 								   "type":"integer",
 								   "example":"14"
-								},
+								}, 
 				"days_to_progression_free": {
 								   "type":"integer",
 								   "example":"14"
-								},
+								}, 
 				"days_to_recurrence": {
 								   "type":"integer",
 								   "example":"14"
-								},
+								},  
 				"diabetes_treatment_type": {
 								   "type":"string",
 								   "example":"Biguanide"
-								},
+								}, 
 				"disease_response": {
 								   "type":"string",
 								   "example":"AJ-Adjuvant Therapy"
-								},
+								}, 
 				"dlco_ref_predictive_percent": {
 								   "type":"float",
 								   "example":"25.0"
-								},
+								}, 
 				"ecog_performance_status": {
 								   "type":"string",
 								   "example":"0"
-								},
+								}, 
 				"fev1_ref_post_bronch_percent": {
 								   "type":"float",
 								   "example":"10"
-								},
+								}, 
 				"fev1_ref_pre_bronch_percent": {
 								   "type":"float",
 								   "example":"10"
-								},
+								}, 
 				"fev1_fvc_pre_bronch_percent": {
 								   "type":"float",
 								   "example":"10"
-								},
+								}, 
 				"fev1_fvc_post_bronch_percent": {
 								   "type":"float",
 								   "example":"10"
-								},
+								}, 
 				"height": {
 								   "type":"float",
 								   "example":"1.75"
-								},
+								}, 
 				"hepatitis_sustained_virological_response": {
 								   "type":"string",
 								   "example":"Unknown"
-								},
+								}, 
 				"hpv_positive_type": {
 								   "type":"string",
 								   "example":"16"
-								},
+								}, 
 				"karnofsky_performance_status": {
 								   "type":"string",
 								   "example":"50"
-								},
+								}, 
 				"menopause_status": {
 								   "type":"string",
 								   "example":"Postmenopausal"
-								},
+								}, 
 				"pancreatitis_onset_year": {
 								   "type":"integer",
 								   "example":"45"
-								},
+								}, 
 				"progression_or_recurrence": {
 								   "type":"string",
 								   "example":"Yes"
-								},
+								}, 
 				"progression_or_recurrence_anatomic_site": {
 								   "type":"string",
 								   "example":"Abdomen, NOS"
-								},
+								}, 
 				"progression_or_recurrence_type": {
 								   "type":"string",
 								   "example":"Biochemical"
-								},
+								}, 
 				"reflux_treatment_type": {
 								   "type":"string",
 								   "example":"Antacids"
-								},
+								}, 
 				"risk_factor": {
 								   "type":"string",
 								   "example":"Alcoholic Liver Disease"
-								},
+								}, 
 				"risk_factor_treatment": {
 								   "type":"string",
 								   "example":"Yes"
-								},
+								}, 
 				"viral_hepatitis_serologies": {
 								   "type":"string",
 								   "example":"HBV DNA"
-								},
+								}, 
 				"weight": {
 								   "type":"float",
 								   "example":"178.5"
-								},
+								}, 
 				"adverse_event_grade": {
 								   "type":"string",
 								   "example":"Grade 1"
-								},
+								}, 
 				"aids_risk_factors": {
 								   "type":"string",
 								   "example":"Coccidioidomycosis"
-								},
+								}, 
 				"body_surface_area": {
 								   "type":"float",
 								   "example":"15"
-								},
+								}, 
 				"cd4_count": {
 								   "type":"float",
 								   "example":"2.5"
-								},
+								}, 
 				"cdc_hiv_risk_factors": {
 								   "type":"string",
 								   "example":"Hemophiliac"
-								},
+								}, 
 				"days_to_imaging": {
 								   "type":"integer",
 								   "example":"14"
-								},
+								}, 
 				"evidence_of_recurrence_type": {
 								   "type":"string",
 								   "example":"Physical Examination"
-								},
+								}, 
 				"eye_color": {
 								   "type":"string",
 								   "example":"Hazel"
-								},
+								}, 
 				"haart_treatment_indicator": {
 								   "type":"string",
 								   "example":"No"
-								},
+								}, 
 				"history_of_tumor": {
 								   "type":"string",
 								   "example":"No"
-								},
+								}, 
 				"history_of_tumor_type": {
 								   "type":"string",
 								   "example":"Phenochromocytoma"
-								},
+								}, 
 				"hiv_viral_load": {
 								   "type":"float",
 								   "example":"2.0"
-								},
+								}, 
 				"hormonal_contraceptive_type": {
 								   "type":"string",
 								   "example":"Progestin"
-								},
+								}, 
 				"hormonal_contraceptive_use": {
 								   "type":"string",
 								   "example":"Never Used"
-								},
+								}, 
 				"hormone_replacement_therapy_type": {
 								   "type":"string",
 								   "example":"Estrogen only"
-								},
+								}, 
 				"hysterectomy_margins_involved": {
 								   "type":"string",
 								   "example":"Bladder"
-								},
+								}, 
 				"hysterectomy_type": {
 								   "type":"string",
 								   "example":"Simple Hysterectomy"
-								},
+								}, 
 				"imaging_result": {
 								   "type":"string",
 								   "example":"Positive"
-								},
+								}, 
 				"imaging_type": {
 								   "type":"string",
 								   "example":"MRI"
-								},
+								}, 
 				"immunosuppressive_treatment_type": {
 								   "type":"string",
 								   "example":"Azathioprine"
-								},
+								}, 
 				"nadir_cd4_count": {
 								   "type":"float",
 								   "example":"1.5"
-								},
+								}, 
 				"pregnancy_outcome": {
 								   "type":"string",
 								   "example":"Live Birth"
-								},
+								}, 
 				"procedures_performed": {
 								   "type":"string",
 								   "example":"Colonoscopy"
-								},
+								}, 
 				"recist_targeted_regions_number": {
 								   "type":"integer",
 								   "example":"2"
-								},
+								}, 
 				"recist_targeted_regions_sum": {
 								   "type":"float",
 								   "example":"2.5"
-								},
+								}, 
 				"scan_tracer_used": {
 								   "type":"string",
 								   "example":"Acetate"
-								},
+								}, 
 				"undescended_testis_corrected": {
 								   "type":"string",
 								   "example":"Yes"
-								},
+								}, 
 				"undescended_testis_corrected_age": {
 								   "type":"integer",
 								   "example":"35"
-								},
+								}, 
 				"undescended_testis_corrected_laterality": {
 								   "type":"string",
 								   "example":"Bilateral"
-								},
+								}, 
 				"undescended_testis_corrected_method": {
 								   "type":"string",
 								   "example":"Hormones"
-								},
+								}, 
 				"undescended_testis_history": {
 								   "type":"string",
 								   "example":"Yes"
-								},
+								}, 
 				"undescended_testis_history_laterality": {
 								   "type":"string",
 								   "example":"Left"
-								}
+								} 			 
 				}
 		  },
 		  "SampleRef":{
@@ -2178,7 +2178,7 @@ var spec = {
                 },
                 "diagnosis_pathologically_confirmed": {
                   "type":"string",
-                  "example":"Not Reported"
+                  "example":"Not Reported"                
                 },
                 "freezing_method":{
                    "type":"string",
@@ -2239,31 +2239,31 @@ var spec = {
 				"biospecimen_laterality":{
                    "type":"string",
                    "example":"Bilateral"
-                },
+                }, 
 				"catalog_reference":{
                    "type":"string",
                    "example":"Not Reported"
-                },
+                }, 
 				"distance_normal_to_tumor":{
                    "type":"string",
                    "example":"Adjacent (< or = 2cm)"
-                },
+                }, 
 				"distributor_reference":{
                    "type":"string",
                    "example":"Not Reported"
-                },
+                }, 
 				"growth_rate":{
                    "type":"integer",
                    "example":"1"
-                },
+                }, 
 				"passage_count":{
                    "type":"integer",
                    "example":"2"
-                },
+                }, 
 				"sample_ordinal":{
                    "type":"integer",
                    "example":"3"
-                },
+                }, 
 				"tissue_collection_type":{
                    "type":"string",
                    "example":"Prospective"
@@ -2301,7 +2301,7 @@ var spec = {
                    "example":"The sample 7316-2901 is associated with this clinical record."
                }
 			 }
-		  },
+		  },			   
           "Diagnosis":{
              "type":"object",
              "properties":{
@@ -2560,83 +2560,83 @@ var spec = {
 			"cog_liver_stage":{
 							  "type":"string",
 							  "example": "Stage I"
-						   },
+						   },	
 			"cog_neuroblastoma_risk_group":{
 							  "type":"string",
 							  "example": "High Risk"
-						   },
+						   },	
 			"cog_renal_stage":{
 							  "type":"string",
 							  "example": "Stage I"
-						   },
+						   },	
 			"cog_rhabdomyosarcoma_risk_group":{
 							  "type":"string",
 							  "example": "Low Risk"
-						   },
+						   },	
 			"enneking_msts_grade":{
 							  "type":"string",
 							  "example": "Low Grade (G1)"
-						   },
+						   },	
 			"enneking_msts_metastasis":{
 							  "type":"string",
 							  "example": "Regional or Distant Metastasis (M1)"
-						   },
+						   },	
 			"enneking_msts_stage":{
 							  "type":"string",
 							  "example": "Stage IA"
-						   },
+						   },	
 			"enneking_msts_tumor_site":{
 							  "type":"string",
 							  "example": "Extracompartmental (T2)"
-						   },
+						   },	
 			"esophageal_columnar_dysplasia_degree":{
 							  "type":"string",
 							  "example": "Indefinite for Dysplasia"
-						   },
+						   },	
 			"esophageal_columnar_metaplasia_present":{
 							  "type":"string",
 							  "example": "No"
-						   },
+						   },	
 			"first_symptom_prior_to_diagnosis":{
 							  "type":"string",
 							  "example": "Headaches"
-						   },
+						   },	
 			"gastric_esophageal_junction_involvement":{
 							  "type":"string",
 							  "example": "Yes"
-						   },
+						   },	
 			"goblet_cells_columnar_mucosa_present":{
 							  "type":"string",
 							  "example": "No"
-						   },
+						   },	
 			"gross_tumor_weight":{
 							  "type":"integer",
 							  "example": "1"
-						   },
+						   },	
 			"inpc_grade":{
 							  "type":"string",
 							  "example": "Differentiating"
-						   },
+						   },	
 			"inpc_histologic_group":{
 							  "type":"string",
 							  "example": "Favorable"
-						   },
+						   },	
 			"inrg_stage":{
 							  "type":"string",
 							  "example": "L1"
-						   },
+						   },	
 			"inss_stage":{
 							  "type":"string",
 							  "example": "Stage 1"
-						   },
+						   },	
 			"irs_group":{
 							  "type":"string",
 							  "example": "Group I"
-						   },
+						   },	
 			"irs_stage":{
 							  "type":"string",
 							  "example": "1"
-						   },
+						   },	
 			"ishak_fibrosis_score":{
 							  "type":"string",
 							  "example": "1,2 - Portal Fibrosis"
@@ -2813,13 +2813,13 @@ var spec = {
 							  "type":"string",
 							  "example": "G1"
 						   },
-			"samples": {
+			"samples": {                    
 							"type":"array",
 							"items":{
 									"$ref":"#/definitions/SampleRef"
 							}
 						}
-
+						   
              },
              "xml":{
                 "name":"Diagnosis"
@@ -2923,13 +2923,13 @@ var spec = {
                 "analyte_type":{
                    "type":"string",
                    "example":"Protein"
-                },
+                }, 
                 "aliquot_run_metadata":{
                   "type":"array",
                   "items":{
                      "$ref":"#/definitions/aliquotRunMetaDataForPaginated"
                   }
-               }
+               }           
              },
              "xml":{
                 "name":"Aliquot"
@@ -2945,11 +2945,11 @@ var spec = {
 			   "label": {
                   "type":"string",
                   "example":"itraq_116"
-			   },
+			   },				   
 			   "experiment_number": {
                   "type":"string",
                   "example":"13"
-			   },
+			   }, 
 			   "fraction": {
                   "type":"string",
                   "example":"24-Jan"
@@ -2961,11 +2961,11 @@ var spec = {
 			   "date": {
                   "type":"string",
                   "example":"2013-02-28"
-			   },
+			   }, 
 			   "alias": {
                   "type":"string",
                   "example":"B1S6"
-			   },
+			   }, 
 			   "analyte": {
                   "type":"string",
                   "example":"Proteome"
@@ -3029,11 +3029,11 @@ var spec = {
 			   "label": {
                   "type":"string",
                   "example":"itraq_116"
-			   },
+			   },				   
 			   "experiment_number": {
                   "type":"string",
                   "example":"13"
-			   },
+			   }, 
 			   "fraction": {
                   "type":"string",
                   "example":"24-Jan"
@@ -3045,11 +3045,11 @@ var spec = {
 			   "date": {
                   "type":"string",
                   "example":"2013-02-28"
-			   },
+			   }, 
 			   "alias": {
                   "type":"string",
                   "example":"B1S6"
-			   },
+			   }, 
 			   "analyte": {
                   "type":"string",
                   "example":"Proteome"
@@ -3094,7 +3094,7 @@ var spec = {
                    "type":"string",
 				   "example":"Orbitrap Fusion Lumos"
                 }
-			 },
+			 },    
              "xml":{
                 "name":"ProtocolIncluded"
              }
@@ -3639,7 +3639,7 @@ var spec = {
                 "pdc_study_id":{
                   "type":"string",
                   "example":"PDC000180"
-               },
+               },                
                 "study_submitter_id":{
                    "type":"string",
                    "example":"S015-1"
@@ -3929,7 +3929,7 @@ var spec = {
           "paginatedCasesSamplesAliquots":{
              "type":"object",
              "required":[
-
+    
              ],
              "properties":{
                 "data":{
@@ -3944,7 +3944,7 @@ var spec = {
           "paginatedCasesSamplesAliquotsDef":{
              "type":"object",
              "required":[
-
+    
              ],
              "properties":{
                 "paginatedCasesSamplesAliquots":{
@@ -3969,7 +3969,7 @@ var spec = {
                       "$ref":"#/definitions/Case"
                    }
                 },
-                "pagination": {
+                "pagination": {             
                   "type":"string",
                   "$ref":"#/definitions/Pagination"
                 }
@@ -3981,7 +3981,7 @@ var spec = {
           "paginatedSpectralCountPerStudyAliquot":{
              "type":"object",
              "required":[
-
+    
              ],
              "properties":{
                 "data":{
@@ -3996,7 +3996,7 @@ var spec = {
           "paginatedSpectralCountPerStudyAliquotDef":{
              "type":"object",
              "required":[
-
+    
              ],
              "properties":{
                 "paginatedSpectralCountPerStudyAliquot":{
@@ -4069,7 +4069,7 @@ var spec = {
           "paginatedDataMatrix":{
              "type":"object",
              "required":[
-
+    
              ],
              "properties":{
                 "data":{
@@ -4084,7 +4084,7 @@ var spec = {
           "paginatedDataMatrixDef":{
              "type":"object",
              "required":[
-
+    
              ],
              "properties":{
                 "paginatedDataMatrix":{
@@ -4121,16 +4121,16 @@ var spec = {
                    "type":"string"
                 },
                 "case_submitter_id":{
-
+    
                 },
                 "disease_type":{
-
+    
                 },
                 "primary_site":{
-
+    
                 },
                 "diagnoses":{
-
+    
                 }
              },
              "xml":{
@@ -4140,7 +4140,7 @@ var spec = {
           "paginatedCaseDiagnosesPerStudy":{
              "type":"object",
              "required":[
-
+    
              ],
              "properties":{
                 "data":{
@@ -4155,7 +4155,7 @@ var spec = {
           "paginatedCaseDiagnosesPerStudyDef":{
              "type":"object",
              "required":[
-
+    
              ],
              "properties":{
                 "paginatedCaseDiagnosesPerStudy":{
@@ -4221,7 +4221,7 @@ var spec = {
           "paginatedCaseDemographicsPerStudy":{
              "type":"object",
              "required":[
-
+    
              ],
              "properties":{
                 "data":{
@@ -4236,7 +4236,7 @@ var spec = {
           "paginatedCaseDemographicsPerStudyDef":{
              "type":"object",
              "required":[
-
+    
              ],
              "properties":{
                 "paginatedCaseDemographicsPerStudy":{
@@ -4302,7 +4302,7 @@ var spec = {
           "paginatedCaseExposuresPerStudy":{
              "type":"object",
              "required":[
-
+    
              ],
              "properties":{
                 "data":{
@@ -4317,7 +4317,7 @@ var spec = {
           "paginatedCaseExposuresPerStudyDef":{
              "type":"object",
              "required":[
-
+    
              ],
              "properties":{
                 "paginatedCaseExposuresPerStudy":{
@@ -4383,7 +4383,7 @@ var spec = {
           "paginatedCaseFollowUpsPerStudy":{
              "type":"object",
              "required":[
-
+    
              ],
              "properties":{
                 "data":{
@@ -4398,7 +4398,7 @@ var spec = {
           "paginatedCaseFollowUpsPerStudyDef":{
              "type":"object",
              "required":[
-
+    
              ],
              "properties":{
                 "paginatedCaseFollowUpsPerStudy":{
@@ -4464,7 +4464,7 @@ var spec = {
           "paginatedCaseTreatmentsPerStudy":{
              "type":"object",
              "required":[
-
+    
              ],
              "properties":{
                 "data":{
@@ -4479,7 +4479,7 @@ var spec = {
           "paginatedCaseTreatmentsPerStudyDef":{
              "type":"object",
              "required":[
-
+    
              ],
              "properties":{
                 "paginatedCaseTreatmentsPerStudy":{
@@ -4545,7 +4545,7 @@ var spec = {
           "getPaginatedFiles":{
              "type":"object",
              "required":[
-
+    
              ],
              "properties":{
                 "data":{
@@ -4560,7 +4560,7 @@ var spec = {
           "getPaginatedFilesDef":{
              "type":"object",
              "required":[
-
+    
              ],
              "properties":{
                 "getPaginatedFiles":{
@@ -4757,7 +4757,7 @@ var spec = {
           "getPaginatedGenes":{
             "type":"object",
             "required":[
-
+   
             ],
             "properties":{
                "data":{
@@ -4772,7 +4772,7 @@ var spec = {
          "getPaginatedGenesDef":{
             "type":"object",
             "required":[
-
+   
             ],
             "properties":{
                "getPaginatedGenes":{
@@ -4856,7 +4856,7 @@ var spec = {
           "getPaginatedCases":{
              "type":"object",
              "required":[
-
+    
              ],
              "properties":{
                 "data":{
@@ -4871,7 +4871,7 @@ var spec = {
           "getPaginatedCasesDef":{
              "type":"object",
              "required":[
-
+    
              ],
              "properties":{
                 "getPaginatedCases":{
@@ -4907,7 +4907,7 @@ var spec = {
           "casePerFile":{
              "type":"object",
              "required":[
-
+    
              ],
              "properties":{
                 "data":{
@@ -4922,7 +4922,7 @@ var spec = {
           "casePerFileDef":{
              "type":"object",
              "required":[
-
+    
              ],
              "properties":{
                 "casePerFile":{
@@ -4959,7 +4959,7 @@ var spec = {
           "fileMetadata":{
              "type":"object",
              "required":[
-
+    
              ],
              "properties":{
                 "data":{
@@ -5106,7 +5106,7 @@ var spec = {
           "diseaseTypesPerProject":{
              "type":"object",
              "required":[
-
+    
              ],
              "properties":{
                 "data":{
@@ -5121,7 +5121,7 @@ var spec = {
           "diseaseTypesPerProjectDef":{
              "type":"object",
              "required":[
-
+    
              ],
              "properties":{
                 "diseaseTypesPerProject":{
@@ -5184,7 +5184,7 @@ var spec = {
           "filesPerStudy":{
              "type":"object",
              "required":[
-
+    
              ],
              "properties":{
                 "data":{
@@ -5199,7 +5199,7 @@ var spec = {
           "filesPerStudyDef":{
              "type":"object",
              "required":[
-
+    
              ],
              "properties":{
                 "filesPerStudy":{
@@ -5284,7 +5284,7 @@ var spec = {
             "properties":{
                "url":{
                   "type":"string",
-                  "example":"https://pdcdatastore.s3.amazonaws.com/studies/206/mzml/02CPTAC_CompRef_GBM_P_PNNL_20190306_B2S5_f10.mzML.gz"
+                  "example":"https://pdcdatastore.s3.amazonaws.com/studies/206/mzml/02CPTAC_CompRef_GBM_P_PNNL_20190306_B2S5_f10.mzML.gz?"
                }
               },
             "xml":{
@@ -5294,7 +5294,7 @@ var spec = {
           "filesCountPerStudy":{
              "type":"object",
              "required":[
-
+    
              ],
              "properties":{
                 "data":{
@@ -5309,7 +5309,7 @@ var spec = {
           "filesCountPerStudyDef":{
              "type":"object",
              "required":[
-
+    
              ],
              "properties":{
                 "filesCountPerStudy":{
@@ -5358,7 +5358,7 @@ var spec = {
           "diseasesAvailable":{
              "type":"object",
              "required":[
-
+    
              ],
              "properties":{
                 "data":{
@@ -5373,7 +5373,7 @@ var spec = {
           "diseasesAvailableDef":{
              "type":"object",
              "required":[
-
+    
              ],
              "properties":{
                 "diseasesAvailable":{
@@ -5430,7 +5430,7 @@ var spec = {
           "geneSearchDef":{
              "type":"object",
              "required":[
-
+    
              ],
              "properties":{
                 "geneSearch":{
@@ -5487,7 +5487,7 @@ var spec = {
           "geneSpectralCount":{
              "type":"object",
              "required":[
-
+    
              ],
              "properties":{
                 "data":{
@@ -5502,7 +5502,7 @@ var spec = {
           "geneSpectralCountDef":{
              "type":"object",
              "required":[
-
+    
              ],
              "properties":{
                 "geneSpectralCount":{
@@ -5517,7 +5517,7 @@ var spec = {
           "aliquotSpectralCount":{
              "type":"object",
              "required":[
-
+    
              ],
              "properties":{
                 "data":{
@@ -5532,7 +5532,7 @@ var spec = {
           "aliquotSpectralCountDef":{
              "type":"object",
              "required":[
-
+    
              ],
              "properties":{
                 "aliquotSpectralCount":{
@@ -5645,7 +5645,7 @@ var spec = {
           "studySearch":{
              "type":"object",
              "required":[
-
+    
              ],
              "properties":{
                 "data":{
@@ -5660,7 +5660,7 @@ var spec = {
           "studySearchDef":{
              "type":"object",
              "required":[
-
+    
              ],
              "properties":{
                 "studySearch":{
@@ -5675,7 +5675,7 @@ var spec = {
           "studySearchDesc":{
              "type":"object",
              "required":[
-
+    
              ],
              "properties":{
                 "studies":{
@@ -5692,7 +5692,7 @@ var spec = {
           "studySearchByPDCStudyId":{
             "type":"object",
             "required":[
-
+   
             ],
             "properties":{
                "data":{
@@ -5707,7 +5707,7 @@ var spec = {
          "studySearchByPDCStudyIdDef":{
             "type":"object",
             "required":[
-
+   
             ],
             "properties":{
                "studySearchByPDCStudyId":{
@@ -5722,7 +5722,7 @@ var spec = {
          "studySearchByPDCStudyIdDesc":{
             "type":"object",
             "required":[
-
+   
             ],
             "properties":{
                "studies":{
@@ -5739,7 +5739,7 @@ var spec = {
          "pdcEntityReference":{
             "type":"object",
             "required":[
-
+   
             ],
             "properties":{
                "data":{
@@ -5753,7 +5753,7 @@ var spec = {
          },
          "pdcEntityReferenceDef":{
             "type":"object",
-            "required":[
+            "required":[  
             ],
             "properties":{
                "pdcEntityReference":{
@@ -5770,7 +5770,7 @@ var spec = {
          "reference":{
             "type":"object",
             "required":[
-
+   
             ],
             "properties":{
                "data":{
@@ -5784,7 +5784,7 @@ var spec = {
          },
          "referenceDef":{
             "type":"object",
-            "required":[
+            "required":[  
             ],
             "properties":{
                "reference":{
@@ -5800,7 +5800,7 @@ var spec = {
          },
          "studySearchByExternalId":{
             "type":"object",
-            "required":[
+            "required":[  
             ],
             "properties":{
                "data":{
@@ -5910,27 +5910,27 @@ var spec = {
 				"age_at_index":{
                    "type":"integer",
                    "example":"50"
-                },
+                }, 
 				"premature_at_birth":{
                    "type":"string",
                    "example":"Yes"
-                },
+                },  
 				"weeks_gestation_at_birth":{
                    "type":"integer",
                    "example":"6"
-                },
+                },  
 				"age_is_obfuscated":{
                    "type":"boolean",
                    "example":"true"
-                },
+                },  
 				"cause_of_death_source":{
                    "type":"string",
                    "example":"Autopsy"
-                },
+                },  
 				"occupation_duration_years":{
                    "type":"integer",
                    "example":"30"
-                },
+                },  
 				"country_of_residence_at_enrollment":{
                    "type":"string",
                    "example":"Afghanistan"
@@ -5986,83 +5986,83 @@ var spec = {
 			"cog_liver_stage":{
 							  "type":"string",
 							  "example": "Stage I"
-						   },
+						   },	
 			"cog_neuroblastoma_risk_group":{
 							  "type":"string",
 							  "example": "High Risk"
-						   },
+						   },	
 			"cog_renal_stage":{
 							  "type":"string",
 							  "example": "Stage I"
-						   },
+						   },	
 			"cog_rhabdomyosarcoma_risk_group":{
 							  "type":"string",
 							  "example": "Low Risk"
-						   },
+						   },	
 			"enneking_msts_grade":{
 							  "type":"string",
 							  "example": "Low Grade (G1)"
-						   },
+						   },	
 			"enneking_msts_metastasis":{
 							  "type":"string",
 							  "example": "Regional or Distant Metastasis (M1)"
-						   },
+						   },	
 			"enneking_msts_stage":{
 							  "type":"string",
 							  "example": "Stage IA"
-						   },
+						   },	
 			"enneking_msts_tumor_site":{
 							  "type":"string",
 							  "example": "Extracompartmental (T2)"
-						   },
+						   },	
 			"esophageal_columnar_dysplasia_degree":{
 							  "type":"string",
 							  "example": "Indefinite for Dysplasia"
-						   },
+						   },	
 			"esophageal_columnar_metaplasia_present":{
 							  "type":"string",
 							  "example": "No"
-						   },
+						   },	
 			"first_symptom_prior_to_diagnosis":{
 							  "type":"string",
 							  "example": "Headaches"
-						   },
+						   },	
 			"gastric_esophageal_junction_involvement":{
 							  "type":"string",
 							  "example": "Yes"
-						   },
+						   },	
 			"goblet_cells_columnar_mucosa_present":{
 							  "type":"string",
 							  "example": "No"
-						   },
+						   },	
 			"gross_tumor_weight":{
 							  "type":"integer",
 							  "example": "1"
-						   },
+						   },	
 			"inpc_grade":{
 							  "type":"string",
 							  "example": "Differentiating"
-						   },
+						   },	
 			"inpc_histologic_group":{
 							  "type":"string",
 							  "example": "Favorable"
-						   },
+						   },	
 			"inrg_stage":{
 							  "type":"string",
 							  "example": "L1"
-						   },
+						   },	
 			"inss_stage":{
 							  "type":"string",
 							  "example": "Stage 1"
-						   },
+						   },	
 			"irs_group":{
 							  "type":"string",
 							  "example": "Group I"
-						   },
+						   },	
 			"irs_stage":{
 							  "type":"string",
 							  "example": "1"
-						   },
+						   },	
 			"ishak_fibrosis_score":{
 							  "type":"string",
 							  "example": "1,2 - Portal Fibrosis"
@@ -6257,12 +6257,12 @@ var spec = {
                       "$ref":"#/definitions/Treatment"
                    }
                 },
-				"samples": {
+				"samples": {                    
 							"type":"array",
 							"items":{
 									"$ref":"#/definitions/SampleRef"
 							}
-				},
+				},						   
                "externalReferences": {
                   "type":"array",
                   "items":{
@@ -6879,7 +6879,7 @@ var spec = {
 				"ionization_mode":{
                    "type":"string",
                    "example":"N/A"
-                }
+                }				
              },
              "xml":{
                 "name":"protocolPerStudyDesc"
@@ -7089,49 +7089,49 @@ var spec = {
                    "items":{
                       "$ref":"#/definitions/labelAliguots"
                    }
-                },
+                },            
                 "tmt_132n":{
                    "type":"array",
                    "items":{
                       "$ref":"#/definitions/labelAliguots"
                    }
-                },
+                },            
                 "tmt_132c":{
                    "type":"array",
                    "items":{
                       "$ref":"#/definitions/labelAliguots"
                    }
-                },
+                },            
                 "tmt_133n":{
                    "type":"array",
                    "items":{
                       "$ref":"#/definitions/labelAliguots"
                    }
-                },
+                },            
                 "tmt_133c":{
                    "type":"array",
                    "items":{
                       "$ref":"#/definitions/labelAliguots"
                    }
-                },
+                },            
                 "tmt_134n":{
                    "type":"array",
                    "items":{
                       "$ref":"#/definitions/labelAliguots"
                    }
-                },
+                },            
                 "tmt_134c":{
                    "type":"array",
                    "items":{
                       "$ref":"#/definitions/labelAliguots"
                    }
-                },
+                },            
                 "tmt_135n":{
                    "type":"array",
                    "items":{
                       "$ref":"#/definitions/labelAliguots"
                    }
-                },
+                },            
              },
              "xml":{
                 "name":"studyExperimentalDesignDesc"
@@ -7172,7 +7172,7 @@ var spec = {
           "dataStatsPerProgramDef":{
              "type":"object",
              "required":[
-
+    
              ],
              "properties":{
                 "dataStatsPerProgram":{
@@ -7237,7 +7237,7 @@ var spec = {
           "getPDCMetricsDef":{
              "type":"object",
              "required":[
-
+    
              ],
              "properties":{
                 "getPDCMetrics":{
@@ -7254,7 +7254,7 @@ var spec = {
           "Protein":{
              "type":"object",
              "required":[
-
+    
              ],
              "properties":{
                 "data":{
@@ -7269,7 +7269,7 @@ var spec = {
           "ProteinDef":{
              "type":"object",
              "required":[
-
+    
              ],
              "properties":{
                 "protein":{
@@ -7284,7 +7284,7 @@ var spec = {
           "quantitiveDataCPTAC2":{
              "type":"object",
              "required":[
-
+    
              ],
              "properties":{
                 "data":{
@@ -7299,7 +7299,7 @@ var spec = {
           "quantitiveDataCPTAC2Def":{
              "type":"object",
              "required":[
-
+    
              ],
              "properties":{
                 "quantitiveDataCPTAC2":{
@@ -7316,7 +7316,7 @@ var spec = {
           "experimentalMetadata":{
              "type":"object",
              "required":[
-
+    
              ],
              "properties":{
                 "data":{
@@ -7331,7 +7331,7 @@ var spec = {
           "experimentalMetadataDef":{
              "type":"object",
              "required":[
-
+    
              ],
              "properties":{
                 "experimentalMetadata":{
@@ -7370,7 +7370,7 @@ var spec = {
           "clinicalMetadata":{
              "type":"object",
              "required":[
-
+    
              ],
              "properties":{
                 "data":{
@@ -7385,7 +7385,7 @@ var spec = {
           "clinicalMetadataDef":{
              "type":"object",
              "required":[
-
+    
              ],
              "properties":{
                 "clinicalMetadata":{
@@ -7438,7 +7438,7 @@ var spec = {
           "tissueSitesAvailable":{
              "type":"object",
              "required":[
-
+    
              ],
              "properties":{
                 "data":{
@@ -7453,7 +7453,7 @@ var spec = {
           "tissueSitesAvailableDef":{
              "type":"object",
              "required":[
-
+    
              ],
              "properties":{
                 "tissueSitesAvailable":{
@@ -7494,7 +7494,7 @@ var spec = {
           "workflowMetadata":{
              "type":"object",
              "required":[
-
+    
              ],
              "properties":{
                 "data":{
@@ -7509,7 +7509,7 @@ var spec = {
           "workflowMetadataDef":{
              "type":"object",
              "required":[
-
+    
              ],
              "properties":{
                 "workflowMetadata":{
@@ -7526,7 +7526,7 @@ var spec = {
           "projectsPerInstrument":{
              "type":"object",
              "required":[
-
+    
              ],
              "properties":{
                 "data":{
@@ -7541,7 +7541,7 @@ var spec = {
           "projectsPerInstrumentDef":{
              "type":"object",
              "required":[
-
+    
              ],
              "properties":{
                 "projectsPerInstrument":{
@@ -7564,7 +7564,7 @@ var spec = {
                 },
                 "instrument_model": {
                   "type":"string",
-                  "example":"Q Exactive HF"
+                  "example":"Q Exactive HF"                  
                 }
              },
              "xml":{
@@ -7574,7 +7574,7 @@ var spec = {
           "projectsPerExperimentType":{
              "type":"object",
              "required":[
-
+    
              ],
              "properties":{
                 "data":{
@@ -7589,7 +7589,7 @@ var spec = {
           "projectsPerExperimentTypeDef":{
              "type":"object",
              "required":[
-
+    
              ],
              "properties":{
                 "projectsPerExperimentType":{
@@ -7626,7 +7626,7 @@ var spec = {
           "programsProjectsStudies":{
              "type":"object",
              "required":[
-
+    
              ],
              "properties":{
                 "data":{
@@ -7681,7 +7681,7 @@ var spec = {
           "programsProjectsStudiesDefforProj":{
              "type":"object",
              "required":[
-
+    
              ],
              "properties":{
                 "project_id":{
@@ -7710,7 +7710,7 @@ var spec = {
           "programsProjectsStudiesDefforStudies":{
              "type":"object",
              "required":[
-
+    
              ],
              "properties":{
                "pdc_study_id":{
@@ -7761,7 +7761,7 @@ var spec = {
           "findProgram":{
              "type":"object",
              "required":[
-
+    
              ],
              "properties":{
                 "data":{
@@ -7776,7 +7776,7 @@ var spec = {
           "findProgramObj":{
              "type":"object",
              "required":[
-
+    
              ],
              "properties":{
                 "program":{
@@ -7791,7 +7791,7 @@ var spec = {
           "findProgramDef":{
              "type":"object",
              "required":[
-
+    
              ],
              "properties":{
                 "program_submitter_id":{
@@ -7812,7 +7812,7 @@ var spec = {
           "findProgramDesc":{
              "type":"object",
              "required":[
-
+    
              ],
              "properties":{
                 "project_submitter_id":{
@@ -7894,7 +7894,7 @@ var spec = {
                "project_submitter_id":{
                   "type":"string",
                   "example":"CPTAC3-Discovery"
-               },
+               },               
                "name":{
                   "type":"string",
                   "example":"CPTAC3-Discovery"
@@ -7928,11 +7928,11 @@ var spec = {
                },
                "study_submitter_id": {
                   "type":"string",
-                  "example": "CPTAC GBM Discovery Study - CompRef Phosphoproteome"
+                  "example": "CPTAC GBM Discovery Study - CompRef Phosphoproteome"                 
                },
                "submitter_id_name": {
                   "type":"string",
-                  "example": "CPTAC GBM Discovery Study - CompRef Phosphoproteome"
+                  "example": "CPTAC GBM Discovery Study - CompRef Phosphoproteome"                 
                },
                "analytical_fraction":{
                   "type":"string",
@@ -7956,7 +7956,7 @@ var spec = {
                },
                "acquisition_type": {
                   "type":"string",
-                  "example": "DDA"
+                  "example": "DDA"                 
                }
             },
             "xml":{
@@ -7966,7 +7966,7 @@ var spec = {
           "projectsDesc":{
              "type":"object",
              "required":[
-
+    
              ],
              "properties":{
                 "project_submitter_id":{
@@ -7981,7 +7981,7 @@ var spec = {
           "findCase":{
              "type":"object",
              "required":[
-
+    
              ],
              "properties":{
                 "data":{
@@ -7996,7 +7996,7 @@ var spec = {
           "findCaseDef":{
              "type":"object",
              "required":[
-
+    
              ],
              "properties":{
                 "case":{
@@ -8197,7 +8197,7 @@ var spec = {
                 },
                 "diagnoses":{
                   "type":"array",
-                   "items":{
+                   "items":{      
                     "$ref":"#/definitions/Diagnosis"
                    }
                }

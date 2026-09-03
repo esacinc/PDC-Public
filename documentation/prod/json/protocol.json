@@ -139,7 +139,8 @@
                 "Glycoproteome",
                 "Ubiquitylome",
                 "Metabolome",
-                "Lipidome"
+                "Lipidome",
+                "Immunopeptidome"
             ],
             "type": "Enumeration"
         },

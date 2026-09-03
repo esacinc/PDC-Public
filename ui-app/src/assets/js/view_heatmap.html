@@ -5,7 +5,7 @@
   <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta http-equiv="X-XSS-Protection" content=1>
-  <!--meta http-equiv="Content-Security-Policy" content="default-src 'self'"-->
+  <!--meta http-equiv="Content-Security-Policy"ï¿½ content="default-src 'self'"ï¿½-->
   <meta name="viewport"
         content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
   <title>Morpheus</title>
@@ -49,7 +49,7 @@
 		//alert('XSS alert!');
 		throw 'XSS alert';
 	}
-	
+
   }
   //@@@PDC-1078 show color-coded annotations
   //@@@PDC-7146 add sample_type to color-coded annotations
@@ -83,7 +83,15 @@
 				field: "sample_type",
 				display: ["color"]
 			}
-		]      
+		],
+    rows: [{
+      field: "id",
+      display: ["text"]
+    }, {
+      field: "gene_name",
+      display: ["text"]
+    }
+    ]
       };
     new morpheus.HeatMap(options);
    // document.body.style.cursor = "default";

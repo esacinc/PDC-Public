@@ -6747,10 +6747,22 @@ export const resolvers = {
 				//return [['Study not found! '][idType +': '+sid]];
 			}
 
-			let matrixFile = 'matrixFiles/'+studyIdValidated+ '_'+args.data_type+'.json';
+			let matrixFileCandidates = [];
+			if (args.data_type === 'ms2_area') {
+				matrixFileCandidates.push('matrixFiles/'+studyIdValidated+ '_ms2_area.json');
+				matrixFileCandidates.push('matrixFiles/'+studyIdValidated+ '_precursor_area.json');
+			}
+			else if (args.data_type === 'precursor_area') {
+				matrixFileCandidates.push('matrixFiles/'+studyIdValidated+ '_precursor_area.json');
+				matrixFileCandidates.push('matrixFiles/'+studyIdValidated+ '_ms2_area.json');
+			}
+			else {
+				matrixFileCandidates.push('matrixFiles/'+studyIdValidated+ '_'+args.data_type+'.json');
+			}
+			let matrixFile = matrixFileCandidates.find(file => fs.existsSync(file));
 			let matrix = null;
 			let matrixError = 'Matrix data not found! '+idType +': '+sid+ ': '+args.data_type;
-			if (fs.existsSync(matrixFile)) {
+			if (matrixFile) {
 				let rawData = fs.readFileSync(matrixFile);
 				return JSON.parse(rawData);
 			}

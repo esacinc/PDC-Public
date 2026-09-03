@@ -1613,6 +1613,30 @@
         "submitter_id_name": "AML Quizartinib Resistance -  Phosphoproteome",
         "updated": "2021-07-06 19:46:31"
     },
+    "87df456e-34bf-47bd-b476-3fffff5396df": {
+        "acquisition_type": "DIA",
+        "analytical_fraction": "Proteome",
+        "cptac_study_id": null,
+        "cud_label": "PDC000634",
+        "embargo_date": "None",
+        "experiment_type": "Label Free",
+        "files": [
+            "87df456e-34bf-47bd-b476-3fffff5396df-ms2_area.gct"
+        ],
+        "is_latest_version": 1,
+        "pdc_study_id": "PDC000634",
+        "project_id": "267d6671-0e78-11e9-a064-0a9c39d33490",
+        "project_submitter_id": "CPTAC3 Discovery and Confirmatory",
+        "protocol_id": "7a01bde4-2484-4452-ac81-ab7400a06fd0",
+        "protocol_submitter_id": "IPMN Study - LMD Proteome",
+        "study_description": "<p>To enable early detection of pancreatic cancer from precancerous lesions, we analyze 64 intraductal papillary mucinous neoplasms (IPMNs), 55 cyst fluid samples, 104 invasive pancreatic ductal adenocarcinomas (PDACs), and various types of normal samples using mass spectrometry. High-grade IPMNs show enrichment of glycosylation and tumor progression pathways compared to low-grade lesions. High-grade IPMN associated proteins, such as PLOD3, IRS2, LGALS9, and Trop-2, are identified and validated using immunolabeling and laser microdissection. Some of high-grade associated proteins are also detected in pancreatic cyst fluids, which allowed us to link proteins and glycoproteins expressed in neoplastic cells to clinically accessible biospecimens. Altered glycosylation of extracellular matrix (ECM) proteins is observed in IPMNs compared to normal ducts. Additionally, we identify a subset of IPMNs with PDAC-like features, including elevated expression of ECM proteins. These findings offer insight into progression-associated markers and emphasize the diagnostic and therapeutic potential of these proteins in pancreatic tumors.</p>",
+        "study_id": "87df456e-34bf-47bd-b476-3fffff5396df",
+        "study_shortname": "IPMN Study - LMD Proteome",
+        "study_submitter_id": "IPMN Study - LMD Proteome",
+        "study_version": "1",
+        "submitter_id_name": "IPMN Study - LMD Proteome",
+        "updated": "2025-08-06 07:55:10"
+    },
     "8961afcf-05de-4b7c-b471-ca1a4887ed36": {
         "acquisition_type": "DDA",
         "analytical_fraction": "Phosphoproteome",
@@ -1636,6 +1660,30 @@
         "study_version": "1",
         "submitter_id_name": "APOLLO LUAD - Phosphoproteome - FeNTA",
         "updated": "2022-11-11 20:22:47"
+    },
+    "8b8a689b-3c86-407f-ad63-06a6dae3d622": {
+        "acquisition_type": "DIA",
+        "analytical_fraction": "Proteome",
+        "cptac_study_id": null,
+        "cud_label": "PDC000632",
+        "embargo_date": "None",
+        "experiment_type": "Label Free",
+        "files": [
+            "8b8a689b-3c86-407f-ad63-06a6dae3d622-ms2_area.gct"
+        ],
+        "is_latest_version": 1,
+        "pdc_study_id": "PDC000632",
+        "project_id": "267d6671-0e78-11e9-a064-0a9c39d33490",
+        "project_submitter_id": "CPTAC3 Discovery and Confirmatory",
+        "protocol_id": "9aca91b5-7482-4c8b-92b9-06386c2b2b97",
+        "protocol_submitter_id": "IPMN Study - Cyst Fluid Proteome",
+        "study_description": "<p>To enable early detection of pancreatic cancer from precancerous lesions, we analyze 64 intraductal papillary mucinous neoplasms (IPMNs), 55 cyst fluid samples, 104 invasive pancreatic ductal adenocarcinomas (PDACs), and various types of normal samples using mass spectrometry. High-grade IPMNs show enrichment of glycosylation and tumor progression pathways compared to low-grade lesions. High-grade IPMN associated proteins, such as PLOD3, IRS2, LGALS9, and Trop-2, are identified and validated using immunolabeling and laser microdissection. Some of high-grade associated proteins are also detected in pancreatic cyst fluids, which allowed us to link proteins and glycoproteins expressed in neoplastic cells to clinically accessible biospecimens. Altered glycosylation of extracellular matrix (ECM) proteins is observed in IPMNs compared to normal ducts. Additionally, we identify a subset of IPMNs with PDAC-like features, including elevated expression of ECM proteins. These findings offer insight into progression-associated markers and emphasize the diagnostic and therapeutic potential of these proteins in pancreatic tumors.</p>",
+        "study_id": "8b8a689b-3c86-407f-ad63-06a6dae3d622",
+        "study_shortname": "IPMN Study - Cyst Fluid Proteome",
+        "study_submitter_id": "IPMN Study - Cyst Fluid Proteome",
+        "study_version": "1",
+        "submitter_id_name": "IPMN Study - Cyst Fluid Proteome",
+        "updated": "2025-08-06 07:43:13"
     },
     "915fbc30-f23b-4737-b207-f7c9f78cc03d": {
         "acquisition_type": "DDA",
@@ -3395,6 +3443,30 @@
         "study_version": "1",
         "submitter_id_name": "PDIAMOND NSCLC Discovery Study - Proteome",
         "updated": "2023-10-23 07:02:41"
+    },
+    "e9915988-b2e2-44ed-bc7c-4c7691ba56c7": {
+        "acquisition_type": "DIA",
+        "analytical_fraction": "Proteome",
+        "cptac_study_id": null,
+        "cud_label": "PDC000630",
+        "embargo_date": "None",
+        "experiment_type": "Label Free",
+        "files": [
+            "e9915988-b2e2-44ed-bc7c-4c7691ba56c7-ms2_area.gct"
+        ],
+        "is_latest_version": 1,
+        "pdc_study_id": "PDC000630",
+        "project_id": "267d6671-0e78-11e9-a064-0a9c39d33490",
+        "project_submitter_id": "CPTAC3 Discovery and Confirmatory",
+        "protocol_id": "e11ef0db-a533-457c-8f07-a0ebcb9ad316",
+        "protocol_submitter_id": "IPMN Study - Proteome",
+        "study_description": "<p>To enable early detection of pancreatic cancer from precancerous lesions, we analyze 64 intraductal papillary mucinous neoplasms (IPMNs), 55 cyst fluid samples, 104 invasive pancreatic ductal adenocarcinomas (PDACs), and various types of normal samples using mass spectrometry. High-grade IPMNs show enrichment of glycosylation and tumor progression pathways compared to low-grade lesions. High-grade IPMN associated proteins, such as PLOD3, IRS2, LGALS9, and Trop-2, are identified and validated using immunolabeling and laser microdissection. Some of high-grade associated proteins are also detected in pancreatic cyst fluids, which allowed us to link proteins and glycoproteins expressed in neoplastic cells to clinically accessible biospecimens. Altered glycosylation of extracellular matrix (ECM) proteins is observed in IPMNs compared to normal ducts. Additionally, we identify a subset of IPMNs with PDAC-like features, including elevated expression of ECM proteins. These findings offer insight into progression-associated markers and emphasize the diagnostic and therapeutic potential of these proteins in pancreatic tumors.</p>",
+        "study_id": "e9915988-b2e2-44ed-bc7c-4c7691ba56c7",
+        "study_shortname": "IPMN Study - Proteome",
+        "study_submitter_id": "IPMN Study - Proteome",
+        "study_version": "1",
+        "submitter_id_name": "IPMN Study - Proteome",
+        "updated": "2025-08-06 07:27:44"
     },
     "eb6aae30-9b42-4fe1-b3ed-22b55d730dfa": {
         "acquisition_type": "DIA",

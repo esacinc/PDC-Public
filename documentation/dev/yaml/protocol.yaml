@@ -175,6 +175,7 @@ properties:
     - Ubiquitylome
     - Metabolome
     - Lipidome
+    - Immunopeptidome
     required: 'True'
     type: Enumeration
   experiment_type:
