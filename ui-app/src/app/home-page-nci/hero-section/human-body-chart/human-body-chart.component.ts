@@ -37,6 +37,7 @@ export class HumanBodyChartComponent implements OnInit {
     var selectedHumanBodyOrgans = "";
     if (selectedFilters['primary_site'] != '') {
       selectedHumanBodyOrgans = selectedFilters['primary_site'];
+    
     }
     this.frontPageService.getDataForHumanBody().subscribe((data: any) =>{
 
@@ -94,6 +95,7 @@ export class HumanBodyChartComponent implements OnInit {
             key = 'Not Reported';
           }
 		  var url = "/browse/filters/primary_site:" + key;
+     
 
 		  that.router.navigateByUrl(url);
         }

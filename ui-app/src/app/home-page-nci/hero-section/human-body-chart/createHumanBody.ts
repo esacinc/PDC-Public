@@ -784,7 +784,7 @@ export const HUMAN_BODY_SITES_MAP = {
   'liver and intrahepatic bile ducts': 'Liver',
   liver: 'Liver',
   lung: 'Lung',
-  'lymph nodes': 'Lymph Nodes',
+  lymph: 'Lymph Nodes',
   meninges: 'Other And Ill-Defined Sites',
   'nasal cavity and middle ear': 'Head and Neck',
   nasopharynx: 'Head and Neck',
